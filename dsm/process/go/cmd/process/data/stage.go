@@ -32,15 +32,22 @@ func _(stage *models.Stage) {
 
 	__ControlFlowShape__00000000_ := (&models.ControlFlowShape{Name: `Start to T2`}).Stage(stage)
 
+	__Data__00000000_ := (&models.Data{Name: `D1`}).Stage(stage)
+	__Data__00000001_ := (&models.Data{Name: `D2`}).Stage(stage)
+	__Data__00000002_ := (&models.Data{Name: `L1.D1`}).Stage(stage)
+
 	__DataFlow__00000000_ := (&models.DataFlow{Name: `T2 to PP2 T2`}).Stage(stage)
 	__DataFlow__00000001_ := (&models.DataFlow{Name: `PP2 T2 to T2`}).Stage(stage)
 
 	__DataFlowShape__00000000_ := (&models.DataFlowShape{Name: `PP2 T2 to T2`}).Stage(stage)
 
 	__DiagramProcess__00000006_ := (&models.DiagramProcess{Name: `DiagramProcess`}).Stage(stage)
-	__DiagramProcess__00000007_ := (&models.DiagramProcess{Name: `DP2`}).Stage(stage)
+	__DiagramProcess__00000007_ := (&models.DiagramProcess{Name: `Diagram P1`}).Stage(stage)
+	__DiagramProcess__00000008_ := (&models.DiagramProcess{Name: `DiagramProcess`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: `Root`}).Stage(stage)
+	__Library__00000001_ := (&models.Library{Name: `L1`}).Stage(stage)
+	__Library__00000002_ := (&models.Library{Name: `L2`}).Stage(stage)
 
 	__Participant__00000003_ := (&models.Participant{Name: `PP1`}).Stage(stage)
 	__Participant__00000004_ := (&models.Participant{Name: `PP2`}).Stage(stage)
@@ -52,9 +59,11 @@ func _(stage *models.Stage) {
 
 	__Process__00000005_ := (&models.Process{Name: `P1`}).Stage(stage)
 	__Process__00000006_ := (&models.Process{Name: `P2`}).Stage(stage)
+	__Process__00000007_ := (&models.Process{Name: `L2.P1`}).Stage(stage)
 
 	__ProcessShape__00000006_ := (&models.ProcessShape{Name: `ProcessShape`}).Stage(stage)
 	__ProcessShape__00000007_ := (&models.ProcessShape{Name: `ProcessShape`}).Stage(stage)
+	__ProcessShape__00000008_ := (&models.ProcessShape{Name: `ProcessShape`}).Stage(stage)
 
 	__Task__00000002_ := (&models.Task{Name: `T2`}).Stage(stage)
 	__Task__00000003_ := (&models.Task{Name: `PP2 T1`}).Stage(stage)
@@ -84,6 +93,15 @@ func _(stage *models.Stage) {
 	__ControlFlowShape__00000000_.CornerOffsetRatio = 4.178095
 	__ControlFlowShape__00000000_.IsHidden = false
 
+	__Data__00000000_.Name = `D1`
+	__Data__00000000_.ComputedPrefix = ``
+
+	__Data__00000001_.Name = `D2`
+	__Data__00000001_.ComputedPrefix = ``
+
+	__Data__00000002_.Name = `L1.D1`
+	__Data__00000002_.ComputedPrefix = ``
+
 	__DataFlow__00000000_.Name = `T2 to PP2 T2`
 	__DataFlow__00000000_.ComputedPrefix = ``
 
@@ -110,7 +128,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000006_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000006_.IsParticipantsNodeExpanded = false
 
-	__DiagramProcess__00000007_.Name = `DP2`
+	__DiagramProcess__00000007_.Name = `Diagram P1`
 	__DiagramProcess__00000007_.ComputedPrefix = ``
 	__DiagramProcess__00000007_.IsChecked = true
 	__DiagramProcess__00000007_.IsEditable_ = true
@@ -122,6 +140,18 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000007_.IsParticipantsNodeExpanded = true
 
+	__DiagramProcess__00000008_.Name = `DiagramProcess`
+	__DiagramProcess__00000008_.ComputedPrefix = ``
+	__DiagramProcess__00000008_.IsChecked = false
+	__DiagramProcess__00000008_.IsEditable_ = false
+	__DiagramProcess__00000008_.IsShowPrefix = false
+	__DiagramProcess__00000008_.DefaultBoxWidth = 250.000000
+	__DiagramProcess__00000008_.DefaultBoxHeigth = 70.000000
+	__DiagramProcess__00000008_.Width = 900.000000
+	__DiagramProcess__00000008_.Height = 1350.000000
+	__DiagramProcess__00000008_.IsProcesssNodeExpanded = false
+	__DiagramProcess__00000008_.IsParticipantsNodeExpanded = false
+
 	__Library__00000000_.Name = `Root`
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsSubLibrariesNodeExpanded = false
@@ -129,7 +159,28 @@ func _(stage *models.Stage) {
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.IsProcessesNodeExpanded = true
 	__Library__00000000_.IsDataFlowsNodeExpanded = true
+	__Library__00000000_.IsDatasNodeExpanded = false
 	__Library__00000000_.IsExpandedTmp = true
+
+	__Library__00000001_.Name = `L1`
+	__Library__00000001_.ComputedPrefix = ``
+	__Library__00000001_.IsSubLibrariesNodeExpanded = false
+	__Library__00000001_.NbPixPerCharacter = 0.000000
+	__Library__00000001_.LogoSVGFile = ``
+	__Library__00000001_.IsProcessesNodeExpanded = false
+	__Library__00000001_.IsDataFlowsNodeExpanded = false
+	__Library__00000001_.IsDatasNodeExpanded = true
+	__Library__00000001_.IsExpandedTmp = false
+
+	__Library__00000002_.Name = `L2`
+	__Library__00000002_.ComputedPrefix = ``
+	__Library__00000002_.IsSubLibrariesNodeExpanded = true
+	__Library__00000002_.NbPixPerCharacter = 0.000000
+	__Library__00000002_.LogoSVGFile = ``
+	__Library__00000002_.IsProcessesNodeExpanded = false
+	__Library__00000002_.IsDataFlowsNodeExpanded = false
+	__Library__00000002_.IsDatasNodeExpanded = false
+	__Library__00000002_.IsExpandedTmp = true
 
 	__Participant__00000003_.Name = `PP1`
 	__Participant__00000003_.ComputedPrefix = ``
@@ -170,12 +221,17 @@ func _(stage *models.Stage) {
 	__Process__00000005_.Name = `P1`
 	__Process__00000005_.ComputedPrefix = ``
 	__Process__00000005_.IsSubProcessNodeExpanded = false
-	__Process__00000005_.IsDataFlowsNodeExpanded = false
+	__Process__00000005_.IsDataFlowsNodeExpanded = true
 
 	__Process__00000006_.Name = `P2`
 	__Process__00000006_.ComputedPrefix = ``
 	__Process__00000006_.IsSubProcessNodeExpanded = false
 	__Process__00000006_.IsDataFlowsNodeExpanded = false
+
+	__Process__00000007_.Name = `L2.P1`
+	__Process__00000007_.ComputedPrefix = ``
+	__Process__00000007_.IsSubProcessNodeExpanded = false
+	__Process__00000007_.IsDataFlowsNodeExpanded = false
 
 	__ProcessShape__00000006_.Name = `ProcessShape`
 	__ProcessShape__00000006_.IsExpanded = false
@@ -192,6 +248,14 @@ func _(stage *models.Stage) {
 	__ProcessShape__00000007_.Width = 781.000000
 	__ProcessShape__00000007_.Height = 1000.000000
 	__ProcessShape__00000007_.IsHidden = false
+
+	__ProcessShape__00000008_.Name = `ProcessShape`
+	__ProcessShape__00000008_.IsExpanded = false
+	__ProcessShape__00000008_.X = 100.000000
+	__ProcessShape__00000008_.Y = 50.000000
+	__ProcessShape__00000008_.Width = 500.000000
+	__ProcessShape__00000008_.Height = 1000.000000
+	__ProcessShape__00000008_.IsHidden = false
 
 	__Task__00000002_.Name = `T2`
 	__Task__00000002_.ComputedPrefix = ``
@@ -233,7 +297,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000012_.Name = `T4-DP2`
 	__TaskShape__00000012_.IsExpanded = false
-	__TaskShape__00000012_.X = 174.000000
+	__TaskShape__00000012_.X = 111.000000
 	__TaskShape__00000012_.Y = 563.089730
 	__TaskShape__00000012_.Width = 250.000000
 	__TaskShape__00000012_.Height = 70.000000
@@ -241,7 +305,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000013_.Name = `T2-DP2`
 	__TaskShape__00000013_.IsExpanded = false
-	__TaskShape__00000013_.X = 162.000000
+	__TaskShape__00000013_.X = 111.000000
 	__TaskShape__00000013_.Y = 364.607464
 	__TaskShape__00000013_.Width = 250.000000
 	__TaskShape__00000013_.Height = 70.000000
@@ -249,7 +313,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000014_.Name = `PP2 T2-DP2`
 	__TaskShape__00000014_.IsExpanded = false
-	__TaskShape__00000014_.X = 526.500000
+	__TaskShape__00000014_.X = 491.500000
 	__TaskShape__00000014_.Y = 250.080019
 	__TaskShape__00000014_.Width = 250.000000
 	__TaskShape__00000014_.Height = 70.000000
@@ -278,11 +342,18 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.Task_Shapes = append(__DiagramProcess__00000007_.Task_Shapes, __TaskShape__00000014_)
 	__DiagramProcess__00000007_.ControlFlow_Shapes = append(__DiagramProcess__00000007_.ControlFlow_Shapes, __ControlFlowShape__00000000_)
 	__DiagramProcess__00000007_.DataFlow_Shapes = append(__DiagramProcess__00000007_.DataFlow_Shapes, __DataFlowShape__00000000_)
+	__DiagramProcess__00000008_.Process_Shapes = append(__DiagramProcess__00000008_.Process_Shapes, __ProcessShape__00000008_)
+	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000001_)
+	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000002_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000005_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000006_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000005_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000000_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000001_)
+	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000000_)
+	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000001_)
+	__Library__00000001_.RootDatas = append(__Library__00000001_.RootDatas, __Data__00000002_)
+	__Library__00000002_.RootProcesses = append(__Library__00000002_.RootProcesses, __Process__00000007_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000002_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000004_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000005_)
@@ -306,8 +377,10 @@ func _(stage *models.Stage) {
 	__Process__00000005_.DataFlows = append(__Process__00000005_.DataFlows, __DataFlow__00000000_)
 	__Process__00000005_.DataFlows = append(__Process__00000005_.DataFlows, __DataFlow__00000001_)
 	__Process__00000006_.DiagramProcesss = append(__Process__00000006_.DiagramProcesss, __DiagramProcess__00000006_)
+	__Process__00000007_.DiagramProcesss = append(__Process__00000007_.DiagramProcesss, __DiagramProcess__00000008_)
 	__ProcessShape__00000006_.Process = __Process__00000006_
 	__ProcessShape__00000007_.Process = __Process__00000005_
+	__ProcessShape__00000008_.Process = __Process__00000007_
 	__TaskShape__00000011_.Task = __Task__00000004_
 	__TaskShape__00000012_.Task = __Task__00000006_
 	__TaskShape__00000013_.Task = __Task__00000002_
