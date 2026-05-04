@@ -58,5 +58,6 @@ export class LinkPointersEncoding {
 
 	TextAtArrowStart: number[] = []
 	TextAtArrowEnd: number[] = []
+	TextAtCorner: number[] = []
 	ControlPoints: number[] = []
 }

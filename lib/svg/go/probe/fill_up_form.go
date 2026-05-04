@@ -565,6 +565,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		AssociationSliceToForm("TextAtArrowStart", instanceWithInferedType, &instanceWithInferedType.TextAtArrowStart, formGroup, probe)
 		AssociationSliceToForm("TextAtArrowEnd", instanceWithInferedType, &instanceWithInferedType.TextAtArrowEnd, formGroup, probe)
+		AssociationSliceToForm("TextAtCorner", instanceWithInferedType, &instanceWithInferedType.TextAtCorner, formGroup, probe)
 		AssociationSliceToForm("ControlPoints", instanceWithInferedType, &instanceWithInferedType.ControlPoints, formGroup, probe)
 		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -690,6 +691,28 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.Link](
 					nil,
 					"TextAtArrowEnd",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Link"
+			rf.Fieldname = "TextAtCorner"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Link),
+					"TextAtCorner",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Link](
+					nil,
+					"TextAtCorner",
 					instanceWithInferedType,
 					formGroup,
 					probe)

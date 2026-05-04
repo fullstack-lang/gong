@@ -108,6 +108,7 @@ func (link *Link) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &link.TextAtArrowStart) || modified
 	modified = GongCleanSlice(stage, &link.TextAtArrowEnd) || modified
+	modified = GongCleanSlice(stage, &link.TextAtCorner) || modified
 	modified = GongCleanSlice(stage, &link.ControlPoints) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &link.Start) || modified

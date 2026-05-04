@@ -57,6 +57,9 @@ type Link struct {
 	// to be displayed at the end
 	TextAtArrowEnd []*LinkAnchoredText
 
+	// to be displayed at the corner (only for ORTHOGONAL links)
+	TextAtCorner []*LinkAnchoredText
+
 	// for non floating orthogonal anchors
 	ControlPoints []*ControlPoint
 

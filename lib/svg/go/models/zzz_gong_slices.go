@@ -148,6 +148,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Link_TextAtArrowEnd_reverseMap[_linkanchoredtext] = link
 		}
 	}
+	stage.Link_TextAtCorner_reverseMap = make(map[*LinkAnchoredText]*Link)
+	for link := range stage.Links {
+		_ = link
+		for _, _linkanchoredtext := range link.TextAtCorner {
+			stage.Link_TextAtCorner_reverseMap[_linkanchoredtext] = link
+		}
+	}
 	stage.Link_ControlPoints_reverseMap = make(map[*ControlPoint]*Link)
 	for link := range stage.Links {
 		_ = link
