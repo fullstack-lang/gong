@@ -19,19 +19,6 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 
 	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
 
-	// add a process to the library button
-	confRootProcesses := ItemButtonConfiguration[
-		Process, *Process,
-		Library, *Library,
-	]{
-		parentNode:                         libraryNode,
-		sliceForNewAddedItem:               &library.RootProcesses,
-		isParentNodeExpandedByAddOperation: true,
-		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &library.IsExpandedTmp,
-	}
-	addCreateItemButton(stager, confRootProcesses)
-
 	//
 	// Processes
 	//
@@ -49,6 +36,19 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 			return
 		}
 	}
+
+	// add a process to the library button
+	confRootProcesses := ItemButtonConfiguration[
+		Process, *Process,
+		Library, *Library,
+	]{
+		parentNode:                         processesNode,
+		sliceForNewAddedItem:               &library.RootProcesses,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsProcessesNodeExpanded,
+	}
+	addCreateItemButton(stager, confRootProcesses)
 
 	for _, process := range library.RootProcesses {
 		stager.treeProcesses(process, processesNode, &library.ProcesssWhoseNodeIsExpanded)
@@ -81,11 +81,11 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		Library, *Library,
 		Library, *Library,
 	]{
-		parentNode:                         libraryNode,
+		parentNode:                         subLibrariesNode,
 		sliceForNewAddedItem:               &library.SubLibraries,
 		isParentNodeExpandedByAddOperation: true,
 		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &library.IsExpandedTmp,
+		parentNodeExpansionBooleanValue:    &library.IsSubLibrariesNodeExpanded,
 	}
 	addCreateItemButton(stager, confSubLibraries)
 
