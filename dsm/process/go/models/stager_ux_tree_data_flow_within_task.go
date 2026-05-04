@@ -8,31 +8,31 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treeControlFlowsWithinTask(
+func (stager *Stager) treeDataFlowsWithinTask(
 	diagramProcess *DiagramProcess,
-	controlFlow *ControlFlow,
+	dataFlow *DataFlow,
 	parentNode *tree.Node,
 ) {
 	stage := stager.stage
 
 	// find the shape (if any)
-	shape, isShapePresent := diagramProcess.map_ControlFlow_ControlFlowShape[controlFlow]
+	shape, isShapePresent := diagramProcess.map_DataFlow_DataFlowShape[dataFlow]
 
 	isStartShapePresent := false
 	isEndShapePresent := false
-	if controlFlow.Start != nil {
-		_, isStartShapePresent = diagramProcess.map_Task_TaskShape[controlFlow.Start]
+	if dataFlow.Start != nil {
+		_, isStartShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.Start]
 	}
-	if controlFlow.End != nil {
-		_, isEndShapePresent = diagramProcess.map_Task_TaskShape[controlFlow.End]
+	if dataFlow.End != nil {
+		_, isEndShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.End]
 	}
 	isCheckboxDisabled := !(isStartShapePresent && isEndShapePresent)
 
 	node := &tree.Node{
-		Name:               controlFlow.GetName(),
+		Name:               dataFlow.GetName(),
 		IsExpanded:         false,
 		IsNodeClickable:    true,
-		IsInEditMode:       controlFlow.GetIsInRenameMode(),
+		IsInEditMode:       dataFlow.GetIsInRenameMode(),
 		HasCheckboxButton:  true,
 		IsChecked:          isShapePresent,
 		IsCheckboxDisabled: isCheckboxDisabled,
@@ -44,9 +44,9 @@ func (stager *Stager) treeControlFlowsWithinTask(
 	}
 	parentNode.Children = append(parentNode.Children, node)
 
-	addRenameButton(controlFlow, node, stager)
+	addRenameButton(dataFlow, node, stager)
 
-	if shape, ok := diagramProcess.map_ControlFlow_ControlFlowShape[controlFlow]; ok {
+	if shape, ok := diagramProcess.map_DataFlow_DataFlowShape[dataFlow]; ok {
 		node.IsChecked = true
 		visibilityButton := &tree.Button{
 			Name:            diagramProcess.GetName(),
@@ -67,9 +67,9 @@ func (stager *Stager) treeControlFlowsWithinTask(
 	}
 
 	node.OnClick = func(frontNode *tree.Node) {
-		if frontNode.Name != controlFlow.GetName() {
-			controlFlow.SetName(frontNode.Name)
-			controlFlow.SetIsInRenameMode(false)
+		if frontNode.Name != dataFlow.GetName() {
+			dataFlow.SetName(frontNode.Name)
+			dataFlow.SetIsInRenameMode(false)
 			stager.stage.Commit()
 			return
 		}
@@ -78,21 +78,21 @@ func (stager *Stager) treeControlFlowsWithinTask(
 			if shape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
-			// shape = newShapeToDiagram(controlflow, diagramProcess, &diagramProcess.ControlFlowShapes, stage)
-			// addAssociationShapeToDiagram(stager, controlflow.Start, controlflow.End, &diagramProcess.ControlFlowShapes)
-			controlFlowShape := (&ControlFlowShape{
-				ControlFlow: controlFlow,
+			// shape = newShapeToDiagram(dataflow, diagramProcess, &diagramProcess.DataFlowShapes, stage)
+			// addAssociationShapeToDiagram(stager, dataflow.Start, dataflow.End, &diagramProcess.DataFlowShapes)
+			dataFlowShape := (&DataFlowShape{
+				DataFlow: dataFlow,
 			}).Stage(stage)
-			controlFlowShape.SetName(controlFlow.Start.GetName() + " to " + controlFlow.End.GetName())
-			controlFlowShape.SetAbstractStartElement(controlFlow.Start)
-			controlFlowShape.SetAbstractEndElement(controlFlow.End)
-			controlFlowShape.SetStartOrientation(ORIENTATION_VERTICAL)
-			controlFlowShape.SetEndOrientation(ORIENTATION_VERTICAL)
+			dataFlowShape.SetName(dataFlow.Start.GetName() + " to " + dataFlow.End.GetName())
+			dataFlowShape.SetAbstractStartElement(dataFlow.Start)
+			dataFlowShape.SetAbstractEndElement(dataFlow.End)
+			dataFlowShape.SetStartOrientation(ORIENTATION_VERTICAL)
+			dataFlowShape.SetEndOrientation(ORIENTATION_VERTICAL)
 
-			controlFlowShape.SetCornerOffsetRatio(1.1)
-			controlFlowShape.SetStartRatio(0.5)
-			controlFlowShape.SetEndRatio(0.5)
-			diagramProcess.ControlFlow_Shapes = append(diagramProcess.ControlFlow_Shapes, controlFlowShape)
+			dataFlowShape.SetCornerOffsetRatio(1.1)
+			dataFlowShape.SetStartRatio(0.5)
+			dataFlowShape.SetEndRatio(0.5)
+			diagramProcess.DataFlow_Shapes = append(diagramProcess.DataFlow_Shapes, dataFlowShape)
 
 			stage.Commit()
 			return
@@ -105,12 +105,12 @@ func (stager *Stager) treeControlFlowsWithinTask(
 			shape.UnstageVoid(stage)
 
 			// not necessary since there is a semantic rule (gong clean) that remove the shape from the slice when it is unstaged
-			idx := slices.Index(diagramProcess.ControlFlow_Shapes, shape)
-			diagramProcess.ControlFlow_Shapes = slices.Delete(diagramProcess.ControlFlow_Shapes, idx, idx+1)
+			idx := slices.Index(diagramProcess.DataFlow_Shapes, shape)
+			diagramProcess.DataFlow_Shapes = slices.Delete(diagramProcess.DataFlow_Shapes, idx, idx+1)
 			stage.Commit()
 			return
 		}
-		stager.probeForm.FillUpFormFromGongstruct(controlFlow, GetPointerToGongstructName[*ControlFlow]())
+		stager.probeForm.FillUpFormFromGongstruct(dataFlow, GetPointerToGongstructName[*DataFlow]())
 		stager.stage.Commit()
 	}
 }

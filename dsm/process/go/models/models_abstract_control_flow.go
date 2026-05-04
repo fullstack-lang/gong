@@ -10,3 +10,5 @@ type ControlFlow struct {
 
 	End *Task
 }
+
+var _ AbstractType = (*ControlFlow)(nil)

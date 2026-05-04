@@ -9,8 +9,11 @@ type Task struct {
 	IsStartTask bool
 	IsEndTask   bool
 
-	outcontrolFlows []*ControlFlow
-	incontrolFlows  []*ControlFlow
+	outControlFlows []*ControlFlow
+	inControlFlows  []*ControlFlow
+
+	outDataFlows []*DataFlow
+	inDataFlows  []*DataFlow
 
 	owningParticipant *Participant
 }

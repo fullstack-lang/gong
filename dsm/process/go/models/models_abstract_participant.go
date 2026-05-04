@@ -15,6 +15,12 @@ type Participant struct {
 	TaskWhoseOutControlFlowsNodeIsExpanded []*Task
 	TaskWhoseInControlFlowsNodeIsExpanded  []*Task
 
+	IsDataFlowsNodeExpanded bool
+	DataFlows               []*DataFlow
+
+	TaskWhoseOutDataFlowsNodeIsExpanded []*Task
+	TaskWhoseInDataFlowsNodeIsExpanded  []*Task
+
 	owningProcess *Process
 }
 
