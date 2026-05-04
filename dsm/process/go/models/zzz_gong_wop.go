@@ -109,6 +109,17 @@ func (from *DataFlowShape) CopyBasicFields(to *DataFlowShape) {
 	to.IsHidden = from.IsHidden
 }
 
+type DataShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *DataShape) CopyBasicFields(to *DataShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type DiagramProcess_WOP struct {
 	// insertion point
 
@@ -195,6 +206,8 @@ type Participant_WOP struct {
 	IsTasksNodeExpanded bool
 
 	IsControlFlowsNodeExpanded bool
+
+	IsDataFlowsNodeExpanded bool
 }
 
 func (from *Participant) CopyBasicFields(to *Participant) {
@@ -203,6 +216,7 @@ func (from *Participant) CopyBasicFields(to *Participant) {
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsTasksNodeExpanded = from.IsTasksNodeExpanded
 	to.IsControlFlowsNodeExpanded = from.IsControlFlowsNodeExpanded
+	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
 }
 
 type ParticipantShape_WOP struct {

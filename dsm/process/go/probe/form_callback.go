@@ -442,6 +442,138 @@ func (dataFormCallback *DataFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(data_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(data_.ComputedPrefix), formDiv)
+		case "DataFlow:Datas":
+			// WARNING : this form deals with the N-N association "DataFlow.Datas []*Data" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Data). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.DataFlow
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "DataFlow"
+				rf.Fieldname = "Datas"
+				formerAssociationSource := data_.GongGetReverseFieldOwner(
+					dataFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.DataFlow)
+					if !ok {
+						log.Fatalln("Source of DataFlow.Datas []*Data, is not an DataFlow instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Datas, data_)
+					formerSource.Datas = slices.Delete(formerSource.Datas, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.DataFlow
+			for _dataflow := range *models.GetGongstructInstancesSet[models.DataFlow](dataFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _dataflow.GetName() == newSourceName.GetName() {
+					newSource = _dataflow // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of DataFlow.Datas []*Data, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Datas = append(newSource.Datas, data_)
+		case "DiagramProcess:DatasWhoseNodeIsExpanded":
+			// WARNING : this form deals with the N-N association "DiagramProcess.DatasWhoseNodeIsExpanded []*Data" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Data). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.DiagramProcess
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "DiagramProcess"
+				rf.Fieldname = "DatasWhoseNodeIsExpanded"
+				formerAssociationSource := data_.GongGetReverseFieldOwner(
+					dataFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.DiagramProcess)
+					if !ok {
+						log.Fatalln("Source of DiagramProcess.DatasWhoseNodeIsExpanded []*Data, is not an DiagramProcess instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DatasWhoseNodeIsExpanded, data_)
+					formerSource.DatasWhoseNodeIsExpanded = slices.Delete(formerSource.DatasWhoseNodeIsExpanded, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.DiagramProcess
+			for _diagramprocess := range *models.GetGongstructInstancesSet[models.DiagramProcess](dataFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _diagramprocess.GetName() == newSourceName.GetName() {
+					newSource = _diagramprocess // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of DiagramProcess.DatasWhoseNodeIsExpanded []*Data, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DatasWhoseNodeIsExpanded = append(newSource.DatasWhoseNodeIsExpanded, data_)
 		case "Library:RootDatas":
 			// WARNING : this form deals with the N-N association "Library.RootDatas []*Data" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -658,6 +790,37 @@ func (dataflowFormCallback *DataFlowFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(dataflow_.Start), dataflowFormCallback.probe.stageOfInterest, formDiv)
 		case "End":
 			FormDivSelectFieldToField(&(dataflow_.End), dataflowFormCallback.probe.stageOfInterest, formDiv)
+		case "Datas":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Data](dataflowFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Data, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Data)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					dataflowFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Data](dataflowFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			dataflow_.Datas = instanceSlice
+
 		case "DiagramProcess:DataFlowsWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "DiagramProcess.DataFlowsWhoseNodeIsExpanded []*DataFlow" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -856,6 +1019,72 @@ func (dataflowFormCallback *DataFlowFormCallback) OnSave() {
 
 			// (3) append the new value to the new source field
 			newSource.DataFlowsWhoseNodeIsExpanded = append(newSource.DataFlowsWhoseNodeIsExpanded, dataflow_)
+		case "Participant:DataFlows":
+			// WARNING : this form deals with the N-N association "Participant.DataFlows []*DataFlow" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of DataFlow). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Participant
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Participant"
+				rf.Fieldname = "DataFlows"
+				formerAssociationSource := dataflow_.GongGetReverseFieldOwner(
+					dataflowFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Participant)
+					if !ok {
+						log.Fatalln("Source of Participant.DataFlows []*DataFlow, is not an Participant instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DataFlows, dataflow_)
+					formerSource.DataFlows = slices.Delete(formerSource.DataFlows, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Participant
+			for _participant := range *models.GetGongstructInstancesSet[models.Participant](dataflowFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _participant.GetName() == newSourceName.GetName() {
+					newSource = _participant // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Participant.DataFlows []*DataFlow, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DataFlows = append(newSource.DataFlows, dataflow_)
 		case "Process:DataFlows":
 			// WARNING : this form deals with the N-N association "Process.DataFlows []*DataFlow" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -1110,6 +1339,152 @@ func (dataflowshapeFormCallback *DataFlowShapeFormCallback) OnSave() {
 	}
 
 	dataflowshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__DataShapeFormCallback(
+	datashape *models.DataShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (datashapeFormCallback *DataShapeFormCallback) {
+	datashapeFormCallback = new(DataShapeFormCallback)
+	datashapeFormCallback.probe = probe
+	datashapeFormCallback.datashape = datashape
+	datashapeFormCallback.formGroup = formGroup
+
+	datashapeFormCallback.CreationMode = (datashape == nil)
+
+	return
+}
+
+type DataShapeFormCallback struct {
+	datashape *models.DataShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (datashapeFormCallback *DataShapeFormCallback) OnSave() {
+	datashapeFormCallback.probe.stageOfInterest.Lock()
+	defer datashapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("DataShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	datashapeFormCallback.probe.formStage.Checkout()
+
+	if datashapeFormCallback.datashape == nil {
+		datashapeFormCallback.datashape = new(models.DataShape).Stage(datashapeFormCallback.probe.stageOfInterest)
+	}
+	datashape_ := datashapeFormCallback.datashape
+	_ = datashape_
+
+	for _, formDiv := range datashapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(datashape_.Name), formDiv)
+		case "Data":
+			FormDivSelectFieldToField(&(datashape_.Data), datashapeFormCallback.probe.stageOfInterest, formDiv)
+		case "DiagramProcess:Data_Shapes":
+			// WARNING : this form deals with the N-N association "DiagramProcess.Data_Shapes []*DataShape" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of DataShape). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.DiagramProcess
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "DiagramProcess"
+				rf.Fieldname = "Data_Shapes"
+				formerAssociationSource := datashape_.GongGetReverseFieldOwner(
+					datashapeFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.DiagramProcess)
+					if !ok {
+						log.Fatalln("Source of DiagramProcess.Data_Shapes []*DataShape, is not an DiagramProcess instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Data_Shapes, datashape_)
+					formerSource.Data_Shapes = slices.Delete(formerSource.Data_Shapes, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.DiagramProcess
+			for _diagramprocess := range *models.GetGongstructInstancesSet[models.DiagramProcess](datashapeFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _diagramprocess.GetName() == newSourceName.GetName() {
+					newSource = _diagramprocess // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of DiagramProcess.Data_Shapes []*DataShape, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Data_Shapes = append(newSource.Data_Shapes, datashape_)
+		}
+	}
+
+	// manage the suppress operation
+	if datashapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		datashape_.Unstage(datashapeFormCallback.probe.stageOfInterest)
+	}
+
+	datashapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.DataShape](
+		datashapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if datashapeFormCallback.CreationMode || datashapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		datashapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(datashapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__DataShapeFormCallback(
+			nil,
+			datashapeFormCallback.probe,
+			newFormGroup,
+		)
+		datashape := new(models.DataShape)
+		FillUpForm(datashape, newFormGroup, datashapeFormCallback.probe)
+		datashapeFormCallback.probe.formStage.Commit()
+	}
+
+	datashapeFormCallback.probe.ux_tree()
 }
 func __gong__New__DiagramProcessFormCallback(
 	diagramprocess *models.DiagramProcess,
@@ -1487,6 +1862,68 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.DataFlow_Shapes = instanceSlice
+
+		case "DatasWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Data](diagramprocessFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Data, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Data)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramprocessFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Data](diagramprocessFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagramprocess_.DatasWhoseNodeIsExpanded = instanceSlice
+
+		case "Data_Shapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataShape](diagramprocessFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.DataShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.DataShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramprocessFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.DataShape](diagramprocessFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagramprocess_.Data_Shapes = instanceSlice
 
 		case "Process:DiagramProcesss":
 			// WARNING : this form deals with the N-N association "Process.DiagramProcesss []*DiagramProcess" but
@@ -2301,6 +2738,101 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 				}
 			}
 			participant_.TaskWhoseInControlFlowsNodeIsExpanded = instanceSlice
+
+		case "IsDataFlowsNodeExpanded":
+			FormDivBasicFieldToField(&(participant_.IsDataFlowsNodeExpanded), formDiv)
+		case "DataFlows":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlow](participantFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.DataFlow, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.DataFlow)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					participantFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.DataFlow](participantFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			participant_.DataFlows = instanceSlice
+
+		case "TaskWhoseOutDataFlowsNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](participantFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Task, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Task)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					participantFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](participantFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			participant_.TaskWhoseOutDataFlowsNodeIsExpanded = instanceSlice
+
+		case "TaskWhoseInDataFlowsNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](participantFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Task, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Task)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					participantFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](participantFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			participant_.TaskWhoseInDataFlowsNodeIsExpanded = instanceSlice
 
 		case "DiagramProcess:ParticipantWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "DiagramProcess.ParticipantWhoseNodeIsExpanded []*Participant" but
@@ -3698,6 +4230,138 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 
 			// (3) append the new value to the new source field
 			newSource.TaskWhoseInControlFlowsNodeIsExpanded = append(newSource.TaskWhoseInControlFlowsNodeIsExpanded, task_)
+		case "Participant:TaskWhoseOutDataFlowsNodeIsExpanded":
+			// WARNING : this form deals with the N-N association "Participant.TaskWhoseOutDataFlowsNodeIsExpanded []*Task" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Task). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Participant
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Participant"
+				rf.Fieldname = "TaskWhoseOutDataFlowsNodeIsExpanded"
+				formerAssociationSource := task_.GongGetReverseFieldOwner(
+					taskFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Participant)
+					if !ok {
+						log.Fatalln("Source of Participant.TaskWhoseOutDataFlowsNodeIsExpanded []*Task, is not an Participant instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.TaskWhoseOutDataFlowsNodeIsExpanded, task_)
+					formerSource.TaskWhoseOutDataFlowsNodeIsExpanded = slices.Delete(formerSource.TaskWhoseOutDataFlowsNodeIsExpanded, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Participant
+			for _participant := range *models.GetGongstructInstancesSet[models.Participant](taskFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _participant.GetName() == newSourceName.GetName() {
+					newSource = _participant // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Participant.TaskWhoseOutDataFlowsNodeIsExpanded []*Task, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.TaskWhoseOutDataFlowsNodeIsExpanded = append(newSource.TaskWhoseOutDataFlowsNodeIsExpanded, task_)
+		case "Participant:TaskWhoseInDataFlowsNodeIsExpanded":
+			// WARNING : this form deals with the N-N association "Participant.TaskWhoseInDataFlowsNodeIsExpanded []*Task" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Task). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Participant
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Participant"
+				rf.Fieldname = "TaskWhoseInDataFlowsNodeIsExpanded"
+				formerAssociationSource := task_.GongGetReverseFieldOwner(
+					taskFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Participant)
+					if !ok {
+						log.Fatalln("Source of Participant.TaskWhoseInDataFlowsNodeIsExpanded []*Task, is not an Participant instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.TaskWhoseInDataFlowsNodeIsExpanded, task_)
+					formerSource.TaskWhoseInDataFlowsNodeIsExpanded = slices.Delete(formerSource.TaskWhoseInDataFlowsNodeIsExpanded, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Participant
+			for _participant := range *models.GetGongstructInstancesSet[models.Participant](taskFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _participant.GetName() == newSourceName.GetName() {
+					newSource = _participant // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Participant.TaskWhoseInDataFlowsNodeIsExpanded []*Task, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.TaskWhoseInDataFlowsNodeIsExpanded = append(newSource.TaskWhoseInDataFlowsNodeIsExpanded, task_)
 		}
 	}
 

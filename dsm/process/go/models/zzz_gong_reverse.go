@@ -46,6 +46,20 @@ func (inst *Data) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+	case "DataFlow":
+		switch reverseField.Fieldname {
+		case "Datas":
+			if _dataflow, ok := stage.DataFlow_Datas_reverseMap[inst]; ok {
+				res = _dataflow.Name
+			}
+		}
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "DatasWhoseNodeIsExpanded":
+			if _diagramprocess, ok := stage.DiagramProcess_DatasWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		}
 	case "Library":
 		switch reverseField.Fieldname {
 		case "RootDatas":
@@ -84,6 +98,13 @@ func (inst *DataFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 				res = _library.Name
 			}
 		}
+	case "Participant":
+		switch reverseField.Fieldname {
+		case "DataFlows":
+			if _participant, ok := stage.Participant_DataFlows_reverseMap[inst]; ok {
+				res = _participant.Name
+			}
+		}
 	case "Process":
 		switch reverseField.Fieldname {
 		case "DataFlows":
@@ -104,6 +125,22 @@ func (inst *DataFlowShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 		switch reverseField.Fieldname {
 		case "DataFlow_Shapes":
 			if _diagramprocess, ok := stage.DiagramProcess_DataFlow_Shapes_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *DataShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "Data_Shapes":
+			if _diagramprocess, ok := stage.DiagramProcess_Data_Shapes_reverseMap[inst]; ok {
 				res = _diagramprocess.Name
 			}
 		}
@@ -270,6 +307,14 @@ func (inst *Task) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 			if _participant, ok := stage.Participant_TaskWhoseInControlFlowsNodeIsExpanded_reverseMap[inst]; ok {
 				res = _participant.Name
 			}
+		case "TaskWhoseOutDataFlowsNodeIsExpanded":
+			if _participant, ok := stage.Participant_TaskWhoseOutDataFlowsNodeIsExpanded_reverseMap[inst]; ok {
+				res = _participant.Name
+			}
+		case "TaskWhoseInDataFlowsNodeIsExpanded":
+			if _participant, ok := stage.Participant_TaskWhoseInDataFlowsNodeIsExpanded_reverseMap[inst]; ok {
+				res = _participant.Name
+			}
 		}
 	}
 	return
@@ -330,6 +375,16 @@ func (inst *Data) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+	case "DataFlow":
+		switch reverseField.Fieldname {
+		case "Datas":
+			res = stage.DataFlow_Datas_reverseMap[inst]
+		}
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "DatasWhoseNodeIsExpanded":
+			res = stage.DiagramProcess_DatasWhoseNodeIsExpanded_reverseMap[inst]
+		}
 	case "Library":
 		switch reverseField.Fieldname {
 		case "RootDatas":
@@ -358,6 +413,11 @@ func (inst *DataFlow) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 		case "DataFlowsWhoseNodeIsExpanded":
 			res = stage.Library_DataFlowsWhoseNodeIsExpanded_reverseMap[inst]
 		}
+	case "Participant":
+		switch reverseField.Fieldname {
+		case "DataFlows":
+			res = stage.Participant_DataFlows_reverseMap[inst]
+		}
 	case "Process":
 		switch reverseField.Fieldname {
 		case "DataFlows":
@@ -376,6 +436,20 @@ func (inst *DataFlowShape) GongGetReverseFieldOwner(stage *Stage, reverseField *
 		switch reverseField.Fieldname {
 		case "DataFlow_Shapes":
 			res = stage.DiagramProcess_DataFlow_Shapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *DataShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "Data_Shapes":
+			res = stage.DiagramProcess_Data_Shapes_reverseMap[inst]
 		}
 	}
 	return res
@@ -506,6 +580,10 @@ func (inst *Task) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 			res = stage.Participant_TaskWhoseOutControlFlowsNodeIsExpanded_reverseMap[inst]
 		case "TaskWhoseInControlFlowsNodeIsExpanded":
 			res = stage.Participant_TaskWhoseInControlFlowsNodeIsExpanded_reverseMap[inst]
+		case "TaskWhoseOutDataFlowsNodeIsExpanded":
+			res = stage.Participant_TaskWhoseOutDataFlowsNodeIsExpanded_reverseMap[inst]
+		case "TaskWhoseInDataFlowsNodeIsExpanded":
+			res = stage.Participant_TaskWhoseInDataFlowsNodeIsExpanded_reverseMap[inst]
 		}
 	}
 	return res

@@ -8,20 +8,11 @@ func (stager *Stager) enforceDiagramMaps() {
 	for _, diagram := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
 		_ = diagram
 
-		diagram.map_Process_ProcessShape = make(map[*Process]*ProcessShape)
-		updateMapElementDiagrams(stager, diagram, diagram.Process_Shapes, diagram.map_Process_ProcessShape)
-
-		diagram.map_Participant_ParticipantShape = make(map[*Participant]*ParticipantShape)
-		updateMapElementDiagrams(stager, diagram, diagram.Participant_Shapes, diagram.map_Participant_ParticipantShape)
-
-		diagram.map_Task_TaskShape = make(map[*Task]*TaskShape)
-		updateMapElementDiagrams(stager, diagram, diagram.Task_Shapes, diagram.map_Task_TaskShape)
-
-		diagram.map_ControlFlow_ControlFlowShape = make(map[*ControlFlow]*ControlFlowShape)
-		updateMapElementDiagrams(stager, diagram, diagram.ControlFlow_Shapes, diagram.map_ControlFlow_ControlFlowShape)
-
-		diagram.map_DataFlow_DataFlowShape = make(map[*DataFlow]*DataFlowShape)
-		updateMapElementDiagrams(stager, diagram, diagram.DataFlow_Shapes, diagram.map_DataFlow_DataFlowShape)
+		updateMapElementDiagrams(stager, diagram, diagram.Process_Shapes, &diagram.map_Process_ProcessShape)
+		updateMapElementDiagrams(stager, diagram, diagram.Participant_Shapes, &diagram.map_Participant_ParticipantShape)
+		updateMapElementDiagrams(stager, diagram, diagram.Task_Shapes, &diagram.map_Task_TaskShape)
+		updateMapElementDiagrams(stager, diagram, diagram.ControlFlow_Shapes, &diagram.map_ControlFlow_ControlFlowShape)
+		updateMapElementDiagrams(stager, diagram, diagram.DataFlow_Shapes, &diagram.map_DataFlow_DataFlowShape)
 	}
 }
 
@@ -35,16 +26,19 @@ func updateMapElementDiagrams[
 	stager *Stager,
 	diagram *DiagramProcess,
 	shapes []CT,
-	diagramMap map[AT]CT,
+	diagramMapPtr *map[AT]CT, // Now a pointer to the map
 ) {
+	// 1. Initialize the map right on the struct
+	*diagramMapPtr = make(map[AT]CT)
+
 	for _, shape := range shapes {
 		abstractElement, ok := shape.GetAbstractElement().(AT)
 		if !ok {
 			continue
 		}
 
-		// map the abstract element to its Shape within this diagram
-		diagramMap[abstractElement] = shape
+		// 2. Dereference the pointer to map the abstract element to its Shape
+		(*diagramMapPtr)[abstractElement] = shape
 
 		// track all diagrams that display this element across the stage
 		diagrams := stager.map_Element_Diagrams[abstractElement]

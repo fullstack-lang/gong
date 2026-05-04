@@ -67,6 +67,7 @@ func (data *Data) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by DataFlow
 func (dataflow *DataFlow) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &dataflow.Datas) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &dataflow.Start) || modified
 	modified = GongCleanPointer(stage, &dataflow.End) || modified
@@ -78,6 +79,14 @@ func (dataflowshape *DataFlowShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = GongCleanPointer(stage, &dataflowshape.DataFlow) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by DataShape
+func (datashape *DataShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &datashape.Data) || modified
 	return
 }
 
@@ -94,6 +103,8 @@ func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagramprocess.ControlFlow_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.DataFlowsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.DataFlow_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.DatasWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.Data_Shapes) || modified
 	// insertion point per field
 	return
 }
@@ -120,6 +131,9 @@ func (participant *Participant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &participant.ControlFlows) || modified
 	modified = GongCleanSlice(stage, &participant.TaskWhoseOutControlFlowsNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &participant.TaskWhoseInControlFlowsNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &participant.DataFlows) || modified
+	modified = GongCleanSlice(stage, &participant.TaskWhoseOutDataFlowsNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &participant.TaskWhoseInDataFlowsNodeIsExpanded) || modified
 	// insertion point per field
 	return
 }

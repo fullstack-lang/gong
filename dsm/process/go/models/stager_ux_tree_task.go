@@ -49,8 +49,8 @@ func (stager *Stager) treetasks(
 			stager.stage.Commit()
 		}
 	}
-	for _, controlFlow := range task.outcontrolFlows {
-		stager.treecontrolflowsWithinTask(diagramProcess, controlFlow, nodeOutControlFlows)
+	for _, controlFlow := range task.outControlFlows {
+		stager.treeControlFlowsWithinTask(diagramProcess, controlFlow, nodeOutControlFlows)
 	}
 
 	nodeInControlFlows := &tree.Node{
@@ -73,7 +73,55 @@ func (stager *Stager) treetasks(
 			stager.stage.Commit()
 		}
 	}
-	for _, controlFlow := range task.incontrolFlows {
-		stager.treecontrolflowsWithinTask(diagramProcess, controlFlow, nodeInControlFlows)
+	for _, controlFlow := range task.inControlFlows {
+		stager.treeControlFlowsWithinTask(diagramProcess, controlFlow, nodeInControlFlows)
+	}
+
+	nodeOutDataFlows := &tree.Node{
+		Name:            "out data flows",
+		IsNodeClickable: true,
+		IsExpanded:      slices.Contains(participant.TaskWhoseOutDataFlowsNodeIsExpanded, task),
+	}
+	taskNode.Children = append(taskNode.Children, nodeOutDataFlows)
+	nodeOutDataFlows.OnClick = func(frontNode *tree.Node) {
+		if frontNode.IsExpanded != nodeOutDataFlows.IsExpanded {
+			if frontNode.IsExpanded {
+				if slices.Index(participant.TaskWhoseOutDataFlowsNodeIsExpanded, task) == -1 {
+					participant.TaskWhoseOutDataFlowsNodeIsExpanded = append(participant.TaskWhoseOutDataFlowsNodeIsExpanded, task)
+				}
+			} else {
+				if idx := slices.Index(participant.TaskWhoseOutDataFlowsNodeIsExpanded, task); idx != -1 {
+					participant.TaskWhoseOutDataFlowsNodeIsExpanded = slices.Delete(participant.TaskWhoseOutDataFlowsNodeIsExpanded, idx, idx+1)
+				}
+			}
+			stager.stage.Commit()
+		}
+	}
+	for _, dataFlow := range task.outDataFlows {
+		stager.treeDataFlowsWithinTask(diagramProcess, dataFlow, nodeOutDataFlows)
+	}
+
+	nodeInDataFlows := &tree.Node{
+		Name:            "in data flows",
+		IsNodeClickable: true,
+		IsExpanded:      slices.Contains(participant.TaskWhoseInDataFlowsNodeIsExpanded, task),
+	}
+	taskNode.Children = append(taskNode.Children, nodeInDataFlows)
+	nodeInDataFlows.OnClick = func(frontNode *tree.Node) {
+		if frontNode.IsExpanded != nodeInDataFlows.IsExpanded {
+			if frontNode.IsExpanded {
+				if slices.Index(participant.TaskWhoseInDataFlowsNodeIsExpanded, task) == -1 {
+					participant.TaskWhoseInDataFlowsNodeIsExpanded = append(participant.TaskWhoseInDataFlowsNodeIsExpanded, task)
+				}
+			} else {
+				if idx := slices.Index(participant.TaskWhoseInDataFlowsNodeIsExpanded, task); idx != -1 {
+					participant.TaskWhoseInDataFlowsNodeIsExpanded = slices.Delete(participant.TaskWhoseInDataFlowsNodeIsExpanded, idx, idx+1)
+				}
+			}
+			stager.stage.Commit()
+		}
+	}
+	for _, dataFlow := range task.inDataFlows {
+		stager.treeDataFlowsWithinTask(diagramProcess, dataFlow, nodeInDataFlows)
 	}
 }
