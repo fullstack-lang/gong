@@ -1069,7 +1069,7 @@
     },
     {
       "label": "04 - go run svg on rectangle",
-      "type": "shell",
+      "type": "process",
       "options": {
         "cwd": "./lib/svg/go/cmd/svg"
       },
@@ -1078,7 +1078,7 @@
         "run",
         ".",
         "-unmarshallFromCode=data/rectangle.go",
-        "-marshallOnCommit=data/rectangle"
+        "-marshallOnCommit=data/rectangle.go"
       ],
       "group": "build"
     },
