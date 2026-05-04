@@ -577,6 +577,8 @@ func (u *DataFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		GongUnmarshallPointer(&instance.Start, valueExpr, identifierMap)
 	case "End":
 		GongUnmarshallPointer(&instance.End, valueExpr, identifierMap)
+	case "IsDatasNodeExpanded":
+		instance.IsDatasNodeExpanded = GongExtractBool(valueExpr)
 	case "Datas":
 		GongUnmarshallSliceOfPointers(&instance.Datas, valueExpr, identifierMap)
 	}
@@ -726,6 +728,8 @@ func (u *DiagramProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		GongUnmarshallSliceOfPointers(&instance.DatasWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "Data_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.Data_Shapes, valueExpr, identifierMap)
+	case "DataFlowsWhoseDataNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.DataFlowsWhoseDataNodeIsExpanded, valueExpr, identifierMap)
 	}
 	return nil
 }

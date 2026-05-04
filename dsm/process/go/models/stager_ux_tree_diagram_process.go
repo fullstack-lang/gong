@@ -144,7 +144,7 @@ func (stager *Stager) treeDiagramProcess(
 		}
 
 		for _, dataFlow := range process.DataFlows {
-			stager.treeDataFlowsWithinProcess(diagramProcess, dataFlow, dataFlowsNode)
+			stager.treeDataFlowsWithinProcessDiagram(diagramProcess, dataFlow, dataFlowsNode)
 		}
 	}
 }

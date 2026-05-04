@@ -424,6 +424,9 @@ func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 	for _, _datashape := range diagramprocess.Data_Shapes {
 		StageBranch(stage, _datashape)
 	}
+	for _, _dataflow := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
+		StageBranch(stage, _dataflow)
+	}
 
 }
 
@@ -867,6 +870,9 @@ func CopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *Diagr
 	for _, _datashape := range diagramprocessFrom.Data_Shapes {
 		diagramprocessTo.Data_Shapes = append(diagramprocessTo.Data_Shapes, CopyBranchDataShape(mapOrigCopy, _datashape))
 	}
+	for _, _dataflow := range diagramprocessFrom.DataFlowsWhoseDataNodeIsExpanded {
+		diagramprocessTo.DataFlowsWhoseDataNodeIsExpanded = append(diagramprocessTo.DataFlowsWhoseDataNodeIsExpanded, CopyBranchDataFlow(mapOrigCopy, _dataflow))
+	}
 
 	return
 }
@@ -1294,6 +1300,9 @@ func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) 
 	for _, _datashape := range diagramprocess.Data_Shapes {
 		UnstageBranch(stage, _datashape)
 	}
+	for _, _dataflow := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
+		UnstageBranch(stage, _dataflow)
+	}
 
 }
 
@@ -1592,6 +1601,10 @@ func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *St
 	reference.Data_Shapes = reference.Data_Shapes[:0]
 	for _, _b := range instance.Data_Shapes {
 		reference.Data_Shapes = append(reference.Data_Shapes, stage.DataShapes_reference[_b])
+	}
+	reference.DataFlowsWhoseDataNodeIsExpanded = reference.DataFlowsWhoseDataNodeIsExpanded[:0]
+	for _, _b := range instance.DataFlowsWhoseDataNodeIsExpanded {
+		reference.DataFlowsWhoseDataNodeIsExpanded = append(reference.DataFlowsWhoseDataNodeIsExpanded, stage.DataFlows_reference[_b])
 	}
 
 	return
@@ -1918,6 +1931,13 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	reference.Data_Shapes = _Data_Shapes
+	var _DataFlowsWhoseDataNodeIsExpanded []*DataFlow
+	for _, _reference := range reference.DataFlowsWhoseDataNodeIsExpanded {
+		if _instance, ok := stage.DataFlows_instance[_reference]; ok {
+			_DataFlowsWhoseDataNodeIsExpanded = append(_DataFlowsWhoseDataNodeIsExpanded, _instance)
+		}
+	}
+	reference.DataFlowsWhoseDataNodeIsExpanded = _DataFlowsWhoseDataNodeIsExpanded
 
 	return
 }
@@ -2238,6 +2258,9 @@ func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs
 		if dataflow.End != dataflowOther.End {
 			diffs = append(diffs, dataflow.GongMarshallField(stage, "End"))
 		}
+	}
+	if dataflow.IsDatasNodeExpanded != dataflowOther.IsDatasNodeExpanded {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
 	}
 	DatasDifferent := false
 	if len(dataflow.Datas) != len(dataflowOther.Datas) {
@@ -2605,6 +2628,27 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 	}
 	if Data_ShapesDifferent {
 		ops := Diff(stage, diagramprocess, diagramprocessOther, "Data_Shapes", diagramprocessOther.Data_Shapes, diagramprocess.Data_Shapes)
+		diffs = append(diffs, ops)
+	}
+	DataFlowsWhoseDataNodeIsExpandedDifferent := false
+	if len(diagramprocess.DataFlowsWhoseDataNodeIsExpanded) != len(diagramprocessOther.DataFlowsWhoseDataNodeIsExpanded) {
+		DataFlowsWhoseDataNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
+			if (diagramprocess.DataFlowsWhoseDataNodeIsExpanded[i] == nil) != (diagramprocessOther.DataFlowsWhoseDataNodeIsExpanded[i] == nil) {
+				DataFlowsWhoseDataNodeIsExpandedDifferent = true
+				break
+			} else if diagramprocess.DataFlowsWhoseDataNodeIsExpanded[i] != nil && diagramprocessOther.DataFlowsWhoseDataNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagramprocess.DataFlowsWhoseDataNodeIsExpanded[i] != diagramprocessOther.DataFlowsWhoseDataNodeIsExpanded[i] {
+					DataFlowsWhoseDataNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DataFlowsWhoseDataNodeIsExpandedDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "DataFlowsWhoseDataNodeIsExpanded", diagramprocessOther.DataFlowsWhoseDataNodeIsExpanded, diagramprocess.DataFlowsWhoseDataNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 

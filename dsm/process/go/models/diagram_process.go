@@ -60,6 +60,9 @@ type DiagramProcess struct {
 	DatasWhoseNodeIsExpanded []*Data
 	Data_Shapes              []*DataShape
 	map_Data_DataShape       map[*Data]*DataShape
+
+	// within a diagram, at the data flow level, some some can be expanded or not
+	DataFlowsWhoseDataNodeIsExpanded []*DataFlow
 }
 
 func (d *DiagramProcess) IsEditable() bool {

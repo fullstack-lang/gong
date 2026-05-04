@@ -131,6 +131,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramProcess_Data_Shapes_reverseMap[_datashape] = diagramprocess
 		}
 	}
+	stage.DiagramProcess_DataFlowsWhoseDataNodeIsExpanded_reverseMap = make(map[*DataFlow]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _dataflow := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
+			stage.DiagramProcess_DataFlowsWhoseDataNodeIsExpanded_reverseMap[_dataflow] = diagramprocess
+		}
+	}
 
 	// Compute reverse map for named struct Library
 	// insertion point per field

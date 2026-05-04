@@ -44,4 +44,26 @@ func (stager *Stager) treeDataFlows(
 		stager.probeForm.FillUpFormFromGongstruct(dataFlow, GetPointerToGongstructName[*DataFlow]())
 		stager.stage.Commit()
 	}
+
+	//
+	// Data
+	//
+	datasNode := &tree.Node{
+		Name:            "Data",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      dataFlow.IsDatasNodeExpanded,
+		IsNodeClickable: true,
+	}
+	dataFlowNode.Children = append(dataFlowNode.Children, datasNode)
+	datasNode.OnClick = func(frontNode *tree.Node) {
+		if frontNode.IsExpanded != dataFlow.IsDatasNodeExpanded {
+			dataFlow.IsDatasNodeExpanded = frontNode.IsExpanded
+			stager.stage.Commit()
+			return
+		}
+	}
+
+	for _, data := range dataFlow.Datas {
+		stager.treeData(library, data, datasNode)
+	}
 }

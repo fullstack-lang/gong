@@ -98,7 +98,7 @@ func (stager *Stager) treetasks(
 		}
 	}
 	for _, dataFlow := range task.outDataFlows {
-		stager.treeDataFlowsWithinTask(diagramProcess, dataFlow, nodeOutDataFlows)
+		stager.treeDataFlowsWithinDiagramProcessWithinTask(diagramProcess, dataFlow, nodeOutDataFlows)
 	}
 
 	nodeInDataFlows := &tree.Node{
@@ -122,6 +122,6 @@ func (stager *Stager) treetasks(
 		}
 	}
 	for _, dataFlow := range task.inDataFlows {
-		stager.treeDataFlowsWithinTask(diagramProcess, dataFlow, nodeInDataFlows)
+		stager.treeDataFlowsWithinDiagramProcessWithinTask(diagramProcess, dataFlow, nodeInDataFlows)
 	}
 }
