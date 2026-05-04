@@ -77,11 +77,11 @@ func _(stage *models.Stage) {
 	__ControlFlow__00000004_.ComputedPrefix = ``
 
 	__ControlFlowShape__00000000_.Name = `Start to T2`
-	__ControlFlowShape__00000000_.StartRatio = 0.500000
+	__ControlFlowShape__00000000_.StartRatio = 0.971920
 	__ControlFlowShape__00000000_.EndRatio = 0.500000
 	__ControlFlowShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000000_.CornerOffsetRatio = 1.100000
+	__ControlFlowShape__00000000_.CornerOffsetRatio = 4.178095
 	__ControlFlowShape__00000000_.IsHidden = false
 
 	__DataFlow__00000000_.Name = `T2 to PP2 T2`
@@ -133,7 +133,7 @@ func _(stage *models.Stage) {
 
 	__Participant__00000003_.Name = `PP1`
 	__Participant__00000003_.ComputedPrefix = ``
-	__Participant__00000003_.IsTasksNodeExpanded = true
+	__Participant__00000003_.IsTasksNodeExpanded = false
 	__Participant__00000003_.IsControlFlowsNodeExpanded = false
 
 	__Participant__00000004_.Name = `PP2`
@@ -170,7 +170,7 @@ func _(stage *models.Stage) {
 	__Process__00000005_.Name = `P1`
 	__Process__00000005_.ComputedPrefix = ``
 	__Process__00000005_.IsSubProcessNodeExpanded = false
-	__Process__00000005_.IsDataFlowsNodeExpanded = true
+	__Process__00000005_.IsDataFlowsNodeExpanded = false
 
 	__Process__00000006_.Name = `P2`
 	__Process__00000006_.ComputedPrefix = ``
@@ -233,8 +233,8 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000012_.Name = `T4-DP2`
 	__TaskShape__00000012_.IsExpanded = false
-	__TaskShape__00000012_.X = 111.000000
-	__TaskShape__00000012_.Y = 565.089730
+	__TaskShape__00000012_.X = 174.000000
+	__TaskShape__00000012_.Y = 563.089730
 	__TaskShape__00000012_.Width = 250.000000
 	__TaskShape__00000012_.Height = 70.000000
 	__TaskShape__00000012_.IsHidden = false
@@ -270,8 +270,6 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.Process_Shapes = append(__DiagramProcess__00000007_.Process_Shapes, __ProcessShape__00000007_)
 	__DiagramProcess__00000007_.Participant_Shapes = append(__DiagramProcess__00000007_.Participant_Shapes, __ParticipantShape__00000010_)
 	__DiagramProcess__00000007_.Participant_Shapes = append(__DiagramProcess__00000007_.Participant_Shapes, __ParticipantShape__00000011_)
-	__DiagramProcess__00000007_.ParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000007_.ParticipantWhoseNodeIsExpanded, __Participant__00000003_)
-	__DiagramProcess__00000007_.ParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000007_.ParticipantWhoseNodeIsExpanded, __Participant__00000004_)
 	__DiagramProcess__00000007_.TasksWhoseNodeIsExpanded = append(__DiagramProcess__00000007_.TasksWhoseNodeIsExpanded, __Task__00000002_)
 	__DiagramProcess__00000007_.TasksWhoseNodeIsExpanded = append(__DiagramProcess__00000007_.TasksWhoseNodeIsExpanded, __Task__00000004_)
 	__DiagramProcess__00000007_.Task_Shapes = append(__DiagramProcess__00000007_.Task_Shapes, __TaskShape__00000011_)
