@@ -332,6 +332,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(controlflowshape.GongMarshallField(stage, "IsHidden"))
 	}
 
+	dataOrdered := []*Data{}
+	for data := range stage.Datas {
+		dataOrdered = append(dataOrdered, data)
+	}
+	sort.Slice(dataOrdered[:], func(i, j int) bool {
+		datai := dataOrdered[i]
+		dataj := dataOrdered[j]
+		datai_order, oki := stage.Data_stagedOrder[datai]
+		dataj_order, okj := stage.Data_stagedOrder[dataj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return datai_order < dataj_order
+	})
+	if len(dataOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, data := range dataOrdered {
+
+		identifiersDecl.WriteString(data.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(data.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(data.GongMarshallField(stage, "ComputedPrefix"))
+	}
+
 	dataflowOrdered := []*DataFlow{}
 	for dataflow := range stage.DataFlows {
 		dataflowOrdered = append(dataflowOrdered, dataflow)
@@ -476,6 +503,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootDataFlows"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsDataFlowsNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "DataFlowsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootDatas"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsDatasNodeExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "DatasWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))
 	}
 
@@ -686,6 +716,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, controlflowshape := range controlflowshapeOrdered {
 		_ = controlflowshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, data := range dataOrdered {
+		_ = data
 		var setPointerField string
 		_ = setPointerField
 
@@ -942,6 +980,26 @@ func (controlflowshape *ControlFlowShape) GongMarshallField(stage *Stage, fieldN
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ControlFlowShape", fieldName)
+	}
+	return
+}
+
+func (data *Data) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", data.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(data.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", data.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(data.ComputedPrefix))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Data", fieldName)
 	}
 	return
 }
@@ -1269,6 +1327,11 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDataFlowsNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsDataFlowsNodeExpanded))
+	case "IsDatasNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDatasNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsDatasNodeExpanded))
 	case "IsExpandedTmp":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
@@ -1332,6 +1395,26 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "DataFlowsWhoseNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _dataflow.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "RootDatas":
+		var sb strings.Builder
+		for _, _data := range library.RootDatas {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootDatas")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _data.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "DatasWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _data := range library.DatasWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "DatasWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _data.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -1738,6 +1821,18 @@ func (controlflowshape *ControlFlowShape) GongMarshallAllFields(stage *Stage) (i
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (data *Data) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(data.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(data.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (dataflow *DataFlow) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -1819,6 +1914,9 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootDataFlows"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsDataFlowsNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "DataFlowsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootDatas"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsDatasNodeExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "DatasWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))
 	}
 	initRes = initializerStatements.String()

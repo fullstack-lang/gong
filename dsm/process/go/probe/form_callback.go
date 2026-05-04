@@ -393,6 +393,218 @@ func (controlflowshapeFormCallback *ControlFlowShapeFormCallback) OnSave() {
 
 	controlflowshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__DataFormCallback(
+	data *models.Data,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (dataFormCallback *DataFormCallback) {
+	dataFormCallback = new(DataFormCallback)
+	dataFormCallback.probe = probe
+	dataFormCallback.data = data
+	dataFormCallback.formGroup = formGroup
+
+	dataFormCallback.CreationMode = (data == nil)
+
+	return
+}
+
+type DataFormCallback struct {
+	data *models.Data
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (dataFormCallback *DataFormCallback) OnSave() {
+	dataFormCallback.probe.stageOfInterest.Lock()
+	defer dataFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("DataFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	dataFormCallback.probe.formStage.Checkout()
+
+	if dataFormCallback.data == nil {
+		dataFormCallback.data = new(models.Data).Stage(dataFormCallback.probe.stageOfInterest)
+	}
+	data_ := dataFormCallback.data
+	_ = data_
+
+	for _, formDiv := range dataFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(data_.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(data_.ComputedPrefix), formDiv)
+		case "Library:RootDatas":
+			// WARNING : this form deals with the N-N association "Library.RootDatas []*Data" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Data). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Library
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Library"
+				rf.Fieldname = "RootDatas"
+				formerAssociationSource := data_.GongGetReverseFieldOwner(
+					dataFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Library)
+					if !ok {
+						log.Fatalln("Source of Library.RootDatas []*Data, is not an Library instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.RootDatas, data_)
+					formerSource.RootDatas = slices.Delete(formerSource.RootDatas, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Library
+			for _library := range *models.GetGongstructInstancesSet[models.Library](dataFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _library.GetName() == newSourceName.GetName() {
+					newSource = _library // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Library.RootDatas []*Data, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.RootDatas = append(newSource.RootDatas, data_)
+		case "Library:DatasWhoseNodeIsExpanded":
+			// WARNING : this form deals with the N-N association "Library.DatasWhoseNodeIsExpanded []*Data" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Data). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Library
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Library"
+				rf.Fieldname = "DatasWhoseNodeIsExpanded"
+				formerAssociationSource := data_.GongGetReverseFieldOwner(
+					dataFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Library)
+					if !ok {
+						log.Fatalln("Source of Library.DatasWhoseNodeIsExpanded []*Data, is not an Library instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DatasWhoseNodeIsExpanded, data_)
+					formerSource.DatasWhoseNodeIsExpanded = slices.Delete(formerSource.DatasWhoseNodeIsExpanded, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Library
+			for _library := range *models.GetGongstructInstancesSet[models.Library](dataFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _library.GetName() == newSourceName.GetName() {
+					newSource = _library // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Library.DatasWhoseNodeIsExpanded []*Data, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DatasWhoseNodeIsExpanded = append(newSource.DatasWhoseNodeIsExpanded, data_)
+		}
+	}
+
+	// manage the suppress operation
+	if dataFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		data_.Unstage(dataFormCallback.probe.stageOfInterest)
+	}
+
+	dataFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Data](
+		dataFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if dataFormCallback.CreationMode || dataFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		dataFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(dataFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__DataFormCallback(
+			nil,
+			dataFormCallback.probe,
+			newFormGroup,
+		)
+		data := new(models.Data)
+		FillUpForm(data, newFormGroup, dataFormCallback.probe)
+		dataFormCallback.probe.formStage.Commit()
+	}
+
+	dataFormCallback.probe.ux_tree()
+}
 func __gong__New__DataFlowFormCallback(
 	dataflow *models.DataFlow,
 	probe *Probe,
@@ -1683,6 +1895,70 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.DataFlowsWhoseNodeIsExpanded = instanceSlice
+
+		case "RootDatas":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Data](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Data, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Data)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Data](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.RootDatas = instanceSlice
+
+		case "IsDatasNodeExpanded":
+			FormDivBasicFieldToField(&(library_.IsDatasNodeExpanded), formDiv)
+		case "DatasWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Data](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Data, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Data)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Data](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.DatasWhoseNodeIsExpanded = instanceSlice
 
 		case "IsExpandedTmp":
 			FormDivBasicFieldToField(&(library_.IsExpandedTmp), formDiv)

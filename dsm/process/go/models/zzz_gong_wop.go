@@ -52,6 +52,20 @@ func (from *ControlFlowShape) CopyBasicFields(to *ControlFlowShape) {
 	to.IsHidden = from.IsHidden
 }
 
+type Data_WOP struct {
+	// insertion point
+
+	Name string
+
+	ComputedPrefix string
+}
+
+func (from *Data) CopyBasicFields(to *Data) {
+	// insertion point
+	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
+}
+
 type DataFlow_WOP struct {
 	// insertion point
 
@@ -153,6 +167,8 @@ type Library_WOP struct {
 
 	IsDataFlowsNodeExpanded bool
 
+	IsDatasNodeExpanded bool
+
 	IsExpandedTmp bool
 }
 
@@ -165,6 +181,7 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.LogoSVGFile = from.LogoSVGFile
 	to.IsProcessesNodeExpanded = from.IsProcessesNodeExpanded
 	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
+	to.IsDatasNodeExpanded = from.IsDatasNodeExpanded
 	to.IsExpandedTmp = from.IsExpandedTmp
 }
 

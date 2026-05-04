@@ -19,19 +19,6 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 
 	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
 
-	// add sub library button
-	confSubLibraries := ItemButtonConfiguration[
-		Library, *Library,
-		Library, *Library,
-	]{
-		parentNode:                         libraryNode,
-		sliceForNewAddedItem:               &library.SubLibraries,
-		isParentNodeExpandedByAddOperation: true,
-		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &library.IsExpandedTmp,
-	}
-	addCreateItemButton(stager, confSubLibraries)
-
 	// add a process to the library button
 	confRootProcesses := ItemButtonConfiguration[
 		Process, *Process,
@@ -89,6 +76,19 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		stager.treeLibrary(subLibrary, &subLibrariesNode.Children)
 	}
 
+	// add sub library button
+	confSubLibraries := ItemButtonConfiguration[
+		Library, *Library,
+		Library, *Library,
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.SubLibraries,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpandedTmp,
+	}
+	addCreateItemButton(stager, confSubLibraries)
+
 	//
 	// Data Flows
 	//
@@ -110,6 +110,41 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	for _, dataFlow := range library.RootDataFlows {
 		stager.treeDataFlows(library, dataFlow, dataFlowNodes)
 	}
+
+	//
+	// Data
+	//
+	datasNode := &tree.Node{
+		Name:            "Data",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      library.IsDatasNodeExpanded,
+		IsNodeClickable: true,
+	}
+	libraryNode.Children = append(libraryNode.Children, datasNode)
+	datasNode.OnClick = func(frontNode *tree.Node) {
+		if frontNode.IsExpanded != library.IsDatasNodeExpanded {
+			library.IsDatasNodeExpanded = frontNode.IsExpanded
+			stager.stage.Commit()
+			return
+		}
+	}
+
+	for _, data := range library.RootDatas {
+		stager.treeData(library, data, datasNode)
+	}
+
+	// add data button
+	confData := ItemButtonConfiguration[
+		Data, *Data,
+		Data, *Data,
+	]{
+		parentNode:                         datasNode,
+		sliceForNewAddedItem:               &library.RootDatas,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpandedTmp,
+	}
+	addCreateItemButton(stager, confData)
 }
 
 // Helper callbacks

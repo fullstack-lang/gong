@@ -515,6 +515,37 @@ func (u *ControlFlowShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 	return nil
 }
 
+type DataUnmarshaller struct{}
+
+func (u *DataUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Data)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *DataUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Data)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type DataFlowUnmarshaller struct{}
 
 func (u *DataFlowUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -711,6 +742,12 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsDataFlowsNodeExpanded = GongExtractBool(valueExpr)
 	case "DataFlowsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.DataFlowsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "RootDatas":
+		GongUnmarshallSliceOfPointers(&instance.RootDatas, valueExpr, identifierMap)
+	case "IsDatasNodeExpanded":
+		instance.IsDatasNodeExpanded = GongExtractBool(valueExpr)
+	case "DatasWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.DatasWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "IsExpandedTmp":
 		instance.IsExpandedTmp = GongExtractBool(valueExpr)
 	}
