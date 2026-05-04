@@ -8,7 +8,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treeDataFlowsWithinTask(
+func (stager *Stager) treeDataFlowsWithinProcessDiagram(
 	diagramProcess *DiagramProcess,
 	dataFlow *DataFlow,
 	parentNode *tree.Node,
@@ -78,8 +78,8 @@ func (stager *Stager) treeDataFlowsWithinTask(
 			if shape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
-			// shape = newShapeToDiagram(dataflow, diagramProcess, &diagramProcess.DataFlowShapes, stage)
-			// addAssociationShapeToDiagram(stager, dataflow.Start, dataflow.End, &diagramProcess.DataFlowShapes)
+			// shape = newShapeToDiagram(controlflow, diagramProcess, &diagramProcess.ControlFlowShapes, stage)
+			// addAssociationShapeToDiagram(stager, controlflow.Start, controlflow.End, &diagramProcess.ControlFlowShapes)
 			dataFlowShape := (&DataFlowShape{
 				DataFlow: dataFlow,
 			}).Stage(stage)

@@ -10,7 +10,8 @@ type DataFlow struct {
 
 	End *Task
 
-	Datas []*Data
+	IsDatasNodeExpanded bool
+	Datas               []*Data
 }
 
 var _ AbstractType = (*DataFlow)(nil)

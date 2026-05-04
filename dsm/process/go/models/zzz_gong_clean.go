@@ -105,6 +105,7 @@ func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagramprocess.DataFlow_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.DatasWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.Data_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.DataFlowsWhoseDataNodeIsExpanded) || modified
 	// insertion point per field
 	return
 }
