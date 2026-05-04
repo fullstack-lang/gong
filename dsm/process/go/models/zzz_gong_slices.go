@@ -26,6 +26,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct ControlFlowShape
 	// insertion point per field
 
+	// Compute reverse map for named struct Data
+	// insertion point per field
+
 	// Compute reverse map for named struct DataFlow
 	// insertion point per field
 
@@ -149,6 +152,20 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_DataFlowsWhoseNodeIsExpanded_reverseMap[_dataflow] = library
 		}
 	}
+	stage.Library_RootDatas_reverseMap = make(map[*Data]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _data := range library.RootDatas {
+			stage.Library_RootDatas_reverseMap[_data] = library
+		}
+	}
+	stage.Library_DatasWhoseNodeIsExpanded_reverseMap = make(map[*Data]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _data := range library.DatasWhoseNodeIsExpanded {
+			stage.Library_DatasWhoseNodeIsExpanded_reverseMap[_data] = library
+		}
+	}
 
 	// Compute reverse map for named struct Participant
 	// insertion point per field
@@ -251,6 +268,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.Datas {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.DataFlows {
 		res = append(res, instance)
 	}
@@ -304,6 +325,12 @@ func (controlflow *ControlFlow) GongCopy() GongstructIF {
 func (controlflowshape *ControlFlowShape) GongCopy() GongstructIF {
 	newInstance := new(ControlFlowShape)
 	controlflowshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (data *Data) GongCopy() GongstructIF {
+	newInstance := new(Data)
+	data.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -385,6 +412,16 @@ func (controlflowshape *ControlFlowShape) GongGetUUID(stage *Stage) (uuid string
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(controlflowshape), uint64(GetOrderPointerGongstruct(stage, controlflowshape)))
+	return
+}
+
+func (data *Data) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(data).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(data), uint64(GetOrderPointerGongstruct(stage, data)))
 	return
 }
 
@@ -608,6 +645,57 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(controlflowshapes_newInstances)
 	lenDeletedInstances += len(controlflowshapes_deletedInstances)
+	var datas_newInstances []*Data
+	var datas_deletedInstances []*Data
+
+	// parse all staged instances and check if they have a reference
+	for data := range stage.Datas {
+		if ref, ok := stage.Datas_reference[data]; !ok {
+			datas_newInstances = append(datas_newInstances, data)
+			newInstancesSlice = append(newInstancesSlice, data.GongMarshallIdentifier(stage))
+			if stage.Datas_referenceOrder == nil {
+				stage.Datas_referenceOrder = make(map[*Data]uint)
+			}
+			stage.Datas_referenceOrder[data] = stage.Data_stagedOrder[data]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, data.GongMarshallUnstaging(stage))
+			// delete(stage.Datas_referenceOrder, data)
+			fieldInitializers, pointersInitializations := data.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Data_stagedOrder[ref] = stage.Data_stagedOrder[data]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := data.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, data)
+			// delete(stage.Data_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				fieldsEdit += fmt.Sprintf("\n\t// %s", data.GetName())
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Datas_reference {
+		instance := stage.Datas_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Datas[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			datas_deletedInstances = append(datas_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(datas_newInstances)
+	lenDeletedInstances += len(datas_deletedInstances)
 	var dataflows_newInstances []*DataFlow
 	var dataflows_deletedInstances []*DataFlow
 
@@ -1173,6 +1261,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.ControlFlowShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Datas_reference = make(map[*Data]*Data)
+	stage.Datas_referenceOrder = make(map[*Data]uint) // diff Unstage needs the reference order
+	stage.Datas_instance = make(map[*Data]*Data)
+	for instance := range stage.Datas {
+		_copy := instance.GongCopy().(*Data)
+		stage.Datas_reference[instance] = _copy
+		stage.Datas_instance[_copy] = instance
+		stage.Datas_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.DataFlows_reference = make(map[*DataFlow]*DataFlow)
 	stage.DataFlows_referenceOrder = make(map[*DataFlow]uint) // diff Unstage needs the reference order
 	stage.DataFlows_instance = make(map[*DataFlow]*DataFlow)
@@ -1284,6 +1382,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.Datas {
+		reference := stage.Datas_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.DataFlows {
 		reference := stage.DataFlows_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -1364,6 +1467,18 @@ func (controlflowshape *ControlFlowShape) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type ControlFlowShape was not staged and does not have a reference order", controlflowshape)
+		return 0
+	}
+}
+
+func (data *Data) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Data_stagedOrder[data]; ok {
+		return order
+	}
+	if order, ok := stage.Datas_referenceOrder[data]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Data was not staged and does not have a reference order", data)
 		return 0
 	}
 }
@@ -1511,6 +1626,15 @@ func (controlflowshape *ControlFlowShape) GongGetReferenceIdentifier(stage *Stag
 	return fmt.Sprintf("__%s__%08d_", controlflowshape.GongGetGongstructName(), controlflowshape.GongGetOrder(stage))
 }
 
+func (data *Data) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", data.GongGetGongstructName(), data.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (data *Data) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", data.GongGetGongstructName(), data.GongGetOrder(stage))
+}
+
 func (dataflow *DataFlow) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", dataflow.GongGetGongstructName(), dataflow.GongGetOrder(stage))
 }
@@ -1620,6 +1744,14 @@ func (controlflowshape *ControlFlowShape) GongMarshallIdentifier(stage *Stage) (
 	return
 }
 
+func (data *Data) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", data.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Data")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(data.Name))
+	return
+}
+
 func (dataflow *DataFlow) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
@@ -1710,6 +1842,12 @@ func (controlflow *ControlFlow) GongMarshallUnstaging(stage *Stage) (decl string
 func (controlflowshape *ControlFlowShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", controlflowshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (data *Data) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", data.GongGetReferenceIdentifier(stage))
 	return
 }
 
