@@ -555,6 +555,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(link.GongMarshallField(stage, "StartArrowOffset"))
 		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "TextAtArrowStart"))
 		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "TextAtArrowEnd"))
+		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "TextAtCorner"))
 		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "ControlPoints"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "Color"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "FillOpacity"))
@@ -2076,6 +2077,16 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", link.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TextAtArrowEnd")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _linkanchoredtext.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "TextAtCorner":
+		var sb strings.Builder
+		for _, _linkanchoredtext := range link.TextAtCorner {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", link.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TextAtCorner")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _linkanchoredtext.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
@@ -3716,6 +3727,7 @@ func (link *Link) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(link.GongMarshallField(stage, "StartArrowOffset"))
 		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "TextAtArrowStart"))
 		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "TextAtArrowEnd"))
+		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "TextAtCorner"))
 		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "ControlPoints"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "Color"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "FillOpacity"))

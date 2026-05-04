@@ -823,6 +823,8 @@ func (u *LinkUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		GongUnmarshallSliceOfPointers(&instance.TextAtArrowStart, valueExpr, identifierMap)
 	case "TextAtArrowEnd":
 		GongUnmarshallSliceOfPointers(&instance.TextAtArrowEnd, valueExpr, identifierMap)
+	case "TextAtCorner":
+		GongUnmarshallSliceOfPointers(&instance.TextAtCorner, valueExpr, identifierMap)
 	case "ControlPoints":
 		GongUnmarshallSliceOfPointers(&instance.ControlPoints, valueExpr, identifierMap)
 	case "Color":

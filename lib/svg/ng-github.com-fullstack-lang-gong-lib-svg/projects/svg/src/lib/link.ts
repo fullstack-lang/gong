@@ -54,6 +54,7 @@ export class Link {
 
 	TextAtArrowStart: Array<LinkAnchoredText> = []
 	TextAtArrowEnd: Array<LinkAnchoredText> = []
+	TextAtCorner: Array<LinkAnchoredText> = []
 	ControlPoints: Array<ControlPoint> = []
 
 	CreatedAt?: string
@@ -121,6 +122,11 @@ export function CopyLinkToLinkAPI(link: Link, linkAPI: LinkAPI) {
 	linkAPI.LinkPointersEncoding.TextAtArrowEnd = []
 	for (let _linkanchoredtext of link.TextAtArrowEnd) {
 		linkAPI.LinkPointersEncoding.TextAtArrowEnd.push(_linkanchoredtext.ID)
+	}
+
+	linkAPI.LinkPointersEncoding.TextAtCorner = []
+	for (let _linkanchoredtext of link.TextAtCorner) {
+		linkAPI.LinkPointersEncoding.TextAtCorner.push(_linkanchoredtext.ID)
 	}
 
 	linkAPI.LinkPointersEncoding.ControlPoints = []
@@ -197,6 +203,18 @@ export function CopyLinkAPIToLink(linkAPI: LinkAPI, link: Link, frontRepo: Front
 		let _linkanchoredtext = frontRepo.map_ID_LinkAnchoredText.get(_id)
 		if (_linkanchoredtext != undefined) {
 			link.TextAtArrowEnd.push(_linkanchoredtext!)
+		}
+	}
+	if (!Array.isArray(linkAPI.LinkPointersEncoding.TextAtCorner)) {
+		console.error('Rects is not an array:', linkAPI.LinkPointersEncoding.TextAtCorner);
+		return;
+	}
+
+	link.TextAtCorner = new Array<LinkAnchoredText>()
+	for (let _id of linkAPI.LinkPointersEncoding.TextAtCorner) {
+		let _linkanchoredtext = frontRepo.map_ID_LinkAnchoredText.get(_id)
+		if (_linkanchoredtext != undefined) {
+			link.TextAtCorner.push(_linkanchoredtext!)
 		}
 	}
 	if (!Array.isArray(linkAPI.LinkPointersEncoding.ControlPoints)) {

@@ -212,6 +212,10 @@ func (inst *LinkAnchoredText) GongGetReverseFieldOwnerName(stage *Stage, reverse
 			if _link, ok := stage.Link_TextAtArrowEnd_reverseMap[inst]; ok {
 				res = _link.Name
 			}
+		case "TextAtCorner":
+			if _link, ok := stage.Link_TextAtCorner_reverseMap[inst]; ok {
+				res = _link.Name
+			}
 		}
 	}
 	return
@@ -575,6 +579,8 @@ func (inst *LinkAnchoredText) GongGetReverseFieldOwner(stage *Stage, reverseFiel
 			res = stage.Link_TextAtArrowStart_reverseMap[inst]
 		case "TextAtArrowEnd":
 			res = stage.Link_TextAtArrowEnd_reverseMap[inst]
+		case "TextAtCorner":
+			res = stage.Link_TextAtCorner_reverseMap[inst]
 		}
 	}
 	return res
