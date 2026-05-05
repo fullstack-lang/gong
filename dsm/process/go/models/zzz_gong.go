@@ -3491,6 +3491,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Data with the name of the field
 			Data: &Data{Name: "Data"},
+			// field is initialized with an instance of DataFlow with the name of the field
+			DataFlow: &DataFlow{Name: "DataFlow"},
 		}).(*Type)
 	case DiagramProcess:
 		return any(&DiagramProcess{
@@ -3760,6 +3762,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					datashapes = append(datashapes, datashape)
 					res[data_] = datashapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DataFlow":
+			res := make(map[*DataFlow][]*DataShape)
+			for datashape := range stage.DataShapes {
+				if datashape.DataFlow != nil {
+					dataflow_ := datashape.DataFlow
+					var datashapes []*DataShape
+					_, ok := res[dataflow_]
+					if ok {
+						datashapes = res[dataflow_]
+					} else {
+						datashapes = make([]*DataShape, 0)
+					}
+					datashapes = append(datashapes, datashape)
+					res[dataflow_] = datashapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4598,6 +4617,11 @@ func (datashape *DataShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Data",
 		},
+		{
+			Name:                 "DataFlow",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "DataFlow",
+		},
 	}
 	return
 }
@@ -5269,6 +5293,12 @@ func (datashape *DataShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		if datashape.Data != nil {
 			res.valueString = datashape.Data.Name
 			res.ids = datashape.Data.GongGetUUID(stage)
+		}
+	case "DataFlow":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if datashape.DataFlow != nil {
+			res.valueString = datashape.DataFlow.Name
+			res.ids = datashape.DataFlow.GongGetUUID(stage)
 		}
 	}
 	return
@@ -6061,6 +6091,17 @@ func (datashape *DataShape) GongSetFieldValue(fieldName string, value GongFieldV
 			for __instance__ := range stage.Datas {
 				if stage.Data_stagedOrder[__instance__] == uint(id) {
 					datashape.Data = __instance__
+					break
+				}
+			}
+		}
+	case "DataFlow":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			datashape.DataFlow = nil
+			for __instance__ := range stage.DataFlows {
+				if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
+					datashape.DataFlow = __instance__
 					break
 				}
 			}

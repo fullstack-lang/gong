@@ -655,6 +655,8 @@ func (u *DataShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.Name = GongExtractString(valueExpr)
 	case "Data":
 		GongUnmarshallPointer(&instance.Data, valueExpr, identifierMap)
+	case "DataFlow":
+		GongUnmarshallPointer(&instance.DataFlow, valueExpr, identifierMap)
 	}
 	return nil
 }

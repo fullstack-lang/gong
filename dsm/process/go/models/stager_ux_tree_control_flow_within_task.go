@@ -29,13 +29,24 @@ func (stager *Stager) treeControlFlowsWithinTask(
 	isCheckboxDisabled := !(isStartShapePresent && isEndShapePresent)
 
 	node := &tree.Node{
-		Name:               controlFlow.GetName(),
-		IsExpanded:         false,
-		IsNodeClickable:    true,
-		IsInEditMode:       controlFlow.GetIsInRenameMode(),
-		HasCheckboxButton:  true,
-		IsChecked:          isShapePresent,
-		IsCheckboxDisabled: isCheckboxDisabled,
+		Name:                    controlFlow.GetName(),
+		IsExpanded:              false,
+		IsNodeClickable:         true,
+		IsInEditMode:            controlFlow.GetIsInRenameMode(),
+		HasCheckboxButton:       true,
+		IsChecked:               isShapePresent,
+		IsCheckboxDisabled:      isCheckboxDisabled,
+		CheckboxHasToolTip:      true,
+		CheckboxToolTipPosition: tree.Left,
+		CheckboxToolTipText: func() string {
+			if isCheckboxDisabled {
+				return "A control flow shape cannot be created if the start or end task shape is not present from the diagram"
+			}
+			if isShapePresent {
+				return "Click to remove the control flow shape"
+			}
+			return "Click to create a control flow shape for this control flow within this diagram"
+		}(),
 	}
 
 	if isCheckboxDisabled {

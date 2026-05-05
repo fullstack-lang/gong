@@ -1457,6 +1457,8 @@ func (datashapeFormCallback *DataShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(datashape_.Name), formDiv)
 		case "Data":
 			FormDivSelectFieldToField(&(datashape_.Data), datashapeFormCallback.probe.stageOfInterest, formDiv)
+		case "DataFlow":
+			FormDivSelectFieldToField(&(datashape_.DataFlow), datashapeFormCallback.probe.stageOfInterest, formDiv)
 		case "DiagramProcess:Data_Shapes":
 			// WARNING : this form deals with the N-N association "DiagramProcess.Data_Shapes []*DataShape" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

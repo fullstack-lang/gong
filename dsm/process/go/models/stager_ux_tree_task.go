@@ -6,7 +6,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treetasks(
+func (stager *Stager) treeTask(
 	diagramProcess *DiagramProcess,
 	participant *Participant,
 	task *Task,
