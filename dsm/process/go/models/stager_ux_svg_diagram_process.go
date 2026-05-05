@@ -80,6 +80,10 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			processShape,
 			layer)
 		rect.RX = 3
+
+		// override default behavior, we need to commit when the rect is moved
+		rect.OnUpdate = onUpdateRectElement(stager, processShape.Process, processShape, false)
+
 		diagramProcess.map_Process_Rect[processShape.Process] = rect
 	}
 
@@ -111,8 +115,8 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		rect.StrokeOpacity = 1
 
 		// rect cannot move
-		rect.CanMoveHorizontaly = false
-		rect.CanMoveVerticaly = false
+		rect.CanMoveHorizontaly = true
+		rect.CanMoveVerticaly = true
 		rect.CanHaveBottomHandle = false
 		rect.CanHaveLeftHandle = false
 		rect.CanHaveRightHandle = false
@@ -127,6 +131,9 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 
 		rect.Y = rectOfOwningProcess.Y + verticalTopMargin + verticalTopMarginForTitle
 		rect.Height = rectOfOwningProcess.Height - verticalTopMargin - verticalBottomMargin - verticalTopMarginForTitle
+
+		// override default behavior, we need to commit when the rect is moved
+		rect.OnUpdate = onUpdateRectElement(stager, participantShape.Participant, participantShape, false)
 
 		diagramProcess.map_Participant_Rect[participantShape.Participant] = rect
 
