@@ -67,7 +67,7 @@ func svgRect[CT interface {
 		rect.CanMoveHorizontaly = true
 		rect.CanMoveVerticaly = true
 
-		rect.OnUpdate = onUpdateRectElement(stager, abstractElement, shape)
+		rect.OnUpdate = onUpdateRectElement(stager, abstractElement, shape, true)
 		// for allowing later Stage() on the rect shape
 		shape.SetReceiver(shape)
 	}
@@ -112,6 +112,7 @@ func onUpdateRectElement[CT interface {
 	stager *Stager,
 	abstractElement AbstractType,
 	rectShape CT,
+	suspendCallbacksOnPositionDiff bool,
 ) func(frontRect *svg.Rect) {
 	return func(updatedRect *svg.Rect) {
 		diffSize := rectShape.GetWidth() != updatedRect.Width ||
@@ -133,10 +134,14 @@ func onUpdateRectElement[CT interface {
 		}
 
 		if diffPosition {
-			// Issue #7, this will allow multiple rect to be moved together
-			stager.stage.CommitWithSuspendedCallbacks()
-			// update the tree because it contains the undo/redo calls
-			stager.tree()
+			if suspendCallbacksOnPositionDiff {
+				// Issue #7, this will allow multiple rect to be moved together
+				stager.stage.CommitWithSuspendedCallbacks()
+				// update the tree because it contains the undo/redo calls
+				stager.tree()
+			} else {
+				stager.stage.Commit()
+			}
 		}
 
 		if diffSize {
