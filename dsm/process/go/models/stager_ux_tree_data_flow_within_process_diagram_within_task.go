@@ -29,13 +29,24 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 	isCheckboxDisabled := !(isStartShapePresent && isEndShapePresent)
 
 	dataFlowNode := &tree.Node{
-		Name:               dataFlow.GetName(),
-		IsExpanded:         slices.Contains(diagramProcess.DataFlowsWhoseDataNodeIsExpanded, dataFlow),
-		IsNodeClickable:    true,
-		IsInEditMode:       dataFlow.GetIsInRenameMode(),
-		HasCheckboxButton:  true,
-		IsChecked:          isShapePresent,
-		IsCheckboxDisabled: isCheckboxDisabled,
+		Name:                    dataFlow.GetName(),
+		IsExpanded:              slices.Contains(diagramProcess.DataFlowsWhoseDataNodeIsExpanded, dataFlow),
+		IsNodeClickable:         true,
+		IsInEditMode:            dataFlow.GetIsInRenameMode(),
+		HasCheckboxButton:       true,
+		IsChecked:               isShapePresent,
+		IsCheckboxDisabled:      isCheckboxDisabled,
+		CheckboxHasToolTip:      true,
+		CheckboxToolTipPosition: tree.Left,
+		CheckboxToolTipText: func() string {
+			if isCheckboxDisabled {
+				return "A data shape cannot be created if the start or end task shape is not present from the diagram"
+			}
+			if isShapePresent {
+				return "Click to remove the data flow shape"
+			}
+			return "Click to create a data flow shape for this data flow within this diagram"
+		}(),
 	}
 
 	if isCheckboxDisabled {

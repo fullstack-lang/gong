@@ -18,12 +18,20 @@ func (stager *Stager) treeParticipants(
 	// find the shape (if any)
 	shape, ok := diagramProcess.map_Participant_ParticipantShape[participant]
 	node := &tree.Node{
-		Name:              participant.Name,
-		IsExpanded:        slices.Contains(diagramProcess.ParticipantWhoseNodeIsExpanded, participant),
-		IsNodeClickable:   true,
-		IsInEditMode:      participant.isInRenameMode,
-		HasCheckboxButton: true,
-		IsChecked:         ok,
+		Name:                    participant.Name,
+		IsExpanded:              slices.Contains(diagramProcess.ParticipantWhoseNodeIsExpanded, participant),
+		IsNodeClickable:         true,
+		IsInEditMode:            participant.isInRenameMode,
+		HasCheckboxButton:       true,
+		IsChecked:               ok,
+		CheckboxHasToolTip:      true,
+		CheckboxToolTipPosition: tree.Left,
+		CheckboxToolTipText: func() string {
+			if ok {
+				return "Click to remove the participant shape"
+			}
+			return "Click to create a participant shape for this participant within this diagram"
+		}(),
 	}
 	parentNode.Children = append(parentNode.Children, node)
 	addRenameButton(participant, node, stager)
@@ -109,7 +117,7 @@ func (stager *Stager) treeParticipants(
 	}
 
 	for _, task := range participant.Tasks {
-		stager.treetasks(diagramProcess, participant, task, tasksNode, &diagramProcess.TasksWhoseNodeIsExpanded)
+		stager.treeTask(diagramProcess, participant, task, tasksNode, &diagramProcess.TasksWhoseNodeIsExpanded)
 	}
 
 	// loook forward to https://github.com/golang/go/issues/61731

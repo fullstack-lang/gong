@@ -161,9 +161,9 @@ func createBaseNode[
 		HasCheckboxButton:  true,
 		IsCheckboxDisabled: !diagram.GetIsChecked(),
 
-		HasToolTip:      true,
-		ToolTipPosition: tree.Above,
-		ToolTipText:     "Add " + GetGongstructNameFromPointer(element) + " to diagram",
+		CheckboxHasToolTip:      true,
+		CheckboxToolTipPosition: tree.Above,
+		CheckboxToolTipText:     "Add " + GetGongstructNameFromPointer(element) + " to diagram",
 
 		IsNodeClickable: true,
 

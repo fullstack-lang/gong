@@ -3,7 +3,8 @@ package models
 type DataShape struct {
 	Name string
 
-	Data *Data
+	Data     *Data
+	DataFlow *DataFlow
 }
 
 func (s *DataShape) GetAbstractElement() AbstractType {

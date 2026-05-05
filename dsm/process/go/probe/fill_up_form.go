@@ -390,6 +390,7 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationFieldToForm("Data", instanceWithInferedType.Data, formGroup, probe)
+		AssociationFieldToForm("DataFlow", instanceWithInferedType.DataFlow, formGroup, probe)
 		{
 			var rf models.ReverseField
 			_ = rf
