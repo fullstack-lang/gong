@@ -359,6 +359,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 
 		link.Presentation.StrokeDashArray = "5,5"
 
+		nbDataShapes := len(dataFlowShape.dataShapes)
 		for idx, dataShape := range dataFlowShape.dataShapes {
 			rectAnchoredLink := &svg.LinkAnchoredText{
 				Name:    dataShape.Name,
@@ -370,7 +371,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 					StrokeWidth:   1,
 					StrokeOpacity: 1,
 				},
-				Y_Offset: float64(-idx*18) - 4.0,
+				Y_Offset: float64(-nbDataShapes+idx+1)*18.0 - 4.0,
 				X_Offset: 4.0,
 			}
 			link.TextAtCorner = append(link.TextAtCorner, rectAnchoredLink)
