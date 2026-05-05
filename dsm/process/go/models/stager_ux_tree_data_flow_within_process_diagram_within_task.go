@@ -129,7 +129,6 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 	}
 
 	for _, data := range dataFlow.Datas {
-
 		stager.treeDataWithinDiagramProcessWithinDataFlow(dataFlowNode, diagramProcess, dataFlow, dataFlowShape, shapePresent, data)
 	}
 }
