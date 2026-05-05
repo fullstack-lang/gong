@@ -5,6 +5,7 @@ import (
 	"log"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
+	"github.com/fullstack-lang/gong/pkg/strutils"
 )
 
 func (stager *Stager) svg() {
@@ -38,6 +39,8 @@ func (stager *Stager) svg() {
 // to SVG elements (Rects, Links, Paths) on a single layer. It also populates the diagram's
 // internal maps to link abstract elements with their visual SVG counterparts.
 func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG {
+	root := stager.GetRootLibrary()
+
 	svgObject := (&svg.SVG{Name: `SVG`})
 	stager.diagramProcess = diagramProcess
 
@@ -88,6 +91,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	diagramProcess.map_Participant_Rect = make(map[*Participant]*svg.Rect)
 	horizontalMargin := 10.0
 	verticalTopMargin := 50.0
+	verticalTopMarginForTitle := 60.0
 	verticalBottomMargin := 10.0
 
 	participantsWidth := rectOfOwningProcess.Width - 2*horizontalMargin
@@ -98,11 +102,13 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			continue
 		}
 
-		rect := svgRect(
-			stager,
-			diagramProcess,
-			participantShape,
-			layer)
+		rect := new(svg.Rect)
+		layer.Rects = append(layer.Rects, rect)
+
+		rect.Name = participantShape.GetName()
+		rect.Stroke = svg.Black.ToString()
+		rect.StrokeWidth = 2
+		rect.StrokeOpacity = 1
 
 		// rect cannot move
 		rect.CanMoveHorizontaly = false
@@ -119,10 +125,54 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		rect.X = rectOfOwningProcess.X + horizontalMargin + float64(idx)*(participantWidth)
 		rect.Width = participantWidth
 
-		rect.Y = rectOfOwningProcess.Y + verticalTopMargin
-		rect.Height = rectOfOwningProcess.Height - verticalTopMargin - verticalBottomMargin
+		rect.Y = rectOfOwningProcess.Y + verticalTopMargin + verticalTopMarginForTitle
+		rect.Height = rectOfOwningProcess.Height - verticalTopMargin - verticalBottomMargin - verticalTopMarginForTitle
 
 		diagramProcess.map_Participant_Rect[participantShape.Participant] = rect
+
+		{
+			title := new(svg.RectAnchoredText)
+			title.Name = participantShape.GetAbstractElement().GetName()
+
+			content := participantShape.GetAbstractElement().GetName()
+			if diagramProcess.GetIsShowPrefix() {
+				content = participantShape.GetAbstractElement().GetComputedPrefix() + " " + content
+			}
+
+			if rect.Width > 0 {
+				content = strutils.WrapStringPreservingNewlines(content, int(rect.Width/root.NbPixPerCharacter))
+			}
+			title.Content = content
+			title.Stroke = svg.Black.ToString()
+			title.StrokeWidth = 1
+			title.StrokeOpacity = 1
+			title.Color = svg.Black.ToString()
+			title.FillOpacity = 1
+
+			title.FontSize = "16px"
+			title.X_Offset = 0
+			title.Y_Offset = -verticalTopMarginForTitle / 2.0
+			title.RectAnchorType = svg.RECT_TOP
+			title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+
+			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
+		}
+		{
+			titleBox := &svg.RectAnchoredRect{
+				Name: participantShape.GetAbstractElement().GetName(),
+				Presentation: svg.Presentation{
+					Stroke:        svg.Black.ToString(),
+					StrokeWidth:   1,
+					StrokeOpacity: 1,
+				},
+				X_Offset:       0,
+				Y_Offset:       -verticalTopMarginForTitle,
+				Height:         verticalTopMarginForTitle,
+				Width:          rect.Width,
+				RectAnchorType: svg.RECT_TOP_LEFT,
+			}
+			rect.RectAnchoredRects = append(rect.RectAnchoredRects, titleBox)
+		}
 	}
 
 	//
