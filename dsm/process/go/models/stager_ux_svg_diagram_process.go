@@ -159,7 +159,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 
 		// pick up the title of the rect
 		stateTitleText := rect.RectAnchoredTexts[0]
-		var smallRadius = 10.0
+		smallRadius := 10.0
 		if task.IsStartTask {
 			stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
 			stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
@@ -197,7 +197,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			rect.FillOpacity = 0.0
 		}
 
-		var bigRadius = 18.0
+		bigRadius := 18.0
 		if task.IsEndTask {
 			stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
 			stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
@@ -308,6 +308,23 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			false)
 
 		link.Presentation.StrokeDashArray = "5,5"
+
+		for idx, dataShape := range dataFlowShape.dataShapes {
+			rectAnchoredLink := &svg.LinkAnchoredText{
+				Name:    dataShape.Name,
+				Content: dataShape.Data.Name,
+				Presentation: svg.Presentation{
+					Color:         svg.Black.ToString(),
+					FillOpacity:   1.0,
+					Stroke:        svg.Black.ToString(),
+					StrokeWidth:   1,
+					StrokeOpacity: 1,
+				},
+				Y_Offset: float64(-idx*18) - 4.0,
+				X_Offset: 4.0,
+			}
+			link.TextAtCorner = append(link.TextAtCorner, rectAnchoredLink)
+		}
 	}
 
 	return svgObject
