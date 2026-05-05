@@ -13,6 +13,7 @@ func (stager *Stager) enforceDiagramMaps() {
 		updateMapElementDiagrams(stager, diagram, diagram.Task_Shapes, &diagram.map_Task_TaskShape)
 		updateMapElementDiagrams(stager, diagram, diagram.ControlFlow_Shapes, &diagram.map_ControlFlow_ControlFlowShape)
 		updateMapElementDiagrams(stager, diagram, diagram.DataFlow_Shapes, &diagram.map_DataFlow_DataFlowShape)
+		updateMapElementDiagrams(stager, diagram, diagram.Data_Shapes, &diagram.map_Data_DataShape)
 	}
 }
 

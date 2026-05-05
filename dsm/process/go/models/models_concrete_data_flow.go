@@ -6,6 +6,8 @@ type DataFlowShape struct {
 	DataFlow *DataFlow
 
 	LinkShape
+
+	dataShapes []*DataShape
 }
 
 func (s *DataFlowShape) GetAbstractElement() AbstractType {
@@ -19,6 +21,7 @@ func (s *DataFlowShape) GetAbstractElement() AbstractType {
 func (s *DataFlowShape) SetAbstractElement(a AbstractType) {
 	s.DataFlow = a.(*DataFlow)
 }
+
 func (s *DataFlowShape) GetAbstractEndElement() AbstractType {
 	if s.DataFlow == nil || s.DataFlow.End == nil {
 		return nil

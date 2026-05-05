@@ -17,7 +17,7 @@ func (stager *Stager) createViews(stage *Stage) {
 					Direction: split.Horizontal,
 					AsSplitAreas: []*split.AsSplitArea{
 						{
-							Size: 26,
+							Size: 36,
 							AsSplit: &split.AsSplit{
 								Direction: split.Vertical,
 								AsSplitAreas: []*split.AsSplitArea{
@@ -45,7 +45,7 @@ func (stager *Stager) createViews(stage *Stage) {
 							},
 						},
 						{
-							Size: 74,
+							Size: 64,
 							Svg: &split.Svg{
 								StackName: stager.processDiagramSvgStage.GetName(),
 							},
