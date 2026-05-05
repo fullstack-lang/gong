@@ -87,6 +87,7 @@ func (datashape *DataShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = GongCleanPointer(stage, &datashape.Data) || modified
+	modified = GongCleanPointer(stage, &datashape.DataFlow) || modified
 	return
 }
 

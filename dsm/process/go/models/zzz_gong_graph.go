@@ -371,6 +371,9 @@ func (stage *Stage) StageBranchDataShape(datashape *DataShape) {
 	if datashape.Data != nil {
 		StageBranch(stage, datashape.Data)
 	}
+	if datashape.DataFlow != nil {
+		StageBranch(stage, datashape.DataFlow)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -813,6 +816,9 @@ func CopyBranchDataShape(mapOrigCopy map[any]any, datashapeFrom *DataShape) (dat
 	if datashapeFrom.Data != nil {
 		datashapeTo.Data = CopyBranchData(mapOrigCopy, datashapeFrom.Data)
 	}
+	if datashapeFrom.DataFlow != nil {
+		datashapeTo.DataFlow = CopyBranchDataFlow(mapOrigCopy, datashapeFrom.DataFlow)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1247,6 +1253,9 @@ func (stage *Stage) UnstageBranchDataShape(datashape *DataShape) {
 	if datashape.Data != nil {
 		UnstageBranch(stage, datashape.Data)
 	}
+	if datashape.DataFlow != nil {
+		UnstageBranch(stage, datashape.DataFlow)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1546,6 +1555,9 @@ func (reference *DataShape) GongReconstructPointersFromReferences(stage *Stage, 
 	if instance.Data != nil {
 		reference.Data = stage.Datas_reference[instance.Data]
 	}
+	if instance.DataFlow != nil {
+		reference.DataFlow = stage.DataFlows_reference[instance.DataFlow]
+	}
 	// insertion point for slice of pointers field
 
 	return
@@ -1837,6 +1849,12 @@ func (reference *DataShape) GongReconstructPointersFromInstances(stage *Stage) (
 		reference.Data = nil
 		if _instance, ok := stage.Datas_instance[_reference]; ok {
 			reference.Data = _instance
+		}
+	}
+	if _reference := reference.DataFlow; _reference != nil {
+		reference.DataFlow = nil
+		if _instance, ok := stage.DataFlows_instance[_reference]; ok {
+			reference.DataFlow = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -2335,6 +2353,13 @@ func (datashape *DataShape) GongDiff(stage *Stage, datashapeOther *DataShape) (d
 	} else if datashape.Data != nil && datashapeOther.Data != nil {
 		if datashape.Data != datashapeOther.Data {
 			diffs = append(diffs, datashape.GongMarshallField(stage, "Data"))
+		}
+	}
+	if (datashape.DataFlow == nil) != (datashapeOther.DataFlow == nil) {
+		diffs = append(diffs, datashape.GongMarshallField(stage, "DataFlow"))
+	} else if datashape.DataFlow != nil && datashapeOther.DataFlow != nil {
+		if datashape.DataFlow != datashapeOther.DataFlow {
+			diffs = append(diffs, datashape.GongMarshallField(stage, "DataFlow"))
 		}
 	}
 

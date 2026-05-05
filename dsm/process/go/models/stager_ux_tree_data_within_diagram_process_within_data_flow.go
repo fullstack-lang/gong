@@ -17,15 +17,30 @@ func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlow(
 	stage := stager.stage
 
 	// find the dataShape (if any)
-	dataShape, isDataShapePresent := diagramProcess.map_Data_DataShape[data]
+	dataShapeKey := dataShapeKey{
+		dataFlow: dataFlow,
+		data:     data,
+	}
+	dataShape, isDataShapePresent := diagramProcess.map_DataShapeKey_DataShape[dataShapeKey]
 
 	dataNode := &tree.Node{
-		Name:               data.GetName(),
-		IsNodeClickable:    true,
-		IsInEditMode:       data.GetIsInRenameMode(),
-		HasCheckboxButton:  true,
-		IsChecked:          isDataShapePresent,
-		IsCheckboxDisabled: !isDataFlowShapePresent,
+		Name:                    data.GetName(),
+		IsNodeClickable:         true,
+		IsInEditMode:            data.GetIsInRenameMode(),
+		HasCheckboxButton:       true,
+		IsChecked:               isDataShapePresent,
+		IsCheckboxDisabled:      !isDataFlowShapePresent,
+		CheckboxHasToolTip:      true,
+		CheckboxToolTipPosition: tree.Left,
+		CheckboxToolTipText: func() string {
+			if !isDataFlowShapePresent {
+				return "A data shape cannot be created if the data flow shape is not present"
+			}
+			if isDataShapePresent {
+				return "Click to remove the data shape"
+			}
+			return "Click to create a data shape for this data within this data flow"
+		}(),
 	}
 	dataFlowNode.Children = append(dataFlowNode.Children, dataNode)
 
@@ -41,8 +56,9 @@ func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlow(
 			}
 
 			dataShape := (&DataShape{
-				Name: data.GetName() + "-" + diagramProcess.GetName(),
-				Data: data,
+				Name:     dataFlow.Name + "-" + dataFlowShape.GetName() + "-" + diagramProcess.GetName(),
+				Data:     data,
+				DataFlow: dataFlow,
 			}).Stage(stager.stage)
 			diagramProcess.Data_Shapes = append(diagramProcess.Data_Shapes, dataShape)
 			stage.Commit()

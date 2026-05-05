@@ -1,22 +1,34 @@
 package models
 
-import "slices"
+import (
+	"slices"
+)
 
 func (stager *Stager) enforceDiagramMaps() {
 	stager.map_Element_Diagrams = make(map[AbstractType][]*DiagramProcess)
 
-	for _, diagram := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
-		_ = diagram
+	for _, diagramProcess := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
+		_ = diagramProcess
 
-		updateMapElementDiagrams(stager, diagram, diagram.Process_Shapes, &diagram.map_Process_ProcessShape)
-		updateMapElementDiagrams(stager, diagram, diagram.Participant_Shapes, &diagram.map_Participant_ParticipantShape)
-		updateMapElementDiagrams(stager, diagram, diagram.Task_Shapes, &diagram.map_Task_TaskShape)
-		updateMapElementDiagrams(stager, diagram, diagram.ControlFlow_Shapes, &diagram.map_ControlFlow_ControlFlowShape)
-		updateMapElementDiagrams(stager, diagram, diagram.DataFlow_Shapes, &diagram.map_DataFlow_DataFlowShape)
-		updateMapElementDiagrams(stager, diagram, diagram.Data_Shapes, &diagram.map_Data_DataShape)
+		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.Process_Shapes, &diagramProcess.map_Process_ProcessShape)
+		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.Participant_Shapes, &diagramProcess.map_Participant_ParticipantShape)
+		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.Task_Shapes, &diagramProcess.map_Task_TaskShape)
+		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.ControlFlow_Shapes, &diagramProcess.map_ControlFlow_ControlFlowShape)
+		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.DataFlow_Shapes, &diagramProcess.map_DataFlow_DataFlowShape)
+
+		diagramProcess.map_DataShapeKey_DataShape = make(map[dataShapeKey]*DataShape)
+		for _, dataShape := range diagramProcess.Data_Shapes {
+			key := dataShapeKey{
+				dataFlow: dataShape.DataFlow,
+				data:     dataShape.Data,
+			}
+			diagramProcess.map_DataShapeKey_DataShape[key] = dataShape
+		}
 	}
 }
 
+// updateMapElementDiagrams is a helper function to update the map of abstract elements to their shapes for a given diagram
+// and track the diagrams where each element is displayed.
 func updateMapElementDiagrams[
 	AT interface {
 		AbstractType

@@ -448,6 +448,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(datashape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(datashape.GongMarshallField(stage, "Data"))
+		pointersInitializesStatements.WriteString(datashape.GongMarshallField(stage, "DataFlow"))
 	}
 
 	diagramprocessOrdered := []*DiagramProcess{}
@@ -1203,6 +1204,19 @@ func (datashape *DataShape) GongMarshallField(stage *Stage, fieldName string) (r
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", datashape.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Data")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "DataFlow":
+		if datashape.DataFlow != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", datashape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DataFlow")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", datashape.DataFlow.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", datashape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DataFlow")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	default:
@@ -2026,6 +2040,7 @@ func (datashape *DataShape) GongMarshallAllFields(stage *Stage) (initRes string,
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(datashape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(datashape.GongMarshallField(stage, "Data"))
+		pointersInitializesStatements.WriteString(datashape.GongMarshallField(stage, "DataFlow"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
