@@ -33,11 +33,11 @@ func (stager *Stager) computeTaskFields() {
 
 	// compute outDataFlows and inDataFlows
 	for _, dataFlow := range GetGongstrucsSorted[*DataFlow](stage) {
-		if dataFlow.Start != nil {
-			dataFlow.Start.outDataFlows = append(dataFlow.Start.outDataFlows, dataFlow)
+		if dataFlow.StartTask != nil {
+			dataFlow.StartTask.outDataFlows = append(dataFlow.StartTask.outDataFlows, dataFlow)
 		}
-		if dataFlow.End != nil {
-			dataFlow.End.inDataFlows = append(dataFlow.End.inDataFlows, dataFlow)
+		if dataFlow.EndTask != nil {
+			dataFlow.EndTask.inDataFlows = append(dataFlow.EndTask.inDataFlows, dataFlow)
 		}
 	}
 

@@ -50,6 +50,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	svgObject.OverriddenHeight = diagramProcess.Height
 
 	diagramProcess.map_SvgRect_TaskShape = make(map[*svg.Rect]*TaskShape)
+	diagramProcess.map_SvgRect_ExternalParticipantShape = map[*svg.Rect]*ExternalParticipantShape{}
 
 	// // to implement association between abstract elements by mouse drag
 	// svgImpl := &svgProxy{
@@ -225,7 +226,8 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			Y:                   rect.Y + rect.Height,
 			CanHaveBottomHandle: true,
 		}
-
+		diagramProcess.map_ExternalParticipant_Rect[externalParticipantShape.Participant] = rect
+		diagramProcess.map_SvgRect_ExternalParticipantShape[rect] = externalParticipantShape
 		// if the tailRect bottom handle is used, the heigth is updated
 		tailRect.OnUpdate = func(updatedRect *svg.Rect) {
 			diffSize := externalParticipantShape.TailHeigth != updatedRect.Height
@@ -399,8 +401,8 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		}
 		_ = dataFlowShape
 
-		startTask := dataFlowShape.DataFlow.Start
-		endTask := dataFlowShape.DataFlow.End
+		startTask := dataFlowShape.DataFlow.StartTask
+		endTask := dataFlowShape.DataFlow.EndTask
 
 		if startTask == nil || endTask == nil {
 			log.Panic("There should be a start task and a end task")

@@ -73,6 +73,8 @@ type DataFlow_WOP struct {
 
 	ComputedPrefix string
 
+	Type DataFlowType
+
 	IsDatasNodeExpanded bool
 }
 
@@ -80,6 +82,7 @@ func (from *DataFlow) CopyBasicFields(to *DataFlow) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
+	to.Type = from.Type
 	to.IsDatasNodeExpanded = from.IsDatasNodeExpanded
 }
 

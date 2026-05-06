@@ -3662,9 +3662,13 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&DataFlow{
 			// Initialisation of associations
 			// field is initialized with an instance of Task with the name of the field
-			Start: &Task{Name: "Start"},
+			StartTask: &Task{Name: "StartTask"},
 			// field is initialized with an instance of Task with the name of the field
-			End: &Task{Name: "End"},
+			EndTask: &Task{Name: "EndTask"},
+			// field is initialized with an instance of Participant with the name of the field
+			StartExternalParticipant: &Participant{Name: "StartExternalParticipant"},
+			// field is initialized with an instance of Participant with the name of the field
+			EndExternalParticipant: &Participant{Name: "EndExternalParticipant"},
 			// field is initialized with an instance of Data with the name of the field
 			Datas: []*Data{{Name: "Datas"}},
 		}).(*Type)
@@ -3889,11 +3893,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case DataFlow:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Start":
+		case "StartTask":
 			res := make(map[*Task][]*DataFlow)
 			for dataflow := range stage.DataFlows {
-				if dataflow.Start != nil {
-					task_ := dataflow.Start
+				if dataflow.StartTask != nil {
+					task_ := dataflow.StartTask
 					var dataflows []*DataFlow
 					_, ok := res[task_]
 					if ok {
@@ -3906,11 +3910,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "End":
+		case "EndTask":
 			res := make(map[*Task][]*DataFlow)
 			for dataflow := range stage.DataFlows {
-				if dataflow.End != nil {
-					task_ := dataflow.End
+				if dataflow.EndTask != nil {
+					task_ := dataflow.EndTask
 					var dataflows []*DataFlow
 					_, ok := res[task_]
 					if ok {
@@ -3920,6 +3924,40 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					dataflows = append(dataflows, dataflow)
 					res[task_] = dataflows
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "StartExternalParticipant":
+			res := make(map[*Participant][]*DataFlow)
+			for dataflow := range stage.DataFlows {
+				if dataflow.StartExternalParticipant != nil {
+					participant_ := dataflow.StartExternalParticipant
+					var dataflows []*DataFlow
+					_, ok := res[participant_]
+					if ok {
+						dataflows = res[participant_]
+					} else {
+						dataflows = make([]*DataFlow, 0)
+					}
+					dataflows = append(dataflows, dataflow)
+					res[participant_] = dataflows
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "EndExternalParticipant":
+			res := make(map[*Participant][]*DataFlow)
+			for dataflow := range stage.DataFlows {
+				if dataflow.EndExternalParticipant != nil {
+					participant_ := dataflow.EndExternalParticipant
+					var dataflows []*DataFlow
+					_, ok := res[participant_]
+					if ok {
+						dataflows = res[participant_]
+					} else {
+						dataflows = make([]*DataFlow, 0)
+					}
+					dataflows = append(dataflows, dataflow)
+					res[participant_] = dataflows
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4819,14 +4857,29 @@ func (dataflow *DataFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Start",
+			Name:                 "Type",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "DataFlowType",
+		},
+		{
+			Name:                 "StartTask",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Task",
 		},
 		{
-			Name:                 "End",
+			Name:                 "EndTask",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Task",
+		},
+		{
+			Name:                 "StartExternalParticipant",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Participant",
+		},
+		{
+			Name:                 "EndExternalParticipant",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Participant",
 		},
 		{
 			Name:               "IsDatasNodeExpanded",
@@ -5562,17 +5615,32 @@ func (dataflow *DataFlow) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = dataflow.Name
 	case "ComputedPrefix":
 		res.valueString = dataflow.ComputedPrefix
-	case "Start":
+	case "Type":
+		enum := dataflow.Type
+		res.valueString = enum.ToCodeString()
+	case "StartTask":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if dataflow.Start != nil {
-			res.valueString = dataflow.Start.Name
-			res.ids = dataflow.Start.GongGetUUID(stage)
+		if dataflow.StartTask != nil {
+			res.valueString = dataflow.StartTask.Name
+			res.ids = dataflow.StartTask.GongGetUUID(stage)
 		}
-	case "End":
+	case "EndTask":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if dataflow.End != nil {
-			res.valueString = dataflow.End.Name
-			res.ids = dataflow.End.GongGetUUID(stage)
+		if dataflow.EndTask != nil {
+			res.valueString = dataflow.EndTask.Name
+			res.ids = dataflow.EndTask.GongGetUUID(stage)
+		}
+	case "StartExternalParticipant":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if dataflow.StartExternalParticipant != nil {
+			res.valueString = dataflow.StartExternalParticipant.Name
+			res.ids = dataflow.StartExternalParticipant.GongGetUUID(stage)
+		}
+	case "EndExternalParticipant":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if dataflow.EndExternalParticipant != nil {
+			res.valueString = dataflow.EndExternalParticipant.Name
+			res.ids = dataflow.EndExternalParticipant.GongGetUUID(stage)
 		}
 	case "IsDatasNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", dataflow.IsDatasNodeExpanded)
@@ -6434,24 +6502,48 @@ func (dataflow *DataFlow) GongSetFieldValue(fieldName string, value GongFieldVal
 		dataflow.Name = value.GetValueString()
 	case "ComputedPrefix":
 		dataflow.ComputedPrefix = value.GetValueString()
-	case "Start":
+	case "Type":
+		dataflow.Type.FromCodeString(value.GetValueString())
+	case "StartTask":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dataflow.Start = nil
+			dataflow.StartTask = nil
 			for __instance__ := range stage.Tasks {
 				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					dataflow.Start = __instance__
+					dataflow.StartTask = __instance__
 					break
 				}
 			}
 		}
-	case "End":
+	case "EndTask":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dataflow.End = nil
+			dataflow.EndTask = nil
 			for __instance__ := range stage.Tasks {
 				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					dataflow.End = __instance__
+					dataflow.EndTask = __instance__
+					break
+				}
+			}
+		}
+	case "StartExternalParticipant":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			dataflow.StartExternalParticipant = nil
+			for __instance__ := range stage.Participants {
+				if stage.Participant_stagedOrder[__instance__] == uint(id) {
+					dataflow.StartExternalParticipant = __instance__
+					break
+				}
+			}
+		}
+	case "EndExternalParticipant":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			dataflow.EndExternalParticipant = nil
+			for __instance__ := range stage.Participants {
+				if stage.Participant_stagedOrder[__instance__] == uint(id) {
+					dataflow.EndExternalParticipant = __instance__
 					break
 				}
 			}

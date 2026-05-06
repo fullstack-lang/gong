@@ -21,7 +21,7 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 		for _, dataFlowShape := range diagram.DataFlow_Shapes {
 			isValid := true
 			if dataFlowShape.DataFlow != nil {
-				if !tasksInDiagram[dataFlowShape.DataFlow.Start] || !tasksInDiagram[dataFlowShape.DataFlow.End] {
+				if !tasksInDiagram[dataFlowShape.DataFlow.StartTask] || !tasksInDiagram[dataFlowShape.DataFlow.EndTask] {
 					isValid = false
 				}
 			} else {

@@ -20,11 +20,11 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 
 	isStartShapePresent := false
 	isEndShapePresent := false
-	if dataFlow.Start != nil {
-		_, isStartShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.Start]
+	if dataFlow.StartTask != nil {
+		_, isStartShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.StartTask]
 	}
-	if dataFlow.End != nil {
-		_, isEndShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.End]
+	if dataFlow.EndTask != nil {
+		_, isEndShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.EndTask]
 	}
 	isCheckboxDisabled := !(isStartShapePresent && isEndShapePresent)
 
@@ -108,9 +108,9 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 			dataFlowShape := (&DataFlowShape{
 				DataFlow: dataFlow,
 			}).Stage(stage)
-			dataFlowShape.SetName(dataFlow.Start.GetName() + " to " + dataFlow.End.GetName())
-			dataFlowShape.SetAbstractStartElement(dataFlow.Start)
-			dataFlowShape.SetAbstractEndElement(dataFlow.End)
+			dataFlowShape.SetName(dataFlow.StartTask.GetName() + " to " + dataFlow.EndTask.GetName())
+			dataFlowShape.SetAbstractStartElement(dataFlow.StartTask)
+			dataFlowShape.SetAbstractEndElement(dataFlow.EndTask)
 			dataFlowShape.SetStartOrientation(ORIENTATION_VERTICAL)
 			dataFlowShape.SetEndOrientation(ORIENTATION_VERTICAL)
 

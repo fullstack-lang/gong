@@ -786,10 +786,16 @@ func (dataflowFormCallback *DataFlowFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(dataflow_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(dataflow_.ComputedPrefix), formDiv)
-		case "Start":
-			FormDivSelectFieldToField(&(dataflow_.Start), dataflowFormCallback.probe.stageOfInterest, formDiv)
-		case "End":
-			FormDivSelectFieldToField(&(dataflow_.End), dataflowFormCallback.probe.stageOfInterest, formDiv)
+		case "Type":
+			FormDivEnumStringFieldToField(&(dataflow_.Type), formDiv)
+		case "StartTask":
+			FormDivSelectFieldToField(&(dataflow_.StartTask), dataflowFormCallback.probe.stageOfInterest, formDiv)
+		case "EndTask":
+			FormDivSelectFieldToField(&(dataflow_.EndTask), dataflowFormCallback.probe.stageOfInterest, formDiv)
+		case "StartExternalParticipant":
+			FormDivSelectFieldToField(&(dataflow_.StartExternalParticipant), dataflowFormCallback.probe.stageOfInterest, formDiv)
+		case "EndExternalParticipant":
+			FormDivSelectFieldToField(&(dataflow_.EndExternalParticipant), dataflowFormCallback.probe.stageOfInterest, formDiv)
 		case "IsDatasNodeExpanded":
 			FormDivBasicFieldToField(&(dataflow_.IsDatasNodeExpanded), formDiv)
 		case "Datas":
