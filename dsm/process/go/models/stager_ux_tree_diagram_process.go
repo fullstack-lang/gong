@@ -123,6 +123,39 @@ func (stager *Stager) treeDiagramProcess(
 		addCreateItemButton(stager, confParticipants)
 	}
 
+	// external participants
+	{
+		externalParticipantsNode := &tree.Node{
+			Name:            "External Participants",
+			FontStyle:       tree.ITALIC,
+			IsExpanded:      diagramProcess.IsExternalParticipantsNodeExpanded,
+			IsNodeClickable: true,
+		}
+		diagramNode.Children = append(diagramNode.Children, externalParticipantsNode)
+		externalParticipantsNode.OnClick = func(frontNode *tree.Node) {
+			if frontNode.IsExpanded != diagramProcess.IsExternalParticipantsNodeExpanded {
+				diagramProcess.IsExternalParticipantsNodeExpanded = frontNode.IsExpanded
+				stager.stage.Commit()
+				return
+			}
+		}
+
+		for _, participant := range process.ExternalParticipants {
+			stager.treeExternalParticipants(diagramProcess, participant, externalParticipantsNode)
+		}
+
+		addCreateItemButton(stager, ItemButtonConfiguration[
+			Participant, *Participant,
+			Process, *Process,
+		]{
+			parentNode:                         externalParticipantsNode,
+			sliceForNewAddedItem:               &process.ExternalParticipants,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+			parentNodeExpansionBooleanValue:    &diagramProcess.IsExternalParticipantsNodeExpanded,
+		})
+	}
+
 	{
 		//
 		// DataFlows

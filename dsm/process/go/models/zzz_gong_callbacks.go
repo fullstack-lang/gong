@@ -34,6 +34,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDiagramProcessCreateCallback != nil {
 			stage.OnAfterDiagramProcessCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *ExternalParticipantShape:
+		if stage.OnAfterExternalParticipantShapeCreateCallback != nil {
+			stage.OnAfterExternalParticipantShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Library:
 		if stage.OnAfterLibraryCreateCallback != nil {
 			stage.OnAfterLibraryCreateCallback.OnAfterCreate(stage, target)
@@ -110,6 +114,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*DiagramProcess)
 		if stage.OnAfterDiagramProcessUpdateCallback != nil {
 			stage.OnAfterDiagramProcessUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *ExternalParticipantShape:
+		newTarget := any(new).(*ExternalParticipantShape)
+		if stage.OnAfterExternalParticipantShapeUpdateCallback != nil {
+			stage.OnAfterExternalParticipantShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Library:
 		newTarget := any(new).(*Library)
@@ -191,6 +200,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*DiagramProcess)
 			stage.OnAfterDiagramProcessDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *ExternalParticipantShape:
+		if stage.OnAfterExternalParticipantShapeDeleteCallback != nil {
+			staged := any(staged).(*ExternalParticipantShape)
+			stage.OnAfterExternalParticipantShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Library:
 		if stage.OnAfterLibraryDeleteCallback != nil {
 			staged := any(staged).(*Library)
@@ -264,6 +278,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDiagramProcessReadCallback != nil {
 			stage.OnAfterDiagramProcessReadCallback.OnAfterRead(stage, target)
 		}
+	case *ExternalParticipantShape:
+		if stage.OnAfterExternalParticipantShapeReadCallback != nil {
+			stage.OnAfterExternalParticipantShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *Library:
 		if stage.OnAfterLibraryReadCallback != nil {
 			stage.OnAfterLibraryReadCallback.OnAfterRead(stage, target)
@@ -317,6 +335,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterDataShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DataShape])
 	case *DiagramProcess:
 		stage.OnAfterDiagramProcessUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramProcess])
+	case *ExternalParticipantShape:
+		stage.OnAfterExternalParticipantShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ExternalParticipantShape])
 	case *Library:
 		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *Participant:
@@ -352,6 +372,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterDataShapeCreateCallback = any(callback).(OnAfterCreateInterface[DataShape])
 	case *DiagramProcess:
 		stage.OnAfterDiagramProcessCreateCallback = any(callback).(OnAfterCreateInterface[DiagramProcess])
+	case *ExternalParticipantShape:
+		stage.OnAfterExternalParticipantShapeCreateCallback = any(callback).(OnAfterCreateInterface[ExternalParticipantShape])
 	case *Library:
 		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *Participant:
@@ -387,6 +409,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterDataShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DataShape])
 	case *DiagramProcess:
 		stage.OnAfterDiagramProcessDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramProcess])
+	case *ExternalParticipantShape:
+		stage.OnAfterExternalParticipantShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ExternalParticipantShape])
 	case *Library:
 		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *Participant:
@@ -422,6 +446,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterDataShapeReadCallback = any(callback).(OnAfterReadInterface[DataShape])
 	case *DiagramProcess:
 		stage.OnAfterDiagramProcessReadCallback = any(callback).(OnAfterReadInterface[DiagramProcess])
+	case *ExternalParticipantShape:
+		stage.OnAfterExternalParticipantShapeReadCallback = any(callback).(OnAfterReadInterface[ExternalParticipantShape])
 	case *Library:
 		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *Participant:

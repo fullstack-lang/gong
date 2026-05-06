@@ -2189,6 +2189,98 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 
 	diagramprocessFormCallback.probe.ux_tree()
 }
+func __gong__New__ExternalParticipantShapeFormCallback(
+	externalparticipantshape *models.ExternalParticipantShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (externalparticipantshapeFormCallback *ExternalParticipantShapeFormCallback) {
+	externalparticipantshapeFormCallback = new(ExternalParticipantShapeFormCallback)
+	externalparticipantshapeFormCallback.probe = probe
+	externalparticipantshapeFormCallback.externalparticipantshape = externalparticipantshape
+	externalparticipantshapeFormCallback.formGroup = formGroup
+
+	externalparticipantshapeFormCallback.CreationMode = (externalparticipantshape == nil)
+
+	return
+}
+
+type ExternalParticipantShapeFormCallback struct {
+	externalparticipantshape *models.ExternalParticipantShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (externalparticipantshapeFormCallback *ExternalParticipantShapeFormCallback) OnSave() {
+	externalparticipantshapeFormCallback.probe.stageOfInterest.Lock()
+	defer externalparticipantshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ExternalParticipantShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	externalparticipantshapeFormCallback.probe.formStage.Checkout()
+
+	if externalparticipantshapeFormCallback.externalparticipantshape == nil {
+		externalparticipantshapeFormCallback.externalparticipantshape = new(models.ExternalParticipantShape).Stage(externalparticipantshapeFormCallback.probe.stageOfInterest)
+	}
+	externalparticipantshape_ := externalparticipantshapeFormCallback.externalparticipantshape
+	_ = externalparticipantshape_
+
+	for _, formDiv := range externalparticipantshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(externalparticipantshape_.Name), formDiv)
+		case "Participant":
+			FormDivSelectFieldToField(&(externalparticipantshape_.Participant), externalparticipantshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(externalparticipantshape_.IsExpanded), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(externalparticipantshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(externalparticipantshape_.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(externalparticipantshape_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(externalparticipantshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(externalparticipantshape_.IsHidden), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if externalparticipantshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		externalparticipantshape_.Unstage(externalparticipantshapeFormCallback.probe.stageOfInterest)
+	}
+
+	externalparticipantshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ExternalParticipantShape](
+		externalparticipantshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if externalparticipantshapeFormCallback.CreationMode || externalparticipantshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		externalparticipantshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(externalparticipantshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ExternalParticipantShapeFormCallback(
+			nil,
+			externalparticipantshapeFormCallback.probe,
+			newFormGroup,
+		)
+		externalparticipantshape := new(models.ExternalParticipantShape)
+		FillUpForm(externalparticipantshape, newFormGroup, externalparticipantshapeFormCallback.probe)
+		externalparticipantshapeFormCallback.probe.formStage.Commit()
+	}
+
+	externalparticipantshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__LibraryFormCallback(
 	library *models.Library,
 	probe *Probe,
@@ -3133,6 +3225,138 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 
 			// (3) append the new value to the new source field
 			newSource.ParticipantWhoseNodeIsExpanded = append(newSource.ParticipantWhoseNodeIsExpanded, participant_)
+		case "Process:ExternalParticipants":
+			// WARNING : this form deals with the N-N association "Process.ExternalParticipants []*Participant" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Participant). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Process
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Process"
+				rf.Fieldname = "ExternalParticipants"
+				formerAssociationSource := participant_.GongGetReverseFieldOwner(
+					participantFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Process)
+					if !ok {
+						log.Fatalln("Source of Process.ExternalParticipants []*Participant, is not an Process instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.ExternalParticipants, participant_)
+					formerSource.ExternalParticipants = slices.Delete(formerSource.ExternalParticipants, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Process
+			for _process := range *models.GetGongstructInstancesSet[models.Process](participantFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _process.GetName() == newSourceName.GetName() {
+					newSource = _process // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Process.ExternalParticipants []*Participant, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.ExternalParticipants = append(newSource.ExternalParticipants, participant_)
+		case "Process:ExternalParticipantWhoseNodeIsExpanded":
+			// WARNING : this form deals with the N-N association "Process.ExternalParticipantWhoseNodeIsExpanded []*Participant" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Participant). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Process
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Process"
+				rf.Fieldname = "ExternalParticipantWhoseNodeIsExpanded"
+				formerAssociationSource := participant_.GongGetReverseFieldOwner(
+					participantFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Process)
+					if !ok {
+						log.Fatalln("Source of Process.ExternalParticipantWhoseNodeIsExpanded []*Participant, is not an Process instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.ExternalParticipantWhoseNodeIsExpanded, participant_)
+					formerSource.ExternalParticipantWhoseNodeIsExpanded = slices.Delete(formerSource.ExternalParticipantWhoseNodeIsExpanded, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Process
+			for _process := range *models.GetGongstructInstancesSet[models.Process](participantFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _process.GetName() == newSourceName.GetName() {
+					newSource = _process // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Process.ExternalParticipantWhoseNodeIsExpanded []*Participant, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.ExternalParticipantWhoseNodeIsExpanded = append(newSource.ExternalParticipantWhoseNodeIsExpanded, participant_)
 		}
 	}
 
@@ -3561,6 +3785,68 @@ func (processFormCallback *ProcessFormCallback) OnSave() {
 
 		case "IsDataFlowsNodeExpanded":
 			FormDivBasicFieldToField(&(process_.IsDataFlowsNodeExpanded), formDiv)
+		case "ExternalParticipants":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](processFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Participant, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Participant)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					processFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Participant](processFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			process_.ExternalParticipants = instanceSlice
+
+		case "ExternalParticipantWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](processFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Participant, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Participant)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					processFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Participant](processFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			process_.ExternalParticipantWhoseNodeIsExpanded = instanceSlice
+
 		case "DiagramProcess:ProcesssWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "DiagramProcess.ProcesssWhoseNodeIsExpanded []*Process" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

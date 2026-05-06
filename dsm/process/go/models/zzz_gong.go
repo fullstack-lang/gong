@@ -259,6 +259,21 @@ type Stage struct {
 	OnAfterDiagramProcessDeleteCallback OnAfterDeleteInterface[DiagramProcess]
 	OnAfterDiagramProcessReadCallback   OnAfterReadInterface[DiagramProcess]
 
+	ExternalParticipantShapes                map[*ExternalParticipantShape]struct{}
+	ExternalParticipantShapes_instance       map[*ExternalParticipantShape]*ExternalParticipantShape
+	ExternalParticipantShapes_mapString      map[string]*ExternalParticipantShape
+	ExternalParticipantShapeOrder            uint
+	ExternalParticipantShape_stagedOrder     map[*ExternalParticipantShape]uint
+	ExternalParticipantShape_orderStaged     map[uint]*ExternalParticipantShape
+	ExternalParticipantShapes_reference      map[*ExternalParticipantShape]*ExternalParticipantShape
+	ExternalParticipantShapes_referenceOrder map[*ExternalParticipantShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterExternalParticipantShapeCreateCallback OnAfterCreateInterface[ExternalParticipantShape]
+	OnAfterExternalParticipantShapeUpdateCallback OnAfterUpdateInterface[ExternalParticipantShape]
+	OnAfterExternalParticipantShapeDeleteCallback OnAfterDeleteInterface[ExternalParticipantShape]
+	OnAfterExternalParticipantShapeReadCallback   OnAfterReadInterface[ExternalParticipantShape]
+
 	Librarys                map[*Library]struct{}
 	Librarys_instance       map[*Library]*Library
 	Librarys_mapString      map[string]*Library
@@ -355,6 +370,10 @@ type Stage struct {
 	Process_ParticipantWhoseNodeIsExpanded_reverseMap map[*Participant]*Process
 
 	Process_DataFlows_reverseMap map[*DataFlow]*Process
+
+	Process_ExternalParticipants_reverseMap map[*Participant]*Process
+
+	Process_ExternalParticipantWhoseNodeIsExpanded_reverseMap map[*Participant]*Process
 
 	OnAfterProcessCreateCallback OnAfterCreateInterface[Process]
 	OnAfterProcessUpdateCallback OnAfterUpdateInterface[Process]
@@ -670,6 +689,10 @@ func (stage *Stage) Squash() {
 	stage.DiagramProcesss_instance = make(map[*DiagramProcess]*DiagramProcess)
 	stage.DiagramProcesss_referenceOrder = make(map[*DiagramProcess]uint)
 
+	stage.ExternalParticipantShapes_reference = make(map[*ExternalParticipantShape]*ExternalParticipantShape)
+	stage.ExternalParticipantShapes_instance = make(map[*ExternalParticipantShape]*ExternalParticipantShape)
+	stage.ExternalParticipantShapes_referenceOrder = make(map[*ExternalParticipantShape]uint)
+
 	stage.Librarys_reference = make(map[*Library]*Library)
 	stage.Librarys_instance = make(map[*Library]*Library)
 	stage.Librarys_referenceOrder = make(map[*Library]uint)
@@ -821,6 +844,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.DiagramProcessOrder = maxDiagramProcessOrder + 1
 	} else {
 		stage.DiagramProcessOrder = 0
+	}
+
+	var maxExternalParticipantShapeOrder uint
+	var foundExternalParticipantShape bool
+	for _, order := range stage.ExternalParticipantShape_stagedOrder {
+		if !foundExternalParticipantShape || order > maxExternalParticipantShapeOrder {
+			maxExternalParticipantShapeOrder = order
+			foundExternalParticipantShape = true
+		}
+	}
+	if foundExternalParticipantShape {
+		stage.ExternalParticipantShapeOrder = maxExternalParticipantShapeOrder + 1
+	} else {
+		stage.ExternalParticipantShapeOrder = 0
 	}
 
 	var maxLibraryOrder uint
@@ -1080,6 +1117,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *ExternalParticipantShape:
+		tmp := GetStructInstancesByOrder(stage.ExternalParticipantShapes, stage.ExternalParticipantShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ExternalParticipantShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Library:
 		tmp := GetStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
 
@@ -1221,6 +1272,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.DataShapes, stage.DataShape_stagedOrder)
 	case "DiagramProcess":
 		res = GetNamedStructInstances(stage.DiagramProcesss, stage.DiagramProcess_stagedOrder)
+	case "ExternalParticipantShape":
+		res = GetNamedStructInstances(stage.ExternalParticipantShapes, stage.ExternalParticipantShape_stagedOrder)
 	case "Library":
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
 	case "Participant":
@@ -1318,6 +1371,8 @@ type BackRepoInterface interface {
 	CheckoutDataShape(datashape *DataShape)
 	CommitDiagramProcess(diagramprocess *DiagramProcess)
 	CheckoutDiagramProcess(diagramprocess *DiagramProcess)
+	CommitExternalParticipantShape(externalparticipantshape *ExternalParticipantShape)
+	CheckoutExternalParticipantShape(externalparticipantshape *ExternalParticipantShape)
 	CommitLibrary(library *Library)
 	CheckoutLibrary(library *Library)
 	CommitParticipant(participant *Participant)
@@ -1358,6 +1413,9 @@ func NewStage(name string) (stage *Stage) {
 
 		DiagramProcesss:           make(map[*DiagramProcess]struct{}),
 		DiagramProcesss_mapString: make(map[string]*DiagramProcess),
+
+		ExternalParticipantShapes:           make(map[*ExternalParticipantShape]struct{}),
+		ExternalParticipantShapes_mapString: make(map[string]*ExternalParticipantShape),
 
 		Librarys:           make(map[*Library]struct{}),
 		Librarys_mapString: make(map[string]*Library),
@@ -1418,6 +1476,10 @@ func NewStage(name string) (stage *Stage) {
 		DiagramProcess_orderStaged: make(map[uint]*DiagramProcess),
 		DiagramProcesss_reference: make(map[*DiagramProcess]*DiagramProcess),
 
+		ExternalParticipantShape_stagedOrder: make(map[*ExternalParticipantShape]uint),
+		ExternalParticipantShape_orderStaged: make(map[uint]*ExternalParticipantShape),
+		ExternalParticipantShapes_reference: make(map[*ExternalParticipantShape]*ExternalParticipantShape),
+
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
 		Librarys_reference: make(map[*Library]*Library),
@@ -1462,6 +1524,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"DiagramProcess": &DiagramProcessUnmarshaller{},
 
+			"ExternalParticipantShape": &ExternalParticipantShapeUnmarshaller{},
+
 			"Library": &LibraryUnmarshaller{},
 
 			"Participant": &ParticipantUnmarshaller{},
@@ -1487,6 +1551,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "DataFlowShape"},
 			{name: "DataShape"},
 			{name: "DiagramProcess"},
+			{name: "ExternalParticipantShape"},
 			{name: "Library"},
 			{name: "Participant"},
 			{name: "ParticipantShape"},
@@ -1519,6 +1584,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.DataShape_stagedOrder[instance]
 	case *DiagramProcess:
 		return stage.DiagramProcess_stagedOrder[instance]
+	case *ExternalParticipantShape:
+		return stage.ExternalParticipantShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *Participant:
@@ -1556,6 +1623,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.DataShape_orderStaged[order]).(Type)
 	case *DiagramProcess:
 		return any(stage.DiagramProcess_orderStaged[order]).(Type)
+	case *ExternalParticipantShape:
+		return any(stage.ExternalParticipantShape_orderStaged[order]).(Type)
 	case *Library:
 		return any(stage.Library_orderStaged[order]).(Type)
 	case *Participant:
@@ -1592,6 +1661,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.DataShape_stagedOrder[instance]
 	case *DiagramProcess:
 		return stage.DiagramProcess_stagedOrder[instance]
+	case *ExternalParticipantShape:
+		return stage.ExternalParticipantShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *Participant:
@@ -1678,6 +1749,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["DataFlowShape"] = len(stage.DataFlowShapes)
 	stage.Map_GongStructName_InstancesNb["DataShape"] = len(stage.DataShapes)
 	stage.Map_GongStructName_InstancesNb["DiagramProcess"] = len(stage.DiagramProcesss)
+	stage.Map_GongStructName_InstancesNb["ExternalParticipantShape"] = len(stage.ExternalParticipantShapes)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Participant"] = len(stage.Participants)
 	stage.Map_GongStructName_InstancesNb["ParticipantShape"] = len(stage.ParticipantShapes)
@@ -2341,6 +2413,94 @@ func (diagramprocess *DiagramProcess) SetName(name string) {
 	diagramprocess.Name = name
 }
 
+// Stage puts externalparticipantshape to the model stage
+func (externalparticipantshape *ExternalParticipantShape) Stage(stage *Stage) *ExternalParticipantShape {
+	if _, ok := stage.ExternalParticipantShapes[externalparticipantshape]; !ok {
+		stage.ExternalParticipantShapes[externalparticipantshape] = struct{}{}
+		stage.ExternalParticipantShape_stagedOrder[externalparticipantshape] = stage.ExternalParticipantShapeOrder
+		stage.ExternalParticipantShape_orderStaged[stage.ExternalParticipantShapeOrder] = externalparticipantshape
+		stage.ExternalParticipantShapeOrder++
+	}
+	stage.ExternalParticipantShapes_mapString[externalparticipantshape.Name] = externalparticipantshape
+
+	return externalparticipantshape
+}
+
+// StagePreserveOrder puts externalparticipantshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ExternalParticipantShapeOrder
+// - update stage.ExternalParticipantShapeOrder accordingly
+func (externalparticipantshape *ExternalParticipantShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ExternalParticipantShapes[externalparticipantshape]; !ok {
+		stage.ExternalParticipantShapes[externalparticipantshape] = struct{}{}
+
+		if order > stage.ExternalParticipantShapeOrder {
+			stage.ExternalParticipantShapeOrder = order
+		}
+		stage.ExternalParticipantShape_stagedOrder[externalparticipantshape] = order
+		stage.ExternalParticipantShape_orderStaged[order] = externalparticipantshape
+		stage.ExternalParticipantShapeOrder++
+	}
+	stage.ExternalParticipantShapes_mapString[externalparticipantshape.Name] = externalparticipantshape
+}
+
+// Unstage removes externalparticipantshape off the model stage
+func (externalparticipantshape *ExternalParticipantShape) Unstage(stage *Stage) *ExternalParticipantShape {
+	delete(stage.ExternalParticipantShapes, externalparticipantshape)
+	// issue1150
+	// delete(stage.ExternalParticipantShape_stagedOrder, externalparticipantshape)
+	delete(stage.ExternalParticipantShapes_mapString, externalparticipantshape.Name)
+
+	return externalparticipantshape
+}
+
+// UnstageVoid removes externalparticipantshape off the model stage
+func (externalparticipantshape *ExternalParticipantShape) UnstageVoid(stage *Stage) {
+	delete(stage.ExternalParticipantShapes, externalparticipantshape)
+	// issue1150
+	// delete(stage.ExternalParticipantShape_stagedOrder, externalparticipantshape)
+	delete(stage.ExternalParticipantShapes_mapString, externalparticipantshape.Name)
+}
+
+// commit externalparticipantshape to the back repo (if it is already staged)
+func (externalparticipantshape *ExternalParticipantShape) Commit(stage *Stage) *ExternalParticipantShape {
+	if _, ok := stage.ExternalParticipantShapes[externalparticipantshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitExternalParticipantShape(externalparticipantshape)
+		}
+	}
+	return externalparticipantshape
+}
+
+func (externalparticipantshape *ExternalParticipantShape) CommitVoid(stage *Stage) {
+	externalparticipantshape.Commit(stage)
+}
+
+func (externalparticipantshape *ExternalParticipantShape) StageVoid(stage *Stage) {
+	externalparticipantshape.Stage(stage)
+}
+
+// Checkout externalparticipantshape to the back repo (if it is already staged)
+func (externalparticipantshape *ExternalParticipantShape) Checkout(stage *Stage) *ExternalParticipantShape {
+	if _, ok := stage.ExternalParticipantShapes[externalparticipantshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutExternalParticipantShape(externalparticipantshape)
+		}
+	}
+	return externalparticipantshape
+}
+
+// for satisfaction of GongStruct interface
+func (externalparticipantshape *ExternalParticipantShape) GetName() (res string) {
+	return externalparticipantshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (externalparticipantshape *ExternalParticipantShape) SetName(name string) {
+	externalparticipantshape.Name = name
+}
+
 // Stage puts library to the model stage
 func (library *Library) Stage(stage *Stage) *Library {
 	if _, ok := stage.Librarys[library]; !ok {
@@ -2966,6 +3126,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMDataFlowShape(DataFlowShape *DataFlowShape)
 	CreateORMDataShape(DataShape *DataShape)
 	CreateORMDiagramProcess(DiagramProcess *DiagramProcess)
+	CreateORMExternalParticipantShape(ExternalParticipantShape *ExternalParticipantShape)
 	CreateORMLibrary(Library *Library)
 	CreateORMParticipant(Participant *Participant)
 	CreateORMParticipantShape(ParticipantShape *ParticipantShape)
@@ -2983,6 +3144,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMDataFlowShape(DataFlowShape *DataFlowShape)
 	DeleteORMDataShape(DataShape *DataShape)
 	DeleteORMDiagramProcess(DiagramProcess *DiagramProcess)
+	DeleteORMExternalParticipantShape(ExternalParticipantShape *ExternalParticipantShape)
 	DeleteORMLibrary(Library *Library)
 	DeleteORMParticipant(Participant *Participant)
 	DeleteORMParticipantShape(ParticipantShape *ParticipantShape)
@@ -3027,6 +3189,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.DiagramProcesss_mapString = make(map[string]*DiagramProcess)
 	stage.DiagramProcess_stagedOrder = make(map[*DiagramProcess]uint)
 	stage.DiagramProcessOrder = 0
+
+	stage.ExternalParticipantShapes = make(map[*ExternalParticipantShape]struct{})
+	stage.ExternalParticipantShapes_mapString = make(map[string]*ExternalParticipantShape)
+	stage.ExternalParticipantShape_stagedOrder = make(map[*ExternalParticipantShape]uint)
+	stage.ExternalParticipantShapeOrder = 0
 
 	stage.Librarys = make(map[*Library]struct{})
 	stage.Librarys_mapString = make(map[string]*Library)
@@ -3093,6 +3260,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.DiagramProcesss = nil
 	stage.DiagramProcesss_mapString = nil
 
+	stage.ExternalParticipantShapes = nil
+	stage.ExternalParticipantShapes_mapString = nil
+
 	stage.Librarys = nil
 	stage.Librarys_mapString = nil
 
@@ -3144,6 +3314,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for diagramprocess := range stage.DiagramProcesss {
 		diagramprocess.Unstage(stage)
+	}
+
+	for externalparticipantshape := range stage.ExternalParticipantShapes {
+		externalparticipantshape.Unstage(stage)
 	}
 
 	for library := range stage.Librarys {
@@ -3264,6 +3438,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.DataShapes).(*Type)
 	case map[*DiagramProcess]any:
 		return any(&stage.DiagramProcesss).(*Type)
+	case map[*ExternalParticipantShape]any:
+		return any(&stage.ExternalParticipantShapes).(*Type)
 	case map[*Library]any:
 		return any(&stage.Librarys).(*Type)
 	case map[*Participant]any:
@@ -3304,6 +3480,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.DataShapes_mapString).(map[string]Type)
 	case *DiagramProcess:
 		return any(stage.DiagramProcesss_mapString).(map[string]Type)
+	case *ExternalParticipantShape:
+		return any(stage.ExternalParticipantShapes_mapString).(map[string]Type)
 	case *Library:
 		return any(stage.Librarys_mapString).(map[string]Type)
 	case *Participant:
@@ -3344,6 +3522,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.DataShapes).(*map[*Type]struct{})
 	case DiagramProcess:
 		return any(&stage.DiagramProcesss).(*map[*Type]struct{})
+	case ExternalParticipantShape:
+		return any(&stage.ExternalParticipantShapes).(*map[*Type]struct{})
 	case Library:
 		return any(&stage.Librarys).(*map[*Type]struct{})
 	case Participant:
@@ -3384,6 +3564,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.DataShapes).(*map[Type]struct{})
 	case *DiagramProcess:
 		return any(&stage.DiagramProcesss).(*map[Type]struct{})
+	case *ExternalParticipantShape:
+		return any(&stage.ExternalParticipantShapes).(*map[Type]struct{})
 	case *Library:
 		return any(&stage.Librarys).(*map[Type]struct{})
 	case *Participant:
@@ -3424,6 +3606,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.DataShapes_mapString).(*map[string]*Type)
 	case DiagramProcess:
 		return any(&stage.DiagramProcesss_mapString).(*map[string]*Type)
+	case ExternalParticipantShape:
+		return any(&stage.ExternalParticipantShapes_mapString).(*map[string]*Type)
 	case Library:
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
 	case Participant:
@@ -3524,6 +3708,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlowsWhoseDataNodeIsExpanded: []*DataFlow{{Name: "DataFlowsWhoseDataNodeIsExpanded"}},
 		}).(*Type)
+	case ExternalParticipantShape:
+		return any(&ExternalParticipantShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Participant with the name of the field
+			Participant: &Participant{Name: "Participant"},
+		}).(*Type)
 	case Library:
 		return any(&Library{
 			// Initialisation of associations
@@ -3583,6 +3773,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			ParticipantWhoseNodeIsExpanded: []*Participant{{Name: "ParticipantWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlows: []*DataFlow{{Name: "DataFlows"}},
+			// field is initialized with an instance of Participant with the name of the field
+			ExternalParticipants: []*Participant{{Name: "ExternalParticipants"}},
+			// field is initialized with an instance of Participant with the name of the field
+			ExternalParticipantWhoseNodeIsExpanded: []*Participant{{Name: "ExternalParticipantWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case ProcessShape:
 		return any(&ProcessShape{
@@ -3787,6 +3981,28 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case DiagramProcess:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ExternalParticipantShape
+	case ExternalParticipantShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Participant":
+			res := make(map[*Participant][]*ExternalParticipantShape)
+			for externalparticipantshape := range stage.ExternalParticipantShapes {
+				if externalparticipantshape.Participant != nil {
+					participant_ := externalparticipantshape.Participant
+					var externalparticipantshapes []*ExternalParticipantShape
+					_, ok := res[participant_]
+					if ok {
+						externalparticipantshapes = res[participant_]
+					} else {
+						externalparticipantshapes = make([]*ExternalParticipantShape, 0)
+					}
+					externalparticipantshapes = append(externalparticipantshapes, externalparticipantshape)
+					res[participant_] = externalparticipantshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Library
 	case Library:
@@ -4036,6 +4252,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of ExternalParticipantShape
+	case ExternalParticipantShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Library
 	case Library:
 		switch fieldname {
@@ -4223,6 +4444,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ExternalParticipants":
+			res := make(map[*Participant][]*Process)
+			for process := range stage.Processs {
+				for _, participant_ := range process.ExternalParticipants {
+					res[participant_] = append(res[participant_], process)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ExternalParticipantWhoseNodeIsExpanded":
+			res := make(map[*Participant][]*Process)
+			for process := range stage.Processs {
+				for _, participant_ := range process.ExternalParticipantWhoseNodeIsExpanded {
+					res[participant_] = append(res[participant_], process)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of ProcessShape
 	case ProcessShape:
@@ -4264,6 +4501,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "DataShape"
 	case *DiagramProcess:
 		res = "DiagramProcess"
+	case *ExternalParticipantShape:
+		res = "ExternalParticipantShape"
 	case *Library:
 		res = "Library"
 	case *Participant:
@@ -4367,6 +4606,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Process"
 		rf.Fieldname = "DiagramProcessWhoseNodeIsExpanded"
 		res = append(res, rf)
+	case *ExternalParticipantShape:
+		var rf ReverseField
+		_ = rf
 	case *Library:
 		var rf ReverseField
 		_ = rf
@@ -4387,6 +4629,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "Process"
 		rf.Fieldname = "ParticipantWhoseNodeIsExpanded"
+		res = append(res, rf)
+		rf.GongstructName = "Process"
+		rf.Fieldname = "ExternalParticipants"
+		res = append(res, rf)
+		rf.GongstructName = "Process"
+		rf.Fieldname = "ExternalParticipantWhoseNodeIsExpanded"
 		res = append(res, rf)
 	case *ParticipantShape:
 		var rf ReverseField
@@ -4742,6 +4990,46 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 	return
 }
 
+func (externalparticipantshape *ExternalParticipantShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Participant",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Participant",
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
 func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -4975,6 +5263,16 @@ func (process *Process) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsDataFlowsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ExternalParticipants",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Participant",
+		},
+		{
+			Name:                 "ExternalParticipantWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Participant",
 		},
 	}
 	return
@@ -5481,6 +5779,45 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 	return
 }
 
+func (externalparticipantshape *ExternalParticipantShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = externalparticipantshape.Name
+	case "Participant":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if externalparticipantshape.Participant != nil {
+			res.valueString = externalparticipantshape.Participant.Name
+			res.ids = externalparticipantshape.Participant.GongGetUUID(stage)
+		}
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", externalparticipantshape.IsExpanded)
+		res.valueBool = externalparticipantshape.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "X":
+		res.valueString = fmt.Sprintf("%f", externalparticipantshape.X)
+		res.valueFloat = externalparticipantshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", externalparticipantshape.Y)
+		res.valueFloat = externalparticipantshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", externalparticipantshape.Width)
+		res.valueFloat = externalparticipantshape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", externalparticipantshape.Height)
+		res.valueFloat = externalparticipantshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", externalparticipantshape.IsHidden)
+		res.valueBool = externalparticipantshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
 func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -5805,6 +6142,26 @@ func (process *Process) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", process.IsDataFlowsNodeExpanded)
 		res.valueBool = process.IsDataFlowsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ExternalParticipants":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range process.ExternalParticipants {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ExternalParticipantWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range process.ExternalParticipantWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -6325,6 +6682,40 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 	return nil
 }
 
+func (externalparticipantshape *ExternalParticipantShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		externalparticipantshape.Name = value.GetValueString()
+	case "Participant":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			externalparticipantshape.Participant = nil
+			for __instance__ := range stage.Participants {
+				if stage.Participant_stagedOrder[__instance__] == uint(id) {
+					externalparticipantshape.Participant = __instance__
+					break
+				}
+			}
+		}
+	case "IsExpanded":
+		externalparticipantshape.IsExpanded = value.GetValueBool()
+	case "X":
+		externalparticipantshape.X = value.GetValueFloat()
+	case "Y":
+		externalparticipantshape.Y = value.GetValueFloat()
+	case "Width":
+		externalparticipantshape.Width = value.GetValueFloat()
+	case "Height":
+		externalparticipantshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		externalparticipantshape.IsHidden = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -6710,6 +7101,34 @@ func (process *Process) GongSetFieldValue(fieldName string, value GongFieldValue
 		}
 	case "IsDataFlowsNodeExpanded":
 		process.IsDataFlowsNodeExpanded = value.GetValueBool()
+	case "ExternalParticipants":
+		process.ExternalParticipants = make([]*Participant, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Participants {
+					if stage.Participant_stagedOrder[__instance__] == uint(id) {
+						process.ExternalParticipants = append(process.ExternalParticipants, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "ExternalParticipantWhoseNodeIsExpanded":
+		process.ExternalParticipantWhoseNodeIsExpanded = make([]*Participant, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Participants {
+					if stage.Participant_stagedOrder[__instance__] == uint(id) {
+						process.ExternalParticipantWhoseNodeIsExpanded = append(process.ExternalParticipantWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -6834,6 +7253,10 @@ func (diagramprocess *DiagramProcess) GongGetGongstructName() string {
 	return "DiagramProcess"
 }
 
+func (externalparticipantshape *ExternalParticipantShape) GongGetGongstructName() string {
+	return "ExternalParticipantShape"
+}
+
 func (library *Library) GongGetGongstructName() string {
 	return "Library"
 }
@@ -6902,6 +7325,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.DiagramProcesss_mapString = make(map[string]*DiagramProcess)
 	for diagramprocess := range stage.DiagramProcesss {
 		stage.DiagramProcesss_mapString[diagramprocess.Name] = diagramprocess
+	}
+
+	stage.ExternalParticipantShapes_mapString = make(map[string]*ExternalParticipantShape)
+	for externalparticipantshape := range stage.ExternalParticipantShapes {
+		stage.ExternalParticipantShapes_mapString[externalparticipantshape.Name] = externalparticipantshape
 	}
 
 	stage.Librarys_mapString = make(map[string]*Library)
