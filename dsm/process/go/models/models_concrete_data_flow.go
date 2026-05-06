@@ -23,25 +23,25 @@ func (s *DataFlowShape) SetAbstractElement(a AbstractType) {
 }
 
 func (s *DataFlowShape) GetAbstractEndElement() AbstractType {
-	if s.DataFlow == nil || s.DataFlow.End == nil {
+	if s.DataFlow == nil || s.DataFlow.EndTask == nil {
 		return nil
 	}
-	return s.DataFlow.End
+	return s.DataFlow.EndTask
 }
 
 func (s *DataFlowShape) SetAbstractEndElement(abstractElement AbstractType) {
-	s.DataFlow.End = abstractElement.(*Task)
+	s.DataFlow.EndTask = abstractElement.(*Task)
 }
 
 func (s *DataFlowShape) GetAbstractStartElement() AbstractType {
-	if s.DataFlow == nil || s.DataFlow.Start == nil {
+	if s.DataFlow == nil || s.DataFlow.StartTask == nil {
 		return nil
 	}
-	return s.DataFlow.Start
+	return s.DataFlow.StartTask
 }
 
 func (s *DataFlowShape) SetAbstractStartElement(abstractElement AbstractType) {
-	s.DataFlow.Start = abstractElement.(*Task)
+	s.DataFlow.StartTask = abstractElement.(*Task)
 }
 
 var _ AssociationConcreteType = (*DataFlowShape)(nil)

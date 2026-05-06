@@ -573,10 +573,16 @@ func (u *DataFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "Start":
-		GongUnmarshallPointer(&instance.Start, valueExpr, identifierMap)
-	case "End":
-		GongUnmarshallPointer(&instance.End, valueExpr, identifierMap)
+	case "Type":
+		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "StartTask":
+		GongUnmarshallPointer(&instance.StartTask, valueExpr, identifierMap)
+	case "EndTask":
+		GongUnmarshallPointer(&instance.EndTask, valueExpr, identifierMap)
+	case "StartExternalParticipant":
+		GongUnmarshallPointer(&instance.StartExternalParticipant, valueExpr, identifierMap)
+	case "EndExternalParticipant":
+		GongUnmarshallPointer(&instance.EndExternalParticipant, valueExpr, identifierMap)
 	case "IsDatasNodeExpanded":
 		instance.IsDatasNodeExpanded = GongExtractBool(valueExpr)
 	case "Datas":

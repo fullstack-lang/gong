@@ -69,8 +69,10 @@ func (dataflow *DataFlow) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &dataflow.Datas) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &dataflow.Start) || modified
-	modified = GongCleanPointer(stage, &dataflow.End) || modified
+	modified = GongCleanPointer(stage, &dataflow.StartTask) || modified
+	modified = GongCleanPointer(stage, &dataflow.EndTask) || modified
+	modified = GongCleanPointer(stage, &dataflow.StartExternalParticipant) || modified
+	modified = GongCleanPointer(stage, &dataflow.EndExternalParticipant) || modified
 	return
 }
 

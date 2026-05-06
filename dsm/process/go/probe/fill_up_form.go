@@ -209,8 +209,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationFieldToForm("Start", instanceWithInferedType.Start, formGroup, probe)
-		AssociationFieldToForm("End", instanceWithInferedType.End, formGroup, probe)
+		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
+		AssociationFieldToForm("StartTask", instanceWithInferedType.StartTask, formGroup, probe)
+		AssociationFieldToForm("EndTask", instanceWithInferedType.EndTask, formGroup, probe)
+		AssociationFieldToForm("StartExternalParticipant", instanceWithInferedType.StartExternalParticipant, formGroup, probe)
+		AssociationFieldToForm("EndExternalParticipant", instanceWithInferedType.EndExternalParticipant, formGroup, probe)
 		BasicFieldtoForm("IsDatasNodeExpanded", instanceWithInferedType.IsDatasNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("Datas", instanceWithInferedType, &instanceWithInferedType.Datas, formGroup, probe)
