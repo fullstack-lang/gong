@@ -419,6 +419,12 @@ func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 	for _, _participant := range diagramprocess.ParticipantWhoseNodeIsExpanded {
 		StageBranch(stage, _participant)
 	}
+	for _, _externalparticipantshape := range diagramprocess.ExternalParticipant_Shapes {
+		StageBranch(stage, _externalparticipantshape)
+	}
+	for _, _participant := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
+		StageBranch(stage, _participant)
+	}
 	for _, _task := range diagramprocess.TasksWhoseNodeIsExpanded {
 		StageBranch(stage, _task)
 	}
@@ -896,6 +902,12 @@ func CopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *Diagr
 	for _, _participant := range diagramprocessFrom.ParticipantWhoseNodeIsExpanded {
 		diagramprocessTo.ParticipantWhoseNodeIsExpanded = append(diagramprocessTo.ParticipantWhoseNodeIsExpanded, CopyBranchParticipant(mapOrigCopy, _participant))
 	}
+	for _, _externalparticipantshape := range diagramprocessFrom.ExternalParticipant_Shapes {
+		diagramprocessTo.ExternalParticipant_Shapes = append(diagramprocessTo.ExternalParticipant_Shapes, CopyBranchExternalParticipantShape(mapOrigCopy, _externalparticipantshape))
+	}
+	for _, _participant := range diagramprocessFrom.ExternalParticipantWhoseNodeIsExpanded {
+		diagramprocessTo.ExternalParticipantWhoseNodeIsExpanded = append(diagramprocessTo.ExternalParticipantWhoseNodeIsExpanded, CopyBranchParticipant(mapOrigCopy, _participant))
+	}
 	for _, _task := range diagramprocessFrom.TasksWhoseNodeIsExpanded {
 		diagramprocessTo.TasksWhoseNodeIsExpanded = append(diagramprocessTo.TasksWhoseNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
 	}
@@ -1360,6 +1372,12 @@ func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) 
 	for _, _participant := range diagramprocess.ParticipantWhoseNodeIsExpanded {
 		UnstageBranch(stage, _participant)
 	}
+	for _, _externalparticipantshape := range diagramprocess.ExternalParticipant_Shapes {
+		UnstageBranch(stage, _externalparticipantshape)
+	}
+	for _, _participant := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
+		UnstageBranch(stage, _participant)
+	}
 	for _, _task := range diagramprocess.TasksWhoseNodeIsExpanded {
 		UnstageBranch(stage, _task)
 	}
@@ -1680,6 +1698,14 @@ func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *St
 	reference.ParticipantWhoseNodeIsExpanded = reference.ParticipantWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.ParticipantWhoseNodeIsExpanded {
 		reference.ParticipantWhoseNodeIsExpanded = append(reference.ParticipantWhoseNodeIsExpanded, stage.Participants_reference[_b])
+	}
+	reference.ExternalParticipant_Shapes = reference.ExternalParticipant_Shapes[:0]
+	for _, _b := range instance.ExternalParticipant_Shapes {
+		reference.ExternalParticipant_Shapes = append(reference.ExternalParticipant_Shapes, stage.ExternalParticipantShapes_reference[_b])
+	}
+	reference.ExternalParticipantWhoseNodeIsExpanded = reference.ExternalParticipantWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.ExternalParticipantWhoseNodeIsExpanded {
+		reference.ExternalParticipantWhoseNodeIsExpanded = append(reference.ExternalParticipantWhoseNodeIsExpanded, stage.Participants_reference[_b])
 	}
 	reference.TasksWhoseNodeIsExpanded = reference.TasksWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.TasksWhoseNodeIsExpanded {
@@ -2010,6 +2036,20 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	reference.ParticipantWhoseNodeIsExpanded = _ParticipantWhoseNodeIsExpanded
+	var _ExternalParticipant_Shapes []*ExternalParticipantShape
+	for _, _reference := range reference.ExternalParticipant_Shapes {
+		if _instance, ok := stage.ExternalParticipantShapes_instance[_reference]; ok {
+			_ExternalParticipant_Shapes = append(_ExternalParticipant_Shapes, _instance)
+		}
+	}
+	reference.ExternalParticipant_Shapes = _ExternalParticipant_Shapes
+	var _ExternalParticipantWhoseNodeIsExpanded []*Participant
+	for _, _reference := range reference.ExternalParticipantWhoseNodeIsExpanded {
+		if _instance, ok := stage.Participants_instance[_reference]; ok {
+			_ExternalParticipantWhoseNodeIsExpanded = append(_ExternalParticipantWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.ExternalParticipantWhoseNodeIsExpanded = _ExternalParticipantWhoseNodeIsExpanded
 	var _TasksWhoseNodeIsExpanded []*Task
 	for _, _reference := range reference.TasksWhoseNodeIsExpanded {
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
@@ -2631,6 +2671,51 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		ops := Diff(stage, diagramprocess, diagramprocessOther, "ParticipantWhoseNodeIsExpanded", diagramprocessOther.ParticipantWhoseNodeIsExpanded, diagramprocess.ParticipantWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
+	ExternalParticipant_ShapesDifferent := false
+	if len(diagramprocess.ExternalParticipant_Shapes) != len(diagramprocessOther.ExternalParticipant_Shapes) {
+		ExternalParticipant_ShapesDifferent = true
+	} else {
+		for i := range diagramprocess.ExternalParticipant_Shapes {
+			if (diagramprocess.ExternalParticipant_Shapes[i] == nil) != (diagramprocessOther.ExternalParticipant_Shapes[i] == nil) {
+				ExternalParticipant_ShapesDifferent = true
+				break
+			} else if diagramprocess.ExternalParticipant_Shapes[i] != nil && diagramprocessOther.ExternalParticipant_Shapes[i] != nil {
+				// this is a pointer comparaison
+				if diagramprocess.ExternalParticipant_Shapes[i] != diagramprocessOther.ExternalParticipant_Shapes[i] {
+					ExternalParticipant_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ExternalParticipant_ShapesDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "ExternalParticipant_Shapes", diagramprocessOther.ExternalParticipant_Shapes, diagramprocess.ExternalParticipant_Shapes)
+		diffs = append(diffs, ops)
+	}
+	if diagramprocess.IsExternalParticipantsNodeExpanded != diagramprocessOther.IsExternalParticipantsNodeExpanded {
+		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "IsExternalParticipantsNodeExpanded"))
+	}
+	ExternalParticipantWhoseNodeIsExpandedDifferent := false
+	if len(diagramprocess.ExternalParticipantWhoseNodeIsExpanded) != len(diagramprocessOther.ExternalParticipantWhoseNodeIsExpanded) {
+		ExternalParticipantWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
+			if (diagramprocess.ExternalParticipantWhoseNodeIsExpanded[i] == nil) != (diagramprocessOther.ExternalParticipantWhoseNodeIsExpanded[i] == nil) {
+				ExternalParticipantWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagramprocess.ExternalParticipantWhoseNodeIsExpanded[i] != nil && diagramprocessOther.ExternalParticipantWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagramprocess.ExternalParticipantWhoseNodeIsExpanded[i] != diagramprocessOther.ExternalParticipantWhoseNodeIsExpanded[i] {
+					ExternalParticipantWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ExternalParticipantWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "ExternalParticipantWhoseNodeIsExpanded", diagramprocessOther.ExternalParticipantWhoseNodeIsExpanded, diagramprocess.ExternalParticipantWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
 	TasksWhoseNodeIsExpandedDifferent := false
 	if len(diagramprocess.TasksWhoseNodeIsExpanded) != len(diagramprocessOther.TasksWhoseNodeIsExpanded) {
 		TasksWhoseNodeIsExpandedDifferent = true
@@ -2855,6 +2940,9 @@ func (externalparticipantshape *ExternalParticipantShape) GongDiff(stage *Stage,
 	}
 	if externalparticipantshape.IsHidden != externalparticipantshapeOther.IsHidden {
 		diffs = append(diffs, externalparticipantshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if externalparticipantshape.TailHeigth != externalparticipantshapeOther.TailHeigth {
+		diffs = append(diffs, externalparticipantshape.GongMarshallField(stage, "TailHeigth"))
 	}
 
 	return

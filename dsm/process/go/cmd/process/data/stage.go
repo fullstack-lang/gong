@@ -57,6 +57,11 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000006_ := (&models.DiagramProcess{Name: `DiagramProcess`}).Stage(stage)
 	__DiagramProcess__00000007_ := (&models.DiagramProcess{Name: `Diagram P1`}).Stage(stage)
 
+	__ExternalParticipantShape__00000000_ := (&models.ExternalParticipantShape{Name: `EP1-Diagram P1`}).Stage(stage)
+	__ExternalParticipantShape__00000001_ := (&models.ExternalParticipantShape{Name: `EP1-Diagram P1`}).Stage(stage)
+	__ExternalParticipantShape__00000002_ := (&models.ExternalParticipantShape{Name: `EP1-Diagram P1`}).Stage(stage)
+	__ExternalParticipantShape__00000003_ := (&models.ExternalParticipantShape{Name: `EP1-Diagram P1`}).Stage(stage)
+
 	__Library__00000000_ := (&models.Library{Name: `Root`}).Stage(stage)
 
 	__Participant__00000003_ := (&models.Participant{Name: `PP1`}).Stage(stage)
@@ -192,6 +197,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000006_.Height = 1350.000000
 	__DiagramProcess__00000006_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000006_.IsParticipantsNodeExpanded = false
+	__DiagramProcess__00000006_.IsExternalParticipantsNodeExpanded = false
 
 	__DiagramProcess__00000007_.Name = `Diagram P1`
 	__DiagramProcess__00000007_.ComputedPrefix = ``
@@ -200,10 +206,47 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.IsShowPrefix = false
 	__DiagramProcess__00000007_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000007_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000007_.Width = 1543.000000
-	__DiagramProcess__00000007_.Height = 1404.000000
+	__DiagramProcess__00000007_.Width = 1531.000000
+	__DiagramProcess__00000007_.Height = 1415.000000
 	__DiagramProcess__00000007_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000007_.IsParticipantsNodeExpanded = true
+	__DiagramProcess__00000007_.IsExternalParticipantsNodeExpanded = true
+
+	__ExternalParticipantShape__00000000_.Name = `EP1-Diagram P1`
+	__ExternalParticipantShape__00000000_.IsExpanded = false
+	__ExternalParticipantShape__00000000_.X = 116.914807
+	__ExternalParticipantShape__00000000_.Y = 396.033942
+	__ExternalParticipantShape__00000000_.Width = 10.000000
+	__ExternalParticipantShape__00000000_.Height = 155.000000
+	__ExternalParticipantShape__00000000_.IsHidden = false
+	__ExternalParticipantShape__00000000_.TailHeigth = 0.000000
+
+	__ExternalParticipantShape__00000001_.Name = `EP1-Diagram P1`
+	__ExternalParticipantShape__00000001_.IsExpanded = false
+	__ExternalParticipantShape__00000001_.X = 41.118302
+	__ExternalParticipantShape__00000001_.Y = 286.216751
+	__ExternalParticipantShape__00000001_.Width = 120.000000
+	__ExternalParticipantShape__00000001_.Height = 70.000000
+	__ExternalParticipantShape__00000001_.IsHidden = false
+	__ExternalParticipantShape__00000001_.TailHeigth = 0.000000
+
+	__ExternalParticipantShape__00000002_.Name = `EP1-Diagram P1`
+	__ExternalParticipantShape__00000002_.IsExpanded = false
+	__ExternalParticipantShape__00000002_.X = 28.331631
+	__ExternalParticipantShape__00000002_.Y = 247.547418
+	__ExternalParticipantShape__00000002_.Width = 130.000000
+	__ExternalParticipantShape__00000002_.Height = 70.000000
+	__ExternalParticipantShape__00000002_.IsHidden = false
+	__ExternalParticipantShape__00000002_.TailHeigth = 0.000000
+
+	__ExternalParticipantShape__00000003_.Name = `EP1-Diagram P1`
+	__ExternalParticipantShape__00000003_.IsExpanded = false
+	__ExternalParticipantShape__00000003_.X = 27.388870
+	__ExternalParticipantShape__00000003_.Y = 227.256779
+	__ExternalParticipantShape__00000003_.Width = 250.000000
+	__ExternalParticipantShape__00000003_.Height = 70.000000
+	__ExternalParticipantShape__00000003_.IsHidden = false
+	__ExternalParticipantShape__00000003_.TailHeigth = 100.000000
 
 	__Library__00000000_.Name = `Root`
 	__Library__00000000_.ComputedPrefix = ``
@@ -263,10 +306,10 @@ func _(stage *models.Stage) {
 
 	__ParticipantShape__00000021_.Name = `PP1-Diagram P1`
 	__ParticipantShape__00000021_.IsExpanded = false
-	__ParticipantShape__00000021_.X = 103.931427
-	__ParticipantShape__00000021_.Y = 138.511345
-	__ParticipantShape__00000021_.Width = 250.000000
-	__ParticipantShape__00000021_.Height = 70.000000
+	__ParticipantShape__00000021_.X = 216.000000
+	__ParticipantShape__00000021_.Y = 235.000000
+	__ParticipantShape__00000021_.Width = 303.000000
+	__ParticipantShape__00000021_.Height = 880.000000
 	__ParticipantShape__00000021_.IsHidden = false
 
 	__Process__00000005_.Name = `P1`
@@ -289,8 +332,8 @@ func _(stage *models.Stage) {
 
 	__ProcessShape__00000007_.Name = `ProcessShape`
 	__ProcessShape__00000007_.IsExpanded = false
-	__ProcessShape__00000007_.X = 314.000000
-	__ProcessShape__00000007_.Y = 104.000000
+	__ProcessShape__00000007_.X = 302.000000
+	__ProcessShape__00000007_.Y = 105.000000
 	__ProcessShape__00000007_.Width = 929.000000
 	__ProcessShape__00000007_.Height = 1000.000000
 	__ProcessShape__00000007_.IsHidden = false
@@ -335,7 +378,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000012_.Name = `T4-DP2`
 	__TaskShape__00000012_.IsExpanded = false
-	__TaskShape__00000012_.X = 333.000000
+	__TaskShape__00000012_.X = 339.000000
 	__TaskShape__00000012_.Y = 740.000000
 	__TaskShape__00000012_.Width = 167.000000
 	__TaskShape__00000012_.Height = 70.000000
@@ -351,7 +394,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000014_.Name = `PP2 T2-DP2`
 	__TaskShape__00000014_.IsExpanded = false
-	__TaskShape__00000014_.X = 628.000000
+	__TaskShape__00000014_.X = 642.000000
 	__TaskShape__00000014_.Y = 344.000000
 	__TaskShape__00000014_.Width = 211.000000
 	__TaskShape__00000014_.Height = 70.000000
@@ -415,6 +458,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.Participant_Shapes = append(__DiagramProcess__00000007_.Participant_Shapes, __ParticipantShape__00000021_)
 	__DiagramProcess__00000007_.Participant_Shapes = append(__DiagramProcess__00000007_.Participant_Shapes, __ParticipantShape__00000020_)
 	__DiagramProcess__00000007_.Participant_Shapes = append(__DiagramProcess__00000007_.Participant_Shapes, __ParticipantShape__00000019_)
+	__DiagramProcess__00000007_.ExternalParticipant_Shapes = append(__DiagramProcess__00000007_.ExternalParticipant_Shapes, __ExternalParticipantShape__00000003_)
 	__DiagramProcess__00000007_.TasksWhoseNodeIsExpanded = append(__DiagramProcess__00000007_.TasksWhoseNodeIsExpanded, __Task__00000002_)
 	__DiagramProcess__00000007_.TasksWhoseNodeIsExpanded = append(__DiagramProcess__00000007_.TasksWhoseNodeIsExpanded, __Task__00000004_)
 	__DiagramProcess__00000007_.Task_Shapes = append(__DiagramProcess__00000007_.Task_Shapes, __TaskShape__00000011_)
@@ -435,6 +479,10 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.Data_Shapes = append(__DiagramProcess__00000007_.Data_Shapes, __DataShape__00000014_)
 	__DiagramProcess__00000007_.Data_Shapes = append(__DiagramProcess__00000007_.Data_Shapes, __DataShape__00000016_)
 	__DiagramProcess__00000007_.Data_Shapes = append(__DiagramProcess__00000007_.Data_Shapes, __DataShape__00000017_)
+	__ExternalParticipantShape__00000000_.Participant = __Participant__00000007_
+	__ExternalParticipantShape__00000001_.Participant = __Participant__00000007_
+	__ExternalParticipantShape__00000002_.Participant = __Participant__00000007_
+	__ExternalParticipantShape__00000003_.Participant = __Participant__00000007_
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000005_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000006_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000005_)

@@ -236,6 +236,10 @@ type Stage struct {
 
 	DiagramProcess_ParticipantWhoseNodeIsExpanded_reverseMap map[*Participant]*DiagramProcess
 
+	DiagramProcess_ExternalParticipant_Shapes_reverseMap map[*ExternalParticipantShape]*DiagramProcess
+
+	DiagramProcess_ExternalParticipantWhoseNodeIsExpanded_reverseMap map[*Participant]*DiagramProcess
+
 	DiagramProcess_TasksWhoseNodeIsExpanded_reverseMap map[*Task]*DiagramProcess
 
 	DiagramProcess_Task_Shapes_reverseMap map[*TaskShape]*DiagramProcess
@@ -3689,6 +3693,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Participant_Shapes: []*ParticipantShape{{Name: "Participant_Shapes"}},
 			// field is initialized with an instance of Participant with the name of the field
 			ParticipantWhoseNodeIsExpanded: []*Participant{{Name: "ParticipantWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of ExternalParticipantShape with the name of the field
+			ExternalParticipant_Shapes: []*ExternalParticipantShape{{Name: "ExternalParticipant_Shapes"}},
+			// field is initialized with an instance of Participant with the name of the field
+			ExternalParticipantWhoseNodeIsExpanded: []*Participant{{Name: "ExternalParticipantWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of Task with the name of the field
 			TasksWhoseNodeIsExpanded: []*Task{{Name: "TasksWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of TaskShape with the name of the field
@@ -4179,6 +4187,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ExternalParticipant_Shapes":
+			res := make(map[*ExternalParticipantShape][]*DiagramProcess)
+			for diagramprocess := range stage.DiagramProcesss {
+				for _, externalparticipantshape_ := range diagramprocess.ExternalParticipant_Shapes {
+					res[externalparticipantshape_] = append(res[externalparticipantshape_], diagramprocess)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ExternalParticipantWhoseNodeIsExpanded":
+			res := make(map[*Participant][]*DiagramProcess)
+			for diagramprocess := range stage.DiagramProcesss {
+				for _, participant_ := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
+					res[participant_] = append(res[participant_], diagramprocess)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "TasksWhoseNodeIsExpanded":
 			res := make(map[*Task][]*DiagramProcess)
 			for diagramprocess := range stage.DiagramProcesss {
@@ -4609,6 +4633,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *ExternalParticipantShape:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "DiagramProcess"
+		rf.Fieldname = "ExternalParticipant_Shapes"
+		res = append(res, rf)
 	case *Library:
 		var rf ReverseField
 		_ = rf
@@ -4623,6 +4650,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "DiagramProcess"
 		rf.Fieldname = "ParticipantWhoseNodeIsExpanded"
+		res = append(res, rf)
+		rf.GongstructName = "DiagramProcess"
+		rf.Fieldname = "ExternalParticipantWhoseNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Process"
 		rf.Fieldname = "Participants"
@@ -4942,6 +4972,20 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 			TargetGongstructName: "Participant",
 		},
 		{
+			Name:                 "ExternalParticipant_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ExternalParticipantShape",
+		},
+		{
+			Name:               "IsExternalParticipantsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ExternalParticipantWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Participant",
+		},
+		{
 			Name:                 "TasksWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Task",
@@ -5025,6 +5069,10 @@ func (externalparticipantshape *ExternalParticipantShape) GongGetFieldHeaders() 
 		{
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "TailHeigth",
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -5685,6 +5733,30 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "ExternalParticipant_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramprocess.ExternalParticipant_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsExternalParticipantsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagramprocess.IsExternalParticipantsNodeExpanded)
+		res.valueBool = diagramprocess.IsExternalParticipantsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ExternalParticipantWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "TasksWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagramprocess.TasksWhoseNodeIsExpanded {
@@ -5814,6 +5886,10 @@ func (externalparticipantshape *ExternalParticipantShape) GongGetFieldValue(fiel
 		res.valueString = fmt.Sprintf("%t", externalparticipantshape.IsHidden)
 		res.valueBool = externalparticipantshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "TailHeigth":
+		res.valueString = fmt.Sprintf("%f", externalparticipantshape.TailHeigth)
+		res.valueFloat = externalparticipantshape.TailHeigth
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -6550,6 +6626,36 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 				}
 			}
 		}
+	case "ExternalParticipant_Shapes":
+		diagramprocess.ExternalParticipant_Shapes = make([]*ExternalParticipantShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ExternalParticipantShapes {
+					if stage.ExternalParticipantShape_stagedOrder[__instance__] == uint(id) {
+						diagramprocess.ExternalParticipant_Shapes = append(diagramprocess.ExternalParticipant_Shapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsExternalParticipantsNodeExpanded":
+		diagramprocess.IsExternalParticipantsNodeExpanded = value.GetValueBool()
+	case "ExternalParticipantWhoseNodeIsExpanded":
+		diagramprocess.ExternalParticipantWhoseNodeIsExpanded = make([]*Participant, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Participants {
+					if stage.Participant_stagedOrder[__instance__] == uint(id) {
+						diagramprocess.ExternalParticipantWhoseNodeIsExpanded = append(diagramprocess.ExternalParticipantWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "TasksWhoseNodeIsExpanded":
 		diagramprocess.TasksWhoseNodeIsExpanded = make([]*Task, 0)
 		ids := strings.Split(value.ids, ";")
@@ -6710,6 +6816,8 @@ func (externalparticipantshape *ExternalParticipantShape) GongSetFieldValue(fiel
 		externalparticipantshape.Height = value.GetValueFloat()
 	case "IsHidden":
 		externalparticipantshape.IsHidden = value.GetValueBool()
+	case "TailHeigth":
+		externalparticipantshape.TailHeigth = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
