@@ -147,6 +147,8 @@ type DiagramProcess_WOP struct {
 	IsProcesssNodeExpanded bool
 
 	IsParticipantsNodeExpanded bool
+
+	IsExternalParticipantsNodeExpanded bool
 }
 
 func (from *DiagramProcess) CopyBasicFields(to *DiagramProcess) {
@@ -162,6 +164,7 @@ func (from *DiagramProcess) CopyBasicFields(to *DiagramProcess) {
 	to.Height = from.Height
 	to.IsProcesssNodeExpanded = from.IsProcesssNodeExpanded
 	to.IsParticipantsNodeExpanded = from.IsParticipantsNodeExpanded
+	to.IsExternalParticipantsNodeExpanded = from.IsExternalParticipantsNodeExpanded
 }
 
 type ExternalParticipantShape_WOP struct {
@@ -180,6 +183,8 @@ type ExternalParticipantShape_WOP struct {
 	Height float64
 
 	IsHidden bool
+
+	TailHeigth float64
 }
 
 func (from *ExternalParticipantShape) CopyBasicFields(to *ExternalParticipantShape) {
@@ -191,6 +196,7 @@ func (from *ExternalParticipantShape) CopyBasicFields(to *ExternalParticipantSha
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
+	to.TailHeigth = from.TailHeigth
 }
 
 type Library_WOP struct {

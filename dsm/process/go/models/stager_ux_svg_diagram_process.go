@@ -183,6 +183,47 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	}
 
 	//
+	// ExternalParticipant
+	//
+	// one draws a regular rect for the title and another rect for the tail
+	//
+	// the first one X,Y, Width & Heigth are updated as usual
+	// the tail rect is updated only for its heigth
+	diagramProcess.map_ExternalParticipant_Rect = make(map[*Participant]*svg.Rect)
+	for _, externalParticipantShape := range diagramProcess.ExternalParticipant_Shapes {
+		if externalParticipantShape.IsHidden {
+			continue
+		}
+
+		rect := svgRect(
+			stager,
+			diagramProcess,
+			externalParticipantShape,
+			layer)
+		rect.RX = 3
+		layer.Rects = append(layer.Rects, rect)
+
+		externalParticipantWidth := 10.0
+		if externalParticipantShape.TailHeigth == 0 {
+			externalParticipantShape.TailHeigth = 100.0
+		}
+
+		tailRect := &svg.Rect{
+			Name: "Tail" + rect.GetName(),
+			Presentation: svg.Presentation{
+				Stroke:        svg.Black.ToString(),
+				StrokeWidth:   1,
+				StrokeOpacity: 1,
+			},
+			Width:  externalParticipantWidth,
+			Height: externalParticipantShape.TailHeigth,
+			X:      rect.X + (rect.Width-externalParticipantWidth)/2.0,
+			Y:      rect.Y + rect.Height,
+		}
+		layer.Rects = append(layer.Rects, tailRect)
+	}
+
+	//
 	// Task
 	//
 	rm := GetSliceOfPointersReverseMap[Participant, Task](GetAssociationName[Participant]().Tasks[0].Name, stager.stage)

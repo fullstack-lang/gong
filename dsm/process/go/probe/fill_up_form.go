@@ -442,6 +442,10 @@ func FillUpForm(
 		BasicFieldtoForm("IsParticipantsNodeExpanded", instanceWithInferedType.IsParticipantsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("ParticipantWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ParticipantWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("ExternalParticipant_Shapes", instanceWithInferedType, &instanceWithInferedType.ExternalParticipant_Shapes, formGroup, probe)
+		BasicFieldtoForm("IsExternalParticipantsNodeExpanded", instanceWithInferedType.IsExternalParticipantsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationSliceToForm("ExternalParticipantWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ExternalParticipantWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("TasksWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.TasksWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("Task_Shapes", instanceWithInferedType, &instanceWithInferedType.Task_Shapes, formGroup, probe)
 		AssociationSliceToForm("ControlFlowsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ControlFlowsWhoseNodeIsExpanded, formGroup, probe)
@@ -513,6 +517,30 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("TailHeigth", instanceWithInferedType.TailHeigth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "DiagramProcess"
+			rf.Fieldname = "ExternalParticipant_Shapes"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.DiagramProcess),
+					"ExternalParticipant_Shapes",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.DiagramProcess](
+					nil,
+					"ExternalParticipant_Shapes",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
 
 	case *models.Library:
 		// insertion point
@@ -623,6 +651,28 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.DiagramProcess](
 					nil,
 					"ParticipantWhoseNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "DiagramProcess"
+			rf.Fieldname = "ExternalParticipantWhoseNodeIsExpanded"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.DiagramProcess),
+					"ExternalParticipantWhoseNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.DiagramProcess](
+					nil,
+					"ExternalParticipantWhoseNodeIsExpanded",
 					instanceWithInferedType,
 					formGroup,
 					probe)
