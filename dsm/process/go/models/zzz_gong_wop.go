@@ -164,6 +164,35 @@ func (from *DiagramProcess) CopyBasicFields(to *DiagramProcess) {
 	to.IsParticipantsNodeExpanded = from.IsParticipantsNodeExpanded
 }
 
+type ExternalParticipantShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+}
+
+func (from *ExternalParticipantShape) CopyBasicFields(to *ExternalParticipantShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
+}
+
 type Library_WOP struct {
 	// insertion point
 

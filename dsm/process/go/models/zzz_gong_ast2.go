@@ -736,6 +736,49 @@ func (u *DiagramProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	return nil
 }
 
+type ExternalParticipantShapeUnmarshaller struct{}
+
+func (u *ExternalParticipantShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ExternalParticipantShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ExternalParticipantShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ExternalParticipantShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Participant":
+		GongUnmarshallPointer(&instance.Participant, valueExpr, identifierMap)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
 type LibraryUnmarshaller struct{}
 
 func (u *LibraryUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -934,6 +977,10 @@ func (u *ProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.DataFlows, valueExpr, identifierMap)
 	case "IsDataFlowsNodeExpanded":
 		instance.IsDataFlowsNodeExpanded = GongExtractBool(valueExpr)
+	case "ExternalParticipants":
+		GongUnmarshallSliceOfPointers(&instance.ExternalParticipants, valueExpr, identifierMap)
+	case "ExternalParticipantWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ExternalParticipantWhoseNodeIsExpanded, valueExpr, identifierMap)
 	}
 	return nil
 }

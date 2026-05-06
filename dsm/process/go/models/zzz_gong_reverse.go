@@ -172,6 +172,15 @@ func (inst *DiagramProcess) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	return
 }
 
+func (inst *ExternalParticipantShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *Library) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -212,6 +221,14 @@ func (inst *Participant) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 			}
 		case "ParticipantWhoseNodeIsExpanded":
 			if _process, ok := stage.Process_ParticipantWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _process.Name
+			}
+		case "ExternalParticipants":
+			if _process, ok := stage.Process_ExternalParticipants_reverseMap[inst]; ok {
+				res = _process.Name
+			}
+		case "ExternalParticipantWhoseNodeIsExpanded":
+			if _process, ok := stage.Process_ExternalParticipantWhoseNodeIsExpanded_reverseMap[inst]; ok {
 				res = _process.Name
 			}
 		}
@@ -477,6 +494,15 @@ func (inst *DiagramProcess) GongGetReverseFieldOwner(stage *Stage, reverseField 
 	return res
 }
 
+func (inst *ExternalParticipantShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
 func (inst *Library) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -509,6 +535,10 @@ func (inst *Participant) GongGetReverseFieldOwner(stage *Stage, reverseField *Re
 			res = stage.Process_Participants_reverseMap[inst]
 		case "ParticipantWhoseNodeIsExpanded":
 			res = stage.Process_ParticipantWhoseNodeIsExpanded_reverseMap[inst]
+		case "ExternalParticipants":
+			res = stage.Process_ExternalParticipants_reverseMap[inst]
+		case "ExternalParticipantWhoseNodeIsExpanded":
+			res = stage.Process_ExternalParticipantWhoseNodeIsExpanded_reverseMap[inst]
 		}
 	}
 	return res
