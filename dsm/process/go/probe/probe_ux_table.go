@@ -38,6 +38,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.DataShape](probe)
 	case "DiagramProcess":
 		updateProbeTable[*models.DiagramProcess](probe)
+	case "ExternalParticipantShape":
+		updateProbeTable[*models.ExternalParticipantShape](probe)
 	case "Library":
 		updateProbeTable[*models.Library](probe)
 	case "Participant":

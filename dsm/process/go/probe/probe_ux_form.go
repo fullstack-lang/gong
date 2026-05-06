@@ -57,6 +57,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.diagramprocess, probe)
 			}
+		case *ExternalParticipantShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ExternalParticipantShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.externalparticipantshape, probe)
+			}
 		case *LibraryFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Library", true)
@@ -212,6 +218,19 @@ func FillUpFormFromGongstructName(
 		diagramprocess := new(models.DiagramProcess)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(diagramprocess, formGroup, probe)
+	case "ExternalParticipantShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ExternalParticipantShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ExternalParticipantShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		externalparticipantshape := new(models.ExternalParticipantShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(externalparticipantshape, formGroup, probe)
 	case "Library":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

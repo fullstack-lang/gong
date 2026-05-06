@@ -111,6 +111,14 @@ func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by ExternalParticipantShape
+func (externalparticipantshape *ExternalParticipantShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &externalparticipantshape.Participant) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Library
 func (library *Library) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -157,6 +165,8 @@ func (process *Process) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &process.Participants) || modified
 	modified = GongCleanSlice(stage, &process.ParticipantWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &process.DataFlows) || modified
+	modified = GongCleanSlice(stage, &process.ExternalParticipants) || modified
+	modified = GongCleanSlice(stage, &process.ExternalParticipantWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	return
 }

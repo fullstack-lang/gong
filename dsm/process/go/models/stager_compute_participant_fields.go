@@ -15,5 +15,10 @@ func (stager *Stager) computeParticipantFields() {
 				participant.owningProcess = process
 			}
 		}
+		for _, externalParticipant := range process.ExternalParticipants {
+			if externalParticipant != nil {
+				externalParticipant.owningProcess = process
+			}
+		}
 	}
 }
