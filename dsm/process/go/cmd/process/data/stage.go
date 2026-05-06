@@ -241,12 +241,12 @@ func _(stage *models.Stage) {
 
 	__ExternalParticipantShape__00000003_.Name = `EP1-Diagram P1`
 	__ExternalParticipantShape__00000003_.IsExpanded = false
-	__ExternalParticipantShape__00000003_.X = 27.388870
-	__ExternalParticipantShape__00000003_.Y = 227.256779
-	__ExternalParticipantShape__00000003_.Width = 250.000000
+	__ExternalParticipantShape__00000003_.X = 50.388870
+	__ExternalParticipantShape__00000003_.Y = 193.256779
+	__ExternalParticipantShape__00000003_.Width = 73.000000
 	__ExternalParticipantShape__00000003_.Height = 70.000000
 	__ExternalParticipantShape__00000003_.IsHidden = false
-	__ExternalParticipantShape__00000003_.TailHeigth = 100.000000
+	__ExternalParticipantShape__00000003_.TailHeigth = 233.000000
 
 	__Library__00000000_.Name = `Root`
 	__Library__00000000_.ComputedPrefix = ``
@@ -315,7 +315,7 @@ func _(stage *models.Stage) {
 	__Process__00000005_.Name = `P1`
 	__Process__00000005_.ComputedPrefix = ``
 	__Process__00000005_.IsSubProcessNodeExpanded = false
-	__Process__00000005_.IsDataFlowsNodeExpanded = false
+	__Process__00000005_.IsDataFlowsNodeExpanded = true
 
 	__Process__00000006_.Name = `P2`
 	__Process__00000006_.ComputedPrefix = ``

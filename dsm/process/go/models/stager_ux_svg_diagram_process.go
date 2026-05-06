@@ -201,6 +201,9 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			externalParticipantShape,
 			layer)
 		rect.RX = 3
+		rect.StrokeWidth = 1.5
+		rect.StrokeOpacity = 0.7
+		rect.OnUpdate = onUpdateRectElement(stager, externalParticipantShape.Participant, externalParticipantShape, false)
 		layer.Rects = append(layer.Rects, rect)
 
 		externalParticipantWidth := 10.0
@@ -211,14 +214,26 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		tailRect := &svg.Rect{
 			Name: "Tail" + rect.GetName(),
 			Presentation: svg.Presentation{
-				Stroke:        svg.Black.ToString(),
-				StrokeWidth:   1,
-				StrokeOpacity: 1,
+				Stroke:          svg.Black.ToString(),
+				StrokeWidth:     1.5,
+				StrokeOpacity:   1,
+				StrokeDashArray: "5 2",
 			},
-			Width:  externalParticipantWidth,
-			Height: externalParticipantShape.TailHeigth,
-			X:      rect.X + (rect.Width-externalParticipantWidth)/2.0,
-			Y:      rect.Y + rect.Height,
+			Width:               externalParticipantWidth,
+			Height:              externalParticipantShape.TailHeigth,
+			X:                   rect.X + (rect.Width-externalParticipantWidth)/2.0,
+			Y:                   rect.Y + rect.Height,
+			CanHaveBottomHandle: true,
+		}
+
+		// if the tailRect bottom handle is used, the heigth is updated
+		tailRect.OnUpdate = func(updatedRect *svg.Rect) {
+			diffSize := externalParticipantShape.TailHeigth != updatedRect.Height
+
+			if diffSize {
+				externalParticipantShape.TailHeigth = updatedRect.Height
+				stager.stage.CommitWithSuspendedCallbacks()
+			}
 		}
 		layer.Rects = append(layer.Rects, tailRect)
 	}
