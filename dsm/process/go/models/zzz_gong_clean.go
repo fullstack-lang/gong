@@ -98,6 +98,8 @@ func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagramprocess.ProcesssWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.Participant_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.ParticipantWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.ExternalParticipant_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.ExternalParticipantWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.TasksWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.Task_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.ControlFlowsWhoseNodeIsExpanded) || modified

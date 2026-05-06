@@ -714,6 +714,12 @@ func (u *DiagramProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		instance.IsParticipantsNodeExpanded = GongExtractBool(valueExpr)
 	case "ParticipantWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.ParticipantWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "ExternalParticipant_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.ExternalParticipant_Shapes, valueExpr, identifierMap)
+	case "IsExternalParticipantsNodeExpanded":
+		instance.IsExternalParticipantsNodeExpanded = GongExtractBool(valueExpr)
+	case "ExternalParticipantWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ExternalParticipantWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "TasksWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.TasksWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "Task_Shapes":
@@ -775,6 +781,8 @@ func (u *ExternalParticipantShapeUnmarshaller) UnmarshallField(stage *Stage, i G
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "TailHeigth":
+		instance.TailHeigth = GongExtractFloat(valueExpr)
 	}
 	return nil
 }

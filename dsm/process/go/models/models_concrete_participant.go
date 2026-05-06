@@ -28,7 +28,11 @@ type ExternalParticipantShape struct {
 
 	IsExpanded bool
 
+	// this is the rect shape for the title
 	RectShape
+
+	// there is an additionnal rect for the below tail
+	TailHeigth float64
 }
 
 func (s *ExternalParticipantShape) GetAbstractElement() AbstractType {

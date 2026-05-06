@@ -75,6 +75,20 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramProcess_ParticipantWhoseNodeIsExpanded_reverseMap[_participant] = diagramprocess
 		}
 	}
+	stage.DiagramProcess_ExternalParticipant_Shapes_reverseMap = make(map[*ExternalParticipantShape]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _externalparticipantshape := range diagramprocess.ExternalParticipant_Shapes {
+			stage.DiagramProcess_ExternalParticipant_Shapes_reverseMap[_externalparticipantshape] = diagramprocess
+		}
+	}
+	stage.DiagramProcess_ExternalParticipantWhoseNodeIsExpanded_reverseMap = make(map[*Participant]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _participant := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
+			stage.DiagramProcess_ExternalParticipantWhoseNodeIsExpanded_reverseMap[_participant] = diagramprocess
+		}
+	}
 	stage.DiagramProcess_TasksWhoseNodeIsExpanded_reverseMap = make(map[*Task]*DiagramProcess)
 	for diagramprocess := range stage.DiagramProcesss {
 		_ = diagramprocess

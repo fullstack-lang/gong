@@ -19,7 +19,7 @@ func (stager *Stager) treeExternalParticipants(
 	shape, ok := diagramProcess.map_Participant_ExternalParticipantShape[externalParticipant]
 	node := &tree.Node{
 		Name:                    externalParticipant.Name,
-		IsExpanded:              slices.Contains(diagramProcess.ParticipantWhoseNodeIsExpanded, externalParticipant),
+		IsExpanded:              slices.Contains(diagramProcess.ExternalParticipantWhoseNodeIsExpanded, externalParticipant),
 		IsNodeClickable:         true,
 		IsInEditMode:            externalParticipant.isInRenameMode,
 		HasCheckboxButton:       true,
