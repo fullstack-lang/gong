@@ -342,11 +342,17 @@ func (stage *Stage) StageBranchDataFlow(dataflow *DataFlow) {
 	dataflow.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if dataflow.Start != nil {
-		StageBranch(stage, dataflow.Start)
+	if dataflow.StartTask != nil {
+		StageBranch(stage, dataflow.StartTask)
 	}
-	if dataflow.End != nil {
-		StageBranch(stage, dataflow.End)
+	if dataflow.EndTask != nil {
+		StageBranch(stage, dataflow.EndTask)
+	}
+	if dataflow.StartExternalParticipant != nil {
+		StageBranch(stage, dataflow.StartExternalParticipant)
+	}
+	if dataflow.EndExternalParticipant != nil {
+		StageBranch(stage, dataflow.EndExternalParticipant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -813,11 +819,17 @@ func CopyBranchDataFlow(mapOrigCopy map[any]any, dataflowFrom *DataFlow) (datafl
 	dataflowFrom.CopyBasicFields(dataflowTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if dataflowFrom.Start != nil {
-		dataflowTo.Start = CopyBranchTask(mapOrigCopy, dataflowFrom.Start)
+	if dataflowFrom.StartTask != nil {
+		dataflowTo.StartTask = CopyBranchTask(mapOrigCopy, dataflowFrom.StartTask)
 	}
-	if dataflowFrom.End != nil {
-		dataflowTo.End = CopyBranchTask(mapOrigCopy, dataflowFrom.End)
+	if dataflowFrom.EndTask != nil {
+		dataflowTo.EndTask = CopyBranchTask(mapOrigCopy, dataflowFrom.EndTask)
+	}
+	if dataflowFrom.StartExternalParticipant != nil {
+		dataflowTo.StartExternalParticipant = CopyBranchParticipant(mapOrigCopy, dataflowFrom.StartExternalParticipant)
+	}
+	if dataflowFrom.EndExternalParticipant != nil {
+		dataflowTo.EndExternalParticipant = CopyBranchParticipant(mapOrigCopy, dataflowFrom.EndExternalParticipant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1295,11 +1307,17 @@ func (stage *Stage) UnstageBranchDataFlow(dataflow *DataFlow) {
 	dataflow.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if dataflow.Start != nil {
-		UnstageBranch(stage, dataflow.Start)
+	if dataflow.StartTask != nil {
+		UnstageBranch(stage, dataflow.StartTask)
 	}
-	if dataflow.End != nil {
-		UnstageBranch(stage, dataflow.End)
+	if dataflow.EndTask != nil {
+		UnstageBranch(stage, dataflow.EndTask)
+	}
+	if dataflow.StartExternalParticipant != nil {
+		UnstageBranch(stage, dataflow.StartExternalParticipant)
+	}
+	if dataflow.EndExternalParticipant != nil {
+		UnstageBranch(stage, dataflow.EndExternalParticipant)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1642,11 +1660,17 @@ func (reference *Data) GongReconstructPointersFromReferences(stage *Stage, insta
 
 func (reference *DataFlow) GongReconstructPointersFromReferences(stage *Stage, instance *DataFlow) () {
 	// insertion point for pointers field
-	if instance.Start != nil {
-		reference.Start = stage.Tasks_reference[instance.Start]
+	if instance.StartTask != nil {
+		reference.StartTask = stage.Tasks_reference[instance.StartTask]
 	}
-	if instance.End != nil {
-		reference.End = stage.Tasks_reference[instance.End]
+	if instance.EndTask != nil {
+		reference.EndTask = stage.Tasks_reference[instance.EndTask]
+	}
+	if instance.StartExternalParticipant != nil {
+		reference.StartExternalParticipant = stage.Participants_reference[instance.StartExternalParticipant]
+	}
+	if instance.EndExternalParticipant != nil {
+		reference.EndExternalParticipant = stage.Participants_reference[instance.EndExternalParticipant]
 	}
 	// insertion point for slice of pointers field
 	reference.Datas = reference.Datas[:0]
@@ -1949,16 +1973,28 @@ func (reference *Data) GongReconstructPointersFromInstances(stage *Stage) () {
 
 func (reference *DataFlow) GongReconstructPointersFromInstances(stage *Stage) () {
 	// insertion point for pointers field
-	if _reference := reference.Start; _reference != nil {
-		reference.Start = nil
+	if _reference := reference.StartTask; _reference != nil {
+		reference.StartTask = nil
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
-			reference.Start = _instance
+			reference.StartTask = _instance
 		}
 	}
-	if _reference := reference.End; _reference != nil {
-		reference.End = nil
+	if _reference := reference.EndTask; _reference != nil {
+		reference.EndTask = nil
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
-			reference.End = _instance
+			reference.EndTask = _instance
+		}
+	}
+	if _reference := reference.StartExternalParticipant; _reference != nil {
+		reference.StartExternalParticipant = nil
+		if _instance, ok := stage.Participants_instance[_reference]; ok {
+			reference.StartExternalParticipant = _instance
+		}
+	}
+	if _reference := reference.EndExternalParticipant; _reference != nil {
+		reference.EndExternalParticipant = nil
+		if _instance, ok := stage.Participants_instance[_reference]; ok {
+			reference.EndExternalParticipant = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -2447,18 +2483,35 @@ func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs
 	if dataflow.ComputedPrefix != dataflowOther.ComputedPrefix {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "ComputedPrefix"))
 	}
-	if (dataflow.Start == nil) != (dataflowOther.Start == nil) {
-		diffs = append(diffs, dataflow.GongMarshallField(stage, "Start"))
-	} else if dataflow.Start != nil && dataflowOther.Start != nil {
-		if dataflow.Start != dataflowOther.Start {
-			diffs = append(diffs, dataflow.GongMarshallField(stage, "Start"))
+	if dataflow.Type != dataflowOther.Type {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "Type"))
+	}
+	if (dataflow.StartTask == nil) != (dataflowOther.StartTask == nil) {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "StartTask"))
+	} else if dataflow.StartTask != nil && dataflowOther.StartTask != nil {
+		if dataflow.StartTask != dataflowOther.StartTask {
+			diffs = append(diffs, dataflow.GongMarshallField(stage, "StartTask"))
 		}
 	}
-	if (dataflow.End == nil) != (dataflowOther.End == nil) {
-		diffs = append(diffs, dataflow.GongMarshallField(stage, "End"))
-	} else if dataflow.End != nil && dataflowOther.End != nil {
-		if dataflow.End != dataflowOther.End {
-			diffs = append(diffs, dataflow.GongMarshallField(stage, "End"))
+	if (dataflow.EndTask == nil) != (dataflowOther.EndTask == nil) {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "EndTask"))
+	} else if dataflow.EndTask != nil && dataflowOther.EndTask != nil {
+		if dataflow.EndTask != dataflowOther.EndTask {
+			diffs = append(diffs, dataflow.GongMarshallField(stage, "EndTask"))
+		}
+	}
+	if (dataflow.StartExternalParticipant == nil) != (dataflowOther.StartExternalParticipant == nil) {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "StartExternalParticipant"))
+	} else if dataflow.StartExternalParticipant != nil && dataflowOther.StartExternalParticipant != nil {
+		if dataflow.StartExternalParticipant != dataflowOther.StartExternalParticipant {
+			diffs = append(diffs, dataflow.GongMarshallField(stage, "StartExternalParticipant"))
+		}
+	}
+	if (dataflow.EndExternalParticipant == nil) != (dataflowOther.EndExternalParticipant == nil) {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "EndExternalParticipant"))
+	} else if dataflow.EndExternalParticipant != nil && dataflowOther.EndExternalParticipant != nil {
+		if dataflow.EndExternalParticipant != dataflowOther.EndExternalParticipant {
+			diffs = append(diffs, dataflow.GongMarshallField(stage, "EndExternalParticipant"))
 		}
 	}
 	if dataflow.IsDatasNodeExpanded != dataflowOther.IsDatasNodeExpanded {

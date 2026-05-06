@@ -266,7 +266,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000006_.CornerOffsetRatio = -1.047619
 
 	__LinkShape__00000007_.Name = `Start`
-	__LinkShape__00000007_.IdentifierMeta = ref_models.DataFlow{}.Start
+	__LinkShape__00000007_.IdentifierMeta = ref_models.DataFlow{}.StartTask
 	__LinkShape__00000007_.FieldTypeIdentifierMeta = ref_models.Task{}
 	__LinkShape__00000007_.FieldOffsetX = 0.000000
 	__LinkShape__00000007_.FieldOffsetY = 0.000000
@@ -285,7 +285,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000007_.CornerOffsetRatio = 1.380000
 
 	__LinkShape__00000008_.Name = `End`
-	__LinkShape__00000008_.IdentifierMeta = ref_models.DataFlow{}.End
+	__LinkShape__00000008_.IdentifierMeta = ref_models.DataFlow{}.EndTask
 	__LinkShape__00000008_.FieldTypeIdentifierMeta = ref_models.Task{}
 	__LinkShape__00000008_.FieldOffsetX = 0.000000
 	__LinkShape__00000008_.FieldOffsetY = 0.000000

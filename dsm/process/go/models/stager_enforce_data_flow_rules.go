@@ -46,11 +46,72 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 			continue // No further checks needed
 		}
 
-		// Rule: A data flow must have a start task.
-		if dataFlow.Start == nil {
+		// Rule : StartTask, EndTaskEnd, StartExternalParticipant & EndExternalParticipant
+		// must be non nil according to the dataFlow type
+		switch dataFlow.Type {
+		case DataFlow_Task2Task:
+			// Rule: A data flow must have a start task.
+			if dataFlow.StartTask == nil {
+				dataFlow.UnstageVoid(stage)
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no start, unstaging",
+						dataFlow.GetName()))
+				}
+				needCommit = true
+				continue
+			}
+			if dataFlow.EndTask == nil {
+				dataFlow.UnstageVoid(stage)
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no end, unstaging",
+						dataFlow.GetName()))
+				}
+				needCommit = true
+				continue
+			}
+		case DataFlow_ExternalParticipant2Task:
+			if dataFlow.StartExternalParticipant == nil {
+				dataFlow.UnstageVoid(stage)
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no start, unstaging",
+						dataFlow.GetName()))
+				}
+				needCommit = true
+				continue
+			}
+			if dataFlow.EndTask == nil {
+				dataFlow.UnstageVoid(stage)
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no end, unstaging",
+						dataFlow.GetName()))
+				}
+				needCommit = true
+				continue
+			}
+		case DataFlow_Task2ExternalParticipant:
+			// Rule: A data flow must have a start task.
+			if dataFlow.StartTask == nil {
+				dataFlow.UnstageVoid(stage)
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no start, unstaging",
+						dataFlow.GetName()))
+				}
+				needCommit = true
+				continue
+			}
+			if dataFlow.EndExternalParticipant == nil {
+				dataFlow.UnstageVoid(stage)
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no end, unstaging",
+						dataFlow.GetName()))
+				}
+				needCommit = true
+				continue
+			}
+		default:
 			dataFlow.UnstageVoid(stage)
 			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no start, unstaging",
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no type, unstaging",
 					dataFlow.GetName()))
 			}
 			needCommit = true
@@ -58,18 +119,10 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 		}
 
 		// Rule: A data flow must have an end task.
-		if dataFlow.End == nil {
-			dataFlow.UnstageVoid(stage)
-			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no end, unstaging",
-					dataFlow.GetName()))
-			}
-			needCommit = true
-			continue
-		}
 
 		// Rule: A data flow cannot connect a start or an end task.
-		if dataFlow.Start.IsStartTask || dataFlow.Start.IsEndTask || dataFlow.End.IsStartTask || dataFlow.End.IsEndTask {
+		if dataFlow.Type == DataFlow_Task2Task &&
+			(dataFlow.StartTask.IsStartTask || dataFlow.StartTask.IsEndTask || dataFlow.EndTask.IsStartTask || dataFlow.EndTask.IsEndTask) {
 			dataFlow.UnstageVoid(stage)
 			if stager.probeForm != nil {
 				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" connects to a start or end task, unstaging", dataFlow.GetName()))
@@ -79,7 +132,8 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 		}
 
 		// Rule: Start and end task cannot belong to the same participant.
-		if dataFlow.Start.owningParticipant == dataFlow.End.owningParticipant {
+		if dataFlow.Type == DataFlow_Task2Task &&
+			(dataFlow.StartTask.owningParticipant == dataFlow.EndTask.owningParticipant) {
 			dataFlow.UnstageVoid(stage)
 			if stager.probeForm != nil {
 				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" connects tasks from the same participant, unstaging", dataFlow.GetName()))
@@ -87,6 +141,7 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 			needCommit = true
 			continue
 		}
+
 	}
 
 	return

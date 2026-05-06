@@ -384,8 +384,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "ComputedPrefix"))
-		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "Start"))
-		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Type"))
+		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "StartTask"))
+		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "EndTask"))
+		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "StartExternalParticipant"))
+		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "EndExternalParticipant"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "Datas"))
 	}
@@ -1109,36 +1112,75 @@ func (dataflow *DataFlow) GongMarshallField(stage *Stage, fieldName string) (res
 		res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dataflow.ComputedPrefix))
+	case "Type":
+		if dataflow.Type.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+dataflow.Type.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
 	case "IsDatasNodeExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDatasNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", dataflow.IsDatasNodeExpanded))
 
-	case "Start":
-		if dataflow.Start != nil {
+	case "StartTask":
+		if dataflow.StartTask != nil {
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Start")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", dataflow.Start.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartTask")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", dataflow.StartTask.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Start")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartTask")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
-	case "End":
-		if dataflow.End != nil {
+	case "EndTask":
+		if dataflow.EndTask != nil {
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", dataflow.End.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndTask")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", dataflow.EndTask.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndTask")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "StartExternalParticipant":
+		if dataflow.StartExternalParticipant != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartExternalParticipant")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", dataflow.StartExternalParticipant.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartExternalParticipant")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "EndExternalParticipant":
+		if dataflow.EndExternalParticipant != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndExternalParticipant")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", dataflow.EndExternalParticipant.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndExternalParticipant")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Datas":
@@ -2161,8 +2203,11 @@ func (dataflow *DataFlow) GongMarshallAllFields(stage *Stage) (initRes string, p
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "ComputedPrefix"))
-		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "Start"))
-		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Type"))
+		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "StartTask"))
+		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "EndTask"))
+		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "StartExternalParticipant"))
+		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "EndExternalParticipant"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "Datas"))
 	}
