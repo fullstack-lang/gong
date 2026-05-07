@@ -431,6 +431,12 @@ func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 	for _, _participant := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
 		StageBranch(stage, _participant)
 	}
+	for _, _participant := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
+		StageBranch(stage, _participant)
+	}
+	for _, _participant := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
+		StageBranch(stage, _participant)
+	}
 	for _, _task := range diagramprocess.TasksWhoseNodeIsExpanded {
 		StageBranch(stage, _task)
 	}
@@ -541,9 +547,6 @@ func (stage *Stage) StageBranchParticipant(participant *Participant) {
 	}
 	for _, _task := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
 		StageBranch(stage, _task)
-	}
-	for _, _dataflow := range participant.DataFlows {
-		StageBranch(stage, _dataflow)
 	}
 	for _, _task := range participant.TaskWhoseOutDataFlowsNodeIsExpanded {
 		StageBranch(stage, _task)
@@ -920,6 +923,12 @@ func CopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *Diagr
 	for _, _participant := range diagramprocessFrom.ExternalParticipantWhoseNodeIsExpanded {
 		diagramprocessTo.ExternalParticipantWhoseNodeIsExpanded = append(diagramprocessTo.ExternalParticipantWhoseNodeIsExpanded, CopyBranchParticipant(mapOrigCopy, _participant))
 	}
+	for _, _participant := range diagramprocessFrom.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
+		diagramprocessTo.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(diagramprocessTo.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, CopyBranchParticipant(mapOrigCopy, _participant))
+	}
+	for _, _participant := range diagramprocessFrom.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
+		diagramprocessTo.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(diagramprocessTo.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, CopyBranchParticipant(mapOrigCopy, _participant))
+	}
 	for _, _task := range diagramprocessFrom.TasksWhoseNodeIsExpanded {
 		diagramprocessTo.TasksWhoseNodeIsExpanded = append(diagramprocessTo.TasksWhoseNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
 	}
@@ -1042,9 +1051,6 @@ func CopyBranchParticipant(mapOrigCopy map[any]any, participantFrom *Participant
 	}
 	for _, _task := range participantFrom.TaskWhoseInControlFlowsNodeIsExpanded {
 		participantTo.TaskWhoseInControlFlowsNodeIsExpanded = append(participantTo.TaskWhoseInControlFlowsNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
-	}
-	for _, _dataflow := range participantFrom.DataFlows {
-		participantTo.DataFlows = append(participantTo.DataFlows, CopyBranchDataFlow(mapOrigCopy, _dataflow))
 	}
 	for _, _task := range participantFrom.TaskWhoseOutDataFlowsNodeIsExpanded {
 		participantTo.TaskWhoseOutDataFlowsNodeIsExpanded = append(participantTo.TaskWhoseOutDataFlowsNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
@@ -1396,6 +1402,12 @@ func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) 
 	for _, _participant := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
 		UnstageBranch(stage, _participant)
 	}
+	for _, _participant := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
+		UnstageBranch(stage, _participant)
+	}
+	for _, _participant := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
+		UnstageBranch(stage, _participant)
+	}
 	for _, _task := range diagramprocess.TasksWhoseNodeIsExpanded {
 		UnstageBranch(stage, _task)
 	}
@@ -1506,9 +1518,6 @@ func (stage *Stage) UnstageBranchParticipant(participant *Participant) {
 	}
 	for _, _task := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
 		UnstageBranch(stage, _task)
-	}
-	for _, _dataflow := range participant.DataFlows {
-		UnstageBranch(stage, _dataflow)
 	}
 	for _, _task := range participant.TaskWhoseOutDataFlowsNodeIsExpanded {
 		UnstageBranch(stage, _task)
@@ -1731,6 +1740,14 @@ func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *St
 	for _, _b := range instance.ExternalParticipantWhoseNodeIsExpanded {
 		reference.ExternalParticipantWhoseNodeIsExpanded = append(reference.ExternalParticipantWhoseNodeIsExpanded, stage.Participants_reference[_b])
 	}
+	reference.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = reference.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded[:0]
+	for _, _b := range instance.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
+		reference.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(reference.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, stage.Participants_reference[_b])
+	}
+	reference.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = reference.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded[:0]
+	for _, _b := range instance.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
+		reference.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(reference.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, stage.Participants_reference[_b])
+	}
 	reference.TasksWhoseNodeIsExpanded = reference.TasksWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.TasksWhoseNodeIsExpanded {
 		reference.TasksWhoseNodeIsExpanded = append(reference.TasksWhoseNodeIsExpanded, stage.Tasks_reference[_b])
@@ -1838,10 +1855,6 @@ func (reference *Participant) GongReconstructPointersFromReferences(stage *Stage
 	reference.TaskWhoseInControlFlowsNodeIsExpanded = reference.TaskWhoseInControlFlowsNodeIsExpanded[:0]
 	for _, _b := range instance.TaskWhoseInControlFlowsNodeIsExpanded {
 		reference.TaskWhoseInControlFlowsNodeIsExpanded = append(reference.TaskWhoseInControlFlowsNodeIsExpanded, stage.Tasks_reference[_b])
-	}
-	reference.DataFlows = reference.DataFlows[:0]
-	for _, _b := range instance.DataFlows {
-		reference.DataFlows = append(reference.DataFlows, stage.DataFlows_reference[_b])
 	}
 	reference.TaskWhoseOutDataFlowsNodeIsExpanded = reference.TaskWhoseOutDataFlowsNodeIsExpanded[:0]
 	for _, _b := range instance.TaskWhoseOutDataFlowsNodeIsExpanded {
@@ -2086,6 +2099,20 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	reference.ExternalParticipantWhoseNodeIsExpanded = _ExternalParticipantWhoseNodeIsExpanded
+	var _ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded []*Participant
+	for _, _reference := range reference.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
+		if _instance, ok := stage.Participants_instance[_reference]; ok {
+			_ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(_ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, _instance)
+		}
+	}
+	reference.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = _ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded
+	var _ExternalParticipantsWhoseInDataFlowsNodeIsExpanded []*Participant
+	for _, _reference := range reference.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
+		if _instance, ok := stage.Participants_instance[_reference]; ok {
+			_ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(_ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, _instance)
+		}
+	}
+	reference.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = _ExternalParticipantsWhoseInDataFlowsNodeIsExpanded
 	var _TasksWhoseNodeIsExpanded []*Task
 	for _, _reference := range reference.TasksWhoseNodeIsExpanded {
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
@@ -2260,13 +2287,6 @@ func (reference *Participant) GongReconstructPointersFromInstances(stage *Stage)
 		}
 	}
 	reference.TaskWhoseInControlFlowsNodeIsExpanded = _TaskWhoseInControlFlowsNodeIsExpanded
-	var _DataFlows []*DataFlow
-	for _, _reference := range reference.DataFlows {
-		if _instance, ok := stage.DataFlows_instance[_reference]; ok {
-			_DataFlows = append(_DataFlows, _instance)
-		}
-	}
-	reference.DataFlows = _DataFlows
 	var _TaskWhoseOutDataFlowsNodeIsExpanded []*Task
 	for _, _reference := range reference.TaskWhoseOutDataFlowsNodeIsExpanded {
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
@@ -2767,6 +2787,48 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 	}
 	if ExternalParticipantWhoseNodeIsExpandedDifferent {
 		ops := Diff(stage, diagramprocess, diagramprocessOther, "ExternalParticipantWhoseNodeIsExpanded", diagramprocessOther.ExternalParticipantWhoseNodeIsExpanded, diagramprocess.ExternalParticipantWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	ExternalParticipantsWhoseOutDataFlowsNodeIsExpandedDifferent := false
+	if len(diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded) != len(diagramprocessOther.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded) {
+		ExternalParticipantsWhoseOutDataFlowsNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
+			if (diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded[i] == nil) != (diagramprocessOther.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded[i] == nil) {
+				ExternalParticipantsWhoseOutDataFlowsNodeIsExpandedDifferent = true
+				break
+			} else if diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded[i] != nil && diagramprocessOther.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded[i] != diagramprocessOther.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded[i] {
+					ExternalParticipantsWhoseOutDataFlowsNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ExternalParticipantsWhoseOutDataFlowsNodeIsExpandedDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded", diagramprocessOther.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	ExternalParticipantsWhoseInDataFlowsNodeIsExpandedDifferent := false
+	if len(diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded) != len(diagramprocessOther.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded) {
+		ExternalParticipantsWhoseInDataFlowsNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
+			if (diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded[i] == nil) != (diagramprocessOther.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded[i] == nil) {
+				ExternalParticipantsWhoseInDataFlowsNodeIsExpandedDifferent = true
+				break
+			} else if diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded[i] != nil && diagramprocessOther.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded[i] != diagramprocessOther.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded[i] {
+					ExternalParticipantsWhoseInDataFlowsNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ExternalParticipantsWhoseInDataFlowsNodeIsExpandedDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded", diagramprocessOther.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	TasksWhoseNodeIsExpandedDifferent := false
@@ -3306,27 +3368,6 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 	}
 	if participant.IsDataFlowsNodeExpanded != participantOther.IsDataFlowsNodeExpanded {
 		diffs = append(diffs, participant.GongMarshallField(stage, "IsDataFlowsNodeExpanded"))
-	}
-	DataFlowsDifferent := false
-	if len(participant.DataFlows) != len(participantOther.DataFlows) {
-		DataFlowsDifferent = true
-	} else {
-		for i := range participant.DataFlows {
-			if (participant.DataFlows[i] == nil) != (participantOther.DataFlows[i] == nil) {
-				DataFlowsDifferent = true
-				break
-			} else if participant.DataFlows[i] != nil && participantOther.DataFlows[i] != nil {
-				// this is a pointer comparaison
-				if participant.DataFlows[i] != participantOther.DataFlows[i] {
-					DataFlowsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DataFlowsDifferent {
-		ops := Diff(stage, participant, participantOther, "DataFlows", participantOther.DataFlows, participant.DataFlows)
-		diffs = append(diffs, ops)
 	}
 	TaskWhoseOutDataFlowsNodeIsExpandedDifferent := false
 	if len(participant.TaskWhoseOutDataFlowsNodeIsExpanded) != len(participantOther.TaskWhoseOutDataFlowsNodeIsExpanded) {

@@ -108,7 +108,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	}
 
 	for _, dataFlow := range library.RootDataFlows {
-		stager.treeDataFlows(library, dataFlow, dataFlowNodes)
+		stager.treeDataFlowWithinLibrary(library, dataFlow, dataFlowNodes)
 	}
 
 	//

@@ -101,4 +101,51 @@ func (stager *Stager) treeExternalParticipants(
 		stage.Commit()
 	}
 
+	nodeOutDataFlows := &tree.Node{
+		Name:            "out data flows",
+		IsNodeClickable: true,
+		IsExpanded:      slices.Contains(diagramProcess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, externalParticipant),
+	}
+	node.Children = append(node.Children, nodeOutDataFlows)
+	nodeOutDataFlows.OnClick = func(frontNode *tree.Node) {
+		if frontNode.IsExpanded != nodeOutDataFlows.IsExpanded {
+			if frontNode.IsExpanded {
+				if slices.Index(diagramProcess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, externalParticipant) == -1 {
+					diagramProcess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(diagramProcess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, externalParticipant)
+				}
+			} else {
+				if idx := slices.Index(diagramProcess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, externalParticipant); idx != -1 {
+					diagramProcess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = slices.Delete(diagramProcess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, idx, idx+1)
+				}
+			}
+			stager.stage.Commit()
+		}
+	}
+	for _, dataFlow := range externalParticipant.outDataFlows {
+		stager.treeDataFlowsWithinDiagramProcessWithinTask(diagramProcess, dataFlow, nodeOutDataFlows)
+	}
+
+	nodeInDataFlows := &tree.Node{
+		Name:            "in data flows",
+		IsNodeClickable: true,
+		IsExpanded:      slices.Contains(diagramProcess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, externalParticipant),
+	}
+	node.Children = append(node.Children, nodeInDataFlows)
+	nodeInDataFlows.OnClick = func(frontNode *tree.Node) {
+		if frontNode.IsExpanded != nodeInDataFlows.IsExpanded {
+			if frontNode.IsExpanded {
+				if slices.Index(diagramProcess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, externalParticipant) == -1 {
+					diagramProcess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(diagramProcess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, externalParticipant)
+				}
+			} else {
+				if idx := slices.Index(diagramProcess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, externalParticipant); idx != -1 {
+					diagramProcess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = slices.Delete(diagramProcess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, idx, idx+1)
+				}
+			}
+			stager.stage.Commit()
+		}
+	}
+	for _, dataFlow := range externalParticipant.inDataFlows {
+		stager.treeDataFlowsWithinDiagramProcessWithinTask(diagramProcess, dataFlow, nodeInDataFlows)
+	}
 }

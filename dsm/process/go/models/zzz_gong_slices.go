@@ -89,6 +89,20 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramProcess_ExternalParticipantWhoseNodeIsExpanded_reverseMap[_participant] = diagramprocess
 		}
 	}
+	stage.DiagramProcess_ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded_reverseMap = make(map[*Participant]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _participant := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
+			stage.DiagramProcess_ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded_reverseMap[_participant] = diagramprocess
+		}
+	}
+	stage.DiagramProcess_ExternalParticipantsWhoseInDataFlowsNodeIsExpanded_reverseMap = make(map[*Participant]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _participant := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
+			stage.DiagramProcess_ExternalParticipantsWhoseInDataFlowsNodeIsExpanded_reverseMap[_participant] = diagramprocess
+		}
+	}
 	stage.DiagramProcess_TasksWhoseNodeIsExpanded_reverseMap = make(map[*Task]*DiagramProcess)
 	for diagramprocess := range stage.DiagramProcesss {
 		_ = diagramprocess
@@ -243,13 +257,6 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = participant
 		for _, _task := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
 			stage.Participant_TaskWhoseInControlFlowsNodeIsExpanded_reverseMap[_task] = participant
-		}
-	}
-	stage.Participant_DataFlows_reverseMap = make(map[*DataFlow]*Participant)
-	for participant := range stage.Participants {
-		_ = participant
-		for _, _dataflow := range participant.DataFlows {
-			stage.Participant_DataFlows_reverseMap[_dataflow] = participant
 		}
 	}
 	stage.Participant_TaskWhoseOutDataFlowsNodeIsExpanded_reverseMap = make(map[*Task]*Participant)

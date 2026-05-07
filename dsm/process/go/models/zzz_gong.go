@@ -240,6 +240,10 @@ type Stage struct {
 
 	DiagramProcess_ExternalParticipantWhoseNodeIsExpanded_reverseMap map[*Participant]*DiagramProcess
 
+	DiagramProcess_ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded_reverseMap map[*Participant]*DiagramProcess
+
+	DiagramProcess_ExternalParticipantsWhoseInDataFlowsNodeIsExpanded_reverseMap map[*Participant]*DiagramProcess
+
 	DiagramProcess_TasksWhoseNodeIsExpanded_reverseMap map[*Task]*DiagramProcess
 
 	DiagramProcess_Task_Shapes_reverseMap map[*TaskShape]*DiagramProcess
@@ -326,8 +330,6 @@ type Stage struct {
 	Participant_TaskWhoseOutControlFlowsNodeIsExpanded_reverseMap map[*Task]*Participant
 
 	Participant_TaskWhoseInControlFlowsNodeIsExpanded_reverseMap map[*Task]*Participant
-
-	Participant_DataFlows_reverseMap map[*DataFlow]*Participant
 
 	Participant_TaskWhoseOutDataFlowsNodeIsExpanded_reverseMap map[*Task]*Participant
 
@@ -3701,6 +3703,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			ExternalParticipant_Shapes: []*ExternalParticipantShape{{Name: "ExternalParticipant_Shapes"}},
 			// field is initialized with an instance of Participant with the name of the field
 			ExternalParticipantWhoseNodeIsExpanded: []*Participant{{Name: "ExternalParticipantWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Participant with the name of the field
+			ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded: []*Participant{{Name: "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded"}},
+			// field is initialized with an instance of Participant with the name of the field
+			ExternalParticipantsWhoseInDataFlowsNodeIsExpanded: []*Participant{{Name: "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded"}},
 			// field is initialized with an instance of Task with the name of the field
 			TasksWhoseNodeIsExpanded: []*Task{{Name: "TasksWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of TaskShape with the name of the field
@@ -3757,8 +3763,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			TaskWhoseOutControlFlowsNodeIsExpanded: []*Task{{Name: "TaskWhoseOutControlFlowsNodeIsExpanded"}},
 			// field is initialized with an instance of Task with the name of the field
 			TaskWhoseInControlFlowsNodeIsExpanded: []*Task{{Name: "TaskWhoseInControlFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of DataFlow with the name of the field
-			DataFlows: []*DataFlow{{Name: "DataFlows"}},
 			// field is initialized with an instance of Task with the name of the field
 			TaskWhoseOutDataFlowsNodeIsExpanded: []*Task{{Name: "TaskWhoseOutDataFlowsNodeIsExpanded"}},
 			// field is initialized with an instance of Task with the name of the field
@@ -4241,6 +4245,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
+			res := make(map[*Participant][]*DiagramProcess)
+			for diagramprocess := range stage.DiagramProcesss {
+				for _, participant_ := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
+					res[participant_] = append(res[participant_], diagramprocess)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
+			res := make(map[*Participant][]*DiagramProcess)
+			for diagramprocess := range stage.DiagramProcesss {
+				for _, participant_ := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
+					res[participant_] = append(res[participant_], diagramprocess)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "TasksWhoseNodeIsExpanded":
 			res := make(map[*Task][]*DiagramProcess)
 			for diagramprocess := range stage.DiagramProcesss {
@@ -4421,14 +4441,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for participant := range stage.Participants {
 				for _, task_ := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
 					res[task_] = append(res[task_], participant)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "DataFlows":
-			res := make(map[*DataFlow][]*Participant)
-			for participant := range stage.Participants {
-				for _, dataflow_ := range participant.DataFlows {
-					res[dataflow_] = append(res[dataflow_], participant)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4641,9 +4653,6 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Library"
 		rf.Fieldname = "DataFlowsWhoseNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "Participant"
-		rf.Fieldname = "DataFlows"
-		res = append(res, rf)
 		rf.GongstructName = "Process"
 		rf.Fieldname = "DataFlows"
 		res = append(res, rf)
@@ -4691,6 +4700,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "DiagramProcess"
 		rf.Fieldname = "ExternalParticipantWhoseNodeIsExpanded"
+		res = append(res, rf)
+		rf.GongstructName = "DiagramProcess"
+		rf.Fieldname = "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded"
+		res = append(res, rf)
+		rf.GongstructName = "DiagramProcess"
+		rf.Fieldname = "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Process"
 		rf.Fieldname = "Participants"
@@ -5039,6 +5054,16 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 			TargetGongstructName: "Participant",
 		},
 		{
+			Name:                 "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Participant",
+		},
+		{
+			Name:                 "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Participant",
+		},
+		{
 			Name:                 "TasksWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Task",
@@ -5256,11 +5281,6 @@ func (participant *Participant) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsDataFlowsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "DataFlows",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "DataFlow",
 		},
 		{
 			Name:                 "TaskWhoseOutDataFlowsNodeIsExpanded",
@@ -5825,6 +5845,26 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "TasksWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagramprocess.TasksWhoseNodeIsExpanded {
@@ -6138,16 +6178,6 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = fmt.Sprintf("%t", participant.IsDataFlowsNodeExpanded)
 		res.valueBool = participant.IsDataFlowsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "DataFlows":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range participant.DataFlows {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
 	case "TaskWhoseOutDataFlowsNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range participant.TaskWhoseOutDataFlowsNodeIsExpanded {
@@ -6748,6 +6778,34 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 				}
 			}
 		}
+	case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
+		diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = make([]*Participant, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Participants {
+					if stage.Participant_stagedOrder[__instance__] == uint(id) {
+						diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
+		diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = make([]*Participant, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Participants {
+					if stage.Participant_stagedOrder[__instance__] == uint(id) {
+						diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "TasksWhoseNodeIsExpanded":
 		diagramprocess.TasksWhoseNodeIsExpanded = make([]*Task, 0)
 		ids := strings.Split(value.ids, ";")
@@ -7124,20 +7182,6 @@ func (participant *Participant) GongSetFieldValue(fieldName string, value GongFi
 		}
 	case "IsDataFlowsNodeExpanded":
 		participant.IsDataFlowsNodeExpanded = value.GetValueBool()
-	case "DataFlows":
-		participant.DataFlows = make([]*DataFlow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DataFlows {
-					if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-						participant.DataFlows = append(participant.DataFlows, __instance__)
-						break
-					}
-				}
-			}
-		}
 	case "TaskWhoseOutDataFlowsNodeIsExpanded":
 		participant.TaskWhoseOutDataFlowsNodeIsExpanded = make([]*Task, 0)
 		ids := strings.Split(value.ids, ";")

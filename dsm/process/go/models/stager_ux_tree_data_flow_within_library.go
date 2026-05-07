@@ -6,7 +6,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treeDataFlows(
+func (stager *Stager) treeDataFlowWithinLibrary(
 	library *Library,
 	dataFlow *DataFlow,
 	parentNode *tree.Node,
