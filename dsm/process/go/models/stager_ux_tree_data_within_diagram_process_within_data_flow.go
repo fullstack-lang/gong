@@ -73,5 +73,6 @@ func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlow(
 			stage.Commit()
 			return
 		}
+		stager.probeForm.FillUpFormFromGongstruct(data, GetPointerToGongstructName[*Data]())
 	}
 }

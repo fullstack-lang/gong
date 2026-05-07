@@ -726,6 +726,10 @@ func (u *DiagramProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		instance.IsExternalParticipantsNodeExpanded = GongExtractBool(valueExpr)
 	case "ExternalParticipantWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.ExternalParticipantWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, valueExpr, identifierMap)
+	case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, valueExpr, identifierMap)
 	case "TasksWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.TasksWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "Task_Shapes":
@@ -895,8 +899,6 @@ func (u *ParticipantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		GongUnmarshallSliceOfPointers(&instance.TaskWhoseInControlFlowsNodeIsExpanded, valueExpr, identifierMap)
 	case "IsDataFlowsNodeExpanded":
 		instance.IsDataFlowsNodeExpanded = GongExtractBool(valueExpr)
-	case "DataFlows":
-		GongUnmarshallSliceOfPointers(&instance.DataFlows, valueExpr, identifierMap)
 	case "TaskWhoseOutDataFlowsNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.TaskWhoseOutDataFlowsNodeIsExpanded, valueExpr, identifierMap)
 	case "TaskWhoseInDataFlowsNodeIsExpanded":

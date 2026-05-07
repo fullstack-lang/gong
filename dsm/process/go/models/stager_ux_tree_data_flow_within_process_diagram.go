@@ -15,8 +15,8 @@ func (stager *Stager) treeDataFlowsWithinProcessDiagram(
 ) {
 	stage := stager.stage
 
-	// find the shape (if any)
-	shape, isShapePresent := diagramProcess.map_DataFlow_DataFlowShape[dataFlow]
+	// find the dataFlowShape (if any)
+	dataFlowShape, isShapePresent := diagramProcess.map_DataFlow_DataFlowShape[dataFlow]
 
 	isStartShapePresent := false
 	isEndShapePresent := false
@@ -61,9 +61,9 @@ func (stager *Stager) treeDataFlowsWithinProcessDiagram(
 	}
 	isCheckboxDisabled := !(isStartShapePresent && isEndShapePresent)
 
-	node := &tree.Node{
+	dataFlowNode := &tree.Node{
 		Name:                    dataFlow.GetName(),
-		IsExpanded:              false,
+		IsExpanded:              slices.Index(diagramProcess.DataFlowsWhoseNodeIsExpanded, dataFlow) != -1,
 		IsNodeClickable:         true,
 		IsInEditMode:            dataFlow.GetIsInRenameMode(),
 		HasCheckboxButton:       true,
@@ -83,15 +83,15 @@ func (stager *Stager) treeDataFlowsWithinProcessDiagram(
 	}
 
 	if isCheckboxDisabled {
-		node.CheckboxHasToolTip = true
-		node.CheckboxToolTipText = "Start or end shape is missing from the diagram"
+		dataFlowNode.CheckboxHasToolTip = true
+		dataFlowNode.CheckboxToolTipText = "Start or end shape is missing from the diagram"
 	}
-	parentNode.Children = append(parentNode.Children, node)
+	parentNode.Children = append(parentNode.Children, dataFlowNode)
 
-	addRenameButton(dataFlow, node, stager)
+	addRenameButton(dataFlow, dataFlowNode, stager)
 
 	if shape, ok := diagramProcess.map_DataFlow_DataFlowShape[dataFlow]; ok {
-		node.IsChecked = true
+		dataFlowNode.IsChecked = true
 		visibilityButton := &tree.Button{
 			Name:            diagramProcess.GetName(),
 			Icon:            string(buttons.BUTTON_visibility_off),
@@ -107,19 +107,28 @@ func (stager *Stager) treeDataFlowsWithinProcessDiagram(
 			visibilityButton.Icon = string(buttons.BUTTON_visibility)
 			visibilityButton.ToolTipText = "Show on diagram"
 		}
-		node.Buttons = append(node.Buttons, visibilityButton)
+		dataFlowNode.Buttons = append(dataFlowNode.Buttons, visibilityButton)
 	}
 
-	node.OnClick = func(frontNode *tree.Node) {
+	dataFlowNode.OnClick = func(frontNode *tree.Node) {
 		if frontNode.Name != dataFlow.GetName() {
 			dataFlow.SetName(frontNode.Name)
 			dataFlow.SetIsInRenameMode(false)
 			stager.stage.Commit()
 			return
 		}
+		if frontNode.IsExpanded {
+			if !slices.Contains(diagramProcess.DataFlowsWhoseNodeIsExpanded, dataFlow) {
+				diagramProcess.DataFlowsWhoseNodeIsExpanded = append(diagramProcess.DataFlowsWhoseNodeIsExpanded, dataFlow)
+			}
+		} else {
+			if idx := slices.Index(diagramProcess.DataFlowsWhoseNodeIsExpanded, dataFlow); idx != -1 {
+				diagramProcess.DataFlowsWhoseNodeIsExpanded = slices.Delete(diagramProcess.DataFlowsWhoseNodeIsExpanded, idx, idx+1)
+			}
+		}
 		if frontNode.IsChecked && !isShapePresent {
 			isShapePresent = frontNode.IsChecked
-			if shape != nil {
+			if dataFlowShape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
 			// shape = newShapeToDiagram(controlflow, diagramProcess, &diagramProcess.ControlFlowShapes, stage)
@@ -143,18 +152,22 @@ func (stager *Stager) treeDataFlowsWithinProcessDiagram(
 		}
 		if !frontNode.IsChecked && isShapePresent {
 			isShapePresent = frontNode.IsChecked
-			if shape == nil {
+			if dataFlowShape == nil {
 				log.Panic("remove a non existing shape to product")
 			}
-			shape.UnstageVoid(stage)
+			dataFlowShape.UnstageVoid(stage)
 
 			// not necessary since there is a semantic rule (gong clean) that remove the shape from the slice when it is unstaged
-			idx := slices.Index(diagramProcess.DataFlow_Shapes, shape)
+			idx := slices.Index(diagramProcess.DataFlow_Shapes, dataFlowShape)
 			diagramProcess.DataFlow_Shapes = slices.Delete(diagramProcess.DataFlow_Shapes, idx, idx+1)
 			stage.Commit()
 			return
 		}
 		stager.probeForm.FillUpFormFromGongstruct(dataFlow, GetPointerToGongstructName[*DataFlow]())
 		stager.stage.Commit()
+	}
+
+	for _, data := range dataFlow.Datas {
+		stager.treeDataWithinDiagramProcessWithinDataFlow(dataFlowNode, diagramProcess, dataFlow, dataFlowShape, isShapePresent, data)
 	}
 }
