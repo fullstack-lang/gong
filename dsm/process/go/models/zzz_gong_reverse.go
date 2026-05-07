@@ -102,13 +102,6 @@ func (inst *DataFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 				res = _library.Name
 			}
 		}
-	case "Participant":
-		switch reverseField.Fieldname {
-		case "DataFlows":
-			if _participant, ok := stage.Participant_DataFlows_reverseMap[inst]; ok {
-				res = _participant.Name
-			}
-		}
 	case "Process":
 		switch reverseField.Fieldname {
 		case "DataFlows":
@@ -221,6 +214,14 @@ func (inst *Participant) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 			}
 		case "ExternalParticipantWhoseNodeIsExpanded":
 			if _diagramprocess, ok := stage.DiagramProcess_ExternalParticipantWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
+			if _diagramprocess, ok := stage.DiagramProcess_ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
+			if _diagramprocess, ok := stage.DiagramProcess_ExternalParticipantsWhoseInDataFlowsNodeIsExpanded_reverseMap[inst]; ok {
 				res = _diagramprocess.Name
 			}
 		}
@@ -447,11 +448,6 @@ func (inst *DataFlow) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 		case "DataFlowsWhoseNodeIsExpanded":
 			res = stage.Library_DataFlowsWhoseNodeIsExpanded_reverseMap[inst]
 		}
-	case "Participant":
-		switch reverseField.Fieldname {
-		case "DataFlows":
-			res = stage.Participant_DataFlows_reverseMap[inst]
-		}
 	case "Process":
 		switch reverseField.Fieldname {
 		case "DataFlows":
@@ -546,6 +542,10 @@ func (inst *Participant) GongGetReverseFieldOwner(stage *Stage, reverseField *Re
 			res = stage.DiagramProcess_ParticipantWhoseNodeIsExpanded_reverseMap[inst]
 		case "ExternalParticipantWhoseNodeIsExpanded":
 			res = stage.DiagramProcess_ExternalParticipantWhoseNodeIsExpanded_reverseMap[inst]
+		case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
+			res = stage.DiagramProcess_ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded_reverseMap[inst]
+		case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
+			res = stage.DiagramProcess_ExternalParticipantsWhoseInDataFlowsNodeIsExpanded_reverseMap[inst]
 		}
 	case "Process":
 		switch reverseField.Fieldname {

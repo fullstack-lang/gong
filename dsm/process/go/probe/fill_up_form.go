@@ -308,28 +308,6 @@ func FillUpForm(
 		{
 			var rf models.ReverseField
 			_ = rf
-			rf.GongstructName = "Participant"
-			rf.Fieldname = "DataFlows"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Participant),
-					"DataFlows",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Participant](
-					nil,
-					"DataFlows",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
-		}
-		{
-			var rf models.ReverseField
-			_ = rf
 			rf.GongstructName = "Process"
 			rf.Fieldname = "DataFlows"
 			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
@@ -449,6 +427,8 @@ func FillUpForm(
 		BasicFieldtoForm("IsExternalParticipantsNodeExpanded", instanceWithInferedType.IsExternalParticipantsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("ExternalParticipantWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ExternalParticipantWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("ExternalParticipantsWhoseInDataFlowsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("TasksWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.TasksWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("Task_Shapes", instanceWithInferedType, &instanceWithInferedType.Task_Shapes, formGroup, probe)
 		AssociationSliceToForm("ControlFlowsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ControlFlowsWhoseNodeIsExpanded, formGroup, probe)
@@ -634,7 +614,6 @@ func FillUpForm(
 		AssociationSliceToForm("TaskWhoseInControlFlowsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.TaskWhoseInControlFlowsNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsDataFlowsNodeExpanded", instanceWithInferedType.IsDataFlowsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationSliceToForm("DataFlows", instanceWithInferedType, &instanceWithInferedType.DataFlows, formGroup, probe)
 		AssociationSliceToForm("TaskWhoseOutDataFlowsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.TaskWhoseOutDataFlowsNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("TaskWhoseInDataFlowsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.TaskWhoseInDataFlowsNodeIsExpanded, formGroup, probe)
 		{
@@ -676,6 +655,50 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.DiagramProcess](
 					nil,
 					"ExternalParticipantWhoseNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "DiagramProcess"
+			rf.Fieldname = "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.DiagramProcess),
+					"ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.DiagramProcess](
+					nil,
+					"ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "DiagramProcess"
+			rf.Fieldname = "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.DiagramProcess),
+					"ExternalParticipantsWhoseInDataFlowsNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.DiagramProcess](
+					nil,
+					"ExternalParticipantsWhoseInDataFlowsNodeIsExpanded",
 					instanceWithInferedType,
 					formGroup,
 					probe)

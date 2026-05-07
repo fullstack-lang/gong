@@ -102,6 +102,8 @@ func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagramprocess.ParticipantWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.ExternalParticipant_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.ExternalParticipantWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.TasksWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.Task_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.ControlFlowsWhoseNodeIsExpanded) || modified
@@ -145,7 +147,6 @@ func (participant *Participant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &participant.ControlFlows) || modified
 	modified = GongCleanSlice(stage, &participant.TaskWhoseOutControlFlowsNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &participant.TaskWhoseInControlFlowsNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &participant.DataFlows) || modified
 	modified = GongCleanSlice(stage, &participant.TaskWhoseOutDataFlowsNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &participant.TaskWhoseInDataFlowsNodeIsExpanded) || modified
 	// insertion point per field
