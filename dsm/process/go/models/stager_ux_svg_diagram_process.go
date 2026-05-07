@@ -226,8 +226,10 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			Y:                   rect.Y + rect.Height,
 			CanHaveBottomHandle: true,
 		}
-		diagramProcess.map_ExternalParticipant_Rect[externalParticipantShape.Participant] = rect
-		diagramProcess.map_SvgRect_ExternalParticipantShape[rect] = externalParticipantShape
+		diagramProcess.map_ExternalParticipant_Rect[externalParticipantShape.Participant] = tailRect
+
+		// this is the tail rect that is used for drawing links between external participant and task, so we need to keep a reference of it in the diagram process
+		diagramProcess.map_SvgRect_ExternalParticipantShape[tailRect] = externalParticipantShape
 		// if the tailRect bottom handle is used, the heigth is updated
 		tailRect.OnUpdate = func(updatedRect *svg.Rect) {
 			diffSize := externalParticipantShape.TailHeigth != updatedRect.Height
@@ -399,17 +401,30 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		if dataFlowShape.GetIsHidden() {
 			continue
 		}
-		_ = dataFlowShape
 
-		startTask := dataFlowShape.DataFlow.StartTask
-		endTask := dataFlowShape.DataFlow.EndTask
+		var startRect, endRect *svg.Rect
+		df := dataFlowShape.DataFlow
 
-		if startTask == nil || endTask == nil {
-			log.Panic("There should be a start task and a end task")
+		switch df.Type {
+		case DataFlow_Task2Task:
+			if df.StartTask == nil || df.EndTask == nil {
+				log.Panic("There should be a start task and an end task")
+			}
+			startRect = diagramProcess.map_Task_Rect[df.StartTask]
+			endRect = diagramProcess.map_Task_Rect[df.EndTask]
+		case DataFlow_ExternalParticipant2Task:
+			if df.StartExternalParticipant == nil || df.EndTask == nil {
+				log.Panic("There should be a start external participant and an end task")
+			}
+			startRect = diagramProcess.map_ExternalParticipant_Rect[df.StartExternalParticipant]
+			endRect = diagramProcess.map_Task_Rect[df.EndTask]
+		case DataFlow_Task2ExternalParticipant:
+			if df.StartTask == nil || df.EndExternalParticipant == nil {
+				log.Panic("There should be a start task and an end external participant")
+			}
+			startRect = diagramProcess.map_Task_Rect[df.StartTask]
+			endRect = diagramProcess.map_ExternalParticipant_Rect[df.EndExternalParticipant]
 		}
-
-		startRect := diagramProcess.map_Task_Rect[startTask]
-		endRect := diagramProcess.map_Task_Rect[endTask]
 
 		if startRect == nil || endRect == nil {
 			continue

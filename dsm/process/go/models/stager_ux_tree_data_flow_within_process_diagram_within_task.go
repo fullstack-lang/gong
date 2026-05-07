@@ -20,11 +20,44 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 
 	isStartShapePresent := false
 	isEndShapePresent := false
-	if dataFlow.StartTask != nil {
-		_, isStartShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.StartTask]
-	}
-	if dataFlow.EndTask != nil {
-		_, isEndShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.EndTask]
+
+	var startName, endName string
+	var startElement, endElement AbstractType
+
+	switch dataFlow.Type {
+	case DataFlow_Task2Task:
+		if dataFlow.StartTask != nil {
+			_, isStartShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.StartTask]
+			startName = dataFlow.StartTask.GetName()
+			startElement = dataFlow.StartTask
+		}
+		if dataFlow.EndTask != nil {
+			_, isEndShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.EndTask]
+			endName = dataFlow.EndTask.GetName()
+			endElement = dataFlow.EndTask
+		}
+	case DataFlow_ExternalParticipant2Task:
+		if dataFlow.StartExternalParticipant != nil {
+			_, isStartShapePresent = diagramProcess.map_Participant_ExternalParticipantShape[dataFlow.StartExternalParticipant]
+			startName = dataFlow.StartExternalParticipant.GetName()
+			startElement = dataFlow.StartExternalParticipant
+		}
+		if dataFlow.EndTask != nil {
+			_, isEndShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.EndTask]
+			endName = dataFlow.EndTask.GetName()
+			endElement = dataFlow.EndTask
+		}
+	case DataFlow_Task2ExternalParticipant:
+		if dataFlow.StartTask != nil {
+			_, isStartShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.StartTask]
+			startName = dataFlow.StartTask.GetName()
+			startElement = dataFlow.StartTask
+		}
+		if dataFlow.EndExternalParticipant != nil {
+			_, isEndShapePresent = diagramProcess.map_Participant_ExternalParticipantShape[dataFlow.EndExternalParticipant]
+			endName = dataFlow.EndExternalParticipant.GetName()
+			endElement = dataFlow.EndExternalParticipant
+		}
 	}
 	isCheckboxDisabled := !(isStartShapePresent && isEndShapePresent)
 
@@ -40,7 +73,7 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 		CheckboxToolTipPosition: tree.Left,
 		CheckboxToolTipText: func() string {
 			if isCheckboxDisabled {
-				return "A data shape cannot be created if the start or end task shape is not present from the diagram"
+				return "A data shape cannot be created if the start or end shape is not present from the diagram"
 			}
 			if isShapePresent {
 				return "Click to remove the data flow shape"
@@ -51,7 +84,7 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 
 	if isCheckboxDisabled {
 		dataFlowNode.CheckboxHasToolTip = true
-		dataFlowNode.CheckboxToolTipText = "Start or end task shape is missing from the diagram"
+		dataFlowNode.CheckboxToolTipText = "Start or end shape is missing from the diagram"
 	}
 	parentNode.Children = append(parentNode.Children, dataFlowNode)
 
@@ -108,9 +141,9 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 			dataFlowShape := (&DataFlowShape{
 				DataFlow: dataFlow,
 			}).Stage(stage)
-			dataFlowShape.SetName(dataFlow.StartTask.GetName() + " to " + dataFlow.EndTask.GetName())
-			dataFlowShape.SetAbstractStartElement(dataFlow.StartTask)
-			dataFlowShape.SetAbstractEndElement(dataFlow.EndTask)
+			dataFlowShape.SetName(startName + " to " + endName)
+			dataFlowShape.SetAbstractStartElement(startElement)
+			dataFlowShape.SetAbstractEndElement(endElement)
 			dataFlowShape.SetStartOrientation(ORIENTATION_VERTICAL)
 			dataFlowShape.SetEndOrientation(ORIENTATION_VERTICAL)
 
