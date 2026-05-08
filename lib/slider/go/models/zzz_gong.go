@@ -788,19 +788,19 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		Checkbox_stagedOrder: make(map[*Checkbox]uint),
 		Checkbox_orderStaged: make(map[uint]*Checkbox),
-		Checkboxs_reference: make(map[*Checkbox]*Checkbox),
+		Checkboxs_reference:  make(map[*Checkbox]*Checkbox),
 
 		Group_stagedOrder: make(map[*Group]uint),
 		Group_orderStaged: make(map[uint]*Group),
-		Groups_reference: make(map[*Group]*Group),
+		Groups_reference:  make(map[*Group]*Group),
 
 		Layout_stagedOrder: make(map[*Layout]uint),
 		Layout_orderStaged: make(map[uint]*Layout),
-		Layouts_reference: make(map[*Layout]*Layout),
+		Layouts_reference:  make(map[*Layout]*Layout),
 
 		Slider_stagedOrder: make(map[*Slider]uint),
 		Slider_orderStaged: make(map[uint]*Slider),
-		Sliders_reference: make(map[*Slider]*Slider),
+		Sliders_reference:  make(map[*Slider]*Slider),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

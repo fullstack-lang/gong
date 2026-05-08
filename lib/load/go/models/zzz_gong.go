@@ -728,15 +728,15 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		FileToDownload_stagedOrder: make(map[*FileToDownload]uint),
 		FileToDownload_orderStaged: make(map[uint]*FileToDownload),
-		FileToDownloads_reference: make(map[*FileToDownload]*FileToDownload),
+		FileToDownloads_reference:  make(map[*FileToDownload]*FileToDownload),
 
 		FileToUpload_stagedOrder: make(map[*FileToUpload]uint),
 		FileToUpload_orderStaged: make(map[uint]*FileToUpload),
-		FileToUploads_reference: make(map[*FileToUpload]*FileToUpload),
+		FileToUploads_reference:  make(map[*FileToUpload]*FileToUpload),
 
 		Message_stagedOrder: make(map[*Message]uint),
 		Message_orderStaged: make(map[uint]*Message),
-		Messages_reference: make(map[*Message]*Message),
+		Messages_reference:  make(map[*Message]*Message),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

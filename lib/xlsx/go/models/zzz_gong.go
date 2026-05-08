@@ -844,23 +844,23 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		DisplaySelection_stagedOrder: make(map[*DisplaySelection]uint),
 		DisplaySelection_orderStaged: make(map[uint]*DisplaySelection),
-		DisplaySelections_reference: make(map[*DisplaySelection]*DisplaySelection),
+		DisplaySelections_reference:  make(map[*DisplaySelection]*DisplaySelection),
 
 		XLCell_stagedOrder: make(map[*XLCell]uint),
 		XLCell_orderStaged: make(map[uint]*XLCell),
-		XLCells_reference: make(map[*XLCell]*XLCell),
+		XLCells_reference:  make(map[*XLCell]*XLCell),
 
 		XLFile_stagedOrder: make(map[*XLFile]uint),
 		XLFile_orderStaged: make(map[uint]*XLFile),
-		XLFiles_reference: make(map[*XLFile]*XLFile),
+		XLFiles_reference:  make(map[*XLFile]*XLFile),
 
 		XLRow_stagedOrder: make(map[*XLRow]uint),
 		XLRow_orderStaged: make(map[uint]*XLRow),
-		XLRows_reference: make(map[*XLRow]*XLRow),
+		XLRows_reference:  make(map[*XLRow]*XLRow),
 
 		XLSheet_stagedOrder: make(map[*XLSheet]uint),
 		XLSheet_orderStaged: make(map[uint]*XLSheet),
-		XLSheets_reference: make(map[*XLSheet]*XLSheet),
+		XLSheets_reference:  make(map[*XLSheet]*XLSheet),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

@@ -890,27 +890,27 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		Command_stagedOrder: make(map[*Command]uint),
 		Command_orderStaged: make(map[uint]*Command),
-		Commands_reference: make(map[*Command]*Command),
+		Commands_reference:  make(map[*Command]*Command),
 
 		DummyAgent_stagedOrder: make(map[*DummyAgent]uint),
 		DummyAgent_orderStaged: make(map[uint]*DummyAgent),
-		DummyAgents_reference: make(map[*DummyAgent]*DummyAgent),
+		DummyAgents_reference:  make(map[*DummyAgent]*DummyAgent),
 
 		Engine_stagedOrder: make(map[*Engine]uint),
 		Engine_orderStaged: make(map[uint]*Engine),
-		Engines_reference: make(map[*Engine]*Engine),
+		Engines_reference:  make(map[*Engine]*Engine),
 
 		Event_stagedOrder: make(map[*Event]uint),
 		Event_orderStaged: make(map[uint]*Event),
-		Events_reference: make(map[*Event]*Event),
+		Events_reference:  make(map[*Event]*Event),
 
 		Status_stagedOrder: make(map[*Status]uint),
 		Status_orderStaged: make(map[uint]*Status),
-		Statuss_reference: make(map[*Status]*Status),
+		Statuss_reference:  make(map[*Status]*Status),
 
 		UpdateState_stagedOrder: make(map[*UpdateState]uint),
 		UpdateState_orderStaged: make(map[uint]*UpdateState),
-		UpdateStates_reference: make(map[*UpdateState]*UpdateState),
+		UpdateStates_reference:  make(map[*UpdateState]*UpdateState),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

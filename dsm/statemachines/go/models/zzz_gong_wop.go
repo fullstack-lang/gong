@@ -255,3 +255,4 @@ func (from *Transition_Shape) CopyBasicFields(to *Transition_Shape) {
 	to.IsHidden = from.IsHidden
 }
 
+// end of insertion point

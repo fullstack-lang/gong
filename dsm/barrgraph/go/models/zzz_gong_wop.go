@@ -516,3 +516,4 @@ func (from *Place) CopyBasicFields(to *Place) {
 	to.Name = from.Name
 }
 
+// end of insertion point

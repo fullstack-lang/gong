@@ -208,3 +208,4 @@ func (from *Table) CopyBasicFields(to *Table) {
 	to.NbOfStickyColumns = from.NbOfStickyColumns
 }
 
+// end of insertion point

@@ -155,3 +155,4 @@ func (from *Gstruct) CopyBasicFields(to *Gstruct) {
 	to.Intfield = from.Intfield
 }
 
+// end of insertion point

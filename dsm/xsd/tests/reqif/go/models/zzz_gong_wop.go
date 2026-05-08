@@ -1416,3 +1416,4 @@ func (from *XHTML_CONTENT) CopyBasicFields(to *XHTML_CONTENT) {
 	to.EnclosedText = from.EnclosedText
 }
 
+// end of insertion point

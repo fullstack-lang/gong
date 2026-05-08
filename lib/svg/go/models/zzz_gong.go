@@ -1816,91 +1816,91 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		Animate_stagedOrder: make(map[*Animate]uint),
 		Animate_orderStaged: make(map[uint]*Animate),
-		Animates_reference: make(map[*Animate]*Animate),
+		Animates_reference:  make(map[*Animate]*Animate),
 
 		Circle_stagedOrder: make(map[*Circle]uint),
 		Circle_orderStaged: make(map[uint]*Circle),
-		Circles_reference: make(map[*Circle]*Circle),
+		Circles_reference:  make(map[*Circle]*Circle),
 
 		Condition_stagedOrder: make(map[*Condition]uint),
 		Condition_orderStaged: make(map[uint]*Condition),
-		Conditions_reference: make(map[*Condition]*Condition),
+		Conditions_reference:  make(map[*Condition]*Condition),
 
 		ControlPoint_stagedOrder: make(map[*ControlPoint]uint),
 		ControlPoint_orderStaged: make(map[uint]*ControlPoint),
-		ControlPoints_reference: make(map[*ControlPoint]*ControlPoint),
+		ControlPoints_reference:  make(map[*ControlPoint]*ControlPoint),
 
 		Ellipse_stagedOrder: make(map[*Ellipse]uint),
 		Ellipse_orderStaged: make(map[uint]*Ellipse),
-		Ellipses_reference: make(map[*Ellipse]*Ellipse),
+		Ellipses_reference:  make(map[*Ellipse]*Ellipse),
 
 		Layer_stagedOrder: make(map[*Layer]uint),
 		Layer_orderStaged: make(map[uint]*Layer),
-		Layers_reference: make(map[*Layer]*Layer),
+		Layers_reference:  make(map[*Layer]*Layer),
 
 		Line_stagedOrder: make(map[*Line]uint),
 		Line_orderStaged: make(map[uint]*Line),
-		Lines_reference: make(map[*Line]*Line),
+		Lines_reference:  make(map[*Line]*Line),
 
 		Link_stagedOrder: make(map[*Link]uint),
 		Link_orderStaged: make(map[uint]*Link),
-		Links_reference: make(map[*Link]*Link),
+		Links_reference:  make(map[*Link]*Link),
 
 		LinkAnchoredText_stagedOrder: make(map[*LinkAnchoredText]uint),
 		LinkAnchoredText_orderStaged: make(map[uint]*LinkAnchoredText),
-		LinkAnchoredTexts_reference: make(map[*LinkAnchoredText]*LinkAnchoredText),
+		LinkAnchoredTexts_reference:  make(map[*LinkAnchoredText]*LinkAnchoredText),
 
 		Path_stagedOrder: make(map[*Path]uint),
 		Path_orderStaged: make(map[uint]*Path),
-		Paths_reference: make(map[*Path]*Path),
+		Paths_reference:  make(map[*Path]*Path),
 
 		Point_stagedOrder: make(map[*Point]uint),
 		Point_orderStaged: make(map[uint]*Point),
-		Points_reference: make(map[*Point]*Point),
+		Points_reference:  make(map[*Point]*Point),
 
 		Polygone_stagedOrder: make(map[*Polygone]uint),
 		Polygone_orderStaged: make(map[uint]*Polygone),
-		Polygones_reference: make(map[*Polygone]*Polygone),
+		Polygones_reference:  make(map[*Polygone]*Polygone),
 
 		Polyline_stagedOrder: make(map[*Polyline]uint),
 		Polyline_orderStaged: make(map[uint]*Polyline),
-		Polylines_reference: make(map[*Polyline]*Polyline),
+		Polylines_reference:  make(map[*Polyline]*Polyline),
 
 		Rect_stagedOrder: make(map[*Rect]uint),
 		Rect_orderStaged: make(map[uint]*Rect),
-		Rects_reference: make(map[*Rect]*Rect),
+		Rects_reference:  make(map[*Rect]*Rect),
 
 		RectAnchoredPath_stagedOrder: make(map[*RectAnchoredPath]uint),
 		RectAnchoredPath_orderStaged: make(map[uint]*RectAnchoredPath),
-		RectAnchoredPaths_reference: make(map[*RectAnchoredPath]*RectAnchoredPath),
+		RectAnchoredPaths_reference:  make(map[*RectAnchoredPath]*RectAnchoredPath),
 
 		RectAnchoredPngImage_stagedOrder: make(map[*RectAnchoredPngImage]uint),
 		RectAnchoredPngImage_orderStaged: make(map[uint]*RectAnchoredPngImage),
-		RectAnchoredPngImages_reference: make(map[*RectAnchoredPngImage]*RectAnchoredPngImage),
+		RectAnchoredPngImages_reference:  make(map[*RectAnchoredPngImage]*RectAnchoredPngImage),
 
 		RectAnchoredRect_stagedOrder: make(map[*RectAnchoredRect]uint),
 		RectAnchoredRect_orderStaged: make(map[uint]*RectAnchoredRect),
-		RectAnchoredRects_reference: make(map[*RectAnchoredRect]*RectAnchoredRect),
+		RectAnchoredRects_reference:  make(map[*RectAnchoredRect]*RectAnchoredRect),
 
 		RectAnchoredText_stagedOrder: make(map[*RectAnchoredText]uint),
 		RectAnchoredText_orderStaged: make(map[uint]*RectAnchoredText),
-		RectAnchoredTexts_reference: make(map[*RectAnchoredText]*RectAnchoredText),
+		RectAnchoredTexts_reference:  make(map[*RectAnchoredText]*RectAnchoredText),
 
 		RectLinkLink_stagedOrder: make(map[*RectLinkLink]uint),
 		RectLinkLink_orderStaged: make(map[uint]*RectLinkLink),
-		RectLinkLinks_reference: make(map[*RectLinkLink]*RectLinkLink),
+		RectLinkLinks_reference:  make(map[*RectLinkLink]*RectLinkLink),
 
 		SVG_stagedOrder: make(map[*SVG]uint),
 		SVG_orderStaged: make(map[uint]*SVG),
-		SVGs_reference: make(map[*SVG]*SVG),
+		SVGs_reference:  make(map[*SVG]*SVG),
 
 		SvgText_stagedOrder: make(map[*SvgText]uint),
 		SvgText_orderStaged: make(map[uint]*SvgText),
-		SvgTexts_reference: make(map[*SvgText]*SvgText),
+		SvgTexts_reference:  make(map[*SvgText]*SvgText),
 
 		Text_stagedOrder: make(map[*Text]uint),
 		Text_orderStaged: make(map[uint]*Text),
-		Texts_reference: make(map[*Text]*Text),
+		Texts_reference:  make(map[*Text]*Text),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

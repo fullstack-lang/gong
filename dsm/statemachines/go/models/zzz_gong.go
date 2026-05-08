@@ -1406,63 +1406,63 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		Action_stagedOrder: make(map[*Action]uint),
 		Action_orderStaged: make(map[uint]*Action),
-		Actions_reference: make(map[*Action]*Action),
+		Actions_reference:  make(map[*Action]*Action),
 
 		Activities_stagedOrder: make(map[*Activities]uint),
 		Activities_orderStaged: make(map[uint]*Activities),
-		Activitiess_reference: make(map[*Activities]*Activities),
+		Activitiess_reference:  make(map[*Activities]*Activities),
 
 		Architecture_stagedOrder: make(map[*Architecture]uint),
 		Architecture_orderStaged: make(map[uint]*Architecture),
-		Architectures_reference: make(map[*Architecture]*Architecture),
+		Architectures_reference:  make(map[*Architecture]*Architecture),
 
 		Diagram_stagedOrder: make(map[*Diagram]uint),
 		Diagram_orderStaged: make(map[uint]*Diagram),
-		Diagrams_reference: make(map[*Diagram]*Diagram),
+		Diagrams_reference:  make(map[*Diagram]*Diagram),
 
 		Guard_stagedOrder: make(map[*Guard]uint),
 		Guard_orderStaged: make(map[uint]*Guard),
-		Guards_reference: make(map[*Guard]*Guard),
+		Guards_reference:  make(map[*Guard]*Guard),
 
 		Kill_stagedOrder: make(map[*Kill]uint),
 		Kill_orderStaged: make(map[uint]*Kill),
-		Kills_reference: make(map[*Kill]*Kill),
+		Kills_reference:  make(map[*Kill]*Kill),
 
 		Message_stagedOrder: make(map[*Message]uint),
 		Message_orderStaged: make(map[uint]*Message),
-		Messages_reference: make(map[*Message]*Message),
+		Messages_reference:  make(map[*Message]*Message),
 
 		MessageType_stagedOrder: make(map[*MessageType]uint),
 		MessageType_orderStaged: make(map[uint]*MessageType),
-		MessageTypes_reference: make(map[*MessageType]*MessageType),
+		MessageTypes_reference:  make(map[*MessageType]*MessageType),
 
 		Object_stagedOrder: make(map[*Object]uint),
 		Object_orderStaged: make(map[uint]*Object),
-		Objects_reference: make(map[*Object]*Object),
+		Objects_reference:  make(map[*Object]*Object),
 
 		Role_stagedOrder: make(map[*Role]uint),
 		Role_orderStaged: make(map[uint]*Role),
-		Roles_reference: make(map[*Role]*Role),
+		Roles_reference:  make(map[*Role]*Role),
 
 		State_stagedOrder: make(map[*State]uint),
 		State_orderStaged: make(map[uint]*State),
-		States_reference: make(map[*State]*State),
+		States_reference:  make(map[*State]*State),
 
 		StateMachine_stagedOrder: make(map[*StateMachine]uint),
 		StateMachine_orderStaged: make(map[uint]*StateMachine),
-		StateMachines_reference: make(map[*StateMachine]*StateMachine),
+		StateMachines_reference:  make(map[*StateMachine]*StateMachine),
 
 		StateShape_stagedOrder: make(map[*StateShape]uint),
 		StateShape_orderStaged: make(map[uint]*StateShape),
-		StateShapes_reference: make(map[*StateShape]*StateShape),
+		StateShapes_reference:  make(map[*StateShape]*StateShape),
 
 		Transition_stagedOrder: make(map[*Transition]uint),
 		Transition_orderStaged: make(map[uint]*Transition),
-		Transitions_reference: make(map[*Transition]*Transition),
+		Transitions_reference:  make(map[*Transition]*Transition),
 
 		Transition_Shape_stagedOrder: make(map[*Transition_Shape]uint),
 		Transition_Shape_orderStaged: make(map[uint]*Transition_Shape),
-		Transition_Shapes_reference: make(map[*Transition_Shape]*Transition_Shape),
+		Transition_Shapes_reference:  make(map[*Transition_Shape]*Transition_Shape),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

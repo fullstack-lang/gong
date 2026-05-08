@@ -48,3 +48,4 @@ func (from *Message) CopyBasicFields(to *Message) {
 	to.Name = from.Name
 }
 
+// end of insertion point

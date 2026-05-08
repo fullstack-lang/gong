@@ -589,3 +589,4 @@ func (from *WhiteSpace) CopyBasicFields(to *WhiteSpace) {
 	to.Value = from.Value
 }
 
+// end of insertion point

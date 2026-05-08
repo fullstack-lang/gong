@@ -1068,39 +1068,39 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		AttributeShape_stagedOrder: make(map[*AttributeShape]uint),
 		AttributeShape_orderStaged: make(map[uint]*AttributeShape),
-		AttributeShapes_reference: make(map[*AttributeShape]*AttributeShape),
+		AttributeShapes_reference:  make(map[*AttributeShape]*AttributeShape),
 
 		Classdiagram_stagedOrder: make(map[*Classdiagram]uint),
 		Classdiagram_orderStaged: make(map[uint]*Classdiagram),
-		Classdiagrams_reference: make(map[*Classdiagram]*Classdiagram),
+		Classdiagrams_reference:  make(map[*Classdiagram]*Classdiagram),
 
 		DiagramPackage_stagedOrder: make(map[*DiagramPackage]uint),
 		DiagramPackage_orderStaged: make(map[uint]*DiagramPackage),
-		DiagramPackages_reference: make(map[*DiagramPackage]*DiagramPackage),
+		DiagramPackages_reference:  make(map[*DiagramPackage]*DiagramPackage),
 
 		GongEnumShape_stagedOrder: make(map[*GongEnumShape]uint),
 		GongEnumShape_orderStaged: make(map[uint]*GongEnumShape),
-		GongEnumShapes_reference: make(map[*GongEnumShape]*GongEnumShape),
+		GongEnumShapes_reference:  make(map[*GongEnumShape]*GongEnumShape),
 
 		GongEnumValueShape_stagedOrder: make(map[*GongEnumValueShape]uint),
 		GongEnumValueShape_orderStaged: make(map[uint]*GongEnumValueShape),
-		GongEnumValueShapes_reference: make(map[*GongEnumValueShape]*GongEnumValueShape),
+		GongEnumValueShapes_reference:  make(map[*GongEnumValueShape]*GongEnumValueShape),
 
 		GongNoteLinkShape_stagedOrder: make(map[*GongNoteLinkShape]uint),
 		GongNoteLinkShape_orderStaged: make(map[uint]*GongNoteLinkShape),
-		GongNoteLinkShapes_reference: make(map[*GongNoteLinkShape]*GongNoteLinkShape),
+		GongNoteLinkShapes_reference:  make(map[*GongNoteLinkShape]*GongNoteLinkShape),
 
 		GongNoteShape_stagedOrder: make(map[*GongNoteShape]uint),
 		GongNoteShape_orderStaged: make(map[uint]*GongNoteShape),
-		GongNoteShapes_reference: make(map[*GongNoteShape]*GongNoteShape),
+		GongNoteShapes_reference:  make(map[*GongNoteShape]*GongNoteShape),
 
 		GongStructShape_stagedOrder: make(map[*GongStructShape]uint),
 		GongStructShape_orderStaged: make(map[uint]*GongStructShape),
-		GongStructShapes_reference: make(map[*GongStructShape]*GongStructShape),
+		GongStructShapes_reference:  make(map[*GongStructShape]*GongStructShape),
 
 		LinkShape_stagedOrder: make(map[*LinkShape]uint),
 		LinkShape_orderStaged: make(map[uint]*LinkShape),
-		LinkShapes_reference: make(map[*LinkShape]*LinkShape),
+		LinkShapes_reference:  make(map[*LinkShape]*LinkShape),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

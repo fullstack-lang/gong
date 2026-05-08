@@ -92,3 +92,4 @@ func (from *Link) CopyBasicFields(to *Link) {
 	to.EnclosedText = from.EnclosedText
 }
 
+// end of insertion point

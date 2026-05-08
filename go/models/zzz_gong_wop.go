@@ -256,3 +256,4 @@ func (from *SliceOfPointerToGongStructField) CopyBasicFields(to *SliceOfPointerT
 	to.CompositeStructName = from.CompositeStructName
 }
 
+// end of insertion point

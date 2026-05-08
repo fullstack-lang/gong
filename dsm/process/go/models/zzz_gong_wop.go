@@ -387,3 +387,4 @@ func (from *TaskShape) CopyBasicFields(to *TaskShape) {
 	to.IsHidden = from.IsHidden
 }
 
+// end of insertion point
