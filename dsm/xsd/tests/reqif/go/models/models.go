@@ -11,10 +11,9 @@ var _ xml.Attr
 // From xsd simple type with enumerate restriction "GLOBAL-REF"
 type Enum_GLOBAL_REF string
 
-const (
-)
+const ()
 
-	// insertion point for gongstructs declarations
+// insertion point for gongstructs declarations
 
 // ALTERNATIVE_ID Named source named complex type "ALTERNATIVE-ID"
 type ALTERNATIVE_ID struct {
