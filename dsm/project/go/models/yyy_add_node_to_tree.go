@@ -156,7 +156,7 @@ func createBaseNode[
 	node := &tree.Node{
 		Name: element.GetName(),
 
-		IsExpanded: slices.Index(*elementsWhoseNodeIsExpanded, element) != -1,
+		IsExpanded: slices.Contains(*elementsWhoseNodeIsExpanded, element),
 
 		HasCheckboxButton:  true,
 		IsCheckboxDisabled: !diagram.GetIsChecked(),

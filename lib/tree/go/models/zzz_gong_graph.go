@@ -404,7 +404,7 @@ func (stage *Stage) UnstageBranchTree(tree *Tree) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *Button) GongReconstructPointersFromReferences(stage *Stage, instance *Button) () {
+func (reference *Button) GongReconstructPointersFromReferences(stage *Stage, instance *Button) {
 	// insertion point for pointers field
 	if instance.SVGIcon != nil {
 		reference.SVGIcon = stage.SVGIcons_reference[instance.SVGIcon]
@@ -414,7 +414,7 @@ func (reference *Button) GongReconstructPointersFromReferences(stage *Stage, ins
 	return
 }
 
-func (reference *Node) GongReconstructPointersFromReferences(stage *Stage, instance *Node) () {
+func (reference *Node) GongReconstructPointersFromReferences(stage *Stage, instance *Node) {
 	// insertion point for pointers field
 	if instance.PreceedingSVGIcon != nil {
 		reference.PreceedingSVGIcon = stage.SVGIcons_reference[instance.PreceedingSVGIcon]
@@ -432,14 +432,14 @@ func (reference *Node) GongReconstructPointersFromReferences(stage *Stage, insta
 	return
 }
 
-func (reference *SVGIcon) GongReconstructPointersFromReferences(stage *Stage, instance *SVGIcon) () {
+func (reference *SVGIcon) GongReconstructPointersFromReferences(stage *Stage, instance *SVGIcon) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Tree) GongReconstructPointersFromReferences(stage *Stage, instance *Tree) () {
+func (reference *Tree) GongReconstructPointersFromReferences(stage *Stage, instance *Tree) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.RootNodes = reference.RootNodes[:0]
@@ -451,7 +451,7 @@ func (reference *Tree) GongReconstructPointersFromReferences(stage *Stage, insta
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *Button) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Button) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.SVGIcon; _reference != nil {
 		reference.SVGIcon = nil
@@ -464,7 +464,7 @@ func (reference *Button) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *Node) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Node) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.PreceedingSVGIcon; _reference != nil {
 		reference.PreceedingSVGIcon = nil
@@ -491,14 +491,14 @@ func (reference *Node) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *SVGIcon) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *SVGIcon) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Tree) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Tree) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _RootNodes []*Node

@@ -266,7 +266,7 @@ func (stage *Stage) UnstageBranch{{Structname}}({{structname}} *{{Structname}}) 
 }
 `,
 	ModelGongGraphReconstructPointersFromReferences: `
-func (reference *{{Structname}}) GongReconstructPointersFromReferences(stage *Stage, instance *{{Structname}}) () {
+func (reference *{{Structname}}) GongReconstructPointersFromReferences(stage *Stage, instance *{{Structname}}) {
 	// insertion point for pointers field{{FieldReconstructPointersFromReferences}}
 	// insertion point for slice of pointers field{{FieldReconstructSliceOfPointersFromReferences}}
 
@@ -274,7 +274,7 @@ func (reference *{{Structname}}) GongReconstructPointersFromReferences(stage *St
 }
 `,
 	ModelGongGraphReconstructPointersFromInstances: `
-func (reference *{{Structname}}) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *{{Structname}}) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field{{FieldReconstructPointersFromInstances}}
 	// insertion point for slice of pointers fields{{FieldReconstructSliceOfPointersFromInstances}}
 

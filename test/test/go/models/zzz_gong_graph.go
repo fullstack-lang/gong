@@ -755,7 +755,7 @@ func (stage *Stage) UnstageBranchGstruct(gstruct *Gstruct) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *Astruct) GongReconstructPointersFromReferences(stage *Stage, instance *Astruct) () {
+func (reference *Astruct) GongReconstructPointersFromReferences(stage *Stage, instance *Astruct) {
 	// insertion point for pointers field
 	if instance.Associationtob != nil {
 		reference.Associationtob = stage.Bstructs_reference[instance.Associationtob]
@@ -813,7 +813,7 @@ func (reference *Astruct) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
-func (reference *AstructBstruct2Use) GongReconstructPointersFromReferences(stage *Stage, instance *AstructBstruct2Use) () {
+func (reference *AstructBstruct2Use) GongReconstructPointersFromReferences(stage *Stage, instance *AstructBstruct2Use) {
 	// insertion point for pointers field
 	if instance.Bstrcut2 != nil {
 		reference.Bstrcut2 = stage.Bstructs_reference[instance.Bstrcut2]
@@ -823,7 +823,7 @@ func (reference *AstructBstruct2Use) GongReconstructPointersFromReferences(stage
 	return
 }
 
-func (reference *AstructBstructUse) GongReconstructPointersFromReferences(stage *Stage, instance *AstructBstructUse) () {
+func (reference *AstructBstructUse) GongReconstructPointersFromReferences(stage *Stage, instance *AstructBstructUse) {
 	// insertion point for pointers field
 	if instance.Bstruct2 != nil {
 		reference.Bstruct2 = stage.Bstructs_reference[instance.Bstruct2]
@@ -833,14 +833,14 @@ func (reference *AstructBstructUse) GongReconstructPointersFromReferences(stage 
 	return
 }
 
-func (reference *Bstruct) GongReconstructPointersFromReferences(stage *Stage, instance *Bstruct) () {
+func (reference *Bstruct) GongReconstructPointersFromReferences(stage *Stage, instance *Bstruct) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Dstruct) GongReconstructPointersFromReferences(stage *Stage, instance *Dstruct) () {
+func (reference *Dstruct) GongReconstructPointersFromReferences(stage *Stage, instance *Dstruct) {
 	// insertion point for pointers field
 	if instance.Gstruct != nil {
 		reference.Gstruct = stage.Gstructs_reference[instance.Gstruct]
@@ -858,14 +858,14 @@ func (reference *Dstruct) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
-func (reference *F0123456789012345678901234567890) GongReconstructPointersFromReferences(stage *Stage, instance *F0123456789012345678901234567890) () {
+func (reference *F0123456789012345678901234567890) GongReconstructPointersFromReferences(stage *Stage, instance *F0123456789012345678901234567890) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Gstruct) GongReconstructPointersFromReferences(stage *Stage, instance *Gstruct) () {
+func (reference *Gstruct) GongReconstructPointersFromReferences(stage *Stage, instance *Gstruct) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
@@ -873,7 +873,7 @@ func (reference *Gstruct) GongReconstructPointersFromReferences(stage *Stage, in
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *Astruct) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Astruct) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Associationtob; _reference != nil {
 		reference.Associationtob = nil
@@ -976,7 +976,7 @@ func (reference *Astruct) GongReconstructPointersFromInstances(stage *Stage) () 
 	return
 }
 
-func (reference *AstructBstruct2Use) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *AstructBstruct2Use) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Bstrcut2; _reference != nil {
 		reference.Bstrcut2 = nil
@@ -989,7 +989,7 @@ func (reference *AstructBstruct2Use) GongReconstructPointersFromInstances(stage 
 	return
 }
 
-func (reference *AstructBstructUse) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *AstructBstructUse) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Bstruct2; _reference != nil {
 		reference.Bstruct2 = nil
@@ -1002,14 +1002,14 @@ func (reference *AstructBstructUse) GongReconstructPointersFromInstances(stage *
 	return
 }
 
-func (reference *Bstruct) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Bstruct) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Dstruct) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Dstruct) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Gstruct; _reference != nil {
 		reference.Gstruct = nil
@@ -1036,14 +1036,14 @@ func (reference *Dstruct) GongReconstructPointersFromInstances(stage *Stage) () 
 	return
 }
 
-func (reference *F0123456789012345678901234567890) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *F0123456789012345678901234567890) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Gstruct) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Gstruct) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 

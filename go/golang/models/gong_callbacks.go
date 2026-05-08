@@ -59,21 +59,21 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point{{` + string(rune(ModelGongCallbacksSetFuncCreate)) + `}}
+	// insertion point{{` + string(rune(ModelGongCallbacksSetFuncCreate)) + `}}
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point{{` + string(rune(ModelGongCallbacksSetFuncDelete)) + `}}
+	// insertion point{{` + string(rune(ModelGongCallbacksSetFuncDelete)) + `}}
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point{{` + string(rune(ModelGongCallbacksSetFuncRead)) + `}}
+	// insertion point{{` + string(rune(ModelGongCallbacksSetFuncRead)) + `}}
 	}
 }
 `

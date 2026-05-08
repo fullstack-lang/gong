@@ -296,14 +296,14 @@ func (stage *Stage) UnstageBranchPlayer(player *Player) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *Freqency) GongReconstructPointersFromReferences(stage *Stage, instance *Freqency) () {
+func (reference *Freqency) GongReconstructPointersFromReferences(stage *Stage, instance *Freqency) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) () {
+func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Frequencies = reference.Frequencies[:0]
@@ -314,7 +314,7 @@ func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, insta
 	return
 }
 
-func (reference *Player) GongReconstructPointersFromReferences(stage *Stage, instance *Player) () {
+func (reference *Player) GongReconstructPointersFromReferences(stage *Stage, instance *Player) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
@@ -322,14 +322,14 @@ func (reference *Player) GongReconstructPointersFromReferences(stage *Stage, ins
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *Freqency) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Freqency) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Frequencies []*Freqency
@@ -343,7 +343,7 @@ func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *Player) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Player) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 

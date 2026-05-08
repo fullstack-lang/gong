@@ -665,7 +665,7 @@ func (stage *Stage) UnstageBranchMilestone(milestone *Milestone) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *Arrow) GongReconstructPointersFromReferences(stage *Stage, instance *Arrow) () {
+func (reference *Arrow) GongReconstructPointersFromReferences(stage *Stage, instance *Arrow) {
 	// insertion point for pointers field
 	if instance.From != nil {
 		reference.From = stage.Bars_reference[instance.From]
@@ -678,14 +678,14 @@ func (reference *Arrow) GongReconstructPointersFromReferences(stage *Stage, inst
 	return
 }
 
-func (reference *Bar) GongReconstructPointersFromReferences(stage *Stage, instance *Bar) () {
+func (reference *Bar) GongReconstructPointersFromReferences(stage *Stage, instance *Bar) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Gantt) GongReconstructPointersFromReferences(stage *Stage, instance *Gantt) () {
+func (reference *Gantt) GongReconstructPointersFromReferences(stage *Stage, instance *Gantt) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Lanes = reference.Lanes[:0]
@@ -708,7 +708,7 @@ func (reference *Gantt) GongReconstructPointersFromReferences(stage *Stage, inst
 	return
 }
 
-func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, instance *Group) () {
+func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, instance *Group) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.GroupLanes = reference.GroupLanes[:0]
@@ -719,7 +719,7 @@ func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, inst
 	return
 }
 
-func (reference *Lane) GongReconstructPointersFromReferences(stage *Stage, instance *Lane) () {
+func (reference *Lane) GongReconstructPointersFromReferences(stage *Stage, instance *Lane) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Bars = reference.Bars[:0]
@@ -730,7 +730,7 @@ func (reference *Lane) GongReconstructPointersFromReferences(stage *Stage, insta
 	return
 }
 
-func (reference *LaneUse) GongReconstructPointersFromReferences(stage *Stage, instance *LaneUse) () {
+func (reference *LaneUse) GongReconstructPointersFromReferences(stage *Stage, instance *LaneUse) {
 	// insertion point for pointers field
 	if instance.Lane != nil {
 		reference.Lane = stage.Lanes_reference[instance.Lane]
@@ -740,7 +740,7 @@ func (reference *LaneUse) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
-func (reference *Milestone) GongReconstructPointersFromReferences(stage *Stage, instance *Milestone) () {
+func (reference *Milestone) GongReconstructPointersFromReferences(stage *Stage, instance *Milestone) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.LanesToDisplay = reference.LanesToDisplay[:0]
@@ -752,7 +752,7 @@ func (reference *Milestone) GongReconstructPointersFromReferences(stage *Stage, 
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *Arrow) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Arrow) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.From; _reference != nil {
 		reference.From = nil
@@ -771,14 +771,14 @@ func (reference *Arrow) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *Bar) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Bar) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Gantt) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Gantt) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Lanes []*Lane
@@ -813,7 +813,7 @@ func (reference *Gantt) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _GroupLanes []*Lane
@@ -827,7 +827,7 @@ func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *Lane) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Lane) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Bars []*Bar
@@ -841,7 +841,7 @@ func (reference *Lane) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *LaneUse) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *LaneUse) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Lane; _reference != nil {
 		reference.Lane = nil
@@ -854,7 +854,7 @@ func (reference *LaneUse) GongReconstructPointersFromInstances(stage *Stage) () 
 	return
 }
 
-func (reference *Milestone) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Milestone) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _LanesToDisplay []*Lane

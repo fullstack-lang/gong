@@ -386,7 +386,7 @@ func (stage *Stage) UnstageBranchLink(link *Link) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *BookType) GongReconstructPointersFromReferences(stage *Stage, instance *BookType) () {
+func (reference *BookType) GongReconstructPointersFromReferences(stage *Stage, instance *BookType) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Credit = reference.Credit[:0]
@@ -397,7 +397,7 @@ func (reference *BookType) GongReconstructPointersFromReferences(stage *Stage, i
 	return
 }
 
-func (reference *Books) GongReconstructPointersFromReferences(stage *Stage, instance *Books) () {
+func (reference *Books) GongReconstructPointersFromReferences(stage *Stage, instance *Books) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Book = reference.Book[:0]
@@ -408,7 +408,7 @@ func (reference *Books) GongReconstructPointersFromReferences(stage *Stage, inst
 	return
 }
 
-func (reference *Credit) GongReconstructPointersFromReferences(stage *Stage, instance *Credit) () {
+func (reference *Credit) GongReconstructPointersFromReferences(stage *Stage, instance *Credit) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Link = reference.Link[:0]
@@ -419,7 +419,7 @@ func (reference *Credit) GongReconstructPointersFromReferences(stage *Stage, ins
 	return
 }
 
-func (reference *Link) GongReconstructPointersFromReferences(stage *Stage, instance *Link) () {
+func (reference *Link) GongReconstructPointersFromReferences(stage *Stage, instance *Link) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
@@ -427,7 +427,7 @@ func (reference *Link) GongReconstructPointersFromReferences(stage *Stage, insta
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *BookType) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *BookType) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Credit []*Credit
@@ -441,7 +441,7 @@ func (reference *BookType) GongReconstructPointersFromInstances(stage *Stage) ()
 	return
 }
 
-func (reference *Books) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Books) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Book []*BookType
@@ -455,7 +455,7 @@ func (reference *Books) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *Credit) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Credit) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Link []*Link
@@ -469,7 +469,7 @@ func (reference *Credit) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *Link) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Link) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 

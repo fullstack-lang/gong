@@ -2006,14 +2006,14 @@ func (stage *Stage) UnstageBranchText(text *Text) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *Animate) GongReconstructPointersFromReferences(stage *Stage, instance *Animate) () {
+func (reference *Animate) GongReconstructPointersFromReferences(stage *Stage, instance *Animate) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Circle) GongReconstructPointersFromReferences(stage *Stage, instance *Circle) () {
+func (reference *Circle) GongReconstructPointersFromReferences(stage *Stage, instance *Circle) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Animations = reference.Animations[:0]
@@ -2024,14 +2024,14 @@ func (reference *Circle) GongReconstructPointersFromReferences(stage *Stage, ins
 	return
 }
 
-func (reference *Condition) GongReconstructPointersFromReferences(stage *Stage, instance *Condition) () {
+func (reference *Condition) GongReconstructPointersFromReferences(stage *Stage, instance *Condition) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *ControlPoint) GongReconstructPointersFromReferences(stage *Stage, instance *ControlPoint) () {
+func (reference *ControlPoint) GongReconstructPointersFromReferences(stage *Stage, instance *ControlPoint) {
 	// insertion point for pointers field
 	if instance.ClosestRect != nil {
 		reference.ClosestRect = stage.Rects_reference[instance.ClosestRect]
@@ -2041,7 +2041,7 @@ func (reference *ControlPoint) GongReconstructPointersFromReferences(stage *Stag
 	return
 }
 
-func (reference *Ellipse) GongReconstructPointersFromReferences(stage *Stage, instance *Ellipse) () {
+func (reference *Ellipse) GongReconstructPointersFromReferences(stage *Stage, instance *Ellipse) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Animates = reference.Animates[:0]
@@ -2052,7 +2052,7 @@ func (reference *Ellipse) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
-func (reference *Layer) GongReconstructPointersFromReferences(stage *Stage, instance *Layer) () {
+func (reference *Layer) GongReconstructPointersFromReferences(stage *Stage, instance *Layer) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Rects = reference.Rects[:0]
@@ -2099,7 +2099,7 @@ func (reference *Layer) GongReconstructPointersFromReferences(stage *Stage, inst
 	return
 }
 
-func (reference *Line) GongReconstructPointersFromReferences(stage *Stage, instance *Line) () {
+func (reference *Line) GongReconstructPointersFromReferences(stage *Stage, instance *Line) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Animates = reference.Animates[:0]
@@ -2110,7 +2110,7 @@ func (reference *Line) GongReconstructPointersFromReferences(stage *Stage, insta
 	return
 }
 
-func (reference *Link) GongReconstructPointersFromReferences(stage *Stage, instance *Link) () {
+func (reference *Link) GongReconstructPointersFromReferences(stage *Stage, instance *Link) {
 	// insertion point for pointers field
 	if instance.Start != nil {
 		reference.Start = stage.Rects_reference[instance.Start]
@@ -2139,7 +2139,7 @@ func (reference *Link) GongReconstructPointersFromReferences(stage *Stage, insta
 	return
 }
 
-func (reference *LinkAnchoredText) GongReconstructPointersFromReferences(stage *Stage, instance *LinkAnchoredText) () {
+func (reference *LinkAnchoredText) GongReconstructPointersFromReferences(stage *Stage, instance *LinkAnchoredText) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Animates = reference.Animates[:0]
@@ -2150,7 +2150,7 @@ func (reference *LinkAnchoredText) GongReconstructPointersFromReferences(stage *
 	return
 }
 
-func (reference *Path) GongReconstructPointersFromReferences(stage *Stage, instance *Path) () {
+func (reference *Path) GongReconstructPointersFromReferences(stage *Stage, instance *Path) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Animates = reference.Animates[:0]
@@ -2161,25 +2161,14 @@ func (reference *Path) GongReconstructPointersFromReferences(stage *Stage, insta
 	return
 }
 
-func (reference *Point) GongReconstructPointersFromReferences(stage *Stage, instance *Point) () {
+func (reference *Point) GongReconstructPointersFromReferences(stage *Stage, instance *Point) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Polygone) GongReconstructPointersFromReferences(stage *Stage, instance *Polygone) () {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-	reference.Animates = reference.Animates[:0]
-	for _, _b := range instance.Animates {
-		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
-	}
-
-	return
-}
-
-func (reference *Polyline) GongReconstructPointersFromReferences(stage *Stage, instance *Polyline) () {
+func (reference *Polygone) GongReconstructPointersFromReferences(stage *Stage, instance *Polygone) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Animates = reference.Animates[:0]
@@ -2190,7 +2179,18 @@ func (reference *Polyline) GongReconstructPointersFromReferences(stage *Stage, i
 	return
 }
 
-func (reference *Rect) GongReconstructPointersFromReferences(stage *Stage, instance *Rect) () {
+func (reference *Polyline) GongReconstructPointersFromReferences(stage *Stage, instance *Polyline) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Animates = reference.Animates[:0]
+	for _, _b := range instance.Animates {
+		reference.Animates = append(reference.Animates, stage.Animates_reference[_b])
+	}
+
+	return
+}
+
+func (reference *Rect) GongReconstructPointersFromReferences(stage *Stage, instance *Rect) {
 	// insertion point for pointers field
 	if instance.EnclosingRect != nil {
 		reference.EnclosingRect = stage.Rects_reference[instance.EnclosingRect]
@@ -2228,28 +2228,28 @@ func (reference *Rect) GongReconstructPointersFromReferences(stage *Stage, insta
 	return
 }
 
-func (reference *RectAnchoredPath) GongReconstructPointersFromReferences(stage *Stage, instance *RectAnchoredPath) () {
+func (reference *RectAnchoredPath) GongReconstructPointersFromReferences(stage *Stage, instance *RectAnchoredPath) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *RectAnchoredPngImage) GongReconstructPointersFromReferences(stage *Stage, instance *RectAnchoredPngImage) () {
+func (reference *RectAnchoredPngImage) GongReconstructPointersFromReferences(stage *Stage, instance *RectAnchoredPngImage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *RectAnchoredRect) GongReconstructPointersFromReferences(stage *Stage, instance *RectAnchoredRect) () {
+func (reference *RectAnchoredRect) GongReconstructPointersFromReferences(stage *Stage, instance *RectAnchoredRect) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *RectAnchoredText) GongReconstructPointersFromReferences(stage *Stage, instance *RectAnchoredText) () {
+func (reference *RectAnchoredText) GongReconstructPointersFromReferences(stage *Stage, instance *RectAnchoredText) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Animates = reference.Animates[:0]
@@ -2260,7 +2260,7 @@ func (reference *RectAnchoredText) GongReconstructPointersFromReferences(stage *
 	return
 }
 
-func (reference *RectLinkLink) GongReconstructPointersFromReferences(stage *Stage, instance *RectLinkLink) () {
+func (reference *RectLinkLink) GongReconstructPointersFromReferences(stage *Stage, instance *RectLinkLink) {
 	// insertion point for pointers field
 	if instance.Start != nil {
 		reference.Start = stage.Rects_reference[instance.Start]
@@ -2273,7 +2273,7 @@ func (reference *RectLinkLink) GongReconstructPointersFromReferences(stage *Stag
 	return
 }
 
-func (reference *SVG) GongReconstructPointersFromReferences(stage *Stage, instance *SVG) () {
+func (reference *SVG) GongReconstructPointersFromReferences(stage *Stage, instance *SVG) {
 	// insertion point for pointers field
 	if instance.StartRect != nil {
 		reference.StartRect = stage.Rects_reference[instance.StartRect]
@@ -2290,14 +2290,14 @@ func (reference *SVG) GongReconstructPointersFromReferences(stage *Stage, instan
 	return
 }
 
-func (reference *SvgText) GongReconstructPointersFromReferences(stage *Stage, instance *SvgText) () {
+func (reference *SvgText) GongReconstructPointersFromReferences(stage *Stage, instance *SvgText) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Text) GongReconstructPointersFromReferences(stage *Stage, instance *Text) () {
+func (reference *Text) GongReconstructPointersFromReferences(stage *Stage, instance *Text) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Animates = reference.Animates[:0]
@@ -2309,14 +2309,14 @@ func (reference *Text) GongReconstructPointersFromReferences(stage *Stage, insta
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *Animate) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Animate) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Circle) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Circle) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Animations []*Animate
@@ -2330,14 +2330,14 @@ func (reference *Circle) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *Condition) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Condition) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *ControlPoint) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *ControlPoint) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.ClosestRect; _reference != nil {
 		reference.ClosestRect = nil
@@ -2350,7 +2350,7 @@ func (reference *ControlPoint) GongReconstructPointersFromInstances(stage *Stage
 	return
 }
 
-func (reference *Ellipse) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Ellipse) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Animates []*Animate
@@ -2364,7 +2364,7 @@ func (reference *Ellipse) GongReconstructPointersFromInstances(stage *Stage) () 
 	return
 }
 
-func (reference *Layer) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Layer) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Rects []*Rect
@@ -2441,7 +2441,7 @@ func (reference *Layer) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *Line) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Line) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Animates []*Animate
@@ -2455,7 +2455,7 @@ func (reference *Line) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *Link) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Link) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Start; _reference != nil {
 		reference.Start = nil
@@ -2502,7 +2502,7 @@ func (reference *Link) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *LinkAnchoredText) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *LinkAnchoredText) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Animates []*Animate
@@ -2516,7 +2516,7 @@ func (reference *LinkAnchoredText) GongReconstructPointersFromInstances(stage *S
 	return
 }
 
-func (reference *Path) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Path) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Animates []*Animate
@@ -2530,28 +2530,14 @@ func (reference *Path) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *Point) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Point) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Polygone) GongReconstructPointersFromInstances(stage *Stage) () {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-	var _Animates []*Animate
-	for _, _reference := range reference.Animates {
-		if _instance, ok := stage.Animates_instance[_reference]; ok {
-			_Animates = append(_Animates, _instance)
-		}
-	}
-	reference.Animates = _Animates
-
-	return
-}
-
-func (reference *Polyline) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Polygone) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Animates []*Animate
@@ -2565,7 +2551,21 @@ func (reference *Polyline) GongReconstructPointersFromInstances(stage *Stage) ()
 	return
 }
 
-func (reference *Rect) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Polyline) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Animates []*Animate
+	for _, _reference := range reference.Animates {
+		if _instance, ok := stage.Animates_instance[_reference]; ok {
+			_Animates = append(_Animates, _instance)
+		}
+	}
+	reference.Animates = _Animates
+
+	return
+}
+
+func (reference *Rect) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.EnclosingRect; _reference != nil {
 		reference.EnclosingRect = nil
@@ -2627,28 +2627,28 @@ func (reference *Rect) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *RectAnchoredPath) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *RectAnchoredPath) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *RectAnchoredPngImage) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *RectAnchoredPngImage) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *RectAnchoredRect) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *RectAnchoredRect) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *RectAnchoredText) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *RectAnchoredText) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Animates []*Animate
@@ -2662,7 +2662,7 @@ func (reference *RectAnchoredText) GongReconstructPointersFromInstances(stage *S
 	return
 }
 
-func (reference *RectLinkLink) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *RectLinkLink) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Start; _reference != nil {
 		reference.Start = nil
@@ -2681,7 +2681,7 @@ func (reference *RectLinkLink) GongReconstructPointersFromInstances(stage *Stage
 	return
 }
 
-func (reference *SVG) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *SVG) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.StartRect; _reference != nil {
 		reference.StartRect = nil
@@ -2707,14 +2707,14 @@ func (reference *SVG) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *SvgText) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *SvgText) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Text) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Text) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Animates []*Animate
