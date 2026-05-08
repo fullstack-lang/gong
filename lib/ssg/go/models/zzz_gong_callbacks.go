@@ -217,7 +217,7 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *Chapter:
 		stage.OnAfterChapterCreateCallback = any(callback).(OnAfterCreateInterface[Chapter])
 	case *Content:
@@ -240,7 +240,7 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *Chapter:
 		stage.OnAfterChapterDeleteCallback = any(callback).(OnAfterDeleteInterface[Chapter])
 	case *Content:
@@ -263,7 +263,7 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *Chapter:
 		stage.OnAfterChapterReadCallback = any(callback).(OnAfterReadInterface[Chapter])
 	case *Content:

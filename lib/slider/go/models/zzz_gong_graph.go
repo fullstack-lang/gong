@@ -386,14 +386,14 @@ func (stage *Stage) UnstageBranchSlider(slider *Slider) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *Checkbox) GongReconstructPointersFromReferences(stage *Stage, instance *Checkbox) () {
+func (reference *Checkbox) GongReconstructPointersFromReferences(stage *Stage, instance *Checkbox) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, instance *Group) () {
+func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, instance *Group) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Sliders = reference.Sliders[:0]
@@ -408,7 +408,7 @@ func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, inst
 	return
 }
 
-func (reference *Layout) GongReconstructPointersFromReferences(stage *Stage, instance *Layout) () {
+func (reference *Layout) GongReconstructPointersFromReferences(stage *Stage, instance *Layout) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Groups = reference.Groups[:0]
@@ -419,7 +419,7 @@ func (reference *Layout) GongReconstructPointersFromReferences(stage *Stage, ins
 	return
 }
 
-func (reference *Slider) GongReconstructPointersFromReferences(stage *Stage, instance *Slider) () {
+func (reference *Slider) GongReconstructPointersFromReferences(stage *Stage, instance *Slider) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
@@ -427,14 +427,14 @@ func (reference *Slider) GongReconstructPointersFromReferences(stage *Stage, ins
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *Checkbox) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Checkbox) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Sliders []*Slider
@@ -455,7 +455,7 @@ func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *Layout) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Layout) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Groups []*Group
@@ -469,7 +469,7 @@ func (reference *Layout) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *Slider) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Slider) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 

@@ -233,7 +233,7 @@ func (stage *Stage) UnstageBranchB(b *B) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *A) GongReconstructPointersFromReferences(stage *Stage, instance *A) () {
+func (reference *A) GongReconstructPointersFromReferences(stage *Stage, instance *A) {
 	// insertion point for pointers field
 	if instance.B != nil {
 		reference.B = stage.Bs_reference[instance.B]
@@ -247,7 +247,7 @@ func (reference *A) GongReconstructPointersFromReferences(stage *Stage, instance
 	return
 }
 
-func (reference *B) GongReconstructPointersFromReferences(stage *Stage, instance *B) () {
+func (reference *B) GongReconstructPointersFromReferences(stage *Stage, instance *B) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
@@ -255,7 +255,7 @@ func (reference *B) GongReconstructPointersFromReferences(stage *Stage, instance
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *A) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *A) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.B; _reference != nil {
 		reference.B = nil
@@ -275,7 +275,7 @@ func (reference *A) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *B) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *B) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 

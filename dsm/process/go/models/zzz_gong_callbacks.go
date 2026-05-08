@@ -357,7 +357,7 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *ControlFlow:
 		stage.OnAfterControlFlowCreateCallback = any(callback).(OnAfterCreateInterface[ControlFlow])
 	case *ControlFlowShape:
@@ -394,7 +394,7 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *ControlFlow:
 		stage.OnAfterControlFlowDeleteCallback = any(callback).(OnAfterDeleteInterface[ControlFlow])
 	case *ControlFlowShape:
@@ -431,7 +431,7 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *ControlFlow:
 		stage.OnAfterControlFlowReadCallback = any(callback).(OnAfterReadInterface[ControlFlow])
 	case *ControlFlowShape:

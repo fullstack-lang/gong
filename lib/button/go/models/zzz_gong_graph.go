@@ -467,21 +467,21 @@ func (stage *Stage) UnstageBranchLayout(layout *Layout) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *Button) GongReconstructPointersFromReferences(stage *Stage, instance *Button) () {
+func (reference *Button) GongReconstructPointersFromReferences(stage *Stage, instance *Button) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *ButtonToggle) GongReconstructPointersFromReferences(stage *Stage, instance *ButtonToggle) () {
+func (reference *ButtonToggle) GongReconstructPointersFromReferences(stage *Stage, instance *ButtonToggle) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, instance *Group) () {
+func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, instance *Group) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Buttons = reference.Buttons[:0]
@@ -492,7 +492,7 @@ func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, inst
 	return
 }
 
-func (reference *GroupToogle) GongReconstructPointersFromReferences(stage *Stage, instance *GroupToogle) () {
+func (reference *GroupToogle) GongReconstructPointersFromReferences(stage *Stage, instance *GroupToogle) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.ButtonToggles = reference.ButtonToggles[:0]
@@ -503,7 +503,7 @@ func (reference *GroupToogle) GongReconstructPointersFromReferences(stage *Stage
 	return
 }
 
-func (reference *Layout) GongReconstructPointersFromReferences(stage *Stage, instance *Layout) () {
+func (reference *Layout) GongReconstructPointersFromReferences(stage *Stage, instance *Layout) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Groups = reference.Groups[:0]
@@ -519,21 +519,21 @@ func (reference *Layout) GongReconstructPointersFromReferences(stage *Stage, ins
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *Button) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Button) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *ButtonToggle) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *ButtonToggle) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Buttons []*Button
@@ -547,7 +547,7 @@ func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *GroupToogle) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *GroupToogle) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _ButtonToggles []*ButtonToggle
@@ -561,7 +561,7 @@ func (reference *GroupToogle) GongReconstructPointersFromInstances(stage *Stage)
 	return
 }
 
-func (reference *Layout) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Layout) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Groups []*Group

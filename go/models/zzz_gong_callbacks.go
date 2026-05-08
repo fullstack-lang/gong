@@ -277,7 +277,7 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *GongBasicField:
 		stage.OnAfterGongBasicFieldCreateCallback = any(callback).(OnAfterCreateInterface[GongBasicField])
 	case *GongEnum:
@@ -306,7 +306,7 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *GongBasicField:
 		stage.OnAfterGongBasicFieldDeleteCallback = any(callback).(OnAfterDeleteInterface[GongBasicField])
 	case *GongEnum:
@@ -335,7 +335,7 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *GongBasicField:
 		stage.OnAfterGongBasicFieldReadCallback = any(callback).(OnAfterReadInterface[GongBasicField])
 	case *GongEnum:

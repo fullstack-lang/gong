@@ -485,7 +485,7 @@ func (stage *Stage) UnstageBranchXLSheet(xlsheet *XLSheet) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *DisplaySelection) GongReconstructPointersFromReferences(stage *Stage, instance *DisplaySelection) () {
+func (reference *DisplaySelection) GongReconstructPointersFromReferences(stage *Stage, instance *DisplaySelection) {
 	// insertion point for pointers field
 	if instance.XLFile != nil {
 		reference.XLFile = stage.XLFiles_reference[instance.XLFile]
@@ -498,14 +498,14 @@ func (reference *DisplaySelection) GongReconstructPointersFromReferences(stage *
 	return
 }
 
-func (reference *XLCell) GongReconstructPointersFromReferences(stage *Stage, instance *XLCell) () {
+func (reference *XLCell) GongReconstructPointersFromReferences(stage *Stage, instance *XLCell) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *XLFile) GongReconstructPointersFromReferences(stage *Stage, instance *XLFile) () {
+func (reference *XLFile) GongReconstructPointersFromReferences(stage *Stage, instance *XLFile) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Sheets = reference.Sheets[:0]
@@ -516,7 +516,7 @@ func (reference *XLFile) GongReconstructPointersFromReferences(stage *Stage, ins
 	return
 }
 
-func (reference *XLRow) GongReconstructPointersFromReferences(stage *Stage, instance *XLRow) () {
+func (reference *XLRow) GongReconstructPointersFromReferences(stage *Stage, instance *XLRow) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Cells = reference.Cells[:0]
@@ -527,7 +527,7 @@ func (reference *XLRow) GongReconstructPointersFromReferences(stage *Stage, inst
 	return
 }
 
-func (reference *XLSheet) GongReconstructPointersFromReferences(stage *Stage, instance *XLSheet) () {
+func (reference *XLSheet) GongReconstructPointersFromReferences(stage *Stage, instance *XLSheet) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Rows = reference.Rows[:0]
@@ -543,7 +543,7 @@ func (reference *XLSheet) GongReconstructPointersFromReferences(stage *Stage, in
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *DisplaySelection) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *DisplaySelection) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.XLFile; _reference != nil {
 		reference.XLFile = nil
@@ -562,14 +562,14 @@ func (reference *DisplaySelection) GongReconstructPointersFromInstances(stage *S
 	return
 }
 
-func (reference *XLCell) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *XLCell) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *XLFile) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *XLFile) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Sheets []*XLSheet
@@ -583,7 +583,7 @@ func (reference *XLFile) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *XLRow) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *XLRow) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Cells []*XLCell
@@ -597,7 +597,7 @@ func (reference *XLRow) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *XLSheet) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *XLSheet) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Rows []*XLRow

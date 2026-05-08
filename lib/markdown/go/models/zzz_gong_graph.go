@@ -359,28 +359,28 @@ func (stage *Stage) UnstageBranchSvgImage(svgimage *SvgImage) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *Content) GongReconstructPointersFromReferences(stage *Stage, instance *Content) () {
+func (reference *Content) GongReconstructPointersFromReferences(stage *Stage, instance *Content) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *JpgImage) GongReconstructPointersFromReferences(stage *Stage, instance *JpgImage) () {
+func (reference *JpgImage) GongReconstructPointersFromReferences(stage *Stage, instance *JpgImage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *PngImage) GongReconstructPointersFromReferences(stage *Stage, instance *PngImage) () {
+func (reference *PngImage) GongReconstructPointersFromReferences(stage *Stage, instance *PngImage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *SvgImage) GongReconstructPointersFromReferences(stage *Stage, instance *SvgImage) () {
+func (reference *SvgImage) GongReconstructPointersFromReferences(stage *Stage, instance *SvgImage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
@@ -388,28 +388,28 @@ func (reference *SvgImage) GongReconstructPointersFromReferences(stage *Stage, i
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *Content) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Content) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *JpgImage) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *JpgImage) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *PngImage) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *PngImage) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *SvgImage) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *SvgImage) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
