@@ -292,7 +292,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		buttonDB, _ := instanceDB.(*ButtonDB)
 		*buttonDB = *tmp
-		
+
 	case *ButtonToggleDB:
 		tmp, ok := db.buttontoggleDBs[uint(i)]
 
@@ -302,7 +302,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		buttontoggleDB, _ := instanceDB.(*ButtonToggleDB)
 		*buttontoggleDB = *tmp
-		
+
 	case *GroupDB:
 		tmp, ok := db.groupDBs[uint(i)]
 
@@ -312,7 +312,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		groupDB, _ := instanceDB.(*GroupDB)
 		*groupDB = *tmp
-		
+
 	case *GroupToogleDB:
 		tmp, ok := db.grouptoogleDBs[uint(i)]
 
@@ -322,7 +322,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		grouptoogleDB, _ := instanceDB.(*GroupToogleDB)
 		*grouptoogleDB = *tmp
-		
+
 	case *LayoutDB:
 		tmp, ok := db.layoutDBs[uint(i)]
 
@@ -332,7 +332,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		layoutDB, _ := instanceDB.(*LayoutDB)
 		*layoutDB = *tmp
-		
+
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/button/go, Unkown type")
 	}

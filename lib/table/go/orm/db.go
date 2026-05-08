@@ -454,7 +454,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		buttonDB, _ := instanceDB.(*ButtonDB)
 		*buttonDB = *tmp
-		
+
 	case *CellDB:
 		tmp, ok := db.cellDBs[uint(i)]
 
@@ -464,7 +464,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		cellDB, _ := instanceDB.(*CellDB)
 		*cellDB = *tmp
-		
+
 	case *CellBooleanDB:
 		tmp, ok := db.cellbooleanDBs[uint(i)]
 
@@ -474,7 +474,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		cellbooleanDB, _ := instanceDB.(*CellBooleanDB)
 		*cellbooleanDB = *tmp
-		
+
 	case *CellFloat64DB:
 		tmp, ok := db.cellfloat64DBs[uint(i)]
 
@@ -484,7 +484,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		cellfloat64DB, _ := instanceDB.(*CellFloat64DB)
 		*cellfloat64DB = *tmp
-		
+
 	case *CellIconDB:
 		tmp, ok := db.celliconDBs[uint(i)]
 
@@ -494,7 +494,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		celliconDB, _ := instanceDB.(*CellIconDB)
 		*celliconDB = *tmp
-		
+
 	case *CellIntDB:
 		tmp, ok := db.cellintDBs[uint(i)]
 
@@ -504,7 +504,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		cellintDB, _ := instanceDB.(*CellIntDB)
 		*cellintDB = *tmp
-		
+
 	case *CellStringDB:
 		tmp, ok := db.cellstringDBs[uint(i)]
 
@@ -514,7 +514,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		cellstringDB, _ := instanceDB.(*CellStringDB)
 		*cellstringDB = *tmp
-		
+
 	case *DisplayedColumnDB:
 		tmp, ok := db.displayedcolumnDBs[uint(i)]
 
@@ -524,7 +524,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		displayedcolumnDB, _ := instanceDB.(*DisplayedColumnDB)
 		*displayedcolumnDB = *tmp
-		
+
 	case *RowDB:
 		tmp, ok := db.rowDBs[uint(i)]
 
@@ -534,7 +534,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		rowDB, _ := instanceDB.(*RowDB)
 		*rowDB = *tmp
-		
+
 	case *SVGIconDB:
 		tmp, ok := db.svgiconDBs[uint(i)]
 
@@ -544,7 +544,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		svgiconDB, _ := instanceDB.(*SVGIconDB)
 		*svgiconDB = *tmp
-		
+
 	case *TableDB:
 		tmp, ok := db.tableDBs[uint(i)]
 
@@ -554,7 +554,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		tableDB, _ := instanceDB.(*TableDB)
 		*tableDB = *tmp
-		
+
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/table/go, Unkown type")
 	}

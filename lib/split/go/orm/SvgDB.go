@@ -23,7 +23,7 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Svg_sql sql.NullBool
-var _ =  dummy_Svg_sql
+var _ = dummy_Svg_sql
 var dummy_Svg_time time.Duration
 var _ = dummy_Svg_time
 var dummy_Svg_sort sort.Float64Slice

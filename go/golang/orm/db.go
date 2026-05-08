@@ -226,5 +226,5 @@ map[string]string{
 
 		{{structname}}DB, _ := instanceDB.(*{{Structname}}DB)
 		*{{structname}}DB = *tmp
-		`,
+`,
 }

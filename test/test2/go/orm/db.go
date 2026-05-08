@@ -211,7 +211,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		aDB, _ := instanceDB.(*ADB)
 		*aDB = *tmp
-		
+
 	case *BDB:
 		tmp, ok := db.bDBs[uint(i)]
 
@@ -221,7 +221,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		bDB, _ := instanceDB.(*BDB)
 		*bDB = *tmp
-		
+
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/test/test2/go, Unkown type")
 	}

@@ -238,7 +238,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		freqencyDB, _ := instanceDB.(*FreqencyDB)
 		*freqencyDB = *tmp
-		
+
 	case *NoteDB:
 		tmp, ok := db.noteDBs[uint(i)]
 
@@ -248,7 +248,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		noteDB, _ := instanceDB.(*NoteDB)
 		*noteDB = *tmp
-		
+
 	case *PlayerDB:
 		tmp, ok := db.playerDBs[uint(i)]
 
@@ -258,7 +258,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		playerDB, _ := instanceDB.(*PlayerDB)
 		*playerDB = *tmp
-		
+
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/tone/go, Unkown type")
 	}

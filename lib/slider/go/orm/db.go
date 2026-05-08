@@ -265,7 +265,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		checkboxDB, _ := instanceDB.(*CheckboxDB)
 		*checkboxDB = *tmp
-		
+
 	case *GroupDB:
 		tmp, ok := db.groupDBs[uint(i)]
 
@@ -275,7 +275,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		groupDB, _ := instanceDB.(*GroupDB)
 		*groupDB = *tmp
-		
+
 	case *LayoutDB:
 		tmp, ok := db.layoutDBs[uint(i)]
 
@@ -285,7 +285,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		layoutDB, _ := instanceDB.(*LayoutDB)
 		*layoutDB = *tmp
-		
+
 	case *SliderDB:
 		tmp, ok := db.sliderDBs[uint(i)]
 
@@ -295,7 +295,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		sliderDB, _ := instanceDB.(*SliderDB)
 		*sliderDB = *tmp
-		
+
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/slider/go, Unkown type")
 	}

@@ -23,7 +23,7 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_FormFieldSelect_sql sql.NullBool
-var _ =  dummy_FormFieldSelect_sql
+var _ = dummy_FormFieldSelect_sql
 var dummy_FormFieldSelect_time time.Duration
 var _ = dummy_FormFieldSelect_time
 var dummy_FormFieldSelect_sort sort.Float64Slice

@@ -23,7 +23,7 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Xlsx_sql sql.NullBool
-var _ =  dummy_Xlsx_sql
+var _ = dummy_Xlsx_sql
 var dummy_Xlsx_time time.Duration
 var _ = dummy_Xlsx_time
 var dummy_Xlsx_sort sort.Float64Slice
