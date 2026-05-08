@@ -23,7 +23,7 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Polygone_sql sql.NullBool
-var _ =  dummy_Polygone_sql
+var _ = dummy_Polygone_sql
 var dummy_Polygone_time time.Duration
 var _ = dummy_Polygone_time
 var dummy_Polygone_sort sort.Float64Slice

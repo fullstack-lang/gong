@@ -346,7 +346,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		astructDB, _ := instanceDB.(*AstructDB)
 		*astructDB = *tmp
-		
+
 	case *AstructBstruct2UseDB:
 		tmp, ok := db.astructbstruct2useDBs[uint(i)]
 
@@ -356,7 +356,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		astructbstruct2useDB, _ := instanceDB.(*AstructBstruct2UseDB)
 		*astructbstruct2useDB = *tmp
-		
+
 	case *AstructBstructUseDB:
 		tmp, ok := db.astructbstructuseDBs[uint(i)]
 
@@ -366,7 +366,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		astructbstructuseDB, _ := instanceDB.(*AstructBstructUseDB)
 		*astructbstructuseDB = *tmp
-		
+
 	case *BstructDB:
 		tmp, ok := db.bstructDBs[uint(i)]
 
@@ -376,7 +376,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		bstructDB, _ := instanceDB.(*BstructDB)
 		*bstructDB = *tmp
-		
+
 	case *DstructDB:
 		tmp, ok := db.dstructDBs[uint(i)]
 
@@ -386,7 +386,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		dstructDB, _ := instanceDB.(*DstructDB)
 		*dstructDB = *tmp
-		
+
 	case *F0123456789012345678901234567890DB:
 		tmp, ok := db.f0123456789012345678901234567890DBs[uint(i)]
 
@@ -396,7 +396,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		f0123456789012345678901234567890DB, _ := instanceDB.(*F0123456789012345678901234567890DB)
 		*f0123456789012345678901234567890DB = *tmp
-		
+
 	case *GstructDB:
 		tmp, ok := db.gstructDBs[uint(i)]
 
@@ -406,7 +406,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		gstructDB, _ := instanceDB.(*GstructDB)
 		*gstructDB = *tmp
-		
+
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/test/test/go, Unkown type")
 	}

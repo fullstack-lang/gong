@@ -238,7 +238,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		filetodownloadDB, _ := instanceDB.(*FileToDownloadDB)
 		*filetodownloadDB = *tmp
-		
+
 	case *FileToUploadDB:
 		tmp, ok := db.filetouploadDBs[uint(i)]
 
@@ -248,7 +248,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		filetouploadDB, _ := instanceDB.(*FileToUploadDB)
 		*filetouploadDB = *tmp
-		
+
 	case *MessageDB:
 		tmp, ok := db.messageDBs[uint(i)]
 
@@ -258,7 +258,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		messageDB, _ := instanceDB.(*MessageDB)
 		*messageDB = *tmp
-		
+
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/load/go, Unkown type")
 	}

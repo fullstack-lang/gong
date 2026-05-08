@@ -39,7 +39,7 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_{{Structname}}_sql sql.NullBool
-var _ =  dummy_{{Structname}}_sql
+var _ = dummy_{{Structname}}_sql
 var dummy_{{Structname}}_time time.Duration
 var _ = dummy_{{Structname}}_time
 var dummy_{{Structname}}_sort sort.Float64Slice

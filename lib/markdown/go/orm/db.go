@@ -265,7 +265,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		contentDB, _ := instanceDB.(*ContentDB)
 		*contentDB = *tmp
-		
+
 	case *JpgImageDB:
 		tmp, ok := db.jpgimageDBs[uint(i)]
 
@@ -275,7 +275,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		jpgimageDB, _ := instanceDB.(*JpgImageDB)
 		*jpgimageDB = *tmp
-		
+
 	case *PngImageDB:
 		tmp, ok := db.pngimageDBs[uint(i)]
 
@@ -285,7 +285,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		pngimageDB, _ := instanceDB.(*PngImageDB)
 		*pngimageDB = *tmp
-		
+
 	case *SvgImageDB:
 		tmp, ok := db.svgimageDBs[uint(i)]
 
@@ -295,7 +295,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		svgimageDB, _ := instanceDB.(*SvgImageDB)
 		*svgimageDB = *tmp
-		
+
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/markdown/go, Unkown type")
 	}
