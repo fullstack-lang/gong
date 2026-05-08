@@ -28,8 +28,8 @@ func _(stage *models.Stage) {
 	__A__00000002_ := (&models.A{Name: `ID 2`}).Stage(stage)
 	__A__00000005_ := (&models.A{Name: `ID 5`}).Stage(stage)
 	__A__00000006_ := (&models.A{Name: `ID 6`}).Stage(stage)
-	__B__00000000_ := (&models.B{Name: `1___0009`}).Stage(stage)
-	__B__00000001_ := (&models.B{Name: `2gfsdfggf`}).Stage(stage)
+	__B__00000000_ := (&models.B{Name: `B_0`}).Stage(stage)
+	__B__00000001_ := (&models.B{Name: `B_1`}).Stage(stage)
 	__B__00000002_ := (&models.B{Name: `6`}).Stage(stage)
 	__B__00000003_ := (&models.B{Name: `7`}).Stage(stage)
 	__B__00000004_ := (&models.B{Name: `8`}).Stage(stage)
@@ -109,8 +109,8 @@ func _(stage *models.Stage) {
 	__A__00000006_.EnumInt = models.EnumTypeInt_Value2
 	__A__00000006_.UUID = ``
 	__A__00000006_.B = nil
-	__B__00000000_.Name = `1___0009`
-	__B__00000001_.Name = `2gfsdfggf`
+	__B__00000000_.Name = `B_0`
+	__B__00000001_.Name = `B_1`
 	__B__00000002_.Name = `6`
 	__B__00000003_.Name = `7`
 	__B__00000004_.Name = `8`

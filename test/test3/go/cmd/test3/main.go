@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 
 	"github.com/fullstack-lang/gong/test/test3/go/level1stack"
@@ -28,8 +27,8 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	if len(os.Args) > 1 {
-		argument := os.Args[1]
+	if len(flag.Args()) > 0 {
+		argument := flag.Arg(0)
 		fmt.Println("First Argument:", argument)
 		marshallOnCommit = &argument
 		unmarshallFromCode = &argument
