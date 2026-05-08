@@ -1456,63 +1456,63 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		ControlFlow_stagedOrder: make(map[*ControlFlow]uint),
 		ControlFlow_orderStaged: make(map[uint]*ControlFlow),
-		ControlFlows_reference: make(map[*ControlFlow]*ControlFlow),
+		ControlFlows_reference:  make(map[*ControlFlow]*ControlFlow),
 
 		ControlFlowShape_stagedOrder: make(map[*ControlFlowShape]uint),
 		ControlFlowShape_orderStaged: make(map[uint]*ControlFlowShape),
-		ControlFlowShapes_reference: make(map[*ControlFlowShape]*ControlFlowShape),
+		ControlFlowShapes_reference:  make(map[*ControlFlowShape]*ControlFlowShape),
 
 		Data_stagedOrder: make(map[*Data]uint),
 		Data_orderStaged: make(map[uint]*Data),
-		Datas_reference: make(map[*Data]*Data),
+		Datas_reference:  make(map[*Data]*Data),
 
 		DataFlow_stagedOrder: make(map[*DataFlow]uint),
 		DataFlow_orderStaged: make(map[uint]*DataFlow),
-		DataFlows_reference: make(map[*DataFlow]*DataFlow),
+		DataFlows_reference:  make(map[*DataFlow]*DataFlow),
 
 		DataFlowShape_stagedOrder: make(map[*DataFlowShape]uint),
 		DataFlowShape_orderStaged: make(map[uint]*DataFlowShape),
-		DataFlowShapes_reference: make(map[*DataFlowShape]*DataFlowShape),
+		DataFlowShapes_reference:  make(map[*DataFlowShape]*DataFlowShape),
 
 		DataShape_stagedOrder: make(map[*DataShape]uint),
 		DataShape_orderStaged: make(map[uint]*DataShape),
-		DataShapes_reference: make(map[*DataShape]*DataShape),
+		DataShapes_reference:  make(map[*DataShape]*DataShape),
 
 		DiagramProcess_stagedOrder: make(map[*DiagramProcess]uint),
 		DiagramProcess_orderStaged: make(map[uint]*DiagramProcess),
-		DiagramProcesss_reference: make(map[*DiagramProcess]*DiagramProcess),
+		DiagramProcesss_reference:  make(map[*DiagramProcess]*DiagramProcess),
 
 		ExternalParticipantShape_stagedOrder: make(map[*ExternalParticipantShape]uint),
 		ExternalParticipantShape_orderStaged: make(map[uint]*ExternalParticipantShape),
-		ExternalParticipantShapes_reference: make(map[*ExternalParticipantShape]*ExternalParticipantShape),
+		ExternalParticipantShapes_reference:  make(map[*ExternalParticipantShape]*ExternalParticipantShape),
 
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
-		Librarys_reference: make(map[*Library]*Library),
+		Librarys_reference:  make(map[*Library]*Library),
 
 		Participant_stagedOrder: make(map[*Participant]uint),
 		Participant_orderStaged: make(map[uint]*Participant),
-		Participants_reference: make(map[*Participant]*Participant),
+		Participants_reference:  make(map[*Participant]*Participant),
 
 		ParticipantShape_stagedOrder: make(map[*ParticipantShape]uint),
 		ParticipantShape_orderStaged: make(map[uint]*ParticipantShape),
-		ParticipantShapes_reference: make(map[*ParticipantShape]*ParticipantShape),
+		ParticipantShapes_reference:  make(map[*ParticipantShape]*ParticipantShape),
 
 		Process_stagedOrder: make(map[*Process]uint),
 		Process_orderStaged: make(map[uint]*Process),
-		Processs_reference: make(map[*Process]*Process),
+		Processs_reference:  make(map[*Process]*Process),
 
 		ProcessShape_stagedOrder: make(map[*ProcessShape]uint),
 		ProcessShape_orderStaged: make(map[uint]*ProcessShape),
-		ProcessShapes_reference: make(map[*ProcessShape]*ProcessShape),
+		ProcessShapes_reference:  make(map[*ProcessShape]*ProcessShape),
 
 		Task_stagedOrder: make(map[*Task]uint),
 		Task_orderStaged: make(map[uint]*Task),
-		Tasks_reference: make(map[*Task]*Task),
+		Tasks_reference:  make(map[*Task]*Task),
 
 		TaskShape_stagedOrder: make(map[*TaskShape]uint),
 		TaskShape_orderStaged: make(map[uint]*TaskShape),
-		TaskShapes_reference: make(map[*TaskShape]*TaskShape),
+		TaskShapes_reference:  make(map[*TaskShape]*TaskShape),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

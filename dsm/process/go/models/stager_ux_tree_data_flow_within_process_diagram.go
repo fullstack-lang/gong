@@ -63,7 +63,7 @@ func (stager *Stager) treeDataFlowsWithinProcessDiagram(
 
 	dataFlowNode := &tree.Node{
 		Name:                    dataFlow.GetName(),
-		IsExpanded:              slices.Index(diagramProcess.DataFlowsWhoseNodeIsExpanded, dataFlow) != -1,
+		IsExpanded:              slices.Contains(diagramProcess.DataFlowsWhoseNodeIsExpanded, dataFlow),
 		IsNodeClickable:         true,
 		IsInEditMode:            dataFlow.GetIsInRenameMode(),
 		HasCheckboxButton:       true,
