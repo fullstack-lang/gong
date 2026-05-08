@@ -240,7 +240,11 @@ func ({{structname}} *{{Structname}}) GongGetUUID(stage *Stage) (uuid string) {
 			// delete(stage.{{Structname}}_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", {{structname}}.GetName())
+				if {{structname}}.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", {{structname}}.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
