@@ -10,9 +10,9 @@ import (
 )
 
 type Stager struct {
-	stage       *Stage
-	splitStage  *split.Stage
-	probeForm   ProbeIF
+	stage      *Stage
+	splitStage *split.Stage
+	probeForm  ProbeIF
 }
 
 func NewStager(
@@ -59,4 +59,3 @@ type BeforeCommitImplementation struct {
 func (c *BeforeCommitImplementation) BeforeCommit(stage *Stage) {
 
 }
-
