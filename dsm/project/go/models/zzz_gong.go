@@ -1660,79 +1660,79 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		Diagram_stagedOrder: make(map[*Diagram]uint),
 		Diagram_orderStaged: make(map[uint]*Diagram),
-		Diagrams_reference: make(map[*Diagram]*Diagram),
+		Diagrams_reference:  make(map[*Diagram]*Diagram),
 
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
-		Librarys_reference: make(map[*Library]*Library),
+		Librarys_reference:  make(map[*Library]*Library),
 
 		Note_stagedOrder: make(map[*Note]uint),
 		Note_orderStaged: make(map[uint]*Note),
-		Notes_reference: make(map[*Note]*Note),
+		Notes_reference:  make(map[*Note]*Note),
 
 		NoteProductShape_stagedOrder: make(map[*NoteProductShape]uint),
 		NoteProductShape_orderStaged: make(map[uint]*NoteProductShape),
-		NoteProductShapes_reference: make(map[*NoteProductShape]*NoteProductShape),
+		NoteProductShapes_reference:  make(map[*NoteProductShape]*NoteProductShape),
 
 		NoteResourceShape_stagedOrder: make(map[*NoteResourceShape]uint),
 		NoteResourceShape_orderStaged: make(map[uint]*NoteResourceShape),
-		NoteResourceShapes_reference: make(map[*NoteResourceShape]*NoteResourceShape),
+		NoteResourceShapes_reference:  make(map[*NoteResourceShape]*NoteResourceShape),
 
 		NoteShape_stagedOrder: make(map[*NoteShape]uint),
 		NoteShape_orderStaged: make(map[uint]*NoteShape),
-		NoteShapes_reference: make(map[*NoteShape]*NoteShape),
+		NoteShapes_reference:  make(map[*NoteShape]*NoteShape),
 
 		NoteTaskShape_stagedOrder: make(map[*NoteTaskShape]uint),
 		NoteTaskShape_orderStaged: make(map[uint]*NoteTaskShape),
-		NoteTaskShapes_reference: make(map[*NoteTaskShape]*NoteTaskShape),
+		NoteTaskShapes_reference:  make(map[*NoteTaskShape]*NoteTaskShape),
 
 		Product_stagedOrder: make(map[*Product]uint),
 		Product_orderStaged: make(map[uint]*Product),
-		Products_reference: make(map[*Product]*Product),
+		Products_reference:  make(map[*Product]*Product),
 
 		ProductCompositionShape_stagedOrder: make(map[*ProductCompositionShape]uint),
 		ProductCompositionShape_orderStaged: make(map[uint]*ProductCompositionShape),
-		ProductCompositionShapes_reference: make(map[*ProductCompositionShape]*ProductCompositionShape),
+		ProductCompositionShapes_reference:  make(map[*ProductCompositionShape]*ProductCompositionShape),
 
 		ProductShape_stagedOrder: make(map[*ProductShape]uint),
 		ProductShape_orderStaged: make(map[uint]*ProductShape),
-		ProductShapes_reference: make(map[*ProductShape]*ProductShape),
+		ProductShapes_reference:  make(map[*ProductShape]*ProductShape),
 
 		Resource_stagedOrder: make(map[*Resource]uint),
 		Resource_orderStaged: make(map[uint]*Resource),
-		Resources_reference: make(map[*Resource]*Resource),
+		Resources_reference:  make(map[*Resource]*Resource),
 
 		ResourceCompositionShape_stagedOrder: make(map[*ResourceCompositionShape]uint),
 		ResourceCompositionShape_orderStaged: make(map[uint]*ResourceCompositionShape),
-		ResourceCompositionShapes_reference: make(map[*ResourceCompositionShape]*ResourceCompositionShape),
+		ResourceCompositionShapes_reference:  make(map[*ResourceCompositionShape]*ResourceCompositionShape),
 
 		ResourceShape_stagedOrder: make(map[*ResourceShape]uint),
 		ResourceShape_orderStaged: make(map[uint]*ResourceShape),
-		ResourceShapes_reference: make(map[*ResourceShape]*ResourceShape),
+		ResourceShapes_reference:  make(map[*ResourceShape]*ResourceShape),
 
 		ResourceTaskShape_stagedOrder: make(map[*ResourceTaskShape]uint),
 		ResourceTaskShape_orderStaged: make(map[uint]*ResourceTaskShape),
-		ResourceTaskShapes_reference: make(map[*ResourceTaskShape]*ResourceTaskShape),
+		ResourceTaskShapes_reference:  make(map[*ResourceTaskShape]*ResourceTaskShape),
 
 		Task_stagedOrder: make(map[*Task]uint),
 		Task_orderStaged: make(map[uint]*Task),
-		Tasks_reference: make(map[*Task]*Task),
+		Tasks_reference:  make(map[*Task]*Task),
 
 		TaskCompositionShape_stagedOrder: make(map[*TaskCompositionShape]uint),
 		TaskCompositionShape_orderStaged: make(map[uint]*TaskCompositionShape),
-		TaskCompositionShapes_reference: make(map[*TaskCompositionShape]*TaskCompositionShape),
+		TaskCompositionShapes_reference:  make(map[*TaskCompositionShape]*TaskCompositionShape),
 
 		TaskInputShape_stagedOrder: make(map[*TaskInputShape]uint),
 		TaskInputShape_orderStaged: make(map[uint]*TaskInputShape),
-		TaskInputShapes_reference: make(map[*TaskInputShape]*TaskInputShape),
+		TaskInputShapes_reference:  make(map[*TaskInputShape]*TaskInputShape),
 
 		TaskOutputShape_stagedOrder: make(map[*TaskOutputShape]uint),
 		TaskOutputShape_orderStaged: make(map[uint]*TaskOutputShape),
-		TaskOutputShapes_reference: make(map[*TaskOutputShape]*TaskOutputShape),
+		TaskOutputShapes_reference:  make(map[*TaskOutputShape]*TaskOutputShape),
 
 		TaskShape_stagedOrder: make(map[*TaskShape]uint),
 		TaskShape_orderStaged: make(map[uint]*TaskShape),
-		TaskShapes_reference: make(map[*TaskShape]*TaskShape),
+		TaskShapes_reference:  make(map[*TaskShape]*TaskShape),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

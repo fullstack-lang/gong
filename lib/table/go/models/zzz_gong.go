@@ -1170,47 +1170,47 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		Button_stagedOrder: make(map[*Button]uint),
 		Button_orderStaged: make(map[uint]*Button),
-		Buttons_reference: make(map[*Button]*Button),
+		Buttons_reference:  make(map[*Button]*Button),
 
 		Cell_stagedOrder: make(map[*Cell]uint),
 		Cell_orderStaged: make(map[uint]*Cell),
-		Cells_reference: make(map[*Cell]*Cell),
+		Cells_reference:  make(map[*Cell]*Cell),
 
 		CellBoolean_stagedOrder: make(map[*CellBoolean]uint),
 		CellBoolean_orderStaged: make(map[uint]*CellBoolean),
-		CellBooleans_reference: make(map[*CellBoolean]*CellBoolean),
+		CellBooleans_reference:  make(map[*CellBoolean]*CellBoolean),
 
 		CellFloat64_stagedOrder: make(map[*CellFloat64]uint),
 		CellFloat64_orderStaged: make(map[uint]*CellFloat64),
-		CellFloat64s_reference: make(map[*CellFloat64]*CellFloat64),
+		CellFloat64s_reference:  make(map[*CellFloat64]*CellFloat64),
 
 		CellIcon_stagedOrder: make(map[*CellIcon]uint),
 		CellIcon_orderStaged: make(map[uint]*CellIcon),
-		CellIcons_reference: make(map[*CellIcon]*CellIcon),
+		CellIcons_reference:  make(map[*CellIcon]*CellIcon),
 
 		CellInt_stagedOrder: make(map[*CellInt]uint),
 		CellInt_orderStaged: make(map[uint]*CellInt),
-		CellInts_reference: make(map[*CellInt]*CellInt),
+		CellInts_reference:  make(map[*CellInt]*CellInt),
 
 		CellString_stagedOrder: make(map[*CellString]uint),
 		CellString_orderStaged: make(map[uint]*CellString),
-		CellStrings_reference: make(map[*CellString]*CellString),
+		CellStrings_reference:  make(map[*CellString]*CellString),
 
 		DisplayedColumn_stagedOrder: make(map[*DisplayedColumn]uint),
 		DisplayedColumn_orderStaged: make(map[uint]*DisplayedColumn),
-		DisplayedColumns_reference: make(map[*DisplayedColumn]*DisplayedColumn),
+		DisplayedColumns_reference:  make(map[*DisplayedColumn]*DisplayedColumn),
 
 		Row_stagedOrder: make(map[*Row]uint),
 		Row_orderStaged: make(map[uint]*Row),
-		Rows_reference: make(map[*Row]*Row),
+		Rows_reference:  make(map[*Row]*Row),
 
 		SVGIcon_stagedOrder: make(map[*SVGIcon]uint),
 		SVGIcon_orderStaged: make(map[uint]*SVGIcon),
-		SVGIcons_reference: make(map[*SVGIcon]*SVGIcon),
+		SVGIcons_reference:  make(map[*SVGIcon]*SVGIcon),
 
 		Table_stagedOrder: make(map[*Table]uint),
 		Table_orderStaged: make(map[uint]*Table),
-		Tables_reference: make(map[*Table]*Table),
+		Tables_reference:  make(map[*Table]*Table),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

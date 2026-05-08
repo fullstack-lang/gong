@@ -782,19 +782,19 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		Content_stagedOrder: make(map[*Content]uint),
 		Content_orderStaged: make(map[uint]*Content),
-		Contents_reference: make(map[*Content]*Content),
+		Contents_reference:  make(map[*Content]*Content),
 
 		JpgImage_stagedOrder: make(map[*JpgImage]uint),
 		JpgImage_orderStaged: make(map[uint]*JpgImage),
-		JpgImages_reference: make(map[*JpgImage]*JpgImage),
+		JpgImages_reference:  make(map[*JpgImage]*JpgImage),
 
 		PngImage_stagedOrder: make(map[*PngImage]uint),
 		PngImage_orderStaged: make(map[uint]*PngImage),
-		PngImages_reference: make(map[*PngImage]*PngImage),
+		PngImages_reference:  make(map[*PngImage]*PngImage),
 
 		SvgImage_stagedOrder: make(map[*SvgImage]uint),
 		SvgImage_orderStaged: make(map[uint]*SvgImage),
-		SvgImages_reference: make(map[*SvgImage]*SvgImage),
+		SvgImages_reference:  make(map[*SvgImage]*SvgImage),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

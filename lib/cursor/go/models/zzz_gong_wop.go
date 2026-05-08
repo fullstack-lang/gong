@@ -62,3 +62,4 @@ func (from *Cursor) CopyBasicFields(to *Cursor) {
 	to.IsPlaying = from.IsPlaying
 }
 
+// end of insertion point

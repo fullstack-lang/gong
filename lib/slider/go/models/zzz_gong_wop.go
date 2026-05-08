@@ -101,3 +101,4 @@ func (from *Slider) CopyBasicFields(to *Slider) {
 	to.ValueFloat64 = from.ValueFloat64
 }
 
+// end of insertion point

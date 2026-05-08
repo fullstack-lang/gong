@@ -157,3 +157,4 @@ func (from *SvgImage) CopyBasicFields(to *SvgImage) {
 	to.Content = from.Content
 }
 
+// end of insertion point

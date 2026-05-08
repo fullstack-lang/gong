@@ -1025,3 +1025,4 @@ func (from *Text) CopyBasicFields(to *Text) {
 	to.WhiteSpace = from.WhiteSpace
 }
 
+// end of insertion point

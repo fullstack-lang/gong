@@ -57,3 +57,4 @@ func (from *Player) CopyBasicFields(to *Player) {
 	to.Status = from.Status
 }
 
+// end of insertion point

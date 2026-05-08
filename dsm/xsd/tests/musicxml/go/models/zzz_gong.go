@@ -13414,927 +13414,927 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		A_directive_stagedOrder: make(map[*A_directive]uint),
 		A_directive_orderStaged: make(map[uint]*A_directive),
-		A_directives_reference: make(map[*A_directive]*A_directive),
+		A_directives_reference:  make(map[*A_directive]*A_directive),
 
 		A_measure_stagedOrder: make(map[*A_measure]uint),
 		A_measure_orderStaged: make(map[uint]*A_measure),
-		A_measures_reference: make(map[*A_measure]*A_measure),
+		A_measures_reference:  make(map[*A_measure]*A_measure),
 
 		A_measure_1_stagedOrder: make(map[*A_measure_1]uint),
 		A_measure_1_orderStaged: make(map[uint]*A_measure_1),
-		A_measure_1s_reference: make(map[*A_measure_1]*A_measure_1),
+		A_measure_1s_reference:  make(map[*A_measure_1]*A_measure_1),
 
 		A_part_stagedOrder: make(map[*A_part]uint),
 		A_part_orderStaged: make(map[uint]*A_part),
-		A_parts_reference: make(map[*A_part]*A_part),
+		A_parts_reference:  make(map[*A_part]*A_part),
 
 		A_part_1_stagedOrder: make(map[*A_part_1]uint),
 		A_part_1_orderStaged: make(map[uint]*A_part_1),
-		A_part_1s_reference: make(map[*A_part_1]*A_part_1),
+		A_part_1s_reference:  make(map[*A_part_1]*A_part_1),
 
 		Accidental_stagedOrder: make(map[*Accidental]uint),
 		Accidental_orderStaged: make(map[uint]*Accidental),
-		Accidentals_reference: make(map[*Accidental]*Accidental),
+		Accidentals_reference:  make(map[*Accidental]*Accidental),
 
 		Accidental_mark_stagedOrder: make(map[*Accidental_mark]uint),
 		Accidental_mark_orderStaged: make(map[uint]*Accidental_mark),
-		Accidental_marks_reference: make(map[*Accidental_mark]*Accidental_mark),
+		Accidental_marks_reference:  make(map[*Accidental_mark]*Accidental_mark),
 
 		Accidental_text_stagedOrder: make(map[*Accidental_text]uint),
 		Accidental_text_orderStaged: make(map[uint]*Accidental_text),
-		Accidental_texts_reference: make(map[*Accidental_text]*Accidental_text),
+		Accidental_texts_reference:  make(map[*Accidental_text]*Accidental_text),
 
 		Accord_stagedOrder: make(map[*Accord]uint),
 		Accord_orderStaged: make(map[uint]*Accord),
-		Accords_reference: make(map[*Accord]*Accord),
+		Accords_reference:  make(map[*Accord]*Accord),
 
 		Accordion_registration_stagedOrder: make(map[*Accordion_registration]uint),
 		Accordion_registration_orderStaged: make(map[uint]*Accordion_registration),
-		Accordion_registrations_reference: make(map[*Accordion_registration]*Accordion_registration),
+		Accordion_registrations_reference:  make(map[*Accordion_registration]*Accordion_registration),
 
 		Appearance_stagedOrder: make(map[*Appearance]uint),
 		Appearance_orderStaged: make(map[uint]*Appearance),
-		Appearances_reference: make(map[*Appearance]*Appearance),
+		Appearances_reference:  make(map[*Appearance]*Appearance),
 
 		Arpeggiate_stagedOrder: make(map[*Arpeggiate]uint),
 		Arpeggiate_orderStaged: make(map[uint]*Arpeggiate),
-		Arpeggiates_reference: make(map[*Arpeggiate]*Arpeggiate),
+		Arpeggiates_reference:  make(map[*Arpeggiate]*Arpeggiate),
 
 		Arrow_stagedOrder: make(map[*Arrow]uint),
 		Arrow_orderStaged: make(map[uint]*Arrow),
-		Arrows_reference: make(map[*Arrow]*Arrow),
+		Arrows_reference:  make(map[*Arrow]*Arrow),
 
 		Articulations_stagedOrder: make(map[*Articulations]uint),
 		Articulations_orderStaged: make(map[uint]*Articulations),
-		Articulationss_reference: make(map[*Articulations]*Articulations),
+		Articulationss_reference:  make(map[*Articulations]*Articulations),
 
 		Assess_stagedOrder: make(map[*Assess]uint),
 		Assess_orderStaged: make(map[uint]*Assess),
-		Assesss_reference: make(map[*Assess]*Assess),
+		Assesss_reference:  make(map[*Assess]*Assess),
 
 		Attributes_stagedOrder: make(map[*Attributes]uint),
 		Attributes_orderStaged: make(map[uint]*Attributes),
-		Attributess_reference: make(map[*Attributes]*Attributes),
+		Attributess_reference:  make(map[*Attributes]*Attributes),
 
 		Backup_stagedOrder: make(map[*Backup]uint),
 		Backup_orderStaged: make(map[uint]*Backup),
-		Backups_reference: make(map[*Backup]*Backup),
+		Backups_reference:  make(map[*Backup]*Backup),
 
 		Bar_style_color_stagedOrder: make(map[*Bar_style_color]uint),
 		Bar_style_color_orderStaged: make(map[uint]*Bar_style_color),
-		Bar_style_colors_reference: make(map[*Bar_style_color]*Bar_style_color),
+		Bar_style_colors_reference:  make(map[*Bar_style_color]*Bar_style_color),
 
 		Barline_stagedOrder: make(map[*Barline]uint),
 		Barline_orderStaged: make(map[uint]*Barline),
-		Barlines_reference: make(map[*Barline]*Barline),
+		Barlines_reference:  make(map[*Barline]*Barline),
 
 		Barre_stagedOrder: make(map[*Barre]uint),
 		Barre_orderStaged: make(map[uint]*Barre),
-		Barres_reference: make(map[*Barre]*Barre),
+		Barres_reference:  make(map[*Barre]*Barre),
 
 		Bass_stagedOrder: make(map[*Bass]uint),
 		Bass_orderStaged: make(map[uint]*Bass),
-		Basss_reference: make(map[*Bass]*Bass),
+		Basss_reference:  make(map[*Bass]*Bass),
 
 		Bass_step_stagedOrder: make(map[*Bass_step]uint),
 		Bass_step_orderStaged: make(map[uint]*Bass_step),
-		Bass_steps_reference: make(map[*Bass_step]*Bass_step),
+		Bass_steps_reference:  make(map[*Bass_step]*Bass_step),
 
 		Beam_stagedOrder: make(map[*Beam]uint),
 		Beam_orderStaged: make(map[uint]*Beam),
-		Beams_reference: make(map[*Beam]*Beam),
+		Beams_reference:  make(map[*Beam]*Beam),
 
 		Beat_repeat_stagedOrder: make(map[*Beat_repeat]uint),
 		Beat_repeat_orderStaged: make(map[uint]*Beat_repeat),
-		Beat_repeats_reference: make(map[*Beat_repeat]*Beat_repeat),
+		Beat_repeats_reference:  make(map[*Beat_repeat]*Beat_repeat),
 
 		Beat_unit_tied_stagedOrder: make(map[*Beat_unit_tied]uint),
 		Beat_unit_tied_orderStaged: make(map[uint]*Beat_unit_tied),
-		Beat_unit_tieds_reference: make(map[*Beat_unit_tied]*Beat_unit_tied),
+		Beat_unit_tieds_reference:  make(map[*Beat_unit_tied]*Beat_unit_tied),
 
 		Beater_stagedOrder: make(map[*Beater]uint),
 		Beater_orderStaged: make(map[uint]*Beater),
-		Beaters_reference: make(map[*Beater]*Beater),
+		Beaters_reference:  make(map[*Beater]*Beater),
 
 		Bend_stagedOrder: make(map[*Bend]uint),
 		Bend_orderStaged: make(map[uint]*Bend),
-		Bends_reference: make(map[*Bend]*Bend),
+		Bends_reference:  make(map[*Bend]*Bend),
 
 		Bookmark_stagedOrder: make(map[*Bookmark]uint),
 		Bookmark_orderStaged: make(map[uint]*Bookmark),
-		Bookmarks_reference: make(map[*Bookmark]*Bookmark),
+		Bookmarks_reference:  make(map[*Bookmark]*Bookmark),
 
 		Bracket_stagedOrder: make(map[*Bracket]uint),
 		Bracket_orderStaged: make(map[uint]*Bracket),
-		Brackets_reference: make(map[*Bracket]*Bracket),
+		Brackets_reference:  make(map[*Bracket]*Bracket),
 
 		Breath_mark_stagedOrder: make(map[*Breath_mark]uint),
 		Breath_mark_orderStaged: make(map[uint]*Breath_mark),
-		Breath_marks_reference: make(map[*Breath_mark]*Breath_mark),
+		Breath_marks_reference:  make(map[*Breath_mark]*Breath_mark),
 
 		Caesura_stagedOrder: make(map[*Caesura]uint),
 		Caesura_orderStaged: make(map[uint]*Caesura),
-		Caesuras_reference: make(map[*Caesura]*Caesura),
+		Caesuras_reference:  make(map[*Caesura]*Caesura),
 
 		Cancel_stagedOrder: make(map[*Cancel]uint),
 		Cancel_orderStaged: make(map[uint]*Cancel),
-		Cancels_reference: make(map[*Cancel]*Cancel),
+		Cancels_reference:  make(map[*Cancel]*Cancel),
 
 		Clef_stagedOrder: make(map[*Clef]uint),
 		Clef_orderStaged: make(map[uint]*Clef),
-		Clefs_reference: make(map[*Clef]*Clef),
+		Clefs_reference:  make(map[*Clef]*Clef),
 
 		Coda_stagedOrder: make(map[*Coda]uint),
 		Coda_orderStaged: make(map[uint]*Coda),
-		Codas_reference: make(map[*Coda]*Coda),
+		Codas_reference:  make(map[*Coda]*Coda),
 
 		Credit_stagedOrder: make(map[*Credit]uint),
 		Credit_orderStaged: make(map[uint]*Credit),
-		Credits_reference: make(map[*Credit]*Credit),
+		Credits_reference:  make(map[*Credit]*Credit),
 
 		Dashes_stagedOrder: make(map[*Dashes]uint),
 		Dashes_orderStaged: make(map[uint]*Dashes),
-		Dashess_reference: make(map[*Dashes]*Dashes),
+		Dashess_reference:  make(map[*Dashes]*Dashes),
 
 		Defaults_stagedOrder: make(map[*Defaults]uint),
 		Defaults_orderStaged: make(map[uint]*Defaults),
-		Defaultss_reference: make(map[*Defaults]*Defaults),
+		Defaultss_reference:  make(map[*Defaults]*Defaults),
 
 		Degree_stagedOrder: make(map[*Degree]uint),
 		Degree_orderStaged: make(map[uint]*Degree),
-		Degrees_reference: make(map[*Degree]*Degree),
+		Degrees_reference:  make(map[*Degree]*Degree),
 
 		Degree_alter_stagedOrder: make(map[*Degree_alter]uint),
 		Degree_alter_orderStaged: make(map[uint]*Degree_alter),
-		Degree_alters_reference: make(map[*Degree_alter]*Degree_alter),
+		Degree_alters_reference:  make(map[*Degree_alter]*Degree_alter),
 
 		Degree_type_stagedOrder: make(map[*Degree_type]uint),
 		Degree_type_orderStaged: make(map[uint]*Degree_type),
-		Degree_types_reference: make(map[*Degree_type]*Degree_type),
+		Degree_types_reference:  make(map[*Degree_type]*Degree_type),
 
 		Degree_value_stagedOrder: make(map[*Degree_value]uint),
 		Degree_value_orderStaged: make(map[uint]*Degree_value),
-		Degree_values_reference: make(map[*Degree_value]*Degree_value),
+		Degree_values_reference:  make(map[*Degree_value]*Degree_value),
 
 		Direction_stagedOrder: make(map[*Direction]uint),
 		Direction_orderStaged: make(map[uint]*Direction),
-		Directions_reference: make(map[*Direction]*Direction),
+		Directions_reference:  make(map[*Direction]*Direction),
 
 		Direction_type_stagedOrder: make(map[*Direction_type]uint),
 		Direction_type_orderStaged: make(map[uint]*Direction_type),
-		Direction_types_reference: make(map[*Direction_type]*Direction_type),
+		Direction_types_reference:  make(map[*Direction_type]*Direction_type),
 
 		Distance_stagedOrder: make(map[*Distance]uint),
 		Distance_orderStaged: make(map[uint]*Distance),
-		Distances_reference: make(map[*Distance]*Distance),
+		Distances_reference:  make(map[*Distance]*Distance),
 
 		Double_stagedOrder: make(map[*Double]uint),
 		Double_orderStaged: make(map[uint]*Double),
-		Doubles_reference: make(map[*Double]*Double),
+		Doubles_reference:  make(map[*Double]*Double),
 
 		Dynamics_stagedOrder: make(map[*Dynamics]uint),
 		Dynamics_orderStaged: make(map[uint]*Dynamics),
-		Dynamicss_reference: make(map[*Dynamics]*Dynamics),
+		Dynamicss_reference:  make(map[*Dynamics]*Dynamics),
 
 		Effect_stagedOrder: make(map[*Effect]uint),
 		Effect_orderStaged: make(map[uint]*Effect),
-		Effects_reference: make(map[*Effect]*Effect),
+		Effects_reference:  make(map[*Effect]*Effect),
 
 		Elision_stagedOrder: make(map[*Elision]uint),
 		Elision_orderStaged: make(map[uint]*Elision),
-		Elisions_reference: make(map[*Elision]*Elision),
+		Elisions_reference:  make(map[*Elision]*Elision),
 
 		Empty_stagedOrder: make(map[*Empty]uint),
 		Empty_orderStaged: make(map[uint]*Empty),
-		Emptys_reference: make(map[*Empty]*Empty),
+		Emptys_reference:  make(map[*Empty]*Empty),
 
 		Empty_font_stagedOrder: make(map[*Empty_font]uint),
 		Empty_font_orderStaged: make(map[uint]*Empty_font),
-		Empty_fonts_reference: make(map[*Empty_font]*Empty_font),
+		Empty_fonts_reference:  make(map[*Empty_font]*Empty_font),
 
 		Empty_line_stagedOrder: make(map[*Empty_line]uint),
 		Empty_line_orderStaged: make(map[uint]*Empty_line),
-		Empty_lines_reference: make(map[*Empty_line]*Empty_line),
+		Empty_lines_reference:  make(map[*Empty_line]*Empty_line),
 
 		Empty_placement_stagedOrder: make(map[*Empty_placement]uint),
 		Empty_placement_orderStaged: make(map[uint]*Empty_placement),
-		Empty_placements_reference: make(map[*Empty_placement]*Empty_placement),
+		Empty_placements_reference:  make(map[*Empty_placement]*Empty_placement),
 
 		Empty_placement_smufl_stagedOrder: make(map[*Empty_placement_smufl]uint),
 		Empty_placement_smufl_orderStaged: make(map[uint]*Empty_placement_smufl),
-		Empty_placement_smufls_reference: make(map[*Empty_placement_smufl]*Empty_placement_smufl),
+		Empty_placement_smufls_reference:  make(map[*Empty_placement_smufl]*Empty_placement_smufl),
 
 		Empty_print_object_style_align_stagedOrder: make(map[*Empty_print_object_style_align]uint),
 		Empty_print_object_style_align_orderStaged: make(map[uint]*Empty_print_object_style_align),
-		Empty_print_object_style_aligns_reference: make(map[*Empty_print_object_style_align]*Empty_print_object_style_align),
+		Empty_print_object_style_aligns_reference:  make(map[*Empty_print_object_style_align]*Empty_print_object_style_align),
 
 		Empty_print_style_stagedOrder: make(map[*Empty_print_style]uint),
 		Empty_print_style_orderStaged: make(map[uint]*Empty_print_style),
-		Empty_print_styles_reference: make(map[*Empty_print_style]*Empty_print_style),
+		Empty_print_styles_reference:  make(map[*Empty_print_style]*Empty_print_style),
 
 		Empty_print_style_align_stagedOrder: make(map[*Empty_print_style_align]uint),
 		Empty_print_style_align_orderStaged: make(map[uint]*Empty_print_style_align),
-		Empty_print_style_aligns_reference: make(map[*Empty_print_style_align]*Empty_print_style_align),
+		Empty_print_style_aligns_reference:  make(map[*Empty_print_style_align]*Empty_print_style_align),
 
 		Empty_print_style_align_id_stagedOrder: make(map[*Empty_print_style_align_id]uint),
 		Empty_print_style_align_id_orderStaged: make(map[uint]*Empty_print_style_align_id),
-		Empty_print_style_align_ids_reference: make(map[*Empty_print_style_align_id]*Empty_print_style_align_id),
+		Empty_print_style_align_ids_reference:  make(map[*Empty_print_style_align_id]*Empty_print_style_align_id),
 
 		Empty_trill_sound_stagedOrder: make(map[*Empty_trill_sound]uint),
 		Empty_trill_sound_orderStaged: make(map[uint]*Empty_trill_sound),
-		Empty_trill_sounds_reference: make(map[*Empty_trill_sound]*Empty_trill_sound),
+		Empty_trill_sounds_reference:  make(map[*Empty_trill_sound]*Empty_trill_sound),
 
 		Encoding_stagedOrder: make(map[*Encoding]uint),
 		Encoding_orderStaged: make(map[uint]*Encoding),
-		Encodings_reference: make(map[*Encoding]*Encoding),
+		Encodings_reference:  make(map[*Encoding]*Encoding),
 
 		Ending_stagedOrder: make(map[*Ending]uint),
 		Ending_orderStaged: make(map[uint]*Ending),
-		Endings_reference: make(map[*Ending]*Ending),
+		Endings_reference:  make(map[*Ending]*Ending),
 
 		Extend_stagedOrder: make(map[*Extend]uint),
 		Extend_orderStaged: make(map[uint]*Extend),
-		Extends_reference: make(map[*Extend]*Extend),
+		Extends_reference:  make(map[*Extend]*Extend),
 
 		Feature_stagedOrder: make(map[*Feature]uint),
 		Feature_orderStaged: make(map[uint]*Feature),
-		Features_reference: make(map[*Feature]*Feature),
+		Features_reference:  make(map[*Feature]*Feature),
 
 		Fermata_stagedOrder: make(map[*Fermata]uint),
 		Fermata_orderStaged: make(map[uint]*Fermata),
-		Fermatas_reference: make(map[*Fermata]*Fermata),
+		Fermatas_reference:  make(map[*Fermata]*Fermata),
 
 		Figure_stagedOrder: make(map[*Figure]uint),
 		Figure_orderStaged: make(map[uint]*Figure),
-		Figures_reference: make(map[*Figure]*Figure),
+		Figures_reference:  make(map[*Figure]*Figure),
 
 		Figured_bass_stagedOrder: make(map[*Figured_bass]uint),
 		Figured_bass_orderStaged: make(map[uint]*Figured_bass),
-		Figured_basss_reference: make(map[*Figured_bass]*Figured_bass),
+		Figured_basss_reference:  make(map[*Figured_bass]*Figured_bass),
 
 		Fingering_stagedOrder: make(map[*Fingering]uint),
 		Fingering_orderStaged: make(map[uint]*Fingering),
-		Fingerings_reference: make(map[*Fingering]*Fingering),
+		Fingerings_reference:  make(map[*Fingering]*Fingering),
 
 		First_fret_stagedOrder: make(map[*First_fret]uint),
 		First_fret_orderStaged: make(map[uint]*First_fret),
-		First_frets_reference: make(map[*First_fret]*First_fret),
+		First_frets_reference:  make(map[*First_fret]*First_fret),
 
 		For_part_stagedOrder: make(map[*For_part]uint),
 		For_part_orderStaged: make(map[uint]*For_part),
-		For_parts_reference: make(map[*For_part]*For_part),
+		For_parts_reference:  make(map[*For_part]*For_part),
 
 		Formatted_symbol_stagedOrder: make(map[*Formatted_symbol]uint),
 		Formatted_symbol_orderStaged: make(map[uint]*Formatted_symbol),
-		Formatted_symbols_reference: make(map[*Formatted_symbol]*Formatted_symbol),
+		Formatted_symbols_reference:  make(map[*Formatted_symbol]*Formatted_symbol),
 
 		Formatted_symbol_id_stagedOrder: make(map[*Formatted_symbol_id]uint),
 		Formatted_symbol_id_orderStaged: make(map[uint]*Formatted_symbol_id),
-		Formatted_symbol_ids_reference: make(map[*Formatted_symbol_id]*Formatted_symbol_id),
+		Formatted_symbol_ids_reference:  make(map[*Formatted_symbol_id]*Formatted_symbol_id),
 
 		Formatted_text_stagedOrder: make(map[*Formatted_text]uint),
 		Formatted_text_orderStaged: make(map[uint]*Formatted_text),
-		Formatted_texts_reference: make(map[*Formatted_text]*Formatted_text),
+		Formatted_texts_reference:  make(map[*Formatted_text]*Formatted_text),
 
 		Formatted_text_id_stagedOrder: make(map[*Formatted_text_id]uint),
 		Formatted_text_id_orderStaged: make(map[uint]*Formatted_text_id),
-		Formatted_text_ids_reference: make(map[*Formatted_text_id]*Formatted_text_id),
+		Formatted_text_ids_reference:  make(map[*Formatted_text_id]*Formatted_text_id),
 
 		Forward_stagedOrder: make(map[*Forward]uint),
 		Forward_orderStaged: make(map[uint]*Forward),
-		Forwards_reference: make(map[*Forward]*Forward),
+		Forwards_reference:  make(map[*Forward]*Forward),
 
 		Frame_stagedOrder: make(map[*Frame]uint),
 		Frame_orderStaged: make(map[uint]*Frame),
-		Frames_reference: make(map[*Frame]*Frame),
+		Frames_reference:  make(map[*Frame]*Frame),
 
 		Frame_note_stagedOrder: make(map[*Frame_note]uint),
 		Frame_note_orderStaged: make(map[uint]*Frame_note),
-		Frame_notes_reference: make(map[*Frame_note]*Frame_note),
+		Frame_notes_reference:  make(map[*Frame_note]*Frame_note),
 
 		Fret_stagedOrder: make(map[*Fret]uint),
 		Fret_orderStaged: make(map[uint]*Fret),
-		Frets_reference: make(map[*Fret]*Fret),
+		Frets_reference:  make(map[*Fret]*Fret),
 
 		Glass_stagedOrder: make(map[*Glass]uint),
 		Glass_orderStaged: make(map[uint]*Glass),
-		Glasss_reference: make(map[*Glass]*Glass),
+		Glasss_reference:  make(map[*Glass]*Glass),
 
 		Glissando_stagedOrder: make(map[*Glissando]uint),
 		Glissando_orderStaged: make(map[uint]*Glissando),
-		Glissandos_reference: make(map[*Glissando]*Glissando),
+		Glissandos_reference:  make(map[*Glissando]*Glissando),
 
 		Glyph_stagedOrder: make(map[*Glyph]uint),
 		Glyph_orderStaged: make(map[uint]*Glyph),
-		Glyphs_reference: make(map[*Glyph]*Glyph),
+		Glyphs_reference:  make(map[*Glyph]*Glyph),
 
 		Grace_stagedOrder: make(map[*Grace]uint),
 		Grace_orderStaged: make(map[uint]*Grace),
-		Graces_reference: make(map[*Grace]*Grace),
+		Graces_reference:  make(map[*Grace]*Grace),
 
 		Group_barline_stagedOrder: make(map[*Group_barline]uint),
 		Group_barline_orderStaged: make(map[uint]*Group_barline),
-		Group_barlines_reference: make(map[*Group_barline]*Group_barline),
+		Group_barlines_reference:  make(map[*Group_barline]*Group_barline),
 
 		Group_name_stagedOrder: make(map[*Group_name]uint),
 		Group_name_orderStaged: make(map[uint]*Group_name),
-		Group_names_reference: make(map[*Group_name]*Group_name),
+		Group_names_reference:  make(map[*Group_name]*Group_name),
 
 		Group_symbol_stagedOrder: make(map[*Group_symbol]uint),
 		Group_symbol_orderStaged: make(map[uint]*Group_symbol),
-		Group_symbols_reference: make(map[*Group_symbol]*Group_symbol),
+		Group_symbols_reference:  make(map[*Group_symbol]*Group_symbol),
 
 		Grouping_stagedOrder: make(map[*Grouping]uint),
 		Grouping_orderStaged: make(map[uint]*Grouping),
-		Groupings_reference: make(map[*Grouping]*Grouping),
+		Groupings_reference:  make(map[*Grouping]*Grouping),
 
 		Hammer_on_pull_off_stagedOrder: make(map[*Hammer_on_pull_off]uint),
 		Hammer_on_pull_off_orderStaged: make(map[uint]*Hammer_on_pull_off),
-		Hammer_on_pull_offs_reference: make(map[*Hammer_on_pull_off]*Hammer_on_pull_off),
+		Hammer_on_pull_offs_reference:  make(map[*Hammer_on_pull_off]*Hammer_on_pull_off),
 
 		Handbell_stagedOrder: make(map[*Handbell]uint),
 		Handbell_orderStaged: make(map[uint]*Handbell),
-		Handbells_reference: make(map[*Handbell]*Handbell),
+		Handbells_reference:  make(map[*Handbell]*Handbell),
 
 		Harmon_closed_stagedOrder: make(map[*Harmon_closed]uint),
 		Harmon_closed_orderStaged: make(map[uint]*Harmon_closed),
-		Harmon_closeds_reference: make(map[*Harmon_closed]*Harmon_closed),
+		Harmon_closeds_reference:  make(map[*Harmon_closed]*Harmon_closed),
 
 		Harmon_mute_stagedOrder: make(map[*Harmon_mute]uint),
 		Harmon_mute_orderStaged: make(map[uint]*Harmon_mute),
-		Harmon_mutes_reference: make(map[*Harmon_mute]*Harmon_mute),
+		Harmon_mutes_reference:  make(map[*Harmon_mute]*Harmon_mute),
 
 		Harmonic_stagedOrder: make(map[*Harmonic]uint),
 		Harmonic_orderStaged: make(map[uint]*Harmonic),
-		Harmonics_reference: make(map[*Harmonic]*Harmonic),
+		Harmonics_reference:  make(map[*Harmonic]*Harmonic),
 
 		Harmony_stagedOrder: make(map[*Harmony]uint),
 		Harmony_orderStaged: make(map[uint]*Harmony),
-		Harmonys_reference: make(map[*Harmony]*Harmony),
+		Harmonys_reference:  make(map[*Harmony]*Harmony),
 
 		Harmony_alter_stagedOrder: make(map[*Harmony_alter]uint),
 		Harmony_alter_orderStaged: make(map[uint]*Harmony_alter),
-		Harmony_alters_reference: make(map[*Harmony_alter]*Harmony_alter),
+		Harmony_alters_reference:  make(map[*Harmony_alter]*Harmony_alter),
 
 		Harp_pedals_stagedOrder: make(map[*Harp_pedals]uint),
 		Harp_pedals_orderStaged: make(map[uint]*Harp_pedals),
-		Harp_pedalss_reference: make(map[*Harp_pedals]*Harp_pedals),
+		Harp_pedalss_reference:  make(map[*Harp_pedals]*Harp_pedals),
 
 		Heel_toe_stagedOrder: make(map[*Heel_toe]uint),
 		Heel_toe_orderStaged: make(map[uint]*Heel_toe),
-		Heel_toes_reference: make(map[*Heel_toe]*Heel_toe),
+		Heel_toes_reference:  make(map[*Heel_toe]*Heel_toe),
 
 		Hole_stagedOrder: make(map[*Hole]uint),
 		Hole_orderStaged: make(map[uint]*Hole),
-		Holes_reference: make(map[*Hole]*Hole),
+		Holes_reference:  make(map[*Hole]*Hole),
 
 		Hole_closed_stagedOrder: make(map[*Hole_closed]uint),
 		Hole_closed_orderStaged: make(map[uint]*Hole_closed),
-		Hole_closeds_reference: make(map[*Hole_closed]*Hole_closed),
+		Hole_closeds_reference:  make(map[*Hole_closed]*Hole_closed),
 
 		Horizontal_turn_stagedOrder: make(map[*Horizontal_turn]uint),
 		Horizontal_turn_orderStaged: make(map[uint]*Horizontal_turn),
-		Horizontal_turns_reference: make(map[*Horizontal_turn]*Horizontal_turn),
+		Horizontal_turns_reference:  make(map[*Horizontal_turn]*Horizontal_turn),
 
 		Identification_stagedOrder: make(map[*Identification]uint),
 		Identification_orderStaged: make(map[uint]*Identification),
-		Identifications_reference: make(map[*Identification]*Identification),
+		Identifications_reference:  make(map[*Identification]*Identification),
 
 		Image_stagedOrder: make(map[*Image]uint),
 		Image_orderStaged: make(map[uint]*Image),
-		Images_reference: make(map[*Image]*Image),
+		Images_reference:  make(map[*Image]*Image),
 
 		Instrument_stagedOrder: make(map[*Instrument]uint),
 		Instrument_orderStaged: make(map[uint]*Instrument),
-		Instruments_reference: make(map[*Instrument]*Instrument),
+		Instruments_reference:  make(map[*Instrument]*Instrument),
 
 		Instrument_change_stagedOrder: make(map[*Instrument_change]uint),
 		Instrument_change_orderStaged: make(map[uint]*Instrument_change),
-		Instrument_changes_reference: make(map[*Instrument_change]*Instrument_change),
+		Instrument_changes_reference:  make(map[*Instrument_change]*Instrument_change),
 
 		Instrument_link_stagedOrder: make(map[*Instrument_link]uint),
 		Instrument_link_orderStaged: make(map[uint]*Instrument_link),
-		Instrument_links_reference: make(map[*Instrument_link]*Instrument_link),
+		Instrument_links_reference:  make(map[*Instrument_link]*Instrument_link),
 
 		Interchangeable_stagedOrder: make(map[*Interchangeable]uint),
 		Interchangeable_orderStaged: make(map[uint]*Interchangeable),
-		Interchangeables_reference: make(map[*Interchangeable]*Interchangeable),
+		Interchangeables_reference:  make(map[*Interchangeable]*Interchangeable),
 
 		Inversion_stagedOrder: make(map[*Inversion]uint),
 		Inversion_orderStaged: make(map[uint]*Inversion),
-		Inversions_reference: make(map[*Inversion]*Inversion),
+		Inversions_reference:  make(map[*Inversion]*Inversion),
 
 		Key_stagedOrder: make(map[*Key]uint),
 		Key_orderStaged: make(map[uint]*Key),
-		Keys_reference: make(map[*Key]*Key),
+		Keys_reference:  make(map[*Key]*Key),
 
 		Key_accidental_stagedOrder: make(map[*Key_accidental]uint),
 		Key_accidental_orderStaged: make(map[uint]*Key_accidental),
-		Key_accidentals_reference: make(map[*Key_accidental]*Key_accidental),
+		Key_accidentals_reference:  make(map[*Key_accidental]*Key_accidental),
 
 		Key_octave_stagedOrder: make(map[*Key_octave]uint),
 		Key_octave_orderStaged: make(map[uint]*Key_octave),
-		Key_octaves_reference: make(map[*Key_octave]*Key_octave),
+		Key_octaves_reference:  make(map[*Key_octave]*Key_octave),
 
 		Kind_stagedOrder: make(map[*Kind]uint),
 		Kind_orderStaged: make(map[uint]*Kind),
-		Kinds_reference: make(map[*Kind]*Kind),
+		Kinds_reference:  make(map[*Kind]*Kind),
 
 		Level_stagedOrder: make(map[*Level]uint),
 		Level_orderStaged: make(map[uint]*Level),
-		Levels_reference: make(map[*Level]*Level),
+		Levels_reference:  make(map[*Level]*Level),
 
 		Line_detail_stagedOrder: make(map[*Line_detail]uint),
 		Line_detail_orderStaged: make(map[uint]*Line_detail),
-		Line_details_reference: make(map[*Line_detail]*Line_detail),
+		Line_details_reference:  make(map[*Line_detail]*Line_detail),
 
 		Line_width_stagedOrder: make(map[*Line_width]uint),
 		Line_width_orderStaged: make(map[uint]*Line_width),
-		Line_widths_reference: make(map[*Line_width]*Line_width),
+		Line_widths_reference:  make(map[*Line_width]*Line_width),
 
 		Link_stagedOrder: make(map[*Link]uint),
 		Link_orderStaged: make(map[uint]*Link),
-		Links_reference: make(map[*Link]*Link),
+		Links_reference:  make(map[*Link]*Link),
 
 		Listen_stagedOrder: make(map[*Listen]uint),
 		Listen_orderStaged: make(map[uint]*Listen),
-		Listens_reference: make(map[*Listen]*Listen),
+		Listens_reference:  make(map[*Listen]*Listen),
 
 		Listening_stagedOrder: make(map[*Listening]uint),
 		Listening_orderStaged: make(map[uint]*Listening),
-		Listenings_reference: make(map[*Listening]*Listening),
+		Listenings_reference:  make(map[*Listening]*Listening),
 
 		Lyric_stagedOrder: make(map[*Lyric]uint),
 		Lyric_orderStaged: make(map[uint]*Lyric),
-		Lyrics_reference: make(map[*Lyric]*Lyric),
+		Lyrics_reference:  make(map[*Lyric]*Lyric),
 
 		Lyric_font_stagedOrder: make(map[*Lyric_font]uint),
 		Lyric_font_orderStaged: make(map[uint]*Lyric_font),
-		Lyric_fonts_reference: make(map[*Lyric_font]*Lyric_font),
+		Lyric_fonts_reference:  make(map[*Lyric_font]*Lyric_font),
 
 		Lyric_language_stagedOrder: make(map[*Lyric_language]uint),
 		Lyric_language_orderStaged: make(map[uint]*Lyric_language),
-		Lyric_languages_reference: make(map[*Lyric_language]*Lyric_language),
+		Lyric_languages_reference:  make(map[*Lyric_language]*Lyric_language),
 
 		Measure_layout_stagedOrder: make(map[*Measure_layout]uint),
 		Measure_layout_orderStaged: make(map[uint]*Measure_layout),
-		Measure_layouts_reference: make(map[*Measure_layout]*Measure_layout),
+		Measure_layouts_reference:  make(map[*Measure_layout]*Measure_layout),
 
 		Measure_numbering_stagedOrder: make(map[*Measure_numbering]uint),
 		Measure_numbering_orderStaged: make(map[uint]*Measure_numbering),
-		Measure_numberings_reference: make(map[*Measure_numbering]*Measure_numbering),
+		Measure_numberings_reference:  make(map[*Measure_numbering]*Measure_numbering),
 
 		Measure_repeat_stagedOrder: make(map[*Measure_repeat]uint),
 		Measure_repeat_orderStaged: make(map[uint]*Measure_repeat),
-		Measure_repeats_reference: make(map[*Measure_repeat]*Measure_repeat),
+		Measure_repeats_reference:  make(map[*Measure_repeat]*Measure_repeat),
 
 		Measure_style_stagedOrder: make(map[*Measure_style]uint),
 		Measure_style_orderStaged: make(map[uint]*Measure_style),
-		Measure_styles_reference: make(map[*Measure_style]*Measure_style),
+		Measure_styles_reference:  make(map[*Measure_style]*Measure_style),
 
 		Membrane_stagedOrder: make(map[*Membrane]uint),
 		Membrane_orderStaged: make(map[uint]*Membrane),
-		Membranes_reference: make(map[*Membrane]*Membrane),
+		Membranes_reference:  make(map[*Membrane]*Membrane),
 
 		Metal_stagedOrder: make(map[*Metal]uint),
 		Metal_orderStaged: make(map[uint]*Metal),
-		Metals_reference: make(map[*Metal]*Metal),
+		Metals_reference:  make(map[*Metal]*Metal),
 
 		Metronome_stagedOrder: make(map[*Metronome]uint),
 		Metronome_orderStaged: make(map[uint]*Metronome),
-		Metronomes_reference: make(map[*Metronome]*Metronome),
+		Metronomes_reference:  make(map[*Metronome]*Metronome),
 
 		Metronome_beam_stagedOrder: make(map[*Metronome_beam]uint),
 		Metronome_beam_orderStaged: make(map[uint]*Metronome_beam),
-		Metronome_beams_reference: make(map[*Metronome_beam]*Metronome_beam),
+		Metronome_beams_reference:  make(map[*Metronome_beam]*Metronome_beam),
 
 		Metronome_note_stagedOrder: make(map[*Metronome_note]uint),
 		Metronome_note_orderStaged: make(map[uint]*Metronome_note),
-		Metronome_notes_reference: make(map[*Metronome_note]*Metronome_note),
+		Metronome_notes_reference:  make(map[*Metronome_note]*Metronome_note),
 
 		Metronome_tied_stagedOrder: make(map[*Metronome_tied]uint),
 		Metronome_tied_orderStaged: make(map[uint]*Metronome_tied),
-		Metronome_tieds_reference: make(map[*Metronome_tied]*Metronome_tied),
+		Metronome_tieds_reference:  make(map[*Metronome_tied]*Metronome_tied),
 
 		Metronome_tuplet_stagedOrder: make(map[*Metronome_tuplet]uint),
 		Metronome_tuplet_orderStaged: make(map[uint]*Metronome_tuplet),
-		Metronome_tuplets_reference: make(map[*Metronome_tuplet]*Metronome_tuplet),
+		Metronome_tuplets_reference:  make(map[*Metronome_tuplet]*Metronome_tuplet),
 
 		Midi_device_stagedOrder: make(map[*Midi_device]uint),
 		Midi_device_orderStaged: make(map[uint]*Midi_device),
-		Midi_devices_reference: make(map[*Midi_device]*Midi_device),
+		Midi_devices_reference:  make(map[*Midi_device]*Midi_device),
 
 		Midi_instrument_stagedOrder: make(map[*Midi_instrument]uint),
 		Midi_instrument_orderStaged: make(map[uint]*Midi_instrument),
-		Midi_instruments_reference: make(map[*Midi_instrument]*Midi_instrument),
+		Midi_instruments_reference:  make(map[*Midi_instrument]*Midi_instrument),
 
 		Miscellaneous_stagedOrder: make(map[*Miscellaneous]uint),
 		Miscellaneous_orderStaged: make(map[uint]*Miscellaneous),
-		Miscellaneouss_reference: make(map[*Miscellaneous]*Miscellaneous),
+		Miscellaneouss_reference:  make(map[*Miscellaneous]*Miscellaneous),
 
 		Miscellaneous_field_stagedOrder: make(map[*Miscellaneous_field]uint),
 		Miscellaneous_field_orderStaged: make(map[uint]*Miscellaneous_field),
-		Miscellaneous_fields_reference: make(map[*Miscellaneous_field]*Miscellaneous_field),
+		Miscellaneous_fields_reference:  make(map[*Miscellaneous_field]*Miscellaneous_field),
 
 		Mordent_stagedOrder: make(map[*Mordent]uint),
 		Mordent_orderStaged: make(map[uint]*Mordent),
-		Mordents_reference: make(map[*Mordent]*Mordent),
+		Mordents_reference:  make(map[*Mordent]*Mordent),
 
 		Multiple_rest_stagedOrder: make(map[*Multiple_rest]uint),
 		Multiple_rest_orderStaged: make(map[uint]*Multiple_rest),
-		Multiple_rests_reference: make(map[*Multiple_rest]*Multiple_rest),
+		Multiple_rests_reference:  make(map[*Multiple_rest]*Multiple_rest),
 
 		Name_display_stagedOrder: make(map[*Name_display]uint),
 		Name_display_orderStaged: make(map[uint]*Name_display),
-		Name_displays_reference: make(map[*Name_display]*Name_display),
+		Name_displays_reference:  make(map[*Name_display]*Name_display),
 
 		Non_arpeggiate_stagedOrder: make(map[*Non_arpeggiate]uint),
 		Non_arpeggiate_orderStaged: make(map[uint]*Non_arpeggiate),
-		Non_arpeggiates_reference: make(map[*Non_arpeggiate]*Non_arpeggiate),
+		Non_arpeggiates_reference:  make(map[*Non_arpeggiate]*Non_arpeggiate),
 
 		Notations_stagedOrder: make(map[*Notations]uint),
 		Notations_orderStaged: make(map[uint]*Notations),
-		Notationss_reference: make(map[*Notations]*Notations),
+		Notationss_reference:  make(map[*Notations]*Notations),
 
 		Note_stagedOrder: make(map[*Note]uint),
 		Note_orderStaged: make(map[uint]*Note),
-		Notes_reference: make(map[*Note]*Note),
+		Notes_reference:  make(map[*Note]*Note),
 
 		Note_size_stagedOrder: make(map[*Note_size]uint),
 		Note_size_orderStaged: make(map[uint]*Note_size),
-		Note_sizes_reference: make(map[*Note_size]*Note_size),
+		Note_sizes_reference:  make(map[*Note_size]*Note_size),
 
 		Note_type_stagedOrder: make(map[*Note_type]uint),
 		Note_type_orderStaged: make(map[uint]*Note_type),
-		Note_types_reference: make(map[*Note_type]*Note_type),
+		Note_types_reference:  make(map[*Note_type]*Note_type),
 
 		Notehead_stagedOrder: make(map[*Notehead]uint),
 		Notehead_orderStaged: make(map[uint]*Notehead),
-		Noteheads_reference: make(map[*Notehead]*Notehead),
+		Noteheads_reference:  make(map[*Notehead]*Notehead),
 
 		Notehead_text_stagedOrder: make(map[*Notehead_text]uint),
 		Notehead_text_orderStaged: make(map[uint]*Notehead_text),
-		Notehead_texts_reference: make(map[*Notehead_text]*Notehead_text),
+		Notehead_texts_reference:  make(map[*Notehead_text]*Notehead_text),
 
 		Numeral_stagedOrder: make(map[*Numeral]uint),
 		Numeral_orderStaged: make(map[uint]*Numeral),
-		Numerals_reference: make(map[*Numeral]*Numeral),
+		Numerals_reference:  make(map[*Numeral]*Numeral),
 
 		Numeral_key_stagedOrder: make(map[*Numeral_key]uint),
 		Numeral_key_orderStaged: make(map[uint]*Numeral_key),
-		Numeral_keys_reference: make(map[*Numeral_key]*Numeral_key),
+		Numeral_keys_reference:  make(map[*Numeral_key]*Numeral_key),
 
 		Numeral_root_stagedOrder: make(map[*Numeral_root]uint),
 		Numeral_root_orderStaged: make(map[uint]*Numeral_root),
-		Numeral_roots_reference: make(map[*Numeral_root]*Numeral_root),
+		Numeral_roots_reference:  make(map[*Numeral_root]*Numeral_root),
 
 		Octave_shift_stagedOrder: make(map[*Octave_shift]uint),
 		Octave_shift_orderStaged: make(map[uint]*Octave_shift),
-		Octave_shifts_reference: make(map[*Octave_shift]*Octave_shift),
+		Octave_shifts_reference:  make(map[*Octave_shift]*Octave_shift),
 
 		Offset_stagedOrder: make(map[*Offset]uint),
 		Offset_orderStaged: make(map[uint]*Offset),
-		Offsets_reference: make(map[*Offset]*Offset),
+		Offsets_reference:  make(map[*Offset]*Offset),
 
 		Opus_stagedOrder: make(map[*Opus]uint),
 		Opus_orderStaged: make(map[uint]*Opus),
-		Opuss_reference: make(map[*Opus]*Opus),
+		Opuss_reference:  make(map[*Opus]*Opus),
 
 		Ornaments_stagedOrder: make(map[*Ornaments]uint),
 		Ornaments_orderStaged: make(map[uint]*Ornaments),
-		Ornamentss_reference: make(map[*Ornaments]*Ornaments),
+		Ornamentss_reference:  make(map[*Ornaments]*Ornaments),
 
 		Other_appearance_stagedOrder: make(map[*Other_appearance]uint),
 		Other_appearance_orderStaged: make(map[uint]*Other_appearance),
-		Other_appearances_reference: make(map[*Other_appearance]*Other_appearance),
+		Other_appearances_reference:  make(map[*Other_appearance]*Other_appearance),
 
 		Other_direction_stagedOrder: make(map[*Other_direction]uint),
 		Other_direction_orderStaged: make(map[uint]*Other_direction),
-		Other_directions_reference: make(map[*Other_direction]*Other_direction),
+		Other_directions_reference:  make(map[*Other_direction]*Other_direction),
 
 		Other_listening_stagedOrder: make(map[*Other_listening]uint),
 		Other_listening_orderStaged: make(map[uint]*Other_listening),
-		Other_listenings_reference: make(map[*Other_listening]*Other_listening),
+		Other_listenings_reference:  make(map[*Other_listening]*Other_listening),
 
 		Other_notation_stagedOrder: make(map[*Other_notation]uint),
 		Other_notation_orderStaged: make(map[uint]*Other_notation),
-		Other_notations_reference: make(map[*Other_notation]*Other_notation),
+		Other_notations_reference:  make(map[*Other_notation]*Other_notation),
 
 		Other_placement_text_stagedOrder: make(map[*Other_placement_text]uint),
 		Other_placement_text_orderStaged: make(map[uint]*Other_placement_text),
-		Other_placement_texts_reference: make(map[*Other_placement_text]*Other_placement_text),
+		Other_placement_texts_reference:  make(map[*Other_placement_text]*Other_placement_text),
 
 		Other_play_stagedOrder: make(map[*Other_play]uint),
 		Other_play_orderStaged: make(map[uint]*Other_play),
-		Other_plays_reference: make(map[*Other_play]*Other_play),
+		Other_plays_reference:  make(map[*Other_play]*Other_play),
 
 		Other_text_stagedOrder: make(map[*Other_text]uint),
 		Other_text_orderStaged: make(map[uint]*Other_text),
-		Other_texts_reference: make(map[*Other_text]*Other_text),
+		Other_texts_reference:  make(map[*Other_text]*Other_text),
 
 		Page_layout_stagedOrder: make(map[*Page_layout]uint),
 		Page_layout_orderStaged: make(map[uint]*Page_layout),
-		Page_layouts_reference: make(map[*Page_layout]*Page_layout),
+		Page_layouts_reference:  make(map[*Page_layout]*Page_layout),
 
 		Page_margins_stagedOrder: make(map[*Page_margins]uint),
 		Page_margins_orderStaged: make(map[uint]*Page_margins),
-		Page_marginss_reference: make(map[*Page_margins]*Page_margins),
+		Page_marginss_reference:  make(map[*Page_margins]*Page_margins),
 
 		Part_clef_stagedOrder: make(map[*Part_clef]uint),
 		Part_clef_orderStaged: make(map[uint]*Part_clef),
-		Part_clefs_reference: make(map[*Part_clef]*Part_clef),
+		Part_clefs_reference:  make(map[*Part_clef]*Part_clef),
 
 		Part_group_stagedOrder: make(map[*Part_group]uint),
 		Part_group_orderStaged: make(map[uint]*Part_group),
-		Part_groups_reference: make(map[*Part_group]*Part_group),
+		Part_groups_reference:  make(map[*Part_group]*Part_group),
 
 		Part_link_stagedOrder: make(map[*Part_link]uint),
 		Part_link_orderStaged: make(map[uint]*Part_link),
-		Part_links_reference: make(map[*Part_link]*Part_link),
+		Part_links_reference:  make(map[*Part_link]*Part_link),
 
 		Part_list_stagedOrder: make(map[*Part_list]uint),
 		Part_list_orderStaged: make(map[uint]*Part_list),
-		Part_lists_reference: make(map[*Part_list]*Part_list),
+		Part_lists_reference:  make(map[*Part_list]*Part_list),
 
 		Part_name_stagedOrder: make(map[*Part_name]uint),
 		Part_name_orderStaged: make(map[uint]*Part_name),
-		Part_names_reference: make(map[*Part_name]*Part_name),
+		Part_names_reference:  make(map[*Part_name]*Part_name),
 
 		Part_symbol_stagedOrder: make(map[*Part_symbol]uint),
 		Part_symbol_orderStaged: make(map[uint]*Part_symbol),
-		Part_symbols_reference: make(map[*Part_symbol]*Part_symbol),
+		Part_symbols_reference:  make(map[*Part_symbol]*Part_symbol),
 
 		Part_transpose_stagedOrder: make(map[*Part_transpose]uint),
 		Part_transpose_orderStaged: make(map[uint]*Part_transpose),
-		Part_transposes_reference: make(map[*Part_transpose]*Part_transpose),
+		Part_transposes_reference:  make(map[*Part_transpose]*Part_transpose),
 
 		Pedal_stagedOrder: make(map[*Pedal]uint),
 		Pedal_orderStaged: make(map[uint]*Pedal),
-		Pedals_reference: make(map[*Pedal]*Pedal),
+		Pedals_reference:  make(map[*Pedal]*Pedal),
 
 		Pedal_tuning_stagedOrder: make(map[*Pedal_tuning]uint),
 		Pedal_tuning_orderStaged: make(map[uint]*Pedal_tuning),
-		Pedal_tunings_reference: make(map[*Pedal_tuning]*Pedal_tuning),
+		Pedal_tunings_reference:  make(map[*Pedal_tuning]*Pedal_tuning),
 
 		Per_minute_stagedOrder: make(map[*Per_minute]uint),
 		Per_minute_orderStaged: make(map[uint]*Per_minute),
-		Per_minutes_reference: make(map[*Per_minute]*Per_minute),
+		Per_minutes_reference:  make(map[*Per_minute]*Per_minute),
 
 		Percussion_stagedOrder: make(map[*Percussion]uint),
 		Percussion_orderStaged: make(map[uint]*Percussion),
-		Percussions_reference: make(map[*Percussion]*Percussion),
+		Percussions_reference:  make(map[*Percussion]*Percussion),
 
 		Pitch_stagedOrder: make(map[*Pitch]uint),
 		Pitch_orderStaged: make(map[uint]*Pitch),
-		Pitchs_reference: make(map[*Pitch]*Pitch),
+		Pitchs_reference:  make(map[*Pitch]*Pitch),
 
 		Pitched_stagedOrder: make(map[*Pitched]uint),
 		Pitched_orderStaged: make(map[uint]*Pitched),
-		Pitcheds_reference: make(map[*Pitched]*Pitched),
+		Pitcheds_reference:  make(map[*Pitched]*Pitched),
 
 		Placement_text_stagedOrder: make(map[*Placement_text]uint),
 		Placement_text_orderStaged: make(map[uint]*Placement_text),
-		Placement_texts_reference: make(map[*Placement_text]*Placement_text),
+		Placement_texts_reference:  make(map[*Placement_text]*Placement_text),
 
 		Play_stagedOrder: make(map[*Play]uint),
 		Play_orderStaged: make(map[uint]*Play),
-		Plays_reference: make(map[*Play]*Play),
+		Plays_reference:  make(map[*Play]*Play),
 
 		Player_stagedOrder: make(map[*Player]uint),
 		Player_orderStaged: make(map[uint]*Player),
-		Players_reference: make(map[*Player]*Player),
+		Players_reference:  make(map[*Player]*Player),
 
 		Principal_voice_stagedOrder: make(map[*Principal_voice]uint),
 		Principal_voice_orderStaged: make(map[uint]*Principal_voice),
-		Principal_voices_reference: make(map[*Principal_voice]*Principal_voice),
+		Principal_voices_reference:  make(map[*Principal_voice]*Principal_voice),
 
 		Print_stagedOrder: make(map[*Print]uint),
 		Print_orderStaged: make(map[uint]*Print),
-		Prints_reference: make(map[*Print]*Print),
+		Prints_reference:  make(map[*Print]*Print),
 
 		Release_stagedOrder: make(map[*Release]uint),
 		Release_orderStaged: make(map[uint]*Release),
-		Releases_reference: make(map[*Release]*Release),
+		Releases_reference:  make(map[*Release]*Release),
 
 		Repeat_stagedOrder: make(map[*Repeat]uint),
 		Repeat_orderStaged: make(map[uint]*Repeat),
-		Repeats_reference: make(map[*Repeat]*Repeat),
+		Repeats_reference:  make(map[*Repeat]*Repeat),
 
 		Rest_stagedOrder: make(map[*Rest]uint),
 		Rest_orderStaged: make(map[uint]*Rest),
-		Rests_reference: make(map[*Rest]*Rest),
+		Rests_reference:  make(map[*Rest]*Rest),
 
 		Root_stagedOrder: make(map[*Root]uint),
 		Root_orderStaged: make(map[uint]*Root),
-		Roots_reference: make(map[*Root]*Root),
+		Roots_reference:  make(map[*Root]*Root),
 
 		Root_step_stagedOrder: make(map[*Root_step]uint),
 		Root_step_orderStaged: make(map[uint]*Root_step),
-		Root_steps_reference: make(map[*Root_step]*Root_step),
+		Root_steps_reference:  make(map[*Root_step]*Root_step),
 
 		Scaling_stagedOrder: make(map[*Scaling]uint),
 		Scaling_orderStaged: make(map[uint]*Scaling),
-		Scalings_reference: make(map[*Scaling]*Scaling),
+		Scalings_reference:  make(map[*Scaling]*Scaling),
 
 		Scordatura_stagedOrder: make(map[*Scordatura]uint),
 		Scordatura_orderStaged: make(map[uint]*Scordatura),
-		Scordaturas_reference: make(map[*Scordatura]*Scordatura),
+		Scordaturas_reference:  make(map[*Scordatura]*Scordatura),
 
 		Score_instrument_stagedOrder: make(map[*Score_instrument]uint),
 		Score_instrument_orderStaged: make(map[uint]*Score_instrument),
-		Score_instruments_reference: make(map[*Score_instrument]*Score_instrument),
+		Score_instruments_reference:  make(map[*Score_instrument]*Score_instrument),
 
 		Score_part_stagedOrder: make(map[*Score_part]uint),
 		Score_part_orderStaged: make(map[uint]*Score_part),
-		Score_parts_reference: make(map[*Score_part]*Score_part),
+		Score_parts_reference:  make(map[*Score_part]*Score_part),
 
 		Score_partwise_stagedOrder: make(map[*Score_partwise]uint),
 		Score_partwise_orderStaged: make(map[uint]*Score_partwise),
-		Score_partwises_reference: make(map[*Score_partwise]*Score_partwise),
+		Score_partwises_reference:  make(map[*Score_partwise]*Score_partwise),
 
 		Score_timewise_stagedOrder: make(map[*Score_timewise]uint),
 		Score_timewise_orderStaged: make(map[uint]*Score_timewise),
-		Score_timewises_reference: make(map[*Score_timewise]*Score_timewise),
+		Score_timewises_reference:  make(map[*Score_timewise]*Score_timewise),
 
 		Segno_stagedOrder: make(map[*Segno]uint),
 		Segno_orderStaged: make(map[uint]*Segno),
-		Segnos_reference: make(map[*Segno]*Segno),
+		Segnos_reference:  make(map[*Segno]*Segno),
 
 		Slash_stagedOrder: make(map[*Slash]uint),
 		Slash_orderStaged: make(map[uint]*Slash),
-		Slashs_reference: make(map[*Slash]*Slash),
+		Slashs_reference:  make(map[*Slash]*Slash),
 
 		Slide_stagedOrder: make(map[*Slide]uint),
 		Slide_orderStaged: make(map[uint]*Slide),
-		Slides_reference: make(map[*Slide]*Slide),
+		Slides_reference:  make(map[*Slide]*Slide),
 
 		Slur_stagedOrder: make(map[*Slur]uint),
 		Slur_orderStaged: make(map[uint]*Slur),
-		Slurs_reference: make(map[*Slur]*Slur),
+		Slurs_reference:  make(map[*Slur]*Slur),
 
 		Sound_stagedOrder: make(map[*Sound]uint),
 		Sound_orderStaged: make(map[uint]*Sound),
-		Sounds_reference: make(map[*Sound]*Sound),
+		Sounds_reference:  make(map[*Sound]*Sound),
 
 		Staff_details_stagedOrder: make(map[*Staff_details]uint),
 		Staff_details_orderStaged: make(map[uint]*Staff_details),
-		Staff_detailss_reference: make(map[*Staff_details]*Staff_details),
+		Staff_detailss_reference:  make(map[*Staff_details]*Staff_details),
 
 		Staff_divide_stagedOrder: make(map[*Staff_divide]uint),
 		Staff_divide_orderStaged: make(map[uint]*Staff_divide),
-		Staff_divides_reference: make(map[*Staff_divide]*Staff_divide),
+		Staff_divides_reference:  make(map[*Staff_divide]*Staff_divide),
 
 		Staff_layout_stagedOrder: make(map[*Staff_layout]uint),
 		Staff_layout_orderStaged: make(map[uint]*Staff_layout),
-		Staff_layouts_reference: make(map[*Staff_layout]*Staff_layout),
+		Staff_layouts_reference:  make(map[*Staff_layout]*Staff_layout),
 
 		Staff_size_stagedOrder: make(map[*Staff_size]uint),
 		Staff_size_orderStaged: make(map[uint]*Staff_size),
-		Staff_sizes_reference: make(map[*Staff_size]*Staff_size),
+		Staff_sizes_reference:  make(map[*Staff_size]*Staff_size),
 
 		Staff_tuning_stagedOrder: make(map[*Staff_tuning]uint),
 		Staff_tuning_orderStaged: make(map[uint]*Staff_tuning),
-		Staff_tunings_reference: make(map[*Staff_tuning]*Staff_tuning),
+		Staff_tunings_reference:  make(map[*Staff_tuning]*Staff_tuning),
 
 		Stem_stagedOrder: make(map[*Stem]uint),
 		Stem_orderStaged: make(map[uint]*Stem),
-		Stems_reference: make(map[*Stem]*Stem),
+		Stems_reference:  make(map[*Stem]*Stem),
 
 		Stick_stagedOrder: make(map[*Stick]uint),
 		Stick_orderStaged: make(map[uint]*Stick),
-		Sticks_reference: make(map[*Stick]*Stick),
+		Sticks_reference:  make(map[*Stick]*Stick),
 
 		String_mute_stagedOrder: make(map[*String_mute]uint),
 		String_mute_orderStaged: make(map[uint]*String_mute),
-		String_mutes_reference: make(map[*String_mute]*String_mute),
+		String_mutes_reference:  make(map[*String_mute]*String_mute),
 
 		String_type_stagedOrder: make(map[*String_type]uint),
 		String_type_orderStaged: make(map[uint]*String_type),
-		String_types_reference: make(map[*String_type]*String_type),
+		String_types_reference:  make(map[*String_type]*String_type),
 
 		Strong_accent_stagedOrder: make(map[*Strong_accent]uint),
 		Strong_accent_orderStaged: make(map[uint]*Strong_accent),
-		Strong_accents_reference: make(map[*Strong_accent]*Strong_accent),
+		Strong_accents_reference:  make(map[*Strong_accent]*Strong_accent),
 
 		Style_text_stagedOrder: make(map[*Style_text]uint),
 		Style_text_orderStaged: make(map[uint]*Style_text),
-		Style_texts_reference: make(map[*Style_text]*Style_text),
+		Style_texts_reference:  make(map[*Style_text]*Style_text),
 
 		Supports_stagedOrder: make(map[*Supports]uint),
 		Supports_orderStaged: make(map[uint]*Supports),
-		Supportss_reference: make(map[*Supports]*Supports),
+		Supportss_reference:  make(map[*Supports]*Supports),
 
 		Swing_stagedOrder: make(map[*Swing]uint),
 		Swing_orderStaged: make(map[uint]*Swing),
-		Swings_reference: make(map[*Swing]*Swing),
+		Swings_reference:  make(map[*Swing]*Swing),
 
 		Sync_stagedOrder: make(map[*Sync]uint),
 		Sync_orderStaged: make(map[uint]*Sync),
-		Syncs_reference: make(map[*Sync]*Sync),
+		Syncs_reference:  make(map[*Sync]*Sync),
 
 		System_dividers_stagedOrder: make(map[*System_dividers]uint),
 		System_dividers_orderStaged: make(map[uint]*System_dividers),
-		System_dividerss_reference: make(map[*System_dividers]*System_dividers),
+		System_dividerss_reference:  make(map[*System_dividers]*System_dividers),
 
 		System_layout_stagedOrder: make(map[*System_layout]uint),
 		System_layout_orderStaged: make(map[uint]*System_layout),
-		System_layouts_reference: make(map[*System_layout]*System_layout),
+		System_layouts_reference:  make(map[*System_layout]*System_layout),
 
 		System_margins_stagedOrder: make(map[*System_margins]uint),
 		System_margins_orderStaged: make(map[uint]*System_margins),
-		System_marginss_reference: make(map[*System_margins]*System_margins),
+		System_marginss_reference:  make(map[*System_margins]*System_margins),
 
 		Tap_stagedOrder: make(map[*Tap]uint),
 		Tap_orderStaged: make(map[uint]*Tap),
-		Taps_reference: make(map[*Tap]*Tap),
+		Taps_reference:  make(map[*Tap]*Tap),
 
 		Technical_stagedOrder: make(map[*Technical]uint),
 		Technical_orderStaged: make(map[uint]*Technical),
-		Technicals_reference: make(map[*Technical]*Technical),
+		Technicals_reference:  make(map[*Technical]*Technical),
 
 		Text_element_data_stagedOrder: make(map[*Text_element_data]uint),
 		Text_element_data_orderStaged: make(map[uint]*Text_element_data),
-		Text_element_datas_reference: make(map[*Text_element_data]*Text_element_data),
+		Text_element_datas_reference:  make(map[*Text_element_data]*Text_element_data),
 
 		Tie_stagedOrder: make(map[*Tie]uint),
 		Tie_orderStaged: make(map[uint]*Tie),
-		Ties_reference: make(map[*Tie]*Tie),
+		Ties_reference:  make(map[*Tie]*Tie),
 
 		Tied_stagedOrder: make(map[*Tied]uint),
 		Tied_orderStaged: make(map[uint]*Tied),
-		Tieds_reference: make(map[*Tied]*Tied),
+		Tieds_reference:  make(map[*Tied]*Tied),
 
 		Time_stagedOrder: make(map[*Time]uint),
 		Time_orderStaged: make(map[uint]*Time),
-		Times_reference: make(map[*Time]*Time),
+		Times_reference:  make(map[*Time]*Time),
 
 		Time_modification_stagedOrder: make(map[*Time_modification]uint),
 		Time_modification_orderStaged: make(map[uint]*Time_modification),
-		Time_modifications_reference: make(map[*Time_modification]*Time_modification),
+		Time_modifications_reference:  make(map[*Time_modification]*Time_modification),
 
 		Timpani_stagedOrder: make(map[*Timpani]uint),
 		Timpani_orderStaged: make(map[uint]*Timpani),
-		Timpanis_reference: make(map[*Timpani]*Timpani),
+		Timpanis_reference:  make(map[*Timpani]*Timpani),
 
 		Transpose_stagedOrder: make(map[*Transpose]uint),
 		Transpose_orderStaged: make(map[uint]*Transpose),
-		Transposes_reference: make(map[*Transpose]*Transpose),
+		Transposes_reference:  make(map[*Transpose]*Transpose),
 
 		Tremolo_stagedOrder: make(map[*Tremolo]uint),
 		Tremolo_orderStaged: make(map[uint]*Tremolo),
-		Tremolos_reference: make(map[*Tremolo]*Tremolo),
+		Tremolos_reference:  make(map[*Tremolo]*Tremolo),
 
 		Tuplet_stagedOrder: make(map[*Tuplet]uint),
 		Tuplet_orderStaged: make(map[uint]*Tuplet),
-		Tuplets_reference: make(map[*Tuplet]*Tuplet),
+		Tuplets_reference:  make(map[*Tuplet]*Tuplet),
 
 		Tuplet_dot_stagedOrder: make(map[*Tuplet_dot]uint),
 		Tuplet_dot_orderStaged: make(map[uint]*Tuplet_dot),
-		Tuplet_dots_reference: make(map[*Tuplet_dot]*Tuplet_dot),
+		Tuplet_dots_reference:  make(map[*Tuplet_dot]*Tuplet_dot),
 
 		Tuplet_number_stagedOrder: make(map[*Tuplet_number]uint),
 		Tuplet_number_orderStaged: make(map[uint]*Tuplet_number),
-		Tuplet_numbers_reference: make(map[*Tuplet_number]*Tuplet_number),
+		Tuplet_numbers_reference:  make(map[*Tuplet_number]*Tuplet_number),
 
 		Tuplet_portion_stagedOrder: make(map[*Tuplet_portion]uint),
 		Tuplet_portion_orderStaged: make(map[uint]*Tuplet_portion),
-		Tuplet_portions_reference: make(map[*Tuplet_portion]*Tuplet_portion),
+		Tuplet_portions_reference:  make(map[*Tuplet_portion]*Tuplet_portion),
 
 		Tuplet_type_stagedOrder: make(map[*Tuplet_type]uint),
 		Tuplet_type_orderStaged: make(map[uint]*Tuplet_type),
-		Tuplet_types_reference: make(map[*Tuplet_type]*Tuplet_type),
+		Tuplet_types_reference:  make(map[*Tuplet_type]*Tuplet_type),
 
 		Typed_text_stagedOrder: make(map[*Typed_text]uint),
 		Typed_text_orderStaged: make(map[uint]*Typed_text),
-		Typed_texts_reference: make(map[*Typed_text]*Typed_text),
+		Typed_texts_reference:  make(map[*Typed_text]*Typed_text),
 
 		Unpitched_stagedOrder: make(map[*Unpitched]uint),
 		Unpitched_orderStaged: make(map[uint]*Unpitched),
-		Unpitcheds_reference: make(map[*Unpitched]*Unpitched),
+		Unpitcheds_reference:  make(map[*Unpitched]*Unpitched),
 
 		Virtual_instrument_stagedOrder: make(map[*Virtual_instrument]uint),
 		Virtual_instrument_orderStaged: make(map[uint]*Virtual_instrument),
-		Virtual_instruments_reference: make(map[*Virtual_instrument]*Virtual_instrument),
+		Virtual_instruments_reference:  make(map[*Virtual_instrument]*Virtual_instrument),
 
 		Wait_stagedOrder: make(map[*Wait]uint),
 		Wait_orderStaged: make(map[uint]*Wait),
-		Waits_reference: make(map[*Wait]*Wait),
+		Waits_reference:  make(map[*Wait]*Wait),
 
 		Wavy_line_stagedOrder: make(map[*Wavy_line]uint),
 		Wavy_line_orderStaged: make(map[uint]*Wavy_line),
-		Wavy_lines_reference: make(map[*Wavy_line]*Wavy_line),
+		Wavy_lines_reference:  make(map[*Wavy_line]*Wavy_line),
 
 		Wedge_stagedOrder: make(map[*Wedge]uint),
 		Wedge_orderStaged: make(map[uint]*Wedge),
-		Wedges_reference: make(map[*Wedge]*Wedge),
+		Wedges_reference:  make(map[*Wedge]*Wedge),
 
 		Wood_stagedOrder: make(map[*Wood]uint),
 		Wood_orderStaged: make(map[uint]*Wood),
-		Woods_reference: make(map[*Wood]*Wood),
+		Woods_reference:  make(map[*Wood]*Wood),
 
 		Work_stagedOrder: make(map[*Work]uint),
 		Work_orderStaged: make(map[uint]*Work),
-		Works_reference: make(map[*Work]*Work),
+		Works_reference:  make(map[*Work]*Work),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

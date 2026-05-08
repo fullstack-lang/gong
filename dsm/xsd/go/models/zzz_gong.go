@@ -2058,107 +2058,107 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		All_stagedOrder: make(map[*All]uint),
 		All_orderStaged: make(map[uint]*All),
-		Alls_reference: make(map[*All]*All),
+		Alls_reference:  make(map[*All]*All),
 
 		Annotation_stagedOrder: make(map[*Annotation]uint),
 		Annotation_orderStaged: make(map[uint]*Annotation),
-		Annotations_reference: make(map[*Annotation]*Annotation),
+		Annotations_reference:  make(map[*Annotation]*Annotation),
 
 		Attribute_stagedOrder: make(map[*Attribute]uint),
 		Attribute_orderStaged: make(map[uint]*Attribute),
-		Attributes_reference: make(map[*Attribute]*Attribute),
+		Attributes_reference:  make(map[*Attribute]*Attribute),
 
 		AttributeGroup_stagedOrder: make(map[*AttributeGroup]uint),
 		AttributeGroup_orderStaged: make(map[uint]*AttributeGroup),
-		AttributeGroups_reference: make(map[*AttributeGroup]*AttributeGroup),
+		AttributeGroups_reference:  make(map[*AttributeGroup]*AttributeGroup),
 
 		Choice_stagedOrder: make(map[*Choice]uint),
 		Choice_orderStaged: make(map[uint]*Choice),
-		Choices_reference: make(map[*Choice]*Choice),
+		Choices_reference:  make(map[*Choice]*Choice),
 
 		ComplexContent_stagedOrder: make(map[*ComplexContent]uint),
 		ComplexContent_orderStaged: make(map[uint]*ComplexContent),
-		ComplexContents_reference: make(map[*ComplexContent]*ComplexContent),
+		ComplexContents_reference:  make(map[*ComplexContent]*ComplexContent),
 
 		ComplexType_stagedOrder: make(map[*ComplexType]uint),
 		ComplexType_orderStaged: make(map[uint]*ComplexType),
-		ComplexTypes_reference: make(map[*ComplexType]*ComplexType),
+		ComplexTypes_reference:  make(map[*ComplexType]*ComplexType),
 
 		Documentation_stagedOrder: make(map[*Documentation]uint),
 		Documentation_orderStaged: make(map[uint]*Documentation),
-		Documentations_reference: make(map[*Documentation]*Documentation),
+		Documentations_reference:  make(map[*Documentation]*Documentation),
 
 		Element_stagedOrder: make(map[*Element]uint),
 		Element_orderStaged: make(map[uint]*Element),
-		Elements_reference: make(map[*Element]*Element),
+		Elements_reference:  make(map[*Element]*Element),
 
 		Enumeration_stagedOrder: make(map[*Enumeration]uint),
 		Enumeration_orderStaged: make(map[uint]*Enumeration),
-		Enumerations_reference: make(map[*Enumeration]*Enumeration),
+		Enumerations_reference:  make(map[*Enumeration]*Enumeration),
 
 		Extension_stagedOrder: make(map[*Extension]uint),
 		Extension_orderStaged: make(map[uint]*Extension),
-		Extensions_reference: make(map[*Extension]*Extension),
+		Extensions_reference:  make(map[*Extension]*Extension),
 
 		Group_stagedOrder: make(map[*Group]uint),
 		Group_orderStaged: make(map[uint]*Group),
-		Groups_reference: make(map[*Group]*Group),
+		Groups_reference:  make(map[*Group]*Group),
 
 		Length_stagedOrder: make(map[*Length]uint),
 		Length_orderStaged: make(map[uint]*Length),
-		Lengths_reference: make(map[*Length]*Length),
+		Lengths_reference:  make(map[*Length]*Length),
 
 		MaxInclusive_stagedOrder: make(map[*MaxInclusive]uint),
 		MaxInclusive_orderStaged: make(map[uint]*MaxInclusive),
-		MaxInclusives_reference: make(map[*MaxInclusive]*MaxInclusive),
+		MaxInclusives_reference:  make(map[*MaxInclusive]*MaxInclusive),
 
 		MaxLength_stagedOrder: make(map[*MaxLength]uint),
 		MaxLength_orderStaged: make(map[uint]*MaxLength),
-		MaxLengths_reference: make(map[*MaxLength]*MaxLength),
+		MaxLengths_reference:  make(map[*MaxLength]*MaxLength),
 
 		MinInclusive_stagedOrder: make(map[*MinInclusive]uint),
 		MinInclusive_orderStaged: make(map[uint]*MinInclusive),
-		MinInclusives_reference: make(map[*MinInclusive]*MinInclusive),
+		MinInclusives_reference:  make(map[*MinInclusive]*MinInclusive),
 
 		MinLength_stagedOrder: make(map[*MinLength]uint),
 		MinLength_orderStaged: make(map[uint]*MinLength),
-		MinLengths_reference: make(map[*MinLength]*MinLength),
+		MinLengths_reference:  make(map[*MinLength]*MinLength),
 
 		Pattern_stagedOrder: make(map[*Pattern]uint),
 		Pattern_orderStaged: make(map[uint]*Pattern),
-		Patterns_reference: make(map[*Pattern]*Pattern),
+		Patterns_reference:  make(map[*Pattern]*Pattern),
 
 		Restriction_stagedOrder: make(map[*Restriction]uint),
 		Restriction_orderStaged: make(map[uint]*Restriction),
-		Restrictions_reference: make(map[*Restriction]*Restriction),
+		Restrictions_reference:  make(map[*Restriction]*Restriction),
 
 		Schema_stagedOrder: make(map[*Schema]uint),
 		Schema_orderStaged: make(map[uint]*Schema),
-		Schemas_reference: make(map[*Schema]*Schema),
+		Schemas_reference:  make(map[*Schema]*Schema),
 
 		Sequence_stagedOrder: make(map[*Sequence]uint),
 		Sequence_orderStaged: make(map[uint]*Sequence),
-		Sequences_reference: make(map[*Sequence]*Sequence),
+		Sequences_reference:  make(map[*Sequence]*Sequence),
 
 		SimpleContent_stagedOrder: make(map[*SimpleContent]uint),
 		SimpleContent_orderStaged: make(map[uint]*SimpleContent),
-		SimpleContents_reference: make(map[*SimpleContent]*SimpleContent),
+		SimpleContents_reference:  make(map[*SimpleContent]*SimpleContent),
 
 		SimpleType_stagedOrder: make(map[*SimpleType]uint),
 		SimpleType_orderStaged: make(map[uint]*SimpleType),
-		SimpleTypes_reference: make(map[*SimpleType]*SimpleType),
+		SimpleTypes_reference:  make(map[*SimpleType]*SimpleType),
 
 		TotalDigit_stagedOrder: make(map[*TotalDigit]uint),
 		TotalDigit_orderStaged: make(map[uint]*TotalDigit),
-		TotalDigits_reference: make(map[*TotalDigit]*TotalDigit),
+		TotalDigits_reference:  make(map[*TotalDigit]*TotalDigit),
 
 		Union_stagedOrder: make(map[*Union]uint),
 		Union_orderStaged: make(map[uint]*Union),
-		Unions_reference: make(map[*Union]*Union),
+		Unions_reference:  make(map[*Union]*Union),
 
 		WhiteSpace_stagedOrder: make(map[*WhiteSpace]uint),
 		WhiteSpace_orderStaged: make(map[uint]*WhiteSpace),
-		WhiteSpaces_reference: make(map[*WhiteSpace]*WhiteSpace),
+		WhiteSpaces_reference:  make(map[*WhiteSpace]*WhiteSpace),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

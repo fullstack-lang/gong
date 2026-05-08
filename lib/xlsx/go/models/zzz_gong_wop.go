@@ -85,3 +85,4 @@ func (from *XLSheet) CopyBasicFields(to *XLSheet) {
 	to.NbRows = from.NbRows
 }
 
+// end of insertion point

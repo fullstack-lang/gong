@@ -1596,79 +1596,79 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		AsSplit_stagedOrder: make(map[*AsSplit]uint),
 		AsSplit_orderStaged: make(map[uint]*AsSplit),
-		AsSplits_reference: make(map[*AsSplit]*AsSplit),
+		AsSplits_reference:  make(map[*AsSplit]*AsSplit),
 
 		AsSplitArea_stagedOrder: make(map[*AsSplitArea]uint),
 		AsSplitArea_orderStaged: make(map[uint]*AsSplitArea),
-		AsSplitAreas_reference: make(map[*AsSplitArea]*AsSplitArea),
+		AsSplitAreas_reference:  make(map[*AsSplitArea]*AsSplitArea),
 
 		Button_stagedOrder: make(map[*Button]uint),
 		Button_orderStaged: make(map[uint]*Button),
-		Buttons_reference: make(map[*Button]*Button),
+		Buttons_reference:  make(map[*Button]*Button),
 
 		Cursor_stagedOrder: make(map[*Cursor]uint),
 		Cursor_orderStaged: make(map[uint]*Cursor),
-		Cursors_reference: make(map[*Cursor]*Cursor),
+		Cursors_reference:  make(map[*Cursor]*Cursor),
 
 		FavIcon_stagedOrder: make(map[*FavIcon]uint),
 		FavIcon_orderStaged: make(map[uint]*FavIcon),
-		FavIcons_reference: make(map[*FavIcon]*FavIcon),
+		FavIcons_reference:  make(map[*FavIcon]*FavIcon),
 
 		Form_stagedOrder: make(map[*Form]uint),
 		Form_orderStaged: make(map[uint]*Form),
-		Forms_reference: make(map[*Form]*Form),
+		Forms_reference:  make(map[*Form]*Form),
 
 		Load_stagedOrder: make(map[*Load]uint),
 		Load_orderStaged: make(map[uint]*Load),
-		Loads_reference: make(map[*Load]*Load),
+		Loads_reference:  make(map[*Load]*Load),
 
 		LogoOnTheLeft_stagedOrder: make(map[*LogoOnTheLeft]uint),
 		LogoOnTheLeft_orderStaged: make(map[uint]*LogoOnTheLeft),
-		LogoOnTheLefts_reference: make(map[*LogoOnTheLeft]*LogoOnTheLeft),
+		LogoOnTheLefts_reference:  make(map[*LogoOnTheLeft]*LogoOnTheLeft),
 
 		LogoOnTheRight_stagedOrder: make(map[*LogoOnTheRight]uint),
 		LogoOnTheRight_orderStaged: make(map[uint]*LogoOnTheRight),
-		LogoOnTheRights_reference: make(map[*LogoOnTheRight]*LogoOnTheRight),
+		LogoOnTheRights_reference:  make(map[*LogoOnTheRight]*LogoOnTheRight),
 
 		Markdown_stagedOrder: make(map[*Markdown]uint),
 		Markdown_orderStaged: make(map[uint]*Markdown),
-		Markdowns_reference: make(map[*Markdown]*Markdown),
+		Markdowns_reference:  make(map[*Markdown]*Markdown),
 
 		Slider_stagedOrder: make(map[*Slider]uint),
 		Slider_orderStaged: make(map[uint]*Slider),
-		Sliders_reference: make(map[*Slider]*Slider),
+		Sliders_reference:  make(map[*Slider]*Slider),
 
 		Split_stagedOrder: make(map[*Split]uint),
 		Split_orderStaged: make(map[uint]*Split),
-		Splits_reference: make(map[*Split]*Split),
+		Splits_reference:  make(map[*Split]*Split),
 
 		Svg_stagedOrder: make(map[*Svg]uint),
 		Svg_orderStaged: make(map[uint]*Svg),
-		Svgs_reference: make(map[*Svg]*Svg),
+		Svgs_reference:  make(map[*Svg]*Svg),
 
 		Table_stagedOrder: make(map[*Table]uint),
 		Table_orderStaged: make(map[uint]*Table),
-		Tables_reference: make(map[*Table]*Table),
+		Tables_reference:  make(map[*Table]*Table),
 
 		Title_stagedOrder: make(map[*Title]uint),
 		Title_orderStaged: make(map[uint]*Title),
-		Titles_reference: make(map[*Title]*Title),
+		Titles_reference:  make(map[*Title]*Title),
 
 		Tone_stagedOrder: make(map[*Tone]uint),
 		Tone_orderStaged: make(map[uint]*Tone),
-		Tones_reference: make(map[*Tone]*Tone),
+		Tones_reference:  make(map[*Tone]*Tone),
 
 		Tree_stagedOrder: make(map[*Tree]uint),
 		Tree_orderStaged: make(map[uint]*Tree),
-		Trees_reference: make(map[*Tree]*Tree),
+		Trees_reference:  make(map[*Tree]*Tree),
 
 		View_stagedOrder: make(map[*View]uint),
 		View_orderStaged: make(map[uint]*View),
-		Views_reference: make(map[*View]*View),
+		Views_reference:  make(map[*View]*View),
 
 		Xlsx_stagedOrder: make(map[*Xlsx]uint),
 		Xlsx_orderStaged: make(map[uint]*Xlsx),
-		Xlsxs_reference: make(map[*Xlsx]*Xlsx),
+		Xlsxs_reference:  make(map[*Xlsx]*Xlsx),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

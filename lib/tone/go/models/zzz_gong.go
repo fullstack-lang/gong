@@ -730,15 +730,15 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		Freqency_stagedOrder: make(map[*Freqency]uint),
 		Freqency_orderStaged: make(map[uint]*Freqency),
-		Freqencys_reference: make(map[*Freqency]*Freqency),
+		Freqencys_reference:  make(map[*Freqency]*Freqency),
 
 		Note_stagedOrder: make(map[*Note]uint),
 		Note_orderStaged: make(map[uint]*Note),
-		Notes_reference: make(map[*Note]*Note),
+		Notes_reference:  make(map[*Note]*Note),
 
 		Player_stagedOrder: make(map[*Player]uint),
 		Player_orderStaged: make(map[uint]*Player),
-		Players_reference: make(map[*Player]*Player),
+		Players_reference:  make(map[*Player]*Player),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

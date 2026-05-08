@@ -283,3 +283,4 @@ func (from *Option) CopyBasicFields(to *Option) {
 	to.Name = from.Name
 }
 
+// end of insertion point

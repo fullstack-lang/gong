@@ -960,31 +960,31 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		Astruct_stagedOrder: make(map[*Astruct]uint),
 		Astruct_orderStaged: make(map[uint]*Astruct),
-		Astructs_reference: make(map[*Astruct]*Astruct),
+		Astructs_reference:  make(map[*Astruct]*Astruct),
 
 		AstructBstruct2Use_stagedOrder: make(map[*AstructBstruct2Use]uint),
 		AstructBstruct2Use_orderStaged: make(map[uint]*AstructBstruct2Use),
-		AstructBstruct2Uses_reference: make(map[*AstructBstruct2Use]*AstructBstruct2Use),
+		AstructBstruct2Uses_reference:  make(map[*AstructBstruct2Use]*AstructBstruct2Use),
 
 		AstructBstructUse_stagedOrder: make(map[*AstructBstructUse]uint),
 		AstructBstructUse_orderStaged: make(map[uint]*AstructBstructUse),
-		AstructBstructUses_reference: make(map[*AstructBstructUse]*AstructBstructUse),
+		AstructBstructUses_reference:  make(map[*AstructBstructUse]*AstructBstructUse),
 
 		Bstruct_stagedOrder: make(map[*Bstruct]uint),
 		Bstruct_orderStaged: make(map[uint]*Bstruct),
-		Bstructs_reference: make(map[*Bstruct]*Bstruct),
+		Bstructs_reference:  make(map[*Bstruct]*Bstruct),
 
 		Dstruct_stagedOrder: make(map[*Dstruct]uint),
 		Dstruct_orderStaged: make(map[uint]*Dstruct),
-		Dstructs_reference: make(map[*Dstruct]*Dstruct),
+		Dstructs_reference:  make(map[*Dstruct]*Dstruct),
 
 		F0123456789012345678901234567890_stagedOrder: make(map[*F0123456789012345678901234567890]uint),
 		F0123456789012345678901234567890_orderStaged: make(map[uint]*F0123456789012345678901234567890),
-		F0123456789012345678901234567890s_reference: make(map[*F0123456789012345678901234567890]*F0123456789012345678901234567890),
+		F0123456789012345678901234567890s_reference:  make(map[*F0123456789012345678901234567890]*F0123456789012345678901234567890),
 
 		Gstruct_stagedOrder: make(map[*Gstruct]uint),
 		Gstruct_orderStaged: make(map[uint]*Gstruct),
-		Gstructs_reference: make(map[*Gstruct]*Gstruct),
+		Gstructs_reference:  make(map[*Gstruct]*Gstruct),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

@@ -1172,47 +1172,47 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		GongBasicField_stagedOrder: make(map[*GongBasicField]uint),
 		GongBasicField_orderStaged: make(map[uint]*GongBasicField),
-		GongBasicFields_reference: make(map[*GongBasicField]*GongBasicField),
+		GongBasicFields_reference:  make(map[*GongBasicField]*GongBasicField),
 
 		GongEnum_stagedOrder: make(map[*GongEnum]uint),
 		GongEnum_orderStaged: make(map[uint]*GongEnum),
-		GongEnums_reference: make(map[*GongEnum]*GongEnum),
+		GongEnums_reference:  make(map[*GongEnum]*GongEnum),
 
 		GongEnumValue_stagedOrder: make(map[*GongEnumValue]uint),
 		GongEnumValue_orderStaged: make(map[uint]*GongEnumValue),
-		GongEnumValues_reference: make(map[*GongEnumValue]*GongEnumValue),
+		GongEnumValues_reference:  make(map[*GongEnumValue]*GongEnumValue),
 
 		GongLink_stagedOrder: make(map[*GongLink]uint),
 		GongLink_orderStaged: make(map[uint]*GongLink),
-		GongLinks_reference: make(map[*GongLink]*GongLink),
+		GongLinks_reference:  make(map[*GongLink]*GongLink),
 
 		GongNote_stagedOrder: make(map[*GongNote]uint),
 		GongNote_orderStaged: make(map[uint]*GongNote),
-		GongNotes_reference: make(map[*GongNote]*GongNote),
+		GongNotes_reference:  make(map[*GongNote]*GongNote),
 
 		GongStruct_stagedOrder: make(map[*GongStruct]uint),
 		GongStruct_orderStaged: make(map[uint]*GongStruct),
-		GongStructs_reference: make(map[*GongStruct]*GongStruct),
+		GongStructs_reference:  make(map[*GongStruct]*GongStruct),
 
 		GongTimeField_stagedOrder: make(map[*GongTimeField]uint),
 		GongTimeField_orderStaged: make(map[uint]*GongTimeField),
-		GongTimeFields_reference: make(map[*GongTimeField]*GongTimeField),
+		GongTimeFields_reference:  make(map[*GongTimeField]*GongTimeField),
 
 		MetaReference_stagedOrder: make(map[*MetaReference]uint),
 		MetaReference_orderStaged: make(map[uint]*MetaReference),
-		MetaReferences_reference: make(map[*MetaReference]*MetaReference),
+		MetaReferences_reference:  make(map[*MetaReference]*MetaReference),
 
 		ModelPkg_stagedOrder: make(map[*ModelPkg]uint),
 		ModelPkg_orderStaged: make(map[uint]*ModelPkg),
-		ModelPkgs_reference: make(map[*ModelPkg]*ModelPkg),
+		ModelPkgs_reference:  make(map[*ModelPkg]*ModelPkg),
 
 		PointerToGongStructField_stagedOrder: make(map[*PointerToGongStructField]uint),
 		PointerToGongStructField_orderStaged: make(map[uint]*PointerToGongStructField),
-		PointerToGongStructFields_reference: make(map[*PointerToGongStructField]*PointerToGongStructField),
+		PointerToGongStructFields_reference:  make(map[*PointerToGongStructField]*PointerToGongStructField),
 
 		SliceOfPointerToGongStructField_stagedOrder: make(map[*SliceOfPointerToGongStructField]uint),
 		SliceOfPointerToGongStructField_orderStaged: make(map[uint]*SliceOfPointerToGongStructField),
-		SliceOfPointerToGongStructFields_reference: make(map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField),
+		SliceOfPointerToGongStructFields_reference:  make(map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

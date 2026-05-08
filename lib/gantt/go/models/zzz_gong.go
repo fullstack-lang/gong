@@ -958,31 +958,31 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		Arrow_stagedOrder: make(map[*Arrow]uint),
 		Arrow_orderStaged: make(map[uint]*Arrow),
-		Arrows_reference: make(map[*Arrow]*Arrow),
+		Arrows_reference:  make(map[*Arrow]*Arrow),
 
 		Bar_stagedOrder: make(map[*Bar]uint),
 		Bar_orderStaged: make(map[uint]*Bar),
-		Bars_reference: make(map[*Bar]*Bar),
+		Bars_reference:  make(map[*Bar]*Bar),
 
 		Gantt_stagedOrder: make(map[*Gantt]uint),
 		Gantt_orderStaged: make(map[uint]*Gantt),
-		Gantts_reference: make(map[*Gantt]*Gantt),
+		Gantts_reference:  make(map[*Gantt]*Gantt),
 
 		Group_stagedOrder: make(map[*Group]uint),
 		Group_orderStaged: make(map[uint]*Group),
-		Groups_reference: make(map[*Group]*Group),
+		Groups_reference:  make(map[*Group]*Group),
 
 		Lane_stagedOrder: make(map[*Lane]uint),
 		Lane_orderStaged: make(map[uint]*Lane),
-		Lanes_reference: make(map[*Lane]*Lane),
+		Lanes_reference:  make(map[*Lane]*Lane),
 
 		LaneUse_stagedOrder: make(map[*LaneUse]uint),
 		LaneUse_orderStaged: make(map[uint]*LaneUse),
-		LaneUses_reference: make(map[*LaneUse]*LaneUse),
+		LaneUses_reference:  make(map[*LaneUse]*LaneUse),
 
 		Milestone_stagedOrder: make(map[*Milestone]uint),
 		Milestone_orderStaged: make(map[uint]*Milestone),
-		Milestones_reference: make(map[*Milestone]*Milestone),
+		Milestones_reference:  make(map[*Milestone]*Milestone),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

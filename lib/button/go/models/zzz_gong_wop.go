@@ -106,3 +106,4 @@ func (from *Layout) CopyBasicFields(to *Layout) {
 	to.Name = from.Name
 }
 
+// end of insertion point

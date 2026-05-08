@@ -844,23 +844,23 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		Button_stagedOrder: make(map[*Button]uint),
 		Button_orderStaged: make(map[uint]*Button),
-		Buttons_reference: make(map[*Button]*Button),
+		Buttons_reference:  make(map[*Button]*Button),
 
 		ButtonToggle_stagedOrder: make(map[*ButtonToggle]uint),
 		ButtonToggle_orderStaged: make(map[uint]*ButtonToggle),
-		ButtonToggles_reference: make(map[*ButtonToggle]*ButtonToggle),
+		ButtonToggles_reference:  make(map[*ButtonToggle]*ButtonToggle),
 
 		Group_stagedOrder: make(map[*Group]uint),
 		Group_orderStaged: make(map[uint]*Group),
-		Groups_reference: make(map[*Group]*Group),
+		Groups_reference:  make(map[*Group]*Group),
 
 		GroupToogle_stagedOrder: make(map[*GroupToogle]uint),
 		GroupToogle_orderStaged: make(map[uint]*GroupToogle),
-		GroupToogles_reference: make(map[*GroupToogle]*GroupToogle),
+		GroupToogles_reference:  make(map[*GroupToogle]*GroupToogle),
 
 		Layout_stagedOrder: make(map[*Layout]uint),
 		Layout_orderStaged: make(map[uint]*Layout),
-		Layouts_reference: make(map[*Layout]*Layout),
+		Layouts_reference:  make(map[*Layout]*Layout),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

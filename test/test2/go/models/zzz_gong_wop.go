@@ -34,3 +34,4 @@ func (from *B) CopyBasicFields(to *B) {
 	to.Name = from.Name
 }
 
+// end of insertion point

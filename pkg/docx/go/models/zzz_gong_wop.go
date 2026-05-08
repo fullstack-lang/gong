@@ -239,3 +239,4 @@ func (from *Text) CopyBasicFields(to *Text) {
 	to.PreserveWhiteSpace = from.PreserveWhiteSpace
 }
 
+// end of insertion point
