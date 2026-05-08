@@ -215,7 +215,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Button_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", button.GetName())
+				if button.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", button.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -266,7 +270,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ButtonToggle_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", buttontoggle.GetName())
+				if buttontoggle.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", buttontoggle.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -317,7 +325,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Group_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", group.GetName())
+				if group.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", group.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -368,7 +380,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.GroupToogle_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", grouptoogle.GetName())
+				if grouptoogle.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", grouptoogle.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -419,7 +435,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Layout_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", layout.GetName())
+				if layout.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", layout.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}

@@ -335,7 +335,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.AttributeShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", attributeshape.GetName())
+				if attributeshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", attributeshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -386,7 +390,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Classdiagram_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", classdiagram.GetName())
+				if classdiagram.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", classdiagram.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -437,7 +445,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.DiagramPackage_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", diagrampackage.GetName())
+				if diagrampackage.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", diagrampackage.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -488,7 +500,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.GongEnumShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", gongenumshape.GetName())
+				if gongenumshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gongenumshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -539,7 +555,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.GongEnumValueShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", gongenumvalueshape.GetName())
+				if gongenumvalueshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gongenumvalueshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -590,7 +610,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.GongNoteLinkShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", gongnotelinkshape.GetName())
+				if gongnotelinkshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gongnotelinkshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -641,7 +665,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.GongNoteShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", gongnoteshape.GetName())
+				if gongnoteshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gongnoteshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -692,7 +720,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.GongStructShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", gongstructshape.GetName())
+				if gongstructshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gongstructshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -743,7 +775,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.LinkShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", linkshape.GetName())
+				if linkshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", linkshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}

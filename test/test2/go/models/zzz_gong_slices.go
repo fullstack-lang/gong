@@ -125,7 +125,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a.GetName())
+				if a.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -176,7 +180,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.B_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", b.GetName())
+				if b.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", b.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
