@@ -13,7 +13,7 @@ func (stager *Stager) treeProcesses(
 ) {
 	processNode := &tree.Node{
 		Name:            process.GetName(),
-		IsExpanded:      slices.Index(*processsWhoseNodeIsExpanded, process) != -1,
+		IsExpanded:      slices.Contains(*processsWhoseNodeIsExpanded, process),
 		IsNodeClickable: true,
 		IsInEditMode:    process.GetIsInRenameMode(),
 	}

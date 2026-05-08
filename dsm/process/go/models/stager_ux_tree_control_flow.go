@@ -31,7 +31,7 @@ func (stager *Stager) treeControlFlows(
 
 	node := &tree.Node{
 		Name:               controlFlow.GetName(),
-		IsExpanded:         slices.Index(*controlflowWhoseNodeIsExpanded, controlFlow) != -1,
+		IsExpanded:         slices.Contains(*controlflowWhoseNodeIsExpanded, controlFlow),
 		IsNodeClickable:    true,
 		IsInEditMode:       controlFlow.GetIsInRenameMode(),
 		HasCheckboxButton:  true,
