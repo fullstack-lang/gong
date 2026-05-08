@@ -148,7 +148,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Freqency_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", freqency.GetName())
+				if freqency.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", freqency.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -199,7 +203,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Note_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", note.GetName())
+				if note.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", note.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -250,7 +258,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Player_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", player.GetName())
+				if player.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", player.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}

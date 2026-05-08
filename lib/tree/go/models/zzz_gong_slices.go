@@ -185,7 +185,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Button_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", button.GetName())
+				if button.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", button.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -236,7 +240,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Node_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", node.GetName())
+				if node.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", node.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -287,7 +295,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.SVGIcon_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", svgicon.GetName())
+				if svgicon.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", svgicon.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -338,7 +350,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Tree_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", tree.GetName())
+				if tree.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", tree.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}

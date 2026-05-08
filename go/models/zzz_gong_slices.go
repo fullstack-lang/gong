@@ -367,7 +367,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.GongBasicField_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", gongbasicfield.GetName())
+				if gongbasicfield.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gongbasicfield.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -418,7 +422,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.GongEnum_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", gongenum.GetName())
+				if gongenum.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gongenum.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -469,7 +477,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.GongEnumValue_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", gongenumvalue.GetName())
+				if gongenumvalue.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gongenumvalue.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -520,7 +532,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.GongLink_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", gonglink.GetName())
+				if gonglink.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gonglink.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -571,7 +587,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.GongNote_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", gongnote.GetName())
+				if gongnote.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gongnote.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -622,7 +642,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.GongStruct_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", gongstruct.GetName())
+				if gongstruct.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gongstruct.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -673,7 +697,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.GongTimeField_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", gongtimefield.GetName())
+				if gongtimefield.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gongtimefield.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -724,7 +752,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.MetaReference_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", metareference.GetName())
+				if metareference.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", metareference.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -775,7 +807,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ModelPkg_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", modelpkg.GetName())
+				if modelpkg.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", modelpkg.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -826,7 +862,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.PointerToGongStructField_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", pointertogongstructfield.GetName())
+				if pointertogongstructfield.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", pointertogongstructfield.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -877,7 +917,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.SliceOfPointerToGongStructField_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", sliceofpointertogongstructfield.GetName())
+				if sliceofpointertogongstructfield.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", sliceofpointertogongstructfield.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}

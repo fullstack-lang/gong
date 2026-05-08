@@ -95,7 +95,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Cursor_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", cursor.GetName())
+				if cursor.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", cursor.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}

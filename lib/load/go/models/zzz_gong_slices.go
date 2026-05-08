@@ -141,7 +141,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.FileToDownload_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", filetodownload.GetName())
+				if filetodownload.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", filetodownload.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -192,7 +196,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.FileToUpload_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", filetoupload.GetName())
+				if filetoupload.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", filetoupload.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -243,7 +251,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Message_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", message.GetName())
+				if message.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", message.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}

@@ -282,7 +282,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Arrow_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", arrow.GetName())
+				if arrow.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", arrow.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -333,7 +337,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Bar_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", bar.GetName())
+				if bar.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", bar.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -384,7 +392,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Gantt_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", gantt.GetName())
+				if gantt.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gantt.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -435,7 +447,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Group_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", group.GetName())
+				if group.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", group.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -486,7 +502,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Lane_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", lane.GetName())
+				if lane.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", lane.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -537,7 +557,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.LaneUse_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", laneuse.GetName())
+				if laneuse.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", laneuse.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -588,7 +612,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Milestone_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", milestone.GetName())
+				if milestone.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", milestone.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}

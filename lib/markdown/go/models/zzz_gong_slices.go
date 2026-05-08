@@ -164,7 +164,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Content_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", content.GetName())
+				if content.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", content.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -215,7 +219,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.JpgImage_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", jpgimage.GetName())
+				if jpgimage.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", jpgimage.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -266,7 +274,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.PngImage_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", pngimage.GetName())
+				if pngimage.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", pngimage.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -317,7 +329,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.SvgImage_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", svgimage.GetName())
+				if svgimage.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", svgimage.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}

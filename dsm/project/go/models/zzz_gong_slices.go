@@ -747,7 +747,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Diagram_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", diagram.GetName())
+				if diagram.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", diagram.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -798,7 +802,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Library_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", library.GetName())
+				if library.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", library.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -849,7 +857,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Note_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", note.GetName())
+				if note.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", note.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -900,7 +912,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.NoteProductShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", noteproductshape.GetName())
+				if noteproductshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", noteproductshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -951,7 +967,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.NoteResourceShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", noteresourceshape.GetName())
+				if noteresourceshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", noteresourceshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -1002,7 +1022,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.NoteShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", noteshape.GetName())
+				if noteshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", noteshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -1053,7 +1077,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.NoteTaskShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", notetaskshape.GetName())
+				if notetaskshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", notetaskshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -1104,7 +1132,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Product_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", product.GetName())
+				if product.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", product.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -1155,7 +1187,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ProductCompositionShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", productcompositionshape.GetName())
+				if productcompositionshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", productcompositionshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -1206,7 +1242,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ProductShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", productshape.GetName())
+				if productshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", productshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -1257,7 +1297,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Resource_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", resource.GetName())
+				if resource.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", resource.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -1308,7 +1352,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ResourceCompositionShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", resourcecompositionshape.GetName())
+				if resourcecompositionshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", resourcecompositionshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -1359,7 +1407,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ResourceShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", resourceshape.GetName())
+				if resourceshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", resourceshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -1410,7 +1462,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ResourceTaskShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", resourcetaskshape.GetName())
+				if resourcetaskshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", resourcetaskshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -1461,7 +1517,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Task_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", task.GetName())
+				if task.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", task.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -1512,7 +1572,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.TaskCompositionShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", taskcompositionshape.GetName())
+				if taskcompositionshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", taskcompositionshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -1563,7 +1627,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.TaskInputShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", taskinputshape.GetName())
+				if taskinputshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", taskinputshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -1614,7 +1682,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.TaskOutputShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", taskoutputshape.GetName())
+				if taskoutputshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", taskoutputshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -1665,7 +1737,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.TaskShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", taskshape.GetName())
+				if taskshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", taskshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
