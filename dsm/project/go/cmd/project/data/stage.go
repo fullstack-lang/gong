@@ -226,8 +226,8 @@ func _(stage *models.Stage) {
 	stage.Commit()
 
 	__Library__00000001_ := (&models.Library{Name: ``}).Stage(stage)
-	// 
-	__Library__00000000_.SubLibraries = slices.Insert( __Library__00000000_.SubLibraries, 0, __Library__00000001_)
+	//
+	__Library__00000000_.SubLibraries = slices.Insert(__Library__00000000_.SubLibraries, 0, __Library__00000001_)
 	__Library__00000001_.Name = ``
 	__Library__00000001_.ComputedPrefix = ``
 	__Library__00000001_.NbPixPerCharacter = 0.000000
@@ -235,8 +235,8 @@ func _(stage *models.Stage) {
 	stage.Commit()
 
 	__Diagram__00000001_ := (&models.Diagram{Name: `Default Diagram`}).Stage(stage)
-	// 
-	__Library__00000001_.Diagrams = slices.Insert( __Library__00000001_.Diagrams, 0, __Diagram__00000001_)
+	//
+	__Library__00000001_.Diagrams = slices.Insert(__Library__00000001_.Diagrams, 0, __Diagram__00000001_)
 	// Default Diagram
 	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000001_.Name = `Default Diagram`
@@ -261,10 +261,10 @@ func _(stage *models.Stage) {
 	__ProductShape__00000007_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
 	__Product__00000006_ := (&models.Product{Name: ``}).Stage(stage)
 	// Default Diagram
-	__Diagram__00000001_.Product_Shapes = slices.Insert( __Diagram__00000001_.Product_Shapes, 0, __ProductShape__00000007_)
+	__Diagram__00000001_.Product_Shapes = slices.Insert(__Diagram__00000001_.Product_Shapes, 0, __ProductShape__00000007_)
 	__Diagram__00000001_.IsPBSNodeExpanded = true
 	// L1
-	__Library__00000001_.RootProducts = slices.Insert( __Library__00000001_.RootProducts, 0, __Product__00000006_)
+	__Library__00000001_.RootProducts = slices.Insert(__Library__00000001_.RootProducts, 0, __Product__00000006_)
 	__ProductShape__00000007_.Name = `-Default Diagram`
 	__ProductShape__00000007_.X = 183.836804
 	__ProductShape__00000007_.Y = 151.095882
@@ -279,7 +279,7 @@ func _(stage *models.Stage) {
 	__Product__00000006_.IsConsumersNodeExpanded = false
 	stage.Commit()
 
-	// 
+	//
 	__Product__00000006_.ComputedPrefix = `1`
 	// Default Diagram
 	__Diagram__00000001_.Width = 533.836804
@@ -296,7 +296,7 @@ func _(stage *models.Stage) {
 
 	__Library__00000002_ := (&models.Library{Name: ``}).Stage(stage)
 	// L1
-	__Library__00000001_.SubLibraries = slices.Insert( __Library__00000001_.SubLibraries, 0, __Library__00000002_)
+	__Library__00000001_.SubLibraries = slices.Insert(__Library__00000001_.SubLibraries, 0, __Library__00000002_)
 	__Library__00000002_.Name = ``
 	__Library__00000002_.ComputedPrefix = ``
 	__Library__00000002_.NbPixPerCharacter = 0.000000
@@ -304,8 +304,8 @@ func _(stage *models.Stage) {
 	stage.Commit()
 
 	__Diagram__00000002_ := (&models.Diagram{Name: `Default Diagram`}).Stage(stage)
-	// 
-	__Library__00000002_.Diagrams = slices.Insert( __Library__00000002_.Diagrams, 0, __Diagram__00000002_)
+	//
+	__Library__00000002_.Diagrams = slices.Insert(__Library__00000002_.Diagrams, 0, __Diagram__00000002_)
 	// Default Diagram
 	__Diagram__00000001_.IsChecked = false
 	__Diagram__00000002_.Name = `Default Diagram`
@@ -345,11 +345,11 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000000_ := (&models.TaskShape{Name: `-Default Diagram`}).Stage(stage)
 	__Task__00000000_ := (&models.Task{Name: ``}).Stage(stage)
-	// 
-	__Library__00000000_.RootTasks = slices.Insert( __Library__00000000_.RootTasks, 0, __Task__00000000_)
+	//
+	__Library__00000000_.RootTasks = slices.Insert(__Library__00000000_.RootTasks, 0, __Task__00000000_)
 	// Default Diagram
 	__Diagram__00000000_.IsWBSNodeExpanded = true
-	__Diagram__00000000_.Task_Shapes = slices.Insert( __Diagram__00000000_.Task_Shapes, 0, __TaskShape__00000000_)
+	__Diagram__00000000_.Task_Shapes = slices.Insert(__Diagram__00000000_.Task_Shapes, 0, __TaskShape__00000000_)
 	__TaskShape__00000000_.Name = `-Default Diagram`
 	__TaskShape__00000000_.X = 106.726367
 	__TaskShape__00000000_.Y = 179.068338
@@ -368,7 +368,7 @@ func _(stage *models.Stage) {
 	__Task__00000000_.Completion = ""
 	stage.Commit()
 
-	// 
+	//
 	__Task__00000000_.ComputedPrefix = `1`
 	stage.Commit()
 
@@ -380,11 +380,11 @@ func _(stage *models.Stage) {
 	__TaskShape__00000001_ := (&models.TaskShape{Name: `-Default Diagram`}).Stage(stage)
 	__Task__00000001_ := (&models.Task{Name: ``}).Stage(stage)
 	// Default Diagram
-	__Diagram__00000000_.Task_Shapes = slices.Insert( __Diagram__00000000_.Task_Shapes, 1, __TaskShape__00000001_)
-	__Diagram__00000000_.TasksWhoseNodeIsExpanded = slices.Insert( __Diagram__00000000_.TasksWhoseNodeIsExpanded, 0, __Task__00000000_)
-	__Diagram__00000000_.TaskComposition_Shapes = slices.Insert( __Diagram__00000000_.TaskComposition_Shapes, 0, __TaskCompositionShape__00000000_)
+	__Diagram__00000000_.Task_Shapes = slices.Insert(__Diagram__00000000_.Task_Shapes, 1, __TaskShape__00000001_)
+	__Diagram__00000000_.TasksWhoseNodeIsExpanded = slices.Insert(__Diagram__00000000_.TasksWhoseNodeIsExpanded, 0, __Task__00000000_)
+	__Diagram__00000000_.TaskComposition_Shapes = slices.Insert(__Diagram__00000000_.TaskComposition_Shapes, 0, __TaskCompositionShape__00000000_)
 	// W1
-	__Task__00000000_.SubTasks = slices.Insert( __Task__00000000_.SubTasks, 0, __Task__00000001_)
+	__Task__00000000_.SubTasks = slices.Insert(__Task__00000000_.SubTasks, 0, __Task__00000001_)
 	__TaskCompositionShape__00000000_.Name = `W1 to `
 	__TaskCompositionShape__00000000_.StartRatio = 0.500000
 	__TaskCompositionShape__00000000_.EndRatio = 0.500000
@@ -411,7 +411,7 @@ func _(stage *models.Stage) {
 	__Task__00000001_.Completion = ""
 	stage.Commit()
 
-	// 
+	//
 	__Task__00000001_.ComputedPrefix = `1.1`
 	stage.Commit()
 
@@ -421,10 +421,10 @@ func _(stage *models.Stage) {
 
 	__ResourceShape__00000000_ := (&models.ResourceShape{Name: `-Default Diagram`}).Stage(stage)
 	__Resource__00000000_ := (&models.Resource{Name: ``}).Stage(stage)
-	// 
-	__Library__00000000_.RootResources = slices.Insert( __Library__00000000_.RootResources, 0, __Resource__00000000_)
+	//
+	__Library__00000000_.RootResources = slices.Insert(__Library__00000000_.RootResources, 0, __Resource__00000000_)
 	// Default Diagram
-	__Diagram__00000000_.Resource_Shapes = slices.Insert( __Diagram__00000000_.Resource_Shapes, 0, __ResourceShape__00000000_)
+	__Diagram__00000000_.Resource_Shapes = slices.Insert(__Diagram__00000000_.Resource_Shapes, 0, __ResourceShape__00000000_)
 	__Diagram__00000000_.IsResourcesNodeExpanded = true
 	__ResourceShape__00000000_.Name = `-Default Diagram`
 	__ResourceShape__00000000_.X = 151.182087
@@ -438,7 +438,7 @@ func _(stage *models.Stage) {
 	__Resource__00000000_.Description = ``
 	stage.Commit()
 
-	// 
+	//
 	__Resource__00000000_.ComputedPrefix = `1`
 	stage.Commit()
 
@@ -450,11 +450,11 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000001_ := (&models.ResourceShape{Name: `-Default Diagram`}).Stage(stage)
 	__Resource__00000001_ := (&models.Resource{Name: ``}).Stage(stage)
 	// Default Diagram
-	__Diagram__00000000_.Resource_Shapes = slices.Insert( __Diagram__00000000_.Resource_Shapes, 1, __ResourceShape__00000001_)
-	__Diagram__00000000_.ResourcesWhoseNodeIsExpanded = slices.Insert( __Diagram__00000000_.ResourcesWhoseNodeIsExpanded, 0, __Resource__00000000_)
-	__Diagram__00000000_.ResourceComposition_Shapes = slices.Insert( __Diagram__00000000_.ResourceComposition_Shapes, 0, __ResourceCompositionShape__00000000_)
+	__Diagram__00000000_.Resource_Shapes = slices.Insert(__Diagram__00000000_.Resource_Shapes, 1, __ResourceShape__00000001_)
+	__Diagram__00000000_.ResourcesWhoseNodeIsExpanded = slices.Insert(__Diagram__00000000_.ResourcesWhoseNodeIsExpanded, 0, __Resource__00000000_)
+	__Diagram__00000000_.ResourceComposition_Shapes = slices.Insert(__Diagram__00000000_.ResourceComposition_Shapes, 0, __ResourceCompositionShape__00000000_)
 	// R1
-	__Resource__00000000_.SubResources = slices.Insert( __Resource__00000000_.SubResources, 0, __Resource__00000001_)
+	__Resource__00000000_.SubResources = slices.Insert(__Resource__00000000_.SubResources, 0, __Resource__00000001_)
 	__ResourceCompositionShape__00000000_.Name = `R1 to `
 	__ResourceCompositionShape__00000000_.StartRatio = 0.500000
 	__ResourceCompositionShape__00000000_.EndRatio = 0.500000
@@ -475,7 +475,7 @@ func _(stage *models.Stage) {
 	__Resource__00000001_.Description = ``
 	stage.Commit()
 
-	// 
+	//
 	__Resource__00000001_.ComputedPrefix = `1.1`
 	stage.Commit()
 
