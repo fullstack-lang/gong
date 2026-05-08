@@ -3018,7 +3018,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	stage.Commit()
 
 	// PBS
-	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = slices.Insert( __Diagram__00000002_.ProductsWhoseNodeIsExpanded, 2, __Product__00000003_)
+	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = slices.Insert(__Diagram__00000002_.ProductsWhoseNodeIsExpanded, 2, __Product__00000003_)
 	stage.Commit()
 
 	// -PBS
@@ -3035,5 +3035,13 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 
 	// -PBS
 	__ProductShape__00000004_.IsHidden = false
+	stage.Commit()
+
+	// Mishaps investigations
+	__Task__00000001_.Name = `Mishaps investigations`
+	stage.Commit()
+
+	// Mishap investigations
+	__Task__00000001_.Name = `Mishap investigations`
 	stage.Commit()
 }
