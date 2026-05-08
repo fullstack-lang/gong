@@ -91,7 +91,7 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 	if len(task.Inputs) > 0 {
 		inputProductsNode := &tree.Node{
 			Name:                 fmt.Sprintf("In (%d)", len(task.Inputs)),
-			IsExpanded:           slices.Index(diagram.TasksWhoseInputNodeIsExpanded, task) != -1,
+			IsExpanded:           slices.Contains(diagram.TasksWhoseInputNodeIsExpanded, task),
 			IsNodeClickable:      true,
 			IsWithPreceedingIcon: true,
 			PreceedingIcon:       string(buttons.BUTTON_input),
@@ -174,7 +174,7 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 	if len(task.Outputs) > 0 {
 		outputProductsNode := &tree.Node{
 			Name:                 fmt.Sprintf("Out (%d)", len(task.Outputs)),
-			IsExpanded:           slices.Index(diagram.TasksWhoseOutputNodeIsExpanded, task) != -1,
+			IsExpanded:           slices.Contains(diagram.TasksWhoseOutputNodeIsExpanded, task),
 			IsNodeClickable:      true,
 			IsWithPreceedingIcon: true,
 			PreceedingIcon:       string(buttons.BUTTON_output),
