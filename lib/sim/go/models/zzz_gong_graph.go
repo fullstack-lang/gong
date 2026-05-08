@@ -512,7 +512,7 @@ func (stage *Stage) UnstageBranchUpdateState(updatestate *UpdateState) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *Command) GongReconstructPointersFromReferences(stage *Stage, instance *Command) () {
+func (reference *Command) GongReconstructPointersFromReferences(stage *Stage, instance *Command) {
 	// insertion point for pointers field
 	if instance.Engine != nil {
 		reference.Engine = stage.Engines_reference[instance.Engine]
@@ -522,35 +522,35 @@ func (reference *Command) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
-func (reference *DummyAgent) GongReconstructPointersFromReferences(stage *Stage, instance *DummyAgent) () {
+func (reference *DummyAgent) GongReconstructPointersFromReferences(stage *Stage, instance *DummyAgent) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Engine) GongReconstructPointersFromReferences(stage *Stage, instance *Engine) () {
+func (reference *Engine) GongReconstructPointersFromReferences(stage *Stage, instance *Engine) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Event) GongReconstructPointersFromReferences(stage *Stage, instance *Event) () {
+func (reference *Event) GongReconstructPointersFromReferences(stage *Stage, instance *Event) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Status) GongReconstructPointersFromReferences(stage *Stage, instance *Status) () {
+func (reference *Status) GongReconstructPointersFromReferences(stage *Stage, instance *Status) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *UpdateState) GongReconstructPointersFromReferences(stage *Stage, instance *UpdateState) () {
+func (reference *UpdateState) GongReconstructPointersFromReferences(stage *Stage, instance *UpdateState) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
@@ -558,7 +558,7 @@ func (reference *UpdateState) GongReconstructPointersFromReferences(stage *Stage
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *Command) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Command) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Engine; _reference != nil {
 		reference.Engine = nil
@@ -571,35 +571,35 @@ func (reference *Command) GongReconstructPointersFromInstances(stage *Stage) () 
 	return
 }
 
-func (reference *DummyAgent) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *DummyAgent) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Engine) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Engine) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Event) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Event) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Status) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Status) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *UpdateState) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *UpdateState) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 

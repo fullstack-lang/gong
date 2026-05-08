@@ -1214,14 +1214,14 @@ func (stage *Stage) UnstageBranchOption(option *Option) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *CheckBox) GongReconstructPointersFromReferences(stage *Stage, instance *CheckBox) () {
+func (reference *CheckBox) GongReconstructPointersFromReferences(stage *Stage, instance *CheckBox) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *FormDiv) GongReconstructPointersFromReferences(stage *Stage, instance *FormDiv) () {
+func (reference *FormDiv) GongReconstructPointersFromReferences(stage *Stage, instance *FormDiv) {
 	// insertion point for pointers field
 	if instance.FormEditAssocButton != nil {
 		reference.FormEditAssocButton = stage.FormEditAssocButtons_reference[instance.FormEditAssocButton]
@@ -1242,14 +1242,14 @@ func (reference *FormDiv) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
-func (reference *FormEditAssocButton) GongReconstructPointersFromReferences(stage *Stage, instance *FormEditAssocButton) () {
+func (reference *FormEditAssocButton) GongReconstructPointersFromReferences(stage *Stage, instance *FormEditAssocButton) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *FormField) GongReconstructPointersFromReferences(stage *Stage, instance *FormField) () {
+func (reference *FormField) GongReconstructPointersFromReferences(stage *Stage, instance *FormField) {
 	// insertion point for pointers field
 	if instance.FormFieldString != nil {
 		reference.FormFieldString = stage.FormFieldStrings_reference[instance.FormFieldString]
@@ -1277,35 +1277,35 @@ func (reference *FormField) GongReconstructPointersFromReferences(stage *Stage, 
 	return
 }
 
-func (reference *FormFieldDate) GongReconstructPointersFromReferences(stage *Stage, instance *FormFieldDate) () {
+func (reference *FormFieldDate) GongReconstructPointersFromReferences(stage *Stage, instance *FormFieldDate) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *FormFieldDateTime) GongReconstructPointersFromReferences(stage *Stage, instance *FormFieldDateTime) () {
+func (reference *FormFieldDateTime) GongReconstructPointersFromReferences(stage *Stage, instance *FormFieldDateTime) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *FormFieldFloat64) GongReconstructPointersFromReferences(stage *Stage, instance *FormFieldFloat64) () {
+func (reference *FormFieldFloat64) GongReconstructPointersFromReferences(stage *Stage, instance *FormFieldFloat64) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *FormFieldInt) GongReconstructPointersFromReferences(stage *Stage, instance *FormFieldInt) () {
+func (reference *FormFieldInt) GongReconstructPointersFromReferences(stage *Stage, instance *FormFieldInt) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *FormFieldSelect) GongReconstructPointersFromReferences(stage *Stage, instance *FormFieldSelect) () {
+func (reference *FormFieldSelect) GongReconstructPointersFromReferences(stage *Stage, instance *FormFieldSelect) {
 	// insertion point for pointers field
 	if instance.Value != nil {
 		reference.Value = stage.Options_reference[instance.Value]
@@ -1319,21 +1319,21 @@ func (reference *FormFieldSelect) GongReconstructPointersFromReferences(stage *S
 	return
 }
 
-func (reference *FormFieldString) GongReconstructPointersFromReferences(stage *Stage, instance *FormFieldString) () {
+func (reference *FormFieldString) GongReconstructPointersFromReferences(stage *Stage, instance *FormFieldString) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *FormFieldTime) GongReconstructPointersFromReferences(stage *Stage, instance *FormFieldTime) () {
+func (reference *FormFieldTime) GongReconstructPointersFromReferences(stage *Stage, instance *FormFieldTime) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *FormGroup) GongReconstructPointersFromReferences(stage *Stage, instance *FormGroup) () {
+func (reference *FormGroup) GongReconstructPointersFromReferences(stage *Stage, instance *FormGroup) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.FormDivs = reference.FormDivs[:0]
@@ -1344,7 +1344,7 @@ func (reference *FormGroup) GongReconstructPointersFromReferences(stage *Stage, 
 	return
 }
 
-func (reference *FormSortAssocButton) GongReconstructPointersFromReferences(stage *Stage, instance *FormSortAssocButton) () {
+func (reference *FormSortAssocButton) GongReconstructPointersFromReferences(stage *Stage, instance *FormSortAssocButton) {
 	// insertion point for pointers field
 	if instance.FormEditAssocButton != nil {
 		reference.FormEditAssocButton = stage.FormEditAssocButtons_reference[instance.FormEditAssocButton]
@@ -1354,7 +1354,7 @@ func (reference *FormSortAssocButton) GongReconstructPointersFromReferences(stag
 	return
 }
 
-func (reference *Option) GongReconstructPointersFromReferences(stage *Stage, instance *Option) () {
+func (reference *Option) GongReconstructPointersFromReferences(stage *Stage, instance *Option) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
@@ -1362,14 +1362,14 @@ func (reference *Option) GongReconstructPointersFromReferences(stage *Stage, ins
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *CheckBox) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *CheckBox) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *FormDiv) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *FormDiv) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.FormEditAssocButton; _reference != nil {
 		reference.FormEditAssocButton = nil
@@ -1402,14 +1402,14 @@ func (reference *FormDiv) GongReconstructPointersFromInstances(stage *Stage) () 
 	return
 }
 
-func (reference *FormEditAssocButton) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *FormEditAssocButton) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *FormField) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *FormField) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.FormFieldString; _reference != nil {
 		reference.FormFieldString = nil
@@ -1458,35 +1458,35 @@ func (reference *FormField) GongReconstructPointersFromInstances(stage *Stage) (
 	return
 }
 
-func (reference *FormFieldDate) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *FormFieldDate) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *FormFieldDateTime) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *FormFieldDateTime) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *FormFieldFloat64) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *FormFieldFloat64) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *FormFieldInt) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *FormFieldInt) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *FormFieldSelect) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *FormFieldSelect) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Value; _reference != nil {
 		reference.Value = nil
@@ -1506,21 +1506,21 @@ func (reference *FormFieldSelect) GongReconstructPointersFromInstances(stage *St
 	return
 }
 
-func (reference *FormFieldString) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *FormFieldString) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *FormFieldTime) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *FormFieldTime) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *FormGroup) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *FormGroup) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _FormDivs []*FormDiv
@@ -1534,7 +1534,7 @@ func (reference *FormGroup) GongReconstructPointersFromInstances(stage *Stage) (
 	return
 }
 
-func (reference *FormSortAssocButton) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *FormSortAssocButton) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.FormEditAssocButton; _reference != nil {
 		reference.FormEditAssocButton = nil
@@ -1547,7 +1547,7 @@ func (reference *FormSortAssocButton) GongReconstructPointersFromInstances(stage
 	return
 }
 
-func (reference *Option) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Option) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 

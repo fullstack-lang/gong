@@ -297,7 +297,7 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *ArtefactType:
 		stage.OnAfterArtefactTypeCreateCallback = any(callback).(OnAfterCreateInterface[ArtefactType])
 	case *ArtefactTypeShape:
@@ -328,7 +328,7 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *ArtefactType:
 		stage.OnAfterArtefactTypeDeleteCallback = any(callback).(OnAfterDeleteInterface[ArtefactType])
 	case *ArtefactTypeShape:
@@ -359,7 +359,7 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *ArtefactType:
 		stage.OnAfterArtefactTypeReadCallback = any(callback).(OnAfterReadInterface[ArtefactType])
 	case *ArtefactTypeShape:

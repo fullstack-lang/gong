@@ -1394,21 +1394,21 @@ func (stage *Stage) UnstageBranchTransition_Shape(transition_shape *Transition_S
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *Action) GongReconstructPointersFromReferences(stage *Stage, instance *Action) () {
+func (reference *Action) GongReconstructPointersFromReferences(stage *Stage, instance *Action) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Activities) GongReconstructPointersFromReferences(stage *Stage, instance *Activities) () {
+func (reference *Activities) GongReconstructPointersFromReferences(stage *Stage, instance *Activities) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Architecture) GongReconstructPointersFromReferences(stage *Stage, instance *Architecture) () {
+func (reference *Architecture) GongReconstructPointersFromReferences(stage *Stage, instance *Architecture) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.StateMachines = reference.StateMachines[:0]
@@ -1423,7 +1423,7 @@ func (reference *Architecture) GongReconstructPointersFromReferences(stage *Stag
 	return
 }
 
-func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) () {
+func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.State_Shapes = reference.State_Shapes[:0]
@@ -1442,21 +1442,21 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
-func (reference *Guard) GongReconstructPointersFromReferences(stage *Stage, instance *Guard) () {
+func (reference *Guard) GongReconstructPointersFromReferences(stage *Stage, instance *Guard) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Kill) GongReconstructPointersFromReferences(stage *Stage, instance *Kill) () {
+func (reference *Kill) GongReconstructPointersFromReferences(stage *Stage, instance *Kill) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Message) GongReconstructPointersFromReferences(stage *Stage, instance *Message) () {
+func (reference *Message) GongReconstructPointersFromReferences(stage *Stage, instance *Message) {
 	// insertion point for pointers field
 	if instance.MessageType != nil {
 		reference.MessageType = stage.MessageTypes_reference[instance.MessageType]
@@ -1469,14 +1469,14 @@ func (reference *Message) GongReconstructPointersFromReferences(stage *Stage, in
 	return
 }
 
-func (reference *MessageType) GongReconstructPointersFromReferences(stage *Stage, instance *MessageType) () {
+func (reference *MessageType) GongReconstructPointersFromReferences(stage *Stage, instance *MessageType) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
 }
 
-func (reference *Object) GongReconstructPointersFromReferences(stage *Stage, instance *Object) () {
+func (reference *Object) GongReconstructPointersFromReferences(stage *Stage, instance *Object) {
 	// insertion point for pointers field
 	if instance.State != nil {
 		reference.State = stage.States_reference[instance.State]
@@ -1490,7 +1490,7 @@ func (reference *Object) GongReconstructPointersFromReferences(stage *Stage, ins
 	return
 }
 
-func (reference *Role) GongReconstructPointersFromReferences(stage *Stage, instance *Role) () {
+func (reference *Role) GongReconstructPointersFromReferences(stage *Stage, instance *Role) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.RolesWithSamePermissions = reference.RolesWithSamePermissions[:0]
@@ -1501,7 +1501,7 @@ func (reference *Role) GongReconstructPointersFromReferences(stage *Stage, insta
 	return
 }
 
-func (reference *State) GongReconstructPointersFromReferences(stage *Stage, instance *State) () {
+func (reference *State) GongReconstructPointersFromReferences(stage *Stage, instance *State) {
 	// insertion point for pointers field
 	if instance.Parent != nil {
 		reference.Parent = stage.States_reference[instance.Parent]
@@ -1529,7 +1529,7 @@ func (reference *State) GongReconstructPointersFromReferences(stage *Stage, inst
 	return
 }
 
-func (reference *StateMachine) GongReconstructPointersFromReferences(stage *Stage, instance *StateMachine) () {
+func (reference *StateMachine) GongReconstructPointersFromReferences(stage *Stage, instance *StateMachine) {
 	// insertion point for pointers field
 	if instance.InitialState != nil {
 		reference.InitialState = stage.States_reference[instance.InitialState]
@@ -1547,7 +1547,7 @@ func (reference *StateMachine) GongReconstructPointersFromReferences(stage *Stag
 	return
 }
 
-func (reference *StateShape) GongReconstructPointersFromReferences(stage *Stage, instance *StateShape) () {
+func (reference *StateShape) GongReconstructPointersFromReferences(stage *Stage, instance *StateShape) {
 	// insertion point for pointers field
 	if instance.State != nil {
 		reference.State = stage.States_reference[instance.State]
@@ -1557,7 +1557,7 @@ func (reference *StateShape) GongReconstructPointersFromReferences(stage *Stage,
 	return
 }
 
-func (reference *Transition) GongReconstructPointersFromReferences(stage *Stage, instance *Transition) () {
+func (reference *Transition) GongReconstructPointersFromReferences(stage *Stage, instance *Transition) {
 	// insertion point for pointers field
 	if instance.Start != nil {
 		reference.Start = stage.States_reference[instance.Start]
@@ -1585,7 +1585,7 @@ func (reference *Transition) GongReconstructPointersFromReferences(stage *Stage,
 	return
 }
 
-func (reference *Transition_Shape) GongReconstructPointersFromReferences(stage *Stage, instance *Transition_Shape) () {
+func (reference *Transition_Shape) GongReconstructPointersFromReferences(stage *Stage, instance *Transition_Shape) {
 	// insertion point for pointers field
 	if instance.Transition != nil {
 		reference.Transition = stage.Transitions_reference[instance.Transition]
@@ -1596,21 +1596,21 @@ func (reference *Transition_Shape) GongReconstructPointersFromReferences(stage *
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *Action) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Action) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Activities) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Activities) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Architecture) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Architecture) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _StateMachines []*StateMachine
@@ -1631,7 +1631,7 @@ func (reference *Architecture) GongReconstructPointersFromInstances(stage *Stage
 	return
 }
 
-func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _State_Shapes []*StateShape
@@ -1659,21 +1659,21 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) () 
 	return
 }
 
-func (reference *Guard) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Guard) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Kill) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Kill) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Message) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Message) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.MessageType; _reference != nil {
 		reference.MessageType = nil
@@ -1692,14 +1692,14 @@ func (reference *Message) GongReconstructPointersFromInstances(stage *Stage) () 
 	return
 }
 
-func (reference *MessageType) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *MessageType) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
 }
 
-func (reference *Object) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Object) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.State; _reference != nil {
 		reference.State = nil
@@ -1719,7 +1719,7 @@ func (reference *Object) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *Role) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Role) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _RolesWithSamePermissions []*Role
@@ -1733,7 +1733,7 @@ func (reference *Role) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *State) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *State) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Parent; _reference != nil {
 		reference.Parent = nil
@@ -1779,7 +1779,7 @@ func (reference *State) GongReconstructPointersFromInstances(stage *Stage) () {
 	return
 }
 
-func (reference *StateMachine) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *StateMachine) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.InitialState; _reference != nil {
 		reference.InitialState = nil
@@ -1806,7 +1806,7 @@ func (reference *StateMachine) GongReconstructPointersFromInstances(stage *Stage
 	return
 }
 
-func (reference *StateShape) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *StateShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.State; _reference != nil {
 		reference.State = nil
@@ -1819,7 +1819,7 @@ func (reference *StateShape) GongReconstructPointersFromInstances(stage *Stage) 
 	return
 }
 
-func (reference *Transition) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Transition) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Start; _reference != nil {
 		reference.Start = nil
@@ -1865,7 +1865,7 @@ func (reference *Transition) GongReconstructPointersFromInstances(stage *Stage) 
 	return
 }
 
-func (reference *Transition_Shape) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Transition_Shape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Transition; _reference != nil {
 		reference.Transition = nil
