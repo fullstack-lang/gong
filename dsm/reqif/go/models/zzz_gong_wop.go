@@ -1807,3 +1807,4 @@ func (from *XHTML_CONTENT) CopyBasicFields(to *XHTML_CONTENT) {
 	to.PureText = from.PureText
 }
 
+// end of insertion point

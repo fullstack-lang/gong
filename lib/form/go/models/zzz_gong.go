@@ -1330,59 +1330,59 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		CheckBox_stagedOrder: make(map[*CheckBox]uint),
 		CheckBox_orderStaged: make(map[uint]*CheckBox),
-		CheckBoxs_reference: make(map[*CheckBox]*CheckBox),
+		CheckBoxs_reference:  make(map[*CheckBox]*CheckBox),
 
 		FormDiv_stagedOrder: make(map[*FormDiv]uint),
 		FormDiv_orderStaged: make(map[uint]*FormDiv),
-		FormDivs_reference: make(map[*FormDiv]*FormDiv),
+		FormDivs_reference:  make(map[*FormDiv]*FormDiv),
 
 		FormEditAssocButton_stagedOrder: make(map[*FormEditAssocButton]uint),
 		FormEditAssocButton_orderStaged: make(map[uint]*FormEditAssocButton),
-		FormEditAssocButtons_reference: make(map[*FormEditAssocButton]*FormEditAssocButton),
+		FormEditAssocButtons_reference:  make(map[*FormEditAssocButton]*FormEditAssocButton),
 
 		FormField_stagedOrder: make(map[*FormField]uint),
 		FormField_orderStaged: make(map[uint]*FormField),
-		FormFields_reference: make(map[*FormField]*FormField),
+		FormFields_reference:  make(map[*FormField]*FormField),
 
 		FormFieldDate_stagedOrder: make(map[*FormFieldDate]uint),
 		FormFieldDate_orderStaged: make(map[uint]*FormFieldDate),
-		FormFieldDates_reference: make(map[*FormFieldDate]*FormFieldDate),
+		FormFieldDates_reference:  make(map[*FormFieldDate]*FormFieldDate),
 
 		FormFieldDateTime_stagedOrder: make(map[*FormFieldDateTime]uint),
 		FormFieldDateTime_orderStaged: make(map[uint]*FormFieldDateTime),
-		FormFieldDateTimes_reference: make(map[*FormFieldDateTime]*FormFieldDateTime),
+		FormFieldDateTimes_reference:  make(map[*FormFieldDateTime]*FormFieldDateTime),
 
 		FormFieldFloat64_stagedOrder: make(map[*FormFieldFloat64]uint),
 		FormFieldFloat64_orderStaged: make(map[uint]*FormFieldFloat64),
-		FormFieldFloat64s_reference: make(map[*FormFieldFloat64]*FormFieldFloat64),
+		FormFieldFloat64s_reference:  make(map[*FormFieldFloat64]*FormFieldFloat64),
 
 		FormFieldInt_stagedOrder: make(map[*FormFieldInt]uint),
 		FormFieldInt_orderStaged: make(map[uint]*FormFieldInt),
-		FormFieldInts_reference: make(map[*FormFieldInt]*FormFieldInt),
+		FormFieldInts_reference:  make(map[*FormFieldInt]*FormFieldInt),
 
 		FormFieldSelect_stagedOrder: make(map[*FormFieldSelect]uint),
 		FormFieldSelect_orderStaged: make(map[uint]*FormFieldSelect),
-		FormFieldSelects_reference: make(map[*FormFieldSelect]*FormFieldSelect),
+		FormFieldSelects_reference:  make(map[*FormFieldSelect]*FormFieldSelect),
 
 		FormFieldString_stagedOrder: make(map[*FormFieldString]uint),
 		FormFieldString_orderStaged: make(map[uint]*FormFieldString),
-		FormFieldStrings_reference: make(map[*FormFieldString]*FormFieldString),
+		FormFieldStrings_reference:  make(map[*FormFieldString]*FormFieldString),
 
 		FormFieldTime_stagedOrder: make(map[*FormFieldTime]uint),
 		FormFieldTime_orderStaged: make(map[uint]*FormFieldTime),
-		FormFieldTimes_reference: make(map[*FormFieldTime]*FormFieldTime),
+		FormFieldTimes_reference:  make(map[*FormFieldTime]*FormFieldTime),
 
 		FormGroup_stagedOrder: make(map[*FormGroup]uint),
 		FormGroup_orderStaged: make(map[uint]*FormGroup),
-		FormGroups_reference: make(map[*FormGroup]*FormGroup),
+		FormGroups_reference:  make(map[*FormGroup]*FormGroup),
 
 		FormSortAssocButton_stagedOrder: make(map[*FormSortAssocButton]uint),
 		FormSortAssocButton_orderStaged: make(map[uint]*FormSortAssocButton),
-		FormSortAssocButtons_reference: make(map[*FormSortAssocButton]*FormSortAssocButton),
+		FormSortAssocButtons_reference:  make(map[*FormSortAssocButton]*FormSortAssocButton),
 
 		Option_stagedOrder: make(map[*Option]uint),
 		Option_orderStaged: make(map[uint]*Option),
-		Options_reference: make(map[*Option]*Option),
+		Options_reference:  make(map[*Option]*Option),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

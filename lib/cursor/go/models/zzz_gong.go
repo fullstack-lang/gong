@@ -620,7 +620,7 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		Cursor_stagedOrder: make(map[*Cursor]uint),
 		Cursor_orderStaged: make(map[uint]*Cursor),
-		Cursors_reference: make(map[*Cursor]*Cursor),
+		Cursors_reference:  make(map[*Cursor]*Cursor),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

@@ -676,11 +676,11 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		A_stagedOrder: make(map[*A]uint),
 		A_orderStaged: make(map[uint]*A),
-		As_reference: make(map[*A]*A),
+		As_reference:  make(map[*A]*A),
 
 		B_stagedOrder: make(map[*B]uint),
 		B_orderStaged: make(map[uint]*B),
-		Bs_reference: make(map[*B]*B),
+		Bs_reference:  make(map[*B]*B),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

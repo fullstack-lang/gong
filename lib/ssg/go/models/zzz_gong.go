@@ -1006,35 +1006,35 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		Chapter_stagedOrder: make(map[*Chapter]uint),
 		Chapter_orderStaged: make(map[uint]*Chapter),
-		Chapters_reference: make(map[*Chapter]*Chapter),
+		Chapters_reference:  make(map[*Chapter]*Chapter),
 
 		Content_stagedOrder: make(map[*Content]uint),
 		Content_orderStaged: make(map[uint]*Content),
-		Contents_reference: make(map[*Content]*Content),
+		Contents_reference:  make(map[*Content]*Content),
 
 		DownloadableFile_stagedOrder: make(map[*DownloadableFile]uint),
 		DownloadableFile_orderStaged: make(map[uint]*DownloadableFile),
-		DownloadableFiles_reference: make(map[*DownloadableFile]*DownloadableFile),
+		DownloadableFiles_reference:  make(map[*DownloadableFile]*DownloadableFile),
 
 		JpgImage_stagedOrder: make(map[*JpgImage]uint),
 		JpgImage_orderStaged: make(map[uint]*JpgImage),
-		JpgImages_reference: make(map[*JpgImage]*JpgImage),
+		JpgImages_reference:  make(map[*JpgImage]*JpgImage),
 
 		Page_stagedOrder: make(map[*Page]uint),
 		Page_orderStaged: make(map[uint]*Page),
-		Pages_reference: make(map[*Page]*Page),
+		Pages_reference:  make(map[*Page]*Page),
 
 		PngImage_stagedOrder: make(map[*PngImage]uint),
 		PngImage_orderStaged: make(map[uint]*PngImage),
-		PngImages_reference: make(map[*PngImage]*PngImage),
+		PngImages_reference:  make(map[*PngImage]*PngImage),
 
 		Section_stagedOrder: make(map[*Section]uint),
 		Section_orderStaged: make(map[uint]*Section),
-		Sections_reference: make(map[*Section]*Section),
+		Sections_reference:  make(map[*Section]*Section),
 
 		SvgImage_stagedOrder: make(map[*SvgImage]uint),
 		SvgImage_orderStaged: make(map[uint]*SvgImage),
-		SvgImages_reference: make(map[*SvgImage]*SvgImage),
+		SvgImages_reference:  make(map[*SvgImage]*SvgImage),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

@@ -197,3 +197,4 @@ func (from *Milestone) CopyBasicFields(to *Milestone) {
 	to.DisplayVerticalBar = from.DisplayVerticalBar
 }
 
+// end of insertion point

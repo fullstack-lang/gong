@@ -1446,67 +1446,67 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		Body_stagedOrder: make(map[*Body]uint),
 		Body_orderStaged: make(map[uint]*Body),
-		Bodys_reference: make(map[*Body]*Body),
+		Bodys_reference:  make(map[*Body]*Body),
 
 		Document_stagedOrder: make(map[*Document]uint),
 		Document_orderStaged: make(map[uint]*Document),
-		Documents_reference: make(map[*Document]*Document),
+		Documents_reference:  make(map[*Document]*Document),
 
 		Docx_stagedOrder: make(map[*Docx]uint),
 		Docx_orderStaged: make(map[uint]*Docx),
-		Docxs_reference: make(map[*Docx]*Docx),
+		Docxs_reference:  make(map[*Docx]*Docx),
 
 		File_stagedOrder: make(map[*File]uint),
 		File_orderStaged: make(map[uint]*File),
-		Files_reference: make(map[*File]*File),
+		Files_reference:  make(map[*File]*File),
 
 		Node_stagedOrder: make(map[*Node]uint),
 		Node_orderStaged: make(map[uint]*Node),
-		Nodes_reference: make(map[*Node]*Node),
+		Nodes_reference:  make(map[*Node]*Node),
 
 		Paragraph_stagedOrder: make(map[*Paragraph]uint),
 		Paragraph_orderStaged: make(map[uint]*Paragraph),
-		Paragraphs_reference: make(map[*Paragraph]*Paragraph),
+		Paragraphs_reference:  make(map[*Paragraph]*Paragraph),
 
 		ParagraphProperties_stagedOrder: make(map[*ParagraphProperties]uint),
 		ParagraphProperties_orderStaged: make(map[uint]*ParagraphProperties),
-		ParagraphPropertiess_reference: make(map[*ParagraphProperties]*ParagraphProperties),
+		ParagraphPropertiess_reference:  make(map[*ParagraphProperties]*ParagraphProperties),
 
 		ParagraphStyle_stagedOrder: make(map[*ParagraphStyle]uint),
 		ParagraphStyle_orderStaged: make(map[uint]*ParagraphStyle),
-		ParagraphStyles_reference: make(map[*ParagraphStyle]*ParagraphStyle),
+		ParagraphStyles_reference:  make(map[*ParagraphStyle]*ParagraphStyle),
 
 		Rune_stagedOrder: make(map[*Rune]uint),
 		Rune_orderStaged: make(map[uint]*Rune),
-		Runes_reference: make(map[*Rune]*Rune),
+		Runes_reference:  make(map[*Rune]*Rune),
 
 		RuneProperties_stagedOrder: make(map[*RuneProperties]uint),
 		RuneProperties_orderStaged: make(map[uint]*RuneProperties),
-		RunePropertiess_reference: make(map[*RuneProperties]*RuneProperties),
+		RunePropertiess_reference:  make(map[*RuneProperties]*RuneProperties),
 
 		Table_stagedOrder: make(map[*Table]uint),
 		Table_orderStaged: make(map[uint]*Table),
-		Tables_reference: make(map[*Table]*Table),
+		Tables_reference:  make(map[*Table]*Table),
 
 		TableColumn_stagedOrder: make(map[*TableColumn]uint),
 		TableColumn_orderStaged: make(map[uint]*TableColumn),
-		TableColumns_reference: make(map[*TableColumn]*TableColumn),
+		TableColumns_reference:  make(map[*TableColumn]*TableColumn),
 
 		TableProperties_stagedOrder: make(map[*TableProperties]uint),
 		TableProperties_orderStaged: make(map[uint]*TableProperties),
-		TablePropertiess_reference: make(map[*TableProperties]*TableProperties),
+		TablePropertiess_reference:  make(map[*TableProperties]*TableProperties),
 
 		TableRow_stagedOrder: make(map[*TableRow]uint),
 		TableRow_orderStaged: make(map[uint]*TableRow),
-		TableRows_reference: make(map[*TableRow]*TableRow),
+		TableRows_reference:  make(map[*TableRow]*TableRow),
 
 		TableStyle_stagedOrder: make(map[*TableStyle]uint),
 		TableStyle_orderStaged: make(map[uint]*TableStyle),
-		TableStyles_reference: make(map[*TableStyle]*TableStyle),
+		TableStyles_reference:  make(map[*TableStyle]*TableStyle),
 
 		Text_stagedOrder: make(map[*Text]uint),
 		Text_orderStaged: make(map[uint]*Text),
-		Texts_reference: make(map[*Text]*Text),
+		Texts_reference:  make(map[*Text]*Text),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

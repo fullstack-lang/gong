@@ -129,3 +129,4 @@ func (from *UpdateState) CopyBasicFields(to *UpdateState) {
 	to.Period = from.Period
 }
 
+// end of insertion point

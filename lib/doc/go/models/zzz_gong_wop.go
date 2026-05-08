@@ -291,3 +291,4 @@ func (from *LinkShape) CopyBasicFields(to *LinkShape) {
 	to.CornerOffsetRatio = from.CornerOffsetRatio
 }
 
+// end of insertion point

@@ -788,19 +788,19 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		BookType_stagedOrder: make(map[*BookType]uint),
 		BookType_orderStaged: make(map[uint]*BookType),
-		BookTypes_reference: make(map[*BookType]*BookType),
+		BookTypes_reference:  make(map[*BookType]*BookType),
 
 		Books_stagedOrder: make(map[*Books]uint),
 		Books_orderStaged: make(map[uint]*Books),
-		Bookss_reference: make(map[*Books]*Books),
+		Bookss_reference:  make(map[*Books]*Books),
 
 		Credit_stagedOrder: make(map[*Credit]uint),
 		Credit_orderStaged: make(map[uint]*Credit),
-		Credits_reference: make(map[*Credit]*Credit),
+		Credits_reference:  make(map[*Credit]*Credit),
 
 		Link_stagedOrder: make(map[*Link]uint),
 		Link_orderStaged: make(map[uint]*Link),
-		Links_reference: make(map[*Link]*Link),
+		Links_reference:  make(map[*Link]*Link),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

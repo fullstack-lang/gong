@@ -146,3 +146,4 @@ func (from *Tree) CopyBasicFields(to *Tree) {
 	to.Name = from.Name
 }
 
+// end of insertion point

@@ -24,6 +24,7 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point{{` + string(rune(ModelGongWopStruct)) + `}}
+// end of insertion point
 `
 
 type ModelGongWopStructInsertionId int

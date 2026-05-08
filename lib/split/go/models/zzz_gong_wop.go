@@ -329,3 +329,4 @@ func (from *Xlsx) CopyBasicFields(to *Xlsx) {
 	to.StackName = from.StackName
 }
 
+// end of insertion point

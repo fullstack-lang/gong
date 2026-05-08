@@ -788,19 +788,19 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		Button_stagedOrder: make(map[*Button]uint),
 		Button_orderStaged: make(map[uint]*Button),
-		Buttons_reference: make(map[*Button]*Button),
+		Buttons_reference:  make(map[*Button]*Button),
 
 		Node_stagedOrder: make(map[*Node]uint),
 		Node_orderStaged: make(map[uint]*Node),
-		Nodes_reference: make(map[*Node]*Node),
+		Nodes_reference:  make(map[*Node]*Node),
 
 		SVGIcon_stagedOrder: make(map[*SVGIcon]uint),
 		SVGIcon_orderStaged: make(map[uint]*SVGIcon),
-		SVGIcons_reference: make(map[*SVGIcon]*SVGIcon),
+		SVGIcons_reference:  make(map[*SVGIcon]*SVGIcon),
 
 		Tree_stagedOrder: make(map[*Tree]uint),
 		Tree_orderStaged: make(map[uint]*Tree),
-		Trees_reference: make(map[*Tree]*Tree),
+		Trees_reference:  make(map[*Tree]*Tree),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers

@@ -7509,3 +7509,4 @@ func (from *Work) CopyBasicFields(to *Work) {
 	to.Work_title = from.Work_title
 }
 
+// end of insertion point
