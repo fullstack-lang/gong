@@ -289,7 +289,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Astruct_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", astruct.GetName())
+				if astruct.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", astruct.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -340,7 +344,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.AstructBstruct2Use_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", astructbstruct2use.GetName())
+				if astructbstruct2use.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", astructbstruct2use.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -391,7 +399,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.AstructBstructUse_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", astructbstructuse.GetName())
+				if astructbstructuse.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", astructbstructuse.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -442,7 +454,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Bstruct_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", bstruct.GetName())
+				if bstruct.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", bstruct.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -493,7 +509,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Dstruct_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", dstruct.GetName())
+				if dstruct.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", dstruct.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -544,7 +564,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.F0123456789012345678901234567890_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", f0123456789012345678901234567890.GetName())
+				if f0123456789012345678901234567890.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", f0123456789012345678901234567890.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -595,7 +619,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Gstruct_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", gstruct.GetName())
+				if gstruct.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gstruct.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}

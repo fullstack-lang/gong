@@ -2277,7 +2277,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ALTERNATIVE_ID_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", alternative_id.GetName())
+				if alternative_id.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", alternative_id.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -2328,7 +2332,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ATTRIBUTE_DEFINITION_BOOLEAN_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_boolean.GetName())
+				if attribute_definition_boolean.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_boolean.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -2379,7 +2387,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ATTRIBUTE_DEFINITION_DATE_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_date.GetName())
+				if attribute_definition_date.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_date.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -2430,7 +2442,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ATTRIBUTE_DEFINITION_ENUMERATION_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_enumeration.GetName())
+				if attribute_definition_enumeration.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_enumeration.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -2481,7 +2497,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ATTRIBUTE_DEFINITION_INTEGER_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_integer.GetName())
+				if attribute_definition_integer.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_integer.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -2532,7 +2552,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ATTRIBUTE_DEFINITION_REAL_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_real.GetName())
+				if attribute_definition_real.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_real.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -2583,7 +2607,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ATTRIBUTE_DEFINITION_STRING_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_string.GetName())
+				if attribute_definition_string.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_string.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -2634,7 +2662,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ATTRIBUTE_DEFINITION_XHTML_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_xhtml.GetName())
+				if attribute_definition_xhtml.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_definition_xhtml.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -2685,7 +2717,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ATTRIBUTE_VALUE_BOOLEAN_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_boolean.GetName())
+				if attribute_value_boolean.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_boolean.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -2736,7 +2772,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ATTRIBUTE_VALUE_DATE_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_date.GetName())
+				if attribute_value_date.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_date.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -2787,7 +2827,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ATTRIBUTE_VALUE_ENUMERATION_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_enumeration.GetName())
+				if attribute_value_enumeration.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_enumeration.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -2838,7 +2882,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ATTRIBUTE_VALUE_INTEGER_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_integer.GetName())
+				if attribute_value_integer.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_integer.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -2889,7 +2937,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ATTRIBUTE_VALUE_REAL_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_real.GetName())
+				if attribute_value_real.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_real.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -2940,7 +2992,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ATTRIBUTE_VALUE_STRING_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_string.GetName())
+				if attribute_value_string.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_string.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -2991,7 +3047,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ATTRIBUTE_VALUE_XHTML_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_xhtml.GetName())
+				if attribute_value_xhtml.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", attribute_value_xhtml.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3042,7 +3102,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ALTERNATIVE_ID_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_alternative_id.GetName())
+				if a_alternative_id.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_alternative_id.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3093,7 +3157,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ATTRIBUTE_DEFINITION_BOOLEAN_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_boolean_ref.GetName())
+				if a_attribute_definition_boolean_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_boolean_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3144,7 +3212,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ATTRIBUTE_DEFINITION_DATE_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_date_ref.GetName())
+				if a_attribute_definition_date_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_date_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3195,7 +3267,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ATTRIBUTE_DEFINITION_ENUMERATION_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_enumeration_ref.GetName())
+				if a_attribute_definition_enumeration_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_enumeration_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3246,7 +3322,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ATTRIBUTE_DEFINITION_INTEGER_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_integer_ref.GetName())
+				if a_attribute_definition_integer_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_integer_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3297,7 +3377,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ATTRIBUTE_DEFINITION_REAL_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_real_ref.GetName())
+				if a_attribute_definition_real_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_real_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3348,7 +3432,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ATTRIBUTE_DEFINITION_STRING_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_string_ref.GetName())
+				if a_attribute_definition_string_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_string_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3399,7 +3487,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ATTRIBUTE_DEFINITION_XHTML_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_xhtml_ref.GetName())
+				if a_attribute_definition_xhtml_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_definition_xhtml_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3450,7 +3542,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ATTRIBUTE_VALUE_BOOLEAN_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_boolean.GetName())
+				if a_attribute_value_boolean.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_boolean.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3501,7 +3597,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ATTRIBUTE_VALUE_DATE_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_date.GetName())
+				if a_attribute_value_date.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_date.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3552,7 +3652,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ATTRIBUTE_VALUE_ENUMERATION_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_enumeration.GetName())
+				if a_attribute_value_enumeration.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_enumeration.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3603,7 +3707,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ATTRIBUTE_VALUE_INTEGER_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_integer.GetName())
+				if a_attribute_value_integer.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_integer.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3654,7 +3762,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ATTRIBUTE_VALUE_REAL_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_real.GetName())
+				if a_attribute_value_real.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_real.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3705,7 +3817,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ATTRIBUTE_VALUE_STRING_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_string.GetName())
+				if a_attribute_value_string.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_string.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3756,7 +3872,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ATTRIBUTE_VALUE_XHTML_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_xhtml.GetName())
+				if a_attribute_value_xhtml.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_xhtml.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3807,7 +3927,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ATTRIBUTE_VALUE_XHTML_1_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_xhtml_1.GetName())
+				if a_attribute_value_xhtml_1.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_attribute_value_xhtml_1.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3858,7 +3982,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_CHILDREN_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_children.GetName())
+				if a_children.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_children.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3909,7 +4037,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_CORE_CONTENT_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_core_content.GetName())
+				if a_core_content.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_core_content.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -3960,7 +4092,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_DATATYPES_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatypes.GetName())
+				if a_datatypes.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatypes.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4011,7 +4147,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_DATATYPE_DEFINITION_BOOLEAN_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_boolean_ref.GetName())
+				if a_datatype_definition_boolean_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_boolean_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4062,7 +4202,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_DATATYPE_DEFINITION_DATE_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_date_ref.GetName())
+				if a_datatype_definition_date_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_date_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4113,7 +4257,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_DATATYPE_DEFINITION_ENUMERATION_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_enumeration_ref.GetName())
+				if a_datatype_definition_enumeration_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_enumeration_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4164,7 +4312,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_DATATYPE_DEFINITION_INTEGER_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_integer_ref.GetName())
+				if a_datatype_definition_integer_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_integer_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4215,7 +4367,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_DATATYPE_DEFINITION_REAL_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_real_ref.GetName())
+				if a_datatype_definition_real_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_real_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4266,7 +4422,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_DATATYPE_DEFINITION_STRING_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_string_ref.GetName())
+				if a_datatype_definition_string_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_string_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4317,7 +4477,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_DATATYPE_DEFINITION_XHTML_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_xhtml_ref.GetName())
+				if a_datatype_definition_xhtml_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_datatype_definition_xhtml_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4368,7 +4532,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_EDITABLE_ATTS_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_editable_atts.GetName())
+				if a_editable_atts.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_editable_atts.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4419,7 +4587,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_ENUM_VALUE_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_enum_value_ref.GetName())
+				if a_enum_value_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_enum_value_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4470,7 +4642,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_OBJECT_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_object.GetName())
+				if a_object.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_object.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4521,7 +4697,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_PROPERTIES_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_properties.GetName())
+				if a_properties.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_properties.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4572,7 +4752,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_RELATION_GROUP_TYPE_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_relation_group_type_ref.GetName())
+				if a_relation_group_type_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_relation_group_type_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4623,7 +4807,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_SOURCE_1_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_source_1.GetName())
+				if a_source_1.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_source_1.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4674,7 +4862,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_SOURCE_SPECIFICATION_1_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_source_specification_1.GetName())
+				if a_source_specification_1.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_source_specification_1.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4725,7 +4917,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_SPECIFICATIONS_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_specifications.GetName())
+				if a_specifications.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_specifications.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4776,7 +4972,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_SPECIFICATION_TYPE_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_specification_type_ref.GetName())
+				if a_specification_type_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_specification_type_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4827,7 +5027,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_SPECIFIED_VALUES_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_specified_values.GetName())
+				if a_specified_values.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_specified_values.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4878,7 +5082,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_SPEC_ATTRIBUTES_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_attributes.GetName())
+				if a_spec_attributes.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_attributes.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4929,7 +5137,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_SPEC_OBJECTS_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_objects.GetName())
+				if a_spec_objects.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_objects.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -4980,7 +5192,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_SPEC_OBJECT_TYPE_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_object_type_ref.GetName())
+				if a_spec_object_type_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_object_type_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5031,7 +5247,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_SPEC_RELATIONS_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_relations.GetName())
+				if a_spec_relations.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_relations.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5082,7 +5302,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_SPEC_RELATION_GROUPS_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_relation_groups.GetName())
+				if a_spec_relation_groups.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_relation_groups.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5133,7 +5357,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_SPEC_RELATION_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_relation_ref.GetName())
+				if a_spec_relation_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_relation_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5184,7 +5412,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_SPEC_RELATION_TYPE_REF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_relation_type_ref.GetName())
+				if a_spec_relation_type_ref.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_relation_type_ref.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5235,7 +5467,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_SPEC_TYPES_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_types.GetName())
+				if a_spec_types.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_spec_types.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5286,7 +5522,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_THE_HEADER_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_the_header.GetName())
+				if a_the_header.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_the_header.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5337,7 +5577,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.A_TOOL_EXTENSIONS_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", a_tool_extensions.GetName())
+				if a_tool_extensions.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", a_tool_extensions.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5388,7 +5632,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.DATATYPE_DEFINITION_BOOLEAN_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_boolean.GetName())
+				if datatype_definition_boolean.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_boolean.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5439,7 +5687,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.DATATYPE_DEFINITION_DATE_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_date.GetName())
+				if datatype_definition_date.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_date.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5490,7 +5742,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.DATATYPE_DEFINITION_ENUMERATION_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_enumeration.GetName())
+				if datatype_definition_enumeration.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_enumeration.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5541,7 +5797,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.DATATYPE_DEFINITION_INTEGER_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_integer.GetName())
+				if datatype_definition_integer.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_integer.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5592,7 +5852,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.DATATYPE_DEFINITION_REAL_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_real.GetName())
+				if datatype_definition_real.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_real.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5643,7 +5907,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.DATATYPE_DEFINITION_STRING_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_string.GetName())
+				if datatype_definition_string.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_string.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5694,7 +5962,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.DATATYPE_DEFINITION_XHTML_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_xhtml.GetName())
+				if datatype_definition_xhtml.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", datatype_definition_xhtml.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5745,7 +6017,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.EMBEDDED_VALUE_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", embedded_value.GetName())
+				if embedded_value.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", embedded_value.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5796,7 +6072,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.ENUM_VALUE_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", enum_value.GetName())
+				if enum_value.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", enum_value.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5847,7 +6127,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.RELATION_GROUP_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", relation_group.GetName())
+				if relation_group.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", relation_group.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5898,7 +6182,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.RELATION_GROUP_TYPE_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", relation_group_type.GetName())
+				if relation_group_type.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", relation_group_type.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -5949,7 +6237,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.REQ_IF_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", req_if.GetName())
+				if req_if.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", req_if.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -6000,7 +6292,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.REQ_IF_CONTENT_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", req_if_content.GetName())
+				if req_if_content.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", req_if_content.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -6051,7 +6347,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.REQ_IF_HEADER_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", req_if_header.GetName())
+				if req_if_header.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", req_if_header.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -6102,7 +6402,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.REQ_IF_TOOL_EXTENSION_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", req_if_tool_extension.GetName())
+				if req_if_tool_extension.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", req_if_tool_extension.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -6153,7 +6457,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.SPECIFICATION_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", specification.GetName())
+				if specification.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", specification.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -6204,7 +6512,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.SPECIFICATION_TYPE_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", specification_type.GetName())
+				if specification_type.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", specification_type.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -6255,7 +6567,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.SPEC_HIERARCHY_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", spec_hierarchy.GetName())
+				if spec_hierarchy.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", spec_hierarchy.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -6306,7 +6622,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.SPEC_OBJECT_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", spec_object.GetName())
+				if spec_object.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", spec_object.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -6357,7 +6677,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.SPEC_OBJECT_TYPE_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", spec_object_type.GetName())
+				if spec_object_type.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", spec_object_type.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -6408,7 +6732,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.SPEC_RELATION_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", spec_relation.GetName())
+				if spec_relation.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", spec_relation.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -6459,7 +6787,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.SPEC_RELATION_TYPE_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", spec_relation_type.GetName())
+				if spec_relation_type.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", spec_relation_type.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -6510,7 +6842,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.XHTML_CONTENT_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", xhtml_content.GetName())
+				if xhtml_content.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", xhtml_content.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}

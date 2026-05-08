@@ -185,7 +185,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Checkbox_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", checkbox.GetName())
+				if checkbox.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", checkbox.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -236,7 +240,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Group_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", group.GetName())
+				if group.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", group.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -287,7 +295,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Layout_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", layout.GetName())
+				if layout.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", layout.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -338,7 +350,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Slider_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", slider.GetName())
+				if slider.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", slider.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}

@@ -185,7 +185,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.BookType_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", booktype.GetName())
+				if booktype.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", booktype.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -236,7 +240,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Books_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", books.GetName())
+				if books.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", books.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -287,7 +295,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Credit_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", credit.GetName())
+				if credit.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", credit.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -338,7 +350,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.Link_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", link.GetName())
+				if link.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", link.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}

@@ -215,7 +215,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.DisplaySelection_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", displayselection.GetName())
+				if displayselection.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", displayselection.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -266,7 +270,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.XLCell_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", xlcell.GetName())
+				if xlcell.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", xlcell.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -317,7 +325,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.XLFile_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", xlfile.GetName())
+				if xlfile.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", xlfile.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -368,7 +380,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.XLRow_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", xlrow.GetName())
+				if xlrow.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", xlrow.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
@@ -419,7 +435,11 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 			// delete(stage.XLSheet_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				fieldsEdit += fmt.Sprintf("\n\t// %s", xlsheet.GetName())
+				if xlsheet.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", xlsheet.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
 				for _, diff := range diffs {
 					fieldsEdit += diff
 				}
