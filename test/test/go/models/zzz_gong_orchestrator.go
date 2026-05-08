@@ -12,6 +12,7 @@ func (orchestrator *AstructOrchestrator) OnAfterUpdate(
 
 	stagedAstruct.OnAfterUpdate(gongsvgStage, stagedAstruct, backRepoAstruct)
 }
+
 // BstructOrchestrator
 type BstructOrchestrator struct {
 }

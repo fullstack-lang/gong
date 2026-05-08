@@ -246,14 +246,14 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, formfieldAssocEnd := range formdiv.FormFields {
 			formfieldAssocEnd_DB :=
 				backRepo.BackRepoFormField.GetFormFieldDBFromFormFieldPtr(formfieldAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the formfieldAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if formfieldAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			formdivDB.FormDivPointersEncoding.FormFields =
 				append(formdivDB.FormDivPointersEncoding.FormFields, int(formfieldAssocEnd_DB.ID))
 		}
@@ -264,14 +264,14 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, checkboxAssocEnd := range formdiv.CheckBoxs {
 			checkboxAssocEnd_DB :=
 				backRepo.BackRepoCheckBox.GetCheckBoxDBFromCheckBoxPtr(checkboxAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the checkboxAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if checkboxAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			formdivDB.FormDivPointersEncoding.CheckBoxs =
 				append(formdivDB.FormDivPointersEncoding.CheckBoxs, int(checkboxAssocEnd_DB.ID))
 		}
@@ -430,7 +430,7 @@ func (formdivDB *FormDivDB) DecodePointers(backRepo *BackRepoStruct, formdiv *mo
 		formdiv.CheckBoxs = append(formdiv.CheckBoxs, backRepo.BackRepoCheckBox.Map_CheckBoxDBID_CheckBoxPtr[uint(_CheckBoxid)])
 	}
 
-	// FormEditAssocButton field	
+	// FormEditAssocButton field
 	{
 		id := formdivDB.FormEditAssocButtonID.Int64
 		if id != 0 {
@@ -450,8 +450,8 @@ func (formdivDB *FormDivDB) DecodePointers(backRepo *BackRepoStruct, formdiv *mo
 			formdiv.FormEditAssocButton = nil
 		}
 	}
-	
-	// FormSortAssocButton field	
+
+	// FormSortAssocButton field
 	{
 		id := formdivDB.FormSortAssocButtonID.Int64
 		if id != 0 {
@@ -471,7 +471,7 @@ func (formdivDB *FormDivDB) DecodePointers(backRepo *BackRepoStruct, formdiv *mo
 			formdiv.FormSortAssocButton = nil
 		}
 	}
-	
+
 }
 
 // CommitFormDiv allows commit of a single formdiv (if already staged)

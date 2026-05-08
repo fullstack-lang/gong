@@ -579,7 +579,7 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CheckoutPhaseTwoInstance(b
 func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, assplitarea *models.AsSplitArea) {
 
 	// insertion point for checkout of pointer encoding
-	// AsSplit field	
+	// AsSplit field
 	{
 		id := assplitareaDB.AsSplitID.Int64
 		if id != 0 {
@@ -599,8 +599,8 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			assplitarea.AsSplit = nil
 		}
 	}
-	
-	// Button field	
+
+	// Button field
 	{
 		id := assplitareaDB.ButtonID.Int64
 		if id != 0 {
@@ -620,8 +620,8 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			assplitarea.Button = nil
 		}
 	}
-	
-	// Cursor field	
+
+	// Cursor field
 	{
 		id := assplitareaDB.CursorID.Int64
 		if id != 0 {
@@ -641,8 +641,8 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			assplitarea.Cursor = nil
 		}
 	}
-	
-	// Form field	
+
+	// Form field
 	{
 		id := assplitareaDB.FormID.Int64
 		if id != 0 {
@@ -662,8 +662,8 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			assplitarea.Form = nil
 		}
 	}
-	
-	// Load field	
+
+	// Load field
 	{
 		id := assplitareaDB.LoadID.Int64
 		if id != 0 {
@@ -683,8 +683,8 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			assplitarea.Load = nil
 		}
 	}
-	
-	// Markdown field	
+
+	// Markdown field
 	{
 		id := assplitareaDB.MarkdownID.Int64
 		if id != 0 {
@@ -704,8 +704,8 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			assplitarea.Markdown = nil
 		}
 	}
-	
-	// Slider field	
+
+	// Slider field
 	{
 		id := assplitareaDB.SliderID.Int64
 		if id != 0 {
@@ -725,8 +725,8 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			assplitarea.Slider = nil
 		}
 	}
-	
-	// Split field	
+
+	// Split field
 	{
 		id := assplitareaDB.SplitID.Int64
 		if id != 0 {
@@ -746,8 +746,8 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			assplitarea.Split = nil
 		}
 	}
-	
-	// Svg field	
+
+	// Svg field
 	{
 		id := assplitareaDB.SvgID.Int64
 		if id != 0 {
@@ -767,8 +767,8 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			assplitarea.Svg = nil
 		}
 	}
-	
-	// Table field	
+
+	// Table field
 	{
 		id := assplitareaDB.TableID.Int64
 		if id != 0 {
@@ -788,8 +788,8 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			assplitarea.Table = nil
 		}
 	}
-	
-	// Tone field	
+
+	// Tone field
 	{
 		id := assplitareaDB.ToneID.Int64
 		if id != 0 {
@@ -809,8 +809,8 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			assplitarea.Tone = nil
 		}
 	}
-	
-	// Tree field	
+
+	// Tree field
 	{
 		id := assplitareaDB.TreeID.Int64
 		if id != 0 {
@@ -830,8 +830,8 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			assplitarea.Tree = nil
 		}
 	}
-	
-	// Xlsx field	
+
+	// Xlsx field
 	{
 		id := assplitareaDB.XlsxID.Int64
 		if id != 0 {
@@ -851,7 +851,7 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			assplitarea.Xlsx = nil
 		}
 	}
-	
+
 }
 
 // CommitAsSplitArea allows commit of a single assplitarea (if already staged)

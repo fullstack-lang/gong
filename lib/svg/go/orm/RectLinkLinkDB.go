@@ -424,7 +424,7 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CheckoutPhaseTwoInstance
 func (rectlinklinkDB *RectLinkLinkDB) DecodePointers(backRepo *BackRepoStruct, rectlinklink *models.RectLinkLink) {
 
 	// insertion point for checkout of pointer encoding
-	// Start field	
+	// Start field
 	{
 		id := rectlinklinkDB.StartID.Int64
 		if id != 0 {
@@ -444,8 +444,8 @@ func (rectlinklinkDB *RectLinkLinkDB) DecodePointers(backRepo *BackRepoStruct, r
 			rectlinklink.Start = nil
 		}
 	}
-	
-	// End field	
+
+	// End field
 	{
 		id := rectlinklinkDB.EndID.Int64
 		if id != 0 {
@@ -465,7 +465,7 @@ func (rectlinklinkDB *RectLinkLinkDB) DecodePointers(backRepo *BackRepoStruct, r
 			rectlinklink.End = nil
 		}
 	}
-	
+
 }
 
 // CommitRectLinkLink allows commit of a single rectlinklink (if already staged)
