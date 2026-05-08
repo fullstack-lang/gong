@@ -197,7 +197,7 @@ func (stager *Stager) treeDiagrams() {
 				diagramStateNode.HasCheckboxButton = true
 				diagramStateNode.IsNodeClickable = true
 				diagramStateNode.IsInEditMode = state.isInRenameMode
-				diagramStateNode.IsExpanded = slices.Index(diagram.StatesWhoseNodeIsExpanded, state) != -1
+				diagramStateNode.IsExpanded = slices.Contains(diagram.StatesWhoseNodeIsExpanded, state)
 
 				if !state.isInRenameMode {
 					diagramStateNode.Buttons = append(diagramStateNode.Buttons,
