@@ -257,14 +257,14 @@ func (backRepoA *BackRepoAStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 		for _, bAssocEnd := range a.Bs {
 			bAssocEnd_DB :=
 				backRepo.BackRepoB.GetBDBFromBPtr(bAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the bAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if bAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			aDB.APointersEncoding.Bs =
 				append(aDB.APointersEncoding.Bs, int(bAssocEnd_DB.ID))
 		}
@@ -381,7 +381,7 @@ func (backRepoA *BackRepoAStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStr
 func (aDB *ADB) DecodePointers(backRepo *BackRepoStruct, a *models.A) {
 
 	// insertion point for checkout of pointer encoding
-	// B field	
+	// B field
 	{
 		id := aDB.BID.Int64
 		if id != 0 {
@@ -401,7 +401,7 @@ func (aDB *ADB) DecodePointers(backRepo *BackRepoStruct, a *models.A) {
 			a.B = nil
 		}
 	}
-	
+
 	// This loop redeem a.Bs in the stage from the encode in the back repo
 	// It parses all BDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance

@@ -366,7 +366,7 @@ func (backRepoCommand *BackRepoCommandStruct) CheckoutPhaseTwoInstance(backRepo 
 func (commandDB *CommandDB) DecodePointers(backRepo *BackRepoStruct, command *models.Command) {
 
 	// insertion point for checkout of pointer encoding
-	// Engine field	
+	// Engine field
 	{
 		id := commandDB.EngineID.Int64
 		if id != 0 {
@@ -386,7 +386,7 @@ func (commandDB *CommandDB) DecodePointers(backRepo *BackRepoStruct, command *mo
 			command.Engine = nil
 		}
 	}
-	
+
 }
 
 // CommitCommand allows commit of a single command (if already staged)

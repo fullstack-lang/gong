@@ -418,7 +418,7 @@ func (backRepoCell *BackRepoCellStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 func (cellDB *CellDB) DecodePointers(backRepo *BackRepoStruct, cell *models.Cell) {
 
 	// insertion point for checkout of pointer encoding
-	// CellString field	
+	// CellString field
 	{
 		id := cellDB.CellStringID.Int64
 		if id != 0 {
@@ -438,8 +438,8 @@ func (cellDB *CellDB) DecodePointers(backRepo *BackRepoStruct, cell *models.Cell
 			cell.CellString = nil
 		}
 	}
-	
-	// CellFloat64 field	
+
+	// CellFloat64 field
 	{
 		id := cellDB.CellFloat64ID.Int64
 		if id != 0 {
@@ -459,8 +459,8 @@ func (cellDB *CellDB) DecodePointers(backRepo *BackRepoStruct, cell *models.Cell
 			cell.CellFloat64 = nil
 		}
 	}
-	
-	// CellInt field	
+
+	// CellInt field
 	{
 		id := cellDB.CellIntID.Int64
 		if id != 0 {
@@ -480,8 +480,8 @@ func (cellDB *CellDB) DecodePointers(backRepo *BackRepoStruct, cell *models.Cell
 			cell.CellInt = nil
 		}
 	}
-	
-	// CellBool field	
+
+	// CellBool field
 	{
 		id := cellDB.CellBoolID.Int64
 		if id != 0 {
@@ -501,8 +501,8 @@ func (cellDB *CellDB) DecodePointers(backRepo *BackRepoStruct, cell *models.Cell
 			cell.CellBool = nil
 		}
 	}
-	
-	// CellIcon field	
+
+	// CellIcon field
 	{
 		id := cellDB.CellIconID.Int64
 		if id != 0 {
@@ -522,7 +522,7 @@ func (cellDB *CellDB) DecodePointers(backRepo *BackRepoStruct, cell *models.Cell
 			cell.CellIcon = nil
 		}
 	}
-	
+
 }
 
 // CommitCell allows commit of a single cell (if already staged)

@@ -12,6 +12,7 @@ func (orchestrator *FormEditAssocButtonOrchestrator) OnAfterUpdate(
 
 	stagedFormEditAssocButton.OnAfterUpdate(gongsvgStage, stagedFormEditAssocButton, backRepoFormEditAssocButton)
 }
+
 // FormGroupOrchestrator
 type FormGroupOrchestrator struct {
 }
@@ -22,6 +23,7 @@ func (orchestrator *FormGroupOrchestrator) OnAfterUpdate(
 
 	stagedFormGroup.OnAfterUpdate(gongsvgStage, stagedFormGroup, backRepoFormGroup)
 }
+
 // FormSortAssocButtonOrchestrator
 type FormSortAssocButtonOrchestrator struct {
 }

@@ -12,6 +12,7 @@ func (orchestrator *ButtonOrchestrator) OnAfterUpdate(
 
 	stagedButton.OnAfterUpdate(gongsvgStage, stagedButton, backRepoButton)
 }
+
 // CellIconOrchestrator
 type CellIconOrchestrator struct {
 }
@@ -22,6 +23,7 @@ func (orchestrator *CellIconOrchestrator) OnAfterUpdate(
 
 	stagedCellIcon.OnAfterUpdate(gongsvgStage, stagedCellIcon, backRepoCellIcon)
 }
+
 // RowOrchestrator
 type RowOrchestrator struct {
 }
@@ -32,6 +34,7 @@ func (orchestrator *RowOrchestrator) OnAfterUpdate(
 
 	stagedRow.OnAfterUpdate(gongsvgStage, stagedRow, backRepoRow)
 }
+
 // TableOrchestrator
 type TableOrchestrator struct {
 }

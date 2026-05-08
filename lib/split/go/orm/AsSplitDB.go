@@ -261,14 +261,14 @@ func (backRepoAsSplit *BackRepoAsSplitStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, assplitareaAssocEnd := range assplit.AsSplitAreas {
 			assplitareaAssocEnd_DB :=
 				backRepo.BackRepoAsSplitArea.GetAsSplitAreaDBFromAsSplitAreaPtr(assplitareaAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the assplitareaAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if assplitareaAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			assplitDB.AsSplitPointersEncoding.AsSplitAreas =
 				append(assplitDB.AsSplitPointersEncoding.AsSplitAreas, int(assplitareaAssocEnd_DB.ID))
 		}

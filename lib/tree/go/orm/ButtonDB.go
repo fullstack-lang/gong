@@ -386,7 +386,7 @@ func (backRepoButton *BackRepoButtonStruct) CheckoutPhaseTwoInstance(backRepo *B
 func (buttonDB *ButtonDB) DecodePointers(backRepo *BackRepoStruct, button *models.Button) {
 
 	// insertion point for checkout of pointer encoding
-	// SVGIcon field	
+	// SVGIcon field
 	{
 		id := buttonDB.SVGIconID.Int64
 		if id != 0 {
@@ -406,7 +406,7 @@ func (buttonDB *ButtonDB) DecodePointers(backRepo *BackRepoStruct, button *model
 			button.SVGIcon = nil
 		}
 	}
-	
+
 }
 
 // CommitButton allows commit of a single button (if already staged)

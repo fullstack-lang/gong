@@ -379,7 +379,7 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CheckoutPh
 func (formsortassocbuttonDB *FormSortAssocButtonDB) DecodePointers(backRepo *BackRepoStruct, formsortassocbutton *models.FormSortAssocButton) {
 
 	// insertion point for checkout of pointer encoding
-	// FormEditAssocButton field	
+	// FormEditAssocButton field
 	{
 		id := formsortassocbuttonDB.FormEditAssocButtonID.Int64
 		if id != 0 {
@@ -399,7 +399,7 @@ func (formsortassocbuttonDB *FormSortAssocButtonDB) DecodePointers(backRepo *Bac
 			formsortassocbutton.FormEditAssocButton = nil
 		}
 	}
-	
+
 }
 
 // CommitFormSortAssocButton allows commit of a single formsortassocbutton (if already staged)

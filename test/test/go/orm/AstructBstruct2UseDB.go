@@ -354,7 +354,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CheckoutPhas
 func (astructbstruct2useDB *AstructBstruct2UseDB) DecodePointers(backRepo *BackRepoStruct, astructbstruct2use *models.AstructBstruct2Use) {
 
 	// insertion point for checkout of pointer encoding
-	// Bstrcut2 field	
+	// Bstrcut2 field
 	{
 		id := astructbstruct2useDB.Bstrcut2ID.Int64
 		if id != 0 {
@@ -374,7 +374,7 @@ func (astructbstruct2useDB *AstructBstruct2UseDB) DecodePointers(backRepo *BackR
 			astructbstruct2use.Bstrcut2 = nil
 		}
 	}
-	
+
 }
 
 // CommitAstructBstruct2Use allows commit of a single astructbstruct2use (if already staged)

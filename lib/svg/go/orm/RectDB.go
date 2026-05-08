@@ -494,14 +494,14 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, conditionAssocEnd := range rect.HoveringTrigger {
 			conditionAssocEnd_DB :=
 				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if conditionAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			rectDB.RectPointersEncoding.HoveringTrigger =
 				append(rectDB.RectPointersEncoding.HoveringTrigger, int(conditionAssocEnd_DB.ID))
 		}
@@ -512,14 +512,14 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, conditionAssocEnd := range rect.DisplayConditions {
 			conditionAssocEnd_DB :=
 				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if conditionAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			rectDB.RectPointersEncoding.DisplayConditions =
 				append(rectDB.RectPointersEncoding.DisplayConditions, int(conditionAssocEnd_DB.ID))
 		}
@@ -530,14 +530,14 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, animateAssocEnd := range rect.Animations {
 			animateAssocEnd_DB :=
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the animateAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if animateAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			rectDB.RectPointersEncoding.Animations =
 				append(rectDB.RectPointersEncoding.Animations, int(animateAssocEnd_DB.ID))
 		}
@@ -548,14 +548,14 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, rectanchoredtextAssocEnd := range rect.RectAnchoredTexts {
 			rectanchoredtextAssocEnd_DB :=
 				backRepo.BackRepoRectAnchoredText.GetRectAnchoredTextDBFromRectAnchoredTextPtr(rectanchoredtextAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the rectanchoredtextAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if rectanchoredtextAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			rectDB.RectPointersEncoding.RectAnchoredTexts =
 				append(rectDB.RectPointersEncoding.RectAnchoredTexts, int(rectanchoredtextAssocEnd_DB.ID))
 		}
@@ -566,14 +566,14 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, rectanchoredrectAssocEnd := range rect.RectAnchoredRects {
 			rectanchoredrectAssocEnd_DB :=
 				backRepo.BackRepoRectAnchoredRect.GetRectAnchoredRectDBFromRectAnchoredRectPtr(rectanchoredrectAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the rectanchoredrectAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if rectanchoredrectAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			rectDB.RectPointersEncoding.RectAnchoredRects =
 				append(rectDB.RectPointersEncoding.RectAnchoredRects, int(rectanchoredrectAssocEnd_DB.ID))
 		}
@@ -584,14 +584,14 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, rectanchoredpathAssocEnd := range rect.RectAnchoredPaths {
 			rectanchoredpathAssocEnd_DB :=
 				backRepo.BackRepoRectAnchoredPath.GetRectAnchoredPathDBFromRectAnchoredPathPtr(rectanchoredpathAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the rectanchoredpathAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if rectanchoredpathAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			rectDB.RectPointersEncoding.RectAnchoredPaths =
 				append(rectDB.RectPointersEncoding.RectAnchoredPaths, int(rectanchoredpathAssocEnd_DB.ID))
 		}
@@ -602,14 +602,14 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, rectanchoredpngimageAssocEnd := range rect.RectAnchoredPngImages {
 			rectanchoredpngimageAssocEnd_DB :=
 				backRepo.BackRepoRectAnchoredPngImage.GetRectAnchoredPngImageDBFromRectAnchoredPngImagePtr(rectanchoredpngimageAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the rectanchoredpngimageAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if rectanchoredpngimageAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			rectDB.RectPointersEncoding.RectAnchoredPngImages =
 				append(rectDB.RectPointersEncoding.RectAnchoredPngImages, int(rectanchoredpngimageAssocEnd_DB.ID))
 		}
@@ -801,7 +801,7 @@ func (rectDB *RectDB) DecodePointers(backRepo *BackRepoStruct, rect *models.Rect
 		rect.RectAnchoredPngImages = append(rect.RectAnchoredPngImages, backRepo.BackRepoRectAnchoredPngImage.Map_RectAnchoredPngImageDBID_RectAnchoredPngImagePtr[uint(_RectAnchoredPngImageid)])
 	}
 
-	// EnclosingRect field	
+	// EnclosingRect field
 	{
 		id := rectDB.EnclosingRectID.Int64
 		if id != 0 {
@@ -821,7 +821,7 @@ func (rectDB *RectDB) DecodePointers(backRepo *BackRepoStruct, rect *models.Rect
 			rect.EnclosingRect = nil
 		}
 	}
-	
+
 }
 
 // CommitRect allows commit of a single rect (if already staged)

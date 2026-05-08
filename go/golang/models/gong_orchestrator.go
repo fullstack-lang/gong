@@ -4,7 +4,6 @@ const ModelGongOrchestratorFileTemplate = `// generated code - do not edit
 package models
 
 // insertion point{{` + string(rune(ModelGongOrchestratorStruct)) + `}}
-
 func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 
 	var ret Type
@@ -36,7 +35,8 @@ func (orchestrator *{{Structname}}Orchestrator) OnAfterUpdate(
 	staged{{Structname}}, backRepo{{Structname}} *{{Structname}}) {
 
 	staged{{Structname}}.OnAfterUpdate(gongsvgStage, staged{{Structname}}, backRepo{{Structname}})
-}`,
+}
+`,
 	string(rune(ModelGongOrchestratorSwitch)): `
 	case {{Structname}}:
 		stage.OnAfter{{Structname}}UpdateCallback = new({{Structname}}Orchestrator)`,

@@ -309,14 +309,14 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 		for _, layerAssocEnd := range svg.Layers {
 			layerAssocEnd_DB :=
 				backRepo.BackRepoLayer.GetLayerDBFromLayerPtr(layerAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the layerAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if layerAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			svgDB.SVGPointersEncoding.Layers =
 				append(svgDB.SVGPointersEncoding.Layers, int(layerAssocEnd_DB.ID))
 		}
@@ -466,7 +466,7 @@ func (svgDB *SVGDB) DecodePointers(backRepo *BackRepoStruct, svg *models.SVG) {
 		svg.Layers = append(svg.Layers, backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[uint(_Layerid)])
 	}
 
-	// StartRect field	
+	// StartRect field
 	{
 		id := svgDB.StartRectID.Int64
 		if id != 0 {
@@ -486,8 +486,8 @@ func (svgDB *SVGDB) DecodePointers(backRepo *BackRepoStruct, svg *models.SVG) {
 			svg.StartRect = nil
 		}
 	}
-	
-	// EndRect field	
+
+	// EndRect field
 	{
 		id := svgDB.EndRectID.Int64
 		if id != 0 {
@@ -507,7 +507,7 @@ func (svgDB *SVGDB) DecodePointers(backRepo *BackRepoStruct, svg *models.SVG) {
 			svg.EndRect = nil
 		}
 	}
-	
+
 }
 
 // CommitSVG allows commit of a single svg (if already staged)

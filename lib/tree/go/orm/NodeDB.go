@@ -418,14 +418,14 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, nodeAssocEnd := range node.Children {
 			nodeAssocEnd_DB :=
 				backRepo.BackRepoNode.GetNodeDBFromNodePtr(nodeAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the nodeAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if nodeAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			nodeDB.NodePointersEncoding.Children =
 				append(nodeDB.NodePointersEncoding.Children, int(nodeAssocEnd_DB.ID))
 		}
@@ -436,14 +436,14 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, buttonAssocEnd := range node.Buttons {
 			buttonAssocEnd_DB :=
 				backRepo.BackRepoButton.GetButtonDBFromButtonPtr(buttonAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the buttonAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if buttonAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			nodeDB.NodePointersEncoding.Buttons =
 				append(nodeDB.NodePointersEncoding.Buttons, int(buttonAssocEnd_DB.ID))
 		}
@@ -560,7 +560,7 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 func (nodeDB *NodeDB) DecodePointers(backRepo *BackRepoStruct, node *models.Node) {
 
 	// insertion point for checkout of pointer encoding
-	// PreceedingSVGIcon field	
+	// PreceedingSVGIcon field
 	{
 		id := nodeDB.PreceedingSVGIconID.Int64
 		if id != 0 {
@@ -580,7 +580,7 @@ func (nodeDB *NodeDB) DecodePointers(backRepo *BackRepoStruct, node *models.Node
 			node.PreceedingSVGIcon = nil
 		}
 	}
-	
+
 	// This loop redeem node.Children in the stage from the encode in the back repo
 	// It parses all NodeDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance

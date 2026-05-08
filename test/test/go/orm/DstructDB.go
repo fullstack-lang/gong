@@ -242,14 +242,14 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, bstructAssocEnd := range dstruct.Anarrayofb {
 			bstructAssocEnd_DB :=
 				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the bstructAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if bstructAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			dstructDB.DstructPointersEncoding.Anarrayofb =
 				append(dstructDB.DstructPointersEncoding.Anarrayofb, int(bstructAssocEnd_DB.ID))
 		}
@@ -272,14 +272,14 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, gstructAssocEnd := range dstruct.Gstructs {
 			gstructAssocEnd_DB :=
 				backRepo.BackRepoGstruct.GetGstructDBFromGstructPtr(gstructAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the gstructAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if gstructAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			dstructDB.DstructPointersEncoding.Gstructs =
 				append(dstructDB.DstructPointersEncoding.Gstructs, int(gstructAssocEnd_DB.ID))
 		}
@@ -405,7 +405,7 @@ func (dstructDB *DstructDB) DecodePointers(backRepo *BackRepoStruct, dstruct *mo
 		dstruct.Anarrayofb = append(dstruct.Anarrayofb, backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(_Bstructid)])
 	}
 
-	// Gstruct field	
+	// Gstruct field
 	{
 		id := dstructDB.GstructID.Int64
 		if id != 0 {
@@ -425,7 +425,7 @@ func (dstructDB *DstructDB) DecodePointers(backRepo *BackRepoStruct, dstruct *mo
 			dstruct.Gstruct = nil
 		}
 	}
-	
+
 	// This loop redeem dstruct.Gstructs in the stage from the encode in the back repo
 	// It parses all GstructDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance

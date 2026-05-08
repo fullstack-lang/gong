@@ -336,7 +336,6 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/button/go, Unkown type")
 	}
-	
+
 	return db, nil
 }
-
