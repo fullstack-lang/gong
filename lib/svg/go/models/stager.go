@@ -5,4 +5,3 @@
 //
 // there can be no svg stager
 package models
-
