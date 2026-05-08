@@ -366,7 +366,7 @@ func (backRepoControlPoint *BackRepoControlPointStruct) CheckoutPhaseTwoInstance
 func (controlpointDB *ControlPointDB) DecodePointers(backRepo *BackRepoStruct, controlpoint *models.ControlPoint) {
 
 	// insertion point for checkout of pointer encoding
-	// ClosestRect field	
+	// ClosestRect field
 	{
 		id := controlpointDB.ClosestRectID.Int64
 		if id != 0 {
@@ -386,7 +386,7 @@ func (controlpointDB *ControlPointDB) DecodePointers(backRepo *BackRepoStruct, c
 			controlpoint.ClosestRect = nil
 		}
 	}
-	
+
 }
 
 // CommitControlPoint allows commit of a single controlpoint (if already staged)

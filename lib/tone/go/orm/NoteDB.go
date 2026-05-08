@@ -259,14 +259,14 @@ func (backRepoNote *BackRepoNoteStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, freqencyAssocEnd := range note.Frequencies {
 			freqencyAssocEnd_DB :=
 				backRepo.BackRepoFreqency.GetFreqencyDBFromFreqencyPtr(freqencyAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the freqencyAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if freqencyAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			noteDB.NotePointersEncoding.Frequencies =
 				append(noteDB.NotePointersEncoding.Frequencies, int(freqencyAssocEnd_DB.ID))
 		}

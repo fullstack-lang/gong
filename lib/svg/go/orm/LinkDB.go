@@ -441,14 +441,14 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, linkanchoredtextAssocEnd := range link.TextAtArrowStart {
 			linkanchoredtextAssocEnd_DB :=
 				backRepo.BackRepoLinkAnchoredText.GetLinkAnchoredTextDBFromLinkAnchoredTextPtr(linkanchoredtextAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the linkanchoredtextAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if linkanchoredtextAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			linkDB.LinkPointersEncoding.TextAtArrowStart =
 				append(linkDB.LinkPointersEncoding.TextAtArrowStart, int(linkanchoredtextAssocEnd_DB.ID))
 		}
@@ -459,14 +459,14 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, linkanchoredtextAssocEnd := range link.TextAtArrowEnd {
 			linkanchoredtextAssocEnd_DB :=
 				backRepo.BackRepoLinkAnchoredText.GetLinkAnchoredTextDBFromLinkAnchoredTextPtr(linkanchoredtextAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the linkanchoredtextAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if linkanchoredtextAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			linkDB.LinkPointersEncoding.TextAtArrowEnd =
 				append(linkDB.LinkPointersEncoding.TextAtArrowEnd, int(linkanchoredtextAssocEnd_DB.ID))
 		}
@@ -477,14 +477,14 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, linkanchoredtextAssocEnd := range link.TextAtCorner {
 			linkanchoredtextAssocEnd_DB :=
 				backRepo.BackRepoLinkAnchoredText.GetLinkAnchoredTextDBFromLinkAnchoredTextPtr(linkanchoredtextAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the linkanchoredtextAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if linkanchoredtextAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			linkDB.LinkPointersEncoding.TextAtCorner =
 				append(linkDB.LinkPointersEncoding.TextAtCorner, int(linkanchoredtextAssocEnd_DB.ID))
 		}
@@ -495,14 +495,14 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		for _, controlpointAssocEnd := range link.ControlPoints {
 			controlpointAssocEnd_DB :=
 				backRepo.BackRepoControlPoint.GetControlPointDBFromControlPointPtr(controlpointAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the controlpointAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if controlpointAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			linkDB.LinkPointersEncoding.ControlPoints =
 				append(linkDB.LinkPointersEncoding.ControlPoints, int(controlpointAssocEnd_DB.ID))
 		}
@@ -619,7 +619,7 @@ func (backRepoLink *BackRepoLinkStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 func (linkDB *LinkDB) DecodePointers(backRepo *BackRepoStruct, link *models.Link) {
 
 	// insertion point for checkout of pointer encoding
-	// Start field	
+	// Start field
 	{
 		id := linkDB.StartID.Int64
 		if id != 0 {
@@ -639,8 +639,8 @@ func (linkDB *LinkDB) DecodePointers(backRepo *BackRepoStruct, link *models.Link
 			link.Start = nil
 		}
 	}
-	
-	// End field	
+
+	// End field
 	{
 		id := linkDB.EndID.Int64
 		if id != 0 {
@@ -660,7 +660,7 @@ func (linkDB *LinkDB) DecodePointers(backRepo *BackRepoStruct, link *models.Link
 			link.End = nil
 		}
 	}
-	
+
 	// This loop redeem link.TextAtArrowStart in the stage from the encode in the back repo
 	// It parses all LinkAnchoredTextDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance

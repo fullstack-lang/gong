@@ -12,6 +12,7 @@ func (orchestrator *CheckboxOrchestrator) OnAfterUpdate(
 
 	stagedCheckbox.OnAfterUpdate(gongsvgStage, stagedCheckbox, backRepoCheckbox)
 }
+
 // SliderOrchestrator
 type SliderOrchestrator struct {
 }

@@ -39,7 +39,7 @@ func main() {
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
 	stack := level1stack.NewLevel1Stack("{{pkgname}}", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams)
-	
+
 	// refresh the probe, therefore we can see what has been unmarshalled
 	stack.Probe.Refresh()
 

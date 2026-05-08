@@ -248,14 +248,14 @@ func (backRepoLayout *BackRepoLayoutStruct) CommitPhaseTwoInstance(backRepo *Bac
 		for _, groupAssocEnd := range layout.Groups {
 			groupAssocEnd_DB :=
 				backRepo.BackRepoGroup.GetGroupDBFromGroupPtr(groupAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the groupAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if groupAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			layoutDB.LayoutPointersEncoding.Groups =
 				append(layoutDB.LayoutPointersEncoding.Groups, int(groupAssocEnd_DB.ID))
 		}

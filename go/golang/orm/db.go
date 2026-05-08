@@ -153,10 +153,9 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 	default:
 		return nil, errors.New("{{PkgPathRoot}}, Unkown type")
 	}
-	
+
 	return db, nil
 }
-
 `
 
 type DBliteInsertionPointId int

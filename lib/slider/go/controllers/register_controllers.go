@@ -198,11 +198,11 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	// Get the size of the JSON data in bytes
 	jsonSize := len(jsonData)
 
-    // Calculate the full SHA-256 hash
-    fullHash := sha256.Sum256(jsonData)
+	// Calculate the full SHA-256 hash
+	fullHash := sha256.Sum256(jsonData)
 
-    // Use the first 12 characters for a shorter, yet highly unique, signature
-    shortHash := hex.EncodeToString(fullHash[:])[0:12]
+	// Use the first 12 characters for a shorter, yet highly unique, signature
+	shortHash := hex.EncodeToString(fullHash[:])[0:12]
 	_ = shortHash
 
 	// Use WriteMessage to send the pre-marshaled JSON data.
@@ -299,19 +299,19 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 
 // formatBytes converts a size in bytes to a human-readable string (KB, MB, GB).
 func formatBytes(size int) string {
-    if size < 1024 {
-        return fmt.Sprintf("%d B", size)
-    }
-    sizeInKB := float64(size) / 1024.0
-    if sizeInKB < 1024.0 {
-        // For KB, show one decimal place if it's not a whole number
-        if math.Mod(sizeInKB, 1.0) == 0 {
-            return fmt.Sprintf("%.0f KB", sizeInKB)
-        }
-        return fmt.Sprintf("%.1f KB", sizeInKB)
-    }
-    sizeInMB := sizeInKB / 1024.0
-    return fmt.Sprintf("%.2f MB", sizeInMB)
+	if size < 1024 {
+		return fmt.Sprintf("%d B", size)
+	}
+	sizeInKB := float64(size) / 1024.0
+	if sizeInKB < 1024.0 {
+		// For KB, show one decimal place if it's not a whole number
+		if math.Mod(sizeInKB, 1.0) == 0 {
+			return fmt.Sprintf("%.0f KB", sizeInKB)
+		}
+		return fmt.Sprintf("%.1f KB", sizeInKB)
+	}
+	sizeInMB := sizeInKB / 1024.0
+	return fmt.Sprintf("%.2f MB", sizeInMB)
 }
 
 // swagger:route GET /commitfrombacknb backrepo GetLastCommitFromBackNb

@@ -248,14 +248,14 @@ func (backRepoGroupToogle *BackRepoGroupToogleStruct) CommitPhaseTwoInstance(bac
 		for _, buttontoggleAssocEnd := range grouptoogle.ButtonToggles {
 			buttontoggleAssocEnd_DB :=
 				backRepo.BackRepoButtonToggle.GetButtonToggleDBFromButtonTogglePtr(buttontoggleAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the buttontoggleAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if buttontoggleAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			grouptoogleDB.GroupTooglePointersEncoding.ButtonToggles =
 				append(grouptoogleDB.GroupTooglePointersEncoding.ButtonToggles, int(buttontoggleAssocEnd_DB.ID))
 		}

@@ -12,6 +12,7 @@ func (orchestrator *ButtonOrchestrator) OnAfterUpdate(
 
 	stagedButton.OnAfterUpdate(gongsvgStage, stagedButton, backRepoButton)
 }
+
 // NodeOrchestrator
 type NodeOrchestrator struct {
 }

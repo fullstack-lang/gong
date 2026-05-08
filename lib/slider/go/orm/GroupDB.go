@@ -244,14 +244,14 @@ func (backRepoGroup *BackRepoGroupStruct) CommitPhaseTwoInstance(backRepo *BackR
 		for _, sliderAssocEnd := range group.Sliders {
 			sliderAssocEnd_DB :=
 				backRepo.BackRepoSlider.GetSliderDBFromSliderPtr(sliderAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the sliderAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if sliderAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			groupDB.GroupPointersEncoding.Sliders =
 				append(groupDB.GroupPointersEncoding.Sliders, int(sliderAssocEnd_DB.ID))
 		}
@@ -262,14 +262,14 @@ func (backRepoGroup *BackRepoGroupStruct) CommitPhaseTwoInstance(backRepo *BackR
 		for _, checkboxAssocEnd := range group.Checkboxes {
 			checkboxAssocEnd_DB :=
 				backRepo.BackRepoCheckbox.GetCheckboxDBFromCheckboxPtr(checkboxAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the checkboxAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if checkboxAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			groupDB.GroupPointersEncoding.Checkboxes =
 				append(groupDB.GroupPointersEncoding.Checkboxes, int(checkboxAssocEnd_DB.ID))
 		}

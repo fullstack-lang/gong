@@ -494,7 +494,7 @@ func (backRepoFormField *BackRepoFormFieldStruct) CheckoutPhaseTwoInstance(backR
 func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfield *models.FormField) {
 
 	// insertion point for checkout of pointer encoding
-	// FormFieldString field	
+	// FormFieldString field
 	{
 		id := formfieldDB.FormFieldStringID.Int64
 		if id != 0 {
@@ -514,8 +514,8 @@ func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfie
 			formfield.FormFieldString = nil
 		}
 	}
-	
-	// FormFieldFloat64 field	
+
+	// FormFieldFloat64 field
 	{
 		id := formfieldDB.FormFieldFloat64ID.Int64
 		if id != 0 {
@@ -535,8 +535,8 @@ func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfie
 			formfield.FormFieldFloat64 = nil
 		}
 	}
-	
-	// FormFieldInt field	
+
+	// FormFieldInt field
 	{
 		id := formfieldDB.FormFieldIntID.Int64
 		if id != 0 {
@@ -556,8 +556,8 @@ func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfie
 			formfield.FormFieldInt = nil
 		}
 	}
-	
-	// FormFieldDate field	
+
+	// FormFieldDate field
 	{
 		id := formfieldDB.FormFieldDateID.Int64
 		if id != 0 {
@@ -577,8 +577,8 @@ func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfie
 			formfield.FormFieldDate = nil
 		}
 	}
-	
-	// FormFieldTime field	
+
+	// FormFieldTime field
 	{
 		id := formfieldDB.FormFieldTimeID.Int64
 		if id != 0 {
@@ -598,8 +598,8 @@ func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfie
 			formfield.FormFieldTime = nil
 		}
 	}
-	
-	// FormFieldDateTime field	
+
+	// FormFieldDateTime field
 	{
 		id := formfieldDB.FormFieldDateTimeID.Int64
 		if id != 0 {
@@ -619,8 +619,8 @@ func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfie
 			formfield.FormFieldDateTime = nil
 		}
 	}
-	
-	// FormFieldSelect field	
+
+	// FormFieldSelect field
 	{
 		id := formfieldDB.FormFieldSelectID.Int64
 		if id != 0 {
@@ -640,7 +640,7 @@ func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfie
 			formfield.FormFieldSelect = nil
 		}
 	}
-	
+
 }
 
 // CommitFormField allows commit of a single formfield (if already staged)
