@@ -125,7 +125,7 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 			firstBrace := strings.Index(content, "func _(stage *models.Stage) {")
 			if firstBrace != -1 {
 				firstBrace += len("func _(stage *models.Stage) {")
-				content = content[:firstBrace] + "\n}"
+				content = content[:firstBrace] + "\n}\n"
 			}
 		}
 
