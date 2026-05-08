@@ -670,7 +670,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		assplitDB, _ := instanceDB.(*AsSplitDB)
 		*assplitDB = *tmp
-		
+
 	case *AsSplitAreaDB:
 		tmp, ok := db.assplitareaDBs[uint(i)]
 
@@ -680,7 +680,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		assplitareaDB, _ := instanceDB.(*AsSplitAreaDB)
 		*assplitareaDB = *tmp
-		
+
 	case *ButtonDB:
 		tmp, ok := db.buttonDBs[uint(i)]
 
@@ -690,7 +690,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		buttonDB, _ := instanceDB.(*ButtonDB)
 		*buttonDB = *tmp
-		
+
 	case *CursorDB:
 		tmp, ok := db.cursorDBs[uint(i)]
 
@@ -700,7 +700,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		cursorDB, _ := instanceDB.(*CursorDB)
 		*cursorDB = *tmp
-		
+
 	case *FavIconDB:
 		tmp, ok := db.faviconDBs[uint(i)]
 
@@ -710,7 +710,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		faviconDB, _ := instanceDB.(*FavIconDB)
 		*faviconDB = *tmp
-		
+
 	case *FormDB:
 		tmp, ok := db.formDBs[uint(i)]
 
@@ -720,7 +720,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formDB, _ := instanceDB.(*FormDB)
 		*formDB = *tmp
-		
+
 	case *LoadDB:
 		tmp, ok := db.loadDBs[uint(i)]
 
@@ -730,7 +730,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		loadDB, _ := instanceDB.(*LoadDB)
 		*loadDB = *tmp
-		
+
 	case *LogoOnTheLeftDB:
 		tmp, ok := db.logoontheleftDBs[uint(i)]
 
@@ -740,7 +740,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		logoontheleftDB, _ := instanceDB.(*LogoOnTheLeftDB)
 		*logoontheleftDB = *tmp
-		
+
 	case *LogoOnTheRightDB:
 		tmp, ok := db.logoontherightDBs[uint(i)]
 
@@ -750,7 +750,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		logoontherightDB, _ := instanceDB.(*LogoOnTheRightDB)
 		*logoontherightDB = *tmp
-		
+
 	case *MarkdownDB:
 		tmp, ok := db.markdownDBs[uint(i)]
 
@@ -760,7 +760,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		markdownDB, _ := instanceDB.(*MarkdownDB)
 		*markdownDB = *tmp
-		
+
 	case *SliderDB:
 		tmp, ok := db.sliderDBs[uint(i)]
 
@@ -770,7 +770,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		sliderDB, _ := instanceDB.(*SliderDB)
 		*sliderDB = *tmp
-		
+
 	case *SplitDB:
 		tmp, ok := db.splitDBs[uint(i)]
 
@@ -780,7 +780,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		splitDB, _ := instanceDB.(*SplitDB)
 		*splitDB = *tmp
-		
+
 	case *SvgDB:
 		tmp, ok := db.svgDBs[uint(i)]
 
@@ -790,7 +790,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		svgDB, _ := instanceDB.(*SvgDB)
 		*svgDB = *tmp
-		
+
 	case *TableDB:
 		tmp, ok := db.tableDBs[uint(i)]
 
@@ -800,7 +800,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		tableDB, _ := instanceDB.(*TableDB)
 		*tableDB = *tmp
-		
+
 	case *TitleDB:
 		tmp, ok := db.titleDBs[uint(i)]
 
@@ -810,7 +810,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		titleDB, _ := instanceDB.(*TitleDB)
 		*titleDB = *tmp
-		
+
 	case *ToneDB:
 		tmp, ok := db.toneDBs[uint(i)]
 
@@ -820,7 +820,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		toneDB, _ := instanceDB.(*ToneDB)
 		*toneDB = *tmp
-		
+
 	case *TreeDB:
 		tmp, ok := db.treeDBs[uint(i)]
 
@@ -830,7 +830,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		treeDB, _ := instanceDB.(*TreeDB)
 		*treeDB = *tmp
-		
+
 	case *ViewDB:
 		tmp, ok := db.viewDBs[uint(i)]
 
@@ -840,7 +840,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		viewDB, _ := instanceDB.(*ViewDB)
 		*viewDB = *tmp
-		
+
 	case *XlsxDB:
 		tmp, ok := db.xlsxDBs[uint(i)]
 
@@ -850,7 +850,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		xlsxDB, _ := instanceDB.(*XlsxDB)
 		*xlsxDB = *tmp
-		
+
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/split/go, Unkown type")
 	}

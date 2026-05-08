@@ -23,7 +23,7 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Path_sql sql.NullBool
-var _ =  dummy_Path_sql
+var _ = dummy_Path_sql
 var dummy_Path_time time.Duration
 var _ = dummy_Path_time
 var dummy_Path_sort sort.Float64Slice

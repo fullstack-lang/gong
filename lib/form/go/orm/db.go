@@ -535,7 +535,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		checkboxDB, _ := instanceDB.(*CheckBoxDB)
 		*checkboxDB = *tmp
-		
+
 	case *FormDivDB:
 		tmp, ok := db.formdivDBs[uint(i)]
 
@@ -545,7 +545,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formdivDB, _ := instanceDB.(*FormDivDB)
 		*formdivDB = *tmp
-		
+
 	case *FormEditAssocButtonDB:
 		tmp, ok := db.formeditassocbuttonDBs[uint(i)]
 
@@ -555,7 +555,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formeditassocbuttonDB, _ := instanceDB.(*FormEditAssocButtonDB)
 		*formeditassocbuttonDB = *tmp
-		
+
 	case *FormFieldDB:
 		tmp, ok := db.formfieldDBs[uint(i)]
 
@@ -565,7 +565,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formfieldDB, _ := instanceDB.(*FormFieldDB)
 		*formfieldDB = *tmp
-		
+
 	case *FormFieldDateDB:
 		tmp, ok := db.formfielddateDBs[uint(i)]
 
@@ -575,7 +575,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formfielddateDB, _ := instanceDB.(*FormFieldDateDB)
 		*formfielddateDB = *tmp
-		
+
 	case *FormFieldDateTimeDB:
 		tmp, ok := db.formfielddatetimeDBs[uint(i)]
 
@@ -585,7 +585,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formfielddatetimeDB, _ := instanceDB.(*FormFieldDateTimeDB)
 		*formfielddatetimeDB = *tmp
-		
+
 	case *FormFieldFloat64DB:
 		tmp, ok := db.formfieldfloat64DBs[uint(i)]
 
@@ -595,7 +595,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formfieldfloat64DB, _ := instanceDB.(*FormFieldFloat64DB)
 		*formfieldfloat64DB = *tmp
-		
+
 	case *FormFieldIntDB:
 		tmp, ok := db.formfieldintDBs[uint(i)]
 
@@ -605,7 +605,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formfieldintDB, _ := instanceDB.(*FormFieldIntDB)
 		*formfieldintDB = *tmp
-		
+
 	case *FormFieldSelectDB:
 		tmp, ok := db.formfieldselectDBs[uint(i)]
 
@@ -615,7 +615,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formfieldselectDB, _ := instanceDB.(*FormFieldSelectDB)
 		*formfieldselectDB = *tmp
-		
+
 	case *FormFieldStringDB:
 		tmp, ok := db.formfieldstringDBs[uint(i)]
 
@@ -625,7 +625,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formfieldstringDB, _ := instanceDB.(*FormFieldStringDB)
 		*formfieldstringDB = *tmp
-		
+
 	case *FormFieldTimeDB:
 		tmp, ok := db.formfieldtimeDBs[uint(i)]
 
@@ -635,7 +635,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formfieldtimeDB, _ := instanceDB.(*FormFieldTimeDB)
 		*formfieldtimeDB = *tmp
-		
+
 	case *FormGroupDB:
 		tmp, ok := db.formgroupDBs[uint(i)]
 
@@ -645,7 +645,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formgroupDB, _ := instanceDB.(*FormGroupDB)
 		*formgroupDB = *tmp
-		
+
 	case *FormSortAssocButtonDB:
 		tmp, ok := db.formsortassocbuttonDBs[uint(i)]
 
@@ -655,7 +655,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		formsortassocbuttonDB, _ := instanceDB.(*FormSortAssocButtonDB)
 		*formsortassocbuttonDB = *tmp
-		
+
 	case *OptionDB:
 		tmp, ok := db.optionDBs[uint(i)]
 
@@ -665,7 +665,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		optionDB, _ := instanceDB.(*OptionDB)
 		*optionDB = *tmp
-		
+
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/form/go, Unkown type")
 	}

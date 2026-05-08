@@ -23,7 +23,7 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_LogoOnTheLeft_sql sql.NullBool
-var _ =  dummy_LogoOnTheLeft_sql
+var _ = dummy_LogoOnTheLeft_sql
 var dummy_LogoOnTheLeft_time time.Duration
 var _ = dummy_LogoOnTheLeft_time
 var dummy_LogoOnTheLeft_sort sort.Float64Slice

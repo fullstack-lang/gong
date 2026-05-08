@@ -319,7 +319,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		commandDB, _ := instanceDB.(*CommandDB)
 		*commandDB = *tmp
-		
+
 	case *DummyAgentDB:
 		tmp, ok := db.dummyagentDBs[uint(i)]
 
@@ -329,7 +329,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		dummyagentDB, _ := instanceDB.(*DummyAgentDB)
 		*dummyagentDB = *tmp
-		
+
 	case *EngineDB:
 		tmp, ok := db.engineDBs[uint(i)]
 
@@ -339,7 +339,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		engineDB, _ := instanceDB.(*EngineDB)
 		*engineDB = *tmp
-		
+
 	case *EventDB:
 		tmp, ok := db.eventDBs[uint(i)]
 
@@ -349,7 +349,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		eventDB, _ := instanceDB.(*EventDB)
 		*eventDB = *tmp
-		
+
 	case *StatusDB:
 		tmp, ok := db.statusDBs[uint(i)]
 
@@ -359,7 +359,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		statusDB, _ := instanceDB.(*StatusDB)
 		*statusDB = *tmp
-		
+
 	case *UpdateStateDB:
 		tmp, ok := db.updatestateDBs[uint(i)]
 
@@ -369,7 +369,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		updatestateDB, _ := instanceDB.(*UpdateStateDB)
 		*updatestateDB = *tmp
-		
+
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/sim/go, Unkown type")
 	}

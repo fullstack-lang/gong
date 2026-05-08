@@ -184,7 +184,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		cursorDB, _ := instanceDB.(*CursorDB)
 		*cursorDB = *tmp
-		
+
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/cursor/go, Unkown type")
 	}

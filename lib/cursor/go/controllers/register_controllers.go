@@ -98,14 +98,14 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	// WebSocket connection.
 
 	var upgrader = websocket.Upgrader{
-	CheckOrigin: func(r *http.Request) bool {
+		CheckOrigin: func(r *http.Request) bool {
 			origin := r.Header.Get("Origin")
 			if origin == "" {
 				// log.Printf("CheckOrigin: Origin header is empty. Request from: %s", r.RemoteAddr)
 			} else {
 				// log.Printf("CheckOrigin: Accepted connection from Origin '%s'", origin)
 			}
-			
+
 			// Always return true to allow connections from Cloud Run and other environments
 			// that do not send explicit ports in their Origin headers.
 			return true

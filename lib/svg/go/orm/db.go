@@ -751,7 +751,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		animateDB, _ := instanceDB.(*AnimateDB)
 		*animateDB = *tmp
-		
+
 	case *CircleDB:
 		tmp, ok := db.circleDBs[uint(i)]
 
@@ -761,7 +761,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		circleDB, _ := instanceDB.(*CircleDB)
 		*circleDB = *tmp
-		
+
 	case *ConditionDB:
 		tmp, ok := db.conditionDBs[uint(i)]
 
@@ -771,7 +771,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		conditionDB, _ := instanceDB.(*ConditionDB)
 		*conditionDB = *tmp
-		
+
 	case *ControlPointDB:
 		tmp, ok := db.controlpointDBs[uint(i)]
 
@@ -781,7 +781,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		controlpointDB, _ := instanceDB.(*ControlPointDB)
 		*controlpointDB = *tmp
-		
+
 	case *EllipseDB:
 		tmp, ok := db.ellipseDBs[uint(i)]
 
@@ -791,7 +791,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		ellipseDB, _ := instanceDB.(*EllipseDB)
 		*ellipseDB = *tmp
-		
+
 	case *LayerDB:
 		tmp, ok := db.layerDBs[uint(i)]
 
@@ -801,7 +801,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		layerDB, _ := instanceDB.(*LayerDB)
 		*layerDB = *tmp
-		
+
 	case *LineDB:
 		tmp, ok := db.lineDBs[uint(i)]
 
@@ -811,7 +811,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		lineDB, _ := instanceDB.(*LineDB)
 		*lineDB = *tmp
-		
+
 	case *LinkDB:
 		tmp, ok := db.linkDBs[uint(i)]
 
@@ -821,7 +821,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		linkDB, _ := instanceDB.(*LinkDB)
 		*linkDB = *tmp
-		
+
 	case *LinkAnchoredTextDB:
 		tmp, ok := db.linkanchoredtextDBs[uint(i)]
 
@@ -831,7 +831,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		linkanchoredtextDB, _ := instanceDB.(*LinkAnchoredTextDB)
 		*linkanchoredtextDB = *tmp
-		
+
 	case *PathDB:
 		tmp, ok := db.pathDBs[uint(i)]
 
@@ -841,7 +841,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		pathDB, _ := instanceDB.(*PathDB)
 		*pathDB = *tmp
-		
+
 	case *PointDB:
 		tmp, ok := db.pointDBs[uint(i)]
 
@@ -851,7 +851,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		pointDB, _ := instanceDB.(*PointDB)
 		*pointDB = *tmp
-		
+
 	case *PolygoneDB:
 		tmp, ok := db.polygoneDBs[uint(i)]
 
@@ -861,7 +861,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		polygoneDB, _ := instanceDB.(*PolygoneDB)
 		*polygoneDB = *tmp
-		
+
 	case *PolylineDB:
 		tmp, ok := db.polylineDBs[uint(i)]
 
@@ -871,7 +871,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		polylineDB, _ := instanceDB.(*PolylineDB)
 		*polylineDB = *tmp
-		
+
 	case *RectDB:
 		tmp, ok := db.rectDBs[uint(i)]
 
@@ -881,7 +881,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		rectDB, _ := instanceDB.(*RectDB)
 		*rectDB = *tmp
-		
+
 	case *RectAnchoredPathDB:
 		tmp, ok := db.rectanchoredpathDBs[uint(i)]
 
@@ -891,7 +891,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		rectanchoredpathDB, _ := instanceDB.(*RectAnchoredPathDB)
 		*rectanchoredpathDB = *tmp
-		
+
 	case *RectAnchoredPngImageDB:
 		tmp, ok := db.rectanchoredpngimageDBs[uint(i)]
 
@@ -901,7 +901,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		rectanchoredpngimageDB, _ := instanceDB.(*RectAnchoredPngImageDB)
 		*rectanchoredpngimageDB = *tmp
-		
+
 	case *RectAnchoredRectDB:
 		tmp, ok := db.rectanchoredrectDBs[uint(i)]
 
@@ -911,7 +911,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		rectanchoredrectDB, _ := instanceDB.(*RectAnchoredRectDB)
 		*rectanchoredrectDB = *tmp
-		
+
 	case *RectAnchoredTextDB:
 		tmp, ok := db.rectanchoredtextDBs[uint(i)]
 
@@ -921,7 +921,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		rectanchoredtextDB, _ := instanceDB.(*RectAnchoredTextDB)
 		*rectanchoredtextDB = *tmp
-		
+
 	case *RectLinkLinkDB:
 		tmp, ok := db.rectlinklinkDBs[uint(i)]
 
@@ -931,7 +931,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		rectlinklinkDB, _ := instanceDB.(*RectLinkLinkDB)
 		*rectlinklinkDB = *tmp
-		
+
 	case *SVGDB:
 		tmp, ok := db.svgDBs[uint(i)]
 
@@ -941,7 +941,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		svgDB, _ := instanceDB.(*SVGDB)
 		*svgDB = *tmp
-		
+
 	case *SvgTextDB:
 		tmp, ok := db.svgtextDBs[uint(i)]
 
@@ -951,7 +951,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		svgtextDB, _ := instanceDB.(*SvgTextDB)
 		*svgtextDB = *tmp
-		
+
 	case *TextDB:
 		tmp, ok := db.textDBs[uint(i)]
 
@@ -961,7 +961,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		textDB, _ := instanceDB.(*TextDB)
 		*textDB = *tmp
-		
+
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/svg/go, Unkown type")
 	}

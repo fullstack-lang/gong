@@ -265,7 +265,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		buttonDB, _ := instanceDB.(*ButtonDB)
 		*buttonDB = *tmp
-		
+
 	case *NodeDB:
 		tmp, ok := db.nodeDBs[uint(i)]
 
@@ -275,7 +275,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		nodeDB, _ := instanceDB.(*NodeDB)
 		*nodeDB = *tmp
-		
+
 	case *SVGIconDB:
 		tmp, ok := db.svgiconDBs[uint(i)]
 
@@ -285,7 +285,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		svgiconDB, _ := instanceDB.(*SVGIconDB)
 		*svgiconDB = *tmp
-		
+
 	case *TreeDB:
 		tmp, ok := db.treeDBs[uint(i)]
 
@@ -295,7 +295,7 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		treeDB, _ := instanceDB.(*TreeDB)
 		*treeDB = *tmp
-		
+
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/tree/go, Unkown type")
 	}
