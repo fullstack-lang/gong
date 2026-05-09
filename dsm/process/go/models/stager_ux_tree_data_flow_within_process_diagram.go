@@ -110,24 +110,11 @@ func (stager *Stager) treeDataFlowsWithinProcessDiagram(
 		dataFlowNode.Buttons = append(dataFlowNode.Buttons, visibilityButton)
 	}
 
-	dataFlowNode.OnClick = func(frontNode *tree.Node) {
-		if frontNode.Name != dataFlow.GetName() {
-			dataFlow.SetName(frontNode.Name)
-			dataFlow.SetIsInRenameMode(false)
-			stager.stage.Commit()
-			return
-		}
-		if frontNode.IsExpanded {
-			if !slices.Contains(diagramProcess.DataFlowsWhoseNodeIsExpanded, dataFlow) {
-				diagramProcess.DataFlowsWhoseNodeIsExpanded = append(diagramProcess.DataFlowsWhoseNodeIsExpanded, dataFlow)
-			}
-		} else {
-			if idx := slices.Index(diagramProcess.DataFlowsWhoseNodeIsExpanded, dataFlow); idx != -1 {
-				diagramProcess.DataFlowsWhoseNodeIsExpanded = slices.Delete(diagramProcess.DataFlowsWhoseNodeIsExpanded, idx, idx+1)
-			}
-		}
-		if frontNode.IsChecked && !isShapePresent {
-			isShapePresent = frontNode.IsChecked
+	dataFlowNode.OnNameChange = stager.onNameChange(dataFlow)
+	dataFlowNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, dataFlow, &diagramProcess.DataFlowsWhoseNodeIsExpanded)
+	dataFlowNode.OnIsCheckedChanged = func(isChecked bool) {
+		if isChecked && !isShapePresent {
+			isShapePresent = isChecked
 			if dataFlowShape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
@@ -150,8 +137,8 @@ func (stager *Stager) treeDataFlowsWithinProcessDiagram(
 			stage.Commit()
 			return
 		}
-		if !frontNode.IsChecked && isShapePresent {
-			isShapePresent = frontNode.IsChecked
+		if !isChecked && isShapePresent {
+			isShapePresent = isChecked
 			if dataFlowShape == nil {
 				log.Panic("remove a non existing shape to product")
 			}
@@ -163,9 +150,8 @@ func (stager *Stager) treeDataFlowsWithinProcessDiagram(
 			stage.Commit()
 			return
 		}
-		stager.probeForm.FillUpFormFromGongstruct(dataFlow, GetPointerToGongstructName[*DataFlow]())
-		stager.stage.Commit()
 	}
+	dataFlowNode.OnClick = stager.onClick(dataFlow, GetPointerToGongstructName[*DataFlow]())
 
 	for _, data := range dataFlow.Datas {
 		stager.treeDataWithinDiagramProcessWithinDataFlow(dataFlowNode, diagramProcess, dataFlow, dataFlowShape, isShapePresent, data)

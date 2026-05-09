@@ -56,15 +56,10 @@ func (stager *Stager) treeParticipants(
 		node.Buttons = append(node.Buttons, visibilityButton)
 	}
 
-	node.OnUpdate = func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
-		if frontNode.Name != stagedNode.Name {
-			participant.Name = frontNode.Name
-			participant.isInRenameMode = false
-			stage.Commit()
-			return
-		}
-		if frontNode.IsChecked && !stagedNode.IsChecked {
-			stagedNode.IsChecked = frontNode.IsChecked
+	node.OnNameChange = stager.onNameChange(participant)
+	node.OnIsExpandedChange = onIsExpandedChangeSlice(stager, participant, &diagramProcess.ParticipantWhoseNodeIsExpanded)
+	node.OnIsCheckedChanged = func(isChecked bool) {
+		if isChecked {
 			if shape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
@@ -72,9 +67,7 @@ func (stager *Stager) treeParticipants(
 
 			stage.Commit()
 			return
-		}
-		if !frontNode.IsChecked && stagedNode.IsChecked {
-			stagedNode.IsChecked = frontNode.IsChecked
+		} else {
 			if shape == nil {
 				log.Panic("remove a non existing shape to product")
 			}
@@ -84,22 +77,8 @@ func (stager *Stager) treeParticipants(
 			stage.Commit()
 			return
 		}
-		if frontNode.IsExpanded != stagedNode.IsExpanded {
-			if frontNode.IsExpanded {
-				if !slices.Contains(diagramProcess.ParticipantWhoseNodeIsExpanded, participant) {
-					diagramProcess.ParticipantWhoseNodeIsExpanded = append(diagramProcess.ParticipantWhoseNodeIsExpanded, participant)
-				}
-			} else {
-				if idx := slices.Index(diagramProcess.ParticipantWhoseNodeIsExpanded, participant); idx != -1 {
-					diagramProcess.ParticipantWhoseNodeIsExpanded = slices.Delete(diagramProcess.ParticipantWhoseNodeIsExpanded, idx, idx+1)
-				}
-			}
-			stage.Commit()
-			return
-		}
-		stager.probeForm.FillUpFormFromGongstruct(participant, GetPointerToGongstructName[*Participant]())
-		stage.Commit()
 	}
+	node.OnClick = stager.onClick(participant, GetPointerToGongstructName[*Participant]())
 
 	tasksNode := &tree.Node{
 		Name:            "Tasks",
@@ -108,13 +87,7 @@ func (stager *Stager) treeParticipants(
 		IsNodeClickable: true,
 	}
 	node.Children = append(node.Children, tasksNode)
-	tasksNode.OnClick = func(frontNode *tree.Node) {
-		if frontNode.IsExpanded != participant.IsTasksNodeExpanded {
-			participant.IsTasksNodeExpanded = frontNode.IsExpanded
-			stager.stage.Commit()
-			return
-		}
-	}
+	tasksNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&participant.IsTasksNodeExpanded)
 
 	for _, task := range participant.Tasks {
 		stager.treeTask(diagramProcess, participant, task, tasksNode, &diagramProcess.TasksWhoseNodeIsExpanded)
@@ -151,13 +124,7 @@ func (stager *Stager) treeParticipants(
 		IsNodeClickable: true,
 	}
 	node.Children = append(node.Children, controlflowsNode)
-	controlflowsNode.OnClick = func(frontNode *tree.Node) {
-		if frontNode.IsExpanded != participant.IsControlFlowsNodeExpanded {
-			participant.IsControlFlowsNodeExpanded = frontNode.IsExpanded
-			stager.stage.Commit()
-			return
-		}
-	}
+	controlflowsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&participant.IsControlFlowsNodeExpanded)
 
 	for _, controlflow := range participant.ControlFlows {
 		stager.treeControlFlows(diagramProcess, controlflow, controlflowsNode, &diagramProcess.ControlFlowsWhoseNodeIsExpanded)

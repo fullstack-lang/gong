@@ -44,9 +44,9 @@ func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlow(
 	}
 	dataFlowNode.Children = append(dataFlowNode.Children, dataNode)
 
-	dataNode.OnClick = func(frontNode *tree.Node) {
-		if frontNode.IsChecked && !isDataShapePresent {
-			isDataShapePresent = frontNode.IsChecked
+	dataNode.OnIsCheckedChanged = func(isChecked bool) {
+		if isChecked && !isDataShapePresent {
+			isDataShapePresent = isChecked
 			if dataShape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
@@ -64,8 +64,8 @@ func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlow(
 			stage.Commit()
 			return
 		}
-		if !frontNode.IsChecked && isDataShapePresent {
-			isDataShapePresent = frontNode.IsChecked
+		if !isChecked && isDataShapePresent {
+			isDataShapePresent = isChecked
 			if dataShape == nil {
 				log.Panic("remove a non existing shape to product")
 			}
@@ -73,6 +73,6 @@ func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlow(
 			stage.Commit()
 			return
 		}
-		stager.probeForm.FillUpFormFromGongstruct(data, GetPointerToGongstructName[*Data]())
 	}
+	dataNode.OnClick = stager.onClick(data, GetPointerToGongstructName[*Data]())
 }

@@ -111,28 +111,11 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 		dataFlowNode.Buttons = append(dataFlowNode.Buttons, visibilityButton)
 	}
 
-	dataFlowNode.OnClick = func(frontNode *tree.Node) {
-		if frontNode.Name != dataFlow.GetName() {
-			dataFlow.SetName(frontNode.Name)
-			dataFlow.SetIsInRenameMode(false)
-			stager.stage.Commit()
-			return
-		}
-		if frontNode.IsExpanded != dataFlowNode.IsExpanded {
-			if frontNode.IsExpanded {
-				if slices.Index(diagramProcess.DataFlowsWhoseDataNodeIsExpanded, dataFlow) == -1 {
-					diagramProcess.DataFlowsWhoseDataNodeIsExpanded = append(diagramProcess.DataFlowsWhoseDataNodeIsExpanded, dataFlow)
-				}
-			} else {
-				if idx := slices.Index(diagramProcess.DataFlowsWhoseDataNodeIsExpanded, dataFlow); idx != -1 {
-					diagramProcess.DataFlowsWhoseDataNodeIsExpanded = slices.Delete(diagramProcess.DataFlowsWhoseDataNodeIsExpanded, idx, idx+1)
-				}
-			}
-			stager.stage.Commit()
-			return
-		}
-		if frontNode.IsChecked && !isShapePresent {
-			isShapePresent = frontNode.IsChecked
+	dataFlowNode.OnNameChange = stager.onNameChange(dataFlow)
+	dataFlowNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, dataFlow, &diagramProcess.DataFlowsWhoseDataNodeIsExpanded)
+	dataFlowNode.OnIsCheckedChanged = func(isChecked bool) {
+		if isChecked && !isShapePresent {
+			isShapePresent = isChecked
 			if dataFlowShape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
@@ -155,8 +138,8 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 			stage.Commit()
 			return
 		}
-		if !frontNode.IsChecked && isShapePresent {
-			isShapePresent = frontNode.IsChecked
+		if !isChecked && isShapePresent {
+			isShapePresent = isChecked
 			if dataFlowShape == nil {
 				log.Panic("remove a non existing shape to product")
 			}
@@ -168,9 +151,8 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 			stage.Commit()
 			return
 		}
-		stager.probeForm.FillUpFormFromGongstruct(dataFlow, GetPointerToGongstructName[*DataFlow]())
-		stager.stage.Commit()
 	}
+	dataFlowNode.OnClick = stager.onClick(dataFlow, GetPointerToGongstructName[*DataFlow]())
 
 	for _, data := range dataFlow.Datas {
 		stager.treeDataWithinDiagramProcessWithinDataFlow(dataFlowNode, diagramProcess, dataFlow, dataFlowShape, shapePresent, data)
