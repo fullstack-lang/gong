@@ -18,7 +18,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	}
 	libraryNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsExpandedTmp)
 	libraryNode.OnNameChange = stager.onNameChange(library)
-	libraryNode.OnClick = stager.onClick(library, GetPointerToGongstructName[*Library]())
+	libraryNode.OnClick = onNodeClicked(stager, library)
 
 	//
 	// SubLibraries

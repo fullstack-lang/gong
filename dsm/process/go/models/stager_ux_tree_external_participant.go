@@ -78,7 +78,7 @@ func (stager *Stager) treeExternalParticipants(
 			return
 		}
 	}
-	node.OnClick = stager.onClick(externalParticipant, GetPointerToGongstructName[*Participant]())
+	node.OnClick = onNodeClicked(stager, externalParticipant)
 
 	nodeOutDataFlows := &tree.Node{
 		Name:            "out data flows",

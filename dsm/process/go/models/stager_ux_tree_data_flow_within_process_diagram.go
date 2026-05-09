@@ -151,7 +151,7 @@ func (stager *Stager) treeDataFlowsWithinProcessDiagram(
 			return
 		}
 	}
-	dataFlowNode.OnClick = stager.onClick(dataFlow, GetPointerToGongstructName[*DataFlow]())
+	dataFlowNode.OnClick = onNodeClicked(stager, dataFlow)
 
 	for _, data := range dataFlow.Datas {
 		stager.treeDataWithinDiagramProcessWithinDataFlow(dataFlowNode, diagramProcess, dataFlow, dataFlowShape, isShapePresent, data)

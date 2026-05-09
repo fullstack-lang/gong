@@ -117,5 +117,5 @@ func (stager *Stager) treeControlFlowsWithinTask(
 			return
 		}
 	}
-	node.OnClick = stager.onClick(controlFlow, GetPointerToGongstructName[*ControlFlow]())
+	node.OnClick = onNodeClicked(stager, controlFlow)
 }
