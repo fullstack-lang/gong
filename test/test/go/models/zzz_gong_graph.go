@@ -809,8 +809,6 @@ func (reference *Astruct) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.Anarrayofb2Use {
 		reference.Anarrayofb2Use = append(reference.Anarrayofb2Use, stage.AstructBstruct2Uses_reference[_b])
 	}
-
-	return
 }
 
 func (reference *AstructBstruct2Use) GongReconstructPointersFromReferences(stage *Stage, instance *AstructBstruct2Use) {
@@ -819,8 +817,6 @@ func (reference *AstructBstruct2Use) GongReconstructPointersFromReferences(stage
 		reference.Bstrcut2 = stage.Bstructs_reference[instance.Bstrcut2]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *AstructBstructUse) GongReconstructPointersFromReferences(stage *Stage, instance *AstructBstructUse) {
@@ -829,15 +825,11 @@ func (reference *AstructBstructUse) GongReconstructPointersFromReferences(stage 
 		reference.Bstruct2 = stage.Bstructs_reference[instance.Bstruct2]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Bstruct) GongReconstructPointersFromReferences(stage *Stage, instance *Bstruct) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Dstruct) GongReconstructPointersFromReferences(stage *Stage, instance *Dstruct) {
@@ -854,22 +846,16 @@ func (reference *Dstruct) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.Gstructs {
 		reference.Gstructs = append(reference.Gstructs, stage.Gstructs_reference[_b])
 	}
-
-	return
 }
 
 func (reference *F0123456789012345678901234567890) GongReconstructPointersFromReferences(stage *Stage, instance *F0123456789012345678901234567890) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Gstruct) GongReconstructPointersFromReferences(stage *Stage, instance *Gstruct) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 // insertion point for pointer reconstruction from instances
@@ -972,8 +958,6 @@ func (reference *Astruct) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Anarrayofb2Use = _Anarrayofb2Use
-
-	return
 }
 
 func (reference *AstructBstruct2Use) GongReconstructPointersFromInstances(stage *Stage) {
@@ -985,8 +969,6 @@ func (reference *AstructBstruct2Use) GongReconstructPointersFromInstances(stage 
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *AstructBstructUse) GongReconstructPointersFromInstances(stage *Stage) {
@@ -998,15 +980,11 @@ func (reference *AstructBstructUse) GongReconstructPointersFromInstances(stage *
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Bstruct) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Dstruct) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1032,22 +1010,16 @@ func (reference *Dstruct) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Gstructs = _Gstructs
-
-	return
 }
 
 func (reference *F0123456789012345678901234567890) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Gstruct) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 // insertion point for diff per struct

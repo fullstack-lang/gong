@@ -243,15 +243,11 @@ func (reference *A) GongReconstructPointersFromReferences(stage *Stage, instance
 	for _, _b := range instance.Bs {
 		reference.Bs = append(reference.Bs, stage.Bs_reference[_b])
 	}
-
-	return
 }
 
 func (reference *B) GongReconstructPointersFromReferences(stage *Stage, instance *B) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 // insertion point for pointer reconstruction from instances
@@ -271,15 +267,11 @@ func (reference *A) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Bs = _Bs
-
-	return
 }
 
 func (reference *B) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 // insertion point for diff per struct

@@ -803,8 +803,6 @@ func (stage *Stage) UnstageBranchLinkShape(linkshape *LinkShape) {
 func (reference *AttributeShape) GongReconstructPointersFromReferences(stage *Stage, instance *AttributeShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Classdiagram) GongReconstructPointersFromReferences(stage *Stage, instance *Classdiagram) {
@@ -822,8 +820,6 @@ func (reference *Classdiagram) GongReconstructPointersFromReferences(stage *Stag
 	for _, _b := range instance.GongNoteShapes {
 		reference.GongNoteShapes = append(reference.GongNoteShapes, stage.GongNoteShapes_reference[_b])
 	}
-
-	return
 }
 
 func (reference *DiagramPackage) GongReconstructPointersFromReferences(stage *Stage, instance *DiagramPackage) {
@@ -836,8 +832,6 @@ func (reference *DiagramPackage) GongReconstructPointersFromReferences(stage *St
 	for _, _b := range instance.Classdiagrams {
 		reference.Classdiagrams = append(reference.Classdiagrams, stage.Classdiagrams_reference[_b])
 	}
-
-	return
 }
 
 func (reference *GongEnumShape) GongReconstructPointersFromReferences(stage *Stage, instance *GongEnumShape) {
@@ -847,22 +841,16 @@ func (reference *GongEnumShape) GongReconstructPointersFromReferences(stage *Sta
 	for _, _b := range instance.GongEnumValueShapes {
 		reference.GongEnumValueShapes = append(reference.GongEnumValueShapes, stage.GongEnumValueShapes_reference[_b])
 	}
-
-	return
 }
 
 func (reference *GongEnumValueShape) GongReconstructPointersFromReferences(stage *Stage, instance *GongEnumValueShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *GongNoteLinkShape) GongReconstructPointersFromReferences(stage *Stage, instance *GongNoteLinkShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *GongNoteShape) GongReconstructPointersFromReferences(stage *Stage, instance *GongNoteShape) {
@@ -872,8 +860,6 @@ func (reference *GongNoteShape) GongReconstructPointersFromReferences(stage *Sta
 	for _, _b := range instance.GongNoteLinkShapes {
 		reference.GongNoteLinkShapes = append(reference.GongNoteLinkShapes, stage.GongNoteLinkShapes_reference[_b])
 	}
-
-	return
 }
 
 func (reference *GongStructShape) GongReconstructPointersFromReferences(stage *Stage, instance *GongStructShape) {
@@ -887,23 +873,17 @@ func (reference *GongStructShape) GongReconstructPointersFromReferences(stage *S
 	for _, _b := range instance.LinkShapes {
 		reference.LinkShapes = append(reference.LinkShapes, stage.LinkShapes_reference[_b])
 	}
-
-	return
 }
 
 func (reference *LinkShape) GongReconstructPointersFromReferences(stage *Stage, instance *LinkShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 // insertion point for pointer reconstruction from instances
 func (reference *AttributeShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Classdiagram) GongReconstructPointersFromInstances(stage *Stage) {
@@ -930,8 +910,6 @@ func (reference *Classdiagram) GongReconstructPointersFromInstances(stage *Stage
 		}
 	}
 	reference.GongNoteShapes = _GongNoteShapes
-
-	return
 }
 
 func (reference *DiagramPackage) GongReconstructPointersFromInstances(stage *Stage) {
@@ -950,8 +928,6 @@ func (reference *DiagramPackage) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	reference.Classdiagrams = _Classdiagrams
-
-	return
 }
 
 func (reference *GongEnumShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -964,22 +940,16 @@ func (reference *GongEnumShape) GongReconstructPointersFromInstances(stage *Stag
 		}
 	}
 	reference.GongEnumValueShapes = _GongEnumValueShapes
-
-	return
 }
 
 func (reference *GongEnumValueShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *GongNoteLinkShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *GongNoteShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -992,8 +962,6 @@ func (reference *GongNoteShape) GongReconstructPointersFromInstances(stage *Stag
 		}
 	}
 	reference.GongNoteLinkShapes = _GongNoteLinkShapes
-
-	return
 }
 
 func (reference *GongStructShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1013,15 +981,11 @@ func (reference *GongStructShape) GongReconstructPointersFromInstances(stage *St
 		}
 	}
 	reference.LinkShapes = _LinkShapes
-
-	return
 }
 
 func (reference *LinkShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 // insertion point for diff per struct
