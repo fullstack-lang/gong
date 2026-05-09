@@ -136,6 +136,8 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &library.DataFlowsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.RootDatas) || modified
 	modified = GongCleanSlice(stage, &library.DatasWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &library.RootResources) || modified
+	modified = GongCleanSlice(stage, &library.ResourcesWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	return
 }
@@ -181,6 +183,13 @@ func (processshape *ProcessShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = GongCleanPointer(stage, &processshape.Process) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Resource
+func (resource *Resource) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
 	return
 }
 

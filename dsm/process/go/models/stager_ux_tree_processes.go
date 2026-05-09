@@ -20,29 +20,9 @@ func (stager *Stager) treeProcesses(
 	parentNode.Children = append(parentNode.Children, processNode)
 
 	addRenameButton(process, processNode, stager)
-	processNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-		if frontNode.Name != stagedNode.Name {
-			process.SetName(frontNode.Name)
-			process.SetIsInRenameMode(false)
-			stager.stage.Commit()
-			return
-		}
-		if frontNode.IsExpanded != stagedNode.IsExpanded {
-			if frontNode.IsExpanded {
-				if slices.Index(*processsWhoseNodeIsExpanded, process) == -1 {
-					*processsWhoseNodeIsExpanded = append(*processsWhoseNodeIsExpanded, process)
-				}
-			} else {
-				if idx := slices.Index(*processsWhoseNodeIsExpanded, process); idx != -1 {
-					*processsWhoseNodeIsExpanded = slices.Delete(*processsWhoseNodeIsExpanded, idx, idx+1)
-				}
-			}
-			stager.stage.Commit()
-			return
-		}
-		stager.probeForm.FillUpFormFromGongstruct(process, GetPointerToGongstructName[*Process]())
-		stager.stage.Commit()
-	}
+	processNode.OnNameChange = stager.onNameChange(process)
+	processNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, process, processsWhoseNodeIsExpanded)
+	processNode.OnClick = stager.onClick(process, GetPointerToGongstructName[*Process]())
 
 	// Diagrams
 	for _, diagramProcess := range process.DiagramProcesss {

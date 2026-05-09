@@ -16,43 +16,9 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	if library != stager.rootLibrary {
 		addRenameButton(library, libraryNode, stager)
 	}
-
-	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
-
-	//
-	// Processes
-	//
-	processesNode := &tree.Node{
-		Name:            "Processes",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      library.IsProcessesNodeExpanded,
-		IsNodeClickable: true,
-	}
-	libraryNode.Children = append(libraryNode.Children, processesNode)
-	processesNode.OnClick = func(frontNode *tree.Node) {
-		if frontNode.IsExpanded != library.IsProcessesNodeExpanded {
-			library.IsProcessesNodeExpanded = frontNode.IsExpanded
-			stager.stage.Commit()
-			return
-		}
-	}
-
-	// add a process to the library button
-	confRootProcesses := ItemButtonConfiguration[
-		Process, *Process,
-		Library, *Library,
-	]{
-		parentNode:                         processesNode,
-		sliceForNewAddedItem:               &library.RootProcesses,
-		isParentNodeExpandedByAddOperation: true,
-		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &library.IsProcessesNodeExpanded,
-	}
-	addCreateItemButton(stager, confRootProcesses)
-
-	for _, process := range library.RootProcesses {
-		stager.treeProcesses(process, processesNode, &library.ProcesssWhoseNodeIsExpanded)
-	}
+	libraryNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsExpandedTmp)
+	libraryNode.OnNameChange = stager.onNameChange(library)
+	libraryNode.OnClick = stager.onClick(library, GetPointerToGongstructName[*Library]())
 
 	//
 	// SubLibraries
@@ -64,13 +30,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		IsNodeClickable: true,
 	}
 	libraryNode.Children = append(libraryNode.Children, subLibrariesNode)
-	subLibrariesNode.OnClick = func(frontNode *tree.Node) {
-		if frontNode.IsExpanded != library.IsSubLibrariesNodeExpanded {
-			library.IsSubLibrariesNodeExpanded = frontNode.IsExpanded
-			stager.stage.Commit()
-			return
-		}
-	}
+	subLibrariesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsSubLibrariesNodeExpanded)
 
 	for _, subLibrary := range library.SubLibraries {
 		stager.treeLibrary(subLibrary, &subLibrariesNode.Children)
@@ -90,6 +50,35 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	addCreateItemButton(stager, confSubLibraries)
 
 	//
+	// Processes
+	//
+	processesNode := &tree.Node{
+		Name:            "Processes",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      library.IsProcessesNodeExpanded,
+		IsNodeClickable: true,
+	}
+	libraryNode.Children = append(libraryNode.Children, processesNode)
+	processesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsProcessesNodeExpanded)
+
+	// add a process to the library button
+	confRootProcesses := ItemButtonConfiguration[
+		Process, *Process,
+		Library, *Library,
+	]{
+		parentNode:                         processesNode,
+		sliceForNewAddedItem:               &library.RootProcesses,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsProcessesNodeExpanded,
+	}
+	addCreateItemButton(stager, confRootProcesses)
+
+	for _, process := range library.RootProcesses {
+		stager.treeProcesses(process, processesNode, &library.ProcesssWhoseNodeIsExpanded)
+	}
+
+	//
 	// Data Flows
 	//
 	dataFlowNodes := &tree.Node{
@@ -99,13 +88,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		IsNodeClickable: true,
 	}
 	libraryNode.Children = append(libraryNode.Children, dataFlowNodes)
-	dataFlowNodes.OnClick = func(frontNode *tree.Node) {
-		if frontNode.IsExpanded != library.IsDataFlowsNodeExpanded {
-			library.IsDataFlowsNodeExpanded = frontNode.IsExpanded
-			stager.stage.Commit()
-			return
-		}
-	}
+	dataFlowNodes.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsDataFlowsNodeExpanded)
 
 	for _, dataFlow := range library.RootDataFlows {
 		stager.treeDataFlowWithinLibrary(library, dataFlow, dataFlowNodes)
@@ -121,13 +104,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		IsNodeClickable: true,
 	}
 	libraryNode.Children = append(libraryNode.Children, datasNode)
-	datasNode.OnClick = func(frontNode *tree.Node) {
-		if frontNode.IsExpanded != library.IsDatasNodeExpanded {
-			library.IsDatasNodeExpanded = frontNode.IsExpanded
-			stager.stage.Commit()
-			return
-		}
-	}
+	datasNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsDatasNodeExpanded)
 
 	for _, data := range library.RootDatas {
 		stager.treeData(library, data, datasNode)
@@ -145,28 +122,25 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		parentNodeExpansionBooleanValue:    &library.IsExpandedTmp,
 	}
 	addCreateItemButton(stager, confData)
+
+	//
+	// Resources
+	//
+	resourcesNode := &tree.Node{
+		Name:            "Resources",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      library.IsResourcesNodeExpanded,
+		IsNodeClickable: true,
+	}
+	libraryNode.Children = append(libraryNode.Children, resourcesNode)
+	resourcesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsResourcesNodeExpanded)
+
+	for _, resource := range library.RootResources {
+		stager.treeResourceWithinLibrary(library, resource, resourcesNode)
+	}
 }
 
 // Helper callbacks
-
-func (stager *Stager) OnUpdateLibrary(library *Library) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-		if frontNode.IsExpanded != stagedNode.IsExpanded {
-			stagedNode.IsExpanded = frontNode.IsExpanded
-			library.IsExpandedTmp = frontNode.IsExpanded
-			stager.stage.Commit()
-			return
-		}
-		if frontNode.Name != stagedNode.Name {
-			library.Name = frontNode.Name
-			library.isInRenameMode = false
-			stager.stage.Commit()
-			return
-		}
-		stager.probeForm.FillUpFormFromGongstruct(library, GetPointerToGongstructName[*Library]())
-		stager.stage.Commit()
-	}
-}
 
 func (stager *Stager) OnUpdateExpansion(isExpanded *bool) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {

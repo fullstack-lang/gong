@@ -65,11 +65,11 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: `Root`}).Stage(stage)
 
-	__Participant__00000003_ := (&models.Participant{Name: `PP1`}).Stage(stage)
+	__Participant__00000003_ := (&models.Participant{Name: `PP1 Very lon participant name PP1 Very lon participant name`}).Stage(stage)
 	__Participant__00000004_ := (&models.Participant{Name: `PP2`}).Stage(stage)
 	__Participant__00000005_ := (&models.Participant{Name: `PP3`}).Stage(stage)
 	__Participant__00000006_ := (&models.Participant{Name: `PP4`}).Stage(stage)
-	__Participant__00000007_ := (&models.Participant{Name: `EP1`}).Stage(stage)
+	__Participant__00000007_ := (&models.Participant{Name: `EP1 Very Long Participant Name`}).Stage(stage)
 
 	__ParticipantShape__00000019_ := (&models.ParticipantShape{Name: `PP3-Diagram P1`}).Stage(stage)
 	__ParticipantShape__00000020_ := (&models.ParticipantShape{Name: `PP2-Diagram P1`}).Stage(stage)
@@ -207,7 +207,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.Height = 1513.000000
 	__DiagramProcess__00000007_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000007_.IsParticipantsNodeExpanded = true
-	__DiagramProcess__00000007_.IsExternalParticipantsNodeExpanded = true
+	__DiagramProcess__00000007_.IsExternalParticipantsNodeExpanded = false
 
 	__ExternalParticipantShape__00000000_.Name = `EP1-Diagram P1`
 	__ExternalParticipantShape__00000000_.IsExpanded = false
@@ -238,9 +238,9 @@ func _(stage *models.Stage) {
 
 	__ExternalParticipantShape__00000003_.Name = `EP1-Diagram P1`
 	__ExternalParticipantShape__00000003_.IsExpanded = false
-	__ExternalParticipantShape__00000003_.X = 100.388870
-	__ExternalParticipantShape__00000003_.Y = 292.256779
-	__ExternalParticipantShape__00000003_.Width = 73.000000
+	__ExternalParticipantShape__00000003_.X = 59.388870
+	__ExternalParticipantShape__00000003_.Y = 273.256779
+	__ExternalParticipantShape__00000003_.Width = 146.000000
 	__ExternalParticipantShape__00000003_.Height = 70.000000
 	__ExternalParticipantShape__00000003_.IsHidden = false
 	__ExternalParticipantShape__00000003_.TailHeigth = 233.000000
@@ -252,10 +252,11 @@ func _(stage *models.Stage) {
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.IsProcessesNodeExpanded = true
 	__Library__00000000_.IsDataFlowsNodeExpanded = false
-	__Library__00000000_.IsDatasNodeExpanded = true
+	__Library__00000000_.IsDatasNodeExpanded = false
+	__Library__00000000_.IsResourcesNodeExpanded = false
 	__Library__00000000_.IsExpandedTmp = true
 
-	__Participant__00000003_.Name = `PP1`
+	__Participant__00000003_.Name = `PP1 Very lon participant name PP1 Very lon participant name`
 	__Participant__00000003_.ComputedPrefix = ``
 	__Participant__00000003_.IsTasksNodeExpanded = true
 	__Participant__00000003_.IsControlFlowsNodeExpanded = false
@@ -279,7 +280,7 @@ func _(stage *models.Stage) {
 	__Participant__00000006_.IsControlFlowsNodeExpanded = false
 	__Participant__00000006_.IsDataFlowsNodeExpanded = false
 
-	__Participant__00000007_.Name = `EP1`
+	__Participant__00000007_.Name = `EP1 Very Long Participant Name`
 	__Participant__00000007_.ComputedPrefix = ``
 	__Participant__00000007_.IsTasksNodeExpanded = false
 	__Participant__00000007_.IsControlFlowsNodeExpanded = false
@@ -303,16 +304,16 @@ func _(stage *models.Stage) {
 
 	__ParticipantShape__00000021_.Name = `PP1-Diagram P1`
 	__ParticipantShape__00000021_.IsExpanded = false
-	__ParticipantShape__00000021_.X = 17.000000
-	__ParticipantShape__00000021_.Y = 176.000000
+	__ParticipantShape__00000021_.X = 256.000000
+	__ParticipantShape__00000021_.Y = 166.000000
 	__ParticipantShape__00000021_.Width = 303.000000
-	__ParticipantShape__00000021_.Height = 880.000000
+	__ParticipantShape__00000021_.Height = 1037.000000
 	__ParticipantShape__00000021_.IsHidden = false
 
 	__Process__00000005_.Name = `P1`
 	__Process__00000005_.ComputedPrefix = ``
 	__Process__00000005_.IsSubProcessNodeExpanded = false
-	__Process__00000005_.IsDataFlowsNodeExpanded = true
+	__Process__00000005_.IsDataFlowsNodeExpanded = false
 
 	__Process__00000006_.Name = `P2`
 	__Process__00000006_.ComputedPrefix = ``
@@ -507,9 +508,7 @@ func _(stage *models.Stage) {
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000006_)
 	__Participant__00000003_.ControlFlows = append(__Participant__00000003_.ControlFlows, __ControlFlow__00000003_)
 	__Participant__00000003_.ControlFlows = append(__Participant__00000003_.ControlFlows, __ControlFlow__00000004_)
-	__Participant__00000003_.TaskWhoseOutControlFlowsNodeIsExpanded = append(__Participant__00000003_.TaskWhoseOutControlFlowsNodeIsExpanded, __Task__00000002_)
 	__Participant__00000003_.TaskWhoseOutControlFlowsNodeIsExpanded = append(__Participant__00000003_.TaskWhoseOutControlFlowsNodeIsExpanded, __Task__00000004_)
-	__Participant__00000003_.TaskWhoseInControlFlowsNodeIsExpanded = append(__Participant__00000003_.TaskWhoseInControlFlowsNodeIsExpanded, __Task__00000002_)
 	__Participant__00000003_.TaskWhoseOutDataFlowsNodeIsExpanded = append(__Participant__00000003_.TaskWhoseOutDataFlowsNodeIsExpanded, __Task__00000002_)
 	__Participant__00000003_.TaskWhoseInDataFlowsNodeIsExpanded = append(__Participant__00000003_.TaskWhoseInDataFlowsNodeIsExpanded, __Task__00000002_)
 	__Participant__00000004_.Tasks = append(__Participant__00000004_.Tasks, __Task__00000003_)
