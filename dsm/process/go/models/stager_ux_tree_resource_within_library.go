@@ -23,5 +23,5 @@ func (stager *Stager) treeResourceWithinLibrary(
 
 	resourceNode.OnNameChange = stager.onNameChange(resource)
 	resourceNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, resource, &library.ResourcesWhoseNodeIsExpanded)
-	resourceNode.OnClick = stager.onClick(resource, GetPointerToGongstructName[*Resource]())
+	resourceNode.OnClick = onNodeClicked(stager, resource)
 }

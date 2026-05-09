@@ -22,7 +22,7 @@ func (stager *Stager) treeProcesses(
 	addRenameButton(process, processNode, stager)
 	processNode.OnNameChange = stager.onNameChange(process)
 	processNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, process, processsWhoseNodeIsExpanded)
-	processNode.OnClick = stager.onClick(process, GetPointerToGongstructName[*Process]())
+	processNode.OnClick = onNodeClicked(stager, process)
 
 	// Diagrams
 	for _, diagramProcess := range process.DiagramProcesss {
