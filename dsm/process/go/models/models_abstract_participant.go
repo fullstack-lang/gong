@@ -26,3 +26,7 @@ type Participant struct {
 }
 
 var _ AbstractType = (*Participant)(nil)
+
+func (s *Participant) GetOwningProcess() *Process {
+	return s.owningProcess
+}

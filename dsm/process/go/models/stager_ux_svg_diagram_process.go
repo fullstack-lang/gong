@@ -83,7 +83,39 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		rect.RX = 3
 
 		// override default behavior, we need to commit when the rect is moved
-		rect.OnUpdate = onUpdateRectElement(stager, processShape.Process, processShape, false)
+		// we need to update the position of the participants shapes and task shapes that are within the process
+		rect.OnUpdate = func(updatedRect *svg.Rect) {
+			diffX := processShape.GetX() != updatedRect.X
+			diffY := processShape.GetY() != updatedRect.Y
+			diffWidth := processShape.GetWidth() != updatedRect.Width
+			diffHeight := processShape.GetHeight() != updatedRect.Height
+
+			if diffX || diffY || diffWidth || diffHeight {
+				deltaX := updatedRect.X - processShape.GetX()
+				deltaY := updatedRect.Y - processShape.GetY()
+				processShape.SetX(updatedRect.X)
+				processShape.SetY(updatedRect.Y)
+				processShape.SetWidth(updatedRect.Width)
+				processShape.SetHeight(updatedRect.Height)
+
+				// update the position of the participant shapes and task shapes that are within the process
+				for _, participantShape := range diagramProcess.Participant_Shapes {
+					if participantShape.Participant.GetOwningProcess() == processShape.GetAbstractElement() {
+						participantShape.SetX(participantShape.GetX() + deltaX)
+						participantShape.SetY(participantShape.GetY() + deltaY)
+					}
+				}
+
+				for _, taskShape := range diagramProcess.Task_Shapes {
+					if taskShape.Task.GetOwningParticipant().GetOwningProcess() == processShape.GetAbstractElement() {
+						taskShape.SetX(taskShape.GetX() + deltaX)
+						taskShape.SetY(taskShape.GetY() + deltaY)
+					}
+				}
+
+				stager.stage.Commit()
+			}
+		}
 
 		diagramProcess.map_Process_Rect[processShape.Process] = rect
 	}
