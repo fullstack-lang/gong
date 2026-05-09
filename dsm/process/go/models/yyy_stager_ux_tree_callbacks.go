@@ -15,10 +15,9 @@ func (stager *Stager) onNameChange(element AbstractType) func(newName string) {
 	}
 }
 
-// onClick provides a reusable callback for tree.Node.OnClick
-func (stager *Stager) onClick(element any, formName string) func(frontNode *tree.Node) {
+func onNodeClicked[T AbstractType](stager *Stager, element T) func(frontNode *tree.Node) {
 	return func(frontNode *tree.Node) {
-		stager.probeForm.FillUpFormFromGongstruct(element, formName)
+		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[T]())
 		stager.stage.Commit()
 	}
 }

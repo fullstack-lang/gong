@@ -78,7 +78,7 @@ func (stager *Stager) treeParticipants(
 			return
 		}
 	}
-	node.OnClick = stager.onClick(participant, GetPointerToGongstructName[*Participant]())
+	node.OnClick = onNodeClicked(stager, participant)
 
 	tasksNode := &tree.Node{
 		Name:            "Tasks",
