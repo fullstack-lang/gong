@@ -74,5 +74,5 @@ func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlow(
 			return
 		}
 	}
-	dataNode.OnClick = stager.onClick(data, GetPointerToGongstructName[*Data]())
+	dataNode.OnClick = onNodeClicked(stager, data)
 }
