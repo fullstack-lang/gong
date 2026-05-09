@@ -30,6 +30,10 @@ type Library struct {
 	IsDatasNodeExpanded      bool
 	DatasWhoseNodeIsExpanded []*Data
 
+	RootResources                []*Resource
+	IsResourcesNodeExpanded      bool
+	ResourcesWhoseNodeIsExpanded []*Resource
+
 	// temporary persistance of the library expand status.
 	IsExpandedTmp bool
 }

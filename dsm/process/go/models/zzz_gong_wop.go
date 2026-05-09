@@ -221,6 +221,8 @@ type Library_WOP struct {
 
 	IsDatasNodeExpanded bool
 
+	IsResourcesNodeExpanded bool
+
 	IsExpandedTmp bool
 }
 
@@ -234,6 +236,7 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.IsProcessesNodeExpanded = from.IsProcessesNodeExpanded
 	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
 	to.IsDatasNodeExpanded = from.IsDatasNodeExpanded
+	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
 	to.IsExpandedTmp = from.IsExpandedTmp
 }
 
@@ -336,6 +339,20 @@ func (from *ProcessShape) CopyBasicFields(to *ProcessShape) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
+}
+
+type Resource_WOP struct {
+	// insertion point
+
+	Name string
+
+	ComputedPrefix string
+}
+
+func (from *Resource) CopyBasicFields(to *Resource) {
+	// insertion point
+	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
 }
 
 type Task_WOP struct {
