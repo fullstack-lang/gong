@@ -67,15 +67,11 @@ func (stager *Stager) treeControlFlows(
 		node.Buttons = append(node.Buttons, visibilityButton)
 	}
 
-	node.OnClick = func(frontNode *tree.Node) {
-		if frontNode.Name != controlFlow.GetName() {
-			controlFlow.SetName(frontNode.Name)
-			controlFlow.SetIsInRenameMode(false)
-			stager.stage.Commit()
-			return
-		}
-		if frontNode.IsChecked && !isShapePresent {
-			isShapePresent = frontNode.IsChecked
+	node.OnNameChange = stager.onNameChange(controlFlow)
+	node.OnIsExpandedChange = onIsExpandedChangeSlice(stager, controlFlow, controlflowWhoseNodeIsExpanded)
+	node.OnIsCheckedChanged = func(isChecked bool) {
+		if isChecked && !isShapePresent {
+			isShapePresent = isChecked
 			if shape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
@@ -98,8 +94,8 @@ func (stager *Stager) treeControlFlows(
 			stage.Commit()
 			return
 		}
-		if !frontNode.IsChecked && isShapePresent {
-			isShapePresent = frontNode.IsChecked
+		if !isChecked && isShapePresent {
+			isShapePresent = isChecked
 			if shape == nil {
 				log.Panic("remove a non existing shape to product")
 			}
@@ -111,20 +107,6 @@ func (stager *Stager) treeControlFlows(
 			stage.Commit()
 			return
 		}
-		if frontNode.IsExpanded != node.IsExpanded {
-			if frontNode.IsExpanded {
-				if slices.Index(*controlflowWhoseNodeIsExpanded, controlFlow) == -1 {
-					*controlflowWhoseNodeIsExpanded = append(*controlflowWhoseNodeIsExpanded, controlFlow)
-				}
-			} else {
-				if idx := slices.Index(*controlflowWhoseNodeIsExpanded, controlFlow); idx != -1 {
-					*controlflowWhoseNodeIsExpanded = slices.Delete(*controlflowWhoseNodeIsExpanded, idx, idx+1)
-				}
-			}
-			stager.stage.Commit()
-			return
-		}
-		stager.probeForm.FillUpFormFromGongstruct(controlFlow, GetPointerToGongstructName[*ControlFlow]())
-		stager.stage.Commit()
 	}
+	node.OnClick = stager.onClick(controlFlow, GetPointerToGongstructName[*ControlFlow]())
 }

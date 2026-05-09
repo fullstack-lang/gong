@@ -35,20 +35,7 @@ func (stager *Stager) treeTask(
 		IsExpanded:      slices.Contains(participant.TaskWhoseOutControlFlowsNodeIsExpanded, task),
 	}
 	taskNode.Children = append(taskNode.Children, nodeOutControlFlows)
-	nodeOutControlFlows.OnClick = func(frontNode *tree.Node) {
-		if frontNode.IsExpanded != nodeOutControlFlows.IsExpanded {
-			if frontNode.IsExpanded {
-				if slices.Index(participant.TaskWhoseOutControlFlowsNodeIsExpanded, task) == -1 {
-					participant.TaskWhoseOutControlFlowsNodeIsExpanded = append(participant.TaskWhoseOutControlFlowsNodeIsExpanded, task)
-				}
-			} else {
-				if idx := slices.Index(participant.TaskWhoseOutControlFlowsNodeIsExpanded, task); idx != -1 {
-					participant.TaskWhoseOutControlFlowsNodeIsExpanded = slices.Delete(participant.TaskWhoseOutControlFlowsNodeIsExpanded, idx, idx+1)
-				}
-			}
-			stager.stage.Commit()
-		}
-	}
+	nodeOutControlFlows.OnIsExpandedChange = onIsExpandedChangeSlice(stager, task, &participant.TaskWhoseOutControlFlowsNodeIsExpanded)
 	for _, controlFlow := range task.outControlFlows {
 		stager.treeControlFlowsWithinTask(diagramProcess, controlFlow, nodeOutControlFlows)
 	}
@@ -59,20 +46,7 @@ func (stager *Stager) treeTask(
 		IsExpanded:      slices.Contains(participant.TaskWhoseInControlFlowsNodeIsExpanded, task),
 	}
 	taskNode.Children = append(taskNode.Children, nodeInControlFlows)
-	nodeInControlFlows.OnClick = func(frontNode *tree.Node) {
-		if frontNode.IsExpanded != nodeInControlFlows.IsExpanded {
-			if frontNode.IsExpanded {
-				if slices.Index(participant.TaskWhoseInControlFlowsNodeIsExpanded, task) == -1 {
-					participant.TaskWhoseInControlFlowsNodeIsExpanded = append(participant.TaskWhoseInControlFlowsNodeIsExpanded, task)
-				}
-			} else {
-				if idx := slices.Index(participant.TaskWhoseInControlFlowsNodeIsExpanded, task); idx != -1 {
-					participant.TaskWhoseInControlFlowsNodeIsExpanded = slices.Delete(participant.TaskWhoseInControlFlowsNodeIsExpanded, idx, idx+1)
-				}
-			}
-			stager.stage.Commit()
-		}
-	}
+	nodeInControlFlows.OnIsExpandedChange = onIsExpandedChangeSlice(stager, task, &participant.TaskWhoseInControlFlowsNodeIsExpanded)
 	for _, controlFlow := range task.inControlFlows {
 		stager.treeControlFlowsWithinTask(diagramProcess, controlFlow, nodeInControlFlows)
 	}
@@ -83,20 +57,7 @@ func (stager *Stager) treeTask(
 		IsExpanded:      slices.Contains(participant.TaskWhoseOutDataFlowsNodeIsExpanded, task),
 	}
 	taskNode.Children = append(taskNode.Children, nodeOutDataFlows)
-	nodeOutDataFlows.OnClick = func(frontNode *tree.Node) {
-		if frontNode.IsExpanded != nodeOutDataFlows.IsExpanded {
-			if frontNode.IsExpanded {
-				if slices.Index(participant.TaskWhoseOutDataFlowsNodeIsExpanded, task) == -1 {
-					participant.TaskWhoseOutDataFlowsNodeIsExpanded = append(participant.TaskWhoseOutDataFlowsNodeIsExpanded, task)
-				}
-			} else {
-				if idx := slices.Index(participant.TaskWhoseOutDataFlowsNodeIsExpanded, task); idx != -1 {
-					participant.TaskWhoseOutDataFlowsNodeIsExpanded = slices.Delete(participant.TaskWhoseOutDataFlowsNodeIsExpanded, idx, idx+1)
-				}
-			}
-			stager.stage.Commit()
-		}
-	}
+	nodeOutDataFlows.OnIsExpandedChange = onIsExpandedChangeSlice(stager, task, &participant.TaskWhoseOutDataFlowsNodeIsExpanded)
 	for _, dataFlow := range task.outDataFlows {
 		stager.treeDataFlowsWithinDiagramProcessWithinTask(diagramProcess, dataFlow, nodeOutDataFlows)
 	}
@@ -107,20 +68,7 @@ func (stager *Stager) treeTask(
 		IsExpanded:      slices.Contains(participant.TaskWhoseInDataFlowsNodeIsExpanded, task),
 	}
 	taskNode.Children = append(taskNode.Children, nodeInDataFlows)
-	nodeInDataFlows.OnClick = func(frontNode *tree.Node) {
-		if frontNode.IsExpanded != nodeInDataFlows.IsExpanded {
-			if frontNode.IsExpanded {
-				if slices.Index(participant.TaskWhoseInDataFlowsNodeIsExpanded, task) == -1 {
-					participant.TaskWhoseInDataFlowsNodeIsExpanded = append(participant.TaskWhoseInDataFlowsNodeIsExpanded, task)
-				}
-			} else {
-				if idx := slices.Index(participant.TaskWhoseInDataFlowsNodeIsExpanded, task); idx != -1 {
-					participant.TaskWhoseInDataFlowsNodeIsExpanded = slices.Delete(participant.TaskWhoseInDataFlowsNodeIsExpanded, idx, idx+1)
-				}
-			}
-			stager.stage.Commit()
-		}
-	}
+	nodeInDataFlows.OnIsExpandedChange = onIsExpandedChangeSlice(stager, task, &participant.TaskWhoseInDataFlowsNodeIsExpanded)
 	for _, dataFlow := range task.inDataFlows {
 		stager.treeDataFlowsWithinDiagramProcessWithinTask(diagramProcess, dataFlow, nodeInDataFlows)
 	}

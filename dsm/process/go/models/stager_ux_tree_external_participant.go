@@ -56,15 +56,10 @@ func (stager *Stager) treeExternalParticipants(
 		node.Buttons = append(node.Buttons, visibilityButton)
 	}
 
-	node.OnUpdate = func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
-		if frontNode.Name != stagedNode.Name {
-			externalParticipant.Name = frontNode.Name
-			externalParticipant.isInRenameMode = false
-			stage.Commit()
-			return
-		}
-		if frontNode.IsChecked && !stagedNode.IsChecked {
-			stagedNode.IsChecked = frontNode.IsChecked
+	node.OnNameChange = stager.onNameChange(externalParticipant)
+	node.OnIsExpandedChange = onIsExpandedChangeSlice(stager, externalParticipant, &diagramProcess.ExternalParticipantWhoseNodeIsExpanded)
+	node.OnIsCheckedChanged = func(isChecked bool) {
+		if isChecked {
 			if shape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
@@ -72,9 +67,7 @@ func (stager *Stager) treeExternalParticipants(
 
 			stage.Commit()
 			return
-		}
-		if !frontNode.IsChecked && stagedNode.IsChecked {
-			stagedNode.IsChecked = frontNode.IsChecked
+		} else {
 			if shape == nil {
 				log.Panic("remove a non existing shape to product")
 			}
@@ -84,22 +77,8 @@ func (stager *Stager) treeExternalParticipants(
 			stage.Commit()
 			return
 		}
-		if frontNode.IsExpanded != stagedNode.IsExpanded {
-			if frontNode.IsExpanded {
-				if !slices.Contains(diagramProcess.ParticipantWhoseNodeIsExpanded, externalParticipant) {
-					diagramProcess.ExternalParticipantWhoseNodeIsExpanded = append(diagramProcess.ExternalParticipantWhoseNodeIsExpanded, externalParticipant)
-				}
-			} else {
-				if idx := slices.Index(diagramProcess.ExternalParticipantWhoseNodeIsExpanded, externalParticipant); idx != -1 {
-					diagramProcess.ExternalParticipantWhoseNodeIsExpanded = slices.Delete(diagramProcess.ParticipantWhoseNodeIsExpanded, idx, idx+1)
-				}
-			}
-			stage.Commit()
-			return
-		}
-		stager.probeForm.FillUpFormFromGongstruct(externalParticipant, GetPointerToGongstructName[*Participant]())
-		stage.Commit()
 	}
+	node.OnClick = stager.onClick(externalParticipant, GetPointerToGongstructName[*Participant]())
 
 	nodeOutDataFlows := &tree.Node{
 		Name:            "out data flows",
@@ -107,20 +86,7 @@ func (stager *Stager) treeExternalParticipants(
 		IsExpanded:      slices.Contains(diagramProcess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, externalParticipant),
 	}
 	node.Children = append(node.Children, nodeOutDataFlows)
-	nodeOutDataFlows.OnClick = func(frontNode *tree.Node) {
-		if frontNode.IsExpanded != nodeOutDataFlows.IsExpanded {
-			if frontNode.IsExpanded {
-				if slices.Index(diagramProcess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, externalParticipant) == -1 {
-					diagramProcess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(diagramProcess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, externalParticipant)
-				}
-			} else {
-				if idx := slices.Index(diagramProcess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, externalParticipant); idx != -1 {
-					diagramProcess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = slices.Delete(diagramProcess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, idx, idx+1)
-				}
-			}
-			stager.stage.Commit()
-		}
-	}
+	nodeOutDataFlows.OnIsExpandedChange = onIsExpandedChangeSlice(stager, externalParticipant, &diagramProcess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded)
 	for _, dataFlow := range externalParticipant.outDataFlows {
 		stager.treeDataFlowsWithinDiagramProcessWithinTask(diagramProcess, dataFlow, nodeOutDataFlows)
 	}
@@ -131,20 +97,7 @@ func (stager *Stager) treeExternalParticipants(
 		IsExpanded:      slices.Contains(diagramProcess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, externalParticipant),
 	}
 	node.Children = append(node.Children, nodeInDataFlows)
-	nodeInDataFlows.OnClick = func(frontNode *tree.Node) {
-		if frontNode.IsExpanded != nodeInDataFlows.IsExpanded {
-			if frontNode.IsExpanded {
-				if slices.Index(diagramProcess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, externalParticipant) == -1 {
-					diagramProcess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(diagramProcess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, externalParticipant)
-				}
-			} else {
-				if idx := slices.Index(diagramProcess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, externalParticipant); idx != -1 {
-					diagramProcess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = slices.Delete(diagramProcess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, idx, idx+1)
-				}
-			}
-			stager.stage.Commit()
-		}
-	}
+	nodeInDataFlows.OnIsExpandedChange = onIsExpandedChangeSlice(stager, externalParticipant, &diagramProcess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded)
 	for _, dataFlow := range externalParticipant.inDataFlows {
 		stager.treeDataFlowsWithinDiagramProcessWithinTask(diagramProcess, dataFlow, nodeInDataFlows)
 	}
