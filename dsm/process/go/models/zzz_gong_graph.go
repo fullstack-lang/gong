@@ -46,6 +46,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *ProcessShape:
 		ok = stage.IsStagedProcessShape(target)
 
+	case *Resource:
+		ok = stage.IsStagedResource(target)
+
 	case *Task:
 		ok = stage.IsStagedTask(target)
 
@@ -100,6 +103,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *ProcessShape:
 		ok = stage.IsStagedProcessShape(target)
+
+	case *Resource:
+		ok = stage.IsStagedResource(target)
 
 	case *Task:
 		ok = stage.IsStagedTask(target)
@@ -205,6 +211,13 @@ func (stage *Stage) IsStagedProcessShape(processshape *ProcessShape) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedResource(resource *Resource) (ok bool) {
+
+	_, ok = stage.Resources[resource]
+
+	return
+}
+
 func (stage *Stage) IsStagedTask(task *Task) (ok bool) {
 
 	_, ok = stage.Tasks[task]
@@ -265,6 +278,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *ProcessShape:
 		stage.StageBranchProcessShape(target)
+
+	case *Resource:
+		stage.StageBranchResource(target)
 
 	case *Task:
 		stage.StageBranchTask(target)
@@ -521,6 +537,12 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _data := range library.DatasWhoseNodeIsExpanded {
 		StageBranch(stage, _data)
 	}
+	for _, _resource := range library.RootResources {
+		StageBranch(stage, _resource)
+	}
+	for _, _resource := range library.ResourcesWhoseNodeIsExpanded {
+		StageBranch(stage, _resource)
+	}
 
 }
 
@@ -632,6 +654,21 @@ func (stage *Stage) StageBranchProcessShape(processshape *ProcessShape) {
 
 }
 
+func (stage *Stage) StageBranchResource(resource *Resource) {
+
+	// check if instance is already staged
+	if IsStaged(stage, resource) {
+		return
+	}
+
+	resource.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchTask(task *Task) {
 
 	// check if instance is already staged
@@ -726,6 +763,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *ProcessShape:
 		toT := CopyBranchProcessShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Resource:
+		toT := CopyBranchResource(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Task:
@@ -1021,6 +1062,12 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	for _, _data := range libraryFrom.DatasWhoseNodeIsExpanded {
 		libraryTo.DatasWhoseNodeIsExpanded = append(libraryTo.DatasWhoseNodeIsExpanded, CopyBranchData(mapOrigCopy, _data))
 	}
+	for _, _resource := range libraryFrom.RootResources {
+		libraryTo.RootResources = append(libraryTo.RootResources, CopyBranchResource(mapOrigCopy, _resource))
+	}
+	for _, _resource := range libraryFrom.ResourcesWhoseNodeIsExpanded {
+		libraryTo.ResourcesWhoseNodeIsExpanded = append(libraryTo.ResourcesWhoseNodeIsExpanded, CopyBranchResource(mapOrigCopy, _resource))
+	}
 
 	return
 }
@@ -1149,6 +1196,25 @@ func CopyBranchProcessShape(mapOrigCopy map[any]any, processshapeFrom *ProcessSh
 	return
 }
 
+func CopyBranchResource(mapOrigCopy map[any]any, resourceFrom *Resource) (resourceTo *Resource) {
+
+	// resourceFrom has already been copied
+	if _resourceTo, ok := mapOrigCopy[resourceFrom]; ok {
+		resourceTo = _resourceTo.(*Resource)
+		return
+	}
+
+	resourceTo = new(Resource)
+	mapOrigCopy[resourceFrom] = resourceTo
+	resourceFrom.CopyBasicFields(resourceTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 
 	// taskFrom has already been copied
@@ -1236,6 +1302,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *ProcessShape:
 		stage.UnstageBranchProcessShape(target)
+
+	case *Resource:
+		stage.UnstageBranchResource(target)
 
 	case *Task:
 		stage.UnstageBranchTask(target)
@@ -1492,6 +1561,12 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _data := range library.DatasWhoseNodeIsExpanded {
 		UnstageBranch(stage, _data)
 	}
+	for _, _resource := range library.RootResources {
+		UnstageBranch(stage, _resource)
+	}
+	for _, _resource := range library.ResourcesWhoseNodeIsExpanded {
+		UnstageBranch(stage, _resource)
+	}
 
 }
 
@@ -1598,6 +1673,21 @@ func (stage *Stage) UnstageBranchProcessShape(processshape *ProcessShape) {
 	if processshape.Process != nil {
 		UnstageBranch(stage, processshape.Process)
 	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchResource(resource *Resource) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, resource) {
+		return
+	}
+
+	resource.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1833,6 +1923,14 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.DatasWhoseNodeIsExpanded {
 		reference.DatasWhoseNodeIsExpanded = append(reference.DatasWhoseNodeIsExpanded, stage.Datas_reference[_b])
 	}
+	reference.RootResources = reference.RootResources[:0]
+	for _, _b := range instance.RootResources {
+		reference.RootResources = append(reference.RootResources, stage.Resources_reference[_b])
+	}
+	reference.ResourcesWhoseNodeIsExpanded = reference.ResourcesWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.ResourcesWhoseNodeIsExpanded {
+		reference.ResourcesWhoseNodeIsExpanded = append(reference.ResourcesWhoseNodeIsExpanded, stage.Resources_reference[_b])
+	}
 
 	return
 }
@@ -1922,6 +2020,13 @@ func (reference *ProcessShape) GongReconstructPointersFromReferences(stage *Stag
 	if instance.Process != nil {
 		reference.Process = stage.Processs_reference[instance.Process]
 	}
+	// insertion point for slice of pointers field
+
+	return
+}
+
+func (reference *Resource) GongReconstructPointersFromReferences(stage *Stage, instance *Resource) {
+	// insertion point for pointers field
 	// insertion point for slice of pointers field
 
 	return
@@ -2252,6 +2357,20 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.DatasWhoseNodeIsExpanded = _DatasWhoseNodeIsExpanded
+	var _RootResources []*Resource
+	for _, _reference := range reference.RootResources {
+		if _instance, ok := stage.Resources_instance[_reference]; ok {
+			_RootResources = append(_RootResources, _instance)
+		}
+	}
+	reference.RootResources = _RootResources
+	var _ResourcesWhoseNodeIsExpanded []*Resource
+	for _, _reference := range reference.ResourcesWhoseNodeIsExpanded {
+		if _instance, ok := stage.Resources_instance[_reference]; ok {
+			_ResourcesWhoseNodeIsExpanded = append(_ResourcesWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.ResourcesWhoseNodeIsExpanded = _ResourcesWhoseNodeIsExpanded
 
 	return
 }
@@ -2389,6 +2508,13 @@ func (reference *ProcessShape) GongReconstructPointersFromInstances(stage *Stage
 			reference.Process = _instance
 		}
 	}
+	// insertion point for slice of pointers fields
+
+	return
+}
+
+func (reference *Resource) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 
 	return
@@ -3259,6 +3385,51 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		ops := Diff(stage, library, libraryOther, "DatasWhoseNodeIsExpanded", libraryOther.DatasWhoseNodeIsExpanded, library.DatasWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
+	RootResourcesDifferent := false
+	if len(library.RootResources) != len(libraryOther.RootResources) {
+		RootResourcesDifferent = true
+	} else {
+		for i := range library.RootResources {
+			if (library.RootResources[i] == nil) != (libraryOther.RootResources[i] == nil) {
+				RootResourcesDifferent = true
+				break
+			} else if library.RootResources[i] != nil && libraryOther.RootResources[i] != nil {
+				// this is a pointer comparaison
+				if library.RootResources[i] != libraryOther.RootResources[i] {
+					RootResourcesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootResourcesDifferent {
+		ops := Diff(stage, library, libraryOther, "RootResources", libraryOther.RootResources, library.RootResources)
+		diffs = append(diffs, ops)
+	}
+	if library.IsResourcesNodeExpanded != libraryOther.IsResourcesNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsResourcesNodeExpanded"))
+	}
+	ResourcesWhoseNodeIsExpandedDifferent := false
+	if len(library.ResourcesWhoseNodeIsExpanded) != len(libraryOther.ResourcesWhoseNodeIsExpanded) {
+		ResourcesWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range library.ResourcesWhoseNodeIsExpanded {
+			if (library.ResourcesWhoseNodeIsExpanded[i] == nil) != (libraryOther.ResourcesWhoseNodeIsExpanded[i] == nil) {
+				ResourcesWhoseNodeIsExpandedDifferent = true
+				break
+			} else if library.ResourcesWhoseNodeIsExpanded[i] != nil && libraryOther.ResourcesWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if library.ResourcesWhoseNodeIsExpanded[i] != libraryOther.ResourcesWhoseNodeIsExpanded[i] {
+					ResourcesWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ResourcesWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, library, libraryOther, "ResourcesWhoseNodeIsExpanded", libraryOther.ResourcesWhoseNodeIsExpanded, library.ResourcesWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
 	if library.IsExpandedTmp != libraryOther.IsExpandedTmp {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsExpandedTmp"))
 	}
@@ -3670,6 +3841,20 @@ func (processshape *ProcessShape) GongDiff(stage *Stage, processshapeOther *Proc
 	}
 	if processshape.IsHidden != processshapeOther.IsHidden {
 		diffs = append(diffs, processshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs []string) {
+	// insertion point for field diffs
+	if resource.Name != resourceOther.Name {
+		diffs = append(diffs, resource.GongMarshallField(stage, "Name"))
+	}
+	if resource.ComputedPrefix != resourceOther.ComputedPrefix {
+		diffs = append(diffs, resource.GongMarshallField(stage, "ComputedPrefix"))
 	}
 
 	return

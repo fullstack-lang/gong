@@ -24,6 +24,11 @@ type Node struct {
 	OnUpdate func(stage *Stage, stagedNode, frontNode *Node)
 	OnClick  func(frontNode *Node)
 
+	OnIsExpandedChange               func(isExpanded bool)
+	OnIsCheckedChanged               func(isChecked bool)
+	OnIsSecondCheckboxCheckedChanged func(isChecked bool)
+	OnNameChange                     func(newName string)
+
 	// BackgroundColor, if zero value will have the color to default, therwise, the node
 	// will have this color
 	BackgroundColor string
@@ -73,6 +78,24 @@ type Node struct {
 
 // OnAfterUpdate, notice that node == stagedNode
 func (node *Node) OnAfterUpdate(stage *Stage, _, frontNode *Node) {
+
+	if frontNode.IsExpanded != node.IsExpanded && node.OnIsExpandedChange != nil {
+		node.OnIsExpandedChange(frontNode.IsExpanded)
+		return
+	}
+	if frontNode.IsChecked != node.IsChecked && node.OnIsCheckedChanged != nil {
+		node.OnIsCheckedChanged(frontNode.IsChecked)
+		return
+	}
+	if frontNode.IsSecondCheckboxChecked != node.IsSecondCheckboxChecked && node.OnIsSecondCheckboxCheckedChanged != nil {
+		node.OnIsSecondCheckboxCheckedChanged(frontNode.IsSecondCheckboxChecked)
+		return
+	}
+	if frontNode.Name != node.Name && node.OnNameChange != nil {
+		node.OnNameChange(frontNode.Name)
+		return
+	}
+
 	if node.Impl != nil {
 		node.Impl.OnAfterUpdate(stage, node, frontNode)
 	}

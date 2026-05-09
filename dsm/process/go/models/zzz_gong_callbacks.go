@@ -58,6 +58,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterProcessShapeCreateCallback != nil {
 			stage.OnAfterProcessShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Resource:
+		if stage.OnAfterResourceCreateCallback != nil {
+			stage.OnAfterResourceCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Task:
 		if stage.OnAfterTaskCreateCallback != nil {
 			stage.OnAfterTaskCreateCallback.OnAfterCreate(stage, target)
@@ -145,6 +149,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterProcessShapeUpdateCallback != nil {
 			stage.OnAfterProcessShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *Resource:
+		newTarget := any(new).(*Resource)
+		if stage.OnAfterResourceUpdateCallback != nil {
+			stage.OnAfterResourceUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Task:
 		newTarget := any(new).(*Task)
 		if stage.OnAfterTaskUpdateCallback != nil {
@@ -230,6 +239,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*ProcessShape)
 			stage.OnAfterProcessShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Resource:
+		if stage.OnAfterResourceDeleteCallback != nil {
+			staged := any(staged).(*Resource)
+			stage.OnAfterResourceDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Task:
 		if stage.OnAfterTaskDeleteCallback != nil {
 			staged := any(staged).(*Task)
@@ -302,6 +316,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterProcessShapeReadCallback != nil {
 			stage.OnAfterProcessShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *Resource:
+		if stage.OnAfterResourceReadCallback != nil {
+			stage.OnAfterResourceReadCallback.OnAfterRead(stage, target)
+		}
 	case *Task:
 		if stage.OnAfterTaskReadCallback != nil {
 			stage.OnAfterTaskReadCallback.OnAfterRead(stage, target)
@@ -347,6 +365,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterProcessUpdateCallback = any(callback).(OnAfterUpdateInterface[Process])
 	case *ProcessShape:
 		stage.OnAfterProcessShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ProcessShape])
+	case *Resource:
+		stage.OnAfterResourceUpdateCallback = any(callback).(OnAfterUpdateInterface[Resource])
 	case *Task:
 		stage.OnAfterTaskUpdateCallback = any(callback).(OnAfterUpdateInterface[Task])
 	case *TaskShape:
@@ -384,6 +404,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterProcessCreateCallback = any(callback).(OnAfterCreateInterface[Process])
 	case *ProcessShape:
 		stage.OnAfterProcessShapeCreateCallback = any(callback).(OnAfterCreateInterface[ProcessShape])
+	case *Resource:
+		stage.OnAfterResourceCreateCallback = any(callback).(OnAfterCreateInterface[Resource])
 	case *Task:
 		stage.OnAfterTaskCreateCallback = any(callback).(OnAfterCreateInterface[Task])
 	case *TaskShape:
@@ -421,6 +443,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterProcessDeleteCallback = any(callback).(OnAfterDeleteInterface[Process])
 	case *ProcessShape:
 		stage.OnAfterProcessShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ProcessShape])
+	case *Resource:
+		stage.OnAfterResourceDeleteCallback = any(callback).(OnAfterDeleteInterface[Resource])
 	case *Task:
 		stage.OnAfterTaskDeleteCallback = any(callback).(OnAfterDeleteInterface[Task])
 	case *TaskShape:
@@ -458,6 +482,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterProcessReadCallback = any(callback).(OnAfterReadInterface[Process])
 	case *ProcessShape:
 		stage.OnAfterProcessShapeReadCallback = any(callback).(OnAfterReadInterface[ProcessShape])
+	case *Resource:
+		stage.OnAfterResourceReadCallback = any(callback).(OnAfterReadInterface[Resource])
 	case *Task:
 		stage.OnAfterTaskReadCallback = any(callback).(OnAfterReadInterface[Task])
 	case *TaskShape:

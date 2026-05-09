@@ -314,6 +314,26 @@ func (inst *ProcessShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 	return
 }
 
+func (inst *Resource) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootResources":
+			if _library, ok := stage.Library_RootResources_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		case "ResourcesWhoseNodeIsExpanded":
+			if _library, ok := stage.Library_ResourcesWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *Task) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -611,6 +631,22 @@ func (inst *ProcessShape) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 		switch reverseField.Fieldname {
 		case "Process_Shapes":
 			res = stage.DiagramProcess_Process_Shapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *Resource) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootResources":
+			res = stage.Library_RootResources_reverseMap[inst]
+		case "ResourcesWhoseNodeIsExpanded":
+			res = stage.Library_ResourcesWhoseNodeIsExpanded_reverseMap[inst]
 		}
 	}
 	return res

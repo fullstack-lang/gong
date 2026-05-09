@@ -228,6 +228,20 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_DatasWhoseNodeIsExpanded_reverseMap[_data] = library
 		}
 	}
+	stage.Library_RootResources_reverseMap = make(map[*Resource]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _resource := range library.RootResources {
+			stage.Library_RootResources_reverseMap[_resource] = library
+		}
+	}
+	stage.Library_ResourcesWhoseNodeIsExpanded_reverseMap = make(map[*Resource]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _resource := range library.ResourcesWhoseNodeIsExpanded {
+			stage.Library_ResourcesWhoseNodeIsExpanded_reverseMap[_resource] = library
+		}
+	}
 
 	// Compute reverse map for named struct Participant
 	// insertion point per field
@@ -339,6 +353,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct ProcessShape
 	// insertion point per field
 
+	// Compute reverse map for named struct Resource
+	// insertion point per field
+
 	// Compute reverse map for named struct Task
 	// insertion point per field
 
@@ -399,6 +416,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.ProcessShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Resources {
 		res = append(res, instance)
 	}
 
@@ -489,6 +510,12 @@ func (process *Process) GongCopy() GongstructIF {
 func (processshape *ProcessShape) GongCopy() GongstructIF {
 	newInstance := new(ProcessShape)
 	processshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (resource *Resource) GongCopy() GongstructIF {
+	newInstance := new(Resource)
+	resource.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -632,6 +659,16 @@ func (processshape *ProcessShape) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(processshape), uint64(GetOrderPointerGongstruct(stage, processshape)))
+	return
+}
+
+func (resource *Resource) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(resource).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(resource), uint64(GetOrderPointerGongstruct(stage, resource)))
 	return
 }
 
@@ -1388,6 +1425,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(processshapes_newInstances)
 	lenDeletedInstances += len(processshapes_deletedInstances)
+	var resources_newInstances []*Resource
+	var resources_deletedInstances []*Resource
+
+	// parse all staged instances and check if they have a reference
+	for resource := range stage.Resources {
+		if ref, ok := stage.Resources_reference[resource]; !ok {
+			resources_newInstances = append(resources_newInstances, resource)
+			newInstancesSlice = append(newInstancesSlice, resource.GongMarshallIdentifier(stage))
+			if stage.Resources_referenceOrder == nil {
+				stage.Resources_referenceOrder = make(map[*Resource]uint)
+			}
+			stage.Resources_referenceOrder[resource] = stage.Resource_stagedOrder[resource]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, resource.GongMarshallUnstaging(stage))
+			// delete(stage.Resources_referenceOrder, resource)
+			fieldInitializers, pointersInitializations := resource.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Resource_stagedOrder[ref] = stage.Resource_stagedOrder[resource]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := resource.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, resource)
+			// delete(stage.Resource_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if resource.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", resource.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Resources_reference {
+		instance := stage.Resources_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Resources[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			resources_deletedInstances = append(resources_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(resources_newInstances)
+	lenDeletedInstances += len(resources_deletedInstances)
 	var tasks_newInstances []*Task
 	var tasks_deletedInstances []*Task
 
@@ -1663,6 +1755,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.ProcessShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Resources_reference = make(map[*Resource]*Resource)
+	stage.Resources_referenceOrder = make(map[*Resource]uint) // diff Unstage needs the reference order
+	stage.Resources_instance = make(map[*Resource]*Resource)
+	for instance := range stage.Resources {
+		_copy := instance.GongCopy().(*Resource)
+		stage.Resources_reference[instance] = _copy
+		stage.Resources_instance[_copy] = instance
+		stage.Resources_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Tasks_reference = make(map[*Task]*Task)
 	stage.Tasks_referenceOrder = make(map[*Task]uint) // diff Unstage needs the reference order
 	stage.Tasks_instance = make(map[*Task]*Task)
@@ -1746,6 +1848,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.ProcessShapes {
 		reference := stage.ProcessShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Resources {
+		reference := stage.Resources_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -1925,6 +2032,18 @@ func (processshape *ProcessShape) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (resource *Resource) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Resource_stagedOrder[resource]; ok {
+		return order
+	}
+	if order, ok := stage.Resources_referenceOrder[resource]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Resource was not staged and does not have a reference order", resource)
+		return 0
+	}
+}
+
 func (task *Task) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Task_stagedOrder[task]; ok {
 		return order
@@ -2071,6 +2190,15 @@ func (processshape *ProcessShape) GongGetReferenceIdentifier(stage *Stage) strin
 	return fmt.Sprintf("__%s__%08d_", processshape.GongGetGongstructName(), processshape.GongGetOrder(stage))
 }
 
+func (resource *Resource) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", resource.GongGetGongstructName(), resource.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (resource *Resource) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", resource.GongGetGongstructName(), resource.GongGetOrder(stage))
+}
+
 func (task *Task) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", task.GongGetGongstructName(), task.GongGetOrder(stage))
 }
@@ -2196,6 +2324,14 @@ func (processshape *ProcessShape) GongMarshallIdentifier(stage *Stage) (decl str
 	return
 }
 
+func (resource *Resource) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", resource.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Resource")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(resource.Name))
+	return
+}
+
 func (task *Task) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", task.GongGetIdentifier(stage))
@@ -2288,6 +2424,12 @@ func (process *Process) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (processshape *ProcessShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", processshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (resource *Resource) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", resource.GongGetReferenceIdentifier(stage))
 	return
 }
 
