@@ -1397,15 +1397,11 @@ func (stage *Stage) UnstageBranchTransition_Shape(transition_shape *Transition_S
 func (reference *Action) GongReconstructPointersFromReferences(stage *Stage, instance *Action) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Activities) GongReconstructPointersFromReferences(stage *Stage, instance *Activities) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Architecture) GongReconstructPointersFromReferences(stage *Stage, instance *Architecture) {
@@ -1419,8 +1415,6 @@ func (reference *Architecture) GongReconstructPointersFromReferences(stage *Stag
 	for _, _b := range instance.Roles {
 		reference.Roles = append(reference.Roles, stage.Roles_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) {
@@ -1438,22 +1432,16 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.Transition_Shapes {
 		reference.Transition_Shapes = append(reference.Transition_Shapes, stage.Transition_Shapes_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Guard) GongReconstructPointersFromReferences(stage *Stage, instance *Guard) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Kill) GongReconstructPointersFromReferences(stage *Stage, instance *Kill) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Message) GongReconstructPointersFromReferences(stage *Stage, instance *Message) {
@@ -1465,15 +1453,11 @@ func (reference *Message) GongReconstructPointersFromReferences(stage *Stage, in
 		reference.OriginTransition = stage.Transitions_reference[instance.OriginTransition]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *MessageType) GongReconstructPointersFromReferences(stage *Stage, instance *MessageType) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Object) GongReconstructPointersFromReferences(stage *Stage, instance *Object) {
@@ -1486,8 +1470,6 @@ func (reference *Object) GongReconstructPointersFromReferences(stage *Stage, ins
 	for _, _b := range instance.Messages {
 		reference.Messages = append(reference.Messages, stage.Messages_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Role) GongReconstructPointersFromReferences(stage *Stage, instance *Role) {
@@ -1497,8 +1479,6 @@ func (reference *Role) GongReconstructPointersFromReferences(stage *Stage, insta
 	for _, _b := range instance.RolesWithSamePermissions {
 		reference.RolesWithSamePermissions = append(reference.RolesWithSamePermissions, stage.Roles_reference[_b])
 	}
-
-	return
 }
 
 func (reference *State) GongReconstructPointersFromReferences(stage *Stage, instance *State) {
@@ -1525,8 +1505,6 @@ func (reference *State) GongReconstructPointersFromReferences(stage *Stage, inst
 	for _, _b := range instance.Activities {
 		reference.Activities = append(reference.Activities, stage.Activitiess_reference[_b])
 	}
-
-	return
 }
 
 func (reference *StateMachine) GongReconstructPointersFromReferences(stage *Stage, instance *StateMachine) {
@@ -1543,8 +1521,6 @@ func (reference *StateMachine) GongReconstructPointersFromReferences(stage *Stag
 	for _, _b := range instance.Diagrams {
 		reference.Diagrams = append(reference.Diagrams, stage.Diagrams_reference[_b])
 	}
-
-	return
 }
 
 func (reference *StateShape) GongReconstructPointersFromReferences(stage *Stage, instance *StateShape) {
@@ -1553,8 +1529,6 @@ func (reference *StateShape) GongReconstructPointersFromReferences(stage *Stage,
 		reference.State = stage.States_reference[instance.State]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Transition) GongReconstructPointersFromReferences(stage *Stage, instance *Transition) {
@@ -1581,8 +1555,6 @@ func (reference *Transition) GongReconstructPointersFromReferences(stage *Stage,
 	for _, _b := range instance.Diagrams {
 		reference.Diagrams = append(reference.Diagrams, stage.Diagrams_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Transition_Shape) GongReconstructPointersFromReferences(stage *Stage, instance *Transition_Shape) {
@@ -1591,23 +1563,17 @@ func (reference *Transition_Shape) GongReconstructPointersFromReferences(stage *
 		reference.Transition = stage.Transitions_reference[instance.Transition]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 // insertion point for pointer reconstruction from instances
 func (reference *Action) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Activities) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Architecture) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1627,8 +1593,6 @@ func (reference *Architecture) GongReconstructPointersFromInstances(stage *Stage
 		}
 	}
 	reference.Roles = _Roles
-
-	return
 }
 
 func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1655,22 +1619,16 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Transition_Shapes = _Transition_Shapes
-
-	return
 }
 
 func (reference *Guard) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Kill) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Message) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1688,15 +1646,11 @@ func (reference *Message) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *MessageType) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Object) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1715,8 +1669,6 @@ func (reference *Object) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Messages = _Messages
-
-	return
 }
 
 func (reference *Role) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1729,8 +1681,6 @@ func (reference *Role) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.RolesWithSamePermissions = _RolesWithSamePermissions
-
-	return
 }
 
 func (reference *State) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1775,8 +1725,6 @@ func (reference *State) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Activities = _Activities
-
-	return
 }
 
 func (reference *StateMachine) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1802,8 +1750,6 @@ func (reference *StateMachine) GongReconstructPointersFromInstances(stage *Stage
 		}
 	}
 	reference.Diagrams = _Diagrams
-
-	return
 }
 
 func (reference *StateShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1815,8 +1761,6 @@ func (reference *StateShape) GongReconstructPointersFromInstances(stage *Stage) 
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Transition) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1861,8 +1805,6 @@ func (reference *Transition) GongReconstructPointersFromInstances(stage *Stage) 
 		}
 	}
 	reference.Diagrams = _Diagrams
-
-	return
 }
 
 func (reference *Transition_Shape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1874,8 +1816,6 @@ func (reference *Transition_Shape) GongReconstructPointersFromInstances(stage *S
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 // insertion point for diff per struct

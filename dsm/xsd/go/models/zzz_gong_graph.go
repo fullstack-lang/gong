@@ -2725,8 +2725,6 @@ func (reference *All) GongReconstructPointersFromReferences(stage *Stage, instan
 	for _, _b := range instance.Elements {
 		reference.Elements = append(reference.Elements, stage.Elements_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Annotation) GongReconstructPointersFromReferences(stage *Stage, instance *Annotation) {
@@ -2736,8 +2734,6 @@ func (reference *Annotation) GongReconstructPointersFromReferences(stage *Stage,
 	for _, _b := range instance.Documentations {
 		reference.Documentations = append(reference.Documentations, stage.Documentations_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Attribute) GongReconstructPointersFromReferences(stage *Stage, instance *Attribute) {
@@ -2746,8 +2742,6 @@ func (reference *Attribute) GongReconstructPointersFromReferences(stage *Stage, 
 		reference.Annotation = stage.Annotations_reference[instance.Annotation]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *AttributeGroup) GongReconstructPointersFromReferences(stage *Stage, instance *AttributeGroup) {
@@ -2764,8 +2758,6 @@ func (reference *AttributeGroup) GongReconstructPointersFromReferences(stage *St
 	for _, _b := range instance.Attributes {
 		reference.Attributes = append(reference.Attributes, stage.Attributes_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Choice) GongReconstructPointersFromReferences(stage *Stage, instance *Choice) {
@@ -2794,15 +2786,11 @@ func (reference *Choice) GongReconstructPointersFromReferences(stage *Stage, ins
 	for _, _b := range instance.Elements {
 		reference.Elements = append(reference.Elements, stage.Elements_reference[_b])
 	}
-
-	return
 }
 
 func (reference *ComplexContent) GongReconstructPointersFromReferences(stage *Stage, instance *ComplexContent) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *ComplexType) GongReconstructPointersFromReferences(stage *Stage, instance *ComplexType) {
@@ -2851,15 +2839,11 @@ func (reference *ComplexType) GongReconstructPointersFromReferences(stage *Stage
 	for _, _b := range instance.AttributeGroups {
 		reference.AttributeGroups = append(reference.AttributeGroups, stage.AttributeGroups_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Documentation) GongReconstructPointersFromReferences(stage *Stage, instance *Documentation) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Element) GongReconstructPointersFromReferences(stage *Stage, instance *Element) {
@@ -2878,8 +2862,6 @@ func (reference *Element) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.Groups {
 		reference.Groups = append(reference.Groups, stage.Groups_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Enumeration) GongReconstructPointersFromReferences(stage *Stage, instance *Enumeration) {
@@ -2888,8 +2870,6 @@ func (reference *Enumeration) GongReconstructPointersFromReferences(stage *Stage
 		reference.Annotation = stage.Annotations_reference[instance.Annotation]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Extension) GongReconstructPointersFromReferences(stage *Stage, instance *Extension) {
@@ -2923,8 +2903,6 @@ func (reference *Extension) GongReconstructPointersFromReferences(stage *Stage, 
 	for _, _b := range instance.AttributeGroups {
 		reference.AttributeGroups = append(reference.AttributeGroups, stage.AttributeGroups_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, instance *Group) {
@@ -2956,8 +2934,6 @@ func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, inst
 	for _, _b := range instance.Elements {
 		reference.Elements = append(reference.Elements, stage.Elements_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Length) GongReconstructPointersFromReferences(stage *Stage, instance *Length) {
@@ -2966,8 +2942,6 @@ func (reference *Length) GongReconstructPointersFromReferences(stage *Stage, ins
 		reference.Annotation = stage.Annotations_reference[instance.Annotation]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *MaxInclusive) GongReconstructPointersFromReferences(stage *Stage, instance *MaxInclusive) {
@@ -2976,8 +2950,6 @@ func (reference *MaxInclusive) GongReconstructPointersFromReferences(stage *Stag
 		reference.Annotation = stage.Annotations_reference[instance.Annotation]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *MaxLength) GongReconstructPointersFromReferences(stage *Stage, instance *MaxLength) {
@@ -2986,8 +2958,6 @@ func (reference *MaxLength) GongReconstructPointersFromReferences(stage *Stage, 
 		reference.Annotation = stage.Annotations_reference[instance.Annotation]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *MinInclusive) GongReconstructPointersFromReferences(stage *Stage, instance *MinInclusive) {
@@ -2996,8 +2966,6 @@ func (reference *MinInclusive) GongReconstructPointersFromReferences(stage *Stag
 		reference.Annotation = stage.Annotations_reference[instance.Annotation]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *MinLength) GongReconstructPointersFromReferences(stage *Stage, instance *MinLength) {
@@ -3006,8 +2974,6 @@ func (reference *MinLength) GongReconstructPointersFromReferences(stage *Stage, 
 		reference.Annotation = stage.Annotations_reference[instance.Annotation]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Pattern) GongReconstructPointersFromReferences(stage *Stage, instance *Pattern) {
@@ -3016,8 +2982,6 @@ func (reference *Pattern) GongReconstructPointersFromReferences(stage *Stage, in
 		reference.Annotation = stage.Annotations_reference[instance.Annotation]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Restriction) GongReconstructPointersFromReferences(stage *Stage, instance *Restriction) {
@@ -3054,8 +3018,6 @@ func (reference *Restriction) GongReconstructPointersFromReferences(stage *Stage
 	for _, _b := range instance.Enumerations {
 		reference.Enumerations = append(reference.Enumerations, stage.Enumerations_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Schema) GongReconstructPointersFromReferences(stage *Stage, instance *Schema) {
@@ -3084,8 +3046,6 @@ func (reference *Schema) GongReconstructPointersFromReferences(stage *Stage, ins
 	for _, _b := range instance.Groups {
 		reference.Groups = append(reference.Groups, stage.Groups_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Sequence) GongReconstructPointersFromReferences(stage *Stage, instance *Sequence) {
@@ -3114,8 +3074,6 @@ func (reference *Sequence) GongReconstructPointersFromReferences(stage *Stage, i
 	for _, _b := range instance.Elements {
 		reference.Elements = append(reference.Elements, stage.Elements_reference[_b])
 	}
-
-	return
 }
 
 func (reference *SimpleContent) GongReconstructPointersFromReferences(stage *Stage, instance *SimpleContent) {
@@ -3127,8 +3085,6 @@ func (reference *SimpleContent) GongReconstructPointersFromReferences(stage *Sta
 		reference.Restriction = stage.Restrictions_reference[instance.Restriction]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *SimpleType) GongReconstructPointersFromReferences(stage *Stage, instance *SimpleType) {
@@ -3143,8 +3099,6 @@ func (reference *SimpleType) GongReconstructPointersFromReferences(stage *Stage,
 		reference.Union = stage.Unions_reference[instance.Union]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *TotalDigit) GongReconstructPointersFromReferences(stage *Stage, instance *TotalDigit) {
@@ -3153,8 +3107,6 @@ func (reference *TotalDigit) GongReconstructPointersFromReferences(stage *Stage,
 		reference.Annotation = stage.Annotations_reference[instance.Annotation]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Union) GongReconstructPointersFromReferences(stage *Stage, instance *Union) {
@@ -3163,8 +3115,6 @@ func (reference *Union) GongReconstructPointersFromReferences(stage *Stage, inst
 		reference.Annotation = stage.Annotations_reference[instance.Annotation]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *WhiteSpace) GongReconstructPointersFromReferences(stage *Stage, instance *WhiteSpace) {
@@ -3173,8 +3123,6 @@ func (reference *WhiteSpace) GongReconstructPointersFromReferences(stage *Stage,
 		reference.Annotation = stage.Annotations_reference[instance.Annotation]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 // insertion point for pointer reconstruction from instances
@@ -3222,8 +3170,6 @@ func (reference *All) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Elements = _Elements
-
-	return
 }
 
 func (reference *Annotation) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3236,8 +3182,6 @@ func (reference *Annotation) GongReconstructPointersFromInstances(stage *Stage) 
 		}
 	}
 	reference.Documentations = _Documentations
-
-	return
 }
 
 func (reference *Attribute) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3249,8 +3193,6 @@ func (reference *Attribute) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *AttributeGroup) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3276,8 +3218,6 @@ func (reference *AttributeGroup) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	reference.Attributes = _Attributes
-
-	return
 }
 
 func (reference *Choice) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3324,15 +3264,11 @@ func (reference *Choice) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Elements = _Elements
-
-	return
 }
 
 func (reference *ComplexContent) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *ComplexType) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3417,15 +3353,11 @@ func (reference *ComplexType) GongReconstructPointersFromInstances(stage *Stage)
 		}
 	}
 	reference.AttributeGroups = _AttributeGroups
-
-	return
 }
 
 func (reference *Documentation) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Element) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3456,8 +3388,6 @@ func (reference *Element) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Groups = _Groups
-
-	return
 }
 
 func (reference *Enumeration) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3469,8 +3399,6 @@ func (reference *Enumeration) GongReconstructPointersFromInstances(stage *Stage)
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Extension) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3525,8 +3453,6 @@ func (reference *Extension) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.AttributeGroups = _AttributeGroups
-
-	return
 }
 
 func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3579,8 +3505,6 @@ func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Elements = _Elements
-
-	return
 }
 
 func (reference *Length) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3592,8 +3516,6 @@ func (reference *Length) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *MaxInclusive) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3605,8 +3527,6 @@ func (reference *MaxInclusive) GongReconstructPointersFromInstances(stage *Stage
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *MaxLength) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3618,8 +3538,6 @@ func (reference *MaxLength) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *MinInclusive) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3631,8 +3549,6 @@ func (reference *MinInclusive) GongReconstructPointersFromInstances(stage *Stage
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *MinLength) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3644,8 +3560,6 @@ func (reference *MinLength) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Pattern) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3657,8 +3571,6 @@ func (reference *Pattern) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Restriction) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3725,8 +3637,6 @@ func (reference *Restriction) GongReconstructPointersFromInstances(stage *Stage)
 		}
 	}
 	reference.Enumerations = _Enumerations
-
-	return
 }
 
 func (reference *Schema) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3773,8 +3683,6 @@ func (reference *Schema) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Groups = _Groups
-
-	return
 }
 
 func (reference *Sequence) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3821,8 +3729,6 @@ func (reference *Sequence) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Elements = _Elements
-
-	return
 }
 
 func (reference *SimpleContent) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3840,8 +3746,6 @@ func (reference *SimpleContent) GongReconstructPointersFromInstances(stage *Stag
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *SimpleType) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3865,8 +3769,6 @@ func (reference *SimpleType) GongReconstructPointersFromInstances(stage *Stage) 
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *TotalDigit) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3878,8 +3780,6 @@ func (reference *TotalDigit) GongReconstructPointersFromInstances(stage *Stage) 
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Union) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3891,8 +3791,6 @@ func (reference *Union) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *WhiteSpace) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3904,8 +3802,6 @@ func (reference *WhiteSpace) GongReconstructPointersFromInstances(stage *Stage) 
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 // insertion point for diff per struct

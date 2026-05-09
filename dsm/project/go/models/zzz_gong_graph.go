@@ -1995,8 +1995,6 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.ResourceTaskShapes {
 		reference.ResourceTaskShapes = append(reference.ResourceTaskShapes, stage.ResourceTaskShapes_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) {
@@ -2026,8 +2024,6 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.SubLibraries {
 		reference.SubLibraries = append(reference.SubLibraries, stage.Librarys_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) {
@@ -2045,8 +2041,6 @@ func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, insta
 	for _, _b := range instance.Resources {
 		reference.Resources = append(reference.Resources, stage.Resources_reference[_b])
 	}
-
-	return
 }
 
 func (reference *NoteProductShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteProductShape) {
@@ -2058,8 +2052,6 @@ func (reference *NoteProductShape) GongReconstructPointersFromReferences(stage *
 		reference.Product = stage.Products_reference[instance.Product]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *NoteResourceShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteResourceShape) {
@@ -2071,8 +2063,6 @@ func (reference *NoteResourceShape) GongReconstructPointersFromReferences(stage 
 		reference.Resource = stage.Resources_reference[instance.Resource]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *NoteShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteShape) {
@@ -2081,8 +2071,6 @@ func (reference *NoteShape) GongReconstructPointersFromReferences(stage *Stage, 
 		reference.Note = stage.Notes_reference[instance.Note]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *NoteTaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteTaskShape) {
@@ -2094,8 +2082,6 @@ func (reference *NoteTaskShape) GongReconstructPointersFromReferences(stage *Sta
 		reference.Task = stage.Tasks_reference[instance.Task]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Product) GongReconstructPointersFromReferences(stage *Stage, instance *Product) {
@@ -2105,8 +2091,6 @@ func (reference *Product) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.SubProducts {
 		reference.SubProducts = append(reference.SubProducts, stage.Products_reference[_b])
 	}
-
-	return
 }
 
 func (reference *ProductCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProductCompositionShape) {
@@ -2115,8 +2099,6 @@ func (reference *ProductCompositionShape) GongReconstructPointersFromReferences(
 		reference.Product = stage.Products_reference[instance.Product]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *ProductShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProductShape) {
@@ -2125,8 +2107,6 @@ func (reference *ProductShape) GongReconstructPointersFromReferences(stage *Stag
 		reference.Product = stage.Products_reference[instance.Product]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Resource) GongReconstructPointersFromReferences(stage *Stage, instance *Resource) {
@@ -2140,8 +2120,6 @@ func (reference *Resource) GongReconstructPointersFromReferences(stage *Stage, i
 	for _, _b := range instance.SubResources {
 		reference.SubResources = append(reference.SubResources, stage.Resources_reference[_b])
 	}
-
-	return
 }
 
 func (reference *ResourceCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *ResourceCompositionShape) {
@@ -2150,8 +2128,6 @@ func (reference *ResourceCompositionShape) GongReconstructPointersFromReferences
 		reference.Resource = stage.Resources_reference[instance.Resource]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *ResourceShape) GongReconstructPointersFromReferences(stage *Stage, instance *ResourceShape) {
@@ -2160,8 +2136,6 @@ func (reference *ResourceShape) GongReconstructPointersFromReferences(stage *Sta
 		reference.Resource = stage.Resources_reference[instance.Resource]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *ResourceTaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *ResourceTaskShape) {
@@ -2173,8 +2147,6 @@ func (reference *ResourceTaskShape) GongReconstructPointersFromReferences(stage 
 		reference.Task = stage.Tasks_reference[instance.Task]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, instance *Task) {
@@ -2192,8 +2164,6 @@ func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, insta
 	for _, _b := range instance.Outputs {
 		reference.Outputs = append(reference.Outputs, stage.Products_reference[_b])
 	}
-
-	return
 }
 
 func (reference *TaskCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskCompositionShape) {
@@ -2202,8 +2172,6 @@ func (reference *TaskCompositionShape) GongReconstructPointersFromReferences(sta
 		reference.Task = stage.Tasks_reference[instance.Task]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *TaskInputShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskInputShape) {
@@ -2215,8 +2183,6 @@ func (reference *TaskInputShape) GongReconstructPointersFromReferences(stage *St
 		reference.Task = stage.Tasks_reference[instance.Task]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *TaskOutputShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskOutputShape) {
@@ -2228,8 +2194,6 @@ func (reference *TaskOutputShape) GongReconstructPointersFromReferences(stage *S
 		reference.Product = stage.Products_reference[instance.Product]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *TaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskShape) {
@@ -2238,8 +2202,6 @@ func (reference *TaskShape) GongReconstructPointersFromReferences(stage *Stage, 
 		reference.Task = stage.Tasks_reference[instance.Task]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 // insertion point for pointer reconstruction from instances
@@ -2379,8 +2341,6 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.ResourceTaskShapes = _ResourceTaskShapes
-
-	return
 }
 
 func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2428,8 +2388,6 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.SubLibraries = _SubLibraries
-
-	return
 }
 
 func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2456,8 +2414,6 @@ func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Resources = _Resources
-
-	return
 }
 
 func (reference *NoteProductShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2475,8 +2431,6 @@ func (reference *NoteProductShape) GongReconstructPointersFromInstances(stage *S
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *NoteResourceShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2494,8 +2448,6 @@ func (reference *NoteResourceShape) GongReconstructPointersFromInstances(stage *
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *NoteShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2507,8 +2459,6 @@ func (reference *NoteShape) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *NoteTaskShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2526,8 +2476,6 @@ func (reference *NoteTaskShape) GongReconstructPointersFromInstances(stage *Stag
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Product) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2540,8 +2488,6 @@ func (reference *Product) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.SubProducts = _SubProducts
-
-	return
 }
 
 func (reference *ProductCompositionShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2553,8 +2499,6 @@ func (reference *ProductCompositionShape) GongReconstructPointersFromInstances(s
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *ProductShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2566,8 +2510,6 @@ func (reference *ProductShape) GongReconstructPointersFromInstances(stage *Stage
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Resource) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2587,8 +2529,6 @@ func (reference *Resource) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.SubResources = _SubResources
-
-	return
 }
 
 func (reference *ResourceCompositionShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2600,8 +2540,6 @@ func (reference *ResourceCompositionShape) GongReconstructPointersFromInstances(
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *ResourceShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2613,8 +2551,6 @@ func (reference *ResourceShape) GongReconstructPointersFromInstances(stage *Stag
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *ResourceTaskShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2632,8 +2568,6 @@ func (reference *ResourceTaskShape) GongReconstructPointersFromInstances(stage *
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2660,8 +2594,6 @@ func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Outputs = _Outputs
-
-	return
 }
 
 func (reference *TaskCompositionShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2673,8 +2605,6 @@ func (reference *TaskCompositionShape) GongReconstructPointersFromInstances(stag
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *TaskInputShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2692,8 +2622,6 @@ func (reference *TaskInputShape) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *TaskOutputShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2711,8 +2639,6 @@ func (reference *TaskOutputShape) GongReconstructPointersFromInstances(stage *St
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *TaskShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2724,8 +2650,6 @@ func (reference *TaskShape) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 // insertion point for diff per struct

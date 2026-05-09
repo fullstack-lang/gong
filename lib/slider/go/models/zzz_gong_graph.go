@@ -389,8 +389,6 @@ func (stage *Stage) UnstageBranchSlider(slider *Slider) {
 func (reference *Checkbox) GongReconstructPointersFromReferences(stage *Stage, instance *Checkbox) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, instance *Group) {
@@ -404,8 +402,6 @@ func (reference *Group) GongReconstructPointersFromReferences(stage *Stage, inst
 	for _, _b := range instance.Checkboxes {
 		reference.Checkboxes = append(reference.Checkboxes, stage.Checkboxs_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Layout) GongReconstructPointersFromReferences(stage *Stage, instance *Layout) {
@@ -415,23 +411,17 @@ func (reference *Layout) GongReconstructPointersFromReferences(stage *Stage, ins
 	for _, _b := range instance.Groups {
 		reference.Groups = append(reference.Groups, stage.Groups_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Slider) GongReconstructPointersFromReferences(stage *Stage, instance *Slider) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 // insertion point for pointer reconstruction from instances
 func (reference *Checkbox) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) {
@@ -451,8 +441,6 @@ func (reference *Group) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Checkboxes = _Checkboxes
-
-	return
 }
 
 func (reference *Layout) GongReconstructPointersFromInstances(stage *Stage) {
@@ -465,15 +453,11 @@ func (reference *Layout) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Groups = _Groups
-
-	return
 }
 
 func (reference *Slider) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 // insertion point for diff per struct

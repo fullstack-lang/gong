@@ -146,16 +146,12 @@ func (stage *Stage) UnstageBranchCursor(cursor *Cursor) {
 func (reference *Cursor) GongReconstructPointersFromReferences(stage *Stage, instance *Cursor) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 // insertion point for pointer reconstruction from instances
 func (reference *Cursor) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 // insertion point for diff per struct

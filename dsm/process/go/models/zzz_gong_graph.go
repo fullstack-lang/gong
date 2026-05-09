@@ -1736,8 +1736,6 @@ func (reference *ControlFlow) GongReconstructPointersFromReferences(stage *Stage
 		reference.End = stage.Tasks_reference[instance.End]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *ControlFlowShape) GongReconstructPointersFromReferences(stage *Stage, instance *ControlFlowShape) {
@@ -1746,15 +1744,11 @@ func (reference *ControlFlowShape) GongReconstructPointersFromReferences(stage *
 		reference.ControlFlow = stage.ControlFlows_reference[instance.ControlFlow]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Data) GongReconstructPointersFromReferences(stage *Stage, instance *Data) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *DataFlow) GongReconstructPointersFromReferences(stage *Stage, instance *DataFlow) {
@@ -1776,8 +1770,6 @@ func (reference *DataFlow) GongReconstructPointersFromReferences(stage *Stage, i
 	for _, _b := range instance.Datas {
 		reference.Datas = append(reference.Datas, stage.Datas_reference[_b])
 	}
-
-	return
 }
 
 func (reference *DataFlowShape) GongReconstructPointersFromReferences(stage *Stage, instance *DataFlowShape) {
@@ -1786,8 +1778,6 @@ func (reference *DataFlowShape) GongReconstructPointersFromReferences(stage *Sta
 		reference.DataFlow = stage.DataFlows_reference[instance.DataFlow]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *DataShape) GongReconstructPointersFromReferences(stage *Stage, instance *DataShape) {
@@ -1799,8 +1789,6 @@ func (reference *DataShape) GongReconstructPointersFromReferences(stage *Stage, 
 		reference.DataFlow = stage.DataFlows_reference[instance.DataFlow]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *Stage, instance *DiagramProcess) {
@@ -1874,8 +1862,6 @@ func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *St
 	for _, _b := range instance.DataFlowsWhoseDataNodeIsExpanded {
 		reference.DataFlowsWhoseDataNodeIsExpanded = append(reference.DataFlowsWhoseDataNodeIsExpanded, stage.DataFlows_reference[_b])
 	}
-
-	return
 }
 
 func (reference *ExternalParticipantShape) GongReconstructPointersFromReferences(stage *Stage, instance *ExternalParticipantShape) {
@@ -1884,8 +1870,6 @@ func (reference *ExternalParticipantShape) GongReconstructPointersFromReferences
 		reference.Participant = stage.Participants_reference[instance.Participant]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) {
@@ -1931,8 +1915,6 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.ResourcesWhoseNodeIsExpanded {
 		reference.ResourcesWhoseNodeIsExpanded = append(reference.ResourcesWhoseNodeIsExpanded, stage.Resources_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Participant) GongReconstructPointersFromReferences(stage *Stage, instance *Participant) {
@@ -1962,8 +1944,6 @@ func (reference *Participant) GongReconstructPointersFromReferences(stage *Stage
 	for _, _b := range instance.TaskWhoseInDataFlowsNodeIsExpanded {
 		reference.TaskWhoseInDataFlowsNodeIsExpanded = append(reference.TaskWhoseInDataFlowsNodeIsExpanded, stage.Tasks_reference[_b])
 	}
-
-	return
 }
 
 func (reference *ParticipantShape) GongReconstructPointersFromReferences(stage *Stage, instance *ParticipantShape) {
@@ -1972,8 +1952,6 @@ func (reference *ParticipantShape) GongReconstructPointersFromReferences(stage *
 		reference.Participant = stage.Participants_reference[instance.Participant]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Process) GongReconstructPointersFromReferences(stage *Stage, instance *Process) {
@@ -2011,8 +1989,6 @@ func (reference *Process) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.ExternalParticipantWhoseNodeIsExpanded {
 		reference.ExternalParticipantWhoseNodeIsExpanded = append(reference.ExternalParticipantWhoseNodeIsExpanded, stage.Participants_reference[_b])
 	}
-
-	return
 }
 
 func (reference *ProcessShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProcessShape) {
@@ -2021,22 +1997,16 @@ func (reference *ProcessShape) GongReconstructPointersFromReferences(stage *Stag
 		reference.Process = stage.Processs_reference[instance.Process]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Resource) GongReconstructPointersFromReferences(stage *Stage, instance *Resource) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, instance *Task) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *TaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskShape) {
@@ -2045,8 +2015,6 @@ func (reference *TaskShape) GongReconstructPointersFromReferences(stage *Stage, 
 		reference.Task = stage.Tasks_reference[instance.Task]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 // insertion point for pointer reconstruction from instances
@@ -2065,8 +2033,6 @@ func (reference *ControlFlow) GongReconstructPointersFromInstances(stage *Stage)
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *ControlFlowShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2078,15 +2044,11 @@ func (reference *ControlFlowShape) GongReconstructPointersFromInstances(stage *S
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Data) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *DataFlow) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2123,8 +2085,6 @@ func (reference *DataFlow) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Datas = _Datas
-
-	return
 }
 
 func (reference *DataFlowShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2136,8 +2096,6 @@ func (reference *DataFlowShape) GongReconstructPointersFromInstances(stage *Stag
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *DataShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2155,8 +2113,6 @@ func (reference *DataShape) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2281,8 +2237,6 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	reference.DataFlowsWhoseDataNodeIsExpanded = _DataFlowsWhoseDataNodeIsExpanded
-
-	return
 }
 
 func (reference *ExternalParticipantShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2294,8 +2248,6 @@ func (reference *ExternalParticipantShape) GongReconstructPointersFromInstances(
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2371,8 +2323,6 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.ResourcesWhoseNodeIsExpanded = _ResourcesWhoseNodeIsExpanded
-
-	return
 }
 
 func (reference *Participant) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2420,8 +2370,6 @@ func (reference *Participant) GongReconstructPointersFromInstances(stage *Stage)
 		}
 	}
 	reference.TaskWhoseInDataFlowsNodeIsExpanded = _TaskWhoseInDataFlowsNodeIsExpanded
-
-	return
 }
 
 func (reference *ParticipantShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2433,8 +2381,6 @@ func (reference *ParticipantShape) GongReconstructPointersFromInstances(stage *S
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Process) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2496,8 +2442,6 @@ func (reference *Process) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.ExternalParticipantWhoseNodeIsExpanded = _ExternalParticipantWhoseNodeIsExpanded
-
-	return
 }
 
 func (reference *ProcessShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2509,22 +2453,16 @@ func (reference *ProcessShape) GongReconstructPointersFromInstances(stage *Stage
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Resource) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *TaskShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2536,8 +2474,6 @@ func (reference *TaskShape) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 // insertion point for diff per struct

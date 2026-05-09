@@ -494,15 +494,11 @@ func (reference *DisplaySelection) GongReconstructPointersFromReferences(stage *
 		reference.XLSheet = stage.XLSheets_reference[instance.XLSheet]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *XLCell) GongReconstructPointersFromReferences(stage *Stage, instance *XLCell) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *XLFile) GongReconstructPointersFromReferences(stage *Stage, instance *XLFile) {
@@ -512,8 +508,6 @@ func (reference *XLFile) GongReconstructPointersFromReferences(stage *Stage, ins
 	for _, _b := range instance.Sheets {
 		reference.Sheets = append(reference.Sheets, stage.XLSheets_reference[_b])
 	}
-
-	return
 }
 
 func (reference *XLRow) GongReconstructPointersFromReferences(stage *Stage, instance *XLRow) {
@@ -523,8 +517,6 @@ func (reference *XLRow) GongReconstructPointersFromReferences(stage *Stage, inst
 	for _, _b := range instance.Cells {
 		reference.Cells = append(reference.Cells, stage.XLCells_reference[_b])
 	}
-
-	return
 }
 
 func (reference *XLSheet) GongReconstructPointersFromReferences(stage *Stage, instance *XLSheet) {
@@ -538,8 +530,6 @@ func (reference *XLSheet) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.SheetCells {
 		reference.SheetCells = append(reference.SheetCells, stage.XLCells_reference[_b])
 	}
-
-	return
 }
 
 // insertion point for pointer reconstruction from instances
@@ -558,15 +548,11 @@ func (reference *DisplaySelection) GongReconstructPointersFromInstances(stage *S
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *XLCell) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *XLFile) GongReconstructPointersFromInstances(stage *Stage) {
@@ -579,8 +565,6 @@ func (reference *XLFile) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Sheets = _Sheets
-
-	return
 }
 
 func (reference *XLRow) GongReconstructPointersFromInstances(stage *Stage) {
@@ -593,8 +577,6 @@ func (reference *XLRow) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Cells = _Cells
-
-	return
 }
 
 func (reference *XLSheet) GongReconstructPointersFromInstances(stage *Stage) {
@@ -614,8 +596,6 @@ func (reference *XLSheet) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.SheetCells = _SheetCells
-
-	return
 }
 
 // insertion point for diff per struct

@@ -1561,8 +1561,6 @@ func (reference *Body) GongReconstructPointersFromReferences(stage *Stage, insta
 	for _, _b := range instance.Tables {
 		reference.Tables = append(reference.Tables, stage.Tables_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Document) GongReconstructPointersFromReferences(stage *Stage, instance *Document) {
@@ -1577,8 +1575,6 @@ func (reference *Document) GongReconstructPointersFromReferences(stage *Stage, i
 		reference.Body = stage.Bodys_reference[instance.Body]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Docx) GongReconstructPointersFromReferences(stage *Stage, instance *Docx) {
@@ -1591,15 +1587,11 @@ func (reference *Docx) GongReconstructPointersFromReferences(stage *Stage, insta
 	for _, _b := range instance.Files {
 		reference.Files = append(reference.Files, stage.Files_reference[_b])
 	}
-
-	return
 }
 
 func (reference *File) GongReconstructPointersFromReferences(stage *Stage, instance *File) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Node) GongReconstructPointersFromReferences(stage *Stage, instance *Node) {
@@ -1609,8 +1601,6 @@ func (reference *Node) GongReconstructPointersFromReferences(stage *Stage, insta
 	for _, _b := range instance.Nodes {
 		reference.Nodes = append(reference.Nodes, stage.Nodes_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Paragraph) GongReconstructPointersFromReferences(stage *Stage, instance *Paragraph) {
@@ -1638,8 +1628,6 @@ func (reference *Paragraph) GongReconstructPointersFromReferences(stage *Stage, 
 	for _, _b := range instance.Runes {
 		reference.Runes = append(reference.Runes, stage.Runes_reference[_b])
 	}
-
-	return
 }
 
 func (reference *ParagraphProperties) GongReconstructPointersFromReferences(stage *Stage, instance *ParagraphProperties) {
@@ -1651,8 +1639,6 @@ func (reference *ParagraphProperties) GongReconstructPointersFromReferences(stag
 		reference.Node = stage.Nodes_reference[instance.Node]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *ParagraphStyle) GongReconstructPointersFromReferences(stage *Stage, instance *ParagraphStyle) {
@@ -1661,8 +1647,6 @@ func (reference *ParagraphStyle) GongReconstructPointersFromReferences(stage *St
 		reference.Node = stage.Nodes_reference[instance.Node]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Rune) GongReconstructPointersFromReferences(stage *Stage, instance *Rune) {
@@ -1680,8 +1664,6 @@ func (reference *Rune) GongReconstructPointersFromReferences(stage *Stage, insta
 		reference.EnclosingParagraph = stage.Paragraphs_reference[instance.EnclosingParagraph]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *RuneProperties) GongReconstructPointersFromReferences(stage *Stage, instance *RuneProperties) {
@@ -1690,8 +1672,6 @@ func (reference *RuneProperties) GongReconstructPointersFromReferences(stage *St
 		reference.Node = stage.Nodes_reference[instance.Node]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Table) GongReconstructPointersFromReferences(stage *Stage, instance *Table) {
@@ -1707,8 +1687,6 @@ func (reference *Table) GongReconstructPointersFromReferences(stage *Stage, inst
 	for _, _b := range instance.TableRows {
 		reference.TableRows = append(reference.TableRows, stage.TableRows_reference[_b])
 	}
-
-	return
 }
 
 func (reference *TableColumn) GongReconstructPointersFromReferences(stage *Stage, instance *TableColumn) {
@@ -1721,8 +1699,6 @@ func (reference *TableColumn) GongReconstructPointersFromReferences(stage *Stage
 	for _, _b := range instance.Paragraphs {
 		reference.Paragraphs = append(reference.Paragraphs, stage.Paragraphs_reference[_b])
 	}
-
-	return
 }
 
 func (reference *TableProperties) GongReconstructPointersFromReferences(stage *Stage, instance *TableProperties) {
@@ -1734,8 +1710,6 @@ func (reference *TableProperties) GongReconstructPointersFromReferences(stage *S
 		reference.TableStyle = stage.TableStyles_reference[instance.TableStyle]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *TableRow) GongReconstructPointersFromReferences(stage *Stage, instance *TableRow) {
@@ -1748,8 +1722,6 @@ func (reference *TableRow) GongReconstructPointersFromReferences(stage *Stage, i
 	for _, _b := range instance.TableColumns {
 		reference.TableColumns = append(reference.TableColumns, stage.TableColumns_reference[_b])
 	}
-
-	return
 }
 
 func (reference *TableStyle) GongReconstructPointersFromReferences(stage *Stage, instance *TableStyle) {
@@ -1758,8 +1730,6 @@ func (reference *TableStyle) GongReconstructPointersFromReferences(stage *Stage,
 		reference.Node = stage.Nodes_reference[instance.Node]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Text) GongReconstructPointersFromReferences(stage *Stage, instance *Text) {
@@ -1771,8 +1741,6 @@ func (reference *Text) GongReconstructPointersFromReferences(stage *Stage, insta
 		reference.EnclosingRune = stage.Runes_reference[instance.EnclosingRune]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 // insertion point for pointer reconstruction from instances
@@ -1799,8 +1767,6 @@ func (reference *Body) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Tables = _Tables
-
-	return
 }
 
 func (reference *Document) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1824,8 +1790,6 @@ func (reference *Document) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Docx) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1844,15 +1808,11 @@ func (reference *Docx) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Files = _Files
-
-	return
 }
 
 func (reference *File) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Node) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1865,8 +1825,6 @@ func (reference *Node) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Nodes = _Nodes
-
-	return
 }
 
 func (reference *Paragraph) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1915,8 +1873,6 @@ func (reference *Paragraph) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Runes = _Runes
-
-	return
 }
 
 func (reference *ParagraphProperties) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1934,8 +1890,6 @@ func (reference *ParagraphProperties) GongReconstructPointersFromInstances(stage
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *ParagraphStyle) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1947,8 +1901,6 @@ func (reference *ParagraphStyle) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Rune) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1978,8 +1930,6 @@ func (reference *Rune) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *RuneProperties) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1991,8 +1941,6 @@ func (reference *RuneProperties) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Table) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2017,8 +1965,6 @@ func (reference *Table) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.TableRows = _TableRows
-
-	return
 }
 
 func (reference *TableColumn) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2037,8 +1983,6 @@ func (reference *TableColumn) GongReconstructPointersFromInstances(stage *Stage)
 		}
 	}
 	reference.Paragraphs = _Paragraphs
-
-	return
 }
 
 func (reference *TableProperties) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2056,8 +2000,6 @@ func (reference *TableProperties) GongReconstructPointersFromInstances(stage *St
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *TableRow) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2076,8 +2018,6 @@ func (reference *TableRow) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.TableColumns = _TableColumns
-
-	return
 }
 
 func (reference *TableStyle) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2089,8 +2029,6 @@ func (reference *TableStyle) GongReconstructPointersFromInstances(stage *Stage) 
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Text) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2108,8 +2046,6 @@ func (reference *Text) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 // insertion point for diff per struct
