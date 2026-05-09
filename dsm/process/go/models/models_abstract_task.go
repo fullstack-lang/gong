@@ -19,3 +19,8 @@ type Task struct {
 }
 
 var _ AbstractType = (*Task)(nil)
+
+func (s *Task) GetOwningParticipant() *Participant {
+	return s.owningParticipant
+}
+	
