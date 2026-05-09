@@ -968,8 +968,6 @@ func (reference *Button) GongReconstructPointersFromReferences(stage *Stage, ins
 		reference.SVGIcon = stage.SVGIcons_reference[instance.SVGIcon]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Cell) GongReconstructPointersFromReferences(stage *Stage, instance *Cell) {
@@ -990,50 +988,36 @@ func (reference *Cell) GongReconstructPointersFromReferences(stage *Stage, insta
 		reference.CellIcon = stage.CellIcons_reference[instance.CellIcon]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *CellBoolean) GongReconstructPointersFromReferences(stage *Stage, instance *CellBoolean) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *CellFloat64) GongReconstructPointersFromReferences(stage *Stage, instance *CellFloat64) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *CellIcon) GongReconstructPointersFromReferences(stage *Stage, instance *CellIcon) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *CellInt) GongReconstructPointersFromReferences(stage *Stage, instance *CellInt) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *CellString) GongReconstructPointersFromReferences(stage *Stage, instance *CellString) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *DisplayedColumn) GongReconstructPointersFromReferences(stage *Stage, instance *DisplayedColumn) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Row) GongReconstructPointersFromReferences(stage *Stage, instance *Row) {
@@ -1043,15 +1027,11 @@ func (reference *Row) GongReconstructPointersFromReferences(stage *Stage, instan
 	for _, _b := range instance.Cells {
 		reference.Cells = append(reference.Cells, stage.Cells_reference[_b])
 	}
-
-	return
 }
 
 func (reference *SVGIcon) GongReconstructPointersFromReferences(stage *Stage, instance *SVGIcon) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Table) GongReconstructPointersFromReferences(stage *Stage, instance *Table) {
@@ -1073,8 +1053,6 @@ func (reference *Table) GongReconstructPointersFromReferences(stage *Stage, inst
 	for _, _b := range instance.Buttons {
 		reference.Buttons = append(reference.Buttons, stage.Buttons_reference[_b])
 	}
-
-	return
 }
 
 // insertion point for pointer reconstruction from instances
@@ -1087,8 +1065,6 @@ func (reference *Button) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Cell) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1124,50 +1100,36 @@ func (reference *Cell) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *CellBoolean) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *CellFloat64) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *CellIcon) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *CellInt) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *CellString) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *DisplayedColumn) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Row) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1180,15 +1142,11 @@ func (reference *Row) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Cells = _Cells
-
-	return
 }
 
 func (reference *SVGIcon) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Table) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1222,8 +1180,6 @@ func (reference *Table) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Buttons = _Buttons
-
-	return
 }
 
 // insertion point for diff per struct

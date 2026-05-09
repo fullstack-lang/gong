@@ -29,7 +29,7 @@ type itemAdderCallback[PT AbstractType] struct {
 type parentNodeExpansionType string
 
 const (
-	parentNodeExpansionTypeNone           parentNodeExpansionType = ""
+	parentNodeExpansionTypeNone           parentNodeExpansionType = "parentNodeExpansionTypeNone"
 	parentNodeExpansionTypeByBooleanValue parentNodeExpansionType = "parentNodeExpansionTypeByBooleanValue"
 	parentNodeExpansionTypeBySlice        parentNodeExpansionType = "parentNodeExpansionTypeBySlice"
 )

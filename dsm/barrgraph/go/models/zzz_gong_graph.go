@@ -1100,8 +1100,6 @@ func (stage *Stage) UnstageBranchPlace(place *Place) {
 func (reference *ArtefactType) GongReconstructPointersFromReferences(stage *Stage, instance *ArtefactType) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *ArtefactTypeShape) GongReconstructPointersFromReferences(stage *Stage, instance *ArtefactTypeShape) {
@@ -1110,8 +1108,6 @@ func (reference *ArtefactTypeShape) GongReconstructPointersFromReferences(stage 
 		reference.ArtefactType = stage.ArtefactTypes_reference[instance.ArtefactType]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Artist) GongReconstructPointersFromReferences(stage *Stage, instance *Artist) {
@@ -1120,8 +1116,6 @@ func (reference *Artist) GongReconstructPointersFromReferences(stage *Stage, ins
 		reference.Place = stage.Places_reference[instance.Place]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *ArtistShape) GongReconstructPointersFromReferences(stage *Stage, instance *ArtistShape) {
@@ -1130,15 +1124,11 @@ func (reference *ArtistShape) GongReconstructPointersFromReferences(stage *Stage
 		reference.Artist = stage.Artists_reference[instance.Artist]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *ControlPointShape) GongReconstructPointersFromReferences(stage *Stage, instance *ControlPointShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Desk) GongReconstructPointersFromReferences(stage *Stage, instance *Desk) {
@@ -1147,8 +1137,6 @@ func (reference *Desk) GongReconstructPointersFromReferences(stage *Stage, insta
 		reference.SelectedDiagram = stage.Diagrams_reference[instance.SelectedDiagram]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) {
@@ -1170,8 +1158,6 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.InfluenceShapes {
 		reference.InfluenceShapes = append(reference.InfluenceShapes, stage.InfluenceShapes_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Influence) GongReconstructPointersFromReferences(stage *Stage, instance *Influence) {
@@ -1195,8 +1181,6 @@ func (reference *Influence) GongReconstructPointersFromReferences(stage *Stage, 
 		reference.TargetArtist = stage.Artists_reference[instance.TargetArtist]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *InfluenceShape) GongReconstructPointersFromReferences(stage *Stage, instance *InfluenceShape) {
@@ -1209,8 +1193,6 @@ func (reference *InfluenceShape) GongReconstructPointersFromReferences(stage *St
 	for _, _b := range instance.ControlPointShapes {
 		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Movement) GongReconstructPointersFromReferences(stage *Stage, instance *Movement) {
@@ -1220,8 +1202,6 @@ func (reference *Movement) GongReconstructPointersFromReferences(stage *Stage, i
 	for _, _b := range instance.Places {
 		reference.Places = append(reference.Places, stage.Places_reference[_b])
 	}
-
-	return
 }
 
 func (reference *MovementShape) GongReconstructPointersFromReferences(stage *Stage, instance *MovementShape) {
@@ -1230,23 +1210,17 @@ func (reference *MovementShape) GongReconstructPointersFromReferences(stage *Sta
 		reference.Movement = stage.Movements_reference[instance.Movement]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *Place) GongReconstructPointersFromReferences(stage *Stage, instance *Place) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 // insertion point for pointer reconstruction from instances
 func (reference *ArtefactType) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *ArtefactTypeShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1258,8 +1232,6 @@ func (reference *ArtefactTypeShape) GongReconstructPointersFromInstances(stage *
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Artist) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1271,8 +1243,6 @@ func (reference *Artist) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *ArtistShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1284,15 +1254,11 @@ func (reference *ArtistShape) GongReconstructPointersFromInstances(stage *Stage)
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *ControlPointShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Desk) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1304,8 +1270,6 @@ func (reference *Desk) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1339,8 +1303,6 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.InfluenceShapes = _InfluenceShapes
-
-	return
 }
 
 func (reference *Influence) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1382,8 +1344,6 @@ func (reference *Influence) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *InfluenceShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1402,8 +1362,6 @@ func (reference *InfluenceShape) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	reference.ControlPointShapes = _ControlPointShapes
-
-	return
 }
 
 func (reference *Movement) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1416,8 +1374,6 @@ func (reference *Movement) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Places = _Places
-
-	return
 }
 
 func (reference *MovementShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1429,15 +1385,11 @@ func (reference *MovementShape) GongReconstructPointersFromInstances(stage *Stag
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *Place) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 // insertion point for diff per struct

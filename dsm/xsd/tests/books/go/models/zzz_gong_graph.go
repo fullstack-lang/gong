@@ -393,8 +393,6 @@ func (reference *BookType) GongReconstructPointersFromReferences(stage *Stage, i
 	for _, _b := range instance.Credit {
 		reference.Credit = append(reference.Credit, stage.Credits_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Books) GongReconstructPointersFromReferences(stage *Stage, instance *Books) {
@@ -404,8 +402,6 @@ func (reference *Books) GongReconstructPointersFromReferences(stage *Stage, inst
 	for _, _b := range instance.Book {
 		reference.Book = append(reference.Book, stage.BookTypes_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Credit) GongReconstructPointersFromReferences(stage *Stage, instance *Credit) {
@@ -415,15 +411,11 @@ func (reference *Credit) GongReconstructPointersFromReferences(stage *Stage, ins
 	for _, _b := range instance.Link {
 		reference.Link = append(reference.Link, stage.Links_reference[_b])
 	}
-
-	return
 }
 
 func (reference *Link) GongReconstructPointersFromReferences(stage *Stage, instance *Link) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 // insertion point for pointer reconstruction from instances
@@ -437,8 +429,6 @@ func (reference *BookType) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Credit = _Credit
-
-	return
 }
 
 func (reference *Books) GongReconstructPointersFromInstances(stage *Stage) {
@@ -451,8 +441,6 @@ func (reference *Books) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Book = _Book
-
-	return
 }
 
 func (reference *Credit) GongReconstructPointersFromInstances(stage *Stage) {
@@ -465,15 +453,11 @@ func (reference *Credit) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Link = _Link
-
-	return
 }
 
 func (reference *Link) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 // insertion point for diff per struct

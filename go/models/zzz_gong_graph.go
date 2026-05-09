@@ -950,8 +950,6 @@ func (reference *GongBasicField) GongReconstructPointersFromReferences(stage *St
 		reference.GongEnum = stage.GongEnums_reference[instance.GongEnum]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *GongEnum) GongReconstructPointersFromReferences(stage *Stage, instance *GongEnum) {
@@ -961,22 +959,16 @@ func (reference *GongEnum) GongReconstructPointersFromReferences(stage *Stage, i
 	for _, _b := range instance.GongEnumValues {
 		reference.GongEnumValues = append(reference.GongEnumValues, stage.GongEnumValues_reference[_b])
 	}
-
-	return
 }
 
 func (reference *GongEnumValue) GongReconstructPointersFromReferences(stage *Stage, instance *GongEnumValue) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *GongLink) GongReconstructPointersFromReferences(stage *Stage, instance *GongLink) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *GongNote) GongReconstructPointersFromReferences(stage *Stage, instance *GongNote) {
@@ -986,8 +978,6 @@ func (reference *GongNote) GongReconstructPointersFromReferences(stage *Stage, i
 	for _, _b := range instance.Links {
 		reference.Links = append(reference.Links, stage.GongLinks_reference[_b])
 	}
-
-	return
 }
 
 func (reference *GongStruct) GongReconstructPointersFromReferences(stage *Stage, instance *GongStruct) {
@@ -1009,29 +999,21 @@ func (reference *GongStruct) GongReconstructPointersFromReferences(stage *Stage,
 	for _, _b := range instance.SliceOfPointerToGongStructFields {
 		reference.SliceOfPointerToGongStructFields = append(reference.SliceOfPointerToGongStructFields, stage.SliceOfPointerToGongStructFields_reference[_b])
 	}
-
-	return
 }
 
 func (reference *GongTimeField) GongReconstructPointersFromReferences(stage *Stage, instance *GongTimeField) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *MetaReference) GongReconstructPointersFromReferences(stage *Stage, instance *MetaReference) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *ModelPkg) GongReconstructPointersFromReferences(stage *Stage, instance *ModelPkg) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *PointerToGongStructField) GongReconstructPointersFromReferences(stage *Stage, instance *PointerToGongStructField) {
@@ -1040,8 +1022,6 @@ func (reference *PointerToGongStructField) GongReconstructPointersFromReferences
 		reference.GongStruct = stage.GongStructs_reference[instance.GongStruct]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 func (reference *SliceOfPointerToGongStructField) GongReconstructPointersFromReferences(stage *Stage, instance *SliceOfPointerToGongStructField) {
@@ -1050,8 +1030,6 @@ func (reference *SliceOfPointerToGongStructField) GongReconstructPointersFromRef
 		reference.GongStruct = stage.GongStructs_reference[instance.GongStruct]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
 // insertion point for pointer reconstruction from instances
@@ -1064,8 +1042,6 @@ func (reference *GongBasicField) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *GongEnum) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1078,22 +1054,16 @@ func (reference *GongEnum) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.GongEnumValues = _GongEnumValues
-
-	return
 }
 
 func (reference *GongEnumValue) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *GongLink) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *GongNote) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1106,8 +1076,6 @@ func (reference *GongNote) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Links = _Links
-
-	return
 }
 
 func (reference *GongStruct) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1141,29 +1109,21 @@ func (reference *GongStruct) GongReconstructPointersFromInstances(stage *Stage) 
 		}
 	}
 	reference.SliceOfPointerToGongStructFields = _SliceOfPointerToGongStructFields
-
-	return
 }
 
 func (reference *GongTimeField) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *MetaReference) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *ModelPkg) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *PointerToGongStructField) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1175,8 +1135,6 @@ func (reference *PointerToGongStructField) GongReconstructPointersFromInstances(
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 func (reference *SliceOfPointerToGongStructField) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1188,8 +1146,6 @@ func (reference *SliceOfPointerToGongStructField) GongReconstructPointersFromIns
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 // insertion point for diff per struct
