@@ -22,6 +22,13 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
 	// Compute reverse map for named struct Chapter
 	// insertion point per field
+	stage.Chapter_Sections_reverseMap = make(map[*Section]*Chapter)
+	for chapter := range stage.Chapters {
+		_ = chapter
+		for _, _section := range chapter.Sections {
+			stage.Chapter_Sections_reverseMap[_section] = chapter
+		}
+	}
 	stage.Chapter_Pages_reverseMap = make(map[*Page]*Chapter)
 	for chapter := range stage.Chapters {
 		_ = chapter

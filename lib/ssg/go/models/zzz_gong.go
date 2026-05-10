@@ -136,6 +136,8 @@ type Stage struct {
 	Chapters_referenceOrder map[*Chapter]uint
 
 	// insertion point for slice of pointers maps
+	Chapter_Sections_reverseMap map[*Section]*Chapter
+
 	Chapter_Pages_reverseMap map[*Page]*Chapter
 
 	Chapter_SubChapters_reverseMap map[*Chapter]*Chapter
@@ -2313,6 +2315,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Chapter:
 		return any(&Chapter{
 			// Initialisation of associations
+			// field is initialized with an instance of Section with the name of the field
+			Sections: []*Section{{Name: "Sections"}},
 			// field is initialized with an instance of Page with the name of the field
 			Pages: []*Page{{Name: "Pages"}},
 			// field is initialized with an instance of Chapter with the name of the field
@@ -2502,6 +2506,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Chapter:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Sections":
+			res := make(map[*Section][]*Chapter)
+			for chapter := range stage.Chapters {
+				for _, section_ := range chapter.Sections {
+					res[section_] = append(res[section_], chapter)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Pages":
 			res := make(map[*Page][]*Chapter)
 			for chapter := range stage.Chapters {
@@ -2644,6 +2656,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Section:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Chapter"
+		rf.Fieldname = "Sections"
+		res = append(res, rf)
 		rf.GongstructName = "Page"
 		rf.Fieldname = "Sections"
 		res = append(res, rf)
@@ -2665,6 +2680,11 @@ func (chapter *Chapter) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "MardownContent",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Sections",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Section",
 		},
 		{
 			Name:                 "Pages",
@@ -2926,6 +2946,16 @@ func (chapter *Chapter) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = chapter.Name
 	case "MardownContent":
 		res.valueString = chapter.MardownContent
+	case "Sections":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range chapter.Sections {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "Pages":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range chapter.Pages {
@@ -3117,6 +3147,20 @@ func (chapter *Chapter) GongSetFieldValue(fieldName string, value GongFieldValue
 		chapter.Name = value.GetValueString()
 	case "MardownContent":
 		chapter.MardownContent = value.GetValueString()
+	case "Sections":
+		chapter.Sections = make([]*Section, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Sections {
+					if stage.Section_stagedOrder[__instance__] == uint(id) {
+						chapter.Sections = append(chapter.Sections, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "Pages":
 		chapter.Pages = make([]*Page, 0)
 		ids := strings.Split(value.ids, ";")
