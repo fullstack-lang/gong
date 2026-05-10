@@ -558,6 +558,9 @@ func (stage *Stage) StageBranchParticipant(participant *Participant) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _resource := range participant.Resources {
+		StageBranch(stage, _resource)
+	}
 	for _, _task := range participant.Tasks {
 		StageBranch(stage, _task)
 	}
@@ -1087,6 +1090,9 @@ func CopyBranchParticipant(mapOrigCopy map[any]any, participantFrom *Participant
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _resource := range participantFrom.Resources {
+		participantTo.Resources = append(participantTo.Resources, CopyBranchResource(mapOrigCopy, _resource))
+	}
 	for _, _task := range participantFrom.Tasks {
 		participantTo.Tasks = append(participantTo.Tasks, CopyBranchTask(mapOrigCopy, _task))
 	}
@@ -1582,6 +1588,9 @@ func (stage *Stage) UnstageBranchParticipant(participant *Participant) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _resource := range participant.Resources {
+		UnstageBranch(stage, _resource)
+	}
 	for _, _task := range participant.Tasks {
 		UnstageBranch(stage, _task)
 	}
@@ -1920,6 +1929,10 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 func (reference *Participant) GongReconstructPointersFromReferences(stage *Stage, instance *Participant) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
+	reference.Resources = reference.Resources[:0]
+	for _, _b := range instance.Resources {
+		reference.Resources = append(reference.Resources, stage.Resources_reference[_b])
+	}
 	reference.Tasks = reference.Tasks[:0]
 	for _, _b := range instance.Tasks {
 		reference.Tasks = append(reference.Tasks, stage.Tasks_reference[_b])
@@ -2328,6 +2341,13 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *Participant) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
+	var _Resources []*Resource
+	for _, _reference := range reference.Resources {
+		if _instance, ok := stage.Resources_instance[_reference]; ok {
+			_Resources = append(_Resources, _instance)
+		}
+	}
+	reference.Resources = _Resources
 	var _Tasks []*Task
 	for _, _reference := range reference.Tasks {
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
@@ -3379,6 +3399,30 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 	// insertion point for field diffs
 	if participant.Name != participantOther.Name {
 		diffs = append(diffs, participant.GongMarshallField(stage, "Name"))
+	}
+	ResourcesDifferent := false
+	if len(participant.Resources) != len(participantOther.Resources) {
+		ResourcesDifferent = true
+	} else {
+		for i := range participant.Resources {
+			if (participant.Resources[i] == nil) != (participantOther.Resources[i] == nil) {
+				ResourcesDifferent = true
+				break
+			} else if participant.Resources[i] != nil && participantOther.Resources[i] != nil {
+				// this is a pointer comparaison
+				if participant.Resources[i] != participantOther.Resources[i] {
+					ResourcesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ResourcesDifferent {
+		ops := Diff(stage, participant, participantOther, "Resources", participantOther.Resources, participant.Resources)
+		diffs = append(diffs, ops)
+	}
+	if participant.IsResourcesNodeExpanded != participantOther.IsResourcesNodeExpanded {
+		diffs = append(diffs, participant.GongMarshallField(stage, "IsResourcesNodeExpanded"))
 	}
 	if participant.ComputedPrefix != participantOther.ComputedPrefix {
 		diffs = append(diffs, participant.GongMarshallField(stage, "ComputedPrefix"))

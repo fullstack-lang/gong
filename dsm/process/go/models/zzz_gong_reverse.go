@@ -330,6 +330,13 @@ func (inst *Resource) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 				res = _library.Name
 			}
 		}
+	case "Participant":
+		switch reverseField.Fieldname {
+		case "Resources":
+			if _participant, ok := stage.Participant_Resources_reverseMap[inst]; ok {
+				res = _participant.Name
+			}
+		}
 	}
 	return
 }
@@ -647,6 +654,11 @@ func (inst *Resource) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 			res = stage.Library_RootResources_reverseMap[inst]
 		case "ResourcesWhoseNodeIsExpanded":
 			res = stage.Library_ResourcesWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	case "Participant":
+		switch reverseField.Fieldname {
+		case "Resources":
+			res = stage.Participant_Resources_reverseMap[inst]
 		}
 	}
 	return res

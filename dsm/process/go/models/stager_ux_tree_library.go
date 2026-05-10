@@ -119,7 +119,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		sliceForNewAddedItem:               &library.RootDatas,
 		isParentNodeExpandedByAddOperation: true,
 		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &library.IsExpandedTmp,
+		parentNodeExpansionBooleanValue:    &library.IsDatasNodeExpanded,
 	}
 	addCreateItemButton(stager, confData)
 
@@ -138,6 +138,19 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	for _, resource := range library.RootResources {
 		stager.treeResourceWithinLibrary(library, resource, resourcesNode)
 	}
+
+	// add resource button
+	confResource := ItemButtonConfiguration[
+		Resource, *Resource,
+		Resource, *Resource,
+	]{
+		parentNode:                         resourcesNode,
+		sliceForNewAddedItem:               &library.RootResources,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsResourcesNodeExpanded,
+	}
+	addCreateItemButton(stager, confResource)
 }
 
 // Helper callbacks

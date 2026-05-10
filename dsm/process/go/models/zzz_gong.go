@@ -327,6 +327,8 @@ type Stage struct {
 	Participants_referenceOrder map[*Participant]uint
 
 	// insertion point for slice of pointers maps
+	Participant_Resources_reverseMap map[*Resource]*Participant
+
 	Participant_Tasks_reverseMap map[*Task]*Participant
 
 	Participant_ControlFlows_reverseMap map[*ControlFlow]*Participant
@@ -3943,6 +3945,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Participant:
 		return any(&Participant{
 			// Initialisation of associations
+			// field is initialized with an instance of Resource with the name of the field
+			Resources: []*Resource{{Name: "Resources"}},
 			// field is initialized with an instance of Task with the name of the field
 			Tasks: []*Task{{Name: "Tasks"}},
 			// field is initialized with an instance of ControlFlow with the name of the field
@@ -4625,6 +4629,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Participant:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Resources":
+			res := make(map[*Resource][]*Participant)
+			for participant := range stage.Participants {
+				for _, resource_ := range participant.Resources {
+					res[resource_] = append(res[resource_], participant)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Tasks":
 			res := make(map[*Task][]*Participant)
 			for participant := range stage.Participants {
@@ -4974,6 +4986,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "Library"
 		rf.Fieldname = "ResourcesWhoseNodeIsExpanded"
+		res = append(res, rf)
+		rf.GongstructName = "Participant"
+		rf.Fieldname = "Resources"
 		res = append(res, rf)
 	case *Task:
 		var rf ReverseField
@@ -5488,6 +5503,15 @@ func (participant *Participant) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Resources",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Resource",
+		},
+		{
+			Name:               "IsResourcesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "ComputedPrefix",
@@ -6406,6 +6430,20 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 	// string value of fields
 	case "Name":
 		res.valueString = participant.Name
+	case "Resources":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range participant.Resources {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsResourcesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", participant.IsResourcesNodeExpanded)
+		res.valueBool = participant.IsResourcesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ComputedPrefix":
 		res.valueString = participant.ComputedPrefix
 	case "IsTasksNodeExpanded":
@@ -7441,6 +7479,22 @@ func (participant *Participant) GongSetFieldValue(fieldName string, value GongFi
 	// insertion point for per field code
 	case "Name":
 		participant.Name = value.GetValueString()
+	case "Resources":
+		participant.Resources = make([]*Resource, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Resources {
+					if stage.Resource_stagedOrder[__instance__] == uint(id) {
+						participant.Resources = append(participant.Resources, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsResourcesNodeExpanded":
+		participant.IsResourcesNodeExpanded = value.GetValueBool()
 	case "ComputedPrefix":
 		participant.ComputedPrefix = value.GetValueString()
 	case "IsTasksNodeExpanded":
