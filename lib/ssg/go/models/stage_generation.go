@@ -59,6 +59,44 @@ func (stage *Stage) Generation(inMemory bool) (base64Zip string, err error) {
 	memoryFS[rootIndexFilePath] = &fstest.MapFile{Data: []byte(rootFileContent)}
 	// --- End: Generate root _index.md for the Content ---
 
+	appendSections := func(body *strings.Builder, sections []*Section) {
+		for _, section := range sections {
+			body.WriteString("\n\n")
+			if section.Name != "" {
+				body.WriteString(fmt.Sprintf("## %s\n\n", section.Name))
+			}
+			if section.MardownContent != "" {
+				body.WriteString(section.MardownContent)
+				body.WriteString("\n\n")
+			}
+			if section.IsImage {
+				if section.SvgImage != nil {
+					// Clean the SVG content to prevent the markdown parser from treating
+					// indented lines as code blocks or empty lines as paragraph breaks.
+					body.WriteString("<div class=\"svg-container\">\n")
+					for _, line := range strings.Split(section.SvgImage.Content, "\n") {
+						if trimmed := strings.TrimSpace(line); trimmed != "" {
+							body.WriteString(trimmed + "\n")
+						}
+					}
+					body.WriteString("</div>\n\n")
+				}
+				if section.PngImage != nil {
+					body.WriteString(fmt.Sprintf("![%s](data:image/png;base64,%s)\n\n", section.PngImage.Name, section.PngImage.Base64Content))
+				}
+				if section.JpgImage != nil {
+					body.WriteString(fmt.Sprintf("![%s](data:image/jpeg;base64,%s)\n\n", section.JpgImage.Name, section.JpgImage.Base64Content))
+				}
+			}
+			if section.IsDownloadableFile && section.DownloadableFile != nil {
+				fileName := filepath.Base(section.DownloadableFile.Name)
+				body.WriteString(fmt.Sprintf("<a href=\"data:application/octet-stream;base64,%s\" download=\"%s\">\n", section.DownloadableFile.Base64Content, fileName))
+				body.WriteString(fmt.Sprintf("<button>Download %s</button>\n", fileName))
+				body.WriteString("</a>\n\n")
+			}
+		}
+	}
+
 	// --- Start: Generate subdirectories and _index.md for each Chapter ---
 	var processChapter func(chapter *Chapter, parentDir string, weight int)
 	processChapter = func(chapter *Chapter, parentDir string, weight int) {
@@ -74,14 +112,18 @@ func (stage *Stage) Generation(inMemory bool) (base64Zip string, err error) {
 		// 3. Define file content using chapter fields
 		//    Using chapter.Description for the body content as per the user's example.
 		//    Converting weight (float64) to int for the front matter example.
+		var chapterBody strings.Builder
+		chapterBody.WriteString(chapter.MardownContent)
+		appendSections(&chapterBody, chapter.Sections)
+
 		chapterFileContent := fmt.Sprintf(`---
 title: "%s"
 weight: %d
 ---
 %s`,
 			chapter.Name,
-			weight,                 // Convert float64 weight to int
-			chapter.MardownContent) // Use Description as body content based on example
+			weight,               // Convert float64 weight to int
+			chapterBody.String()) // Use Description as body content based on example
 
 		// 4. Write content to the _index.md file in MapFS
 		memoryFS[chapterIndexFilePath] = &fstest.MapFile{Data: []byte(chapterFileContent)}
@@ -92,42 +134,7 @@ weight: %d
 
 			var pageBody strings.Builder
 			pageBody.WriteString(page.MardownContent)
-
-			for _, section := range page.Sections {
-				pageBody.WriteString("\n\n")
-				if section.Name != "" {
-					pageBody.WriteString(fmt.Sprintf("## %s\n\n", section.Name))
-				}
-				if section.MardownContent != "" {
-					pageBody.WriteString(section.MardownContent)
-					pageBody.WriteString("\n\n")
-				}
-				if section.IsImage {
-					if section.SvgImage != nil {
-						// Clean the SVG content to prevent the markdown parser from treating
-						// indented lines as code blocks or empty lines as paragraph breaks.
-						pageBody.WriteString("<div class=\"svg-container\">\n")
-						for _, line := range strings.Split(section.SvgImage.Content, "\n") {
-							if trimmed := strings.TrimSpace(line); trimmed != "" {
-								pageBody.WriteString(trimmed + "\n")
-							}
-						}
-						pageBody.WriteString("</div>\n\n")
-					}
-					if section.PngImage != nil {
-						pageBody.WriteString(fmt.Sprintf("![%s](data:image/png;base64,%s)\n\n", section.PngImage.Name, section.PngImage.Base64Content))
-					}
-					if section.JpgImage != nil {
-						pageBody.WriteString(fmt.Sprintf("![%s](data:image/jpeg;base64,%s)\n\n", section.JpgImage.Name, section.JpgImage.Base64Content))
-					}
-				}
-				if section.IsDownloadableFile && section.DownloadableFile != nil {
-					fileName := filepath.Base(section.DownloadableFile.Name)
-					pageBody.WriteString(fmt.Sprintf("<a href=\"data:application/octet-stream;base64,%s\" download=\"%s\">\n", section.DownloadableFile.Base64Content, fileName))
-					pageBody.WriteString(fmt.Sprintf("<button>Download %s</button>\n", fileName))
-					pageBody.WriteString("</a>\n\n")
-				}
-			}
+			appendSections(&pageBody, page.Sections)
 
 			pageFileContent := fmt.Sprintf(`---
 title: "%s"
