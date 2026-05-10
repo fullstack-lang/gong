@@ -14,6 +14,8 @@ type BackRepoData struct {
 
 	EllipseAPIs []*EllipseAPI
 
+	FileToDownloadAPIs []*FileToDownloadAPI
+
 	LayerAPIs []*LayerAPI
 
 	LineAPIs []*LineAPI
@@ -107,6 +109,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		ellipseDB.CopyBasicFieldsToEllipse_WOP(&ellipseAPI.Ellipse_WOP)
 
 		backRepoData.EllipseAPIs = append(backRepoData.EllipseAPIs, &ellipseAPI)
+	}
+
+	for _, filetodownloadDB := range backRepo.BackRepoFileToDownload.Map_FileToDownloadDBID_FileToDownloadDB {
+
+		var filetodownloadAPI FileToDownloadAPI
+		filetodownloadAPI.ID = filetodownloadDB.ID
+		filetodownloadAPI.FileToDownloadPointersEncoding = filetodownloadDB.FileToDownloadPointersEncoding
+		filetodownloadDB.CopyBasicFieldsToFileToDownload_WOP(&filetodownloadAPI.FileToDownload_WOP)
+
+		backRepoData.FileToDownloadAPIs = append(backRepoData.FileToDownloadAPIs, &filetodownloadAPI)
 	}
 
 	for _, layerDB := range backRepo.BackRepoLayer.Map_LayerDBID_LayerDB {

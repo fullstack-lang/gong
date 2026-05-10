@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"log"
+	"os"
 	"path/filepath"
 	"strconv"
 
@@ -56,7 +57,8 @@ func main() {
 	NewStager(r, stack.Stage)
 
 	for svg := range *svg_models.GetGongstructInstancesSet[svg_models.SVG](stack.Stage) {
-		err, _, _ := svg.GenerateFile(filepath.Join("../../diagrams/images", svg.Name+".svg"))
+		result, _, _ := svg.GenerateString()
+		err := os.WriteFile(filepath.Join("../../diagrams/images", svg.Name+".svg"), []byte(result), 0644)
 		if err != nil {
 			log.Fatalln("Unable to generate file", err.Error())
 		}

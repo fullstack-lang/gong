@@ -437,6 +437,13 @@ func FillUpForm(
 			}
 		}
 
+	case *models.FileToDownload:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, true, 600, false, 0)
+		BasicFieldtoForm("Base64EncodedContent", instanceWithInferedType.Base64EncodedContent, instanceWithInferedType, probe.formStage, formGroup,
+			true, true, 600, true, 2000)
+
 	case *models.Layer:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,

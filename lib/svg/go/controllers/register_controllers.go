@@ -91,6 +91,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/ellipses/:id", GetController().UpdateEllipse)
 		v1.DELETE("/v1/ellipses/:id", GetController().DeleteEllipse)
 
+		v1.GET("/v1/filetodownloads", GetController().GetFileToDownloads)
+		v1.GET("/v1/filetodownloads/:id", GetController().GetFileToDownload)
+		v1.POST("/v1/filetodownloads", GetController().PostFileToDownload)
+		v1.PATCH("/v1/filetodownloads/:id", GetController().UpdateFileToDownload)
+		v1.PUT("/v1/filetodownloads/:id", GetController().UpdateFileToDownload)
+		v1.DELETE("/v1/filetodownloads/:id", GetController().DeleteFileToDownload)
+
 		v1.GET("/v1/layers", GetController().GetLayers)
 		v1.GET("/v1/layers/:id", GetController().GetLayer)
 		v1.POST("/v1/layers", GetController().PostLayer)

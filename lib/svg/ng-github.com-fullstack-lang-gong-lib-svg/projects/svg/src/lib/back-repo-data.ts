@@ -11,6 +11,8 @@ import { ControlPointAPI } from './controlpoint-api'
 
 import { EllipseAPI } from './ellipse-api'
 
+import { FileToDownloadAPI } from './filetodownload-api'
+
 import { LayerAPI } from './layer-api'
 
 import { LineAPI } from './line-api'
@@ -57,6 +59,8 @@ export class BackRepoData {
 	ControlPointAPIs = new Array<ControlPointAPI>()
 
 	EllipseAPIs = new Array<EllipseAPI>()
+
+	FileToDownloadAPIs = new Array<FileToDownloadAPI>()
 
 	LayerAPIs = new Array<LayerAPI>()
 
@@ -107,6 +111,8 @@ export class BackRepoData {
 		this.ControlPointAPIs = data?.ControlPointAPIs || [];
 
 		this.EllipseAPIs = data?.EllipseAPIs || [];
+
+		this.FileToDownloadAPIs = data?.FileToDownloadAPIs || [];
 
 		this.LayerAPIs = data?.LayerAPIs || [];
 

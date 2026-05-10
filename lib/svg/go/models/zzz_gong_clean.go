@@ -78,6 +78,13 @@ func (ellipse *Ellipse) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by FileToDownload
+func (filetodownload *FileToDownload) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Layer
 func (layer *Layer) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field

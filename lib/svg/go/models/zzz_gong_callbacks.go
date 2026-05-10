@@ -26,6 +26,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterEllipseCreateCallback != nil {
 			stage.OnAfterEllipseCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *FileToDownload:
+		if stage.OnAfterFileToDownloadCreateCallback != nil {
+			stage.OnAfterFileToDownloadCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Layer:
 		if stage.OnAfterLayerCreateCallback != nil {
 			stage.OnAfterLayerCreateCallback.OnAfterCreate(stage, target)
@@ -132,6 +136,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Ellipse)
 		if stage.OnAfterEllipseUpdateCallback != nil {
 			stage.OnAfterEllipseUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *FileToDownload:
+		newTarget := any(new).(*FileToDownload)
+		if stage.OnAfterFileToDownloadUpdateCallback != nil {
+			stage.OnAfterFileToDownloadUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Layer:
 		newTarget := any(new).(*Layer)
@@ -253,6 +262,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Ellipse)
 			stage.OnAfterEllipseDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *FileToDownload:
+		if stage.OnAfterFileToDownloadDeleteCallback != nil {
+			staged := any(staged).(*FileToDownload)
+			stage.OnAfterFileToDownloadDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Layer:
 		if stage.OnAfterLayerDeleteCallback != nil {
 			staged := any(staged).(*Layer)
@@ -368,6 +382,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterEllipseReadCallback != nil {
 			stage.OnAfterEllipseReadCallback.OnAfterRead(stage, target)
 		}
+	case *FileToDownload:
+		if stage.OnAfterFileToDownloadReadCallback != nil {
+			stage.OnAfterFileToDownloadReadCallback.OnAfterRead(stage, target)
+		}
 	case *Layer:
 		if stage.OnAfterLayerReadCallback != nil {
 			stage.OnAfterLayerReadCallback.OnAfterRead(stage, target)
@@ -457,6 +475,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterControlPointUpdateCallback = any(callback).(OnAfterUpdateInterface[ControlPoint])
 	case *Ellipse:
 		stage.OnAfterEllipseUpdateCallback = any(callback).(OnAfterUpdateInterface[Ellipse])
+	case *FileToDownload:
+		stage.OnAfterFileToDownloadUpdateCallback = any(callback).(OnAfterUpdateInterface[FileToDownload])
 	case *Layer:
 		stage.OnAfterLayerUpdateCallback = any(callback).(OnAfterUpdateInterface[Layer])
 	case *Line:
@@ -508,6 +528,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterControlPointCreateCallback = any(callback).(OnAfterCreateInterface[ControlPoint])
 	case *Ellipse:
 		stage.OnAfterEllipseCreateCallback = any(callback).(OnAfterCreateInterface[Ellipse])
+	case *FileToDownload:
+		stage.OnAfterFileToDownloadCreateCallback = any(callback).(OnAfterCreateInterface[FileToDownload])
 	case *Layer:
 		stage.OnAfterLayerCreateCallback = any(callback).(OnAfterCreateInterface[Layer])
 	case *Line:
@@ -559,6 +581,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterControlPointDeleteCallback = any(callback).(OnAfterDeleteInterface[ControlPoint])
 	case *Ellipse:
 		stage.OnAfterEllipseDeleteCallback = any(callback).(OnAfterDeleteInterface[Ellipse])
+	case *FileToDownload:
+		stage.OnAfterFileToDownloadDeleteCallback = any(callback).(OnAfterDeleteInterface[FileToDownload])
 	case *Layer:
 		stage.OnAfterLayerDeleteCallback = any(callback).(OnAfterDeleteInterface[Layer])
 	case *Line:
@@ -610,6 +634,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterControlPointReadCallback = any(callback).(OnAfterReadInterface[ControlPoint])
 	case *Ellipse:
 		stage.OnAfterEllipseReadCallback = any(callback).(OnAfterReadInterface[Ellipse])
+	case *FileToDownload:
+		stage.OnAfterFileToDownloadReadCallback = any(callback).(OnAfterReadInterface[FileToDownload])
 	case *Layer:
 		stage.OnAfterLayerReadCallback = any(callback).(OnAfterReadInterface[Layer])
 	case *Line:
