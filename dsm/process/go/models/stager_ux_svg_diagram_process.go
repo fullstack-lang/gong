@@ -394,11 +394,11 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			stateTitleText.Y_Offset = 0
 
 			circle := new(svg.RectAnchoredPath)
-			circle.Stroke = svg.Black.ToString()
+			circle.Stroke = "#90CAF9"
 			circle.StrokeWidth = 2
 			circle.StrokeOpacity = 1
 
-			circle.Color = svg.Black.ToString()
+			circle.Color = "#E3F2FD"
 			circle.FillOpacity = 1.0
 
 			// force size
@@ -441,7 +441,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			{
 				circle := new(svg.RectAnchoredPath)
 
-				circle.Stroke = svg.Black.ToString()
+				circle.Stroke = "#90CAF9"
 				circle.StrokeWidth = 2
 				circle.StrokeOpacity = 1.0
 
@@ -455,11 +455,11 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 
 			{
 				circle := new(svg.RectAnchoredPath)
-				circle.Stroke = svg.Black.ToString()
+				circle.Stroke = "#90CAF9"
 				circle.StrokeWidth = 2
 				circle.StrokeOpacity = 1
 
-				circle.Color = svg.Black.ToString()
+				circle.Color = "#90CAF9"
 				circle.FillOpacity = 1.0
 
 				circle.Definition = fmt.Sprintf("M %f 0 A %f %f 0 0 1 %f %f A %f %f 0 0 1 %f 0 Z",
