@@ -7,7 +7,8 @@ func (stager *Stager) enforceAtLeastOneDiagramPerProcess() (needCommit bool) {
 	for process := range *GetGongstructInstancesSetFromPointerType[*Process](stage) {
 		if len(process.DiagramProcesss) == 0 {
 			diagramProcess := (&DiagramProcess{
-				Name: "DiagramProcess",
+				Name:        "DiagramProcess",
+				IsEditable_: true,
 			}).Stage(stage)
 			process.DiagramProcesss = append(process.DiagramProcesss, diagramProcess)
 

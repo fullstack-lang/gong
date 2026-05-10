@@ -8,7 +8,6 @@ import (
 	"time"
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
-	ssg "github.com/fullstack-lang/gong/lib/ssg/go/models"
 
 	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 
@@ -103,39 +102,10 @@ func (stager *Stager) button() {
 	})
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:  "Export website",
-		Icon:  string(buttons.BUTTON_web),
-		Label: "Export website",
-		OnClick: func() {
-			stager.ssgStage.Reset()
-
-			content := ssg.Content{
-				Name:           "Root to project the website",
-				ContentPath:    "/tmp/project",
-				MardownContent: "## Project website",
-				OutputPath:     "./generated static web site",
-			}
-
-			content.LogoSVGFile = stager.GetRootLibrary().LogoSVGFile
-
-			ssg.StageBranch(stager.ssgStage, &content)
-
-			stager.ssgStage.Commit()
-
-			zipData, err := stager.ssgStage.Generation(true)
-			if err != nil {
-				log.Println(err)
-			}
-
-			stager.loadStage.Reset()
-
-			fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
-			fileToDownload.Base64EncodedContent = zipData
-
-			fileToDownload.Name = "site.zip"
-
-			stager.loadStage.Commit()
-		},
+		Name:    "Export website",
+		Icon:    string(buttons.BUTTON_web),
+		Label:   "Export website",
+		OnClick: stager.exportWebsite,
 	})
 
 	button.StageBranch(buttonStage, layout)
