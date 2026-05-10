@@ -68,6 +68,37 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(chapter_.Name), formDiv)
 		case "MardownContent":
 			FormDivBasicFieldToField(&(chapter_.MardownContent), formDiv)
+		case "Sections":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Section](chapterFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Section, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Section)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					chapterFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Section](chapterFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			chapter_.Sections = instanceSlice
+
 		case "Pages":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Page](chapterFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Page, 0)
@@ -902,6 +933,72 @@ func (sectionFormCallback *SectionFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(section_.IsDownloadableFile), formDiv)
 		case "DownloadableFile":
 			FormDivSelectFieldToField(&(section_.DownloadableFile), sectionFormCallback.probe.stageOfInterest, formDiv)
+		case "Chapter:Sections":
+			// WARNING : this form deals with the N-N association "Chapter.Sections []*Section" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Section). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Chapter
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Chapter"
+				rf.Fieldname = "Sections"
+				formerAssociationSource := section_.GongGetReverseFieldOwner(
+					sectionFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Chapter)
+					if !ok {
+						log.Fatalln("Source of Chapter.Sections []*Section, is not an Chapter instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Sections, section_)
+					formerSource.Sections = slices.Delete(formerSource.Sections, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Chapter
+			for _chapter := range *models.GetGongstructInstancesSet[models.Chapter](sectionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _chapter.GetName() == newSourceName.GetName() {
+					newSource = _chapter // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Chapter.Sections []*Section, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Sections = append(newSource.Sections, section_)
 		case "Page:Sections":
 			// WARNING : this form deals with the N-N association "Page.Sections []*Section" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

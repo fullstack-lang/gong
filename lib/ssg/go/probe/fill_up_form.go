@@ -23,6 +23,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("MardownContent", instanceWithInferedType.MardownContent, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 300)
+		AssociationSliceToForm("Sections", instanceWithInferedType, &instanceWithInferedType.Sections, formGroup, probe)
 		AssociationSliceToForm("Pages", instanceWithInferedType, &instanceWithInferedType.Pages, formGroup, probe)
 		AssociationSliceToForm("SubChapters", instanceWithInferedType, &instanceWithInferedType.SubChapters, formGroup, probe)
 		{
@@ -162,6 +163,28 @@ func FillUpForm(
 		BasicFieldtoForm("IsDownloadableFile", instanceWithInferedType.IsDownloadableFile, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationFieldToForm("DownloadableFile", instanceWithInferedType.DownloadableFile, formGroup, probe)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Chapter"
+			rf.Fieldname = "Sections"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Chapter),
+					"Sections",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Chapter](
+					nil,
+					"Sections",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
 		{
 			var rf models.ReverseField
 			_ = rf

@@ -178,6 +178,9 @@ func (stage *Stage) StageBranchChapter(chapter *Chapter) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _section := range chapter.Sections {
+		StageBranch(stage, _section)
+	}
 	for _, _page := range chapter.Pages {
 		StageBranch(stage, _page)
 	}
@@ -375,6 +378,9 @@ func CopyBranchChapter(mapOrigCopy map[any]any, chapterFrom *Chapter) (chapterTo
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _section := range chapterFrom.Sections {
+		chapterTo.Sections = append(chapterTo.Sections, CopyBranchSection(mapOrigCopy, _section))
+	}
 	for _, _page := range chapterFrom.Pages {
 		chapterTo.Pages = append(chapterTo.Pages, CopyBranchPage(mapOrigCopy, _page))
 	}
@@ -586,6 +592,9 @@ func (stage *Stage) UnstageBranchChapter(chapter *Chapter) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _section := range chapter.Sections {
+		UnstageBranch(stage, _section)
+	}
 	for _, _page := range chapter.Pages {
 		UnstageBranch(stage, _page)
 	}
@@ -722,6 +731,10 @@ func (stage *Stage) UnstageBranchSvgImage(svgimage *SvgImage) {
 func (reference *Chapter) GongReconstructPointersFromReferences(stage *Stage, instance *Chapter) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
+	reference.Sections = reference.Sections[:0]
+	for _, _b := range instance.Sections {
+		reference.Sections = append(reference.Sections, stage.Sections_reference[_b])
+	}
 	reference.Pages = reference.Pages[:0]
 	for _, _b := range instance.Pages {
 		reference.Pages = append(reference.Pages, stage.Pages_reference[_b])
@@ -791,6 +804,13 @@ func (reference *SvgImage) GongReconstructPointersFromReferences(stage *Stage, i
 func (reference *Chapter) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
+	var _Sections []*Section
+	for _, _reference := range reference.Sections {
+		if _instance, ok := stage.Sections_instance[_reference]; ok {
+			_Sections = append(_Sections, _instance)
+		}
+	}
+	reference.Sections = _Sections
 	var _Pages []*Page
 	for _, _reference := range reference.Pages {
 		if _instance, ok := stage.Pages_instance[_reference]; ok {
@@ -890,6 +910,27 @@ func (chapter *Chapter) GongDiff(stage *Stage, chapterOther *Chapter) (diffs []s
 	}
 	if chapter.MardownContent != chapterOther.MardownContent {
 		diffs = append(diffs, chapter.GongMarshallField(stage, "MardownContent"))
+	}
+	SectionsDifferent := false
+	if len(chapter.Sections) != len(chapterOther.Sections) {
+		SectionsDifferent = true
+	} else {
+		for i := range chapter.Sections {
+			if (chapter.Sections[i] == nil) != (chapterOther.Sections[i] == nil) {
+				SectionsDifferent = true
+				break
+			} else if chapter.Sections[i] != nil && chapterOther.Sections[i] != nil {
+				// this is a pointer comparaison
+				if chapter.Sections[i] != chapterOther.Sections[i] {
+					SectionsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SectionsDifferent {
+		ops := Diff(stage, chapter, chapterOther, "Sections", chapterOther.Sections, chapter.Sections)
+		diffs = append(diffs, ops)
 	}
 	PagesDifferent := false
 	if len(chapter.Pages) != len(chapterOther.Pages) {

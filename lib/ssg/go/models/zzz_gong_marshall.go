@@ -295,6 +295,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(chapter.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(chapter.GongMarshallField(stage, "MardownContent"))
+		pointersInitializesStatements.WriteString(chapter.GongMarshallField(stage, "Sections"))
 		pointersInitializesStatements.WriteString(chapter.GongMarshallField(stage, "Pages"))
 		pointersInitializesStatements.WriteString(chapter.GongMarshallField(stage, "SubChapters"))
 	}
@@ -639,6 +640,16 @@ func (chapter *Chapter) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MardownContent")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(chapter.MardownContent))
 
+	case "Sections":
+		var sb strings.Builder
+		for _, _section := range chapter.Sections {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", chapter.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Sections")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _section.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "Pages":
 		var sb strings.Builder
 		for _, _page := range chapter.Pages {
@@ -953,6 +964,7 @@ func (chapter *Chapter) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(chapter.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(chapter.GongMarshallField(stage, "MardownContent"))
+		pointersInitializesStatements.WriteString(chapter.GongMarshallField(stage, "Sections"))
 		pointersInitializesStatements.WriteString(chapter.GongMarshallField(stage, "Pages"))
 		pointersInitializesStatements.WriteString(chapter.GongMarshallField(stage, "SubChapters"))
 	}
