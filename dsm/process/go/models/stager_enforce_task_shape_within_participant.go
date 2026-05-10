@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func (stager *Stager) enforceTaskShapeWithinProcess() (needCommit bool) {
+func (stager *Stager) enforceTaskShapeWithinParticipant() (needCommit bool) {
 	for _, diagramProcess := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
 		owningProcess := diagramProcess.owningProcess
 		if owningProcess == nil {
