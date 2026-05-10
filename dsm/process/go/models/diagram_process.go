@@ -61,6 +61,7 @@ type DiagramProcess struct {
 	IsExternalParticipantsNodeExpanded       bool
 	ExternalParticipantWhoseNodeIsExpanded   []*Participant
 	map_SvgRect_ExternalParticipantShape     map[*svg.Rect]*ExternalParticipantShape
+	map_SvgRect_Participant                  map[*svg.Rect]*Participant
 
 	ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded []*Participant
 	ExternalParticipantsWhoseInDataFlowsNodeIsExpanded  []*Participant
