@@ -246,25 +246,57 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			continue
 		}
 
-		rect := svgRect(
-			stager,
-			diagramProcess,
-			externalParticipantShape,
-			layer)
-		rect.RX = 3
-		rect.StrokeWidth = 2.0
+		rect := new(svg.Rect)
+		layer.Rects = append(layer.Rects, rect)
+
+		rect.Name = externalParticipantShape.GetName()
+		rect.X = externalParticipantShape.GetX()
+		rect.Y = externalParticipantShape.GetY()
+		rect.Width = externalParticipantShape.GetWidth()
+		rect.Height = externalParticipantShape.GetHeight()
+
+		rect.CanMoveHorizontaly = true
+		rect.CanMoveVerticaly = true
+		rect.CanHaveBottomHandle = true
+		rect.CanHaveLeftHandle = true
+		rect.CanHaveRightHandle = true
+		rect.CanHaveTopHandle = true
+
+		rect.RX = 0
+		rect.StrokeWidth = 1.0
 		rect.StrokeOpacity = 1.0
 		rect.Color = "#FFFDE7"
 		rect.FillOpacity = 1.0
-		rect.Stroke = "#333333"
-		rect.StrokeDashArray = "5 5"
+		rect.Stroke = "#E0E0E0"
 
-		if len(rect.RectAnchoredTexts) > 0 {
-			title := rect.RectAnchoredTexts[0]
+		{
+			title := new(svg.RectAnchoredText)
+			title.Name = externalParticipantShape.GetAbstractElement().GetName()
+
+			content := externalParticipantShape.GetAbstractElement().GetName()
+			if diagramProcess.GetIsShowPrefix() {
+				content = externalParticipantShape.GetAbstractElement().GetComputedPrefix() + " " + content
+			}
+
+			if rect.Width > 0 {
+				content = strutils.WrapStringPreservingNewlines(content, int(rect.Width/root.NbPixPerCharacter))
+			}
+			title.Content = content
+			title.StrokeWidth = 0
+			title.StrokeOpacity = 1
+			title.Color = "#333333"
+			title.FillOpacity = 1
+			title.FontSize = "16px"
 			title.FontWeight = "500"
+			title.X_Offset = 0
+			title.Y_Offset = 0
+			title.RectAnchorType = svg.RECT_CENTER
+			title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+
+			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 		}
+
 		rect.OnUpdate = onUpdateRectElement(stager, externalParticipantShape.Participant, externalParticipantShape, false)
-		layer.Rects = append(layer.Rects, rect)
 
 		externalParticipantWidth := 0.1
 		if externalParticipantShape.TailHeigth == 0 {
