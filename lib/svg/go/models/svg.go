@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"log"
 	"math"
+	"time"
 )
 
 type SVG struct {
@@ -96,6 +97,14 @@ func (svg *SVG) OnAfterUpdate(stage *Stage, _, frontSVG *SVG) {
 		result, _, _ := svg.GenerateString()
 		fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(result))
 
+		stage.Commit()
+
+		// Clear  generated files
+		for f := range *GetGongstructInstancesSet[FileToDownload](stage) {
+			f.Unstage(stage)
+		}
+		// wiath 1 second before commiting the unstaging of the generated file, to be sure that the download is triggered on the frontend
+		time.Sleep(1 * time.Second)
 		stage.Commit()
 	}
 }
