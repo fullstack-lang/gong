@@ -35,10 +35,12 @@ func _(stage *models.Stage) {
 	__ControlFlow__00000003_ := (&models.ControlFlow{Name: `Start to T2`}).Stage(stage)
 	__ControlFlow__00000004_ := (&models.ControlFlow{Name: `T2 to End`}).Stage(stage)
 	__ControlFlow__00000005_ := (&models.ControlFlow{Name: `PP2 T1 to PP2 T2`}).Stage(stage)
+	__ControlFlow__00000006_ := (&models.ControlFlow{Name: `T4 to End`}).Stage(stage)
 
 	__ControlFlowShape__00000000_ := (&models.ControlFlowShape{Name: `Start to T2`}).Stage(stage)
 	__ControlFlowShape__00000001_ := (&models.ControlFlowShape{Name: `PP2 T1 to PP2 T2`}).Stage(stage)
 	__ControlFlowShape__00000002_ := (&models.ControlFlowShape{Name: `T2 to End`}).Stage(stage)
+	__ControlFlowShape__00000003_ := (&models.ControlFlowShape{Name: `T4 to End`}).Stage(stage)
 
 	__Data__00000000_ := (&models.Data{Name: `D1`}).Stage(stage)
 	__Data__00000001_ := (&models.Data{Name: `D2`}).Stage(stage)
@@ -122,6 +124,9 @@ func _(stage *models.Stage) {
 	__ControlFlow__00000005_.Name = `PP2 T1 to PP2 T2`
 	__ControlFlow__00000005_.ComputedPrefix = ``
 
+	__ControlFlow__00000006_.Name = `T4 to End`
+	__ControlFlow__00000006_.ComputedPrefix = ``
+
 	__ControlFlowShape__00000000_.Name = `Start to T2`
 	__ControlFlowShape__00000000_.StartRatio = 0.971920
 	__ControlFlowShape__00000000_.EndRatio = 0.500000
@@ -145,6 +150,14 @@ func _(stage *models.Stage) {
 	__ControlFlowShape__00000002_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000002_.CornerOffsetRatio = 1.100000
 	__ControlFlowShape__00000002_.IsHidden = false
+
+	__ControlFlowShape__00000003_.Name = `T4 to End`
+	__ControlFlowShape__00000003_.StartRatio = 0.500000
+	__ControlFlowShape__00000003_.EndRatio = 0.793912
+	__ControlFlowShape__00000003_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000003_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000003_.CornerOffsetRatio = 1.500000
+	__ControlFlowShape__00000003_.IsHidden = false
 
 	__Data__00000000_.Name = `D1`
 	__Data__00000000_.ComputedPrefix = ``
@@ -220,7 +233,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000007_.DefaultBoxHeigth = 70.000000
 	__DiagramProcess__00000007_.Width = 1475.000000
-	__DiagramProcess__00000007_.Height = 1513.000000
+	__DiagramProcess__00000007_.Height = 1534.000000
 	__DiagramProcess__00000007_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000007_.IsParticipantsNodeExpanded = true
 	__DiagramProcess__00000007_.IsExternalParticipantsNodeExpanded = true
@@ -254,9 +267,9 @@ func _(stage *models.Stage) {
 
 	__ExternalParticipantShape__00000003_.Name = `EP1-Diagram P1`
 	__ExternalParticipantShape__00000003_.IsExpanded = false
-	__ExternalParticipantShape__00000003_.X = 38.388870
-	__ExternalParticipantShape__00000003_.Y = 267.256779
-	__ExternalParticipantShape__00000003_.Width = 146.000000
+	__ExternalParticipantShape__00000003_.X = 23.388870
+	__ExternalParticipantShape__00000003_.Y = 293.256779
+	__ExternalParticipantShape__00000003_.Width = 167.000000
 	__ExternalParticipantShape__00000003_.Height = 70.000000
 	__ExternalParticipantShape__00000003_.IsHidden = false
 	__ExternalParticipantShape__00000003_.TailHeigth = 233.000000
@@ -317,16 +330,16 @@ func _(stage *models.Stage) {
 
 	__ParticipantShape__00000020_.Name = `PP2-Diagram P1`
 	__ParticipantShape__00000020_.IsExpanded = false
-	__ParticipantShape__00000020_.X = 559.000000
-	__ParticipantShape__00000020_.Y = 166.000000
+	__ParticipantShape__00000020_.X = 574.000000
+	__ParticipantShape__00000020_.Y = 197.000000
 	__ParticipantShape__00000020_.Width = 303.000000
-	__ParticipantShape__00000020_.Height = 880.000000
+	__ParticipantShape__00000020_.Height = 1037.000000
 	__ParticipantShape__00000020_.IsHidden = false
 
 	__ParticipantShape__00000021_.Name = `PP1-Diagram P1`
 	__ParticipantShape__00000021_.IsExpanded = false
-	__ParticipantShape__00000021_.X = 266.000000
-	__ParticipantShape__00000021_.Y = 117.000000
+	__ParticipantShape__00000021_.X = 256.000000
+	__ParticipantShape__00000021_.Y = 166.000000
 	__ParticipantShape__00000021_.Width = 303.000000
 	__ParticipantShape__00000021_.Height = 1037.000000
 	__ParticipantShape__00000021_.IsHidden = false
@@ -404,7 +417,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000012_.Name = `T4-DP2`
 	__TaskShape__00000012_.IsExpanded = false
 	__TaskShape__00000012_.X = 317.000000
-	__TaskShape__00000012_.Y = 689.000000
+	__TaskShape__00000012_.Y = 743.000000
 	__TaskShape__00000012_.Width = 167.000000
 	__TaskShape__00000012_.Height = 70.000000
 	__TaskShape__00000012_.IsHidden = false
@@ -419,16 +432,16 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000014_.Name = `PP2 T2-DP2`
 	__TaskShape__00000014_.IsExpanded = false
-	__TaskShape__00000014_.X = 620.000000
-	__TaskShape__00000014_.Y = 293.000000
+	__TaskShape__00000014_.X = 644.000000
+	__TaskShape__00000014_.Y = 397.000000
 	__TaskShape__00000014_.Width = 211.000000
 	__TaskShape__00000014_.Height = 70.000000
 	__TaskShape__00000014_.IsHidden = false
 
 	__TaskShape__00000015_.Name = `PP2 T1-Diagram P1`
 	__TaskShape__00000015_.IsExpanded = false
-	__TaskShape__00000015_.X = 620.000000
-	__TaskShape__00000015_.Y = 184.000000
+	__TaskShape__00000015_.X = 635.000000
+	__TaskShape__00000015_.Y = 261.000000
 	__TaskShape__00000015_.Width = 75.000000
 	__TaskShape__00000015_.Height = 20.000000
 	__TaskShape__00000015_.IsHidden = false
@@ -453,12 +466,15 @@ func _(stage *models.Stage) {
 	__ControlFlow__00000003_.Start = __Task__00000004_
 	__ControlFlow__00000003_.End = __Task__00000002_
 	__ControlFlow__00000004_.Start = __Task__00000002_
-	__ControlFlow__00000004_.End = __Task__00000005_
+	__ControlFlow__00000004_.End = __Task__00000006_
 	__ControlFlow__00000005_.Start = __Task__00000003_
 	__ControlFlow__00000005_.End = __Task__00000007_
+	__ControlFlow__00000006_.Start = __Task__00000006_
+	__ControlFlow__00000006_.End = __Task__00000005_
 	__ControlFlowShape__00000000_.ControlFlow = __ControlFlow__00000003_
 	__ControlFlowShape__00000001_.ControlFlow = __ControlFlow__00000005_
 	__ControlFlowShape__00000002_.ControlFlow = __ControlFlow__00000004_
+	__ControlFlowShape__00000003_.ControlFlow = __ControlFlow__00000006_
 	__DataFlow__00000000_.StartTask = __Task__00000002_
 	__DataFlow__00000000_.EndTask = __Task__00000007_
 	__DataFlow__00000000_.StartExternalParticipant = nil
@@ -509,6 +525,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.ControlFlow_Shapes = append(__DiagramProcess__00000007_.ControlFlow_Shapes, __ControlFlowShape__00000000_)
 	__DiagramProcess__00000007_.ControlFlow_Shapes = append(__DiagramProcess__00000007_.ControlFlow_Shapes, __ControlFlowShape__00000001_)
 	__DiagramProcess__00000007_.ControlFlow_Shapes = append(__DiagramProcess__00000007_.ControlFlow_Shapes, __ControlFlowShape__00000002_)
+	__DiagramProcess__00000007_.ControlFlow_Shapes = append(__DiagramProcess__00000007_.ControlFlow_Shapes, __ControlFlowShape__00000003_)
 	__DiagramProcess__00000007_.DataFlowsWhoseNodeIsExpanded = append(__DiagramProcess__00000007_.DataFlowsWhoseNodeIsExpanded, __DataFlow__00000000_)
 	__DiagramProcess__00000007_.DataFlow_Shapes = append(__DiagramProcess__00000007_.DataFlow_Shapes, __DataFlowShape__00000003_)
 	__DiagramProcess__00000007_.DataFlow_Shapes = append(__DiagramProcess__00000007_.DataFlow_Shapes, __DataFlowShape__00000004_)
@@ -549,6 +566,7 @@ func _(stage *models.Stage) {
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000006_)
 	__Participant__00000003_.ControlFlows = append(__Participant__00000003_.ControlFlows, __ControlFlow__00000003_)
 	__Participant__00000003_.ControlFlows = append(__Participant__00000003_.ControlFlows, __ControlFlow__00000004_)
+	__Participant__00000003_.ControlFlows = append(__Participant__00000003_.ControlFlows, __ControlFlow__00000006_)
 	__Participant__00000003_.TaskWhoseOutControlFlowsNodeIsExpanded = append(__Participant__00000003_.TaskWhoseOutControlFlowsNodeIsExpanded, __Task__00000004_)
 	__Participant__00000003_.TaskWhoseOutDataFlowsNodeIsExpanded = append(__Participant__00000003_.TaskWhoseOutDataFlowsNodeIsExpanded, __Task__00000002_)
 	__Participant__00000003_.TaskWhoseInDataFlowsNodeIsExpanded = append(__Participant__00000003_.TaskWhoseInDataFlowsNodeIsExpanded, __Task__00000002_)
