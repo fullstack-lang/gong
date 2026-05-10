@@ -1118,6 +1118,10 @@ func (u *ResourceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "SVG_Path":
+		instance.SVG_Path = GongExtractString(valueExpr)
+	case "InverseAppliedScaling":
+		instance.InverseAppliedScaling = GongExtractFloat(valueExpr)
 	}
 	return nil
 }

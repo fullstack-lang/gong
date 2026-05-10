@@ -583,7 +583,7 @@ func (stager *Stager) drawAllocatedResources(participant *Participant, diagramPr
 
 	// draw allocated resource shapes that are within the participant
 	totalLines := 0
-	X_Offset := 0.0
+	X_Offset := 30.0
 	Y_Offset := 20.0
 	for _, resource := range participant.Resources {
 		key := allocatedResourceShapeKey{
@@ -617,12 +617,44 @@ func (stager *Stager) drawAllocatedResources(participant *Participant, diagramPr
 			X_Offset:         X_Offset,
 			Y_Offset:         Y_Offset + float64(totalLines)*HeightBetween2AttributeShapes,
 			RectAnchorType:   rectAnchorType,
-			TextAnchorType:   svg.TEXT_ANCHOR_CENTER,
+			TextAnchorType:   svg.TEXT_ANCHOR_START,
+		}
+		if rectAnchorType == svg.RECT_BOTTOM {
+			allocatedResourceText.RectAnchorType = svg.RECT_BOTTOM_LEFT
+		} else {
+			allocatedResourceText.RectAnchorType = svg.RECT_TOP_LEFT
 		}
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, allocatedResourceText)
 
 		lines := strings.Split(content, "\n")
 		totalLines += len(lines)
+
+		// add a rect anchored icon
+		if resource.SVG_Path == "" {
+			continue
+		}
+		if resource.InverseAppliedScaling == 0 {
+			resource.InverseAppliedScaling = 1.0
+		}
+		allocatedResourcePath := &svg.RectAnchoredPath{
+			Name:       resource.GetName(),
+			Definition: resource.SVG_Path,
+			Presentation: svg.Presentation{
+				StrokeWidth: 0,
+				Color:       "#757575",
+				FillOpacity: 1,
+			},
+			X_Offset:            10,
+			Y_Offset:            10 + float64(totalLines)*HeightBetween2AttributeShapes,
+			ScalePropotionnally: true,
+			AppliedScaling:      1.0 / resource.InverseAppliedScaling,
+		}
+		if rectAnchorType == svg.RECT_BOTTOM {
+			allocatedResourcePath.RectAnchorType = svg.RECT_BOTTOM_LEFT
+		} else {
+			allocatedResourcePath.RectAnchorType = svg.RECT_TOP_LEFT
+		}
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, allocatedResourcePath)
 	}
 	// draw a rect around the allocated resource shapes if there is at least one allocated resource shape
 	boxHeight = float64(totalLines)*HeightBetween2AttributeShapes + Y_Offset - 5.0
