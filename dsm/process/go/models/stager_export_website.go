@@ -99,13 +99,7 @@ func (stager *Stager) exportWebsite() {
 		}
 
 		if len(process.DiagramProcesss) > 0 {
-			page := &ssg.Page{
-				Name:           "Diagrams",
-				MardownContent: "### Diagrams\n",
-			}
 			for _, diagram := range process.DiagramProcesss {
-				page.MardownContent += "\n- " + diagram.Name
-
 				svgObject := stager.generateSvgObject(diagram)
 				_ = svgObject
 				svgString, maxX, maxY := svgObject.GenerateString()
@@ -122,9 +116,8 @@ func (stager *Stager) exportWebsite() {
 						Content: svgString,
 					},
 				}
-				page.Sections = append(page.Sections, section)
+				chapter.Sections = append(chapter.Sections, section)
 			}
-			chapter.Pages = append(chapter.Pages, page)
 		}
 	}
 

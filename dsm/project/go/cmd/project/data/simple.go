@@ -136,4 +136,24 @@ func _(stage *models.Stage) {
 	__Product__00000001_.IsProducersNodeExpanded = false
 	__Product__00000001_.IsConsumersNodeExpanded = false
 	stage.Commit()
+
+	// D1
+	__Diagram__00000000_.Width = 759.078303
+	__Diagram__00000000_.Height = 617.001756
+	// Default Diagram copy
+	__Diagram__00000007_.Width = 759.078303
+	__Diagram__00000007_.Height = 617.001756
+	stage.Commit()
+
+	// D1
+	__Diagram__00000000_.IsChecked = true
+	// Default Diagram copy
+	__Diagram__00000007_.IsChecked = false
+	stage.Commit()
+
+	// D1
+	__Diagram__00000000_.IsChecked = false
+	// Default Diagram copy
+	__Diagram__00000007_.IsChecked = true
+	stage.Commit()
 }
