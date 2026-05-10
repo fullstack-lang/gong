@@ -124,13 +124,7 @@ func (stager *Stager) button() {
 				}
 				content.Chapters = append(content.Chapters, chapter)
 
-				page := &ssg.Page{
-					Name:           "Diagrams",
-					MardownContent: "### Diagrams\n",
-				}
 				for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
-					page.MardownContent += "\n- " + diagram.Name
-
 					svgObject := stager.generateSvgObject(diagram)
 					_ = svgObject
 					svgString, maxX, maxY := svgObject.GenerateString()
@@ -147,9 +141,8 @@ func (stager *Stager) button() {
 							Content: svgString,
 						},
 					}
-					page.Sections = append(page.Sections, section)
+					chapter.Sections = append(chapter.Sections, section)
 				}
-				chapter.Pages = append(chapter.Pages, page)
 			}
 
 			movements := GetGongstrucsSorted[*Movement](stager.stage)

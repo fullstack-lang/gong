@@ -902,7 +902,7 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000001_.Name = `Post Alfred`
 	__Diagram__00000001_.IsEditable = true
-	__Diagram__00000001_.IsNodeExpanded = true
+	__Diagram__00000001_.IsNodeExpanded = false
 	__Diagram__00000001_.IsMovementCategoryNodeExpanded = true
 	__Diagram__00000001_.IsArtefactTypeCategoryNodeExpanded = true
 	__Diagram__00000001_.IsArtistCategoryNodeExpanded = true
