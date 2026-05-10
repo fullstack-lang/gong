@@ -22,6 +22,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Ellipse:
 		ok = stage.IsStagedEllipse(target)
 
+	case *FileToDownload:
+		ok = stage.IsStagedFileToDownload(target)
+
 	case *Layer:
 		ok = stage.IsStagedLayer(target)
 
@@ -97,6 +100,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Ellipse:
 		ok = stage.IsStagedEllipse(target)
+
+	case *FileToDownload:
+		ok = stage.IsStagedFileToDownload(target)
 
 	case *Layer:
 		ok = stage.IsStagedLayer(target)
@@ -187,6 +193,13 @@ func (stage *Stage) IsStagedControlPoint(controlpoint *ControlPoint) (ok bool) {
 func (stage *Stage) IsStagedEllipse(ellipse *Ellipse) (ok bool) {
 
 	_, ok = stage.Ellipses[ellipse]
+
+	return
+}
+
+func (stage *Stage) IsStagedFileToDownload(filetodownload *FileToDownload) (ok bool) {
+
+	_, ok = stage.FileToDownloads[filetodownload]
 
 	return
 }
@@ -333,6 +346,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Ellipse:
 		stage.StageBranchEllipse(target)
 
+	case *FileToDownload:
+		stage.StageBranchFileToDownload(target)
+
 	case *Layer:
 		stage.StageBranchLayer(target)
 
@@ -471,6 +487,21 @@ func (stage *Stage) StageBranchEllipse(ellipse *Ellipse) {
 	for _, _animate := range ellipse.Animates {
 		StageBranch(stage, _animate)
 	}
+
+}
+
+func (stage *Stage) StageBranchFileToDownload(filetodownload *FileToDownload) {
+
+	// check if instance is already staged
+	if IsStaged(stage, filetodownload) {
+		return
+	}
+
+	filetodownload.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -868,6 +899,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchEllipse(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *FileToDownload:
+		toT := CopyBranchFileToDownload(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Layer:
 		toT := CopyBranchLayer(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -1043,6 +1078,25 @@ func CopyBranchEllipse(mapOrigCopy map[any]any, ellipseFrom *Ellipse) (ellipseTo
 	for _, _animate := range ellipseFrom.Animates {
 		ellipseTo.Animates = append(ellipseTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
+
+	return
+}
+
+func CopyBranchFileToDownload(mapOrigCopy map[any]any, filetodownloadFrom *FileToDownload) (filetodownloadTo *FileToDownload) {
+
+	// filetodownloadFrom has already been copied
+	if _filetodownloadTo, ok := mapOrigCopy[filetodownloadFrom]; ok {
+		filetodownloadTo = _filetodownloadTo.(*FileToDownload)
+		return
+	}
+
+	filetodownloadTo = new(FileToDownload)
+	mapOrigCopy[filetodownloadFrom] = filetodownloadTo
+	filetodownloadFrom.CopyBasicFields(filetodownloadTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -1501,6 +1555,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Ellipse:
 		stage.UnstageBranchEllipse(target)
 
+	case *FileToDownload:
+		stage.UnstageBranchFileToDownload(target)
+
 	case *Layer:
 		stage.UnstageBranchLayer(target)
 
@@ -1639,6 +1696,21 @@ func (stage *Stage) UnstageBranchEllipse(ellipse *Ellipse) {
 	for _, _animate := range ellipse.Animates {
 		UnstageBranch(stage, _animate)
 	}
+
+}
+
+func (stage *Stage) UnstageBranchFileToDownload(filetodownload *FileToDownload) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, filetodownload) {
+		return
+	}
+
+	filetodownload.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -2042,6 +2114,11 @@ func (reference *Ellipse) GongReconstructPointersFromReferences(stage *Stage, in
 	}
 }
 
+func (reference *FileToDownload) GongReconstructPointersFromReferences(stage *Stage, instance *FileToDownload) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *Layer) GongReconstructPointersFromReferences(stage *Stage, instance *Layer) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -2308,6 +2385,11 @@ func (reference *Ellipse) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Animates = _Animates
+}
+
+func (reference *FileToDownload) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
 }
 
 func (reference *Layer) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2833,6 +2915,20 @@ func (ellipse *Ellipse) GongDiff(stage *Stage, ellipseOther *Ellipse) (diffs []s
 	if AnimatesDifferent {
 		ops := Diff(stage, ellipse, ellipseOther, "Animates", ellipseOther.Animates, ellipse.Animates)
 		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (filetodownload *FileToDownload) GongDiff(stage *Stage, filetodownloadOther *FileToDownload) (diffs []string) {
+	// insertion point for field diffs
+	if filetodownload.Name != filetodownloadOther.Name {
+		diffs = append(diffs, filetodownload.GongMarshallField(stage, "Name"))
+	}
+	if filetodownload.Base64EncodedContent != filetodownloadOther.Base64EncodedContent {
+		diffs = append(diffs, filetodownload.GongMarshallField(stage, "Base64EncodedContent"))
 	}
 
 	return

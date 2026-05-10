@@ -205,6 +205,21 @@ type Stage struct {
 	OnAfterEllipseDeleteCallback OnAfterDeleteInterface[Ellipse]
 	OnAfterEllipseReadCallback   OnAfterReadInterface[Ellipse]
 
+	FileToDownloads                map[*FileToDownload]struct{}
+	FileToDownloads_instance       map[*FileToDownload]*FileToDownload
+	FileToDownloads_mapString      map[string]*FileToDownload
+	FileToDownloadOrder            uint
+	FileToDownload_stagedOrder     map[*FileToDownload]uint
+	FileToDownload_orderStaged     map[uint]*FileToDownload
+	FileToDownloads_reference      map[*FileToDownload]*FileToDownload
+	FileToDownloads_referenceOrder map[*FileToDownload]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterFileToDownloadCreateCallback OnAfterCreateInterface[FileToDownload]
+	OnAfterFileToDownloadUpdateCallback OnAfterUpdateInterface[FileToDownload]
+	OnAfterFileToDownloadDeleteCallback OnAfterDeleteInterface[FileToDownload]
+	OnAfterFileToDownloadReadCallback   OnAfterReadInterface[FileToDownload]
+
 	Layers                map[*Layer]struct{}
 	Layers_instance       map[*Layer]*Layer
 	Layers_mapString      map[string]*Layer
@@ -774,6 +789,10 @@ func (stage *Stage) Squash() {
 	stage.Ellipses_instance = make(map[*Ellipse]*Ellipse)
 	stage.Ellipses_referenceOrder = make(map[*Ellipse]uint)
 
+	stage.FileToDownloads_reference = make(map[*FileToDownload]*FileToDownload)
+	stage.FileToDownloads_instance = make(map[*FileToDownload]*FileToDownload)
+	stage.FileToDownloads_referenceOrder = make(map[*FileToDownload]uint)
+
 	stage.Layers_reference = make(map[*Layer]*Layer)
 	stage.Layers_instance = make(map[*Layer]*Layer)
 	stage.Layers_referenceOrder = make(map[*Layer]uint)
@@ -937,6 +956,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.EllipseOrder = maxEllipseOrder + 1
 	} else {
 		stage.EllipseOrder = 0
+	}
+
+	var maxFileToDownloadOrder uint
+	var foundFileToDownload bool
+	for _, order := range stage.FileToDownload_stagedOrder {
+		if !foundFileToDownload || order > maxFileToDownloadOrder {
+			maxFileToDownloadOrder = order
+			foundFileToDownload = true
+		}
+	}
+	if foundFileToDownload {
+		stage.FileToDownloadOrder = maxFileToDownloadOrder + 1
+	} else {
+		stage.FileToDownloadOrder = 0
 	}
 
 	var maxLayerOrder uint
@@ -1308,6 +1341,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *FileToDownload:
+		tmp := GetStructInstancesByOrder(stage.FileToDownloads, stage.FileToDownload_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *FileToDownload implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Layer:
 		tmp := GetStructInstancesByOrder(stage.Layers, stage.Layer_stagedOrder)
 
@@ -1585,6 +1632,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.ControlPoints, stage.ControlPoint_stagedOrder)
 	case "Ellipse":
 		res = GetNamedStructInstances(stage.Ellipses, stage.Ellipse_stagedOrder)
+	case "FileToDownload":
+		res = GetNamedStructInstances(stage.FileToDownloads, stage.FileToDownload_stagedOrder)
 	case "Layer":
 		res = GetNamedStructInstances(stage.Layers, stage.Layer_stagedOrder)
 	case "Line":
@@ -1698,6 +1747,8 @@ type BackRepoInterface interface {
 	CheckoutControlPoint(controlpoint *ControlPoint)
 	CommitEllipse(ellipse *Ellipse)
 	CheckoutEllipse(ellipse *Ellipse)
+	CommitFileToDownload(filetodownload *FileToDownload)
+	CheckoutFileToDownload(filetodownload *FileToDownload)
 	CommitLayer(layer *Layer)
 	CheckoutLayer(layer *Layer)
 	CommitLine(line *Line)
@@ -1752,6 +1803,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Ellipses:           make(map[*Ellipse]struct{}),
 		Ellipses_mapString: make(map[string]*Ellipse),
+
+		FileToDownloads:           make(map[*FileToDownload]struct{}),
+		FileToDownloads_mapString: make(map[string]*FileToDownload),
 
 		Layers:           make(map[*Layer]struct{}),
 		Layers_mapString: make(map[string]*Layer),
@@ -1834,6 +1888,10 @@ func NewStage(name string) (stage *Stage) {
 		Ellipse_orderStaged: make(map[uint]*Ellipse),
 		Ellipses_reference:  make(map[*Ellipse]*Ellipse),
 
+		FileToDownload_stagedOrder: make(map[*FileToDownload]uint),
+		FileToDownload_orderStaged: make(map[uint]*FileToDownload),
+		FileToDownloads_reference:  make(map[*FileToDownload]*FileToDownload),
+
 		Layer_stagedOrder: make(map[*Layer]uint),
 		Layer_orderStaged: make(map[uint]*Layer),
 		Layers_reference:  make(map[*Layer]*Layer),
@@ -1914,6 +1972,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"Ellipse": &EllipseUnmarshaller{},
 
+			"FileToDownload": &FileToDownloadUnmarshaller{},
+
 			"Layer": &LayerUnmarshaller{},
 
 			"Line": &LineUnmarshaller{},
@@ -1957,6 +2017,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Condition"},
 			{name: "ControlPoint"},
 			{name: "Ellipse"},
+			{name: "FileToDownload"},
 			{name: "Layer"},
 			{name: "Line"},
 			{name: "Link"},
@@ -1995,6 +2056,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.ControlPoint_stagedOrder[instance]
 	case *Ellipse:
 		return stage.Ellipse_stagedOrder[instance]
+	case *FileToDownload:
+		return stage.FileToDownload_stagedOrder[instance]
 	case *Layer:
 		return stage.Layer_stagedOrder[instance]
 	case *Line:
@@ -2048,6 +2111,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.ControlPoint_orderStaged[order]).(Type)
 	case *Ellipse:
 		return any(stage.Ellipse_orderStaged[order]).(Type)
+	case *FileToDownload:
+		return any(stage.FileToDownload_orderStaged[order]).(Type)
 	case *Layer:
 		return any(stage.Layer_orderStaged[order]).(Type)
 	case *Line:
@@ -2100,6 +2165,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.ControlPoint_stagedOrder[instance]
 	case *Ellipse:
 		return stage.Ellipse_stagedOrder[instance]
+	case *FileToDownload:
+		return stage.FileToDownload_stagedOrder[instance]
 	case *Layer:
 		return stage.Layer_stagedOrder[instance]
 	case *Line:
@@ -2204,6 +2271,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Condition"] = len(stage.Conditions)
 	stage.Map_GongStructName_InstancesNb["ControlPoint"] = len(stage.ControlPoints)
 	stage.Map_GongStructName_InstancesNb["Ellipse"] = len(stage.Ellipses)
+	stage.Map_GongStructName_InstancesNb["FileToDownload"] = len(stage.FileToDownloads)
 	stage.Map_GongStructName_InstancesNb["Layer"] = len(stage.Layers)
 	stage.Map_GongStructName_InstancesNb["Line"] = len(stage.Lines)
 	stage.Map_GongStructName_InstancesNb["Link"] = len(stage.Links)
@@ -2699,6 +2767,94 @@ func (ellipse *Ellipse) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (ellipse *Ellipse) SetName(name string) {
 	ellipse.Name = name
+}
+
+// Stage puts filetodownload to the model stage
+func (filetodownload *FileToDownload) Stage(stage *Stage) *FileToDownload {
+	if _, ok := stage.FileToDownloads[filetodownload]; !ok {
+		stage.FileToDownloads[filetodownload] = struct{}{}
+		stage.FileToDownload_stagedOrder[filetodownload] = stage.FileToDownloadOrder
+		stage.FileToDownload_orderStaged[stage.FileToDownloadOrder] = filetodownload
+		stage.FileToDownloadOrder++
+	}
+	stage.FileToDownloads_mapString[filetodownload.Name] = filetodownload
+
+	return filetodownload
+}
+
+// StagePreserveOrder puts filetodownload to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FileToDownloadOrder
+// - update stage.FileToDownloadOrder accordingly
+func (filetodownload *FileToDownload) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.FileToDownloads[filetodownload]; !ok {
+		stage.FileToDownloads[filetodownload] = struct{}{}
+
+		if order > stage.FileToDownloadOrder {
+			stage.FileToDownloadOrder = order
+		}
+		stage.FileToDownload_stagedOrder[filetodownload] = order
+		stage.FileToDownload_orderStaged[order] = filetodownload
+		stage.FileToDownloadOrder++
+	}
+	stage.FileToDownloads_mapString[filetodownload.Name] = filetodownload
+}
+
+// Unstage removes filetodownload off the model stage
+func (filetodownload *FileToDownload) Unstage(stage *Stage) *FileToDownload {
+	delete(stage.FileToDownloads, filetodownload)
+	// issue1150
+	// delete(stage.FileToDownload_stagedOrder, filetodownload)
+	delete(stage.FileToDownloads_mapString, filetodownload.Name)
+
+	return filetodownload
+}
+
+// UnstageVoid removes filetodownload off the model stage
+func (filetodownload *FileToDownload) UnstageVoid(stage *Stage) {
+	delete(stage.FileToDownloads, filetodownload)
+	// issue1150
+	// delete(stage.FileToDownload_stagedOrder, filetodownload)
+	delete(stage.FileToDownloads_mapString, filetodownload.Name)
+}
+
+// commit filetodownload to the back repo (if it is already staged)
+func (filetodownload *FileToDownload) Commit(stage *Stage) *FileToDownload {
+	if _, ok := stage.FileToDownloads[filetodownload]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitFileToDownload(filetodownload)
+		}
+	}
+	return filetodownload
+}
+
+func (filetodownload *FileToDownload) CommitVoid(stage *Stage) {
+	filetodownload.Commit(stage)
+}
+
+func (filetodownload *FileToDownload) StageVoid(stage *Stage) {
+	filetodownload.Stage(stage)
+}
+
+// Checkout filetodownload to the back repo (if it is already staged)
+func (filetodownload *FileToDownload) Checkout(stage *Stage) *FileToDownload {
+	if _, ok := stage.FileToDownloads[filetodownload]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutFileToDownload(filetodownload)
+		}
+	}
+	return filetodownload
+}
+
+// for satisfaction of GongStruct interface
+func (filetodownload *FileToDownload) GetName() (res string) {
+	return filetodownload.Name
+}
+
+// for satisfaction of GongStruct interface
+func (filetodownload *FileToDownload) SetName(name string) {
+	filetodownload.Name = name
 }
 
 // Stage puts layer to the model stage
@@ -4204,6 +4360,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMCondition(Condition *Condition)
 	CreateORMControlPoint(ControlPoint *ControlPoint)
 	CreateORMEllipse(Ellipse *Ellipse)
+	CreateORMFileToDownload(FileToDownload *FileToDownload)
 	CreateORMLayer(Layer *Layer)
 	CreateORMLine(Line *Line)
 	CreateORMLink(Link *Link)
@@ -4229,6 +4386,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMCondition(Condition *Condition)
 	DeleteORMControlPoint(ControlPoint *ControlPoint)
 	DeleteORMEllipse(Ellipse *Ellipse)
+	DeleteORMFileToDownload(FileToDownload *FileToDownload)
 	DeleteORMLayer(Layer *Layer)
 	DeleteORMLine(Line *Line)
 	DeleteORMLink(Link *Link)
@@ -4273,6 +4431,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Ellipses_mapString = make(map[string]*Ellipse)
 	stage.Ellipse_stagedOrder = make(map[*Ellipse]uint)
 	stage.EllipseOrder = 0
+
+	stage.FileToDownloads = make(map[*FileToDownload]struct{})
+	stage.FileToDownloads_mapString = make(map[string]*FileToDownload)
+	stage.FileToDownload_stagedOrder = make(map[*FileToDownload]uint)
+	stage.FileToDownloadOrder = 0
 
 	stage.Layers = make(map[*Layer]struct{})
 	stage.Layers_mapString = make(map[string]*Layer)
@@ -4383,6 +4546,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Ellipses = nil
 	stage.Ellipses_mapString = nil
 
+	stage.FileToDownloads = nil
+	stage.FileToDownloads_mapString = nil
+
 	stage.Layers = nil
 	stage.Layers_mapString = nil
 
@@ -4456,6 +4622,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for ellipse := range stage.Ellipses {
 		ellipse.Unstage(stage)
+	}
+
+	for filetodownload := range stage.FileToDownloads {
+		filetodownload.Unstage(stage)
 	}
 
 	for layer := range stage.Layers {
@@ -4612,6 +4782,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.ControlPoints).(*Type)
 	case map[*Ellipse]any:
 		return any(&stage.Ellipses).(*Type)
+	case map[*FileToDownload]any:
+		return any(&stage.FileToDownloads).(*Type)
 	case map[*Layer]any:
 		return any(&stage.Layers).(*Type)
 	case map[*Line]any:
@@ -4668,6 +4840,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.ControlPoints_mapString).(map[string]Type)
 	case *Ellipse:
 		return any(stage.Ellipses_mapString).(map[string]Type)
+	case *FileToDownload:
+		return any(stage.FileToDownloads_mapString).(map[string]Type)
 	case *Layer:
 		return any(stage.Layers_mapString).(map[string]Type)
 	case *Line:
@@ -4724,6 +4898,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.ControlPoints).(*map[*Type]struct{})
 	case Ellipse:
 		return any(&stage.Ellipses).(*map[*Type]struct{})
+	case FileToDownload:
+		return any(&stage.FileToDownloads).(*map[*Type]struct{})
 	case Layer:
 		return any(&stage.Layers).(*map[*Type]struct{})
 	case Line:
@@ -4780,6 +4956,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.ControlPoints).(*map[Type]struct{})
 	case *Ellipse:
 		return any(&stage.Ellipses).(*map[Type]struct{})
+	case *FileToDownload:
+		return any(&stage.FileToDownloads).(*map[Type]struct{})
 	case *Layer:
 		return any(&stage.Layers).(*map[Type]struct{})
 	case *Line:
@@ -4836,6 +5014,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.ControlPoints_mapString).(*map[string]*Type)
 	case Ellipse:
 		return any(&stage.Ellipses_mapString).(*map[string]*Type)
+	case FileToDownload:
+		return any(&stage.FileToDownloads_mapString).(*map[string]*Type)
 	case Layer:
 		return any(&stage.Layers_mapString).(*map[string]*Type)
 	case Line:
@@ -4909,6 +5089,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Animate with the name of the field
 			Animates: []*Animate{{Name: "Animates"}},
+		}).(*Type)
+	case FileToDownload:
+		return any(&FileToDownload{
+			// Initialisation of associations
 		}).(*Type)
 	case Layer:
 		return any(&Layer{
@@ -5102,6 +5286,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of Ellipse
 	case Ellipse:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of FileToDownload
+	case FileToDownload:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -5364,6 +5553,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of FileToDownload
+	case FileToDownload:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Layer
 	case Layer:
@@ -5703,6 +5897,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "ControlPoint"
 	case *Ellipse:
 		res = "Ellipse"
+	case *FileToDownload:
+		res = "FileToDownload"
 	case *Layer:
 		res = "Layer"
 	case *Line:
@@ -5814,6 +6010,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Layer"
 		rf.Fieldname = "Ellipses"
 		res = append(res, rf)
+	case *FileToDownload:
+		var rf ReverseField
+		_ = rf
 	case *Layer:
 		var rf ReverseField
 		_ = rf
@@ -6107,6 +6306,21 @@ func (ellipse *Ellipse) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Animates",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Animate",
+		},
+	}
+	return
+}
+
+func (filetodownload *FileToDownload) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Base64EncodedContent",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -7625,6 +7839,17 @@ func (ellipse *Ellipse) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	return
 }
 
+func (filetodownload *FileToDownload) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = filetodownload.Name
+	case "Base64EncodedContent":
+		res.valueString = filetodownload.Base64EncodedContent
+	}
+	return
+}
+
 func (layer *Layer) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -8982,6 +9207,19 @@ func (ellipse *Ellipse) GongSetFieldValue(fieldName string, value GongFieldValue
 	return nil
 }
 
+func (filetodownload *FileToDownload) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		filetodownload.Name = value.GetValueString()
+	case "Base64EncodedContent":
+		filetodownload.Base64EncodedContent = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (layer *Layer) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -10131,6 +10369,10 @@ func (ellipse *Ellipse) GongGetGongstructName() string {
 	return "Ellipse"
 }
 
+func (filetodownload *FileToDownload) GongGetGongstructName() string {
+	return "FileToDownload"
+}
+
 func (layer *Layer) GongGetGongstructName() string {
 	return "Layer"
 }
@@ -10229,6 +10471,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Ellipses_mapString = make(map[string]*Ellipse)
 	for ellipse := range stage.Ellipses {
 		stage.Ellipses_mapString[ellipse.Name] = ellipse
+	}
+
+	stage.FileToDownloads_mapString = make(map[string]*FileToDownload)
+	for filetodownload := range stage.FileToDownloads {
+		stage.FileToDownloads_mapString[filetodownload.Name] = filetodownload
 	}
 
 	stage.Layers_mapString = make(map[string]*Layer)

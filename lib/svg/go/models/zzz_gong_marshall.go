@@ -434,6 +434,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(ellipse.GongMarshallField(stage, "Animates"))
 	}
 
+	filetodownloadOrdered := []*FileToDownload{}
+	for filetodownload := range stage.FileToDownloads {
+		filetodownloadOrdered = append(filetodownloadOrdered, filetodownload)
+	}
+	sort.Slice(filetodownloadOrdered[:], func(i, j int) bool {
+		filetodownloadi := filetodownloadOrdered[i]
+		filetodownloadj := filetodownloadOrdered[j]
+		filetodownloadi_order, oki := stage.FileToDownload_stagedOrder[filetodownloadi]
+		filetodownloadj_order, okj := stage.FileToDownload_stagedOrder[filetodownloadj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return filetodownloadi_order < filetodownloadj_order
+	})
+	if len(filetodownloadOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, filetodownload := range filetodownloadOrdered {
+
+		identifiersDecl.WriteString(filetodownload.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(filetodownload.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(filetodownload.GongMarshallField(stage, "Base64EncodedContent"))
+	}
+
 	layerOrdered := []*Layer{}
 	for layer := range stage.Layers {
 		layerOrdered = append(layerOrdered, layer)
@@ -1180,6 +1207,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, filetodownload := range filetodownloadOrdered {
+		_ = filetodownload
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, layer := range layerOrdered {
 		_ = layer
 		var setPointerField string
@@ -1629,6 +1664,26 @@ func (ellipse *Ellipse) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Ellipse", fieldName)
+	}
+	return
+}
+
+func (filetodownload *FileToDownload) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(filetodownload.Name))
+	case "Base64EncodedContent":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64EncodedContent")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(filetodownload.Base64EncodedContent))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FileToDownload", fieldName)
 	}
 	return
 }
@@ -3649,6 +3704,18 @@ func (ellipse *Ellipse) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(ellipse.GongMarshallField(stage, "StrokeDashArrayWhenSelected"))
 		initializerStatements.WriteString(ellipse.GongMarshallField(stage, "Transform"))
 		pointersInitializesStatements.WriteString(ellipse.GongMarshallField(stage, "Animates"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (filetodownload *FileToDownload) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(filetodownload.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(filetodownload.GongMarshallField(stage, "Base64EncodedContent"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

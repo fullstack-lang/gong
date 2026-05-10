@@ -25,6 +25,10 @@ import { EllipseAPI } from './ellipse-api'
 import { Ellipse, CopyEllipseAPIToEllipse } from './ellipse'
 import { EllipseService } from './ellipse.service'
 
+import { FileToDownloadAPI } from './filetodownload-api'
+import { FileToDownload, CopyFileToDownloadAPIToFileToDownload } from './filetodownload'
+import { FileToDownloadService } from './filetodownload.service'
+
 import { LayerAPI } from './layer-api'
 import { Layer, CopyLayerAPIToLayer } from './layer'
 import { LayerService } from './layer.service'
@@ -115,6 +119,9 @@ export class FrontRepo { // insertion point sub template
 	array_Ellipses = new Array<Ellipse>() // array of front instances
 	map_ID_Ellipse = new Map<number, Ellipse>() // map of front instances
 
+	array_FileToDownloads = new Array<FileToDownload>() // array of front instances
+	map_ID_FileToDownload = new Map<number, FileToDownload>() // map of front instances
+
 	array_Layers = new Array<Layer>() // array of front instances
 	map_ID_Layer = new Map<number, Layer>() // map of front instances
 
@@ -185,6 +192,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_ControlPoints as unknown as Array<Type>
 			case 'Ellipse':
 				return this.array_Ellipses as unknown as Array<Type>
+			case 'FileToDownload':
+				return this.array_FileToDownloads as unknown as Array<Type>
 			case 'Layer':
 				return this.array_Layers as unknown as Array<Type>
 			case 'Line':
@@ -237,6 +246,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_ControlPoint as unknown as Map<number, Type>
 			case 'Ellipse':
 				return this.map_ID_Ellipse as unknown as Map<number, Type>
+			case 'FileToDownload':
+				return this.map_ID_FileToDownload as unknown as Map<number, Type>
 			case 'Layer':
 				return this.map_ID_Layer as unknown as Map<number, Type>
 			case 'Line':
@@ -346,6 +357,7 @@ export class FrontRepoService {
 		private conditionService: ConditionService,
 		private controlpointService: ControlPointService,
 		private ellipseService: EllipseService,
+		private filetodownloadService: FileToDownloadService,
 		private layerService: LayerService,
 		private lineService: LineService,
 		private linkService: LinkService,
@@ -400,6 +412,7 @@ export class FrontRepoService {
 		Observable<ConditionAPI[]>,
 		Observable<ControlPointAPI[]>,
 		Observable<EllipseAPI[]>,
+		Observable<FileToDownloadAPI[]>,
 		Observable<LayerAPI[]>,
 		Observable<LineAPI[]>,
 		Observable<LinkAPI[]>,
@@ -437,6 +450,7 @@ export class FrontRepoService {
 			this.conditionService.getConditions(this.Name, this.frontRepo),
 			this.controlpointService.getControlPoints(this.Name, this.frontRepo),
 			this.ellipseService.getEllipses(this.Name, this.frontRepo),
+			this.filetodownloadService.getFileToDownloads(this.Name, this.frontRepo),
 			this.layerService.getLayers(this.Name, this.frontRepo),
 			this.lineService.getLines(this.Name, this.frontRepo),
 			this.linkService.getLinks(this.Name, this.frontRepo),
@@ -469,6 +483,7 @@ export class FrontRepoService {
 						conditions_,
 						controlpoints_,
 						ellipses_,
+						filetodownloads_,
 						layers_,
 						lines_,
 						links_,
@@ -500,6 +515,8 @@ export class FrontRepoService {
 						controlpoints = controlpoints_ as ControlPointAPI[]
 						var ellipses: EllipseAPI[]
 						ellipses = ellipses_ as EllipseAPI[]
+						var filetodownloads: FileToDownloadAPI[]
+						filetodownloads = filetodownloads_ as FileToDownloadAPI[]
 						var layers: LayerAPI[]
 						layers = layers_ as LayerAPI[]
 						var lines: LineAPI[]
@@ -595,6 +612,18 @@ export class FrontRepoService {
 								let ellipse = new Ellipse
 								this.frontRepo.array_Ellipses.push(ellipse)
 								this.frontRepo.map_ID_Ellipse.set(ellipseAPI.ID, ellipse)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_FileToDownloads = []
+						this.frontRepo.map_ID_FileToDownload.clear()
+
+						filetodownloads.forEach(
+							filetodownloadAPI => {
+								let filetodownload = new FileToDownload
+								this.frontRepo.array_FileToDownloads.push(filetodownload)
+								this.frontRepo.map_ID_FileToDownload.set(filetodownloadAPI.ID, filetodownload)
 							}
 						)
 
@@ -847,6 +876,14 @@ export class FrontRepoService {
 						)
 
 						// fill up front objects
+						filetodownloads.forEach(
+							filetodownloadAPI => {
+								let filetodownload = this.frontRepo.map_ID_FileToDownload.get(filetodownloadAPI.ID)
+								CopyFileToDownloadAPIToFileToDownload(filetodownloadAPI, filetodownload!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
 						layers.forEach(
 							layerAPI => {
 								let layer = this.frontRepo.map_ID_Layer.get(layerAPI.ID)
@@ -1086,6 +1123,18 @@ export class FrontRepoService {
 						let ellipse = new Ellipse
 						frontRepo.array_Ellipses.push(ellipse)
 						frontRepo.map_ID_Ellipse.set(ellipseAPI.ID, ellipse)
+					}
+				)
+
+				// init the arrays
+				frontRepo.array_FileToDownloads = []
+				frontRepo.map_ID_FileToDownload.clear()
+
+				backRepoData.FileToDownloadAPIs.forEach(
+					filetodownloadAPI => {
+						let filetodownload = new FileToDownload
+						frontRepo.array_FileToDownloads.push(filetodownload)
+						frontRepo.map_ID_FileToDownload.set(filetodownloadAPI.ID, filetodownload)
 					}
 				)
 
@@ -1340,6 +1389,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.FileToDownloadAPIs.forEach(
+					filetodownloadAPI => {
+						let filetodownload = frontRepo.map_ID_FileToDownload.get(filetodownloadAPI.ID)
+						CopyFileToDownloadAPIToFileToDownload(filetodownloadAPI, filetodownload!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.LayerAPIs.forEach(
 					layerAPI => {
 						let layer = frontRepo.map_ID_Layer.get(layerAPI.ID)
@@ -1518,54 +1575,57 @@ export function getControlPointUniqueID(id: number): number {
 export function getEllipseUniqueID(id: number): number {
 	return 47 * id
 }
-export function getLayerUniqueID(id: number): number {
+export function getFileToDownloadUniqueID(id: number): number {
 	return 53 * id
 }
-export function getLineUniqueID(id: number): number {
+export function getLayerUniqueID(id: number): number {
 	return 59 * id
 }
-export function getLinkUniqueID(id: number): number {
+export function getLineUniqueID(id: number): number {
 	return 61 * id
 }
-export function getLinkAnchoredTextUniqueID(id: number): number {
+export function getLinkUniqueID(id: number): number {
 	return 67 * id
 }
-export function getPathUniqueID(id: number): number {
+export function getLinkAnchoredTextUniqueID(id: number): number {
 	return 71 * id
 }
-export function getPointUniqueID(id: number): number {
+export function getPathUniqueID(id: number): number {
 	return 73 * id
 }
-export function getPolygoneUniqueID(id: number): number {
+export function getPointUniqueID(id: number): number {
 	return 79 * id
 }
-export function getPolylineUniqueID(id: number): number {
+export function getPolygoneUniqueID(id: number): number {
 	return 83 * id
 }
-export function getRectUniqueID(id: number): number {
+export function getPolylineUniqueID(id: number): number {
 	return 89 * id
 }
-export function getRectAnchoredPathUniqueID(id: number): number {
+export function getRectUniqueID(id: number): number {
 	return 97 * id
 }
-export function getRectAnchoredPngImageUniqueID(id: number): number {
+export function getRectAnchoredPathUniqueID(id: number): number {
 	return 101 * id
 }
-export function getRectAnchoredRectUniqueID(id: number): number {
+export function getRectAnchoredPngImageUniqueID(id: number): number {
 	return 103 * id
 }
-export function getRectAnchoredTextUniqueID(id: number): number {
+export function getRectAnchoredRectUniqueID(id: number): number {
 	return 107 * id
 }
-export function getRectLinkLinkUniqueID(id: number): number {
+export function getRectAnchoredTextUniqueID(id: number): number {
 	return 109 * id
 }
-export function getSVGUniqueID(id: number): number {
+export function getRectLinkLinkUniqueID(id: number): number {
 	return 113 * id
 }
-export function getSvgTextUniqueID(id: number): number {
+export function getSVGUniqueID(id: number): number {
 	return 127 * id
 }
-export function getTextUniqueID(id: number): number {
+export function getSvgTextUniqueID(id: number): number {
 	return 131 * id
+}
+export function getTextUniqueID(id: number): number {
+	return 137 * id
 }
