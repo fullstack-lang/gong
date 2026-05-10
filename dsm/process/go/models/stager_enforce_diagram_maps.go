@@ -25,6 +25,15 @@ func (stager *Stager) enforceDiagramMaps() {
 			}
 			diagramProcess.map_DataShapeKey_DataShape[key] = dataShape
 		}
+
+		diagramProcess.map_AllocatedResourceShapeKey_AllocatedResourceShape = make(map[allocatedResourceShapeKey]*AllocatedResourceShape)
+		for _, allocatedResourceShape := range diagramProcess.AllocatedResourceShapes {
+			key := allocatedResourceShapeKey{
+				participant: allocatedResourceShape.Participant,
+				resource:    allocatedResourceShape.Resource,
+			}
+			diagramProcess.map_AllocatedResourceShapeKey_AllocatedResourceShape[key] = allocatedResourceShape
+		}
 	}
 }
 

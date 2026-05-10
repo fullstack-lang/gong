@@ -17,6 +17,35 @@ func FillUpForm(
 
 	switch instanceWithInferedType := any(instance).(type) {
 	// insertion point
+	case *models.AllocatedResourceShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationFieldToForm("Participant", instanceWithInferedType.Participant, formGroup, probe)
+		AssociationFieldToForm("Resource", instanceWithInferedType.Resource, formGroup, probe)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "DiagramProcess"
+			rf.Fieldname = "AllocatedResourceShapes"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.DiagramProcess),
+					"AllocatedResourceShapes",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.DiagramProcess](
+					nil,
+					"AllocatedResourceShapes",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+
 	case *models.ControlFlow:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -438,6 +467,8 @@ func FillUpForm(
 		AssociationSliceToForm("DatasWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DatasWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("Data_Shapes", instanceWithInferedType, &instanceWithInferedType.Data_Shapes, formGroup, probe)
 		AssociationSliceToForm("DataFlowsWhoseDataNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DataFlowsWhoseDataNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("AllocatedResourcesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.AllocatedResourcesWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("AllocatedResourceShapes", instanceWithInferedType, &instanceWithInferedType.AllocatedResourceShapes, formGroup, probe)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -993,6 +1024,28 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "DiagramProcess"
+			rf.Fieldname = "AllocatedResourcesWhoseNodeIsExpanded"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.DiagramProcess),
+					"AllocatedResourcesWhoseNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.DiagramProcess](
+					nil,
+					"AllocatedResourcesWhoseNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
 		{
 			var rf models.ReverseField
 			_ = rf

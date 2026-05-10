@@ -24,6 +24,8 @@ func (probe *Probe) ux_table() {
 	}
 	switch tableName {
 	// insertion point
+	case "AllocatedResourceShape":
+		updateProbeTable[*models.AllocatedResourceShape](probe)
 	case "ControlFlow":
 		updateProbeTable[*models.ControlFlow](probe)
 	case "ControlFlowShape":
