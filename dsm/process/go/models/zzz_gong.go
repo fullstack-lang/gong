@@ -5897,6 +5897,10 @@ func (participantshape *ParticipantShape) GongGetFieldHeaders() (res []GongField
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:               "WidthWeight",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
 	}
 	return
 }
@@ -6904,6 +6908,10 @@ func (participantshape *ParticipantShape) GongGetFieldValue(fieldName string, st
 		res.valueString = fmt.Sprintf("%t", participantshape.IsHidden)
 		res.valueBool = participantshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "WidthWeight":
+		res.valueString = fmt.Sprintf("%f", participantshape.WidthWeight)
+		res.valueFloat = participantshape.WidthWeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -8035,6 +8043,8 @@ func (participantshape *ParticipantShape) GongSetFieldValue(fieldName string, va
 		participantshape.Height = value.GetValueFloat()
 	case "IsHidden":
 		participantshape.IsHidden = value.GetValueBool()
+	case "WidthWeight":
+		participantshape.WidthWeight = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

@@ -169,7 +169,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		rect.CanMoveVerticaly = true
 		rect.CanHaveBottomHandle = false
 		rect.CanHaveLeftHandle = false
-		rect.CanHaveRightHandle = false
+		rect.CanHaveRightHandle = true
 		rect.CanHaveTopHandle = false
 
 		// visuals
