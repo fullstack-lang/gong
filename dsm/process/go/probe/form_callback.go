@@ -4957,6 +4957,10 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(resource_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(resource_.ComputedPrefix), formDiv)
+		case "SVG_Path":
+			FormDivBasicFieldToField(&(resource_.SVG_Path), formDiv)
+		case "InverseAppliedScaling":
+			FormDivBasicFieldToField(&(resource_.InverseAppliedScaling), formDiv)
 		case "DiagramProcess:AllocatedResourcesWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "DiagramProcess.AllocatedResourcesWhoseNodeIsExpanded []*Resource" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

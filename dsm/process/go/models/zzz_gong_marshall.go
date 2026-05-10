@@ -783,6 +783,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(resource.GongMarshallField(stage, "SVG_Path"))
+		initializerStatements.WriteString(resource.GongMarshallField(stage, "InverseAppliedScaling"))
 	}
 
 	taskOrdered := []*Task{}
@@ -2266,6 +2268,16 @@ func (resource *Resource) GongMarshallField(stage *Stage, fieldName string) (res
 		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(resource.ComputedPrefix))
+	case "SVG_Path":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVG_Path")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(resource.SVG_Path))
+	case "InverseAppliedScaling":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "InverseAppliedScaling")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", resource.InverseAppliedScaling))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Resource", fieldName)
@@ -2647,6 +2659,8 @@ func (resource *Resource) GongMarshallAllFields(stage *Stage) (initRes string, p
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(resource.GongMarshallField(stage, "SVG_Path"))
+		initializerStatements.WriteString(resource.GongMarshallField(stage, "InverseAppliedScaling"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -59,7 +59,7 @@
             stroke-dasharray=""
             transform="translate(333 816.999985) scale(0.2 0.2)" >
 </path>
-	<line x1="425.999969" y1="125.499992" x2="147.999961" y2="125.499992"
+	<line x1="425.999969" y1="125.49999199999999" x2="147.99996099999998" y2="125.49999199999999"
 			fill=""
             fill-opacity="0.000000"
             stroke="red"
@@ -103,7 +103,7 @@
 	</text>
 	<text xml:space="preserve"
 			x="425.999969" 
-			y="154.49999200000002" 
+			y="154.499992" 
 			text-anchor="end"
 			font-family=""
 			font-weight="normal"
@@ -119,7 +119,7 @@
             transform="">
 		<tspan xml:space="preserve"> Start Right/Bottom </tspan>
 	</text>
-	<line x1="127.99996100000001" y1="145.49999200000002" x2="127.99996100000001" y2="406"
+	<line x1="127.99996099999998" y1="145.499992" x2="127.99996099999998" y2="406"
 			fill=""
             fill-opacity="0.000000"
             stroke="red"
@@ -135,7 +135,7 @@
             stroke-width="5.000000"
             stroke-dasharray=""
             transform="" />
-	<line x1="147.999961" y1="426" x2="461" y2="426"
+	<line x1="147.99996099999998" y1="426" x2="461" y2="426"
 			fill=""
             fill-opacity="0.000000"
             stroke="red"
@@ -187,7 +187,7 @@
             transform="">
 		<tspan xml:space="preserve"> End Left/Top </tspan>
 	</text>
-	<line x1="425.999969" y1="243.431192" x2="64.99997500000003" y2="243.431192"
+	<line x1="425.999969" y1="243.431192" x2="64.999975" y2="243.431192"
 			fill=""
             fill-opacity="0.000000"
             stroke="green"
@@ -221,7 +221,7 @@
             transform="">
 		<tspan xml:space="preserve"> Start Anchored 1 </tspan>
 	</text>
-	<line x1="56.999975000000035" y1="251.431192" x2="56.999975000000035" y2="740.589439105265"
+	<line x1="56.999975000000006" y1="251.431192" x2="56.999975000000006" y2="740.589439105265"
 			fill=""
             fill-opacity="0.000000"
             stroke="green"
@@ -237,7 +237,7 @@
             stroke-width="4.000000"
             stroke-dasharray=""
             transform="" />
-	<line x1="64.99997500000003" y1="748.589439105265" x2="333" y2="748.589439105265"
+	<line x1="64.999975" y1="748.589439105265" x2="333" y2="748.589439105265"
 			fill=""
             fill-opacity="0.000000"
             stroke="green"
@@ -437,6 +437,24 @@
             transform="">
 		<tspan xml:space="preserve"> RIGHT_OR_BOTTOM </tspan>
 	</text>
+	<text xml:space="preserve"
+			x="1445.000205" 
+			y="331.205197756364" 
+			text-anchor="end"
+			font-family=""
+			font-weight=""
+			font-style=""
+			font-size=""
+			letter-spacing=""
+			fill="green"
+            fill-opacity="1.000000"
+            stroke="green"
+            stroke-opacity="1.000000"
+            stroke-width="1.000000"
+            stroke-dasharray=""
+            transform="">
+		<tspan xml:space="preserve"> TEXT AT CORNER </tspan>
+	</text>
 	<line x1="1457.000205" y1="308.005197756364" x2="1457.000205" y2="308.005197756364"
 			fill=""
             fill-opacity="0.000000"
@@ -505,7 +523,7 @@
             transform="">
 		<tspan xml:space="preserve"> RIGHT_OR_BOTTOM </tspan>
 	</text>
-	<line x1="1604.769231" y1="646.004999" x2="1861.0003530000001" y2="646.004999"
+	<line x1="1604.769231" y1="646.004999" x2="1861.000353" y2="646.004999"
 			fill=""
             fill-opacity="0.000000"
             stroke="black"
@@ -601,7 +619,25 @@
             transform="">
 		<tspan xml:space="preserve"> LEFT_OR_TOP_ABOVE </tspan>
 	</text>
-	<line x1="1901.0003530000001" y1="606.004999" x2="1901.0003530000001" y2="187.904776"
+	<text xml:space="preserve"
+			x="1861.000353" 
+			y="669.204999" 
+			text-anchor="middle"
+			font-family=""
+			font-weight=""
+			font-style=""
+			font-size=""
+			letter-spacing=""
+			fill="green"
+            fill-opacity="1.000000"
+            stroke="green"
+            stroke-opacity="1.000000"
+            stroke-width="1.000000"
+            stroke-dasharray=""
+            transform="">
+		<tspan xml:space="preserve"> TEXT AT CORNER </tspan>
+	</text>
+	<line x1="1901.000353" y1="606.004999" x2="1901.000353" y2="187.904776"
 			fill=""
             fill-opacity="0.000000"
             stroke="black"
@@ -618,7 +654,7 @@
             stroke-dasharray=""
             transform="" />
 	<text xml:space="preserve"
-			x="1901.0003530000001" 
+			x="1901.000353" 
 			y="221.904776" 
 			text-anchor="end"
 			font-family=""
@@ -636,7 +672,7 @@
 		<tspan xml:space="preserve"> LEFT_OR_TOP </tspan>
 	</text>
 	<text xml:space="preserve"
-			x="1901.0003530000001" 
+			x="1901.000353" 
 			y="221.904776" 
 			text-anchor="start"
 			font-family=""
@@ -654,7 +690,7 @@
 		<tspan xml:space="preserve"> RIGHT_OR_BOTTOM </tspan>
 	</text>
 	<text xml:space="preserve"
-			x="1901.0003530000001" 
+			x="1901.000353" 
 			y="261.90477599999997" 
 			text-anchor="start"
 			font-family=""
@@ -672,7 +708,7 @@
 		<tspan xml:space="preserve"> AA_RIGHT_OR_BOTTOM_BELOW </tspan>
 	</text>
 	<text xml:space="preserve"
-			x="1901.0003530000001" 
+			x="1901.000353" 
 			y="181.904776" 
 			text-anchor="end"
 			font-family=""
@@ -689,7 +725,7 @@
             transform="">
 		<tspan xml:space="preserve"> LEFT_OR_TOP_ABOVE </tspan>
 	</text>
-	<line x1="1125.333333" y1="140.257445002864" x2="827.9997010000001" y2="140.257445002864"
+	<line x1="1125.333333" y1="140.25744500286402" x2="827.9997010000001" y2="140.25744500286402"
 			fill=""
             fill-opacity="0.000000"
             stroke="black"
@@ -715,7 +751,7 @@
             transform="" />
 	<text xml:space="preserve"
 			x="1125.333333" 
-			y="117.657445002864" 
+			y="117.65744500286402" 
 			text-anchor="end"
 			font-family=""
 			font-weight=""
@@ -733,7 +769,7 @@
 	</text>
 	<text xml:space="preserve"
 			x="1125.333333" 
-			y="174.257445002864" 
+			y="174.25744500286402" 
 			text-anchor="end"
 			font-family=""
 			font-weight=""
@@ -749,7 +785,25 @@
             transform="">
 		<tspan xml:space="preserve"> RIGHT_OR_BOTTOM </tspan>
 	</text>
-	<line x1="797.9997010000001" y1="170.257445002864" x2="797.9997010000001" y2="524.005127"
+	<text xml:space="preserve"
+			x="827.9997010000001" 
+			y="132.25744500286402" 
+			text-anchor="middle"
+			font-family=""
+			font-weight=""
+			font-style=""
+			font-size=""
+			letter-spacing=""
+			fill="green"
+            fill-opacity="1.000000"
+            stroke="green"
+            stroke-opacity="1.000000"
+            stroke-width="1.000000"
+            stroke-dasharray=""
+            transform="">
+		<tspan xml:space="preserve"> TEXT AT CORNER </tspan>
+	</text>
+	<line x1="797.9997010000001" y1="170.25744500286402" x2="797.9997010000001" y2="524.005127"
 			fill=""
             fill-opacity="0.000000"
             stroke="black"
