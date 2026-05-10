@@ -245,6 +245,8 @@ type Participant_WOP struct {
 
 	Name string
 
+	IsResourcesNodeExpanded bool
+
 	ComputedPrefix string
 
 	IsTasksNodeExpanded bool
@@ -257,6 +259,7 @@ type Participant_WOP struct {
 func (from *Participant) CopyBasicFields(to *Participant) {
 	// insertion point
 	to.Name = from.Name
+	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsTasksNodeExpanded = from.IsTasksNodeExpanded
 	to.IsControlFlowsNodeExpanded = from.IsControlFlowsNodeExpanded

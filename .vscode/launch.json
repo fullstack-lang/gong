@@ -544,17 +544,6 @@
             ]
         },
         {
-            "name": "process: go run data/stage.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
-            "args": [
-                "data/stage.go",
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
             "name": "process: gong generate --dsm",
             "type": "go",
             "request": "launch",
@@ -565,6 +554,17 @@
                 "generate",
                 "--skipGoModCommands",
                 "--dsm", 
+            ]
+        },
+        {
+            "name": "process: go run data/stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/stage.go",
+                "-embeddedDiagrams=false",
             ]
         },
         {

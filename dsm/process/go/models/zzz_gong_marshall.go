@@ -611,6 +611,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Resources"))
+		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsResourcesNodeExpanded"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsTasksNodeExpanded"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Tasks"))
@@ -1824,6 +1826,11 @@ func (participant *Participant) GongMarshallField(stage *Stage, fieldName string
 		res = strings.ReplaceAll(res, "{{Identifier}}", participant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(participant.Name))
+	case "IsResourcesNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", participant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsResourcesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", participant.IsResourcesNodeExpanded))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", participant.GongGetIdentifier(stage))
@@ -1845,6 +1852,16 @@ func (participant *Participant) GongMarshallField(stage *Stage, fieldName string
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDataFlowsNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", participant.IsDataFlowsNodeExpanded))
 
+	case "Resources":
+		var sb strings.Builder
+		for _, _resource := range participant.Resources {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", participant.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Resources")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resource.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "Tasks":
 		var sb strings.Builder
 		for _, _task := range participant.Tasks {
@@ -2434,6 +2451,8 @@ func (participant *Participant) GongMarshallAllFields(stage *Stage) (initRes str
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Resources"))
+		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsResourcesNodeExpanded"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsTasksNodeExpanded"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Tasks"))
