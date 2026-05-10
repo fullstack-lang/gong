@@ -157,7 +157,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 
 	currentWeight := 0.0
 
-	for _, participantShape := range diagramProcess.Participant_Shapes {
+	for idx, participantShape := range diagramProcess.Participant_Shapes {
 		shapeWeight := participantShape.WidthWeight
 		if shapeWeight == 0 {
 			shapeWeight = 1.0
@@ -189,8 +189,15 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		rect.CanMoveVerticaly = true
 		rect.CanHaveBottomHandle = false
 		rect.CanHaveLeftHandle = false
-		rect.CanHaveRightHandle = true
 		rect.CanHaveTopHandle = false
+
+		// all but the last participant have right handle
+		rect.CanHaveRightHandle = func() bool {
+			if idx == len(diagramProcess.Participant_Shapes)-1 {
+				return false
+			}
+			return true
+		}()
 
 		// visuals
 		rect.RX = 0
@@ -207,7 +214,24 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		rect.Height = rectOfOwningProcess.Height - verticalTopMargin - verticalBottomMargin - verticalTopMarginForTitle
 
 		// override default behavior, we need to commit when the rect is moved
-		rect.OnUpdate = onUpdateRectElement(stager, participantShape.Participant, participantShape, false)
+		rect.OnUpdate = func(updatedRect *svg.Rect) {
+			if updatedRect.Width != participantWidth {
+				othersWeight := totalWeight - shapeWeight
+				if othersWeight > 0 {
+					boundedWidth := updatedRect.Width
+					if boundedWidth > participantsWidth-10 {
+						boundedWidth = participantsWidth - 10
+					}
+					if boundedWidth < 10 {
+						boundedWidth = 10
+					}
+					newWeight := (boundedWidth * othersWeight) / (participantsWidth - boundedWidth)
+
+					participantShape.WidthWeight = newWeight
+					stager.stage.Commit()
+				}
+			}
+		}
 
 		diagramProcess.map_Participant_Rect[participantShape.Participant] = rect
 
