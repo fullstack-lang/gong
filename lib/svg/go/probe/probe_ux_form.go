@@ -45,6 +45,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.ellipse, probe)
 			}
+		case *FileToDownloadFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "FileToDownload", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.filetodownload, probe)
+			}
 		case *LayerFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Layer", true)
@@ -234,6 +240,19 @@ func FillUpFormFromGongstructName(
 		ellipse := new(models.Ellipse)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(ellipse, formGroup, probe)
+	case "FileToDownload":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "FileToDownload Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__FileToDownloadFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		filetodownload := new(models.FileToDownload)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(filetodownload, formGroup, probe)
 	case "Layer":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

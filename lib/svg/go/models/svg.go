@@ -1,9 +1,9 @@
 package models
 
 import (
+	"encoding/base64"
 	"log"
 	"math"
-	"path/filepath"
 )
 
 type SVG struct {
@@ -85,10 +85,18 @@ func (svg *SVG) OnAfterUpdate(stage *Stage, _, frontSVG *SVG) {
 
 	if frontSVG.IsSVGBackEndFileGenerated {
 		log.Println("SVG generation requested")
-		err, _, _ := svg.GenerateFile(filepath.Join(svg.DefaultDirectoryForGeneratedImages, svg.Name+".svg"))
-		if err != nil {
-			log.Println("SVG generation request failed", err.Error())
+
+		// Clear any previously generated files
+		for f := range *GetGongstructInstancesSet[FileToDownload](stage) {
+			f.Unstage(stage)
 		}
+
+		fileToDownload := new(FileToDownload).Stage(stage)
+		fileToDownload.Name = svg.Name + ".svg"
+		result, _, _ := svg.GenerateString()
+		fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(result))
+
+		stage.Commit()
 	}
 }
 

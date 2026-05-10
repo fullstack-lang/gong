@@ -47,6 +47,7 @@ func NewStackInstance(
 	models.SetOrchestratorOnAfterUpdate[models.Condition](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ControlPoint](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Ellipse](stage)
+	models.SetOrchestratorOnAfterUpdate[models.FileToDownload](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Layer](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Line](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Link](stage)

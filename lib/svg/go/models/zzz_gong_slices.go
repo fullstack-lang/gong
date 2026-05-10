@@ -49,6 +49,9 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct FileToDownload
+	// insertion point per field
+
 	// Compute reverse map for named struct Layer
 	// insertion point per field
 	stage.Layer_Rects_reverseMap = make(map[*Rect]*Layer)
@@ -328,6 +331,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.FileToDownloads {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Layers {
 		res = append(res, instance)
 	}
@@ -427,6 +434,12 @@ func (controlpoint *ControlPoint) GongCopy() GongstructIF {
 func (ellipse *Ellipse) GongCopy() GongstructIF {
 	newInstance := new(Ellipse)
 	ellipse.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (filetodownload *FileToDownload) GongCopy() GongstructIF {
+	newInstance := new(FileToDownload)
+	filetodownload.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -580,6 +593,16 @@ func (ellipse *Ellipse) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(ellipse), uint64(GetOrderPointerGongstruct(stage, ellipse)))
+	return
+}
+
+func (filetodownload *FileToDownload) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(filetodownload).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(filetodownload), uint64(GetOrderPointerGongstruct(stage, filetodownload)))
 	return
 }
 
@@ -1046,6 +1069,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(ellipses_newInstances)
 	lenDeletedInstances += len(ellipses_deletedInstances)
+	var filetodownloads_newInstances []*FileToDownload
+	var filetodownloads_deletedInstances []*FileToDownload
+
+	// parse all staged instances and check if they have a reference
+	for filetodownload := range stage.FileToDownloads {
+		if ref, ok := stage.FileToDownloads_reference[filetodownload]; !ok {
+			filetodownloads_newInstances = append(filetodownloads_newInstances, filetodownload)
+			newInstancesSlice = append(newInstancesSlice, filetodownload.GongMarshallIdentifier(stage))
+			if stage.FileToDownloads_referenceOrder == nil {
+				stage.FileToDownloads_referenceOrder = make(map[*FileToDownload]uint)
+			}
+			stage.FileToDownloads_referenceOrder[filetodownload] = stage.FileToDownload_stagedOrder[filetodownload]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, filetodownload.GongMarshallUnstaging(stage))
+			// delete(stage.FileToDownloads_referenceOrder, filetodownload)
+			fieldInitializers, pointersInitializations := filetodownload.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.FileToDownload_stagedOrder[ref] = stage.FileToDownload_stagedOrder[filetodownload]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := filetodownload.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, filetodownload)
+			// delete(stage.FileToDownload_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if filetodownload.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", filetodownload.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.FileToDownloads_reference {
+		instance := stage.FileToDownloads_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FileToDownloads[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			filetodownloads_deletedInstances = append(filetodownloads_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(filetodownloads_newInstances)
+	lenDeletedInstances += len(filetodownloads_deletedInstances)
 	var layers_newInstances []*Layer
 	var layers_deletedInstances []*Layer
 
@@ -2066,6 +2144,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Ellipses_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.FileToDownloads_reference = make(map[*FileToDownload]*FileToDownload)
+	stage.FileToDownloads_referenceOrder = make(map[*FileToDownload]uint) // diff Unstage needs the reference order
+	stage.FileToDownloads_instance = make(map[*FileToDownload]*FileToDownload)
+	for instance := range stage.FileToDownloads {
+		_copy := instance.GongCopy().(*FileToDownload)
+		stage.FileToDownloads_reference[instance] = _copy
+		stage.FileToDownloads_instance[_copy] = instance
+		stage.FileToDownloads_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Layers_reference = make(map[*Layer]*Layer)
 	stage.Layers_referenceOrder = make(map[*Layer]uint) // diff Unstage needs the reference order
 	stage.Layers_instance = make(map[*Layer]*Layer)
@@ -2262,6 +2350,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.FileToDownloads {
+		reference := stage.FileToDownloads_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.Layers {
 		reference := stage.Layers_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -2413,6 +2506,18 @@ func (ellipse *Ellipse) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Ellipse was not staged and does not have a reference order", ellipse)
+		return 0
+	}
+}
+
+func (filetodownload *FileToDownload) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.FileToDownload_stagedOrder[filetodownload]; ok {
+		return order
+	}
+	if order, ok := stage.FileToDownloads_referenceOrder[filetodownload]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type FileToDownload was not staged and does not have a reference order", filetodownload)
 		return 0
 	}
 }
@@ -2671,6 +2776,15 @@ func (ellipse *Ellipse) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", ellipse.GongGetGongstructName(), ellipse.GongGetOrder(stage))
 }
 
+func (filetodownload *FileToDownload) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", filetodownload.GongGetGongstructName(), filetodownload.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (filetodownload *FileToDownload) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", filetodownload.GongGetGongstructName(), filetodownload.GongGetOrder(stage))
+}
+
 func (layer *Layer) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", layer.GongGetGongstructName(), layer.GongGetOrder(stage))
 }
@@ -2867,6 +2981,14 @@ func (ellipse *Ellipse) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (filetodownload *FileToDownload) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FileToDownload")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(filetodownload.Name))
+	return
+}
+
 func (layer *Layer) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", layer.GongGetIdentifier(stage))
@@ -3031,6 +3153,12 @@ func (controlpoint *ControlPoint) GongMarshallUnstaging(stage *Stage) (decl stri
 func (ellipse *Ellipse) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", ellipse.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (filetodownload *FileToDownload) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetodownload.GongGetReferenceIdentifier(stage))
 	return
 }
 
