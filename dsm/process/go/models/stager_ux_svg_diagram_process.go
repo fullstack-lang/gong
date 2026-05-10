@@ -85,12 +85,12 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 
 		rect.Color = "#F8F9FA"
 		rect.FillOpacity = 1.0
-		rect.Stroke = "#333333"
-		rect.StrokeWidth = 2.0
+		rect.Stroke = "#E0E0E0"
+		rect.StrokeWidth = 1.5
 
 		if len(rect.RectAnchoredTexts) > 0 {
 			title := rect.RectAnchoredTexts[0]
-			title.FontWeight = "bold"
+			title.FontWeight = "500"
 			title.FontSize = "18px"
 		}
 
@@ -199,14 +199,13 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 				content = strutils.WrapStringPreservingNewlines(content, int(rect.Width/root.NbPixPerCharacter))
 			}
 			title.Content = content
-			title.Stroke = svg.Black.ToString()
-			title.StrokeWidth = 1
+			title.StrokeWidth = 0
 			title.StrokeOpacity = 1
-			title.Color = svg.Black.ToString()
+			title.Color = "#333333"
 			title.FillOpacity = 1
 
 			title.FontSize = "16px"
-			title.FontWeight = "bold"
+			title.FontWeight = "500"
 			title.X_Offset = 0
 			title.Y_Offset = -verticalTopMarginForTitle / 2.0
 			title.RectAnchorType = svg.RECT_TOP
@@ -255,19 +254,19 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		rect.RX = 3
 		rect.StrokeWidth = 2.0
 		rect.StrokeOpacity = 1.0
-		rect.Color = "#FFF9C4"
+		rect.Color = "#FFFDE7"
 		rect.FillOpacity = 1.0
 		rect.Stroke = "#333333"
 		rect.StrokeDashArray = "5 5"
 
 		if len(rect.RectAnchoredTexts) > 0 {
 			title := rect.RectAnchoredTexts[0]
-			title.FontWeight = "bold"
+			title.FontWeight = "500"
 		}
 		rect.OnUpdate = onUpdateRectElement(stager, externalParticipantShape.Participant, externalParticipantShape, false)
 		layer.Rects = append(layer.Rects, rect)
 
-		externalParticipantWidth := 10.0
+		externalParticipantWidth := 0.1
 		if externalParticipantShape.TailHeigth == 0 {
 			externalParticipantShape.TailHeigth = 100.0
 		}
@@ -277,12 +276,12 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		tailRect := &svg.Rect{
 			Name: "Tail" + rect.GetName(),
 			Presentation: svg.Presentation{
-				Stroke:          "#333333",
-				StrokeWidth:     2.0,
+				Stroke:          "#9E9E9E",
+				StrokeWidth:     1.5,
 				StrokeOpacity:   1,
 				StrokeDashArray: "5 5",
-				Color:           "#FFF9C4",
-				FillOpacity:     1.0,
+				Color:           "transparent",
+				FillOpacity:     0.0,
 			},
 			Width:               externalParticipantWidth,
 			Height:              externalParticipantShape.TailHeigth - boxHeight,
@@ -528,10 +527,11 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 				Presentation: svg.Presentation{
 					Color:       "#333333",
 					FillOpacity: 1.0,
-					StrokeWidth: 0,
+					Stroke:      "#FFFFFF",
+					StrokeWidth: 2.0,
 				},
 				TextAttributes: svg.TextAttributes{
-					FontWeight: "bold",
+					FontWeight: "600",
 				},
 
 				Y_Offset: float64(-nbDataShapes+idx+1)*18.0 - 4.0,
@@ -545,9 +545,11 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 }
 
 func (*Stager) drawAllocatedResources(participant *Participant, diagramProcess *DiagramProcess, rect *svg.Rect, rectAnchorType svg.RectAnchorType) (boxHeight float64) {
-	const HeightBetween2AttributeShapes = 20
+	const HeightBetween2AttributeShapes = 16
 	// draw allocated resource shapes that are within the participant
 	idx := 0
+	X_Offset := 10.0
+	Y_Offset := 20.0
 	for _, resource := range participant.Resources {
 		key := allocatedResourceShapeKey{
 			participant: participant,
@@ -570,8 +572,8 @@ func (*Stager) drawAllocatedResources(participant *Participant, diagramProcess *
 				FontSize:  "12px",
 			},
 
-			X_Offset:       10,
-			Y_Offset:       20 + float64(idx)*HeightBetween2AttributeShapes,
+			X_Offset:       X_Offset,
+			Y_Offset:       Y_Offset + float64(idx)*HeightBetween2AttributeShapes,
 			RectAnchorType: rectAnchorType,
 			TextAnchorType: svg.TEXT_ANCHOR_CENTER,
 		}
@@ -579,13 +581,13 @@ func (*Stager) drawAllocatedResources(participant *Participant, diagramProcess *
 		idx++
 	}
 	// draw a rect around the allocated resource shapes if there is at least one allocated resource shape
-	boxHeight = float64(idx)*HeightBetween2AttributeShapes + 10
+	boxHeight = float64(idx)*HeightBetween2AttributeShapes + Y_Offset - 5.0
 	if idx > 0 {
 		lineWidth := 1.0
 		allocatedResourceRect := &svg.RectAnchoredRect{
 			Name: participant.Name + "_allocated_resources",
 			Presentation: svg.Presentation{
-				Stroke:        svg.Black.ToString(),
+				Stroke:        "#CCCCCC",
 				StrokeWidth:   lineWidth,
 				StrokeOpacity: 1,
 			},
