@@ -80,6 +80,21 @@ func (stager *Stager) treeParticipants(
 	}
 	node.OnClick = onNodeClicked(stager, participant)
 
+	// Allocated Resources
+	allocatedResourcesNode := &tree.Node{
+		Name:            "Allocated Resources",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      participant.IsResourcesNodeExpanded,
+		IsNodeClickable: true,
+	}
+	node.Children = append(node.Children, allocatedResourcesNode)
+	allocatedResourcesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&participant.IsResourcesNodeExpanded)
+
+	for _, resource := range participant.Resources {
+		stager.treeResourceWithinDiagramWithinParticipant(diagramProcess, resource, participant, allocatedResourcesNode)
+	}
+
+	// Tasks
 	tasksNode := &tree.Node{
 		Name:            "Tasks",
 		FontStyle:       tree.ITALIC,

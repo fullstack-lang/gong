@@ -145,6 +145,7 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Participant
 func (participant *Participant) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &participant.Resources) || modified
 	modified = GongCleanSlice(stage, &participant.Tasks) || modified
 	modified = GongCleanSlice(stage, &participant.ControlFlows) || modified
 	modified = GongCleanSlice(stage, &participant.TaskWhoseOutControlFlowsNodeIsExpanded) || modified

@@ -889,6 +889,10 @@ func (u *ParticipantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Resources":
+		GongUnmarshallSliceOfPointers(&instance.Resources, valueExpr, identifierMap)
+	case "IsResourcesNodeExpanded":
+		instance.IsResourcesNodeExpanded = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsTasksNodeExpanded":

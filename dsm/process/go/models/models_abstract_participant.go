@@ -3,6 +3,9 @@ package models
 type Participant struct {
 	Name string
 
+	Resources               []*Resource
+	IsResourcesNodeExpanded bool
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
