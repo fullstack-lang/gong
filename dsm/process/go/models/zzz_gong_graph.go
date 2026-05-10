@@ -4061,6 +4061,12 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 	if resource.ComputedPrefix != resourceOther.ComputedPrefix {
 		diffs = append(diffs, resource.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if resource.SVG_Path != resourceOther.SVG_Path {
+		diffs = append(diffs, resource.GongMarshallField(stage, "SVG_Path"))
+	}
+	if resource.InverseAppliedScaling != resourceOther.InverseAppliedScaling {
+		diffs = append(diffs, resource.GongMarshallField(stage, "InverseAppliedScaling"))
+	}
 
 	return
 }

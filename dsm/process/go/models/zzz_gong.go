@@ -6015,6 +6015,14 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
+		{
+			Name:               "SVG_Path",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "InverseAppliedScaling",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
 	}
 	return
 }
@@ -7045,6 +7053,12 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = resource.Name
 	case "ComputedPrefix":
 		res.valueString = resource.ComputedPrefix
+	case "SVG_Path":
+		res.valueString = resource.SVG_Path
+	case "InverseAppliedScaling":
+		res.valueString = fmt.Sprintf("%f", resource.InverseAppliedScaling)
+		res.valueFloat = resource.InverseAppliedScaling
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -8197,6 +8211,10 @@ func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldVal
 		resource.Name = value.GetValueString()
 	case "ComputedPrefix":
 		resource.ComputedPrefix = value.GetValueString()
+	case "SVG_Path":
+		resource.SVG_Path = value.GetValueString()
+	case "InverseAppliedScaling":
+		resource.InverseAppliedScaling = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

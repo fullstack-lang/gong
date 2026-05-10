@@ -849,7 +849,7 @@ Line 2`
 	__RectAnchoredPath__00000000_.Y_Offset = 0.000000
 	__RectAnchoredPath__00000000_.RectAnchorType = models.RECT_BOTTOM_LEFT
 	__RectAnchoredPath__00000000_.ScalePropotionnally = true
-	__RectAnchoredPath__00000000_.AppliedScaling = 0.246875
+	__RectAnchoredPath__00000000_.AppliedScaling = 0.200000
 	__RectAnchoredPath__00000000_.Color = `black`
 	__RectAnchoredPath__00000000_.FillOpacity = 0.500000
 	__RectAnchoredPath__00000000_.Stroke = `black`

@@ -361,12 +361,18 @@ type Resource_WOP struct {
 	Name string
 
 	ComputedPrefix string
+
+	SVG_Path string
+
+	InverseAppliedScaling float64
 }
 
 func (from *Resource) CopyBasicFields(to *Resource) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
+	to.SVG_Path = from.SVG_Path
+	to.InverseAppliedScaling = from.InverseAppliedScaling
 }
 
 type Task_WOP struct {
