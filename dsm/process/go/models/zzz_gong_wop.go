@@ -293,6 +293,8 @@ type ParticipantShape_WOP struct {
 	Height float64
 
 	IsHidden bool
+
+	WidthWeight float64
 }
 
 func (from *ParticipantShape) CopyBasicFields(to *ParticipantShape) {
@@ -304,6 +306,7 @@ func (from *ParticipantShape) CopyBasicFields(to *ParticipantShape) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
+	to.WidthWeight = from.WidthWeight
 }
 
 type Process_WOP struct {

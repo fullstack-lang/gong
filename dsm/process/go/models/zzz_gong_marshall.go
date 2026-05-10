@@ -686,6 +686,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "WidthWeight"))
 	}
 
 	processOrdered := []*Process{}
@@ -2067,6 +2068,11 @@ func (participantshape *ParticipantShape) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{Identifier}}", participantshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", participantshape.IsHidden))
+	case "WidthWeight":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", participantshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "WidthWeight")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", participantshape.WidthWeight))
 
 	case "Participant":
 		if participantshape.Participant != nil {
@@ -2607,6 +2613,7 @@ func (participantshape *ParticipantShape) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(participantshape.GongMarshallField(stage, "WidthWeight"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -4057,6 +4057,8 @@ func (participantshapeFormCallback *ParticipantShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(participantshape_.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(participantshape_.IsHidden), formDiv)
+		case "WidthWeight":
+			FormDivBasicFieldToField(&(participantshape_.WidthWeight), formDiv)
 		case "DiagramProcess:Participant_Shapes":
 			// WARNING : this form deals with the N-N association "DiagramProcess.Participant_Shapes []*ParticipantShape" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

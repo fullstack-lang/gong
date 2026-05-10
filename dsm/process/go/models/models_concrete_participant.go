@@ -7,6 +7,10 @@ type ParticipantShape struct {
 	IsExpanded bool
 
 	RectShape
+
+	// Every participant defaults to a weight of 1.0
+	// if a user wants a participant to be 50% wider, its weight becomes 1.5.
+	WidthWeight float64
 }
 
 func (s *ParticipantShape) GetAbstractElement() AbstractType {
