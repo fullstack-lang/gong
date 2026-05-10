@@ -157,6 +157,20 @@ func (from *Ellipse) CopyBasicFields(to *Ellipse) {
 	to.Transform = from.Transform
 }
 
+type FileToDownload_WOP struct {
+	// insertion point
+
+	Name string
+
+	Base64EncodedContent string
+}
+
+func (from *FileToDownload) CopyBasicFields(to *FileToDownload) {
+	// insertion point
+	to.Name = from.Name
+	to.Base64EncodedContent = from.Base64EncodedContent
+}
+
 type Layer_WOP struct {
 	// insertion point
 

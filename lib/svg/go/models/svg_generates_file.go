@@ -4,9 +4,7 @@ import (
 
 	// For escaping text and attribute values
 	"fmt"
-	"log"
 	"math"
-	"os"
 	"strconv"
 	"strings"
 )
@@ -24,20 +22,6 @@ func updateMaxx(maxX_, maxY_ float64, maxX, maxY *float64) {
 // but some edge case are not taken into accound (rectAnchoredText & Path)
 // therefore, we add some margin
 const extraMargin = 10
-
-// GenerateFile generates an SVG file that represents the content of the SVG object.
-func (svg *SVG) GenerateFile(pathToFile string) (err error, maxX, maxY float64) {
-	var result string
-	result, maxX, maxY = svg.GenerateString()
-
-	err = os.WriteFile(pathToFile, []byte(result), 0644)
-	if err != nil {
-		log.Fatalln("Probleme lors de l'écriture du fichier SVG", err.Error())
-		return err, 0, 0
-	}
-
-	return
-}
 
 // GenerateString generates the raw SVG string that represents the content of the SVG object.
 // It returns the generated SVG string, as well as the maximum X and Y coordinates (maxX, maxY)

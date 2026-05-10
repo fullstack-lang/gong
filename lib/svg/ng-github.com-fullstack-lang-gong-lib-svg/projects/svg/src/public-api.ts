@@ -33,6 +33,10 @@ export * from './lib/ellipse-api'
 export * from './lib/ellipse'
 export * from './lib/ellipse.service'
 
+export * from './lib/filetodownload-api'
+export * from './lib/filetodownload'
+export * from './lib/filetodownload.service'
+
 export * from './lib/layer-api'
 export * from './lib/layer'
 export * from './lib/layer.service'
