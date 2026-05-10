@@ -174,3 +174,120 @@ func (linkAnchoredText *LinkAnchoredText) auto_Y_offset(
 
 	return
 }
+
+func (linkAnchoredText *LinkAnchoredText) WriteSVGCorner(sb *strings.Builder, link *Link, segments []Segment) {
+
+	if len(segments) < 2 {
+		return
+	}
+
+	segment0 := segments[0]
+	segment1 := segments[1]
+
+	var x, y float64
+	var anchorType string
+
+	lines := strings.Split(linkAnchoredText.Content, "\n")
+	oneEm := 19.0 // this is measured from the console log in the front
+
+	if !linkAnchoredText.AutomaticLayout {
+		x = segment0.EndPoint.X + linkAnchoredText.X_Offset
+		y = segment0.EndPoint.Y + linkAnchoredText.Y_Offset
+		anchorType = TEXT_ANCHOR_START.ToString()
+	} else {
+		isSeg0Horizontal := segment0.Orientation == ORIENTATION_HORIZONTAL
+		isSeg0Vertical := segment0.Orientation == ORIENTATION_VERTICAL
+
+		if isSeg0Horizontal {
+			// Segment 1 is vertical: Center the text exactly on the corner's X coordinate
+			x = segment0.EndPoint.X
+			anchorType = TEXT_ANCHOR_CENTER.ToString()
+		} else {
+			// Segment 1 is horizontal: Place text opposite to the horizontal direction
+			dirX := segment1.EndPoint.X - segment1.StartPoint.X
+			signX := 1.0
+			if dirX < 0 {
+				signX = -1.0
+			}
+			paddingX := 12.0
+			x = segment0.EndPoint.X - signX*paddingX
+
+			if dirX >= 0 {
+				anchorType = TEXT_ANCHOR_END.ToString()
+			} else {
+				anchorType = TEXT_ANCHOR_START.ToString()
+			}
+		}
+
+		var dirY float64
+		if isSeg0Vertical {
+			dirY = segment0.EndPoint.Y - segment0.StartPoint.Y
+		} else {
+			dirY = segment1.EndPoint.Y - segment1.StartPoint.Y
+		}
+
+		signY := 1.0
+		if dirY < 0 {
+			signY = -1.0
+		}
+		paddingY := 8.0
+
+		var yOffset float64
+		if isSeg0Vertical {
+			yOffset = signY * paddingY
+		} else {
+			yOffset = -signY * paddingY
+		}
+
+		if yOffset > 0 {
+			yOffset += oneEm * 0.8
+		} else {
+			if len(lines) > 1 {
+				yOffset -= float64(len(lines)-1) * oneEm
+			}
+		}
+
+		y = segment0.EndPoint.Y + yOffset
+	}
+
+	sb.WriteString(
+		fmt.Sprintf(
+			`	<text xml:space="preserve"
+			x="%s" 
+			y="%s" 
+			text-anchor="%s"
+			font-family="%s"
+			font-weight="%s"
+			font-style="%s"
+			font-size="%s"
+			letter-spacing="%s"`,
+			formatFloat(x),
+			formatFloat(y),
+			anchorType,
+			linkAnchoredText.FontFamily,
+			linkAnchoredText.FontWeight,
+			linkAnchoredText.FontStyle,
+			linkAnchoredText.FontSize,
+			linkAnchoredText.LetterSpacing,
+		))
+
+	linkAnchoredText.Presentation.WriteSVG(sb)
+	sb.WriteString(">\n")
+
+	for i, line := range lines {
+
+		// if line is empty, it is not displayed by SVG
+		if line == "" {
+			line = " "
+		}
+
+		if i == 0 {
+			// Preserve leading/trailing spaces and make them non-breaking
+			sb.WriteString(fmt.Sprintf("		<tspan xml:space=\"preserve\">\u00A0%s\u00A0</tspan>\n", line))
+		} else {
+			// Preserve leading/trailing spaces and make them non-breaking
+			sb.WriteString(fmt.Sprintf("		<tspan xml:space=\"preserve\" x=\"%s\" dy=\"1em\">\u00A0%s\u00A0</tspan>\n", formatFloat(x), line))
+		}
+	}
+	sb.WriteString("	</text>\n")
+}

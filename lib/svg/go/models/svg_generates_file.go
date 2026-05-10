@@ -91,6 +91,9 @@ func (svg *SVG) GenerateString() (result string, maxX, maxY float64) {
 					for _, linkAnchoredText := range link.TextAtArrowStart {
 						linkAnchoredText.WriteSVG(&sb, link, &segment)
 					}
+					for _, linkAnchoredText := range link.TextAtCorner {
+						linkAnchoredText.WriteSVGCorner(&sb, link, segments)
+					}
 				}
 			}
 
