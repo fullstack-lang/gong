@@ -145,10 +145,30 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	verticalBottomMargin := 10.0
 
 	participantsWidth := rectOfOwningProcess.Width - 2*horizontalMargin
-	participantWidth := participantsWidth / float64(len(diagramProcess.Participant_Shapes))
 
-	for idx, participantShape := range diagramProcess.Participant_Shapes {
+	var totalWeight float64
+	for _, pShape := range diagramProcess.Participant_Shapes {
+		weight := pShape.WidthWeight
+		if weight == 0 {
+			weight = 1.0
+		}
+		totalWeight += weight
+	}
+
+	currentWeight := 0.0
+
+	for _, participantShape := range diagramProcess.Participant_Shapes {
+		shapeWeight := participantShape.WidthWeight
+		if shapeWeight == 0 {
+			shapeWeight = 1.0
+		}
+		participantWidth := 0.0
+		if totalWeight > 0 {
+			participantWidth = shapeWeight * (participantsWidth / totalWeight)
+		}
+
 		if participantShape.IsHidden {
+			currentWeight += shapeWeight
 			continue
 		}
 
@@ -176,7 +196,11 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		rect.RX = 0
 		rect.StrokeWidth = 1
 
-		rect.X = rectOfOwningProcess.X + horizontalMargin + float64(idx)*(participantWidth)
+		if totalWeight > 0 {
+			rect.X = rectOfOwningProcess.X + horizontalMargin + currentWeight*(participantsWidth/totalWeight)
+		} else {
+			rect.X = rectOfOwningProcess.X + horizontalMargin
+		}
 		rect.Width = participantWidth
 
 		rect.Y = rectOfOwningProcess.Y + verticalTopMargin + verticalTopMarginForTitle
@@ -232,6 +256,8 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		}
 
 		stager.drawAllocatedResources(participantShape.Participant, diagramProcess, rect, svg.RECT_TOP)
+
+		currentWeight += shapeWeight
 	}
 
 	//
