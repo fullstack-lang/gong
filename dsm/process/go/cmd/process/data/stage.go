@@ -27,10 +27,10 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
-	__AllocatedResourceShape__00000008_ := (&models.AllocatedResourceShape{Name: `Diagram P1-PP1 Very lon participant name PP1 Very lon participant name-R1`}).Stage(stage)
 	__AllocatedResourceShape__00000009_ := (&models.AllocatedResourceShape{Name: `Diagram P1-PP1 Very lon participant name PP1 Very lon participant name-R2`}).Stage(stage)
 	__AllocatedResourceShape__00000010_ := (&models.AllocatedResourceShape{Name: `Diagram P1-EP1 Very Long Participant Name-R2`}).Stage(stage)
-	__AllocatedResourceShape__00000011_ := (&models.AllocatedResourceShape{Name: `Diagram P1-EP1 Very Long Participant Name-R1`}).Stage(stage)
+	__AllocatedResourceShape__00000011_ := (&models.AllocatedResourceShape{Name: `Diagram P1-PP1 Very lon participant name PP1 Very lon participant name-R1 with a long name long long long`}).Stage(stage)
+	__AllocatedResourceShape__00000012_ := (&models.AllocatedResourceShape{Name: `Diagram P1-EP1 Very Long Participant Name-R1 with a long name long long long`}).Stage(stage)
 
 	__ControlFlow__00000003_ := (&models.ControlFlow{Name: `Start to T2`}).Stage(stage)
 	__ControlFlow__00000004_ := (&models.ControlFlow{Name: `T2 to End`}).Stage(stage)
@@ -89,7 +89,7 @@ func _(stage *models.Stage) {
 	__ProcessShape__00000007_ := (&models.ProcessShape{Name: `ProcessShape`}).Stage(stage)
 
 	__Resource__00000000_ := (&models.Resource{Name: `R1 with a long name long long long`}).Stage(stage)
-	__Resource__00000001_ := (&models.Resource{Name: `R2`}).Stage(stage)
+	__Resource__00000001_ := (&models.Resource{Name: `R2aaaaa`}).Stage(stage)
 
 	__Task__00000002_ := (&models.Task{Name: `T2`}).Stage(stage)
 	__Task__00000003_ := (&models.Task{Name: `PP2 T1`}).Stage(stage)
@@ -107,13 +107,13 @@ func _(stage *models.Stage) {
 
 	// insertion point for initialization of values
 
-	__AllocatedResourceShape__00000008_.Name = `Diagram P1-PP1 Very lon participant name PP1 Very lon participant name-R1`
-
 	__AllocatedResourceShape__00000009_.Name = `Diagram P1-PP1 Very lon participant name PP1 Very lon participant name-R2`
 
 	__AllocatedResourceShape__00000010_.Name = `Diagram P1-EP1 Very Long Participant Name-R2`
 
-	__AllocatedResourceShape__00000011_.Name = `Diagram P1-EP1 Very Long Participant Name-R1`
+	__AllocatedResourceShape__00000011_.Name = `Diagram P1-PP1 Very lon participant name PP1 Very lon participant name-R1 with a long name long long long`
+
+	__AllocatedResourceShape__00000012_.Name = `Diagram P1-EP1 Very Long Participant Name-R1 with a long name long long long`
 
 	__ControlFlow__00000003_.Name = `Start to T2`
 	__ControlFlow__00000003_.ComputedPrefix = ``
@@ -267,9 +267,9 @@ func _(stage *models.Stage) {
 
 	__ExternalParticipantShape__00000003_.Name = `EP1-Diagram P1`
 	__ExternalParticipantShape__00000003_.IsExpanded = false
-	__ExternalParticipantShape__00000003_.X = 23.388870
+	__ExternalParticipantShape__00000003_.X = 5.388870
 	__ExternalParticipantShape__00000003_.Y = 293.256779
-	__ExternalParticipantShape__00000003_.Width = 143.000000
+	__ExternalParticipantShape__00000003_.Width = 219.000000
 	__ExternalParticipantShape__00000003_.Height = 70.000000
 	__ExternalParticipantShape__00000003_.IsHidden = false
 	__ExternalParticipantShape__00000003_.TailHeigth = 233.000000
@@ -373,7 +373,7 @@ func _(stage *models.Stage) {
 	__Resource__00000000_.Name = `R1 with a long name long long long`
 	__Resource__00000000_.ComputedPrefix = ``
 
-	__Resource__00000001_.Name = `R2`
+	__Resource__00000001_.Name = `R2aaaaa`
 	__Resource__00000001_.ComputedPrefix = ``
 
 	__Task__00000002_.Name = `T2`
@@ -455,14 +455,14 @@ func _(stage *models.Stage) {
 	__TaskShape__00000016_.IsHidden = false
 
 	// insertion point for setup of pointers
-	__AllocatedResourceShape__00000008_.Participant = __Participant__00000003_
-	__AllocatedResourceShape__00000008_.Resource = __Resource__00000000_
 	__AllocatedResourceShape__00000009_.Participant = __Participant__00000003_
 	__AllocatedResourceShape__00000009_.Resource = __Resource__00000001_
 	__AllocatedResourceShape__00000010_.Participant = __Participant__00000007_
 	__AllocatedResourceShape__00000010_.Resource = __Resource__00000001_
-	__AllocatedResourceShape__00000011_.Participant = __Participant__00000007_
+	__AllocatedResourceShape__00000011_.Participant = __Participant__00000003_
 	__AllocatedResourceShape__00000011_.Resource = __Resource__00000000_
+	__AllocatedResourceShape__00000012_.Participant = __Participant__00000007_
+	__AllocatedResourceShape__00000012_.Resource = __Resource__00000000_
 	__ControlFlow__00000003_.Start = __Task__00000004_
 	__ControlFlow__00000003_.End = __Task__00000002_
 	__ControlFlow__00000004_.Start = __Task__00000002_
@@ -540,10 +540,10 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.Data_Shapes = append(__DiagramProcess__00000007_.Data_Shapes, __DataShape__00000024_)
 	__DiagramProcess__00000007_.DataFlowsWhoseDataNodeIsExpanded = append(__DiagramProcess__00000007_.DataFlowsWhoseDataNodeIsExpanded, __DataFlow__00000000_)
 	__DiagramProcess__00000007_.DataFlowsWhoseDataNodeIsExpanded = append(__DiagramProcess__00000007_.DataFlowsWhoseDataNodeIsExpanded, __DataFlow__00000001_)
-	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000008_)
 	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000009_)
 	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000010_)
 	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000011_)
+	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000012_)
 	__ExternalParticipantShape__00000000_.Participant = __Participant__00000007_
 	__ExternalParticipantShape__00000001_.Participant = __Participant__00000007_
 	__ExternalParticipantShape__00000002_.Participant = __Participant__00000007_
