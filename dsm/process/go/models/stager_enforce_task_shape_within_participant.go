@@ -25,10 +25,13 @@ func (stager *Stager) enforceTaskShapeWithinParticipant() (needCommit bool) {
 		verticalBottomMargin := 10.0
 
 		participantsWidth := owningProcessShape.Width - 2*horizontalMargin
-		numParticipants := len(diagramProcess.Participant_Shapes)
-		var participantWidth float64
-		if numParticipants > 0 {
-			participantWidth = participantsWidth / float64(numParticipants)
+		var totalWeight float64
+		for _, pShape := range diagramProcess.Participant_Shapes {
+			weight := pShape.WidthWeight
+			if weight == 0 {
+				weight = 1.0
+			}
+			totalWeight += weight
 		}
 
 		for _, taskShape := range diagramProcess.Task_Shapes {
@@ -40,19 +43,29 @@ func (stager *Stager) enforceTaskShapeWithinParticipant() (needCommit bool) {
 			boundingWidth := owningProcessShape.Width
 			boundingHeight := owningProcessShape.Height
 
-			if taskShape.Task != nil && taskShape.Task.owningParticipant != nil && numParticipants > 0 {
+			if taskShape.Task != nil && taskShape.Task.owningParticipant != nil && totalWeight > 0 {
 				// Find the index of the owning participant to compute its exact SVG bounds
-				idx := -1
-				for i, pShape := range diagramProcess.Participant_Shapes {
+				currentWeight := 0.0
+				var currentParticipantShape *ParticipantShape
+				for _, pShape := range diagramProcess.Participant_Shapes {
 					if pShape.Participant == taskShape.Task.owningParticipant {
-						idx = i
+						currentParticipantShape = pShape
 						break
 					}
+					weight := pShape.WidthWeight
+					if weight == 0 {
+						weight = 1.0
+					}
+					currentWeight += weight
 				}
 
-				if idx != -1 {
-					boundingX = owningProcessShape.X + horizontalMargin + float64(idx)*participantWidth
-					boundingWidth = participantWidth
+				if currentParticipantShape != nil {
+					boundingX = owningProcessShape.X + horizontalMargin + currentWeight*(participantsWidth/totalWeight)
+					shapeWeight := currentParticipantShape.WidthWeight
+					if shapeWeight == 0 {
+						shapeWeight = 1.0
+					}
+					boundingWidth = shapeWeight * (participantsWidth / totalWeight)
 					boundingY = owningProcessShape.Y + verticalTopMargin
 					boundingHeight = owningProcessShape.Height - verticalTopMargin - verticalBottomMargin
 				}
