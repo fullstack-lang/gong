@@ -650,6 +650,37 @@ func (u *EllipseUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	return nil
 }
 
+type FileToDownloadUnmarshaller struct{}
+
+func (u *FileToDownloadUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(FileToDownload)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *FileToDownloadUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*FileToDownload)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Base64EncodedContent":
+		instance.Base64EncodedContent = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
 type LayerUnmarshaller struct{}
 
 func (u *LayerUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {

@@ -246,6 +246,8 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   // BACKEND MANAGEMENT
   //
   public gongsvgFrontRepo?: svg.FrontRepo
+  public fileToDownload?: svg.FileToDownload
+  private downloadedFileIds = new Set<number>();
 
   // the component is refreshed when modification are performed in the back repo 
   // the checkCommiNbFromBagetCommitNbFromBackTimer polls the commit number of the back repo
@@ -267,6 +269,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     private anchoredTextService: svg.LinkAnchoredTextService,
     private rectAnchoredPathService: svg.RectAnchoredPathService,
     private svgTextService: svg.SvgTextService,
+    public fileToDownloadService: svg.FileToDownloadService,
 
     private changeDetectorRef: ChangeDetectorRef,
 
@@ -314,6 +317,32 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
 
         // Initialize conditionHoverStates after repo is loaded
         this.initializeConditionHoverStates()
+
+        this.fileToDownload = undefined
+        for (let file_ of this.gongsvgFrontRepo.getFrontArray<svg.FileToDownload>(svg.FileToDownload.GONGSTRUCT_NAME)) {
+          this.fileToDownload = file_;
+        }
+
+        if (this.fileToDownload && !this.downloadedFileIds.has(this.fileToDownload.ID)) {
+          this.downloadedFileIds.add(this.fileToDownload.ID);
+
+          // Decode the base64 string to binary data
+          const binaryString = window.atob(this.fileToDownload.Base64EncodedContent);
+          const len = binaryString.length;
+          const bytes = new Uint8Array(len);
+          for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+          }
+
+          // Create Blob from the binary array instead of the raw string
+          const blob = new Blob([bytes], { type: 'application/octet-stream' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = this.fileToDownload.Name;
+          link.click();
+          URL.revokeObjectURL(url);
+        }
 
         if (this.gongsvgFrontRepo.getFrontArray(svg.SVG.GONGSTRUCT_NAME).length == 1) {
           this.svg = this.gongsvgFrontRepo.getFrontArray<svg.SVG>(svg.SVG.GONGSTRUCT_NAME)[0]

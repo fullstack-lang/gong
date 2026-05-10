@@ -149,6 +149,15 @@ func (inst *Ellipse) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 	return
 }
 
+func (inst *FileToDownload) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *Layer) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -522,6 +531,15 @@ func (inst *Ellipse) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 		case "Ellipses":
 			res = stage.Layer_Ellipses_reverseMap[inst]
 		}
+	}
+	return res
+}
+
+func (inst *FileToDownload) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 	}
 	return res
 }

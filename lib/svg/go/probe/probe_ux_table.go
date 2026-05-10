@@ -34,6 +34,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.ControlPoint](probe)
 	case "Ellipse":
 		updateProbeTable[*models.Ellipse](probe)
+	case "FileToDownload":
+		updateProbeTable[*models.FileToDownload](probe)
 	case "Layer":
 		updateProbeTable[*models.Layer](probe)
 	case "Line":

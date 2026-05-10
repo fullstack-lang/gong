@@ -40,6 +40,10 @@ type DBLite struct {
 
 	nextIDEllipseDB uint
 
+	filetodownloadDBs map[uint]*FileToDownloadDB
+
+	nextIDFileToDownloadDB uint
+
 	layerDBs map[uint]*LayerDB
 
 	nextIDLayerDB uint
@@ -124,6 +128,8 @@ func NewDBLite() *DBLite {
 
 		ellipseDBs: make(map[uint]*EllipseDB),
 
+		filetodownloadDBs: make(map[uint]*FileToDownloadDB),
+
 		layerDBs: make(map[uint]*LayerDB),
 
 		lineDBs: make(map[uint]*LineDB),
@@ -191,6 +197,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDEllipseDB++
 		v.ID = db.nextIDEllipseDB
 		db.ellipseDBs[v.ID] = v
+	case *FileToDownloadDB:
+		db.nextIDFileToDownloadDB++
+		v.ID = db.nextIDFileToDownloadDB
+		db.filetodownloadDBs[v.ID] = v
 	case *LayerDB:
 		db.nextIDLayerDB++
 		v.ID = db.nextIDLayerDB
@@ -297,6 +307,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.controlpointDBs, v.ID)
 	case *EllipseDB:
 		delete(db.ellipseDBs, v.ID)
+	case *FileToDownloadDB:
+		delete(db.filetodownloadDBs, v.ID)
 	case *LayerDB:
 		delete(db.layerDBs, v.ID)
 	case *LineDB:
@@ -363,6 +375,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *EllipseDB:
 		db.ellipseDBs[v.ID] = v
+		return db, nil
+	case *FileToDownloadDB:
+		db.filetodownloadDBs[v.ID] = v
 		return db, nil
 	case *LayerDB:
 		db.layerDBs[v.ID] = v
@@ -460,6 +475,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Ellipse github.com/fullstack-lang/gong/lib/svg/go, record not found")
+		}
+	case *FileToDownloadDB:
+		if existing, ok := db.filetodownloadDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db FileToDownload github.com/fullstack-lang/gong/lib/svg/go, record not found")
 		}
 	case *LayerDB:
 		if existing, ok := db.layerDBs[v.ID]; ok {
@@ -604,6 +625,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]EllipseDB:
 		*ptr = make([]EllipseDB, 0, len(db.ellipseDBs))
 		for _, v := range db.ellipseDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]FileToDownloadDB:
+		*ptr = make([]FileToDownloadDB, 0, len(db.filetodownloadDBs))
+		for _, v := range db.filetodownloadDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -791,6 +818,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		ellipseDB, _ := instanceDB.(*EllipseDB)
 		*ellipseDB = *tmp
+
+	case *FileToDownloadDB:
+		tmp, ok := db.filetodownloadDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First FileToDownload Unkown entry %d", i))
+		}
+
+		filetodownloadDB, _ := instanceDB.(*FileToDownloadDB)
+		*filetodownloadDB = *tmp
 
 	case *LayerDB:
 		tmp, ok := db.layerDBs[uint(i)]
