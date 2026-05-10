@@ -8,6 +8,11 @@ type dataShapeKey struct {
 	data     *Data
 }
 
+type allocatedResourceShapeKey struct {
+	participant *Participant
+	resource    *Resource
+}
+
 type DiagramProcess struct {
 	Name string
 
@@ -49,6 +54,7 @@ type DiagramProcess struct {
 	IsParticipantsNodeExpanded       bool
 	ParticipantWhoseNodeIsExpanded   []*Participant
 
+	// ExternalParticipant
 	ExternalParticipant_Shapes               []*ExternalParticipantShape
 	map_Participant_ExternalParticipantShape map[*Participant]*ExternalParticipantShape
 	map_ExternalParticipant_Rect             map[*Participant]*svg.Rect
@@ -58,28 +64,34 @@ type DiagramProcess struct {
 
 	ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded []*Participant
 	ExternalParticipantsWhoseInDataFlowsNodeIsExpanded  []*Participant
-	// Task
 
+	// Task
 	TasksWhoseNodeIsExpanded []*Task
 	Task_Shapes              []*TaskShape
 	map_Task_TaskShape       map[*Task]*TaskShape
 	map_Task_Rect            map[*Task]*svg.Rect
 	map_SvgRect_TaskShape    map[*svg.Rect]*TaskShape // for drawing links between task
 
+	// ControlFlow
 	ControlFlowsWhoseNodeIsExpanded  []*ControlFlow
 	ControlFlow_Shapes               []*ControlFlowShape
 	map_ControlFlow_ControlFlowShape map[*ControlFlow]*ControlFlowShape
 
+	// DataFlow
 	DataFlowsWhoseNodeIsExpanded []*DataFlow
 	DataFlow_Shapes              []*DataFlowShape
 	map_DataFlow_DataFlowShape   map[*DataFlow]*DataFlowShape
 
-	DatasWhoseNodeIsExpanded   []*Data
-	Data_Shapes                []*DataShape
-	map_DataShapeKey_DataShape map[dataShapeKey]*DataShape
+	// Data
+	DatasWhoseNodeIsExpanded         []*Data
+	Data_Shapes                      []*DataShape
+	map_DataShapeKey_DataShape       map[dataShapeKey]*DataShape
+	DataFlowsWhoseDataNodeIsExpanded []*DataFlow // within a diagram, at the data flow level, some some can be expanded or not
 
-	// within a diagram, at the data flow level, some some can be expanded or not
-	DataFlowsWhoseDataNodeIsExpanded []*DataFlow
+	// allocated resources
+	AllocatedResourcesWhoseNodeIsExpanded                []*Resource
+	AllocatedResourceShapes                              []*AllocatedResourceShape
+	map_AllocatedResourceShapeKey_AllocatedResourceShape map[allocatedResourceShapeKey]*AllocatedResourceShape
 }
 
 func (d *DiagramProcess) IsEditable() bool {

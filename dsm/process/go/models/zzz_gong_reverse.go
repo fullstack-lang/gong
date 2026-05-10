@@ -2,6 +2,22 @@
 package models
 
 // insertion point
+func (inst *AllocatedResourceShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "AllocatedResourceShapes":
+			if _diagramprocess, ok := stage.DiagramProcess_AllocatedResourceShapes_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *ControlFlow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -319,6 +335,13 @@ func (inst *Resource) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "AllocatedResourcesWhoseNodeIsExpanded":
+			if _diagramprocess, ok := stage.DiagramProcess_AllocatedResourcesWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		}
 	case "Library":
 		switch reverseField.Fieldname {
 		case "RootResources":
@@ -397,6 +420,20 @@ func (inst *TaskShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 }
 
 // insertion point
+func (inst *AllocatedResourceShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "AllocatedResourceShapes":
+			res = stage.DiagramProcess_AllocatedResourceShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
 func (inst *ControlFlow) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -648,6 +685,11 @@ func (inst *Resource) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "AllocatedResourcesWhoseNodeIsExpanded":
+			res = stage.DiagramProcess_AllocatedResourcesWhoseNodeIsExpanded_reverseMap[inst]
+		}
 	case "Library":
 		switch reverseField.Fieldname {
 		case "RootResources":

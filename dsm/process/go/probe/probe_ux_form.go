@@ -15,6 +15,12 @@ func (probe *Probe) ux_form() {
 	}
 	if formGroup != nil {
 		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *AllocatedResourceShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "AllocatedResourceShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.allocatedresourceshape, probe)
+			}
 		case *ControlFlowFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "ControlFlow", true)
@@ -133,6 +139,19 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
+	case "AllocatedResourceShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "AllocatedResourceShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__AllocatedResourceShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		allocatedresourceshape := new(models.AllocatedResourceShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(allocatedresourceshape, formGroup, probe)
 	case "ControlFlow":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

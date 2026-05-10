@@ -1,8 +1,6 @@
 package models
 
 import (
-	"log"
-
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
@@ -46,15 +44,6 @@ func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlow(
 
 	dataNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked && !isDataShapePresent {
-			isDataShapePresent = isChecked
-			if dataShape != nil {
-				log.Panic("adding a shape to an already product shape")
-			}
-
-			if dataFlowShape == nil {
-				log.Panic("there should be a data flow shape")
-			}
-
 			dataShape := (&DataShape{
 				Name:     dataFlow.Name + "-" + dataFlowShape.GetName() + "-" + diagramProcess.GetName(),
 				Data:     data,
@@ -65,10 +54,6 @@ func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlow(
 			return
 		}
 		if !isChecked && isDataShapePresent {
-			isDataShapePresent = isChecked
-			if dataShape == nil {
-				log.Panic("remove a non existing shape to product")
-			}
 			dataShape.UnstageVoid(stage)
 			stage.Commit()
 			return
