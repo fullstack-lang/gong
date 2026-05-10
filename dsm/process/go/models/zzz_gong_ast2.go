@@ -993,6 +993,8 @@ func (u *ParticipantShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "WidthWeight":
+		instance.WidthWeight = GongExtractFloat(valueExpr)
 	}
 	return nil
 }

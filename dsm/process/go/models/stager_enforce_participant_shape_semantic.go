@@ -6,8 +6,19 @@ import (
 	"time"
 )
 
-func (stager *Stager) enforceParticipantShapeOrder() (needCommit bool) {
+func (stager *Stager) enforceParticipantShapeSemantic() (needCommit bool) {
 	for _, diagramProcess := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
+
+		for _, participantShape := range diagramProcess.Participant_Shapes {
+			if participantShape.WidthWeight == 0 {
+				participantShape.WidthWeight = 1.0
+				needCommit = true
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("DiagramProcess %s: participant shape %s WidthWeight set to 1.0", diagramProcess.Name, participantShape.Name))
+				}
+			}
+		}
+
 		owningProcess := diagramProcess.owningProcess
 		if owningProcess == nil {
 			continue

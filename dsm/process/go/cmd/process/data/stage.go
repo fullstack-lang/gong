@@ -327,6 +327,7 @@ func _(stage *models.Stage) {
 	__ParticipantShape__00000019_.Width = 250.000000
 	__ParticipantShape__00000019_.Height = 70.000000
 	__ParticipantShape__00000019_.IsHidden = false
+	__ParticipantShape__00000019_.WidthWeight = 2.000000
 
 	__ParticipantShape__00000020_.Name = `PP2-Diagram P1`
 	__ParticipantShape__00000020_.IsExpanded = false
@@ -335,14 +336,16 @@ func _(stage *models.Stage) {
 	__ParticipantShape__00000020_.Width = 303.000000
 	__ParticipantShape__00000020_.Height = 1037.000000
 	__ParticipantShape__00000020_.IsHidden = false
+	__ParticipantShape__00000020_.WidthWeight = 1.000000
 
 	__ParticipantShape__00000021_.Name = `PP1-Diagram P1`
 	__ParticipantShape__00000021_.IsExpanded = false
 	__ParticipantShape__00000021_.X = 256.000000
 	__ParticipantShape__00000021_.Y = 166.000000
-	__ParticipantShape__00000021_.Width = 303.000000
+	__ParticipantShape__00000021_.Width = 428.000000
 	__ParticipantShape__00000021_.Height = 1037.000000
 	__ParticipantShape__00000021_.IsHidden = false
+	__ParticipantShape__00000021_.WidthWeight = 1.000000
 
 	__Process__00000005_.Name = `P1`
 	__Process__00000005_.ComputedPrefix = ``

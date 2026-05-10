@@ -79,7 +79,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce shape orphans", stager.enforceShapeOrphans},
 		{"Enforce control flow shapes rules", stager.enforceControlFlowShapesRules},
 		{"Enforce data flow shapes rules", stager.enforceDataFlowShapesRules},
-		{"Enforce participant shape order", stager.enforceParticipantShapeOrder},
+		{"Enforce participant shape semantic", stager.enforceParticipantShapeSemantic},
 		{"Enforce task shape within process", stager.enforceTaskShapeWithinProcess},
 		{"Enforce shapes abstract consistency", stager.enforceShapesAbstractConsistency},
 		{"Enforce diagram size", stager.enforceDiagramSize},

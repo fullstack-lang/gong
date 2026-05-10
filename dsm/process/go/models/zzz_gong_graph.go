@@ -3823,6 +3823,9 @@ func (participantshape *ParticipantShape) GongDiff(stage *Stage, participantshap
 	if participantshape.IsHidden != participantshapeOther.IsHidden {
 		diffs = append(diffs, participantshape.GongMarshallField(stage, "IsHidden"))
 	}
+	if participantshape.WidthWeight != participantshapeOther.WidthWeight {
+		diffs = append(diffs, participantshape.GongMarshallField(stage, "WidthWeight"))
+	}
 
 	return
 }
