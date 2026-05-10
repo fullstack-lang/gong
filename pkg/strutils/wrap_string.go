@@ -50,6 +50,19 @@ func WrapString(s string, cutoff int) string {
 	return b.String()
 }
 
+// WrapStringPreservingNewlinesScaled wraps a string at a specified pixel width limit,
+// adjusting the effective cutoff based on the current font size relative to a base font size.
+func WrapStringPreservingNewlinesScaled(s string, width float64, baseNbPixPerCharacter float64, fontSize float64, baseFontSize float64) string {
+	if width <= 0 || baseNbPixPerCharacter <= 0 || baseFontSize <= 0 || fontSize <= 0 {
+		return s
+	}
+
+	actualNbPixPerCharacter := baseNbPixPerCharacter * (fontSize / baseFontSize)
+	cutoff := int(width / actualNbPixPerCharacter)
+
+	return WrapStringPreservingNewlines(s, cutoff)
+}
+
 // WrapStringPreservingNewlines wraps a string at a specified character limit,
 // but preserves existing newlines in the input string.
 // It splits the input string by newlines, and then wraps each line individually.
