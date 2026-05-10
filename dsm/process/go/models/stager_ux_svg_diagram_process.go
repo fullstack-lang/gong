@@ -216,53 +216,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			rect.RectAnchoredRects = append(rect.RectAnchoredRects, titleBox)
 		}
 
-		const HeightBetween2AttributeShapes = 20
-		// draw allocated resource shapes that are within the participant
-		idx := 0
-		for _, resource := range participantShape.Participant.Resources {
-			key := allocatedResourceShapeKey{
-				participant: participantShape.Participant,
-				resource:    resource,
-			}
-			allocatedResourceShape := diagramProcess.map_AllocatedResourceShapeKey_AllocatedResourceShape[key]
-			if allocatedResourceShape == nil {
-				continue
-			}
-			allocatedResourceText := &svg.RectAnchoredText{
-				Name:    allocatedResourceShape.Name,
-				Content: resource.Name,
-				Presentation: svg.Presentation{
-					Stroke:        svg.Black.ToString(),
-					StrokeWidth:   1,
-					StrokeOpacity: 1,
-					Color:         svg.Black.ToString(),
-					FillOpacity:   1,
-				},
-				X_Offset:       10,
-				Y_Offset:       20 + float64(idx)*HeightBetween2AttributeShapes,
-				RectAnchorType: svg.RECT_TOP,
-				TextAnchorType: svg.TEXT_ANCHOR_CENTER,
-			}
-			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, allocatedResourceText)
-			idx++
-		}
-		// draw a rect around the allocated resource shapes if there is at least one allocated resource shape
-		if idx > 0 {
-			allocatedResourceRect := &svg.RectAnchoredRect{
-				Name: participantShape.GetName() + "_allocated_resources",
-				Presentation: svg.Presentation{
-					Stroke:        svg.Black.ToString(),
-					StrokeWidth:   1,
-					StrokeOpacity: 1,
-				},
-				X_Offset:       0,
-				Y_Offset:       0,
-				Height:         float64(idx)*HeightBetween2AttributeShapes + 10,
-				Width:          rect.Width,
-				RectAnchorType: svg.RECT_TOP_LEFT,
-			}
-			rect.RectAnchoredRects = append(rect.RectAnchoredRects, allocatedResourceRect)
-		}
+		stager.drawAllocatedResources(participantShape.Participant, diagramProcess, rect, svg.RECT_TOP)
 	}
 
 	//
@@ -294,6 +248,8 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			externalParticipantShape.TailHeigth = 100.0
 		}
 
+		boxHeight := stager.drawAllocatedResources(externalParticipantShape.Participant, diagramProcess, rect, svg.RECT_BOTTOM)
+
 		tailRect := &svg.Rect{
 			Name: "Tail" + rect.GetName(),
 			Presentation: svg.Presentation{
@@ -303,9 +259,9 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 				StrokeDashArray: "5 2",
 			},
 			Width:               externalParticipantWidth,
-			Height:              externalParticipantShape.TailHeigth,
+			Height:              externalParticipantShape.TailHeigth - boxHeight,
 			X:                   rect.X + (rect.Width-externalParticipantWidth)/2.0,
-			Y:                   rect.Y + rect.Height,
+			Y:                   rect.Y + rect.Height + boxHeight,
 			CanHaveBottomHandle: true,
 		}
 		diagramProcess.map_ExternalParticipant_Rect[externalParticipantShape.Participant] = tailRect
@@ -322,6 +278,7 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			}
 		}
 		layer.Rects = append(layer.Rects, tailRect)
+
 	}
 
 	//
@@ -541,4 +498,60 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	}
 
 	return svgObject
+}
+
+func (*Stager) drawAllocatedResources(participant *Participant, diagramProcess *DiagramProcess, rect *svg.Rect, rectAnchorType svg.RectAnchorType) (boxHeight float64) {
+	const HeightBetween2AttributeShapes = 20
+	// draw allocated resource shapes that are within the participant
+	idx := 0
+	for _, resource := range participant.Resources {
+		key := allocatedResourceShapeKey{
+			participant: participant,
+			resource:    resource,
+		}
+		allocatedResourceShape := diagramProcess.map_AllocatedResourceShapeKey_AllocatedResourceShape[key]
+		if allocatedResourceShape == nil {
+			continue
+		}
+		allocatedResourceText := &svg.RectAnchoredText{
+			Name:    allocatedResourceShape.Name,
+			Content: resource.Name,
+			Presentation: svg.Presentation{
+				Stroke:        svg.Black.ToString(),
+				StrokeWidth:   1,
+				StrokeOpacity: 1,
+				Color:         svg.Black.ToString(),
+				FillOpacity:   1,
+			},
+			X_Offset:       10,
+			Y_Offset:       20 + float64(idx)*HeightBetween2AttributeShapes,
+			RectAnchorType: rectAnchorType,
+			TextAnchorType: svg.TEXT_ANCHOR_CENTER,
+		}
+		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, allocatedResourceText)
+		idx++
+	}
+	// draw a rect around the allocated resource shapes if there is at least one allocated resource shape
+	boxHeight = float64(idx)*HeightBetween2AttributeShapes + 10
+	if idx > 0 {
+		allocatedResourceRect := &svg.RectAnchoredRect{
+			Name: participant.Name + "_allocated_resources",
+			Presentation: svg.Presentation{
+				Stroke:        svg.Black.ToString(),
+				StrokeWidth:   1,
+				StrokeOpacity: 1,
+			},
+			X_Offset:       0,
+			Y_Offset:       0,
+			Height:         boxHeight,
+			Width:          rect.Width,
+			RectAnchorType: svg.RECT_TOP_LEFT,
+		}
+
+		if rectAnchorType == svg.RECT_BOTTOM {
+			allocatedResourceRect.RectAnchorType = svg.RECT_BOTTOM_LEFT
+		}
+		rect.RectAnchoredRects = append(rect.RectAnchoredRects, allocatedResourceRect)
+	}
+	return boxHeight
 }

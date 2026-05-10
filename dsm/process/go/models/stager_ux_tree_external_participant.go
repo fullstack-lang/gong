@@ -80,6 +80,21 @@ func (stager *Stager) treeExternalParticipants(
 	}
 	node.OnClick = onNodeClicked(stager, externalParticipant)
 
+	// allocated resources
+	allocatedResourcesNode := &tree.Node{
+		Name:            "Allocated Resources",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      externalParticipant.IsResourcesNodeExpanded,
+		IsNodeClickable: true,
+	}
+	node.Children = append(node.Children, allocatedResourcesNode)
+	allocatedResourcesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&externalParticipant.IsResourcesNodeExpanded)
+
+	for _, resource := range externalParticipant.Resources {
+		stager.treeAllocatedResourceWithinDiagramWithinParticipant(diagramProcess, resource, externalParticipant, allocatedResourcesNode)
+	}
+
+	// out data flows and in data flows
 	nodeOutDataFlows := &tree.Node{
 		Name:            "out data flows",
 		IsNodeClickable: true,
