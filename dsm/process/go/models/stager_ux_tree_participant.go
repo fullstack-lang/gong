@@ -91,7 +91,7 @@ func (stager *Stager) treeParticipants(
 	allocatedResourcesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&participant.IsResourcesNodeExpanded)
 
 	for _, resource := range participant.Resources {
-		stager.treeResourceWithinDiagramWithinParticipant(diagramProcess, resource, participant, allocatedResourcesNode)
+		stager.treeAllocatedResourceWithinDiagramWithinParticipant(diagramProcess, resource, participant, allocatedResourcesNode)
 	}
 
 	// Tasks

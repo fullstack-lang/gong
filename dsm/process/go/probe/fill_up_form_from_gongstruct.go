@@ -19,6 +19,18 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 
 	switch instancesTyped := any(instance).(type) {
 	// insertion point
+	case *models.AllocatedResourceShape:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "AllocatedResourceShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__AllocatedResourceShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.ControlFlow:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
