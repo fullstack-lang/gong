@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"log"
+	"strings"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/pkg/strutils"
@@ -576,11 +577,13 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	return svgObject
 }
 
-func (*Stager) drawAllocatedResources(participant *Participant, diagramProcess *DiagramProcess, rect *svg.Rect, rectAnchorType svg.RectAnchorType) (boxHeight float64) {
-	const HeightBetween2AttributeShapes = 16
+func (stager *Stager) drawAllocatedResources(participant *Participant, diagramProcess *DiagramProcess, rect *svg.Rect, rectAnchorType svg.RectAnchorType) (boxHeight float64) {
+	root := stager.GetRootLibrary()
+	const HeightBetween2AttributeShapes = 16.0
+
 	// draw allocated resource shapes that are within the participant
-	idx := 0
-	X_Offset := 10.0
+	totalLines := 0
+	X_Offset := 0.0
 	Y_Offset := 20.0
 	for _, resource := range participant.Resources {
 		key := allocatedResourceShapeKey{
@@ -591,9 +594,15 @@ func (*Stager) drawAllocatedResources(participant *Participant, diagramProcess *
 		if allocatedResourceShape == nil {
 			continue
 		}
+
+		content := resource.Name
+		if rect.Width > 0 {
+			content = strutils.WrapStringPreservingNewlinesScaled(content, rect.Width, float64(root.NbPixPerCharacter), 12.0, 16.0)
+		}
+
 		allocatedResourceText := &svg.RectAnchoredText{
 			Name:    allocatedResourceShape.Name,
-			Content: resource.Name,
+			Content: content,
 			Presentation: svg.Presentation{
 				StrokeWidth: 0,
 				Color:       "#757575",
@@ -604,17 +613,20 @@ func (*Stager) drawAllocatedResources(participant *Participant, diagramProcess *
 				FontSize:  "12px",
 			},
 
-			X_Offset:       X_Offset,
-			Y_Offset:       Y_Offset + float64(idx)*HeightBetween2AttributeShapes,
-			RectAnchorType: rectAnchorType,
-			TextAnchorType: svg.TEXT_ANCHOR_CENTER,
+			DominantBaseline: svg.DominantBaselineMiddle,
+			X_Offset:         X_Offset,
+			Y_Offset:         Y_Offset + float64(totalLines)*HeightBetween2AttributeShapes,
+			RectAnchorType:   rectAnchorType,
+			TextAnchorType:   svg.TEXT_ANCHOR_CENTER,
 		}
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, allocatedResourceText)
-		idx++
+
+		lines := strings.Split(content, "\n")
+		totalLines += len(lines)
 	}
 	// draw a rect around the allocated resource shapes if there is at least one allocated resource shape
-	boxHeight = float64(idx)*HeightBetween2AttributeShapes + Y_Offset - 5.0
-	if idx > 0 {
+	boxHeight = float64(totalLines)*HeightBetween2AttributeShapes + Y_Offset - 5.0
+	if totalLines > 0 {
 		lineWidth := 1.0
 		allocatedResourceRect := &svg.RectAnchoredRect{
 			Name: participant.Name + "_allocated_resources",
