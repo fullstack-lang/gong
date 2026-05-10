@@ -27,6 +27,9 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
+	__AllocatedResourceShape__00000008_ := (&models.AllocatedResourceShape{Name: `Diagram P1-PP1 Very lon participant name PP1 Very lon participant name-R1`}).Stage(stage)
+	__AllocatedResourceShape__00000009_ := (&models.AllocatedResourceShape{Name: `Diagram P1-PP1 Very lon participant name PP1 Very lon participant name-R2`}).Stage(stage)
+
 	__ControlFlow__00000003_ := (&models.ControlFlow{Name: `Start to T2`}).Stage(stage)
 	__ControlFlow__00000004_ := (&models.ControlFlow{Name: `T2 to End`}).Stage(stage)
 	__ControlFlow__00000005_ := (&models.ControlFlow{Name: `PP2 T1 to PP2 T2`}).Stage(stage)
@@ -99,6 +102,10 @@ func _(stage *models.Stage) {
 	__TaskShape__00000016_ := (&models.TaskShape{Name: `End-Diagram P1`}).Stage(stage)
 
 	// insertion point for initialization of values
+
+	__AllocatedResourceShape__00000008_.Name = `Diagram P1-PP1 Very lon participant name PP1 Very lon participant name-R1`
+
+	__AllocatedResourceShape__00000009_.Name = `Diagram P1-PP1 Very lon participant name PP1 Very lon participant name-R2`
 
 	__ControlFlow__00000003_.Name = `Start to T2`
 	__ControlFlow__00000003_.ComputedPrefix = ``
@@ -312,8 +319,8 @@ func _(stage *models.Stage) {
 
 	__ParticipantShape__00000021_.Name = `PP1-Diagram P1`
 	__ParticipantShape__00000021_.IsExpanded = false
-	__ParticipantShape__00000021_.X = 256.000000
-	__ParticipantShape__00000021_.Y = 166.000000
+	__ParticipantShape__00000021_.X = 266.000000
+	__ParticipantShape__00000021_.Y = 117.000000
 	__ParticipantShape__00000021_.Width = 303.000000
 	__ParticipantShape__00000021_.Height = 1037.000000
 	__ParticipantShape__00000021_.IsHidden = false
@@ -382,8 +389,8 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000011_.Name = `Start-DP2`
 	__TaskShape__00000011_.IsExpanded = false
-	__TaskShape__00000011_.X = 317.000000
-	__TaskShape__00000011_.Y = 193.000000
+	__TaskShape__00000011_.X = 321.000000
+	__TaskShape__00000011_.Y = 276.000000
 	__TaskShape__00000011_.Width = 69.000000
 	__TaskShape__00000011_.Height = 20.000000
 	__TaskShape__00000011_.IsHidden = false
@@ -398,8 +405,8 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000013_.Name = `T2-DP2`
 	__TaskShape__00000013_.IsExpanded = false
-	__TaskShape__00000013_.X = 317.000000
-	__TaskShape__00000013_.Y = 327.000000
+	__TaskShape__00000013_.X = 318.000000
+	__TaskShape__00000013_.Y = 382.000000
 	__TaskShape__00000013_.Width = 174.000000
 	__TaskShape__00000013_.Height = 240.000000
 	__TaskShape__00000013_.IsHidden = false
@@ -429,6 +436,10 @@ func _(stage *models.Stage) {
 	__TaskShape__00000016_.IsHidden = false
 
 	// insertion point for setup of pointers
+	__AllocatedResourceShape__00000008_.Participant = __Participant__00000003_
+	__AllocatedResourceShape__00000008_.Resource = __Resource__00000000_
+	__AllocatedResourceShape__00000009_.Participant = __Participant__00000003_
+	__AllocatedResourceShape__00000009_.Resource = __Resource__00000001_
 	__ControlFlow__00000003_.Start = __Task__00000004_
 	__ControlFlow__00000003_.End = __Task__00000002_
 	__ControlFlow__00000004_.Start = __Task__00000002_
@@ -502,6 +513,8 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.Data_Shapes = append(__DiagramProcess__00000007_.Data_Shapes, __DataShape__00000024_)
 	__DiagramProcess__00000007_.DataFlowsWhoseDataNodeIsExpanded = append(__DiagramProcess__00000007_.DataFlowsWhoseDataNodeIsExpanded, __DataFlow__00000000_)
 	__DiagramProcess__00000007_.DataFlowsWhoseDataNodeIsExpanded = append(__DiagramProcess__00000007_.DataFlowsWhoseDataNodeIsExpanded, __DataFlow__00000001_)
+	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000008_)
+	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000009_)
 	__ExternalParticipantShape__00000000_.Participant = __Participant__00000007_
 	__ExternalParticipantShape__00000001_.Participant = __Participant__00000007_
 	__ExternalParticipantShape__00000002_.Participant = __Participant__00000007_
