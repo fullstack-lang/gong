@@ -29,6 +29,8 @@ func _(stage *models.Stage) {
 
 	__AllocatedResourceShape__00000008_ := (&models.AllocatedResourceShape{Name: `Diagram P1-PP1 Very lon participant name PP1 Very lon participant name-R1`}).Stage(stage)
 	__AllocatedResourceShape__00000009_ := (&models.AllocatedResourceShape{Name: `Diagram P1-PP1 Very lon participant name PP1 Very lon participant name-R2`}).Stage(stage)
+	__AllocatedResourceShape__00000010_ := (&models.AllocatedResourceShape{Name: `Diagram P1-EP1 Very Long Participant Name-R2`}).Stage(stage)
+	__AllocatedResourceShape__00000011_ := (&models.AllocatedResourceShape{Name: `Diagram P1-EP1 Very Long Participant Name-R1`}).Stage(stage)
 
 	__ControlFlow__00000003_ := (&models.ControlFlow{Name: `Start to T2`}).Stage(stage)
 	__ControlFlow__00000004_ := (&models.ControlFlow{Name: `T2 to End`}).Stage(stage)
@@ -106,6 +108,10 @@ func _(stage *models.Stage) {
 	__AllocatedResourceShape__00000008_.Name = `Diagram P1-PP1 Very lon participant name PP1 Very lon participant name-R1`
 
 	__AllocatedResourceShape__00000009_.Name = `Diagram P1-PP1 Very lon participant name PP1 Very lon participant name-R2`
+
+	__AllocatedResourceShape__00000010_.Name = `Diagram P1-EP1 Very Long Participant Name-R2`
+
+	__AllocatedResourceShape__00000011_.Name = `Diagram P1-EP1 Very Long Participant Name-R1`
 
 	__ControlFlow__00000003_.Name = `Start to T2`
 	__ControlFlow__00000003_.ComputedPrefix = ``
@@ -217,7 +223,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.Height = 1513.000000
 	__DiagramProcess__00000007_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000007_.IsParticipantsNodeExpanded = true
-	__DiagramProcess__00000007_.IsExternalParticipantsNodeExpanded = false
+	__DiagramProcess__00000007_.IsExternalParticipantsNodeExpanded = true
 
 	__ExternalParticipantShape__00000000_.Name = `EP1-Diagram P1`
 	__ExternalParticipantShape__00000000_.IsExpanded = false
@@ -248,8 +254,8 @@ func _(stage *models.Stage) {
 
 	__ExternalParticipantShape__00000003_.Name = `EP1-Diagram P1`
 	__ExternalParticipantShape__00000003_.IsExpanded = false
-	__ExternalParticipantShape__00000003_.X = 59.388870
-	__ExternalParticipantShape__00000003_.Y = 273.256779
+	__ExternalParticipantShape__00000003_.X = 38.388870
+	__ExternalParticipantShape__00000003_.Y = 267.256779
 	__ExternalParticipantShape__00000003_.Width = 146.000000
 	__ExternalParticipantShape__00000003_.Height = 70.000000
 	__ExternalParticipantShape__00000003_.IsHidden = false
@@ -295,7 +301,7 @@ func _(stage *models.Stage) {
 	__Participant__00000006_.IsDataFlowsNodeExpanded = false
 
 	__Participant__00000007_.Name = `EP1 Very Long Participant Name`
-	__Participant__00000007_.IsResourcesNodeExpanded = false
+	__Participant__00000007_.IsResourcesNodeExpanded = true
 	__Participant__00000007_.ComputedPrefix = ``
 	__Participant__00000007_.IsTasksNodeExpanded = false
 	__Participant__00000007_.IsControlFlowsNodeExpanded = false
@@ -440,6 +446,10 @@ func _(stage *models.Stage) {
 	__AllocatedResourceShape__00000008_.Resource = __Resource__00000000_
 	__AllocatedResourceShape__00000009_.Participant = __Participant__00000003_
 	__AllocatedResourceShape__00000009_.Resource = __Resource__00000001_
+	__AllocatedResourceShape__00000010_.Participant = __Participant__00000007_
+	__AllocatedResourceShape__00000010_.Resource = __Resource__00000001_
+	__AllocatedResourceShape__00000011_.Participant = __Participant__00000007_
+	__AllocatedResourceShape__00000011_.Resource = __Resource__00000000_
 	__ControlFlow__00000003_.Start = __Task__00000004_
 	__ControlFlow__00000003_.End = __Task__00000002_
 	__ControlFlow__00000004_.Start = __Task__00000002_
@@ -515,6 +525,8 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.DataFlowsWhoseDataNodeIsExpanded = append(__DiagramProcess__00000007_.DataFlowsWhoseDataNodeIsExpanded, __DataFlow__00000001_)
 	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000008_)
 	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000009_)
+	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000010_)
+	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000011_)
 	__ExternalParticipantShape__00000000_.Participant = __Participant__00000007_
 	__ExternalParticipantShape__00000001_.Participant = __Participant__00000007_
 	__ExternalParticipantShape__00000002_.Participant = __Participant__00000007_
@@ -545,6 +557,8 @@ func _(stage *models.Stage) {
 	__Participant__00000004_.ControlFlows = append(__Participant__00000004_.ControlFlows, __ControlFlow__00000005_)
 	__Participant__00000004_.TaskWhoseOutControlFlowsNodeIsExpanded = append(__Participant__00000004_.TaskWhoseOutControlFlowsNodeIsExpanded, __Task__00000003_)
 	__Participant__00000004_.TaskWhoseInDataFlowsNodeIsExpanded = append(__Participant__00000004_.TaskWhoseInDataFlowsNodeIsExpanded, __Task__00000007_)
+	__Participant__00000007_.Resources = append(__Participant__00000007_.Resources, __Resource__00000000_)
+	__Participant__00000007_.Resources = append(__Participant__00000007_.Resources, __Resource__00000001_)
 	__ParticipantShape__00000019_.Participant = __Participant__00000005_
 	__ParticipantShape__00000020_.Participant = __Participant__00000004_
 	__ParticipantShape__00000021_.Participant = __Participant__00000003_
