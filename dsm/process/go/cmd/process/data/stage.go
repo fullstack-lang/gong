@@ -289,7 +289,7 @@ func _(stage *models.Stage) {
 
 	__DiagramProcess__00000006_.Name = `DiagramProcess`
 	__DiagramProcess__00000006_.ComputedPrefix = ``
-	__DiagramProcess__00000006_.IsChecked = true
+	__DiagramProcess__00000006_.IsChecked = false
 	__DiagramProcess__00000006_.IsEditable_ = true
 	__DiagramProcess__00000006_.IsShowPrefix = false
 	__DiagramProcess__00000006_.DefaultBoxWidth = 250.000000
@@ -302,7 +302,7 @@ func _(stage *models.Stage) {
 
 	__DiagramProcess__00000007_.Name = `Diagram P1`
 	__DiagramProcess__00000007_.ComputedPrefix = ``
-	__DiagramProcess__00000007_.IsChecked = false
+	__DiagramProcess__00000007_.IsChecked = true
 	__DiagramProcess__00000007_.IsEditable_ = true
 	__DiagramProcess__00000007_.IsShowPrefix = false
 	__DiagramProcess__00000007_.DefaultBoxWidth = 250.000000
@@ -571,8 +571,8 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000014_.Name = `PP2 T2-DP2`
 	__TaskShape__00000014_.IsExpanded = false
-	__TaskShape__00000014_.X = 560.000000
-	__TaskShape__00000014_.Y = 397.000000
+	__TaskShape__00000014_.X = 590.000000
+	__TaskShape__00000014_.Y = 427.000000
 	__TaskShape__00000014_.Width = 211.000000
 	__TaskShape__00000014_.Height = 70.000000
 	__TaskShape__00000014_.IsHidden = false

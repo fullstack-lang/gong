@@ -53,6 +53,18 @@
       "group": "build"
     },
     {
+      "label": "00 - go install process",
+      "type": "shell",
+      "options": {
+        "cwd": "dsm/process/go/cmd/process"
+      },
+      "command": "go",
+      "args": [
+        "install"
+      ],
+      "group": "build"
+    },
+    {
       "label": "00 - go install project",
       "type": "shell",
       "options": {
