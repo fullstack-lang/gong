@@ -214,6 +214,8 @@ func (controlflowFormCallback *ControlFlowFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(controlflow_.Name), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(controlflow_.Description), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(controlflow_.ComputedPrefix), formDiv)
 		case "Start":
@@ -588,6 +590,8 @@ func (dataFormCallback *DataFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(data_.Name), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(data_.Description), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(data_.ComputedPrefix), formDiv)
 		case "DataFlow:Datas":
@@ -932,6 +936,8 @@ func (dataflowFormCallback *DataFlowFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(dataflow_.Name), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(dataflow_.Description), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(dataflow_.ComputedPrefix), formDiv)
 		case "Type":
@@ -1691,6 +1697,8 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(diagramprocess_.Name), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(diagramprocess_.Description), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(diagramprocess_.ComputedPrefix), formDiv)
 		case "IsChecked":
@@ -2767,6 +2775,8 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(library_.Name), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(library_.Description), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
 		case "SubLibraries":
@@ -3996,6 +4006,8 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(participant_.Name), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(participant_.Description), formDiv)
 		case "Resources":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Resource](participantFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Resource, 0)
@@ -4989,6 +5001,8 @@ func (processFormCallback *ProcessFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(process_.Name), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(process_.Description), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(process_.ComputedPrefix), formDiv)
 		case "DiagramProcesss":
@@ -5743,6 +5757,8 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(resource_.Name), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(resource_.Description), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(resource_.ComputedPrefix), formDiv)
 		case "SVG_Path":
@@ -6091,6 +6107,8 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(task_.Name), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(task_.Description), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(task_.ComputedPrefix), formDiv)
 		case "IsStartTask":

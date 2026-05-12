@@ -3125,6 +3125,9 @@ func (controlflow *ControlFlow) GongDiff(stage *Stage, controlflowOther *Control
 	if controlflow.Name != controlflowOther.Name {
 		diffs = append(diffs, controlflow.GongMarshallField(stage, "Name"))
 	}
+	if controlflow.Description != controlflowOther.Description {
+		diffs = append(diffs, controlflow.GongMarshallField(stage, "Description"))
+	}
 	if controlflow.ComputedPrefix != controlflowOther.ComputedPrefix {
 		diffs = append(diffs, controlflow.GongMarshallField(stage, "ComputedPrefix"))
 	}
@@ -3189,6 +3192,9 @@ func (data *Data) GongDiff(stage *Stage, dataOther *Data) (diffs []string) {
 	if data.Name != dataOther.Name {
 		diffs = append(diffs, data.GongMarshallField(stage, "Name"))
 	}
+	if data.Description != dataOther.Description {
+		diffs = append(diffs, data.GongMarshallField(stage, "Description"))
+	}
 	if data.ComputedPrefix != dataOther.ComputedPrefix {
 		diffs = append(diffs, data.GongMarshallField(stage, "ComputedPrefix"))
 	}
@@ -3202,6 +3208,9 @@ func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs
 	// insertion point for field diffs
 	if dataflow.Name != dataflowOther.Name {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "Name"))
+	}
+	if dataflow.Description != dataflowOther.Description {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "Description"))
 	}
 	if dataflow.ComputedPrefix != dataflowOther.ComputedPrefix {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "ComputedPrefix"))
@@ -3332,6 +3341,9 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 	// insertion point for field diffs
 	if diagramprocess.Name != diagramprocessOther.Name {
 		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "Name"))
+	}
+	if diagramprocess.Description != diagramprocessOther.Description {
+		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "Description"))
 	}
 	if diagramprocess.ComputedPrefix != diagramprocessOther.ComputedPrefix {
 		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "ComputedPrefix"))
@@ -3881,6 +3893,9 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.Name != libraryOther.Name {
 		diffs = append(diffs, library.GongMarshallField(stage, "Name"))
 	}
+	if library.Description != libraryOther.Description {
+		diffs = append(diffs, library.GongMarshallField(stage, "Description"))
+	}
 	if library.ComputedPrefix != libraryOther.ComputedPrefix {
 		diffs = append(diffs, library.GongMarshallField(stage, "ComputedPrefix"))
 	}
@@ -4288,6 +4303,9 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 	if participant.Name != participantOther.Name {
 		diffs = append(diffs, participant.GongMarshallField(stage, "Name"))
 	}
+	if participant.Description != participantOther.Description {
+		diffs = append(diffs, participant.GongMarshallField(stage, "Description"))
+	}
 	ResourcesDifferent := false
 	if len(participant.Resources) != len(participantOther.Resources) {
 		ResourcesDifferent = true
@@ -4499,6 +4517,9 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 	// insertion point for field diffs
 	if process.Name != processOther.Name {
 		diffs = append(diffs, process.GongMarshallField(stage, "Name"))
+	}
+	if process.Description != processOther.Description {
+		diffs = append(diffs, process.GongMarshallField(stage, "Description"))
 	}
 	if process.ComputedPrefix != processOther.ComputedPrefix {
 		diffs = append(diffs, process.GongMarshallField(stage, "ComputedPrefix"))
@@ -4724,6 +4745,9 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 	if resource.Name != resourceOther.Name {
 		diffs = append(diffs, resource.GongMarshallField(stage, "Name"))
 	}
+	if resource.Description != resourceOther.Description {
+		diffs = append(diffs, resource.GongMarshallField(stage, "Description"))
+	}
 	if resource.ComputedPrefix != resourceOther.ComputedPrefix {
 		diffs = append(diffs, resource.GongMarshallField(stage, "ComputedPrefix"))
 	}
@@ -4743,6 +4767,9 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	// insertion point for field diffs
 	if task.Name != taskOther.Name {
 		diffs = append(diffs, task.GongMarshallField(stage, "Name"))
+	}
+	if task.Description != taskOther.Description {
+		diffs = append(diffs, task.GongMarshallField(stage, "Description"))
 	}
 	if task.ComputedPrefix != taskOther.ComputedPrefix {
 		diffs = append(diffs, task.GongMarshallField(stage, "ComputedPrefix"))

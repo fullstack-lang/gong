@@ -139,6 +139,8 @@ func (stager *Stager) drawProcessShapes(diagramProcess *DiagramProcess, layer *s
 				}
 
 				stager.stage.Commit()
+			} else {
+				stager.probeForm.FillUpFormFromGongstruct(processShape.Process, GetPointerToGongstructName[*Process]())
 			}
 		}
 
@@ -241,6 +243,8 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 					participantShape.WidthWeight = newWeight
 					stager.stage.Commit()
 				}
+			} else {
+				stager.probeForm.FillUpFormFromGongstruct(participantShape.Participant, GetPointerToGongstructName[*Participant]())
 			}
 		}
 
