@@ -7,7 +7,8 @@ type Note struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
-	Tasks []*Task
+	IsTasksNodeExpanded bool
+	Tasks               []*Task
 }
 
 var _ AbstractType = (*Note)(nil)

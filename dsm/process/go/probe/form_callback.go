@@ -3371,6 +3371,8 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(note_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
+		case "IsTasksNodeExpanded":
+			FormDivBasicFieldToField(&(note_.IsTasksNodeExpanded), formDiv)
 		case "Tasks":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](noteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Task, 0)
