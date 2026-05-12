@@ -6081,6 +6081,10 @@ func (controlflow *ControlFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -6148,6 +6152,10 @@ func (data *Data) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -6160,6 +6168,10 @@ func (dataflow *DataFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -6272,6 +6284,10 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -6485,6 +6501,10 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -6706,6 +6726,10 @@ func (participant *Participant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:                 "Resources",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Resource",
@@ -6816,6 +6840,10 @@ func (process *Process) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -6919,6 +6947,10 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -6939,6 +6971,10 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -7087,6 +7123,8 @@ func (controlflow *ControlFlow) GongGetFieldValue(fieldName string, stage *Stage
 	// string value of fields
 	case "Name":
 		res.valueString = controlflow.Name
+	case "Description":
+		res.valueString = controlflow.Description
 	case "ComputedPrefix":
 		res.valueString = controlflow.ComputedPrefix
 	case "Start":
@@ -7147,6 +7185,8 @@ func (data *Data) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	// string value of fields
 	case "Name":
 		res.valueString = data.Name
+	case "Description":
+		res.valueString = data.Description
 	case "ComputedPrefix":
 		res.valueString = data.ComputedPrefix
 	}
@@ -7158,6 +7198,8 @@ func (dataflow *DataFlow) GongGetFieldValue(fieldName string, stage *Stage) (res
 	// string value of fields
 	case "Name":
 		res.valueString = dataflow.Name
+	case "Description":
+		res.valueString = dataflow.Description
 	case "ComputedPrefix":
 		res.valueString = dataflow.ComputedPrefix
 	case "Type":
@@ -7268,6 +7310,8 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 	// string value of fields
 	case "Name":
 		res.valueString = diagramprocess.Name
+	case "Description":
+		res.valueString = diagramprocess.Description
 	case "ComputedPrefix":
 		res.valueString = diagramprocess.ComputedPrefix
 	case "IsChecked":
@@ -7586,6 +7630,8 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = library.Name
+	case "Description":
+		res.valueString = library.Description
 	case "ComputedPrefix":
 		res.valueString = library.ComputedPrefix
 	case "SubLibraries":
@@ -7854,6 +7900,8 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 	// string value of fields
 	case "Name":
 		res.valueString = participant.Name
+	case "Description":
+		res.valueString = participant.Description
 	case "Resources":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range participant.Resources {
@@ -7994,6 +8042,8 @@ func (process *Process) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = process.Name
+	case "Description":
+		res.valueString = process.Description
 	case "ComputedPrefix":
 		res.valueString = process.ComputedPrefix
 	case "DiagramProcesss":
@@ -8132,6 +8182,8 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 	// string value of fields
 	case "Name":
 		res.valueString = resource.Name
+	case "Description":
+		res.valueString = resource.Description
 	case "ComputedPrefix":
 		res.valueString = resource.ComputedPrefix
 	case "SVG_Path":
@@ -8149,6 +8201,8 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	// string value of fields
 	case "Name":
 		res.valueString = task.Name
+	case "Description":
+		res.valueString = task.Description
 	case "ComputedPrefix":
 		res.valueString = task.ComputedPrefix
 	case "IsStartTask":
@@ -8256,6 +8310,8 @@ func (controlflow *ControlFlow) GongSetFieldValue(fieldName string, value GongFi
 	// insertion point for per field code
 	case "Name":
 		controlflow.Name = value.GetValueString()
+	case "Description":
+		controlflow.Description = value.GetValueString()
 	case "ComputedPrefix":
 		controlflow.ComputedPrefix = value.GetValueString()
 	case "Start":
@@ -8325,6 +8381,8 @@ func (data *Data) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 	// insertion point for per field code
 	case "Name":
 		data.Name = value.GetValueString()
+	case "Description":
+		data.Description = value.GetValueString()
 	case "ComputedPrefix":
 		data.ComputedPrefix = value.GetValueString()
 	default:
@@ -8338,6 +8396,8 @@ func (dataflow *DataFlow) GongSetFieldValue(fieldName string, value GongFieldVal
 	// insertion point for per field code
 	case "Name":
 		dataflow.Name = value.GetValueString()
+	case "Description":
+		dataflow.Description = value.GetValueString()
 	case "ComputedPrefix":
 		dataflow.ComputedPrefix = value.GetValueString()
 	case "Type":
@@ -8480,6 +8540,8 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 	// insertion point for per field code
 	case "Name":
 		diagramprocess.Name = value.GetValueString()
+	case "Description":
+		diagramprocess.Description = value.GetValueString()
 	case "ComputedPrefix":
 		diagramprocess.ComputedPrefix = value.GetValueString()
 	case "IsChecked":
@@ -8859,6 +8921,8 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 	// insertion point for per field code
 	case "Name":
 		library.Name = value.GetValueString()
+	case "Description":
+		library.Description = value.GetValueString()
 	case "ComputedPrefix":
 		library.ComputedPrefix = value.GetValueString()
 	case "SubLibraries":
@@ -9164,6 +9228,8 @@ func (participant *Participant) GongSetFieldValue(fieldName string, value GongFi
 	// insertion point for per field code
 	case "Name":
 		participant.Name = value.GetValueString()
+	case "Description":
+		participant.Description = value.GetValueString()
 	case "Resources":
 		participant.Resources = make([]*Resource, 0)
 		ids := strings.Split(value.ids, ";")
@@ -9319,6 +9385,8 @@ func (process *Process) GongSetFieldValue(fieldName string, value GongFieldValue
 	// insertion point for per field code
 	case "Name":
 		process.Name = value.GetValueString()
+	case "Description":
+		process.Description = value.GetValueString()
 	case "ComputedPrefix":
 		process.ComputedPrefix = value.GetValueString()
 	case "DiagramProcesss":
@@ -9482,6 +9550,8 @@ func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldVal
 	// insertion point for per field code
 	case "Name":
 		resource.Name = value.GetValueString()
+	case "Description":
+		resource.Description = value.GetValueString()
 	case "ComputedPrefix":
 		resource.ComputedPrefix = value.GetValueString()
 	case "SVG_Path":
@@ -9499,6 +9569,8 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 	// insertion point for per field code
 	case "Name":
 		task.Name = value.GetValueString()
+	case "Description":
+		task.Description = value.GetValueString()
 	case "ComputedPrefix":
 		task.ComputedPrefix = value.GetValueString()
 	case "IsStartTask":

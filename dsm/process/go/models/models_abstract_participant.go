@@ -3,6 +3,9 @@ package models
 type Participant struct {
 	Name string
 
+	//gong:text width:300 height:300
+	Description string
+
 	Resources               []*Resource
 	IsResourcesNodeExpanded bool
 
