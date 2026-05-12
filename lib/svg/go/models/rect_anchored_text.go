@@ -184,13 +184,13 @@ func (rectAnchoredText *RectAnchoredText) WriteSVG(sb *strings.Builder, x, y flo
 
 		if i == 0 {
 			sb.WriteString(fmt.Sprintf("<tspan x=\"%s\" text-anchor=\"%s\">%s</tspan>",
-				formatFloat(x),
+				formatFloat(x+rectAnchoredText.X_Offset),
 				rectAnchoredText.TextAnchorType.ToString(),
 				line,
 			))
 		} else {
 			sb.WriteString(fmt.Sprintf("<tspan x=\"%s\" dy=\"1.2em\" text-anchor=\"%s\">%s</tspan>",
-				formatFloat(x),
+				formatFloat(x+rectAnchoredText.X_Offset),
 				rectAnchoredText.TextAnchorType.ToString(),
 				line,
 			))
