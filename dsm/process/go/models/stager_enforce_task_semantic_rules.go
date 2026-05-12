@@ -18,6 +18,13 @@ func (stager *Stager) enforceTaskSemanticRules() (needCommit bool) {
 			stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task \"%s\" cannot be both start and end",
 				task.GetName()))
 		}
+
+		if task.Type != nil && !task.IsTaskNameNotProcessName && task.GetName() != task.Type.GetName() {
+			needCommit = true
+			task.SetName(task.Type.GetName())
+			stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task \"%s\" name overridden to \"%s\"",
+				task.GetName(), task.GetName()))
+		}
 	}
 
 	for participant := range *GetGongstructInstancesSetFromPointerType[*Participant](stager.stage) {
