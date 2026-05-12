@@ -6603,6 +6603,10 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsTasksNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "Tasks",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Task",
@@ -7749,6 +7753,10 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = note.Name
 	case "ComputedPrefix":
 		res.valueString = note.ComputedPrefix
+	case "IsTasksNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", note.IsTasksNodeExpanded)
+		res.valueBool = note.IsTasksNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Tasks":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range note.Tasks {
@@ -9052,6 +9060,8 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		note.Name = value.GetValueString()
 	case "ComputedPrefix":
 		note.ComputedPrefix = value.GetValueString()
+	case "IsTasksNodeExpanded":
+		note.IsTasksNodeExpanded = value.GetValueBool()
 	case "Tasks":
 		note.Tasks = make([]*Task, 0)
 		ids := strings.Split(value.ids, ";")

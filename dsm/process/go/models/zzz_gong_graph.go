@@ -4177,6 +4177,9 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	if note.ComputedPrefix != noteOther.ComputedPrefix {
 		diffs = append(diffs, note.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if note.IsTasksNodeExpanded != noteOther.IsTasksNodeExpanded {
+		diffs = append(diffs, note.GongMarshallField(stage, "IsTasksNodeExpanded"))
+	}
 	TasksDifferent := false
 	if len(note.Tasks) != len(noteOther.Tasks) {
 		TasksDifferent = true
