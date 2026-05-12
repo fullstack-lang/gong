@@ -163,6 +163,18 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.NoteTaskShape:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "NoteTaskShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__NoteTaskShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Participant:
 		formGroup := (&form.FormGroup{
 			Name:  formName,

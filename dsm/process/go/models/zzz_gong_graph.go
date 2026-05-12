@@ -43,6 +43,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *NoteShape:
 		ok = stage.IsStagedNoteShape(target)
 
+	case *NoteTaskShape:
+		ok = stage.IsStagedNoteTaskShape(target)
+
 	case *Participant:
 		ok = stage.IsStagedParticipant(target)
 
@@ -109,6 +112,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *NoteShape:
 		ok = stage.IsStagedNoteShape(target)
+
+	case *NoteTaskShape:
+		ok = stage.IsStagedNoteTaskShape(target)
 
 	case *Participant:
 		ok = stage.IsStagedParticipant(target)
@@ -222,6 +228,13 @@ func (stage *Stage) IsStagedNoteShape(noteshape *NoteShape) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedNoteTaskShape(notetaskshape *NoteTaskShape) (ok bool) {
+
+	_, ok = stage.NoteTaskShapes[notetaskshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedParticipant(participant *Participant) (ok bool) {
 
 	_, ok = stage.Participants[participant]
@@ -314,6 +327,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *NoteShape:
 		stage.StageBranchNoteShape(target)
+
+	case *NoteTaskShape:
+		stage.StageBranchNoteTaskShape(target)
 
 	case *Participant:
 		stage.StageBranchParticipant(target)
@@ -555,6 +571,15 @@ func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 	for _, _allocatedresourceshape := range diagramprocess.AllocatedResourceShapes {
 		StageBranch(stage, _allocatedresourceshape)
 	}
+	for _, _noteshape := range diagramprocess.Note_Shapes {
+		StageBranch(stage, _noteshape)
+	}
+	for _, _note := range diagramprocess.NotesWhoseNodeIsExpanded {
+		StageBranch(stage, _note)
+	}
+	for _, _notetaskshape := range diagramprocess.NoteTaskShapes {
+		StageBranch(stage, _notetaskshape)
+	}
 
 }
 
@@ -657,6 +682,27 @@ func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
 	//insertion point for the staging of instances referenced by pointers
 	if noteshape.Note != nil {
 		StageBranch(stage, noteshape.Note)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, notetaskshape) {
+		return
+	}
+
+	notetaskshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if notetaskshape.Note != nil {
+		StageBranch(stage, notetaskshape.Note)
+	}
+	if notetaskshape.Task != nil {
+		StageBranch(stage, notetaskshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -882,6 +928,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *NoteShape:
 		toT := CopyBranchNoteShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *NoteTaskShape:
+		toT := CopyBranchNoteTaskShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Participant:
@@ -1163,6 +1213,15 @@ func CopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *Diagr
 	for _, _allocatedresourceshape := range diagramprocessFrom.AllocatedResourceShapes {
 		diagramprocessTo.AllocatedResourceShapes = append(diagramprocessTo.AllocatedResourceShapes, CopyBranchAllocatedResourceShape(mapOrigCopy, _allocatedresourceshape))
 	}
+	for _, _noteshape := range diagramprocessFrom.Note_Shapes {
+		diagramprocessTo.Note_Shapes = append(diagramprocessTo.Note_Shapes, CopyBranchNoteShape(mapOrigCopy, _noteshape))
+	}
+	for _, _note := range diagramprocessFrom.NotesWhoseNodeIsExpanded {
+		diagramprocessTo.NotesWhoseNodeIsExpanded = append(diagramprocessTo.NotesWhoseNodeIsExpanded, CopyBranchNote(mapOrigCopy, _note))
+	}
+	for _, _notetaskshape := range diagramprocessFrom.NoteTaskShapes {
+		diagramprocessTo.NoteTaskShapes = append(diagramprocessTo.NoteTaskShapes, CopyBranchNoteTaskShape(mapOrigCopy, _notetaskshape))
+	}
 
 	return
 }
@@ -1281,6 +1340,31 @@ func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (not
 	//insertion point for the staging of instances referenced by pointers
 	if noteshapeFrom.Note != nil {
 		noteshapeTo.Note = CopyBranchNote(mapOrigCopy, noteshapeFrom.Note)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchNoteTaskShape(mapOrigCopy map[any]any, notetaskshapeFrom *NoteTaskShape) (notetaskshapeTo *NoteTaskShape) {
+
+	// notetaskshapeFrom has already been copied
+	if _notetaskshapeTo, ok := mapOrigCopy[notetaskshapeFrom]; ok {
+		notetaskshapeTo = _notetaskshapeTo.(*NoteTaskShape)
+		return
+	}
+
+	notetaskshapeTo = new(NoteTaskShape)
+	mapOrigCopy[notetaskshapeFrom] = notetaskshapeTo
+	notetaskshapeFrom.CopyBasicFields(notetaskshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if notetaskshapeFrom.Note != nil {
+		notetaskshapeTo.Note = CopyBranchNote(mapOrigCopy, notetaskshapeFrom.Note)
+	}
+	if notetaskshapeFrom.Task != nil {
+		notetaskshapeTo.Task = CopyBranchTask(mapOrigCopy, notetaskshapeFrom.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -1522,6 +1606,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *NoteShape:
 		stage.UnstageBranchNoteShape(target)
 
+	case *NoteTaskShape:
+		stage.UnstageBranchNoteTaskShape(target)
+
 	case *Participant:
 		stage.UnstageBranchParticipant(target)
 
@@ -1762,6 +1849,15 @@ func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) 
 	for _, _allocatedresourceshape := range diagramprocess.AllocatedResourceShapes {
 		UnstageBranch(stage, _allocatedresourceshape)
 	}
+	for _, _noteshape := range diagramprocess.Note_Shapes {
+		UnstageBranch(stage, _noteshape)
+	}
+	for _, _note := range diagramprocess.NotesWhoseNodeIsExpanded {
+		UnstageBranch(stage, _note)
+	}
+	for _, _notetaskshape := range diagramprocess.NoteTaskShapes {
+		UnstageBranch(stage, _notetaskshape)
+	}
 
 }
 
@@ -1864,6 +1960,27 @@ func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
 	//insertion point for the staging of instances referenced by pointers
 	if noteshape.Note != nil {
 		UnstageBranch(stage, noteshape.Note)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, notetaskshape) {
+		return
+	}
+
+	notetaskshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if notetaskshape.Note != nil {
+		UnstageBranch(stage, notetaskshape.Note)
+	}
+	if notetaskshape.Task != nil {
+		UnstageBranch(stage, notetaskshape.Task)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
@@ -2187,6 +2304,18 @@ func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *St
 	for _, _b := range instance.AllocatedResourceShapes {
 		reference.AllocatedResourceShapes = append(reference.AllocatedResourceShapes, stage.AllocatedResourceShapes_reference[_b])
 	}
+	reference.Note_Shapes = reference.Note_Shapes[:0]
+	for _, _b := range instance.Note_Shapes {
+		reference.Note_Shapes = append(reference.Note_Shapes, stage.NoteShapes_reference[_b])
+	}
+	reference.NotesWhoseNodeIsExpanded = reference.NotesWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.NotesWhoseNodeIsExpanded {
+		reference.NotesWhoseNodeIsExpanded = append(reference.NotesWhoseNodeIsExpanded, stage.Notes_reference[_b])
+	}
+	reference.NoteTaskShapes = reference.NoteTaskShapes[:0]
+	for _, _b := range instance.NoteTaskShapes {
+		reference.NoteTaskShapes = append(reference.NoteTaskShapes, stage.NoteTaskShapes_reference[_b])
+	}
 }
 
 func (reference *ExternalParticipantShape) GongReconstructPointersFromReferences(stage *Stage, instance *ExternalParticipantShape) {
@@ -2263,6 +2392,17 @@ func (reference *NoteShape) GongReconstructPointersFromReferences(stage *Stage, 
 	// insertion point for pointers field
 	if instance.Note != nil {
 		reference.Note = stage.Notes_reference[instance.Note]
+	}
+	// insertion point for slice of pointers field
+}
+
+func (reference *NoteTaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteTaskShape) {
+	// insertion point for pointers field
+	if instance.Note != nil {
+		reference.Note = stage.Notes_reference[instance.Note]
+	}
+	if instance.Task != nil {
+		reference.Task = stage.Tasks_reference[instance.Task]
 	}
 	// insertion point for slice of pointers field
 }
@@ -2625,6 +2765,27 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	reference.AllocatedResourceShapes = _AllocatedResourceShapes
+	var _Note_Shapes []*NoteShape
+	for _, _reference := range reference.Note_Shapes {
+		if _instance, ok := stage.NoteShapes_instance[_reference]; ok {
+			_Note_Shapes = append(_Note_Shapes, _instance)
+		}
+	}
+	reference.Note_Shapes = _Note_Shapes
+	var _NotesWhoseNodeIsExpanded []*Note
+	for _, _reference := range reference.NotesWhoseNodeIsExpanded {
+		if _instance, ok := stage.Notes_instance[_reference]; ok {
+			_NotesWhoseNodeIsExpanded = append(_NotesWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.NotesWhoseNodeIsExpanded = _NotesWhoseNodeIsExpanded
+	var _NoteTaskShapes []*NoteTaskShape
+	for _, _reference := range reference.NoteTaskShapes {
+		if _instance, ok := stage.NoteTaskShapes_instance[_reference]; ok {
+			_NoteTaskShapes = append(_NoteTaskShapes, _instance)
+		}
+	}
+	reference.NoteTaskShapes = _NoteTaskShapes
 }
 
 func (reference *ExternalParticipantShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2745,6 +2906,23 @@ func (reference *NoteShape) GongReconstructPointersFromInstances(stage *Stage) {
 		reference.Note = nil
 		if _instance, ok := stage.Notes_instance[_reference]; ok {
 			reference.Note = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+}
+
+func (reference *NoteTaskShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.Note; _reference != nil {
+		reference.Note = nil
+		if _instance, ok := stage.Notes_instance[_reference]; ok {
+			reference.Note = _instance
+		}
+	}
+	if _reference := reference.Task; _reference != nil {
+		reference.Task = nil
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			reference.Task = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -3587,6 +3765,72 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		ops := Diff(stage, diagramprocess, diagramprocessOther, "AllocatedResourceShapes", diagramprocessOther.AllocatedResourceShapes, diagramprocess.AllocatedResourceShapes)
 		diffs = append(diffs, ops)
 	}
+	Note_ShapesDifferent := false
+	if len(diagramprocess.Note_Shapes) != len(diagramprocessOther.Note_Shapes) {
+		Note_ShapesDifferent = true
+	} else {
+		for i := range diagramprocess.Note_Shapes {
+			if (diagramprocess.Note_Shapes[i] == nil) != (diagramprocessOther.Note_Shapes[i] == nil) {
+				Note_ShapesDifferent = true
+				break
+			} else if diagramprocess.Note_Shapes[i] != nil && diagramprocessOther.Note_Shapes[i] != nil {
+				// this is a pointer comparaison
+				if diagramprocess.Note_Shapes[i] != diagramprocessOther.Note_Shapes[i] {
+					Note_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if Note_ShapesDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "Note_Shapes", diagramprocessOther.Note_Shapes, diagramprocess.Note_Shapes)
+		diffs = append(diffs, ops)
+	}
+	NotesWhoseNodeIsExpandedDifferent := false
+	if len(diagramprocess.NotesWhoseNodeIsExpanded) != len(diagramprocessOther.NotesWhoseNodeIsExpanded) {
+		NotesWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagramprocess.NotesWhoseNodeIsExpanded {
+			if (diagramprocess.NotesWhoseNodeIsExpanded[i] == nil) != (diagramprocessOther.NotesWhoseNodeIsExpanded[i] == nil) {
+				NotesWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagramprocess.NotesWhoseNodeIsExpanded[i] != nil && diagramprocessOther.NotesWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagramprocess.NotesWhoseNodeIsExpanded[i] != diagramprocessOther.NotesWhoseNodeIsExpanded[i] {
+					NotesWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if NotesWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "NotesWhoseNodeIsExpanded", diagramprocessOther.NotesWhoseNodeIsExpanded, diagramprocess.NotesWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	if diagramprocess.IsNotesNodeExpanded != diagramprocessOther.IsNotesNodeExpanded {
+		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "IsNotesNodeExpanded"))
+	}
+	NoteTaskShapesDifferent := false
+	if len(diagramprocess.NoteTaskShapes) != len(diagramprocessOther.NoteTaskShapes) {
+		NoteTaskShapesDifferent = true
+	} else {
+		for i := range diagramprocess.NoteTaskShapes {
+			if (diagramprocess.NoteTaskShapes[i] == nil) != (diagramprocessOther.NoteTaskShapes[i] == nil) {
+				NoteTaskShapesDifferent = true
+				break
+			} else if diagramprocess.NoteTaskShapes[i] != nil && diagramprocessOther.NoteTaskShapes[i] != nil {
+				// this is a pointer comparaison
+				if diagramprocess.NoteTaskShapes[i] != diagramprocessOther.NoteTaskShapes[i] {
+					NoteTaskShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if NoteTaskShapesDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "NoteTaskShapes", diagramprocessOther.NoteTaskShapes, diagramprocess.NoteTaskShapes)
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -3971,6 +4215,64 @@ func (noteshape *NoteShape) GongDiff(stage *Stage, noteshapeOther *NoteShape) (d
 		if noteshape.Note != noteshapeOther.Note {
 			diffs = append(diffs, noteshape.GongMarshallField(stage, "Note"))
 		}
+	}
+	if noteshape.X != noteshapeOther.X {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "X"))
+	}
+	if noteshape.Y != noteshapeOther.Y {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Y"))
+	}
+	if noteshape.Width != noteshapeOther.Width {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Width"))
+	}
+	if noteshape.Height != noteshapeOther.Height {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Height"))
+	}
+	if noteshape.IsHidden != noteshapeOther.IsHidden {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (notetaskshape *NoteTaskShape) GongDiff(stage *Stage, notetaskshapeOther *NoteTaskShape) (diffs []string) {
+	// insertion point for field diffs
+	if notetaskshape.Name != notetaskshapeOther.Name {
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Name"))
+	}
+	if (notetaskshape.Note == nil) != (notetaskshapeOther.Note == nil) {
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Note"))
+	} else if notetaskshape.Note != nil && notetaskshapeOther.Note != nil {
+		if notetaskshape.Note != notetaskshapeOther.Note {
+			diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Note"))
+		}
+	}
+	if (notetaskshape.Task == nil) != (notetaskshapeOther.Task == nil) {
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Task"))
+	} else if notetaskshape.Task != nil && notetaskshapeOther.Task != nil {
+		if notetaskshape.Task != notetaskshapeOther.Task {
+			diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Task"))
+		}
+	}
+	if notetaskshape.StartRatio != notetaskshapeOther.StartRatio {
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "StartRatio"))
+	}
+	if notetaskshape.EndRatio != notetaskshapeOther.EndRatio {
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "EndRatio"))
+	}
+	if notetaskshape.StartOrientation != notetaskshapeOther.StartOrientation {
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "StartOrientation"))
+	}
+	if notetaskshape.EndOrientation != notetaskshapeOther.EndOrientation {
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "EndOrientation"))
+	}
+	if notetaskshape.CornerOffsetRatio != notetaskshapeOther.CornerOffsetRatio {
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if notetaskshape.IsHidden != notetaskshapeOther.IsHidden {
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return
