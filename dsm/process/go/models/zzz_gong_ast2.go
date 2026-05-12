@@ -1159,6 +1159,10 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.IsStartTask = GongExtractBool(valueExpr)
 	case "IsEndTask":
 		instance.IsEndTask = GongExtractBool(valueExpr)
+	case "Type":
+		GongUnmarshallPointer(&instance.Type, valueExpr, identifierMap)
+	case "IsTaskNameNotProcessName":
+		instance.IsTaskNameNotProcessName = GongExtractBool(valueExpr)
 	}
 	return nil
 }

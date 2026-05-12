@@ -209,6 +209,7 @@ func (resource *Resource) GongClean(stage *Stage) (modified bool) {
 func (task *Task) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	modified = GongCleanPointer(stage, &task.Type) || modified
 	return
 }
 

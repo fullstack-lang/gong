@@ -725,6 +725,9 @@ func (stage *Stage) StageBranchTask(task *Task) {
 	task.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if task.Type != nil {
+		StageBranch(stage, task.Type)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1312,6 +1315,9 @@ func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 	taskFrom.CopyBasicFields(taskTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if taskFrom.Type != nil {
+		taskTo.Type = CopyBranchProcess(mapOrigCopy, taskFrom.Type)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1820,6 +1826,9 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 	task.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if task.Type != nil {
+		UnstageBranch(stage, task.Type)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -2146,6 +2155,9 @@ func (reference *Resource) GongReconstructPointersFromReferences(stage *Stage, i
 
 func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, instance *Task) {
 	// insertion point for pointers field
+	if instance.Type != nil {
+		reference.Type = stage.Processs_reference[instance.Type]
+	}
 	// insertion point for slice of pointers field
 }
 
@@ -2640,6 +2652,12 @@ func (reference *Resource) GongReconstructPointersFromInstances(stage *Stage) {
 
 func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
+	if _reference := reference.Type; _reference != nil {
+		reference.Type = nil
+		if _instance, ok := stage.Processs_instance[_reference]; ok {
+			reference.Type = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 }
 
@@ -4089,6 +4107,16 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	}
 	if task.IsEndTask != taskOther.IsEndTask {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsEndTask"))
+	}
+	if (task.Type == nil) != (taskOther.Type == nil) {
+		diffs = append(diffs, task.GongMarshallField(stage, "Type"))
+	} else if task.Type != nil && taskOther.Type != nil {
+		if task.Type != taskOther.Type {
+			diffs = append(diffs, task.GongMarshallField(stage, "Type"))
+		}
+	}
+	if task.IsTaskNameNotProcessName != taskOther.IsTaskNameNotProcessName {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsTaskNameNotProcessName"))
 	}
 
 	return
