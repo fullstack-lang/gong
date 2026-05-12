@@ -21,29 +21,9 @@ func (stager *Stager) treeDataFlowWithinLibrary(
 
 	addRenameButton(dataFlow, dataFlowNode, stager)
 
-	dataFlowNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-		if frontNode.Name != stagedNode.Name {
-			dataFlow.SetName(frontNode.Name)
-			dataFlow.SetIsInRenameMode(false)
-			stager.stage.Commit()
-			return
-		}
-		if frontNode.IsExpanded != stagedNode.IsExpanded {
-			if frontNode.IsExpanded {
-				if !slices.Contains(library.DataFlowsWhoseNodeIsExpanded, dataFlow) {
-					library.DataFlowsWhoseNodeIsExpanded = append(library.DataFlowsWhoseNodeIsExpanded, dataFlow)
-				}
-			} else {
-				if idx := slices.Index(library.DataFlowsWhoseNodeIsExpanded, dataFlow); idx != -1 {
-					library.DataFlowsWhoseNodeIsExpanded = slices.Delete(library.DataFlowsWhoseNodeIsExpanded, idx, idx+1)
-				}
-			}
-			stager.stage.Commit()
-			return
-		}
-		stager.probeForm.FillUpFormFromGongstruct(dataFlow, GetPointerToGongstructName[*DataFlow]())
-		stager.stage.Commit()
-	}
+	dataFlowNode.OnNameChange = stager.onNameChange(dataFlow)
+	dataFlowNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, dataFlow, &library.DataFlowsWhoseNodeIsExpanded)
+	dataFlowNode.OnClick = onNodeClicked(stager, dataFlow)
 
 	//
 	// Data
@@ -55,13 +35,7 @@ func (stager *Stager) treeDataFlowWithinLibrary(
 		IsNodeClickable: true,
 	}
 	dataFlowNode.Children = append(dataFlowNode.Children, datasNode)
-	datasNode.OnClick = func(frontNode *tree.Node) {
-		if frontNode.IsExpanded != dataFlow.IsDatasNodeExpanded {
-			dataFlow.IsDatasNodeExpanded = frontNode.IsExpanded
-			stager.stage.Commit()
-			return
-		}
-	}
+	datasNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&dataFlow.IsDatasNodeExpanded)
 
 	for _, data := range dataFlow.Datas {
 		stager.treeData(library, data, datasNode)

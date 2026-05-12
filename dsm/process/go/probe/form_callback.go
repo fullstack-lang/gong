@@ -2998,6 +2998,70 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			}
 			library_.ResourcesWhoseNodeIsExpanded = instanceSlice
 
+		case "RootNotes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Note](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Note, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Note)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Note](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.RootNotes = instanceSlice
+
+		case "IsNotesNodeExpanded":
+			FormDivBasicFieldToField(&(library_.IsNotesNodeExpanded), formDiv)
+		case "NotesWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Note](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Note, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Note)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Note](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.NotesWhoseNodeIsExpanded = instanceSlice
+
 		case "IsExpandedTmp":
 			FormDivBasicFieldToField(&(library_.IsExpandedTmp), formDiv)
 		case "Library:SubLibraries":
@@ -3162,6 +3226,329 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 	}
 
 	libraryFormCallback.probe.ux_tree()
+}
+func __gong__New__NoteFormCallback(
+	note *models.Note,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (noteFormCallback *NoteFormCallback) {
+	noteFormCallback = new(NoteFormCallback)
+	noteFormCallback.probe = probe
+	noteFormCallback.note = note
+	noteFormCallback.formGroup = formGroup
+
+	noteFormCallback.CreationMode = (note == nil)
+
+	return
+}
+
+type NoteFormCallback struct {
+	note *models.Note
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (noteFormCallback *NoteFormCallback) OnSave() {
+	noteFormCallback.probe.stageOfInterest.Lock()
+	defer noteFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("NoteFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	noteFormCallback.probe.formStage.Checkout()
+
+	if noteFormCallback.note == nil {
+		noteFormCallback.note = new(models.Note).Stage(noteFormCallback.probe.stageOfInterest)
+	}
+	note_ := noteFormCallback.note
+	_ = note_
+
+	for _, formDiv := range noteFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(note_.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
+		case "Tasks":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](noteFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Task, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Task)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					noteFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](noteFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			note_.Tasks = instanceSlice
+
+		case "Library:RootNotes":
+			// WARNING : this form deals with the N-N association "Library.RootNotes []*Note" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Note). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Library
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Library"
+				rf.Fieldname = "RootNotes"
+				formerAssociationSource := note_.GongGetReverseFieldOwner(
+					noteFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Library)
+					if !ok {
+						log.Fatalln("Source of Library.RootNotes []*Note, is not an Library instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.RootNotes, note_)
+					formerSource.RootNotes = slices.Delete(formerSource.RootNotes, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Library
+			for _library := range *models.GetGongstructInstancesSet[models.Library](noteFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _library.GetName() == newSourceName.GetName() {
+					newSource = _library // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Library.RootNotes []*Note, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.RootNotes = append(newSource.RootNotes, note_)
+		case "Library:NotesWhoseNodeIsExpanded":
+			// WARNING : this form deals with the N-N association "Library.NotesWhoseNodeIsExpanded []*Note" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Note). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Library
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Library"
+				rf.Fieldname = "NotesWhoseNodeIsExpanded"
+				formerAssociationSource := note_.GongGetReverseFieldOwner(
+					noteFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Library)
+					if !ok {
+						log.Fatalln("Source of Library.NotesWhoseNodeIsExpanded []*Note, is not an Library instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.NotesWhoseNodeIsExpanded, note_)
+					formerSource.NotesWhoseNodeIsExpanded = slices.Delete(formerSource.NotesWhoseNodeIsExpanded, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Library
+			for _library := range *models.GetGongstructInstancesSet[models.Library](noteFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _library.GetName() == newSourceName.GetName() {
+					newSource = _library // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Library.NotesWhoseNodeIsExpanded []*Note, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.NotesWhoseNodeIsExpanded = append(newSource.NotesWhoseNodeIsExpanded, note_)
+		}
+	}
+
+	// manage the suppress operation
+	if noteFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		note_.Unstage(noteFormCallback.probe.stageOfInterest)
+	}
+
+	noteFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Note](
+		noteFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if noteFormCallback.CreationMode || noteFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		noteFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(noteFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__NoteFormCallback(
+			nil,
+			noteFormCallback.probe,
+			newFormGroup,
+		)
+		note := new(models.Note)
+		FillUpForm(note, newFormGroup, noteFormCallback.probe)
+		noteFormCallback.probe.formStage.Commit()
+	}
+
+	noteFormCallback.probe.ux_tree()
+}
+func __gong__New__NoteShapeFormCallback(
+	noteshape *models.NoteShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (noteshapeFormCallback *NoteShapeFormCallback) {
+	noteshapeFormCallback = new(NoteShapeFormCallback)
+	noteshapeFormCallback.probe = probe
+	noteshapeFormCallback.noteshape = noteshape
+	noteshapeFormCallback.formGroup = formGroup
+
+	noteshapeFormCallback.CreationMode = (noteshape == nil)
+
+	return
+}
+
+type NoteShapeFormCallback struct {
+	noteshape *models.NoteShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
+	noteshapeFormCallback.probe.stageOfInterest.Lock()
+	defer noteshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("NoteShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	noteshapeFormCallback.probe.formStage.Checkout()
+
+	if noteshapeFormCallback.noteshape == nil {
+		noteshapeFormCallback.noteshape = new(models.NoteShape).Stage(noteshapeFormCallback.probe.stageOfInterest)
+	}
+	noteshape_ := noteshapeFormCallback.noteshape
+	_ = noteshape_
+
+	for _, formDiv := range noteshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(noteshape_.Name), formDiv)
+		case "Note":
+			FormDivSelectFieldToField(&(noteshape_.Note), noteshapeFormCallback.probe.stageOfInterest, formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if noteshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		noteshape_.Unstage(noteshapeFormCallback.probe.stageOfInterest)
+	}
+
+	noteshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.NoteShape](
+		noteshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if noteshapeFormCallback.CreationMode || noteshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		noteshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(noteshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__NoteShapeFormCallback(
+			nil,
+			noteshapeFormCallback.probe,
+			newFormGroup,
+		)
+		noteshape := new(models.NoteShape)
+		FillUpForm(noteshape, newFormGroup, noteshapeFormCallback.probe)
+		noteshapeFormCallback.probe.formStage.Commit()
+	}
+
+	noteshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__ParticipantFormCallback(
 	participant *models.Participant,
@@ -5381,6 +5768,72 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 
 			// (3) append the new value to the new source field
 			newSource.TasksWhoseNodeIsExpanded = append(newSource.TasksWhoseNodeIsExpanded, task_)
+		case "Note:Tasks":
+			// WARNING : this form deals with the N-N association "Note.Tasks []*Task" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Task). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Note
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Note"
+				rf.Fieldname = "Tasks"
+				formerAssociationSource := task_.GongGetReverseFieldOwner(
+					taskFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Note)
+					if !ok {
+						log.Fatalln("Source of Note.Tasks []*Task, is not an Note instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Tasks, task_)
+					formerSource.Tasks = slices.Delete(formerSource.Tasks, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Note
+			for _note := range *models.GetGongstructInstancesSet[models.Note](taskFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _note.GetName() == newSourceName.GetName() {
+					newSource = _note // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Note.Tasks []*Task, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Tasks = append(newSource.Tasks, task_)
 		case "Participant:Tasks":
 			// WARNING : this form deals with the N-N association "Participant.Tasks []*Task" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

@@ -586,6 +586,10 @@ func FillUpForm(
 		BasicFieldtoForm("IsResourcesNodeExpanded", instanceWithInferedType.IsResourcesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("ResourcesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ResourcesWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("RootNotes", instanceWithInferedType, &instanceWithInferedType.RootNotes, formGroup, probe)
+		BasicFieldtoForm("IsNotesNodeExpanded", instanceWithInferedType.IsNotesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationSliceToForm("NotesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.NotesWhoseNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsExpandedTmp", instanceWithInferedType.IsExpandedTmp, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		{
@@ -632,6 +636,64 @@ func FillUpForm(
 					probe)
 			}
 		}
+
+	case *models.Note:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			true, false, 0, false, 0)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationSliceToForm("Tasks", instanceWithInferedType, &instanceWithInferedType.Tasks, formGroup, probe)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Library"
+			rf.Fieldname = "RootNotes"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Library),
+					"RootNotes",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Library](
+					nil,
+					"RootNotes",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Library"
+			rf.Fieldname = "NotesWhoseNodeIsExpanded"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Library),
+					"NotesWhoseNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Library](
+					nil,
+					"NotesWhoseNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+
+	case *models.NoteShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationFieldToForm("Note", instanceWithInferedType.Note, formGroup, probe)
 
 	case *models.Participant:
 		// insertion point
@@ -1149,6 +1211,28 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.DiagramProcess](
 					nil,
 					"TasksWhoseNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Note"
+			rf.Fieldname = "Tasks"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Note),
+					"Tasks",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Note](
+					nil,
+					"Tasks",
 					instanceWithInferedType,
 					formGroup,
 					probe)

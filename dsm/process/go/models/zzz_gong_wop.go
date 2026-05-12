@@ -234,6 +234,8 @@ type Library_WOP struct {
 
 	IsResourcesNodeExpanded bool
 
+	IsNotesNodeExpanded bool
+
 	IsExpandedTmp bool
 }
 
@@ -248,7 +250,33 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
 	to.IsDatasNodeExpanded = from.IsDatasNodeExpanded
 	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
+	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 	to.IsExpandedTmp = from.IsExpandedTmp
+}
+
+type Note_WOP struct {
+	// insertion point
+
+	Name string
+
+	ComputedPrefix string
+}
+
+func (from *Note) CopyBasicFields(to *Note) {
+	// insertion point
+	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
+}
+
+type NoteShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *NoteShape) CopyBasicFields(to *NoteShape) {
+	// insertion point
+	to.Name = from.Name
 }
 
 type Participant_WOP struct {

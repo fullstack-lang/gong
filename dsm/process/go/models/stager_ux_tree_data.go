@@ -21,27 +21,7 @@ func (stager *Stager) treeData(
 
 	addRenameButton(data, dataNode, stager)
 
-	dataNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-		if frontNode.Name != stagedNode.Name {
-			data.SetName(frontNode.Name)
-			data.SetIsInRenameMode(false)
-			stager.stage.Commit()
-			return
-		}
-		if frontNode.IsExpanded != stagedNode.IsExpanded {
-			if frontNode.IsExpanded {
-				if !slices.Contains(library.DatasWhoseNodeIsExpanded, data) {
-					library.DatasWhoseNodeIsExpanded = append(library.DatasWhoseNodeIsExpanded, data)
-				}
-			} else {
-				if idx := slices.Index(library.DatasWhoseNodeIsExpanded, data); idx != -1 {
-					library.DatasWhoseNodeIsExpanded = slices.Delete(library.DatasWhoseNodeIsExpanded, idx, idx+1)
-				}
-			}
-			stager.stage.Commit()
-			return
-		}
-		stager.probeForm.FillUpFormFromGongstruct(data, GetPointerToGongstructName[*Data]())
-		stager.stage.Commit()
-	}
+	dataNode.OnNameChange = stager.onNameChange(data)
+	dataNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, data, &library.DatasWhoseNodeIsExpanded)
+	dataNode.OnClick = onNodeClicked(stager, data)
 }
