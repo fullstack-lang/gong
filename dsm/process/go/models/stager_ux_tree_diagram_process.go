@@ -137,4 +137,21 @@ func (stager *Stager) treeDiagramProcess(
 			stager.treeDataFlowsWithinProcessDiagram(diagramProcess, dataFlow, dataFlowsNode)
 		}
 	}
+
+	{
+		// Notes
+		//
+		notesNode := &tree.Node{
+			Name:            "Notes",
+			FontStyle:       tree.ITALIC,
+			IsExpanded:      diagramProcess.IsNotesNodeExpanded,
+			IsNodeClickable: true,
+		}
+		diagramNode.Children = append(diagramNode.Children, notesNode)
+		notesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagramProcess.IsNotesNodeExpanded)
+
+		for _, note := range process.GetOwningLibrary().RootNotes {
+			stager.treeNoteWithinDiagramProcess(diagramProcess, note, notesNode)
+		}
+	}
 }

@@ -40,8 +40,6 @@ func (stager *Stager) svg() {
 // to SVG elements (Rects, Links, Paths) on a single layer. It also populates the diagram's
 // internal maps to link abstract elements with their visual SVG counterparts.
 func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG {
-	root := stager.GetRootLibrary()
-
 	svgObject := (&svg.SVG{Name: `SVG`})
 	stager.diagramProcess = diagramProcess
 
@@ -68,9 +66,21 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	layer := (&svg.Layer{Name: "Layer 1"})
 	svgObject.Layers = append(svgObject.Layers, layer)
 
-	//
-	// Process
-	//
+	stager.drawProcessShapes(diagramProcess, layer)
+
+	rectOfOwningProcess := diagramProcess.map_Process_Rect[diagramProcess.owningProcess]
+	if rectOfOwningProcess != nil {
+		stager.drawParticipantShapes(diagramProcess, layer, rectOfOwningProcess)
+	}
+	stager.drawExternalParticipantShapes(diagramProcess, layer)
+	stager.drawTaskShapes(diagramProcess, layer)
+	stager.drawControlFlowShapes(diagramProcess, layer)
+	stager.drawDataFlowShapes(diagramProcess, layer)
+
+	return svgObject
+}
+
+func (stager *Stager) drawProcessShapes(diagramProcess *DiagramProcess, layer *svg.Layer) {
 	diagramProcess.map_Process_Rect = make(map[*Process]*svg.Rect)
 	for _, processShape := range diagramProcess.Process_Shapes {
 		if processShape.IsHidden {
@@ -132,12 +142,11 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 
 		diagramProcess.map_Process_Rect[processShape.Process] = rect
 	}
+}
 
-	rectOfOwningProcess := diagramProcess.map_Process_Rect[diagramProcess.owningProcess]
+func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, layer *svg.Layer, rectOfOwningProcess *svg.Rect) {
+	root := stager.GetRootLibrary()
 
-	//
-	// Participant
-	//
 	diagramProcess.map_Participant_Rect = make(map[*Participant]*svg.Rect)
 	horizontalMargin := 10.0
 	verticalTopMargin := 50.0
@@ -283,14 +292,11 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 
 		currentWeight += shapeWeight
 	}
+}
 
-	//
-	// ExternalParticipant
-	//
-	// one draws a regular rect for the title and another rect for the tail
-	//
-	// the first one X,Y, Width & Heigth are updated as usual
-	// the tail rect is updated only for its heigth
+func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProcess, layer *svg.Layer) {
+	root := stager.GetRootLibrary()
+
 	diagramProcess.map_ExternalParticipant_Rect = make(map[*Participant]*svg.Rect)
 	for _, externalParticipantShape := range diagramProcess.ExternalParticipant_Shapes {
 		if externalParticipantShape.IsHidden {
@@ -388,10 +394,9 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		layer.Rects = append(layer.Rects, tailRect)
 
 	}
+}
 
-	//
-	// Task
-	//
+func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.Layer) {
 	rm := GetSliceOfPointersReverseMap[Participant, Task](GetAssociationName[Participant]().Tasks[0].Name, stager.stage)
 
 	diagramProcess.map_Task_Rect = make(map[*Task]*svg.Rect)
@@ -526,7 +531,9 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		}
 		diagramProcess.map_Task_Rect[taskShape.Task] = rect
 	}
+}
 
+func (stager *Stager) drawControlFlowShapes(diagramProcess *DiagramProcess, layer *svg.Layer) {
 	for _, controlFlowShape := range diagramProcess.ControlFlow_Shapes {
 		if controlFlowShape.GetIsHidden() {
 			continue
@@ -557,7 +564,9 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 		link.StrokeWidth = 1.5
 		_ = link
 	}
+}
 
+func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *svg.Layer) {
 	for _, dataFlowShape := range diagramProcess.DataFlow_Shapes {
 		if dataFlowShape.GetIsHidden() {
 			continue
@@ -623,8 +632,6 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 			link.TextAtCorner = append(link.TextAtCorner, rectAnchoredLink)
 		}
 	}
-
-	return svgObject
 }
 
 func (stager *Stager) drawAllocatedResources(participant *Participant, diagramProcess *DiagramProcess, rect *svg.Rect, rectAnchorType svg.RectAnchorType) (boxHeight float64) {
