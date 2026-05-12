@@ -222,6 +222,13 @@ func (inst *Note) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "NotesWhoseNodeIsExpanded":
+			if _diagramprocess, ok := stage.DiagramProcess_NotesWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		}
 	case "Library":
 		switch reverseField.Fieldname {
 		case "RootNotes":
@@ -242,6 +249,29 @@ func (inst *NoteShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "Note_Shapes":
+			if _diagramprocess, ok := stage.DiagramProcess_Note_Shapes_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *NoteTaskShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "NoteTaskShapes":
+			if _diagramprocess, ok := stage.DiagramProcess_NoteTaskShapes_reverseMap[inst]; ok {
+				res = _diagramprocess.Name
+			}
+		}
 	}
 	return
 }
@@ -636,6 +666,11 @@ func (inst *Note) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "NotesWhoseNodeIsExpanded":
+			res = stage.DiagramProcess_NotesWhoseNodeIsExpanded_reverseMap[inst]
+		}
 	case "Library":
 		switch reverseField.Fieldname {
 		case "RootNotes":
@@ -652,6 +687,25 @@ func (inst *NoteShape) GongGetReverseFieldOwner(stage *Stage, reverseField *Reve
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "Note_Shapes":
+			res = stage.DiagramProcess_Note_Shapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *NoteTaskShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramProcess":
+		switch reverseField.Fieldname {
+		case "NoteTaskShapes":
+			res = stage.DiagramProcess_NoteTaskShapes_reverseMap[inst]
+		}
 	}
 	return res
 }
