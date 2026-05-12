@@ -1,5 +1,6 @@
 package models
 
+// A DataShape is the concrete for a Data that is carried by a DataFlow.
 type DataShape struct {
 	Name string
 

@@ -46,6 +46,14 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterLibraryCreateCallback != nil {
 			stage.OnAfterLibraryCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Note:
+		if stage.OnAfterNoteCreateCallback != nil {
+			stage.OnAfterNoteCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *NoteShape:
+		if stage.OnAfterNoteShapeCreateCallback != nil {
+			stage.OnAfterNoteShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Participant:
 		if stage.OnAfterParticipantCreateCallback != nil {
 			stage.OnAfterParticipantCreateCallback.OnAfterCreate(stage, target)
@@ -137,6 +145,16 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Library)
 		if stage.OnAfterLibraryUpdateCallback != nil {
 			stage.OnAfterLibraryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Note:
+		newTarget := any(new).(*Note)
+		if stage.OnAfterNoteUpdateCallback != nil {
+			stage.OnAfterNoteUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *NoteShape:
+		newTarget := any(new).(*NoteShape)
+		if stage.OnAfterNoteShapeUpdateCallback != nil {
+			stage.OnAfterNoteShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Participant:
 		newTarget := any(new).(*Participant)
@@ -233,6 +251,16 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Library)
 			stage.OnAfterLibraryDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Note:
+		if stage.OnAfterNoteDeleteCallback != nil {
+			staged := any(staged).(*Note)
+			stage.OnAfterNoteDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *NoteShape:
+		if stage.OnAfterNoteShapeDeleteCallback != nil {
+			staged := any(staged).(*NoteShape)
+			stage.OnAfterNoteShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Participant:
 		if stage.OnAfterParticipantDeleteCallback != nil {
 			staged := any(staged).(*Participant)
@@ -318,6 +346,14 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterLibraryReadCallback != nil {
 			stage.OnAfterLibraryReadCallback.OnAfterRead(stage, target)
 		}
+	case *Note:
+		if stage.OnAfterNoteReadCallback != nil {
+			stage.OnAfterNoteReadCallback.OnAfterRead(stage, target)
+		}
+	case *NoteShape:
+		if stage.OnAfterNoteShapeReadCallback != nil {
+			stage.OnAfterNoteShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *Participant:
 		if stage.OnAfterParticipantReadCallback != nil {
 			stage.OnAfterParticipantReadCallback.OnAfterRead(stage, target)
@@ -377,6 +413,10 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterExternalParticipantShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ExternalParticipantShape])
 	case *Library:
 		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
+	case *Note:
+		stage.OnAfterNoteUpdateCallback = any(callback).(OnAfterUpdateInterface[Note])
+	case *NoteShape:
+		stage.OnAfterNoteShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteShape])
 	case *Participant:
 		stage.OnAfterParticipantUpdateCallback = any(callback).(OnAfterUpdateInterface[Participant])
 	case *ParticipantShape:
@@ -418,6 +458,10 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterExternalParticipantShapeCreateCallback = any(callback).(OnAfterCreateInterface[ExternalParticipantShape])
 	case *Library:
 		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
+	case *Note:
+		stage.OnAfterNoteCreateCallback = any(callback).(OnAfterCreateInterface[Note])
+	case *NoteShape:
+		stage.OnAfterNoteShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteShape])
 	case *Participant:
 		stage.OnAfterParticipantCreateCallback = any(callback).(OnAfterCreateInterface[Participant])
 	case *ParticipantShape:
@@ -459,6 +503,10 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterExternalParticipantShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ExternalParticipantShape])
 	case *Library:
 		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
+	case *Note:
+		stage.OnAfterNoteDeleteCallback = any(callback).(OnAfterDeleteInterface[Note])
+	case *NoteShape:
+		stage.OnAfterNoteShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteShape])
 	case *Participant:
 		stage.OnAfterParticipantDeleteCallback = any(callback).(OnAfterDeleteInterface[Participant])
 	case *ParticipantShape:
@@ -500,6 +548,10 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterExternalParticipantShapeReadCallback = any(callback).(OnAfterReadInterface[ExternalParticipantShape])
 	case *Library:
 		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
+	case *Note:
+		stage.OnAfterNoteReadCallback = any(callback).(OnAfterReadInterface[Note])
+	case *NoteShape:
+		stage.OnAfterNoteShapeReadCallback = any(callback).(OnAfterReadInterface[NoteShape])
 	case *Participant:
 		stage.OnAfterParticipantReadCallback = any(callback).(OnAfterReadInterface[Participant])
 	case *ParticipantShape:
