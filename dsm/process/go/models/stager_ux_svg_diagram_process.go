@@ -76,6 +76,8 @@ func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG
 	stager.drawTaskShapes(diagramProcess, layer)
 	stager.drawControlFlowShapes(diagramProcess, layer)
 	stager.drawDataFlowShapes(diagramProcess, layer)
+	map_Note_Rect := stager.drawNoteShapes(diagramProcess, layer)
+	stager.drawNoteTaskShapes(diagramProcess, layer, map_Note_Rect)
 
 	return svgObject
 }
@@ -631,6 +633,86 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 			}
 			link.TextAtCorner = append(link.TextAtCorner, rectAnchoredLink)
 		}
+	}
+}
+
+func (stager *Stager) drawNoteShapes(diagramProcess *DiagramProcess, layer *svg.Layer) map[*Note]*svg.Rect {
+	map_Note_Rect := make(map[*Note]*svg.Rect)
+	for _, noteShape := range diagramProcess.Note_Shapes {
+		if noteShape.GetIsHidden() {
+			continue
+		}
+
+		rect := svgRect(
+			stager,
+			diagramProcess,
+			noteShape,
+			layer)
+
+		map_Note_Rect[noteShape.Note] = rect
+
+		rect.Color = "#FFFDE7"
+		rect.FillOpacity = 1.0
+		rect.Stroke = "#FBC02D"
+		rect.StrokeWidth = 1.0
+		rect.RX = 0.0
+
+		if len(rect.RectAnchoredTexts) > 0 {
+			rect.RectAnchoredTexts[0].FontFamily = "sans-serif"
+			rect.RectAnchoredTexts[0].Color = "#333333"
+
+			if noteShape.Note != nil {
+				content := noteShape.Note.GetName()
+				if content == "" {
+					content = noteShape.Note.GetName()
+				}
+				root := stager.GetRootLibrary()
+				if rect.Width > 0 && root.NbPixPerCharacter > 0 {
+					content = strutils.WrapStringPreservingNewlines(content, int(rect.Width/root.NbPixPerCharacter))
+				}
+				rect.RectAnchoredTexts[0].Content = content
+			}
+		}
+	}
+	return map_Note_Rect
+}
+
+func (stager *Stager) drawNoteTaskShapes(diagramProcess *DiagramProcess, layer *svg.Layer, map_Note_Rect map[*Note]*svg.Rect) {
+	for _, noteTaskShape := range diagramProcess.NoteTaskShapes {
+		if noteTaskShape.GetIsHidden() {
+			continue
+		}
+
+		startNote := noteTaskShape.Note
+		endTask := noteTaskShape.Task
+
+		if startNote == nil || endTask == nil {
+			continue
+		}
+
+		startRect := map_Note_Rect[startNote]
+		endRect := diagramProcess.map_Task_Rect[endTask]
+
+		if startRect == nil || endRect == nil {
+			continue
+		}
+
+		link := svgAssociationLink(
+			stager,
+			startRect, endRect,
+			noteTaskShape,
+			startNote,
+			layer,
+			false)
+
+		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+		link.StartAnchorType = svg.ANCHOR_CENTER
+		link.EndAnchorType = svg.ANCHOR_CENTER
+		link.HasEndArrow = false
+
+		link.Presentation.StrokeDashArray = "3,3"
+		link.Stroke = "#9E9E9E"
+		link.StrokeWidth = 1.0
 	}
 }
 

@@ -1,6 +1,7 @@
 package models
 
 import (
+	"math/rand/v2"
 	"slices"
 
 	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
@@ -61,6 +62,12 @@ func (stager *Stager) treeNoteWithinDiagramProcess(
 			noteShape := (&NoteShape{
 				Name: note.GetName() + " shape",
 				Note: note,
+				RectShape: RectShape{
+					X:      100 + rand.Float64()*100.0,
+					Y:      100 + rand.Float64()*100.0,
+					Width:  diagramProcess.GetDefaultBoxWidth(),
+					Height: diagramProcess.GetDefaultBoxHeigth(),
+				},
 			}).Stage(stager.stage)
 			diagramProcess.Note_Shapes = append(diagramProcess.Note_Shapes, noteShape)
 			stage.Commit()
@@ -71,5 +78,50 @@ func (stager *Stager) treeNoteWithinDiagramProcess(
 			stage.Commit()
 			return
 		}
+	}
+	// tasks relarted to the note
+	tasksNode := &tree.Node{
+		Name:            "Tasks",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      note.IsTasksNodeExpanded,
+		IsNodeClickable: true,
+	}
+	noteNode.Children = append(noteNode.Children, tasksNode)
+	tasksNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&note.IsTasksNodeExpanded)
+
+	for _, task := range note.Tasks {
+		noteTaskKey := noteTaskKey{
+			Note: note,
+			Task: task,
+		}
+		_, ok := diagramProcess.map_Note_NoteTaskShape[noteTaskKey]
+		nodeTask := &tree.Node{
+			Name:                    task.GetName(),
+			HasCheckboxButton:       true,
+			IsChecked:               ok,
+			CheckboxHasToolTip:      true,
+			CheckboxToolTipPosition: tree.Left,
+			CheckboxToolTipText: func() string {
+				if ok {
+					return "Click to remove the note task shape"
+				}
+				return "Click to create a note task shape for this task within this diagram"
+			}(),
+			IsNodeClickable: true,
+		}
+		nodeTask.OnIsCheckedChanged = func(isChecked bool) {
+			if isChecked && !ok {
+				noteTaskShape := (&NoteTaskShape{
+					Name:      task.GetName() + " shape",
+					Task:      task,
+					Note:      note,
+					LinkShape: LinkShape{},
+				}).Stage(stager.stage)
+				diagramProcess.NoteTaskShapes = append(diagramProcess.NoteTaskShapes, noteTaskShape)
+				stage.Commit()
+				return
+			}
+		}
+		tasksNode.Children = append(tasksNode.Children, nodeTask)
 	}
 }

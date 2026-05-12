@@ -81,6 +81,10 @@ func _(stage *models.Stage) {
 
 	__Note__00000000_ := (&models.Note{Name: `Note on the diagram`}).Stage(stage)
 
+	__NoteShape__00000000_ := (&models.NoteShape{Name: `Note on the diagram shape`}).Stage(stage)
+
+	__NoteTaskShape__00000000_ := (&models.NoteTaskShape{Name: `P1 shape`}).Stage(stage)
+
 	__Participant__00000003_ := (&models.Participant{Name: `PP1 Very lon participant name PP1 Very lon participant name`}).Stage(stage)
 	__Participant__00000004_ := (&models.Participant{Name: `PP2`}).Stage(stage)
 	__Participant__00000005_ := (&models.Participant{Name: `PP3`}).Stage(stage)
@@ -312,7 +316,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000007_.IsParticipantsNodeExpanded = false
 	__DiagramProcess__00000007_.IsExternalParticipantsNodeExpanded = false
-	__DiagramProcess__00000007_.IsNotesNodeExpanded = false
+	__DiagramProcess__00000007_.IsNotesNodeExpanded = true
 
 	__ExternalParticipantShape__00000003_.Name = `EP1-Diagram P1`
 	__ExternalParticipantShape__00000003_.IsExpanded = false
@@ -337,6 +341,22 @@ func _(stage *models.Stage) {
 
 	__Note__00000000_.Name = `Note on the diagram`
 	__Note__00000000_.ComputedPrefix = ``
+	__Note__00000000_.IsTasksNodeExpanded = true
+
+	__NoteShape__00000000_.Name = `Note on the diagram shape`
+	__NoteShape__00000000_.X = 66.261263
+	__NoteShape__00000000_.Y = 155.057298
+	__NoteShape__00000000_.Width = 133.000000
+	__NoteShape__00000000_.Height = 70.000000
+	__NoteShape__00000000_.IsHidden = false
+
+	__NoteTaskShape__00000000_.Name = `P1 shape`
+	__NoteTaskShape__00000000_.StartRatio = 0.000000
+	__NoteTaskShape__00000000_.EndRatio = 0.000000
+	__NoteTaskShape__00000000_.StartOrientation = ""
+	__NoteTaskShape__00000000_.EndOrientation = ""
+	__NoteTaskShape__00000000_.CornerOffsetRatio = 0.000000
+	__NoteTaskShape__00000000_.IsHidden = false
 
 	__Participant__00000003_.Name = `PP1 Very lon participant name PP1 Very lon participant name`
 	__Participant__00000003_.IsResourcesNodeExpanded = true
@@ -552,8 +572,8 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000013_.Name = `T2-DP2`
 	__TaskShape__00000013_.IsExpanded = false
-	__TaskShape__00000013_.X = 287.000000
-	__TaskShape__00000013_.Y = 390.000000
+	__TaskShape__00000013_.X = 308.000000
+	__TaskShape__00000013_.Y = 388.000000
 	__TaskShape__00000013_.Width = 174.000000
 	__TaskShape__00000013_.Height = 240.000000
 	__TaskShape__00000013_.IsHidden = false
@@ -744,6 +764,9 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000012_)
 	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000014_)
 	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000015_)
+	__DiagramProcess__00000007_.Note_Shapes = append(__DiagramProcess__00000007_.Note_Shapes, __NoteShape__00000000_)
+	__DiagramProcess__00000007_.NotesWhoseNodeIsExpanded = append(__DiagramProcess__00000007_.NotesWhoseNodeIsExpanded, __Note__00000000_)
+	__DiagramProcess__00000007_.NoteTaskShapes = append(__DiagramProcess__00000007_.NoteTaskShapes, __NoteTaskShape__00000000_)
 	__ExternalParticipantShape__00000003_.Participant = __Participant__00000007_
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000005_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000006_)
@@ -757,6 +780,11 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000000_)
 	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000001_)
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000000_)
+	__Library__00000000_.NotesWhoseNodeIsExpanded = append(__Library__00000000_.NotesWhoseNodeIsExpanded, __Note__00000000_)
+	__Note__00000000_.Tasks = append(__Note__00000000_.Tasks, __Task__00000002_)
+	__NoteShape__00000000_.Note = __Note__00000000_
+	__NoteTaskShape__00000000_.Note = __Note__00000000_
+	__NoteTaskShape__00000000_.Task = __Task__00000002_
 	__Participant__00000003_.Resources = append(__Participant__00000003_.Resources, __Resource__00000000_)
 	__Participant__00000003_.Resources = append(__Participant__00000003_.Resources, __Resource__00000001_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000002_)

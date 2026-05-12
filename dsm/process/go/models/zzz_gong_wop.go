@@ -263,12 +263,15 @@ type Note_WOP struct {
 	Name string
 
 	ComputedPrefix string
+
+	IsTasksNodeExpanded bool
 }
 
 func (from *Note) CopyBasicFields(to *Note) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsTasksNodeExpanded = from.IsTasksNodeExpanded
 }
 
 type NoteShape_WOP struct {
