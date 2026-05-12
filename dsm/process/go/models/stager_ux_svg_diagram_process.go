@@ -324,7 +324,13 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 		rect.RX = 0
 		rect.StrokeWidth = 1.0
 		rect.StrokeOpacity = 1.0
-		rect.Color = "#FFFDE7"
+
+		rect.StrokeWidth = 1
+		rect.StrokeOpacity = 1
+
+		rect.FillOpacity = 1.0
+
+		rect.Color = "#F8F9FA"
 		rect.FillOpacity = 1.0
 		rect.Stroke = "#E0E0E0"
 
@@ -651,11 +657,21 @@ func (stager *Stager) drawNoteShapes(diagramProcess *DiagramProcess, layer *svg.
 
 		map_Note_Rect[noteShape.Note] = rect
 
-		rect.Color = "#FFF9C4"
+		rect.Color = "#fdfcf1"
 		rect.FillOpacity = 1.0
 		rect.Stroke = "#FBC02D"
 		rect.StrokeWidth = 1.0
 		rect.RX = 0.0
+
+		// NEW: "White-out" eraser to hide the underlying rectangle's top-right corner border
+		eraser := new(svg.RectAnchoredPath)
+		eraser.Name = "DogEarEraser"
+		eraser.Definition = "M -16 0 L 0 16 L 0 0 Z"
+		eraser.Color = "#FFFFFF"
+		eraser.FillOpacity = 1.0
+		eraser.StrokeWidth = 0.0
+		eraser.RectAnchorType = svg.RECT_TOP_RIGHT
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, eraser)
 
 		// fake dog-ear fold (inward fold)
 		fold := new(svg.RectAnchoredPath)
@@ -668,15 +684,30 @@ func (stager *Stager) drawNoteShapes(diagramProcess *DiagramProcess, layer *svg.
 		fold.RectAnchorType = svg.RECT_TOP_RIGHT
 		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, fold)
 
+		// NEW: Re-added Pen Logo
+		penLogo := new(svg.RectAnchoredPath)
+		penLogo.Name = "PenLogo"
+		penLogo.Stroke = "#333333"
+		penLogo.StrokeWidth = 1.5
+		penLogo.StrokeOpacity = 1.0
+		penLogo.ScalePropotionnally = true
+		penLogo.AppliedScaling = 0.8
+		penLogo.Definition = "M 5 16 L 9 20 L 20 9 L 25 0 L 16 5 Z"
+		penLogo.X_Offset = 8
+		penLogo.Y_Offset = 8
+		penLogo.RectAnchorType = svg.RECT_TOP_LEFT
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, penLogo)
+
 		if len(rect.RectAnchoredTexts) > 0 {
 			rect.RectAnchoredTexts[0].FontFamily = "sans-serif"
 			rect.RectAnchoredTexts[0].Color = "#333333"
-			rect.RectAnchoredTexts[0].FontWeight = "normal"
+			rect.RectAnchoredTexts[0].FontWeight = "400" // Set to 400 instead of "normal" to help bypass CSS issues
 			rect.RectAnchoredTexts[0].FontStyle = "italic"
 			rect.RectAnchoredTexts[0].TextAnchorType = svg.TEXT_ANCHOR_START
 			rect.RectAnchoredTexts[0].RectAnchorType = svg.RECT_TOP_LEFT
-			rect.RectAnchoredTexts[0].X_Offset = 10
+			rect.RectAnchoredTexts[0].X_Offset = 30 // Shifted to make room for the pen
 			rect.RectAnchoredTexts[0].Y_Offset = 20
+			rect.RectAnchoredTexts[0].StrokeWidth = 0.5
 
 			if noteShape.Note != nil {
 				content := noteShape.Note.GetName()
@@ -685,7 +716,8 @@ func (stager *Stager) drawNoteShapes(diagramProcess *DiagramProcess, layer *svg.
 				}
 				root := stager.GetRootLibrary()
 				if rect.Width > 0 && root.NbPixPerCharacter > 0 {
-					content = strutils.WrapStringPreservingNewlines(content, int(rect.Width/root.NbPixPerCharacter))
+					// Subtract 30 from rect width for text wrapping to account for the pen's X_Offset
+					content = strutils.WrapStringPreservingNewlines(content, int((rect.Width-30)/root.NbPixPerCharacter))
 				}
 				rect.RectAnchoredTexts[0].Content = content
 			}
