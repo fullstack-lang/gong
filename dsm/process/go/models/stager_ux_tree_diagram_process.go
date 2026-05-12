@@ -30,6 +30,11 @@ func (stager *Stager) treeDiagramProcess(
 
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
+			// uncheck all diagrams
+			for diagramProcess_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
+				diagramProcess.IsChecked = false
+			}
+
 			diagramProcess.IsChecked = true
 			stager.stage.Commit()
 			return
