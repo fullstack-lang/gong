@@ -93,6 +93,14 @@ type DiagramProcess struct {
 	AllocatedResourcesWhoseNodeIsExpanded                []*Resource
 	AllocatedResourceShapes                              []*AllocatedResourceShape
 	map_AllocatedResourceShapeKey_AllocatedResourceShape map[allocatedResourceShapeKey]*AllocatedResourceShape
+
+	Note_Shapes              []*NoteShape
+	map_Note_NoteShape       map[*Note]*NoteShape
+	NotesWhoseNodeIsExpanded []*Note
+	IsNotesNodeExpanded      bool
+
+	NoteTaskShapes         []*NoteTaskShape
+	map_Note_NoteTaskShape map[noteTaskKey]*NoteTaskShape
 }
 
 func (d *DiagramProcess) IsEditable() bool {

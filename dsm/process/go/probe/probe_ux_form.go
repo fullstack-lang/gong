@@ -87,6 +87,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.noteshape, probe)
 			}
+		case *NoteTaskShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "NoteTaskShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.notetaskshape, probe)
+			}
 		case *ParticipantFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Participant", true)
@@ -307,6 +313,19 @@ func FillUpFormFromGongstructName(
 		noteshape := new(models.NoteShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(noteshape, formGroup, probe)
+	case "NoteTaskShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "NoteTaskShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__NoteTaskShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		notetaskshape := new(models.NoteTaskShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(notetaskshape, formGroup, probe)
 	case "Participant":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

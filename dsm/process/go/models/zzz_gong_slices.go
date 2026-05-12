@@ -183,6 +183,27 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramProcess_AllocatedResourceShapes_reverseMap[_allocatedresourceshape] = diagramprocess
 		}
 	}
+	stage.DiagramProcess_Note_Shapes_reverseMap = make(map[*NoteShape]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _noteshape := range diagramprocess.Note_Shapes {
+			stage.DiagramProcess_Note_Shapes_reverseMap[_noteshape] = diagramprocess
+		}
+	}
+	stage.DiagramProcess_NotesWhoseNodeIsExpanded_reverseMap = make(map[*Note]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _note := range diagramprocess.NotesWhoseNodeIsExpanded {
+			stage.DiagramProcess_NotesWhoseNodeIsExpanded_reverseMap[_note] = diagramprocess
+		}
+	}
+	stage.DiagramProcess_NoteTaskShapes_reverseMap = make(map[*NoteTaskShape]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _notetaskshape := range diagramprocess.NoteTaskShapes {
+			stage.DiagramProcess_NoteTaskShapes_reverseMap[_notetaskshape] = diagramprocess
+		}
+	}
 
 	// Compute reverse map for named struct ExternalParticipantShape
 	// insertion point per field
@@ -285,6 +306,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	}
 
 	// Compute reverse map for named struct NoteShape
+	// insertion point per field
+
+	// Compute reverse map for named struct NoteTaskShape
 	// insertion point per field
 
 	// Compute reverse map for named struct Participant
@@ -466,6 +490,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.NoteTaskShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Participants {
 		res = append(res, instance)
 	}
@@ -567,6 +595,12 @@ func (note *Note) GongCopy() GongstructIF {
 func (noteshape *NoteShape) GongCopy() GongstructIF {
 	newInstance := new(NoteShape)
 	noteshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (notetaskshape *NoteTaskShape) GongCopy() GongstructIF {
+	newInstance := new(NoteTaskShape)
+	notetaskshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -730,6 +764,16 @@ func (noteshape *NoteShape) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(noteshape), uint64(GetOrderPointerGongstruct(stage, noteshape)))
+	return
+}
+
+func (notetaskshape *NoteTaskShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(notetaskshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(notetaskshape), uint64(GetOrderPointerGongstruct(stage, notetaskshape)))
 	return
 }
 
@@ -1481,6 +1525,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(noteshapes_newInstances)
 	lenDeletedInstances += len(noteshapes_deletedInstances)
+	var notetaskshapes_newInstances []*NoteTaskShape
+	var notetaskshapes_deletedInstances []*NoteTaskShape
+
+	// parse all staged instances and check if they have a reference
+	for notetaskshape := range stage.NoteTaskShapes {
+		if ref, ok := stage.NoteTaskShapes_reference[notetaskshape]; !ok {
+			notetaskshapes_newInstances = append(notetaskshapes_newInstances, notetaskshape)
+			newInstancesSlice = append(newInstancesSlice, notetaskshape.GongMarshallIdentifier(stage))
+			if stage.NoteTaskShapes_referenceOrder == nil {
+				stage.NoteTaskShapes_referenceOrder = make(map[*NoteTaskShape]uint)
+			}
+			stage.NoteTaskShapes_referenceOrder[notetaskshape] = stage.NoteTaskShape_stagedOrder[notetaskshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, notetaskshape.GongMarshallUnstaging(stage))
+			// delete(stage.NoteTaskShapes_referenceOrder, notetaskshape)
+			fieldInitializers, pointersInitializations := notetaskshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.NoteTaskShape_stagedOrder[ref] = stage.NoteTaskShape_stagedOrder[notetaskshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := notetaskshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, notetaskshape)
+			// delete(stage.NoteTaskShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if notetaskshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", notetaskshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.NoteTaskShapes_reference {
+		instance := stage.NoteTaskShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.NoteTaskShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			notetaskshapes_deletedInstances = append(notetaskshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(notetaskshapes_newInstances)
+	lenDeletedInstances += len(notetaskshapes_deletedInstances)
 	var participants_newInstances []*Participant
 	var participants_deletedInstances []*Participant
 
@@ -2021,6 +2120,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.NoteShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.NoteTaskShapes_reference = make(map[*NoteTaskShape]*NoteTaskShape)
+	stage.NoteTaskShapes_referenceOrder = make(map[*NoteTaskShape]uint) // diff Unstage needs the reference order
+	stage.NoteTaskShapes_instance = make(map[*NoteTaskShape]*NoteTaskShape)
+	for instance := range stage.NoteTaskShapes {
+		_copy := instance.GongCopy().(*NoteTaskShape)
+		stage.NoteTaskShapes_reference[instance] = _copy
+		stage.NoteTaskShapes_instance[_copy] = instance
+		stage.NoteTaskShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Participants_reference = make(map[*Participant]*Participant)
 	stage.Participants_referenceOrder = make(map[*Participant]uint) // diff Unstage needs the reference order
 	stage.Participants_instance = make(map[*Participant]*Participant)
@@ -2149,6 +2258,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.NoteShapes {
 		reference := stage.NoteShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.NoteTaskShapes {
+		reference := stage.NoteTaskShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -2337,6 +2451,18 @@ func (noteshape *NoteShape) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type NoteShape was not staged and does not have a reference order", noteshape)
+		return 0
+	}
+}
+
+func (notetaskshape *NoteTaskShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.NoteTaskShape_stagedOrder[notetaskshape]; ok {
+		return order
+	}
+	if order, ok := stage.NoteTaskShapes_referenceOrder[notetaskshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type NoteTaskShape was not staged and does not have a reference order", notetaskshape)
 		return 0
 	}
 }
@@ -2538,6 +2664,15 @@ func (noteshape *NoteShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", noteshape.GongGetGongstructName(), noteshape.GongGetOrder(stage))
 }
 
+func (notetaskshape *NoteTaskShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", notetaskshape.GongGetGongstructName(), notetaskshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (notetaskshape *NoteTaskShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", notetaskshape.GongGetGongstructName(), notetaskshape.GongGetOrder(stage))
+}
+
 func (participant *Participant) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", participant.GongGetGongstructName(), participant.GongGetOrder(stage))
 }
@@ -2700,6 +2835,14 @@ func (noteshape *NoteShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (notetaskshape *NoteTaskShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteTaskShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notetaskshape.Name))
+	return
+}
+
 func (participant *Participant) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", participant.GongGetIdentifier(stage))
@@ -2826,6 +2969,12 @@ func (note *Note) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (noteshape *NoteShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (notetaskshape *NoteTaskShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", notetaskshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

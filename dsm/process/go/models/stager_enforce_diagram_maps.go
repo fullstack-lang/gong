@@ -16,6 +16,7 @@ func (stager *Stager) enforceDiagramMaps() {
 		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.Task_Shapes, &diagramProcess.map_Task_TaskShape)
 		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.ControlFlow_Shapes, &diagramProcess.map_ControlFlow_ControlFlowShape)
 		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.DataFlow_Shapes, &diagramProcess.map_DataFlow_DataFlowShape)
+		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.Note_Shapes, &diagramProcess.map_Note_NoteShape)
 
 		diagramProcess.map_DataShapeKey_DataShape = make(map[dataShapeKey]*DataShape)
 		for _, dataShape := range diagramProcess.Data_Shapes {
@@ -33,6 +34,15 @@ func (stager *Stager) enforceDiagramMaps() {
 				resource:    allocatedResourceShape.Resource,
 			}
 			diagramProcess.map_AllocatedResourceShapeKey_AllocatedResourceShape[key] = allocatedResourceShape
+		}
+
+		diagramProcess.map_Note_NoteTaskShape = make(map[noteTaskKey]*NoteTaskShape)
+		for _, noteTaskShape := range diagramProcess.NoteTaskShapes {
+			key := noteTaskKey{
+				Note: noteTaskShape.Note,
+				Task: noteTaskShape.Task,
+			}
+			diagramProcess.map_Note_NoteTaskShape[key] = noteTaskShape
 		}
 	}
 }

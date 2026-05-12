@@ -163,6 +163,8 @@ type DiagramProcess_WOP struct {
 	IsParticipantsNodeExpanded bool
 
 	IsExternalParticipantsNodeExpanded bool
+
+	IsNotesNodeExpanded bool
 }
 
 func (from *DiagramProcess) CopyBasicFields(to *DiagramProcess) {
@@ -179,6 +181,7 @@ func (from *DiagramProcess) CopyBasicFields(to *DiagramProcess) {
 	to.IsProcesssNodeExpanded = from.IsProcesssNodeExpanded
 	to.IsParticipantsNodeExpanded = from.IsParticipantsNodeExpanded
 	to.IsExternalParticipantsNodeExpanded = from.IsExternalParticipantsNodeExpanded
+	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 }
 
 type ExternalParticipantShape_WOP struct {
@@ -272,11 +275,55 @@ type NoteShape_WOP struct {
 	// insertion point
 
 	Name string
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
 }
 
 func (from *NoteShape) CopyBasicFields(to *NoteShape) {
 	// insertion point
 	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
+}
+
+type NoteTaskShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+
+	IsHidden bool
+}
+
+func (from *NoteTaskShape) CopyBasicFields(to *NoteTaskShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
 }
 
 type Participant_WOP struct {

@@ -54,6 +54,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterNoteShapeCreateCallback != nil {
 			stage.OnAfterNoteShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *NoteTaskShape:
+		if stage.OnAfterNoteTaskShapeCreateCallback != nil {
+			stage.OnAfterNoteTaskShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Participant:
 		if stage.OnAfterParticipantCreateCallback != nil {
 			stage.OnAfterParticipantCreateCallback.OnAfterCreate(stage, target)
@@ -155,6 +159,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*NoteShape)
 		if stage.OnAfterNoteShapeUpdateCallback != nil {
 			stage.OnAfterNoteShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *NoteTaskShape:
+		newTarget := any(new).(*NoteTaskShape)
+		if stage.OnAfterNoteTaskShapeUpdateCallback != nil {
+			stage.OnAfterNoteTaskShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Participant:
 		newTarget := any(new).(*Participant)
@@ -261,6 +270,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*NoteShape)
 			stage.OnAfterNoteShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *NoteTaskShape:
+		if stage.OnAfterNoteTaskShapeDeleteCallback != nil {
+			staged := any(staged).(*NoteTaskShape)
+			stage.OnAfterNoteTaskShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Participant:
 		if stage.OnAfterParticipantDeleteCallback != nil {
 			staged := any(staged).(*Participant)
@@ -354,6 +368,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterNoteShapeReadCallback != nil {
 			stage.OnAfterNoteShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *NoteTaskShape:
+		if stage.OnAfterNoteTaskShapeReadCallback != nil {
+			stage.OnAfterNoteTaskShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *Participant:
 		if stage.OnAfterParticipantReadCallback != nil {
 			stage.OnAfterParticipantReadCallback.OnAfterRead(stage, target)
@@ -417,6 +435,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterNoteUpdateCallback = any(callback).(OnAfterUpdateInterface[Note])
 	case *NoteShape:
 		stage.OnAfterNoteShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteShape])
+	case *NoteTaskShape:
+		stage.OnAfterNoteTaskShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteTaskShape])
 	case *Participant:
 		stage.OnAfterParticipantUpdateCallback = any(callback).(OnAfterUpdateInterface[Participant])
 	case *ParticipantShape:
@@ -462,6 +482,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterNoteCreateCallback = any(callback).(OnAfterCreateInterface[Note])
 	case *NoteShape:
 		stage.OnAfterNoteShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteShape])
+	case *NoteTaskShape:
+		stage.OnAfterNoteTaskShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteTaskShape])
 	case *Participant:
 		stage.OnAfterParticipantCreateCallback = any(callback).(OnAfterCreateInterface[Participant])
 	case *ParticipantShape:
@@ -507,6 +529,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterNoteDeleteCallback = any(callback).(OnAfterDeleteInterface[Note])
 	case *NoteShape:
 		stage.OnAfterNoteShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteShape])
+	case *NoteTaskShape:
+		stage.OnAfterNoteTaskShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteTaskShape])
 	case *Participant:
 		stage.OnAfterParticipantDeleteCallback = any(callback).(OnAfterDeleteInterface[Participant])
 	case *ParticipantShape:
@@ -552,6 +576,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterNoteReadCallback = any(callback).(OnAfterReadInterface[Note])
 	case *NoteShape:
 		stage.OnAfterNoteShapeReadCallback = any(callback).(OnAfterReadInterface[NoteShape])
+	case *NoteTaskShape:
+		stage.OnAfterNoteTaskShapeReadCallback = any(callback).(OnAfterReadInterface[NoteTaskShape])
 	case *Participant:
 		stage.OnAfterParticipantReadCallback = any(callback).(OnAfterReadInterface[Participant])
 	case *ParticipantShape:
