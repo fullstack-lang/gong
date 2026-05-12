@@ -34,6 +34,10 @@ type Library struct {
 	IsResourcesNodeExpanded      bool
 	ResourcesWhoseNodeIsExpanded []*Resource
 
+	RootNotes                []*Note
+	IsNotesNodeExpanded      bool
+	NotesWhoseNodeIsExpanded []*Note
+
 	// temporary persistance of the library expand status.
 	IsExpandedTmp bool
 }

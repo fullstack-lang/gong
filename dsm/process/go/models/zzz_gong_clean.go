@@ -149,7 +149,25 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &library.DatasWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.RootResources) || modified
 	modified = GongCleanSlice(stage, &library.ResourcesWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &library.RootNotes) || modified
+	modified = GongCleanSlice(stage, &library.NotesWhoseNodeIsExpanded) || modified
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Note
+func (note *Note) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &note.Tasks) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by NoteShape
+func (noteshape *NoteShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &noteshape.Note) || modified
 	return
 }
 

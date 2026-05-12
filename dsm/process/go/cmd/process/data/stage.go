@@ -82,6 +82,8 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: `Root`}).Stage(stage)
 
+	__Note__00000000_ := (&models.Note{Name: `Note on the diagram`}).Stage(stage)
+
 	__Participant__00000003_ := (&models.Participant{Name: `PP1 Very lon participant name PP1 Very lon participant name`}).Stage(stage)
 	__Participant__00000004_ := (&models.Participant{Name: `PP2`}).Stage(stage)
 	__Participant__00000005_ := (&models.Participant{Name: `PP3`}).Stage(stage)
@@ -105,7 +107,7 @@ func _(stage *models.Stage) {
 	__Resource__00000000_ := (&models.Resource{Name: `R1 with a long name long long long`}).Stage(stage)
 	__Resource__00000001_ := (&models.Resource{Name: `R2aaaaa`}).Stage(stage)
 
-	__Task__00000002_ := (&models.Task{Name: `T2`}).Stage(stage)
+	__Task__00000002_ := (&models.Task{Name: `P1`}).Stage(stage)
 	__Task__00000003_ := (&models.Task{Name: `PP2 T1`}).Stage(stage)
 	__Task__00000004_ := (&models.Task{Name: `Start`}).Stage(stage)
 	__Task__00000005_ := (&models.Task{Name: `End`}).Stage(stage)
@@ -356,9 +358,13 @@ func _(stage *models.Stage) {
 	__Library__00000000_.LogoSVGFile = `<?xml version="1.0"?> <svg width="508.204" height="141.732" xmlns="http://www.w3.org/2000/svg"> <path fill="#DB362D" d="M91.991,104.699c1.576,5.961,4.119,8.266,8.613,8.266c4.659,0,7.102-2.799,7.102-8.266V3.2h29.184v101.499 c0,14.307-1.856,20.506-9.11,27.762c-5.228,5.229-14.871,9.271-27.047,9.271c-9.837,0-19.25-3.256-25.253-9.27 c-5.263-5.273-8.154-10.689-12.672-27.764L44.9,37.033c-1.577-5.961-4.119-8.265-8.613-8.265c-4.66,0-7.103,2.798-7.103,8.265 v101.5H0v-101.5C0,22.727,1.857,16.527,9.111,9.271C14.337,4.044,23.981,0,36.158,0c9.837,0,19.25,3.257,25.253,9.27 c5.263,5.273,8.154,10.689,12.672,27.764L91.991,104.699z"/>  <path fill="#DB362D" d="M478.038,138.533L444.334,33.096c-0.372-1.164-0.723-2.152-1.263-2.811 c-0.926-1.127-2.207-1.719-3.931-1.719c-1.723,0-3.004,0.592-3.931,1.719c-0.539,0.658-0.891,1.646-1.262,2.811l-33.703,105.437 h-30.167l36.815-115.177c1.918-6,4.66-11.094,8.139-14.488C421.002,3.047,428.038,0,439.141,0s18.14,3.047,24.109,8.867 c3.479,3.395,6.221,8.488,8.14,14.488l36.814,115.177H478.038z"/>  <path fill="#DB362D" d="M328.878,138.533c19.12,0,28.446-4.062,35.814-11.389c8.153-8.105,12.053-16.973,12.053-30.213 c0-11.699-4.283-22.535-10.804-29.019c-8.526-8.479-19.116-11.151-36.384-11.151L305.37,56.76c-9.242,0-12.925-1.117-15.839-3.98 c-2.001-1.964-2.939-4.885-2.939-8.328c0-3.559,0.857-7.074,3.303-9.475c2.171-2.131,5.13-3.109,10.816-3.109h69.903V3.2H306.05 c-19.12,0-28.445,4.063-35.814,11.389c-8.152,8.105-12.053,16.972-12.053,30.212c0,11.701,4.283,22.536,10.804,29.019 c8.527,8.479,19.116,11.152,36.384,11.152l24.188,0.002c9.242,0,12.925,1.115,15.839,3.979c2.001,1.965,2.939,4.885,2.939,8.328 c0,3.559-0.857,7.074-3.302,9.475c-2.172,2.131-5.131,3.109-10.817,3.109h-72.094l-27.651-86.509 c-1.918-6-4.66-11.094-8.139-14.488C220.363,3.047,213.327,0,202.224,0s-18.14,3.047-24.108,8.867 c-3.48,3.395-6.221,8.488-8.139,14.488l-36.815,115.177h30.166l33.704-105.437c0.372-1.164,0.723-2.152,1.263-2.811 c0.926-1.127,2.208-1.719,3.931-1.719s3.004,0.592,3.931,1.719c0.54,0.658,0.891,1.646,1.262,2.811l33.704,105.437H328.878z"/> </svg>`
 	__Library__00000000_.IsProcessesNodeExpanded = true
 	__Library__00000000_.IsDataFlowsNodeExpanded = false
-	__Library__00000000_.IsDatasNodeExpanded = true
-	__Library__00000000_.IsResourcesNodeExpanded = true
+	__Library__00000000_.IsDatasNodeExpanded = false
+	__Library__00000000_.IsResourcesNodeExpanded = false
+	__Library__00000000_.IsNotesNodeExpanded = true
 	__Library__00000000_.IsExpandedTmp = true
+
+	__Note__00000000_.Name = `Note on the diagram`
+	__Note__00000000_.ComputedPrefix = ``
 
 	__Participant__00000003_.Name = `PP1 Very lon participant name PP1 Very lon participant name`
 	__Participant__00000003_.IsResourcesNodeExpanded = true
@@ -490,60 +496,71 @@ func _(stage *models.Stage) {
 	__Resource__00000001_.SVG_Path = `M240-200v40q0 17-11.5 28.5T200-120h-40q-17 0-28.5-11.5T120-160v-320l84-240q6-18 21.5-29t34.5-11h440q19 0 34.5 11t21.5 29l84 240v320q0 17-11.5 28.5T800-120h-40q-17 0-28.5-11.5T720-160v-40H240Zm-8-360h496l-42-120H274l-42 120Zm-32 80v200-200Zm100 160q25 0 42.5-17.5T360-380q0-25-17.5-42.5T300-440q-25 0-42.5 17.5T240-380q0 25 17.5 42.5T300-320Zm360 0q25 0 42.5-17.5T720-380q0-25-17.5-42.5T660-440q-25 0-42.5 17.5T600-380q0 25 17.5 42.5T660-320Zm-460 40h560v-200H200v200Z`
 	__Resource__00000001_.InverseAppliedScaling = 60.000000
 
-	__Task__00000002_.Name = `T2`
+	__Task__00000002_.Name = `P1`
 	__Task__00000002_.ComputedPrefix = ``
 	__Task__00000002_.IsStartTask = false
 	__Task__00000002_.IsEndTask = false
+	__Task__00000002_.IsTaskNameNotProcessName = false
 
 	__Task__00000003_.Name = `PP2 T1`
 	__Task__00000003_.ComputedPrefix = ``
 	__Task__00000003_.IsStartTask = true
 	__Task__00000003_.IsEndTask = false
+	__Task__00000003_.IsTaskNameNotProcessName = false
 
 	__Task__00000004_.Name = `Start`
 	__Task__00000004_.ComputedPrefix = ``
 	__Task__00000004_.IsStartTask = true
 	__Task__00000004_.IsEndTask = false
+	__Task__00000004_.IsTaskNameNotProcessName = false
 
 	__Task__00000005_.Name = `End`
 	__Task__00000005_.ComputedPrefix = ``
 	__Task__00000005_.IsStartTask = false
 	__Task__00000005_.IsEndTask = true
+	__Task__00000005_.IsTaskNameNotProcessName = false
 
 	__Task__00000006_.Name = `T4`
 	__Task__00000006_.ComputedPrefix = ``
 	__Task__00000006_.IsStartTask = false
 	__Task__00000006_.IsEndTask = false
+	__Task__00000006_.IsTaskNameNotProcessName = false
 
 	__Task__00000007_.Name = `PP2 T2`
 	__Task__00000007_.ComputedPrefix = ``
 	__Task__00000007_.IsStartTask = false
 	__Task__00000007_.IsEndTask = false
+	__Task__00000007_.IsTaskNameNotProcessName = false
 
 	__Task__00000008_.Name = `Start`
 	__Task__00000008_.ComputedPrefix = ``
 	__Task__00000008_.IsStartTask = true
 	__Task__00000008_.IsEndTask = false
+	__Task__00000008_.IsTaskNameNotProcessName = false
 
 	__Task__00000009_.Name = `T1`
 	__Task__00000009_.ComputedPrefix = ``
 	__Task__00000009_.IsStartTask = false
 	__Task__00000009_.IsEndTask = false
+	__Task__00000009_.IsTaskNameNotProcessName = false
 
 	__Task__00000010_.Name = `End`
 	__Task__00000010_.ComputedPrefix = ``
 	__Task__00000010_.IsStartTask = false
 	__Task__00000010_.IsEndTask = true
+	__Task__00000010_.IsTaskNameNotProcessName = false
 
 	__Task__00000011_.Name = `P2.P2.Start`
 	__Task__00000011_.ComputedPrefix = ``
 	__Task__00000011_.IsStartTask = true
 	__Task__00000011_.IsEndTask = false
+	__Task__00000011_.IsTaskNameNotProcessName = false
 
 	__Task__00000012_.Name = `P2.P2.T1`
 	__Task__00000012_.ComputedPrefix = ``
 	__Task__00000012_.IsStartTask = false
 	__Task__00000012_.IsEndTask = false
+	__Task__00000012_.IsTaskNameNotProcessName = false
 
 	__TaskShape__00000011_.Name = `Start-DP2`
 	__TaskShape__00000011_.IsExpanded = false
@@ -761,8 +778,6 @@ func _(stage *models.Stage) {
 	__ExternalParticipantShape__00000003_.Participant = __Participant__00000007_
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000005_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000006_)
-	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000006_)
-	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000005_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000000_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000001_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000002_)
@@ -771,6 +786,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000003_)
 	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000000_)
 	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000001_)
+	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000000_)
 	__Participant__00000003_.Resources = append(__Participant__00000003_.Resources, __Resource__00000000_)
 	__Participant__00000003_.Resources = append(__Participant__00000003_.Resources, __Resource__00000001_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000002_)
@@ -819,6 +835,17 @@ func _(stage *models.Stage) {
 	__Process__00000006_.DataFlows = append(__Process__00000006_.DataFlows, __DataFlow__00000002_)
 	__ProcessShape__00000006_.Process = __Process__00000006_
 	__ProcessShape__00000007_.Process = __Process__00000005_
+	__Task__00000002_.Type = __Process__00000005_
+	__Task__00000003_.Type = nil
+	__Task__00000004_.Type = nil
+	__Task__00000005_.Type = nil
+	__Task__00000006_.Type = nil
+	__Task__00000007_.Type = nil
+	__Task__00000008_.Type = nil
+	__Task__00000009_.Type = nil
+	__Task__00000010_.Type = nil
+	__Task__00000011_.Type = nil
+	__Task__00000012_.Type = nil
 	__TaskShape__00000011_.Task = __Task__00000004_
 	__TaskShape__00000012_.Task = __Task__00000006_
 	__TaskShape__00000013_.Task = __Task__00000002_
