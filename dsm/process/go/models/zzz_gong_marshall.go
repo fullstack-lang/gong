@@ -815,6 +815,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(task.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsStartTask"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsEndTask"))
+		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsTaskNameNotProcessName"))
 	}
 
 	taskshapeOrdered := []*TaskShape{}
@@ -2314,7 +2316,25 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEndTask")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsEndTask))
+	case "IsTaskNameNotProcessName":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsTaskNameNotProcessName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsTaskNameNotProcessName))
 
+	case "Type":
+		if task.Type != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", task.Type.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Task", fieldName)
 	}
@@ -2682,6 +2702,8 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(task.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsStartTask"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsEndTask"))
+		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Type"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsTaskNameNotProcessName"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

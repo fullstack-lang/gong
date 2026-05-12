@@ -4195,6 +4195,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Task:
 		return any(&Task{
 			// Initialisation of associations
+			// field is initialized with an instance of Process with the name of the field
+			Type: &Process{Name: "Type"},
 		}).(*Type)
 	case TaskShape:
 		return any(&TaskShape{
@@ -4553,6 +4555,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Task:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Type":
+			res := make(map[*Process][]*Task)
+			for task := range stage.Tasks {
+				if task.Type != nil {
+					process_ := task.Type
+					var tasks []*Task
+					_, ok := res[process_]
+					if ok {
+						tasks = res[process_]
+					} else {
+						tasks = make([]*Task, 0)
+					}
+					tasks = append(tasks, task)
+					res[process_] = tasks
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of TaskShape
 	case TaskShape:
@@ -6050,6 +6069,15 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsEndTask",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:                 "Type",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Process",
+		},
+		{
+			Name:               "IsTaskNameNotProcessName",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -7085,6 +7113,16 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "IsEndTask":
 		res.valueString = fmt.Sprintf("%t", task.IsEndTask)
 		res.valueBool = task.IsEndTask
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Type":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if task.Type != nil {
+			res.valueString = task.Type.Name
+			res.ids = task.Type.GongGetUUID(stage)
+		}
+	case "IsTaskNameNotProcessName":
+		res.valueString = fmt.Sprintf("%t", task.IsTaskNameNotProcessName)
+		res.valueBool = task.IsTaskNameNotProcessName
 		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
@@ -8242,6 +8280,19 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		task.IsStartTask = value.GetValueBool()
 	case "IsEndTask":
 		task.IsEndTask = value.GetValueBool()
+	case "Type":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			task.Type = nil
+			for __instance__ := range stage.Processs {
+				if stage.Process_stagedOrder[__instance__] == uint(id) {
+					task.Type = __instance__
+					break
+				}
+			}
+		}
+	case "IsTaskNameNotProcessName":
+		task.IsTaskNameNotProcessName = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

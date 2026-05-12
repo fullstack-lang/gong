@@ -388,6 +388,8 @@ type Task_WOP struct {
 	IsStartTask bool
 
 	IsEndTask bool
+
+	IsTaskNameNotProcessName bool
 }
 
 func (from *Task) CopyBasicFields(to *Task) {
@@ -396,6 +398,7 @@ func (from *Task) CopyBasicFields(to *Task) {
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsStartTask = from.IsStartTask
 	to.IsEndTask = from.IsEndTask
+	to.IsTaskNameNotProcessName = from.IsTaskNameNotProcessName
 }
 
 type TaskShape_WOP struct {
