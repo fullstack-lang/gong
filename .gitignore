@@ -77,3 +77,4 @@ dsm/reqif/go/cmd/reqif/reqif
 dsm/barrgraph/go/cmd/site
 
 dsm/process/go/cmd/process/process
+dsm/process/go/cmd/process/data/foo.go
