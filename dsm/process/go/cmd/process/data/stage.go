@@ -344,9 +344,9 @@ func _(stage *models.Stage) {
 	__Note__00000000_.IsTasksNodeExpanded = true
 
 	__NoteShape__00000000_.Name = `Note on the diagram shape`
-	__NoteShape__00000000_.X = 66.261263
-	__NoteShape__00000000_.Y = 155.057298
-	__NoteShape__00000000_.Width = 133.000000
+	__NoteShape__00000000_.X = 43.261263
+	__NoteShape__00000000_.Y = 159.057298
+	__NoteShape__00000000_.Width = 122.000000
 	__NoteShape__00000000_.Height = 70.000000
 	__NoteShape__00000000_.IsHidden = false
 
