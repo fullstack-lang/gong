@@ -25,12 +25,15 @@ type ControlFlow_WOP struct {
 
 	Name string
 
+	Description string
+
 	ComputedPrefix string
 }
 
 func (from *ControlFlow) CopyBasicFields(to *ControlFlow) {
 	// insertion point
 	to.Name = from.Name
+	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 }
 
@@ -68,12 +71,15 @@ type Data_WOP struct {
 
 	Name string
 
+	Description string
+
 	ComputedPrefix string
 }
 
 func (from *Data) CopyBasicFields(to *Data) {
 	// insertion point
 	to.Name = from.Name
+	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 }
 
@@ -81,6 +87,8 @@ type DataFlow_WOP struct {
 	// insertion point
 
 	Name string
+
+	Description string
 
 	ComputedPrefix string
 
@@ -92,6 +100,7 @@ type DataFlow_WOP struct {
 func (from *DataFlow) CopyBasicFields(to *DataFlow) {
 	// insertion point
 	to.Name = from.Name
+	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.Type = from.Type
 	to.IsDatasNodeExpanded = from.IsDatasNodeExpanded
@@ -142,6 +151,8 @@ type DiagramProcess_WOP struct {
 
 	Name string
 
+	Description string
+
 	ComputedPrefix string
 
 	IsChecked bool
@@ -170,6 +181,7 @@ type DiagramProcess_WOP struct {
 func (from *DiagramProcess) CopyBasicFields(to *DiagramProcess) {
 	// insertion point
 	to.Name = from.Name
+	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
@@ -221,6 +233,8 @@ type Library_WOP struct {
 
 	Name string
 
+	Description string
+
 	ComputedPrefix string
 
 	IsSubLibrariesNodeExpanded bool
@@ -245,6 +259,7 @@ type Library_WOP struct {
 func (from *Library) CopyBasicFields(to *Library) {
 	// insertion point
 	to.Name = from.Name
+	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsSubLibrariesNodeExpanded = from.IsSubLibrariesNodeExpanded
 	to.NbPixPerCharacter = from.NbPixPerCharacter
@@ -334,6 +349,8 @@ type Participant_WOP struct {
 
 	Name string
 
+	Description string
+
 	IsResourcesNodeExpanded bool
 
 	ComputedPrefix string
@@ -348,6 +365,7 @@ type Participant_WOP struct {
 func (from *Participant) CopyBasicFields(to *Participant) {
 	// insertion point
 	to.Name = from.Name
+	to.Description = from.Description
 	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsTasksNodeExpanded = from.IsTasksNodeExpanded
@@ -392,6 +410,8 @@ type Process_WOP struct {
 
 	Name string
 
+	Description string
+
 	ComputedPrefix string
 
 	IsSubProcessNodeExpanded bool
@@ -402,6 +422,7 @@ type Process_WOP struct {
 func (from *Process) CopyBasicFields(to *Process) {
 	// insertion point
 	to.Name = from.Name
+	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsSubProcessNodeExpanded = from.IsSubProcessNodeExpanded
 	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
@@ -441,6 +462,8 @@ type Resource_WOP struct {
 
 	Name string
 
+	Description string
+
 	ComputedPrefix string
 
 	SVG_Path string
@@ -451,6 +474,7 @@ type Resource_WOP struct {
 func (from *Resource) CopyBasicFields(to *Resource) {
 	// insertion point
 	to.Name = from.Name
+	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.SVG_Path = from.SVG_Path
 	to.InverseAppliedScaling = from.InverseAppliedScaling
@@ -460,6 +484,8 @@ type Task_WOP struct {
 	// insertion point
 
 	Name string
+
+	Description string
 
 	ComputedPrefix string
 
@@ -473,6 +499,7 @@ type Task_WOP struct {
 func (from *Task) CopyBasicFields(to *Task) {
 	// insertion point
 	to.Name = from.Name
+	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsStartTask = from.IsStartTask
 	to.IsEndTask = from.IsEndTask

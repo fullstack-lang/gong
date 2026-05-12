@@ -3,6 +3,9 @@ package models
 type Process struct {
 	Name string
 
+	//gong:text width:300 height:300
+	Description string
+
 	LibraryAbstractFields
 	AbstractTypeFields
 

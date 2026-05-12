@@ -3,6 +3,9 @@ package models
 type Task struct {
 	Name string
 
+	//gong:text width:300 height:300
+	Description string
+
 	LibraryAbstractFields
 	AbstractTypeFields
 

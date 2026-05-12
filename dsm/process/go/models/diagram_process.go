@@ -16,6 +16,9 @@ type allocatedResourceShapeKey struct {
 type DiagramProcess struct {
 	Name string
 
+	//gong:text width:300 height:300
+	Description string
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
