@@ -276,7 +276,30 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			diagram,
 			noteShape,
 			layer)
-		rect.RX = 6
+		rect.RX = 0
+		rect.Color = "#FFF9C4"
+		rect.Stroke = "#FBC02D"
+		rect.StrokeWidth = 1.0
+
+		// fake dog-ear fold (inward fold)
+		fold := new(svg.RectAnchoredPath)
+		fold.Name = "DogEar"
+		fold.Definition = "M -15 0 L -15 15 L 0 15 Z"
+		fold.Color = "#FFF176" // slightly darker yellow for the fold
+		fold.FillOpacity = 1.0
+		fold.Stroke = "#FBC02D"
+		fold.StrokeWidth = 1.0
+		fold.RectAnchorType = svg.RECT_TOP_RIGHT
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, fold)
+
+		if len(rect.RectAnchoredTexts) > 0 {
+			rect.RectAnchoredTexts[0].FontWeight = "normal"
+			rect.RectAnchoredTexts[0].FontStyle = "italic"
+			rect.RectAnchoredTexts[0].TextAnchorType = svg.TEXT_ANCHOR_START
+			rect.RectAnchoredTexts[0].RectAnchorType = svg.RECT_TOP_LEFT
+			rect.RectAnchoredTexts[0].X_Offset = 10
+			rect.RectAnchoredTexts[0].Y_Offset = 20
+		}
 		diagram.map_Note_Rect[note] = rect
 		diagram.map_SvgRect_NoteShape[rect] = noteShape
 
@@ -318,6 +341,10 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.StartAnchorType = svg.ANCHOR_CENTER
 		link.EndAnchorType = svg.ANCHOR_CENTER
 		link.HasEndArrow = false
+
+		link.Presentation.StrokeDashArray = "5,5"
+		link.Stroke = "#9E9E9E"
+		link.StrokeWidth = 1.5
 	}
 
 	for _, noteTaskShape := range diagram.NoteTaskShapes {
@@ -342,6 +369,10 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.StartAnchorType = svg.ANCHOR_CENTER
 		link.EndAnchorType = svg.ANCHOR_CENTER
 		link.HasEndArrow = false
+
+		link.Presentation.StrokeDashArray = "5,5"
+		link.Stroke = "#9E9E9E"
+		link.StrokeWidth = 1.5
 	}
 
 	for _, resourceShape := range diagram.Resource_Shapes {
@@ -410,6 +441,10 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.StartAnchorType = svg.ANCHOR_CENTER
 		link.EndAnchorType = svg.ANCHOR_CENTER
 		link.HasEndArrow = false
+
+		link.Presentation.StrokeDashArray = "5,5"
+		link.Stroke = "#9E9E9E"
+		link.StrokeWidth = 1.5
 	}
 
 	for _, resourceCompositionShape := range diagram.ResourceComposition_Shapes {
