@@ -15,6 +15,12 @@ func (probe *Probe) ux_form() {
 	}
 	if formGroup != nil {
 		switch onSave := formGroup.OnSave.(type) { // insertion point
+		case *AllocatedProcessShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "AllocatedProcessShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.allocatedprocessshape, probe)
+			}
 		case *AllocatedResourceShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "AllocatedResourceShape", true)
@@ -157,6 +163,19 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
+	case "AllocatedProcessShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "AllocatedProcessShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__AllocatedProcessShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		allocatedprocessshape := new(models.AllocatedProcessShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(allocatedprocessshape, formGroup, probe)
 	case "AllocatedResourceShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

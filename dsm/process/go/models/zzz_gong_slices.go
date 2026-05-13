@@ -20,6 +20,9 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
+	// Compute reverse map for named struct AllocatedProcessShape
+	// insertion point per field
+
 	// Compute reverse map for named struct AllocatedResourceShape
 	// insertion point per field
 
@@ -183,6 +186,20 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.DiagramProcess_AllocatedResourceShapes_reverseMap[_allocatedresourceshape] = diagramprocess
 		}
 	}
+	stage.DiagramProcess_AllocatedProcessesWhoseNodeIsExpanded_reverseMap = make(map[*Process]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _process := range diagramprocess.AllocatedProcessesWhoseNodeIsExpanded {
+			stage.DiagramProcess_AllocatedProcessesWhoseNodeIsExpanded_reverseMap[_process] = diagramprocess
+		}
+	}
+	stage.DiagramProcess_AllocatedProcessShapes_reverseMap = make(map[*AllocatedProcessShape]*DiagramProcess)
+	for diagramprocess := range stage.DiagramProcesss {
+		_ = diagramprocess
+		for _, _allocatedprocessshape := range diagramprocess.AllocatedProcessShapes {
+			stage.DiagramProcess_AllocatedProcessShapes_reverseMap[_allocatedprocessshape] = diagramprocess
+		}
+	}
 	stage.DiagramProcess_Note_Shapes_reverseMap = make(map[*NoteShape]*DiagramProcess)
 	for diagramprocess := range stage.DiagramProcesss {
 		_ = diagramprocess
@@ -320,6 +337,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Participant_Resources_reverseMap[_resource] = participant
 		}
 	}
+	stage.Participant_Processes_reverseMap = make(map[*Process]*Participant)
+	for participant := range stage.Participants {
+		_ = participant
+		for _, _process := range participant.Processes {
+			stage.Participant_Processes_reverseMap[_process] = participant
+		}
+	}
 	stage.Participant_Tasks_reverseMap = make(map[*Task]*Participant)
 	for participant := range stage.Participants {
 		_ = participant
@@ -442,6 +466,10 @@ func (stage *Stage) ComputeReverseMaps() {
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
+	for instance := range stage.AllocatedProcessShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.AllocatedResourceShapes {
 		res = append(res, instance)
 	}
@@ -526,6 +554,12 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct
+func (allocatedprocessshape *AllocatedProcessShape) GongCopy() GongstructIF {
+	newInstance := new(AllocatedProcessShape)
+	allocatedprocessshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (allocatedresourceshape *AllocatedResourceShape) GongCopy() GongstructIF {
 	newInstance := new(AllocatedResourceShape)
 	allocatedresourceshape.CopyBasicFields(newInstance)
@@ -647,6 +681,16 @@ func (taskshape *TaskShape) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
+func (allocatedprocessshape *AllocatedProcessShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(allocatedprocessshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(allocatedprocessshape), uint64(GetOrderPointerGongstruct(stage, allocatedprocessshape)))
+	return
+}
+
 func (allocatedresourceshape *AllocatedResourceShape) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(allocatedresourceshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -865,6 +909,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	stage.Clean()
 
 	// insertion point per named struct
+	var allocatedprocessshapes_newInstances []*AllocatedProcessShape
+	var allocatedprocessshapes_deletedInstances []*AllocatedProcessShape
+
+	// parse all staged instances and check if they have a reference
+	for allocatedprocessshape := range stage.AllocatedProcessShapes {
+		if ref, ok := stage.AllocatedProcessShapes_reference[allocatedprocessshape]; !ok {
+			allocatedprocessshapes_newInstances = append(allocatedprocessshapes_newInstances, allocatedprocessshape)
+			newInstancesSlice = append(newInstancesSlice, allocatedprocessshape.GongMarshallIdentifier(stage))
+			if stage.AllocatedProcessShapes_referenceOrder == nil {
+				stage.AllocatedProcessShapes_referenceOrder = make(map[*AllocatedProcessShape]uint)
+			}
+			stage.AllocatedProcessShapes_referenceOrder[allocatedprocessshape] = stage.AllocatedProcessShape_stagedOrder[allocatedprocessshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, allocatedprocessshape.GongMarshallUnstaging(stage))
+			// delete(stage.AllocatedProcessShapes_referenceOrder, allocatedprocessshape)
+			fieldInitializers, pointersInitializations := allocatedprocessshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.AllocatedProcessShape_stagedOrder[ref] = stage.AllocatedProcessShape_stagedOrder[allocatedprocessshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := allocatedprocessshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, allocatedprocessshape)
+			// delete(stage.AllocatedProcessShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if allocatedprocessshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", allocatedprocessshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.AllocatedProcessShapes_reference {
+		instance := stage.AllocatedProcessShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.AllocatedProcessShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			allocatedprocessshapes_deletedInstances = append(allocatedprocessshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(allocatedprocessshapes_newInstances)
+	lenDeletedInstances += len(allocatedprocessshapes_deletedInstances)
 	var allocatedresourceshapes_newInstances []*AllocatedResourceShape
 	var allocatedresourceshapes_deletedInstances []*AllocatedResourceShape
 
@@ -2000,6 +2099,16 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
+	stage.AllocatedProcessShapes_reference = make(map[*AllocatedProcessShape]*AllocatedProcessShape)
+	stage.AllocatedProcessShapes_referenceOrder = make(map[*AllocatedProcessShape]uint) // diff Unstage needs the reference order
+	stage.AllocatedProcessShapes_instance = make(map[*AllocatedProcessShape]*AllocatedProcessShape)
+	for instance := range stage.AllocatedProcessShapes {
+		_copy := instance.GongCopy().(*AllocatedProcessShape)
+		stage.AllocatedProcessShapes_reference[instance] = _copy
+		stage.AllocatedProcessShapes_instance[_copy] = instance
+		stage.AllocatedProcessShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.AllocatedResourceShapes_reference = make(map[*AllocatedResourceShape]*AllocatedResourceShape)
 	stage.AllocatedResourceShapes_referenceOrder = make(map[*AllocatedResourceShape]uint) // diff Unstage needs the reference order
 	stage.AllocatedResourceShapes_instance = make(map[*AllocatedResourceShape]*AllocatedResourceShape)
@@ -2201,6 +2310,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	}
 
 	// insertion point per named struct
+	for instance := range stage.AllocatedProcessShapes {
+		reference := stage.AllocatedProcessShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.AllocatedResourceShapes {
 		reference := stage.AllocatedResourceShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -2311,6 +2425,18 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // which is important for frontends such as web frontends
 // to avoid unnecessary re-renderings
 // insertion point per named struct
+func (allocatedprocessshape *AllocatedProcessShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.AllocatedProcessShape_stagedOrder[allocatedprocessshape]; ok {
+		return order
+	}
+	if order, ok := stage.AllocatedProcessShapes_referenceOrder[allocatedprocessshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type AllocatedProcessShape was not staged and does not have a reference order", allocatedprocessshape)
+		return 0
+	}
+}
+
 func (allocatedresourceshape *AllocatedResourceShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.AllocatedResourceShape_stagedOrder[allocatedresourceshape]; ok {
 		return order
@@ -2556,6 +2682,15 @@ func (taskshape *TaskShape) GongGetOrder(stage *Stage) uint {
 // in the staging area
 // It is used to identify instances across sessions
 // insertion point per named struct
+func (allocatedprocessshape *AllocatedProcessShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", allocatedprocessshape.GongGetGongstructName(), allocatedprocessshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (allocatedprocessshape *AllocatedProcessShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", allocatedprocessshape.GongGetGongstructName(), allocatedprocessshape.GongGetOrder(stage))
+}
+
 func (allocatedresourceshape *AllocatedResourceShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", allocatedresourceshape.GongGetGongstructName(), allocatedresourceshape.GongGetOrder(stage))
 }
@@ -2739,6 +2874,14 @@ func (taskshape *TaskShape) GongGetReferenceIdentifier(stage *Stage) string {
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
+func (allocatedprocessshape *AllocatedProcessShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", allocatedprocessshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AllocatedProcessShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(allocatedprocessshape.Name))
+	return
+}
+
 func (allocatedresourceshape *AllocatedResourceShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", allocatedresourceshape.GongGetIdentifier(stage))
@@ -2900,6 +3043,12 @@ func (taskshape *TaskShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 }
 
 // insertion point for unstaging
+func (allocatedprocessshape *AllocatedProcessShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", allocatedprocessshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (allocatedresourceshape *AllocatedResourceShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", allocatedresourceshape.GongGetReferenceIdentifier(stage))

@@ -120,6 +120,7 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
+	models.SetOrchestratorOnAfterUpdate[models.AllocatedProcessShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.AllocatedResourceShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ControlFlow](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ControlFlowShape](stage)

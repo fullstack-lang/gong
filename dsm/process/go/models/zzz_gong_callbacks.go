@@ -6,6 +6,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *AllocatedProcessShape:
+		if stage.OnAfterAllocatedProcessShapeCreateCallback != nil {
+			stage.OnAfterAllocatedProcessShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *AllocatedResourceShape:
 		if stage.OnAfterAllocatedResourceShapeCreateCallback != nil {
 			stage.OnAfterAllocatedResourceShapeCreateCallback.OnAfterCreate(stage, target)
@@ -100,6 +104,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
+	case *AllocatedProcessShape:
+		newTarget := any(new).(*AllocatedProcessShape)
+		if stage.OnAfterAllocatedProcessShapeUpdateCallback != nil {
+			stage.OnAfterAllocatedProcessShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *AllocatedResourceShape:
 		newTarget := any(new).(*AllocatedResourceShape)
 		if stage.OnAfterAllocatedResourceShapeUpdateCallback != nil {
@@ -210,6 +219,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
+	case *AllocatedProcessShape:
+		if stage.OnAfterAllocatedProcessShapeDeleteCallback != nil {
+			staged := any(staged).(*AllocatedProcessShape)
+			stage.OnAfterAllocatedProcessShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *AllocatedResourceShape:
 		if stage.OnAfterAllocatedResourceShapeDeleteCallback != nil {
 			staged := any(staged).(*AllocatedResourceShape)
@@ -320,6 +334,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *AllocatedProcessShape:
+		if stage.OnAfterAllocatedProcessShapeReadCallback != nil {
+			stage.OnAfterAllocatedProcessShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *AllocatedResourceShape:
 		if stage.OnAfterAllocatedResourceShapeReadCallback != nil {
 			stage.OnAfterAllocatedResourceShapeReadCallback.OnAfterRead(stage, target)
@@ -411,6 +429,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
+	case *AllocatedProcessShape:
+		stage.OnAfterAllocatedProcessShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[AllocatedProcessShape])
 	case *AllocatedResourceShape:
 		stage.OnAfterAllocatedResourceShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[AllocatedResourceShape])
 	case *ControlFlow:
@@ -458,6 +478,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
+	case *AllocatedProcessShape:
+		stage.OnAfterAllocatedProcessShapeCreateCallback = any(callback).(OnAfterCreateInterface[AllocatedProcessShape])
 	case *AllocatedResourceShape:
 		stage.OnAfterAllocatedResourceShapeCreateCallback = any(callback).(OnAfterCreateInterface[AllocatedResourceShape])
 	case *ControlFlow:
@@ -505,6 +527,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
+	case *AllocatedProcessShape:
+		stage.OnAfterAllocatedProcessShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[AllocatedProcessShape])
 	case *AllocatedResourceShape:
 		stage.OnAfterAllocatedResourceShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[AllocatedResourceShape])
 	case *ControlFlow:
@@ -552,6 +576,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
+	case *AllocatedProcessShape:
+		stage.OnAfterAllocatedProcessShapeReadCallback = any(callback).(OnAfterReadInterface[AllocatedProcessShape])
 	case *AllocatedResourceShape:
 		stage.OnAfterAllocatedResourceShapeReadCallback = any(callback).(OnAfterReadInterface[AllocatedResourceShape])
 	case *ControlFlow:

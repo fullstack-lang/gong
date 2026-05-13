@@ -7,6 +7,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *AllocatedProcessShape:
+		ok = stage.IsStagedAllocatedProcessShape(target)
+
 	case *AllocatedResourceShape:
 		ok = stage.IsStagedAllocatedResourceShape(target)
 
@@ -77,6 +80,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *AllocatedProcessShape:
+		ok = stage.IsStagedAllocatedProcessShape(target)
+
 	case *AllocatedResourceShape:
 		ok = stage.IsStagedAllocatedResourceShape(target)
 
@@ -144,6 +150,13 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
+func (stage *Stage) IsStagedAllocatedProcessShape(allocatedprocessshape *AllocatedProcessShape) (ok bool) {
+
+	_, ok = stage.AllocatedProcessShapes[allocatedprocessshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedAllocatedResourceShape(allocatedresourceshape *AllocatedResourceShape) (ok bool) {
 
 	_, ok = stage.AllocatedResourceShapes[allocatedresourceshape]
@@ -292,6 +305,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
+	case *AllocatedProcessShape:
+		stage.StageBranchAllocatedProcessShape(target)
+
 	case *AllocatedResourceShape:
 		stage.StageBranchAllocatedResourceShape(target)
 
@@ -358,6 +374,27 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct
+func (stage *Stage) StageBranchAllocatedProcessShape(allocatedprocessshape *AllocatedProcessShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, allocatedprocessshape) {
+		return
+	}
+
+	allocatedprocessshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if allocatedprocessshape.Participant != nil {
+		StageBranch(stage, allocatedprocessshape.Participant)
+	}
+	if allocatedprocessshape.Process != nil {
+		StageBranch(stage, allocatedprocessshape.Process)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchAllocatedResourceShape(allocatedresourceshape *AllocatedResourceShape) {
 
 	// check if instance is already staged
@@ -571,6 +608,12 @@ func (stage *Stage) StageBranchDiagramProcess(diagramprocess *DiagramProcess) {
 	for _, _allocatedresourceshape := range diagramprocess.AllocatedResourceShapes {
 		StageBranch(stage, _allocatedresourceshape)
 	}
+	for _, _process := range diagramprocess.AllocatedProcessesWhoseNodeIsExpanded {
+		StageBranch(stage, _process)
+	}
+	for _, _allocatedprocessshape := range diagramprocess.AllocatedProcessShapes {
+		StageBranch(stage, _allocatedprocessshape)
+	}
 	for _, _noteshape := range diagramprocess.Note_Shapes {
 		StageBranch(stage, _noteshape)
 	}
@@ -723,6 +766,9 @@ func (stage *Stage) StageBranchParticipant(participant *Participant) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _resource := range participant.Resources {
 		StageBranch(stage, _resource)
+	}
+	for _, _process := range participant.Processes {
+		StageBranch(stage, _process)
 	}
 	for _, _task := range participant.Tasks {
 		StageBranch(stage, _task)
@@ -882,6 +928,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
+	case *AllocatedProcessShape:
+		toT := CopyBranchAllocatedProcessShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *AllocatedResourceShape:
 		toT := CopyBranchAllocatedResourceShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -969,6 +1019,31 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
+func CopyBranchAllocatedProcessShape(mapOrigCopy map[any]any, allocatedprocessshapeFrom *AllocatedProcessShape) (allocatedprocessshapeTo *AllocatedProcessShape) {
+
+	// allocatedprocessshapeFrom has already been copied
+	if _allocatedprocessshapeTo, ok := mapOrigCopy[allocatedprocessshapeFrom]; ok {
+		allocatedprocessshapeTo = _allocatedprocessshapeTo.(*AllocatedProcessShape)
+		return
+	}
+
+	allocatedprocessshapeTo = new(AllocatedProcessShape)
+	mapOrigCopy[allocatedprocessshapeFrom] = allocatedprocessshapeTo
+	allocatedprocessshapeFrom.CopyBasicFields(allocatedprocessshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if allocatedprocessshapeFrom.Participant != nil {
+		allocatedprocessshapeTo.Participant = CopyBranchParticipant(mapOrigCopy, allocatedprocessshapeFrom.Participant)
+	}
+	if allocatedprocessshapeFrom.Process != nil {
+		allocatedprocessshapeTo.Process = CopyBranchProcess(mapOrigCopy, allocatedprocessshapeFrom.Process)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchAllocatedResourceShape(mapOrigCopy map[any]any, allocatedresourceshapeFrom *AllocatedResourceShape) (allocatedresourceshapeTo *AllocatedResourceShape) {
 
 	// allocatedresourceshapeFrom has already been copied
@@ -1213,6 +1288,12 @@ func CopyBranchDiagramProcess(mapOrigCopy map[any]any, diagramprocessFrom *Diagr
 	for _, _allocatedresourceshape := range diagramprocessFrom.AllocatedResourceShapes {
 		diagramprocessTo.AllocatedResourceShapes = append(diagramprocessTo.AllocatedResourceShapes, CopyBranchAllocatedResourceShape(mapOrigCopy, _allocatedresourceshape))
 	}
+	for _, _process := range diagramprocessFrom.AllocatedProcessesWhoseNodeIsExpanded {
+		diagramprocessTo.AllocatedProcessesWhoseNodeIsExpanded = append(diagramprocessTo.AllocatedProcessesWhoseNodeIsExpanded, CopyBranchProcess(mapOrigCopy, _process))
+	}
+	for _, _allocatedprocessshape := range diagramprocessFrom.AllocatedProcessShapes {
+		diagramprocessTo.AllocatedProcessShapes = append(diagramprocessTo.AllocatedProcessShapes, CopyBranchAllocatedProcessShape(mapOrigCopy, _allocatedprocessshape))
+	}
 	for _, _noteshape := range diagramprocessFrom.Note_Shapes {
 		diagramprocessTo.Note_Shapes = append(diagramprocessTo.Note_Shapes, CopyBranchNoteShape(mapOrigCopy, _noteshape))
 	}
@@ -1389,6 +1470,9 @@ func CopyBranchParticipant(mapOrigCopy map[any]any, participantFrom *Participant
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _resource := range participantFrom.Resources {
 		participantTo.Resources = append(participantTo.Resources, CopyBranchResource(mapOrigCopy, _resource))
+	}
+	for _, _process := range participantFrom.Processes {
+		participantTo.Processes = append(participantTo.Processes, CopyBranchProcess(mapOrigCopy, _process))
 	}
 	for _, _task := range participantFrom.Tasks {
 		participantTo.Tasks = append(participantTo.Tasks, CopyBranchTask(mapOrigCopy, _task))
@@ -1570,6 +1654,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
+	case *AllocatedProcessShape:
+		stage.UnstageBranchAllocatedProcessShape(target)
+
 	case *AllocatedResourceShape:
 		stage.UnstageBranchAllocatedResourceShape(target)
 
@@ -1636,6 +1723,27 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
+func (stage *Stage) UnstageBranchAllocatedProcessShape(allocatedprocessshape *AllocatedProcessShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, allocatedprocessshape) {
+		return
+	}
+
+	allocatedprocessshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if allocatedprocessshape.Participant != nil {
+		UnstageBranch(stage, allocatedprocessshape.Participant)
+	}
+	if allocatedprocessshape.Process != nil {
+		UnstageBranch(stage, allocatedprocessshape.Process)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchAllocatedResourceShape(allocatedresourceshape *AllocatedResourceShape) {
 
 	// check if instance is already staged
@@ -1849,6 +1957,12 @@ func (stage *Stage) UnstageBranchDiagramProcess(diagramprocess *DiagramProcess) 
 	for _, _allocatedresourceshape := range diagramprocess.AllocatedResourceShapes {
 		UnstageBranch(stage, _allocatedresourceshape)
 	}
+	for _, _process := range diagramprocess.AllocatedProcessesWhoseNodeIsExpanded {
+		UnstageBranch(stage, _process)
+	}
+	for _, _allocatedprocessshape := range diagramprocess.AllocatedProcessShapes {
+		UnstageBranch(stage, _allocatedprocessshape)
+	}
 	for _, _noteshape := range diagramprocess.Note_Shapes {
 		UnstageBranch(stage, _noteshape)
 	}
@@ -2002,6 +2116,9 @@ func (stage *Stage) UnstageBranchParticipant(participant *Participant) {
 	for _, _resource := range participant.Resources {
 		UnstageBranch(stage, _resource)
 	}
+	for _, _process := range participant.Processes {
+		UnstageBranch(stage, _process)
+	}
 	for _, _task := range participant.Tasks {
 		UnstageBranch(stage, _task)
 	}
@@ -2150,6 +2267,17 @@ func (stage *Stage) UnstageBranchTaskShape(taskshape *TaskShape) {
 }
 
 // insertion point for pointer reconstruction from references
+func (reference *AllocatedProcessShape) GongReconstructPointersFromReferences(stage *Stage, instance *AllocatedProcessShape) {
+	// insertion point for pointers field
+	if instance.Participant != nil {
+		reference.Participant = stage.Participants_reference[instance.Participant]
+	}
+	if instance.Process != nil {
+		reference.Process = stage.Processs_reference[instance.Process]
+	}
+	// insertion point for slice of pointers field
+}
+
 func (reference *AllocatedResourceShape) GongReconstructPointersFromReferences(stage *Stage, instance *AllocatedResourceShape) {
 	// insertion point for pointers field
 	if instance.Participant != nil {
@@ -2304,6 +2432,14 @@ func (reference *DiagramProcess) GongReconstructPointersFromReferences(stage *St
 	for _, _b := range instance.AllocatedResourceShapes {
 		reference.AllocatedResourceShapes = append(reference.AllocatedResourceShapes, stage.AllocatedResourceShapes_reference[_b])
 	}
+	reference.AllocatedProcessesWhoseNodeIsExpanded = reference.AllocatedProcessesWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.AllocatedProcessesWhoseNodeIsExpanded {
+		reference.AllocatedProcessesWhoseNodeIsExpanded = append(reference.AllocatedProcessesWhoseNodeIsExpanded, stage.Processs_reference[_b])
+	}
+	reference.AllocatedProcessShapes = reference.AllocatedProcessShapes[:0]
+	for _, _b := range instance.AllocatedProcessShapes {
+		reference.AllocatedProcessShapes = append(reference.AllocatedProcessShapes, stage.AllocatedProcessShapes_reference[_b])
+	}
 	reference.Note_Shapes = reference.Note_Shapes[:0]
 	for _, _b := range instance.Note_Shapes {
 		reference.Note_Shapes = append(reference.Note_Shapes, stage.NoteShapes_reference[_b])
@@ -2414,6 +2550,10 @@ func (reference *Participant) GongReconstructPointersFromReferences(stage *Stage
 	for _, _b := range instance.Resources {
 		reference.Resources = append(reference.Resources, stage.Resources_reference[_b])
 	}
+	reference.Processes = reference.Processes[:0]
+	for _, _b := range instance.Processes {
+		reference.Processes = append(reference.Processes, stage.Processs_reference[_b])
+	}
 	reference.Tasks = reference.Tasks[:0]
 	for _, _b := range instance.Tasks {
 		reference.Tasks = append(reference.Tasks, stage.Tasks_reference[_b])
@@ -2515,6 +2655,23 @@ func (reference *TaskShape) GongReconstructPointersFromReferences(stage *Stage, 
 }
 
 // insertion point for pointer reconstruction from instances
+func (reference *AllocatedProcessShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.Participant; _reference != nil {
+		reference.Participant = nil
+		if _instance, ok := stage.Participants_instance[_reference]; ok {
+			reference.Participant = _instance
+		}
+	}
+	if _reference := reference.Process; _reference != nil {
+		reference.Process = nil
+		if _instance, ok := stage.Processs_instance[_reference]; ok {
+			reference.Process = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+}
+
 func (reference *AllocatedResourceShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Participant; _reference != nil {
@@ -2765,6 +2922,20 @@ func (reference *DiagramProcess) GongReconstructPointersFromInstances(stage *Sta
 		}
 	}
 	reference.AllocatedResourceShapes = _AllocatedResourceShapes
+	var _AllocatedProcessesWhoseNodeIsExpanded []*Process
+	for _, _reference := range reference.AllocatedProcessesWhoseNodeIsExpanded {
+		if _instance, ok := stage.Processs_instance[_reference]; ok {
+			_AllocatedProcessesWhoseNodeIsExpanded = append(_AllocatedProcessesWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.AllocatedProcessesWhoseNodeIsExpanded = _AllocatedProcessesWhoseNodeIsExpanded
+	var _AllocatedProcessShapes []*AllocatedProcessShape
+	for _, _reference := range reference.AllocatedProcessShapes {
+		if _instance, ok := stage.AllocatedProcessShapes_instance[_reference]; ok {
+			_AllocatedProcessShapes = append(_AllocatedProcessShapes, _instance)
+		}
+	}
+	reference.AllocatedProcessShapes = _AllocatedProcessShapes
 	var _Note_Shapes []*NoteShape
 	for _, _reference := range reference.Note_Shapes {
 		if _instance, ok := stage.NoteShapes_instance[_reference]; ok {
@@ -2938,6 +3109,13 @@ func (reference *Participant) GongReconstructPointersFromInstances(stage *Stage)
 		}
 	}
 	reference.Resources = _Resources
+	var _Processes []*Process
+	for _, _reference := range reference.Processes {
+		if _instance, ok := stage.Processs_instance[_reference]; ok {
+			_Processes = append(_Processes, _instance)
+		}
+	}
+	reference.Processes = _Processes
 	var _Tasks []*Task
 	for _, _reference := range reference.Tasks {
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
@@ -3093,6 +3271,31 @@ func (reference *TaskShape) GongReconstructPointersFromInstances(stage *Stage) {
 }
 
 // insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (allocatedprocessshape *AllocatedProcessShape) GongDiff(stage *Stage, allocatedprocessshapeOther *AllocatedProcessShape) (diffs []string) {
+	// insertion point for field diffs
+	if allocatedprocessshape.Name != allocatedprocessshapeOther.Name {
+		diffs = append(diffs, allocatedprocessshape.GongMarshallField(stage, "Name"))
+	}
+	if (allocatedprocessshape.Participant == nil) != (allocatedprocessshapeOther.Participant == nil) {
+		diffs = append(diffs, allocatedprocessshape.GongMarshallField(stage, "Participant"))
+	} else if allocatedprocessshape.Participant != nil && allocatedprocessshapeOther.Participant != nil {
+		if allocatedprocessshape.Participant != allocatedprocessshapeOther.Participant {
+			diffs = append(diffs, allocatedprocessshape.GongMarshallField(stage, "Participant"))
+		}
+	}
+	if (allocatedprocessshape.Process == nil) != (allocatedprocessshapeOther.Process == nil) {
+		diffs = append(diffs, allocatedprocessshape.GongMarshallField(stage, "Process"))
+	} else if allocatedprocessshape.Process != nil && allocatedprocessshapeOther.Process != nil {
+		if allocatedprocessshape.Process != allocatedprocessshapeOther.Process {
+			diffs = append(diffs, allocatedprocessshape.GongMarshallField(stage, "Process"))
+		}
+	}
+
+	return
+}
+
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
 func (allocatedresourceshape *AllocatedResourceShape) GongDiff(stage *Stage, allocatedresourceshapeOther *AllocatedResourceShape) (diffs []string) {
@@ -3777,6 +3980,48 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 		ops := Diff(stage, diagramprocess, diagramprocessOther, "AllocatedResourceShapes", diagramprocessOther.AllocatedResourceShapes, diagramprocess.AllocatedResourceShapes)
 		diffs = append(diffs, ops)
 	}
+	AllocatedProcessesWhoseNodeIsExpandedDifferent := false
+	if len(diagramprocess.AllocatedProcessesWhoseNodeIsExpanded) != len(diagramprocessOther.AllocatedProcessesWhoseNodeIsExpanded) {
+		AllocatedProcessesWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagramprocess.AllocatedProcessesWhoseNodeIsExpanded {
+			if (diagramprocess.AllocatedProcessesWhoseNodeIsExpanded[i] == nil) != (diagramprocessOther.AllocatedProcessesWhoseNodeIsExpanded[i] == nil) {
+				AllocatedProcessesWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagramprocess.AllocatedProcessesWhoseNodeIsExpanded[i] != nil && diagramprocessOther.AllocatedProcessesWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagramprocess.AllocatedProcessesWhoseNodeIsExpanded[i] != diagramprocessOther.AllocatedProcessesWhoseNodeIsExpanded[i] {
+					AllocatedProcessesWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AllocatedProcessesWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "AllocatedProcessesWhoseNodeIsExpanded", diagramprocessOther.AllocatedProcessesWhoseNodeIsExpanded, diagramprocess.AllocatedProcessesWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	AllocatedProcessShapesDifferent := false
+	if len(diagramprocess.AllocatedProcessShapes) != len(diagramprocessOther.AllocatedProcessShapes) {
+		AllocatedProcessShapesDifferent = true
+	} else {
+		for i := range diagramprocess.AllocatedProcessShapes {
+			if (diagramprocess.AllocatedProcessShapes[i] == nil) != (diagramprocessOther.AllocatedProcessShapes[i] == nil) {
+				AllocatedProcessShapesDifferent = true
+				break
+			} else if diagramprocess.AllocatedProcessShapes[i] != nil && diagramprocessOther.AllocatedProcessShapes[i] != nil {
+				// this is a pointer comparaison
+				if diagramprocess.AllocatedProcessShapes[i] != diagramprocessOther.AllocatedProcessShapes[i] {
+					AllocatedProcessShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AllocatedProcessShapesDifferent {
+		ops := Diff(stage, diagramprocess, diagramprocessOther, "AllocatedProcessShapes", diagramprocessOther.AllocatedProcessShapes, diagramprocess.AllocatedProcessShapes)
+		diffs = append(diffs, ops)
+	}
 	Note_ShapesDifferent := false
 	if len(diagramprocess.Note_Shapes) != len(diagramprocessOther.Note_Shapes) {
 		Note_ShapesDifferent = true
@@ -4329,6 +4574,30 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 	}
 	if participant.IsResourcesNodeExpanded != participantOther.IsResourcesNodeExpanded {
 		diffs = append(diffs, participant.GongMarshallField(stage, "IsResourcesNodeExpanded"))
+	}
+	ProcessesDifferent := false
+	if len(participant.Processes) != len(participantOther.Processes) {
+		ProcessesDifferent = true
+	} else {
+		for i := range participant.Processes {
+			if (participant.Processes[i] == nil) != (participantOther.Processes[i] == nil) {
+				ProcessesDifferent = true
+				break
+			} else if participant.Processes[i] != nil && participantOther.Processes[i] != nil {
+				// this is a pointer comparaison
+				if participant.Processes[i] != participantOther.Processes[i] {
+					ProcessesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ProcessesDifferent {
+		ops := Diff(stage, participant, participantOther, "Processes", participantOther.Processes, participant.Processes)
+		diffs = append(diffs, ops)
+	}
+	if participant.IsProcessesNodeExpanded != participantOther.IsProcessesNodeExpanded {
+		diffs = append(diffs, participant.GongMarshallField(stage, "IsProcessesNodeExpanded"))
 	}
 	if participant.ComputedPrefix != participantOther.ComputedPrefix {
 		diffs = append(diffs, participant.GongMarshallField(stage, "ComputedPrefix"))

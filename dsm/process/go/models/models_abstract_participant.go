@@ -6,8 +6,13 @@ type Participant struct {
 	//gong:text width:300 height:300
 	Description string
 
+	// Resources is the list of resources used by the participant
 	Resources               []*Resource
 	IsResourcesNodeExpanded bool
+
+	// Processess is the list of processes performed by the participant
+	Processes               []*Process
+	IsProcessesNodeExpanded bool
 
 	LibraryAbstractFields
 	AbstractTypeFields

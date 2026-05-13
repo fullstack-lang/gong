@@ -294,7 +294,7 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 			rect.RectAnchoredRects = append(rect.RectAnchoredRects, titleBox)
 		}
 
-		stager.drawAllocatedResources(participantShape.Participant, diagramProcess, rect, svg.RECT_TOP)
+		stager.drawAllocatedProcessesAndResources(participantShape.Participant, diagramProcess, rect, svg.RECT_TOP)
 
 		currentWeight += shapeWeight
 	}
@@ -372,7 +372,7 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 			externalParticipantShape.TailHeigth = 100.0
 		}
 
-		boxHeight := stager.drawAllocatedResources(externalParticipantShape.Participant, diagramProcess, rect, svg.RECT_BOTTOM)
+		boxHeight := stager.drawAllocatedProcessesAndResources(externalParticipantShape.Participant, diagramProcess, rect, svg.RECT_BOTTOM)
 
 		tailRect := &svg.Rect{
 			Name: "Tail" + rect.GetName(),
@@ -769,14 +769,84 @@ func (stager *Stager) drawNoteTaskShapes(diagramProcess *DiagramProcess, layer *
 	}
 }
 
-func (stager *Stager) drawAllocatedResources(participant *Participant, diagramProcess *DiagramProcess, rect *svg.Rect, rectAnchorType svg.RectAnchorType) (boxHeight float64) {
+func (stager *Stager) drawAllocatedProcessesAndResources(participant *Participant, diagramProcess *DiagramProcess, rect *svg.Rect, rectAnchorType svg.RectAnchorType) (boxHeight float64) {
 	root := stager.GetRootLibrary()
 	const HeightBetween2AttributeShapes = 16.0
 
-	// draw allocated resource shapes that are within the participant
 	totalLines := 0
 	X_Offset := 30.0
 	Y_Offset := 20.0
+
+	// draw allocated process shapes that are within the participant
+	for _, process := range participant.Processes {
+		key := allocatedProcessShapeKey{
+			participant: participant,
+			process:     process,
+		}
+		allocatedProcessShape := diagramProcess.map_AllocatedProcessShapeKey_AllocatedProcessShape[key]
+		if allocatedProcessShape == nil {
+			continue
+		}
+
+		content := process.Name
+		if rect.Width > 0 {
+			content = strutils.WrapStringPreservingNewlinesScaled(content, rect.Width, float64(root.NbPixPerCharacter), 12.0, 16.0)
+		}
+
+		allocatedProcessText := &svg.RectAnchoredText{
+			Name:    allocatedProcessShape.Name,
+			Content: content,
+			Presentation: svg.Presentation{
+				StrokeWidth: 0,
+				Color:       "#757575",
+				FillOpacity: 1,
+			},
+			TextAttributes: svg.TextAttributes{
+				FontStyle: "italic",
+				FontSize:  "12px",
+			},
+
+			DominantBaseline: svg.DominantBaselineMiddle,
+			X_Offset:         X_Offset,
+			Y_Offset:         Y_Offset + float64(totalLines)*HeightBetween2AttributeShapes,
+			RectAnchorType:   rectAnchorType,
+			TextAnchorType:   svg.TEXT_ANCHOR_START,
+		}
+		if rectAnchorType == svg.RECT_BOTTOM {
+			allocatedProcessText.RectAnchorType = svg.RECT_BOTTOM_LEFT
+		} else {
+			allocatedProcessText.RectAnchorType = svg.RECT_TOP_LEFT
+		}
+		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, allocatedProcessText)
+
+		lines := strings.Split(content, "\n")
+		totalLines += len(lines)
+
+		// add a rect anchored icon
+		if process.SVG_Path != "" {
+			allocatedProcessPath := &svg.RectAnchoredPath{
+				Name:       process.GetName(),
+				Definition: process.SVG_Path,
+				Presentation: svg.Presentation{
+					StrokeWidth: 0,
+					Color:       "#757575",
+					FillOpacity: 1,
+				},
+				X_Offset:            10,
+				Y_Offset:            10 + float64(totalLines)*HeightBetween2AttributeShapes,
+				ScalePropotionnally: true,
+				AppliedScaling:      1.0,
+			}
+			if rectAnchorType == svg.RECT_BOTTOM {
+				allocatedProcessPath.RectAnchorType = svg.RECT_BOTTOM_LEFT
+			} else {
+				allocatedProcessPath.RectAnchorType = svg.RECT_TOP_LEFT
+			}
+			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, allocatedProcessPath)
+		}
+	}
+
+	// draw allocated resource shapes that are within the participant
 	for _, resource := range participant.Resources {
 		key := allocatedResourceShapeKey{
 			participant: participant,
@@ -822,38 +892,37 @@ func (stager *Stager) drawAllocatedResources(participant *Participant, diagramPr
 		totalLines += len(lines)
 
 		// add a rect anchored icon
-		if resource.SVG_Path == "" {
-			continue
+		if resource.SVG_Path != "" {
+			if resource.InverseAppliedScaling == 0 {
+				resource.InverseAppliedScaling = 1.0
+			}
+			allocatedResourcePath := &svg.RectAnchoredPath{
+				Name:       resource.GetName(),
+				Definition: resource.SVG_Path,
+				Presentation: svg.Presentation{
+					StrokeWidth: 0,
+					Color:       "#757575",
+					FillOpacity: 1,
+				},
+				X_Offset:            10,
+				Y_Offset:            10 + float64(totalLines)*HeightBetween2AttributeShapes,
+				ScalePropotionnally: true,
+				AppliedScaling:      1.0 / resource.InverseAppliedScaling,
+			}
+			if rectAnchorType == svg.RECT_BOTTOM {
+				allocatedResourcePath.RectAnchorType = svg.RECT_BOTTOM_LEFT
+			} else {
+				allocatedResourcePath.RectAnchorType = svg.RECT_TOP_LEFT
+			}
+			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, allocatedResourcePath)
 		}
-		if resource.InverseAppliedScaling == 0 {
-			resource.InverseAppliedScaling = 1.0
-		}
-		allocatedResourcePath := &svg.RectAnchoredPath{
-			Name:       resource.GetName(),
-			Definition: resource.SVG_Path,
-			Presentation: svg.Presentation{
-				StrokeWidth: 0,
-				Color:       "#757575",
-				FillOpacity: 1,
-			},
-			X_Offset:            10,
-			Y_Offset:            10 + float64(totalLines)*HeightBetween2AttributeShapes,
-			ScalePropotionnally: true,
-			AppliedScaling:      1.0 / resource.InverseAppliedScaling,
-		}
-		if rectAnchorType == svg.RECT_BOTTOM {
-			allocatedResourcePath.RectAnchorType = svg.RECT_BOTTOM_LEFT
-		} else {
-			allocatedResourcePath.RectAnchorType = svg.RECT_TOP_LEFT
-		}
-		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, allocatedResourcePath)
 	}
-	// draw a rect around the allocated resource shapes if there is at least one allocated resource shape
+	// draw a rect around the allocated resource and process shapes if there is at least one
 	boxHeight = float64(totalLines)*HeightBetween2AttributeShapes + Y_Offset - 5.0
 	if totalLines > 0 {
 		lineWidth := 1.0
 		allocatedResourceRect := &svg.RectAnchoredRect{
-			Name: participant.Name + "_allocated_resources",
+			Name: participant.Name + "_allocated_resources_and_processes",
 			Presentation: svg.Presentation{
 				Stroke:        "#CCCCCC",
 				StrokeWidth:   lineWidth,

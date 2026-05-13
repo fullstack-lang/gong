@@ -9,6 +9,17 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point
+type AllocatedProcessShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *AllocatedProcessShape) CopyBasicFields(to *AllocatedProcessShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type AllocatedResourceShape_WOP struct {
 	// insertion point
 
@@ -353,6 +364,8 @@ type Participant_WOP struct {
 
 	IsResourcesNodeExpanded bool
 
+	IsProcessesNodeExpanded bool
+
 	ComputedPrefix string
 
 	IsTasksNodeExpanded bool
@@ -367,6 +380,7 @@ func (from *Participant) CopyBasicFields(to *Participant) {
 	to.Name = from.Name
 	to.Description = from.Description
 	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
+	to.IsProcessesNodeExpanded = from.IsProcessesNodeExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsTasksNodeExpanded = from.IsTasksNodeExpanded
 	to.IsControlFlowsNodeExpanded = from.IsControlFlowsNodeExpanded
