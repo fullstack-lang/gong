@@ -116,10 +116,20 @@ func (link *Link) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &link.TextAtArrowStart) || modified
 	modified = GongCleanSlice(stage, &link.TextAtArrowEnd) || modified
 	modified = GongCleanSlice(stage, &link.TextAtCorner) || modified
+	modified = GongCleanSlice(stage, &link.PathAtArrowStart) || modified
+	modified = GongCleanSlice(stage, &link.PathAtArrowEnd) || modified
+	modified = GongCleanSlice(stage, &link.PathAtCorner) || modified
 	modified = GongCleanSlice(stage, &link.ControlPoints) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &link.Start) || modified
 	modified = GongCleanPointer(stage, &link.End) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by LinkAnchoredPath
+func (linkanchoredpath *LinkAnchoredPath) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
 	return
 }
 

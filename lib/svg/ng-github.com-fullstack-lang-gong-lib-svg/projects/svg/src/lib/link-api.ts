@@ -1,6 +1,7 @@
 // insertion point for imports
 import { RectAPI } from './rect-api'
 import { LinkAnchoredTextAPI } from './linkanchoredtext-api'
+import { LinkAnchoredPathAPI } from './linkanchoredpath-api'
 import { ControlPointAPI } from './controlpoint-api'
 
 // usefull for managing pointer ID values that can be nullable
@@ -59,5 +60,8 @@ export class LinkPointersEncoding {
 	TextAtArrowStart: number[] = []
 	TextAtArrowEnd: number[] = []
 	TextAtCorner: number[] = []
+	PathAtArrowStart: number[] = []
+	PathAtArrowEnd: number[] = []
+	PathAtCorner: number[] = []
 	ControlPoints: number[] = []
 }

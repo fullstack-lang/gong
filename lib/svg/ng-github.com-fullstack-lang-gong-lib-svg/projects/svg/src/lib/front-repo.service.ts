@@ -41,6 +41,10 @@ import { LinkAPI } from './link-api'
 import { Link, CopyLinkAPIToLink } from './link'
 import { LinkService } from './link.service'
 
+import { LinkAnchoredPathAPI } from './linkanchoredpath-api'
+import { LinkAnchoredPath, CopyLinkAnchoredPathAPIToLinkAnchoredPath } from './linkanchoredpath'
+import { LinkAnchoredPathService } from './linkanchoredpath.service'
+
 import { LinkAnchoredTextAPI } from './linkanchoredtext-api'
 import { LinkAnchoredText, CopyLinkAnchoredTextAPIToLinkAnchoredText } from './linkanchoredtext'
 import { LinkAnchoredTextService } from './linkanchoredtext.service'
@@ -131,6 +135,9 @@ export class FrontRepo { // insertion point sub template
 	array_Links = new Array<Link>() // array of front instances
 	map_ID_Link = new Map<number, Link>() // map of front instances
 
+	array_LinkAnchoredPaths = new Array<LinkAnchoredPath>() // array of front instances
+	map_ID_LinkAnchoredPath = new Map<number, LinkAnchoredPath>() // map of front instances
+
 	array_LinkAnchoredTexts = new Array<LinkAnchoredText>() // array of front instances
 	map_ID_LinkAnchoredText = new Map<number, LinkAnchoredText>() // map of front instances
 
@@ -200,6 +207,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Lines as unknown as Array<Type>
 			case 'Link':
 				return this.array_Links as unknown as Array<Type>
+			case 'LinkAnchoredPath':
+				return this.array_LinkAnchoredPaths as unknown as Array<Type>
 			case 'LinkAnchoredText':
 				return this.array_LinkAnchoredTexts as unknown as Array<Type>
 			case 'Path':
@@ -254,6 +263,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Line as unknown as Map<number, Type>
 			case 'Link':
 				return this.map_ID_Link as unknown as Map<number, Type>
+			case 'LinkAnchoredPath':
+				return this.map_ID_LinkAnchoredPath as unknown as Map<number, Type>
 			case 'LinkAnchoredText':
 				return this.map_ID_LinkAnchoredText as unknown as Map<number, Type>
 			case 'Path':
@@ -361,6 +372,7 @@ export class FrontRepoService {
 		private layerService: LayerService,
 		private lineService: LineService,
 		private linkService: LinkService,
+		private linkanchoredpathService: LinkAnchoredPathService,
 		private linkanchoredtextService: LinkAnchoredTextService,
 		private pathService: PathService,
 		private pointService: PointService,
@@ -416,6 +428,7 @@ export class FrontRepoService {
 		Observable<LayerAPI[]>,
 		Observable<LineAPI[]>,
 		Observable<LinkAPI[]>,
+		Observable<LinkAnchoredPathAPI[]>,
 		Observable<LinkAnchoredTextAPI[]>,
 		Observable<PathAPI[]>,
 		Observable<PointAPI[]>,
@@ -454,6 +467,7 @@ export class FrontRepoService {
 			this.layerService.getLayers(this.Name, this.frontRepo),
 			this.lineService.getLines(this.Name, this.frontRepo),
 			this.linkService.getLinks(this.Name, this.frontRepo),
+			this.linkanchoredpathService.getLinkAnchoredPaths(this.Name, this.frontRepo),
 			this.linkanchoredtextService.getLinkAnchoredTexts(this.Name, this.frontRepo),
 			this.pathService.getPaths(this.Name, this.frontRepo),
 			this.pointService.getPoints(this.Name, this.frontRepo),
@@ -487,6 +501,7 @@ export class FrontRepoService {
 						layers_,
 						lines_,
 						links_,
+						linkanchoredpaths_,
 						linkanchoredtexts_,
 						paths_,
 						points_,
@@ -523,6 +538,8 @@ export class FrontRepoService {
 						lines = lines_ as LineAPI[]
 						var links: LinkAPI[]
 						links = links_ as LinkAPI[]
+						var linkanchoredpaths: LinkAnchoredPathAPI[]
+						linkanchoredpaths = linkanchoredpaths_ as LinkAnchoredPathAPI[]
 						var linkanchoredtexts: LinkAnchoredTextAPI[]
 						linkanchoredtexts = linkanchoredtexts_ as LinkAnchoredTextAPI[]
 						var paths: PathAPI[]
@@ -660,6 +677,18 @@ export class FrontRepoService {
 								let link = new Link
 								this.frontRepo.array_Links.push(link)
 								this.frontRepo.map_ID_Link.set(linkAPI.ID, link)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_LinkAnchoredPaths = []
+						this.frontRepo.map_ID_LinkAnchoredPath.clear()
+
+						linkanchoredpaths.forEach(
+							linkanchoredpathAPI => {
+								let linkanchoredpath = new LinkAnchoredPath
+								this.frontRepo.array_LinkAnchoredPaths.push(linkanchoredpath)
+								this.frontRepo.map_ID_LinkAnchoredPath.set(linkanchoredpathAPI.ID, linkanchoredpath)
 							}
 						)
 
@@ -904,6 +933,14 @@ export class FrontRepoService {
 							linkAPI => {
 								let link = this.frontRepo.map_ID_Link.get(linkAPI.ID)
 								CopyLinkAPIToLink(linkAPI, link!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						linkanchoredpaths.forEach(
+							linkanchoredpathAPI => {
+								let linkanchoredpath = this.frontRepo.map_ID_LinkAnchoredPath.get(linkanchoredpathAPI.ID)
+								CopyLinkAnchoredPathAPIToLinkAnchoredPath(linkanchoredpathAPI, linkanchoredpath!, this.frontRepo)
 							}
 						)
 
@@ -1175,6 +1212,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_LinkAnchoredPaths = []
+				frontRepo.map_ID_LinkAnchoredPath.clear()
+
+				backRepoData.LinkAnchoredPathAPIs.forEach(
+					linkanchoredpathAPI => {
+						let linkanchoredpath = new LinkAnchoredPath
+						frontRepo.array_LinkAnchoredPaths.push(linkanchoredpath)
+						frontRepo.map_ID_LinkAnchoredPath.set(linkanchoredpathAPI.ID, linkanchoredpath)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_LinkAnchoredTexts = []
 				frontRepo.map_ID_LinkAnchoredText.clear()
 
@@ -1421,6 +1470,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.LinkAnchoredPathAPIs.forEach(
+					linkanchoredpathAPI => {
+						let linkanchoredpath = frontRepo.map_ID_LinkAnchoredPath.get(linkanchoredpathAPI.ID)
+						CopyLinkAnchoredPathAPIToLinkAnchoredPath(linkanchoredpathAPI, linkanchoredpath!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.LinkAnchoredTextAPIs.forEach(
 					linkanchoredtextAPI => {
 						let linkanchoredtext = frontRepo.map_ID_LinkAnchoredText.get(linkanchoredtextAPI.ID)
@@ -1587,45 +1644,48 @@ export function getLineUniqueID(id: number): number {
 export function getLinkUniqueID(id: number): number {
 	return 67 * id
 }
-export function getLinkAnchoredTextUniqueID(id: number): number {
+export function getLinkAnchoredPathUniqueID(id: number): number {
 	return 71 * id
 }
-export function getPathUniqueID(id: number): number {
+export function getLinkAnchoredTextUniqueID(id: number): number {
 	return 73 * id
 }
-export function getPointUniqueID(id: number): number {
+export function getPathUniqueID(id: number): number {
 	return 79 * id
 }
-export function getPolygoneUniqueID(id: number): number {
+export function getPointUniqueID(id: number): number {
 	return 83 * id
 }
-export function getPolylineUniqueID(id: number): number {
+export function getPolygoneUniqueID(id: number): number {
 	return 89 * id
 }
-export function getRectUniqueID(id: number): number {
+export function getPolylineUniqueID(id: number): number {
 	return 97 * id
 }
-export function getRectAnchoredPathUniqueID(id: number): number {
+export function getRectUniqueID(id: number): number {
 	return 101 * id
 }
-export function getRectAnchoredPngImageUniqueID(id: number): number {
+export function getRectAnchoredPathUniqueID(id: number): number {
 	return 103 * id
 }
-export function getRectAnchoredRectUniqueID(id: number): number {
+export function getRectAnchoredPngImageUniqueID(id: number): number {
 	return 107 * id
 }
-export function getRectAnchoredTextUniqueID(id: number): number {
+export function getRectAnchoredRectUniqueID(id: number): number {
 	return 109 * id
 }
-export function getRectLinkLinkUniqueID(id: number): number {
+export function getRectAnchoredTextUniqueID(id: number): number {
 	return 113 * id
 }
-export function getSVGUniqueID(id: number): number {
+export function getRectLinkLinkUniqueID(id: number): number {
 	return 127 * id
 }
-export function getSvgTextUniqueID(id: number): number {
+export function getSVGUniqueID(id: number): number {
 	return 131 * id
 }
-export function getTextUniqueID(id: number): number {
+export function getSvgTextUniqueID(id: number): number {
 	return 137 * id
+}
+export function getTextUniqueID(id: number): number {
+	return 139 * id
 }

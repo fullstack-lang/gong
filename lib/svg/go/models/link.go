@@ -60,6 +60,15 @@ type Link struct {
 	// to be displayed at the corner (only for ORTHOGONAL links)
 	TextAtCorner []*LinkAnchoredText
 
+	// to be displayed at the start
+	PathAtArrowStart []*LinkAnchoredPath
+
+	// to be displayed at the end
+	PathAtArrowEnd []*LinkAnchoredPath
+
+	// to be displayed at the corner (only for ORTHOGONAL links)
+	PathAtCorner []*LinkAnchoredPath
+
 	// for non floating orthogonal anchors
 	ControlPoints []*ControlPoint
 

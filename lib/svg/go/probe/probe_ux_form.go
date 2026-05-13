@@ -69,6 +69,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.link, probe)
 			}
+		case *LinkAnchoredPathFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "LinkAnchoredPath", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.linkanchoredpath, probe)
+			}
 		case *LinkAnchoredTextFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "LinkAnchoredText", true)
@@ -292,6 +298,19 @@ func FillUpFormFromGongstructName(
 		link := new(models.Link)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(link, formGroup, probe)
+	case "LinkAnchoredPath":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "LinkAnchoredPath Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__LinkAnchoredPathFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		linkanchoredpath := new(models.LinkAnchoredPath)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(linkanchoredpath, formGroup, probe)
 	case "LinkAnchoredText":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

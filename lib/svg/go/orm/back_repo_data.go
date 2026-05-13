@@ -22,6 +22,8 @@ type BackRepoData struct {
 
 	LinkAPIs []*LinkAPI
 
+	LinkAnchoredPathAPIs []*LinkAnchoredPathAPI
+
 	LinkAnchoredTextAPIs []*LinkAnchoredTextAPI
 
 	PathAPIs []*PathAPI
@@ -149,6 +151,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		linkDB.CopyBasicFieldsToLink_WOP(&linkAPI.Link_WOP)
 
 		backRepoData.LinkAPIs = append(backRepoData.LinkAPIs, &linkAPI)
+	}
+
+	for _, linkanchoredpathDB := range backRepo.BackRepoLinkAnchoredPath.Map_LinkAnchoredPathDBID_LinkAnchoredPathDB {
+
+		var linkanchoredpathAPI LinkAnchoredPathAPI
+		linkanchoredpathAPI.ID = linkanchoredpathDB.ID
+		linkanchoredpathAPI.LinkAnchoredPathPointersEncoding = linkanchoredpathDB.LinkAnchoredPathPointersEncoding
+		linkanchoredpathDB.CopyBasicFieldsToLinkAnchoredPath_WOP(&linkanchoredpathAPI.LinkAnchoredPath_WOP)
+
+		backRepoData.LinkAnchoredPathAPIs = append(backRepoData.LinkAnchoredPathAPIs, &linkanchoredpathAPI)
 	}
 
 	for _, linkanchoredtextDB := range backRepo.BackRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextDB {

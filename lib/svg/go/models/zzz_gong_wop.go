@@ -327,6 +327,56 @@ func (from *Link) CopyBasicFields(to *Link) {
 	to.MouseEventKey = from.MouseEventKey
 }
 
+type LinkAnchoredPath_WOP struct {
+	// insertion point
+
+	Name string
+
+	Definition string
+
+	X_Offset float64
+
+	Y_Offset float64
+
+	ScalePropotionnally bool
+
+	AppliedScaling float64
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeOpacity float64
+
+	StrokeWidth float64
+
+	StrokeDashArray string
+
+	StrokeDashArrayWhenSelected string
+
+	Transform string
+}
+
+func (from *LinkAnchoredPath) CopyBasicFields(to *LinkAnchoredPath) {
+	// insertion point
+	to.Name = from.Name
+	to.Definition = from.Definition
+	to.X_Offset = from.X_Offset
+	to.Y_Offset = from.Y_Offset
+	to.ScalePropotionnally = from.ScalePropotionnally
+	to.AppliedScaling = from.AppliedScaling
+	to.Color = from.Color
+	to.FillOpacity = from.FillOpacity
+	to.Stroke = from.Stroke
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeDashArray = from.StrokeDashArray
+	to.StrokeDashArrayWhenSelected = from.StrokeDashArrayWhenSelected
+	to.Transform = from.Transform
+}
+
 type LinkAnchoredText_WOP struct {
 	// insertion point
 

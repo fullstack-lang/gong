@@ -68,6 +68,15 @@ type LinkPointersEncoding struct {
 	// field TextAtCorner is a slice of pointers to another Struct (optional or 0..1)
 	TextAtCorner IntSlice `gorm:"type:TEXT"`
 
+	// field PathAtArrowStart is a slice of pointers to another Struct (optional or 0..1)
+	PathAtArrowStart IntSlice `gorm:"type:TEXT"`
+
+	// field PathAtArrowEnd is a slice of pointers to another Struct (optional or 0..1)
+	PathAtArrowEnd IntSlice `gorm:"type:TEXT"`
+
+	// field PathAtCorner is a slice of pointers to another Struct (optional or 0..1)
+	PathAtCorner IntSlice `gorm:"type:TEXT"`
+
 	// field ControlPoints is a slice of pointers to another Struct (optional or 0..1)
 	ControlPoints IntSlice `gorm:"type:TEXT"`
 }
@@ -490,6 +499,60 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		}
 
 		// 1. reset
+		linkDB.LinkPointersEncoding.PathAtArrowStart = make([]int, 0)
+		// 2. encode
+		for _, linkanchoredpathAssocEnd := range link.PathAtArrowStart {
+			linkanchoredpathAssocEnd_DB :=
+				backRepo.BackRepoLinkAnchoredPath.GetLinkAnchoredPathDBFromLinkAnchoredPathPtr(linkanchoredpathAssocEnd)
+
+			// the stage might be inconsistant, meaning that the linkanchoredpathAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if linkanchoredpathAssocEnd_DB == nil {
+				continue
+			}
+
+			linkDB.LinkPointersEncoding.PathAtArrowStart =
+				append(linkDB.LinkPointersEncoding.PathAtArrowStart, int(linkanchoredpathAssocEnd_DB.ID))
+		}
+
+		// 1. reset
+		linkDB.LinkPointersEncoding.PathAtArrowEnd = make([]int, 0)
+		// 2. encode
+		for _, linkanchoredpathAssocEnd := range link.PathAtArrowEnd {
+			linkanchoredpathAssocEnd_DB :=
+				backRepo.BackRepoLinkAnchoredPath.GetLinkAnchoredPathDBFromLinkAnchoredPathPtr(linkanchoredpathAssocEnd)
+
+			// the stage might be inconsistant, meaning that the linkanchoredpathAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if linkanchoredpathAssocEnd_DB == nil {
+				continue
+			}
+
+			linkDB.LinkPointersEncoding.PathAtArrowEnd =
+				append(linkDB.LinkPointersEncoding.PathAtArrowEnd, int(linkanchoredpathAssocEnd_DB.ID))
+		}
+
+		// 1. reset
+		linkDB.LinkPointersEncoding.PathAtCorner = make([]int, 0)
+		// 2. encode
+		for _, linkanchoredpathAssocEnd := range link.PathAtCorner {
+			linkanchoredpathAssocEnd_DB :=
+				backRepo.BackRepoLinkAnchoredPath.GetLinkAnchoredPathDBFromLinkAnchoredPathPtr(linkanchoredpathAssocEnd)
+
+			// the stage might be inconsistant, meaning that the linkanchoredpathAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if linkanchoredpathAssocEnd_DB == nil {
+				continue
+			}
+
+			linkDB.LinkPointersEncoding.PathAtCorner =
+				append(linkDB.LinkPointersEncoding.PathAtCorner, int(linkanchoredpathAssocEnd_DB.ID))
+		}
+
+		// 1. reset
 		linkDB.LinkPointersEncoding.ControlPoints = make([]int, 0)
 		// 2. encode
 		for _, controlpointAssocEnd := range link.ControlPoints {
@@ -686,6 +749,33 @@ func (linkDB *LinkDB) DecodePointers(backRepo *BackRepoStruct, link *models.Link
 	link.TextAtCorner = link.TextAtCorner[:0]
 	for _, _LinkAnchoredTextid := range linkDB.LinkPointersEncoding.TextAtCorner {
 		link.TextAtCorner = append(link.TextAtCorner, backRepo.BackRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextPtr[uint(_LinkAnchoredTextid)])
+	}
+
+	// This loop redeem link.PathAtArrowStart in the stage from the encode in the back repo
+	// It parses all LinkAnchoredPathDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	link.PathAtArrowStart = link.PathAtArrowStart[:0]
+	for _, _LinkAnchoredPathid := range linkDB.LinkPointersEncoding.PathAtArrowStart {
+		link.PathAtArrowStart = append(link.PathAtArrowStart, backRepo.BackRepoLinkAnchoredPath.Map_LinkAnchoredPathDBID_LinkAnchoredPathPtr[uint(_LinkAnchoredPathid)])
+	}
+
+	// This loop redeem link.PathAtArrowEnd in the stage from the encode in the back repo
+	// It parses all LinkAnchoredPathDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	link.PathAtArrowEnd = link.PathAtArrowEnd[:0]
+	for _, _LinkAnchoredPathid := range linkDB.LinkPointersEncoding.PathAtArrowEnd {
+		link.PathAtArrowEnd = append(link.PathAtArrowEnd, backRepo.BackRepoLinkAnchoredPath.Map_LinkAnchoredPathDBID_LinkAnchoredPathPtr[uint(_LinkAnchoredPathid)])
+	}
+
+	// This loop redeem link.PathAtCorner in the stage from the encode in the back repo
+	// It parses all LinkAnchoredPathDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	link.PathAtCorner = link.PathAtCorner[:0]
+	for _, _LinkAnchoredPathid := range linkDB.LinkPointersEncoding.PathAtCorner {
+		link.PathAtCorner = append(link.PathAtCorner, backRepo.BackRepoLinkAnchoredPath.Map_LinkAnchoredPathDBID_LinkAnchoredPathPtr[uint(_LinkAnchoredPathid)])
 	}
 
 	// This loop redeem link.ControlPoints in the stage from the encode in the back repo
