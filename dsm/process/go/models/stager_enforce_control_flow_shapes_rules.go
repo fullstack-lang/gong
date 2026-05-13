@@ -30,6 +30,10 @@ func (stager *Stager) enforceControlFlowShapesRules() (needCommit bool) {
 
 			if isValid {
 				validControlFlowShapes = append(validControlFlowShapes, controlFlowShape)
+				if controlFlowShape.Name != controlFlowShape.ControlFlow.Name {
+					controlFlowShape.Name = controlFlowShape.ControlFlow.Name
+					needCommit = true
+				}
 			} else {
 				controlFlowShape.UnstageVoid(stager.stage)
 				needCommit = true
