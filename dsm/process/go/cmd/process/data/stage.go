@@ -27,6 +27,9 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
+	__AllocatedProcessShape__00000000_ := (&models.AllocatedProcessShape{Name: `Diagram P1-EP1 Very Long Participant Name-P1`}).Stage(stage)
+	__AllocatedProcessShape__00000001_ := (&models.AllocatedProcessShape{Name: `Diagram P1-EP1 Very Long Participant Name-P2`}).Stage(stage)
+
 	__AllocatedResourceShape__00000010_ := (&models.AllocatedResourceShape{Name: `Diagram P1-EP1 Very Long Participant Name-R2`}).Stage(stage)
 	__AllocatedResourceShape__00000012_ := (&models.AllocatedResourceShape{Name: `Diagram P1-EP1 Very Long Participant Name-R1 with a long name long long long`}).Stage(stage)
 	__AllocatedResourceShape__00000014_ := (&models.AllocatedResourceShape{Name: `Diagram P1-PP1 Very lon participant name PP1 Very lon participant name-R2aaaaa`}).Stage(stage)
@@ -141,6 +144,10 @@ func _(stage *models.Stage) {
 	__TaskShape__00000023_ := (&models.TaskShape{Name: `-DiagramProcess`}).Stage(stage)
 
 	// insertion point for initialization of values
+
+	__AllocatedProcessShape__00000000_.Name = `Diagram P1-EP1 Very Long Participant Name-P1`
+
+	__AllocatedProcessShape__00000001_.Name = `Diagram P1-EP1 Very Long Participant Name-P2`
 
 	__AllocatedResourceShape__00000010_.Name = `Diagram P1-EP1 Very Long Participant Name-R2`
 
@@ -344,8 +351,8 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.Width = 1474.000000
 	__DiagramProcess__00000007_.Height = 1511.000000
 	__DiagramProcess__00000007_.IsProcesssNodeExpanded = false
-	__DiagramProcess__00000007_.IsParticipantsNodeExpanded = true
-	__DiagramProcess__00000007_.IsExternalParticipantsNodeExpanded = false
+	__DiagramProcess__00000007_.IsParticipantsNodeExpanded = false
+	__DiagramProcess__00000007_.IsExternalParticipantsNodeExpanded = true
 	__DiagramProcess__00000007_.IsNotesNodeExpanded = true
 
 	__DiagramProcess__00000009_.Name = `D2`
@@ -406,15 +413,17 @@ func _(stage *models.Stage) {
 
 	__Participant__00000003_.Name = `PP1 Very lon participant name PP1 Very lon participant name`
 	__Participant__00000003_.Description = ``
-	__Participant__00000003_.IsResourcesNodeExpanded = true
+	__Participant__00000003_.IsResourcesNodeExpanded = false
+	__Participant__00000003_.IsProcessesNodeExpanded = false
 	__Participant__00000003_.ComputedPrefix = ``
-	__Participant__00000003_.IsTasksNodeExpanded = true
+	__Participant__00000003_.IsTasksNodeExpanded = false
 	__Participant__00000003_.IsControlFlowsNodeExpanded = false
 	__Participant__00000003_.IsDataFlowsNodeExpanded = false
 
 	__Participant__00000004_.Name = `PP2`
 	__Participant__00000004_.Description = ``
 	__Participant__00000004_.IsResourcesNodeExpanded = false
+	__Participant__00000004_.IsProcessesNodeExpanded = false
 	__Participant__00000004_.ComputedPrefix = ``
 	__Participant__00000004_.IsTasksNodeExpanded = false
 	__Participant__00000004_.IsControlFlowsNodeExpanded = false
@@ -423,6 +432,7 @@ func _(stage *models.Stage) {
 	__Participant__00000005_.Name = `PP3`
 	__Participant__00000005_.Description = ``
 	__Participant__00000005_.IsResourcesNodeExpanded = false
+	__Participant__00000005_.IsProcessesNodeExpanded = false
 	__Participant__00000005_.ComputedPrefix = ``
 	__Participant__00000005_.IsTasksNodeExpanded = false
 	__Participant__00000005_.IsControlFlowsNodeExpanded = false
@@ -431,6 +441,7 @@ func _(stage *models.Stage) {
 	__Participant__00000006_.Name = `PP4`
 	__Participant__00000006_.Description = ``
 	__Participant__00000006_.IsResourcesNodeExpanded = false
+	__Participant__00000006_.IsProcessesNodeExpanded = false
 	__Participant__00000006_.ComputedPrefix = ``
 	__Participant__00000006_.IsTasksNodeExpanded = false
 	__Participant__00000006_.IsControlFlowsNodeExpanded = false
@@ -438,7 +449,8 @@ func _(stage *models.Stage) {
 
 	__Participant__00000007_.Name = `EP1 Very Long Participant Name`
 	__Participant__00000007_.Description = ``
-	__Participant__00000007_.IsResourcesNodeExpanded = true
+	__Participant__00000007_.IsResourcesNodeExpanded = false
+	__Participant__00000007_.IsProcessesNodeExpanded = true
 	__Participant__00000007_.ComputedPrefix = ``
 	__Participant__00000007_.IsTasksNodeExpanded = false
 	__Participant__00000007_.IsControlFlowsNodeExpanded = false
@@ -447,6 +459,7 @@ func _(stage *models.Stage) {
 	__Participant__00000008_.Name = `P2.P1`
 	__Participant__00000008_.Description = ``
 	__Participant__00000008_.IsResourcesNodeExpanded = true
+	__Participant__00000008_.IsProcessesNodeExpanded = false
 	__Participant__00000008_.ComputedPrefix = ``
 	__Participant__00000008_.IsTasksNodeExpanded = true
 	__Participant__00000008_.IsControlFlowsNodeExpanded = false
@@ -455,6 +468,7 @@ func _(stage *models.Stage) {
 	__Participant__00000009_.Name = `P2.P2`
 	__Participant__00000009_.Description = ``
 	__Participant__00000009_.IsResourcesNodeExpanded = false
+	__Participant__00000009_.IsProcessesNodeExpanded = false
 	__Participant__00000009_.ComputedPrefix = ``
 	__Participant__00000009_.IsTasksNodeExpanded = true
 	__Participant__00000009_.IsControlFlowsNodeExpanded = false
@@ -463,6 +477,7 @@ func _(stage *models.Stage) {
 	__Participant__00000010_.Name = `P4`
 	__Participant__00000010_.Description = ``
 	__Participant__00000010_.IsResourcesNodeExpanded = false
+	__Participant__00000010_.IsProcessesNodeExpanded = false
 	__Participant__00000010_.ComputedPrefix = ``
 	__Participant__00000010_.IsTasksNodeExpanded = false
 	__Participant__00000010_.IsControlFlowsNodeExpanded = false
@@ -682,7 +697,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000014_.Name = `PP2 T2-DP2`
 	__TaskShape__00000014_.IsExpanded = false
-	__TaskShape__00000014_.X = 540.416142
+	__TaskShape__00000014_.X = 540.416135
 	__TaskShape__00000014_.Y = 426.000000
 	__TaskShape__00000014_.Width = 206.194619
 	__TaskShape__00000014_.Height = 70.000000
@@ -745,6 +760,10 @@ func _(stage *models.Stage) {
 	__TaskShape__00000023_.IsHidden = false
 
 	// insertion point for setup of pointers
+	__AllocatedProcessShape__00000000_.Participant = __Participant__00000007_
+	__AllocatedProcessShape__00000000_.Process = __Process__00000005_
+	__AllocatedProcessShape__00000001_.Participant = __Participant__00000007_
+	__AllocatedProcessShape__00000001_.Process = __Process__00000006_
 	__AllocatedResourceShape__00000010_.Participant = __Participant__00000007_
 	__AllocatedResourceShape__00000010_.Resource = __Resource__00000001_
 	__AllocatedResourceShape__00000012_.Participant = __Participant__00000007_
@@ -875,6 +894,8 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000012_)
 	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000014_)
 	__DiagramProcess__00000007_.AllocatedResourceShapes = append(__DiagramProcess__00000007_.AllocatedResourceShapes, __AllocatedResourceShape__00000015_)
+	__DiagramProcess__00000007_.AllocatedProcessShapes = append(__DiagramProcess__00000007_.AllocatedProcessShapes, __AllocatedProcessShape__00000000_)
+	__DiagramProcess__00000007_.AllocatedProcessShapes = append(__DiagramProcess__00000007_.AllocatedProcessShapes, __AllocatedProcessShape__00000001_)
 	__DiagramProcess__00000007_.Note_Shapes = append(__DiagramProcess__00000007_.Note_Shapes, __NoteShape__00000000_)
 	__DiagramProcess__00000007_.NotesWhoseNodeIsExpanded = append(__DiagramProcess__00000007_.NotesWhoseNodeIsExpanded, __Note__00000000_)
 	__DiagramProcess__00000007_.NoteTaskShapes = append(__DiagramProcess__00000007_.NoteTaskShapes, __NoteTaskShape__00000000_)
@@ -920,6 +941,8 @@ func _(stage *models.Stage) {
 	__Participant__00000004_.TaskWhoseInDataFlowsNodeIsExpanded = append(__Participant__00000004_.TaskWhoseInDataFlowsNodeIsExpanded, __Task__00000007_)
 	__Participant__00000007_.Resources = append(__Participant__00000007_.Resources, __Resource__00000000_)
 	__Participant__00000007_.Resources = append(__Participant__00000007_.Resources, __Resource__00000001_)
+	__Participant__00000007_.Processes = append(__Participant__00000007_.Processes, __Process__00000005_)
+	__Participant__00000007_.Processes = append(__Participant__00000007_.Processes, __Process__00000006_)
 	__Participant__00000008_.Resources = append(__Participant__00000008_.Resources, __Resource__00000001_)
 	__Participant__00000008_.Tasks = append(__Participant__00000008_.Tasks, __Task__00000008_)
 	__Participant__00000008_.Tasks = append(__Participant__00000008_.Tasks, __Task__00000009_)

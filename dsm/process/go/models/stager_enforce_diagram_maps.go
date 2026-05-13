@@ -36,6 +36,15 @@ func (stager *Stager) enforceDiagramMaps() {
 			diagramProcess.map_AllocatedResourceShapeKey_AllocatedResourceShape[key] = allocatedResourceShape
 		}
 
+		diagramProcess.map_AllocatedProcessShapeKey_AllocatedProcessShape = make(map[allocatedProcessShapeKey]*AllocatedProcessShape)
+		for _, allocatedProcessShape := range diagramProcess.AllocatedProcessShapes {
+			key := allocatedProcessShapeKey{
+				participant: allocatedProcessShape.Participant,
+				process:     allocatedProcessShape.Process,
+			}
+			diagramProcess.map_AllocatedProcessShapeKey_AllocatedProcessShape[key] = allocatedProcessShape
+		}
+
 		diagramProcess.map_Note_NoteTaskShape = make(map[noteTaskKey]*NoteTaskShape)
 		for _, noteTaskShape := range diagramProcess.NoteTaskShapes {
 			key := noteTaskKey{

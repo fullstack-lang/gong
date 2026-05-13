@@ -9,6 +9,10 @@ type Process struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
+	// SVG_Path is a a SVG Path rendering an icon representing the process.
+	//gong:width 600 gong:height 300
+	SVG_Path string
+
 	parentProcess *Process
 
 	DiagramProcesss                   []*DiagramProcess

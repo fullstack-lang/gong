@@ -40,6 +40,15 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 }
 
 // insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by AllocatedProcessShape
+func (allocatedprocessshape *AllocatedProcessShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &allocatedprocessshape.Participant) || modified
+	modified = GongCleanPointer(stage, &allocatedprocessshape.Process) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by AllocatedResourceShape
 func (allocatedresourceshape *AllocatedResourceShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -124,6 +133,8 @@ func (diagramprocess *DiagramProcess) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagramprocess.DataFlowsWhoseDataNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.AllocatedResourcesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.AllocatedResourceShapes) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.AllocatedProcessesWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramprocess.AllocatedProcessShapes) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.Note_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.NotesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagramprocess.NoteTaskShapes) || modified
@@ -187,6 +198,7 @@ func (notetaskshape *NoteTaskShape) GongClean(stage *Stage) (modified bool) {
 func (participant *Participant) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &participant.Resources) || modified
+	modified = GongCleanSlice(stage, &participant.Processes) || modified
 	modified = GongCleanSlice(stage, &participant.Tasks) || modified
 	modified = GongCleanSlice(stage, &participant.ControlFlows) || modified
 	modified = GongCleanSlice(stage, &participant.TaskWhoseOutControlFlowsNodeIsExpanded) || modified

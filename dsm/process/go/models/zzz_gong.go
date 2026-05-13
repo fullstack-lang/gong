@@ -126,6 +126,21 @@ type Stage struct {
 	isWithGenesisCommit bool
 
 	// insertion point for definition of arrays registering instances
+	AllocatedProcessShapes                map[*AllocatedProcessShape]struct{}
+	AllocatedProcessShapes_instance       map[*AllocatedProcessShape]*AllocatedProcessShape
+	AllocatedProcessShapes_mapString      map[string]*AllocatedProcessShape
+	AllocatedProcessShapeOrder            uint
+	AllocatedProcessShape_stagedOrder     map[*AllocatedProcessShape]uint
+	AllocatedProcessShape_orderStaged     map[uint]*AllocatedProcessShape
+	AllocatedProcessShapes_reference      map[*AllocatedProcessShape]*AllocatedProcessShape
+	AllocatedProcessShapes_referenceOrder map[*AllocatedProcessShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterAllocatedProcessShapeCreateCallback OnAfterCreateInterface[AllocatedProcessShape]
+	OnAfterAllocatedProcessShapeUpdateCallback OnAfterUpdateInterface[AllocatedProcessShape]
+	OnAfterAllocatedProcessShapeDeleteCallback OnAfterDeleteInterface[AllocatedProcessShape]
+	OnAfterAllocatedProcessShapeReadCallback   OnAfterReadInterface[AllocatedProcessShape]
+
 	AllocatedResourceShapes                map[*AllocatedResourceShape]struct{}
 	AllocatedResourceShapes_instance       map[*AllocatedResourceShape]*AllocatedResourceShape
 	AllocatedResourceShapes_mapString      map[string]*AllocatedResourceShape
@@ -281,6 +296,10 @@ type Stage struct {
 
 	DiagramProcess_AllocatedResourceShapes_reverseMap map[*AllocatedResourceShape]*DiagramProcess
 
+	DiagramProcess_AllocatedProcessesWhoseNodeIsExpanded_reverseMap map[*Process]*DiagramProcess
+
+	DiagramProcess_AllocatedProcessShapes_reverseMap map[*AllocatedProcessShape]*DiagramProcess
+
 	DiagramProcess_Note_Shapes_reverseMap map[*NoteShape]*DiagramProcess
 
 	DiagramProcess_NotesWhoseNodeIsExpanded_reverseMap map[*Note]*DiagramProcess
@@ -404,6 +423,8 @@ type Stage struct {
 
 	// insertion point for slice of pointers maps
 	Participant_Resources_reverseMap map[*Resource]*Participant
+
+	Participant_Processes_reverseMap map[*Process]*Participant
 
 	Participant_Tasks_reverseMap map[*Task]*Participant
 
@@ -764,6 +785,10 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
+	stage.AllocatedProcessShapes_reference = make(map[*AllocatedProcessShape]*AllocatedProcessShape)
+	stage.AllocatedProcessShapes_instance = make(map[*AllocatedProcessShape]*AllocatedProcessShape)
+	stage.AllocatedProcessShapes_referenceOrder = make(map[*AllocatedProcessShape]uint)
+
 	stage.AllocatedResourceShapes_reference = make(map[*AllocatedResourceShape]*AllocatedResourceShape)
 	stage.AllocatedResourceShapes_instance = make(map[*AllocatedResourceShape]*AllocatedResourceShape)
 	stage.AllocatedResourceShapes_referenceOrder = make(map[*AllocatedResourceShape]uint)
@@ -871,6 +896,20 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
+	var maxAllocatedProcessShapeOrder uint
+	var foundAllocatedProcessShape bool
+	for _, order := range stage.AllocatedProcessShape_stagedOrder {
+		if !foundAllocatedProcessShape || order > maxAllocatedProcessShapeOrder {
+			maxAllocatedProcessShapeOrder = order
+			foundAllocatedProcessShape = true
+		}
+	}
+	if foundAllocatedProcessShape {
+		stage.AllocatedProcessShapeOrder = maxAllocatedProcessShapeOrder + 1
+	} else {
+		stage.AllocatedProcessShapeOrder = 0
+	}
+
 	var maxAllocatedResourceShapeOrder uint
 	var foundAllocatedResourceShape bool
 	for _, order := range stage.AllocatedResourceShape_stagedOrder {
@@ -1212,6 +1251,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
+	case *AllocatedProcessShape:
+		tmp := GetStructInstancesByOrder(stage.AllocatedProcessShapes, stage.AllocatedProcessShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *AllocatedProcessShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *AllocatedResourceShape:
 		tmp := GetStructInstancesByOrder(stage.AllocatedResourceShapes, stage.AllocatedResourceShape_stagedOrder)
 
@@ -1521,6 +1574,8 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 	switch namedStructName {
 	// insertion point for case
+	case "AllocatedProcessShape":
+		res = GetNamedStructInstances(stage.AllocatedProcessShapes, stage.AllocatedProcessShape_stagedOrder)
 	case "AllocatedResourceShape":
 		res = GetNamedStructInstances(stage.AllocatedResourceShapes, stage.AllocatedResourceShape_stagedOrder)
 	case "ControlFlow":
@@ -1630,6 +1685,8 @@ type BackRepoInterface interface {
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
 	// insertion point for Commit and Checkout signatures
+	CommitAllocatedProcessShape(allocatedprocessshape *AllocatedProcessShape)
+	CheckoutAllocatedProcessShape(allocatedprocessshape *AllocatedProcessShape)
 	CommitAllocatedResourceShape(allocatedresourceshape *AllocatedResourceShape)
 	CheckoutAllocatedResourceShape(allocatedresourceshape *AllocatedResourceShape)
 	CommitControlFlow(controlflow *ControlFlow)
@@ -1676,6 +1733,9 @@ type BackRepoInterface interface {
 
 func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
+		AllocatedProcessShapes:           make(map[*AllocatedProcessShape]struct{}),
+		AllocatedProcessShapes_mapString: make(map[string]*AllocatedProcessShape),
+
 		AllocatedResourceShapes:           make(map[*AllocatedResourceShape]struct{}),
 		AllocatedResourceShapes_mapString: make(map[string]*AllocatedResourceShape),
 
@@ -1746,6 +1806,10 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
+		AllocatedProcessShape_stagedOrder: make(map[*AllocatedProcessShape]uint),
+		AllocatedProcessShape_orderStaged: make(map[uint]*AllocatedProcessShape),
+		AllocatedProcessShapes_reference:  make(map[*AllocatedProcessShape]*AllocatedProcessShape),
+
 		AllocatedResourceShape_stagedOrder: make(map[*AllocatedResourceShape]uint),
 		AllocatedResourceShape_orderStaged: make(map[uint]*AllocatedResourceShape),
 		AllocatedResourceShapes_reference:  make(map[*AllocatedResourceShape]*AllocatedResourceShape),
@@ -1828,6 +1892,8 @@ func NewStage(name string) (stage *Stage) {
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+			"AllocatedProcessShape": &AllocatedProcessShapeUnmarshaller{},
+
 			"AllocatedResourceShape": &AllocatedResourceShapeUnmarshaller{},
 
 			"ControlFlow": &ControlFlowUnmarshaller{},
@@ -1872,6 +1938,7 @@ func NewStage(name string) (stage *Stage) {
 		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			{name: "AllocatedProcessShape"},
 			{name: "AllocatedResourceShape"},
 			{name: "ControlFlow"},
 			{name: "ControlFlowShape"},
@@ -1903,6 +1970,8 @@ func NewStage(name string) (stage *Stage) {
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
+	case *AllocatedProcessShape:
+		return stage.AllocatedProcessShape_stagedOrder[instance]
 	case *AllocatedResourceShape:
 		return stage.AllocatedResourceShape_stagedOrder[instance]
 	case *ControlFlow:
@@ -1952,6 +2021,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
+	case *AllocatedProcessShape:
+		return any(stage.AllocatedProcessShape_orderStaged[order]).(Type)
 	case *AllocatedResourceShape:
 		return any(stage.AllocatedResourceShape_orderStaged[order]).(Type)
 	case *ControlFlow:
@@ -2000,6 +2071,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
+	case *AllocatedProcessShape:
+		return stage.AllocatedProcessShape_stagedOrder[instance]
 	case *AllocatedResourceShape:
 		return stage.AllocatedResourceShape_stagedOrder[instance]
 	case *ControlFlow:
@@ -2105,6 +2178,7 @@ func (stage *Stage) Commit() {
 
 func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
+	stage.Map_GongStructName_InstancesNb["AllocatedProcessShape"] = len(stage.AllocatedProcessShapes)
 	stage.Map_GongStructName_InstancesNb["AllocatedResourceShape"] = len(stage.AllocatedResourceShapes)
 	stage.Map_GongStructName_InstancesNb["ControlFlow"] = len(stage.ControlFlows)
 	stage.Map_GongStructName_InstancesNb["ControlFlowShape"] = len(stage.ControlFlowShapes)
@@ -2165,6 +2239,94 @@ func (stage *Stage) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
+// Stage puts allocatedprocessshape to the model stage
+func (allocatedprocessshape *AllocatedProcessShape) Stage(stage *Stage) *AllocatedProcessShape {
+	if _, ok := stage.AllocatedProcessShapes[allocatedprocessshape]; !ok {
+		stage.AllocatedProcessShapes[allocatedprocessshape] = struct{}{}
+		stage.AllocatedProcessShape_stagedOrder[allocatedprocessshape] = stage.AllocatedProcessShapeOrder
+		stage.AllocatedProcessShape_orderStaged[stage.AllocatedProcessShapeOrder] = allocatedprocessshape
+		stage.AllocatedProcessShapeOrder++
+	}
+	stage.AllocatedProcessShapes_mapString[allocatedprocessshape.Name] = allocatedprocessshape
+
+	return allocatedprocessshape
+}
+
+// StagePreserveOrder puts allocatedprocessshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.AllocatedProcessShapeOrder
+// - update stage.AllocatedProcessShapeOrder accordingly
+func (allocatedprocessshape *AllocatedProcessShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.AllocatedProcessShapes[allocatedprocessshape]; !ok {
+		stage.AllocatedProcessShapes[allocatedprocessshape] = struct{}{}
+
+		if order > stage.AllocatedProcessShapeOrder {
+			stage.AllocatedProcessShapeOrder = order
+		}
+		stage.AllocatedProcessShape_stagedOrder[allocatedprocessshape] = order
+		stage.AllocatedProcessShape_orderStaged[order] = allocatedprocessshape
+		stage.AllocatedProcessShapeOrder++
+	}
+	stage.AllocatedProcessShapes_mapString[allocatedprocessshape.Name] = allocatedprocessshape
+}
+
+// Unstage removes allocatedprocessshape off the model stage
+func (allocatedprocessshape *AllocatedProcessShape) Unstage(stage *Stage) *AllocatedProcessShape {
+	delete(stage.AllocatedProcessShapes, allocatedprocessshape)
+	// issue1150
+	// delete(stage.AllocatedProcessShape_stagedOrder, allocatedprocessshape)
+	delete(stage.AllocatedProcessShapes_mapString, allocatedprocessshape.Name)
+
+	return allocatedprocessshape
+}
+
+// UnstageVoid removes allocatedprocessshape off the model stage
+func (allocatedprocessshape *AllocatedProcessShape) UnstageVoid(stage *Stage) {
+	delete(stage.AllocatedProcessShapes, allocatedprocessshape)
+	// issue1150
+	// delete(stage.AllocatedProcessShape_stagedOrder, allocatedprocessshape)
+	delete(stage.AllocatedProcessShapes_mapString, allocatedprocessshape.Name)
+}
+
+// commit allocatedprocessshape to the back repo (if it is already staged)
+func (allocatedprocessshape *AllocatedProcessShape) Commit(stage *Stage) *AllocatedProcessShape {
+	if _, ok := stage.AllocatedProcessShapes[allocatedprocessshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitAllocatedProcessShape(allocatedprocessshape)
+		}
+	}
+	return allocatedprocessshape
+}
+
+func (allocatedprocessshape *AllocatedProcessShape) CommitVoid(stage *Stage) {
+	allocatedprocessshape.Commit(stage)
+}
+
+func (allocatedprocessshape *AllocatedProcessShape) StageVoid(stage *Stage) {
+	allocatedprocessshape.Stage(stage)
+}
+
+// Checkout allocatedprocessshape to the back repo (if it is already staged)
+func (allocatedprocessshape *AllocatedProcessShape) Checkout(stage *Stage) *AllocatedProcessShape {
+	if _, ok := stage.AllocatedProcessShapes[allocatedprocessshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutAllocatedProcessShape(allocatedprocessshape)
+		}
+	}
+	return allocatedprocessshape
+}
+
+// for satisfaction of GongStruct interface
+func (allocatedprocessshape *AllocatedProcessShape) GetName() (res string) {
+	return allocatedprocessshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (allocatedprocessshape *AllocatedProcessShape) SetName(name string) {
+	allocatedprocessshape.Name = name
+}
+
 // Stage puts allocatedresourceshape to the model stage
 func (allocatedresourceshape *AllocatedResourceShape) Stage(stage *Stage) *AllocatedResourceShape {
 	if _, ok := stage.AllocatedResourceShapes[allocatedresourceshape]; !ok {
@@ -3927,6 +4089,7 @@ func (taskshape *TaskShape) SetName(name string) {
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
+	CreateORMAllocatedProcessShape(AllocatedProcessShape *AllocatedProcessShape)
 	CreateORMAllocatedResourceShape(AllocatedResourceShape *AllocatedResourceShape)
 	CreateORMControlFlow(ControlFlow *ControlFlow)
 	CreateORMControlFlowShape(ControlFlowShape *ControlFlowShape)
@@ -3950,6 +4113,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
+	DeleteORMAllocatedProcessShape(AllocatedProcessShape *AllocatedProcessShape)
 	DeleteORMAllocatedResourceShape(AllocatedResourceShape *AllocatedResourceShape)
 	DeleteORMControlFlow(ControlFlow *ControlFlow)
 	DeleteORMControlFlowShape(ControlFlowShape *ControlFlowShape)
@@ -3973,6 +4137,11 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
+	stage.AllocatedProcessShapes = make(map[*AllocatedProcessShape]struct{})
+	stage.AllocatedProcessShapes_mapString = make(map[string]*AllocatedProcessShape)
+	stage.AllocatedProcessShape_stagedOrder = make(map[*AllocatedProcessShape]uint)
+	stage.AllocatedProcessShapeOrder = 0
+
 	stage.AllocatedResourceShapes = make(map[*AllocatedResourceShape]struct{})
 	stage.AllocatedResourceShapes_mapString = make(map[string]*AllocatedResourceShape)
 	stage.AllocatedResourceShape_stagedOrder = make(map[*AllocatedResourceShape]uint)
@@ -4082,6 +4251,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
+	stage.AllocatedProcessShapes = nil
+	stage.AllocatedProcessShapes_mapString = nil
+
 	stage.AllocatedResourceShapes = nil
 	stage.AllocatedResourceShapes_mapString = nil
 
@@ -4146,6 +4318,10 @@ func (stage *Stage) Nil() { // insertion point for array nil
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
+	for allocatedprocessshape := range stage.AllocatedProcessShapes {
+		allocatedprocessshape.Unstage(stage)
+	}
+
 	for allocatedresourceshape := range stage.AllocatedResourceShapes {
 		allocatedresourceshape.Unstage(stage)
 	}
@@ -4302,6 +4478,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case map[*AllocatedProcessShape]any:
+		return any(&stage.AllocatedProcessShapes).(*Type)
 	case map[*AllocatedResourceShape]any:
 		return any(&stage.AllocatedResourceShapes).(*Type)
 	case map[*ControlFlow]any:
@@ -4354,6 +4532,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case *AllocatedProcessShape:
+		return any(stage.AllocatedProcessShapes_mapString).(map[string]Type)
 	case *AllocatedResourceShape:
 		return any(stage.AllocatedResourceShapes_mapString).(map[string]Type)
 	case *ControlFlow:
@@ -4406,6 +4586,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case AllocatedProcessShape:
+		return any(&stage.AllocatedProcessShapes).(*map[*Type]struct{})
 	case AllocatedResourceShape:
 		return any(&stage.AllocatedResourceShapes).(*map[*Type]struct{})
 	case ControlFlow:
@@ -4458,6 +4640,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case *AllocatedProcessShape:
+		return any(&stage.AllocatedProcessShapes).(*map[Type]struct{})
 	case *AllocatedResourceShape:
 		return any(&stage.AllocatedResourceShapes).(*map[Type]struct{})
 	case *ControlFlow:
@@ -4510,6 +4694,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case AllocatedProcessShape:
+		return any(&stage.AllocatedProcessShapes_mapString).(*map[string]*Type)
 	case AllocatedResourceShape:
 		return any(&stage.AllocatedResourceShapes_mapString).(*map[string]*Type)
 	case ControlFlow:
@@ -4564,6 +4750,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
+	case AllocatedProcessShape:
+		return any(&AllocatedProcessShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Participant with the name of the field
+			Participant: &Participant{Name: "Participant"},
+			// field is initialized with an instance of Process with the name of the field
+			Process: &Process{Name: "Process"},
+		}).(*Type)
 	case AllocatedResourceShape:
 		return any(&AllocatedResourceShape{
 			// Initialisation of associations
@@ -4659,6 +4853,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			AllocatedResourcesWhoseNodeIsExpanded: []*Resource{{Name: "AllocatedResourcesWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of AllocatedResourceShape with the name of the field
 			AllocatedResourceShapes: []*AllocatedResourceShape{{Name: "AllocatedResourceShapes"}},
+			// field is initialized with an instance of Process with the name of the field
+			AllocatedProcessesWhoseNodeIsExpanded: []*Process{{Name: "AllocatedProcessesWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of AllocatedProcessShape with the name of the field
+			AllocatedProcessShapes: []*AllocatedProcessShape{{Name: "AllocatedProcessShapes"}},
 			// field is initialized with an instance of NoteShape with the name of the field
 			Note_Shapes: []*NoteShape{{Name: "Note_Shapes"}},
 			// field is initialized with an instance of Note with the name of the field
@@ -4725,6 +4923,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Resource with the name of the field
 			Resources: []*Resource{{Name: "Resources"}},
+			// field is initialized with an instance of Process with the name of the field
+			Processes: []*Process{{Name: "Processes"}},
 			// field is initialized with an instance of Task with the name of the field
 			Tasks: []*Task{{Name: "Tasks"}},
 			// field is initialized with an instance of ControlFlow with the name of the field
@@ -4803,6 +5003,45 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of AllocatedProcessShape
+	case AllocatedProcessShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Participant":
+			res := make(map[*Participant][]*AllocatedProcessShape)
+			for allocatedprocessshape := range stage.AllocatedProcessShapes {
+				if allocatedprocessshape.Participant != nil {
+					participant_ := allocatedprocessshape.Participant
+					var allocatedprocessshapes []*AllocatedProcessShape
+					_, ok := res[participant_]
+					if ok {
+						allocatedprocessshapes = res[participant_]
+					} else {
+						allocatedprocessshapes = make([]*AllocatedProcessShape, 0)
+					}
+					allocatedprocessshapes = append(allocatedprocessshapes, allocatedprocessshape)
+					res[participant_] = allocatedprocessshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Process":
+			res := make(map[*Process][]*AllocatedProcessShape)
+			for allocatedprocessshape := range stage.AllocatedProcessShapes {
+				if allocatedprocessshape.Process != nil {
+					process_ := allocatedprocessshape.Process
+					var allocatedprocessshapes []*AllocatedProcessShape
+					_, ok := res[process_]
+					if ok {
+						allocatedprocessshapes = res[process_]
+					} else {
+						allocatedprocessshapes = make([]*AllocatedProcessShape, 0)
+					}
+					allocatedprocessshapes = append(allocatedprocessshapes, allocatedprocessshape)
+					res[process_] = allocatedprocessshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of AllocatedResourceShape
 	case AllocatedResourceShape:
 		switch fieldname {
@@ -5258,6 +5497,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of AllocatedProcessShape
+	case AllocatedProcessShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of AllocatedResourceShape
 	case AllocatedResourceShape:
 		switch fieldname {
@@ -5457,6 +5701,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "AllocatedProcessesWhoseNodeIsExpanded":
+			res := make(map[*Process][]*DiagramProcess)
+			for diagramprocess := range stage.DiagramProcesss {
+				for _, process_ := range diagramprocess.AllocatedProcessesWhoseNodeIsExpanded {
+					res[process_] = append(res[process_], diagramprocess)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "AllocatedProcessShapes":
+			res := make(map[*AllocatedProcessShape][]*DiagramProcess)
+			for diagramprocess := range stage.DiagramProcesss {
+				for _, allocatedprocessshape_ := range diagramprocess.AllocatedProcessShapes {
+					res[allocatedprocessshape_] = append(res[allocatedprocessshape_], diagramprocess)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Note_Shapes":
 			res := make(map[*NoteShape][]*DiagramProcess)
 			for diagramprocess := range stage.DiagramProcesss {
@@ -5623,6 +5883,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Processes":
+			res := make(map[*Process][]*Participant)
+			for participant := range stage.Participants {
+				for _, process_ := range participant.Processes {
+					res[process_] = append(res[process_], participant)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Tasks":
 			res := make(map[*Task][]*Participant)
 			for participant := range stage.Participants {
@@ -5777,6 +6045,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
+	case *AllocatedProcessShape:
+		res = "AllocatedProcessShape"
 	case *AllocatedResourceShape:
 		res = "AllocatedResourceShape"
 	case *ControlFlow:
@@ -5834,6 +6104,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
+	case *AllocatedProcessShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "DiagramProcess"
+		rf.Fieldname = "AllocatedProcessShapes"
+		res = append(res, rf)
 	case *AllocatedResourceShape:
 		var rf ReverseField
 		_ = rf
@@ -5987,11 +6263,17 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "DiagramProcess"
 		rf.Fieldname = "ProcesssWhoseNodeIsExpanded"
 		res = append(res, rf)
+		rf.GongstructName = "DiagramProcess"
+		rf.Fieldname = "AllocatedProcessesWhoseNodeIsExpanded"
+		res = append(res, rf)
 		rf.GongstructName = "Library"
 		rf.Fieldname = "RootProcesses"
 		res = append(res, rf)
 		rf.GongstructName = "Library"
 		rf.Fieldname = "ProcesssWhoseNodeIsExpanded"
+		res = append(res, rf)
+		rf.GongstructName = "Participant"
+		rf.Fieldname = "Processes"
 		res = append(res, rf)
 		rf.GongstructName = "Process"
 		rf.Fieldname = "SubProcesses"
@@ -6052,6 +6334,27 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 }
 
 // insertion point for get fields header method
+func (allocatedprocessshape *AllocatedProcessShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Participant",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Participant",
+		},
+		{
+			Name:                 "Process",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Process",
+		},
+	}
+	return
+}
+
 func (allocatedresourceshape *AllocatedResourceShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -6430,6 +6733,16 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 			TargetGongstructName: "AllocatedResourceShape",
 		},
 		{
+			Name:                 "AllocatedProcessesWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Process",
+		},
+		{
+			Name:                 "AllocatedProcessShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "AllocatedProcessShape",
+		},
+		{
 			Name:                 "Note_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "NoteShape",
@@ -6736,6 +7049,15 @@ func (participant *Participant) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsResourcesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Processes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Process",
+		},
+		{
+			Name:               "IsProcessesNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -7097,6 +7419,27 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
+func (allocatedprocessshape *AllocatedProcessShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = allocatedprocessshape.Name
+	case "Participant":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if allocatedprocessshape.Participant != nil {
+			res.valueString = allocatedprocessshape.Participant.Name
+			res.ids = allocatedprocessshape.Participant.GongGetUUID(stage)
+		}
+	case "Process":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if allocatedprocessshape.Process != nil {
+			res.valueString = allocatedprocessshape.Process.Name
+			res.ids = allocatedprocessshape.Process.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
 func (allocatedresourceshape *AllocatedResourceShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -7544,6 +7887,26 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "AllocatedProcessesWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramprocess.AllocatedProcessesWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "AllocatedProcessShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramprocess.AllocatedProcessShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "Note_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagramprocess.Note_Shapes {
@@ -7916,6 +8279,20 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = fmt.Sprintf("%t", participant.IsResourcesNodeExpanded)
 		res.valueBool = participant.IsResourcesNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Processes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range participant.Processes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsProcessesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", participant.IsProcessesNodeExpanded)
+		res.valueBool = participant.IsProcessesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ComputedPrefix":
 		res.valueString = participant.ComputedPrefix
 	case "IsTasksNodeExpanded":
@@ -8272,6 +8649,39 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 }
 
 // insertion point for generic set gongstruct field value
+func (allocatedprocessshape *AllocatedProcessShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		allocatedprocessshape.Name = value.GetValueString()
+	case "Participant":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			allocatedprocessshape.Participant = nil
+			for __instance__ := range stage.Participants {
+				if stage.Participant_stagedOrder[__instance__] == uint(id) {
+					allocatedprocessshape.Participant = __instance__
+					break
+				}
+			}
+		}
+	case "Process":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			allocatedprocessshape.Process = nil
+			for __instance__ := range stage.Processs {
+				if stage.Process_stagedOrder[__instance__] == uint(id) {
+					allocatedprocessshape.Process = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (allocatedresourceshape *AllocatedResourceShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -8830,6 +9240,34 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 				}
 			}
 		}
+	case "AllocatedProcessesWhoseNodeIsExpanded":
+		diagramprocess.AllocatedProcessesWhoseNodeIsExpanded = make([]*Process, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Processs {
+					if stage.Process_stagedOrder[__instance__] == uint(id) {
+						diagramprocess.AllocatedProcessesWhoseNodeIsExpanded = append(diagramprocess.AllocatedProcessesWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "AllocatedProcessShapes":
+		diagramprocess.AllocatedProcessShapes = make([]*AllocatedProcessShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.AllocatedProcessShapes {
+					if stage.AllocatedProcessShape_stagedOrder[__instance__] == uint(id) {
+						diagramprocess.AllocatedProcessShapes = append(diagramprocess.AllocatedProcessShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "Note_Shapes":
 		diagramprocess.Note_Shapes = make([]*NoteShape, 0)
 		ids := strings.Split(value.ids, ";")
@@ -9246,6 +9684,22 @@ func (participant *Participant) GongSetFieldValue(fieldName string, value GongFi
 		}
 	case "IsResourcesNodeExpanded":
 		participant.IsResourcesNodeExpanded = value.GetValueBool()
+	case "Processes":
+		participant.Processes = make([]*Process, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Processs {
+					if stage.Process_stagedOrder[__instance__] == uint(id) {
+						participant.Processes = append(participant.Processes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsProcessesNodeExpanded":
+		participant.IsProcessesNodeExpanded = value.GetValueBool()
 	case "ComputedPrefix":
 		participant.ComputedPrefix = value.GetValueString()
 	case "IsTasksNodeExpanded":
@@ -9635,6 +10089,10 @@ func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, val
 }
 
 // insertion point for generic get gongstruct name
+func (allocatedprocessshape *AllocatedProcessShape) GongGetGongstructName() string {
+	return "AllocatedProcessShape"
+}
+
 func (allocatedresourceshape *AllocatedResourceShape) GongGetGongstructName() string {
 	return "AllocatedResourceShape"
 }
@@ -9722,6 +10180,11 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
+	stage.AllocatedProcessShapes_mapString = make(map[string]*AllocatedProcessShape)
+	for allocatedprocessshape := range stage.AllocatedProcessShapes {
+		stage.AllocatedProcessShapes_mapString[allocatedprocessshape.Name] = allocatedprocessshape
+	}
+
 	stage.AllocatedResourceShapes_mapString = make(map[string]*AllocatedResourceShape)
 	for allocatedresourceshape := range stage.AllocatedResourceShapes {
 		stage.AllocatedResourceShapes_mapString[allocatedresourceshape.Name] = allocatedresourceshape
