@@ -85,6 +85,10 @@ type Data_WOP struct {
 	Description string
 
 	ComputedPrefix string
+
+	SVG_Path string
+
+	InverseAppliedScaling float64
 }
 
 func (from *Data) CopyBasicFields(to *Data) {
@@ -92,6 +96,8 @@ func (from *Data) CopyBasicFields(to *Data) {
 	to.Name = from.Name
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
+	to.SVG_Path = from.SVG_Path
+	to.InverseAppliedScaling = from.InverseAppliedScaling
 }
 
 type DataFlow_WOP struct {
@@ -428,6 +434,8 @@ type Process_WOP struct {
 
 	ComputedPrefix string
 
+	SVG_Path string
+
 	IsSubProcessNodeExpanded bool
 
 	IsDataFlowsNodeExpanded bool
@@ -438,6 +446,7 @@ func (from *Process) CopyBasicFields(to *Process) {
 	to.Name = from.Name
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
+	to.SVG_Path = from.SVG_Path
 	to.IsSubProcessNodeExpanded = from.IsSubProcessNodeExpanded
 	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
 }

@@ -246,18 +246,26 @@ func _(stage *models.Stage) {
 	__Data__00000000_.Name = `D1`
 	__Data__00000000_.Description = ``
 	__Data__00000000_.ComputedPrefix = ``
+	__Data__00000000_.SVG_Path = `m280-40 112-564-72 28v136h-80v-188l202-86q14-6 29.5-7t29.5 4q14 5 26.5 14t20.5 23l40 64q26 42 70.5 69T760-520v80q-70 0-125-29t-94-74l-25 123 84 80v300h-80v-260l-84-64-72 324h-84Zm203.5-723.5Q460-787 460-820t23.5-56.5Q507-900 540-900t56.5 23.5Q620-853 620-820t-23.5 56.5Q573-740 540-740t-56.5-23.5Z`
+	__Data__00000000_.InverseAppliedScaling = 60.000000
 
 	__Data__00000001_.Name = `D2`
 	__Data__00000001_.Description = ``
 	__Data__00000001_.ComputedPrefix = ``
+	__Data__00000001_.SVG_Path = `m280-40 112-564-72 28v136h-80v-188l202-86q14-6 29.5-7t29.5 4q14 5 26.5 14t20.5 23l40 64q26 42 70.5 69T760-520v80q-70 0-125-29t-94-74l-25 123 84 80v300h-80v-260l-84-64-72 324h-84Zm203.5-723.5Q460-787 460-820t23.5-56.5Q507-900 540-900t56.5 23.5Q620-853 620-820t-23.5 56.5Q573-740 540-740t-56.5-23.5Z`
+	__Data__00000001_.InverseAppliedScaling = 60.000000
 
 	__Data__00000002_.Name = `L1.D1`
 	__Data__00000002_.Description = ``
 	__Data__00000002_.ComputedPrefix = ``
+	__Data__00000002_.SVG_Path = ``
+	__Data__00000002_.InverseAppliedScaling = 0.000000
 
 	__Data__00000003_.Name = `D3`
 	__Data__00000003_.Description = ``
 	__Data__00000003_.ComputedPrefix = ``
+	__Data__00000003_.SVG_Path = ``
+	__Data__00000003_.InverseAppliedScaling = 0.000000
 
 	__DataFlow__00000000_.Name = `T2 to PP2 T2`
 	__DataFlow__00000000_.Description = ``
@@ -278,8 +286,8 @@ func _(stage *models.Stage) {
 	__DataFlow__00000003_.IsDatasNodeExpanded = false
 
 	__DataFlowShape__00000004_.Name = `T2 to PP2 T2`
-	__DataFlowShape__00000004_.StartRatio = 0.820898
-	__DataFlowShape__00000004_.EndRatio = 0.500000
+	__DataFlowShape__00000004_.StartRatio = 0.741696
+	__DataFlowShape__00000004_.EndRatio = 0.485352
 	__DataFlowShape__00000004_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000004_.EndOrientation = models.ORIENTATION_VERTICAL
 	__DataFlowShape__00000004_.CornerOffsetRatio = 1.008329
@@ -449,7 +457,7 @@ func _(stage *models.Stage) {
 
 	__Participant__00000007_.Name = `EP1 Very Long Participant Name`
 	__Participant__00000007_.Description = ``
-	__Participant__00000007_.IsResourcesNodeExpanded = false
+	__Participant__00000007_.IsResourcesNodeExpanded = true
 	__Participant__00000007_.IsProcessesNodeExpanded = true
 	__Participant__00000007_.ComputedPrefix = ``
 	__Participant__00000007_.IsTasksNodeExpanded = false
@@ -549,12 +557,14 @@ func _(stage *models.Stage) {
 	__Process__00000005_.Name = `P1`
 	__Process__00000005_.Description = ``
 	__Process__00000005_.ComputedPrefix = ``
+	__Process__00000005_.SVG_Path = ``
 	__Process__00000005_.IsSubProcessNodeExpanded = false
 	__Process__00000005_.IsDataFlowsNodeExpanded = true
 
 	__Process__00000006_.Name = `P2`
 	__Process__00000006_.Description = ``
 	__Process__00000006_.ComputedPrefix = ``
+	__Process__00000006_.SVG_Path = ``
 	__Process__00000006_.IsSubProcessNodeExpanded = false
 	__Process__00000006_.IsDataFlowsNodeExpanded = false
 
@@ -863,6 +873,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.ExternalParticipant_Shapes = append(__DiagramProcess__00000007_.ExternalParticipant_Shapes, __ExternalParticipantShape__00000003_)
 	__DiagramProcess__00000007_.ExternalParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000007_.ExternalParticipantWhoseNodeIsExpanded, __Participant__00000003_)
 	__DiagramProcess__00000007_.ExternalParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000007_.ExternalParticipantWhoseNodeIsExpanded, __Participant__00000007_)
+	__DiagramProcess__00000007_.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(__DiagramProcess__00000007_.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, __Participant__00000007_)
 	__DiagramProcess__00000007_.TasksWhoseNodeIsExpanded = append(__DiagramProcess__00000007_.TasksWhoseNodeIsExpanded, __Task__00000002_)
 	__DiagramProcess__00000007_.Task_Shapes = append(__DiagramProcess__00000007_.Task_Shapes, __TaskShape__00000011_)
 	__DiagramProcess__00000007_.Task_Shapes = append(__DiagramProcess__00000007_.Task_Shapes, __TaskShape__00000012_)
