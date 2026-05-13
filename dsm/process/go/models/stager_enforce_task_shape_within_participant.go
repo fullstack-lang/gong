@@ -72,9 +72,28 @@ func (stager *Stager) enforceTaskShapeWithinParticipant() (needCommit bool) {
 			}
 
 			modified := false
-
 			margin := 1.0
 
+			// 1. Enforce maximum dimensions first
+			maxWidth := boundingWidth - 2*margin
+			if maxWidth < 10.0 { // arbitrary minimum width to prevent negative/invisible shapes
+				maxWidth = 10.0
+			}
+			if taskShape.Width > maxWidth {
+				taskShape.Width = maxWidth
+				modified = true
+			}
+
+			maxHeight := boundingHeight - 2*margin
+			if maxHeight < 10.0 {
+				maxHeight = 10.0
+			}
+			if taskShape.Height > maxHeight {
+				taskShape.Height = maxHeight
+				modified = true
+			}
+
+			// 2. Enforce positional boundaries (existing logic)
 			if taskShape.X < boundingX+margin {
 				taskShape.X = boundingX + margin
 				modified = true
