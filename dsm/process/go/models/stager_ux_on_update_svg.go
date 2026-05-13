@@ -79,8 +79,8 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			controlFlowShape.SetName(controlFlow.Start.GetName() + " to " + controlFlow.End.GetName())
 			controlFlowShape.SetAbstractStartElement(controlFlow.Start)
 			controlFlowShape.SetAbstractEndElement(controlFlow.End)
-			controlFlowShape.SetStartOrientation(ORIENTATION_VERTICAL)
-			controlFlowShape.SetEndOrientation(ORIENTATION_VERTICAL)
+			controlFlowShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
+			controlFlowShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
 
 			controlFlowShape.SetCornerOffsetRatio(1.5)
 			controlFlowShape.SetStartRatio(0.5)
@@ -103,8 +103,8 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			dataFlowShape.SetName(dataFlow.StartTask.GetName() + " to " + dataFlow.EndTask.GetName())
 			dataFlowShape.SetAbstractStartElement(dataFlow.StartTask)
 			dataFlowShape.SetAbstractEndElement(dataFlow.EndTask)
-			dataFlowShape.SetStartOrientation(ORIENTATION_VERTICAL)
-			dataFlowShape.SetEndOrientation(ORIENTATION_VERTICAL)
+			dataFlowShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
+			dataFlowShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
 
 			dataFlowShape.SetCornerOffsetRatio(1.5)
 			dataFlowShape.SetStartRatio(0.5)
@@ -131,8 +131,8 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		dataFlowShape.SetName(dataFlow.StartExternalParticipant.GetName() + " to " + dataFlow.EndTask.GetName())
 		dataFlowShape.SetAbstractStartElement(dataFlow.StartExternalParticipant)
 		dataFlowShape.SetAbstractEndElement(dataFlow.EndTask)
-		dataFlowShape.SetStartOrientation(ORIENTATION_VERTICAL)
-		dataFlowShape.SetEndOrientation(ORIENTATION_VERTICAL)
+		dataFlowShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
+		dataFlowShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
 
 		dataFlowShape.SetCornerOffsetRatio(1.5)
 		dataFlowShape.SetStartRatio(0.5)
@@ -158,8 +158,8 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		dataFlowShape.SetName(dataFlow.StartTask.GetName() + " to " + dataFlow.EndExternalParticipant.GetName())
 		dataFlowShape.SetAbstractStartElement(dataFlow.StartTask)
 		dataFlowShape.SetAbstractEndElement(dataFlow.EndExternalParticipant)
-		dataFlowShape.SetStartOrientation(ORIENTATION_VERTICAL)
-		dataFlowShape.SetEndOrientation(ORIENTATION_VERTICAL)
+		dataFlowShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
+		dataFlowShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
 
 		dataFlowShape.SetCornerOffsetRatio(1.5)
 		dataFlowShape.SetStartRatio(0.5)

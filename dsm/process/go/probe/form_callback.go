@@ -4220,6 +4220,8 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(participant_.Name), formDiv)
+		case "IsProcessResource":
+			FormDivBasicFieldToField(&(participant_.IsProcessResource), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(participant_.Description), formDiv)
 		case "Resources":

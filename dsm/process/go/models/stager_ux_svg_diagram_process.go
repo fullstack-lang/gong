@@ -250,7 +250,7 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 
 		diagramProcess.map_Participant_Rect[participantShape.Participant] = rect
 
-		{
+		if !participantShape.Participant.IsProcessResource {
 			title := new(svg.RectAnchoredText)
 			title.Name = participantShape.GetAbstractElement().GetName()
 
@@ -294,7 +294,9 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 			rect.RectAnchoredRects = append(rect.RectAnchoredRects, titleBox)
 		}
 
-		stager.drawAllocatedProcessesAndResources(participantShape.Participant, diagramProcess, rect, svg.RECT_TOP)
+		boxHeigth, anchoredRect := stager.drawAllocatedProcessesAndResources(participantShape.Participant, diagramProcess, rect, svg.RECT_TOP)
+		_ = boxHeigth
+		_ = anchoredRect
 
 		currentWeight += shapeWeight
 	}
@@ -338,7 +340,7 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 		rect.FillOpacity = 1.0
 		rect.Stroke = "#E0E0E0"
 
-		{
+		if !externalParticipantShape.Participant.IsProcessResource {
 			title := new(svg.RectAnchoredText)
 			title.Name = externalParticipantShape.GetAbstractElement().GetName()
 
@@ -372,7 +374,12 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 			externalParticipantShape.TailHeigth = 100.0
 		}
 
-		boxHeight := stager.drawAllocatedProcessesAndResources(externalParticipantShape.Participant, diagramProcess, rect, svg.RECT_BOTTOM)
+		boxHeight, rectAnchoredRect := stager.drawAllocatedProcessesAndResources(
+			externalParticipantShape.Participant,
+			diagramProcess,
+			rect,
+			svg.RECT_BOTTOM)
+		_ = rectAnchoredRect
 
 		tailRect := &svg.Rect{
 			Name: "Tail" + rect.GetName(),
@@ -404,7 +411,6 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 			}
 		}
 		layer.Rects = append(layer.Rects, tailRect)
-
 	}
 }
 
@@ -796,7 +802,11 @@ func (stager *Stager) drawNoteTaskShapes(diagramProcess *DiagramProcess, layer *
 	}
 }
 
-func (stager *Stager) drawAllocatedProcessesAndResources(participant *Participant, diagramProcess *DiagramProcess, rect *svg.Rect, rectAnchorType svg.RectAnchorType) (boxHeight float64) {
+func (stager *Stager) drawAllocatedProcessesAndResources(
+	participant *Participant,
+	diagramProcess *DiagramProcess,
+	rect *svg.Rect,
+	rectAnchorType svg.RectAnchorType) (boxHeight float64, allocatedResourceRect *svg.RectAnchoredRect) {
 	root := stager.GetRootLibrary()
 	const HeightBetween2AttributeShapes = 16.0
 
@@ -948,7 +958,7 @@ func (stager *Stager) drawAllocatedProcessesAndResources(participant *Participan
 	boxHeight = float64(totalLines)*HeightBetween2AttributeShapes + Y_Offset - 5.0
 	if totalLines > 0 {
 		lineWidth := 1.0
-		allocatedResourceRect := &svg.RectAnchoredRect{
+		allocatedResourceRect = &svg.RectAnchoredRect{
 			Name: participant.Name + "_allocated_resources_and_processes",
 			Presentation: svg.Presentation{
 				Stroke:        "#CCCCCC",
@@ -967,5 +977,5 @@ func (stager *Stager) drawAllocatedProcessesAndResources(participant *Participan
 		}
 		rect.RectAnchoredRects = append(rect.RectAnchoredRects, allocatedResourceRect)
 	}
-	return boxHeight
+	return
 }

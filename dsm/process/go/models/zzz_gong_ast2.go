@@ -1112,6 +1112,8 @@ func (u *ParticipantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "IsProcessResource":
+		instance.IsProcessResource = GongExtractBool(valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
 	case "Resources":

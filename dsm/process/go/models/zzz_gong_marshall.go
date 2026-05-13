@@ -780,6 +780,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsProcessResource"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "Description"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Resources"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsResourcesNodeExpanded"))
@@ -2439,6 +2440,11 @@ func (participant *Participant) GongMarshallField(stage *Stage, fieldName string
 		res = strings.ReplaceAll(res, "{{Identifier}}", participant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(participant.Name))
+	case "IsProcessResource":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", participant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsProcessResource")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", participant.IsProcessResource))
 	case "Description":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", participant.GongGetIdentifier(stage))
@@ -3231,6 +3237,7 @@ func (participant *Participant) GongMarshallAllFields(stage *Stage) (initRes str
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsProcessResource"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "Description"))
 		pointersInitializesStatements.WriteString(participant.GongMarshallField(stage, "Resources"))
 		initializerStatements.WriteString(participant.GongMarshallField(stage, "IsResourcesNodeExpanded"))
