@@ -77,6 +77,12 @@ func (stager *Stager) enforceControlFlowRules() (needCommit bool) {
 			needCommit = true
 			continue
 		}
+
+		expectedName := "\"" + controlFlow.Start.GetName() + "\"" + " to " + "\"" + controlFlow.End.GetName() + "\""
+		if controlFlow.Name != expectedName {
+			controlFlow.Name = expectedName
+			needCommit = true
+		}
 	}
 
 	return
