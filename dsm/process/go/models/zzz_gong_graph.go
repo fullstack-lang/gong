@@ -4554,6 +4554,9 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 	if participant.Name != participantOther.Name {
 		diffs = append(diffs, participant.GongMarshallField(stage, "Name"))
 	}
+	if participant.IsProcessResource != participantOther.IsProcessResource {
+		diffs = append(diffs, participant.GongMarshallField(stage, "IsProcessResource"))
+	}
 	if participant.Description != participantOther.Description {
 		diffs = append(diffs, participant.GongMarshallField(stage, "Description"))
 	}
