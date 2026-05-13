@@ -13,6 +13,11 @@ type allocatedResourceShapeKey struct {
 	resource    *Resource
 }
 
+type allocatedProcessShapeKey struct {
+	participant *Participant
+	process     *Process
+}
+
 type DiagramProcess struct {
 	Name string
 
@@ -96,6 +101,11 @@ type DiagramProcess struct {
 	AllocatedResourcesWhoseNodeIsExpanded                []*Resource
 	AllocatedResourceShapes                              []*AllocatedResourceShape
 	map_AllocatedResourceShapeKey_AllocatedResourceShape map[allocatedResourceShapeKey]*AllocatedResourceShape
+
+	// alllocated processes
+	AllocatedProcessesWhoseNodeIsExpanded              []*Process
+	AllocatedProcessShapes                             []*AllocatedProcessShape
+	map_AllocatedProcessShapeKey_AllocatedProcessShape map[allocatedProcessShapeKey]*AllocatedProcessShape
 
 	Note_Shapes              []*NoteShape
 	map_Note_NoteShape       map[*Note]*NoteShape

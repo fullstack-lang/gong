@@ -437,6 +437,39 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 }
 
 // insertion point per named struct
+type AllocatedProcessShapeUnmarshaller struct{}
+
+func (u *AllocatedProcessShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(AllocatedProcessShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *AllocatedProcessShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*AllocatedProcessShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Participant":
+		GongUnmarshallPointer(&instance.Participant, valueExpr, identifierMap)
+	case "Process":
+		GongUnmarshallPointer(&instance.Process, valueExpr, identifierMap)
+	}
+	return nil
+}
+
 type AllocatedResourceShapeUnmarshaller struct{}
 
 func (u *AllocatedResourceShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -793,6 +826,10 @@ func (u *DiagramProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		GongUnmarshallSliceOfPointers(&instance.AllocatedResourcesWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "AllocatedResourceShapes":
 		GongUnmarshallSliceOfPointers(&instance.AllocatedResourceShapes, valueExpr, identifierMap)
+	case "AllocatedProcessesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.AllocatedProcessesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "AllocatedProcessShapes":
+		GongUnmarshallSliceOfPointers(&instance.AllocatedProcessShapes, valueExpr, identifierMap)
 	case "Note_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.Note_Shapes, valueExpr, identifierMap)
 	case "NotesWhoseNodeIsExpanded":
@@ -1077,6 +1114,10 @@ func (u *ParticipantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		GongUnmarshallSliceOfPointers(&instance.Resources, valueExpr, identifierMap)
 	case "IsResourcesNodeExpanded":
 		instance.IsResourcesNodeExpanded = GongExtractBool(valueExpr)
+	case "Processes":
+		GongUnmarshallSliceOfPointers(&instance.Processes, valueExpr, identifierMap)
+	case "IsProcessesNodeExpanded":
+		instance.IsProcessesNodeExpanded = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsTasksNodeExpanded":
