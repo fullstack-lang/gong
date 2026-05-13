@@ -142,6 +142,15 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 			continue
 		}
 
+		// enforce name to be "StartTaskName to EndTaskName" for Task2Task data flow
+		if dataFlow.Type == DataFlow_Task2Task {
+			expectedName := "\"" + dataFlow.StartTask.GetName() + "\"" + " to " + "\"" + dataFlow.EndTask.GetName() + "\""
+			if dataFlow.Name != expectedName {
+				dataFlow.Name = expectedName
+				needCommit = true
+			}
+		}
+
 	}
 
 	return

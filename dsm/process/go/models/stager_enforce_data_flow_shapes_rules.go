@@ -53,6 +53,10 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 
 			if isValid {
 				validDataFlowShapes = append(validDataFlowShapes, dataFlowShape)
+				if dataFlowShape.Name != dataFlowShape.DataFlow.Name {
+					dataFlowShape.Name = dataFlowShape.DataFlow.Name
+					needCommit = true
+				}
 			} else {
 				dataFlowShape.UnstageVoid(stager.stage)
 				needCommit = true

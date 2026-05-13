@@ -36,33 +36,33 @@ func _(stage *models.Stage) {
 	__AllocatedResourceShape__00000015_ := (&models.AllocatedResourceShape{Name: `Diagram P1-PP1 Very lon participant name PP1 Very lon participant name-R1 with a long name long long long`}).Stage(stage)
 	__AllocatedResourceShape__00000016_ := (&models.AllocatedResourceShape{Name: `D2-P2.P1-R2aaaaa`}).Stage(stage)
 
-	__ControlFlow__00000003_ := (&models.ControlFlow{Name: `Start to T2`}).Stage(stage)
-	__ControlFlow__00000004_ := (&models.ControlFlow{Name: `T2 to End`}).Stage(stage)
-	__ControlFlow__00000005_ := (&models.ControlFlow{Name: `PP2 T1 to PP2 T2`}).Stage(stage)
-	__ControlFlow__00000006_ := (&models.ControlFlow{Name: `T4 to End`}).Stage(stage)
-	__ControlFlow__00000007_ := (&models.ControlFlow{Name: `Start to T1`}).Stage(stage)
-	__ControlFlow__00000008_ := (&models.ControlFlow{Name: `T1 to End`}).Stage(stage)
-	__ControlFlow__00000009_ := (&models.ControlFlow{Name: `P2.P2.Start to P2.P2.T1`}).Stage(stage)
+	__ControlFlow__00000003_ := (&models.ControlFlow{Name: `"Start" to "P1"`}).Stage(stage)
+	__ControlFlow__00000004_ := (&models.ControlFlow{Name: `"P1" to "T4"`}).Stage(stage)
+	__ControlFlow__00000005_ := (&models.ControlFlow{Name: `"PP2 T1" to "PP2 T2"`}).Stage(stage)
+	__ControlFlow__00000006_ := (&models.ControlFlow{Name: `"T4" to "End"`}).Stage(stage)
+	__ControlFlow__00000007_ := (&models.ControlFlow{Name: `"Start" to "T1"`}).Stage(stage)
+	__ControlFlow__00000008_ := (&models.ControlFlow{Name: `"T1" to "End"`}).Stage(stage)
+	__ControlFlow__00000009_ := (&models.ControlFlow{Name: `"P2.P2.Start" to "P2.P2.T1"`}).Stage(stage)
 
-	__ControlFlowShape__00000000_ := (&models.ControlFlowShape{Name: `Start to T2`}).Stage(stage)
-	__ControlFlowShape__00000001_ := (&models.ControlFlowShape{Name: `PP2 T1 to PP2 T2`}).Stage(stage)
-	__ControlFlowShape__00000002_ := (&models.ControlFlowShape{Name: `T2 to End`}).Stage(stage)
-	__ControlFlowShape__00000003_ := (&models.ControlFlowShape{Name: `T4 to End`}).Stage(stage)
-	__ControlFlowShape__00000004_ := (&models.ControlFlowShape{Name: `Start to T1`}).Stage(stage)
-	__ControlFlowShape__00000005_ := (&models.ControlFlowShape{Name: `T1 to End`}).Stage(stage)
-	__ControlFlowShape__00000006_ := (&models.ControlFlowShape{Name: `P2.P2.Start to P2.P2.T1`}).Stage(stage)
+	__ControlFlowShape__00000000_ := (&models.ControlFlowShape{Name: `"Start" to "P1"`}).Stage(stage)
+	__ControlFlowShape__00000001_ := (&models.ControlFlowShape{Name: `"PP2 T1" to "PP2 T2"`}).Stage(stage)
+	__ControlFlowShape__00000002_ := (&models.ControlFlowShape{Name: `"P1" to "T4"`}).Stage(stage)
+	__ControlFlowShape__00000003_ := (&models.ControlFlowShape{Name: `"T4" to "End"`}).Stage(stage)
+	__ControlFlowShape__00000004_ := (&models.ControlFlowShape{Name: `"Start" to "T1"`}).Stage(stage)
+	__ControlFlowShape__00000005_ := (&models.ControlFlowShape{Name: `"T1" to "End"`}).Stage(stage)
+	__ControlFlowShape__00000006_ := (&models.ControlFlowShape{Name: `"P2.P2.Start" to "P2.P2.T1"`}).Stage(stage)
 
 	__Data__00000000_ := (&models.Data{Name: `D1`}).Stage(stage)
 	__Data__00000001_ := (&models.Data{Name: `D2`}).Stage(stage)
 	__Data__00000002_ := (&models.Data{Name: `L1.D1`}).Stage(stage)
 	__Data__00000003_ := (&models.Data{Name: `D3`}).Stage(stage)
 
-	__DataFlow__00000000_ := (&models.DataFlow{Name: `T2 to PP2 T2`}).Stage(stage)
-	__DataFlow__00000002_ := (&models.DataFlow{Name: `T1 to P2.P2.T1`}).Stage(stage)
+	__DataFlow__00000000_ := (&models.DataFlow{Name: `"P1" to "PP2 T2"`}).Stage(stage)
+	__DataFlow__00000002_ := (&models.DataFlow{Name: `"T1" to "P2.P2.T1"`}).Stage(stage)
 	__DataFlow__00000003_ := (&models.DataFlow{Name: `EP1 Very Long Participant Name to P1`}).Stage(stage)
 
-	__DataFlowShape__00000004_ := (&models.DataFlowShape{Name: `T2 to PP2 T2`}).Stage(stage)
-	__DataFlowShape__00000005_ := (&models.DataFlowShape{Name: `T1 to P2.P2.T1`}).Stage(stage)
+	__DataFlowShape__00000004_ := (&models.DataFlowShape{Name: `"P1" to "PP2 T2"`}).Stage(stage)
+	__DataFlowShape__00000005_ := (&models.DataFlowShape{Name: `"T1" to "P2.P2.T1"`}).Stage(stage)
 	__DataFlowShape__00000006_ := (&models.DataFlowShape{Name: `EP1 Very Long Participant Name to P1`}).Stage(stage)
 
 	__DataShape__00000011_ := (&models.DataShape{Name: `T2 to PP2 T2-T2 to PP2 T2-Diagram P1`}).Stage(stage)
@@ -159,35 +159,35 @@ func _(stage *models.Stage) {
 
 	__AllocatedResourceShape__00000016_.Name = `D2-P2.P1-R2aaaaa`
 
-	__ControlFlow__00000003_.Name = `Start to T2`
+	__ControlFlow__00000003_.Name = `"Start" to "P1"`
 	__ControlFlow__00000003_.Description = ``
 	__ControlFlow__00000003_.ComputedPrefix = ``
 
-	__ControlFlow__00000004_.Name = `T2 to End`
+	__ControlFlow__00000004_.Name = `"P1" to "T4"`
 	__ControlFlow__00000004_.Description = ``
 	__ControlFlow__00000004_.ComputedPrefix = ``
 
-	__ControlFlow__00000005_.Name = `PP2 T1 to PP2 T2`
+	__ControlFlow__00000005_.Name = `"PP2 T1" to "PP2 T2"`
 	__ControlFlow__00000005_.Description = ``
 	__ControlFlow__00000005_.ComputedPrefix = ``
 
-	__ControlFlow__00000006_.Name = `T4 to End`
+	__ControlFlow__00000006_.Name = `"T4" to "End"`
 	__ControlFlow__00000006_.Description = ``
 	__ControlFlow__00000006_.ComputedPrefix = ``
 
-	__ControlFlow__00000007_.Name = `Start to T1`
+	__ControlFlow__00000007_.Name = `"Start" to "T1"`
 	__ControlFlow__00000007_.Description = ``
 	__ControlFlow__00000007_.ComputedPrefix = ``
 
-	__ControlFlow__00000008_.Name = `T1 to End`
+	__ControlFlow__00000008_.Name = `"T1" to "End"`
 	__ControlFlow__00000008_.Description = ``
 	__ControlFlow__00000008_.ComputedPrefix = ``
 
-	__ControlFlow__00000009_.Name = `P2.P2.Start to P2.P2.T1`
+	__ControlFlow__00000009_.Name = `"P2.P2.Start" to "P2.P2.T1"`
 	__ControlFlow__00000009_.Description = ``
 	__ControlFlow__00000009_.ComputedPrefix = ``
 
-	__ControlFlowShape__00000000_.Name = `Start to T2`
+	__ControlFlowShape__00000000_.Name = `"Start" to "P1"`
 	__ControlFlowShape__00000000_.StartRatio = 0.971920
 	__ControlFlowShape__00000000_.EndRatio = 0.500000
 	__ControlFlowShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -195,7 +195,7 @@ func _(stage *models.Stage) {
 	__ControlFlowShape__00000000_.CornerOffsetRatio = 2.278388
 	__ControlFlowShape__00000000_.IsHidden = false
 
-	__ControlFlowShape__00000001_.Name = `PP2 T1 to PP2 T2`
+	__ControlFlowShape__00000001_.Name = `"PP2 T1" to "PP2 T2"`
 	__ControlFlowShape__00000001_.StartRatio = 1.000000
 	__ControlFlowShape__00000001_.EndRatio = 0.500000
 	__ControlFlowShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -203,7 +203,7 @@ func _(stage *models.Stage) {
 	__ControlFlowShape__00000001_.CornerOffsetRatio = 2.823598
 	__ControlFlowShape__00000001_.IsHidden = false
 
-	__ControlFlowShape__00000002_.Name = `T2 to End`
+	__ControlFlowShape__00000002_.Name = `"P1" to "T4"`
 	__ControlFlowShape__00000002_.StartRatio = 0.500000
 	__ControlFlowShape__00000002_.EndRatio = 0.789929
 	__ControlFlowShape__00000002_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -211,7 +211,7 @@ func _(stage *models.Stage) {
 	__ControlFlowShape__00000002_.CornerOffsetRatio = 1.100000
 	__ControlFlowShape__00000002_.IsHidden = false
 
-	__ControlFlowShape__00000003_.Name = `T4 to End`
+	__ControlFlowShape__00000003_.Name = `"T4" to "End"`
 	__ControlFlowShape__00000003_.StartRatio = 0.500000
 	__ControlFlowShape__00000003_.EndRatio = 0.793912
 	__ControlFlowShape__00000003_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -219,7 +219,7 @@ func _(stage *models.Stage) {
 	__ControlFlowShape__00000003_.CornerOffsetRatio = 1.500000
 	__ControlFlowShape__00000003_.IsHidden = false
 
-	__ControlFlowShape__00000004_.Name = `Start to T1`
+	__ControlFlowShape__00000004_.Name = `"Start" to "T1"`
 	__ControlFlowShape__00000004_.StartRatio = 0.500000
 	__ControlFlowShape__00000004_.EndRatio = 0.500000
 	__ControlFlowShape__00000004_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -227,7 +227,7 @@ func _(stage *models.Stage) {
 	__ControlFlowShape__00000004_.CornerOffsetRatio = 1.500000
 	__ControlFlowShape__00000004_.IsHidden = false
 
-	__ControlFlowShape__00000005_.Name = `T1 to End`
+	__ControlFlowShape__00000005_.Name = `"T1" to "End"`
 	__ControlFlowShape__00000005_.StartRatio = 0.500000
 	__ControlFlowShape__00000005_.EndRatio = 0.500000
 	__ControlFlowShape__00000005_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -235,7 +235,7 @@ func _(stage *models.Stage) {
 	__ControlFlowShape__00000005_.CornerOffsetRatio = 1.500000
 	__ControlFlowShape__00000005_.IsHidden = false
 
-	__ControlFlowShape__00000006_.Name = `P2.P2.Start to P2.P2.T1`
+	__ControlFlowShape__00000006_.Name = `"P2.P2.Start" to "P2.P2.T1"`
 	__ControlFlowShape__00000006_.StartRatio = 0.500000
 	__ControlFlowShape__00000006_.EndRatio = 0.500000
 	__ControlFlowShape__00000006_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -267,13 +267,13 @@ func _(stage *models.Stage) {
 	__Data__00000003_.SVG_Path = ``
 	__Data__00000003_.InverseAppliedScaling = 0.000000
 
-	__DataFlow__00000000_.Name = `T2 to PP2 T2`
+	__DataFlow__00000000_.Name = `"P1" to "PP2 T2"`
 	__DataFlow__00000000_.Description = ``
 	__DataFlow__00000000_.ComputedPrefix = ``
 	__DataFlow__00000000_.Type = models.DataFlow_Task2Task
 	__DataFlow__00000000_.IsDatasNodeExpanded = false
 
-	__DataFlow__00000002_.Name = `T1 to P2.P2.T1`
+	__DataFlow__00000002_.Name = `"T1" to "P2.P2.T1"`
 	__DataFlow__00000002_.Description = ``
 	__DataFlow__00000002_.ComputedPrefix = ``
 	__DataFlow__00000002_.Type = models.DataFlow_Task2Task
@@ -285,7 +285,7 @@ func _(stage *models.Stage) {
 	__DataFlow__00000003_.Type = models.DataFlow_ExternalParticipant2Task
 	__DataFlow__00000003_.IsDatasNodeExpanded = false
 
-	__DataFlowShape__00000004_.Name = `T2 to PP2 T2`
+	__DataFlowShape__00000004_.Name = `"P1" to "PP2 T2"`
 	__DataFlowShape__00000004_.StartRatio = 0.741696
 	__DataFlowShape__00000004_.EndRatio = 0.485352
 	__DataFlowShape__00000004_.StartOrientation = models.ORIENTATION_HORIZONTAL
@@ -293,7 +293,7 @@ func _(stage *models.Stage) {
 	__DataFlowShape__00000004_.CornerOffsetRatio = 1.008329
 	__DataFlowShape__00000004_.IsHidden = false
 
-	__DataFlowShape__00000005_.Name = `T1 to P2.P2.T1`
+	__DataFlowShape__00000005_.Name = `"T1" to "P2.P2.T1"`
 	__DataFlowShape__00000005_.StartRatio = 1.000000
 	__DataFlowShape__00000005_.EndRatio = 1.000000
 	__DataFlowShape__00000005_.StartOrientation = models.ORIENTATION_HORIZONTAL
