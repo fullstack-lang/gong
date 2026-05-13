@@ -4593,6 +4593,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case DataFlow:
 		return any(&DataFlow{
 			// Initialisation of associations
+			// field is initialized with an instance of Data with the name of the field
+			Datas: []*Data{{Name: "Datas"}},
 			// field is initialized with an instance of Task with the name of the field
 			StartTask: &Task{Name: "StartTask"},
 			// field is initialized with an instance of Task with the name of the field
@@ -4601,8 +4603,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			StartExternalParticipant: &Participant{Name: "StartExternalParticipant"},
 			// field is initialized with an instance of Participant with the name of the field
 			EndExternalParticipant: &Participant{Name: "EndExternalParticipant"},
-			// field is initialized with an instance of Data with the name of the field
-			Datas: []*Data{{Name: "Datas"}},
 		}).(*Type)
 	case DataFlowShape:
 		return any(&DataFlowShape{
@@ -6171,6 +6171,11 @@ func (dataflow *DataFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:                 "Datas",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Data",
+		},
+		{
 			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -6206,11 +6211,6 @@ func (dataflow *DataFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsDatasNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "Datas",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Data",
 		},
 	}
 	return
@@ -7198,6 +7198,16 @@ func (dataflow *DataFlow) GongGetFieldValue(fieldName string, stage *Stage) (res
 	// string value of fields
 	case "Name":
 		res.valueString = dataflow.Name
+	case "Datas":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range dataflow.Datas {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "Description":
 		res.valueString = dataflow.Description
 	case "ComputedPrefix":
@@ -7233,16 +7243,6 @@ func (dataflow *DataFlow) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = fmt.Sprintf("%t", dataflow.IsDatasNodeExpanded)
 		res.valueBool = dataflow.IsDatasNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "Datas":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range dataflow.Datas {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
 	}
 	return
 }
@@ -8396,6 +8396,20 @@ func (dataflow *DataFlow) GongSetFieldValue(fieldName string, value GongFieldVal
 	// insertion point for per field code
 	case "Name":
 		dataflow.Name = value.GetValueString()
+	case "Datas":
+		dataflow.Datas = make([]*Data, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Datas {
+					if stage.Data_stagedOrder[__instance__] == uint(id) {
+						dataflow.Datas = append(dataflow.Datas, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "Description":
 		dataflow.Description = value.GetValueString()
 	case "ComputedPrefix":
@@ -8448,20 +8462,6 @@ func (dataflow *DataFlow) GongSetFieldValue(fieldName string, value GongFieldVal
 		}
 	case "IsDatasNodeExpanded":
 		dataflow.IsDatasNodeExpanded = value.GetValueBool()
-	case "Datas":
-		dataflow.Datas = make([]*Data, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Datas {
-					if stage.Data_stagedOrder[__instance__] == uint(id) {
-						dataflow.Datas = append(dataflow.Datas, __instance__)
-						break
-					}
-				}
-			}
-		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

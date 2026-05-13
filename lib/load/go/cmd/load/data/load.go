@@ -10,8 +10,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
-var _ = slices.Index[[]int, int]
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -23,16 +25,17 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// Declaration of instances to stage
+	// insertion point for declaration of instances to stage
 
-	__FileToUpload__000000_DOORS_export_sample_1_reqif := (&models.FileToUpload{}).Stage(stage)
+	__FileToUpload__00000000_ := (&models.FileToUpload{Name: `DOORS export sample 1.reqif`}).Stage(stage)
 
-	__Message__000000__Drop_your_put_your_name_here_file := (&models.Message{}).Stage(stage)
+	__Message__00000000_ := (&models.Message{Name: `
+Drop your <put your name here> file`}).Stage(stage)
 
-	// Setup of values
+	// insertion point for initialization of values
 
-	__FileToUpload__000000_DOORS_export_sample_1_reqif.Name = `DOORS export sample 1.reqif`
-	__FileToUpload__000000_DOORS_export_sample_1_reqif.Base64EncodedContent = `<?xml version="1.0" encoding="UTF-8"?>
+	__FileToUpload__00000000_.Name = `DOORS export sample 1.reqif`
+	__FileToUpload__00000000_.Base64EncodedContent = `<?xml version="1.0" encoding="UTF-8"?>
 <REQ-IF xmlns="http://www.omg.org/spec/ReqIF/20110401/reqif.xsd"
     xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <THE-HEADER>
@@ -210,10 +213,8 @@ func _(stage *models.Stage) {
 </REQ-IF>
 `
 
-	__Message__000000__Drop_your_put_your_name_here_file.Name = `
+	__Message__00000000_.Name = `
 Drop your <put your name here> file`
 
-	// Setup of pointers
-	// setup of FileToUpload instances pointers
-	// setup of Message instances pointers
+	// insertion point for setup of pointers
 }

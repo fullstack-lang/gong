@@ -3209,6 +3209,27 @@ func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs
 	if dataflow.Name != dataflowOther.Name {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "Name"))
 	}
+	DatasDifferent := false
+	if len(dataflow.Datas) != len(dataflowOther.Datas) {
+		DatasDifferent = true
+	} else {
+		for i := range dataflow.Datas {
+			if (dataflow.Datas[i] == nil) != (dataflowOther.Datas[i] == nil) {
+				DatasDifferent = true
+				break
+			} else if dataflow.Datas[i] != nil && dataflowOther.Datas[i] != nil {
+				// this is a pointer comparaison
+				if dataflow.Datas[i] != dataflowOther.Datas[i] {
+					DatasDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DatasDifferent {
+		ops := Diff(stage, dataflow, dataflowOther, "Datas", dataflowOther.Datas, dataflow.Datas)
+		diffs = append(diffs, ops)
+	}
 	if dataflow.Description != dataflowOther.Description {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "Description"))
 	}
@@ -3248,27 +3269,6 @@ func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs
 	}
 	if dataflow.IsDatasNodeExpanded != dataflowOther.IsDatasNodeExpanded {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
-	}
-	DatasDifferent := false
-	if len(dataflow.Datas) != len(dataflowOther.Datas) {
-		DatasDifferent = true
-	} else {
-		for i := range dataflow.Datas {
-			if (dataflow.Datas[i] == nil) != (dataflowOther.Datas[i] == nil) {
-				DatasDifferent = true
-				break
-			} else if dataflow.Datas[i] != nil && dataflowOther.Datas[i] != nil {
-				// this is a pointer comparaison
-				if dataflow.Datas[i] != dataflowOther.Datas[i] {
-					DatasDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DatasDifferent {
-		ops := Diff(stage, dataflow, dataflowOther, "Datas", dataflowOther.Datas, dataflow.Datas)
-		diffs = append(diffs, ops)
 	}
 
 	return
