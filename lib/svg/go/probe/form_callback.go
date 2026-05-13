@@ -2438,6 +2438,99 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			}
 			link_.TextAtCorner = instanceSlice
 
+		case "PathAtArrowStart":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredPath](linkFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.LinkAnchoredPath, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.LinkAnchoredPath)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					linkFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.LinkAnchoredPath](linkFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			link_.PathAtArrowStart = instanceSlice
+
+		case "PathAtArrowEnd":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredPath](linkFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.LinkAnchoredPath, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.LinkAnchoredPath)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					linkFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.LinkAnchoredPath](linkFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			link_.PathAtArrowEnd = instanceSlice
+
+		case "PathAtCorner":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredPath](linkFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.LinkAnchoredPath, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.LinkAnchoredPath)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					linkFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.LinkAnchoredPath](linkFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			link_.PathAtCorner = instanceSlice
+
 		case "ControlPoints":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPoint](linkFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ControlPoint, 0)
@@ -2587,6 +2680,308 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 	}
 
 	linkFormCallback.probe.ux_tree()
+}
+func __gong__New__LinkAnchoredPathFormCallback(
+	linkanchoredpath *models.LinkAnchoredPath,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (linkanchoredpathFormCallback *LinkAnchoredPathFormCallback) {
+	linkanchoredpathFormCallback = new(LinkAnchoredPathFormCallback)
+	linkanchoredpathFormCallback.probe = probe
+	linkanchoredpathFormCallback.linkanchoredpath = linkanchoredpath
+	linkanchoredpathFormCallback.formGroup = formGroup
+
+	linkanchoredpathFormCallback.CreationMode = (linkanchoredpath == nil)
+
+	return
+}
+
+type LinkAnchoredPathFormCallback struct {
+	linkanchoredpath *models.LinkAnchoredPath
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (linkanchoredpathFormCallback *LinkAnchoredPathFormCallback) OnSave() {
+	linkanchoredpathFormCallback.probe.stageOfInterest.Lock()
+	defer linkanchoredpathFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("LinkAnchoredPathFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	linkanchoredpathFormCallback.probe.formStage.Checkout()
+
+	if linkanchoredpathFormCallback.linkanchoredpath == nil {
+		linkanchoredpathFormCallback.linkanchoredpath = new(models.LinkAnchoredPath).Stage(linkanchoredpathFormCallback.probe.stageOfInterest)
+	}
+	linkanchoredpath_ := linkanchoredpathFormCallback.linkanchoredpath
+	_ = linkanchoredpath_
+
+	for _, formDiv := range linkanchoredpathFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(linkanchoredpath_.Name), formDiv)
+		case "Definition":
+			FormDivBasicFieldToField(&(linkanchoredpath_.Definition), formDiv)
+		case "X_Offset":
+			FormDivBasicFieldToField(&(linkanchoredpath_.X_Offset), formDiv)
+		case "Y_Offset":
+			FormDivBasicFieldToField(&(linkanchoredpath_.Y_Offset), formDiv)
+		case "ScalePropotionnally":
+			FormDivBasicFieldToField(&(linkanchoredpath_.ScalePropotionnally), formDiv)
+		case "AppliedScaling":
+			FormDivBasicFieldToField(&(linkanchoredpath_.AppliedScaling), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(linkanchoredpath_.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(linkanchoredpath_.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(linkanchoredpath_.Stroke), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(linkanchoredpath_.StrokeOpacity), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(linkanchoredpath_.StrokeWidth), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(linkanchoredpath_.StrokeDashArray), formDiv)
+		case "StrokeDashArrayWhenSelected":
+			FormDivBasicFieldToField(&(linkanchoredpath_.StrokeDashArrayWhenSelected), formDiv)
+		case "Transform":
+			FormDivBasicFieldToField(&(linkanchoredpath_.Transform), formDiv)
+		case "Link:PathAtArrowStart":
+			// WARNING : this form deals with the N-N association "Link.PathAtArrowStart []*LinkAnchoredPath" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of LinkAnchoredPath). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Link
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Link"
+				rf.Fieldname = "PathAtArrowStart"
+				formerAssociationSource := linkanchoredpath_.GongGetReverseFieldOwner(
+					linkanchoredpathFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Link)
+					if !ok {
+						log.Fatalln("Source of Link.PathAtArrowStart []*LinkAnchoredPath, is not an Link instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.PathAtArrowStart, linkanchoredpath_)
+					formerSource.PathAtArrowStart = slices.Delete(formerSource.PathAtArrowStart, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Link
+			for _link := range *models.GetGongstructInstancesSet[models.Link](linkanchoredpathFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _link.GetName() == newSourceName.GetName() {
+					newSource = _link // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Link.PathAtArrowStart []*LinkAnchoredPath, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.PathAtArrowStart = append(newSource.PathAtArrowStart, linkanchoredpath_)
+		case "Link:PathAtArrowEnd":
+			// WARNING : this form deals with the N-N association "Link.PathAtArrowEnd []*LinkAnchoredPath" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of LinkAnchoredPath). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Link
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Link"
+				rf.Fieldname = "PathAtArrowEnd"
+				formerAssociationSource := linkanchoredpath_.GongGetReverseFieldOwner(
+					linkanchoredpathFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Link)
+					if !ok {
+						log.Fatalln("Source of Link.PathAtArrowEnd []*LinkAnchoredPath, is not an Link instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.PathAtArrowEnd, linkanchoredpath_)
+					formerSource.PathAtArrowEnd = slices.Delete(formerSource.PathAtArrowEnd, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Link
+			for _link := range *models.GetGongstructInstancesSet[models.Link](linkanchoredpathFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _link.GetName() == newSourceName.GetName() {
+					newSource = _link // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Link.PathAtArrowEnd []*LinkAnchoredPath, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.PathAtArrowEnd = append(newSource.PathAtArrowEnd, linkanchoredpath_)
+		case "Link:PathAtCorner":
+			// WARNING : this form deals with the N-N association "Link.PathAtCorner []*LinkAnchoredPath" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of LinkAnchoredPath). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Link
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Link"
+				rf.Fieldname = "PathAtCorner"
+				formerAssociationSource := linkanchoredpath_.GongGetReverseFieldOwner(
+					linkanchoredpathFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Link)
+					if !ok {
+						log.Fatalln("Source of Link.PathAtCorner []*LinkAnchoredPath, is not an Link instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.PathAtCorner, linkanchoredpath_)
+					formerSource.PathAtCorner = slices.Delete(formerSource.PathAtCorner, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Link
+			for _link := range *models.GetGongstructInstancesSet[models.Link](linkanchoredpathFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _link.GetName() == newSourceName.GetName() {
+					newSource = _link // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Link.PathAtCorner []*LinkAnchoredPath, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.PathAtCorner = append(newSource.PathAtCorner, linkanchoredpath_)
+		}
+	}
+
+	// manage the suppress operation
+	if linkanchoredpathFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		linkanchoredpath_.Unstage(linkanchoredpathFormCallback.probe.stageOfInterest)
+	}
+
+	linkanchoredpathFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.LinkAnchoredPath](
+		linkanchoredpathFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if linkanchoredpathFormCallback.CreationMode || linkanchoredpathFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		linkanchoredpathFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(linkanchoredpathFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__LinkAnchoredPathFormCallback(
+			nil,
+			linkanchoredpathFormCallback.probe,
+			newFormGroup,
+		)
+		linkanchoredpath := new(models.LinkAnchoredPath)
+		FillUpForm(linkanchoredpath, newFormGroup, linkanchoredpathFormCallback.probe)
+		linkanchoredpathFormCallback.probe.formStage.Commit()
+	}
+
+	linkanchoredpathFormCallback.probe.ux_tree()
 }
 func __gong__New__LinkAnchoredTextFormCallback(
 	linkanchoredtext *models.LinkAnchoredText,

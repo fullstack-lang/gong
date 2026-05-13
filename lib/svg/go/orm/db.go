@@ -56,6 +56,10 @@ type DBLite struct {
 
 	nextIDLinkDB uint
 
+	linkanchoredpathDBs map[uint]*LinkAnchoredPathDB
+
+	nextIDLinkAnchoredPathDB uint
+
 	linkanchoredtextDBs map[uint]*LinkAnchoredTextDB
 
 	nextIDLinkAnchoredTextDB uint
@@ -136,6 +140,8 @@ func NewDBLite() *DBLite {
 
 		linkDBs: make(map[uint]*LinkDB),
 
+		linkanchoredpathDBs: make(map[uint]*LinkAnchoredPathDB),
+
 		linkanchoredtextDBs: make(map[uint]*LinkAnchoredTextDB),
 
 		pathDBs: make(map[uint]*PathDB),
@@ -213,6 +219,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDLinkDB++
 		v.ID = db.nextIDLinkDB
 		db.linkDBs[v.ID] = v
+	case *LinkAnchoredPathDB:
+		db.nextIDLinkAnchoredPathDB++
+		v.ID = db.nextIDLinkAnchoredPathDB
+		db.linkanchoredpathDBs[v.ID] = v
 	case *LinkAnchoredTextDB:
 		db.nextIDLinkAnchoredTextDB++
 		v.ID = db.nextIDLinkAnchoredTextDB
@@ -315,6 +325,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.lineDBs, v.ID)
 	case *LinkDB:
 		delete(db.linkDBs, v.ID)
+	case *LinkAnchoredPathDB:
+		delete(db.linkanchoredpathDBs, v.ID)
 	case *LinkAnchoredTextDB:
 		delete(db.linkanchoredtextDBs, v.ID)
 	case *PathDB:
@@ -387,6 +399,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *LinkDB:
 		db.linkDBs[v.ID] = v
+		return db, nil
+	case *LinkAnchoredPathDB:
+		db.linkanchoredpathDBs[v.ID] = v
 		return db, nil
 	case *LinkAnchoredTextDB:
 		db.linkanchoredtextDBs[v.ID] = v
@@ -499,6 +514,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Link github.com/fullstack-lang/gong/lib/svg/go, record not found")
+		}
+	case *LinkAnchoredPathDB:
+		if existing, ok := db.linkanchoredpathDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db LinkAnchoredPath github.com/fullstack-lang/gong/lib/svg/go, record not found")
 		}
 	case *LinkAnchoredTextDB:
 		if existing, ok := db.linkanchoredtextDBs[v.ID]; ok {
@@ -649,6 +670,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]LinkDB:
 		*ptr = make([]LinkDB, 0, len(db.linkDBs))
 		for _, v := range db.linkDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]LinkAnchoredPathDB:
+		*ptr = make([]LinkAnchoredPathDB, 0, len(db.linkanchoredpathDBs))
+		for _, v := range db.linkanchoredpathDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -858,6 +885,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		linkDB, _ := instanceDB.(*LinkDB)
 		*linkDB = *tmp
+
+	case *LinkAnchoredPathDB:
+		tmp, ok := db.linkanchoredpathDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First LinkAnchoredPath Unkown entry %d", i))
+		}
+
+		linkanchoredpathDB, _ := instanceDB.(*LinkAnchoredPathDB)
+		*linkanchoredpathDB = *tmp
 
 	case *LinkAnchoredTextDB:
 		tmp, ok := db.linkanchoredtextDBs[uint(i)]

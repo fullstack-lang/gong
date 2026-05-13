@@ -206,6 +206,30 @@ func (inst *Link) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	return
 }
 
+func (inst *LinkAnchoredPath) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Link":
+		switch reverseField.Fieldname {
+		case "PathAtArrowStart":
+			if _link, ok := stage.Link_PathAtArrowStart_reverseMap[inst]; ok {
+				res = _link.Name
+			}
+		case "PathAtArrowEnd":
+			if _link, ok := stage.Link_PathAtArrowEnd_reverseMap[inst]; ok {
+				res = _link.Name
+			}
+		case "PathAtCorner":
+			if _link, ok := stage.Link_PathAtCorner_reverseMap[inst]; ok {
+				res = _link.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *LinkAnchoredText) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -581,6 +605,24 @@ func (inst *Link) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 		switch reverseField.Fieldname {
 		case "Links":
 			res = stage.Layer_Links_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *LinkAnchoredPath) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Link":
+		switch reverseField.Fieldname {
+		case "PathAtArrowStart":
+			res = stage.Link_PathAtArrowStart_reverseMap[inst]
+		case "PathAtArrowEnd":
+			res = stage.Link_PathAtArrowEnd_reverseMap[inst]
+		case "PathAtCorner":
+			res = stage.Link_PathAtCorner_reverseMap[inst]
 		}
 	}
 	return res

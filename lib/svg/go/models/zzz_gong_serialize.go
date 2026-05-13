@@ -26,6 +26,7 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 		SerializeExcelizePointerToGongstruct2[*Layer](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Line](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Link](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*LinkAnchoredPath](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*LinkAnchoredText](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Path](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Point](stage, f, addIDs)

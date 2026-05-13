@@ -158,6 +158,27 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Link_TextAtCorner_reverseMap[_linkanchoredtext] = link
 		}
 	}
+	stage.Link_PathAtArrowStart_reverseMap = make(map[*LinkAnchoredPath]*Link)
+	for link := range stage.Links {
+		_ = link
+		for _, _linkanchoredpath := range link.PathAtArrowStart {
+			stage.Link_PathAtArrowStart_reverseMap[_linkanchoredpath] = link
+		}
+	}
+	stage.Link_PathAtArrowEnd_reverseMap = make(map[*LinkAnchoredPath]*Link)
+	for link := range stage.Links {
+		_ = link
+		for _, _linkanchoredpath := range link.PathAtArrowEnd {
+			stage.Link_PathAtArrowEnd_reverseMap[_linkanchoredpath] = link
+		}
+	}
+	stage.Link_PathAtCorner_reverseMap = make(map[*LinkAnchoredPath]*Link)
+	for link := range stage.Links {
+		_ = link
+		for _, _linkanchoredpath := range link.PathAtCorner {
+			stage.Link_PathAtCorner_reverseMap[_linkanchoredpath] = link
+		}
+	}
 	stage.Link_ControlPoints_reverseMap = make(map[*ControlPoint]*Link)
 	for link := range stage.Links {
 		_ = link
@@ -165,6 +186,9 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Link_ControlPoints_reverseMap[_controlpoint] = link
 		}
 	}
+
+	// Compute reverse map for named struct LinkAnchoredPath
+	// insertion point per field
 
 	// Compute reverse map for named struct LinkAnchoredText
 	// insertion point per field
@@ -347,6 +371,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.LinkAnchoredPaths {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.LinkAnchoredTexts {
 		res = append(res, instance)
 	}
@@ -458,6 +486,12 @@ func (line *Line) GongCopy() GongstructIF {
 func (link *Link) GongCopy() GongstructIF {
 	newInstance := new(Link)
 	link.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (linkanchoredpath *LinkAnchoredPath) GongCopy() GongstructIF {
+	newInstance := new(LinkAnchoredPath)
+	linkanchoredpath.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -633,6 +667,16 @@ func (link *Link) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(link), uint64(GetOrderPointerGongstruct(stage, link)))
+	return
+}
+
+func (linkanchoredpath *LinkAnchoredPath) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(linkanchoredpath).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(linkanchoredpath), uint64(GetOrderPointerGongstruct(stage, linkanchoredpath)))
 	return
 }
 
@@ -1289,6 +1333,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(links_newInstances)
 	lenDeletedInstances += len(links_deletedInstances)
+	var linkanchoredpaths_newInstances []*LinkAnchoredPath
+	var linkanchoredpaths_deletedInstances []*LinkAnchoredPath
+
+	// parse all staged instances and check if they have a reference
+	for linkanchoredpath := range stage.LinkAnchoredPaths {
+		if ref, ok := stage.LinkAnchoredPaths_reference[linkanchoredpath]; !ok {
+			linkanchoredpaths_newInstances = append(linkanchoredpaths_newInstances, linkanchoredpath)
+			newInstancesSlice = append(newInstancesSlice, linkanchoredpath.GongMarshallIdentifier(stage))
+			if stage.LinkAnchoredPaths_referenceOrder == nil {
+				stage.LinkAnchoredPaths_referenceOrder = make(map[*LinkAnchoredPath]uint)
+			}
+			stage.LinkAnchoredPaths_referenceOrder[linkanchoredpath] = stage.LinkAnchoredPath_stagedOrder[linkanchoredpath]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, linkanchoredpath.GongMarshallUnstaging(stage))
+			// delete(stage.LinkAnchoredPaths_referenceOrder, linkanchoredpath)
+			fieldInitializers, pointersInitializations := linkanchoredpath.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.LinkAnchoredPath_stagedOrder[ref] = stage.LinkAnchoredPath_stagedOrder[linkanchoredpath]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := linkanchoredpath.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, linkanchoredpath)
+			// delete(stage.LinkAnchoredPath_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if linkanchoredpath.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", linkanchoredpath.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.LinkAnchoredPaths_reference {
+		instance := stage.LinkAnchoredPaths_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.LinkAnchoredPaths[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			linkanchoredpaths_deletedInstances = append(linkanchoredpaths_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(linkanchoredpaths_newInstances)
+	lenDeletedInstances += len(linkanchoredpaths_deletedInstances)
 	var linkanchoredtexts_newInstances []*LinkAnchoredText
 	var linkanchoredtexts_deletedInstances []*LinkAnchoredText
 
@@ -2184,6 +2283,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Links_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.LinkAnchoredPaths_reference = make(map[*LinkAnchoredPath]*LinkAnchoredPath)
+	stage.LinkAnchoredPaths_referenceOrder = make(map[*LinkAnchoredPath]uint) // diff Unstage needs the reference order
+	stage.LinkAnchoredPaths_instance = make(map[*LinkAnchoredPath]*LinkAnchoredPath)
+	for instance := range stage.LinkAnchoredPaths {
+		_copy := instance.GongCopy().(*LinkAnchoredPath)
+		stage.LinkAnchoredPaths_reference[instance] = _copy
+		stage.LinkAnchoredPaths_instance[_copy] = instance
+		stage.LinkAnchoredPaths_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.LinkAnchoredTexts_reference = make(map[*LinkAnchoredText]*LinkAnchoredText)
 	stage.LinkAnchoredTexts_referenceOrder = make(map[*LinkAnchoredText]uint) // diff Unstage needs the reference order
 	stage.LinkAnchoredTexts_instance = make(map[*LinkAnchoredText]*LinkAnchoredText)
@@ -2367,6 +2476,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.Links {
 		reference := stage.Links_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.LinkAnchoredPaths {
+		reference := stage.LinkAnchoredPaths_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -2554,6 +2668,18 @@ func (link *Link) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Link was not staged and does not have a reference order", link)
+		return 0
+	}
+}
+
+func (linkanchoredpath *LinkAnchoredPath) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.LinkAnchoredPath_stagedOrder[linkanchoredpath]; ok {
+		return order
+	}
+	if order, ok := stage.LinkAnchoredPaths_referenceOrder[linkanchoredpath]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type LinkAnchoredPath was not staged and does not have a reference order", linkanchoredpath)
 		return 0
 	}
 }
@@ -2812,6 +2938,15 @@ func (link *Link) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", link.GongGetGongstructName(), link.GongGetOrder(stage))
 }
 
+func (linkanchoredpath *LinkAnchoredPath) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", linkanchoredpath.GongGetGongstructName(), linkanchoredpath.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (linkanchoredpath *LinkAnchoredPath) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", linkanchoredpath.GongGetGongstructName(), linkanchoredpath.GongGetOrder(stage))
+}
+
 func (linkanchoredtext *LinkAnchoredText) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", linkanchoredtext.GongGetGongstructName(), linkanchoredtext.GongGetOrder(stage))
 }
@@ -3013,6 +3148,14 @@ func (link *Link) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (linkanchoredpath *LinkAnchoredPath) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", linkanchoredpath.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "LinkAnchoredPath")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredpath.Name))
+	return
+}
+
 func (linkanchoredtext *LinkAnchoredText) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", linkanchoredtext.GongGetIdentifier(stage))
@@ -3177,6 +3320,12 @@ func (line *Line) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (link *Link) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", link.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (linkanchoredpath *LinkAnchoredPath) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", linkanchoredpath.GongGetReferenceIdentifier(stage))
 	return
 }
 

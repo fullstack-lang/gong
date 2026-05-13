@@ -42,6 +42,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Line](probe)
 	case "Link":
 		updateProbeTable[*models.Link](probe)
+	case "LinkAnchoredPath":
+		updateProbeTable[*models.LinkAnchoredPath](probe)
 	case "LinkAnchoredText":
 		updateProbeTable[*models.LinkAnchoredText](probe)
 	case "Path":

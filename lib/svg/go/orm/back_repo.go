@@ -42,6 +42,8 @@ type BackRepoStruct struct {
 
 	BackRepoLink BackRepoLinkStruct
 
+	BackRepoLinkAnchoredPath BackRepoLinkAnchoredPathStruct
+
 	BackRepoLinkAnchoredText BackRepoLinkAnchoredTextStruct
 
 	BackRepoPath BackRepoPathStruct
@@ -100,6 +102,7 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		&LayerDB{},
 		&LineDB{},
 		&LinkDB{},
+		&LinkAnchoredPathDB{},
 		&LinkAnchoredTextDB{},
 		&PathDB{},
 		&PointDB{},
@@ -188,6 +191,14 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		Map_LinkDBID_LinkPtr: make(map[uint]*models.Link, 0),
 		Map_LinkDBID_LinkDB:  make(map[uint]*LinkDB, 0),
 		Map_LinkPtr_LinkDBID: make(map[*models.Link]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoLinkAnchoredPath = BackRepoLinkAnchoredPathStruct{
+		Map_LinkAnchoredPathDBID_LinkAnchoredPathPtr: make(map[uint]*models.LinkAnchoredPath, 0),
+		Map_LinkAnchoredPathDBID_LinkAnchoredPathDB:  make(map[uint]*LinkAnchoredPathDB, 0),
+		Map_LinkAnchoredPathPtr_LinkAnchoredPathDBID: make(map[*models.LinkAnchoredPath]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -359,6 +370,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoLayer.CommitPhaseOne(stage)
 	backRepo.BackRepoLine.CommitPhaseOne(stage)
 	backRepo.BackRepoLink.CommitPhaseOne(stage)
+	backRepo.BackRepoLinkAnchoredPath.CommitPhaseOne(stage)
 	backRepo.BackRepoLinkAnchoredText.CommitPhaseOne(stage)
 	backRepo.BackRepoPath.CommitPhaseOne(stage)
 	backRepo.BackRepoPoint.CommitPhaseOne(stage)
@@ -384,6 +396,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoLayer.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoLine.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoLink.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoLinkAnchoredPath.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoLinkAnchoredText.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoPath.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoPoint.CommitPhaseTwo(backRepo)
@@ -421,6 +434,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoLayer.CheckoutPhaseOne()
 	backRepo.BackRepoLine.CheckoutPhaseOne()
 	backRepo.BackRepoLink.CheckoutPhaseOne()
+	backRepo.BackRepoLinkAnchoredPath.CheckoutPhaseOne()
 	backRepo.BackRepoLinkAnchoredText.CheckoutPhaseOne()
 	backRepo.BackRepoPath.CheckoutPhaseOne()
 	backRepo.BackRepoPoint.CheckoutPhaseOne()
@@ -446,6 +460,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoLayer.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoLine.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoLink.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoLinkAnchoredPath.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoLinkAnchoredText.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoPath.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoPoint.CheckoutPhaseTwo(backRepo)
@@ -476,6 +491,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoLayer.Backup(dirPath)
 	backRepo.BackRepoLine.Backup(dirPath)
 	backRepo.BackRepoLink.Backup(dirPath)
+	backRepo.BackRepoLinkAnchoredPath.Backup(dirPath)
 	backRepo.BackRepoLinkAnchoredText.Backup(dirPath)
 	backRepo.BackRepoPath.Backup(dirPath)
 	backRepo.BackRepoPoint.Backup(dirPath)
@@ -509,6 +525,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoLayer.BackupXL(file)
 	backRepo.BackRepoLine.BackupXL(file)
 	backRepo.BackRepoLink.BackupXL(file)
+	backRepo.BackRepoLinkAnchoredPath.BackupXL(file)
 	backRepo.BackRepoLinkAnchoredText.BackupXL(file)
 	backRepo.BackRepoPath.BackupXL(file)
 	backRepo.BackRepoPoint.BackupXL(file)
@@ -556,6 +573,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoLayer.RestorePhaseOne(dirPath)
 	backRepo.BackRepoLine.RestorePhaseOne(dirPath)
 	backRepo.BackRepoLink.RestorePhaseOne(dirPath)
+	backRepo.BackRepoLinkAnchoredPath.RestorePhaseOne(dirPath)
 	backRepo.BackRepoLinkAnchoredText.RestorePhaseOne(dirPath)
 	backRepo.BackRepoPath.RestorePhaseOne(dirPath)
 	backRepo.BackRepoPoint.RestorePhaseOne(dirPath)
@@ -585,6 +603,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoLayer.RestorePhaseTwo()
 	backRepo.BackRepoLine.RestorePhaseTwo()
 	backRepo.BackRepoLink.RestorePhaseTwo()
+	backRepo.BackRepoLinkAnchoredPath.RestorePhaseTwo()
 	backRepo.BackRepoLinkAnchoredText.RestorePhaseTwo()
 	backRepo.BackRepoPath.RestorePhaseTwo()
 	backRepo.BackRepoPoint.RestorePhaseTwo()
@@ -635,6 +654,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoLayer.RestoreXLPhaseOne(file)
 	backRepo.BackRepoLine.RestoreXLPhaseOne(file)
 	backRepo.BackRepoLink.RestoreXLPhaseOne(file)
+	backRepo.BackRepoLinkAnchoredPath.RestoreXLPhaseOne(file)
 	backRepo.BackRepoLinkAnchoredText.RestoreXLPhaseOne(file)
 	backRepo.BackRepoPath.RestoreXLPhaseOne(file)
 	backRepo.BackRepoPoint.RestoreXLPhaseOne(file)

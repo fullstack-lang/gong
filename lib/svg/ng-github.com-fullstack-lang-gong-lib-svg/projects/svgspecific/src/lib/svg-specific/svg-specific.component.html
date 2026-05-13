@@ -468,6 +468,12 @@
                       </text>
                     }
                   }
+                  @for(path of link.PathAtArrowEnd!; track path.ID) {
+                    <ng-container
+                      [ngTemplateOutlet]="anchoredPath"
+                      [ngTemplateOutletContext]="{path: path, anchorX: segment.EndPoint.X + path.X_Offset, anchorY: segment.EndPoint.Y + path.Y_Offset}">
+                    </ng-container>
+                  }
                 }
                 @if(segments.indexOf(segment) == 0) {
                   @for(text of link.TextAtArrowStart!; track text.ID; let k = $index) {
@@ -536,6 +542,12 @@
                       </text>
                     }
                   }
+                  @for(path of link.PathAtArrowStart!; track path.ID) {
+                    <ng-container
+                      [ngTemplateOutlet]="anchoredPath"
+                      [ngTemplateOutletContext]="{path: path, anchorX: segment.StartPoint.X + path.X_Offset, anchorY: segment.StartPoint.Y + path.Y_Offset}">
+                    </ng-container>
+                  }
                 }
                 <!-- Rendering Text at the First Corner (Relative to S) -->
                 @if(segments.indexOf(segment) == 0 && segments.length >= 2) {
@@ -564,6 +576,12 @@
                               &nbsp;{{line}}&nbsp;</tspan>
                       }
                     </text>
+                  }
+                  @for(path of link.PathAtCorner!; track path.ID) {
+                    <ng-container
+                      [ngTemplateOutlet]="anchoredPath"
+                      [ngTemplateOutletContext]="{path: path, anchorX: getCornerTextX(segment, segments, $any(path)), anchorY: getCornerTextY(segment, segments, $any(path))}">
+                    </ng-container>
                   }
                 }
               }
@@ -693,6 +711,12 @@
                         </text>
                       }
                     }
+                  @for(path of link.PathAtArrowEnd!; track path.ID) {
+                    <ng-container
+                      [ngTemplateOutlet]="anchoredPath"
+                      [ngTemplateOutletContext]="{path: path, anchorX: segment.EndPoint.X + path.X_Offset, anchorY: segment.EndPoint.Y + path.Y_Offset}">
+                    </ng-container>
+                  }
                 }
               }
               @if((segments.indexOf(segment) == 0) && link.HasStartArrow) {
@@ -704,6 +728,14 @@
                   [attr.stroke-opacity]="link.StrokeOpacity"
                   [attr.stroke-width]="link.StrokeWidth"
                   [attr.stroke-dasharray]="link.StrokeDashArray" />
+              }
+              @if(segments.indexOf(segment) == 0) {
+                @for(path of link.PathAtArrowStart!; track path.ID) {
+                  <ng-container
+                    [ngTemplateOutlet]="anchoredPath"
+                    [ngTemplateOutletContext]="{path: path, anchorX: segment.StartPoint.X + path.X_Offset, anchorY: segment.StartPoint.Y + path.Y_Offset}">
+                  </ng-container>
+                }
               }
               
               }
