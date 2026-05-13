@@ -413,6 +413,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "Datas"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Type"))
@@ -421,7 +422,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "StartExternalParticipant"))
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "EndExternalParticipant"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
-		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "Datas"))
 	}
 
 	dataflowshapeOrdered := []*DataFlowShape{}
@@ -1406,6 +1406,16 @@ func (dataflow *DataFlow) GongMarshallField(stage *Stage, fieldName string) (res
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDatasNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", dataflow.IsDatasNodeExpanded))
 
+	case "Datas":
+		var sb strings.Builder
+		for _, _data := range dataflow.Datas {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Datas")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _data.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "StartTask":
 		if dataflow.StartTask != nil {
 			res = PointerFieldInitStatement
@@ -1458,16 +1468,6 @@ func (dataflow *DataFlow) GongMarshallField(stage *Stage, fieldName string) (res
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndExternalParticipant")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
-	case "Datas":
-		var sb strings.Builder
-		for _, _data := range dataflow.Datas {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Datas")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _data.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DataFlow", fieldName)
 	}
@@ -2880,6 +2880,7 @@ func (dataflow *DataFlow) GongMarshallAllFields(stage *Stage) (initRes string, p
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "Datas"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Type"))
@@ -2888,7 +2889,6 @@ func (dataflow *DataFlow) GongMarshallAllFields(stage *Stage) (initRes string, p
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "StartExternalParticipant"))
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "EndExternalParticipant"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
-		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "Datas"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

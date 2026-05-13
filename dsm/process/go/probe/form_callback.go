@@ -936,22 +936,6 @@ func (dataflowFormCallback *DataFlowFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(dataflow_.Name), formDiv)
-		case "Description":
-			FormDivBasicFieldToField(&(dataflow_.Description), formDiv)
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(dataflow_.ComputedPrefix), formDiv)
-		case "Type":
-			FormDivEnumStringFieldToField(&(dataflow_.Type), formDiv)
-		case "StartTask":
-			FormDivSelectFieldToField(&(dataflow_.StartTask), dataflowFormCallback.probe.stageOfInterest, formDiv)
-		case "EndTask":
-			FormDivSelectFieldToField(&(dataflow_.EndTask), dataflowFormCallback.probe.stageOfInterest, formDiv)
-		case "StartExternalParticipant":
-			FormDivSelectFieldToField(&(dataflow_.StartExternalParticipant), dataflowFormCallback.probe.stageOfInterest, formDiv)
-		case "EndExternalParticipant":
-			FormDivSelectFieldToField(&(dataflow_.EndExternalParticipant), dataflowFormCallback.probe.stageOfInterest, formDiv)
-		case "IsDatasNodeExpanded":
-			FormDivBasicFieldToField(&(dataflow_.IsDatasNodeExpanded), formDiv)
 		case "Datas":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Data](dataflowFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Data, 0)
@@ -983,6 +967,22 @@ func (dataflowFormCallback *DataFlowFormCallback) OnSave() {
 			}
 			dataflow_.Datas = instanceSlice
 
+		case "Description":
+			FormDivBasicFieldToField(&(dataflow_.Description), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(dataflow_.ComputedPrefix), formDiv)
+		case "Type":
+			FormDivEnumStringFieldToField(&(dataflow_.Type), formDiv)
+		case "StartTask":
+			FormDivSelectFieldToField(&(dataflow_.StartTask), dataflowFormCallback.probe.stageOfInterest, formDiv)
+		case "EndTask":
+			FormDivSelectFieldToField(&(dataflow_.EndTask), dataflowFormCallback.probe.stageOfInterest, formDiv)
+		case "StartExternalParticipant":
+			FormDivSelectFieldToField(&(dataflow_.StartExternalParticipant), dataflowFormCallback.probe.stageOfInterest, formDiv)
+		case "EndExternalParticipant":
+			FormDivSelectFieldToField(&(dataflow_.EndExternalParticipant), dataflowFormCallback.probe.stageOfInterest, formDiv)
+		case "IsDatasNodeExpanded":
+			FormDivBasicFieldToField(&(dataflow_.IsDatasNodeExpanded), formDiv)
 		case "DiagramProcess:DataFlowsWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "DiagramProcess.DataFlowsWhoseNodeIsExpanded []*DataFlow" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
