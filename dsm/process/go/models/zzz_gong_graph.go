@@ -3401,6 +3401,12 @@ func (data *Data) GongDiff(stage *Stage, dataOther *Data) (diffs []string) {
 	if data.ComputedPrefix != dataOther.ComputedPrefix {
 		diffs = append(diffs, data.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if data.SVG_Path != dataOther.SVG_Path {
+		diffs = append(diffs, data.GongMarshallField(stage, "SVG_Path"))
+	}
+	if data.InverseAppliedScaling != dataOther.InverseAppliedScaling {
+		diffs = append(diffs, data.GongMarshallField(stage, "InverseAppliedScaling"))
+	}
 
 	return
 }
@@ -4792,6 +4798,9 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 	}
 	if process.ComputedPrefix != processOther.ComputedPrefix {
 		diffs = append(diffs, process.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if process.SVG_Path != processOther.SVG_Path {
+		diffs = append(diffs, process.GongMarshallField(stage, "SVG_Path"))
 	}
 	DiagramProcesssDifferent := false
 	if len(process.DiagramProcesss) != len(processOther.DiagramProcesss) {

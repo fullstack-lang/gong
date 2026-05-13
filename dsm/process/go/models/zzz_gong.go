@@ -6462,6 +6462,14 @@ func (data *Data) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
+		{
+			Name:               "SVG_Path",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "InverseAppliedScaling",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
 	}
 	return
 }
@@ -7170,6 +7178,10 @@ func (process *Process) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "SVG_Path",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:                 "DiagramProcesss",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "DiagramProcess",
@@ -7532,6 +7544,12 @@ func (data *Data) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = data.Description
 	case "ComputedPrefix":
 		res.valueString = data.ComputedPrefix
+	case "SVG_Path":
+		res.valueString = data.SVG_Path
+	case "InverseAppliedScaling":
+		res.valueString = fmt.Sprintf("%f", data.InverseAppliedScaling)
+		res.valueFloat = data.InverseAppliedScaling
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -8423,6 +8441,8 @@ func (process *Process) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = process.Description
 	case "ComputedPrefix":
 		res.valueString = process.ComputedPrefix
+	case "SVG_Path":
+		res.valueString = process.SVG_Path
 	case "DiagramProcesss":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range process.DiagramProcesss {
@@ -8795,6 +8815,10 @@ func (data *Data) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		data.Description = value.GetValueString()
 	case "ComputedPrefix":
 		data.ComputedPrefix = value.GetValueString()
+	case "SVG_Path":
+		data.SVG_Path = value.GetValueString()
+	case "InverseAppliedScaling":
+		data.InverseAppliedScaling = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -9843,6 +9867,8 @@ func (process *Process) GongSetFieldValue(fieldName string, value GongFieldValue
 		process.Description = value.GetValueString()
 	case "ComputedPrefix":
 		process.ComputedPrefix = value.GetValueString()
+	case "SVG_Path":
+		process.SVG_Path = value.GetValueString()
 	case "DiagramProcesss":
 		process.DiagramProcesss = make([]*DiagramProcess, 0)
 		ids := strings.Split(value.ids, ";")
