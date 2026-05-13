@@ -742,6 +742,10 @@ func (dataFormCallback *DataFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(data_.Description), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(data_.ComputedPrefix), formDiv)
+		case "SVG_Path":
+			FormDivBasicFieldToField(&(data_.SVG_Path), formDiv)
+		case "InverseAppliedScaling":
+			FormDivBasicFieldToField(&(data_.InverseAppliedScaling), formDiv)
 		case "DataFlow:Datas":
 			// WARNING : this form deals with the N-N association "DataFlow.Datas []*Data" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -5248,6 +5252,8 @@ func (processFormCallback *ProcessFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(process_.Description), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(process_.ComputedPrefix), formDiv)
+		case "SVG_Path":
+			FormDivBasicFieldToField(&(process_.SVG_Path), formDiv)
 		case "DiagramProcesss":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](processFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DiagramProcess, 0)

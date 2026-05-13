@@ -625,9 +625,16 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 
 		nbDataShapes := len(dataFlowShape.dataShapes)
 		for idx, dataShape := range dataFlowShape.dataShapes {
+			data := dataShape.Data
+
+			textXOffset := 4.0
+			if data.SVG_Path != "" {
+				textXOffset = 24.0
+			}
+
 			rectAnchoredLink := &svg.LinkAnchoredText{
 				Name:    dataShape.Name,
-				Content: dataShape.Data.Name,
+				Content: data.Name,
 				Presentation: svg.Presentation{
 					Color:       "#333333",
 					FillOpacity: 1.0,
@@ -639,9 +646,29 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 				},
 
 				Y_Offset: float64(-nbDataShapes+idx+1)*18.0 - 4.0,
-				X_Offset: 4.0,
+				X_Offset: textXOffset,
 			}
 			link.TextAtCorner = append(link.TextAtCorner, rectAnchoredLink)
+
+			if data.SVG_Path != "" {
+				if data.InverseAppliedScaling == 0 {
+					data.InverseAppliedScaling = 1.0
+				}
+				path := &svg.LinkAnchoredPath{
+					Name:       data.GetName(),
+					Definition: data.SVG_Path,
+					Presentation: svg.Presentation{
+						StrokeWidth: 0,
+						Color:       "#757575",
+						FillOpacity: 1,
+					},
+					X_Offset:            4.0,
+					Y_Offset:            float64(-nbDataShapes+idx+1)*18.0 - 4.0,
+					ScalePropotionnally: true,
+					AppliedScaling:      1.0 / data.InverseAppliedScaling,
+				}
+				link.PathAtCorner = append(link.PathAtCorner, path)
+			}
 		}
 	}
 }

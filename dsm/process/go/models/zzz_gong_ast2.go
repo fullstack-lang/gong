@@ -612,6 +612,10 @@ func (u *DataUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Description = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "SVG_Path":
+		instance.SVG_Path = GongExtractString(valueExpr)
+	case "InverseAppliedScaling":
+		instance.InverseAppliedScaling = GongExtractFloat(valueExpr)
 	}
 	return nil
 }
@@ -1216,6 +1220,8 @@ func (u *ProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.Description = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "SVG_Path":
+		instance.SVG_Path = GongExtractString(valueExpr)
 	case "DiagramProcesss":
 		GongUnmarshallSliceOfPointers(&instance.DiagramProcesss, valueExpr, identifierMap)
 	case "DiagramProcessWhoseNodeIsExpanded":

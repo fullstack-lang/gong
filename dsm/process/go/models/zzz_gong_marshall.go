@@ -415,6 +415,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(data.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(data.GongMarshallField(stage, "SVG_Path"))
+		initializerStatements.WriteString(data.GongMarshallField(stage, "InverseAppliedScaling"))
 	}
 
 	dataflowOrdered := []*DataFlow{}
@@ -855,6 +857,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(process.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(process.GongMarshallField(stage, "SVG_Path"))
 		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "DiagramProcesss"))
 		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "DiagramProcessWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "IsSubProcessNodeExpanded"))
@@ -1443,6 +1446,16 @@ func (data *Data) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", data.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(data.ComputedPrefix))
+	case "SVG_Path":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", data.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVG_Path")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(data.SVG_Path))
+	case "InverseAppliedScaling":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", data.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "InverseAppliedScaling")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", data.InverseAppliedScaling))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Data", fieldName)
@@ -2629,6 +2642,11 @@ func (process *Process) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", process.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(process.ComputedPrefix))
+	case "SVG_Path":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", process.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVG_Path")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(process.SVG_Path))
 	case "IsSubProcessNodeExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", process.GongGetIdentifier(stage))
@@ -2998,6 +3016,8 @@ func (data *Data) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(data.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(data.GongMarshallField(stage, "SVG_Path"))
+		initializerStatements.WriteString(data.GongMarshallField(stage, "InverseAppliedScaling"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3258,6 +3278,7 @@ func (process *Process) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(process.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(process.GongMarshallField(stage, "SVG_Path"))
 		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "DiagramProcesss"))
 		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "DiagramProcessWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "IsSubProcessNodeExpanded"))
