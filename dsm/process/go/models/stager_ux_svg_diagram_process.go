@@ -367,7 +367,7 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 
 		rect.OnUpdate = onUpdateRectElement(stager, externalParticipantShape.Participant, externalParticipantShape, false)
 
-		externalParticipantWidth := 0.1
+		externalParticipantWidth := 5.0
 		if externalParticipantShape.TailHeigth == 0 {
 			externalParticipantShape.TailHeigth = 100.0
 		}

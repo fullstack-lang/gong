@@ -11,6 +11,8 @@ var (
 type DataFlow struct {
 	Name string
 
+	Datas []*Data
+
 	//gong:text width:300 height:300
 	Description string
 
@@ -26,7 +28,6 @@ type DataFlow struct {
 	EndExternalParticipant   *Participant
 
 	IsDatasNodeExpanded bool
-	Datas               []*Data
 }
 
 var _ AbstractType = (*DataFlow)(nil)

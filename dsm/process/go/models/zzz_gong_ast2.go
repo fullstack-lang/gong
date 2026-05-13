@@ -608,6 +608,8 @@ func (u *DataFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Datas":
+		GongUnmarshallSliceOfPointers(&instance.Datas, valueExpr, identifierMap)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
 	case "ComputedPrefix":
@@ -624,8 +626,6 @@ func (u *DataFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		GongUnmarshallPointer(&instance.EndExternalParticipant, valueExpr, identifierMap)
 	case "IsDatasNodeExpanded":
 		instance.IsDatasNodeExpanded = GongExtractBool(valueExpr)
-	case "Datas":
-		GongUnmarshallSliceOfPointers(&instance.Datas, valueExpr, identifierMap)
 	}
 	return nil
 }
