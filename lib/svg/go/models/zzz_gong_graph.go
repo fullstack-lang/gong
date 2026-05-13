@@ -34,6 +34,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Link:
 		ok = stage.IsStagedLink(target)
 
+	case *LinkAnchoredPath:
+		ok = stage.IsStagedLinkAnchoredPath(target)
+
 	case *LinkAnchoredText:
 		ok = stage.IsStagedLinkAnchoredText(target)
 
@@ -112,6 +115,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Link:
 		ok = stage.IsStagedLink(target)
+
+	case *LinkAnchoredPath:
+		ok = stage.IsStagedLinkAnchoredPath(target)
 
 	case *LinkAnchoredText:
 		ok = stage.IsStagedLinkAnchoredText(target)
@@ -221,6 +227,13 @@ func (stage *Stage) IsStagedLine(line *Line) (ok bool) {
 func (stage *Stage) IsStagedLink(link *Link) (ok bool) {
 
 	_, ok = stage.Links[link]
+
+	return
+}
+
+func (stage *Stage) IsStagedLinkAnchoredPath(linkanchoredpath *LinkAnchoredPath) (ok bool) {
+
+	_, ok = stage.LinkAnchoredPaths[linkanchoredpath]
 
 	return
 }
@@ -357,6 +370,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Link:
 		stage.StageBranchLink(target)
+
+	case *LinkAnchoredPath:
+		stage.StageBranchLinkAnchoredPath(target)
 
 	case *LinkAnchoredText:
 		stage.StageBranchLinkAnchoredText(target)
@@ -595,9 +611,33 @@ func (stage *Stage) StageBranchLink(link *Link) {
 	for _, _linkanchoredtext := range link.TextAtCorner {
 		StageBranch(stage, _linkanchoredtext)
 	}
+	for _, _linkanchoredpath := range link.PathAtArrowStart {
+		StageBranch(stage, _linkanchoredpath)
+	}
+	for _, _linkanchoredpath := range link.PathAtArrowEnd {
+		StageBranch(stage, _linkanchoredpath)
+	}
+	for _, _linkanchoredpath := range link.PathAtCorner {
+		StageBranch(stage, _linkanchoredpath)
+	}
 	for _, _controlpoint := range link.ControlPoints {
 		StageBranch(stage, _controlpoint)
 	}
+
+}
+
+func (stage *Stage) StageBranchLinkAnchoredPath(linkanchoredpath *LinkAnchoredPath) {
+
+	// check if instance is already staged
+	if IsStaged(stage, linkanchoredpath) {
+		return
+	}
+
+	linkanchoredpath.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -915,6 +955,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchLink(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *LinkAnchoredPath:
+		toT := CopyBranchLinkAnchoredPath(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *LinkAnchoredText:
 		toT := CopyBranchLinkAnchoredText(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -1202,9 +1246,37 @@ func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) {
 	for _, _linkanchoredtext := range linkFrom.TextAtCorner {
 		linkTo.TextAtCorner = append(linkTo.TextAtCorner, CopyBranchLinkAnchoredText(mapOrigCopy, _linkanchoredtext))
 	}
+	for _, _linkanchoredpath := range linkFrom.PathAtArrowStart {
+		linkTo.PathAtArrowStart = append(linkTo.PathAtArrowStart, CopyBranchLinkAnchoredPath(mapOrigCopy, _linkanchoredpath))
+	}
+	for _, _linkanchoredpath := range linkFrom.PathAtArrowEnd {
+		linkTo.PathAtArrowEnd = append(linkTo.PathAtArrowEnd, CopyBranchLinkAnchoredPath(mapOrigCopy, _linkanchoredpath))
+	}
+	for _, _linkanchoredpath := range linkFrom.PathAtCorner {
+		linkTo.PathAtCorner = append(linkTo.PathAtCorner, CopyBranchLinkAnchoredPath(mapOrigCopy, _linkanchoredpath))
+	}
 	for _, _controlpoint := range linkFrom.ControlPoints {
 		linkTo.ControlPoints = append(linkTo.ControlPoints, CopyBranchControlPoint(mapOrigCopy, _controlpoint))
 	}
+
+	return
+}
+
+func CopyBranchLinkAnchoredPath(mapOrigCopy map[any]any, linkanchoredpathFrom *LinkAnchoredPath) (linkanchoredpathTo *LinkAnchoredPath) {
+
+	// linkanchoredpathFrom has already been copied
+	if _linkanchoredpathTo, ok := mapOrigCopy[linkanchoredpathFrom]; ok {
+		linkanchoredpathTo = _linkanchoredpathTo.(*LinkAnchoredPath)
+		return
+	}
+
+	linkanchoredpathTo = new(LinkAnchoredPath)
+	mapOrigCopy[linkanchoredpathFrom] = linkanchoredpathTo
+	linkanchoredpathFrom.CopyBasicFields(linkanchoredpathTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -1567,6 +1639,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Link:
 		stage.UnstageBranchLink(target)
 
+	case *LinkAnchoredPath:
+		stage.UnstageBranchLinkAnchoredPath(target)
+
 	case *LinkAnchoredText:
 		stage.UnstageBranchLinkAnchoredText(target)
 
@@ -1804,9 +1879,33 @@ func (stage *Stage) UnstageBranchLink(link *Link) {
 	for _, _linkanchoredtext := range link.TextAtCorner {
 		UnstageBranch(stage, _linkanchoredtext)
 	}
+	for _, _linkanchoredpath := range link.PathAtArrowStart {
+		UnstageBranch(stage, _linkanchoredpath)
+	}
+	for _, _linkanchoredpath := range link.PathAtArrowEnd {
+		UnstageBranch(stage, _linkanchoredpath)
+	}
+	for _, _linkanchoredpath := range link.PathAtCorner {
+		UnstageBranch(stage, _linkanchoredpath)
+	}
 	for _, _controlpoint := range link.ControlPoints {
 		UnstageBranch(stage, _controlpoint)
 	}
+
+}
+
+func (stage *Stage) UnstageBranchLinkAnchoredPath(linkanchoredpath *LinkAnchoredPath) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, linkanchoredpath) {
+		return
+	}
+
+	linkanchoredpath.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -2194,10 +2293,27 @@ func (reference *Link) GongReconstructPointersFromReferences(stage *Stage, insta
 	for _, _b := range instance.TextAtCorner {
 		reference.TextAtCorner = append(reference.TextAtCorner, stage.LinkAnchoredTexts_reference[_b])
 	}
+	reference.PathAtArrowStart = reference.PathAtArrowStart[:0]
+	for _, _b := range instance.PathAtArrowStart {
+		reference.PathAtArrowStart = append(reference.PathAtArrowStart, stage.LinkAnchoredPaths_reference[_b])
+	}
+	reference.PathAtArrowEnd = reference.PathAtArrowEnd[:0]
+	for _, _b := range instance.PathAtArrowEnd {
+		reference.PathAtArrowEnd = append(reference.PathAtArrowEnd, stage.LinkAnchoredPaths_reference[_b])
+	}
+	reference.PathAtCorner = reference.PathAtCorner[:0]
+	for _, _b := range instance.PathAtCorner {
+		reference.PathAtCorner = append(reference.PathAtCorner, stage.LinkAnchoredPaths_reference[_b])
+	}
 	reference.ControlPoints = reference.ControlPoints[:0]
 	for _, _b := range instance.ControlPoints {
 		reference.ControlPoints = append(reference.ControlPoints, stage.ControlPoints_reference[_b])
 	}
+}
+
+func (reference *LinkAnchoredPath) GongReconstructPointersFromReferences(stage *Stage, instance *LinkAnchoredPath) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
 }
 
 func (reference *LinkAnchoredText) GongReconstructPointersFromReferences(stage *Stage, instance *LinkAnchoredText) {
@@ -2515,6 +2631,27 @@ func (reference *Link) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.TextAtCorner = _TextAtCorner
+	var _PathAtArrowStart []*LinkAnchoredPath
+	for _, _reference := range reference.PathAtArrowStart {
+		if _instance, ok := stage.LinkAnchoredPaths_instance[_reference]; ok {
+			_PathAtArrowStart = append(_PathAtArrowStart, _instance)
+		}
+	}
+	reference.PathAtArrowStart = _PathAtArrowStart
+	var _PathAtArrowEnd []*LinkAnchoredPath
+	for _, _reference := range reference.PathAtArrowEnd {
+		if _instance, ok := stage.LinkAnchoredPaths_instance[_reference]; ok {
+			_PathAtArrowEnd = append(_PathAtArrowEnd, _instance)
+		}
+	}
+	reference.PathAtArrowEnd = _PathAtArrowEnd
+	var _PathAtCorner []*LinkAnchoredPath
+	for _, _reference := range reference.PathAtCorner {
+		if _instance, ok := stage.LinkAnchoredPaths_instance[_reference]; ok {
+			_PathAtCorner = append(_PathAtCorner, _instance)
+		}
+	}
+	reference.PathAtCorner = _PathAtCorner
 	var _ControlPoints []*ControlPoint
 	for _, _reference := range reference.ControlPoints {
 		if _instance, ok := stage.ControlPoints_instance[_reference]; ok {
@@ -2522,6 +2659,11 @@ func (reference *Link) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.ControlPoints = _ControlPoints
+}
+
+func (reference *LinkAnchoredPath) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
 }
 
 func (reference *LinkAnchoredText) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3361,6 +3503,69 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 		ops := Diff(stage, link, linkOther, "TextAtCorner", linkOther.TextAtCorner, link.TextAtCorner)
 		diffs = append(diffs, ops)
 	}
+	PathAtArrowStartDifferent := false
+	if len(link.PathAtArrowStart) != len(linkOther.PathAtArrowStart) {
+		PathAtArrowStartDifferent = true
+	} else {
+		for i := range link.PathAtArrowStart {
+			if (link.PathAtArrowStart[i] == nil) != (linkOther.PathAtArrowStart[i] == nil) {
+				PathAtArrowStartDifferent = true
+				break
+			} else if link.PathAtArrowStart[i] != nil && linkOther.PathAtArrowStart[i] != nil {
+				// this is a pointer comparaison
+				if link.PathAtArrowStart[i] != linkOther.PathAtArrowStart[i] {
+					PathAtArrowStartDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PathAtArrowStartDifferent {
+		ops := Diff(stage, link, linkOther, "PathAtArrowStart", linkOther.PathAtArrowStart, link.PathAtArrowStart)
+		diffs = append(diffs, ops)
+	}
+	PathAtArrowEndDifferent := false
+	if len(link.PathAtArrowEnd) != len(linkOther.PathAtArrowEnd) {
+		PathAtArrowEndDifferent = true
+	} else {
+		for i := range link.PathAtArrowEnd {
+			if (link.PathAtArrowEnd[i] == nil) != (linkOther.PathAtArrowEnd[i] == nil) {
+				PathAtArrowEndDifferent = true
+				break
+			} else if link.PathAtArrowEnd[i] != nil && linkOther.PathAtArrowEnd[i] != nil {
+				// this is a pointer comparaison
+				if link.PathAtArrowEnd[i] != linkOther.PathAtArrowEnd[i] {
+					PathAtArrowEndDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PathAtArrowEndDifferent {
+		ops := Diff(stage, link, linkOther, "PathAtArrowEnd", linkOther.PathAtArrowEnd, link.PathAtArrowEnd)
+		diffs = append(diffs, ops)
+	}
+	PathAtCornerDifferent := false
+	if len(link.PathAtCorner) != len(linkOther.PathAtCorner) {
+		PathAtCornerDifferent = true
+	} else {
+		for i := range link.PathAtCorner {
+			if (link.PathAtCorner[i] == nil) != (linkOther.PathAtCorner[i] == nil) {
+				PathAtCornerDifferent = true
+				break
+			} else if link.PathAtCorner[i] != nil && linkOther.PathAtCorner[i] != nil {
+				// this is a pointer comparaison
+				if link.PathAtCorner[i] != linkOther.PathAtCorner[i] {
+					PathAtCornerDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PathAtCornerDifferent {
+		ops := Diff(stage, link, linkOther, "PathAtCorner", linkOther.PathAtCorner, link.PathAtCorner)
+		diffs = append(diffs, ops)
+	}
 	ControlPointsDifferent := false
 	if len(link.ControlPoints) != len(linkOther.ControlPoints) {
 		ControlPointsDifferent = true
@@ -3414,6 +3619,56 @@ func (link *Link) GongDiff(stage *Stage, linkOther *Link) (diffs []string) {
 	}
 	if link.MouseEventKey != linkOther.MouseEventKey {
 		diffs = append(diffs, link.GongMarshallField(stage, "MouseEventKey"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (linkanchoredpath *LinkAnchoredPath) GongDiff(stage *Stage, linkanchoredpathOther *LinkAnchoredPath) (diffs []string) {
+	// insertion point for field diffs
+	if linkanchoredpath.Name != linkanchoredpathOther.Name {
+		diffs = append(diffs, linkanchoredpath.GongMarshallField(stage, "Name"))
+	}
+	if linkanchoredpath.Definition != linkanchoredpathOther.Definition {
+		diffs = append(diffs, linkanchoredpath.GongMarshallField(stage, "Definition"))
+	}
+	if linkanchoredpath.X_Offset != linkanchoredpathOther.X_Offset {
+		diffs = append(diffs, linkanchoredpath.GongMarshallField(stage, "X_Offset"))
+	}
+	if linkanchoredpath.Y_Offset != linkanchoredpathOther.Y_Offset {
+		diffs = append(diffs, linkanchoredpath.GongMarshallField(stage, "Y_Offset"))
+	}
+	if linkanchoredpath.ScalePropotionnally != linkanchoredpathOther.ScalePropotionnally {
+		diffs = append(diffs, linkanchoredpath.GongMarshallField(stage, "ScalePropotionnally"))
+	}
+	if linkanchoredpath.AppliedScaling != linkanchoredpathOther.AppliedScaling {
+		diffs = append(diffs, linkanchoredpath.GongMarshallField(stage, "AppliedScaling"))
+	}
+	if linkanchoredpath.Color != linkanchoredpathOther.Color {
+		diffs = append(diffs, linkanchoredpath.GongMarshallField(stage, "Color"))
+	}
+	if linkanchoredpath.FillOpacity != linkanchoredpathOther.FillOpacity {
+		diffs = append(diffs, linkanchoredpath.GongMarshallField(stage, "FillOpacity"))
+	}
+	if linkanchoredpath.Stroke != linkanchoredpathOther.Stroke {
+		diffs = append(diffs, linkanchoredpath.GongMarshallField(stage, "Stroke"))
+	}
+	if linkanchoredpath.StrokeOpacity != linkanchoredpathOther.StrokeOpacity {
+		diffs = append(diffs, linkanchoredpath.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if linkanchoredpath.StrokeWidth != linkanchoredpathOther.StrokeWidth {
+		diffs = append(diffs, linkanchoredpath.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if linkanchoredpath.StrokeDashArray != linkanchoredpathOther.StrokeDashArray {
+		diffs = append(diffs, linkanchoredpath.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if linkanchoredpath.StrokeDashArrayWhenSelected != linkanchoredpathOther.StrokeDashArrayWhenSelected {
+		diffs = append(diffs, linkanchoredpath.GongMarshallField(stage, "StrokeDashArrayWhenSelected"))
+	}
+	if linkanchoredpath.Transform != linkanchoredpathOther.Transform {
+		diffs = append(diffs, linkanchoredpath.GongMarshallField(stage, "Transform"))
 	}
 
 	return

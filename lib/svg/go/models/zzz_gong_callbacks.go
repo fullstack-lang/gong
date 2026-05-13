@@ -42,6 +42,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterLinkCreateCallback != nil {
 			stage.OnAfterLinkCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *LinkAnchoredPath:
+		if stage.OnAfterLinkAnchoredPathCreateCallback != nil {
+			stage.OnAfterLinkAnchoredPathCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *LinkAnchoredText:
 		if stage.OnAfterLinkAnchoredTextCreateCallback != nil {
 			stage.OnAfterLinkAnchoredTextCreateCallback.OnAfterCreate(stage, target)
@@ -156,6 +160,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Link)
 		if stage.OnAfterLinkUpdateCallback != nil {
 			stage.OnAfterLinkUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *LinkAnchoredPath:
+		newTarget := any(new).(*LinkAnchoredPath)
+		if stage.OnAfterLinkAnchoredPathUpdateCallback != nil {
+			stage.OnAfterLinkAnchoredPathUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *LinkAnchoredText:
 		newTarget := any(new).(*LinkAnchoredText)
@@ -282,6 +291,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Link)
 			stage.OnAfterLinkDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *LinkAnchoredPath:
+		if stage.OnAfterLinkAnchoredPathDeleteCallback != nil {
+			staged := any(staged).(*LinkAnchoredPath)
+			stage.OnAfterLinkAnchoredPathDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *LinkAnchoredText:
 		if stage.OnAfterLinkAnchoredTextDeleteCallback != nil {
 			staged := any(staged).(*LinkAnchoredText)
@@ -398,6 +412,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterLinkReadCallback != nil {
 			stage.OnAfterLinkReadCallback.OnAfterRead(stage, target)
 		}
+	case *LinkAnchoredPath:
+		if stage.OnAfterLinkAnchoredPathReadCallback != nil {
+			stage.OnAfterLinkAnchoredPathReadCallback.OnAfterRead(stage, target)
+		}
 	case *LinkAnchoredText:
 		if stage.OnAfterLinkAnchoredTextReadCallback != nil {
 			stage.OnAfterLinkAnchoredTextReadCallback.OnAfterRead(stage, target)
@@ -483,6 +501,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterLineUpdateCallback = any(callback).(OnAfterUpdateInterface[Line])
 	case *Link:
 		stage.OnAfterLinkUpdateCallback = any(callback).(OnAfterUpdateInterface[Link])
+	case *LinkAnchoredPath:
+		stage.OnAfterLinkAnchoredPathUpdateCallback = any(callback).(OnAfterUpdateInterface[LinkAnchoredPath])
 	case *LinkAnchoredText:
 		stage.OnAfterLinkAnchoredTextUpdateCallback = any(callback).(OnAfterUpdateInterface[LinkAnchoredText])
 	case *Path:
@@ -536,6 +556,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterLineCreateCallback = any(callback).(OnAfterCreateInterface[Line])
 	case *Link:
 		stage.OnAfterLinkCreateCallback = any(callback).(OnAfterCreateInterface[Link])
+	case *LinkAnchoredPath:
+		stage.OnAfterLinkAnchoredPathCreateCallback = any(callback).(OnAfterCreateInterface[LinkAnchoredPath])
 	case *LinkAnchoredText:
 		stage.OnAfterLinkAnchoredTextCreateCallback = any(callback).(OnAfterCreateInterface[LinkAnchoredText])
 	case *Path:
@@ -589,6 +611,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterLineDeleteCallback = any(callback).(OnAfterDeleteInterface[Line])
 	case *Link:
 		stage.OnAfterLinkDeleteCallback = any(callback).(OnAfterDeleteInterface[Link])
+	case *LinkAnchoredPath:
+		stage.OnAfterLinkAnchoredPathDeleteCallback = any(callback).(OnAfterDeleteInterface[LinkAnchoredPath])
 	case *LinkAnchoredText:
 		stage.OnAfterLinkAnchoredTextDeleteCallback = any(callback).(OnAfterDeleteInterface[LinkAnchoredText])
 	case *Path:
@@ -642,6 +666,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterLineReadCallback = any(callback).(OnAfterReadInterface[Line])
 	case *Link:
 		stage.OnAfterLinkReadCallback = any(callback).(OnAfterReadInterface[Link])
+	case *LinkAnchoredPath:
+		stage.OnAfterLinkAnchoredPathReadCallback = any(callback).(OnAfterReadInterface[LinkAnchoredPath])
 	case *LinkAnchoredText:
 		stage.OnAfterLinkAnchoredTextReadCallback = any(callback).(OnAfterReadInterface[LinkAnchoredText])
 	case *Path:

@@ -6,6 +6,7 @@ import { FrontRepo } from './front-repo.service';
 // insertion point for imports
 import { Rect } from './rect'
 import { LinkAnchoredText } from './linkanchoredtext'
+import { LinkAnchoredPath } from './linkanchoredpath'
 import { ControlPoint } from './controlpoint'
 
 // usefull for managing pointer ID values that can be nullable
@@ -55,6 +56,9 @@ export class Link {
 	TextAtArrowStart: Array<LinkAnchoredText> = []
 	TextAtArrowEnd: Array<LinkAnchoredText> = []
 	TextAtCorner: Array<LinkAnchoredText> = []
+	PathAtArrowStart: Array<LinkAnchoredPath> = []
+	PathAtArrowEnd: Array<LinkAnchoredPath> = []
+	PathAtCorner: Array<LinkAnchoredPath> = []
 	ControlPoints: Array<ControlPoint> = []
 
 	CreatedAt?: string
@@ -127,6 +131,21 @@ export function CopyLinkToLinkAPI(link: Link, linkAPI: LinkAPI) {
 	linkAPI.LinkPointersEncoding.TextAtCorner = []
 	for (let _linkanchoredtext of link.TextAtCorner) {
 		linkAPI.LinkPointersEncoding.TextAtCorner.push(_linkanchoredtext.ID)
+	}
+
+	linkAPI.LinkPointersEncoding.PathAtArrowStart = []
+	for (let _linkanchoredpath of link.PathAtArrowStart) {
+		linkAPI.LinkPointersEncoding.PathAtArrowStart.push(_linkanchoredpath.ID)
+	}
+
+	linkAPI.LinkPointersEncoding.PathAtArrowEnd = []
+	for (let _linkanchoredpath of link.PathAtArrowEnd) {
+		linkAPI.LinkPointersEncoding.PathAtArrowEnd.push(_linkanchoredpath.ID)
+	}
+
+	linkAPI.LinkPointersEncoding.PathAtCorner = []
+	for (let _linkanchoredpath of link.PathAtCorner) {
+		linkAPI.LinkPointersEncoding.PathAtCorner.push(_linkanchoredpath.ID)
 	}
 
 	linkAPI.LinkPointersEncoding.ControlPoints = []
@@ -215,6 +234,42 @@ export function CopyLinkAPIToLink(linkAPI: LinkAPI, link: Link, frontRepo: Front
 		let _linkanchoredtext = frontRepo.map_ID_LinkAnchoredText.get(_id)
 		if (_linkanchoredtext != undefined) {
 			link.TextAtCorner.push(_linkanchoredtext!)
+		}
+	}
+	if (!Array.isArray(linkAPI.LinkPointersEncoding.PathAtArrowStart)) {
+		console.error('Rects is not an array:', linkAPI.LinkPointersEncoding.PathAtArrowStart);
+		return;
+	}
+
+	link.PathAtArrowStart = new Array<LinkAnchoredPath>()
+	for (let _id of linkAPI.LinkPointersEncoding.PathAtArrowStart) {
+		let _linkanchoredpath = frontRepo.map_ID_LinkAnchoredPath.get(_id)
+		if (_linkanchoredpath != undefined) {
+			link.PathAtArrowStart.push(_linkanchoredpath!)
+		}
+	}
+	if (!Array.isArray(linkAPI.LinkPointersEncoding.PathAtArrowEnd)) {
+		console.error('Rects is not an array:', linkAPI.LinkPointersEncoding.PathAtArrowEnd);
+		return;
+	}
+
+	link.PathAtArrowEnd = new Array<LinkAnchoredPath>()
+	for (let _id of linkAPI.LinkPointersEncoding.PathAtArrowEnd) {
+		let _linkanchoredpath = frontRepo.map_ID_LinkAnchoredPath.get(_id)
+		if (_linkanchoredpath != undefined) {
+			link.PathAtArrowEnd.push(_linkanchoredpath!)
+		}
+	}
+	if (!Array.isArray(linkAPI.LinkPointersEncoding.PathAtCorner)) {
+		console.error('Rects is not an array:', linkAPI.LinkPointersEncoding.PathAtCorner);
+		return;
+	}
+
+	link.PathAtCorner = new Array<LinkAnchoredPath>()
+	for (let _id of linkAPI.LinkPointersEncoding.PathAtCorner) {
+		let _linkanchoredpath = frontRepo.map_ID_LinkAnchoredPath.get(_id)
+		if (_linkanchoredpath != undefined) {
+			link.PathAtCorner.push(_linkanchoredpath!)
 		}
 	}
 	if (!Array.isArray(linkAPI.LinkPointersEncoding.ControlPoints)) {

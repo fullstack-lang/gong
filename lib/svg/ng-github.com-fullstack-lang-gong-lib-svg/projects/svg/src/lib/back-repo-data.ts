@@ -19,6 +19,8 @@ import { LineAPI } from './line-api'
 
 import { LinkAPI } from './link-api'
 
+import { LinkAnchoredPathAPI } from './linkanchoredpath-api'
+
 import { LinkAnchoredTextAPI } from './linkanchoredtext-api'
 
 import { PathAPI } from './path-api'
@@ -67,6 +69,8 @@ export class BackRepoData {
 	LineAPIs = new Array<LineAPI>()
 
 	LinkAPIs = new Array<LinkAPI>()
+
+	LinkAnchoredPathAPIs = new Array<LinkAnchoredPathAPI>()
 
 	LinkAnchoredTextAPIs = new Array<LinkAnchoredTextAPI>()
 
@@ -119,6 +123,8 @@ export class BackRepoData {
 		this.LineAPIs = data?.LineAPIs || [];
 
 		this.LinkAPIs = data?.LinkAPIs || [];
+
+		this.LinkAnchoredPathAPIs = data?.LinkAnchoredPathAPIs || [];
 
 		this.LinkAnchoredTextAPIs = data?.LinkAnchoredTextAPIs || [];
 

@@ -288,12 +288,33 @@ type Stage struct {
 
 	Link_TextAtCorner_reverseMap map[*LinkAnchoredText]*Link
 
+	Link_PathAtArrowStart_reverseMap map[*LinkAnchoredPath]*Link
+
+	Link_PathAtArrowEnd_reverseMap map[*LinkAnchoredPath]*Link
+
+	Link_PathAtCorner_reverseMap map[*LinkAnchoredPath]*Link
+
 	Link_ControlPoints_reverseMap map[*ControlPoint]*Link
 
 	OnAfterLinkCreateCallback OnAfterCreateInterface[Link]
 	OnAfterLinkUpdateCallback OnAfterUpdateInterface[Link]
 	OnAfterLinkDeleteCallback OnAfterDeleteInterface[Link]
 	OnAfterLinkReadCallback   OnAfterReadInterface[Link]
+
+	LinkAnchoredPaths                map[*LinkAnchoredPath]struct{}
+	LinkAnchoredPaths_instance       map[*LinkAnchoredPath]*LinkAnchoredPath
+	LinkAnchoredPaths_mapString      map[string]*LinkAnchoredPath
+	LinkAnchoredPathOrder            uint
+	LinkAnchoredPath_stagedOrder     map[*LinkAnchoredPath]uint
+	LinkAnchoredPath_orderStaged     map[uint]*LinkAnchoredPath
+	LinkAnchoredPaths_reference      map[*LinkAnchoredPath]*LinkAnchoredPath
+	LinkAnchoredPaths_referenceOrder map[*LinkAnchoredPath]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterLinkAnchoredPathCreateCallback OnAfterCreateInterface[LinkAnchoredPath]
+	OnAfterLinkAnchoredPathUpdateCallback OnAfterUpdateInterface[LinkAnchoredPath]
+	OnAfterLinkAnchoredPathDeleteCallback OnAfterDeleteInterface[LinkAnchoredPath]
+	OnAfterLinkAnchoredPathReadCallback   OnAfterReadInterface[LinkAnchoredPath]
 
 	LinkAnchoredTexts                map[*LinkAnchoredText]struct{}
 	LinkAnchoredTexts_instance       map[*LinkAnchoredText]*LinkAnchoredText
@@ -805,6 +826,10 @@ func (stage *Stage) Squash() {
 	stage.Links_instance = make(map[*Link]*Link)
 	stage.Links_referenceOrder = make(map[*Link]uint)
 
+	stage.LinkAnchoredPaths_reference = make(map[*LinkAnchoredPath]*LinkAnchoredPath)
+	stage.LinkAnchoredPaths_instance = make(map[*LinkAnchoredPath]*LinkAnchoredPath)
+	stage.LinkAnchoredPaths_referenceOrder = make(map[*LinkAnchoredPath]uint)
+
 	stage.LinkAnchoredTexts_reference = make(map[*LinkAnchoredText]*LinkAnchoredText)
 	stage.LinkAnchoredTexts_instance = make(map[*LinkAnchoredText]*LinkAnchoredText)
 	stage.LinkAnchoredTexts_referenceOrder = make(map[*LinkAnchoredText]uint)
@@ -1012,6 +1037,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.LinkOrder = maxLinkOrder + 1
 	} else {
 		stage.LinkOrder = 0
+	}
+
+	var maxLinkAnchoredPathOrder uint
+	var foundLinkAnchoredPath bool
+	for _, order := range stage.LinkAnchoredPath_stagedOrder {
+		if !foundLinkAnchoredPath || order > maxLinkAnchoredPathOrder {
+			maxLinkAnchoredPathOrder = order
+			foundLinkAnchoredPath = true
+		}
+	}
+	if foundLinkAnchoredPath {
+		stage.LinkAnchoredPathOrder = maxLinkAnchoredPathOrder + 1
+	} else {
+		stage.LinkAnchoredPathOrder = 0
 	}
 
 	var maxLinkAnchoredTextOrder uint
@@ -1397,6 +1436,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *LinkAnchoredPath:
+		tmp := GetStructInstancesByOrder(stage.LinkAnchoredPaths, stage.LinkAnchoredPath_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *LinkAnchoredPath implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *LinkAnchoredText:
 		tmp := GetStructInstancesByOrder(stage.LinkAnchoredTexts, stage.LinkAnchoredText_stagedOrder)
 
@@ -1640,6 +1693,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Lines, stage.Line_stagedOrder)
 	case "Link":
 		res = GetNamedStructInstances(stage.Links, stage.Link_stagedOrder)
+	case "LinkAnchoredPath":
+		res = GetNamedStructInstances(stage.LinkAnchoredPaths, stage.LinkAnchoredPath_stagedOrder)
 	case "LinkAnchoredText":
 		res = GetNamedStructInstances(stage.LinkAnchoredTexts, stage.LinkAnchoredText_stagedOrder)
 	case "Path":
@@ -1755,6 +1810,8 @@ type BackRepoInterface interface {
 	CheckoutLine(line *Line)
 	CommitLink(link *Link)
 	CheckoutLink(link *Link)
+	CommitLinkAnchoredPath(linkanchoredpath *LinkAnchoredPath)
+	CheckoutLinkAnchoredPath(linkanchoredpath *LinkAnchoredPath)
 	CommitLinkAnchoredText(linkanchoredtext *LinkAnchoredText)
 	CheckoutLinkAnchoredText(linkanchoredtext *LinkAnchoredText)
 	CommitPath(path *Path)
@@ -1815,6 +1872,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Links:           make(map[*Link]struct{}),
 		Links_mapString: make(map[string]*Link),
+
+		LinkAnchoredPaths:           make(map[*LinkAnchoredPath]struct{}),
+		LinkAnchoredPaths_mapString: make(map[string]*LinkAnchoredPath),
 
 		LinkAnchoredTexts:           make(map[*LinkAnchoredText]struct{}),
 		LinkAnchoredTexts_mapString: make(map[string]*LinkAnchoredText),
@@ -1904,6 +1964,10 @@ func NewStage(name string) (stage *Stage) {
 		Link_orderStaged: make(map[uint]*Link),
 		Links_reference:  make(map[*Link]*Link),
 
+		LinkAnchoredPath_stagedOrder: make(map[*LinkAnchoredPath]uint),
+		LinkAnchoredPath_orderStaged: make(map[uint]*LinkAnchoredPath),
+		LinkAnchoredPaths_reference:  make(map[*LinkAnchoredPath]*LinkAnchoredPath),
+
 		LinkAnchoredText_stagedOrder: make(map[*LinkAnchoredText]uint),
 		LinkAnchoredText_orderStaged: make(map[uint]*LinkAnchoredText),
 		LinkAnchoredTexts_reference:  make(map[*LinkAnchoredText]*LinkAnchoredText),
@@ -1980,6 +2044,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"Link": &LinkUnmarshaller{},
 
+			"LinkAnchoredPath": &LinkAnchoredPathUnmarshaller{},
+
 			"LinkAnchoredText": &LinkAnchoredTextUnmarshaller{},
 
 			"Path": &PathUnmarshaller{},
@@ -2021,6 +2087,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Layer"},
 			{name: "Line"},
 			{name: "Link"},
+			{name: "LinkAnchoredPath"},
 			{name: "LinkAnchoredText"},
 			{name: "Path"},
 			{name: "Point"},
@@ -2064,6 +2131,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Line_stagedOrder[instance]
 	case *Link:
 		return stage.Link_stagedOrder[instance]
+	case *LinkAnchoredPath:
+		return stage.LinkAnchoredPath_stagedOrder[instance]
 	case *LinkAnchoredText:
 		return stage.LinkAnchoredText_stagedOrder[instance]
 	case *Path:
@@ -2119,6 +2188,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.Line_orderStaged[order]).(Type)
 	case *Link:
 		return any(stage.Link_orderStaged[order]).(Type)
+	case *LinkAnchoredPath:
+		return any(stage.LinkAnchoredPath_orderStaged[order]).(Type)
 	case *LinkAnchoredText:
 		return any(stage.LinkAnchoredText_orderStaged[order]).(Type)
 	case *Path:
@@ -2173,6 +2244,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.Line_stagedOrder[instance]
 	case *Link:
 		return stage.Link_stagedOrder[instance]
+	case *LinkAnchoredPath:
+		return stage.LinkAnchoredPath_stagedOrder[instance]
 	case *LinkAnchoredText:
 		return stage.LinkAnchoredText_stagedOrder[instance]
 	case *Path:
@@ -2275,6 +2348,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Layer"] = len(stage.Layers)
 	stage.Map_GongStructName_InstancesNb["Line"] = len(stage.Lines)
 	stage.Map_GongStructName_InstancesNb["Link"] = len(stage.Links)
+	stage.Map_GongStructName_InstancesNb["LinkAnchoredPath"] = len(stage.LinkAnchoredPaths)
 	stage.Map_GongStructName_InstancesNb["LinkAnchoredText"] = len(stage.LinkAnchoredTexts)
 	stage.Map_GongStructName_InstancesNb["Path"] = len(stage.Paths)
 	stage.Map_GongStructName_InstancesNb["Point"] = len(stage.Points)
@@ -3119,6 +3193,94 @@ func (link *Link) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (link *Link) SetName(name string) {
 	link.Name = name
+}
+
+// Stage puts linkanchoredpath to the model stage
+func (linkanchoredpath *LinkAnchoredPath) Stage(stage *Stage) *LinkAnchoredPath {
+	if _, ok := stage.LinkAnchoredPaths[linkanchoredpath]; !ok {
+		stage.LinkAnchoredPaths[linkanchoredpath] = struct{}{}
+		stage.LinkAnchoredPath_stagedOrder[linkanchoredpath] = stage.LinkAnchoredPathOrder
+		stage.LinkAnchoredPath_orderStaged[stage.LinkAnchoredPathOrder] = linkanchoredpath
+		stage.LinkAnchoredPathOrder++
+	}
+	stage.LinkAnchoredPaths_mapString[linkanchoredpath.Name] = linkanchoredpath
+
+	return linkanchoredpath
+}
+
+// StagePreserveOrder puts linkanchoredpath to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.LinkAnchoredPathOrder
+// - update stage.LinkAnchoredPathOrder accordingly
+func (linkanchoredpath *LinkAnchoredPath) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.LinkAnchoredPaths[linkanchoredpath]; !ok {
+		stage.LinkAnchoredPaths[linkanchoredpath] = struct{}{}
+
+		if order > stage.LinkAnchoredPathOrder {
+			stage.LinkAnchoredPathOrder = order
+		}
+		stage.LinkAnchoredPath_stagedOrder[linkanchoredpath] = order
+		stage.LinkAnchoredPath_orderStaged[order] = linkanchoredpath
+		stage.LinkAnchoredPathOrder++
+	}
+	stage.LinkAnchoredPaths_mapString[linkanchoredpath.Name] = linkanchoredpath
+}
+
+// Unstage removes linkanchoredpath off the model stage
+func (linkanchoredpath *LinkAnchoredPath) Unstage(stage *Stage) *LinkAnchoredPath {
+	delete(stage.LinkAnchoredPaths, linkanchoredpath)
+	// issue1150
+	// delete(stage.LinkAnchoredPath_stagedOrder, linkanchoredpath)
+	delete(stage.LinkAnchoredPaths_mapString, linkanchoredpath.Name)
+
+	return linkanchoredpath
+}
+
+// UnstageVoid removes linkanchoredpath off the model stage
+func (linkanchoredpath *LinkAnchoredPath) UnstageVoid(stage *Stage) {
+	delete(stage.LinkAnchoredPaths, linkanchoredpath)
+	// issue1150
+	// delete(stage.LinkAnchoredPath_stagedOrder, linkanchoredpath)
+	delete(stage.LinkAnchoredPaths_mapString, linkanchoredpath.Name)
+}
+
+// commit linkanchoredpath to the back repo (if it is already staged)
+func (linkanchoredpath *LinkAnchoredPath) Commit(stage *Stage) *LinkAnchoredPath {
+	if _, ok := stage.LinkAnchoredPaths[linkanchoredpath]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitLinkAnchoredPath(linkanchoredpath)
+		}
+	}
+	return linkanchoredpath
+}
+
+func (linkanchoredpath *LinkAnchoredPath) CommitVoid(stage *Stage) {
+	linkanchoredpath.Commit(stage)
+}
+
+func (linkanchoredpath *LinkAnchoredPath) StageVoid(stage *Stage) {
+	linkanchoredpath.Stage(stage)
+}
+
+// Checkout linkanchoredpath to the back repo (if it is already staged)
+func (linkanchoredpath *LinkAnchoredPath) Checkout(stage *Stage) *LinkAnchoredPath {
+	if _, ok := stage.LinkAnchoredPaths[linkanchoredpath]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutLinkAnchoredPath(linkanchoredpath)
+		}
+	}
+	return linkanchoredpath
+}
+
+// for satisfaction of GongStruct interface
+func (linkanchoredpath *LinkAnchoredPath) GetName() (res string) {
+	return linkanchoredpath.Name
+}
+
+// for satisfaction of GongStruct interface
+func (linkanchoredpath *LinkAnchoredPath) SetName(name string) {
+	linkanchoredpath.Name = name
 }
 
 // Stage puts linkanchoredtext to the model stage
@@ -4364,6 +4526,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMLayer(Layer *Layer)
 	CreateORMLine(Line *Line)
 	CreateORMLink(Link *Link)
+	CreateORMLinkAnchoredPath(LinkAnchoredPath *LinkAnchoredPath)
 	CreateORMLinkAnchoredText(LinkAnchoredText *LinkAnchoredText)
 	CreateORMPath(Path *Path)
 	CreateORMPoint(Point *Point)
@@ -4390,6 +4553,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMLayer(Layer *Layer)
 	DeleteORMLine(Line *Line)
 	DeleteORMLink(Link *Link)
+	DeleteORMLinkAnchoredPath(LinkAnchoredPath *LinkAnchoredPath)
 	DeleteORMLinkAnchoredText(LinkAnchoredText *LinkAnchoredText)
 	DeleteORMPath(Path *Path)
 	DeleteORMPoint(Point *Point)
@@ -4451,6 +4615,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Links_mapString = make(map[string]*Link)
 	stage.Link_stagedOrder = make(map[*Link]uint)
 	stage.LinkOrder = 0
+
+	stage.LinkAnchoredPaths = make(map[*LinkAnchoredPath]struct{})
+	stage.LinkAnchoredPaths_mapString = make(map[string]*LinkAnchoredPath)
+	stage.LinkAnchoredPath_stagedOrder = make(map[*LinkAnchoredPath]uint)
+	stage.LinkAnchoredPathOrder = 0
 
 	stage.LinkAnchoredTexts = make(map[*LinkAnchoredText]struct{})
 	stage.LinkAnchoredTexts_mapString = make(map[string]*LinkAnchoredText)
@@ -4558,6 +4727,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Links = nil
 	stage.Links_mapString = nil
 
+	stage.LinkAnchoredPaths = nil
+	stage.LinkAnchoredPaths_mapString = nil
+
 	stage.LinkAnchoredTexts = nil
 	stage.LinkAnchoredTexts_mapString = nil
 
@@ -4638,6 +4810,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for link := range stage.Links {
 		link.Unstage(stage)
+	}
+
+	for linkanchoredpath := range stage.LinkAnchoredPaths {
+		linkanchoredpath.Unstage(stage)
 	}
 
 	for linkanchoredtext := range stage.LinkAnchoredTexts {
@@ -4790,6 +4966,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Lines).(*Type)
 	case map[*Link]any:
 		return any(&stage.Links).(*Type)
+	case map[*LinkAnchoredPath]any:
+		return any(&stage.LinkAnchoredPaths).(*Type)
 	case map[*LinkAnchoredText]any:
 		return any(&stage.LinkAnchoredTexts).(*Type)
 	case map[*Path]any:
@@ -4848,6 +5026,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Lines_mapString).(map[string]Type)
 	case *Link:
 		return any(stage.Links_mapString).(map[string]Type)
+	case *LinkAnchoredPath:
+		return any(stage.LinkAnchoredPaths_mapString).(map[string]Type)
 	case *LinkAnchoredText:
 		return any(stage.LinkAnchoredTexts_mapString).(map[string]Type)
 	case *Path:
@@ -4906,6 +5086,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Lines).(*map[*Type]struct{})
 	case Link:
 		return any(&stage.Links).(*map[*Type]struct{})
+	case LinkAnchoredPath:
+		return any(&stage.LinkAnchoredPaths).(*map[*Type]struct{})
 	case LinkAnchoredText:
 		return any(&stage.LinkAnchoredTexts).(*map[*Type]struct{})
 	case Path:
@@ -4964,6 +5146,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Lines).(*map[Type]struct{})
 	case *Link:
 		return any(&stage.Links).(*map[Type]struct{})
+	case *LinkAnchoredPath:
+		return any(&stage.LinkAnchoredPaths).(*map[Type]struct{})
 	case *LinkAnchoredText:
 		return any(&stage.LinkAnchoredTexts).(*map[Type]struct{})
 	case *Path:
@@ -5022,6 +5206,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Lines_mapString).(*map[string]*Type)
 	case Link:
 		return any(&stage.Links_mapString).(*map[string]*Type)
+	case LinkAnchoredPath:
+		return any(&stage.LinkAnchoredPaths_mapString).(*map[string]*Type)
 	case LinkAnchoredText:
 		return any(&stage.LinkAnchoredTexts_mapString).(*map[string]*Type)
 	case Path:
@@ -5137,8 +5323,18 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			TextAtArrowEnd: []*LinkAnchoredText{{Name: "TextAtArrowEnd"}},
 			// field is initialized with an instance of LinkAnchoredText with the name of the field
 			TextAtCorner: []*LinkAnchoredText{{Name: "TextAtCorner"}},
+			// field is initialized with an instance of LinkAnchoredPath with the name of the field
+			PathAtArrowStart: []*LinkAnchoredPath{{Name: "PathAtArrowStart"}},
+			// field is initialized with an instance of LinkAnchoredPath with the name of the field
+			PathAtArrowEnd: []*LinkAnchoredPath{{Name: "PathAtArrowEnd"}},
+			// field is initialized with an instance of LinkAnchoredPath with the name of the field
+			PathAtCorner: []*LinkAnchoredPath{{Name: "PathAtCorner"}},
 			// field is initialized with an instance of ControlPoint with the name of the field
 			ControlPoints: []*ControlPoint{{Name: "ControlPoints"}},
+		}).(*Type)
+	case LinkAnchoredPath:
+		return any(&LinkAnchoredPath{
+			// Initialisation of associations
 		}).(*Type)
 	case LinkAnchoredText:
 		return any(&LinkAnchoredText{
@@ -5342,6 +5538,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of LinkAnchoredPath
+	case LinkAnchoredPath:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of LinkAnchoredText
 	case LinkAnchoredText:
@@ -5685,6 +5886,30 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "PathAtArrowStart":
+			res := make(map[*LinkAnchoredPath][]*Link)
+			for link := range stage.Links {
+				for _, linkanchoredpath_ := range link.PathAtArrowStart {
+					res[linkanchoredpath_] = append(res[linkanchoredpath_], link)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PathAtArrowEnd":
+			res := make(map[*LinkAnchoredPath][]*Link)
+			for link := range stage.Links {
+				for _, linkanchoredpath_ := range link.PathAtArrowEnd {
+					res[linkanchoredpath_] = append(res[linkanchoredpath_], link)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PathAtCorner":
+			res := make(map[*LinkAnchoredPath][]*Link)
+			for link := range stage.Links {
+				for _, linkanchoredpath_ := range link.PathAtCorner {
+					res[linkanchoredpath_] = append(res[linkanchoredpath_], link)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "ControlPoints":
 			res := make(map[*ControlPoint][]*Link)
 			for link := range stage.Links {
@@ -5693,6 +5918,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of LinkAnchoredPath
+	case LinkAnchoredPath:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of LinkAnchoredText
 	case LinkAnchoredText:
@@ -5905,6 +6135,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Line"
 	case *Link:
 		res = "Link"
+	case *LinkAnchoredPath:
+		res = "LinkAnchoredPath"
 	case *LinkAnchoredText:
 		res = "LinkAnchoredText"
 	case *Path:
@@ -6030,6 +6262,18 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Layer"
 		rf.Fieldname = "Links"
+		res = append(res, rf)
+	case *LinkAnchoredPath:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Link"
+		rf.Fieldname = "PathAtArrowStart"
+		res = append(res, rf)
+		rf.GongstructName = "Link"
+		rf.Fieldname = "PathAtArrowEnd"
+		res = append(res, rf)
+		rf.GongstructName = "Link"
+		rf.Fieldname = "PathAtCorner"
 		res = append(res, rf)
 	case *LinkAnchoredText:
 		var rf ReverseField
@@ -6561,6 +6805,21 @@ func (link *Link) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "LinkAnchoredText",
 		},
 		{
+			Name:                 "PathAtArrowStart",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "LinkAnchoredPath",
+		},
+		{
+			Name:                 "PathAtArrowEnd",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "LinkAnchoredPath",
+		},
+		{
+			Name:                 "PathAtCorner",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "LinkAnchoredPath",
+		},
+		{
 			Name:                 "ControlPoints",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "ControlPoint",
@@ -6609,6 +6868,69 @@ func (link *Link) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "MouseEventKey",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "MouseEventKey",
+		},
+	}
+	return
+}
+
+func (linkanchoredpath *LinkAnchoredPath) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Definition",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "X_Offset",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y_Offset",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ScalePropotionnally",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "AppliedScaling",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Color",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FillOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeDashArrayWhenSelected",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Transform",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -8130,6 +8452,36 @@ func (link *Link) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "PathAtArrowStart":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range link.PathAtArrowStart {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "PathAtArrowEnd":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range link.PathAtArrowEnd {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "PathAtCorner":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range link.PathAtCorner {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "ControlPoints":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range link.ControlPoints {
@@ -8173,6 +8525,55 @@ func (link *Link) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "MouseEventKey":
 		enum := link.MouseEventKey
 		res.valueString = enum.ToCodeString()
+	}
+	return
+}
+
+func (linkanchoredpath *LinkAnchoredPath) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = linkanchoredpath.Name
+	case "Definition":
+		res.valueString = linkanchoredpath.Definition
+	case "X_Offset":
+		res.valueString = fmt.Sprintf("%f", linkanchoredpath.X_Offset)
+		res.valueFloat = linkanchoredpath.X_Offset
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y_Offset":
+		res.valueString = fmt.Sprintf("%f", linkanchoredpath.Y_Offset)
+		res.valueFloat = linkanchoredpath.Y_Offset
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ScalePropotionnally":
+		res.valueString = fmt.Sprintf("%t", linkanchoredpath.ScalePropotionnally)
+		res.valueBool = linkanchoredpath.ScalePropotionnally
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "AppliedScaling":
+		res.valueString = fmt.Sprintf("%f", linkanchoredpath.AppliedScaling)
+		res.valueFloat = linkanchoredpath.AppliedScaling
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Color":
+		res.valueString = linkanchoredpath.Color
+	case "FillOpacity":
+		res.valueString = fmt.Sprintf("%f", linkanchoredpath.FillOpacity)
+		res.valueFloat = linkanchoredpath.FillOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Stroke":
+		res.valueString = linkanchoredpath.Stroke
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", linkanchoredpath.StrokeOpacity)
+		res.valueFloat = linkanchoredpath.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", linkanchoredpath.StrokeWidth)
+		res.valueFloat = linkanchoredpath.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = linkanchoredpath.StrokeDashArray
+	case "StrokeDashArrayWhenSelected":
+		res.valueString = linkanchoredpath.StrokeDashArrayWhenSelected
+	case "Transform":
+		res.valueString = linkanchoredpath.Transform
 	}
 	return
 }
@@ -9525,6 +9926,48 @@ func (link *Link) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
+	case "PathAtArrowStart":
+		link.PathAtArrowStart = make([]*LinkAnchoredPath, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.LinkAnchoredPaths {
+					if stage.LinkAnchoredPath_stagedOrder[__instance__] == uint(id) {
+						link.PathAtArrowStart = append(link.PathAtArrowStart, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "PathAtArrowEnd":
+		link.PathAtArrowEnd = make([]*LinkAnchoredPath, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.LinkAnchoredPaths {
+					if stage.LinkAnchoredPath_stagedOrder[__instance__] == uint(id) {
+						link.PathAtArrowEnd = append(link.PathAtArrowEnd, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "PathAtCorner":
+		link.PathAtCorner = make([]*LinkAnchoredPath, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.LinkAnchoredPaths {
+					if stage.LinkAnchoredPath_stagedOrder[__instance__] == uint(id) {
+						link.PathAtCorner = append(link.PathAtCorner, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "ControlPoints":
 		link.ControlPoints = make([]*ControlPoint, 0)
 		ids := strings.Split(value.ids, ";")
@@ -9561,6 +10004,43 @@ func (link *Link) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		link.MouseY = value.GetValueFloat()
 	case "MouseEventKey":
 		link.MouseEventKey.FromCodeString(value.GetValueString())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (linkanchoredpath *LinkAnchoredPath) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		linkanchoredpath.Name = value.GetValueString()
+	case "Definition":
+		linkanchoredpath.Definition = value.GetValueString()
+	case "X_Offset":
+		linkanchoredpath.X_Offset = value.GetValueFloat()
+	case "Y_Offset":
+		linkanchoredpath.Y_Offset = value.GetValueFloat()
+	case "ScalePropotionnally":
+		linkanchoredpath.ScalePropotionnally = value.GetValueBool()
+	case "AppliedScaling":
+		linkanchoredpath.AppliedScaling = value.GetValueFloat()
+	case "Color":
+		linkanchoredpath.Color = value.GetValueString()
+	case "FillOpacity":
+		linkanchoredpath.FillOpacity = value.GetValueFloat()
+	case "Stroke":
+		linkanchoredpath.Stroke = value.GetValueString()
+	case "StrokeOpacity":
+		linkanchoredpath.StrokeOpacity = value.GetValueFloat()
+	case "StrokeWidth":
+		linkanchoredpath.StrokeWidth = value.GetValueFloat()
+	case "StrokeDashArray":
+		linkanchoredpath.StrokeDashArray = value.GetValueString()
+	case "StrokeDashArrayWhenSelected":
+		linkanchoredpath.StrokeDashArrayWhenSelected = value.GetValueString()
+	case "Transform":
+		linkanchoredpath.Transform = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10385,6 +10865,10 @@ func (link *Link) GongGetGongstructName() string {
 	return "Link"
 }
 
+func (linkanchoredpath *LinkAnchoredPath) GongGetGongstructName() string {
+	return "LinkAnchoredPath"
+}
+
 func (linkanchoredtext *LinkAnchoredText) GongGetGongstructName() string {
 	return "LinkAnchoredText"
 }
@@ -10491,6 +10975,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Links_mapString = make(map[string]*Link)
 	for link := range stage.Links {
 		stage.Links_mapString[link.Name] = link
+	}
+
+	stage.LinkAnchoredPaths_mapString = make(map[string]*LinkAnchoredPath)
+	for linkanchoredpath := range stage.LinkAnchoredPaths {
+		stage.LinkAnchoredPaths_mapString[linkanchoredpath.Name] = linkanchoredpath
 	}
 
 	stage.LinkAnchoredTexts_mapString = make(map[string]*LinkAnchoredText)

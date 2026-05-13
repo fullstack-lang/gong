@@ -49,6 +49,10 @@ export * from './lib/link-api'
 export * from './lib/link'
 export * from './lib/link.service'
 
+export * from './lib/linkanchoredpath-api'
+export * from './lib/linkanchoredpath'
+export * from './lib/linkanchoredpath.service'
+
 export * from './lib/linkanchoredtext-api'
 export * from './lib/linkanchoredtext'
 export * from './lib/linkanchoredtext.service'

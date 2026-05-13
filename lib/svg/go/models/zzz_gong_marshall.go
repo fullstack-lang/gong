@@ -583,6 +583,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "TextAtArrowStart"))
 		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "TextAtArrowEnd"))
 		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "TextAtCorner"))
+		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "PathAtArrowStart"))
+		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "PathAtArrowEnd"))
+		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "PathAtCorner"))
 		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "ControlPoints"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "Color"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "FillOpacity"))
@@ -595,6 +598,45 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(link.GongMarshallField(stage, "MouseX"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "MouseY"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "MouseEventKey"))
+	}
+
+	linkanchoredpathOrdered := []*LinkAnchoredPath{}
+	for linkanchoredpath := range stage.LinkAnchoredPaths {
+		linkanchoredpathOrdered = append(linkanchoredpathOrdered, linkanchoredpath)
+	}
+	sort.Slice(linkanchoredpathOrdered[:], func(i, j int) bool {
+		linkanchoredpathi := linkanchoredpathOrdered[i]
+		linkanchoredpathj := linkanchoredpathOrdered[j]
+		linkanchoredpathi_order, oki := stage.LinkAnchoredPath_stagedOrder[linkanchoredpathi]
+		linkanchoredpathj_order, okj := stage.LinkAnchoredPath_stagedOrder[linkanchoredpathj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return linkanchoredpathi_order < linkanchoredpathj_order
+	})
+	if len(linkanchoredpathOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, linkanchoredpath := range linkanchoredpathOrdered {
+
+		identifiersDecl.WriteString(linkanchoredpath.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "Definition"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "X_Offset"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "Y_Offset"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "ScalePropotionnally"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "AppliedScaling"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "Color"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "FillOpacity"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "Stroke"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "StrokeOpacity"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "StrokeWidth"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "StrokeDashArray"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "StrokeDashArrayWhenSelected"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "Transform"))
 	}
 
 	linkanchoredtextOrdered := []*LinkAnchoredText{}
@@ -1233,6 +1275,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, link := range linkOrdered {
 		_ = link
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, linkanchoredpath := range linkanchoredpathOrdered {
+		_ = linkanchoredpath
 		var setPointerField string
 		_ = setPointerField
 
@@ -2146,6 +2196,36 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "PathAtArrowStart":
+		var sb strings.Builder
+		for _, _linkanchoredpath := range link.PathAtArrowStart {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", link.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "PathAtArrowStart")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _linkanchoredpath.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "PathAtArrowEnd":
+		var sb strings.Builder
+		for _, _linkanchoredpath := range link.PathAtArrowEnd {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", link.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "PathAtArrowEnd")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _linkanchoredpath.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "PathAtCorner":
+		var sb strings.Builder
+		for _, _linkanchoredpath := range link.PathAtCorner {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", link.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "PathAtCorner")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _linkanchoredpath.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "ControlPoints":
 		var sb strings.Builder
 		for _, _controlpoint := range link.ControlPoints {
@@ -2158,6 +2238,86 @@ func (link *Link) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Link", fieldName)
+	}
+	return
+}
+
+func (linkanchoredpath *LinkAnchoredPath) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredpath.Name))
+	case "Definition":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Definition")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredpath.Definition))
+	case "X_Offset":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X_Offset")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkanchoredpath.X_Offset))
+	case "Y_Offset":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y_Offset")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkanchoredpath.Y_Offset))
+	case "ScalePropotionnally":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ScalePropotionnally")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", linkanchoredpath.ScalePropotionnally))
+	case "AppliedScaling":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AppliedScaling")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkanchoredpath.AppliedScaling))
+	case "Color":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredpath.Color))
+	case "FillOpacity":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FillOpacity")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkanchoredpath.FillOpacity))
+	case "Stroke":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredpath.Stroke))
+	case "StrokeOpacity":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeOpacity")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkanchoredpath.StrokeOpacity))
+	case "StrokeWidth":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeWidth")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", linkanchoredpath.StrokeWidth))
+	case "StrokeDashArray":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredpath.StrokeDashArray))
+	case "StrokeDashArrayWhenSelected":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredpath.StrokeDashArrayWhenSelected))
+	case "Transform":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", linkanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkanchoredpath.Transform))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct LinkAnchoredPath", fieldName)
 	}
 	return
 }
@@ -3795,6 +3955,9 @@ func (link *Link) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "TextAtArrowStart"))
 		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "TextAtArrowEnd"))
 		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "TextAtCorner"))
+		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "PathAtArrowStart"))
+		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "PathAtArrowEnd"))
+		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "PathAtCorner"))
 		pointersInitializesStatements.WriteString(link.GongMarshallField(stage, "ControlPoints"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "Color"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "FillOpacity"))
@@ -3807,6 +3970,30 @@ func (link *Link) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(link.GongMarshallField(stage, "MouseX"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "MouseY"))
 		initializerStatements.WriteString(link.GongMarshallField(stage, "MouseEventKey"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (linkanchoredpath *LinkAnchoredPath) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "Definition"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "X_Offset"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "Y_Offset"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "ScalePropotionnally"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "AppliedScaling"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "Color"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "FillOpacity"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "Stroke"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "StrokeOpacity"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "StrokeWidth"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "StrokeDashArray"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "StrokeDashArrayWhenSelected"))
+		initializerStatements.WriteString(linkanchoredpath.GongMarshallField(stage, "Transform"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -51,6 +51,7 @@ func NewStackInstance(
 	models.SetOrchestratorOnAfterUpdate[models.Layer](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Line](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Link](stage)
+	models.SetOrchestratorOnAfterUpdate[models.LinkAnchoredPath](stage)
 	models.SetOrchestratorOnAfterUpdate[models.LinkAnchoredText](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Path](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Point](stage)
