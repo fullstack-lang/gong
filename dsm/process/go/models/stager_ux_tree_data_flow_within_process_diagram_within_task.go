@@ -127,8 +127,8 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 			dataFlowShape.SetName(startName + " to " + endName)
 			dataFlowShape.SetAbstractStartElement(startElement)
 			dataFlowShape.SetAbstractEndElement(endElement)
-			dataFlowShape.SetStartOrientation(ORIENTATION_VERTICAL)
-			dataFlowShape.SetEndOrientation(ORIENTATION_VERTICAL)
+			dataFlowShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
+			dataFlowShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
 
 			dataFlowShape.SetCornerOffsetRatio(1.1)
 			dataFlowShape.SetStartRatio(0.5)

@@ -7047,6 +7047,10 @@ func (participant *Participant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsProcessResource",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -8281,6 +8285,10 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 	// string value of fields
 	case "Name":
 		res.valueString = participant.Name
+	case "IsProcessResource":
+		res.valueString = fmt.Sprintf("%t", participant.IsProcessResource)
+		res.valueBool = participant.IsProcessResource
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Description":
 		res.valueString = participant.Description
 	case "Resources":
@@ -9690,6 +9698,8 @@ func (participant *Participant) GongSetFieldValue(fieldName string, value GongFi
 	// insertion point for per field code
 	case "Name":
 		participant.Name = value.GetValueString()
+	case "IsProcessResource":
+		participant.IsProcessResource = value.GetValueBool()
 	case "Description":
 		participant.Description = value.GetValueString()
 	case "Resources":

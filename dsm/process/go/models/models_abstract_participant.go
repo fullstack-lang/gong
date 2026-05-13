@@ -3,6 +3,12 @@ package models
 type Participant struct {
 	Name string
 
+	// When the participant has one or more process/resource
+	// it might be conveniant to consider it, semanticaly/visualy, as
+	// the process/resource itself.
+	// IsNameOverridenWithFirstAllocatedProcessResource is true in this case
+	IsProcessResource bool
+
 	//gong:text width:300 height:300
 	Description string
 

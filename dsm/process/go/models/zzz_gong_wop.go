@@ -366,6 +366,8 @@ type Participant_WOP struct {
 
 	Name string
 
+	IsProcessResource bool
+
 	Description string
 
 	IsResourcesNodeExpanded bool
@@ -384,6 +386,7 @@ type Participant_WOP struct {
 func (from *Participant) CopyBasicFields(to *Participant) {
 	// insertion point
 	to.Name = from.Name
+	to.IsProcessResource = from.IsProcessResource
 	to.Description = from.Description
 	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
 	to.IsProcessesNodeExpanded = from.IsProcessesNodeExpanded
