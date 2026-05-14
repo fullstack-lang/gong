@@ -1224,6 +1224,8 @@ func (u *ProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "SVG_Path":
 		instance.SVG_Path = GongExtractString(valueExpr)
+	case "InverseAppliedScaling":
+		instance.InverseAppliedScaling = GongExtractFloat(valueExpr)
 	case "DiagramProcesss":
 		GongUnmarshallSliceOfPointers(&instance.DiagramProcesss, valueExpr, identifierMap)
 	case "DiagramProcessWhoseNodeIsExpanded":
