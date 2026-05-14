@@ -409,6 +409,8 @@ type Stage struct {
 	Rects_referenceOrder map[*Rect]uint
 
 	// insertion point for slice of pointers maps
+	Rect_Peers_reverseMap map[*Rect]*Rect
+
 	Rect_HoveringTrigger_reverseMap map[*Condition]*Rect
 
 	Rect_DisplayConditions_reverseMap map[*Condition]*Rect
@@ -5367,6 +5369,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Rect:
 		return any(&Rect{
 			// Initialisation of associations
+			// field is initialized with an instance of Rect with the name of the field
+			Peers: []*Rect{{Name: "Peers"}},
 			// field is initialized with an instance of Animate with the name of the field
 			Animations: []*Animate{{Name: "Animations"}},
 			// field is initialized with an instance of RectAnchoredText with the name of the field
@@ -5985,6 +5989,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Rect:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Peers":
+			res := make(map[*Rect][]*Rect)
+			for rect := range stage.Rects {
+				for _, rect_ := range rect.Peers {
+					res[rect_] = append(res[rect_], rect)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "HoveringTrigger":
 			res := make(map[*Condition][]*Rect)
 			for rect := range stage.Rects {
@@ -6313,6 +6325,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Layer"
 		rf.Fieldname = "Rects"
+		res = append(res, rf)
+		rf.GongstructName = "Rect"
+		rf.Fieldname = "Peers"
 		res = append(res, rf)
 	case *RectAnchoredPath:
 		var rf ReverseField
@@ -7231,6 +7246,11 @@ func (rect *Rect) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "RX",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "Peers",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Rect",
 		},
 		{
 			Name:               "Color",
@@ -8820,6 +8840,16 @@ func (rect *Rect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%f", rect.RX)
 		res.valueFloat = rect.RX
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Peers":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range rect.Peers {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "Color":
 		res.valueString = rect.Color
 	case "FillOpacity":
@@ -10269,6 +10299,20 @@ func (rect *Rect) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		rect.Height = value.GetValueFloat()
 	case "RX":
 		rect.RX = value.GetValueFloat()
+	case "Peers":
+		rect.Peers = make([]*Rect, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Rects {
+					if stage.Rect_stagedOrder[__instance__] == uint(id) {
+						rect.Peers = append(rect.Peers, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "Color":
 		rect.Color = value.GetValueString()
 	case "FillOpacity":

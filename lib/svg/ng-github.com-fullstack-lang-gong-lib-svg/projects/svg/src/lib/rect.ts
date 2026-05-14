@@ -61,6 +61,7 @@ export class Rect {
 	MouseEventKey: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+	Peers: Array<Rect> = []
 	HoveringTrigger: Array<Condition> = []
 	DisplayConditions: Array<Condition> = []
 	Animations: Array<Animate> = []
@@ -131,6 +132,11 @@ export function CopyRectToRectAPI(rect: Rect, rectAPI: RectAPI) {
 
 
 	// insertion point for slice of pointers fields encoding
+	rectAPI.RectPointersEncoding.Peers = []
+	for (let _rect of rect.Peers) {
+		rectAPI.RectPointersEncoding.Peers.push(_rect.ID)
+	}
+
 	rectAPI.RectPointersEncoding.HoveringTrigger = []
 	for (let _condition of rect.HoveringTrigger) {
 		rectAPI.RectPointersEncoding.HoveringTrigger.push(_condition.ID)
@@ -222,6 +228,18 @@ export function CopyRectAPIToRect(rectAPI: RectAPI, rect: Rect, frontRepo: Front
 	rect.EnclosingRect = frontRepo.map_ID_Rect.get(rectAPI.RectPointersEncoding.EnclosingRectID.Int64)
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(rectAPI.RectPointersEncoding.Peers)) {
+		console.error('Rects is not an array:', rectAPI.RectPointersEncoding.Peers);
+		return;
+	}
+
+	rect.Peers = new Array<Rect>()
+	for (let _id of rectAPI.RectPointersEncoding.Peers) {
+		let _rect = frontRepo.map_ID_Rect.get(_id)
+		if (_rect != undefined) {
+			rect.Peers.push(_rect!)
+		}
+	}
 	if (!Array.isArray(rectAPI.RectPointersEncoding.HoveringTrigger)) {
 		console.error('Rects is not an array:', rectAPI.RectPointersEncoding.HoveringTrigger);
 		return;
