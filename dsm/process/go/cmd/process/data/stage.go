@@ -359,7 +359,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.IsShowPrefix = false
 	__DiagramProcess__00000007_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000007_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000007_.Width = 1376.000000
+	__DiagramProcess__00000007_.Width = 1584.763040
 	__DiagramProcess__00000007_.Height = 1511.000000
 	__DiagramProcess__00000007_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000007_.IsParticipantsNodeExpanded = false
@@ -392,8 +392,8 @@ func _(stage *models.Stage) {
 
 	__ExternalParticipantShape__00000004_.Name = `EP2-Diagram P1`
 	__ExternalParticipantShape__00000004_.IsExpanded = false
-	__ExternalParticipantShape__00000004_.X = 1282.763040
-	__ExternalParticipantShape__00000004_.Y = 283.454773
+	__ExternalParticipantShape__00000004_.X = 1134.763040
+	__ExternalParticipantShape__00000004_.Y = 269.454773
 	__ExternalParticipantShape__00000004_.Width = 150.000000
 	__ExternalParticipantShape__00000004_.Height = 31.000000
 	__ExternalParticipantShape__00000004_.IsHidden = false
