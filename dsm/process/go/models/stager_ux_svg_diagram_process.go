@@ -818,10 +818,10 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 	rect *svg.Rect,
 	rectAnchorType svg.RectAnchorType) (boxHeight float64, allocatedResourceRect *svg.RectAnchoredRect) {
 	root := stager.GetRootLibrary()
-	const HeightBetween2AttributeShapes = 16.0
+	const HeightBetween2AttributeShapes = 20.0
 
 	totalLines := 0
-	X_Offset := 30.0
+	X_Offset := 35.0
 	Y_Offset := 20.0
 
 	// draw allocated process shapes that are within the participant
@@ -837,7 +837,7 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 
 		content := process.Name
 		if rect.Width > 0 {
-			content = strutils.WrapStringPreservingNewlinesScaled(content, rect.Width, float64(root.NbPixPerCharacter), 12.0, 16.0)
+			content = strutils.WrapStringPreservingNewlinesScaled(content, rect.Width, float64(root.NbPixPerCharacter), 15.0, 16.0)
 		}
 
 		allocatedProcessText := &svg.RectAnchoredText{
@@ -850,7 +850,7 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 			},
 			TextAttributes: svg.TextAttributes{
 				FontStyle: "italic",
-				FontSize:  "12px",
+				FontSize:  "15px",
 			},
 
 			DominantBaseline: svg.DominantBaselineMiddle,
@@ -885,7 +885,7 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 				X_Offset:            10,
 				Y_Offset:            10 + float64(totalLines)*HeightBetween2AttributeShapes,
 				ScalePropotionnally: true,
-				AppliedScaling:      1.0 / process.InverseAppliedScaling,
+				AppliedScaling:      1.25 / process.InverseAppliedScaling,
 			}
 			if rectAnchorType == svg.RECT_BOTTOM {
 				allocatedProcessPath.RectAnchorType = svg.RECT_BOTTOM_LEFT
@@ -909,7 +909,7 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 
 		content := resource.Name
 		if rect.Width > 0 {
-			content = strutils.WrapStringPreservingNewlinesScaled(content, rect.Width, float64(root.NbPixPerCharacter), 12.0, 16.0)
+			content = strutils.WrapStringPreservingNewlinesScaled(content, rect.Width, float64(root.NbPixPerCharacter), 15.0, 16.0)
 		}
 
 		allocatedResourceText := &svg.RectAnchoredText{
@@ -922,7 +922,7 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 			},
 			TextAttributes: svg.TextAttributes{
 				FontStyle: "italic",
-				FontSize:  "12px",
+				FontSize:  "15px",
 			},
 
 			DominantBaseline: svg.DominantBaselineMiddle,
@@ -957,7 +957,7 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 				X_Offset:            10,
 				Y_Offset:            10 + float64(totalLines)*HeightBetween2AttributeShapes,
 				ScalePropotionnally: true,
-				AppliedScaling:      1.0 / resource.InverseAppliedScaling,
+				AppliedScaling:      1.25 / resource.InverseAppliedScaling,
 			}
 			if rectAnchorType == svg.RECT_BOTTOM {
 				allocatedResourcePath.RectAnchorType = svg.RECT_BOTTOM_LEFT

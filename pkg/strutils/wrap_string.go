@@ -58,7 +58,10 @@ func WrapStringPreservingNewlinesScaled(s string, width float64, baseNbPixPerCha
 	}
 
 	actualNbPixPerCharacter := baseNbPixPerCharacter * (fontSize / baseFontSize)
-	cutoff := int(width / actualNbPixPerCharacter)
+
+	// Reduce the effective available width by 15% (factor of 0.85) to account for
+	// proportional font kerning and prevent text from overlapping the right edge.
+	cutoff := int((width * 0.85) / actualNbPixPerCharacter)
 
 	return WrapStringPreservingNewlines(s, cutoff)
 }
