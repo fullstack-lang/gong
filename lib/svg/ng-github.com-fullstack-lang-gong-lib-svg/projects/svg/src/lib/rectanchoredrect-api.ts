@@ -31,6 +31,8 @@ export class RectAnchoredRectAPI {
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
+	CanMoveHorizontaly: boolean = false
+	CanMoveVerticaly: boolean = false
 
 	// insertion point for other decls
 

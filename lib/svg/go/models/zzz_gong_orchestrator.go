@@ -68,6 +68,17 @@ func (orchestrator *RectOrchestrator) OnAfterUpdate(
 	stagedRect.OnAfterUpdate(gongsvgStage, stagedRect, backRepoRect)
 }
 
+// RectAnchoredRectOrchestrator
+type RectAnchoredRectOrchestrator struct {
+}
+
+func (orchestrator *RectAnchoredRectOrchestrator) OnAfterUpdate(
+	gongsvgStage *Stage,
+	stagedRectAnchoredRect, backRepoRectAnchoredRect *RectAnchoredRect) {
+
+	stagedRectAnchoredRect.OnAfterUpdate(gongsvgStage, stagedRectAnchoredRect, backRepoRectAnchoredRect)
+}
+
 // SVGOrchestrator
 type SVGOrchestrator struct {
 }
@@ -108,6 +119,8 @@ func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 		stage.OnAfterPointUpdateCallback = new(PointOrchestrator)
 	case Rect:
 		stage.OnAfterRectUpdateCallback = new(RectOrchestrator)
+	case RectAnchoredRect:
+		stage.OnAfterRectAnchoredRectUpdateCallback = new(RectAnchoredRectOrchestrator)
 	case SVG:
 		stage.OnAfterSVGUpdateCallback = new(SVGOrchestrator)
 	case SvgText:

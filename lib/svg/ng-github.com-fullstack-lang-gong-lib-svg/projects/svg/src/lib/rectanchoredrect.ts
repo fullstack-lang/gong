@@ -36,6 +36,8 @@ export class RectAnchoredRect {
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
+	CanMoveHorizontaly: boolean = false
+	CanMoveVerticaly: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 
@@ -71,6 +73,8 @@ export function CopyRectAnchoredRectToRectAnchoredRectAPI(rectanchoredrect: Rect
 	rectanchoredrectAPI.StrokeDashArray = rectanchoredrect.StrokeDashArray
 	rectanchoredrectAPI.StrokeDashArrayWhenSelected = rectanchoredrect.StrokeDashArrayWhenSelected
 	rectanchoredrectAPI.Transform = rectanchoredrect.Transform
+	rectanchoredrectAPI.CanMoveHorizontaly = rectanchoredrect.CanMoveHorizontaly
+	rectanchoredrectAPI.CanMoveVerticaly = rectanchoredrect.CanMoveVerticaly
 
 	// insertion point for pointer fields encoding
 
@@ -109,6 +113,8 @@ export function CopyRectAnchoredRectAPIToRectAnchoredRect(rectanchoredrectAPI: R
 	rectanchoredrect.StrokeDashArray = rectanchoredrectAPI.StrokeDashArray
 	rectanchoredrect.StrokeDashArrayWhenSelected = rectanchoredrectAPI.StrokeDashArrayWhenSelected
 	rectanchoredrect.Transform = rectanchoredrectAPI.Transform
+	rectanchoredrect.CanMoveHorizontaly = rectanchoredrectAPI.CanMoveHorizontaly
+	rectanchoredrect.CanMoveVerticaly = rectanchoredrectAPI.CanMoveVerticaly
 
 	// insertion point for pointer fields encoding
 

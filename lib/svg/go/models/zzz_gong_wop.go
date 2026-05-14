@@ -833,6 +833,10 @@ type RectAnchoredRect_WOP struct {
 	StrokeDashArrayWhenSelected string
 
 	Transform string
+
+	CanMoveHorizontaly bool
+
+	CanMoveVerticaly bool
 }
 
 func (from *RectAnchoredRect) CopyBasicFields(to *RectAnchoredRect) {
@@ -858,6 +862,8 @@ func (from *RectAnchoredRect) CopyBasicFields(to *RectAnchoredRect) {
 	to.StrokeDashArray = from.StrokeDashArray
 	to.StrokeDashArrayWhenSelected = from.StrokeDashArrayWhenSelected
 	to.Transform = from.Transform
+	to.CanMoveHorizontaly = from.CanMoveHorizontaly
+	to.CanMoveVerticaly = from.CanMoveVerticaly
 }
 
 type RectAnchoredText_WOP struct {

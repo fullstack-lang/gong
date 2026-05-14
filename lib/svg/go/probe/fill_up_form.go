@@ -1221,6 +1221,10 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 400)
+		BasicFieldtoForm("CanMoveHorizontaly", instanceWithInferedType.CanMoveHorizontaly, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("CanMoveVerticaly", instanceWithInferedType.CanMoveVerticaly, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		{
 			var rf models.ReverseField
 			_ = rf

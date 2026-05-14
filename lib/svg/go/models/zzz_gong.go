@@ -7610,6 +7610,14 @@ func (rectanchoredrect *RectAnchoredRect) GongGetFieldHeaders() (res []GongField
 			Name:               "Transform",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
+		{
+			Name:               "CanMoveHorizontaly",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "CanMoveVerticaly",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -9176,6 +9184,14 @@ func (rectanchoredrect *RectAnchoredRect) GongGetFieldValue(fieldName string, st
 		res.valueString = rectanchoredrect.StrokeDashArrayWhenSelected
 	case "Transform":
 		res.valueString = rectanchoredrect.Transform
+	case "CanMoveHorizontaly":
+		res.valueString = fmt.Sprintf("%t", rectanchoredrect.CanMoveHorizontaly)
+		res.valueBool = rectanchoredrect.CanMoveHorizontaly
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "CanMoveVerticaly":
+		res.valueString = fmt.Sprintf("%t", rectanchoredrect.CanMoveVerticaly)
+		res.valueBool = rectanchoredrect.CanMoveVerticaly
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -10561,6 +10577,10 @@ func (rectanchoredrect *RectAnchoredRect) GongSetFieldValue(fieldName string, va
 		rectanchoredrect.StrokeDashArrayWhenSelected = value.GetValueString()
 	case "Transform":
 		rectanchoredrect.Transform = value.GetValueString()
+	case "CanMoveHorizontaly":
+		rectanchoredrect.CanMoveHorizontaly = value.GetValueBool()
+	case "CanMoveVerticaly":
+		rectanchoredrect.CanMoveVerticaly = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

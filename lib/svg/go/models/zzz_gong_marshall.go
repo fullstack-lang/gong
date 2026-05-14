@@ -1011,6 +1011,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(rectanchoredrect.GongMarshallField(stage, "StrokeDashArray"))
 		initializerStatements.WriteString(rectanchoredrect.GongMarshallField(stage, "StrokeDashArrayWhenSelected"))
 		initializerStatements.WriteString(rectanchoredrect.GongMarshallField(stage, "Transform"))
+		initializerStatements.WriteString(rectanchoredrect.GongMarshallField(stage, "CanMoveHorizontaly"))
+		initializerStatements.WriteString(rectanchoredrect.GongMarshallField(stage, "CanMoveVerticaly"))
 	}
 
 	rectanchoredtextOrdered := []*RectAnchoredText{}
@@ -3269,6 +3271,16 @@ func (rectanchoredrect *RectAnchoredRect) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredrect.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredrect.Transform))
+	case "CanMoveHorizontaly":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredrect.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CanMoveHorizontaly")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", rectanchoredrect.CanMoveHorizontaly))
+	case "CanMoveVerticaly":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredrect.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CanMoveVerticaly")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", rectanchoredrect.CanMoveVerticaly))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct RectAnchoredRect", fieldName)
@@ -4233,6 +4245,8 @@ func (rectanchoredrect *RectAnchoredRect) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(rectanchoredrect.GongMarshallField(stage, "StrokeDashArray"))
 		initializerStatements.WriteString(rectanchoredrect.GongMarshallField(stage, "StrokeDashArrayWhenSelected"))
 		initializerStatements.WriteString(rectanchoredrect.GongMarshallField(stage, "Transform"))
+		initializerStatements.WriteString(rectanchoredrect.GongMarshallField(stage, "CanMoveHorizontaly"))
+		initializerStatements.WriteString(rectanchoredrect.GongMarshallField(stage, "CanMoveVerticaly"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

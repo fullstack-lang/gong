@@ -1482,6 +1482,10 @@ func (u *RectAnchoredRectUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.StrokeDashArrayWhenSelected = GongExtractString(valueExpr)
 	case "Transform":
 		instance.Transform = GongExtractString(valueExpr)
+	case "CanMoveHorizontaly":
+		instance.CanMoveHorizontaly = GongExtractBool(valueExpr)
+	case "CanMoveVerticaly":
+		instance.CanMoveVerticaly = GongExtractBool(valueExpr)
 	}
 	return nil
 }

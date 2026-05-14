@@ -23,6 +23,23 @@ type RectAnchoredRect struct {
 	ToolTipText string
 
 	Presentation
+
+	// a RectAnchoredRect can be moved. It might be usefull to move the owning rect.
+	CanMoveHorizontaly bool
+	CanMoveVerticaly   bool
+
+	OnMoved func(movedRect *RectAnchoredRect)
+}
+
+// For Orchestrator handling
+func (rectAnchoredRect *RectAnchoredRect) OnAfterUpdate(stage *Stage, _, updatedRectAnchoredRect *RectAnchoredRect) {
+
+	if rectAnchoredRect.X_Offset != updatedRectAnchoredRect.X_Offset ||
+		rectAnchoredRect.Y_Offset != updatedRectAnchoredRect.Y_Offset {
+		if rectAnchoredRect.OnMoved != nil {
+			rectAnchoredRect.OnMoved(updatedRectAnchoredRect)
+		}
+	}
 }
 
 func (rectAnchoredRect *RectAnchoredRect) WriteSVG(sb *strings.Builder, x, y float64) (maxX, maxY float64) {

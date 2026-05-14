@@ -4847,6 +4847,10 @@ func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectanchoredrect_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(rectanchoredrect_.Transform), formDiv)
+		case "CanMoveHorizontaly":
+			FormDivBasicFieldToField(&(rectanchoredrect_.CanMoveHorizontaly), formDiv)
+		case "CanMoveVerticaly":
+			FormDivBasicFieldToField(&(rectanchoredrect_.CanMoveVerticaly), formDiv)
 		case "Rect:RectAnchoredRects":
 			// WARNING : this form deals with the N-N association "Rect.RectAnchoredRects []*RectAnchoredRect" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

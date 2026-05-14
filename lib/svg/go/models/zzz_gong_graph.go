@@ -4391,6 +4391,12 @@ func (rectanchoredrect *RectAnchoredRect) GongDiff(stage *Stage, rectanchoredrec
 	if rectanchoredrect.Transform != rectanchoredrectOther.Transform {
 		diffs = append(diffs, rectanchoredrect.GongMarshallField(stage, "Transform"))
 	}
+	if rectanchoredrect.CanMoveHorizontaly != rectanchoredrectOther.CanMoveHorizontaly {
+		diffs = append(diffs, rectanchoredrect.GongMarshallField(stage, "CanMoveHorizontaly"))
+	}
+	if rectanchoredrect.CanMoveVerticaly != rectanchoredrectOther.CanMoveVerticaly {
+		diffs = append(diffs, rectanchoredrect.GongMarshallField(stage, "CanMoveVerticaly"))
+	}
 
 	return
 }

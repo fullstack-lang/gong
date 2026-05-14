@@ -129,6 +129,14 @@ type RectAnchoredRectDB struct {
 	// Declation for basic field rectanchoredrectDB.Transform
 	Transform_Data sql.NullString
 
+	// Declation for basic field rectanchoredrectDB.CanMoveHorizontaly
+	// provide the sql storage for the boolan
+	CanMoveHorizontaly_Data sql.NullBool
+
+	// Declation for basic field rectanchoredrectDB.CanMoveVerticaly
+	// provide the sql storage for the boolan
+	CanMoveVerticaly_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	RectAnchoredRectPointersEncoding
@@ -192,6 +200,10 @@ type RectAnchoredRectWOP struct {
 	StrokeDashArrayWhenSelected string `xlsx:"20"`
 
 	Transform string `xlsx:"21"`
+
+	CanMoveHorizontaly bool `xlsx:"22"`
+
+	CanMoveVerticaly bool `xlsx:"23"`
 	// insertion for WOP pointer fields
 }
 
@@ -219,6 +231,8 @@ var RectAnchoredRect_Fields = []string{
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
 	"Transform",
+	"CanMoveHorizontaly",
+	"CanMoveVerticaly",
 }
 
 type BackRepoRectAnchoredRectStruct struct {
@@ -556,6 +570,12 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsFromRectAnchoredRec
 
 	rectanchoredrectDB.Transform_Data.String = rectanchoredrect.Transform
 	rectanchoredrectDB.Transform_Data.Valid = true
+
+	rectanchoredrectDB.CanMoveHorizontaly_Data.Bool = rectanchoredrect.CanMoveHorizontaly
+	rectanchoredrectDB.CanMoveHorizontaly_Data.Valid = true
+
+	rectanchoredrectDB.CanMoveVerticaly_Data.Bool = rectanchoredrect.CanMoveVerticaly
+	rectanchoredrectDB.CanMoveVerticaly_Data.Valid = true
 }
 
 // CopyBasicFieldsFromRectAnchoredRect_WOP
@@ -624,6 +644,12 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsFromRectAnchoredRec
 
 	rectanchoredrectDB.Transform_Data.String = rectanchoredrect.Transform
 	rectanchoredrectDB.Transform_Data.Valid = true
+
+	rectanchoredrectDB.CanMoveHorizontaly_Data.Bool = rectanchoredrect.CanMoveHorizontaly
+	rectanchoredrectDB.CanMoveHorizontaly_Data.Valid = true
+
+	rectanchoredrectDB.CanMoveVerticaly_Data.Bool = rectanchoredrect.CanMoveVerticaly
+	rectanchoredrectDB.CanMoveVerticaly_Data.Valid = true
 }
 
 // CopyBasicFieldsFromRectAnchoredRectWOP
@@ -692,6 +718,12 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsFromRectAnchoredRec
 
 	rectanchoredrectDB.Transform_Data.String = rectanchoredrect.Transform
 	rectanchoredrectDB.Transform_Data.Valid = true
+
+	rectanchoredrectDB.CanMoveHorizontaly_Data.Bool = rectanchoredrect.CanMoveHorizontaly
+	rectanchoredrectDB.CanMoveHorizontaly_Data.Valid = true
+
+	rectanchoredrectDB.CanMoveVerticaly_Data.Bool = rectanchoredrect.CanMoveVerticaly
+	rectanchoredrectDB.CanMoveVerticaly_Data.Valid = true
 }
 
 // CopyBasicFieldsToRectAnchoredRect
@@ -718,6 +750,8 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsToRectAnchoredRect(
 	rectanchoredrect.StrokeDashArray = rectanchoredrectDB.StrokeDashArray_Data.String
 	rectanchoredrect.StrokeDashArrayWhenSelected = rectanchoredrectDB.StrokeDashArrayWhenSelected_Data.String
 	rectanchoredrect.Transform = rectanchoredrectDB.Transform_Data.String
+	rectanchoredrect.CanMoveHorizontaly = rectanchoredrectDB.CanMoveHorizontaly_Data.Bool
+	rectanchoredrect.CanMoveVerticaly = rectanchoredrectDB.CanMoveVerticaly_Data.Bool
 }
 
 // CopyBasicFieldsToRectAnchoredRect_WOP
@@ -744,6 +778,8 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsToRectAnchoredRect_
 	rectanchoredrect.StrokeDashArray = rectanchoredrectDB.StrokeDashArray_Data.String
 	rectanchoredrect.StrokeDashArrayWhenSelected = rectanchoredrectDB.StrokeDashArrayWhenSelected_Data.String
 	rectanchoredrect.Transform = rectanchoredrectDB.Transform_Data.String
+	rectanchoredrect.CanMoveHorizontaly = rectanchoredrectDB.CanMoveHorizontaly_Data.Bool
+	rectanchoredrect.CanMoveVerticaly = rectanchoredrectDB.CanMoveVerticaly_Data.Bool
 }
 
 // CopyBasicFieldsToRectAnchoredRectWOP
@@ -771,6 +807,8 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsToRectAnchoredRectW
 	rectanchoredrect.StrokeDashArray = rectanchoredrectDB.StrokeDashArray_Data.String
 	rectanchoredrect.StrokeDashArrayWhenSelected = rectanchoredrectDB.StrokeDashArrayWhenSelected_Data.String
 	rectanchoredrect.Transform = rectanchoredrectDB.Transform_Data.String
+	rectanchoredrect.CanMoveHorizontaly = rectanchoredrectDB.CanMoveHorizontaly_Data.Bool
+	rectanchoredrect.CanMoveVerticaly = rectanchoredrectDB.CanMoveVerticaly_Data.Bool
 }
 
 // Backup generates a json file from a slice of all RectAnchoredRectDB instances in the backrepo
