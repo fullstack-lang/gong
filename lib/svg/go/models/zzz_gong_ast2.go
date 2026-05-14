@@ -1229,6 +1229,8 @@ func (u *RectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Height = GongExtractFloat(valueExpr)
 	case "RX":
 		instance.RX = GongExtractFloat(valueExpr)
+	case "Peers":
+		GongUnmarshallSliceOfPointers(&instance.Peers, valueExpr, identifierMap)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":

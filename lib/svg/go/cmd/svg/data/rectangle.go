@@ -783,8 +783,8 @@ Line 2`
 	__Rect__00000003_.MouseEventKey = ""
 
 	__Rect__00000004_.Name = `End`
-	__Rect__00000004_.X = 1174.769231
-	__Rect__00000004_.Y = 397.256327
+	__Rect__00000004_.X = 937.769231
+	__Rect__00000004_.Y = 413.256327
 	__Rect__00000004_.Width = 430.000000
 	__Rect__00000004_.Height = 384.000000
 	__Rect__00000004_.RX = 20.000000
@@ -1507,6 +1507,7 @@ line 3`
 	__Rect__00000002_.RectAnchoredRects = append(__Rect__00000002_.RectAnchoredRects, __RectAnchoredRect__00000000_)
 	__Rect__00000002_.RectAnchoredPaths = append(__Rect__00000002_.RectAnchoredPaths, __RectAnchoredPath__00000000_)
 	__Rect__00000002_.EnclosingRect = nil
+	__Rect__00000003_.Peers = append(__Rect__00000003_.Peers, __Rect__00000004_)
 	__Rect__00000003_.RectAnchoredTexts = append(__Rect__00000003_.RectAnchoredTexts, __RectAnchoredText__00000004_)
 	__Rect__00000003_.EnclosingRect = nil
 	__Rect__00000004_.RectAnchoredTexts = append(__Rect__00000004_.RectAnchoredTexts, __RectAnchoredText__00000005_)

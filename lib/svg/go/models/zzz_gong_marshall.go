@@ -850,6 +850,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "RX"))
+		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "Peers"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Color"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "FillOpacity"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Stroke"))
@@ -2903,6 +2904,16 @@ func (rect *Rect) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 
+	case "Peers":
+		var sb strings.Builder
+		for _, _rect := range rect.Peers {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", rect.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Peers")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _rect.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "HoveringTrigger":
 		var sb strings.Builder
 		for _, _condition := range rect.HoveringTrigger {
@@ -4117,6 +4128,7 @@ func (rect *Rect) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "RX"))
+		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "Peers"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Color"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "FillOpacity"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Stroke"))

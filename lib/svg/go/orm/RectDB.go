@@ -51,6 +51,9 @@ type RectAPI struct {
 type RectPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field Peers is a slice of pointers to another Struct (optional or 0..1)
+	Peers IntSlice `gorm:"type:TEXT"`
+
 	// field HoveringTrigger is a slice of pointers to another Struct (optional or 0..1)
 	HoveringTrigger IntSlice `gorm:"type:TEXT"`
 
@@ -489,6 +492,24 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 
 		// insertion point for translating pointers encodings into actual pointers
 		// 1. reset
+		rectDB.RectPointersEncoding.Peers = make([]int, 0)
+		// 2. encode
+		for _, rectAssocEnd := range rect.Peers {
+			rectAssocEnd_DB :=
+				backRepo.BackRepoRect.GetRectDBFromRectPtr(rectAssocEnd)
+
+			// the stage might be inconsistant, meaning that the rectAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if rectAssocEnd_DB == nil {
+				continue
+			}
+
+			rectDB.RectPointersEncoding.Peers =
+				append(rectDB.RectPointersEncoding.Peers, int(rectAssocEnd_DB.ID))
+		}
+
+		// 1. reset
 		rectDB.RectPointersEncoding.HoveringTrigger = make([]int, 0)
 		// 2. encode
 		for _, conditionAssocEnd := range rect.HoveringTrigger {
@@ -738,6 +759,15 @@ func (backRepoRect *BackRepoRectStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 func (rectDB *RectDB) DecodePointers(backRepo *BackRepoStruct, rect *models.Rect) {
 
 	// insertion point for checkout of pointer encoding
+	// This loop redeem rect.Peers in the stage from the encode in the back repo
+	// It parses all RectDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	rect.Peers = rect.Peers[:0]
+	for _, _Rectid := range rectDB.RectPointersEncoding.Peers {
+		rect.Peers = append(rect.Peers, backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(_Rectid)])
+	}
+
 	// This loop redeem rect.HoveringTrigger in the stage from the encode in the back repo
 	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance

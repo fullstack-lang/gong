@@ -9,6 +9,9 @@ type Rect struct {
 	Name string
 
 	X, Y, Width, Height, RX float64
+
+	Peers []*Rect
+
 	Presentation
 	ShapeConditions
 
@@ -63,6 +66,7 @@ type Rect struct {
 
 // OnAfterUpdate, notice that rect == stagedRect
 func (rect *Rect) OnAfterUpdate(stage *Stage, _, frontRect *Rect) {
+
 	if rect.Impl != nil {
 		rect.Impl.RectUpdated(frontRect)
 	}

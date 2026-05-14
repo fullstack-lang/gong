@@ -235,6 +235,13 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Rect
 	// insertion point per field
+	stage.Rect_Peers_reverseMap = make(map[*Rect]*Rect)
+	for rect := range stage.Rects {
+		_ = rect
+		for _, _rect := range rect.Peers {
+			stage.Rect_Peers_reverseMap[_rect] = rect
+		}
+	}
 	stage.Rect_HoveringTrigger_reverseMap = make(map[*Condition]*Rect)
 	for rect := range stage.Rects {
 		_ = rect

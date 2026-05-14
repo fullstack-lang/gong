@@ -189,6 +189,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   activeAnchor: 'left' | 'right' | 'top' | 'bottom' = 'left'
   RectAtMouseDown: svg.Rect | undefined
   map_SelectedRectAtMouseDown: Map<svg.Rect, svg.Rect> = new (Map<svg.Rect, svg.Rect>)
+  map_PeerRectAtMouseDown: Map<svg.Rect, svg.Rect> = new (Map<svg.Rect, svg.Rect>)
 
   // a rect that is scaled might have anchored path to it
   // if the path scale proportionnaly with the shape, one
@@ -661,6 +662,11 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.draggedRect) {
         rectsToUpdate.add(this.draggedRect)
       }
+      if (this.draggedRect?.Peers) {
+        for (let peer of this.draggedRect.Peers) {
+          rectsToUpdate.add(peer)
+        }
+      }
 
       for (let layer of this.gongsvgFrontRepo?.getFrontArray<svg.Layer>(svg.Layer.GONGSTRUCT_NAME)!) {
         for (let rect of layer.Rects) {
@@ -836,6 +842,30 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
 
+      // Move peers and recompute their links
+      if (this.draggedRect!.Peers) {
+        for (let peer of this.draggedRect!.Peers) {
+          let peerAtMouseDown = this.map_PeerRectAtMouseDown.get(peer)
+          if (peerAtMouseDown) {
+            if (peer.CanMoveHorizontaly) {
+              peer.X = peerAtMouseDown.X + deltaX
+            }
+            if (peer.CanMoveVerticaly) {
+              peer.Y = peerAtMouseDown.Y + deltaY
+            }
+            this.constrainRect(peer)
+            // recompute segments of links connected to the resized peer
+            let peerLinkSet = this.map_Rect_ConnectedLinks.get(peer)
+            if (peerLinkSet != undefined) {
+              for (let link of peerLinkSet) {
+                let segments = drawSegmentsFromLink(link)
+                this.map_Link_Segment.set(link, segments)
+              }
+            }
+          }
+        }
+      }
+
       for (let layer of this.gongsvgFrontRepo?.getFrontArray<svg.Layer>(svg.Layer.GONGSTRUCT_NAME)!) {
         for (let rect_ of layer.Rects) {
           if (rect_.IsSelected) {
@@ -1006,6 +1036,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
       this.map_SelectedRectAtMouseDown.clear()
+              this.map_PeerRectAtMouseDown.clear()
       for (let layer of this.gongsvgFrontRepo?.getFrontArray<svg.Layer>(svg.Layer.GONGSTRUCT_NAME)!) {
         for (let rect of layer.Rects) {
           if (rect.IsSelected) {
@@ -1013,6 +1044,11 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         }
       }
+              if (this.draggedRect.Peers) {
+                for (let peer of this.draggedRect.Peers) {
+                  this.map_PeerRectAtMouseDown.set(peer, structuredClone(peer))
+                }
+              }
     }
     if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && event.altKey) {
       this.State = StateEnumType.LINK_DRAWING

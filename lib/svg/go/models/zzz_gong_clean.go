@@ -175,6 +175,7 @@ func (polyline *Polyline) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Rect
 func (rect *Rect) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &rect.Peers) || modified
 	modified = GongCleanSlice(stage, &rect.HoveringTrigger) || modified
 	modified = GongCleanSlice(stage, &rect.DisplayConditions) || modified
 	modified = GongCleanSlice(stage, &rect.Animations) || modified
