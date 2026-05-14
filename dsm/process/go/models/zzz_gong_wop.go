@@ -439,6 +439,8 @@ type Process_WOP struct {
 
 	SVG_Path string
 
+	InverseAppliedScaling float64
+
 	IsSubProcessNodeExpanded bool
 
 	IsDataFlowsNodeExpanded bool
@@ -450,6 +452,7 @@ func (from *Process) CopyBasicFields(to *Process) {
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.SVG_Path = from.SVG_Path
+	to.InverseAppliedScaling = from.InverseAppliedScaling
 	to.IsSubProcessNodeExpanded = from.IsSubProcessNodeExpanded
 	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
 }

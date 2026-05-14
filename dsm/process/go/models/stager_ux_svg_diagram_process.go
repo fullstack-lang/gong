@@ -861,6 +861,9 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 
 		// add a rect anchored icon
 		if process.SVG_Path != "" {
+			if process.InverseAppliedScaling == 0 {
+				process.InverseAppliedScaling = 1.0
+			}
 			allocatedProcessPath := &svg.RectAnchoredPath{
 				Name:       process.GetName(),
 				Definition: process.SVG_Path,
@@ -872,7 +875,7 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 				X_Offset:            10,
 				Y_Offset:            10 + float64(totalLines)*HeightBetween2AttributeShapes,
 				ScalePropotionnally: true,
-				AppliedScaling:      1.0,
+				AppliedScaling:      1.0 / process.InverseAppliedScaling,
 			}
 			if rectAnchorType == svg.RECT_BOTTOM {
 				allocatedProcessPath.RectAnchorType = svg.RECT_BOTTOM_LEFT

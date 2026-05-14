@@ -859,6 +859,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(process.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "SVG_Path"))
+		initializerStatements.WriteString(process.GongMarshallField(stage, "InverseAppliedScaling"))
 		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "DiagramProcesss"))
 		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "DiagramProcessWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "IsSubProcessNodeExpanded"))
@@ -2653,6 +2654,11 @@ func (process *Process) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", process.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVG_Path")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(process.SVG_Path))
+	case "InverseAppliedScaling":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", process.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "InverseAppliedScaling")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", process.InverseAppliedScaling))
 	case "IsSubProcessNodeExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", process.GongGetIdentifier(stage))
@@ -3286,6 +3292,7 @@ func (process *Process) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(process.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "SVG_Path"))
+		initializerStatements.WriteString(process.GongMarshallField(stage, "InverseAppliedScaling"))
 		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "DiagramProcesss"))
 		pointersInitializesStatements.WriteString(process.GongMarshallField(stage, "DiagramProcessWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(process.GongMarshallField(stage, "IsSubProcessNodeExpanded"))

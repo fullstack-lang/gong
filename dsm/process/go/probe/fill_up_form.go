@@ -1097,6 +1097,8 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("SVG_Path", instanceWithInferedType.SVG_Path, instanceWithInferedType, probe.formStage, formGroup,
 			false, true, 600, true, 300)
+		BasicFieldtoForm("InverseAppliedScaling", instanceWithInferedType.InverseAppliedScaling, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		AssociationSliceToForm("DiagramProcesss", instanceWithInferedType, &instanceWithInferedType.DiagramProcesss, formGroup, probe)
 		AssociationSliceToForm("DiagramProcessWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.DiagramProcessWhoseNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsSubProcessNodeExpanded", instanceWithInferedType.IsSubProcessNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
