@@ -987,6 +987,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("RX", instanceWithInferedType.RX, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationSliceToForm("Peers", instanceWithInferedType, &instanceWithInferedType.Peers, formGroup, probe)
 		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("FillOpacity", instanceWithInferedType.FillOpacity, instanceWithInferedType, probe.formStage, formGroup,
@@ -1074,6 +1075,28 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.Layer](
 					nil,
 					"Rects",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Rect"
+			rf.Fieldname = "Peers"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Rect),
+					"Peers",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Rect](
+					nil,
+					"Peers",
 					instanceWithInferedType,
 					formGroup,
 					probe)

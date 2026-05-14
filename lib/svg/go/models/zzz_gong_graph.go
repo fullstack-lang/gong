@@ -743,6 +743,9 @@ func (stage *Stage) StageBranchRect(rect *Rect) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _rect := range rect.Peers {
+		StageBranch(stage, _rect)
+	}
 	for _, _condition := range rect.HoveringTrigger {
 		StageBranch(stage, _condition)
 	}
@@ -1406,6 +1409,9 @@ func CopyBranchRect(mapOrigCopy map[any]any, rectFrom *Rect) (rectTo *Rect) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _rect := range rectFrom.Peers {
+		rectTo.Peers = append(rectTo.Peers, CopyBranchRect(mapOrigCopy, _rect))
+	}
 	for _, _condition := range rectFrom.HoveringTrigger {
 		rectTo.HoveringTrigger = append(rectTo.HoveringTrigger, CopyBranchCondition(mapOrigCopy, _condition))
 	}
@@ -2011,6 +2017,9 @@ func (stage *Stage) UnstageBranchRect(rect *Rect) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _rect := range rect.Peers {
+		UnstageBranch(stage, _rect)
+	}
 	for _, _condition := range rect.HoveringTrigger {
 		UnstageBranch(stage, _condition)
 	}
@@ -2363,6 +2372,10 @@ func (reference *Rect) GongReconstructPointersFromReferences(stage *Stage, insta
 		reference.EnclosingRect = stage.Rects_reference[instance.EnclosingRect]
 	}
 	// insertion point for slice of pointers field
+	reference.Peers = reference.Peers[:0]
+	for _, _b := range instance.Peers {
+		reference.Peers = append(reference.Peers, stage.Rects_reference[_b])
+	}
 	reference.HoveringTrigger = reference.HoveringTrigger[:0]
 	for _, _b := range instance.HoveringTrigger {
 		reference.HoveringTrigger = append(reference.HoveringTrigger, stage.Conditions_reference[_b])
@@ -2728,6 +2741,13 @@ func (reference *Rect) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
+	var _Peers []*Rect
+	for _, _reference := range reference.Peers {
+		if _instance, ok := stage.Rects_instance[_reference]; ok {
+			_Peers = append(_Peers, _instance)
+		}
+	}
+	reference.Peers = _Peers
 	var _HoveringTrigger []*Condition
 	for _, _reference := range reference.HoveringTrigger {
 		if _instance, ok := stage.Conditions_instance[_reference]; ok {
@@ -3978,6 +3998,27 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 	}
 	if rect.RX != rectOther.RX {
 		diffs = append(diffs, rect.GongMarshallField(stage, "RX"))
+	}
+	PeersDifferent := false
+	if len(rect.Peers) != len(rectOther.Peers) {
+		PeersDifferent = true
+	} else {
+		for i := range rect.Peers {
+			if (rect.Peers[i] == nil) != (rectOther.Peers[i] == nil) {
+				PeersDifferent = true
+				break
+			} else if rect.Peers[i] != nil && rectOther.Peers[i] != nil {
+				// this is a pointer comparaison
+				if rect.Peers[i] != rectOther.Peers[i] {
+					PeersDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PeersDifferent {
+		ops := Diff(stage, rect, rectOther, "Peers", rectOther.Peers, rect.Peers)
+		diffs = append(diffs, ops)
 	}
 	if rect.Color != rectOther.Color {
 		diffs = append(diffs, rect.GongMarshallField(stage, "Color"))

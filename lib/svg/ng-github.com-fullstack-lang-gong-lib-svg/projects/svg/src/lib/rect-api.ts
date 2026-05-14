@@ -65,6 +65,7 @@ export class RectAPI {
 
 export class RectPointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
+	Peers: number[] = []
 	HoveringTrigger: number[] = []
 	DisplayConditions: number[] = []
 	Animations: number[] = []
