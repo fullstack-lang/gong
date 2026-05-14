@@ -13,6 +13,9 @@ type Process struct {
 	//gong:width 600 gong:height 300
 	SVG_Path string
 
+	// $960$ is a "magic number" because it is perfectly divisible by $24, 40, 48,$ and $60$
+	InverseAppliedScaling float64
+
 	parentProcess *Process
 
 	DiagramProcesss                   []*DiagramProcess

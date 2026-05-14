@@ -7186,6 +7186,10 @@ func (process *Process) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "InverseAppliedScaling",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:                 "DiagramProcesss",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "DiagramProcess",
@@ -8451,6 +8455,10 @@ func (process *Process) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = process.ComputedPrefix
 	case "SVG_Path":
 		res.valueString = process.SVG_Path
+	case "InverseAppliedScaling":
+		res.valueString = fmt.Sprintf("%f", process.InverseAppliedScaling)
+		res.valueFloat = process.InverseAppliedScaling
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "DiagramProcesss":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range process.DiagramProcesss {
@@ -9879,6 +9887,8 @@ func (process *Process) GongSetFieldValue(fieldName string, value GongFieldValue
 		process.ComputedPrefix = value.GetValueString()
 	case "SVG_Path":
 		process.SVG_Path = value.GetValueString()
+	case "InverseAppliedScaling":
+		process.InverseAppliedScaling = value.GetValueFloat()
 	case "DiagramProcesss":
 		process.DiagramProcesss = make([]*DiagramProcess, 0)
 		ids := strings.Split(value.ids, ";")

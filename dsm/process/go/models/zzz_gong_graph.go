@@ -4805,6 +4805,9 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 	if process.SVG_Path != processOther.SVG_Path {
 		diffs = append(diffs, process.GongMarshallField(stage, "SVG_Path"))
 	}
+	if process.InverseAppliedScaling != processOther.InverseAppliedScaling {
+		diffs = append(diffs, process.GongMarshallField(stage, "InverseAppliedScaling"))
+	}
 	DiagramProcesssDifferent := false
 	if len(process.DiagramProcesss) != len(processOther.DiagramProcesss) {
 		DiagramProcesssDifferent = true

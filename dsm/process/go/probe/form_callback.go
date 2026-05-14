@@ -5256,6 +5256,8 @@ func (processFormCallback *ProcessFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(process_.ComputedPrefix), formDiv)
 		case "SVG_Path":
 			FormDivBasicFieldToField(&(process_.SVG_Path), formDiv)
+		case "InverseAppliedScaling":
+			FormDivBasicFieldToField(&(process_.InverseAppliedScaling), formDiv)
 		case "DiagramProcesss":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](processFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DiagramProcess, 0)
