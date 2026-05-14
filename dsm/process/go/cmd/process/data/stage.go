@@ -392,10 +392,10 @@ func _(stage *models.Stage) {
 
 	__ExternalParticipantShape__00000004_.Name = `EP2-Diagram P1`
 	__ExternalParticipantShape__00000004_.IsExpanded = false
-	__ExternalParticipantShape__00000004_.X = 1009.763040
-	__ExternalParticipantShape__00000004_.Y = 200.459984
-	__ExternalParticipantShape__00000004_.Width = 250.000000
-	__ExternalParticipantShape__00000004_.Height = 70.000000
+	__ExternalParticipantShape__00000004_.X = 1282.763040
+	__ExternalParticipantShape__00000004_.Y = 283.454773
+	__ExternalParticipantShape__00000004_.Width = 150.000000
+	__ExternalParticipantShape__00000004_.Height = 31.000000
 	__ExternalParticipantShape__00000004_.IsHidden = false
 	__ExternalParticipantShape__00000004_.TailHeigth = 100.000000
 

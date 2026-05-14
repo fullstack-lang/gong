@@ -374,12 +374,22 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 			externalParticipantShape.TailHeigth = 100.0
 		}
 
+		anchorType := svg.RECT_BOTTOM
+		if externalParticipantShape.Participant.IsProcessResource {
+			anchorType = svg.RECT_TOP
+		}
+
 		boxHeight, rectAnchoredRect := stager.drawAllocatedProcessesAndResources(
 			externalParticipantShape.Participant,
 			diagramProcess,
 			rect,
-			svg.RECT_BOTTOM)
+			anchorType)
 		_ = rectAnchoredRect
+
+		if externalParticipantShape.Participant.IsProcessResource && boxHeight > 0 {
+			rect.Height = boxHeight
+			boxHeight = 0
+		}
 
 		tailRect := &svg.Rect{
 			Name: "Tail" + rect.GetName(),
@@ -403,10 +413,10 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 		diagramProcess.map_SvgRect_ExternalParticipantShape[tailRect] = externalParticipantShape
 		// if the tailRect bottom handle is used, the heigth is updated
 		tailRect.OnUpdate = func(updatedRect *svg.Rect) {
-			diffSize := externalParticipantShape.TailHeigth != updatedRect.Height
+			diffSize := externalParticipantShape.TailHeigth != updatedRect.Height+boxHeight
 
 			if diffSize {
-				externalParticipantShape.TailHeigth = updatedRect.Height
+				externalParticipantShape.TailHeigth = updatedRect.Height + boxHeight
 				stager.stage.CommitWithSuspendedCallbacks()
 			}
 		}
