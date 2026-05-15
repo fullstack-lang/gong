@@ -320,7 +320,7 @@ func _(stage *models.Stage) {
 	__DataFlowShape__00000006_.EndRatio = 0.545862
 	__DataFlowShape__00000006_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000006_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000006_.CornerOffsetRatio = 23.020834
+	__DataFlowShape__00000006_.CornerOffsetRatio = 25.620834
 	__DataFlowShape__00000006_.IsHidden = false
 
 	__DataFlowShape__00000008_.Name = `EP2 to PP2 T2`
@@ -358,7 +358,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000006_.Name = `DiagramProcess`
 	__DiagramProcess__00000006_.Description = ``
 	__DiagramProcess__00000006_.ComputedPrefix = ``
-	__DiagramProcess__00000006_.IsChecked = false
+	__DiagramProcess__00000006_.IsChecked = true
 	__DiagramProcess__00000006_.IsEditable_ = true
 	__DiagramProcess__00000006_.IsShowPrefix = false
 	__DiagramProcess__00000006_.DefaultBoxWidth = 250.000000
@@ -373,12 +373,12 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.Name = `Diagram P1`
 	__DiagramProcess__00000007_.Description = ``
 	__DiagramProcess__00000007_.ComputedPrefix = ``
-	__DiagramProcess__00000007_.IsChecked = true
+	__DiagramProcess__00000007_.IsChecked = false
 	__DiagramProcess__00000007_.IsEditable_ = true
 	__DiagramProcess__00000007_.IsShowPrefix = false
 	__DiagramProcess__00000007_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000007_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000007_.Width = 1530.015236
+	__DiagramProcess__00000007_.Width = 1574.015236
 	__DiagramProcess__00000007_.Height = 1522.000000
 	__DiagramProcess__00000007_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000007_.IsParticipantsNodeExpanded = false
@@ -402,8 +402,8 @@ func _(stage *models.Stage) {
 
 	__ExternalParticipantShape__00000003_.Name = `EP1-Diagram P1`
 	__ExternalParticipantShape__00000003_.IsExpanded = false
-	__ExternalParticipantShape__00000003_.X = 57.388870
-	__ExternalParticipantShape__00000003_.Y = 419.256840
+	__ExternalParticipantShape__00000003_.X = 42.388870
+	__ExternalParticipantShape__00000003_.Y = 344.256840
 	__ExternalParticipantShape__00000003_.Width = 211.000000
 	__ExternalParticipantShape__00000003_.Height = 70.000000
 	__ExternalParticipantShape__00000003_.IsHidden = false
@@ -961,7 +961,6 @@ func _(stage *models.Stage) {
 	__ExternalParticipantShape__00000005_.Participant = __Participant__00000011_
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000005_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000006_)
-	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000005_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000006_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000000_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000002_)
