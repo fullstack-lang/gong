@@ -411,6 +411,8 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Rect_Peers_reverseMap map[*Rect]*Rect
 
+	Rect_Obstacles_reverseMap map[*Rect]*Rect
+
 	Rect_HoveringTrigger_reverseMap map[*Condition]*Rect
 
 	Rect_DisplayConditions_reverseMap map[*Condition]*Rect
@@ -5371,6 +5373,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Rect with the name of the field
 			Peers: []*Rect{{Name: "Peers"}},
+			// field is initialized with an instance of Rect with the name of the field
+			EnclosingRect: &Rect{Name: "EnclosingRect"},
+			// field is initialized with an instance of Rect with the name of the field
+			Obstacles: []*Rect{{Name: "Obstacles"}},
 			// field is initialized with an instance of Animate with the name of the field
 			Animations: []*Animate{{Name: "Animations"}},
 			// field is initialized with an instance of RectAnchoredText with the name of the field
@@ -5381,8 +5387,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RectAnchoredPaths: []*RectAnchoredPath{{Name: "RectAnchoredPaths"}},
 			// field is initialized with an instance of RectAnchoredPngImage with the name of the field
 			RectAnchoredPngImages: []*RectAnchoredPngImage{{Name: "RectAnchoredPngImages"}},
-			// field is initialized with an instance of Rect with the name of the field
-			EnclosingRect: &Rect{Name: "EnclosingRect"},
 		}).(*Type)
 	case RectAnchoredPath:
 		return any(&RectAnchoredPath{
@@ -5997,6 +6001,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Obstacles":
+			res := make(map[*Rect][]*Rect)
+			for rect := range stage.Rects {
+				for _, rect_ := range rect.Obstacles {
+					res[rect_] = append(res[rect_], rect)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "HoveringTrigger":
 			res := make(map[*Condition][]*Rect)
 			for rect := range stage.Rects {
@@ -6328,6 +6340,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "Rect"
 		rf.Fieldname = "Peers"
+		res = append(res, rf)
+		rf.GongstructName = "Rect"
+		rf.Fieldname = "Obstacles"
 		res = append(res, rf)
 	case *RectAnchoredPath:
 		var rf ReverseField
@@ -7253,6 +7268,16 @@ func (rect *Rect) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Rect",
 		},
 		{
+			Name:                 "EnclosingRect",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Rect",
+		},
+		{
+			Name:                 "Obstacles",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Rect",
+		},
+		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -7403,11 +7428,6 @@ func (rect *Rect) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "ToolTipPosition",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "ToolTipPositionEnum",
-		},
-		{
-			Name:                 "EnclosingRect",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Rect",
 		},
 		{
 			Name:               "MouseX",
@@ -8850,6 +8870,22 @@ func (rect *Rect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "EnclosingRect":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if rect.EnclosingRect != nil {
+			res.valueString = rect.EnclosingRect.Name
+			res.ids = rect.EnclosingRect.GongGetUUID(stage)
+		}
+	case "Obstacles":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range rect.Obstacles {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "Color":
 		res.valueString = rect.Color
 	case "FillOpacity":
@@ -9019,12 +9055,6 @@ func (rect *Rect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "ToolTipPosition":
 		enum := rect.ToolTipPosition
 		res.valueString = enum.ToCodeString()
-	case "EnclosingRect":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if rect.EnclosingRect != nil {
-			res.valueString = rect.EnclosingRect.Name
-			res.ids = rect.EnclosingRect.GongGetUUID(stage)
-		}
 	case "MouseX":
 		res.valueString = fmt.Sprintf("%f", rect.MouseX)
 		res.valueFloat = rect.MouseX
@@ -10313,6 +10343,31 @@ func (rect *Rect) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
+	case "EnclosingRect":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			rect.EnclosingRect = nil
+			for __instance__ := range stage.Rects {
+				if stage.Rect_stagedOrder[__instance__] == uint(id) {
+					rect.EnclosingRect = __instance__
+					break
+				}
+			}
+		}
+	case "Obstacles":
+		rect.Obstacles = make([]*Rect, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Rects {
+					if stage.Rect_stagedOrder[__instance__] == uint(id) {
+						rect.Obstacles = append(rect.Obstacles, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "Color":
 		rect.Color = value.GetValueString()
 	case "FillOpacity":
@@ -10469,17 +10524,6 @@ func (rect *Rect) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		rect.ToolTipText = value.GetValueString()
 	case "ToolTipPosition":
 		rect.ToolTipPosition.FromCodeString(value.GetValueString())
-	case "EnclosingRect":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			rect.EnclosingRect = nil
-			for __instance__ := range stage.Rects {
-				if stage.Rect_stagedOrder[__instance__] == uint(id) {
-					rect.EnclosingRect = __instance__
-					break
-				}
-			}
-		}
 	case "MouseX":
 		rect.MouseX = value.GetValueFloat()
 	case "MouseY":

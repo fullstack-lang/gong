@@ -62,6 +62,9 @@ export class Rect {
 
 	// insertion point for pointers and slices of pointers declarations
 	Peers: Array<Rect> = []
+	EnclosingRect?: Rect
+
+	Obstacles: Array<Rect> = []
 	HoveringTrigger: Array<Condition> = []
 	DisplayConditions: Array<Condition> = []
 	Animations: Array<Animate> = []
@@ -69,8 +72,6 @@ export class Rect {
 	RectAnchoredRects: Array<RectAnchoredRect> = []
 	RectAnchoredPaths: Array<RectAnchoredPath> = []
 	RectAnchoredPngImages: Array<RectAnchoredPngImage> = []
-	EnclosingRect?: Rect
-
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -135,6 +136,11 @@ export function CopyRectToRectAPI(rect: Rect, rectAPI: RectAPI) {
 	rectAPI.RectPointersEncoding.Peers = []
 	for (let _rect of rect.Peers) {
 		rectAPI.RectPointersEncoding.Peers.push(_rect.ID)
+	}
+
+	rectAPI.RectPointersEncoding.Obstacles = []
+	for (let _rect of rect.Obstacles) {
+		rectAPI.RectPointersEncoding.Obstacles.push(_rect.ID)
 	}
 
 	rectAPI.RectPointersEncoding.HoveringTrigger = []
@@ -238,6 +244,18 @@ export function CopyRectAPIToRect(rectAPI: RectAPI, rect: Rect, frontRepo: Front
 		let _rect = frontRepo.map_ID_Rect.get(_id)
 		if (_rect != undefined) {
 			rect.Peers.push(_rect!)
+		}
+	}
+	if (!Array.isArray(rectAPI.RectPointersEncoding.Obstacles)) {
+		console.error('Rects is not an array:', rectAPI.RectPointersEncoding.Obstacles);
+		return;
+	}
+
+	rect.Obstacles = new Array<Rect>()
+	for (let _id of rectAPI.RectPointersEncoding.Obstacles) {
+		let _rect = frontRepo.map_ID_Rect.get(_id)
+		if (_rect != undefined) {
+			rect.Obstacles.push(_rect!)
 		}
 	}
 	if (!Array.isArray(rectAPI.RectPointersEncoding.HoveringTrigger)) {

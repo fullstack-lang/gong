@@ -66,6 +66,9 @@ export class RectAPI {
 export class RectPointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
 	Peers: number[] = []
+	EnclosingRectID: NullInt64 = new NullInt64 // if pointer is null, EnclosingRect.ID = 0
+
+	Obstacles: number[] = []
 	HoveringTrigger: number[] = []
 	DisplayConditions: number[] = []
 	Animations: number[] = []
@@ -73,6 +76,4 @@ export class RectPointersEncoding {
 	RectAnchoredRects: number[] = []
 	RectAnchoredPaths: number[] = []
 	RectAnchoredPngImages: number[] = []
-	EnclosingRectID: NullInt64 = new NullInt64 // if pointer is null, EnclosingRect.ID = 0
-
 }

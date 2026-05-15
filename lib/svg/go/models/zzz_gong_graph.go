@@ -746,6 +746,9 @@ func (stage *Stage) StageBranchRect(rect *Rect) {
 	for _, _rect := range rect.Peers {
 		StageBranch(stage, _rect)
 	}
+	for _, _rect := range rect.Obstacles {
+		StageBranch(stage, _rect)
+	}
 	for _, _condition := range rect.HoveringTrigger {
 		StageBranch(stage, _condition)
 	}
@@ -1412,6 +1415,9 @@ func CopyBranchRect(mapOrigCopy map[any]any, rectFrom *Rect) (rectTo *Rect) {
 	for _, _rect := range rectFrom.Peers {
 		rectTo.Peers = append(rectTo.Peers, CopyBranchRect(mapOrigCopy, _rect))
 	}
+	for _, _rect := range rectFrom.Obstacles {
+		rectTo.Obstacles = append(rectTo.Obstacles, CopyBranchRect(mapOrigCopy, _rect))
+	}
 	for _, _condition := range rectFrom.HoveringTrigger {
 		rectTo.HoveringTrigger = append(rectTo.HoveringTrigger, CopyBranchCondition(mapOrigCopy, _condition))
 	}
@@ -2020,6 +2026,9 @@ func (stage *Stage) UnstageBranchRect(rect *Rect) {
 	for _, _rect := range rect.Peers {
 		UnstageBranch(stage, _rect)
 	}
+	for _, _rect := range rect.Obstacles {
+		UnstageBranch(stage, _rect)
+	}
 	for _, _condition := range rect.HoveringTrigger {
 		UnstageBranch(stage, _condition)
 	}
@@ -2375,6 +2384,10 @@ func (reference *Rect) GongReconstructPointersFromReferences(stage *Stage, insta
 	reference.Peers = reference.Peers[:0]
 	for _, _b := range instance.Peers {
 		reference.Peers = append(reference.Peers, stage.Rects_reference[_b])
+	}
+	reference.Obstacles = reference.Obstacles[:0]
+	for _, _b := range instance.Obstacles {
+		reference.Obstacles = append(reference.Obstacles, stage.Rects_reference[_b])
 	}
 	reference.HoveringTrigger = reference.HoveringTrigger[:0]
 	for _, _b := range instance.HoveringTrigger {
@@ -2748,6 +2761,13 @@ func (reference *Rect) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Peers = _Peers
+	var _Obstacles []*Rect
+	for _, _reference := range reference.Obstacles {
+		if _instance, ok := stage.Rects_instance[_reference]; ok {
+			_Obstacles = append(_Obstacles, _instance)
+		}
+	}
+	reference.Obstacles = _Obstacles
 	var _HoveringTrigger []*Condition
 	for _, _reference := range reference.HoveringTrigger {
 		if _instance, ok := stage.Conditions_instance[_reference]; ok {
@@ -4020,6 +4040,34 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 		ops := Diff(stage, rect, rectOther, "Peers", rectOther.Peers, rect.Peers)
 		diffs = append(diffs, ops)
 	}
+	if (rect.EnclosingRect == nil) != (rectOther.EnclosingRect == nil) {
+		diffs = append(diffs, rect.GongMarshallField(stage, "EnclosingRect"))
+	} else if rect.EnclosingRect != nil && rectOther.EnclosingRect != nil {
+		if rect.EnclosingRect != rectOther.EnclosingRect {
+			diffs = append(diffs, rect.GongMarshallField(stage, "EnclosingRect"))
+		}
+	}
+	ObstaclesDifferent := false
+	if len(rect.Obstacles) != len(rectOther.Obstacles) {
+		ObstaclesDifferent = true
+	} else {
+		for i := range rect.Obstacles {
+			if (rect.Obstacles[i] == nil) != (rectOther.Obstacles[i] == nil) {
+				ObstaclesDifferent = true
+				break
+			} else if rect.Obstacles[i] != nil && rectOther.Obstacles[i] != nil {
+				// this is a pointer comparaison
+				if rect.Obstacles[i] != rectOther.Obstacles[i] {
+					ObstaclesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ObstaclesDifferent {
+		ops := Diff(stage, rect, rectOther, "Obstacles", rectOther.Obstacles, rect.Obstacles)
+		diffs = append(diffs, ops)
+	}
 	if rect.Color != rectOther.Color {
 		diffs = append(diffs, rect.GongMarshallField(stage, "Color"))
 	}
@@ -4253,13 +4301,6 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 	}
 	if rect.ToolTipPosition != rectOther.ToolTipPosition {
 		diffs = append(diffs, rect.GongMarshallField(stage, "ToolTipPosition"))
-	}
-	if (rect.EnclosingRect == nil) != (rectOther.EnclosingRect == nil) {
-		diffs = append(diffs, rect.GongMarshallField(stage, "EnclosingRect"))
-	} else if rect.EnclosingRect != nil && rectOther.EnclosingRect != nil {
-		if rect.EnclosingRect != rectOther.EnclosingRect {
-			diffs = append(diffs, rect.GongMarshallField(stage, "EnclosingRect"))
-		}
 	}
 	if rect.MouseX != rectOther.MouseX {
 		diffs = append(diffs, rect.GongMarshallField(stage, "MouseX"))

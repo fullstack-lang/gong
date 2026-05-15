@@ -722,31 +722,76 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private constrainRect(rect: svg.Rect) {
-    if (!rect.EnclosingRect) {
-      return;
+  private constrainRect(rect: svg.Rect, originalX?: number, originalY?: number) {
+    if (rect.EnclosingRect) {
+      // Priority 2: if X too big, resize X
+      // (This is performed first to guarantee that the shifting below can succeed)
+      if (rect.Width > rect.EnclosingRect.Width) {
+        rect.Width = rect.EnclosingRect.Width;
+      }
+      if (rect.Height > rect.EnclosingRect.Height) {
+        rect.Height = rect.EnclosingRect.Height;
+      }
+
+      // Priority 1: move X inside Y
+      if (rect.X < rect.EnclosingRect.X) {
+        rect.X = rect.EnclosingRect.X;
+      } else if (rect.X + rect.Width > rect.EnclosingRect.X + rect.EnclosingRect.Width) {
+        rect.X = rect.EnclosingRect.X + rect.EnclosingRect.Width - rect.Width;
+      }
+
+      if (rect.Y < rect.EnclosingRect.Y) {
+        rect.Y = rect.EnclosingRect.Y;
+      } else if (rect.Y + rect.Height > rect.EnclosingRect.Y + rect.EnclosingRect.Height) {
+        rect.Y = rect.EnclosingRect.Y + rect.EnclosingRect.Height - rect.Height;
+      }
     }
 
-    // Priority 2: if X too big, resize X
-    // (This is performed first to guarantee that the shifting below can succeed)
-    if (rect.Width > rect.EnclosingRect.Width) {
-      rect.Width = rect.EnclosingRect.Width;
-    }
-    if (rect.Height > rect.EnclosingRect.Height) {
-      rect.Height = rect.EnclosingRect.Height;
-    }
+    // Obstacle Avoidance (Sliding Collision System)
+    if (originalX !== undefined && originalY !== undefined) {
+      const obstacles: any[] = (rect as any).Obstacles || [];
+      for (const obstacle of obstacles) {
+        if (!obstacle || obstacle.X === undefined || obstacle.Width === undefined) {
+          continue;
+        }
 
-    // Priority 1: move X inside Y
-    if (rect.X < rect.EnclosingRect.X) {
-      rect.X = rect.EnclosingRect.X;
-    } else if (rect.X + rect.Width > rect.EnclosingRect.X + rect.EnclosingRect.Width) {
-      rect.X = rect.EnclosingRect.X + rect.EnclosingRect.Width - rect.Width;
-    }
+        let clampedX = rect.X;
+        let clampedY = rect.Y;
 
-    if (rect.Y < rect.EnclosingRect.Y) {
-      rect.Y = rect.EnclosingRect.Y;
-    } else if (rect.Y + rect.Height > rect.EnclosingRect.Y + rect.EnclosingRect.Height) {
-      rect.Y = rect.EnclosingRect.Y + rect.EnclosingRect.Height - rect.Height;
+        // X-axis constraint
+        const overlapY = clampedY < obstacle.Y + obstacle.Height && clampedY + rect.Height > obstacle.Y;
+        if (overlapY) {
+          const overlapX = clampedX < obstacle.X + obstacle.Width && clampedX + rect.Width > obstacle.X;
+          if (overlapX) {
+            const startedLeft = originalX + rect.Width <= obstacle.X;
+            const startedRight = originalX >= obstacle.X + obstacle.Width;
+
+            if (startedLeft) {
+              clampedX = Math.min(clampedX, obstacle.X - rect.Width);
+            } else if (startedRight) {
+              clampedX = Math.max(clampedX, obstacle.X + obstacle.Width);
+            }
+          }
+        }
+        rect.X = clampedX;
+
+        // Y-axis constraint (re-evaluate with new X)
+        const overlapX2 = clampedX < obstacle.X + obstacle.Width && clampedX + rect.Width > obstacle.X;
+        if (overlapX2) {
+          const overlapY2 = clampedY < obstacle.Y + obstacle.Height && clampedY + rect.Height > obstacle.Y;
+          if (overlapY2) {
+            const startedAbove = originalY + rect.Height <= obstacle.Y;
+            const startedBelow = originalY >= obstacle.Y + obstacle.Height;
+
+            if (startedAbove) {
+              clampedY = Math.min(clampedY, obstacle.Y - rect.Height);
+            } else if (startedBelow) {
+              clampedY = Math.max(clampedY, obstacle.Y + obstacle.Height);
+            }
+          }
+        }
+        rect.Y = clampedY;
+      }
     }
   }
 
@@ -825,7 +870,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
         this.draggedRect!.Y = this.RectAtMouseDown!.Y + deltaY
       }
 
-      this.constrainRect(this.draggedRect!)
+      this.constrainRect(this.draggedRect!, this.RectAtMouseDown!.X, this.RectAtMouseDown!.Y)
 
       // recompute segments of links connected to the resized rect
       let set = this.map_Rect_ConnectedLinks.get(this.draggedRect!)
@@ -846,7 +891,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
           if (peer.CanMoveVerticaly) {
             peer.Y = peerAtMouseDown.Y + deltaY
           }
-          this.constrainRect(peer)
+          this.constrainRect(peer, peerAtMouseDown.X, peerAtMouseDown.Y)
           // recompute segments of links connected to the resized peer
           let peerLinkSet = this.map_Rect_ConnectedLinks.get(peer)
           if (peerLinkSet != undefined) {
@@ -868,7 +913,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
             rect_.Y = rectAtMouseDown_.Y + deltaY
           }
 
-          this.constrainRect(rect_)
+          this.constrainRect(rect_, rectAtMouseDown_.X, rectAtMouseDown_.Y)
 
           // recompute segments of links connected to the resized rect
           let set = this.map_Rect_ConnectedLinks.get(rect_)

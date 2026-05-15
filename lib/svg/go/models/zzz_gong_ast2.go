@@ -1231,6 +1231,10 @@ func (u *RectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.RX = GongExtractFloat(valueExpr)
 	case "Peers":
 		GongUnmarshallSliceOfPointers(&instance.Peers, valueExpr, identifierMap)
+	case "EnclosingRect":
+		GongUnmarshallPointer(&instance.EnclosingRect, valueExpr, identifierMap)
+	case "Obstacles":
+		GongUnmarshallSliceOfPointers(&instance.Obstacles, valueExpr, identifierMap)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":
@@ -1303,8 +1307,6 @@ func (u *RectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.ToolTipText = GongExtractString(valueExpr)
 	case "ToolTipPosition":
 		GongUnmarshallEnum(&instance.ToolTipPosition, valueExpr)
-	case "EnclosingRect":
-		GongUnmarshallPointer(&instance.EnclosingRect, valueExpr, identifierMap)
 	case "MouseX":
 		instance.MouseX = GongExtractFloat(valueExpr)
 	case "MouseY":

@@ -242,6 +242,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Rect_Peers_reverseMap[_rect] = rect
 		}
 	}
+	stage.Rect_Obstacles_reverseMap = make(map[*Rect]*Rect)
+	for rect := range stage.Rects {
+		_ = rect
+		for _, _rect := range rect.Obstacles {
+			stage.Rect_Obstacles_reverseMap[_rect] = rect
+		}
+	}
 	stage.Rect_HoveringTrigger_reverseMap = make(map[*Condition]*Rect)
 	for rect := range stage.Rects {
 		_ = rect
