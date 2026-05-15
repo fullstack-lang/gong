@@ -851,7 +851,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
       this.map_Link_Segment.set(this.draggedLink!, segments)
     }
 
-    if (this.State == StateEnumType.RECTS_DRAGGING) {
+if (this.State == StateEnumType.RECTS_DRAGGING) {
       console.assert(this.draggedRect != undefined, "no dragged rect")
 
       // Constrain movement to horizontal or vertical if Shift key is pressed
@@ -863,65 +863,54 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
 
-      if (this.draggedRect!.CanMoveHorizontaly) {
-        this.draggedRect!.X = this.RectAtMouseDown!.X + deltaX
-      }
-      if (this.draggedRect!.CanMoveVerticaly) {
-        this.draggedRect!.Y = this.RectAtMouseDown!.Y + deltaY
-      }
+      // 1. Gather all rects that are moving together
+      let movingRects = new Set<svg.Rect>();
+      if (this.draggedRect) movingRects.add(this.draggedRect);
+      for (let peer of this.map_PeerRectAtMouseDown.keys()) movingRects.add(peer);
+      for (let rect_ of this.map_SelectedRectAtMouseDown.keys()) movingRects.add(rect_);
 
-      this.constrainRect(this.draggedRect!, this.RectAtMouseDown!.X, this.RectAtMouseDown!.Y)
+      const getOriginal = (r: svg.Rect) => {
+        if (r === this.draggedRect) return this.RectAtMouseDown!;
+        if (this.map_PeerRectAtMouseDown.has(r)) return this.map_PeerRectAtMouseDown.get(r)!;
+        if (this.map_SelectedRectAtMouseDown.has(r)) return this.map_SelectedRectAtMouseDown.get(r)!;
+        return r; 
+      };
 
-      // recompute segments of links connected to the resized rect
-      let set = this.map_Rect_ConnectedLinks.get(this.draggedRect!)
-      if (set != undefined) {
-        for (let link of set) {
-          let segments = drawSegmentsFromLink(link)
-          this.map_Link_Segment.set(link, segments)
-        }
-      }
+      // 2. Calculate the maximum allowed movement for the entire group
+      let allowedDeltaX = deltaX;
+      let allowedDeltaY = deltaY;
 
-      // Move peers and recompute their links
-      for (let peer of this.map_PeerRectAtMouseDown.keys()) {
-        let peerAtMouseDown = this.map_PeerRectAtMouseDown.get(peer)
-        if (peerAtMouseDown) {
-          if (peer.CanMoveHorizontaly) {
-            peer.X = peerAtMouseDown.X + deltaX
-          }
-          if (peer.CanMoveVerticaly) {
-            peer.Y = peerAtMouseDown.Y + deltaY
-          }
-          this.constrainRect(peer, peerAtMouseDown.X, peerAtMouseDown.Y)
-          // recompute segments of links connected to the resized peer
-          let peerLinkSet = this.map_Rect_ConnectedLinks.get(peer)
-          if (peerLinkSet != undefined) {
-            for (let link of peerLinkSet) {
-              let segments = drawSegmentsFromLink(link)
-              this.map_Link_Segment.set(link, segments)
-            }
-          }
-        }
+      for (let r of movingRects) {
+        let orig = getOriginal(r);
+
+        // Create a shallow copy to safely test constrainRect without applying it yet
+        let testRect = Object.assign({}, r);
+        if (r.CanMoveHorizontaly) testRect.X = orig.X + deltaX;
+        if (r.CanMoveVerticaly) testRect.Y = orig.Y + deltaY;
+
+        this.constrainRect(testRect as svg.Rect, orig.X, orig.Y);
+
+        let dx = testRect.X - orig.X;
+        let dy = testRect.Y - orig.Y;
+
+        // Keep the most restrictive delta (closest to 0) to ensure the group stays rigid
+        if (Math.abs(dx) < Math.abs(allowedDeltaX)) allowedDeltaX = dx;
+        if (Math.abs(dy) < Math.abs(allowedDeltaY)) allowedDeltaY = dy;
       }
 
-      for (let rect_ of this.map_SelectedRectAtMouseDown.keys()) {
-        let rectAtMouseDown_ = this.map_SelectedRectAtMouseDown.get(rect_)
-        if (rectAtMouseDown_) {
-          if (rect_.CanMoveHorizontaly) {
-            rect_.X = rectAtMouseDown_.X + deltaX
-          }
-          if (rect_.CanMoveVerticaly) {
-            rect_.Y = rectAtMouseDown_.Y + deltaY
-          }
+      // 3. Apply the unified safe movement to all rects and update links
+      for (let r of movingRects) {
+        let orig = getOriginal(r);
+        
+        if (r.CanMoveHorizontaly) r.X = orig.X + allowedDeltaX;
+        if (r.CanMoveVerticaly) r.Y = orig.Y + allowedDeltaY;
 
-          this.constrainRect(rect_, rectAtMouseDown_.X, rectAtMouseDown_.Y)
-
-          // recompute segments of links connected to the resized rect
-          let set = this.map_Rect_ConnectedLinks.get(rect_)
-          if (set != undefined) {
-            for (let link of set) {
-              let segments = drawSegmentsFromLink(link)
-              this.map_Link_Segment.set(link, segments)
-            }
+        // Recompute segments of links connected to the moved rect
+        let set = this.map_Rect_ConnectedLinks.get(r);
+        if (set != undefined) {
+          for (let link of set) {
+            let segments = drawSegmentsFromLink(link);
+            this.map_Link_Segment.set(link, segments);
           }
         }
       }
