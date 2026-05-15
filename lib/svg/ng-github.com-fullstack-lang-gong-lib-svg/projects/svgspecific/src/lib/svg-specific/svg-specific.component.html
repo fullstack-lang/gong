@@ -278,48 +278,6 @@
               </ng-container>
             }
             
-            <ng-container>
-              @if(rect.HasLeftHandle) {
-                <circle class="overlay"
-                  [attr.cx]="rect.X"
-                  [attr.cy]="rect.Y + rect.Height / 2"
-                  [attr.r]="anchorRadius"
-                  [attr.fill]="(anchorDragging && activeAnchor === 'left') ? draggingAnchorFillColor : anchorFillColor"
-                  (mousedown)="anchorMouseDown($event, 'left', rect)"
-                  (mousemove)="onmousemove($event)"
-                  (mouseup)="anchorMouseUp($event, rect)"/>
-              }
-              @if(rect.HasRightHandle) {
-                <circle class="overlay"
-                  [attr.cx]="rect.X + rect.Width"
-                  [attr.cy]="rect.Y + rect.Height/2"
-                  [attr.r]="anchorRadius"
-                  [attr.fill]="(anchorDragging && activeAnchor === 'right') ? draggingAnchorFillColor : anchorFillColor"
-                  (mousedown)="anchorMouseDown($event, 'right', rect)"
-                  (mousemove)="onmousemove($event)"
-                  (mouseup)="anchorMouseUp($event, rect)"/>
-              }
-              @if(rect.HasTopHandle) {
-                <circle class="overlay"
-                  [attr.cx]="rect.X + rect.Width/2"
-                  [attr.cy]="rect.Y"
-                  [attr.r]="anchorRadius"
-                  [attr.fill]="(anchorDragging && activeAnchor === 'top') ? draggingAnchorFillColor : anchorFillColor"
-                  (mousedown)="anchorMouseDown($event, 'top', rect)"
-                  (mousemove)="onmousemove($event)"
-                  (mouseup)="anchorMouseUp($event, rect)"/>
-              }
-              @if(rect.HasBottomHandle) {
-                <circle class="overlay"
-                  [attr.cx]="rect.X + rect.Width/2"
-                  [attr.cy]="rect.Y + rect.Height"
-                  [attr.r]="anchorRadius"
-                  [attr.fill]="(anchorDragging && activeAnchor === 'bottom') ? draggingAnchorFillColor : anchorFillColor"
-                  (mousedown)="anchorMouseDown($event, 'bottom', rect)"
-                  (mousemove)="onmousemove($event)"
-                  (mouseup)="anchorMouseUp($event, rect)"/>
-              }
-            </ng-container>
           }
         }
 
@@ -766,17 +724,6 @@
                   [attr.stroke-dasharray]="link.StrokeDashArray" />
               }
             }
-
-            @if(svg.IsEditable) {
-                  @for(controlPoint of link.ControlPoints; track controlPoint.ID; let pointIndex = $index;) {
-                  <circle class="overlay"
-                    [attr.cx]="controlPointToPoint(controlPoint).X"
-                    [attr.cy]="controlPointToPoint(controlPoint).Y"
-                    [attr.r]="5" [attr.fill]="'lightblue'" style="cursor: move;" (mousedown)="controlPointMouseDown($event, link, pointIndex)"
-                    (mousemove)="onmousemove($event)"
-                    (mouseup)="controlPointMouseUp($event, controlPoint)"/>
-                }
-              }
             }
         }
 
@@ -797,6 +744,69 @@
           }
         }
       </ng-container>
+    }
+
+    <!-- Draw handles and control points on top of all layers -->
+    @for(layer of svg.Layers; track layer.ID) {
+      @for(rect of layer.Rects; track rect.ID) {
+        @if (shouldDisplayRect(rect)) {
+          <ng-container>
+            @if(rect.HasLeftHandle) {
+              <circle class="overlay"
+                [attr.cx]="rect.X"
+                [attr.cy]="rect.Y + rect.Height / 2"
+                [attr.r]="anchorRadius"
+                [attr.fill]="(anchorDragging && activeAnchor === 'left') ? draggingAnchorFillColor : anchorFillColor"
+                (mousedown)="anchorMouseDown($event, 'left', rect)"
+                (mousemove)="onmousemove($event)"
+                (mouseup)="anchorMouseUp($event, rect)"/>
+            }
+            @if(rect.HasRightHandle) {
+              <circle class="overlay"
+                [attr.cx]="rect.X + rect.Width"
+                [attr.cy]="rect.Y + rect.Height/2"
+                [attr.r]="anchorRadius"
+                [attr.fill]="(anchorDragging && activeAnchor === 'right') ? draggingAnchorFillColor : anchorFillColor"
+                (mousedown)="anchorMouseDown($event, 'right', rect)"
+                (mousemove)="onmousemove($event)"
+                (mouseup)="anchorMouseUp($event, rect)"/>
+            }
+            @if(rect.HasTopHandle) {
+              <circle class="overlay"
+                [attr.cx]="rect.X + rect.Width/2"
+                [attr.cy]="rect.Y"
+                [attr.r]="anchorRadius"
+                [attr.fill]="(anchorDragging && activeAnchor === 'top') ? draggingAnchorFillColor : anchorFillColor"
+                (mousedown)="anchorMouseDown($event, 'top', rect)"
+                (mousemove)="onmousemove($event)"
+                (mouseup)="anchorMouseUp($event, rect)"/>
+            }
+            @if(rect.HasBottomHandle) {
+              <circle class="overlay"
+                [attr.cx]="rect.X + rect.Width/2"
+                [attr.cy]="rect.Y + rect.Height"
+                [attr.r]="anchorRadius"
+                [attr.fill]="(anchorDragging && activeAnchor === 'bottom') ? draggingAnchorFillColor : anchorFillColor"
+                (mousedown)="anchorMouseDown($event, 'bottom', rect)"
+                (mousemove)="onmousemove($event)"
+                (mouseup)="anchorMouseUp($event, rect)"/>
+            }
+          </ng-container>
+        }
+      }
+      
+      @if(svg.IsEditable) {
+        @for(link of layer.Links; track link.ID) {
+          @for(controlPoint of link.ControlPoints; track controlPoint.ID; let pointIndex = $index;) {
+            <circle class="overlay"
+              [attr.cx]="controlPointToPoint(controlPoint).X"
+              [attr.cy]="controlPointToPoint(controlPoint).Y"
+              [attr.r]="5" [attr.fill]="'lightblue'" style="cursor: move;" (mousedown)="controlPointMouseDown($event, link, pointIndex)"
+              (mousemove)="onmousemove($event)"
+              (mouseup)="controlPointMouseUp($event, controlPoint)"/>
+          }
+        }
+      }
     }
 
     @if(State == StateEnumType.MULTI_RECTS_SELECTION) {
