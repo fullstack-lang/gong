@@ -116,34 +116,33 @@ func (stager *Stager) drawProcessShapes(diagramProcess *DiagramProcess, layer *s
 			diffHeight := processShape.GetHeight() != updatedRect.Height
 
 			if diffX || diffY || diffWidth || diffHeight {
-				deltaX := updatedRect.X - processShape.GetX()
-				deltaY := updatedRect.Y - processShape.GetY()
+				// deltaX := updatedRect.X - processShape.GetX()
+				// deltaY := updatedRect.Y - processShape.GetY()
 				processShape.SetX(updatedRect.X)
 				processShape.SetY(updatedRect.Y)
 				processShape.SetWidth(updatedRect.Width)
 				processShape.SetHeight(updatedRect.Height)
 
-				// update the position of the participant shapes and task shapes that are within the process
-				for _, participantShape := range diagramProcess.Participant_Shapes {
-					if participantShape.Participant.GetOwningProcess() == processShape.GetAbstractElement() {
-						participantShape.SetX(participantShape.GetX() + deltaX)
-						participantShape.SetY(participantShape.GetY() + deltaY)
-					}
-				}
+				// // update the position of the participant shapes and task shapes that are within the process
+				// for _, participantShape := range diagramProcess.Participant_Shapes {
+				// 	if participantShape.Participant.GetOwningProcess() == processShape.GetAbstractElement() {
+				// 		participantShape.SetX(participantShape.GetX() + deltaX)
+				// 		participantShape.SetY(participantShape.GetY() + deltaY)
+				// 	}
+				// }
 
-				for _, taskShape := range diagramProcess.Task_Shapes {
-					if taskShape.Task.GetOwningParticipant().GetOwningProcess() == processShape.GetAbstractElement() {
-						taskShape.SetX(taskShape.GetX() + deltaX)
-						taskShape.SetY(taskShape.GetY() + deltaY)
-					}
-				}
+				// for _, taskShape := range diagramProcess.Task_Shapes {
+				// 	if taskShape.Task.GetOwningParticipant().GetOwningProcess() == processShape.GetAbstractElement() {
+				// 		taskShape.SetX(taskShape.GetX() + deltaX)
+				// 		taskShape.SetY(taskShape.GetY() + deltaY)
+				// 	}
+				// }
 
-				stager.stage.Commit()
+				stager.stage.CommitWithSuspendedCallbacks()
 			} else {
 				stager.probeForm.FillUpFormFromGongstruct(processShape.Process, GetPointerToGongstructName[*Process]())
 			}
 		}
-
 		diagramProcess.map_Process_Rect[processShape.Process] = rect
 	}
 }
@@ -226,6 +225,10 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 		rect.Y = rectOfOwningProcess.Y + verticalTopMargin + verticalTopMarginForTitle
 		rect.Height = rectOfOwningProcess.Height - verticalTopMargin - verticalBottomMargin - verticalTopMarginForTitle
 
+		// make the participant shape peer of the process shape
+		rect.Peers = append(rect.Peers, rectOfOwningProcess)
+		rectOfOwningProcess.Peers = append(rectOfOwningProcess.Peers, rect)
+
 		// override default behavior, we need to commit when the rect is moved
 		rect.OnUpdate = func(updatedRect *svg.Rect) {
 			if updatedRect.Width != participantWidth {
@@ -243,9 +246,35 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 					participantShape.WidthWeight = newWeight
 					stager.stage.Commit()
 				}
-			} else {
-				stager.probeForm.FillUpFormFromGongstruct(participantShape.Participant, GetPointerToGongstructName[*Participant]())
+				return
 			}
+			diffX := participantShape.GetX() != updatedRect.X
+			diffY := participantShape.GetY() != updatedRect.Y
+
+			if diffX || diffY {
+				deltaX := updatedRect.X - participantShape.GetX()
+				deltaY := updatedRect.Y - participantShape.GetY()
+
+				processShape := diagramProcess.map_Process_Rect[diagramProcess.owningProcess]
+				processShape.X += deltaX
+				processShape.Y += deltaY
+
+				// for _, participantShape := range diagramProcess.Participant_Shapes {
+				// 	participantShape.SetX(participantShape.GetX() + deltaX)
+				// 	participantShape.SetY(participantShape.GetY() + deltaY)
+				// }
+
+				// for _, taskShape := range diagramProcess.Task_Shapes {
+				// 	taskShape.SetX(taskShape.GetX() + deltaX)
+				// 	taskShape.SetY(taskShape.GetY() + deltaY)
+				// }
+
+				// it is important to commit with suspended callbacks, otherwise we would have a cascade of updates and commits that would
+				// generates more than one SVG updates (which it is not supposed to handle)
+				stager.stage.CommitWithSuspendedCallbacks()
+				return
+			}
+			stager.probeForm.FillUpFormFromGongstruct(participantShape.Participant, GetPointerToGongstructName[*Participant]())
 		}
 
 		diagramProcess.map_Participant_Rect[participantShape.Participant] = rect
@@ -299,6 +328,28 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 		_ = anchoredRect
 
 		currentWeight += shapeWeight
+	}
+
+	// make all participant shapes peers together, so that if one of them move, all the others move as well
+	for _, participantShape := range diagramProcess.Participant_Shapes {
+		if participantShape.IsHidden {
+			continue
+		}
+		rect := diagramProcess.map_Participant_Rect[participantShape.Participant]
+		if rect == nil {
+			continue
+		}
+		for _, otherParticipantShape := range diagramProcess.Participant_Shapes {
+			if participantShape == otherParticipantShape || otherParticipantShape.IsHidden {
+				continue
+			}
+			otherRect := diagramProcess.map_Participant_Rect[otherParticipantShape.Participant]
+			if otherRect == nil {
+				continue
+			}
+			rect.Peers = append(rect.Peers, otherRect)
+			otherRect.Peers = append(otherRect.Peers, rect)
+		}
 	}
 }
 
@@ -392,7 +443,9 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 		}
 
 		tailRect := &svg.Rect{
-			Name: "Tail" + rect.GetName(),
+			Name:               "Tail" + rect.GetName(),
+			CanMoveHorizontaly: true,
+			CanMoveVerticaly:   true,
 			Presentation: svg.Presentation{
 				Stroke:          "#9E9E9E",
 				StrokeWidth:     1.5,
@@ -408,6 +461,10 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 			CanHaveBottomHandle: true,
 		}
 		diagramProcess.map_ExternalParticipant_Rect[externalParticipantShape.Participant] = tailRect
+
+		// tail rect and rect are moved togethere, therefore they are peers
+		rect.Peers = append(rect.Peers, tailRect)
+		tailRect.Peers = append(tailRect.Peers, rect)
 
 		// this is the tail rect that is used for drawing links between external participant and task, so we need to keep a reference of it in the diagram process
 		diagramProcess.map_SvgRect_ExternalParticipantShape[tailRect] = externalParticipantShape
@@ -445,12 +502,33 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 			continue
 		}
 
+		processRect := diagramProcess.map_Process_Rect[diagramProcess.owningProcess]
+		if processRect == nil {
+			continue
+		}
+
 		rect := svgRect(
 			stager,
 			diagramProcess,
 			taskShape,
 			layer)
 		diagramProcess.map_SvgRect_TaskShape[rect] = taskShape
+
+		// make the rect of the task move with alls participant rect and the process rect
+		// not the opposite !
+		processRect.Peers = append(processRect.Peers, rect)
+
+		// we range over the non hidden participants and have the task shape appended as peer
+		for _, pShape := range diagramProcess.Participant_Shapes {
+			if pShape.IsHidden {
+				continue
+			}
+			participantRect := diagramProcess.map_Participant_Rect[pShape.Participant]
+			if participantRect == nil {
+				continue
+			}
+			participantRect.Peers = append(participantRect.Peers, rect)
+		}
 
 		rect.EnclosingRect = participantRect
 

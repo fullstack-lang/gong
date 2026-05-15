@@ -553,7 +553,7 @@
             "args": [
                 "generate",
                 "--skipGoModCommands",
-                "--dsm", 
+                "--dsm",
             ]
         },
         {
@@ -564,6 +564,17 @@
             "program": "${workspaceFolder}/dsm/process/go/cmd/process",
             "args": [
                 "data/stage.go",
+                "-embeddedDiagrams=false",
+            ]
+        },
+        {
+            "name": "process: go run data/simple.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/simple.go",
                 "-embeddedDiagrams=false",
             ]
         },
