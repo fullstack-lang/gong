@@ -436,6 +436,11 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 			boxHeight = 0
 		}
 
+		// have the process rect be an obstacle to the rect
+		processRect := diagramProcess.map_Process_Rect[diagramProcess.owningProcess]
+		rect.Obstacles = append(rect.Obstacles, processRect)
+		processRect.Obstacles = append(processRect.Obstacles, rect)
+
 		tailRect := &svg.Rect{
 			Name:               "Tail" + rect.GetName(),
 			CanMoveHorizontaly: true,
