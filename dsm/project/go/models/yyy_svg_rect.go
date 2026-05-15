@@ -140,7 +140,9 @@ func onUpdateRectElement[CT interface {
 				// update the tree because it contains the undo/redo calls
 				stager.tree()
 			} else {
-				stager.stage.Commit()
+				// if the position is different, no need to generates
+				// the SVG updates with the semantic rules updates.
+				stager.stage.CommitWithSuspendedCallbacks()
 			}
 		}
 

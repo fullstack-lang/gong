@@ -10,6 +10,8 @@ type Rect struct {
 
 	X, Y, Width, Height, RX float64
 
+	// Peers are rects that move with this rect
+	// notice that they are not updated on the mouse up.
 	Peers []*Rect
 
 	Presentation
