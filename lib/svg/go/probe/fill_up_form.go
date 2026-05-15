@@ -988,6 +988,8 @@ func FillUpForm(
 		BasicFieldtoForm("RX", instanceWithInferedType.RX, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("Peers", instanceWithInferedType, &instanceWithInferedType.Peers, formGroup, probe)
+		AssociationFieldToForm("EnclosingRect", instanceWithInferedType.EnclosingRect, formGroup, probe)
+		AssociationSliceToForm("Obstacles", instanceWithInferedType, &instanceWithInferedType.Obstacles, formGroup, probe)
 		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("FillOpacity", instanceWithInferedType.FillOpacity, instanceWithInferedType, probe.formStage, formGroup,
@@ -1052,7 +1054,6 @@ func FillUpForm(
 		BasicFieldtoForm("ToolTipText", instanceWithInferedType.ToolTipText, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		EnumTypeStringToForm("ToolTipPosition", instanceWithInferedType.ToolTipPosition, instanceWithInferedType, probe.formStage, formGroup)
-		AssociationFieldToForm("EnclosingRect", instanceWithInferedType.EnclosingRect, formGroup, probe)
 		BasicFieldtoForm("MouseX", instanceWithInferedType.MouseX, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("MouseY", instanceWithInferedType.MouseY, instanceWithInferedType, probe.formStage, formGroup,
@@ -1097,6 +1098,28 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.Rect](
 					nil,
 					"Peers",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Rect"
+			rf.Fieldname = "Obstacles"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Rect),
+					"Obstacles",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Rect](
+					nil,
+					"Obstacles",
 					instanceWithInferedType,
 					formGroup,
 					probe)

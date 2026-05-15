@@ -14,6 +14,13 @@ type Rect struct {
 	// notice that they are not updated on the mouse up.
 	Peers []*Rect
 
+	// EnclosingRect is the rect that encloses this rect
+	// the rect cannot move outside of the enclosing rect
+	EnclosingRect *Rect
+
+	// Obstacles are rects that this rect cannot overlap with
+	Obstacles []*Rect
+
 	Presentation
 	ShapeConditions
 
@@ -53,10 +60,6 @@ type Rect struct {
 	HasToolTip      bool
 	ToolTipText     string
 	ToolTipPosition ToolTipPositionEnum
-
-	// EnclosingRect is the rect that encloses this rect
-	// the rect cannot move outside of the enclosing rect
-	EnclosingRect *Rect
 
 	// deprecated, uses OnUpdate instead
 	Impl RectImplInterface

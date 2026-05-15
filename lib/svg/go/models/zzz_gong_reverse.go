@@ -329,6 +329,10 @@ func (inst *Rect) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 			if _rect, ok := stage.Rect_Peers_reverseMap[inst]; ok {
 				res = _rect.Name
 			}
+		case "Obstacles":
+			if _rect, ok := stage.Rect_Obstacles_reverseMap[inst]; ok {
+				res = _rect.Name
+			}
 		}
 	}
 	return
@@ -718,6 +722,8 @@ func (inst *Rect) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 		switch reverseField.Fieldname {
 		case "Peers":
 			res = stage.Rect_Peers_reverseMap[inst]
+		case "Obstacles":
+			res = stage.Rect_Obstacles_reverseMap[inst]
 		}
 	}
 	return res

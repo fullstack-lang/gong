@@ -851,6 +851,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "RX"))
 		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "Peers"))
+		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "EnclosingRect"))
+		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "Obstacles"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Color"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "FillOpacity"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Stroke"))
@@ -887,7 +889,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "HasToolTip"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "ToolTipText"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "ToolTipPosition"))
-		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "EnclosingRect"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseX"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseY"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseEventKey"))
@@ -2914,6 +2915,29 @@ func (rect *Rect) GongMarshallField(stage *Stage, fieldName string) (res string)
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "EnclosingRect":
+		if rect.EnclosingRect != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosingRect")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", rect.EnclosingRect.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosingRect")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Obstacles":
+		var sb strings.Builder
+		for _, _rect := range rect.Obstacles {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", rect.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Obstacles")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _rect.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "HoveringTrigger":
 		var sb strings.Builder
 		for _, _condition := range rect.HoveringTrigger {
@@ -2984,19 +3008,6 @@ func (rect *Rect) GongMarshallField(stage *Stage, fieldName string) (res string)
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
-	case "EnclosingRect":
-		if rect.EnclosingRect != nil {
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosingRect")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", rect.EnclosingRect.GongGetIdentifier(stage))
-		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EnclosingRect")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
-		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Rect", fieldName)
 	}
@@ -4129,6 +4140,8 @@ func (rect *Rect) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "RX"))
 		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "Peers"))
+		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "EnclosingRect"))
+		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "Obstacles"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Color"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "FillOpacity"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Stroke"))
@@ -4165,7 +4178,6 @@ func (rect *Rect) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "HasToolTip"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "ToolTipText"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "ToolTipPosition"))
-		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "EnclosingRect"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseX"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseY"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseEventKey"))
