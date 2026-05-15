@@ -32,7 +32,9 @@ type Stager struct {
 
 	rootLibrary *Library
 
-	treeStage                *tree.Stage
+	treeStage *tree.Stage
+	// the tree stage can be very deep. The zoomTreeStage display on the tree starting from the current diagram.
+	zoomTreeStage            *tree.Stage
 	processDiagramSvgStage   *svg.Stage
 	structureDiagramSvgStage *svg.Stage
 	ssgStage                 *ssg.Stage
@@ -65,6 +67,7 @@ func NewStager(
 	// that do not develop their specific angular component
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	stager.treeStage = tree_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.zoomTreeStage = tree_stack.NewStack(r, "zoom tree", "", "", "", true, true).Stage
 	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
 	stager.processDiagramSvgStage = svg_stack.NewStack(r, "process diagram svg", "", "", "", true, true).Stage
 	stager.structureDiagramSvgStage = svg_stack.NewStack(r, "structure diagram svg", "", "", "", true, true).Stage
@@ -80,6 +83,7 @@ func NewStager(
 	}
 	afterCommit := func(stage *Stage) {
 		stager.tree()
+		stager.treeZoom()
 		stager.svg()
 		stager.button()
 		stager.load()
