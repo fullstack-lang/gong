@@ -662,18 +662,12 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.draggedRect) {
         rectsToUpdate.add(this.draggedRect)
       }
-      if (this.draggedRect?.Peers) {
-        for (let peer of this.draggedRect.Peers) {
-          rectsToUpdate.add(peer)
-        }
+      for (let peer of this.map_PeerRectAtMouseDown.keys()) {
+        rectsToUpdate.add(peer)
       }
 
-      for (let layer of this.gongsvgFrontRepo?.getFrontArray<svg.Layer>(svg.Layer.GONGSTRUCT_NAME)!) {
-        for (let rect of layer.Rects) {
-          if (rect.IsSelected) {
-            rectsToUpdate.add(rect)
-          }
-        }
+      for (let rect of this.map_SelectedRectAtMouseDown.keys()) {
+        rectsToUpdate.add(rect)
       }
 
       for (let rect of rectsToUpdate) {
@@ -843,49 +837,45 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       // Move peers and recompute their links
-      if (this.draggedRect!.Peers) {
-        for (let peer of this.draggedRect!.Peers) {
-          let peerAtMouseDown = this.map_PeerRectAtMouseDown.get(peer)
-          if (peerAtMouseDown) {
-            if (peer.CanMoveHorizontaly) {
-              peer.X = peerAtMouseDown.X + deltaX
-            }
-            if (peer.CanMoveVerticaly) {
-              peer.Y = peerAtMouseDown.Y + deltaY
-            }
-            this.constrainRect(peer)
-            // recompute segments of links connected to the resized peer
-            let peerLinkSet = this.map_Rect_ConnectedLinks.get(peer)
-            if (peerLinkSet != undefined) {
-              for (let link of peerLinkSet) {
-                let segments = drawSegmentsFromLink(link)
-                this.map_Link_Segment.set(link, segments)
-              }
+      for (let peer of this.map_PeerRectAtMouseDown.keys()) {
+        let peerAtMouseDown = this.map_PeerRectAtMouseDown.get(peer)
+        if (peerAtMouseDown) {
+          if (peer.CanMoveHorizontaly) {
+            peer.X = peerAtMouseDown.X + deltaX
+          }
+          if (peer.CanMoveVerticaly) {
+            peer.Y = peerAtMouseDown.Y + deltaY
+          }
+          this.constrainRect(peer)
+          // recompute segments of links connected to the resized peer
+          let peerLinkSet = this.map_Rect_ConnectedLinks.get(peer)
+          if (peerLinkSet != undefined) {
+            for (let link of peerLinkSet) {
+              let segments = drawSegmentsFromLink(link)
+              this.map_Link_Segment.set(link, segments)
             }
           }
         }
       }
 
-      for (let layer of this.gongsvgFrontRepo?.getFrontArray<svg.Layer>(svg.Layer.GONGSTRUCT_NAME)!) {
-        for (let rect_ of layer.Rects) {
-          if (rect_.IsSelected) {
-            let rectAtMouseDown_ = this.map_SelectedRectAtMouseDown.get(rect_)
-            if (rect_.CanMoveHorizontaly) {
-              rect_.X = rectAtMouseDown_!.X + deltaX
-            }
-            if (rect_.CanMoveVerticaly) {
-              rect_.Y = rectAtMouseDown_!.Y + deltaY
-            }
+      for (let rect_ of this.map_SelectedRectAtMouseDown.keys()) {
+        let rectAtMouseDown_ = this.map_SelectedRectAtMouseDown.get(rect_)
+        if (rectAtMouseDown_) {
+          if (rect_.CanMoveHorizontaly) {
+            rect_.X = rectAtMouseDown_.X + deltaX
+          }
+          if (rect_.CanMoveVerticaly) {
+            rect_.Y = rectAtMouseDown_.Y + deltaY
+          }
 
-            this.constrainRect(rect_)
+          this.constrainRect(rect_)
 
-            // recompute segments of links connected to the resized rect
-            let set = this.map_Rect_ConnectedLinks.get(rect_)
-            if (set != undefined) {
-              for (let link of set) {
-                let segments = drawSegmentsFromLink(link)
-                this.map_Link_Segment.set(link, segments)
-              }
+          // recompute segments of links connected to the resized rect
+          let set = this.map_Rect_ConnectedLinks.get(rect_)
+          if (set != undefined) {
+            for (let link of set) {
+              let segments = drawSegmentsFromLink(link)
+              this.map_Link_Segment.set(link, segments)
             }
           }
         }
@@ -1036,19 +1026,24 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
       this.map_SelectedRectAtMouseDown.clear()
-              this.map_PeerRectAtMouseDown.clear()
+      this.map_PeerRectAtMouseDown.clear()
       for (let layer of this.gongsvgFrontRepo?.getFrontArray<svg.Layer>(svg.Layer.GONGSTRUCT_NAME)!) {
         for (let rect of layer.Rects) {
           if (rect.IsSelected) {
             this.map_SelectedRectAtMouseDown.set(rect, structuredClone(rect))
+            if (rect.Peers) {
+              for (let peer of rect.Peers) {
+                this.map_PeerRectAtMouseDown.set(peer, structuredClone(peer))
+              }
+            }
           }
         }
       }
-              if (this.draggedRect.Peers) {
-                for (let peer of this.draggedRect.Peers) {
-                  this.map_PeerRectAtMouseDown.set(peer, structuredClone(peer))
-                }
-              }
+      if (this.draggedRect.Peers) {
+        for (let peer of this.draggedRect.Peers) {
+          this.map_PeerRectAtMouseDown.set(peer, structuredClone(peer))
+        }
+      }
     }
     if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && event.altKey) {
       this.State = StateEnumType.LINK_DRAWING
