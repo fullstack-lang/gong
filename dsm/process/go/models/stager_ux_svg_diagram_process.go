@@ -115,33 +115,27 @@ func (stager *Stager) drawProcessShapes(diagramProcess *DiagramProcess, layer *s
 			diffWidth := processShape.GetWidth() != updatedRect.Width
 			diffHeight := processShape.GetHeight() != updatedRect.Height
 
-			if diffX || diffY || diffWidth || diffHeight {
-				// deltaX := updatedRect.X - processShape.GetX()
-				// deltaY := updatedRect.Y - processShape.GetY()
+			if diffX || diffY {
 				processShape.SetX(updatedRect.X)
 				processShape.SetY(updatedRect.Y)
+
+				// no need to update the position of the participant shapes and task shapes that are within the process
+				// because they are peers of the process shape, so they will move together
+				stager.stage.CommitWithSuspendedCallbacks()
+				return
+			}
+			if diffWidth || diffHeight {
 				processShape.SetWidth(updatedRect.Width)
 				processShape.SetHeight(updatedRect.Height)
 
-				// // update the position of the participant shapes and task shapes that are within the process
-				// for _, participantShape := range diagramProcess.Participant_Shapes {
-				// 	if participantShape.Participant.GetOwningProcess() == processShape.GetAbstractElement() {
-				// 		participantShape.SetX(participantShape.GetX() + deltaX)
-				// 		participantShape.SetY(participantShape.GetY() + deltaY)
-				// 	}
-				// }
-
-				// for _, taskShape := range diagramProcess.Task_Shapes {
-				// 	if taskShape.Task.GetOwningParticipant().GetOwningProcess() == processShape.GetAbstractElement() {
-				// 		taskShape.SetX(taskShape.GetX() + deltaX)
-				// 		taskShape.SetY(taskShape.GetY() + deltaY)
-				// 	}
-				// }
-
-				stager.stage.CommitWithSuspendedCallbacks()
-			} else {
-				stager.probeForm.FillUpFormFromGongstruct(processShape.Process, GetPointerToGongstructName[*Process]())
+				// when heigth or width is updated, we need to update the position/size of the participants shapes and task shapes that are within the process
+				// this is performed in the semantic pass of the commit
+				stager.stage.Commit()
+				return
 			}
+
+			stager.probeForm.FillUpFormFromGongstruct(processShape.Process, GetPointerToGongstructName[*Process]())
+
 		}
 		diagramProcess.map_Process_Rect[processShape.Process] = rect
 	}

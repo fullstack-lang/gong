@@ -54,6 +54,13 @@ type RectPointersEncoding struct {
 	// field Peers is a slice of pointers to another Struct (optional or 0..1)
 	Peers IntSlice `gorm:"type:TEXT"`
 
+	// field EnclosingRect is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	EnclosingRectID sql.NullInt64
+
+	// field Obstacles is a slice of pointers to another Struct (optional or 0..1)
+	Obstacles IntSlice `gorm:"type:TEXT"`
+
 	// field HoveringTrigger is a slice of pointers to another Struct (optional or 0..1)
 	HoveringTrigger IntSlice `gorm:"type:TEXT"`
 
@@ -74,10 +81,6 @@ type RectPointersEncoding struct {
 
 	// field RectAnchoredPngImages is a slice of pointers to another Struct (optional or 0..1)
 	RectAnchoredPngImages IntSlice `gorm:"type:TEXT"`
-
-	// field EnclosingRect is a pointer to another Struct (optional or 0..1)
-	// This field is generated into another field to enable AS ONE association
-	EnclosingRectID sql.NullInt64
 }
 
 // RectDB describes a rect in the database
@@ -509,6 +512,36 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(rectDB.RectPointersEncoding.Peers, int(rectAssocEnd_DB.ID))
 		}
 
+		// commit pointer value rect.EnclosingRect translates to updating the rect.EnclosingRectID
+		rectDB.EnclosingRectID.Valid = true // allow for a 0 value (nil association)
+		if rect.EnclosingRect != nil {
+			if EnclosingRectId, ok := backRepo.BackRepoRect.Map_RectPtr_RectDBID[rect.EnclosingRect]; ok {
+				rectDB.EnclosingRectID.Int64 = int64(EnclosingRectId)
+				rectDB.EnclosingRectID.Valid = true
+			}
+		} else {
+			rectDB.EnclosingRectID.Int64 = 0
+			rectDB.EnclosingRectID.Valid = true
+		}
+
+		// 1. reset
+		rectDB.RectPointersEncoding.Obstacles = make([]int, 0)
+		// 2. encode
+		for _, rectAssocEnd := range rect.Obstacles {
+			rectAssocEnd_DB :=
+				backRepo.BackRepoRect.GetRectDBFromRectPtr(rectAssocEnd)
+
+			// the stage might be inconsistant, meaning that the rectAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if rectAssocEnd_DB == nil {
+				continue
+			}
+
+			rectDB.RectPointersEncoding.Obstacles =
+				append(rectDB.RectPointersEncoding.Obstacles, int(rectAssocEnd_DB.ID))
+		}
+
 		// 1. reset
 		rectDB.RectPointersEncoding.HoveringTrigger = make([]int, 0)
 		// 2. encode
@@ -635,18 +668,6 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(rectDB.RectPointersEncoding.RectAnchoredPngImages, int(rectanchoredpngimageAssocEnd_DB.ID))
 		}
 
-		// commit pointer value rect.EnclosingRect translates to updating the rect.EnclosingRectID
-		rectDB.EnclosingRectID.Valid = true // allow for a 0 value (nil association)
-		if rect.EnclosingRect != nil {
-			if EnclosingRectId, ok := backRepo.BackRepoRect.Map_RectPtr_RectDBID[rect.EnclosingRect]; ok {
-				rectDB.EnclosingRectID.Int64 = int64(EnclosingRectId)
-				rectDB.EnclosingRectID.Valid = true
-			}
-		} else {
-			rectDB.EnclosingRectID.Int64 = 0
-			rectDB.EnclosingRectID.Valid = true
-		}
-
 		_, err := backRepoRect.db.Save(rectDB)
 		if err != nil {
 			log.Fatal(err)
@@ -768,6 +789,36 @@ func (rectDB *RectDB) DecodePointers(backRepo *BackRepoStruct, rect *models.Rect
 		rect.Peers = append(rect.Peers, backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(_Rectid)])
 	}
 
+	// EnclosingRect field
+	{
+		id := rectDB.EnclosingRectID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: rect.EnclosingRect, unknown pointer id", id)
+				rect.EnclosingRect = nil
+			} else {
+				// updates only if field has changed
+				if rect.EnclosingRect == nil || rect.EnclosingRect != tmp {
+					rect.EnclosingRect = tmp
+				}
+			}
+		} else {
+			rect.EnclosingRect = nil
+		}
+	}
+
+	// This loop redeem rect.Obstacles in the stage from the encode in the back repo
+	// It parses all RectDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	rect.Obstacles = rect.Obstacles[:0]
+	for _, _Rectid := range rectDB.RectPointersEncoding.Obstacles {
+		rect.Obstacles = append(rect.Obstacles, backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(_Rectid)])
+	}
+
 	// This loop redeem rect.HoveringTrigger in the stage from the encode in the back repo
 	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
@@ -829,27 +880,6 @@ func (rectDB *RectDB) DecodePointers(backRepo *BackRepoStruct, rect *models.Rect
 	rect.RectAnchoredPngImages = rect.RectAnchoredPngImages[:0]
 	for _, _RectAnchoredPngImageid := range rectDB.RectPointersEncoding.RectAnchoredPngImages {
 		rect.RectAnchoredPngImages = append(rect.RectAnchoredPngImages, backRepo.BackRepoRectAnchoredPngImage.Map_RectAnchoredPngImageDBID_RectAnchoredPngImagePtr[uint(_RectAnchoredPngImageid)])
-	}
-
-	// EnclosingRect field
-	{
-		id := rectDB.EnclosingRectID.Int64
-		if id != 0 {
-			tmp, ok := backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(id)]
-
-			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
-			if !ok {
-				log.Println("DecodePointers: rect.EnclosingRect, unknown pointer id", id)
-				rect.EnclosingRect = nil
-			} else {
-				// updates only if field has changed
-				if rect.EnclosingRect == nil || rect.EnclosingRect != tmp {
-					rect.EnclosingRect = tmp
-				}
-			}
-		} else {
-			rect.EnclosingRect = nil
-		}
 	}
 
 }
