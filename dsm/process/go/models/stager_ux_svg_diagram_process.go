@@ -725,7 +725,7 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 				textXOffset = 24.0
 			}
 
-			rectAnchoredLink := &svg.LinkAnchoredText{
+			textAnchoredText := &svg.LinkAnchoredText{
 				Name:    dataShape.Name,
 				Content: data.Name,
 				Presentation: svg.Presentation{
@@ -741,7 +741,7 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 				Y_Offset: float64(-nbDataShapes+idx+1)*18.0 - 4.0,
 				X_Offset: textXOffset,
 			}
-			link.TextAtCorner = append(link.TextAtCorner, rectAnchoredLink)
+			link.TextAtCorner = append(link.TextAtCorner, textAnchoredText)
 
 			if data.SVG_Path != "" {
 				if data.InverseAppliedScaling == 0 {

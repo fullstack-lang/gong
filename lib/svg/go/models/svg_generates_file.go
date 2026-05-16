@@ -82,22 +82,16 @@ func (svg *SVG) GenerateString() (result string, maxX, maxY float64) {
 
 				// draw the text at the end of the link
 				if segment.Type == EndSegment || idx == len(segments)-1 {
-					for _, linkAnchoredText := range link.TextAtArrowEnd {
-						linkAnchoredText.WriteSVG(&sb, link, &segment)
-					}
 					for _, linkAnchoredPath := range link.PathAtArrowEnd {
 						maxX_, maxY_ := linkAnchoredPath.WriteSVG(&sb, link, &segment)
 						updateMaxx(maxX_, maxY_, &maxX, &maxY)
 					}
+					for _, linkAnchoredText := range link.TextAtArrowEnd {
+						linkAnchoredText.WriteSVG(&sb, link, &segment)
+					}
 				}
 
 				if segment.Type == StartSegment || idx == 0 {
-					for _, linkAnchoredText := range link.TextAtArrowStart {
-						linkAnchoredText.WriteSVG(&sb, link, &segment)
-					}
-					for _, linkAnchoredText := range link.TextAtCorner {
-						linkAnchoredText.WriteSVGCorner(&sb, link, segments)
-					}
 					for _, linkAnchoredPath := range link.PathAtArrowStart {
 						maxX_, maxY_ := linkAnchoredPath.WriteSVG(&sb, link, &segment)
 						updateMaxx(maxX_, maxY_, &maxX, &maxY)
@@ -105,6 +99,12 @@ func (svg *SVG) GenerateString() (result string, maxX, maxY float64) {
 					for _, linkAnchoredPath := range link.PathAtCorner {
 						maxX_, maxY_ := linkAnchoredPath.WriteSVGCorner(&sb, link, segments)
 						updateMaxx(maxX_, maxY_, &maxX, &maxY)
+					}
+					for _, linkAnchoredText := range link.TextAtArrowStart {
+						linkAnchoredText.WriteSVG(&sb, link, &segment)
+					}
+					for _, linkAnchoredText := range link.TextAtCorner {
+						linkAnchoredText.WriteSVGCorner(&sb, link, segments)
 					}
 				}
 			}
