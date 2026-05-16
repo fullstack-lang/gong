@@ -600,7 +600,31 @@
                 "-embeddedDiagrams=false",
             ]
         },
-                {
+        {
+            "name": "process: go run data/ifps_ops.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/ifps_ops.go",
+                "-embeddedDiagrams=false",
+            ]
+        },
+        {
+            "name": "process : merge",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process/merge/main.go",
+            "cwd": "${workspaceFolder}/dsm/process/go/cmd/process/merge",
+            "args": [
+                "../data/icao444.go",
+                "../data/rqs_spl_v1.go",
+                "../data/rqs_spl_v2.go"
+            ]
+        },
+        {
             "name": "process: go run data/rqs_spl_all.go",
             "type": "go",
             "request": "launch",
