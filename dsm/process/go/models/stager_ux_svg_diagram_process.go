@@ -219,6 +219,11 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 		rect.Y = rectOfOwningProcess.Y + verticalTopMargin + verticalTopMarginForTitle
 		rect.Height = rectOfOwningProcess.Height - verticalTopMargin - verticalBottomMargin - verticalTopMarginForTitle
 
+		if participantShape.Participant.IsProcessResource {
+			rect.Y = rectOfOwningProcess.Y + verticalTopMargin
+			rect.Height = rectOfOwningProcess.Height - verticalTopMargin - verticalBottomMargin
+		}
+
 		// make the participant shape peer of the process shape
 		rect.Peers = append(rect.Peers, rectOfOwningProcess)
 		rectOfOwningProcess.Peers = append(rectOfOwningProcess.Peers, rect)
@@ -300,26 +305,34 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 		}
-		{
-			titleBox := &svg.RectAnchoredRect{
-				Name: participantShape.GetAbstractElement().GetName(),
-				Presentation: svg.Presentation{
-					Stroke:        "#E0E0E0",
-					StrokeWidth:   1,
-					StrokeOpacity: 1,
-				},
-				X_Offset:       0,
-				Y_Offset:       -verticalTopMarginForTitle,
-				Height:         verticalTopMarginForTitle,
-				Width:          rect.Width,
-				RectAnchorType: svg.RECT_TOP_LEFT,
-			}
-			rect.RectAnchoredRects = append(rect.RectAnchoredRects, titleBox)
+		titleBox := &svg.RectAnchoredRect{
+			Name: participantShape.GetAbstractElement().GetName(),
+			Presentation: svg.Presentation{
+				Stroke:        "#E0E0E0",
+				StrokeWidth:   1,
+				StrokeOpacity: 1,
+			},
+			X_Offset:       0,
+			Y_Offset:       -verticalTopMarginForTitle,
+			Height:         verticalTopMarginForTitle,
+			Width:          rect.Width,
+			RectAnchorType: svg.RECT_TOP_LEFT,
 		}
+		rect.RectAnchoredRects = append(rect.RectAnchoredRects, titleBox)
 
 		boxHeigth, anchoredRect := stager.drawAllocatedProcessesAndResources(participantShape.Participant, diagramProcess, rect, svg.RECT_TOP)
 		_ = boxHeigth
 		_ = anchoredRect
+
+		if participantShape.Participant.IsProcessResource {
+			if boxHeigth > 0 {
+				titleBox.Y_Offset = 0
+				titleBox.Height = boxHeigth
+			} else {
+				titleBox.Height = 0
+				titleBox.StrokeWidth = 0
+			}
+		}
 
 		currentWeight += shapeWeight
 	}

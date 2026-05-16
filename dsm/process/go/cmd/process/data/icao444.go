@@ -27,6 +27,10 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
+	__AllocatedResourceShape__00000000_ := (&models.AllocatedResourceShape{Name: `DiagramProcess-Aircraft Operator-AO`}).Stage(stage)
+	__AllocatedResourceShape__00000001_ := (&models.AllocatedResourceShape{Name: `DiagramProcess-ATS Reporting Office-ARO`}).Stage(stage)
+	__AllocatedResourceShape__00000002_ := (&models.AllocatedResourceShape{Name: `DiagramProcess-ATS Unit-ATC`}).Stage(stage)
+
 	__Data__00000000_ := (&models.Data{Name: `FPL`}).Stage(stage)
 	__Data__00000001_ := (&models.Data{Name: `CHG`}).Stage(stage)
 	__Data__00000002_ := (&models.Data{Name: `CNL`}).Stage(stage)
@@ -38,7 +42,15 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: `ICAO 4444 Chapter 11`}).Stage(stage)
 
-	__Process__00000000_ := (&models.Process{Name: `Flight Plan Management`}).Stage(stage)
+	__Participant__00000000_ := (&models.Participant{Name: `Aircraft Operator`}).Stage(stage)
+	__Participant__00000001_ := (&models.Participant{Name: `ATS Reporting Office`}).Stage(stage)
+	__Participant__00000002_ := (&models.Participant{Name: `ATS Unit`}).Stage(stage)
+
+	__ParticipantShape__00000000_ := (&models.ParticipantShape{Name: `Aircraft Operator-DiagramProcess`}).Stage(stage)
+	__ParticipantShape__00000001_ := (&models.ParticipantShape{Name: `ATS Reporting Office-DiagramProcess`}).Stage(stage)
+	__ParticipantShape__00000002_ := (&models.ParticipantShape{Name: `ATS Unit-DiagramProcess`}).Stage(stage)
+
+	__Process__00000000_ := (&models.Process{Name: `ARO Message Exchanges`}).Stage(stage)
 
 	__ProcessShape__00000000_ := (&models.ProcessShape{Name: `ProcessShape`}).Stage(stage)
 
@@ -47,6 +59,12 @@ func _(stage *models.Stage) {
 	__Resource__00000002_ := (&models.Resource{Name: `ATC`}).Stage(stage)
 
 	// insertion point for initialization of values
+
+	__AllocatedResourceShape__00000000_.Name = `DiagramProcess-Aircraft Operator-AO`
+
+	__AllocatedResourceShape__00000001_.Name = `DiagramProcess-ATS Reporting Office-ARO`
+
+	__AllocatedResourceShape__00000002_.Name = `DiagramProcess-ATS Unit-ATC`
 
 	__Data__00000000_.Name = `FPL`
 	__Data__00000000_.Acronym = ``
@@ -98,10 +116,10 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.IsShowPrefix = false
 	__DiagramProcess__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000000_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000000_.Width = 900.000000
-	__DiagramProcess__00000000_.Height = 1350.000000
+	__DiagramProcess__00000000_.Width = 1167.000000
+	__DiagramProcess__00000000_.Height = 1327.000000
 	__DiagramProcess__00000000_.IsProcesssNodeExpanded = false
-	__DiagramProcess__00000000_.IsParticipantsNodeExpanded = false
+	__DiagramProcess__00000000_.IsParticipantsNodeExpanded = true
 	__DiagramProcess__00000000_.IsExternalParticipantsNodeExpanded = false
 	__DiagramProcess__00000000_.IsNotesNodeExpanded = false
 
@@ -118,19 +136,76 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsNotesNodeExpanded = false
 	__Library__00000000_.IsExpandedTmp = true
 
-	__Process__00000000_.Name = `Flight Plan Management`
-	__Process__00000000_.Description = ``
+	__Participant__00000000_.Name = `Aircraft Operator`
+	__Participant__00000000_.IsProcessResource = false
+	__Participant__00000000_.Description = `Originator of initial flight plan data and operational modifications`
+	__Participant__00000000_.IsResourcesNodeExpanded = true
+	__Participant__00000000_.IsProcessesNodeExpanded = false
+	__Participant__00000000_.ComputedPrefix = ``
+	__Participant__00000000_.IsTasksNodeExpanded = false
+	__Participant__00000000_.IsControlFlowsNodeExpanded = false
+	__Participant__00000000_.IsDataFlowsNodeExpanded = false
+
+	__Participant__00000001_.Name = `ATS Reporting Office`
+	__Participant__00000001_.IsProcessResource = false
+	__Participant__00000001_.Description = `Receives, validates, accepts, and distributes flight plan-related messages`
+	__Participant__00000001_.IsResourcesNodeExpanded = true
+	__Participant__00000001_.IsProcessesNodeExpanded = false
+	__Participant__00000001_.ComputedPrefix = ``
+	__Participant__00000001_.IsTasksNodeExpanded = false
+	__Participant__00000001_.IsControlFlowsNodeExpanded = false
+	__Participant__00000001_.IsDataFlowsNodeExpanded = false
+
+	__Participant__00000002_.Name = `ATS Unit`
+	__Participant__00000002_.IsProcessResource = false
+	__Participant__00000002_.Description = `Recipient of distributed movement and control data used for traffic separation`
+	__Participant__00000002_.IsResourcesNodeExpanded = true
+	__Participant__00000002_.IsProcessesNodeExpanded = false
+	__Participant__00000002_.ComputedPrefix = ``
+	__Participant__00000002_.IsTasksNodeExpanded = false
+	__Participant__00000002_.IsControlFlowsNodeExpanded = false
+	__Participant__00000002_.IsDataFlowsNodeExpanded = false
+
+	__ParticipantShape__00000000_.Name = `Aircraft Operator-DiagramProcess`
+	__ParticipantShape__00000000_.IsExpanded = false
+	__ParticipantShape__00000000_.X = 153.916317
+	__ParticipantShape__00000000_.Y = 178.327215
+	__ParticipantShape__00000000_.Width = 250.000000
+	__ParticipantShape__00000000_.Height = 70.000000
+	__ParticipantShape__00000000_.IsHidden = false
+	__ParticipantShape__00000000_.WidthWeight = 1.000000
+
+	__ParticipantShape__00000001_.Name = `ATS Reporting Office-DiagramProcess`
+	__ParticipantShape__00000001_.IsExpanded = false
+	__ParticipantShape__00000001_.X = 108.634825
+	__ParticipantShape__00000001_.Y = 100.269741
+	__ParticipantShape__00000001_.Width = 250.000000
+	__ParticipantShape__00000001_.Height = 70.000000
+	__ParticipantShape__00000001_.IsHidden = false
+	__ParticipantShape__00000001_.WidthWeight = 1.000000
+
+	__ParticipantShape__00000002_.Name = `ATS Unit-DiagramProcess`
+	__ParticipantShape__00000002_.IsExpanded = false
+	__ParticipantShape__00000002_.X = 143.845785
+	__ParticipantShape__00000002_.Y = 168.047525
+	__ParticipantShape__00000002_.Width = 250.000000
+	__ParticipantShape__00000002_.Height = 70.000000
+	__ParticipantShape__00000002_.IsHidden = false
+	__ParticipantShape__00000002_.WidthWeight = 1.000000
+
+	__Process__00000000_.Name = `ARO Message Exchanges`
+	__Process__00000000_.Description = `Process governing the submission, validation, modification, and distribution of ATS messages via the ARO.`
 	__Process__00000000_.ComputedPrefix = ``
 	__Process__00000000_.SVG_Path = ``
 	__Process__00000000_.InverseAppliedScaling = 0.000000
 	__Process__00000000_.IsSubProcessNodeExpanded = false
-	__Process__00000000_.IsDataFlowsNodeExpanded = false
+	__Process__00000000_.IsDataFlowsNodeExpanded = true
 
 	__ProcessShape__00000000_.Name = `ProcessShape`
 	__ProcessShape__00000000_.IsExpanded = false
-	__ProcessShape__00000000_.X = 100.000000
-	__ProcessShape__00000000_.Y = 50.000000
-	__ProcessShape__00000000_.Width = 500.000000
+	__ProcessShape__00000000_.X = 138.000000
+	__ProcessShape__00000000_.Y = 27.000000
+	__ProcessShape__00000000_.Width = 729.000000
 	__ProcessShape__00000000_.Height = 1000.000000
 	__ProcessShape__00000000_.IsHidden = false
 
@@ -156,7 +231,22 @@ func _(stage *models.Stage) {
 	__Resource__00000002_.InverseAppliedScaling = 0.000000
 
 	// insertion point for setup of pointers
+	__AllocatedResourceShape__00000000_.Participant = __Participant__00000000_
+	__AllocatedResourceShape__00000000_.Resource = __Resource__00000000_
+	__AllocatedResourceShape__00000001_.Participant = __Participant__00000001_
+	__AllocatedResourceShape__00000001_.Resource = __Resource__00000001_
+	__AllocatedResourceShape__00000002_.Participant = __Participant__00000002_
+	__AllocatedResourceShape__00000002_.Resource = __Resource__00000002_
 	__DiagramProcess__00000000_.Process_Shapes = append(__DiagramProcess__00000000_.Process_Shapes, __ProcessShape__00000000_)
+	__DiagramProcess__00000000_.Participant_Shapes = append(__DiagramProcess__00000000_.Participant_Shapes, __ParticipantShape__00000000_)
+	__DiagramProcess__00000000_.Participant_Shapes = append(__DiagramProcess__00000000_.Participant_Shapes, __ParticipantShape__00000001_)
+	__DiagramProcess__00000000_.Participant_Shapes = append(__DiagramProcess__00000000_.Participant_Shapes, __ParticipantShape__00000002_)
+	__DiagramProcess__00000000_.ParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000000_.ParticipantWhoseNodeIsExpanded, __Participant__00000000_)
+	__DiagramProcess__00000000_.ParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000000_.ParticipantWhoseNodeIsExpanded, __Participant__00000001_)
+	__DiagramProcess__00000000_.ParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000000_.ParticipantWhoseNodeIsExpanded, __Participant__00000002_)
+	__DiagramProcess__00000000_.AllocatedResourceShapes = append(__DiagramProcess__00000000_.AllocatedResourceShapes, __AllocatedResourceShape__00000000_)
+	__DiagramProcess__00000000_.AllocatedResourceShapes = append(__DiagramProcess__00000000_.AllocatedResourceShapes, __AllocatedResourceShape__00000001_)
+	__DiagramProcess__00000000_.AllocatedResourceShapes = append(__DiagramProcess__00000000_.AllocatedResourceShapes, __AllocatedResourceShape__00000002_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000000_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000000_)
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000000_)
@@ -168,7 +258,16 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000000_)
 	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000001_)
 	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000002_)
+	__Participant__00000000_.Resources = append(__Participant__00000000_.Resources, __Resource__00000000_)
+	__Participant__00000001_.Resources = append(__Participant__00000001_.Resources, __Resource__00000001_)
+	__Participant__00000002_.Resources = append(__Participant__00000002_.Resources, __Resource__00000002_)
+	__ParticipantShape__00000000_.Participant = __Participant__00000000_
+	__ParticipantShape__00000001_.Participant = __Participant__00000001_
+	__ParticipantShape__00000002_.Participant = __Participant__00000002_
 	__Process__00000000_.DiagramProcesss = append(__Process__00000000_.DiagramProcesss, __DiagramProcess__00000000_)
 	__Process__00000000_.DiagramProcessWhoseNodeIsExpanded = append(__Process__00000000_.DiagramProcessWhoseNodeIsExpanded, __DiagramProcess__00000000_)
+	__Process__00000000_.Participants = append(__Process__00000000_.Participants, __Participant__00000000_)
+	__Process__00000000_.Participants = append(__Process__00000000_.Participants, __Participant__00000001_)
+	__Process__00000000_.Participants = append(__Process__00000000_.Participants, __Participant__00000002_)
 	__ProcessShape__00000000_.Process = __Process__00000000_
 }
