@@ -184,9 +184,9 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
-	__Library__00000000_.IsProcessesNodeExpanded = true
-	__Library__00000000_.IsDataFlowsNodeExpanded = true
-	__Library__00000000_.IsDatasNodeExpanded = true
+	__Library__00000000_.IsProcessesNodeExpanded = false
+	__Library__00000000_.IsDataFlowsNodeExpanded = false
+	__Library__00000000_.IsDatasNodeExpanded = false
 	__Library__00000000_.IsResourcesNodeExpanded = false
 	__Library__00000000_.IsNotesNodeExpanded = false
 	__Library__00000000_.IsExpandedTmp = true
@@ -396,7 +396,6 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.AllocatedResourceShapes = append(__DiagramProcess__00000000_.AllocatedResourceShapes, __AllocatedResourceShape__00000001_)
 	__DiagramProcess__00000000_.AllocatedResourceShapes = append(__DiagramProcess__00000000_.AllocatedResourceShapes, __AllocatedResourceShape__00000002_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000000_)
-	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000000_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000000_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000003_)
 	__Library__00000000_.DataFlowsWhoseNodeIsExpanded = append(__Library__00000000_.DataFlowsWhoseNodeIsExpanded, __DataFlow__00000000_)
@@ -424,7 +423,6 @@ func _(stage *models.Stage) {
 	__ParticipantShape__00000000_.Participant = __Participant__00000000_
 	__ParticipantShape__00000001_.Participant = __Participant__00000001_
 	__Process__00000000_.DiagramProcesss = append(__Process__00000000_.DiagramProcesss, __DiagramProcess__00000000_)
-	__Process__00000000_.DiagramProcessWhoseNodeIsExpanded = append(__Process__00000000_.DiagramProcessWhoseNodeIsExpanded, __DiagramProcess__00000000_)
 	__Process__00000000_.Participants = append(__Process__00000000_.Participants, __Participant__00000000_)
 	__Process__00000000_.Participants = append(__Process__00000000_.Participants, __Participant__00000001_)
 	__Process__00000000_.DataFlows = append(__Process__00000000_.DataFlows, __DataFlow__00000000_)
