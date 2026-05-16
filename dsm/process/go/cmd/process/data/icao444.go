@@ -31,12 +31,30 @@ func _(stage *models.Stage) {
 	__AllocatedResourceShape__00000001_ := (&models.AllocatedResourceShape{Name: `DiagramProcess-ATS Reporting Office-ARO`}).Stage(stage)
 	__AllocatedResourceShape__00000002_ := (&models.AllocatedResourceShape{Name: `DiagramProcess-ATS Unit-ATC`}).Stage(stage)
 
+	__ControlFlow__00000000_ := (&models.ControlFlow{Name: `"Submit Flight Plan" to "Manage Operational Changes"`}).Stage(stage)
+	__ControlFlow__00000001_ := (&models.ControlFlow{Name: `"Validate and Accept" to "Distribute ATS Messages"`}).Stage(stage)
+	__ControlFlow__00000002_ := (&models.ControlFlow{Name: `"Ingest Flight Data" to "Log Flight Movement"`}).Stage(stage)
+	__ControlFlow__00000003_ := (&models.ControlFlow{Name: `"" to "Submit Flight Plan"`}).Stage(stage)
+	__ControlFlow__00000004_ := (&models.ControlFlow{Name: `"Log Flight Movement" to ""`}).Stage(stage)
+
+	__ControlFlowShape__00000000_ := (&models.ControlFlowShape{Name: `"Submit Flight Plan" to "Manage Operational Changes"`}).Stage(stage)
+	__ControlFlowShape__00000001_ := (&models.ControlFlowShape{Name: `"Validate and Accept" to "Distribute ATS Messages"`}).Stage(stage)
+	__ControlFlowShape__00000002_ := (&models.ControlFlowShape{Name: `"Ingest Flight Data" to "Log Flight Movement"`}).Stage(stage)
+	__ControlFlowShape__00000003_ := (&models.ControlFlowShape{Name: `"" to "Submit Flight Plan"`}).Stage(stage)
+	__ControlFlowShape__00000004_ := (&models.ControlFlowShape{Name: `"Log Flight Movement" to ""`}).Stage(stage)
+
 	__Data__00000000_ := (&models.Data{Name: `FPL`}).Stage(stage)
 	__Data__00000001_ := (&models.Data{Name: `CHG`}).Stage(stage)
 	__Data__00000002_ := (&models.Data{Name: `CNL`}).Stage(stage)
 	__Data__00000003_ := (&models.Data{Name: `DLA`}).Stage(stage)
 	__Data__00000004_ := (&models.Data{Name: `DEP`}).Stage(stage)
 	__Data__00000005_ := (&models.Data{Name: `ARR`}).Stage(stage)
+
+	__DataFlow__00000000_ := (&models.DataFlow{Name: `"Submit Flight Plan" to "Validate and Accept"`}).Stage(stage)
+
+	__DataFlowShape__00000000_ := (&models.DataFlowShape{Name: `"Submit Flight Plan" to "Validate and Accept"`}).Stage(stage)
+
+	__DataShape__00000000_ := (&models.DataShape{Name: `"Submit Flight Plan" to "Validate and Accept"-"Submit Flight Plan" to "Validate and Accept"-DiagramProcess`}).Stage(stage)
 
 	__DiagramProcess__00000000_ := (&models.DiagramProcess{Name: `DiagramProcess`}).Stage(stage)
 
@@ -58,6 +76,24 @@ func _(stage *models.Stage) {
 	__Resource__00000001_ := (&models.Resource{Name: `ARO`}).Stage(stage)
 	__Resource__00000002_ := (&models.Resource{Name: `ATC`}).Stage(stage)
 
+	__Task__00000000_ := (&models.Task{Name: `Submit Flight Plan`}).Stage(stage)
+	__Task__00000001_ := (&models.Task{Name: `Manage Operational Changes`}).Stage(stage)
+	__Task__00000002_ := (&models.Task{Name: `Validate and Accept`}).Stage(stage)
+	__Task__00000003_ := (&models.Task{Name: `Distribute ATS Messages`}).Stage(stage)
+	__Task__00000004_ := (&models.Task{Name: `Ingest Flight Data`}).Stage(stage)
+	__Task__00000005_ := (&models.Task{Name: `Log Flight Movement`}).Stage(stage)
+	__Task__00000006_ := (&models.Task{Name: ``}).Stage(stage)
+	__Task__00000007_ := (&models.Task{Name: ``}).Stage(stage)
+
+	__TaskShape__00000000_ := (&models.TaskShape{Name: `Submit Flight Plan-DiagramProcess`}).Stage(stage)
+	__TaskShape__00000001_ := (&models.TaskShape{Name: `Manage Operational Changes-DiagramProcess`}).Stage(stage)
+	__TaskShape__00000002_ := (&models.TaskShape{Name: `Validate and Accept-DiagramProcess`}).Stage(stage)
+	__TaskShape__00000003_ := (&models.TaskShape{Name: `Distribute ATS Messages-DiagramProcess`}).Stage(stage)
+	__TaskShape__00000004_ := (&models.TaskShape{Name: `Ingest Flight Data-DiagramProcess`}).Stage(stage)
+	__TaskShape__00000005_ := (&models.TaskShape{Name: `Log Flight Movement-DiagramProcess`}).Stage(stage)
+	__TaskShape__00000006_ := (&models.TaskShape{Name: `-DiagramProcess`}).Stage(stage)
+	__TaskShape__00000007_ := (&models.TaskShape{Name: `-DiagramProcess`}).Stage(stage)
+
 	// insertion point for initialization of values
 
 	__AllocatedResourceShape__00000000_.Name = `DiagramProcess-Aircraft Operator-AO`
@@ -65,6 +101,66 @@ func _(stage *models.Stage) {
 	__AllocatedResourceShape__00000001_.Name = `DiagramProcess-ATS Reporting Office-ARO`
 
 	__AllocatedResourceShape__00000002_.Name = `DiagramProcess-ATS Unit-ATC`
+
+	__ControlFlow__00000000_.Name = `"Submit Flight Plan" to "Manage Operational Changes"`
+	__ControlFlow__00000000_.Description = ``
+	__ControlFlow__00000000_.ComputedPrefix = ``
+
+	__ControlFlow__00000001_.Name = `"Validate and Accept" to "Distribute ATS Messages"`
+	__ControlFlow__00000001_.Description = ``
+	__ControlFlow__00000001_.ComputedPrefix = ``
+
+	__ControlFlow__00000002_.Name = `"Ingest Flight Data" to "Log Flight Movement"`
+	__ControlFlow__00000002_.Description = ``
+	__ControlFlow__00000002_.ComputedPrefix = ``
+
+	__ControlFlow__00000003_.Name = `"" to "Submit Flight Plan"`
+	__ControlFlow__00000003_.Description = ``
+	__ControlFlow__00000003_.ComputedPrefix = ``
+
+	__ControlFlow__00000004_.Name = `"Log Flight Movement" to ""`
+	__ControlFlow__00000004_.Description = ``
+	__ControlFlow__00000004_.ComputedPrefix = ``
+
+	__ControlFlowShape__00000000_.Name = `"Submit Flight Plan" to "Manage Operational Changes"`
+	__ControlFlowShape__00000000_.StartRatio = 0.449246
+	__ControlFlowShape__00000000_.EndRatio = 0.419955
+	__ControlFlowShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000000_.CornerOffsetRatio = 1.973017
+	__ControlFlowShape__00000000_.IsHidden = false
+
+	__ControlFlowShape__00000001_.Name = `"Validate and Accept" to "Distribute ATS Messages"`
+	__ControlFlowShape__00000001_.StartRatio = 0.500000
+	__ControlFlowShape__00000001_.EndRatio = 0.500000
+	__ControlFlowShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000001_.CornerOffsetRatio = 1.148260
+	__ControlFlowShape__00000001_.IsHidden = false
+
+	__ControlFlowShape__00000002_.Name = `"Ingest Flight Data" to "Log Flight Movement"`
+	__ControlFlowShape__00000002_.StartRatio = 0.441208
+	__ControlFlowShape__00000002_.EndRatio = 0.499850
+	__ControlFlowShape__00000002_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000002_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000002_.CornerOffsetRatio = 1.500000
+	__ControlFlowShape__00000002_.IsHidden = false
+
+	__ControlFlowShape__00000003_.Name = `"" to "Submit Flight Plan"`
+	__ControlFlowShape__00000003_.StartRatio = 1.000000
+	__ControlFlowShape__00000003_.EndRatio = 0.500000
+	__ControlFlowShape__00000003_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000003_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000003_.CornerOffsetRatio = 3.412422
+	__ControlFlowShape__00000003_.IsHidden = false
+
+	__ControlFlowShape__00000004_.Name = `"Log Flight Movement" to ""`
+	__ControlFlowShape__00000004_.StartRatio = 0.552734
+	__ControlFlowShape__00000004_.EndRatio = 0.786619
+	__ControlFlowShape__00000004_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000004_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ControlFlowShape__00000004_.CornerOffsetRatio = 1.500000
+	__ControlFlowShape__00000004_.IsHidden = false
 
 	__Data__00000000_.Name = `FPL`
 	__Data__00000000_.Acronym = ``
@@ -108,6 +204,22 @@ func _(stage *models.Stage) {
 	__Data__00000005_.SVG_Path = ``
 	__Data__00000005_.InverseAppliedScaling = 0.000000
 
+	__DataFlow__00000000_.Name = `"Submit Flight Plan" to "Validate and Accept"`
+	__DataFlow__00000000_.Description = ``
+	__DataFlow__00000000_.ComputedPrefix = ``
+	__DataFlow__00000000_.Type = models.DataFlow_Task2Task
+	__DataFlow__00000000_.IsDatasNodeExpanded = false
+
+	__DataFlowShape__00000000_.Name = `"Submit Flight Plan" to "Validate and Accept"`
+	__DataFlowShape__00000000_.StartRatio = 0.500000
+	__DataFlowShape__00000000_.EndRatio = 0.148260
+	__DataFlowShape__00000000_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__DataFlowShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__DataFlowShape__00000000_.CornerOffsetRatio = 1.194045
+	__DataFlowShape__00000000_.IsHidden = false
+
+	__DataShape__00000000_.Name = `"Submit Flight Plan" to "Validate and Accept"-"Submit Flight Plan" to "Validate and Accept"-DiagramProcess`
+
 	__DiagramProcess__00000000_.Name = `DiagramProcess`
 	__DiagramProcess__00000000_.Description = ``
 	__DiagramProcess__00000000_.ComputedPrefix = ``
@@ -116,8 +228,8 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.IsShowPrefix = false
 	__DiagramProcess__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000000_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000000_.Width = 1167.000000
-	__DiagramProcess__00000000_.Height = 1327.000000
+	__DiagramProcess__00000000_.Width = 1347.000000
+	__DiagramProcess__00000000_.Height = 1375.000000
 	__DiagramProcess__00000000_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000000_.IsParticipantsNodeExpanded = true
 	__DiagramProcess__00000000_.IsExternalParticipantsNodeExpanded = false
@@ -130,7 +242,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.IsProcessesNodeExpanded = true
-	__Library__00000000_.IsDataFlowsNodeExpanded = false
+	__Library__00000000_.IsDataFlowsNodeExpanded = true
 	__Library__00000000_.IsDatasNodeExpanded = true
 	__Library__00000000_.IsResourcesNodeExpanded = true
 	__Library__00000000_.IsNotesNodeExpanded = false
@@ -142,7 +254,7 @@ func _(stage *models.Stage) {
 	__Participant__00000000_.IsResourcesNodeExpanded = true
 	__Participant__00000000_.IsProcessesNodeExpanded = false
 	__Participant__00000000_.ComputedPrefix = ``
-	__Participant__00000000_.IsTasksNodeExpanded = false
+	__Participant__00000000_.IsTasksNodeExpanded = true
 	__Participant__00000000_.IsControlFlowsNodeExpanded = false
 	__Participant__00000000_.IsDataFlowsNodeExpanded = false
 
@@ -152,7 +264,7 @@ func _(stage *models.Stage) {
 	__Participant__00000001_.IsResourcesNodeExpanded = true
 	__Participant__00000001_.IsProcessesNodeExpanded = false
 	__Participant__00000001_.ComputedPrefix = ``
-	__Participant__00000001_.IsTasksNodeExpanded = false
+	__Participant__00000001_.IsTasksNodeExpanded = true
 	__Participant__00000001_.IsControlFlowsNodeExpanded = false
 	__Participant__00000001_.IsDataFlowsNodeExpanded = false
 
@@ -162,7 +274,7 @@ func _(stage *models.Stage) {
 	__Participant__00000002_.IsResourcesNodeExpanded = true
 	__Participant__00000002_.IsProcessesNodeExpanded = false
 	__Participant__00000002_.ComputedPrefix = ``
-	__Participant__00000002_.IsTasksNodeExpanded = false
+	__Participant__00000002_.IsTasksNodeExpanded = true
 	__Participant__00000002_.IsControlFlowsNodeExpanded = false
 	__Participant__00000002_.IsDataFlowsNodeExpanded = false
 
@@ -203,9 +315,9 @@ func _(stage *models.Stage) {
 
 	__ProcessShape__00000000_.Name = `ProcessShape`
 	__ProcessShape__00000000_.IsExpanded = false
-	__ProcessShape__00000000_.X = 138.000000
-	__ProcessShape__00000000_.Y = 27.000000
-	__ProcessShape__00000000_.Width = 729.000000
+	__ProcessShape__00000000_.X = 57.000000
+	__ProcessShape__00000000_.Y = 75.000000
+	__ProcessShape__00000000_.Width = 990.000000
 	__ProcessShape__00000000_.Height = 1000.000000
 	__ProcessShape__00000000_.IsHidden = false
 
@@ -230,6 +342,126 @@ func _(stage *models.Stage) {
 	__Resource__00000002_.SVG_Path = ``
 	__Resource__00000002_.InverseAppliedScaling = 0.000000
 
+	__Task__00000000_.Name = `Submit Flight Plan`
+	__Task__00000000_.Description = `Originates and files the initial field flight plan parameters before departure.`
+	__Task__00000000_.ComputedPrefix = ``
+	__Task__00000000_.IsStartTask = false
+	__Task__00000000_.IsEndTask = false
+	__Task__00000000_.IsTaskNameNotProcessName = true
+
+	__Task__00000001_.Name = `Manage Operational Changes`
+	__Task__00000001_.Description = `Monitors operational status and decides if a flight needs to be delayed, modified, or aborted prior to departure.`
+	__Task__00000001_.ComputedPrefix = ``
+	__Task__00000001_.IsStartTask = false
+	__Task__00000001_.IsEndTask = false
+	__Task__00000001_.IsTaskNameNotProcessName = true
+
+	__Task__00000002_.Name = `Validate and Accept`
+	__Task__00000002_.Description = `Receives incoming submissions and checks them for syntax, formatting correctness, and logical consistency according to ICAO standards.`
+	__Task__00000002_.ComputedPrefix = ``
+	__Task__00000002_.IsStartTask = false
+	__Task__00000002_.IsEndTask = false
+	__Task__00000002_.IsTaskNameNotProcessName = true
+
+	__Task__00000003_.Name = `Distribute ATS Messages`
+	__Task__00000003_.Description = `Determines the appropriate addressing routing and distributes accepted flight plans or updates to downstream units.`
+	__Task__00000003_.ComputedPrefix = ``
+	__Task__00000003_.IsStartTask = false
+	__Task__00000003_.IsEndTask = false
+	__Task__00000003_.IsTaskNameNotProcessName = true
+
+	__Task__00000004_.Name = `Ingest Flight Data`
+	__Task__00000004_.Description = `Receives distributed data and loads it into the local Flight Data Processing System (FDPS) for air traffic controllers.`
+	__Task__00000004_.ComputedPrefix = ``
+	__Task__00000004_.IsStartTask = false
+	__Task__00000004_.IsEndTask = false
+	__Task__00000004_.IsTaskNameNotProcessName = true
+
+	__Task__00000005_.Name = `Log Flight Movement`
+	__Task__00000005_.Description = `Tracks physical execution milestones (actual departure and arrival times) and generates status updates.`
+	__Task__00000005_.ComputedPrefix = ``
+	__Task__00000005_.IsStartTask = false
+	__Task__00000005_.IsEndTask = false
+	__Task__00000005_.IsTaskNameNotProcessName = true
+
+	__Task__00000006_.Name = ``
+	__Task__00000006_.Description = ``
+	__Task__00000006_.ComputedPrefix = ``
+	__Task__00000006_.IsStartTask = true
+	__Task__00000006_.IsEndTask = false
+	__Task__00000006_.IsTaskNameNotProcessName = false
+
+	__Task__00000007_.Name = ``
+	__Task__00000007_.Description = ``
+	__Task__00000007_.ComputedPrefix = ``
+	__Task__00000007_.IsStartTask = false
+	__Task__00000007_.IsEndTask = true
+	__Task__00000007_.IsTaskNameNotProcessName = false
+
+	__TaskShape__00000000_.Name = `Submit Flight Plan-DiagramProcess`
+	__TaskShape__00000000_.IsExpanded = false
+	__TaskShape__00000000_.X = 90.000000
+	__TaskShape__00000000_.Y = 336.795175
+	__TaskShape__00000000_.Width = 240.333333
+	__TaskShape__00000000_.Height = 48.000000
+	__TaskShape__00000000_.IsHidden = false
+
+	__TaskShape__00000001_.Name = `Manage Operational Changes-DiagramProcess`
+	__TaskShape__00000001_.IsExpanded = false
+	__TaskShape__00000001_.X = 89.000000
+	__TaskShape__00000001_.Y = 496.907212
+	__TaskShape__00000001_.Width = 252.333333
+	__TaskShape__00000001_.Height = 70.000000
+	__TaskShape__00000001_.IsHidden = false
+
+	__TaskShape__00000002_.Name = `Validate and Accept-DiagramProcess`
+	__TaskShape__00000002_.IsExpanded = false
+	__TaskShape__00000002_.X = 449.000000
+	__TaskShape__00000002_.Y = 329.100648
+	__TaskShape__00000002_.Width = 189.333333
+	__TaskShape__00000002_.Height = 259.000000
+	__TaskShape__00000002_.IsHidden = false
+
+	__TaskShape__00000003_.Name = `Distribute ATS Messages-DiagramProcess`
+	__TaskShape__00000003_.IsExpanded = false
+	__TaskShape__00000003_.X = 458.000000
+	__TaskShape__00000003_.Y = 654.893285
+	__TaskShape__00000003_.Width = 175.000000
+	__TaskShape__00000003_.Height = 70.000000
+	__TaskShape__00000003_.IsHidden = false
+
+	__TaskShape__00000004_.Name = `Ingest Flight Data-DiagramProcess`
+	__TaskShape__00000004_.IsExpanded = false
+	__TaskShape__00000004_.X = 762.666667
+	__TaskShape__00000004_.Y = 482.382953
+	__TaskShape__00000004_.Width = 250.000000
+	__TaskShape__00000004_.Height = 116.000000
+	__TaskShape__00000004_.IsHidden = false
+
+	__TaskShape__00000005_.Name = `Log Flight Movement-DiagramProcess`
+	__TaskShape__00000005_.IsExpanded = false
+	__TaskShape__00000005_.X = 764.000000
+	__TaskShape__00000005_.Y = 691.607545
+	__TaskShape__00000005_.Width = 208.000000
+	__TaskShape__00000005_.Height = 60.000000
+	__TaskShape__00000005_.IsHidden = false
+
+	__TaskShape__00000006_.Name = `-DiagramProcess`
+	__TaskShape__00000006_.IsExpanded = false
+	__TaskShape__00000006_.X = 121.000000
+	__TaskShape__00000006_.Y = 236.251563
+	__TaskShape__00000006_.Width = 83.000000
+	__TaskShape__00000006_.Height = 20.000000
+	__TaskShape__00000006_.IsHidden = false
+
+	__TaskShape__00000007_.Name = `-DiagramProcess`
+	__TaskShape__00000007_.IsExpanded = false
+	__TaskShape__00000007_.X = 800.666667
+	__TaskShape__00000007_.Y = 842.033535
+	__TaskShape__00000007_.Width = 97.000000
+	__TaskShape__00000007_.Height = 36.000000
+	__TaskShape__00000007_.IsHidden = false
+
 	// insertion point for setup of pointers
 	__AllocatedResourceShape__00000000_.Participant = __Participant__00000000_
 	__AllocatedResourceShape__00000000_.Resource = __Resource__00000000_
@@ -237,6 +469,29 @@ func _(stage *models.Stage) {
 	__AllocatedResourceShape__00000001_.Resource = __Resource__00000001_
 	__AllocatedResourceShape__00000002_.Participant = __Participant__00000002_
 	__AllocatedResourceShape__00000002_.Resource = __Resource__00000002_
+	__ControlFlow__00000000_.Start = __Task__00000000_
+	__ControlFlow__00000000_.End = __Task__00000001_
+	__ControlFlow__00000001_.Start = __Task__00000002_
+	__ControlFlow__00000001_.End = __Task__00000003_
+	__ControlFlow__00000002_.Start = __Task__00000004_
+	__ControlFlow__00000002_.End = __Task__00000005_
+	__ControlFlow__00000003_.Start = __Task__00000006_
+	__ControlFlow__00000003_.End = __Task__00000000_
+	__ControlFlow__00000004_.Start = __Task__00000005_
+	__ControlFlow__00000004_.End = __Task__00000007_
+	__ControlFlowShape__00000000_.ControlFlow = __ControlFlow__00000000_
+	__ControlFlowShape__00000001_.ControlFlow = __ControlFlow__00000001_
+	__ControlFlowShape__00000002_.ControlFlow = __ControlFlow__00000002_
+	__ControlFlowShape__00000003_.ControlFlow = __ControlFlow__00000003_
+	__ControlFlowShape__00000004_.ControlFlow = __ControlFlow__00000004_
+	__DataFlow__00000000_.Datas = append(__DataFlow__00000000_.Datas, __Data__00000000_)
+	__DataFlow__00000000_.StartTask = __Task__00000000_
+	__DataFlow__00000000_.EndTask = __Task__00000002_
+	__DataFlow__00000000_.StartExternalParticipant = nil
+	__DataFlow__00000000_.EndExternalParticipant = nil
+	__DataFlowShape__00000000_.DataFlow = __DataFlow__00000000_
+	__DataShape__00000000_.Data = __Data__00000000_
+	__DataShape__00000000_.DataFlow = __DataFlow__00000000_
 	__DiagramProcess__00000000_.Process_Shapes = append(__DiagramProcess__00000000_.Process_Shapes, __ProcessShape__00000000_)
 	__DiagramProcess__00000000_.Participant_Shapes = append(__DiagramProcess__00000000_.Participant_Shapes, __ParticipantShape__00000000_)
 	__DiagramProcess__00000000_.Participant_Shapes = append(__DiagramProcess__00000000_.Participant_Shapes, __ParticipantShape__00000001_)
@@ -244,11 +499,29 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.ParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000000_.ParticipantWhoseNodeIsExpanded, __Participant__00000000_)
 	__DiagramProcess__00000000_.ParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000000_.ParticipantWhoseNodeIsExpanded, __Participant__00000001_)
 	__DiagramProcess__00000000_.ParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000000_.ParticipantWhoseNodeIsExpanded, __Participant__00000002_)
+	__DiagramProcess__00000000_.TasksWhoseNodeIsExpanded = append(__DiagramProcess__00000000_.TasksWhoseNodeIsExpanded, __Task__00000000_)
+	__DiagramProcess__00000000_.Task_Shapes = append(__DiagramProcess__00000000_.Task_Shapes, __TaskShape__00000000_)
+	__DiagramProcess__00000000_.Task_Shapes = append(__DiagramProcess__00000000_.Task_Shapes, __TaskShape__00000001_)
+	__DiagramProcess__00000000_.Task_Shapes = append(__DiagramProcess__00000000_.Task_Shapes, __TaskShape__00000002_)
+	__DiagramProcess__00000000_.Task_Shapes = append(__DiagramProcess__00000000_.Task_Shapes, __TaskShape__00000003_)
+	__DiagramProcess__00000000_.Task_Shapes = append(__DiagramProcess__00000000_.Task_Shapes, __TaskShape__00000004_)
+	__DiagramProcess__00000000_.Task_Shapes = append(__DiagramProcess__00000000_.Task_Shapes, __TaskShape__00000005_)
+	__DiagramProcess__00000000_.Task_Shapes = append(__DiagramProcess__00000000_.Task_Shapes, __TaskShape__00000006_)
+	__DiagramProcess__00000000_.Task_Shapes = append(__DiagramProcess__00000000_.Task_Shapes, __TaskShape__00000007_)
+	__DiagramProcess__00000000_.ControlFlow_Shapes = append(__DiagramProcess__00000000_.ControlFlow_Shapes, __ControlFlowShape__00000000_)
+	__DiagramProcess__00000000_.ControlFlow_Shapes = append(__DiagramProcess__00000000_.ControlFlow_Shapes, __ControlFlowShape__00000001_)
+	__DiagramProcess__00000000_.ControlFlow_Shapes = append(__DiagramProcess__00000000_.ControlFlow_Shapes, __ControlFlowShape__00000002_)
+	__DiagramProcess__00000000_.ControlFlow_Shapes = append(__DiagramProcess__00000000_.ControlFlow_Shapes, __ControlFlowShape__00000003_)
+	__DiagramProcess__00000000_.ControlFlow_Shapes = append(__DiagramProcess__00000000_.ControlFlow_Shapes, __ControlFlowShape__00000004_)
+	__DiagramProcess__00000000_.DataFlow_Shapes = append(__DiagramProcess__00000000_.DataFlow_Shapes, __DataFlowShape__00000000_)
+	__DiagramProcess__00000000_.Data_Shapes = append(__DiagramProcess__00000000_.Data_Shapes, __DataShape__00000000_)
+	__DiagramProcess__00000000_.DataFlowsWhoseDataNodeIsExpanded = append(__DiagramProcess__00000000_.DataFlowsWhoseDataNodeIsExpanded, __DataFlow__00000000_)
 	__DiagramProcess__00000000_.AllocatedResourceShapes = append(__DiagramProcess__00000000_.AllocatedResourceShapes, __AllocatedResourceShape__00000000_)
 	__DiagramProcess__00000000_.AllocatedResourceShapes = append(__DiagramProcess__00000000_.AllocatedResourceShapes, __AllocatedResourceShape__00000001_)
 	__DiagramProcess__00000000_.AllocatedResourceShapes = append(__DiagramProcess__00000000_.AllocatedResourceShapes, __AllocatedResourceShape__00000002_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000000_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000000_)
+	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000000_)
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000000_)
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000001_)
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000002_)
@@ -259,8 +532,22 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000001_)
 	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000002_)
 	__Participant__00000000_.Resources = append(__Participant__00000000_.Resources, __Resource__00000000_)
+	__Participant__00000000_.Tasks = append(__Participant__00000000_.Tasks, __Task__00000000_)
+	__Participant__00000000_.Tasks = append(__Participant__00000000_.Tasks, __Task__00000001_)
+	__Participant__00000000_.Tasks = append(__Participant__00000000_.Tasks, __Task__00000006_)
+	__Participant__00000000_.ControlFlows = append(__Participant__00000000_.ControlFlows, __ControlFlow__00000000_)
+	__Participant__00000000_.ControlFlows = append(__Participant__00000000_.ControlFlows, __ControlFlow__00000003_)
+	__Participant__00000000_.TaskWhoseOutDataFlowsNodeIsExpanded = append(__Participant__00000000_.TaskWhoseOutDataFlowsNodeIsExpanded, __Task__00000000_)
 	__Participant__00000001_.Resources = append(__Participant__00000001_.Resources, __Resource__00000001_)
+	__Participant__00000001_.Tasks = append(__Participant__00000001_.Tasks, __Task__00000002_)
+	__Participant__00000001_.Tasks = append(__Participant__00000001_.Tasks, __Task__00000003_)
+	__Participant__00000001_.ControlFlows = append(__Participant__00000001_.ControlFlows, __ControlFlow__00000001_)
 	__Participant__00000002_.Resources = append(__Participant__00000002_.Resources, __Resource__00000002_)
+	__Participant__00000002_.Tasks = append(__Participant__00000002_.Tasks, __Task__00000004_)
+	__Participant__00000002_.Tasks = append(__Participant__00000002_.Tasks, __Task__00000005_)
+	__Participant__00000002_.Tasks = append(__Participant__00000002_.Tasks, __Task__00000007_)
+	__Participant__00000002_.ControlFlows = append(__Participant__00000002_.ControlFlows, __ControlFlow__00000002_)
+	__Participant__00000002_.ControlFlows = append(__Participant__00000002_.ControlFlows, __ControlFlow__00000004_)
 	__ParticipantShape__00000000_.Participant = __Participant__00000000_
 	__ParticipantShape__00000001_.Participant = __Participant__00000001_
 	__ParticipantShape__00000002_.Participant = __Participant__00000002_
@@ -269,5 +556,22 @@ func _(stage *models.Stage) {
 	__Process__00000000_.Participants = append(__Process__00000000_.Participants, __Participant__00000000_)
 	__Process__00000000_.Participants = append(__Process__00000000_.Participants, __Participant__00000001_)
 	__Process__00000000_.Participants = append(__Process__00000000_.Participants, __Participant__00000002_)
+	__Process__00000000_.DataFlows = append(__Process__00000000_.DataFlows, __DataFlow__00000000_)
 	__ProcessShape__00000000_.Process = __Process__00000000_
+	__Task__00000000_.Type = nil
+	__Task__00000001_.Type = nil
+	__Task__00000002_.Type = nil
+	__Task__00000003_.Type = nil
+	__Task__00000004_.Type = nil
+	__Task__00000005_.Type = nil
+	__Task__00000006_.Type = nil
+	__Task__00000007_.Type = nil
+	__TaskShape__00000000_.Task = __Task__00000000_
+	__TaskShape__00000001_.Task = __Task__00000001_
+	__TaskShape__00000002_.Task = __Task__00000002_
+	__TaskShape__00000003_.Task = __Task__00000003_
+	__TaskShape__00000004_.Task = __Task__00000004_
+	__TaskShape__00000005_.Task = __Task__00000005_
+	__TaskShape__00000006_.Task = __Task__00000006_
+	__TaskShape__00000007_.Task = __Task__00000007_
 }
