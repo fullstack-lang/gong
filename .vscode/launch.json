@@ -579,6 +579,28 @@
             ]
         },
         {
+            "name": "process: go run data/rqs_spl_v1.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/rqs_spl_v1.go",
+                "-embeddedDiagrams=false",
+            ]
+        },
+        {
+            "name": "process: go run data/rqs_spl_v2.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/rqs_spl_v2.go",
+                "-embeddedDiagrams=false",
+            ]
+        },
+        {
             "name": "process: go run data/simple.go",
             "type": "go",
             "request": "launch",
