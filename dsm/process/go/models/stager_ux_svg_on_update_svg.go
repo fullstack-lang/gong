@@ -79,8 +79,8 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			controlFlowShape.SetName(controlFlow.Start.GetName() + " to " + controlFlow.End.GetName())
 			controlFlowShape.SetAbstractStartElement(controlFlow.Start)
 			controlFlowShape.SetAbstractEndElement(controlFlow.End)
-			controlFlowShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
-			controlFlowShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
+			controlFlowShape.SetStartOrientation(ORIENTATION_VERTICAL)
+			controlFlowShape.SetEndOrientation(ORIENTATION_VERTICAL)
 
 			controlFlowShape.SetCornerOffsetRatio(1.5)
 			controlFlowShape.SetStartRatio(0.5)
