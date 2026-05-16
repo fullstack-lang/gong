@@ -538,7 +538,9 @@
                   @for(path of link.PathAtCorner!; track path.ID) {
                     <ng-container
                       [ngTemplateOutlet]="anchoredPath"
-                      [ngTemplateOutletContext]="{path: path, anchorX: getCornerTextX(segment, segments, $any(path)), anchorY: getCornerTextY(segment, segments, $any(path))}">
+                      [ngTemplateOutletContext]="{path: path, 
+                        anchorX: getCornerTextX(segment, segments, $any(path)) + path.X_Offset, 
+                        anchorY: getCornerTextY(segment, segments, $any(path)) + path.Y_Offset}">
                     </ng-container>
                   }
                 }
