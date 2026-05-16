@@ -738,6 +738,8 @@ func (dataFormCallback *DataFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(data_.Name), formDiv)
+		case "Acronym":
+			FormDivBasicFieldToField(&(data_.Acronym), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(data_.Description), formDiv)
 		case "ComputedPrefix":
@@ -3593,6 +3595,8 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(note_.Name), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(note_.Description), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
 		case "IsTasksNodeExpanded":
@@ -6142,6 +6146,8 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(resource_.Name), formDiv)
+		case "Acronym":
+			FormDivBasicFieldToField(&(resource_.Acronym), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(resource_.Description), formDiv)
 		case "ComputedPrefix":
