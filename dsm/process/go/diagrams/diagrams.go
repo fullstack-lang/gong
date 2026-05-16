@@ -125,8 +125,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000004_.IsSelected = false
 
 	__GongStructShape__00000005_.Name = `Default-DataFlow`
-	__GongStructShape__00000005_.X = 347.000000
-	__GongStructShape__00000005_.Y = 552.000000
+	__GongStructShape__00000005_.X = 353.000000
+	__GongStructShape__00000005_.Y = 543.000000
 	__GongStructShape__00000005_.IdentifierMeta = ref_models.DataFlow{}
 	__GongStructShape__00000005_.Width = 240.000000
 	__GongStructShape__00000005_.Height = 106.000000

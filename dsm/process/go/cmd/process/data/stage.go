@@ -252,24 +252,28 @@ func _(stage *models.Stage) {
 	__ControlFlowShape__00000006_.IsHidden = false
 
 	__Data__00000000_.Name = `D1`
+	__Data__00000000_.Acronym = ``
 	__Data__00000000_.Description = ``
 	__Data__00000000_.ComputedPrefix = ``
 	__Data__00000000_.SVG_Path = ``
 	__Data__00000000_.InverseAppliedScaling = 60.000000
 
 	__Data__00000001_.Name = `D2`
+	__Data__00000001_.Acronym = ``
 	__Data__00000001_.Description = ``
 	__Data__00000001_.ComputedPrefix = ``
 	__Data__00000001_.SVG_Path = `m280-40 112-564-72 28v136h-80v-188l202-86q14-6 29.5-7t29.5 4q14 5 26.5 14t20.5 23l40 64q26 42 70.5 69T760-520v80q-70 0-125-29t-94-74l-25 123 84 80v300h-80v-260l-84-64-72 324h-84Zm203.5-723.5Q460-787 460-820t23.5-56.5Q507-900 540-900t56.5 23.5Q620-853 620-820t-23.5 56.5Q573-740 540-740t-56.5-23.5Z`
 	__Data__00000001_.InverseAppliedScaling = 60.000000
 
 	__Data__00000002_.Name = `L1.D1`
+	__Data__00000002_.Acronym = ``
 	__Data__00000002_.Description = ``
 	__Data__00000002_.ComputedPrefix = ``
 	__Data__00000002_.SVG_Path = ``
 	__Data__00000002_.InverseAppliedScaling = 0.000000
 
 	__Data__00000003_.Name = `D3D3D3D3D3`
+	__Data__00000003_.Acronym = ``
 	__Data__00000003_.Description = ``
 	__Data__00000003_.ComputedPrefix = ``
 	__Data__00000003_.SVG_Path = ``
@@ -301,10 +305,10 @@ func _(stage *models.Stage) {
 
 	__DataFlowShape__00000004_.Name = `"P1" to "PP2 T2"`
 	__DataFlowShape__00000004_.StartRatio = 0.741696
-	__DataFlowShape__00000004_.EndRatio = 0.163649
+	__DataFlowShape__00000004_.EndRatio = 0.971512
 	__DataFlowShape__00000004_.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000004_.EndOrientation = models.ORIENTATION_VERTICAL
-	__DataFlowShape__00000004_.CornerOffsetRatio = 1.008329
+	__DataFlowShape__00000004_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__DataFlowShape__00000004_.CornerOffsetRatio = 1.815692
 	__DataFlowShape__00000004_.IsHidden = false
 
 	__DataFlowShape__00000005_.Name = `"T1" to "P2.P2.T1"`
@@ -432,6 +436,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsExpandedTmp = true
 
 	__Note__00000000_.Name = `Note on the diagram`
+	__Note__00000000_.Description = ``
 	__Note__00000000_.ComputedPrefix = ``
 	__Note__00000000_.IsTasksNodeExpanded = true
 
@@ -625,12 +630,14 @@ func _(stage *models.Stage) {
 	__ProcessShape__00000009_.IsHidden = false
 
 	__Resource__00000000_.Name = `R1 with a long name long long long`
+	__Resource__00000000_.Acronym = ``
 	__Resource__00000000_.Description = ``
 	__Resource__00000000_.ComputedPrefix = ``
 	__Resource__00000000_.SVG_Path = `m280-40 112-564-72 28v136h-80v-188l202-86q14-6 29.5-7t29.5 4q14 5 26.5 14t20.5 23l40 64q26 42 70.5 69T760-520v80q-70 0-125-29t-94-74l-25 123 84 80v300h-80v-260l-84-64-72 324h-84Zm203.5-723.5Q460-787 460-820t23.5-56.5Q507-900 540-900t56.5 23.5Q620-853 620-820t-23.5 56.5Q573-740 540-740t-56.5-23.5Z`
 	__Resource__00000000_.InverseAppliedScaling = 60.000000
 
 	__Resource__00000001_.Name = `R2aaaaa`
+	__Resource__00000001_.Acronym = ``
 	__Resource__00000001_.Description = ``
 	__Resource__00000001_.ComputedPrefix = ``
 	__Resource__00000001_.SVG_Path = `M240-200v40q0 17-11.5 28.5T200-120h-40q-17 0-28.5-11.5T120-160v-320l84-240q6-18 21.5-29t34.5-11h440q19 0 34.5 11t21.5 29l84 240v320q0 17-11.5 28.5T800-120h-40q-17 0-28.5-11.5T720-160v-40H240Zm-8-360h496l-42-120H274l-42 120Zm-32 80v200-200Zm100 160q25 0 42.5-17.5T360-380q0-25-17.5-42.5T300-440q-25 0-42.5 17.5T240-380q0 25 17.5 42.5T300-320Zm360 0q25 0 42.5-17.5T720-380q0-25-17.5-42.5T660-440q-25 0-42.5 17.5T600-380q0 25 17.5 42.5T660-320Zm-460 40h560v-200H200v200Z`
