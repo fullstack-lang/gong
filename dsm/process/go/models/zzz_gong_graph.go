@@ -3395,6 +3395,9 @@ func (data *Data) GongDiff(stage *Stage, dataOther *Data) (diffs []string) {
 	if data.Name != dataOther.Name {
 		diffs = append(diffs, data.GongMarshallField(stage, "Name"))
 	}
+	if data.Acronym != dataOther.Acronym {
+		diffs = append(diffs, data.GongMarshallField(stage, "Acronym"))
+	}
 	if data.Description != dataOther.Description {
 		diffs = append(diffs, data.GongMarshallField(stage, "Description"))
 	}
@@ -4440,6 +4443,9 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	if note.Name != noteOther.Name {
 		diffs = append(diffs, note.GongMarshallField(stage, "Name"))
 	}
+	if note.Description != noteOther.Description {
+		diffs = append(diffs, note.GongMarshallField(stage, "Description"))
+	}
 	if note.ComputedPrefix != noteOther.ComputedPrefix {
 		diffs = append(diffs, note.GongMarshallField(stage, "ComputedPrefix"))
 	}
@@ -5028,6 +5034,9 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 	// insertion point for field diffs
 	if resource.Name != resourceOther.Name {
 		diffs = append(diffs, resource.GongMarshallField(stage, "Name"))
+	}
+	if resource.Acronym != resourceOther.Acronym {
+		diffs = append(diffs, resource.GongMarshallField(stage, "Acronym"))
 	}
 	if resource.Description != resourceOther.Description {
 		diffs = append(diffs, resource.GongMarshallField(stage, "Description"))

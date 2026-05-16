@@ -82,6 +82,8 @@ type Data_WOP struct {
 
 	Name string
 
+	Acronym string
+
 	Description string
 
 	ComputedPrefix string
@@ -94,6 +96,7 @@ type Data_WOP struct {
 func (from *Data) CopyBasicFields(to *Data) {
 	// insertion point
 	to.Name = from.Name
+	to.Acronym = from.Acronym
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.SVG_Path = from.SVG_Path
@@ -294,6 +297,8 @@ type Note_WOP struct {
 
 	Name string
 
+	Description string
+
 	ComputedPrefix string
 
 	IsTasksNodeExpanded bool
@@ -302,6 +307,7 @@ type Note_WOP struct {
 func (from *Note) CopyBasicFields(to *Note) {
 	// insertion point
 	to.Name = from.Name
+	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsTasksNodeExpanded = from.IsTasksNodeExpanded
 }
@@ -491,6 +497,8 @@ type Resource_WOP struct {
 
 	Name string
 
+	Acronym string
+
 	Description string
 
 	ComputedPrefix string
@@ -503,6 +511,7 @@ type Resource_WOP struct {
 func (from *Resource) CopyBasicFields(to *Resource) {
 	// insertion point
 	to.Name = from.Name
+	to.Acronym = from.Acronym
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.SVG_Path = from.SVG_Path

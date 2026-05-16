@@ -200,7 +200,7 @@ func _(stage *models.Stage) {
 	__ControlFlowShape__00000000_.EndRatio = 0.500000
 	__ControlFlowShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ControlFlowShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ControlFlowShape__00000000_.CornerOffsetRatio = 2.278388
+	__ControlFlowShape__00000000_.CornerOffsetRatio = 2.924996
 	__ControlFlowShape__00000000_.IsHidden = false
 
 	__ControlFlowShape__00000001_.Name = `"PP2 T1" to "PP2 T2"`
@@ -312,7 +312,7 @@ func _(stage *models.Stage) {
 	__DataFlowShape__00000005_.EndRatio = 0.302071
 	__DataFlowShape__00000005_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000005_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000005_.CornerOffsetRatio = 4.495882
+	__DataFlowShape__00000005_.CornerOffsetRatio = 2.263324
 	__DataFlowShape__00000005_.IsHidden = false
 
 	__DataFlowShape__00000006_.Name = `EP1 Very Long Participant Name to P1`
@@ -358,7 +358,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000006_.Name = `DiagramProcess`
 	__DiagramProcess__00000006_.Description = ``
 	__DiagramProcess__00000006_.ComputedPrefix = ``
-	__DiagramProcess__00000006_.IsChecked = true
+	__DiagramProcess__00000006_.IsChecked = false
 	__DiagramProcess__00000006_.IsEditable_ = true
 	__DiagramProcess__00000006_.IsShowPrefix = false
 	__DiagramProcess__00000006_.DefaultBoxWidth = 250.000000
@@ -373,7 +373,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000007_.Name = `Diagram P1`
 	__DiagramProcess__00000007_.Description = ``
 	__DiagramProcess__00000007_.ComputedPrefix = ``
-	__DiagramProcess__00000007_.IsChecked = false
+	__DiagramProcess__00000007_.IsChecked = true
 	__DiagramProcess__00000007_.IsEditable_ = true
 	__DiagramProcess__00000007_.IsShowPrefix = false
 	__DiagramProcess__00000007_.DefaultBoxWidth = 250.000000
@@ -436,8 +436,8 @@ func _(stage *models.Stage) {
 	__Note__00000000_.IsTasksNodeExpanded = true
 
 	__NoteShape__00000000_.Name = `Note on the diagram shape`
-	__NoteShape__00000000_.X = 3.261263
-	__NoteShape__00000000_.Y = 136.057359
+	__NoteShape__00000000_.X = 74.261263
+	__NoteShape__00000000_.Y = 132.057359
 	__NoteShape__00000000_.Width = 173.000000
 	__NoteShape__00000000_.Height = 70.000000
 	__NoteShape__00000000_.IsHidden = false
@@ -610,8 +610,8 @@ func _(stage *models.Stage) {
 
 	__ProcessShape__00000007_.Name = `ProcessShape`
 	__ProcessShape__00000007_.IsExpanded = false
-	__ProcessShape__00000007_.X = 332.015236
-	__ProcessShape__00000007_.Y = 180.000030
+	__ProcessShape__00000007_.X = 360.015236
+	__ProcessShape__00000007_.Y = 124.000030
 	__ProcessShape__00000007_.Width = 761.000000
 	__ProcessShape__00000007_.Height = 845.999939
 	__ProcessShape__00000007_.IsHidden = false
@@ -715,48 +715,48 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000011_.Name = `Start-DP2`
 	__TaskShape__00000011_.IsExpanded = false
-	__TaskShape__00000011_.X = 522.000000
-	__TaskShape__00000011_.Y = 449.000076
+	__TaskShape__00000011_.X = 552.000000
+	__TaskShape__00000011_.Y = 379.000076
 	__TaskShape__00000011_.Width = 54.000000
 	__TaskShape__00000011_.Height = 20.000000
 	__TaskShape__00000011_.IsHidden = false
 
 	__TaskShape__00000012_.Name = `T4-DP2`
 	__TaskShape__00000012_.IsExpanded = false
-	__TaskShape__00000012_.X = 480.030525
-	__TaskShape__00000012_.Y = 825.000076
+	__TaskShape__00000012_.X = 508.030525
+	__TaskShape__00000012_.Y = 769.000076
 	__TaskShape__00000012_.Width = 167.000000
 	__TaskShape__00000012_.Height = 70.000000
 	__TaskShape__00000012_.IsHidden = false
 
 	__TaskShape__00000013_.Name = `T2-DP2`
 	__TaskShape__00000013_.IsExpanded = false
-	__TaskShape__00000013_.X = 473.030525
-	__TaskShape__00000013_.Y = 538.000076
+	__TaskShape__00000013_.X = 407.030525
+	__TaskShape__00000013_.Y = 470.000076
 	__TaskShape__00000013_.Width = 174.000000
-	__TaskShape__00000013_.Height = 240.000000
+	__TaskShape__00000013_.Height = 162.000000
 	__TaskShape__00000013_.IsHidden = false
 
 	__TaskShape__00000014_.Name = `PP2 T2-DP2`
 	__TaskShape__00000014_.IsExpanded = false
-	__TaskShape__00000014_.X = 731.536446
-	__TaskShape__00000014_.Y = 596.000015
+	__TaskShape__00000014_.X = 759.536446
+	__TaskShape__00000014_.Y = 540.000015
 	__TaskShape__00000014_.Width = 164.722046
 	__TaskShape__00000014_.Height = 70.000000
 	__TaskShape__00000014_.IsHidden = false
 
 	__TaskShape__00000015_.Name = `PP2 T1-Diagram P1`
 	__TaskShape__00000015_.IsExpanded = false
-	__TaskShape__00000015_.X = 821.258492
-	__TaskShape__00000015_.Y = 414.000030
+	__TaskShape__00000015_.X = 849.258492
+	__TaskShape__00000015_.Y = 358.000030
 	__TaskShape__00000015_.Width = 75.000000
 	__TaskShape__00000015_.Height = 20.000000
 	__TaskShape__00000015_.IsHidden = false
 
 	__TaskShape__00000016_.Name = `End-Diagram P1`
 	__TaskShape__00000016_.IsExpanded = false
-	__TaskShape__00000016_.X = 552.000000
-	__TaskShape__00000016_.Y = 978.999969
+	__TaskShape__00000016_.X = 580.000000
+	__TaskShape__00000016_.Y = 922.999969
 	__TaskShape__00000016_.Width = 89.000000
 	__TaskShape__00000016_.Height = 36.000000
 	__TaskShape__00000016_.IsHidden = false

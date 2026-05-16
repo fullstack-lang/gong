@@ -123,6 +123,76 @@ func (stager *Stager) exportWebsite() {
 
 	content.LogoSVGFile = stager.GetRootLibrary().LogoSVGFile
 
+	refChapter := &ssg.Chapter{
+		Name:           "References",
+		MardownContent: "## References\n",
+	}
+	content.Chapters = append(content.Chapters, refChapter)
+
+	if processes := GetGongstrucsSorted[*Process](stager.stage); len(processes) > 0 {
+		sub := &ssg.Chapter{Name: "Processes", MardownContent: "### Processes\n"}
+		refChapter.SubChapters = append(refChapter.SubChapters, sub)
+		for _, inst := range processes {
+			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
+		}
+	}
+	if participants := GetGongstrucsSorted[*Participant](stager.stage); len(participants) > 0 {
+		sub := &ssg.Chapter{Name: "Participants", MardownContent: "### Participants\n"}
+		refChapter.SubChapters = append(refChapter.SubChapters, sub)
+		for _, inst := range participants {
+			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
+		}
+	}
+	if tasks := GetGongstrucsSorted[*Task](stager.stage); len(tasks) > 0 {
+		sub := &ssg.Chapter{Name: "Tasks", MardownContent: "### Tasks\n"}
+		refChapter.SubChapters = append(refChapter.SubChapters, sub)
+		for _, inst := range tasks {
+			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
+		}
+	}
+	if controlFlows := GetGongstrucsSorted[*ControlFlow](stager.stage); len(controlFlows) > 0 {
+		sub := &ssg.Chapter{Name: "Control Flows", MardownContent: "### Control Flows\n"}
+		refChapter.SubChapters = append(refChapter.SubChapters, sub)
+		for _, inst := range controlFlows {
+			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
+		}
+	}
+	if dataFlows := GetGongstrucsSorted[*DataFlow](stager.stage); len(dataFlows) > 0 {
+		sub := &ssg.Chapter{Name: "Data Flows", MardownContent: "### Data Flows\n"}
+		refChapter.SubChapters = append(refChapter.SubChapters, sub)
+		for _, inst := range dataFlows {
+			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
+		}
+	}
+	if datas := GetGongstrucsSorted[*Data](stager.stage); len(datas) > 0 {
+		sub := &ssg.Chapter{Name: "Datas", MardownContent: "### Datas\n"}
+		refChapter.SubChapters = append(refChapter.SubChapters, sub)
+		for _, inst := range datas {
+			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
+		}
+	}
+	if resources := GetGongstrucsSorted[*Resource](stager.stage); len(resources) > 0 {
+		sub := &ssg.Chapter{Name: "Resources", MardownContent: "### Resources\n"}
+		refChapter.SubChapters = append(refChapter.SubChapters, sub)
+		for _, inst := range resources {
+			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
+		}
+	}
+	if notes := GetGongstrucsSorted[*Note](stager.stage); len(notes) > 0 {
+		sub := &ssg.Chapter{Name: "Notes", MardownContent: "### Notes\n"}
+		refChapter.SubChapters = append(refChapter.SubChapters, sub)
+		for _, inst := range notes {
+			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
+		}
+	}
+	if libraries := GetGongstrucsSorted[*Library](stager.stage); len(libraries) > 0 {
+		sub := &ssg.Chapter{Name: "Libraries", MardownContent: "### Libraries\n"}
+		refChapter.SubChapters = append(refChapter.SubChapters, sub)
+		for _, inst := range libraries {
+			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
+		}
+	}
+
 	ssg.StageBranch(stager.ssgStage, &content)
 
 	stager.ssgStage.Commit()

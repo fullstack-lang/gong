@@ -6455,6 +6455,10 @@ func (data *Data) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "Acronym",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -6940,6 +6944,10 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -7289,6 +7297,10 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "Acronym",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -7548,6 +7560,8 @@ func (data *Data) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	// string value of fields
 	case "Name":
 		res.valueString = data.Name
+	case "Acronym":
+		res.valueString = data.Acronym
 	case "Description":
 		res.valueString = data.Description
 	case "ComputedPrefix":
@@ -8186,6 +8200,8 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	// string value of fields
 	case "Name":
 		res.valueString = note.Name
+	case "Description":
+		res.valueString = note.Description
 	case "ComputedPrefix":
 		res.valueString = note.ComputedPrefix
 	case "IsTasksNodeExpanded":
@@ -8595,6 +8611,8 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 	// string value of fields
 	case "Name":
 		res.valueString = resource.Name
+	case "Acronym":
+		res.valueString = resource.Acronym
 	case "Description":
 		res.valueString = resource.Description
 	case "ComputedPrefix":
@@ -8827,6 +8845,8 @@ func (data *Data) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 	// insertion point for per field code
 	case "Name":
 		data.Name = value.GetValueString()
+	case "Acronym":
+		data.Acronym = value.GetValueString()
 	case "Description":
 		data.Description = value.GetValueString()
 	case "ComputedPrefix":
@@ -9600,6 +9620,8 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 	// insertion point for per field code
 	case "Name":
 		note.Name = value.GetValueString()
+	case "Description":
+		note.Description = value.GetValueString()
 	case "ComputedPrefix":
 		note.ComputedPrefix = value.GetValueString()
 	case "IsTasksNodeExpanded":
@@ -10050,6 +10072,8 @@ func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldVal
 	// insertion point for per field code
 	case "Name":
 		resource.Name = value.GetValueString()
+	case "Acronym":
+		resource.Acronym = value.GetValueString()
 	case "Description":
 		resource.Description = value.GetValueString()
 	case "ComputedPrefix":

@@ -68,6 +68,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce orphans abstract element", stager.enforceOrphansAbstractElement},
 		{"Enforce task participant consistency", stager.enforceTaskParticipantConsistency},
 		{"Enforce task semantic rules", stager.enforceTaskSemanticRules},
+		{"Enforce participant semantic rules", stager.enforceParticipantSemanticRules},
 		{"Enforce control flow semantic rules", stager.enforceControlFlowRules},
 		{"Enforce data flow semantic rules", stager.enforceDataFlowRules},
 
