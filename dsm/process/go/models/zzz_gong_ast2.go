@@ -608,6 +608,8 @@ func (u *DataUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Acronym":
+		instance.Acronym = GongExtractString(valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
 	case "ComputedPrefix":
@@ -991,6 +993,8 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsTasksNodeExpanded":
@@ -1318,6 +1322,8 @@ func (u *ResourceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Acronym":
+		instance.Acronym = GongExtractString(valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
 	case "ComputedPrefix":

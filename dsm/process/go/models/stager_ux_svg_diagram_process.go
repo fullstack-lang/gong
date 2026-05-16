@@ -726,7 +726,12 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 			}
 
 			textAnchoredText := &svg.LinkAnchoredText{
-				Name:    dataShape.Name,
+				Name: func() string {
+					if dataShape.Data.Acronym != "" {
+						return dataShape.Data.Acronym
+					}
+					return dataShape.Data.Name
+				}(),
 				Content: data.Name,
 				Presentation: svg.Presentation{
 					Color:       "#333333",

@@ -3,6 +3,11 @@ package models
 type Resource struct {
 	Name string
 
+	// Acronym is a short name for the resource, used for instance in a data flow as a repalacement
+	// of the full name.
+	// For instance ATS for Air Traffic Service
+	Acronym string
+
 	//gong:text width:300 height:300
 	Description string
 
