@@ -8,6 +8,26 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
+func (stager *Stager) treeParticipantWithinLibrary(
+	library *Library,
+	participant *Participant,
+	parentNode *tree.Node,
+) {
+	participantNode := &tree.Node{
+		Name:            participant.GetName(),
+		IsExpanded:      slices.Contains(library.ParticipantsWhoseNodeIsExpanded, participant),
+		IsNodeClickable: true,
+		IsInEditMode:    participant.GetIsInRenameMode(),
+	}
+	parentNode.Children = append(parentNode.Children, participantNode)
+
+	addRenameButton(participant, participantNode, stager)
+
+	participantNode.OnNameChange = stager.onNameChange(participant)
+	participantNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, participant, &library.ParticipantsWhoseNodeIsExpanded)
+	participantNode.OnClick = onNodeClicked(stager, participant)
+}
+
 func (stager *Stager) treeParticipants(
 	diagramProcess *DiagramProcess,
 	participant *Participant,

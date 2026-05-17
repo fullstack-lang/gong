@@ -686,6 +686,9 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _resource := range library.ResourcesWhoseNodeIsExpanded {
 		StageBranch(stage, _resource)
 	}
+	for _, _participant := range library.ParticipantsWhoseNodeIsExpanded {
+		StageBranch(stage, _participant)
+	}
 	for _, _note := range library.RootNotes {
 		StageBranch(stage, _note)
 	}
@@ -1374,6 +1377,9 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	for _, _resource := range libraryFrom.ResourcesWhoseNodeIsExpanded {
 		libraryTo.ResourcesWhoseNodeIsExpanded = append(libraryTo.ResourcesWhoseNodeIsExpanded, CopyBranchResource(mapOrigCopy, _resource))
 	}
+	for _, _participant := range libraryFrom.ParticipantsWhoseNodeIsExpanded {
+		libraryTo.ParticipantsWhoseNodeIsExpanded = append(libraryTo.ParticipantsWhoseNodeIsExpanded, CopyBranchParticipant(mapOrigCopy, _participant))
+	}
 	for _, _note := range libraryFrom.RootNotes {
 		libraryTo.RootNotes = append(libraryTo.RootNotes, CopyBranchNote(mapOrigCopy, _note))
 	}
@@ -2035,6 +2041,9 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _resource := range library.ResourcesWhoseNodeIsExpanded {
 		UnstageBranch(stage, _resource)
 	}
+	for _, _participant := range library.ParticipantsWhoseNodeIsExpanded {
+		UnstageBranch(stage, _participant)
+	}
 	for _, _note := range library.RootNotes {
 		UnstageBranch(stage, _note)
 	}
@@ -2504,6 +2513,10 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	reference.ResourcesWhoseNodeIsExpanded = reference.ResourcesWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.ResourcesWhoseNodeIsExpanded {
 		reference.ResourcesWhoseNodeIsExpanded = append(reference.ResourcesWhoseNodeIsExpanded, stage.Resources_reference[_b])
+	}
+	reference.ParticipantsWhoseNodeIsExpanded = reference.ParticipantsWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.ParticipantsWhoseNodeIsExpanded {
+		reference.ParticipantsWhoseNodeIsExpanded = append(reference.ParticipantsWhoseNodeIsExpanded, stage.Participants_reference[_b])
 	}
 	reference.RootNotes = reference.RootNotes[:0]
 	for _, _b := range instance.RootNotes {
@@ -3043,6 +3056,13 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.ResourcesWhoseNodeIsExpanded = _ResourcesWhoseNodeIsExpanded
+	var _ParticipantsWhoseNodeIsExpanded []*Participant
+	for _, _reference := range reference.ParticipantsWhoseNodeIsExpanded {
+		if _instance, ok := stage.Participants_instance[_reference]; ok {
+			_ParticipantsWhoseNodeIsExpanded = append(_ParticipantsWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.ParticipantsWhoseNodeIsExpanded = _ParticipantsWhoseNodeIsExpanded
 	var _RootNotes []*Note
 	for _, _reference := range reference.RootNotes {
 		if _instance, ok := stage.Notes_instance[_reference]; ok {
@@ -4382,6 +4402,27 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	}
 	if ResourcesWhoseNodeIsExpandedDifferent {
 		ops := Diff(stage, library, libraryOther, "ResourcesWhoseNodeIsExpanded", libraryOther.ResourcesWhoseNodeIsExpanded, library.ResourcesWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	ParticipantsWhoseNodeIsExpandedDifferent := false
+	if len(library.ParticipantsWhoseNodeIsExpanded) != len(libraryOther.ParticipantsWhoseNodeIsExpanded) {
+		ParticipantsWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range library.ParticipantsWhoseNodeIsExpanded {
+			if (library.ParticipantsWhoseNodeIsExpanded[i] == nil) != (libraryOther.ParticipantsWhoseNodeIsExpanded[i] == nil) {
+				ParticipantsWhoseNodeIsExpandedDifferent = true
+				break
+			} else if library.ParticipantsWhoseNodeIsExpanded[i] != nil && libraryOther.ParticipantsWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if library.ParticipantsWhoseNodeIsExpanded[i] != libraryOther.ParticipantsWhoseNodeIsExpanded[i] {
+					ParticipantsWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ParticipantsWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, library, libraryOther, "ParticipantsWhoseNodeIsExpanded", libraryOther.ParticipantsWhoseNodeIsExpanded, library.ParticipantsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	RootNotesDifferent := false

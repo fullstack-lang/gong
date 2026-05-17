@@ -297,6 +297,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_ResourcesWhoseNodeIsExpanded_reverseMap[_resource] = library
 		}
 	}
+	stage.Library_ParticipantsWhoseNodeIsExpanded_reverseMap = make(map[*Participant]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _participant := range library.ParticipantsWhoseNodeIsExpanded {
+			stage.Library_ParticipantsWhoseNodeIsExpanded_reverseMap[_participant] = library
+		}
+	}
 	stage.Library_RootNotes_reverseMap = make(map[*Note]*Library)
 	for library := range stage.Librarys {
 		_ = library
