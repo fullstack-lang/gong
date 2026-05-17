@@ -529,6 +529,9 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 		rect.URLPath = "../../../References/Tasks/" + task.GetReferencePath() + "/index.html"
 		rect.URLTarget = svg.LINK_TARGET_BLANK
 
+		rect.RectAnchoredTexts[0].URLPath = rect.URLPath
+		rect.RectAnchoredTexts[0].URLTarget = svg.LINK_TARGET_BLANK
+
 		// make the rect of the task move with alls participant rect and the process rect
 		// not the opposite !
 		processRect.Peers = append(processRect.Peers, rect)
