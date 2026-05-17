@@ -958,6 +958,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsResourcesNodeExpanded = GongExtractBool(valueExpr)
 	case "ResourcesWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.ResourcesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "ParticipantsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ParticipantsWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "RootNotes":
 		GongUnmarshallSliceOfPointers(&instance.RootNotes, valueExpr, identifierMap)
 	case "IsNotesNodeExpanded":

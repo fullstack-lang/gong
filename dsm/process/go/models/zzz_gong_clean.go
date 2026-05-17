@@ -163,6 +163,7 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &library.DatasWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.RootResources) || modified
 	modified = GongCleanSlice(stage, &library.ResourcesWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &library.ParticipantsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.RootNotes) || modified
 	modified = GongCleanSlice(stage, &library.NotesWhoseNodeIsExpanded) || modified
 	// insertion point per field

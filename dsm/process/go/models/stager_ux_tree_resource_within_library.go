@@ -24,4 +24,8 @@ func (stager *Stager) treeResourceWithinLibrary(
 	resourceNode.OnNameChange = stager.onNameChange(resource)
 	resourceNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, resource, &library.ResourcesWhoseNodeIsExpanded)
 	resourceNode.OnClick = onNodeClicked(stager, resource)
+
+	for _, participant := range stager.rm_Resource_Participants[resource] {
+		stager.treeParticipantWithinLibrary(library, participant, resourceNode)
+	}
 }

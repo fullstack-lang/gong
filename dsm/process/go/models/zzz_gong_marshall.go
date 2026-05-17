@@ -656,6 +656,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootResources"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsResourcesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "ResourcesWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "ParticipantsWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootNotes"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsNotesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
@@ -2240,6 +2241,16 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "ParticipantsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _participant := range library.ParticipantsWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ParticipantsWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _participant.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "RootNotes":
 		var sb strings.Builder
 		for _, _note := range library.RootNotes {
@@ -3197,6 +3208,7 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootResources"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsResourcesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "ResourcesWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "ParticipantsWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootNotes"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsNotesNodeExpanded"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))

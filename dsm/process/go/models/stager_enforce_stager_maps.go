@@ -4,7 +4,7 @@ import (
 	"slices"
 )
 
-func (stager *Stager) enforceDiagramMaps() {
+func (stager *Stager) enforceStagerMaps() {
 	stager.map_Element_Diagrams = make(map[AbstractType][]*DiagramProcess)
 
 	for _, diagramProcess := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
@@ -54,6 +54,9 @@ func (stager *Stager) enforceDiagramMaps() {
 			diagramProcess.map_Note_NoteTaskShape[key] = noteTaskShape
 		}
 	}
+
+	stager.rm_Data_DataFlows = GetSliceOfPointersReverseMap[DataFlow, Data](GetAssociationName[DataFlow]().Datas[0].Name, stager.stage)
+	stager.rm_Resource_Participants = GetSliceOfPointersReverseMap[Participant, Resource](GetAssociationName[Participant]().Resources[0].Name, stager.stage)
 }
 
 // updateMapElementDiagrams is a helper function to update the map of abstract elements to their shapes for a given diagram

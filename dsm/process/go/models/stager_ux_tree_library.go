@@ -31,6 +31,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	}
 	libraryNode.Children = append(libraryNode.Children, subLibrariesNode)
 	subLibrariesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsSubLibrariesNodeExpanded)
+	subLibrariesNode.OnClick = onNodeClicked(stager, library)
 
 	for _, subLibrary := range library.SubLibraries {
 		stager.treeLibrary(subLibrary, &subLibrariesNode.Children)
@@ -60,6 +61,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	}
 	libraryNode.Children = append(libraryNode.Children, processesNode)
 	processesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsProcessesNodeExpanded)
+	processesNode.OnClick = onNodeClicked(stager, library)
 
 	// add a process to the library button
 	confRootProcesses := ItemButtonConfiguration[
@@ -89,6 +91,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	}
 	libraryNode.Children = append(libraryNode.Children, dataFlowNodes)
 	dataFlowNodes.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsDataFlowsNodeExpanded)
+	dataFlowNodes.OnClick = onNodeClicked(stager, library)
 
 	for _, dataFlow := range library.RootDataFlows {
 		stager.treeDataFlowWithinLibrary(library, dataFlow, dataFlowNodes)
@@ -105,9 +108,10 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	}
 	libraryNode.Children = append(libraryNode.Children, datasNode)
 	datasNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsDatasNodeExpanded)
+	datasNode.OnClick = onNodeClicked(stager, library)
 
 	for _, data := range library.RootDatas {
-		stager.treeData(library, data, datasNode)
+		stager.treeDataWithinLibrary(library, data, datasNode)
 	}
 
 	// add data button
@@ -134,6 +138,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	}
 	libraryNode.Children = append(libraryNode.Children, resourcesNode)
 	resourcesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsResourcesNodeExpanded)
+	resourcesNode.OnClick = onNodeClicked(stager, library)
 
 	for _, resource := range library.RootResources {
 		stager.treeResourceWithinLibrary(library, resource, resourcesNode)
@@ -161,6 +166,7 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	}
 	libraryNode.Children = append(libraryNode.Children, notesNode)
 	notesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsNotesNodeExpanded)
+	notesNode.OnClick = onNodeClicked(stager, library)
 
 	for _, note := range library.RootNotes {
 		stager.treeNote(library, note, notesNode)

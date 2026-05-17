@@ -64,12 +64,8 @@ func _(stage *models.Stage) {
 	__Data__00000004_ := (&models.Data{Name: `DEP`}).Stage(stage)
 	__Data__00000005_ := (&models.Data{Name: `ARR`}).Stage(stage)
 	__Data__00000006_ := (&models.Data{Name: `FPL (w/o item 19)`}).Stage(stage)
-	__Data__00000007_ := (&models.Data{Name: `RQS`}).Stage(stage)
-	__Data__00000008_ := (&models.Data{Name: `SPL`}).Stage(stage)
 	__Data__00000009_ := (&models.Data{Name: `RQS`}).Stage(stage)
 	__Data__00000010_ := (&models.Data{Name: `SPL`}).Stage(stage)
-	__Data__00000011_ := (&models.Data{Name: `RQS`}).Stage(stage)
-	__Data__00000012_ := (&models.Data{Name: `SPL`}).Stage(stage)
 
 	__DataFlow__00000000_ := (&models.DataFlow{Name: `"Submit Flight Plan" to "Validate and Accept"`}).Stage(stage)
 	__DataFlow__00000001_ := (&models.DataFlow{Name: `"Manage Operational Changes" to "Validate and Accept"`}).Stage(stage)
@@ -110,10 +106,6 @@ func _(stage *models.Stage) {
 	__DataShape__00000012_ := (&models.DataShape{Name: `"Compiles and Transmits SPL" to "Validates and Routes SPL" - SPL`}).Stage(stage)
 	__DataShape__00000013_ := (&models.DataShape{Name: `"Validates and Routes SPL" to "Receives SPL" - SPL`}).Stage(stage)
 	__DataShape__00000014_ := (&models.DataShape{Name: `"Transmits RQS" to "Validates and Routes RQS"-"Transmits RQS" to "Validates and Routes RQS"-DiagramProcess`}).Stage(stage)
-	__DataShape__00000015_ := (&models.DataShape{Name: `"Validates and Routes RQS" to "Compiles and Transmits SPL" - RQS`}).Stage(stage)
-	__DataShape__00000016_ := (&models.DataShape{Name: `"Compiles and Transmits SPL" to "Validates and Routes SPL" - SPL`}).Stage(stage)
-	__DataShape__00000017_ := (&models.DataShape{Name: `"Validates and Routes SPL" to "Receives SPL" - SPL`}).Stage(stage)
-	__DataShape__00000018_ := (&models.DataShape{Name: `"Transmits RQS" to "Validates and Routes RQS"-"Transmits RQS" to "Validates and Routes RQS"-DiagramProcess`}).Stage(stage)
 
 	__DiagramProcess__00000000_ := (&models.DiagramProcess{Name: `DiagramProcess`}).Stage(stage)
 	__DiagramProcess__00000001_ := (&models.DiagramProcess{Name: `RQS SPL, AO in the loop`}).Stage(stage)
@@ -150,12 +142,7 @@ func _(stage *models.Stage) {
 	__Resource__00000000_ := (&models.Resource{Name: `AO`}).Stage(stage)
 	__Resource__00000001_ := (&models.Resource{Name: `ARO`}).Stage(stage)
 	__Resource__00000002_ := (&models.Resource{Name: `ATC`}).Stage(stage)
-	__Resource__00000003_ := (&models.Resource{Name: `ATC`}).Stage(stage)
 	__Resource__00000004_ := (&models.Resource{Name: `IFPS`}).Stage(stage)
-	__Resource__00000005_ := (&models.Resource{Name: `AO`}).Stage(stage)
-	__Resource__00000006_ := (&models.Resource{Name: `ATC`}).Stage(stage)
-	__Resource__00000007_ := (&models.Resource{Name: `IFPS`}).Stage(stage)
-	__Resource__00000008_ := (&models.Resource{Name: `AO`}).Stage(stage)
 
 	__Task__00000000_ := (&models.Task{Name: `Submit Flight Plan`}).Stage(stage)
 	__Task__00000001_ := (&models.Task{Name: `Manage Operational Changes`}).Stage(stage)
@@ -376,20 +363,6 @@ func _(stage *models.Stage) {
 	__Data__00000006_.SVG_Path = ``
 	__Data__00000006_.InverseAppliedScaling = 0.000000
 
-	__Data__00000007_.Name = `RQS`
-	__Data__00000007_.Acronym = ``
-	__Data__00000007_.Description = ``
-	__Data__00000007_.ComputedPrefix = ``
-	__Data__00000007_.SVG_Path = ``
-	__Data__00000007_.InverseAppliedScaling = 0.000000
-
-	__Data__00000008_.Name = `SPL`
-	__Data__00000008_.Acronym = ``
-	__Data__00000008_.Description = ``
-	__Data__00000008_.ComputedPrefix = ``
-	__Data__00000008_.SVG_Path = ``
-	__Data__00000008_.InverseAppliedScaling = 0.000000
-
 	__Data__00000009_.Name = `RQS`
 	__Data__00000009_.Acronym = ``
 	__Data__00000009_.Description = `Request Supplementary Flight Plan Message`
@@ -403,20 +376,6 @@ func _(stage *models.Stage) {
 	__Data__00000010_.ComputedPrefix = ``
 	__Data__00000010_.SVG_Path = ``
 	__Data__00000010_.InverseAppliedScaling = 0.000000
-
-	__Data__00000011_.Name = `RQS`
-	__Data__00000011_.Acronym = ``
-	__Data__00000011_.Description = `Request Supplementary Flight Plan Message`
-	__Data__00000011_.ComputedPrefix = ``
-	__Data__00000011_.SVG_Path = ``
-	__Data__00000011_.InverseAppliedScaling = 0.000000
-
-	__Data__00000012_.Name = `SPL`
-	__Data__00000012_.Acronym = ``
-	__Data__00000012_.Description = `Supplementary Flight Plan Message (Item 19 data)`
-	__Data__00000012_.ComputedPrefix = ``
-	__Data__00000012_.SVG_Path = ``
-	__Data__00000012_.InverseAppliedScaling = 0.000000
 
 	__DataFlow__00000000_.Name = `"Submit Flight Plan" to "Validate and Accept"`
 	__DataFlow__00000000_.Description = ``
@@ -452,7 +411,7 @@ func _(stage *models.Stage) {
 	__DataFlow__00000005_.Description = ``
 	__DataFlow__00000005_.ComputedPrefix = ``
 	__DataFlow__00000005_.Type = models.DataFlow_Task2Task
-	__DataFlow__00000005_.IsDatasNodeExpanded = true
+	__DataFlow__00000005_.IsDatasNodeExpanded = false
 
 	__DataFlow__00000006_.Name = `"Validates and Routes RQS" to "Compiles and Transmits SPL"`
 	__DataFlow__00000006_.Description = ``
@@ -602,14 +561,6 @@ func _(stage *models.Stage) {
 
 	__DataShape__00000014_.Name = `"Transmits RQS" to "Validates and Routes RQS"-"Transmits RQS" to "Validates and Routes RQS"-DiagramProcess`
 
-	__DataShape__00000015_.Name = `"Validates and Routes RQS" to "Compiles and Transmits SPL" - RQS`
-
-	__DataShape__00000016_.Name = `"Compiles and Transmits SPL" to "Validates and Routes SPL" - SPL`
-
-	__DataShape__00000017_.Name = `"Validates and Routes SPL" to "Receives SPL" - SPL`
-
-	__DataShape__00000018_.Name = `"Transmits RQS" to "Validates and Routes RQS"-"Transmits RQS" to "Validates and Routes RQS"-DiagramProcess`
-
 	__DiagramProcess__00000000_.Name = `DiagramProcess`
 	__DiagramProcess__00000000_.Description = ``
 	__DiagramProcess__00000000_.ComputedPrefix = ``
@@ -661,9 +612,9 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
-	__Library__00000000_.IsProcessesNodeExpanded = true
+	__Library__00000000_.IsProcessesNodeExpanded = false
 	__Library__00000000_.IsDataFlowsNodeExpanded = false
-	__Library__00000000_.IsDatasNodeExpanded = true
+	__Library__00000000_.IsDatasNodeExpanded = false
 	__Library__00000000_.IsResourcesNodeExpanded = true
 	__Library__00000000_.IsNotesNodeExpanded = false
 	__Library__00000000_.IsExpandedTmp = true
@@ -889,47 +840,12 @@ func _(stage *models.Stage) {
 	__Resource__00000002_.SVG_Path = ``
 	__Resource__00000002_.InverseAppliedScaling = 0.000000
 
-	__Resource__00000003_.Name = `ATC`
-	__Resource__00000003_.Acronym = ``
-	__Resource__00000003_.Description = ``
-	__Resource__00000003_.ComputedPrefix = ``
-	__Resource__00000003_.SVG_Path = ``
-	__Resource__00000003_.InverseAppliedScaling = 0.000000
-
 	__Resource__00000004_.Name = `IFPS`
 	__Resource__00000004_.Acronym = ``
 	__Resource__00000004_.Description = ``
 	__Resource__00000004_.ComputedPrefix = ``
 	__Resource__00000004_.SVG_Path = ``
 	__Resource__00000004_.InverseAppliedScaling = 0.000000
-
-	__Resource__00000005_.Name = `AO`
-	__Resource__00000005_.Acronym = ``
-	__Resource__00000005_.Description = ``
-	__Resource__00000005_.ComputedPrefix = ``
-	__Resource__00000005_.SVG_Path = ``
-	__Resource__00000005_.InverseAppliedScaling = 0.000000
-
-	__Resource__00000006_.Name = `ATC`
-	__Resource__00000006_.Acronym = ``
-	__Resource__00000006_.Description = ``
-	__Resource__00000006_.ComputedPrefix = ``
-	__Resource__00000006_.SVG_Path = ``
-	__Resource__00000006_.InverseAppliedScaling = 0.000000
-
-	__Resource__00000007_.Name = `IFPS`
-	__Resource__00000007_.Acronym = ``
-	__Resource__00000007_.Description = ``
-	__Resource__00000007_.ComputedPrefix = ``
-	__Resource__00000007_.SVG_Path = ``
-	__Resource__00000007_.InverseAppliedScaling = 0.000000
-
-	__Resource__00000008_.Name = `AO`
-	__Resource__00000008_.Acronym = ``
-	__Resource__00000008_.Description = ``
-	__Resource__00000008_.ComputedPrefix = ``
-	__Resource__00000008_.SVG_Path = ``
-	__Resource__00000008_.InverseAppliedScaling = 0.000000
 
 	__Task__00000000_.Name = `Submit Flight Plan`
 	__Task__00000000_.Description = `Originates and files the initial field flight plan parameters before departure.`
@@ -1239,17 +1155,17 @@ func _(stage *models.Stage) {
 	__AllocatedResourceShape__00000002_.Participant = __Participant__00000002_
 	__AllocatedResourceShape__00000002_.Resource = __Resource__00000002_
 	__AllocatedResourceShape__00000003_.Participant = __Participant__00000003_
-	__AllocatedResourceShape__00000003_.Resource = __Resource__00000003_
+	__AllocatedResourceShape__00000003_.Resource = nil
 	__AllocatedResourceShape__00000004_.Participant = __Participant__00000004_
 	__AllocatedResourceShape__00000004_.Resource = __Resource__00000004_
 	__AllocatedResourceShape__00000005_.Participant = __Participant__00000005_
-	__AllocatedResourceShape__00000005_.Resource = __Resource__00000005_
+	__AllocatedResourceShape__00000005_.Resource = nil
 	__AllocatedResourceShape__00000006_.Participant = __Participant__00000006_
-	__AllocatedResourceShape__00000006_.Resource = __Resource__00000006_
+	__AllocatedResourceShape__00000006_.Resource = nil
 	__AllocatedResourceShape__00000007_.Participant = __Participant__00000007_
-	__AllocatedResourceShape__00000007_.Resource = __Resource__00000007_
+	__AllocatedResourceShape__00000007_.Resource = nil
 	__AllocatedResourceShape__00000008_.Participant = nil
-	__AllocatedResourceShape__00000008_.Resource = __Resource__00000008_
+	__AllocatedResourceShape__00000008_.Resource = nil
 	__ControlFlow__00000000_.Start = __Task__00000000_
 	__ControlFlow__00000000_.End = __Task__00000001_
 	__ControlFlow__00000001_.Start = __Task__00000002_
@@ -1327,12 +1243,12 @@ func _(stage *models.Stage) {
 	__DataFlow__00000008_.EndTask = __Task__00000012_
 	__DataFlow__00000008_.StartExternalParticipant = nil
 	__DataFlow__00000008_.EndExternalParticipant = nil
-	__DataFlow__00000009_.Datas = append(__DataFlow__00000009_.Datas, __Data__00000011_)
+	__DataFlow__00000009_.Datas = append(__DataFlow__00000009_.Datas, __Data__00000009_)
 	__DataFlow__00000009_.StartTask = __Task__00000015_
 	__DataFlow__00000009_.EndTask = __Task__00000016_
 	__DataFlow__00000009_.StartExternalParticipant = nil
 	__DataFlow__00000009_.EndExternalParticipant = nil
-	__DataFlow__00000010_.Datas = append(__DataFlow__00000010_.Datas, __Data__00000012_)
+	__DataFlow__00000010_.Datas = append(__DataFlow__00000010_.Datas, __Data__00000010_)
 	__DataFlow__00000010_.StartTask = __Task__00000016_
 	__DataFlow__00000010_.EndTask = __Task__00000017_
 	__DataFlow__00000010_.StartExternalParticipant = nil
@@ -1378,14 +1294,6 @@ func _(stage *models.Stage) {
 	__DataShape__00000013_.DataFlow = __DataFlow__00000008_
 	__DataShape__00000014_.Data = __Data__00000009_
 	__DataShape__00000014_.DataFlow = __DataFlow__00000005_
-	__DataShape__00000015_.Data = __Data__00000011_
-	__DataShape__00000015_.DataFlow = nil
-	__DataShape__00000016_.Data = __Data__00000012_
-	__DataShape__00000016_.DataFlow = nil
-	__DataShape__00000017_.Data = __Data__00000012_
-	__DataShape__00000017_.DataFlow = __DataFlow__00000010_
-	__DataShape__00000018_.Data = __Data__00000011_
-	__DataShape__00000018_.DataFlow = __DataFlow__00000009_
 	__DiagramProcess__00000000_.Process_Shapes = append(__DiagramProcess__00000000_.Process_Shapes, __ProcessShape__00000000_)
 	__DiagramProcess__00000000_.Participant_Shapes = append(__DiagramProcess__00000000_.Participant_Shapes, __ParticipantShape__00000000_)
 	__DiagramProcess__00000000_.Participant_Shapes = append(__DiagramProcess__00000000_.Participant_Shapes, __ParticipantShape__00000001_)
@@ -1471,10 +1379,6 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000002_.ControlFlow_Shapes = append(__DiagramProcess__00000002_.ControlFlow_Shapes, __ControlFlowShape__00000008_)
 	__DiagramProcess__00000002_.DataFlow_Shapes = append(__DiagramProcess__00000002_.DataFlow_Shapes, __DataFlowShape__00000009_)
 	__DiagramProcess__00000002_.DataFlow_Shapes = append(__DiagramProcess__00000002_.DataFlow_Shapes, __DataFlowShape__00000010_)
-	__DiagramProcess__00000002_.Data_Shapes = append(__DiagramProcess__00000002_.Data_Shapes, __DataShape__00000015_)
-	__DiagramProcess__00000002_.Data_Shapes = append(__DiagramProcess__00000002_.Data_Shapes, __DataShape__00000016_)
-	__DiagramProcess__00000002_.Data_Shapes = append(__DiagramProcess__00000002_.Data_Shapes, __DataShape__00000017_)
-	__DiagramProcess__00000002_.Data_Shapes = append(__DiagramProcess__00000002_.Data_Shapes, __DataShape__00000018_)
 	__DiagramProcess__00000002_.DataFlowsWhoseDataNodeIsExpanded = append(__DiagramProcess__00000002_.DataFlowsWhoseDataNodeIsExpanded, __DataFlow__00000009_)
 	__DiagramProcess__00000002_.AllocatedResourceShapes = append(__DiagramProcess__00000002_.AllocatedResourceShapes, __AllocatedResourceShape__00000006_)
 	__DiagramProcess__00000002_.AllocatedResourceShapes = append(__DiagramProcess__00000002_.AllocatedResourceShapes, __AllocatedResourceShape__00000007_)
@@ -1496,8 +1400,6 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000008_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000009_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000010_)
-	__Library__00000000_.DataFlowsWhoseNodeIsExpanded = append(__Library__00000000_.DataFlowsWhoseNodeIsExpanded, __DataFlow__00000005_)
-	__Library__00000000_.DataFlowsWhoseNodeIsExpanded = append(__Library__00000000_.DataFlowsWhoseNodeIsExpanded, __DataFlow__00000009_)
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000000_)
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000006_)
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000001_)
@@ -1505,21 +1407,13 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000003_)
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000004_)
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000005_)
-	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000007_)
-	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000008_)
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000009_)
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000010_)
-	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000011_)
-	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000012_)
 	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000000_)
 	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000001_)
 	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000002_)
-	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000003_)
 	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000004_)
-	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000005_)
-	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000006_)
-	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000007_)
-	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000008_)
+	__Library__00000000_.ResourcesWhoseNodeIsExpanded = append(__Library__00000000_.ResourcesWhoseNodeIsExpanded, __Resource__00000000_)
 	__Participant__00000000_.Resources = append(__Participant__00000000_.Resources, __Resource__00000000_)
 	__Participant__00000000_.Tasks = append(__Participant__00000000_.Tasks, __Task__00000000_)
 	__Participant__00000000_.Tasks = append(__Participant__00000000_.Tasks, __Task__00000001_)
@@ -1540,7 +1434,7 @@ func _(stage *models.Stage) {
 	__Participant__00000002_.ControlFlows = append(__Participant__00000002_.ControlFlows, __ControlFlow__00000002_)
 	__Participant__00000002_.ControlFlows = append(__Participant__00000002_.ControlFlows, __ControlFlow__00000004_)
 	__Participant__00000002_.TaskWhoseOutDataFlowsNodeIsExpanded = append(__Participant__00000002_.TaskWhoseOutDataFlowsNodeIsExpanded, __Task__00000005_)
-	__Participant__00000003_.Resources = append(__Participant__00000003_.Resources, __Resource__00000003_)
+	__Participant__00000003_.Resources = append(__Participant__00000003_.Resources, __Resource__00000002_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000008_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000012_)
 	__Participant__00000003_.Tasks = append(__Participant__00000003_.Tasks, __Task__00000013_)
@@ -1558,9 +1452,9 @@ func _(stage *models.Stage) {
 	__Participant__00000004_.TaskWhoseOutDataFlowsNodeIsExpanded = append(__Participant__00000004_.TaskWhoseOutDataFlowsNodeIsExpanded, __Task__00000009_)
 	__Participant__00000004_.TaskWhoseInDataFlowsNodeIsExpanded = append(__Participant__00000004_.TaskWhoseInDataFlowsNodeIsExpanded, __Task__00000009_)
 	__Participant__00000004_.TaskWhoseInDataFlowsNodeIsExpanded = append(__Participant__00000004_.TaskWhoseInDataFlowsNodeIsExpanded, __Task__00000011_)
-	__Participant__00000005_.Resources = append(__Participant__00000005_.Resources, __Resource__00000005_)
+	__Participant__00000005_.Resources = append(__Participant__00000005_.Resources, __Resource__00000000_)
 	__Participant__00000005_.Tasks = append(__Participant__00000005_.Tasks, __Task__00000010_)
-	__Participant__00000006_.Resources = append(__Participant__00000006_.Resources, __Resource__00000006_)
+	__Participant__00000006_.Resources = append(__Participant__00000006_.Resources, __Resource__00000002_)
 	__Participant__00000006_.Tasks = append(__Participant__00000006_.Tasks, __Task__00000015_)
 	__Participant__00000006_.Tasks = append(__Participant__00000006_.Tasks, __Task__00000017_)
 	__Participant__00000006_.Tasks = append(__Participant__00000006_.Tasks, __Task__00000018_)
@@ -1572,7 +1466,7 @@ func _(stage *models.Stage) {
 	__Participant__00000006_.TaskWhoseInControlFlowsNodeIsExpanded = append(__Participant__00000006_.TaskWhoseInControlFlowsNodeIsExpanded, __Task__00000019_)
 	__Participant__00000006_.TaskWhoseInControlFlowsNodeIsExpanded = append(__Participant__00000006_.TaskWhoseInControlFlowsNodeIsExpanded, __Task__00000015_)
 	__Participant__00000006_.TaskWhoseOutDataFlowsNodeIsExpanded = append(__Participant__00000006_.TaskWhoseOutDataFlowsNodeIsExpanded, __Task__00000015_)
-	__Participant__00000007_.Resources = append(__Participant__00000007_.Resources, __Resource__00000007_)
+	__Participant__00000007_.Resources = append(__Participant__00000007_.Resources, __Resource__00000004_)
 	__Participant__00000007_.Tasks = append(__Participant__00000007_.Tasks, __Task__00000016_)
 	__Participant__00000007_.TaskWhoseOutDataFlowsNodeIsExpanded = append(__Participant__00000007_.TaskWhoseOutDataFlowsNodeIsExpanded, __Task__00000016_)
 	__Participant__00000007_.TaskWhoseInDataFlowsNodeIsExpanded = append(__Participant__00000007_.TaskWhoseInDataFlowsNodeIsExpanded, __Task__00000016_)

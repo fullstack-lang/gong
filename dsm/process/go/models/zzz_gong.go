@@ -356,6 +356,8 @@ type Stage struct {
 
 	Library_ResourcesWhoseNodeIsExpanded_reverseMap map[*Resource]*Library
 
+	Library_ParticipantsWhoseNodeIsExpanded_reverseMap map[*Participant]*Library
+
 	Library_RootNotes_reverseMap map[*Note]*Library
 
 	Library_NotesWhoseNodeIsExpanded_reverseMap map[*Note]*Library
@@ -4893,6 +4895,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RootResources: []*Resource{{Name: "RootResources"}},
 			// field is initialized with an instance of Resource with the name of the field
 			ResourcesWhoseNodeIsExpanded: []*Resource{{Name: "ResourcesWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Participant with the name of the field
+			ParticipantsWhoseNodeIsExpanded: []*Participant{{Name: "ParticipantsWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of Note with the name of the field
 			RootNotes: []*Note{{Name: "RootNotes"}},
 			// field is initialized with an instance of Note with the name of the field
@@ -5831,6 +5835,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ParticipantsWhoseNodeIsExpanded":
+			res := make(map[*Participant][]*Library)
+			for library := range stage.Librarys {
+				for _, participant_ := range library.ParticipantsWhoseNodeIsExpanded {
+					res[participant_] = append(res[participant_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "RootNotes":
 			res := make(map[*Note][]*Library)
 			for library := range stage.Librarys {
@@ -6238,6 +6250,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "DiagramProcess"
 		rf.Fieldname = "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded"
+		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "ParticipantsWhoseNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Process"
 		rf.Fieldname = "Participants"
@@ -6913,6 +6928,11 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "ResourcesWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Resource",
+		},
+		{
+			Name:                 "ParticipantsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Participant",
 		},
 		{
 			Name:                 "RootNotes",
@@ -8156,6 +8176,16 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "ResourcesWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.ResourcesWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ParticipantsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.ParticipantsWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -9572,6 +9602,20 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				for __instance__ := range stage.Resources {
 					if stage.Resource_stagedOrder[__instance__] == uint(id) {
 						library.ResourcesWhoseNodeIsExpanded = append(library.ResourcesWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "ParticipantsWhoseNodeIsExpanded":
+		library.ParticipantsWhoseNodeIsExpanded = make([]*Participant, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Participants {
+					if stage.Participant_stagedOrder[__instance__] == uint(id) {
+						library.ParticipantsWhoseNodeIsExpanded = append(library.ParticipantsWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}

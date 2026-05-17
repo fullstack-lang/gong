@@ -47,6 +47,10 @@ type Stager struct {
 
 	// map to navigate from abstract elements to all diagrams where they are displayed
 	map_Element_Diagrams map[AbstractType][]*DiagramProcess
+
+	// reverse map to navigate
+	rm_Data_DataFlows        map[*Data][]*DataFlow
+	rm_Resource_Participants map[*Resource][]*Participant
 }
 
 func (s *Stager) GetRootLibrary() *Library {
