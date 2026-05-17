@@ -212,7 +212,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.Name = `RQS SPL, AO out of the loop`
 	__DiagramProcess__00000000_.Description = ``
 	__DiagramProcess__00000000_.ComputedPrefix = ``
-	__DiagramProcess__00000000_.IsChecked = true
+	__DiagramProcess__00000000_.IsChecked = false
 	__DiagramProcess__00000000_.IsEditable_ = false
 	__DiagramProcess__00000000_.IsShowPrefix = false
 	__DiagramProcess__00000000_.DefaultBoxWidth = 250.000000
@@ -242,7 +242,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000002_.Name = `DiagramProcess`
 	__DiagramProcess__00000002_.Description = ``
 	__DiagramProcess__00000002_.ComputedPrefix = ``
-	__DiagramProcess__00000002_.IsChecked = false
+	__DiagramProcess__00000002_.IsChecked = true
 	__DiagramProcess__00000002_.IsEditable_ = false
 	__DiagramProcess__00000002_.IsShowPrefix = false
 	__DiagramProcess__00000002_.DefaultBoxWidth = 250.000000
@@ -704,11 +704,9 @@ func _(stage *models.Stage) {
 	__ParticipantShape__00000000_.Participant = __Participant__00000000_
 	__ParticipantShape__00000001_.Participant = __Participant__00000001_
 	__Process__00000000_.DiagramProcesss = append(__Process__00000000_.DiagramProcesss, __DiagramProcess__00000000_)
-	__Process__00000000_.DiagramProcessWhoseNodeIsExpanded = append(__Process__00000000_.DiagramProcessWhoseNodeIsExpanded, __DiagramProcess__00000000_)
 	__Process__00000000_.Participants = append(__Process__00000000_.Participants, __Participant__00000000_)
 	__Process__00000000_.Participants = append(__Process__00000000_.Participants, __Participant__00000001_)
 	__Process__00000001_.DiagramProcesss = append(__Process__00000001_.DiagramProcesss, __DiagramProcess__00000001_)
-	__Process__00000001_.DiagramProcessWhoseNodeIsExpanded = append(__Process__00000001_.DiagramProcessWhoseNodeIsExpanded, __DiagramProcess__00000001_)
 	__Process__00000001_.Participants = append(__Process__00000001_.Participants, __Participant__00000002_)
 	__Process__00000001_.Participants = append(__Process__00000001_.Participants, __Participant__00000003_)
 	__Process__00000001_.Participants = append(__Process__00000001_.Participants, __Participant__00000004_)
