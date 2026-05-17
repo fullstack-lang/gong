@@ -12,7 +12,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 	// computes fields that are not persisted
 	stager.enforceOwningLibraryAndObjects()
-	stager.enforceDiagramMaps()
+	stager.enforceStagerMaps()
 	stager.computeTaskFields()
 	stager.computeParticipantFields()
 	stager.computeDataFlowShapeFields()
@@ -39,7 +39,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 	// computes fields that are not persisted
 	stager.enforceOwningLibraryAndObjects()
-	stager.enforceDiagramMaps()
+	stager.enforceStagerMaps()
 	stager.computeTaskFields()
 	stager.computeParticipantFields()
 	stager.computeDataFlowShapeFields()
