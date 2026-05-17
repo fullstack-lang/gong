@@ -67,6 +67,10 @@ type Rect struct {
 	OnUpdate func(updatedRect *Rect)
 
 	MouseEvent
+
+	// URLPath is the path to navigate to when the rect is clicked, if not empty
+	// only works with backend svg generation
+	URLPath string
 }
 
 // OnAfterUpdate, notice that rect == stagedRect
