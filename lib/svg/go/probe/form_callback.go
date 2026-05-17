@@ -4391,6 +4391,10 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rect_.MouseY), formDiv)
 		case "MouseEventKey":
 			FormDivEnumStringFieldToField(&(rect_.MouseEventKey), formDiv)
+		case "URLPath":
+			FormDivBasicFieldToField(&(rect_.URLPath), formDiv)
+		case "URLTarget":
+			FormDivEnumStringFieldToField(&(rect_.URLTarget), formDiv)
 		case "Layer:Rects":
 			// WARNING : this form deals with the N-N association "Layer.Rects []*Rect" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -5258,6 +5262,10 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 			}
 			rectanchoredtext_.Animates = instanceSlice
 
+		case "URLPath":
+			FormDivBasicFieldToField(&(rectanchoredtext_.URLPath), formDiv)
+		case "URLTarget":
+			FormDivEnumStringFieldToField(&(rectanchoredtext_.URLTarget), formDiv)
 		case "Rect:RectAnchoredTexts":
 			// WARNING : this form deals with the N-N association "Rect.RectAnchoredTexts []*RectAnchoredText" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

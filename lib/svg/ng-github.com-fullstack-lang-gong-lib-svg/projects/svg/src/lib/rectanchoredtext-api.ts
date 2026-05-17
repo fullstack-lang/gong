@@ -33,6 +33,8 @@ export class RectAnchoredTextAPI {
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
+	URLPath: string = ""
+	URLTarget: string = ""
 
 	// insertion point for other decls
 

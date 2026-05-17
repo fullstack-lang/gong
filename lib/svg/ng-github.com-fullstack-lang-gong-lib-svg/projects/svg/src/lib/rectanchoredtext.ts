@@ -38,6 +38,8 @@ export class RectAnchoredText {
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
+	URLPath: string = ""
+	URLTarget: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 	Animates: Array<Animate> = []
@@ -75,6 +77,8 @@ export function CopyRectAnchoredTextToRectAnchoredTextAPI(rectanchoredtext: Rect
 	rectanchoredtextAPI.StrokeDashArray = rectanchoredtext.StrokeDashArray
 	rectanchoredtextAPI.StrokeDashArrayWhenSelected = rectanchoredtext.StrokeDashArrayWhenSelected
 	rectanchoredtextAPI.Transform = rectanchoredtext.Transform
+	rectanchoredtextAPI.URLPath = rectanchoredtext.URLPath
+	rectanchoredtextAPI.URLTarget = rectanchoredtext.URLTarget
 
 	// insertion point for pointer fields encoding
 
@@ -119,6 +123,8 @@ export function CopyRectAnchoredTextAPIToRectAnchoredText(rectanchoredtextAPI: R
 	rectanchoredtext.StrokeDashArray = rectanchoredtextAPI.StrokeDashArray
 	rectanchoredtext.StrokeDashArrayWhenSelected = rectanchoredtextAPI.StrokeDashArrayWhenSelected
 	rectanchoredtext.Transform = rectanchoredtextAPI.Transform
+	rectanchoredtext.URLPath = rectanchoredtextAPI.URLPath
+	rectanchoredtext.URLTarget = rectanchoredtextAPI.URLTarget
 
 	// insertion point for pointer fields encoding
 

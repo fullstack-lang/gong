@@ -2146,6 +2146,107 @@ func (linkanchortype LinkAnchorType) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for LinkTargetType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (linktargettype LinkTargetType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch linktargettype {
+	// insertion code per enum code
+	case LINK_TARGET_BLANK:
+		res = "_blank"
+	case LINK_TARGET_SELF:
+		res = "_self"
+	case LINK_TARGET_PARENT:
+		res = "_parent"
+	case LINK_TARGET_TOP:
+		res = "_top"
+	}
+	return
+}
+
+func (linktargettype *LinkTargetType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "_blank":
+		*linktargettype = LINK_TARGET_BLANK
+		return
+	case "_self":
+		*linktargettype = LINK_TARGET_SELF
+		return
+	case "_parent":
+		*linktargettype = LINK_TARGET_PARENT
+		return
+	case "_top":
+		*linktargettype = LINK_TARGET_TOP
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (linktargettype *LinkTargetType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "LINK_TARGET_BLANK":
+		*linktargettype = LINK_TARGET_BLANK
+	case "LINK_TARGET_SELF":
+		*linktargettype = LINK_TARGET_SELF
+	case "LINK_TARGET_PARENT":
+		*linktargettype = LINK_TARGET_PARENT
+	case "LINK_TARGET_TOP":
+		*linktargettype = LINK_TARGET_TOP
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (linktargettype *LinkTargetType) ToCodeString() (res string) {
+
+	switch *linktargettype {
+	// insertion code per enum code
+	case LINK_TARGET_BLANK:
+		res = "LINK_TARGET_BLANK"
+	case LINK_TARGET_SELF:
+		res = "LINK_TARGET_SELF"
+	case LINK_TARGET_PARENT:
+		res = "LINK_TARGET_PARENT"
+	case LINK_TARGET_TOP:
+		res = "LINK_TARGET_TOP"
+	}
+	return
+}
+
+func (linktargettype LinkTargetType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "LINK_TARGET_BLANK")
+	res = append(res, "LINK_TARGET_SELF")
+	res = append(res, "LINK_TARGET_PARENT")
+	res = append(res, "LINK_TARGET_TOP")
+
+	return
+}
+
+func (linktargettype LinkTargetType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "_blank")
+	res = append(res, "_self")
+	res = append(res, "_parent")
+	res = append(res, "_top")
+
+	return
+}
+
 // Utility function for LinkType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value

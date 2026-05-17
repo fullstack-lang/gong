@@ -1059,6 +1059,9 @@ func FillUpForm(
 		BasicFieldtoForm("MouseY", instanceWithInferedType.MouseY, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		EnumTypeStringToForm("MouseEventKey", instanceWithInferedType.MouseEventKey, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("URLPath", instanceWithInferedType.URLPath, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeStringToForm("URLTarget", instanceWithInferedType.URLTarget, instanceWithInferedType, probe.formStage, formGroup)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -1332,6 +1335,9 @@ func FillUpForm(
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 400)
 		AssociationSliceToForm("Animates", instanceWithInferedType, &instanceWithInferedType.Animates, formGroup, probe)
+		BasicFieldtoForm("URLPath", instanceWithInferedType.URLPath, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeStringToForm("URLTarget", instanceWithInferedType.URLTarget, instanceWithInferedType, probe.formStage, formGroup)
 		{
 			var rf models.ReverseField
 			_ = rf

@@ -654,6 +654,10 @@ type Rect_WOP struct {
 	MouseY float64
 
 	MouseEventKey MouseEventKey
+
+	URLPath string
+
+	URLTarget LinkTargetType
 }
 
 func (from *Rect) CopyBasicFields(to *Rect) {
@@ -696,6 +700,8 @@ func (from *Rect) CopyBasicFields(to *Rect) {
 	to.MouseX = from.MouseX
 	to.MouseY = from.MouseY
 	to.MouseEventKey = from.MouseEventKey
+	to.URLPath = from.URLPath
+	to.URLTarget = from.URLTarget
 }
 
 type RectAnchoredPath_WOP struct {
@@ -906,6 +912,10 @@ type RectAnchoredText_WOP struct {
 	StrokeDashArrayWhenSelected string
 
 	Transform string
+
+	URLPath string
+
+	URLTarget LinkTargetType
 }
 
 func (from *RectAnchoredText) CopyBasicFields(to *RectAnchoredText) {
@@ -932,6 +942,8 @@ func (from *RectAnchoredText) CopyBasicFields(to *RectAnchoredText) {
 	to.StrokeDashArray = from.StrokeDashArray
 	to.StrokeDashArrayWhenSelected = from.StrokeDashArrayWhenSelected
 	to.Transform = from.Transform
+	to.URLPath = from.URLPath
+	to.URLTarget = from.URLTarget
 }
 
 type RectLinkLink_WOP struct {
