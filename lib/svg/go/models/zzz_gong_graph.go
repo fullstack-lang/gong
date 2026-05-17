@@ -4311,6 +4311,12 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 	if rect.MouseEventKey != rectOther.MouseEventKey {
 		diffs = append(diffs, rect.GongMarshallField(stage, "MouseEventKey"))
 	}
+	if rect.URLPath != rectOther.URLPath {
+		diffs = append(diffs, rect.GongMarshallField(stage, "URLPath"))
+	}
+	if rect.URLTarget != rectOther.URLTarget {
+		diffs = append(diffs, rect.GongMarshallField(stage, "URLTarget"))
+	}
 
 	return
 }
@@ -4567,6 +4573,12 @@ func (rectanchoredtext *RectAnchoredText) GongDiff(stage *Stage, rectanchoredtex
 	if AnimatesDifferent {
 		ops := Diff(stage, rectanchoredtext, rectanchoredtextOther, "Animates", rectanchoredtextOther.Animates, rectanchoredtext.Animates)
 		diffs = append(diffs, ops)
+	}
+	if rectanchoredtext.URLPath != rectanchoredtextOther.URLPath {
+		diffs = append(diffs, rectanchoredtext.GongMarshallField(stage, "URLPath"))
+	}
+	if rectanchoredtext.URLTarget != rectanchoredtextOther.URLTarget {
+		diffs = append(diffs, rectanchoredtext.GongMarshallField(stage, "URLTarget"))
 	}
 
 	return

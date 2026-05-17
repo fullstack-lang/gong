@@ -2601,40 +2601,40 @@ func (reference *ParticipantShape) GongReconstructPointersFromReferences(stage *
 	// insertion point for slice of pointers field
 }
 
-func (reference *Process) GongReconstructPointersFromReferences(stage *Stage, instance *Process) {
+func (process *Process) GongReconstructPointersFromReferences(stage *Stage, instance *Process) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.DiagramProcesss = reference.DiagramProcesss[:0]
+	process.DiagramProcesss = process.DiagramProcesss[:0]
 	for _, _b := range instance.DiagramProcesss {
-		reference.DiagramProcesss = append(reference.DiagramProcesss, stage.DiagramProcesss_reference[_b])
+		process.DiagramProcesss = append(process.DiagramProcesss, stage.DiagramProcesss_reference[_b])
 	}
-	reference.DiagramProcessWhoseNodeIsExpanded = reference.DiagramProcessWhoseNodeIsExpanded[:0]
+	process.DiagramProcessWhoseNodeIsExpanded = process.DiagramProcessWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.DiagramProcessWhoseNodeIsExpanded {
-		reference.DiagramProcessWhoseNodeIsExpanded = append(reference.DiagramProcessWhoseNodeIsExpanded, stage.DiagramProcesss_reference[_b])
+		process.DiagramProcessWhoseNodeIsExpanded = append(process.DiagramProcessWhoseNodeIsExpanded, stage.DiagramProcesss_reference[_b])
 	}
-	reference.SubProcesses = reference.SubProcesses[:0]
+	process.SubProcesses = process.SubProcesses[:0]
 	for _, _b := range instance.SubProcesses {
-		reference.SubProcesses = append(reference.SubProcesses, stage.Processs_reference[_b])
+		process.SubProcesses = append(process.SubProcesses, stage.Processs_reference[_b])
 	}
-	reference.Participants = reference.Participants[:0]
+	process.Participants = process.Participants[:0]
 	for _, _b := range instance.Participants {
-		reference.Participants = append(reference.Participants, stage.Participants_reference[_b])
+		process.Participants = append(process.Participants, stage.Participants_reference[_b])
 	}
-	reference.ParticipantWhoseNodeIsExpanded = reference.ParticipantWhoseNodeIsExpanded[:0]
+	process.ParticipantWhoseNodeIsExpanded = process.ParticipantWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.ParticipantWhoseNodeIsExpanded {
-		reference.ParticipantWhoseNodeIsExpanded = append(reference.ParticipantWhoseNodeIsExpanded, stage.Participants_reference[_b])
+		process.ParticipantWhoseNodeIsExpanded = append(process.ParticipantWhoseNodeIsExpanded, stage.Participants_reference[_b])
 	}
-	reference.DataFlows = reference.DataFlows[:0]
+	process.DataFlows = process.DataFlows[:0]
 	for _, _b := range instance.DataFlows {
-		reference.DataFlows = append(reference.DataFlows, stage.DataFlows_reference[_b])
+		process.DataFlows = append(process.DataFlows, stage.DataFlows_reference[_b])
 	}
-	reference.ExternalParticipants = reference.ExternalParticipants[:0]
+	process.ExternalParticipants = process.ExternalParticipants[:0]
 	for _, _b := range instance.ExternalParticipants {
-		reference.ExternalParticipants = append(reference.ExternalParticipants, stage.Participants_reference[_b])
+		process.ExternalParticipants = append(process.ExternalParticipants, stage.Participants_reference[_b])
 	}
-	reference.ExternalParticipantWhoseNodeIsExpanded = reference.ExternalParticipantWhoseNodeIsExpanded[:0]
+	process.ExternalParticipantWhoseNodeIsExpanded = process.ExternalParticipantWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.ExternalParticipantWhoseNodeIsExpanded {
-		reference.ExternalParticipantWhoseNodeIsExpanded = append(reference.ExternalParticipantWhoseNodeIsExpanded, stage.Participants_reference[_b])
+		process.ExternalParticipantWhoseNodeIsExpanded = append(process.ExternalParticipantWhoseNodeIsExpanded, stage.Participants_reference[_b])
 	}
 }
 
@@ -3191,65 +3191,65 @@ func (reference *ParticipantShape) GongReconstructPointersFromInstances(stage *S
 	// insertion point for slice of pointers fields
 }
 
-func (reference *Process) GongReconstructPointersFromInstances(stage *Stage) {
+func (process *Process) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _DiagramProcesss []*DiagramProcess
-	for _, _reference := range reference.DiagramProcesss {
+	for _, _reference := range process.DiagramProcesss {
 		if _instance, ok := stage.DiagramProcesss_instance[_reference]; ok {
 			_DiagramProcesss = append(_DiagramProcesss, _instance)
 		}
 	}
-	reference.DiagramProcesss = _DiagramProcesss
+	process.DiagramProcesss = _DiagramProcesss
 	var _DiagramProcessWhoseNodeIsExpanded []*DiagramProcess
-	for _, _reference := range reference.DiagramProcessWhoseNodeIsExpanded {
+	for _, _reference := range process.DiagramProcessWhoseNodeIsExpanded {
 		if _instance, ok := stage.DiagramProcesss_instance[_reference]; ok {
 			_DiagramProcessWhoseNodeIsExpanded = append(_DiagramProcessWhoseNodeIsExpanded, _instance)
 		}
 	}
-	reference.DiagramProcessWhoseNodeIsExpanded = _DiagramProcessWhoseNodeIsExpanded
+	process.DiagramProcessWhoseNodeIsExpanded = _DiagramProcessWhoseNodeIsExpanded
 	var _SubProcesses []*Process
-	for _, _reference := range reference.SubProcesses {
+	for _, _reference := range process.SubProcesses {
 		if _instance, ok := stage.Processs_instance[_reference]; ok {
 			_SubProcesses = append(_SubProcesses, _instance)
 		}
 	}
-	reference.SubProcesses = _SubProcesses
+	process.SubProcesses = _SubProcesses
 	var _Participants []*Participant
-	for _, _reference := range reference.Participants {
+	for _, _reference := range process.Participants {
 		if _instance, ok := stage.Participants_instance[_reference]; ok {
 			_Participants = append(_Participants, _instance)
 		}
 	}
-	reference.Participants = _Participants
+	process.Participants = _Participants
 	var _ParticipantWhoseNodeIsExpanded []*Participant
-	for _, _reference := range reference.ParticipantWhoseNodeIsExpanded {
+	for _, _reference := range process.ParticipantWhoseNodeIsExpanded {
 		if _instance, ok := stage.Participants_instance[_reference]; ok {
 			_ParticipantWhoseNodeIsExpanded = append(_ParticipantWhoseNodeIsExpanded, _instance)
 		}
 	}
-	reference.ParticipantWhoseNodeIsExpanded = _ParticipantWhoseNodeIsExpanded
+	process.ParticipantWhoseNodeIsExpanded = _ParticipantWhoseNodeIsExpanded
 	var _DataFlows []*DataFlow
-	for _, _reference := range reference.DataFlows {
+	for _, _reference := range process.DataFlows {
 		if _instance, ok := stage.DataFlows_instance[_reference]; ok {
 			_DataFlows = append(_DataFlows, _instance)
 		}
 	}
-	reference.DataFlows = _DataFlows
+	process.DataFlows = _DataFlows
 	var _ExternalParticipants []*Participant
-	for _, _reference := range reference.ExternalParticipants {
+	for _, _reference := range process.ExternalParticipants {
 		if _instance, ok := stage.Participants_instance[_reference]; ok {
 			_ExternalParticipants = append(_ExternalParticipants, _instance)
 		}
 	}
-	reference.ExternalParticipants = _ExternalParticipants
+	process.ExternalParticipants = _ExternalParticipants
 	var _ExternalParticipantWhoseNodeIsExpanded []*Participant
-	for _, _reference := range reference.ExternalParticipantWhoseNodeIsExpanded {
+	for _, _reference := range process.ExternalParticipantWhoseNodeIsExpanded {
 		if _instance, ok := stage.Participants_instance[_reference]; ok {
 			_ExternalParticipantWhoseNodeIsExpanded = append(_ExternalParticipantWhoseNodeIsExpanded, _instance)
 		}
 	}
-	reference.ExternalParticipantWhoseNodeIsExpanded = _ExternalParticipantWhoseNodeIsExpanded
+	process.ExternalParticipantWhoseNodeIsExpanded = _ExternalParticipantWhoseNodeIsExpanded
 }
 
 func (reference *ProcessShape) GongReconstructPointersFromInstances(stage *Stage) {

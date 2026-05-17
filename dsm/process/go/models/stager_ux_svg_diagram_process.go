@@ -526,6 +526,9 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 			layer)
 		diagramProcess.map_SvgRect_TaskShape[rect] = taskShape
 
+		rect.URLPath = "../../../References/Tasks/" + task.GetReferencePath() + "/index.html"
+		rect.URLTarget = svg.LINK_TARGET_BLANK
+
 		// make the rect of the task move with alls participant rect and the process rect
 		// not the opposite !
 		processRect.Peers = append(processRect.Peers, rect)
@@ -953,6 +956,8 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 			Y_Offset:         Y_Offset + float64(totalLines)*HeightBetween2AttributeShapes,
 			RectAnchorType:   rectAnchorType,
 			TextAnchorType:   svg.TEXT_ANCHOR_START,
+			URLPath:          "../../../References/Processes/" + process.GetReferencePath() + "/index.html",
+			URLTarget:        svg.LINK_TARGET_BLANK,
 		}
 		if rectAnchorType == svg.RECT_BOTTOM {
 			allocatedProcessText.RectAnchorType = svg.RECT_BOTTOM_LEFT
@@ -1025,6 +1030,8 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 			Y_Offset:         Y_Offset + float64(totalLines)*HeightBetween2AttributeShapes,
 			RectAnchorType:   rectAnchorType,
 			TextAnchorType:   svg.TEXT_ANCHOR_START,
+			URLPath:          "../../../References/Resources/" + resource.GetReferencePath() + "/index.html",
+			URLTarget:        svg.LINK_TARGET_BLANK,
 		}
 		if rectAnchorType == svg.RECT_BOTTOM {
 			allocatedResourceText.RectAnchorType = svg.RECT_BOTTOM_LEFT

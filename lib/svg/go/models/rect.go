@@ -121,12 +121,6 @@ func (rect *Rect) WriteSVG(sb *strings.Builder) (maxX, maxY float64) {
 		sb.WriteString("  </a>\n")
 	}
 
-	for _, rectAnchoredText := range rect.RectAnchoredTexts {
-		x, y := getRectAnchorPoint(rect, rectAnchoredText.RectAnchorType)
-		rectAnchoredText.WriteSVG(sb, x, y)
-
-	}
-
 	for _, rectAnchoredRect := range rect.RectAnchoredRects {
 		x, y := getRectAnchorPoint(rect, rectAnchoredRect.RectAnchorType)
 		maxX_, maxY_ := rectAnchoredRect.WriteSVG(sb, x, y)
@@ -137,6 +131,13 @@ func (rect *Rect) WriteSVG(sb *strings.Builder) (maxX, maxY float64) {
 		x, y := getRectAnchorPoint(rect, rectAnchoredPath.RectAnchorType)
 		maxX_, maxY_ := rectAnchoredPath.WriteSVG(sb, x, y)
 		updateMaxx(maxX_, maxY_, &maxX, &maxY)
+	}
+
+	// if there are after, they are more clickable than the rect itself
+	for _, rectAnchoredText := range rect.RectAnchoredTexts {
+		x, y := getRectAnchorPoint(rect, rectAnchoredText.RectAnchorType)
+		rectAnchoredText.WriteSVG(sb, x, y)
+
 	}
 
 	return

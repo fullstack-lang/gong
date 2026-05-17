@@ -452,15 +452,15 @@ type Process_WOP struct {
 	IsDataFlowsNodeExpanded bool
 }
 
-func (from *Process) CopyBasicFields(to *Process) {
+func (process *Process) CopyBasicFields(to *Process) {
 	// insertion point
-	to.Name = from.Name
-	to.Description = from.Description
-	to.ComputedPrefix = from.ComputedPrefix
-	to.SVG_Path = from.SVG_Path
-	to.InverseAppliedScaling = from.InverseAppliedScaling
-	to.IsSubProcessNodeExpanded = from.IsSubProcessNodeExpanded
-	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
+	to.Name = process.Name
+	to.Description = process.Description
+	to.ComputedPrefix = process.ComputedPrefix
+	to.SVG_Path = process.SVG_Path
+	to.InverseAppliedScaling = process.InverseAppliedScaling
+	to.IsSubProcessNodeExpanded = process.IsSubProcessNodeExpanded
+	to.IsDataFlowsNodeExpanded = process.IsDataFlowsNodeExpanded
 }
 
 type ProcessShape_WOP struct {
