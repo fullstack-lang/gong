@@ -9,6 +9,13 @@ import (
 	ssg "github.com/fullstack-lang/gong/lib/ssg/go/models"
 )
 
+type WebExportable interface {
+	GetName() string
+	GetDescription() string
+	GetReferencePath() string
+	GeneratePage() *ssg.Page
+}
+
 func (stager *Stager) exportWebsite() {
 	stager.ssgStage.Reset()
 
@@ -129,78 +136,15 @@ func (stager *Stager) exportWebsite() {
 	}
 	content.Chapters = append(content.Chapters, refChapter)
 
-	if processes := GetGongstrucsSorted[*Process](stager.stage); len(processes) > 0 {
-		sub := &ssg.Chapter{Name: "Processes", MardownContent: "### Processes\n\n| Name | Description |\n|---|---|\n"}
-		refChapter.SubChapters = append(refChapter.SubChapters, sub)
-		for _, inst := range processes {
-			sub.MardownContent += fmt.Sprintf("| [%s](%s/index.html) | %s |\n", inst.Name, strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20"), strings.ReplaceAll(inst.Description, "\n", "<br>"))
-			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
-		}
-	}
-	if participants := GetGongstrucsSorted[*Participant](stager.stage); len(participants) > 0 {
-		sub := &ssg.Chapter{Name: "Participants", MardownContent: "### Participants\n\n| Name | Description |\n|---|---|\n"}
-		refChapter.SubChapters = append(refChapter.SubChapters, sub)
-		for _, inst := range participants {
-			sub.MardownContent += fmt.Sprintf("| [%s](%s/index.html) | %s |\n", inst.Name, strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20"), strings.ReplaceAll(inst.Description, "\n", "<br>"))
-			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
-		}
-	}
-	if tasks := GetGongstrucsSorted[*Task](stager.stage); len(tasks) > 0 {
-		sub := &ssg.Chapter{Name: "Tasks", MardownContent: "### Tasks\n\n| Name | Description |\n|---|---|\n"}
-		refChapter.SubChapters = append(refChapter.SubChapters, sub)
-		for _, inst := range tasks {
-			sub.MardownContent += fmt.Sprintf("| [%s](%s/index.html) | %s |\n", inst.Name, strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20"), strings.ReplaceAll(inst.Description, "\n", "<br>"))
-			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
-		}
-	}
-	if controlFlows := GetGongstrucsSorted[*ControlFlow](stager.stage); len(controlFlows) > 0 {
-		sub := &ssg.Chapter{Name: "Control Flows", MardownContent: "### Control Flows\n\n| Name | Description |\n|---|---|\n"}
-		refChapter.SubChapters = append(refChapter.SubChapters, sub)
-		for _, inst := range controlFlows {
-			sub.MardownContent += fmt.Sprintf("| [%s](%s/index.html) | %s |\n", inst.Name, strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20"), strings.ReplaceAll(inst.Description, "\n", "<br>"))
-			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
-		}
-	}
-	if dataFlows := GetGongstrucsSorted[*DataFlow](stager.stage); len(dataFlows) > 0 {
-		sub := &ssg.Chapter{Name: "Data Flows", MardownContent: "### Data Flows\n\n| Name | Description |\n|---|---|\n"}
-		refChapter.SubChapters = append(refChapter.SubChapters, sub)
-		for _, inst := range dataFlows {
-			sub.MardownContent += fmt.Sprintf("| [%s](%s/index.html) | %s |\n", inst.Name, strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20"), strings.ReplaceAll(inst.Description, "\n", "<br>"))
-			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
-		}
-	}
-	if datas := GetGongstrucsSorted[*Data](stager.stage); len(datas) > 0 {
-		sub := &ssg.Chapter{Name: "Datas", MardownContent: "### Datas\n\n| Name | Description |\n|---|---|\n"}
-		refChapter.SubChapters = append(refChapter.SubChapters, sub)
-		for _, inst := range datas {
-			sub.MardownContent += fmt.Sprintf("| [%s](%s/index.html) | %s |\n", inst.Name, strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20"), strings.ReplaceAll(inst.Description, "\n", "<br>"))
-			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
-		}
-	}
-	if resources := GetGongstrucsSorted[*Resource](stager.stage); len(resources) > 0 {
-		sub := &ssg.Chapter{Name: "Resources", MardownContent: "### Resources\n\n| Name | Description |\n|---|---|\n"}
-		refChapter.SubChapters = append(refChapter.SubChapters, sub)
-		for _, inst := range resources {
-			sub.MardownContent += fmt.Sprintf("| [%s](%s/index.html) | %s |\n", inst.Name, strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20"), strings.ReplaceAll(inst.Description, "\n", "<br>"))
-			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
-		}
-	}
-	if notes := GetGongstrucsSorted[*Note](stager.stage); len(notes) > 0 {
-		sub := &ssg.Chapter{Name: "Notes", MardownContent: "### Notes\n\n| Name | Description |\n|---|---|\n"}
-		refChapter.SubChapters = append(refChapter.SubChapters, sub)
-		for _, inst := range notes {
-			sub.MardownContent += fmt.Sprintf("| [%s](%s/index.html) | %s |\n", inst.Name, strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20"), strings.ReplaceAll(inst.Description, "\n", "<br>"))
-			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
-		}
-	}
-	if libraries := GetGongstrucsSorted[*Library](stager.stage); len(libraries) > 0 {
-		sub := &ssg.Chapter{Name: "Libraries", MardownContent: "### Libraries\n\n| Name | Description |\n|---|---|\n"}
-		refChapter.SubChapters = append(refChapter.SubChapters, sub)
-		for _, inst := range libraries {
-			sub.MardownContent += fmt.Sprintf("| [%s](%s/index.html) | %s |\n", inst.Name, strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20"), strings.ReplaceAll(inst.Description, "\n", "<br>"))
-			sub.Pages = append(sub.Pages, &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)})
-		}
-	}
+	appendWebExportableChapter(refChapter, "Processes", GetGongstrucsSorted[*Process](stager.stage))
+	appendWebExportableChapter(refChapter, "Participants", GetGongstrucsSorted[*Participant](stager.stage))
+	appendWebExportableChapter(refChapter, "Tasks", GetGongstrucsSorted[*Task](stager.stage))
+	appendWebExportableChapter(refChapter, "Control Flows", GetGongstrucsSorted[*ControlFlow](stager.stage))
+	appendWebExportableChapter(refChapter, "Data Flows", GetGongstrucsSorted[*DataFlow](stager.stage))
+	appendWebExportableChapter(refChapter, "Datas", GetGongstrucsSorted[*Data](stager.stage))
+	appendWebExportableChapter(refChapter, "Resources", GetGongstrucsSorted[*Resource](stager.stage))
+	appendWebExportableChapter(refChapter, "Notes", GetGongstrucsSorted[*Note](stager.stage))
+	appendWebExportableChapter(refChapter, "Libraries", GetGongstrucsSorted[*Library](stager.stage))
 
 	ssg.StageBranch(stager.ssgStage, &content)
 
@@ -219,4 +163,87 @@ func (stager *Stager) exportWebsite() {
 	fileToDownload.Name = "site.zip"
 
 	stager.loadStage.Commit()
+}
+
+func appendWebExportableChapter[T WebExportable](refChapter *ssg.Chapter, title string, instances []T) {
+	if len(instances) > 0 {
+		sub := &ssg.Chapter{Name: title, MardownContent: "### " + title + "\n\n| Name | Description |\n|---|---|\n"}
+		refChapter.SubChapters = append(refChapter.SubChapters, sub)
+		for _, inst := range instances {
+			sub.MardownContent += fmt.Sprintf("| [%s](%s/index.html) | %s |\n", inst.GetName(), inst.GetReferencePath(), strings.ReplaceAll(inst.GetDescription(), "\n", "<br>"))
+			sub.Pages = append(sub.Pages, inst.GeneratePage())
+		}
+	}
+}
+
+func (inst *Process) GetDescription() string { return inst.Description }
+func (inst *Process) GetReferencePath() string {
+	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
+}
+func (inst *Process) GeneratePage() *ssg.Page {
+	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
+}
+
+func (inst *Participant) GetDescription() string { return inst.Description }
+func (inst *Participant) GetReferencePath() string {
+	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
+}
+func (inst *Participant) GeneratePage() *ssg.Page {
+	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
+}
+
+func (inst *Task) GetDescription() string { return inst.Description }
+func (inst *Task) GetReferencePath() string {
+	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
+}
+func (inst *Task) GeneratePage() *ssg.Page {
+	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
+}
+
+func (inst *ControlFlow) GetDescription() string { return inst.Description }
+func (inst *ControlFlow) GetReferencePath() string {
+	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
+}
+func (inst *ControlFlow) GeneratePage() *ssg.Page {
+	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
+}
+
+func (inst *DataFlow) GetDescription() string { return inst.Description }
+func (inst *DataFlow) GetReferencePath() string {
+	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
+}
+func (inst *DataFlow) GeneratePage() *ssg.Page {
+	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
+}
+
+func (inst *Data) GetDescription() string { return inst.Description }
+func (inst *Data) GetReferencePath() string {
+	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
+}
+func (inst *Data) GeneratePage() *ssg.Page {
+	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
+}
+
+func (inst *Resource) GetDescription() string { return inst.Description }
+func (inst *Resource) GetReferencePath() string {
+	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
+}
+func (inst *Resource) GeneratePage() *ssg.Page {
+	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
+}
+
+func (inst *Note) GetDescription() string { return inst.Description }
+func (inst *Note) GetReferencePath() string {
+	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
+}
+func (inst *Note) GeneratePage() *ssg.Page {
+	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
+}
+
+func (inst *Library) GetDescription() string { return inst.Description }
+func (inst *Library) GetReferencePath() string {
+	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
+}
+func (inst *Library) GeneratePage() *ssg.Page {
+	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
 }
