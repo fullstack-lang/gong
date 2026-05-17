@@ -892,6 +892,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseX"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseY"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseEventKey"))
+		initializerStatements.WriteString(rect.GongMarshallField(stage, "URLPath"))
+		initializerStatements.WriteString(rect.GongMarshallField(stage, "URLTarget"))
 	}
 
 	rectanchoredpathOrdered := []*RectAnchoredPath{}
@@ -1061,6 +1063,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(rectanchoredtext.GongMarshallField(stage, "StrokeDashArrayWhenSelected"))
 		initializerStatements.WriteString(rectanchoredtext.GongMarshallField(stage, "Transform"))
 		pointersInitializesStatements.WriteString(rectanchoredtext.GongMarshallField(stage, "Animates"))
+		initializerStatements.WriteString(rectanchoredtext.GongMarshallField(stage, "URLPath"))
+		initializerStatements.WriteString(rectanchoredtext.GongMarshallField(stage, "URLTarget"))
 	}
 
 	rectlinklinkOrdered := []*RectLinkLink{}
@@ -2904,6 +2908,24 @@ func (rect *Rect) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MouseEventKey")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
+	case "URLPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "URLPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rect.URLPath))
+	case "URLTarget":
+		if rect.URLTarget.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "URLTarget")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+rect.URLTarget.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "URLTarget")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
 
 	case "Peers":
 		var sb strings.Builder
@@ -3451,6 +3473,24 @@ func (rectanchoredtext *RectAnchoredText) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredtext.Transform))
+	case "URLPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "URLPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rectanchoredtext.URLPath))
+	case "URLTarget":
+		if rectanchoredtext.URLTarget.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "URLTarget")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+rectanchoredtext.URLTarget.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", rectanchoredtext.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "URLTarget")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
 
 	case "Animates":
 		var sb strings.Builder
@@ -4181,6 +4221,8 @@ func (rect *Rect) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseX"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseY"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "MouseEventKey"))
+		initializerStatements.WriteString(rect.GongMarshallField(stage, "URLPath"))
+		initializerStatements.WriteString(rect.GongMarshallField(stage, "URLTarget"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -4290,6 +4332,8 @@ func (rectanchoredtext *RectAnchoredText) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(rectanchoredtext.GongMarshallField(stage, "StrokeDashArrayWhenSelected"))
 		initializerStatements.WriteString(rectanchoredtext.GongMarshallField(stage, "Transform"))
 		pointersInitializesStatements.WriteString(rectanchoredtext.GongMarshallField(stage, "Animates"))
+		initializerStatements.WriteString(rectanchoredtext.GongMarshallField(stage, "URLPath"))
+		initializerStatements.WriteString(rectanchoredtext.GongMarshallField(stage, "URLTarget"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

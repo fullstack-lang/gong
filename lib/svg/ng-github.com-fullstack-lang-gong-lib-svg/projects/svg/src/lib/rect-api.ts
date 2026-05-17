@@ -54,6 +54,8 @@ export class RectAPI {
 	MouseX: number = 0
 	MouseY: number = 0
 	MouseEventKey: string = ""
+	URLPath: string = ""
+	URLTarget: string = ""
 
 	// insertion point for other decls
 

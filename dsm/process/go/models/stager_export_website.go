@@ -26,108 +26,6 @@ func (stager *Stager) exportWebsite() {
 		OutputPath:     "./generated static web site",
 	}
 
-	for _, process := range GetGongstrucsSorted[*Process](stager.stage) {
-		chapter := &ssg.Chapter{
-			Name:           process.Name,
-			MardownContent: "### " + process.Name,
-		}
-		content.Chapters = append(content.Chapters, chapter)
-
-		if len(process.Participants) > 0 {
-			page := &ssg.Page{
-				Name:           "Participants",
-				MardownContent: "### Participants\n\n| Name |\n|---|\n",
-			}
-			for _, p := range process.Participants {
-				page.MardownContent += fmt.Sprintf("| %s |\n", p.Name)
-			}
-			chapter.Pages = append(chapter.Pages, page)
-		}
-
-		if len(process.ExternalParticipants) > 0 {
-			page := &ssg.Page{
-				Name:           "External Participants",
-				MardownContent: "### External Participants\n\n| Name |\n|---|\n",
-			}
-			for _, p := range process.ExternalParticipants {
-				page.MardownContent += fmt.Sprintf("| %s |\n", p.Name)
-			}
-			chapter.Pages = append(chapter.Pages, page)
-		}
-
-		var allTasks []*Task
-		var allControlFlows []*ControlFlow
-		for _, p := range process.Participants {
-			allTasks = append(allTasks, p.Tasks...)
-			allControlFlows = append(allControlFlows, p.ControlFlows...)
-		}
-
-		if len(allTasks) > 0 {
-			page := &ssg.Page{
-				Name:           "Tasks",
-				MardownContent: "### Tasks\n\n| Name | Participant |\n|---|---|\n",
-			}
-			for _, p := range process.Participants {
-				for _, t := range p.Tasks {
-					page.MardownContent += fmt.Sprintf("| %s | %s |\n", t.Name, p.Name)
-				}
-			}
-			chapter.Pages = append(chapter.Pages, page)
-		}
-
-		if len(allControlFlows) > 0 {
-			page := &ssg.Page{
-				Name:           "Control Flows",
-				MardownContent: "### Control Flows\n\n| Name | Start | End |\n|---|---|---|\n",
-			}
-			for _, c := range allControlFlows {
-				start := ""
-				if c.Start != nil {
-					start = c.Start.Name
-				}
-				end := ""
-				if c.End != nil {
-					end = c.End.Name
-				}
-				page.MardownContent += fmt.Sprintf("| %s | %s | %s |\n", c.Name, start, end)
-			}
-			chapter.Pages = append(chapter.Pages, page)
-		}
-
-		if len(process.DataFlows) > 0 {
-			page := &ssg.Page{
-				Name:           "Data Flows",
-				MardownContent: "### Data Flows\n\n| Name |\n|---|\n",
-			}
-			for _, d := range process.DataFlows {
-				page.MardownContent += fmt.Sprintf("| %s |\n", d.Name)
-			}
-			chapter.Pages = append(chapter.Pages, page)
-		}
-
-		if len(process.DiagramProcesss) > 0 {
-			for _, diagram := range process.DiagramProcesss {
-				svgObject := stager.generateSvgObject(diagram)
-				_ = svgObject
-				svgString, maxX, maxY := svgObject.GenerateString()
-
-				// Replace 100% width/height with exact pixel values to prevent the
-				// SVG from stretching and looking "too big" in the browser.
-				svgString = strings.Replace(svgString, `width="100%"`, fmt.Sprintf(`width="%f"`, maxX), 1)
-				svgString = strings.Replace(svgString, `height="100%"`, fmt.Sprintf(`height="%f"`, maxY), 1)
-
-				section := &ssg.Section{
-					Name:    diagram.Name,
-					IsImage: true,
-					SvgImage: &ssg.SvgImage{
-						Content: svgString,
-					},
-				}
-				chapter.Sections = append(chapter.Sections, section)
-			}
-		}
-	}
-
 	content.LogoSVGFile = stager.GetRootLibrary().LogoSVGFile
 
 	refChapter := &ssg.Chapter{
@@ -176,15 +74,15 @@ func appendWebExportableChapter[T WebExportable](stager *Stager, refChapter *ssg
 	}
 }
 
-func (inst *Process) GetDescription() string { return inst.Description }
-func (inst *Process) GetReferencePath() string {
-	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
+func (process *Process) GetDescription() string { return process.Description }
+func (process *Process) GetReferencePath() string {
+	return strings.ReplaceAll(ssg.SanitizeFileName(process.Name, " "), " ", "%20")
 }
-func (inst *Process) GeneratePage(stager *Stager) *ssg.Page {
-	page := &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
+func (process *Process) GeneratePage(stager *Stager) *ssg.Page {
+	processPage := &ssg.Page{Name: process.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", process.Name, process.Description)}
 
-	if len(inst.DiagramProcesss) > 0 {
-		for _, diagram := range inst.DiagramProcesss {
+	if len(process.DiagramProcesss) > 0 {
+		for _, diagram := range process.DiagramProcesss {
 			svgObject := stager.generateSvgObject(diagram)
 			svgString, maxX, maxY := svgObject.GenerateString()
 
@@ -200,18 +98,83 @@ func (inst *Process) GeneratePage(stager *Stager) *ssg.Page {
 					Content: svgString,
 				},
 			}
-			page.Sections = append(page.Sections, section)
+			processPage.Sections = append(processPage.Sections, section)
 		}
 	}
 
-	if len(inst.Participants) > 0 {
-		page.MardownContent += "\n\n##### Participants\n\n| Name | Description |\n|---|---|\n"
-		for _, p := range inst.Participants {
-			page.MardownContent += fmt.Sprintf("| %s | %s |\n", p.Name, p.GetReferencePath(), strings.ReplaceAll(p.Description, "\n", "<br>"))
+	if len(process.Participants) > 0 {
+		page := &ssg.Section{
+			Name:           "Participants",
+			MardownContent: "### Participants\n\n| Name |\n|---|\n",
 		}
+		for _, p := range process.Participants {
+			page.MardownContent += fmt.Sprintf("| %s |\n", p.Name)
+		}
+		processPage.Sections = append(processPage.Sections, page)
 	}
 
-	return page
+	if len(process.ExternalParticipants) > 0 {
+		page := &ssg.Section{
+			Name:           "External Participants",
+			MardownContent: "### External Participants\n\n| Name |\n|---|\n",
+		}
+		for _, p := range process.ExternalParticipants {
+			page.MardownContent += fmt.Sprintf("| %s |\n", p.Name)
+		}
+		processPage.Sections = append(processPage.Sections, page)
+	}
+
+	var allTasks []*Task
+	var allControlFlows []*ControlFlow
+	for _, p := range process.Participants {
+		allTasks = append(allTasks, p.Tasks...)
+		allControlFlows = append(allControlFlows, p.ControlFlows...)
+	}
+
+	if len(allTasks) > 0 {
+		page := &ssg.Section{
+			Name:           "Tasks",
+			MardownContent: "### Tasks\n\n| Name | Participant |\n|---|---|\n",
+		}
+		for _, p := range process.Participants {
+			for _, t := range p.Tasks {
+				page.MardownContent += fmt.Sprintf("| %s | %s |\n", t.Name, p.Name)
+			}
+		}
+		processPage.Sections = append(processPage.Sections, page)
+	}
+
+	if len(allControlFlows) > 0 {
+		page := &ssg.Section{
+			Name:           "Control Flows",
+			MardownContent: "### Control Flows\n\n| Name | Start | End |\n|---|---|---|\n",
+		}
+		for _, c := range allControlFlows {
+			start := ""
+			if c.Start != nil {
+				start = c.Start.Name
+			}
+			end := ""
+			if c.End != nil {
+				end = c.End.Name
+			}
+			page.MardownContent += fmt.Sprintf("| %s | %s | %s |\n", c.Name, start, end)
+		}
+		processPage.Sections = append(processPage.Sections, page)
+	}
+
+	if len(process.DataFlows) > 0 {
+		page := &ssg.Section{
+			Name:           "Data Flows",
+			MardownContent: "### Data Flows\n\n| Name |\n|---|\n",
+		}
+		for _, d := range process.DataFlows {
+			page.MardownContent += fmt.Sprintf("| %s |\n", d.Name)
+		}
+		processPage.Sections = append(processPage.Sections, page)
+	}
+
+	return processPage
 }
 
 func (inst *Participant) GetDescription() string { return inst.Description }

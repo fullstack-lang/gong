@@ -132,6 +132,12 @@ type RectAnchoredTextDB struct {
 	// Declation for basic field rectanchoredtextDB.Transform
 	Transform_Data sql.NullString
 
+	// Declation for basic field rectanchoredtextDB.URLPath
+	URLPath_Data sql.NullString
+
+	// Declation for basic field rectanchoredtextDB.URLTarget
+	URLTarget_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	RectAnchoredTextPointersEncoding
@@ -197,6 +203,10 @@ type RectAnchoredTextWOP struct {
 	StrokeDashArrayWhenSelected string `xlsx:"21"`
 
 	Transform string `xlsx:"22"`
+
+	URLPath string `xlsx:"23"`
+
+	URLTarget models.LinkTargetType `xlsx:"24"`
 	// insertion for WOP pointer fields
 }
 
@@ -225,6 +235,8 @@ var RectAnchoredText_Fields = []string{
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
 	"Transform",
+	"URLPath",
+	"URLTarget",
 }
 
 type BackRepoRectAnchoredTextStruct struct {
@@ -592,6 +604,12 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsFromRectAnchoredTex
 
 	rectanchoredtextDB.Transform_Data.String = rectanchoredtext.Transform
 	rectanchoredtextDB.Transform_Data.Valid = true
+
+	rectanchoredtextDB.URLPath_Data.String = rectanchoredtext.URLPath
+	rectanchoredtextDB.URLPath_Data.Valid = true
+
+	rectanchoredtextDB.URLTarget_Data.String = rectanchoredtext.URLTarget.ToString()
+	rectanchoredtextDB.URLTarget_Data.Valid = true
 }
 
 // CopyBasicFieldsFromRectAnchoredText_WOP
@@ -663,6 +681,12 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsFromRectAnchoredTex
 
 	rectanchoredtextDB.Transform_Data.String = rectanchoredtext.Transform
 	rectanchoredtextDB.Transform_Data.Valid = true
+
+	rectanchoredtextDB.URLPath_Data.String = rectanchoredtext.URLPath
+	rectanchoredtextDB.URLPath_Data.Valid = true
+
+	rectanchoredtextDB.URLTarget_Data.String = rectanchoredtext.URLTarget.ToString()
+	rectanchoredtextDB.URLTarget_Data.Valid = true
 }
 
 // CopyBasicFieldsFromRectAnchoredTextWOP
@@ -734,6 +758,12 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsFromRectAnchoredTex
 
 	rectanchoredtextDB.Transform_Data.String = rectanchoredtext.Transform
 	rectanchoredtextDB.Transform_Data.Valid = true
+
+	rectanchoredtextDB.URLPath_Data.String = rectanchoredtext.URLPath
+	rectanchoredtextDB.URLPath_Data.Valid = true
+
+	rectanchoredtextDB.URLTarget_Data.String = rectanchoredtext.URLTarget.ToString()
+	rectanchoredtextDB.URLTarget_Data.Valid = true
 }
 
 // CopyBasicFieldsToRectAnchoredText
@@ -761,6 +791,8 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsToRectAnchoredText(
 	rectanchoredtext.StrokeDashArray = rectanchoredtextDB.StrokeDashArray_Data.String
 	rectanchoredtext.StrokeDashArrayWhenSelected = rectanchoredtextDB.StrokeDashArrayWhenSelected_Data.String
 	rectanchoredtext.Transform = rectanchoredtextDB.Transform_Data.String
+	rectanchoredtext.URLPath = rectanchoredtextDB.URLPath_Data.String
+	rectanchoredtext.URLTarget.FromString(rectanchoredtextDB.URLTarget_Data.String)
 }
 
 // CopyBasicFieldsToRectAnchoredText_WOP
@@ -788,6 +820,8 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsToRectAnchoredText_
 	rectanchoredtext.StrokeDashArray = rectanchoredtextDB.StrokeDashArray_Data.String
 	rectanchoredtext.StrokeDashArrayWhenSelected = rectanchoredtextDB.StrokeDashArrayWhenSelected_Data.String
 	rectanchoredtext.Transform = rectanchoredtextDB.Transform_Data.String
+	rectanchoredtext.URLPath = rectanchoredtextDB.URLPath_Data.String
+	rectanchoredtext.URLTarget.FromString(rectanchoredtextDB.URLTarget_Data.String)
 }
 
 // CopyBasicFieldsToRectAnchoredTextWOP
@@ -816,6 +850,8 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsToRectAnchoredTextW
 	rectanchoredtext.StrokeDashArray = rectanchoredtextDB.StrokeDashArray_Data.String
 	rectanchoredtext.StrokeDashArrayWhenSelected = rectanchoredtextDB.StrokeDashArrayWhenSelected_Data.String
 	rectanchoredtext.Transform = rectanchoredtextDB.Transform_Data.String
+	rectanchoredtext.URLPath = rectanchoredtextDB.URLPath_Data.String
+	rectanchoredtext.URLTarget.FromString(rectanchoredtextDB.URLTarget_Data.String)
 }
 
 // Backup generates a json file from a slice of all RectAnchoredTextDB instances in the backrepo

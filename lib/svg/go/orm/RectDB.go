@@ -223,6 +223,12 @@ type RectDB struct {
 	// Declation for basic field rectDB.MouseEventKey
 	MouseEventKey_Data sql.NullString
 
+	// Declation for basic field rectDB.URLPath
+	URLPath_Data sql.NullString
+
+	// Declation for basic field rectDB.URLTarget
+	URLTarget_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	RectPointersEncoding
@@ -320,6 +326,10 @@ type RectWOP struct {
 	MouseY float64 `xlsx:"37"`
 
 	MouseEventKey models.MouseEventKey `xlsx:"38"`
+
+	URLPath string `xlsx:"39"`
+
+	URLTarget models.LinkTargetType `xlsx:"40"`
 	// insertion for WOP pointer fields
 }
 
@@ -364,6 +374,8 @@ var Rect_Fields = []string{
 	"MouseX",
 	"MouseY",
 	"MouseEventKey",
+	"URLPath",
+	"URLTarget",
 }
 
 type BackRepoRectStruct struct {
@@ -1028,6 +1040,12 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect(rect *models.Rect) {
 
 	rectDB.MouseEventKey_Data.String = rect.MouseEventKey.ToString()
 	rectDB.MouseEventKey_Data.Valid = true
+
+	rectDB.URLPath_Data.String = rect.URLPath
+	rectDB.URLPath_Data.Valid = true
+
+	rectDB.URLTarget_Data.String = rect.URLTarget.ToString()
+	rectDB.URLTarget_Data.Valid = true
 }
 
 // CopyBasicFieldsFromRect_WOP
@@ -1147,6 +1165,12 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect_WOP(rect *models.Rect_WOP) {
 
 	rectDB.MouseEventKey_Data.String = rect.MouseEventKey.ToString()
 	rectDB.MouseEventKey_Data.Valid = true
+
+	rectDB.URLPath_Data.String = rect.URLPath
+	rectDB.URLPath_Data.Valid = true
+
+	rectDB.URLTarget_Data.String = rect.URLTarget.ToString()
+	rectDB.URLTarget_Data.Valid = true
 }
 
 // CopyBasicFieldsFromRectWOP
@@ -1266,6 +1290,12 @@ func (rectDB *RectDB) CopyBasicFieldsFromRectWOP(rect *RectWOP) {
 
 	rectDB.MouseEventKey_Data.String = rect.MouseEventKey.ToString()
 	rectDB.MouseEventKey_Data.Valid = true
+
+	rectDB.URLPath_Data.String = rect.URLPath
+	rectDB.URLPath_Data.Valid = true
+
+	rectDB.URLTarget_Data.String = rect.URLTarget.ToString()
+	rectDB.URLTarget_Data.Valid = true
 }
 
 // CopyBasicFieldsToRect
@@ -1309,6 +1339,8 @@ func (rectDB *RectDB) CopyBasicFieldsToRect(rect *models.Rect) {
 	rect.MouseX = rectDB.MouseX_Data.Float64
 	rect.MouseY = rectDB.MouseY_Data.Float64
 	rect.MouseEventKey.FromString(rectDB.MouseEventKey_Data.String)
+	rect.URLPath = rectDB.URLPath_Data.String
+	rect.URLTarget.FromString(rectDB.URLTarget_Data.String)
 }
 
 // CopyBasicFieldsToRect_WOP
@@ -1352,6 +1384,8 @@ func (rectDB *RectDB) CopyBasicFieldsToRect_WOP(rect *models.Rect_WOP) {
 	rect.MouseX = rectDB.MouseX_Data.Float64
 	rect.MouseY = rectDB.MouseY_Data.Float64
 	rect.MouseEventKey.FromString(rectDB.MouseEventKey_Data.String)
+	rect.URLPath = rectDB.URLPath_Data.String
+	rect.URLTarget.FromString(rectDB.URLTarget_Data.String)
 }
 
 // CopyBasicFieldsToRectWOP
@@ -1396,6 +1430,8 @@ func (rectDB *RectDB) CopyBasicFieldsToRectWOP(rect *RectWOP) {
 	rect.MouseX = rectDB.MouseX_Data.Float64
 	rect.MouseY = rectDB.MouseY_Data.Float64
 	rect.MouseEventKey.FromString(rectDB.MouseEventKey_Data.String)
+	rect.URLPath = rectDB.URLPath_Data.String
+	rect.URLTarget.FromString(rectDB.URLTarget_Data.String)
 }
 
 // Backup generates a json file from a slice of all RectDB instances in the backrepo

@@ -1315,6 +1315,10 @@ func (u *RectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.MouseY = GongExtractFloat(valueExpr)
 	case "MouseEventKey":
 		GongUnmarshallEnum(&instance.MouseEventKey, valueExpr)
+	case "URLPath":
+		instance.URLPath = GongExtractString(valueExpr)
+	case "URLTarget":
+		GongUnmarshallEnum(&instance.URLTarget, valueExpr)
 	}
 	return nil
 }
@@ -1561,6 +1565,10 @@ func (u *RectAnchoredTextUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.Transform = GongExtractString(valueExpr)
 	case "Animates":
 		GongUnmarshallSliceOfPointers(&instance.Animates, valueExpr, identifierMap)
+	case "URLPath":
+		instance.URLPath = GongExtractString(valueExpr)
+	case "URLTarget":
+		GongUnmarshallEnum(&instance.URLTarget, valueExpr)
 	}
 	return nil
 }

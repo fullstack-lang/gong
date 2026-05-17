@@ -24,6 +24,16 @@ type RectAnchoredText struct {
 
 	Presentation
 	Animates []*Animate
+
+	// URLPath is the path, if not empty, to navigate to when the rect is clicked, if not empty
+	// only works with backend svg generation
+	// <a href="https://example.com" target="_blank">
+	//   <rect x="10" y="10" width="100" height="50" />
+	// </a>
+	URLPath string
+
+	// URLTarget specifies how to open the link if URLPath is present
+	URLTarget LinkTargetType
 }
 
 type DominantBaselineType string
@@ -146,6 +156,14 @@ const (
 
 func (rectAnchoredText *RectAnchoredText) WriteSVG(sb *strings.Builder, x, y float64) {
 
+	if rectAnchoredText.URLPath != "" {
+		targetAttr := ""
+		if rectAnchoredText.URLTarget != "" {
+			targetAttr = fmt.Sprintf(` target="%s"`, rectAnchoredText.URLTarget)
+		}
+		sb.WriteString(fmt.Sprintf(`  <a href="%s"%s>`+"\n", rectAnchoredText.URLPath, targetAttr))
+	}
+
 	sb.WriteString(
 		fmt.Sprintf(
 			`  <text
@@ -197,4 +215,8 @@ func (rectAnchoredText *RectAnchoredText) WriteSVG(sb *strings.Builder, x, y flo
 		}
 	}
 	sb.WriteString("</text>\n")
+
+	if rectAnchoredText.URLPath != "" {
+		sb.WriteString("  </a>\n")
+	}
 }

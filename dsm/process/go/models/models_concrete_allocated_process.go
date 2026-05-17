@@ -6,4 +6,3 @@ type AllocatedProcessShape struct {
 	Participant *Participant
 	Process     *Process
 }
-

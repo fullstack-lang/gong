@@ -7442,6 +7442,15 @@ func (rect *Rect) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "MouseEventKey",
 		},
+		{
+			Name:               "URLPath",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "URLTarget",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "LinkTargetType",
+		},
 	}
 	return
 }
@@ -7754,6 +7763,15 @@ func (rectanchoredtext *RectAnchoredText) GongGetFieldHeaders() (res []GongField
 			Name:                 "Animates",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Animate",
+		},
+		{
+			Name:               "URLPath",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "URLTarget",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "LinkTargetType",
 		},
 	}
 	return
@@ -9066,6 +9084,11 @@ func (rect *Rect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "MouseEventKey":
 		enum := rect.MouseEventKey
 		res.valueString = enum.ToCodeString()
+	case "URLPath":
+		res.valueString = rect.URLPath
+	case "URLTarget":
+		enum := rect.URLTarget
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -9312,6 +9335,11 @@ func (rectanchoredtext *RectAnchoredText) GongGetFieldValue(fieldName string, st
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "URLPath":
+		res.valueString = rectanchoredtext.URLPath
+	case "URLTarget":
+		enum := rectanchoredtext.URLTarget
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -10530,6 +10558,10 @@ func (rect *Rect) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		rect.MouseY = value.GetValueFloat()
 	case "MouseEventKey":
 		rect.MouseEventKey.FromCodeString(value.GetValueString())
+	case "URLPath":
+		rect.URLPath = value.GetValueString()
+	case "URLTarget":
+		rect.URLTarget.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10716,6 +10748,10 @@ func (rectanchoredtext *RectAnchoredText) GongSetFieldValue(fieldName string, va
 				}
 			}
 		}
+	case "URLPath":
+		rectanchoredtext.URLPath = value.GetValueString()
+	case "URLTarget":
+		rectanchoredtext.URLTarget.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

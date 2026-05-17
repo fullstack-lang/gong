@@ -59,6 +59,8 @@ export class Rect {
 	MouseX: number = 0
 	MouseY: number = 0
 	MouseEventKey: string = ""
+	URLPath: string = ""
+	URLTarget: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 	Peers: Array<Rect> = []
@@ -122,6 +124,8 @@ export function CopyRectToRectAPI(rect: Rect, rectAPI: RectAPI) {
 	rectAPI.MouseX = rect.MouseX
 	rectAPI.MouseY = rect.MouseY
 	rectAPI.MouseEventKey = rect.MouseEventKey
+	rectAPI.URLPath = rect.URLPath
+	rectAPI.URLTarget = rect.URLTarget
 
 	// insertion point for pointer fields encoding
 	rectAPI.RectPointersEncoding.EnclosingRectID.Valid = true
@@ -229,6 +233,8 @@ export function CopyRectAPIToRect(rectAPI: RectAPI, rect: Rect, frontRepo: Front
 	rect.MouseX = rectAPI.MouseX
 	rect.MouseY = rectAPI.MouseY
 	rect.MouseEventKey = rectAPI.MouseEventKey
+	rect.URLPath = rectAPI.URLPath
+	rect.URLTarget = rectAPI.URLTarget
 
 	// insertion point for pointer fields encoding
 	rect.EnclosingRect = frontRepo.map_ID_Rect.get(rectAPI.RectPointersEncoding.EnclosingRectID.Int64)
