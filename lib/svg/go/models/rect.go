@@ -68,9 +68,15 @@ type Rect struct {
 
 	MouseEvent
 
-	// URLPath is the path to navigate to when the rect is clicked, if not empty
+	// URLPath is the path, if not empty, to navigate to when the rect is clicked, if not empty
 	// only works with backend svg generation
+	// <a href="https://example.com" target="_blank">
+	//   <rect x="10" y="10" width="100" height="50" />
+	// </a>
 	URLPath string
+
+	// URLTarget specifies how to open the link if URLPath is present
+	URLTarget LinkTargetType
 }
 
 // OnAfterUpdate, notice that rect == stagedRect
@@ -85,6 +91,14 @@ func (rect *Rect) OnAfterUpdate(stage *Stage, _, frontRect *Rect) {
 }
 
 func (rect *Rect) WriteSVG(sb *strings.Builder) (maxX, maxY float64) {
+	if rect.URLPath != "" {
+		targetAttr := ""
+		if rect.URLTarget != "" {
+			targetAttr = fmt.Sprintf(` target="%s"`, rect.URLTarget)
+		}
+		sb.WriteString(fmt.Sprintf(`  <a href="%s"%s>`+"\n", rect.URLPath, targetAttr))
+	}
+
 	sb.WriteString(
 		fmt.Sprintf(
 			`  <rect x="%s" y="%s" width="%s" height="%s" rx="%s" ry="%s"`,
@@ -102,6 +116,10 @@ func (rect *Rect) WriteSVG(sb *strings.Builder) (maxX, maxY float64) {
 
 	rect.Presentation.WriteSVG(sb)
 	sb.WriteString(" />\n")
+
+	if rect.URLPath != "" {
+		sb.WriteString("  </a>\n")
+	}
 
 	for _, rectAnchoredText := range rect.RectAnchoredTexts {
 		x, y := getRectAnchorPoint(rect, rectAnchoredText.RectAnchorType)
