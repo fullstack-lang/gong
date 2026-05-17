@@ -557,7 +557,7 @@
             ]
         },
         {
-            "name": "process: go run data/stage.go",
+            "name": "process: go run stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -568,7 +568,7 @@
             ]
         },
         {
-            "name": "process: go run data/icao444.go",
+            "name": "process: go run icao444.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -579,7 +579,7 @@
             ]
         },
         {
-            "name": "process: go run data/rqs_spl_v1.go",
+            "name": "process: go run rqs_spl_v1.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -590,7 +590,7 @@
             ]
         },
         {
-            "name": "process: go run data/rqs_spl_v2.go",
+            "name": "process: go run rqs_spl_v2.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -601,13 +601,35 @@
             ]
         },
         {
-            "name": "process: go run data/ifps_ops.go",
+            "name": "process: go run ifps_ops.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/process/go/cmd/process",
             "args": [
                 "data/ifps_ops.go",
+                "-embeddedDiagrams=false",
+            ]
+        },
+        {
+            "name": "process: go run simple.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/simple.go",
+                "-embeddedDiagrams=false",
+            ]
+        },
+        {
+            "name": "process: go run foo.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/foo.go",
                 "-embeddedDiagrams=false",
             ]
         },
@@ -625,40 +647,7 @@
             ]
         },
         {
-            "name": "process: go run data/rqs_spl_all.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
-            "args": [
-                "data/rqs_spl_all.go",
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
-            "name": "process: go run data/simple.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
-            "args": [
-                "data/simple.go",
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
-            "name": "process: go run data/foo.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
-            "args": [
-                "data/foo.go",
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
-            "name": "project: go run data/simple.go",
+            "name": "project: go run simple.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -669,7 +658,7 @@
             ]
         },
         {
-            "name": "project: go run data/stage.go",
+            "name": "project: go run stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
