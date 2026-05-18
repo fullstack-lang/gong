@@ -138,4 +138,13 @@ func _(stage *models.Stage) {
 	__B__00000026_.Name = `34`
 	__B__00000027_.Name = `B35`
 	stage.Commit()
+
+	// ID 2
+	__A__00000002_.EnumInt = models.EnumTypeInt_Value2
+	__A__00000002_.Bs = slices.Insert( __A__00000002_.Bs, 2, __B__00000003_)
+	stage.Commit()
+
+	// ID 0
+	__A__00000000_.Bs = slices.Insert( __A__00000000_.Bs, 0, __B__00000001_)
+	stage.Commit()
 }
