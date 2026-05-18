@@ -138,6 +138,8 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	A_Bs_reverseMap map[*B]*A
 
+	OnAfterUpdateSlice_A_Bs OnAfterUpdateSliceInterface[*A, *B]
+
 	OnAfterACreateCallback OnAfterCreateInterface[A]
 	OnAfterAUpdateCallback OnAfterUpdateInterface[A]
 	OnAfterADeleteCallback OnAfterDeleteInterface[A]
