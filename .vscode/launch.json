@@ -634,6 +634,17 @@
             ]
         },
         {
+            "name": "process: go run 144.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/144.go",
+                "-embeddedDiagrams=false",
+            ]
+        },
+        {
             "name": "process : merge",
             "type": "go",
             "request": "launch",
