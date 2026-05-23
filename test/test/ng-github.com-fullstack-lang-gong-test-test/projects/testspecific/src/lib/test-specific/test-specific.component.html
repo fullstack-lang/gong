@@ -1,7 +1,9 @@
-<p>test-specific works! TOTO</p>
+<p>Before specific code</p>
 
 @if (frontRepo) {
+    <p>frontRepo is present</p>
     @if (frontRepo.array_Astructs) {
+        <p>Number of Astructs: {{ frontRepo.array_Astructs.length }}</p>
         @for (astruct of frontRepo.array_Astructs; track astruct) {
 
             <button 
@@ -11,4 +13,8 @@
               >{{astruct.Name}}</button>
         }
     }
+} @else {
+    <p>frontRepo is NOT present</p>
 }
+
+<p>After specific code</p>
