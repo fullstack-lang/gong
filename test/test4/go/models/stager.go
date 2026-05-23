@@ -14,13 +14,11 @@ type Stager struct {
 func NewStager(
 	r *gin.Engine,
 	stage *Stage,
-	probeForm ProbeIF,
 ) (stager *Stager) {
 
 	stager = new(Stager)
 
 	stager.stage = stage
-	stager.probeForm = probeForm
 
 	callbacks := &BeforeCommitImplementation{
 		stager: stager,

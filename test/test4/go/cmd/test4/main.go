@@ -45,7 +45,7 @@ func main() {
 	// stack.Probe.Refresh()
 	stack.Stage.Commit()
 
-	test4_models.NewStager(r, stack.Stage, stack.Probe)
+	test4_models.NewStager(r, stack.Stage)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
