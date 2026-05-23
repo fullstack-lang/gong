@@ -43,8 +43,6 @@ github.com/bytedance/sonic/loader/internal/abi
 github.com/bytedance/sonic/loader/internal/iasm/expr
 github.com/bytedance/sonic/loader/internal/iasm/x86_64
 github.com/bytedance/sonic/loader/internal/rt
-# github.com/clipperhouse/stringish v0.1.1
-## explicit; go 1.18
 # github.com/clipperhouse/uax29/v2 v2.7.0
 ## explicit; go 1.18
 github.com/clipperhouse/uax29/v2/graphemes
@@ -302,8 +300,6 @@ go.mongodb.org/mongo-driver/v2/internal/binaryutil
 go.mongodb.org/mongo-driver/v2/internal/bsoncoreutil
 go.mongodb.org/mongo-driver/v2/internal/decimal128
 go.mongodb.org/mongo-driver/v2/x/bsonx/bsoncore
-# go.uber.org/mock v0.6.0
-## explicit; go 1.23.0
 # golang.org/x/arch v0.26.0
 ## explicit; go 1.25.0
 golang.org/x/arch/x86/x86asm

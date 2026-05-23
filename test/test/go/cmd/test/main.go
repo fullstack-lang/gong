@@ -49,6 +49,7 @@ func main() {
 
 	// setup model stack with its probe
 	stack := test_stack.NewStack(r, "test", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stack.Stage.Commit()
 	stack.Probe.Refresh()
 
 	// the root split name is "" by convention. Is is the same for all gong applications
