@@ -1,40 +1,40 @@
-import { Injectable } from '@angular/core'
-import { Observable } from 'rxjs'
-
+import { Injectable, Inject } from '@angular/core';
+import { Observable } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
-import { HttpParams } from '@angular/common/http';
-import { Component, Inject, Input, OnInit } from '@angular/core';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class WebSocketService {
-    private socket: WebSocket | undefined
 
-    public connect(stackPath: string): Observable<any> {
+  constructor(@Inject(DOCUMENT) private document: Document) { }
 
-        let params = new HttpParams().set("Name", stackPath)
-        let basePath = 'ws://localhost:8080/api/github.com/fullstack-lang/gong/test/test4/go/v1/ws/stage'
-        let paramString = params.toString()
-        let url = `${basePath}?${paramString}`
-        this.socket = new WebSocket(url)
+  public connect(stackPath: string): Observable<any> {
+    return new Observable<any>(subscriber => {
 
+      // 1. WASM OFFLINE MODE INTERCEPT
+      if ((window as any).openWasmSocket) {
+        const onMessageFromGo = (message: string) => {
+          subscriber.next(JSON.parse(message));
+        };
+        // Call the Go function exported in main_wasm.go
+        (window as any).openWasmSocket(stackPath, onMessageFromGo);
+        return; 
+      }
 
-        return new Observable(observer => {
-            this.socket!.onmessage = event => {
-                observer.next(event)
-            }
-            this.socket!.onerror = event => {
-                observer.error(event)
-            }
-            this.socket!.onclose = event => {
-                observer.complete()
-            }
+      // 2. STANDARD NETWORK MODE
+      let protocol = this.document.location.protocol === 'https:' ? 'wss://' : 'ws://';
+      let port = this.document.location.port ? ':' + this.document.location.port : '';
+      let host = this.document.location.hostname;
+      
+      const wsUrl = `${protocol}${host}${port}/api/github.com/fullstack-lang/gong/test/test4/go/v1/ws/stage?Name=${stackPath}`;
+      
+      const ws = new WebSocket(wsUrl);
+      ws.onmessage = (event) => subscriber.next(JSON.parse(event.data));
+      ws.onerror = (error) => subscriber.error(error);
+      ws.onclose = () => subscriber.complete();
 
-            return () => {
-                this.socket!.close()
-            }
-        })
-
-    }
+      return () => ws.close();
+    });
+  }
 }
