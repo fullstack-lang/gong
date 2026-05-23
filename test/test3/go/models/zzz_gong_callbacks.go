@@ -126,8 +126,3 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterBReadCallback = any(callback).(OnAfterReadInterface[B])
 	}
 }
-
-// OnAfterUpdateSliceInterface callback when a slice field is updated from the front
-type OnAfterUpdateSliceInterface[T1, T2 PointerToGongstruct] interface {
-	OnAfterUpdateSlice(stage *Stage, instance T1, fieldName string, newSlice []T2)
-}

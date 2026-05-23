@@ -1,0 +1,60 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve",
+    "paths": {
+      // with gong, some angular standalone component are imported from other stacks
+      "@vendored_components/*": [
+        "../vendor/*", // path for stack at the root of the module
+        "../../vendor/*", // path for stack within 1 level of the module
+        "../../../vendor/*", // path for stack within 2 levels of the module
+        "../../../../../../*", // path with gong internal lib and test libraries
+        "../../../../*", // path when compile gong ng
+
+      ],
+      "test4": [
+        "./dist/test4"
+      ],
+      "test4specific": [
+        "./dist/test4specific"
+      ]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "typeCheckHostBindings": true,
+    "strictTemplates": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./projects/test4/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/test4/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/test4specific/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/test4specific/tsconfig.spec.json"
+    }
+  ]
+}
