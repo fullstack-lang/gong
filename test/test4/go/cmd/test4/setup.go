@@ -4,12 +4,12 @@ import (
 	"flag"
 	"log"
 	"os"
-	"strconv"
 
-	// insertion point for models import{{modelsImportDirective}}
 	test4_models "github.com/fullstack-lang/gong/test/test4/go/models"
 	test4_stack "github.com/fullstack-lang/gong/test/test4/go/stack"
 	test4_static "github.com/fullstack-lang/gong/test/test4/go/static"
+
+	"github.com/gin-gonic/gin"
 )
 
 var (
@@ -23,13 +23,12 @@ var (
 	port = flag.Int("port", 8080, "port server")
 )
 
-func main() {
+// setupApp initializes the Gin engine and Gong stacks without starting the server.
+// Note: flag.Parse() must be called by the platform-specific main functions before calling this.
+func setupApp() *gin.Engine {
 
 	log.SetPrefix("test4: ")
 	log.SetFlags(log.Lmicroseconds)
-
-	// parse program arguments
-	flag.Parse()
 
 	if len(flag.Args()) > 0 {
 		argument := os.Args[1]
@@ -47,9 +46,5 @@ func main() {
 
 	test4_models.NewStager(r, stack.Stage)
 
-	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
-	err := r.Run(":" + strconv.Itoa(*port))
-	if err != nil {
-		log.Fatalln(err.Error())
-	}
+	return r
 }
