@@ -110,14 +110,6 @@ func (aFormCallback *AFormCallback) OnSave() {
 				}
 			}
 			a_.Bs = instanceSlice
-			if aFormCallback.probe.stageOfInterest.OnAfterUpdateSlice_A_Bs != nil {
-				aFormCallback.probe.stageOfInterest.OnAfterUpdateSlice_A_Bs.OnAfterUpdateSlice(
-					aFormCallback.probe.stageOfInterest,
-					a_,
-					"Bs",
-					instanceSlice,
-				)
-			}
 
 		case "UUID":
 			FormDivBasicFieldToField(&(a_.UUID), formDiv)
