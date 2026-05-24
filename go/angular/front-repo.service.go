@@ -193,11 +193,11 @@ export class FrontRepoService {
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
 
-		// console.log("connectToWebSocket: started", Name)
+		console.log("connectToWebSocket: started", Name)
 
 		// Check if a connection for this name already exists
 		if (this.webSocketConnections.has(Name)) {
-			// console.log("connectToWebSocket: returning existing connection")
+			console.log("connectToWebSocket: returning existing connection")
 			return this.webSocketConnections.get(Name)!
 		}
 
@@ -220,14 +220,14 @@ export class FrontRepoService {
 		let url = ` + "`" + "${basePath}?${paramString}" + "`" + `
 
 		const newConnection$ = new Observable<FrontRepo>(observer => {
-			// console.log("connectToWebSocket: new Observable created")
+			console.log("connectToWebSocket: new Observable created")
 
 			let socket: WebSocket | undefined
 
 			const isOfflineMode = window.location.protocol === 'file:'
 
 			const processData = (dataString: string) => {
-				// console.log("connectToWebSocket: processData called")
+				console.log("connectToWebSocket: processData called")
 				const backRepoData = new BackRepoData(JSON.parse(dataString))
 				let frontRepo = new (FrontRepo)()
 				frontRepo.GONG__Index = backRepoData.GONG__Index
@@ -245,31 +245,31 @@ export class FrontRepoService {
 
 			// 3. Connection Loop
 			const attemptConnection = (retries: number): void => {
-				// console.log("attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+				console.log("attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
 
 				// A. WASM OFFLINE MODE (Check if Go is ready)
 				if ((window as any).openWasmSocket) {
-					// console.log("attemptConnection: openWasmSocket exists, calling it");
+					console.log("attemptConnection: openWasmSocket exists, calling it");
 					(window as any).openWasmSocket(Name, processData);
 					return;
 				}
 
 				// B. WAITING FOR WASM
 				if (isOfflineMode && retries > 0) {
-					// console.log("attemptConnection: WAITING FOR WASM. Retries left:", retries)
+					console.log("attemptConnection: WAITING FOR WASM. Retries left:", retries)
 					setTimeout(() => attemptConnection(retries - 1), 100);
 					return;
 				}
 
 				// C. STANDARD SERVER MODE
 				if (!isOfflineMode) {
-					// console.log("attemptConnection: STANDARD SERVER MODE. url =", url)
+					console.log("attemptConnection: STANDARD SERVER MODE. url =", url)
 					socket = new WebSocket(url)
 					socket.onopen = (event) => {
-						// console.log("WebSocket: onopen", event)
+						console.log("WebSocket: onopen", event)
 					}
 					socket.onmessage = event => {
-						// console.log("WebSocket: onmessage")
+						console.log("WebSocket: onmessage")
 						processData(event.data)
 					}
 					socket.onerror = event => {
@@ -277,7 +277,7 @@ export class FrontRepoService {
 						observer.error(event)
 					}
 					socket.onclose = (event) => {
-						// console.log("WebSocket: onclose", event)
+						console.log("WebSocket: onclose", event)
 						observer.complete()
 					}
 				} else {
