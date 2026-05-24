@@ -216,14 +216,10 @@ export class FrontRepoService {
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
 
-		// Check if a connection for this name already exists
 		if (this.webSocketConnections.has(Name)) {
 			return this.webSocketConnections.get(Name)!
 		}
 
-		//
-		// Create a new connection
-		//
 		let host = window.location.host
 		const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
 
@@ -231,75 +227,78 @@ export class FrontRepoService {
 			host = 'localhost:8080'
 		}
 
-		// Construct the base path using the dynamic host and protocol
-		// The API path remains the same.
 		let basePath = `${protocol}//${host}/api/github.com/fullstack-lang/gong/test/test4/go/v1/ws/stage`
-
 		let params = new HttpParams().set("Name", Name)
-		let paramString = params.toString()
-		let url = `${basePath}?${paramString}`
+		let url = `${basePath}?${params.toString()}`
 
 		const newConnection$ = new Observable<FrontRepo>(observer => {
-			const socket = new WebSocket(url)
 
-			socket.onmessage = event => {
-				const backRepoData = new BackRepoData(JSON.parse(event.data))
+			let socket: WebSocket | undefined
+
+			// 1. Check if we are running locally via file://
+			const isOfflineMode = window.location.protocol === 'file:';
+
+			// 2. Centralize the logic that processes the incoming JSON data
+			const processData = (dataString: string) => {
+				const backRepoData = new BackRepoData(JSON.parse(dataString))
 				let frontRepo = new (FrontRepo)()
 				frontRepo.GONG__Index = backRepoData.GONG__Index
 
-				// 
-				// First Step: init map of instances
-				// insertion point sub template for init 
-				// init the arrays
-				// insertion point sub template for init 
-				// init the arrays
 				frontRepo.array_Astructs = []
 				frontRepo.map_ID_Astruct.clear()
 
-				backRepoData.AstructAPIs.forEach(
-					astructAPI => {
-						let astruct = new Astruct
-						frontRepo.array_Astructs.push(astruct)
-						frontRepo.map_ID_Astruct.set(astructAPI.ID, astruct)
-					}
-				)
+				backRepoData.AstructAPIs.forEach(astructAPI => {
+					let astruct = new Astruct
+					frontRepo.array_Astructs.push(astruct)
+					frontRepo.map_ID_Astruct.set(astructAPI.ID, astruct)
+				})
 
-
-				// 
-				// Second Step: reddeem front objects
-				// insertion point sub template for redeem 
-				// fill up front objects
-				// insertion point sub template for redeem 
-				// fill up front objects
-				backRepoData.AstructAPIs.forEach(
-					astructAPI => {
-						let astruct = frontRepo.map_ID_Astruct.get(astructAPI.ID)
-						CopyAstructAPIToAstruct(astructAPI, astruct!, frontRepo)
-					}
-				)
-
+				backRepoData.AstructAPIs.forEach(astructAPI => {
+					let astruct = frontRepo.map_ID_Astruct.get(astructAPI.ID)
+					CopyAstructAPIToAstruct(astructAPI, astruct!, frontRepo)
+				})
 
 				observer.next(frontRepo)
-			}
+			};
 
-			socket.onerror = event => observer.error(event)
-			socket.onclose = () => observer.complete()
+			// 3. Connection Loop
+			const attemptConnection = (retries: number): void => {
+				// A. WASM OFFLINE MODE (Check if Go is ready)
+				if ((window as any).openWasmSocket) {
+					(window as any).openWasmSocket(Name, processData);
+					return;
+				}
 
-			// Teardown logic: Called when the last subscriber unsubscribes.
+				// B. WAITING FOR WASM
+				if (isOfflineMode && retries > 0) {
+					setTimeout(() => attemptConnection(retries - 1), 100);
+					return;
+				}
+
+				// C. STANDARD SERVER MODE
+				if (!isOfflineMode) {
+					socket = new WebSocket(url)
+					socket.onmessage = event => processData(event.data)
+					socket.onerror = event => observer.error(event)
+					socket.onclose = () => observer.complete()
+				} else {
+					observer.error("Offline mode detected, but WASM backend failed to load.");
+				}
+			};
+
+			// Allow up to 5 seconds for WASM boot
+			attemptConnection(50);
+
 			return () => {
-				this.webSocketConnections.delete(Name) // Remove from cache
-				socket.close()
+				this.webSocketConnections.delete(Name)
+				if (socket) {
+					socket.close()
+				}
 			}
 		}).pipe(
-			// This is the key:
-			// - shareReplay makes this a "multicast" observable, sharing the single WebSocket among subscribers.
-			// - { bufferSize: 1, refCount: true } means:
-			//   - bufferSize: 1 => new subscribers get the last emitted value immediately.
-			//   - refCount: true => the connection starts with the first subscriber and stops with the last.
 			shareReplay({ bufferSize: 1, refCount: true })
 		)
 
-		// Store the new connection observable in the map
 		this.webSocketConnections.set(Name, newConnection$)
 		return newConnection$
 	}
