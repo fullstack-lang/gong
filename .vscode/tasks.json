@@ -1332,10 +1332,11 @@
       "args": [
         "run",
         "main.go",
-        "-unmarshallFromCode",
-        "data/stage.go",
-        "-marshallOnCommit",
-        "data/stage.go"
+        "setup.go",
+        // "-unmarshallFromCode",
+        // "data/stage.go",
+        // "-marshallOnCommit",
+        // "data/stage.go"
       ],
       "group": "build"
     },
@@ -1346,6 +1347,15 @@
         "cwd": "./test/test4"
       },
       "command": "./build_portable.sh",
+      "group": "build"
+    },
+        {
+      "label": "04 - test4 cleanup build portable (from script)",
+      "type": "shell",
+      "options": {
+        "cwd": "./test/test4"
+      },
+      "command": "./cleanup_build_portable.sh",
       "group": "build"
     },
     {
