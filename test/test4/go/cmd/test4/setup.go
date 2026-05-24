@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 
-	test4_models "github.com/fullstack-lang/gong/test/test4/go/models"
 	test4_stack "github.com/fullstack-lang/gong/test/test4/go/stack"
 	test4_static "github.com/fullstack-lang/gong/test/test4/go/static"
 
@@ -29,7 +28,7 @@ var stage_content embed.FS
 
 // setupApp initializes the Gin engine and Gong stacks without starting the server.
 // Note: flag.Parse() must be called by the platform-specific main functions before calling this.
-func setupApp() *gin.Engine {
+func setupApp() (r *gin.Engine, stack *test4_stack.Stack) {
 
 	log.SetPrefix("test4: ")
 	log.SetFlags(log.Lmicroseconds)
@@ -41,25 +40,11 @@ func setupApp() *gin.Engine {
 	}
 
 	// setup the static file server and get the controller
-	r := test4_static.ServeStaticFiles(*logGINFlag)
+	r = test4_static.ServeStaticFiles(*logGINFlag)
 
 	// setup model stack with its probe
-	stack := test4_stack.NewStack(r, "test4", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, false)
+	stack = test4_stack.NewStack(r, "test4", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, false)
 	// stack.Probe.Refresh()
 
-	if *unmarshallFromCode != "" {
-		stack.Stage.Commit()
-	} else {
-		// uses ParseAstEmbeddedFile to parse the stage.go from the embedded FS
-		err := test4_models.ParseAstEmbeddedFile(stack.Stage, stage_content, "data/stage.go")
-		if err != nil {
-			log.Fatalln(err.Error())
-		} else {
-			stack.Stage.Commit()
-		}
-	}
-
-	test4_models.NewStager(r, stack.Stage)
-
-	return r
+	return
 }
