@@ -67,6 +67,10 @@ func main() {
 			astruct.Name = fmt.Sprintf("A%d", idx%3)
 			idx++
 			stack.Stage.Commit()
+
+			if idx > 2 {
+				break
+			}
 		}
 	}
 

@@ -18,7 +18,7 @@ var (
 	unmarshallFromCode = flag.String("unmarshallFromCode", "", "unmarshall data from go file and '.go' (must be lowercased without spaces), If unmarshallFromCode arg is '', no unmarshalling")
 	marshallOnCommit   = flag.String("marshallOnCommit", "", "on all commits, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
 
-	embeddedDiagrams = flag.Bool("embeddedDiagrams", false, "parse/analysis go/models and go/embeddedDiagrams")
+	embeddedDiagrams = flag.Bool("embeddedDiagrams", true, "parse/analysis go/models and go/embeddedDiagrams")
 
 	port = flag.Int("port", 8080, "port server")
 )
@@ -43,8 +43,8 @@ func setupApp() (r *gin.Engine, stack *test4_stack.Stack) {
 	r = test4_static.ServeStaticFiles(*logGINFlag)
 
 	// setup model stack with its probe
-	stack = test4_stack.NewStack(r, "test4", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, false)
-	// stack.Probe.Refresh()
+	stack = test4_stack.NewStack(r, "test4", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stack.Probe.Refresh()
 
 	return
 }
