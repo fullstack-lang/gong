@@ -3,8 +3,7 @@ const path = require('path');
 
 // Target the specific test4 Angular output directory
 const BUILD_DIR = path.join(__dirname, 'dist', 'ng-github.com-fullstack-lang-gong-test-test4', 'browser'); 
-const OUTPUT_FILE = path.join(__dirname, '..', '..', 'test4-portable-app.html');
-
+const OUTPUT_FILE = path.join(__dirname, '..', 'test4-portable-app.html');
 console.log("Packaging Test4 Gong application into a single HTML file...");
 
 // 1. Read the compiled WASM and convert to Base64
@@ -46,13 +45,30 @@ const base64Bootloader = `
 // 4. Inject the bootloader right before the closing </body> tag
 html = html.replace('</body>', base64Bootloader + '\n</body>');
 
-// 5. Inline Angular CSS styles
-html = html.replace(/<link rel="stylesheet" href="([^"]+)">/g, (match, src) => {
+// 5. Inline Angular CSS styles (Using a robust Regex to catch all attributes)
+html = html.replace(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"[^>]*>/gi, (match, src) => {
     const cssPath = path.join(BUILD_DIR, src);
     if (fs.existsSync(cssPath)) {
+        console.log(`css: Inlining ${src}`);
         return `<style>\n${fs.readFileSync(cssPath, 'utf8')}\n</style>`;
     }
     return match; 
+});
+
+// Optional: Angular sometimes wraps a fallback CSS link in a <noscript> tag. 
+// We can safely delete it since we just embedded the CSS.
+html = html.replace(/<noscript>[\s\S]*?<\/noscript>/gi, '');
+
+// 5.5 Inline Favicon as a Base64 String
+html = html.replace(/<link[^>]*rel="icon"[^>]*href="([^"]+)"[^>]*>/gi, (match, src) => {
+    const faviconPath = path.join(BUILD_DIR, src);
+    if (fs.existsSync(faviconPath)) {
+        console.log(`favicon: Inlining ${src} as Base64`);
+        const faviconBuffer = fs.readFileSync(faviconPath);
+        const base64Favicon = faviconBuffer.toString('base64');
+        return `<link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,${base64Favicon}">`;
+    }
+    return match;
 });
 
 // 6. Inline Angular JS Modules (main.js, polyfills.js, etc.)
