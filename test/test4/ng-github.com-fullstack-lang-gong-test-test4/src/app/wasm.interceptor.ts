@@ -7,7 +7,8 @@ export const wasmInterceptor: HttpInterceptorFn = (req, next) => {
     
     const reqData = JSON.stringify({
       method: req.method,
-      url: req.url,
+      // FIX: Use urlWithParams to ensure query parameters like ?Name=test4 are included!
+      url: req.urlWithParams, 
       body: req.body ? JSON.stringify(req.body) : ''
     });
 
@@ -19,7 +20,8 @@ export const wasmInterceptor: HttpInterceptorFn = (req, next) => {
     const response = new HttpResponse({
       body: goResponse.body ? JSON.parse(goResponse.body) : null,
       status: goResponse.status,
-      url: req.url
+      // It is safe to keep req.url here for Angular's internal tracking
+      url: req.url 
     });
 
     return of(response);
