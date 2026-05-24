@@ -52,6 +52,7 @@ export class Test4Specific implements OnInit {
   }
 
   onClick(event: MouseEvent, astruct: test4.Astruct) {
+    console.log("onClick, event", event, "astruct", astruct, "stack Path", this.Name)
     this.astructService.updateFront(astruct, this.Name).subscribe(
       () => {
         console.log("astruct", astruct.Name, "updated");

@@ -25,7 +25,11 @@ func main() {
 	flag.Parse()
 
 	// 1. Initialize the exact same Gong app in memory
-	_, stack := setupApp()
+	// Capture the Gin router in a temporary variable 'r'
+	r, stack := setupApp()
+
+	// Assign it to our global variable so wasmFetch can use it!
+	ginEngine = r
 
 	fmt.Println("From the backend. after setupApp")
 
