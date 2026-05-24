@@ -12,9 +12,10 @@ import (
 	"log"
 	"net/http/httptest"
 	"syscall/js"
+	"time"
 
 	"github.com/fullstack-lang/gong/test/test4/go/controllers"
-	test4_models "github.com/fullstack-lang/gong/test/test4/go/models"
+	"github.com/fullstack-lang/gong/test/test4/go/models"
 	"github.com/fullstack-lang/gong/test/test4/go/orm"
 	"github.com/gin-gonic/gin"
 )
@@ -42,13 +43,31 @@ func main() {
 
 	fmt.Println("From the backend. after openWasmSocket")
 
-	err := test4_models.ParseAstEmbeddedFile(stack.Stage, stage_content, "data/stage.go")
+	err := models.ParseAstEmbeddedFile(stack.Stage, stage_content, "data/stage.go")
 	if err != nil {
 		log.Fatalln(err.Error())
 		fmt.Println("Error while parsing")
 	} else {
 		stack.Stage.Commit()
 		fmt.Println("After the first commit")
+	}
+
+	// get the first Astruct
+	astructs := *models.GetGongstructInstancesSet[models.Astruct](stack.Stage)
+
+	var astruct *models.Astruct
+	for astruct = range astructs {
+		break
+	}
+
+	if astruct != nil {
+		idx := 0
+		for {
+			time.Sleep(time.Second)
+			astruct.Name = fmt.Sprintf("A%d", idx%3)
+			idx++
+			stack.Stage.Commit()
+		}
 	}
 
 	// 3. Prevent the WASM module from exiting
