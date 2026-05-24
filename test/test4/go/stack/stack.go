@@ -7,12 +7,10 @@ import (
 	"os"
 	"strings"
 
+	"github.com/fullstack-lang/gong/test/test/go/probe"
 	"github.com/fullstack-lang/gong/test/test4/go/fullstack"
 	"github.com/fullstack-lang/gong/test/test4/go/models"
 	"github.com/fullstack-lang/gong/test/test4/go/orm"
-	"github.com/fullstack-lang/gong/test/test4/go/probe"
-
-	test4_go "github.com/fullstack-lang/gong/test/test4/go"
 
 	"github.com/gin-gonic/gin"
 )
@@ -134,21 +132,6 @@ func NewStack(
 		stack.hook = new(BeforeCommitImplementation)
 		stack.hook.marshallOnCommit = marshallOnCommit
 		stage.OnInitCommitCallback = stack.hook
-	}
-
-	if withProbe {
-		// if the application edits the diagrams via the probe, it is surmised
-		// that the application is launched from "go/cmd/<appl>/". Therefore, to reach
-		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
-		stack.Probe = probe.NewProbe(
-			r,
-			test4_go.GoModelsDir,
-			test4_go.GoDiagramsDir,
-			embeddedDiagrams,
-			stage,
-		)
-
-		stage.SetProbeIF(stack.Probe)
 	}
 
 	return

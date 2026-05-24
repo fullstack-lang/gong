@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"flag"
 	"log"
 	"os"
@@ -23,6 +24,9 @@ var (
 	port = flag.Int("port", 8080, "port server")
 )
 
+//go:embed data
+var stage_content embed.FS
+
 // setupApp initializes the Gin engine and Gong stacks without starting the server.
 // Note: flag.Parse() must be called by the platform-specific main functions before calling this.
 func setupApp() *gin.Engine {
@@ -42,7 +46,18 @@ func setupApp() *gin.Engine {
 	// setup model stack with its probe
 	stack := test4_stack.NewStack(r, "test4", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, false)
 	// stack.Probe.Refresh()
-	stack.Stage.Commit()
+
+	if *unmarshallFromCode != "" {
+		stack.Stage.Commit()
+	} else {
+		// uses ParseAstEmbeddedFile to parse the stage.go from the embedded FS
+		err := test4_models.ParseAstEmbeddedFile(stack.Stage, stage_content, "data/stage.go")
+		if err != nil {
+			log.Fatalln(err.Error())
+		} else {
+			stack.Stage.Commit()
+		}
+	}
 
 	test4_models.NewStager(r, stack.Stage)
 
