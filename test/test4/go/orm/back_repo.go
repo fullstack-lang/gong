@@ -5,7 +5,6 @@ import (
 	"bufio"
 	"bytes"
 	"context"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -246,9 +245,6 @@ func (backRepoStruct *BackRepoStruct) unsubscribe(ch chan int) {
 }
 
 func (backRepoStruct *BackRepoStruct) broadcastNbCommitToBack() {
-
-	fmt.Println("broadcast commit nb")
-
 	backRepoStruct.subscribersRwMutex.RLock()
 	subscribers := make([]chan int, len(backRepoStruct.subscribers))
 	copy(subscribers, backRepoStruct.subscribers)
