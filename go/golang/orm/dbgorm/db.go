@@ -1,6 +1,8 @@
 package dbgorm
 
-const DbTmpl = `// generated code - do not edit
+const DbTmpl = `//go:build !js && !wasm
+
+// generated code - do not edit
 package dbgorm
 
 import (

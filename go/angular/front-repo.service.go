@@ -193,8 +193,11 @@ export class FrontRepoService {
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
 
+		console.log("{{PkgPathRoot}}; connectToWebSocket: started", Name)
+
 		// Check if a connection for this name already exists
 		if (this.webSocketConnections.has(Name)) {
+			console.log("{{PkgPathRoot}}; connectToWebSocket: returning existing connection")
 			return this.webSocketConnections.get(Name)!
 		}
 
@@ -217,35 +220,80 @@ export class FrontRepoService {
 		let url = ` + "`" + "${basePath}?${paramString}" + "`" + `
 
 		const newConnection$ = new Observable<FrontRepo>(observer => {
-			const socket = new WebSocket(url)
+			console.log("{{PkgPathRoot}}; connectToWebSocket: new Observable created")
 
-			socket.onmessage = event => {
-				const backRepoData = new BackRepoData(JSON.parse(event.data))
+			let socket: WebSocket | undefined
+
+			const isOfflineMode = window.location.protocol === 'file:'
+
+			const processData = (dataString: string) => {
+				console.log("{{PkgPathRoot}}; connectToWebSocket: processData called")
+				const backRepoData = new BackRepoData(JSON.parse(dataString))
 				let frontRepo = new (FrontRepo)()
 				frontRepo.GONG__Index = backRepoData.GONG__Index
 
 				// 
 				// First Step: init map of instances
-				// insertion point sub template for init 
-				// init the arrays
 				// insertion point sub template for init {{` + string(rune(NgLibFrontRepoInitMapInstancesFromWebSocket)) + `}}
 
 				// 
 				// Second Step: reddeem front objects
-				// insertion point sub template for redeem 
-				// fill up front objects
 				// insertion point sub template for redeem {{` + string(rune(NgLibFrontRepoInitFrontObjectsFromWebSocket)) + `}}
 
 				observer.next(frontRepo)
 			}
 
-			socket.onerror = event => observer.error(event)
-			socket.onclose = () => observer.complete()
+			// 3. Connection Loop
+			const attemptConnection = (retries: number): void => {
+				console.log("{{PkgPathRoot}}; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+
+				// A. WASM OFFLINE MODE (Check if Go is ready)
+				if ((window as any).openWasmSocket) {
+					console.log("{{PkgPathRoot}}; attemptConnection: openWasmSocket exists, calling it");
+					(window as any).openWasmSocket("{{PkgPathRoot}}", Name, processData);
+					return;
+				}
+
+				// B. WAITING FOR WASM
+				if (isOfflineMode && retries > 0) {
+					console.log("{{PkgPathRoot}}; attemptConnection: WAITING FOR WASM. Retries left:", retries)
+					setTimeout(() => attemptConnection(retries - 1), 100);
+					return;
+				}
+
+				// C. STANDARD SERVER MODE
+				if (!isOfflineMode) {
+					console.log("{{PkgPathRoot}}; attemptConnection: STANDARD SERVER MODE. url =", url)
+					socket = new WebSocket(url)
+					socket.onopen = (event) => {
+						console.log("{{PkgPathRoot}}; WebSocket: onopen", event)
+					}
+					socket.onmessage = event => {
+						console.log("{{PkgPathRoot}}; WebSocket: onmessage")
+						processData(event.data)
+					}
+					socket.onerror = event => {
+						console.error("{{PkgPathRoot}} WebSocket: onerror", event)
+						observer.error(event)
+					}
+					socket.onclose = (event) => {
+						console.log("{{PkgPathRoot}}; WebSocket: onclose", event)
+						observer.complete()
+					}
+				} else {
+					console.error("{{PkgPathRoot}}, attemptConnection: Offline mode detected, but WASM backend failed to load.")
+					observer.error("Offline mode detected, but WASM backend failed to load.");
+				}
+			};
+
+			attemptConnection(50);
 
 			// Teardown logic: Called when the last subscriber unsubscribes.
 			return () => {
 				this.webSocketConnections.delete(Name) // Remove from cache
-				socket.close()
+				if (socket) {
+					socket.close()
+				}
 			}
 		}).pipe(
 			// This is the key:
