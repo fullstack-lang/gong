@@ -493,7 +493,7 @@
             "args": [
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage",
-
+                "-embeddedDiagrams=false"
             ]
         },
         //
