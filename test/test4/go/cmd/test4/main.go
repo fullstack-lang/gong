@@ -13,7 +13,7 @@ func main() {
 	flag.Parse()
 
 	// 2. Initialize the Gong app and get the Gin router
-	r, _ := setupApp()
+	r := setupApp()
 
 	// 3. Start the standard TCP server
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
