@@ -697,8 +697,11 @@ export class FrontRepoService {
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
 
+		console.log("github.com/fullstack-lang/gong/lib/form/go; connectToWebSocket: started", Name)
+
 		// Check if a connection for this name already exists
 		if (this.webSocketConnections.has(Name)) {
+			console.log("github.com/fullstack-lang/gong/lib/form/go; connectToWebSocket: returning existing connection")
 			return this.webSocketConnections.get(Name)!
 		}
 
@@ -721,17 +724,20 @@ export class FrontRepoService {
 		let url = `${basePath}?${paramString}`
 
 		const newConnection$ = new Observable<FrontRepo>(observer => {
-			const socket = new WebSocket(url)
+			console.log("github.com/fullstack-lang/gong/lib/form/go; connectToWebSocket: new Observable created")
 
-			socket.onmessage = event => {
-				const backRepoData = new BackRepoData(JSON.parse(event.data))
+			let socket: WebSocket | undefined
+
+			const isOfflineMode = window.location.protocol === 'file:'
+
+			const processData = (dataString: string) => {
+				console.log("github.com/fullstack-lang/gong/lib/form/go; connectToWebSocket: processData called")
+				const backRepoData = new BackRepoData(JSON.parse(dataString))
 				let frontRepo = new (FrontRepo)()
 				frontRepo.GONG__Index = backRepoData.GONG__Index
 
 				// 
 				// First Step: init map of instances
-				// insertion point sub template for init 
-				// init the arrays
 				// insertion point sub template for init 
 				// init the arrays
 				frontRepo.array_CheckBoxs = []
@@ -906,8 +912,6 @@ export class FrontRepoService {
 				// Second Step: reddeem front objects
 				// insertion point sub template for redeem 
 				// fill up front objects
-				// insertion point sub template for redeem 
-				// fill up front objects
 				backRepoData.CheckBoxAPIs.forEach(
 					checkboxAPI => {
 						let checkbox = frontRepo.map_ID_CheckBox.get(checkboxAPI.ID)
@@ -1023,13 +1027,57 @@ export class FrontRepoService {
 				observer.next(frontRepo)
 			}
 
-			socket.onerror = event => observer.error(event)
-			socket.onclose = () => observer.complete()
+			// 3. Connection Loop
+			const attemptConnection = (retries: number): void => {
+				console.log("github.com/fullstack-lang/gong/lib/form/go; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+
+				// A. WASM OFFLINE MODE (Check if Go is ready)
+				if ((window as any).openWasmSocket) {
+					console.log("github.com/fullstack-lang/gong/lib/form/go; attemptConnection: openWasmSocket exists, calling it");
+					(window as any).openWasmSocket("github.com/fullstack-lang/gong/lib/form/go", Name, processData);
+					return;
+				}
+
+				// B. WAITING FOR WASM
+				if (isOfflineMode && retries > 0) {
+					console.log("github.com/fullstack-lang/gong/lib/form/go; attemptConnection: WAITING FOR WASM. Retries left:", retries)
+					setTimeout(() => attemptConnection(retries - 1), 100);
+					return;
+				}
+
+				// C. STANDARD SERVER MODE
+				if (!isOfflineMode) {
+					console.log("github.com/fullstack-lang/gong/lib/form/go; attemptConnection: STANDARD SERVER MODE. url =", url)
+					socket = new WebSocket(url)
+					socket.onopen = (event) => {
+						console.log("github.com/fullstack-lang/gong/lib/form/go; WebSocket: onopen", event)
+					}
+					socket.onmessage = event => {
+						console.log("github.com/fullstack-lang/gong/lib/form/go; WebSocket: onmessage")
+						processData(event.data)
+					}
+					socket.onerror = event => {
+						console.error("github.com/fullstack-lang/gong/lib/form/go WebSocket: onerror", event)
+						observer.error(event)
+					}
+					socket.onclose = (event) => {
+						console.log("github.com/fullstack-lang/gong/lib/form/go; WebSocket: onclose", event)
+						observer.complete()
+					}
+				} else {
+					console.error("github.com/fullstack-lang/gong/lib/form/go, attemptConnection: Offline mode detected, but WASM backend failed to load.")
+					observer.error("Offline mode detected, but WASM backend failed to load.");
+				}
+			};
+
+			attemptConnection(50);
 
 			// Teardown logic: Called when the last subscriber unsubscribes.
 			return () => {
 				this.webSocketConnections.delete(Name) // Remove from cache
-				socket.close()
+				if (socket) {
+					socket.close()
+				}
 			}
 		}).pipe(
 			// This is the key:
