@@ -250,7 +250,7 @@ export class FrontRepoService {
 				// A. WASM OFFLINE MODE (Check if Go is ready)
 				if ((window as any).openWasmSocket) {
 					console.log("{{PkgPathRoot}}; attemptConnection: openWasmSocket exists, calling it");
-					(window as any).openWasmSocket(Name, processData);
+					(window as any).openWasmSocket("{{PkgPathRoot}}", Name, processData);
 					return;
 				}
 
