@@ -87,11 +87,4 @@ test/test4/test4-portable-app.html
 dsm/project/dist
 dsm/project/project-portable-app.html
 test/test4/test4-portable-app.zip
-test/test4/.tmp_build/favicon.ico
-test/test4/.tmp_build/index.html
-test/test4/.tmp_build/main-BJIH4YAE.js
-test/test4/.tmp_build/main.wasm
-test/test4/.tmp_build/polyfills-Y2ZPEAG3.js
-test/test4/.tmp_build/styles-CN5IAR6I.css
-test/test4/.tmp_build/wasm_exec.js
-test/test4/.tmp_build/media/material-symbols-outlined-BSAYFINZ.woff2
+test/test4/.tmp_build
