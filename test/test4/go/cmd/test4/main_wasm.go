@@ -22,8 +22,7 @@ func main() {
 
 	// 1. Initialize the exact same Gong app in memory
 	// Capture the Gin router in a temporary variable 'r'
-	r, stack := setupApp()
-	_ = stack
+	r := setupApp()
 
 	// Assign it to our global variable so wasmFetch can use it!
 	ginEngine = r
