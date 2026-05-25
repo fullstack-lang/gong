@@ -16,7 +16,6 @@ func main() {
 	flag.Parse()
 
 	// 1. Initialize the exact same Gong app in memory
-	// TODO: Inline the logic from setupApp() here (e.g., stack := level1stack.NewLevel1StackDelta(...))
 	stackProcess := process_level1stack.NewLevel1StackDelta("process", "", "", true, true, true)
 
 	// initiates the UX loop
