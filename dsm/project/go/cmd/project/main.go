@@ -1,3 +1,5 @@
+//go:build !js
+
 package main
 
 import (
@@ -20,7 +22,6 @@ var (
 )
 
 func main() {
-
 	log.SetPrefix("project: ")
 	log.SetFlags(log.Lmicroseconds)
 
