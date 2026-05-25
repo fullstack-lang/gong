@@ -7,7 +7,6 @@ import (
 	"os"
 
 	test4_stack "github.com/fullstack-lang/gong/test/test4/go/stack"
-	test4_static "github.com/fullstack-lang/gong/test/test4/go/static"
 
 	process_level1stack "github.com/fullstack-lang/gong/dsm/process/go/level1stack"
 	process_models "github.com/fullstack-lang/gong/dsm/process/go/models"
@@ -42,12 +41,9 @@ func setupApp() (r *gin.Engine, stack *test4_stack.Stack) {
 		unmarshallFromCode = &argument
 	}
 
-	// setup the static file server and get the controller
-	r = test4_static.ServeStaticFiles(*logGINFlag)
-
-	// setup model stack with its probe
-	stack = test4_stack.NewStack(r, "test4", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
-	stack.Probe.Refresh()
+	// // setup model stack with its probe
+	// stack = test4_stack.NewStack(r, "test4", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	// stack.Probe.Refresh()
 
 	stackProcess := process_level1stack.NewLevel1StackDelta("process", "", "", true, true, true)
 
@@ -57,6 +53,7 @@ func setupApp() (r *gin.Engine, stack *test4_stack.Stack) {
 		stackProcess.Stage,
 		stackProcess.Probe,
 	)
+	r = stackProcess.R
 
 	return
 }

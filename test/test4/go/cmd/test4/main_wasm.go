@@ -8,13 +8,10 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"log"
 	"net/http/httptest"
 	"syscall/js"
-	"time"
 
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
-	"github.com/fullstack-lang/gong/test/test4/go/models"
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,6 +23,7 @@ func main() {
 	// 1. Initialize the exact same Gong app in memory
 	// Capture the Gin router in a temporary variable 'r'
 	r, stack := setupApp()
+	_ = stack
 
 	// Assign it to our global variable so wasmFetch can use it!
 	ginEngine = r
@@ -41,36 +39,38 @@ func main() {
 
 	fmt.Println("From the backend. after openWasmSocket")
 
-	err := models.ParseAstEmbeddedFile(stack.Stage, stage_content, "data/stage.go")
-	if err != nil {
-		log.Fatalln(err.Error())
-		fmt.Println("Error while parsing")
-	} else {
-		stack.Stage.Commit()
-		fmt.Println("After the first commit")
-	}
-
-	// get the first Astruct
-	astructs := *models.GetGongstructInstancesSet[models.Astruct](stack.Stage)
-
-	var astruct *models.Astruct
-	for astruct = range astructs {
-		break
-	}
-
-	if astruct != nil {
-		idx := 0
-		for {
-			time.Sleep(time.Second)
-			astruct.Name = fmt.Sprintf("A%d", idx%3)
-			idx++
+	/*
+		err := models.ParseAstEmbeddedFile(stack.Stage, stage_content, "data/stage.go")
+		if err != nil {
+			log.Fatalln(err.Error())
+			fmt.Println("Error while parsing")
+		} else {
 			stack.Stage.Commit()
+			fmt.Println("After the first commit")
+		}
 
-			if idx > 2 {
-				break
+		// get the first Astruct
+		astructs := *models.GetGongstructInstancesSet[models.Astruct](stack.Stage)
+
+		var astruct *models.Astruct
+		for astruct = range astructs {
+			break
+		}
+
+		if astruct != nil {
+			idx := 0
+			for {
+				time.Sleep(time.Second)
+				astruct.Name = fmt.Sprintf("A%d", idx%3)
+				idx++
+				stack.Stage.Commit()
+
+				if idx > 2 {
+					break
+				}
 			}
 		}
-	}
+	*/
 
 	// 3. Prevent the WASM module from exiting
 	select {}
