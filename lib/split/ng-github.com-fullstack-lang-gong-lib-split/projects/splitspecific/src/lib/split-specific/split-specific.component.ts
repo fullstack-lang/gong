@@ -75,10 +75,13 @@ export class SplitSpecificComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("ngOnInit");
+    console.log(`[lib-split-specific] Initializing for Name: "${this.Name}"`);
 
     this.frontRepoService.connectToWebSocket(this.Name).subscribe({
       next: (frontRepo) => {
+
+        console.log(`[lib-split-specific] Received data for Name: "${this.Name}"`, frontRepo);
+
         this.frontRepo = frontRepo;
 
         if (this.frontRepo.array_Titles.length > 0) {
@@ -133,14 +136,16 @@ export class SplitSpecificComponent implements OnInit {
           }
         }
 
+      },
+      error: (err) => {
+        console.error(`[lib-split-specific] connectToWebSocket failed for Name: "${this.Name}"`, err);
       }
-    }
-    )
+    });
   }
 
   setSvgFavicon(svgString: string) {
     // Create data URL from SVG string
-    const svgBlob = new Blob([svgString], { type: 'image/svg+xml' });
+    const svgBlob = new Blob([svgString], { type: 'image/svg+xml' }); 
     const svgUrl = URL.createObjectURL(svgBlob);
 
     // Alternative: use data URL directly

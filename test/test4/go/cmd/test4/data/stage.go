@@ -28,10 +28,12 @@ func _(stage *models.Stage) {
 	// insertion point for declaration of instances to stage
 
 	__Astruct__00000000_ := (&models.Astruct{Name: `A0`}).Stage(stage)
+	__Astruct__00000001_ := (&models.Astruct{Name: `A1`}).Stage(stage)
 
 	// insertion point for initialization of values
 
 	__Astruct__00000000_.Name = `A0`
+	__Astruct__00000001_.Name = `A1`
 
 	// insertion point for setup of pointers
 }

@@ -207,6 +207,11 @@ func NewStack(
 		stage.SetProbeIF(stack.Probe)
 	}
 
+	// Attempt to register the WASM socket. 
+    // On Mac/Linux, this does absolutely nothing.
+    // On WASM, it safely grabs the BackRepo and registers the JS callback
+    registerWasmSocket(stackPath, backRepo)
+
 	return
 }
 

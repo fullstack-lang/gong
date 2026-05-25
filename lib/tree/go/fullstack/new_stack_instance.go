@@ -40,6 +40,11 @@ func NewStackInstance(
 
 	controllers.Register(r)
 
+	// Attempt to register the WASM socket. 
+    // On Mac/Linux, this does absolutely nothing.
+    // On WASM, it safely grabs the BackRepo and registers the JS callback
+    registerWasmSocket(stackPath, backRepo)
+
 	// add orchestration
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.Button](stage)

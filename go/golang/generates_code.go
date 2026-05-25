@@ -352,6 +352,25 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 			filepath.Join(pkgPath, "../controllers/controller.go"),
 			controllers.ControllerTemplate)
 
+		gong_models.VerySimpleCodeGenerator(
+			modelPkg,
+			filepath.Join(pkgPath, "../stack/register_wasm.go"),
+			stack.RegisterWasmTemplate)
+
+		gong_models.VerySimpleCodeGenerator(
+			modelPkg,
+			filepath.Join(pkgPath, "../stack/register_os.go"),
+			stack.RegisterOsTemplate)
+
+		gong_models.VerySimpleCodeGenerator(
+			modelPkg,
+			filepath.Join(pkgPath, "../fullstack/register_wasm.go"),
+			fullstack.RegisterWasmTemplate)
+
+		gong_models.VerySimpleCodeGenerator(
+			modelPkg,
+			filepath.Join(pkgPath, "../fullstack/register_os.go"),
+			fullstack.RegisterOsTemplate)
 	}
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(

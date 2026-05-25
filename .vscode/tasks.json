@@ -552,6 +552,15 @@
       ]
     },
     {
+      "label": "04 - project build portable (from script)",
+      "type": "shell",
+      "options": {
+        "cwd": "./dsm/project"
+      },
+      "command": "./build_portable.sh",
+      "group": "build"
+    },
+    {
       "label": "04 - go run project on simple",
       "type": "shell",
       "options": {
@@ -1313,6 +1322,15 @@
       "command": "ng serve",
       "group": "build"
     },
+      {
+      "label": "03 - ng build test4",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/test/test4/ng-github.com-fullstack-lang-gong-test-test4"
+      },
+      "command": "ng build",
+      "group": "build"
+    },
     {
       "label": "04 - go run test4 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
       "type": "shell",
@@ -1323,11 +1341,30 @@
       "args": [
         "run",
         "main.go",
-        "-unmarshallFromCode",
-        "data/stage.go",
-        "-marshallOnCommit",
-        "data/stage.go"
+        "setup.go",
+        // "-unmarshallFromCode",
+        // "data/stage.go",
+        // "-marshallOnCommit",
+        // "data/stage.go"
       ],
+      "group": "build"
+    },
+    {
+      "label": "04 - test4 build portable (from script)",
+      "type": "shell",
+      "options": {
+        "cwd": "./test/test4"
+      },
+      "command": "./build_portable.sh",
+      "group": "build"
+    },
+        {
+      "label": "04 - test4 cleanup build portable (from script)",
+      "type": "shell",
+      "options": {
+        "cwd": "./test/test4"
+      },
+      "command": "./cleanup_build_portable.sh",
       "group": "build"
     },
     {

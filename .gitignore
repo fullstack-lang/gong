@@ -80,3 +80,9 @@ dsm/process/go/cmd/process/process
 dsm/process/go/cmd/process/data/foo.go
 dsm/process/go/cmd/process/data/144.go
 test/test4/go/cmd/test4/test4
+test/test4/ng-github.com-fullstack-lang-gong-test-test4/public/main.wasm
+test/test4/ng-github.com-fullstack-lang-gong-test-test4/public/wasm_exec.js
+test/test4-portable-app.html
+test/test4/test4-portable-app.html
+dsm/project/dist
+dsm/project/project-portable-app.html
