@@ -290,11 +290,11 @@ export class FrontRepoService {
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
 
-		console.log("connectToWebSocket: started", Name)
+		console.log("github.com/fullstack-lang/gong/lib/tone/go; connectToWebSocket: started", Name)
 
 		// Check if a connection for this name already exists
 		if (this.webSocketConnections.has(Name)) {
-			console.log("connectToWebSocket: returning existing connection")
+			console.log("github.com/fullstack-lang/gong/lib/tone/go; connectToWebSocket: returning existing connection")
 			return this.webSocketConnections.get(Name)!
 		}
 
@@ -317,14 +317,14 @@ export class FrontRepoService {
 		let url = `${basePath}?${paramString}`
 
 		const newConnection$ = new Observable<FrontRepo>(observer => {
-			console.log("connectToWebSocket: new Observable created")
+			console.log("github.com/fullstack-lang/gong/lib/tone/go; connectToWebSocket: new Observable created")
 
 			let socket: WebSocket | undefined
 
 			const isOfflineMode = window.location.protocol === 'file:'
 
 			const processData = (dataString: string) => {
-				console.log("connectToWebSocket: processData called")
+				console.log("github.com/fullstack-lang/gong/lib/tone/go; connectToWebSocket: processData called")
 				const backRepoData = new BackRepoData(JSON.parse(dataString))
 				let frontRepo = new (FrontRepo)()
 				frontRepo.GONG__Index = backRepoData.GONG__Index
@@ -402,43 +402,43 @@ export class FrontRepoService {
 
 			// 3. Connection Loop
 			const attemptConnection = (retries: number): void => {
-				console.log("attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+				console.log("github.com/fullstack-lang/gong/lib/tone/go; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
 
 				// A. WASM OFFLINE MODE (Check if Go is ready)
 				if ((window as any).openWasmSocket) {
-					console.log("attemptConnection: openWasmSocket exists, calling it");
+					console.log("github.com/fullstack-lang/gong/lib/tone/go; attemptConnection: openWasmSocket exists, calling it");
 					(window as any).openWasmSocket(Name, processData);
 					return;
 				}
 
 				// B. WAITING FOR WASM
 				if (isOfflineMode && retries > 0) {
-					console.log("attemptConnection: WAITING FOR WASM. Retries left:", retries)
+					console.log("github.com/fullstack-lang/gong/lib/tone/go; attemptConnection: WAITING FOR WASM. Retries left:", retries)
 					setTimeout(() => attemptConnection(retries - 1), 100);
 					return;
 				}
 
 				// C. STANDARD SERVER MODE
 				if (!isOfflineMode) {
-					console.log("attemptConnection: STANDARD SERVER MODE. url =", url)
+					console.log("github.com/fullstack-lang/gong/lib/tone/go; attemptConnection: STANDARD SERVER MODE. url =", url)
 					socket = new WebSocket(url)
 					socket.onopen = (event) => {
-						console.log("WebSocket: onopen", event)
+						console.log("github.com/fullstack-lang/gong/lib/tone/go; WebSocket: onopen", event)
 					}
 					socket.onmessage = event => {
-						console.log("WebSocket: onmessage")
+						console.log("github.com/fullstack-lang/gong/lib/tone/go; WebSocket: onmessage")
 						processData(event.data)
 					}
 					socket.onerror = event => {
-						console.error("WebSocket: onerror", event)
+						console.error("github.com/fullstack-lang/gong/lib/tone/go WebSocket: onerror", event)
 						observer.error(event)
 					}
 					socket.onclose = (event) => {
-						console.log("WebSocket: onclose", event)
+						console.log("github.com/fullstack-lang/gong/lib/tone/go; WebSocket: onclose", event)
 						observer.complete()
 					}
 				} else {
-					console.error("attemptConnection: Offline mode detected, but WASM backend failed to load.")
+					console.error("github.com/fullstack-lang/gong/lib/tone/go, attemptConnection: Offline mode detected, but WASM backend failed to load.")
 					observer.error("Offline mode detected, but WASM backend failed to load.");
 				}
 			};
