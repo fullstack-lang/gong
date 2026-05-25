@@ -6,41 +6,47 @@ echo "🚀 Starting Test4 Portable App Build Process..."
 GO_DIR="go"
 NG_DIR="ng-github.com-fullstack-lang-gong-test-test4"
 DIST_BROWSER_DIR="$NG_DIR/dist/ng-github.com-fullstack-lang-gong-test-test4/browser"
+TMP_BUILD_DIR=".tmp_build"
 
 # 0. CLEANUP (Crucial for Library updates!)
 echo "🧹 0/5: Cleaning up previous build artifacts..."
-rm -rf "$NG_DIR/dist/"
-rm -rf "$NG_DIR/.angular/cache/"
 rm -f "test4-portable-app.html"
 rm -f "test4-portable-app.zip"
+rm -rf "$TMP_BUILD_DIR"
 
-# 1. Copy the Go WebAssembly glue code
-echo "📦 1/5: Copying wasm_exec.js to Angular public folder..."
-cp "$(go env GOROOT)/lib/wasm/wasm_exec.js" "$NG_DIR/public/"
+# 1. Prepare temporary build directory
+echo "📦 1/5: Preparing temporary build directory and copying frontend assets..."
+mkdir -p "$TMP_BUILD_DIR"
 
-# 2. Build the Angular Application
-echo "🅰️ 2/5: Building Angular frontend for production..."
-cd "$NG_DIR"
+if [ ! -d "$DIST_BROWSER_DIR" ]; then
+    echo "❌ Error: Angular dist directory not found. Please build the Angular app first."
+    exit 1
+fi
 
-# ---> NEW CRITICAL STEP: Build the library first to apply your WebSocket changes
-npx ng build test4 
+cp -r "$DIST_BROWSER_DIR/"* "$TMP_BUILD_DIR/"
 
-# ---> Build the main app (which will now pull the fresh library)
-npm run build
-cd ..
+if [ -f "$(go env GOROOT)/lib/wasm/wasm_exec.js" ]; then
+    cp "$(go env GOROOT)/lib/wasm/wasm_exec.js" "$TMP_BUILD_DIR/"
+else
+    cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" "$TMP_BUILD_DIR/"
+fi
 
-# 3. Compile Go to WebAssembly
-echo "🐹 3/5: Compiling Go backend to WebAssembly..."
+# 2. Compile Go to WebAssembly
+echo "🐹 2/5: Compiling Go backend to WebAssembly..."
 cd "$GO_DIR"
-GOOS=js GOARCH=wasm go build -o "../$DIST_BROWSER_DIR/main.wasm" ./cmd/test4
+GOOS=js GOARCH=wasm go build -o "../$TMP_BUILD_DIR/main.wasm" ./cmd/test4
 cd ..
 
-# 4. Run the Node Bundler
-echo "⚙️ 4/5: Bundling everything into a single HTML file..."
+# 3. Run the Node Bundler
+echo "⚙️ 3/5: Bundling everything into a single HTML file..."
 node bundle.js
 
-# 5. Zip the HTML file
-echo "🗜️ 5/5: Zipping the portable app..."
+# 4. Zip the HTML file
+echo "🗜️ 4/5: Zipping the portable app..."
 zip test4-portable-app.zip test4-portable-app.html
+
+# 5. Cleanup temporary build directory
+echo "🧹 5/5: Cleaning up temporary build directory..."
+rm -rf "$TMP_BUILD_DIR"
 
 echo "✅ Success! Your offline app is ready at: test4-portable-app.html and test4-portable-app.zip"
