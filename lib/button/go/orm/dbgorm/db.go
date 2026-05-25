@@ -1,3 +1,5 @@
+//go:build !js && !wasm
+
 // generated code - do not edit
 package dbgorm
 
