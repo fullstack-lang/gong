@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-// Target the specific test4 Angular output directory
-const BUILD_DIR = path.join(__dirname, 'ng-github.com-fullstack-lang-gong-test-test4', 'dist', 'ng-github.com-fullstack-lang-gong-test-test4', 'browser'); 
+// Target the temporary build directory
+const BUILD_DIR = path.join(__dirname, '.tmp_build'); 
 const OUTPUT_FILE = path.join(__dirname, 'test4-portable-app.html');
 console.log("Packaging Test4 Gong application into a single HTML file...");
 
