@@ -4,8 +4,8 @@ set -e
 echo "🚀 Starting Test4 Portable App Build Process..."
 
 GO_DIR="go"
-NG_DIR="ng-github.com-fullstack-lang-gong-test-test4"
-DIST_BROWSER_DIR="$NG_DIR/dist/ng-github.com-fullstack-lang-gong-test-test4/browser"
+SPLIT_NG_DIR="../../lib/split/ng-github.com-fullstack-lang-gong-lib-split"
+DIST_BROWSER_DIR="$SPLIT_NG_DIR/dist/ng-github.com-fullstack-lang-gong-lib-split/browser"
 TMP_BUILD_DIR=".tmp_build"
 
 # 0. CLEANUP (Crucial for Library updates!)
