@@ -45,15 +45,57 @@ const base64Bootloader = `
 // 4. Inject the bootloader right before the closing </body> tag
 html = html.replace('</body>', base64Bootloader + '\n</body>');
 
-// 5. Inline Angular CSS styles (Using a robust Regex to catch all attributes)
+// 5. Inline Angular CSS styles AND embed all referenced fonts/assets as Base64
 html = html.replace(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"[^>]*>/gi, (match, src) => {
     const cssPath = path.join(BUILD_DIR, src);
     if (fs.existsSync(cssPath)) {
         console.log(`css: Inlining ${src}`);
-        return `<style>\n${fs.readFileSync(cssPath, 'utf8')}\n</style>`;
+        let cssContent = fs.readFileSync(cssPath, 'utf8');
+
+        // Regex to find url("...") or url(...) inside the CSS
+        cssContent = cssContent.replace(/url\((['"]?)([^'")]+)\1\)/g, (urlMatch, quote, assetPath) => {
+            // Skip if it's already a Base64 string or an external HTTP link
+            if (assetPath.startsWith('data:') || assetPath.startsWith('http')) {
+                return urlMatch;
+            }
+
+            // Clean up the path (remove query params or hashes like font.woff2?v=1.0 or #iefix)
+            let cleanAssetPath = assetPath.split('?')[0].split('#')[0];
+            let absoluteAssetPath = path.join(BUILD_DIR, cleanAssetPath);
+
+            if (fs.existsSync(absoluteAssetPath)) {
+                console.log(` ↳ font/asset: Inlining ${cleanAssetPath} as Base64`);
+                
+                // Determine the correct MIME type
+                let ext = path.extname(cleanAssetPath).toLowerCase();
+                let mime = 'application/octet-stream';
+                if (ext === '.woff2') mime = 'font/woff2';
+                else if (ext === '.woff') mime = 'font/woff';
+                else if (ext === '.ttf') mime = 'font/ttf';
+                else if (ext === '.eot') mime = 'application/vnd.ms-fontobject';
+                else if (ext === '.svg') mime = 'image/svg+xml';
+                else if (ext === '.png') mime = 'image/png';
+                else if (ext === '.jpg' || ext === '.jpeg') mime = 'image/jpeg';
+
+                // Read file and convert to Base64
+                const fileBuffer = fs.readFileSync(absoluteAssetPath);
+                const base64Str = fileBuffer.toString('base64');
+                
+                // Replace the original url path with the embedded Base64 data URI
+                return `url("data:${mime};base64,${base64Str}")`;
+            } else {
+                console.warn(` ⚠️ Warning: Could not find asset to inline: ${absoluteAssetPath}`);
+                return urlMatch;
+            }
+        });
+
+        return `<style>\n${cssContent}\n</style>`;
     }
     return match; 
 });
+
+// Optional: Angular sometimes wraps a fallback CSS link in a <noscript> tag. 
+html = html.replace(/<noscript>[\s\S]*?<\/noscript>/gi, '');
 
 // Optional: Angular sometimes wraps a fallback CSS link in a <noscript> tag. 
 // We can safely delete it since we just embedded the CSS.
