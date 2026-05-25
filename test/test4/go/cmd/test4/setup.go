@@ -9,6 +9,9 @@ import (
 	test4_stack "github.com/fullstack-lang/gong/test/test4/go/stack"
 	test4_static "github.com/fullstack-lang/gong/test/test4/go/static"
 
+	process_level1stack "github.com/fullstack-lang/gong/dsm/process/go/level1stack"
+	process_models "github.com/fullstack-lang/gong/dsm/process/go/models"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -45,6 +48,15 @@ func setupApp() (r *gin.Engine, stack *test4_stack.Stack) {
 	// setup model stack with its probe
 	stack = test4_stack.NewStack(r, "test4", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
+
+	stackProcess := process_level1stack.NewLevel1StackDelta("process", "", "", true, true, true)
+
+	// initiates the UX loop
+	process_models.NewStager(
+		stackProcess.R,
+		stackProcess.Stage,
+		stackProcess.Probe,
+	)
 
 	return
 }
