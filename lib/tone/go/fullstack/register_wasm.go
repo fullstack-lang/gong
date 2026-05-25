@@ -9,7 +9,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"syscall/js"
-	
+
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 	"github.com/fullstack-lang/gong/lib/tone/go/orm"
 )
@@ -19,16 +19,16 @@ func registerWasmSocket(stackPath string, backRepo *orm.BackRepoStruct) {
 
 	fmt.Println("github.com/fullstack-lang/gong/lib/tone/go", "registerWasmSocket", stackPath)
 
-	wasmregistry.Register(stackPath, func(callback js.Value) {
+	wasmregistry.Register("github.com/fullstack-lang/gong/lib/tone/go", stackPath, func(callback js.Value) {
 		pushState := func() {
 			data := new(orm.BackRepoData)
 			orm.CopyBackRepoToBackRepoData(backRepo, data)
 			b, _ := json.Marshal(data)
 			callback.Invoke(string(b))
 		}	
-		pushState() 
+		pushState()
 		for range backRepo.SubscribeToCommitNb(context.Background()) {
-			pushState() 
+			pushState()
 		}
 	})
 }

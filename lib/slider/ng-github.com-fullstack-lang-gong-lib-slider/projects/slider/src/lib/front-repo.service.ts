@@ -464,7 +464,7 @@ export class FrontRepoService {
 				// A. WASM OFFLINE MODE (Check if Go is ready)
 				if ((window as any).openWasmSocket) {
 					console.log("github.com/fullstack-lang/gong/lib/slider/go; attemptConnection: openWasmSocket exists, calling it");
-					(window as any).openWasmSocket(Name, processData);
+					(window as any).openWasmSocket("github.com/fullstack-lang/gong/lib/slider/go", Name, processData);
 					return;
 				}
 

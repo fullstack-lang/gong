@@ -7,12 +7,22 @@ import (
 )
 
 // The global map you used to have in main()
-var Handlers = make(map[string]func(js.Value))
+type HandleKey struct {
+	StackType string // "github.com/fullstack-lang/gong/lib/tone/go"
+	StackPath string // "foo"
+}
+
+var Handlers = make(map[HandleKey]func(js.Value))
 
 // Register adds a stack's socket handler to the map dynamically
-func Register(stackPath string, handler func(js.Value)) {
+func Register(stackType string, stackPath string, handler func(js.Value)) {
 
 	fmt.Println("Registering")
 
-	Handlers[stackPath] = handler
+	key := HandleKey{
+		StackType: stackType,
+		StackPath: stackPath,
+	}
+
+	Handlers[key] = handler
 }
