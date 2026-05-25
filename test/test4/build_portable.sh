@@ -34,7 +34,7 @@ fi
 # 2. Compile Go to WebAssembly
 echo "🐹 2/5: Compiling Go backend to WebAssembly..."
 cd "$GO_DIR"
-GOOS=js GOARCH=wasm go build -o "../$TMP_BUILD_DIR/main.wasm" ./cmd/test4
+GOOS=js GOARCH=wasm go build -o "../$TMP_BUILD_DIR/main.wasm" ./cmd/test4-wasm
 cd ..
 
 # 3. Run the Node Bundler
