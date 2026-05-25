@@ -12,6 +12,7 @@ echo "🧹 0/5: Cleaning up previous build artifacts..."
 rm -rf "$NG_DIR/dist/"
 rm -rf "$NG_DIR/.angular/cache/"
 rm -f "test4-portable-app.html"
+rm -f "test4-portable-app.zip"
 
 # 1. Copy the Go WebAssembly glue code
 echo "📦 1/5: Copying wasm_exec.js to Angular public folder..."
@@ -40,4 +41,8 @@ cd "$NG_DIR"
 node bundle.js
 cd ..
 
-echo "✅ Success! Your offline app is ready at: test4-portable-app.html"
+# 5. Zip the HTML file
+echo "🗜️ 5/5: Zipping the portable app..."
+zip test4-portable-app.zip test4-portable-app.html
+
+echo "✅ Success! Your offline app is ready at: test4-portable-app.html and test4-portable-app.zip"
