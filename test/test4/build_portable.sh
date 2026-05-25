@@ -37,9 +37,7 @@ cd ..
 
 # 4. Run the Node Bundler
 echo "⚙️ 4/5: Bundling everything into a single HTML file..."
-cd "$NG_DIR"
 node bundle.js
-cd ..
 
 # 5. Zip the HTML file
 echo "🗜️ 5/5: Zipping the portable app..."
