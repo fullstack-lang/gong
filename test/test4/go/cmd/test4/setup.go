@@ -6,8 +6,6 @@ import (
 	"log"
 	"os"
 
-	test4_stack "github.com/fullstack-lang/gong/test/test4/go/stack"
-
 	process_level1stack "github.com/fullstack-lang/gong/dsm/process/go/level1stack"
 	process_models "github.com/fullstack-lang/gong/dsm/process/go/models"
 
@@ -30,7 +28,7 @@ var stage_content embed.FS
 
 // setupApp initializes the Gin engine and Gong stacks without starting the server.
 // Note: flag.Parse() must be called by the platform-specific main functions before calling this.
-func setupApp() (r *gin.Engine, stack *test4_stack.Stack) {
+func setupApp() (r *gin.Engine) {
 
 	log.SetPrefix("test4: ")
 	log.SetFlags(log.Lmicroseconds)
