@@ -114,12 +114,18 @@ func wasmFetch(this js.Value, args []js.Value) any {
 }
 
 func openWasmSocket(this js.Value, args []js.Value) any {
-	stackPath := args[0].String()
-	callback := args[1]
+	stackType := args[0].String()
+	stackPath := args[1].String()
+	callback := args[2]
 
-	handler, exists := wasmregistry.Handlers[stackPath]
+	key := wasmregistry.HandleKey{
+		StackType: stackType,
+		StackPath: stackPath,
+	}
+
+	handler, exists := wasmregistry.Handlers[key]
 	if !exists {
-		fmt.Println("ERROR - No WASM handler for:", stackPath)
+		fmt.Println("ERROR - No WASM handler for:", stackType, stackPath)
 		return nil
 	}
 
