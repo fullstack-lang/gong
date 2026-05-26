@@ -81,21 +81,19 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: `ICAO 4444 Chapter 11`}).Stage(stage)
 
-	__Participant__00000000_ := (&models.Participant{Name: `Aircraft Operator`}).Stage(stage)
-	__Participant__00000001_ := (&models.Participant{Name: `ATS Reporting Office`}).Stage(stage)
-	__Participant__00000002_ := (&models.Participant{Name: `ATS Unit`}).Stage(stage)
+	__Participant__00000000_ := (&models.Participant{Name: `Flight Plan Originator`}).Stage(stage)
+	__Participant__00000001_ := (&models.Participant{Name: `Air Traffic Flow Manager`}).Stage(stage)
+	__Participant__00000002_ := (&models.Participant{Name: `ATC Unit`}).Stage(stage)
 
 	__ParticipantShape__00000000_ := (&models.ParticipantShape{Name: `Aircraft Operator-DiagramProcess`}).Stage(stage)
 	__ParticipantShape__00000001_ := (&models.ParticipantShape{Name: `ATS Reporting Office-DiagramProcess`}).Stage(stage)
 	__ParticipantShape__00000002_ := (&models.ParticipantShape{Name: `ATS Unit-DiagramProcess`}).Stage(stage)
 
-	__Process__00000000_ := (&models.Process{Name: `ARO Message Exchanges`}).Stage(stage)
+	__Process__00000000_ := (&models.Process{Name: `Flight Messages Exchanges`}).Stage(stage)
 
 	__ProcessShape__00000000_ := (&models.ProcessShape{Name: `ProcessShape`}).Stage(stage)
 
-	__Resource__00000000_ := (&models.Resource{Name: `AO`}).Stage(stage)
-	__Resource__00000001_ := (&models.Resource{Name: `ARO`}).Stage(stage)
-	__Resource__00000002_ := (&models.Resource{Name: `ATC`}).Stage(stage)
+	__Resource__00000001_ := (&models.Resource{Name: `IFPS`}).Stage(stage)
 
 	__Task__00000000_ := (&models.Task{Name: `Submit Flight Plan`}).Stage(stage)
 	__Task__00000001_ := (&models.Task{Name: `Manage Operational Changes`}).Stage(stage)
@@ -346,7 +344,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.IsShowPrefix = false
 	__DiagramProcess__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000000_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000000_.Width = 1373.000000
+	__DiagramProcess__00000000_.Width = 1375.000000
 	__DiagramProcess__00000000_.Height = 1442.000000
 	__DiagramProcess__00000000_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000000_.IsParticipantsNodeExpanded = true
@@ -366,7 +364,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsNotesNodeExpanded = false
 	__Library__00000000_.IsExpandedTmp = true
 
-	__Participant__00000000_.Name = `Aircraft Operator`
+	__Participant__00000000_.Name = `Flight Plan Originator`
 	__Participant__00000000_.IsProcessResource = false
 	__Participant__00000000_.Description = `Originator of initial flight plan data and operational modifications`
 	__Participant__00000000_.IsResourcesNodeExpanded = true
@@ -376,7 +374,7 @@ func _(stage *models.Stage) {
 	__Participant__00000000_.IsControlFlowsNodeExpanded = false
 	__Participant__00000000_.IsDataFlowsNodeExpanded = false
 
-	__Participant__00000001_.Name = `ATS Reporting Office`
+	__Participant__00000001_.Name = `Air Traffic Flow Manager`
 	__Participant__00000001_.IsProcessResource = false
 	__Participant__00000001_.Description = `Receives, validates, accepts, and distributes flight plan-related messages`
 	__Participant__00000001_.IsResourcesNodeExpanded = false
@@ -386,7 +384,7 @@ func _(stage *models.Stage) {
 	__Participant__00000001_.IsControlFlowsNodeExpanded = false
 	__Participant__00000001_.IsDataFlowsNodeExpanded = false
 
-	__Participant__00000002_.Name = `ATS Unit`
+	__Participant__00000002_.Name = `ATC Unit`
 	__Participant__00000002_.IsProcessResource = false
 	__Participant__00000002_.Description = `Recipient of distributed movement and control data used for traffic separation`
 	__Participant__00000002_.IsResourcesNodeExpanded = false
@@ -423,7 +421,7 @@ func _(stage *models.Stage) {
 	__ParticipantShape__00000002_.IsHidden = false
 	__ParticipantShape__00000002_.WidthWeight = 1.000000
 
-	__Process__00000000_.Name = `ARO Message Exchanges`
+	__Process__00000000_.Name = `Flight Messages Exchanges`
 	__Process__00000000_.Description = `Process governing the submission, validation, modification, and distribution of ATS messages via the ARO.`
 	__Process__00000000_.ComputedPrefix = ``
 	__Process__00000000_.SVG_Path = ``
@@ -433,32 +431,18 @@ func _(stage *models.Stage) {
 
 	__ProcessShape__00000000_.Name = `ProcessShape`
 	__ProcessShape__00000000_.IsExpanded = false
-	__ProcessShape__00000000_.X = 53.000000
+	__ProcessShape__00000000_.X = 55.000000
 	__ProcessShape__00000000_.Y = 16.000000
 	__ProcessShape__00000000_.Width = 1020.000000
 	__ProcessShape__00000000_.Height = 1126.000000
 	__ProcessShape__00000000_.IsHidden = false
 
-	__Resource__00000000_.Name = `AO`
-	__Resource__00000000_.Acronym = ``
-	__Resource__00000000_.Description = `Aircraft Operator / Flight Crew`
-	__Resource__00000000_.ComputedPrefix = ``
-	__Resource__00000000_.SVG_Path = ``
-	__Resource__00000000_.InverseAppliedScaling = 0.000000
-
-	__Resource__00000001_.Name = `ARO`
+	__Resource__00000001_.Name = `IFPS`
 	__Resource__00000001_.Acronym = ``
-	__Resource__00000001_.Description = `ATS Reporting Office`
+	__Resource__00000001_.Description = `Euroncontrol's Initial Flight Plan Processing`
 	__Resource__00000001_.ComputedPrefix = ``
 	__Resource__00000001_.SVG_Path = ``
 	__Resource__00000001_.InverseAppliedScaling = 0.000000
-
-	__Resource__00000002_.Name = `ATC`
-	__Resource__00000002_.Acronym = ``
-	__Resource__00000002_.Description = `Air Traffic Control Unit / ACC / TWR`
-	__Resource__00000002_.ComputedPrefix = ``
-	__Resource__00000002_.SVG_Path = ``
-	__Resource__00000002_.InverseAppliedScaling = 0.000000
 
 	__Task__00000000_.Name = `Submit Flight Plan`
 	__Task__00000000_.Description = `Originates and files the initial field flight plan parameters before departure.`
@@ -582,11 +566,11 @@ func _(stage *models.Stage) {
 
 	// insertion point for setup of pointers
 	__AllocatedResourceShape__00000000_.Participant = __Participant__00000000_
-	__AllocatedResourceShape__00000000_.Resource = __Resource__00000000_
+	__AllocatedResourceShape__00000000_.Resource = nil
 	__AllocatedResourceShape__00000001_.Participant = __Participant__00000001_
 	__AllocatedResourceShape__00000001_.Resource = __Resource__00000001_
 	__AllocatedResourceShape__00000002_.Participant = __Participant__00000002_
-	__AllocatedResourceShape__00000002_.Resource = __Resource__00000002_
+	__AllocatedResourceShape__00000002_.Resource = nil
 	__ControlFlow__00000000_.Start = __Task__00000000_
 	__ControlFlow__00000000_.End = __Task__00000001_
 	__ControlFlow__00000001_.Start = __Task__00000002_
@@ -718,10 +702,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000005_)
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000007_)
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000008_)
-	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000000_)
 	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000001_)
-	__Library__00000000_.RootResources = append(__Library__00000000_.RootResources, __Resource__00000002_)
-	__Participant__00000000_.Resources = append(__Participant__00000000_.Resources, __Resource__00000000_)
 	__Participant__00000000_.Tasks = append(__Participant__00000000_.Tasks, __Task__00000000_)
 	__Participant__00000000_.Tasks = append(__Participant__00000000_.Tasks, __Task__00000001_)
 	__Participant__00000000_.Tasks = append(__Participant__00000000_.Tasks, __Task__00000006_)
@@ -734,7 +715,6 @@ func _(stage *models.Stage) {
 	__Participant__00000001_.Tasks = append(__Participant__00000001_.Tasks, __Task__00000003_)
 	__Participant__00000001_.ControlFlows = append(__Participant__00000001_.ControlFlows, __ControlFlow__00000001_)
 	__Participant__00000001_.TaskWhoseOutDataFlowsNodeIsExpanded = append(__Participant__00000001_.TaskWhoseOutDataFlowsNodeIsExpanded, __Task__00000003_)
-	__Participant__00000002_.Resources = append(__Participant__00000002_.Resources, __Resource__00000002_)
 	__Participant__00000002_.Tasks = append(__Participant__00000002_.Tasks, __Task__00000004_)
 	__Participant__00000002_.Tasks = append(__Participant__00000002_.Tasks, __Task__00000005_)
 	__Participant__00000002_.Tasks = append(__Participant__00000002_.Tasks, __Task__00000007_)

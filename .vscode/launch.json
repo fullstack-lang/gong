@@ -594,13 +594,13 @@
             ]
         },
         {
-            "name": "process: go run icao444.go",
+            "name": "process: go run icao4444.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/process/go/cmd/process",
             "args": [
-                "data/icao444.go",
+                "data/icao4444.go",
                 "-embeddedDiagrams=false",
             ]
         },
