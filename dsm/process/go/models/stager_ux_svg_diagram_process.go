@@ -247,32 +247,6 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 				}
 				return
 			}
-			diffX := participantShape.GetX() != updatedRect.X
-			diffY := participantShape.GetY() != updatedRect.Y
-
-			if diffX || diffY {
-				deltaX := updatedRect.X - participantShape.GetX()
-				deltaY := updatedRect.Y - participantShape.GetY()
-
-				processShape := diagramProcess.map_Process_Rect[diagramProcess.owningProcess]
-				processShape.X += deltaX
-				processShape.Y += deltaY
-
-				// for _, participantShape := range diagramProcess.Participant_Shapes {
-				// 	participantShape.SetX(participantShape.GetX() + deltaX)
-				// 	participantShape.SetY(participantShape.GetY() + deltaY)
-				// }
-
-				// for _, taskShape := range diagramProcess.Task_Shapes {
-				// 	taskShape.SetX(taskShape.GetX() + deltaX)
-				// 	taskShape.SetY(taskShape.GetY() + deltaY)
-				// }
-
-				// it is important to commit with suspended callbacks, otherwise we would have a cascade of updates and commits that would
-				// generates more than one SVG updates (which it is not supposed to handle)
-				stager.stage.CommitWithSuspendedCallbacks()
-				return
-			}
 			stager.probeForm.FillUpFormFromGongstruct(participantShape.Participant, GetPointerToGongstructName[*Participant]())
 		}
 
