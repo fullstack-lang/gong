@@ -16,7 +16,7 @@ The data is based on the abstract syntax of the Domain Specific Language (DSL). 
 
 General Purpose Modeling Languages (GPML) like UML or SysML are standards with hundreds of elements in their abstract and concrete syntax. However, tailoring them to a specific domain often involves subsetting—ignoring the majority of the standard to focus on a narrow slice — and profiling (stereotypes) to bend generic concepts to specific needs.
 
-Gong allows you to grow your DSM. You start with an empty metamodel or an existing small metamodel close to your need and progressively introduce abstract and concrete syntax elements only as your understanding of the domain matures. 
+Gong allows you to grow your DSM from a General Purpose Programming Language (GPPL), e.g. go. You start with an empty metamodel or an existing small metamodel close to your need and progressively introduce abstract and concrete syntax elements only as your understanding of the domain matures. 
 
 Developing a robust DSM remains a complex task that requires familiarity with standard metamodeling patterns. Gong aims to democratize the development part of this process.
 
@@ -76,9 +76,4 @@ cd ../../..
 
 # 4. Status
 
-Gong has been used in different settings. It is a work in progress that matures with each new DSME development.
-
-For DSME examples see
-
-- explore the "dsm" directory that contains small DSMEs to start from.
-- https://github.com/fullstack-lang/gong/dsm/reqif, a tool for analysing ReqIF files. The abstract syntax is the ReqIF model and the concrete syntax is the rendering of the specifications as markdown/HTML.
+Gong is a work in progress.
