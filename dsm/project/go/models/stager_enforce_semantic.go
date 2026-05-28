@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"log"
+	"slices"
 	"time"
 )
 
@@ -123,6 +124,43 @@ func (stager *Stager) enforceThereIsARootLibrary() (needCommit bool) {
 				}
 				needCommit = true
 			}
+		}
+	}
+
+	if rootLibrary == nil {
+		// we set the first library that has no parent as the root library
+		hasParent := make(map[*Library]bool)
+		for _, library := range libraries {
+			for _, sub := range library.SubLibraries {
+				hasParent[sub] = true
+			}
+		}
+
+		var rootCandidates []*Library
+		for _, library := range libraries {
+			if !hasParent[library] {
+				rootCandidates = append(rootCandidates, library)
+			}
+		}
+
+		if len(rootCandidates) > 0 {
+			slices.SortFunc(rootCandidates, CompareGongstructByName[*Library])
+			rootLibrary = rootCandidates[0]
+			rootLibrary.IsRootLibrary = true
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(),
+					"Set existing library as root: "+rootLibrary.GetName())
+			}
+			needCommit = true
+		} else if len(libraries) > 0 {
+			// Fallback in case of circular dependencies
+			rootLibrary = libraries[0]
+			rootLibrary.IsRootLibrary = true
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(),
+					"Set existing library as root (fallback): "+rootLibrary.GetName())
+			}
+			needCommit = true
 		}
 	}
 
