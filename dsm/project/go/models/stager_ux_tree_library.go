@@ -14,7 +14,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	}
 	*parentNodes = append(*parentNodes, libraryNode)
 
-	if library != stager.rootLibrary {
+	if library != stager.getRootLibrary() {
 		addRenameButton(library, libraryNode, stager)
 	}
 
@@ -114,6 +114,33 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		}
 		diagramNode.Children = append(diagramNode.Children, pbsNode)
 		pbsNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsPBSNodeExpanded)
+		confPBS := ItemShapeAndLinkButtonConfiguration[
+			Product, *Product, // AT, PAT (Added Element)
+			Product, *Product, // ParentAT, PParentAT (Parent Element)
+			ProductShape, *ProductShape, // CT, PCT (Concrete Shape)
+			ProductCompositionShape, *ProductCompositionShape, // ACT, PACT (Association Shape)
+		]{
+			ItemAndShapeButtonConfiguration: ItemAndShapeButtonConfiguration[
+				Product, *Product, // AT, PAT (Added Element)
+				Product, *Product, // ParentAT, PParentAT (Parent Element)
+				ProductShape, *ProductShape, // CT, PCT (Concrete Shape)
+			]{
+				ItemButtonConfiguration: ItemButtonConfiguration[
+					Product, *Product, // AT, PAT (Added Element)
+					Product, *Product, // ParentAT, PParentAT (Parent Element)
+				]{
+					parentNode:                         pbsNode,
+					sliceForNewAddedItem:               &library.RootProducts,
+					isParentNodeExpandedByAddOperation: true,
+					parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+					parentNodeExpansionBooleanValue:    &diagram.IsWBSNodeExpanded,
+				},
+				receivingDiagram:      diagram,
+				sliceForNewAddedShape: &diagram.Product_Shapes,
+			},
+			sliceForNewCompositionShapes: &diagram.ProductComposition_Shapes,
+		}
+		addCreateItemShapeAndLinkButton(stager, confPBS)
 
 		for _, product := range library.RootProducts {
 			stager.treeProduct(diagram, product, pbsNode)

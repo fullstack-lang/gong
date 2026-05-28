@@ -7,7 +7,7 @@ import (
 func (stager *Stager) tree() {
 	stager.treeStage.Reset()
 
-	rootLibrary := stager.rootLibrary
+	rootLibrary := stager.getRootLibrary()
 	_ = rootLibrary
 
 	treeInstance := &tree.Tree{Name: "Library Tree"}

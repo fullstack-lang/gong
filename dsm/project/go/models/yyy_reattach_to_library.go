@@ -41,7 +41,7 @@ func reattachToLibraryRoots[T interface {
 	// 2. Find all nodes and, if not in a library, reattach to root library
 	for _, object := range GetGongstrucsSorted[T](stager.stage) {
 		if _, ok := reachable[object]; !ok {
-			if object != any(stager.rootLibrary) {
+			if object != any(stager.getRootLibrary()) {
 				attachDirectlyToLibraryRoot(object)
 				// object.UnstageVoid(stager.stage)
 				needCommit = true
