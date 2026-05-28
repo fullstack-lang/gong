@@ -684,6 +684,16 @@
             ]
         },
         {
+            "name": "project: go run",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
+            "args": [
+                "-embeddedDiagrams=false",
+            ]
+        },
+        {
             "name": "project: go run simple.go",
             "type": "go",
             "request": "launch",

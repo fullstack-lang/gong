@@ -6,6 +6,9 @@ type Library struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
+	// There is one and only one root library per stage.
+	IsRootLibrary bool
+
 	RootProducts  []*Product
 	RootTasks     []*Task
 	RootResources []*Resource
