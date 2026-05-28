@@ -3,6 +3,8 @@
 package models
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
@@ -30,8 +32,6 @@ type Stager struct {
 	splitStage *split.Stage
 	probeForm  ProbeIF
 
-	rootLibrary *Library
-
 	treeStage   *tree.Stage
 	svgStage    *svg.Stage
 	ssgStage    *ssg.Stage
@@ -47,6 +47,18 @@ type Stager struct {
 
 	// map to navigate from abstract elements to all diagrams where they are displayed
 	map_Element_Diagrams map[AbstractType][]DiagramIF
+}
+
+func (stager *Stager) getRootLibrary() *Library {
+	for library := range *GetGongstructInstancesSet[Library](stager.stage) {
+		if library.IsRootLibrary {
+			return library
+		}
+	}
+
+	// should not happen
+	log.Panic("No root library found")
+	return nil
 }
 
 func NewStager(

@@ -3109,6 +3109,9 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.ComputedPrefix != libraryOther.ComputedPrefix {
 		diffs = append(diffs, library.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if library.IsRootLibrary != libraryOther.IsRootLibrary {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
+	}
 	RootProductsDifferent := false
 	if len(library.RootProducts) != len(libraryOther.RootProducts) {
 		RootProductsDifferent = true
