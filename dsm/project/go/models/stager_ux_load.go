@@ -41,6 +41,7 @@ type loadProxy struct {
 }
 
 func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
+	fmt.Println("OnFileUpload: start")
 	proxy.stager.fileName = uploadedFile.GetName()
 
 	decodedBytes, err := base64.StdEncoding.DecodeString(uploadedFile.Base64EncodedContent)
@@ -48,7 +49,7 @@ func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
 		return fmt.Errorf("base64.StdEncoding.DecodeString failed: %w", err)
 	}
 
-	fmt.Println(string(decodedBytes))
+	// fmt.Println(string(decodedBytes))
 
 	proxy.stager.stage.Reset()
 	fmt.Println("OnFileUpload: after reset")
