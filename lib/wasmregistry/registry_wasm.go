@@ -2,7 +2,6 @@
 package wasmregistry
 
 import (
-	"fmt"
 	"syscall/js"
 )
 
@@ -16,8 +15,7 @@ var Handlers = make(map[HandleKey]func(js.Value))
 
 // Register adds a stack's socket handler to the map dynamically
 func Register(stackType string, stackPath string, handler func(js.Value)) {
-
-	fmt.Println("Registering")
+	// fmt.Println("Registering")
 
 	key := HandleKey{
 		StackType: stackType,
