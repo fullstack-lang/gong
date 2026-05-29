@@ -36,7 +36,7 @@ func wasmFetch(this js.Value, args []js.Value) any {
 	}
 	json.Unmarshal([]byte(reqJson), &reqData)
 
-	fmt.Printf("From the backend, json unmarshall %v\n", reqData)
+	// fmt.Printf("From the backend, json unmarshall %v\n", reqData)
 
 	var body io.Reader
 	if reqData.Body != "" {

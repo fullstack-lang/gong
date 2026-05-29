@@ -401,11 +401,11 @@ export class FrontRepoService {
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
 
-		console.log("github.com/fullstack-lang/gong/test/test/go; connectToWebSocket: started", Name)
+		// console.log("github.com/fullstack-lang/gong/test/test/go; connectToWebSocket: started", Name)
 
 		// Check if a connection for this name already exists
 		if (this.webSocketConnections.has(Name)) {
-			console.log("github.com/fullstack-lang/gong/test/test/go; connectToWebSocket: returning existing connection")
+			// console.log("github.com/fullstack-lang/gong/test/test/go; connectToWebSocket: returning existing connection")
 			return this.webSocketConnections.get(Name)!
 		}
 
@@ -428,14 +428,14 @@ export class FrontRepoService {
 		let url = `${basePath}?${paramString}`
 
 		const newConnection$ = new Observable<FrontRepo>(observer => {
-			console.log("github.com/fullstack-lang/gong/test/test/go; connectToWebSocket: new Observable created")
+			// console.log("github.com/fullstack-lang/gong/test/test/go; connectToWebSocket: new Observable created")
 
 			let socket: WebSocket | undefined
 
 			const isOfflineMode = window.location.protocol === 'file:'
 
 			const processData = (dataString: string) => {
-				console.log("github.com/fullstack-lang/gong/test/test/go; connectToWebSocket: processData called")
+				// console.log("github.com/fullstack-lang/gong/test/test/go; connectToWebSocket: processData called")
 				const backRepoData = new BackRepoData(JSON.parse(dataString))
 				let frontRepo = new (FrontRepo)()
 				frontRepo.GONG__Index = backRepoData.GONG__Index
@@ -573,31 +573,31 @@ export class FrontRepoService {
 
 			// 3. Connection Loop
 			const attemptConnection = (retries: number): void => {
-				console.log("github.com/fullstack-lang/gong/test/test/go; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+				// console.log("github.com/fullstack-lang/gong/test/test/go; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
 
 				// A. WASM OFFLINE MODE (Check if Go is ready)
 				if ((window as any).openWasmSocket) {
-					console.log("github.com/fullstack-lang/gong/test/test/go; attemptConnection: openWasmSocket exists, calling it");
+					// console.log("github.com/fullstack-lang/gong/test/test/go; attemptConnection: openWasmSocket exists, calling it");
 					(window as any).openWasmSocket("github.com/fullstack-lang/gong/test/test/go", Name, processData);
 					return;
 				}
 
 				// B. WAITING FOR WASM
 				if (isOfflineMode && retries > 0) {
-					console.log("github.com/fullstack-lang/gong/test/test/go; attemptConnection: WAITING FOR WASM. Retries left:", retries)
+					// console.log("github.com/fullstack-lang/gong/test/test/go; attemptConnection: WAITING FOR WASM. Retries left:", retries)
 					setTimeout(() => attemptConnection(retries - 1), 100);
 					return;
 				}
 
 				// C. STANDARD SERVER MODE
 				if (!isOfflineMode) {
-					console.log("github.com/fullstack-lang/gong/test/test/go; attemptConnection: STANDARD SERVER MODE. url =", url)
+					// console.log("github.com/fullstack-lang/gong/test/test/go; attemptConnection: STANDARD SERVER MODE. url =", url)
 					socket = new WebSocket(url)
 					socket.onopen = (event) => {
-						console.log("github.com/fullstack-lang/gong/test/test/go; WebSocket: onopen", event)
+						// console.log("github.com/fullstack-lang/gong/test/test/go; WebSocket: onopen", event)
 					}
 					socket.onmessage = event => {
-						console.log("github.com/fullstack-lang/gong/test/test/go; WebSocket: onmessage")
+						// console.log("github.com/fullstack-lang/gong/test/test/go; WebSocket: onmessage")
 						processData(event.data)
 					}
 					socket.onerror = event => {
@@ -605,7 +605,7 @@ export class FrontRepoService {
 						observer.error(event)
 					}
 					socket.onclose = (event) => {
-						console.log("github.com/fullstack-lang/gong/test/test/go; WebSocket: onclose", event)
+						// console.log("github.com/fullstack-lang/gong/test/test/go; WebSocket: onclose", event)
 						observer.complete()
 					}
 				} else {

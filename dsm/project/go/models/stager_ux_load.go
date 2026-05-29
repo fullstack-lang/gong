@@ -48,9 +48,14 @@ func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
 		return fmt.Errorf("base64.StdEncoding.DecodeString failed: %w", err)
 	}
 
+	fmt.Println(string(decodedBytes))
+
 	proxy.stager.stage.Reset()
+	fmt.Println("OnFileUpload: after reset")
 	ParseAstFromBytes(proxy.stager.stage, decodedBytes)
+	fmt.Println("OnFileUpload: after parse")
 	proxy.stager.stage.Commit()
+	fmt.Println("OnFileUpload: after commit")
 
 	return nil
 }
