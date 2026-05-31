@@ -6,15 +6,15 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/fullstack-lang/gong/dsm/project/go/level1stack"
-	"github.com/fullstack-lang/gong/dsm/project/go/models"
+	"github.com/fullstack-lang/gong/dsm/process/go/level1stack"
+	"github.com/fullstack-lang/gong/dsm/process/go/models"
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 )
 
 func main() {
-	fmt.Println("Initializing DSM Project WASM Backend...")
+	fmt.Println("Initializing DSM process WASM Backend...")
 
-	log.SetPrefix("project: ")
+	log.SetPrefix("process: ")
 	log.SetFlags(log.Lmicroseconds)
 
 	unmarshallFromCode := ""
@@ -24,7 +24,7 @@ func main() {
 	// setup
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
-	stack := level1stack.NewLevel1StackDelta("project", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams, true)
+	stack := level1stack.NewLevel1StackDelta("process", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams, true)
 	stack.Stage.SetGongMarshallingMode(models.GongMarshallingAppendCommit)
 	stack.Stage.SetIsWithGenesisCommit(true) // the genesis commit is the first commit of the stage, it is the one that contains the initial data. It cannot be rollbacked.
 
