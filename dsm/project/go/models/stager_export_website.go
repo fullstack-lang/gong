@@ -4,7 +4,6 @@ import (
 	"encoding/base64"
 	"fmt"
 	"log"
-	"os"
 	"strings"
 
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
@@ -16,9 +15,7 @@ func (stager *Stager) exportWebsite() {
 
 	content := ssg.Content{
 		Name:           "Root to project the website",
-		ContentPath:    "/tmp/project",
 		MardownContent: "## Project website",
-		OutputPath:     "./generated static web site",
 	}
 
 	for _, lib := range GetGongstrucsSorted[*Library](stager.stage) {
@@ -150,26 +147,18 @@ func (stager *Stager) exportWebsite() {
 			MardownContent: "### XL files\n",
 		}
 
-		tempFile, err := os.CreateTemp("", "export-*.xlsx")
+		excelBytes, err := SerializeStageAsBytes(stager.stage, false)
 		if err != nil {
-			log.Println("Error creating temp file for Excel export:", err)
+			log.Println("Error creating Excel export in memory:", err)
 		} else {
-			defer os.Remove(tempFile.Name())
-			SerializeStage2(stager.stage, tempFile.Name(), false)
+			encodedXL := base64.StdEncoding.EncodeToString(excelBytes)
+			dataURI := "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + encodedXL
+			page.MardownContent += fmt.Sprintf("\n[Download %s.xlsx](%s)\n", lib.Name, dataURI)
 
-			content, err := os.ReadFile(tempFile.Name())
-			if err != nil {
-				log.Println("Error reading temp Excel file:", err)
-			} else {
-				encodedXL := base64.StdEncoding.EncodeToString(content)
-				dataURI := "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + encodedXL
-				page.MardownContent += fmt.Sprintf("\nDownload %s.xlsx\n", lib.Name, dataURI)
-
-				section := &ssg.Section{
-					Name: "Embedded XL file",
-				}
-				page.Sections = append(page.Sections, section)
+			section := &ssg.Section{
+				Name: "Embedded XL file",
 			}
+			page.Sections = append(page.Sections, section)
 		}
 
 		chapter.Pages = append(chapter.Pages, page)
