@@ -10,6 +10,8 @@ TMP_BUILD_DIR=".tmp_build"
 
 # 0. CLEANUP (Crucial for Library updates!)
 echo "🧹 0/5: Cleaning up previous build artifacts..."
+rm -rf "$GO_DIR/cmd/test4/test4"
+rm -rf "$GO_DIR/cmd/test4-wasm/test4-wasm"
 rm -f "test4-portable-app.html"
 rm -f "test4-portable-app.zip"
 rm -rf "$TMP_BUILD_DIR"
@@ -34,7 +36,8 @@ fi
 # 2. Compile Go to WebAssembly
 echo "🐹 2/5: Compiling Go backend to WebAssembly..."
 cd "$GO_DIR"
-GOOS=js GOARCH=wasm go build -o "../$TMP_BUILD_DIR/main.wasm" ./cmd/test4-wasm
+# Use -a flag to force rebuild of all packages, preventing stale cache usage
+GOOS=js GOARCH=wasm go build -a -o "../$TMP_BUILD_DIR/main.wasm" ./cmd/test4-wasm
 cd ..
 
 # 3. Run the Node Bundler
@@ -47,6 +50,6 @@ zip test4-portable-app.zip test4-portable-app.html
 
 # 5. Cleanup temporary build directory
 echo "🧹 5/5: Cleaning up temporary build directory..."
-rm -rf "$TMP_BUILD_DIR"
+# rm -rf "$TMP_BUILD_DIR"
 
 echo "✅ Success! Your offline app is ready at: test4-portable-app.html and test4-portable-app.zip"
