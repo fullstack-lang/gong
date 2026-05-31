@@ -10,7 +10,6 @@ TMP_BUILD_DIR=".tmp_build"
 
 # 0. CLEANUP (Crucial for Library updates!)
 echo "🧹 0/5: Cleaning up previous build artifacts..."
-rm -rf "$GO_DIR/cmd/test4/test4"
 rm -rf "$GO_DIR/cmd/test4-wasm/test4-wasm"
 rm -f "test4-portable-app.html"
 rm -f "test4-portable-app.zip"
