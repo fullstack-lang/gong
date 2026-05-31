@@ -16,16 +16,24 @@ import (
 )
 
 func main() {
+	cwd, err := os.Getwd()
+	if err != nil {
+		fmt.Printf("❌ Error getting current directory: %v\n", err)
+		os.Exit(1)
+	}
+	pkgName := filepath.Base(cwd)
+	outputFile := fmt.Sprintf("%s-app-portable.html", pkgName)
+	zipFile := fmt.Sprintf("%s-app-portable.zip", pkgName)
+
 	// =========================================================================
 	// 1. Bash Script Equivalent (Compilation)
 	// =========================================================================
-	fmt.Println("🚀 Step 1: Building project...")
+	fmt.Printf("🚀 Step 1: Building project %s...\n", pkgName)
 
 	// 0. Cleanup previous builds and recreate .tmp_build
 	os.RemoveAll(".tmp_build")
-	os.RemoveAll("go/cmd/test4-wasm/test4-wasm")
-	os.Remove("test4-portable-app.html")
-	os.Remove("test4-portable-app.zip")
+	os.Remove(outputFile)
+	os.Remove(zipFile)
 	os.MkdirAll(".tmp_build", 0755)
 
 	// 1. Copy Frontend Assets from the embedded lib/split directory
@@ -49,15 +57,14 @@ func main() {
 	copyFile(wasmExecPath, filepath.Join(".tmp_build", "wasm_exec.js"))
 
 	// Build the Go Wasm binary:
-	runWasmBuild("go", "build", "-a", "-o", ".tmp_build/main.wasm", "./go/cmd/test4-wasm")
+	runWasmBuild("go", "build", "-a", "-o", ".tmp_build/main.wasm", ".")
 
 	// =========================================================================
 	// 2. bundle.js Equivalent (Packaging)
 	// =========================================================================
-	fmt.Println("\n📦 Step 2: Packaging Test4 Gong application into a single HTML file...")
+	fmt.Printf("\n📦 Step 2: Packaging %s Gong application into a single HTML file...\n", pkgName)
 
 	buildDir := ".tmp_build"
-	outputFile := "test4-portable-app.html"
 
 	// Read main.wasm and encode to Base64
 	wasmPath := filepath.Join(buildDir, "main.wasm")
@@ -88,7 +95,7 @@ func main() {
 <script>%s</script>
 
 <script>
-  console.log("Initializing Test4 WASM Backend from Base64...");
+  console.log("Initializing %s WASM Backend from Base64...");
   const base64String = "%s";
   const binaryString = window.atob(base64String);
   const bytes = new Uint8Array(binaryString.length);
@@ -100,11 +107,11 @@ func main() {
   WebAssembly.instantiate(bytes.buffer, go.importObject)
     .then((result) => {
         go.run(result.instance);
-        console.log("✅ Test4 WASM backend loaded successfully from memory!");
+        console.log("✅ %s WASM backend loaded successfully from memory!");
     })
     .catch(err => console.error("WASM Boot Error:", err));
 </script>
-`, wasmExecJs, wasmBase64)
+`, wasmExecJs, pkgName, wasmBase64, pkgName)
 
 	// Inject the bootloader right before the closing </body> tag
 	html = strings.Replace(html, "</body>", bootloader+"\n</body>", 1)
@@ -203,12 +210,15 @@ func main() {
 	fmt.Printf("\n✅ Success! You can now double-click: %s\n", outputFile)
 
 	// Zip the HTML file
-	zipFile := "test4-portable-app.zip"
 	if err := createZip(zipFile, outputFile); err != nil {
 		fmt.Printf("❌ Error zipping output file: %v\n", err)
 		os.Exit(1)
 	}
 	fmt.Printf("🗜️ Zipped output to: %s\n", zipFile)
+
+	// Clean up temporary build directory
+	fmt.Println("🧹 Cleaning up temporary build directory...")
+	os.RemoveAll(".tmp_build")
 }
 
 // Helper: Run standard build commands
