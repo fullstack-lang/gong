@@ -39,9 +39,6 @@ func main() {
 	// 1. Copy Frontend Assets from the embedded lib/split directory
 	baseEmbedPath := "ng-github.com-fullstack-lang-gong-lib-split/dist/ng-github.com-fullstack-lang-gong-lib-split"
 	embedPath := baseEmbedPath + "/browser"
-	if _, err := fs.Stat(split.NgDistNg, embedPath); err != nil {
-		embedPath = baseEmbedPath // Fallback for Angular versions before 17
-	}
 	if err := copyFS(split.NgDistNg, embedPath, ".tmp_build"); err != nil {
 		fmt.Printf("❌ Error extracting embedded Angular files: %v\n", err)
 		os.Exit(1)
@@ -92,24 +89,77 @@ func main() {
 
 	// Create the Base64 Bootloader
 	bootloader := fmt.Sprintf(`
+<div id="wasm-progress-container" style="position: fixed; top: 50%%; left: 50%%; transform: translate(-50%%, -50%%); font-family: sans-serif; text-align: center; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 9999;">
+    <h3 style="margin-top: 0;">Loading Application...</h3>
+    <div style="margin-bottom: 10px;">Processing WASM: <span id="wasm-progress-text">0%%</span></div>
+    <div style="width: 300px; height: 20px; background: #eee; border-radius: 10px; overflow: hidden; margin: 0 auto;">
+        <div id="wasm-progress-bar" style="width: 0%%; height: 100%%; background: #007bff; transition: width 0.1s;"></div>
+    </div>
+</div>
+
 <script>%s</script>
 
 <script>
   console.log("Initializing %s WASM Backend from Base64...");
   const base64String = "%s";
-  const binaryString = window.atob(base64String);
-  const bytes = new Uint8Array(binaryString.length);
-  for (let i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-  }
   
-  const go = new Go();
-  WebAssembly.instantiate(bytes.buffer, go.importObject)
-    .then((result) => {
-        go.run(result.instance);
-        console.log("✅ %s WASM backend loaded successfully from memory!");
-    })
-    .catch(err => console.error("WASM Boot Error:", err));
+  async function processBase64InChunks(base64Str) {
+      let padding = 0;
+      if (base64Str.endsWith('==')) padding = 2;
+      else if (base64Str.endsWith('=')) padding = 1;
+      
+      const totalLength = base64Str.length;
+      const byteLength = (totalLength * 3) / 4 - padding;
+      const bytes = new Uint8Array(byteLength);
+      
+      const chunkSize = 4 * 1024 * 256; 
+      let byteOffset = 0;
+      let stringOffset = 0;
+      
+      const progressText = document.getElementById('wasm-progress-text');
+      const progressBar = document.getElementById('wasm-progress-bar');
+
+      return new Promise((resolve) => {
+          function processChunk() {
+              const end = Math.min(stringOffset + chunkSize, totalLength);
+              const chunk = base64Str.substring(stringOffset, end);
+              const binaryString = window.atob(chunk);
+              const len = binaryString.length;
+              
+              for (let i = 0; i < len; i++) {
+                  bytes[byteOffset++] = binaryString.charCodeAt(i);
+              }
+              stringOffset = end;
+              
+              const percentage = Math.round((stringOffset / totalLength) * 100);
+              if (progressText) progressText.innerText = percentage + '%%';
+              if (progressBar) progressBar.style.width = percentage + '%%';
+              
+              if (stringOffset < totalLength) {
+                  setTimeout(processChunk, 0);
+              } else {
+                  resolve(bytes);
+              }
+          }
+          
+          processChunk();
+      });
+  }
+
+  processBase64InChunks(base64String).then((bytes) => {
+      const progressContainer = document.getElementById('wasm-progress-container');
+      if (progressContainer) {
+          progressContainer.style.display = 'none';
+      }
+
+      const go = new Go();
+      WebAssembly.instantiate(bytes.buffer, go.importObject)
+        .then((result) => {
+            go.run(result.instance);
+            console.log("✅ %s WASM backend loaded successfully from memory!");
+        })
+        .catch(err => console.error("WASM Boot Error:", err));
+  });
 </script>
 `, wasmExecJs, pkgName, wasmBase64, pkgName)
 
