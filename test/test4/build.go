@@ -5,11 +5,14 @@ import (
 	"encoding/base64"
 	"fmt"
 	"io"
+	"io/fs"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"github.com/fullstack-lang/gong/lib/split"
 )
 
 func main() {
@@ -25,14 +28,16 @@ func main() {
 	os.Remove("test4-portable-app.zip")
 	os.MkdirAll(".tmp_build", 0755)
 
-	// 1. Copy Frontend Assets from the lib/split directory
-	splitNgDir := filepath.Join("..", "..", "lib", "split", "ng-github.com-fullstack-lang-gong-lib-split")
-	distBrowserDir := filepath.Join(splitNgDir, "dist", "ng-github.com-fullstack-lang-gong-lib-split", "browser")
-	if _, err := os.Stat(distBrowserDir); os.IsNotExist(err) {
-		fmt.Printf("❌ Error: Angular dist directory not found at %s. Please build the Angular app first.\n", distBrowserDir)
+	// 1. Copy Frontend Assets from the embedded lib/split directory
+	baseEmbedPath := "ng-github.com-fullstack-lang-gong-lib-split/dist/ng-github.com-fullstack-lang-gong-lib-split"
+	embedPath := baseEmbedPath + "/browser"
+	if _, err := fs.Stat(split.NgDistNg, embedPath); err != nil {
+		embedPath = baseEmbedPath // Fallback for Angular versions before 17
+	}
+	if err := copyFS(split.NgDistNg, embedPath, ".tmp_build"); err != nil {
+		fmt.Printf("❌ Error extracting embedded Angular files: %v\n", err)
 		os.Exit(1)
 	}
-	copyDir(distBrowserDir, ".tmp_build")
 
 	// Copy wasm_exec.js (Handles both older and newer Go versions)
 	goRootBytes, _ := exec.Command("go", "env", "GOROOT").Output()
@@ -276,6 +281,25 @@ func copyFile(src, dst string) error {
 	defer destination.Close()
 	_, err = io.Copy(destination, source)
 	return err
+}
+
+// Helper: Copy files from an embed.FS (or any fs.FS) to a local directory
+func copyFS(srcFS fs.FS, srcDir string, dst string) error {
+	return fs.WalkDir(srcFS, srcDir, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		relPath, _ := filepath.Rel(srcDir, path)
+		dstPath := filepath.Join(dst, relPath)
+		if d.IsDir() {
+			return os.MkdirAll(dstPath, 0755)
+		}
+		data, err := fs.ReadFile(srcFS, path)
+		if err != nil {
+			return err
+		}
+		return os.WriteFile(dstPath, data, 0644)
+	})
 }
 
 // Helper: Copy a directory
