@@ -41,6 +41,18 @@
       "group": "build"
     },
     {
+      "label": "00 - go install gong-bundler",
+      "type": "shell",
+      "options": {
+        "cwd": "lib/wasmregistry/gong-bundler"
+      },
+      "command": "go",
+      "args": [
+        "install"
+      ],
+      "group": "build"
+    },
+    {
       "label": "00 - go install statemachines",
       "type": "shell",
       "options": {
