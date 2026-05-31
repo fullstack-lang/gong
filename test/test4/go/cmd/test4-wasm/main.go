@@ -10,8 +10,8 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 
-	process_level1stack "github.com/fullstack-lang/gong/dsm/process/go/level1stack"
-	process_models "github.com/fullstack-lang/gong/dsm/process/go/models"
+	project_level1stack "github.com/fullstack-lang/gong/dsm/project/go/level1stack"
+	project_models "github.com/fullstack-lang/gong/dsm/project/go/models"
 )
 
 type consoleWriter struct{}
@@ -35,19 +35,19 @@ func main() {
 	log.SetFlags(log.Lmicroseconds)
 
 	// 1. Initialize the exact same Gong app in memory
-	stackProcess := process_level1stack.NewLevel1StackDelta("process", "", "", true, true, false)
+	stackproject := project_level1stack.NewLevel1StackDelta("project", "", "", true, true, false)
 
 	// initiates the UX loop
-	process_models.NewStager(
-		stackProcess.R,
-		stackProcess.Stage,
-		stackProcess.Probe,
+	project_models.NewStager(
+		stackproject.R,
+		stackproject.Stage,
+		stackproject.Probe,
 	)
 
 	fmt.Println("From the backend. after setupApp")
 
 	// 2. Expose the HTTP and Socket bridges to the Angular frontend
-	wasmregistry.SetupWasmHooks(stackProcess.R)
+	wasmregistry.SetupWasmHooks(stackproject.R)
 	fmt.Println("From the backend. after SetupWasmHooks")
 
 	// 3. Prevent the WASM module from exiting

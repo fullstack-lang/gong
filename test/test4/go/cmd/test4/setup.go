@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	process_level1stack "github.com/fullstack-lang/gong/dsm/process/go/level1stack"
-	process_models "github.com/fullstack-lang/gong/dsm/process/go/models"
+	project_level1stack "github.com/fullstack-lang/gong/dsm/project/go/level1stack"
+	project_models "github.com/fullstack-lang/gong/dsm/project/go/models"
 
 	"github.com/gin-gonic/gin"
 )
@@ -43,15 +43,15 @@ func setupApp() (r *gin.Engine) {
 	// stack = test4_stack.NewStack(r, "test4", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	// stack.Probe.Refresh()
 
-	stackProcess := process_level1stack.NewLevel1StackDelta("process", "", "", true, true, true)
+	stackproject := project_level1stack.NewLevel1StackDelta("project", "", "", true, true, true)
 
 	// initiates the UX loop
-	process_models.NewStager(
-		stackProcess.R,
-		stackProcess.Stage,
-		stackProcess.Probe,
+	project_models.NewStager(
+		stackproject.R,
+		stackproject.Stage,
+		stackproject.Probe,
 	)
-	r = stackProcess.R
+	r = stackproject.R
 
 	return
 }
