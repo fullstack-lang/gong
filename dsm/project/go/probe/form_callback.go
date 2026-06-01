@@ -825,6 +825,8 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
+		case "IsRootLibrary":
+			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
 		case "RootProducts":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)

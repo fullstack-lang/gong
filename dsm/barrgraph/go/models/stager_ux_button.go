@@ -114,7 +114,6 @@ func (stager *Stager) button() {
 			content := ssg.Content{
 				Name:           "Root to project the website",
 				MardownContent: "## Barrgraph website",
-				OutputPath:     "./generated static web site",
 			}
 
 			if len(GetGongstrucsSorted[*Diagram](stager.stage)) > 0 {

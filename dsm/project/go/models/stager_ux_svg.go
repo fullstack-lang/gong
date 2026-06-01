@@ -169,7 +169,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			title := rect.RectAnchoredTexts[0]
 			if rect.Width > (distanceFromBorder + iconWidth) {
 				title.Content = strutils.WrapStringPreservingNewlines(title.Content,
-					int((rect.Width-(distanceFromBorder+iconWidth))/stager.rootLibrary.NbPixPerCharacter))
+					int((rect.Width-(distanceFromBorder+iconWidth))/stager.getRootLibrary().NbPixPerCharacter))
 			}
 			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
 		}
@@ -414,7 +414,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			title := rect.RectAnchoredTexts[0]
 			if rect.Width > (distanceFromBorder + iconWidth) {
 				title.Content = strutils.WrapStringPreservingNewlines(title.Content,
-					int((rect.Width-(distanceFromBorder+iconWidth))/stager.rootLibrary.NbPixPerCharacter))
+					int((rect.Width-(distanceFromBorder+iconWidth))/stager.getRootLibrary().NbPixPerCharacter))
 			}
 			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
 

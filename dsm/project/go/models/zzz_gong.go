@@ -5745,6 +5745,10 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsRootLibrary",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "RootProducts",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Product",
@@ -6795,6 +6799,10 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = library.Name
 	case "ComputedPrefix":
 		res.valueString = library.ComputedPrefix
+	case "IsRootLibrary":
+		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
+		res.valueBool = library.IsRootLibrary
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "RootProducts":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.RootProducts {
@@ -7855,6 +7863,8 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.Name = value.GetValueString()
 	case "ComputedPrefix":
 		library.ComputedPrefix = value.GetValueString()
+	case "IsRootLibrary":
+		library.IsRootLibrary = value.GetValueBool()
 	case "RootProducts":
 		library.RootProducts = make([]*Product, 0)
 		ids := strings.Split(value.ids, ";")
