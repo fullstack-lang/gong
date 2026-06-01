@@ -11,8 +11,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
-var _ = slices.Index[[]int, int]
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration
 var _ ref_models.Stage
@@ -166,7 +168,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000002_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__LinkShape__00000002_.StartRatio = 0.076333
 	__LinkShape__00000002_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__00000002_.EndRatio = 0.278618
+	__LinkShape__00000002_.EndRatio = 0.272684
 	__LinkShape__00000002_.CornerOffsetRatio = 1.380000
 
 	__LinkShape__00000003_.Name = `RootTasks`

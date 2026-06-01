@@ -12,8 +12,15 @@ import (
 func SerializeStage(stage *Stage, filename string) {
 	SerializeStage2(stage, filename, false)
 }
-func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 
+func SerializeStage2(stage *Stage, filename string, addIDs bool) {
+	f := buildExcelizeFile(stage, addIDs)
+	if err := f.SaveAs(filename); err != nil {
+		fmt.Println("cannot write xl file : ", err)
+	}
+}
+
+func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 	f := excelize.NewFile()
 	{
 		// insertion point
@@ -36,7 +43,7 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 	_ = wrapStyle
 	if err != nil {
 		fmt.Println("failed to create style:", err)
-		return
+		return f
 	}
 
 	// Create a style with bold text
@@ -48,7 +55,7 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 	_ = boldStyle
 	if err != nil {
 		fmt.Println("failed to create bold style:", err)
-		return
+		return f
 	}
 
 	// Get all sheet names
@@ -136,13 +143,13 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 
 			if err := f.SetColStyle(sheet, styleRange, wrapStyle); err != nil {
 				fmt.Println("failed to set column style:", err)
-				return
+				return f
 			}
 
 			// Apply the bold style to the first row (A1:XFD1)
 			if err := f.SetCellStyle(sheet, startCellString, endCellString, boldStyle); err != nil {
 				fmt.Println("failed to set bold style:", err)
-				return
+				return f
 			}
 
 			var opts []excelize.AutoFilterOptions
@@ -156,10 +163,18 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 	tab.SetExcelizeFile(f)
 	{
 		f.DeleteSheet("Sheet1")
-		if err := f.SaveAs(filename); err != nil {
-			fmt.Println("cannot write xl file : ", err)
-		}
 	}
+	return f
+}
+
+// SerializeStageAsBytes serializes the stage to a pure in-memory Excel file and returns the bytes.
+func SerializeStageAsBytes(stage *Stage, addIDs bool) ([]byte, error) {
+	f := buildExcelizeFile(stage, addIDs)
+	buf, err := f.WriteToBuffer()
+	if err != nil {
+		return nil, err
+	}
+	return buf.Bytes(), nil
 }
 
 func shortenString(s string) string {

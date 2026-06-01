@@ -63,6 +63,8 @@ type Library_WOP struct {
 
 	ComputedPrefix string
 
+	IsRootLibrary bool
+
 	NbPixPerCharacter float64
 
 	LogoSVGFile string
@@ -72,6 +74,7 @@ func (from *Library) CopyBasicFields(to *Library) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsRootLibrary = from.IsRootLibrary
 	to.NbPixPerCharacter = from.NbPixPerCharacter
 	to.LogoSVGFile = from.LogoSVGFile
 }

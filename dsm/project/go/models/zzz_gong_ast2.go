@@ -557,6 +557,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsRootLibrary":
+		instance.IsRootLibrary = GongExtractBool(valueExpr)
 	case "RootProducts":
 		GongUnmarshallSliceOfPointers(&instance.RootProducts, valueExpr, identifierMap)
 	case "RootTasks":

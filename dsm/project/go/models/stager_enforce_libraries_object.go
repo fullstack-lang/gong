@@ -17,8 +17,8 @@ func (stager *Stager) enforceOwningLibraryAndObjects() {
 			AbstractType
 			LibraryOwnedType
 		}); ok {
-			if abstractObject.GetOwningLibrary() == nil && abstractObject != any(stager.rootLibrary) {
-				abstractObject.SetOwningLibrary(stager.rootLibrary)
+			if abstractObject.GetOwningLibrary() == nil && abstractObject != any(stager.getRootLibrary()) {
+				abstractObject.SetOwningLibrary(stager.getRootLibrary())
 				abstractObject.GetOwningLibrary().objects = append(abstractObject.GetOwningLibrary().objects, abstractObject)
 			}
 		}

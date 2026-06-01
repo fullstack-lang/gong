@@ -79,7 +79,7 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 	// remove libraries from root.Libraries if they are a sub-library of another library
 	isSubLibrary := make(map[*Library]bool)
 	for _, library := range libraries {
-		if library == stager.rootLibrary {
+		if library == stager.getRootLibrary() {
 			continue
 		}
 		for _, sub := range library.SubLibraries {
@@ -88,7 +88,7 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 	}
 
 	var filteredRootLibraries []*Library
-	for _, lib := range stager.rootLibrary.SubLibraries {
+	for _, lib := range stager.getRootLibrary().SubLibraries {
 		if !isSubLibrary[lib] {
 			filteredRootLibraries = append(filteredRootLibraries, lib)
 		} else {
@@ -97,8 +97,8 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 			needCommit = true
 		}
 	}
-	if len(filteredRootLibraries) != len(stager.rootLibrary.SubLibraries) {
-		stager.rootLibrary.SubLibraries = filteredRootLibraries
+	if len(filteredRootLibraries) != len(stager.getRootLibrary().SubLibraries) {
+		stager.getRootLibrary().SubLibraries = filteredRootLibraries
 	}
 
 	// 5. Dependency DAG for Tasks and Products (Inputs/Outputs)
