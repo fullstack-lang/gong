@@ -554,9 +554,9 @@
       "label": "01 - gong generate project & gong-bundler it",
       "type": "shell",
       "options": {
-        "cwd": "${workspaceFolder}/dsm/project/go/models"
+        "cwd": "${workspaceFolder}/dsm/project"
       },
-      "command": "gong generate --skipGoModCommands && gong-bundler",
+      "command": "gong generate go/models --skipGoModCommands && gong-bundler go/cmd/project",
       "group": "build"
     },
     {
