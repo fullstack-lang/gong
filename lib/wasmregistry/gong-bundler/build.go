@@ -16,6 +16,14 @@ import (
 )
 
 func main() {
+	if len(os.Args) > 1 {
+		targetDir := os.Args[1]
+		if err := os.Chdir(targetDir); err != nil {
+			fmt.Printf("❌ Error changing to directory %s: %v\n", targetDir, err)
+			os.Exit(1)
+		}
+	}
+
 	cwd, err := os.Getwd()
 	if err != nil {
 		fmt.Printf("❌ Error getting current directory: %v\n", err)
@@ -34,7 +42,7 @@ func main() {
 	os.RemoveAll(".tmp_build")
 	os.Remove(outputFile)
 	os.Remove(zipFile)
-	os.MkdirAll(".tmp_build", 0755)
+	os.MkdirAll(".tmp_build", 0o755)
 
 	// 1. Copy Frontend Assets from the embedded lib/split directory
 	baseEmbedPath := "ng-github.com-fullstack-lang-gong-lib-split/dist/ng-github.com-fullstack-lang-gong-lib-split"
@@ -252,7 +260,7 @@ func main() {
 	})
 
 	// Write the final bundled HTML
-	err = os.WriteFile(outputFile, []byte(html), 0644)
+	err = os.WriteFile(outputFile, []byte(html), 0o644)
 	if err != nil {
 		fmt.Printf("❌ Error writing output file: %v\n", err)
 		os.Exit(1)
@@ -352,13 +360,13 @@ func copyFS(srcFS fs.FS, srcDir string, dst string) error {
 		relPath, _ := filepath.Rel(srcDir, path)
 		dstPath := filepath.Join(dst, relPath)
 		if d.IsDir() {
-			return os.MkdirAll(dstPath, 0755)
+			return os.MkdirAll(dstPath, 0o755)
 		}
 		data, err := fs.ReadFile(srcFS, path)
 		if err != nil {
 			return err
 		}
-		return os.WriteFile(dstPath, data, 0644)
+		return os.WriteFile(dstPath, data, 0o644)
 	})
 }
 
