@@ -739,7 +739,7 @@
             ]
         },
         {
-            "name": "reqif: go server -pathToReqifFile=`samples/ReqIF for Wheeled Tennis Ball Drone.reqif`",
+            "name": "reqif: drone.reqif`",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -754,7 +754,7 @@
             ]
         },
         {
-            "name": "reqif: go server -pathToReqifFile=`samples/ReqIF for Wheeled Tennis Ball Drone.reqifz`",
+            "name": "reqif: drone.reqifz`",
             "type": "go",
             "request": "launch",
             "mode": "debug",
