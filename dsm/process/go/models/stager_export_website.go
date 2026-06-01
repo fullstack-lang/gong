@@ -23,7 +23,6 @@ func (stager *Stager) exportWebsite() {
 		Name:           "Root to process the website",
 		ContentPath:    "/tmp/process",
 		MardownContent: "## Process website",
-		OutputPath:     "./generated static web site",
 	}
 
 	content.LogoSVGFile = stager.GetRootLibrary().LogoSVGFile
@@ -78,6 +77,7 @@ func (process *Process) GetDescription() string { return process.Description }
 func (process *Process) GetReferencePath() string {
 	return strings.ReplaceAll(ssg.SanitizeFileName(process.Name, " "), " ", "%20")
 }
+
 func (process *Process) GeneratePage(stager *Stager) *ssg.Page {
 	processPage := &ssg.Page{Name: process.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", process.Name, process.Description)}
 
@@ -181,6 +181,7 @@ func (inst *Participant) GetDescription() string { return inst.Description }
 func (inst *Participant) GetReferencePath() string {
 	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
 }
+
 func (inst *Participant) GeneratePage(stager *Stager) *ssg.Page {
 	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
 }
@@ -189,6 +190,7 @@ func (inst *Task) GetDescription() string { return inst.Description }
 func (inst *Task) GetReferencePath() string {
 	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
 }
+
 func (inst *Task) GeneratePage(stager *Stager) *ssg.Page {
 	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
 }
@@ -197,6 +199,7 @@ func (inst *ControlFlow) GetDescription() string { return inst.Description }
 func (inst *ControlFlow) GetReferencePath() string {
 	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
 }
+
 func (inst *ControlFlow) GeneratePage(stager *Stager) *ssg.Page {
 	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
 }
@@ -205,6 +208,7 @@ func (inst *DataFlow) GetDescription() string { return inst.Description }
 func (inst *DataFlow) GetReferencePath() string {
 	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
 }
+
 func (inst *DataFlow) GeneratePage(stager *Stager) *ssg.Page {
 	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
 }
@@ -213,6 +217,7 @@ func (inst *Data) GetDescription() string { return inst.Description }
 func (inst *Data) GetReferencePath() string {
 	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
 }
+
 func (inst *Data) GeneratePage(stager *Stager) *ssg.Page {
 	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
 }
@@ -221,6 +226,7 @@ func (inst *Resource) GetDescription() string { return inst.Description }
 func (inst *Resource) GetReferencePath() string {
 	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
 }
+
 func (inst *Resource) GeneratePage(stager *Stager) *ssg.Page {
 	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
 }
@@ -229,6 +235,7 @@ func (inst *Note) GetDescription() string { return inst.Description }
 func (inst *Note) GetReferencePath() string {
 	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
 }
+
 func (inst *Note) GeneratePage(stager *Stager) *ssg.Page {
 	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
 }
@@ -237,6 +244,7 @@ func (inst *Library) GetDescription() string { return inst.Description }
 func (inst *Library) GetReferencePath() string {
 	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
 }
+
 func (inst *Library) GeneratePage(stager *Stager) *ssg.Page {
 	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
 }

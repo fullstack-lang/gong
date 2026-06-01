@@ -24,7 +24,6 @@ import (
 // files for pages). It also embeds sections (text, images, downloadable files)
 // into the page markdown. Finally, it triggers the HTML rendering process.
 func (stage *Stage) Generation(inMemory bool) (base64Zip string, err error) {
-
 	contents := GetGongstructInstancesSet[Content](stage)
 
 	if len(*contents) != 1 {
@@ -158,22 +157,75 @@ weight: %d
 	}
 	// --- End: Generate subdirectories and _index.md for each Chapter ---
 
-	// log.Println("Generation process finished.")
+	originalOutputPath := content.OutputPath
+	if content.OutputPath == "" {
+		if inMemory {
+			tmpDir, err := os.MkdirTemp("", "site_output")
+			if err != nil {
+				log.Println("Warning: failed to create temp dir:", err)
+				content.OutputPath = "/tmp/site_output"
+			} else {
+				content.OutputPath = tmpDir
+				defer os.RemoveAll(tmpDir)
+			}
+		} else {
+			content.OutputPath = "site_output"
+		}
+	}
+	defer func() {
+		content.OutputPath = originalOutputPath
+	}()
+
+	// --- Build Steps ---
+	err = stage.markdown2ssg(content, memoryFS, inMemory)
+	if err != nil {
+		return "", err
+	}
 
 	if inMemory {
 		var buf bytes.Buffer
 		zipWriter := zip.NewWriter(&buf)
 
-		// Write all files from memoryFS directly to the zip in-memory
-		for name, file := range memoryFS {
-			w, createErr := zipWriter.Create(name)
-			if createErr != nil {
-				return "", createErr
+		var addFilesToZip func(dir string) error
+		addFilesToZip = func(dir string) error {
+			entries, err := os.ReadDir(dir)
+			if err != nil {
+				return err
 			}
-			_, copyErr := w.Write(file.Data)
-			if copyErr != nil {
-				return "", copyErr
+			for _, entry := range entries {
+				p := filepath.Join(dir, entry.Name())
+				if entry.IsDir() {
+					if err := addFilesToZip(p); err != nil {
+						return err
+					}
+				} else {
+					relPath, err := filepath.Rel(content.OutputPath, p)
+					if err != nil {
+						return err
+					}
+					relPath = filepath.ToSlash(relPath)
+
+					fileData, err := os.ReadFile(p)
+					if err != nil {
+						return err
+					}
+
+					w, err := zipWriter.Create(relPath)
+					if err != nil {
+						return err
+					}
+
+					if _, err := w.Write(fileData); err != nil {
+						return err
+					}
+				}
 			}
+			return nil
+		}
+
+		err = addFilesToZip(content.OutputPath)
+		if err != nil {
+			return "", err
 		}
 
 		err = zipWriter.Close()
@@ -185,15 +237,6 @@ weight: %d
 		return base64Zip, nil
 	}
 
-	originalOutputPath := content.OutputPath
-
-	// --- Build Steps (Only for disk-based generation) ---
-	err = stage.markdown2ssg(content, memoryFS)
-	if err != nil {
-		content.OutputPath = originalOutputPath
-		return "", err
-	}
-
 	return base64Zip, nil
 }
 
@@ -201,11 +244,13 @@ weight: %d
 // into a static HTML site. It cleans the output directory, loads the layout
 // templates, parses the markdown content, builds the site navigation structure,
 // renders the final HTML pages, and copies any static assets to the output directory.
-func (*Stage) markdown2ssg(content *Content, memoryFS fs.FS) error {
-	if err := gen.CleanOutputDir(content.OutputPath); err != nil {
-		return fmt.Errorf("error cleaning output directory '%s': %w", content.OutputPath, err)
+func (*Stage) markdown2ssg(content *Content, memoryFS fs.FS, inMemory bool) error {
+	if !inMemory {
+		if err := gen.CleanOutputDir(content.OutputPath); err != nil {
+			return fmt.Errorf("error cleaning output directory '%s': %w", content.OutputPath, err)
+		}
+		// log.Printf("Cleaned output directory '%s'.\n", content.OutputPath)
 	}
-	// log.Printf("Cleaned output directory '%s'.\n", content.OutputPath)
 
 	templates, err := gen.LoadTemplates()
 	if err != nil {
@@ -250,114 +295,124 @@ func (*Stage) markdown2ssg(content *Content, memoryFS fs.FS) error {
 			logoFileName = content.BespokeLogoFileName
 		}
 		logoPath := filepath.Join(content.OutputPath, "images", logoFileName)
-		if err := os.MkdirAll(filepath.Dir(logoPath), 0755); err != nil {
+		if err := os.MkdirAll(filepath.Dir(logoPath), 0o755); err != nil {
 			return fmt.Errorf("error creating directory for logo: %w", err)
 		}
-		if err := os.WriteFile(logoPath, []byte(content.LogoSVGFile), 0644); err != nil {
+		if err := os.WriteFile(logoPath, []byte(content.LogoSVGFile), 0o644); err != nil {
 			return fmt.Errorf("error writing logo file: %w", err)
 		}
 	}
 
 	// POST-PROCESSING: Fix nested submenu JS toggling and styling
-	filepath.WalkDir(content.OutputPath, func(p string, d fs.DirEntry, walkErr error) error {
-		if walkErr != nil {
-			return walkErr
+	var walkDir func(dir string) error
+	walkDir = func(dir string) error {
+		entries, err := os.ReadDir(dir)
+		if err != nil {
+			return err
 		}
-		if !d.IsDir() && strings.HasSuffix(p, ".html") {
-			htmlData, err := os.ReadFile(p)
-			if err == nil {
-				htmlStr := string(htmlData)
-				// 1. Fix JS selector to target all list items, not just top-level ones
-				htmlStr = strings.ReplaceAll(htmlStr, "document.querySelectorAll('.sidebar > ul > li');", "document.querySelectorAll('.sidebar li');")
-				// 2. Add a class to links that have a submenu to style them as chapters
-				htmlStr = strings.ReplaceAll(htmlStr, "if (chapterLink && submenu) {", "if (chapterLink && submenu) {\n                    chapterLink.classList.add('has-submenu');")
+		for _, entry := range entries {
+			p := filepath.Join(dir, entry.Name())
+			if entry.IsDir() {
+				if err := walkDir(p); err != nil {
+					return err
+				}
+			} else if strings.HasSuffix(p, ".html") {
+				htmlData, err := os.ReadFile(p)
+				if err == nil {
+					htmlStr := string(htmlData)
+					// 1. Fix JS selector to target all list items, not just top-level ones
+					htmlStr = strings.ReplaceAll(htmlStr, "document.querySelectorAll('.sidebar > ul > li');", "document.querySelectorAll('.sidebar li');")
+					// 2. Add a class to links that have a submenu to style them as chapters
+					htmlStr = strings.ReplaceAll(htmlStr, "if (chapterLink && submenu) {", "if (chapterLink && submenu) {\n                    chapterLink.classList.add('has-submenu');")
 
-				// 3. Allow navigation by removing preventDefault so users can visit chapter pages
-				htmlStr = strings.ReplaceAll(htmlStr, "event.preventDefault();", "")
+					// 3. Allow navigation by removing preventDefault so users can visit chapter pages
+					htmlStr = strings.ReplaceAll(htmlStr, "event.preventDefault();", "")
 
-				// 4. Rebuild the sidebar HTML to contain the full recursive tree
-				navStartIndex := strings.Index(htmlStr, `<nav class="sidebar">`)
-				if navStartIndex != -1 {
-					navCloseIndex := strings.Index(htmlStr[navStartIndex:], "</nav>")
-					if navCloseIndex != -1 {
-						navCloseIndex += navStartIndex
-						h2Index := strings.Index(htmlStr[navStartIndex:navCloseIndex], "</h2>")
-						if h2Index != -1 {
-							h2Index += navStartIndex
+					// 4. Rebuild the sidebar HTML to contain the full recursive tree
+					navStartIndex := strings.Index(htmlStr, `<nav class="sidebar">`)
+					if navStartIndex != -1 {
+						navCloseIndex := strings.Index(htmlStr[navStartIndex:], "</nav>")
+						if navCloseIndex != -1 {
+							navCloseIndex += navStartIndex
+							h2Index := strings.Index(htmlStr[navStartIndex:navCloseIndex], "</h2>")
+							if h2Index != -1 {
+								h2Index += navStartIndex
 
-							relPath, _ := filepath.Rel(content.OutputPath, p)
-							relPath = filepath.ToSlash(relPath)
-							depth := strings.Count(relPath, "/")
-							prefix := strings.Repeat("../", depth)
+								relPath, _ := filepath.Rel(content.OutputPath, p)
+								relPath = filepath.ToSlash(relPath)
+								depth := strings.Count(relPath, "/")
+								prefix := strings.Repeat("../", depth)
 
-							var sb strings.Builder
-							sb.WriteString("\n            <ul>\n")
+								var sb strings.Builder
+								sb.WriteString("\n            <ul>\n")
 
-							var walkChapter func(c *Chapter, currentPath string)
-							walkChapter = func(c *Chapter, currentPath string) {
-								chapterDir := SanitizeFileName(c.Name, " ")
-								chapterPath := chapterDir
-								if currentPath != "" {
-									chapterPath = currentPath + "/" + chapterDir
-								}
-
-								targetRelPath := chapterPath + "/index.html"
-								href := prefix + strings.ReplaceAll(targetRelPath, " ", "%20")
-
-								activeClass := ""
-								if targetRelPath == relPath {
-									activeClass = ` class="active-page"`
-								}
-
-								sb.WriteString("                <li>\n")
-								sb.WriteString(fmt.Sprintf(`                    <a href="%s"%s>%s</a>`+"\n", href, activeClass, c.Name))
-
-								hasChildren := len(c.SubChapters) > 0 || len(c.Pages) > 0
-								if hasChildren {
-									sb.WriteString("                    <ul>\n")
-									for _, sub := range c.SubChapters {
-										walkChapter(sub, chapterPath)
+								var walkChapter func(c *Chapter, currentPath string)
+								walkChapter = func(c *Chapter, currentPath string) {
+									chapterDir := SanitizeFileName(c.Name, " ")
+									chapterPath := chapterDir
+									if currentPath != "" {
+										chapterPath = currentPath + "/" + chapterDir
 									}
-									for _, page := range c.Pages {
-										pageDir := SanitizeFileName(page.GetName(), " ")
-										pagePath := chapterPath + "/" + pageDir
-										pageTargetRelPath := pagePath + "/index.html"
-										pageHref := prefix + strings.ReplaceAll(pageTargetRelPath, " ", "%20")
 
-										pageActiveClass := ""
-										if pageTargetRelPath == relPath {
-											pageActiveClass = ` class="active-page"`
+									targetRelPath := chapterPath + "/index.html"
+									href := prefix + strings.ReplaceAll(targetRelPath, " ", "%20")
+
+									activeClass := ""
+									if targetRelPath == relPath {
+										activeClass = ` class="active-page"`
+									}
+
+									sb.WriteString("                <li>\n")
+									sb.WriteString(fmt.Sprintf(`                    <a href="%s"%s>%s</a>`+"\n", href, activeClass, c.Name))
+
+									hasChildren := len(c.SubChapters) > 0 || len(c.Pages) > 0
+									if hasChildren {
+										sb.WriteString("                    <ul>\n")
+										for _, sub := range c.SubChapters {
+											walkChapter(sub, chapterPath)
 										}
+										for _, page := range c.Pages {
+											pageDir := SanitizeFileName(page.GetName(), " ")
+											pagePath := chapterPath + "/" + pageDir
+											pageTargetRelPath := pagePath + "/index.html"
+											pageHref := prefix + strings.ReplaceAll(pageTargetRelPath, " ", "%20")
 
-										sb.WriteString("                        <li>\n")
-										sb.WriteString(fmt.Sprintf(`                            <a href="%s"%s>%s</a>`+"\n", pageHref, pageActiveClass, page.GetName()))
-										sb.WriteString("                        </li>\n")
+											pageActiveClass := ""
+											if pageTargetRelPath == relPath {
+												pageActiveClass = ` class="active-page"`
+											}
+
+											sb.WriteString("                        <li>\n")
+											sb.WriteString(fmt.Sprintf(`                            <a href="%s"%s>%s</a>`+"\n", pageHref, pageActiveClass, page.GetName()))
+											sb.WriteString("                        </li>\n")
+										}
+										sb.WriteString("                    </ul>\n")
 									}
-									sb.WriteString("                    </ul>\n")
+									sb.WriteString("                </li>\n")
 								}
-								sb.WriteString("                </li>\n")
+
+								for _, c := range content.Chapters {
+									walkChapter(c, "")
+								}
+
+								sb.WriteString("            </ul>\n        ")
+
+								htmlStr = htmlStr[:h2Index+5] + sb.String() + htmlStr[navCloseIndex:]
 							}
-
-							for _, c := range content.Chapters {
-								walkChapter(c, "")
-							}
-
-							sb.WriteString("            </ul>\n        ")
-
-							htmlStr = htmlStr[:h2Index+5] + sb.String() + htmlStr[navCloseIndex:]
 						}
 					}
-				}
 
-				os.WriteFile(p, []byte(htmlStr), 0644)
+					os.WriteFile(p, []byte(htmlStr), 0o644)
+				}
 			}
 		}
 		return nil
-	})
+	}
+	walkDir(content.OutputPath)
 
 	// Append CSS for the .has-submenu class so sub-chapters look like main chapters
 	cssPath := filepath.Join(content.OutputPath, "css", "style.css")
-	cssFile, err := os.OpenFile(cssPath, os.O_APPEND|os.O_WRONLY, 0644)
+	cssFile, err := os.OpenFile(cssPath, os.O_APPEND|os.O_WRONLY, 0o644)
 	if err == nil {
 		cssFile.WriteString("\n/* Sub-chapter styling */\n.has-submenu { font-weight: bold !important; color: #007bff !important; }\n")
 		cssFile.Close()
