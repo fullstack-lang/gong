@@ -75,12 +75,12 @@ export class SplitSpecificComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(`[lib-split-specific] Initializing for Name: "${this.Name}"`);
+    // console.log(`[lib-split-specific] Initializing for Name: "${this.Name}"`);
 
     this.frontRepoService.connectToWebSocket(this.Name).subscribe({
       next: (frontRepo) => {
 
-        console.log(`[lib-split-specific] Received data for Name: "${this.Name}"`, frontRepo);
+        // console.log(`[lib-split-specific] Received data for Name: "${this.Name}"`, frontRepo);
 
         this.frontRepo = frontRepo;
 

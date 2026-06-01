@@ -9,7 +9,6 @@ package fullstack
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"syscall/js"
 
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
@@ -19,7 +18,7 @@ import (
 // This function ONLY exists in WASM builds
 func registerWasmSocket(stackPath string, backRepo *orm.BackRepoStruct) {
 
-	fmt.Println("{{PkgPathRoot}}", "registerWasmSocket", stackPath)
+	// fmt.Println("{{PkgPathRoot}}", "registerWasmSocket", stackPath)
 
 	wasmregistry.Register("{{PkgPathRoot}}", stackPath, func(callback js.Value) {
 		pushState := func() {

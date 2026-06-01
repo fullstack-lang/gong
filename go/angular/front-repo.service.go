@@ -193,11 +193,11 @@ export class FrontRepoService {
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
 
-		console.log("{{PkgPathRoot}}; connectToWebSocket: started", Name)
+		// console.log("{{PkgPathRoot}}; connectToWebSocket: started", Name)
 
 		// Check if a connection for this name already exists
 		if (this.webSocketConnections.has(Name)) {
-			console.log("{{PkgPathRoot}}; connectToWebSocket: returning existing connection")
+			// console.log("{{PkgPathRoot}}; connectToWebSocket: returning existing connection")
 			return this.webSocketConnections.get(Name)!
 		}
 
@@ -220,14 +220,14 @@ export class FrontRepoService {
 		let url = ` + "`" + "${basePath}?${paramString}" + "`" + `
 
 		const newConnection$ = new Observable<FrontRepo>(observer => {
-			console.log("{{PkgPathRoot}}; connectToWebSocket: new Observable created")
+			// console.log("{{PkgPathRoot}}; connectToWebSocket: new Observable created")
 
 			let socket: WebSocket | undefined
 
 			const isOfflineMode = window.location.protocol === 'file:'
 
 			const processData = (dataString: string) => {
-				console.log("{{PkgPathRoot}}; connectToWebSocket: processData called")
+				// console.log("{{PkgPathRoot}}; connectToWebSocket: processData called")
 				const backRepoData = new BackRepoData(JSON.parse(dataString))
 				let frontRepo = new (FrontRepo)()
 				frontRepo.GONG__Index = backRepoData.GONG__Index
@@ -245,31 +245,31 @@ export class FrontRepoService {
 
 			// 3. Connection Loop
 			const attemptConnection = (retries: number): void => {
-				console.log("{{PkgPathRoot}}; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
+				// console.log("{{PkgPathRoot}}; attemptConnection: retries =", retries, "isOfflineMode =", isOfflineMode)
 
 				// A. WASM OFFLINE MODE (Check if Go is ready)
 				if ((window as any).openWasmSocket) {
-					console.log("{{PkgPathRoot}}; attemptConnection: openWasmSocket exists, calling it");
+					// console.log("{{PkgPathRoot}}; attemptConnection: openWasmSocket exists, calling it");
 					(window as any).openWasmSocket("{{PkgPathRoot}}", Name, processData);
 					return;
 				}
 
 				// B. WAITING FOR WASM
 				if (isOfflineMode && retries > 0) {
-					console.log("{{PkgPathRoot}}; attemptConnection: WAITING FOR WASM. Retries left:", retries)
+					// console.log("{{PkgPathRoot}}; attemptConnection: WAITING FOR WASM. Retries left:", retries)
 					setTimeout(() => attemptConnection(retries - 1), 100);
 					return;
 				}
 
 				// C. STANDARD SERVER MODE
 				if (!isOfflineMode) {
-					console.log("{{PkgPathRoot}}; attemptConnection: STANDARD SERVER MODE. url =", url)
+					// console.log("{{PkgPathRoot}}; attemptConnection: STANDARD SERVER MODE. url =", url)
 					socket = new WebSocket(url)
 					socket.onopen = (event) => {
-						console.log("{{PkgPathRoot}}; WebSocket: onopen", event)
+						// console.log("{{PkgPathRoot}}; WebSocket: onopen", event)
 					}
 					socket.onmessage = event => {
-						console.log("{{PkgPathRoot}}; WebSocket: onmessage")
+						// console.log("{{PkgPathRoot}}; WebSocket: onmessage")
 						processData(event.data)
 					}
 					socket.onerror = event => {
@@ -277,7 +277,7 @@ export class FrontRepoService {
 						observer.error(event)
 					}
 					socket.onclose = (event) => {
-						console.log("{{PkgPathRoot}}; WebSocket: onclose", event)
+						// console.log("{{PkgPathRoot}}; WebSocket: onclose", event)
 						observer.complete()
 					}
 				} else {
@@ -336,7 +336,6 @@ const (
 
 var NgFrontRepoPerStructTmplCodes map[FrontRepoInsertionPointId]string = // new line
 map[FrontRepoInsertionPointId]string{
-
 	NgLibFrontRepoServiceImports: `
 import { {{Structname}}API } from './{{structname}}-api'
 import { {{Structname}}, Copy{{Structname}}APITo{{Structname}} } from './{{structname}}'
@@ -475,7 +474,6 @@ map[NgLibFrontRepoServiceSubSubTemplate]string{
 }
 
 func CodeGeneratorNgFrontRepo(modelPkg *models.ModelPkg) {
-
 	pkgName := modelPkg.Name
 	matTargetPath := modelPkg.NgDataLibrarySourceCodeDirectory
 	pkgGoPath := modelPkg.PkgPath

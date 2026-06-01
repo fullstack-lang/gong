@@ -3,7 +3,8 @@ package models
 import (
 	"encoding/base64"
 	"fmt"
-	"os"
+	"go/parser"
+	"go/token"
 
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
 )
@@ -13,10 +14,9 @@ type FileToUploadProxy struct {
 }
 
 func (stager *Stager) load() {
-
 	stager.loadStage.Reset()
 
-	var fileToUpload = &load.FileToUpload{
+	fileToUpload := &load.FileToUpload{
 		Name: "Name of file",
 		FileToUploadProxy: &loadProxy{
 			stager: stager,
@@ -56,29 +56,10 @@ func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
 }
 
 func ParseAstFromBytes(stage *Stage, input []byte) error {
-	// 1. Create a temporary file. The "" for dir means use the OS default.
-	// The pattern "ast-*.tmp" helps in identifying the file if it's left behind.
-	tempFile, err := os.CreateTemp("", "ast-*.tmp")
-	if err != nil {
-		return fmt.Errorf("could not create temporary file: %w", err)
+	fset := token.NewFileSet()
+	inFile, errParser := parser.ParseFile(fset, "", input, parser.ParseComments)
+	if errParser != nil {
+		return fmt.Errorf("Unable to parse: %w", errParser)
 	}
-
-	// 2. IMPORTANT: Schedule the file to be removed when the function returns.
-	// `defer` ensures this runs even if subsequent operations fail.
-	defer os.Remove(tempFile.Name())
-
-	fmt.Printf("Created temporary file: %s\n", tempFile.Name())
-
-	// 3. Write the input bytes to the temporary file.
-	if _, err := tempFile.Write(input); err != nil {
-		return fmt.Errorf("could not write to temporary file: %w", err)
-	}
-
-	// 4. Close the file to ensure all data is flushed to disk before parsing.
-	if err := tempFile.Close(); err != nil {
-		return fmt.Errorf("could not close temporary file: %w", err)
-	}
-
-	// 5. Now, call your original function with the path to our new temp file.
-	return ParseAstFile(stage, tempFile.Name(), false)
+	return ParseAstFileFromAst(stage, inFile, fset, false)
 }
