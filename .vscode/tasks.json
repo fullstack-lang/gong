@@ -551,17 +551,13 @@
       "group": "build"
     },
     {
-      "label": "01 - gong generate project",
+      "label": "01 - gong generate project & gong-bundler it",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/dsm/project/go/models"
       },
-      "command": "gong",
-      "group": "build",
-      "args": [
-        "generate",
-        "--skipGoModCommands"
-      ]
+      "command": "gong generate --skipGoModCommands && gong-bundler",
+      "group": "build"
     },
     {
       "label": "04 - project build portable (from script)",
