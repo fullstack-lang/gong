@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"encoding/base64"
 	"fmt"
-	"io"
 	"io/fs"
 	"log"
 	"os"
@@ -161,65 +160,38 @@ weight: %d
 
 	// log.Println("Generation process finished.")
 
-	originalOutputPath := content.OutputPath
-	if inMemory {
-		var tempDir string
-		tempDir, err = os.MkdirTemp("", "ssg_output_*")
-		if err != nil {
-			return "", err
-		}
-		defer os.RemoveAll(tempDir)
-		content.OutputPath = tempDir
-	}
-
-	// --- Build Steps ---
-	err = stage.markdown2ssg(content, memoryFS)
-	if err != nil {
-		content.OutputPath = originalOutputPath
-		return "", err
-	}
-
 	if inMemory {
 		var buf bytes.Buffer
 		zipWriter := zip.NewWriter(&buf)
 
-		err = filepath.WalkDir(content.OutputPath, func(p string, d fs.DirEntry, walkErr error) error {
-			if walkErr != nil {
-				return walkErr
-			}
-			if d.IsDir() {
-				return nil
-			}
-			relPath, relErr := filepath.Rel(content.OutputPath, p)
-			if relErr != nil {
-				return relErr
-			}
-			file, openErr := os.Open(p)
-			if openErr != nil {
-				return openErr
-			}
-			defer file.Close()
-
-			w, createErr := zipWriter.Create(filepath.ToSlash(relPath))
+		// Write all files from memoryFS directly to the zip in-memory
+		for name, file := range memoryFS {
+			w, createErr := zipWriter.Create(name)
 			if createErr != nil {
-				return createErr
+				return "", createErr
 			}
-			_, copyErr := io.Copy(w, file)
-			return copyErr
-		})
-		if err != nil {
-			content.OutputPath = originalOutputPath
-			return "", err
+			_, copyErr := w.Write(file.Data)
+			if copyErr != nil {
+				return "", copyErr
+			}
 		}
 
 		err = zipWriter.Close()
 		if err != nil {
-			content.OutputPath = originalOutputPath
 			return "", err
 		}
 
 		base64Zip = base64.StdEncoding.EncodeToString(buf.Bytes())
+		return base64Zip, nil
+	}
+
+	originalOutputPath := content.OutputPath
+
+	// --- Build Steps (Only for disk-based generation) ---
+	err = stage.markdown2ssg(content, memoryFS)
+	if err != nil {
 		content.OutputPath = originalOutputPath
+		return "", err
 	}
 
 	return base64Zip, nil
