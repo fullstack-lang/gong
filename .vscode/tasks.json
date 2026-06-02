@@ -586,17 +586,13 @@
       "group": "build"
     },
     {
-      "label": "01 - gong generate barrgraph",
+      "label": "01 - gong generate barrgraph & gong-bundler it",
       "type": "shell",
       "options": {
-        "cwd": "${workspaceFolder}/dsm/barrgraph/go/models"
+        "cwd": "${workspaceFolder}/dsm/barrgraph"
       },
-      "command": "gong",
-      "group": "build",
-      "args": [
-        "generate",
-        "--skipGoModCommands"
-      ]
+      "command": "gong generate go/models --skipGoModCommands && gong-bundler go/cmd/barrgraph",
+      "group": "build"
     },
     {
       "label": "00 - go build barrgraph-linux-amd64",
