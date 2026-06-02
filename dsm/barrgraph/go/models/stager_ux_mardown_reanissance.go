@@ -1,0 +1,1908 @@
+package models
+
+const renaissance = `<svg xmlns="http://www.w3.org/2000/svg" width="837" height="1014.1176470588234" class="" viewBox="-10 -10 837 1014.1176470588234"><style>text { font-family: Roboto, Arial, sans-serif !important; }</style>
+  <g transform="translate(0 0) scale(1)">
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="0" y="0" width="770" height="844.1176470588234" rx="0" fill="#DED6CA" fill-opacity="1" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="20" y="40" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="20" y="40" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="20" dy="0" text-anchor="">1300</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="20" y="92.94117647058823" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="20" y="92.94117647058823" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="20" dy="0" text-anchor="">1320</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="20" y="145.88235294117646" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="20" y="145.88235294117646" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="20" dy="0" text-anchor="">1340</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="20" y="198.8235294117647" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="20" y="198.8235294117647" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="20" dy="0" text-anchor="">1360</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="20" y="251.76470588235293" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="20" y="251.76470588235293" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="20" dy="0" text-anchor="">1380</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="20" y="304.70588235294116" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="20" y="304.70588235294116" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="20" dy="0" text-anchor="">1400</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="20" y="357.6470588235294" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="20" y="357.6470588235294" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="20" dy="0" text-anchor="">1420</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="20" y="410.5882352941176" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="20" y="410.5882352941176" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="20" dy="0" text-anchor="">1440</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="20" y="463.52941176470586" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="20" y="463.52941176470586" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="20" dy="0" text-anchor="">1460</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="20" y="516.4705882352941" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="20" y="516.4705882352941" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="20" dy="0" text-anchor="">1480</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="20" y="569.4117647058823" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="20" y="569.4117647058823" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="20" dy="0" text-anchor="">1500</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="20" y="622.3529411764705" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="20" y="622.3529411764705" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="20" dy="0" text-anchor="">1520</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="20" y="675.2941176470588" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="20" y="675.2941176470588" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="20" dy="0" text-anchor="">1540</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="20" y="728.2352941176471" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="20" y="728.2352941176471" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="20" dy="0" text-anchor="">1560</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="20" y="781.1764705882352" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="20" y="781.1764705882352" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="20" dy="0" text-anchor="">1580</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="20" y="834.1176470588234" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="20" y="834.1176470588234" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="20" dy="0" text-anchor="">1600</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="720" y="40" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="720" y="40" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="720" dy="0" text-anchor="">1300</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="720" y="92.94117647058823" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="720" y="92.94117647058823" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="720" dy="0" text-anchor="">1320</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="720" y="145.88235294117646" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="720" y="145.88235294117646" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="720" dy="0" text-anchor="">1340</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="720" y="198.8235294117647" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="720" y="198.8235294117647" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="720" dy="0" text-anchor="">1360</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="720" y="251.76470588235293" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="720" y="251.76470588235293" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="720" dy="0" text-anchor="">1380</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="720" y="304.70588235294116" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="720" y="304.70588235294116" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="720" dy="0" text-anchor="">1400</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="720" y="357.6470588235294" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="720" y="357.6470588235294" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="720" dy="0" text-anchor="">1420</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="720" y="410.5882352941176" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="720" y="410.5882352941176" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="720" dy="0" text-anchor="">1440</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="720" y="463.52941176470586" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="720" y="463.52941176470586" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="720" dy="0" text-anchor="">1460</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="720" y="516.4705882352941" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="720" y="516.4705882352941" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="720" dy="0" text-anchor="">1480</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="720" y="569.4117647058823" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="720" y="569.4117647058823" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="720" dy="0" text-anchor="">1500</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="720" y="622.3529411764705" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="720" y="622.3529411764705" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="720" dy="0" text-anchor="">1520</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="720" y="675.2941176470588" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="720" y="675.2941176470588" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="720" dy="0" text-anchor="">1540</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="720" y="728.2352941176471" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="720" y="728.2352941176471" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="720" dy="0" text-anchor="">1560</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="720" y="781.1764705882352" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="720" y="781.1764705882352" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="720" dy="0" text-anchor="">1580</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="720" y="834.1176470588234" width="0" height="0" rx="0" fill="" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="720" y="834.1176470588234" fill="#D23B22" fill-opacity="1" stroke="#D23B22" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="" text-anchor="" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="720" dy="0" text-anchor="">1600</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="0" y="844.1176470588234" width="770" height="150" rx="0" fill="#D23B22" fill-opacity="1" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="8" y="919.1176470588234" fill="#debdaaff" fill-opacity="1" stroke="#debdaaff" stroke-opacity="1" stroke-width="1" stroke-dasharray="" transform="translate(0, 919.117647) scale(0.649, 1.2) translate(0, -919.117647)" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="500" font-style="" font-size="74px" font-family="ChunkFive, sans-serif" style="white-space: pre;">
+      <tspan x="8" dy="0" text-anchor="start">ALFRED BARR  &amp;  RENAISSANCE</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="149" y="136" width="150" height="35" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="299" y="153.5" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="299" dy="0" text-anchor="end">PROTO-RENAISSANCE</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="299" y="171" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="" font-style="" font-size="9px" font-family="Futura">
+      <tspan x="299" dy="0" text-anchor="end">Florence</tspan>
+      <tspan x="299" dy="1em" text-anchor="end">Siena</tspan>
+      <tspan x="299" dy="1em" text-anchor="end">
+      </tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="149" y="171" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="" font-style="" font-size="9px" font-family="Futura">
+      <tspan x="149" dy="0" text-anchor="start">1300</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="544" y="257" width="167" height="28" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="711" y="271" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="Thin" font-style="" font-size="14px" font-family="Futura, sans serif">
+      <tspan x="711" dy="0" text-anchor="end">INTERNATIONAL GOTHIC</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="711" y="285" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="" font-style="" font-size="9px" font-family="Futura">
+      <tspan x="711" dy="0" text-anchor="end">Florence</tspan>
+      <tspan x="711" dy="1em" text-anchor="end">Flanders</tspan>
+      <tspan x="711" dy="1em" text-anchor="end">
+      </tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="544" y="285" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="" font-style="" font-size="9px" font-family="Futura">
+      <tspan x="544" dy="0" text-anchor="start">1370</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="208" y="344" width="184" height="35" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="392" y="361.5" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="Thin" font-style="" font-size="18px" font-family="Futura, sans serif">
+      <tspan x="392" dy="0" text-anchor="end">EARLY RENAISSANCE</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="392" y="379" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="" font-style="" font-size="9px" font-family="Futura">
+      <tspan x="392" dy="0" text-anchor="end">Florence</tspan>
+      <tspan x="392" dy="1em" text-anchor="end">
+      </tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="208" y="379" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="" font-style="" font-size="9px" font-family="Futura">
+      <tspan x="208" dy="0" text-anchor="start">1420</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="499" y="365" width="207" height="28" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="706" y="379" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="Thin" font-style="" font-size="18px" font-family="Futura, sans serif">
+      <tspan x="706" dy="0" text-anchor="end">EARLY NETHERLANDISH</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="706" y="393" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="" font-style="" font-size="9px" font-family="Futura">
+      <tspan x="706" dy="0" text-anchor="end">Flanders</tspan>
+      <tspan x="706" dy="1em" text-anchor="end">
+      </tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="499" y="393" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="" font-style="" font-size="9px" font-family="Futura">
+      <tspan x="499" dy="0" text-anchor="start">1420</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="254" y="634" width="174" height="35" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="428" y="651.5" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="Thin" font-style="" font-size="18px" font-family="Futura, sans serif">
+      <tspan x="428" dy="0" text-anchor="end">HIGH RENAISSANCE</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="428" y="669" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="" font-style="" font-size="9px" font-family="Futura">
+      <tspan x="428" dy="0" text-anchor="end">Florence</tspan>
+      <tspan x="428" dy="1em" text-anchor="end">Rome</tspan>
+      <tspan x="428" dy="1em" text-anchor="end">
+      </tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="254" y="669" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="" font-style="" font-size="9px" font-family="Futura">
+      <tspan x="254" dy="0" text-anchor="start">1490</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="485" y="689" width="232" height="35" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="717" y="706.5" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="Thin" font-style="" font-size="18px" font-family="Futura, sans serif">
+      <tspan x="717" dy="0" text-anchor="end">VENETIAN RENAISSANCE</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="717" y="724" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="" font-style="" font-size="9px" font-family="Futura">
+      <tspan x="717" dy="0" text-anchor="end">Venice</tspan>
+      <tspan x="717" dy="1em" text-anchor="end">
+      </tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="485" y="724" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="" font-style="" font-size="9px" font-family="Futura">
+      <tspan x="485" dy="0" text-anchor="start">1500</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="394" y="140" width="86" height="35" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="480" y="157.5" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="Thin" font-style="" font-size="10px" font-family="Futura, sans serif">
+      <tspan x="480" dy="0" text-anchor="end">SIENESE SCHOOL</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="480" y="175" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="" font-style="" font-size="9px" font-family="Futura">
+      <tspan x="480" dy="0" text-anchor="end">Siena</tspan>
+      <tspan x="480" dy="1em" text-anchor="end">
+      </tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="394" y="175" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="" font-style="" font-size="9px" font-family="Futura">
+      <tspan x="394" dy="0" text-anchor="start">1300</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="228" y="764" width="100" height="35" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="328" y="781.5" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="Thin" font-style="" font-size="10px" font-family="Futura, sans serif">
+      <tspan x="328" dy="0" text-anchor="end">MANNERISM</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="328" y="799" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="" font-style="" font-size="9px" font-family="Futura">
+      <tspan x="328" dy="0" text-anchor="end">Florence</tspan>
+      <tspan x="328" dy="1em" text-anchor="end">Rome</tspan>
+      <tspan x="328" dy="1em" text-anchor="end">
+      </tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="228" y="799" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="" font-style="" font-size="9px" font-family="Futura">
+      <tspan x="228" dy="0" text-anchor="start">1520</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="100" y="50" width="120" height="25" rx="0" fill="white" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="160" y="62.5" fill="#D23B22" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="" font-style="" font-size="12px" font-family="Futura">
+      <tspan x="160" dy="0" text-anchor="middle">BYZANTINE ART</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="303" y="50" width="159" height="25" rx="0" fill="white" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="382.5" y="62.5" fill="#D23B22" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="" font-style="" font-size="12px" font-family="Futura">
+      <tspan x="382.5" dy="0" text-anchor="middle">GOTHIC ARCHITECTURE</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="372" y="234" width="140" height="25" rx="0" fill="white" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="442" y="246.5" fill="#D23B22" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="" font-style="" font-size="12px" font-family="Futura">
+      <tspan x="442" dy="0" text-anchor="middle">CLASSICAL ANTIQUITY</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="504" y="97" width="189" height="25" rx="0" fill="white" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="598.5" y="109.5" fill="#D23B22" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="" font-style="" font-size="12px" font-family="Futura">
+      <tspan x="598.5" dy="0" text-anchor="middle">ILLUMINATED MANUSCRIPTS</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="534" y="173" width="120" height="25" rx="0" fill="white" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="594" y="185.5" fill="#D23B22" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="" font-style="" font-size="12px" font-family="Futura">
+      <tspan x="594" dy="0" text-anchor="middle">FRESCO PAINTING</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="108" y="219" width="95" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="155.5" y="234" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="100" font-style="" font-size="14px" font-family="Futura">
+      <tspan x="155.5" dy="0" text-anchor="middle">Giotto</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="203" y="249" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="203" dy="0" text-anchor="end">Florence</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="108" y="249" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="108" dy="0" text-anchor="start">d. 1337</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="270" y="214" width="60" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="300" y="229" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="100" font-style="" font-size="14px" font-family="Futura">
+      <tspan x="300" dy="0" text-anchor="middle">Duccio</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="330" y="244" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="330" dy="0" text-anchor="end">Siena</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="270" y="244" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="270" dy="0" text-anchor="start">d. 1319</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="145" y="455" width="86" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="188" y="470" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="100" font-style="" font-size="14px" font-family="Futura">
+      <tspan x="188" dy="0" text-anchor="middle">Masaccio</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="231" y="485" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="231" dy="0" text-anchor="end">Florence</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="145" y="485" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="145" dy="0" text-anchor="start">d. 1428</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="408" y="392" width="89" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="452.5" y="407" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="100" font-style="" font-size="14px" font-family="Futura">
+      <tspan x="452.5" dy="0" text-anchor="middle">Donatello</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="497" y="422" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="497" dy="0" text-anchor="end">Florence</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="408" y="422" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="408" dy="0" text-anchor="start">d. 1466</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="419" y="460" width="94" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="466" y="475" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="100" font-style="" font-size="14px" font-family="Futura">
+      <tspan x="466" dy="0" text-anchor="middle">Brunelleschi</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="513" y="490" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="513" dy="0" text-anchor="end">Florence</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="419" y="490" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="419" dy="0" text-anchor="start">d. 1446</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="613" y="463" width="90" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="658" y="478" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="100" font-style="" font-size="14px" font-family="Futura">
+      <tspan x="658" dy="0" text-anchor="middle">Jan van Eyck</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="703" y="493" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="703" dy="0" text-anchor="end">Flanders</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="613" y="493" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="613" dy="0" text-anchor="start">d. 1441</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="105" y="700" width="119" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="164.5" y="715" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="100" font-style="" font-size="14px" font-family="Futura">
+      <tspan x="164.5" dy="0" text-anchor="middle">Leonardo da Vinci</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="224" y="730" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="224" dy="0" text-anchor="end">Florence</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="105" y="730" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="105" dy="0" text-anchor="start">d. 1519</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="388" y="710" width="80" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="428" y="725" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="100" font-style="" font-size="14px" font-family="Futura">
+      <tspan x="428" dy="0" text-anchor="middle">Michelangelo</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="468" y="740" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="468" dy="0" text-anchor="end">Rome</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="388" y="740" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="388" dy="0" text-anchor="start">d. 1564</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="420" y="765" width="88" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="464" y="780" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="100" font-style="" font-size="14px" font-family="Futura">
+      <tspan x="464" dy="0" text-anchor="middle">Raphael</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="508" y="795" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="508" dy="0" text-anchor="end">Rome</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="420" y="795" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="420" dy="0" text-anchor="start">d. 1520</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="658" y="766" width="60" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="688" y="781" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="100" font-style="" font-size="14px" font-family="Futura">
+      <tspan x="688" dy="0" text-anchor="middle">Titian</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="718" y="796" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="718" dy="0" text-anchor="end">Venice</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="658" y="796" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="658" dy="0" text-anchor="start">d. 1576</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="154" y="548" width="100" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="204" y="563" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="100" font-style="" font-size="14px" font-family="Futura">
+      <tspan x="204" dy="0" text-anchor="middle">Sandro Botticelli</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="254" y="578" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="254" dy="0" text-anchor="end">Florence</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="154" y="578" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="154" dy="0" text-anchor="start">d. 1510</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="292" y="546" width="141" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="362.5" y="561" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="100" font-style="" font-size="14px" font-family="Futura">
+      <tspan x="362.5" dy="0" text-anchor="middle">Piero della Francesca</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="433" y="576" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="433" dy="0" text-anchor="end">Florence</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="292" y="576" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="292" dy="0" text-anchor="start">d. 1492</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="528" y="531" width="100" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="578" y="546" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="100" font-style="" font-size="14px" font-family="Futura">
+      <tspan x="578" dy="0" text-anchor="middle">Albrecht Dürer</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="628" y="561" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="628" dy="0" text-anchor="end">Nuremberg</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="528" y="561" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="528" dy="0" text-anchor="start">d. 1528</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="629" y="642" width="80" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="669" y="657" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="100" font-style="" font-size="14px" font-family="Futura">
+      <tspan x="669" dy="0" text-anchor="middle">Giorgione</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="709" y="672" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="709" dy="0" text-anchor="end">Venice</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="629" y="672" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="629" dy="0" text-anchor="start">d. 1510</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="572" y="797" width="80" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="612" y="812" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="100" font-style="" font-size="14px" font-family="Futura">
+      <tspan x="612" dy="0" text-anchor="middle">Tintoretto</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="652" y="827" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="652" dy="0" text-anchor="end">Venice</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="572" y="827" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="572" dy="0" text-anchor="start">d. 1594</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <rect class="mat-mdc-tooltip-trigger mat-mdc-tooltip-disabled" x="399" y="80" width="80" height="30" rx="0" fill="white" fill-opacity="0" stroke="" stroke-opacity="0" stroke-width="0" stroke-dasharray="" transform="">
+      <!---->
+    </rect>
+    <!---->
+    <!---->
+    <!---->
+    <text class="click-through" x="439" y="95" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="middle" font-weight="100" font-style="" font-size="14px" font-family="Futura">
+      <tspan x="439" dy="0" text-anchor="middle">Cimabue</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="479" y="110" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="end" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="479" dy="0" text-anchor="end">Pisa</tspan>
+      <!---->
+    </text>
+    <!---->
+    <text class="click-through" x="399" y="110" fill="#343434" fill-opacity="1" stroke="" stroke-opacity="0" stroke-dasharray="" transform="" writing-mode="" dominant-baseline="central" text-anchor="start" font-weight="100" font-style="" font-size="10px" font-family="Futura">
+      <tspan x="399" dy="0" text-anchor="start">d. 1302</tspan>
+      <!---->
+    </text>
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+    <g>
+    <line class="moveable-line" x1="168.7912087912088" y1="75" x2="206.51487111040083" y2="128.63833236010123" fill="" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="0"/>
+    <line class="hit-area" x1="168.7912087912088" y1="75" x2="206.51487111040083" y2="128.63833236010123" stroke="transparent" stroke-width="13"/>
+    <!---->
+  </g>
+  <!---->
+  <path d="M 206.25745701167133 130.11607996391865 L 207.97102514906214 120.27892954556415 M 207.99261871421825 128.89574645883073 L 198.15546829586376 127.18217832143993" fill="" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <path d="M 206.25745701167133 130.11607996391865 L 207.97102514906214 120.27892954556415 M 207.99261871421825 128.89574645883073 L 198.15546829586376 127.18217832143993" fill="" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+  <g>
+  <line class="moveable-line" x1="360.72802197802196" y1="75" x2="262.28585022270727" y2="131.51884939895038" fill="" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="0"/>
+  <line class="hit-area" x1="360.72802197802196" y1="75" x2="262.28585022270727" y2="131.51884939895038" stroke="transparent" stroke-width="13"/>
+  <!---->
+</g>
+<!---->
+<path d="M 260.83790394398426 131.12712044578885 L 270.476671284699 133.734802992876 M 261.89412126954574 132.9667956776734 L 264.5018038166329 123.32802833695861" fill="" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 260.83790394398426 131.12712044578885 L 270.476671284699 133.734802992876 M 261.89412126954574 132.9667956776734 L 264.5018038166329 123.32802833695861" fill="" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<g>
+<line class="moveable-line" x1="241.0332123098605" y1="200.1172126375129" x2="290.51703265445735" y2="335.54661568588335" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="0"/>
+<line class="hit-area" x1="241.0332123098605" y1="200.1172126375129" x2="290.51703265445735" y2="335.54661568588335" stroke="transparent" stroke-width="13"/>
+<!---->
+</g>
+<!---->
+<path d="M 289.884802855611 336.90686767734064 L 294.09346447966055 327.8518684255977 M 291.87728464591464 336.1788454847297 L 282.8222853941717 331.97018386068015" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 289.884802855611 336.90686767734064 L 294.09346447966055 327.8518684255977 M 291.87728464591464 336.1788454847297 L 282.8222853941717 331.97018386068015" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<g>
+<line class="moveable-line" x1="426.5652173913044" y1="259" x2="328.6027523359408" y2="338.335799164555" fill="" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="0"/>
+<line class="hit-area" x1="426.5652173913044" y1="259" x2="328.6027523359408" y2="338.335799164555" stroke="transparent" stroke-width="13"/>
+<!---->
+</g>
+<!---->
+<path d="M 327.110962381361 338.1790741498715 L 337.0415906820821 339.2223697301029 M 328.4460273212573 339.8275891191348 L 329.4893229014887 329.89696081841373" fill="" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 327.110962381361 338.1790741498715 L 337.0415906820821 339.2223697301029 M 328.4460273212573 339.8275891191348 L 329.4893229014887 329.89696081841373" fill="" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<g>
+<line class="moveable-line" x1="617.2681928047261" y1="315.2014070835831" x2="607.7704051952826" y2="356.23184955637913" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="0"/>
+<line class="hit-area" x1="617.2681928047261" y1="315.2014070835831" x2="607.7704051952826" y2="356.23184955637913" stroke="transparent" stroke-width="13"/>
+<!---->
+</g>
+<!---->
+<path d="M 606.4978705062036 357.02598774580434 L 614.9689484607244 351.7395255636598 M 608.5645433847078 357.5043842454581 L 603.2780812025633 349.0333062909373" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 606.4978705062036 357.02598774580434 L 614.9689484607244 351.7395255636598 M 608.5645433847078 357.5043842454581 L 603.2780812025633 349.0333062909373" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<g>
+<line class="moveable-line" x1="293.63695652280046" y1="403.72083305614643" x2="275.10316647265813" y2="526.6984707870012" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="0"/>
+<line class="hit-area" x1="293.63695652280046" y1="403.72083305614643" x2="275.10316647265813" y2="526.6984707870012" stroke="transparent" stroke-width="13"/>
+<line class="moveable-line" x1="274.8829088391541" y1="529.3282322693678" x2="273.97281629697784" y2="581.2139498018133" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="1"/>
+<line class="hit-area" x1="274.8829088391541" y1="529.3282322693678" x2="273.97281629697784" y2="581.2139498018133" stroke="transparent" stroke-width="13"/>
+<line class="moveable-line" x1="275.23291965292617" y1="588.5598113732352" x2="289.04952855986045" y2="625.5684306748872" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="2"/>
+<line class="hit-area" x1="275.23291965292617" y1="588.5598113732352" x2="289.04952855986045" y2="625.5684306748872" stroke="transparent" stroke-width="13"/>
+<!---->
+</g>
+<path d="M 275.10316647265813,526.6984707870012 A 20,20 0 0,0 274.8829088391541,529.3282322693678" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 273.97281629697784,581.2139498018133 A 20,20 0 0,0 275.23291965292617,588.5598113732352" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 288.42683025871366 626.9330723218267 L 292.5720420917837 617.8488517733267 M 290.41417020679995 626.191128976034 L 281.3299496583 622.0459171429638" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 288.42683025871366 626.9330723218267 L 292.5720420917837 617.8488517733267 M 290.41417020679995 626.191128976034 L 281.3299496583 622.0459171429638" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<g>
+<line class="moveable-line" x1="595.7251520630069" y1="417.62406711779175" x2="585.5571745631481" y2="475.5926959429939" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="0"/>
+<line class="hit-area" x1="595.7251520630069" y1="417.62406711779175" x2="585.5571745631481" y2="475.5926959429939" stroke="transparent" stroke-width="13"/>
+<line class="moveable-line" x1="590.1915451331985" y1="492.20286046811674" x2="636.7701267297141" y2="545.5445917269866" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="1"/>
+<line class="hit-area" x1="590.1915451331985" y1="492.20286046811674" x2="636.7701267297141" y2="545.5445917269866" stroke="transparent" stroke-width="13"/>
+<line class="moveable-line" x1="639.2930194193824" y1="568.2214990585306" x2="578.1880302291879" y2="681.0855008837668" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="2"/>
+<line class="hit-area" x1="639.2930194193824" y1="568.2214990585306" x2="578.1880302291879" y2="681.0855008837668" stroke="transparent" stroke-width="13"/>
+<!---->
+</g>
+<path d="M 585.5571745631481,475.5926959429939 A 20,20 0 0,0 590.1915451331985,492.20286046811674" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 636.7701267297141,545.5445917269866 A 20,20 0 0,1 639.2930194193824,568.2214990585306" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 576.7503126390893 681.5132486247705 L 586.320989090453 678.6657942567211 M 578.6157779701916 682.5232184738654 L 575.7683236021422 672.9525420225017" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 576.7503126390893 681.5132486247705 L 586.320989090453 678.6657942567211 M 578.6157779701916 682.5232184738654 L 575.7683236021422 672.9525420225017" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<g>
+<line class="moveable-line" x1="326.8699955129335" y1="399.39326492906207" x2="527.0233364483267" y2="681.6584246255377" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="0"/>
+<line class="hit-area" x1="326.8699955129335" y1="399.39326492906207" x2="527.0233364483267" y2="681.6584246255377" stroke="transparent" stroke-width="13"/>
+<!---->
+</g>
+<!---->
+<path d="M 526.7716432906094 683.1371573779886 L 528.4471279575042 673.2934489687653 M 528.5020692007777 681.910117783255 L 518.6583607915544 680.2346331163602" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 526.7716432906094 683.1371573779886 L 528.4471279575042 673.2934489687653 M 528.5020692007777 681.910117783255 L 518.6583607915544 680.2346331163602" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<g>
+<line class="moveable-line" x1="160.15774017211282" y1="267.8223594036499" x2="184.7065030942088" y2="446.0841455456395" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="0"/>
+<line class="hit-area" x1="160.15774017211282" y1="267.8223594036499" x2="184.7065030942088" y2="446.0841455456395" stroke="transparent" stroke-width="13"/>
+<!---->
+</g>
+<!---->
+<path d="M 183.80045942004335 447.27958891916984 L 189.8318601039895 439.32169661627285 M 185.90194646773915 446.99018921980496 L 177.94405416484216 440.95878853585884" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 183.80045942004335 447.27958891916984 L 189.8318601039895 439.32169661627285 M 185.90194646773915 446.99018921980496 L 177.94405416484216 440.95878853585884" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<g>
+<line class="moveable-line" x1="485.39116344922985" y1="434.07539614472967" x2="531.3029583521502" y2="471.86913477702046" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="0"/>
+<line class="hit-area" x1="485.39116344922985" y1="434.07539614472967" x2="531.3029583521502" y2="471.86913477702046" stroke="transparent" stroke-width="13"/>
+<line class="moveable-line" x1="530.6268559408028" y1="503.2841856219771" x2="493.35852811720054" y2="531.3625462094525" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="1"/>
+<line class="hit-area" x1="530.6268559408028" y1="503.2841856219771" x2="493.35852811720054" y2="531.3625462094525" stroke="transparent" stroke-width="13"/>
+<line class="moveable-line" x1="489.0293135231056" y1="558.8349512032146" x2="519.3552406675173" y2="601.9928459786591" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="2"/>
+<line class="hit-area" x1="489.0293135231056" y1="558.8349512032146" x2="519.3552406675173" y2="601.9928459786591" stroke="transparent" stroke-width="13"/>
+<line class="moveable-line" x1="515.8523452590048" y1="628.8077904918907" x2="429.84700779587797" y2="701.0265926902371" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="3"/>
+<line class="hit-area" x1="515.8523452590048" y1="628.8077904918907" x2="429.84700779587797" y2="701.0265926902371" stroke="transparent" stroke-width="13"/>
+<!---->
+</g>
+<path d="M 531.3029583521502,471.86913477702046 A 20,20 0 0,1 530.6268559408028,503.2841856219771" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 493.35852811720054,531.3625462094525 A 20,20 0 0,0 489.0293135231056,558.8349512032146" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 519.3552406675173,601.9928459786591 A 20,20 0 0,1 515.8523452590048,628.8077904918907" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 428.3526696897169 700.896386610165 L 438.3002606641238 701.7631495077968 M 429.7168017158059 702.5209307963981 L 430.58356461343766 692.5733398219912" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 428.3526696897169 700.896386610165 L 438.3002606641238 701.7631495077968 M 429.7168017158059 702.5209307963981 L 430.58356461343766 692.5733398219912" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<g>
+<line class="moveable-line" x1="242.5677486222021" y1="731.9429170632492" x2="411.2047506526411" y2="768.5419325289538" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="0"/>
+<line class="hit-area" x1="242.5677486222021" y1="731.9429170632492" x2="411.2047506526411" y2="768.5419325289538" stroke="transparent" stroke-width="13"/>
+<!---->
+</g>
+<!---->
+<path d="M 412.01632428452046 769.8034190484422 L 406.61379690315715 761.4058871486259 M 412.4662371721295 767.7303588970744 L 404.0687052723132 773.1328862784377" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 412.01632428452046 769.8034190484422 L 406.61379690315715 761.4058871486259 M 412.4662371721295 767.7303588970744 L 404.0687052723132 773.1328862784377" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<g>
+<line class="moveable-line" x1="196.44736842105263" y1="75" x2="385.48675591996846" y2="139.83300293284117" fill="" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="0"/>
+<line class="hit-area" x1="196.44736842105263" y1="75" x2="385.48675591996846" y2="139.83300293284117" stroke="transparent" stroke-width="13"/>
+<!---->
+</g>
+<!---->
+<path d="M 386.1459608636197 141.18038886162276 L 381.7577296322049 132.211037113896 M 386.83414184875005 139.17379798918995 L 377.8647901010233 143.56202922060467" fill="" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 386.1459608636197 141.18038886162276 L 381.7577296322049 132.211037113896 M 386.83414184875005 139.17379798918995 L 377.8647901010233 143.56202922060467" fill="" fill-opacity="0" stroke="#D23B22" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<g>
+<line class="moveable-line" x1="319.00001735841045" y1="696.8967895778833" x2="290.40570215649126" y2="755.9009320580338" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" segment-number="0"/>
+<line class="hit-area" x1="319.00001735841045" y1="696.8967895778833" x2="290.40570215649126" y2="755.9009320580338" stroke="transparent" stroke-width="13"/>
+<!---->
+</g>
+<!---->
+<path d="M 288.98866006510923 756.3928585871664 L 298.42170273495003 753.1181753805378 M 290.8976286856239 757.3179741494158 L 287.62294547899523 747.8849314795751" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path d="M 288.98866006510923 756.3928585871664 L 298.42170273495003 753.1181753805378 M 290.8976286856239 757.3179741494158 L 287.62294547899523 747.8849314795751" fill="" fill-opacity="0" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<path class="click-through" d="M 149.000000 189.000000 A 75.000000 17.500000 0 0 0 299.000000 189.000000" fill="#DED6CA" fill-opacity="1" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform=""/>
+<!---->
+<path class="click-through" d="M 544.000000 303.000000 A 83.500000 14.000000 0 0 0 711.000000 303.000000" fill="#DED6CA" fill-opacity="1" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform=""/>
+<!---->
+<path class="click-through" d="M 208.000000 391.000000 A 92.000000 17.500000 0 0 0 392.000000 391.000000" fill="#DED6CA" fill-opacity="1" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform=""/>
+<!---->
+<path class="click-through" d="M 499.000000 405.000000 A 103.500000 14.000000 0 0 0 706.000000 405.000000" fill="#DED6CA" fill-opacity="1" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform=""/>
+<!---->
+<path class="click-through" d="M 254.000000 687.000000 A 87.000000 17.500000 0 0 0 428.000000 687.000000" fill="#DED6CA" fill-opacity="1" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform=""/>
+<!---->
+<path class="click-through" d="M 485.000000 736.000000 A 116.000000 17.500000 0 0 0 717.000000 736.000000" fill="#DED6CA" fill-opacity="1" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform=""/>
+<!---->
+<path class="click-through" d="M 394.000000 187.000000 A 43.000000 17.500000 0 0 0 480.000000 187.000000" fill="#DED6CA" fill-opacity="1" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform=""/>
+<!---->
+<path class="click-through" d="M 228.000000 817.000000 A 50.000000 17.500000 0 0 0 328.000000 817.000000" fill="#DED6CA" fill-opacity="1" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform=""/>
+<!---->
+<path class="click-through" d="M 108.000000 261.000000 A 47.500000 15.000000 0 0 0 203.000000 261.000000" fill="#DED6CA" fill-opacity="1" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform=""/>
+<!---->
+<path class="click-through" d="M 408.000000 434.000000 A 44.500000 15.000000 0 0 0 497.000000 434.000000" fill="#DED6CA" fill-opacity="1" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform=""/>
+<!---->
+<path class="click-through" d="M 105.000000 742.000000 A 59.500000 15.000000 0 0 0 224.000000 742.000000" fill="#DED6CA" fill-opacity="1" stroke="#343434" stroke-opacity="1" stroke-width="3" stroke-dasharray="" transform=""/>
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+<!---->
+</g>
+</svg>`

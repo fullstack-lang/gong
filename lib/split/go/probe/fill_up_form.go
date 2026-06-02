@@ -227,7 +227,7 @@ func FillUpForm(
 		BasicFieldtoForm("IsSelectedView", instanceWithInferedType.IsSelectedView, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		EnumTypeStringToForm("Direction", instanceWithInferedType.Direction, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("IsSecondatyView", instanceWithInferedType.IsSecondatyView, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsSecondaryView", instanceWithInferedType.IsSecondaryView, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsSizeInPixel", instanceWithInferedType.IsSizeInPixel, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)

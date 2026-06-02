@@ -15,7 +15,7 @@ export class ViewAPI {
 	ShowViewName: boolean = false
 	IsSelectedView: boolean = false
 	Direction: string = ""
-	IsSecondatyView: boolean = false
+	IsSecondaryView: boolean = false
 	IsSizeInPixel: boolean = false
 	IsWithCustomGutterSize: boolean = false
 	GutterSize: number = 0

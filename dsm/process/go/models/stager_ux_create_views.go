@@ -172,7 +172,7 @@ func (stager *Stager) createViews(stage *Stage) {
 
 	split.StageBranch(stager.splitStage, &split.View{
 		Name:            "Tree Product Probe",
-		IsSecondatyView: true,
+		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Split: &split.Split{
@@ -184,7 +184,7 @@ func (stager *Stager) createViews(stage *Stage) {
 
 	split.StageBranch(stager.splitStage, &split.View{
 		Name:            "Svg Probe",
-		IsSecondatyView: true,
+		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Split: &split.Split{
@@ -196,7 +196,7 @@ func (stager *Stager) createViews(stage *Stage) {
 
 	split.StageBranch(stager.splitStage, &split.View{
 		Name:            "ssg Probe",
-		IsSecondatyView: true,
+		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Split: &split.Split{

@@ -1104,6 +1104,17 @@
             ]
         },
         {
+            "name": "markdown: barrgraph",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/markdown/go/cmd/markdown",
+            "args": [
+                "-unmarshallFromCode=data/barrgraph.go",
+                "-marshallOnCommit=data/barrgraph.go"
+            ]
+        },
+        {
             "name": "probe: go run probe",
             "type": "go",
             "request": "launch",
@@ -1348,6 +1359,14 @@
                 "--skipNpmWorkspaces",
                 "--stack-height=4"
             ]
+        },
+        {
+            "name": "table: Launch Chrome (markdown) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/markdown/ng-github.com-fullstack-lang-gong-lib-markdown",
+            "sourceMaps": true,
         },
         {
             "name": "table: Launch Chrome (table) on 4200",
