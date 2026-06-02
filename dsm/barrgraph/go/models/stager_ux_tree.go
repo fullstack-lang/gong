@@ -8,7 +8,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) tree() {
+func (stager *Stager) ux_tree() {
 	stage := stager.stage
 	stager.treeStage.Reset()
 

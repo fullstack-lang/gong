@@ -12,7 +12,7 @@ type FileToUploadProxy struct {
 	stager *Stager
 }
 
-func (stager *Stager) load() {
+func (stager *Stager) ux_load() {
 
 	stager.loadStage.Reset()
 

@@ -22,6 +22,9 @@ import (
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
 	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
+
+	markdown "github.com/fullstack-lang/gong/lib/markdown/go/models"
+	markdown_stack "github.com/fullstack-lang/gong/lib/markdown/go/stack"
 )
 
 type Stager struct {
@@ -33,9 +36,10 @@ type Stager struct {
 	ssgStage  *ssg.Stage
 	treeStage *tree.Stage
 
-	loadStage   *load.Stage
-	fileName    string // fileName is used to store the name of the file to load or save
-	buttonStage *button.Stage
+	loadStage     *load.Stage
+	fileName      string // fileName is used to store the name of the file to load or save
+	buttonStage   *button.Stage
+	markdownStage *markdown.Stage
 
 	probeForm ProbeIF
 
@@ -62,17 +66,18 @@ func NewStager(
 	stager.treeStage = tree_stack.NewStack(r, stage.GetName(), "", "", "", true, true).Stage
 	stager.loadStage = load_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
-
-	stager.createViews()
+	stager.markdownStage = markdown_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.ux_createViews()
 
 	beforeCommit := func(stage *Stage) {
 		stager.enforceSemantic()
 	}
 	afterCommit := func(stage *Stage) {
-		stager.tree()
-		stager.svg()
-		stager.button()
-		stager.load()
+		stager.ux_tree()
+		stager.ux_svg()
+		stager.ux_button()
+		stager.ux_load()
+		stager.ux_markdown()
 	}
 
 	stager.stage.RegisterBeforeCommit(beforeCommit)
