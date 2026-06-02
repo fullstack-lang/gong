@@ -17,7 +17,7 @@ import (
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
 )
 
-func (stager *Stager) button() {
+func (stager *Stager) ux_button() {
 	buttonStage := stager.buttonStage
 	buttonStage.Reset()
 
@@ -90,7 +90,7 @@ func (stager *Stager) button() {
 			log.Println("Finished exporting file", tempFile.Name())
 
 			time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we delete the file.
-			stager.load()
+			stager.ux_load()
 		},
 	})
 

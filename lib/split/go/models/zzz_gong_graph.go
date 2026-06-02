@@ -2328,8 +2328,8 @@ func (view *View) GongDiff(stage *Stage, viewOther *View) (diffs []string) {
 	if view.Direction != viewOther.Direction {
 		diffs = append(diffs, view.GongMarshallField(stage, "Direction"))
 	}
-	if view.IsSecondatyView != viewOther.IsSecondatyView {
-		diffs = append(diffs, view.GongMarshallField(stage, "IsSecondatyView"))
+	if view.IsSecondaryView != viewOther.IsSecondaryView {
+		diffs = append(diffs, view.GongMarshallField(stage, "IsSecondaryView"))
 	}
 	if view.IsSizeInPixel != viewOther.IsSizeInPixel {
 		diffs = append(diffs, view.GongMarshallField(stage, "IsSizeInPixel"))

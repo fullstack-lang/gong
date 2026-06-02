@@ -527,7 +527,7 @@ func NewStager(
 				}),
 			}),
 		},
-		IsSecondatyView: true,
+		IsSecondaryView: true,
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
@@ -539,7 +539,7 @@ func NewStager(
 				}),
 			}),
 		},
-		IsSecondatyView: true,
+		IsSecondaryView: true,
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
@@ -551,7 +551,7 @@ func NewStager(
 				}),
 			}),
 		},
-		IsSecondatyView: true,
+		IsSecondaryView: true,
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
@@ -563,7 +563,7 @@ func NewStager(
 				}),
 			}),
 		},
-		IsSecondatyView: true,
+		IsSecondaryView: true,
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
@@ -575,7 +575,7 @@ func NewStager(
 				}),
 			}),
 		},
-		IsSecondatyView: true,
+		IsSecondaryView: true,
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
@@ -587,7 +587,7 @@ func NewStager(
 				}),
 			}),
 		},
-		IsSecondatyView: true,
+		IsSecondaryView: true,
 	})
 	split.StageBranch(stager.splitStage, &split.View{
 		Name: "(Dev) load Rendering Conf Stage",
@@ -598,7 +598,7 @@ func NewStager(
 				}),
 			}),
 		},
-		IsSecondatyView: true,
+		IsSecondaryView: true,
 	})
 
 	stager.splitStage.Commit()
