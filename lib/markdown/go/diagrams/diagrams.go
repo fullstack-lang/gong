@@ -1,6 +1,7 @@
 package diagrams
 
 import (
+	"slices"
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/doc/go/models"
@@ -10,7 +11,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration
 var _ ref_models.Stage
@@ -23,69 +27,141 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-07-07 05:02:30.201795 CEST"
-	const __write__utc_time__ = "2025-07-07 03:02:30.201795 UTC"
+	// insertion point for declaration of instances to stage
 
-	const __commitId__ = "0000000010"
+	__AttributeShape__00000000_ := (&models.AttributeShape{Name: `Name`}).Stage(stage)
+	__AttributeShape__00000001_ := (&models.AttributeShape{Name: `Content`}).Stage(stage)
+	__AttributeShape__00000002_ := (&models.AttributeShape{Name: `Name`}).Stage(stage)
+	__AttributeShape__00000003_ := (&models.AttributeShape{Name: `Base64Content`}).Stage(stage)
+	__AttributeShape__00000004_ := (&models.AttributeShape{Name: `Name`}).Stage(stage)
+	__AttributeShape__00000005_ := (&models.AttributeShape{Name: `Base64Content`}).Stage(stage)
+	__AttributeShape__00000006_ := (&models.AttributeShape{Name: `Content`}).Stage(stage)
+	__AttributeShape__00000007_ := (&models.AttributeShape{Name: `Name`}).Stage(stage)
 
-	// Declaration of instances to stage
+	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `Default`}).Stage(stage)
 
-	__AttributeShape__000000_Name := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000001_Content := (&models.AttributeShape{}).Stage(stage)
+	__DiagramPackage__00000000_ := (&models.DiagramPackage{Name: `Diagram Package created the 2025-07-07T03:02:10Z`}).Stage(stage)
 
-	__Classdiagram__000000_Default := (&models.Classdiagram{}).Stage(stage)
+	__GongStructShape__00000000_ := (&models.GongStructShape{Name: `Default-Content`}).Stage(stage)
+	__GongStructShape__00000001_ := (&models.GongStructShape{Name: `Default-JpgImage`}).Stage(stage)
+	__GongStructShape__00000002_ := (&models.GongStructShape{Name: `Default-PngImage`}).Stage(stage)
+	__GongStructShape__00000003_ := (&models.GongStructShape{Name: `Default-SvgImage`}).Stage(stage)
 
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_07_07T03_02_10Z := (&models.DiagramPackage{}).Stage(stage)
+	// insertion point for initialization of values
 
-	__GongStructShape__000000_Default_Content := (&models.GongStructShape{}).Stage(stage)
+	__AttributeShape__00000000_.Name = `Name`
+	__AttributeShape__00000000_.IdentifierMeta = ref_models.Content{}.Name
+	__AttributeShape__00000000_.FieldTypeAsString = ``
+	__AttributeShape__00000000_.Structname = `Content`
+	__AttributeShape__00000000_.Fieldtypename = `string`
 
-	// Setup of values
+	__AttributeShape__00000001_.Name = `Content`
+	__AttributeShape__00000001_.IdentifierMeta = ref_models.Content{}.Content
+	__AttributeShape__00000001_.FieldTypeAsString = ``
+	__AttributeShape__00000001_.Structname = `Content`
+	__AttributeShape__00000001_.Fieldtypename = `string`
 
-	__AttributeShape__000000_Name.Name = `Name`
-	__AttributeShape__000000_Name.IdentifierMeta = ref_models.Content{}.Name
-	__AttributeShape__000000_Name.FieldTypeAsString = ``
-	__AttributeShape__000000_Name.Structname = `Content`
-	__AttributeShape__000000_Name.Fieldtypename = `string`
+	__AttributeShape__00000002_.Name = `Name`
+	__AttributeShape__00000002_.IdentifierMeta = ref_models.JpgImage{}.Name
+	__AttributeShape__00000002_.FieldTypeAsString = ``
+	__AttributeShape__00000002_.Structname = `JpgImage`
+	__AttributeShape__00000002_.Fieldtypename = `string`
 
-	__AttributeShape__000001_Content.Name = `Content`
-	__AttributeShape__000001_Content.IdentifierMeta = ref_models.Content{}.Content
-	__AttributeShape__000001_Content.FieldTypeAsString = ``
-	__AttributeShape__000001_Content.Structname = `Content`
-	__AttributeShape__000001_Content.Fieldtypename = `string`
+	__AttributeShape__00000003_.Name = `Base64Content`
+	__AttributeShape__00000003_.IdentifierMeta = ref_models.JpgImage{}.Base64Content
+	__AttributeShape__00000003_.FieldTypeAsString = ``
+	__AttributeShape__00000003_.Structname = `JpgImage`
+	__AttributeShape__00000003_.Fieldtypename = `string`
 
-	__Classdiagram__000000_Default.Name = `Default`
-	__Classdiagram__000000_Default.Description = ``
-	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = false
-	__Classdiagram__000000_Default.IsInRenameMode = false
-	__Classdiagram__000000_Default.IsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[true]`
-	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = ``
-	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongNoteNodeExpansion = ``
+	__AttributeShape__00000004_.Name = `Name`
+	__AttributeShape__00000004_.IdentifierMeta = ref_models.PngImage{}.Name
+	__AttributeShape__00000004_.FieldTypeAsString = ``
+	__AttributeShape__00000004_.Structname = `PngImage`
+	__AttributeShape__00000004_.Fieldtypename = `string`
 
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_07_07T03_02_10Z.Name = `Diagram Package created the 2025-07-07T03:02:10Z`
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_07_07T03_02_10Z.Path = ``
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_07_07T03_02_10Z.GongModelPath = ``
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_07_07T03_02_10Z.AbsolutePathToDiagramPackage = ``
+	__AttributeShape__00000005_.Name = `Base64Content`
+	__AttributeShape__00000005_.IdentifierMeta = ref_models.PngImage{}.Base64Content
+	__AttributeShape__00000005_.FieldTypeAsString = ``
+	__AttributeShape__00000005_.Structname = `PngImage`
+	__AttributeShape__00000005_.Fieldtypename = `string`
 
-	__GongStructShape__000000_Default_Content.Name = `Default-Content`
-	__GongStructShape__000000_Default_Content.X = 33.000000
-	__GongStructShape__000000_Default_Content.Y = 88.000000
-	__GongStructShape__000000_Default_Content.IdentifierMeta = ref_models.Content{}
-	__GongStructShape__000000_Default_Content.Width = 240.000000
-	__GongStructShape__000000_Default_Content.Height = 103.000000
-	__GongStructShape__000000_Default_Content.IsSelected = false
+	__AttributeShape__00000006_.Name = `Content`
+	__AttributeShape__00000006_.IdentifierMeta = ref_models.SvgImage{}.Content
+	__AttributeShape__00000006_.FieldTypeAsString = ``
+	__AttributeShape__00000006_.Structname = `SvgImage`
+	__AttributeShape__00000006_.Fieldtypename = `string`
 
-	// Setup of pointers
-	// setup of AttributeShape instances pointers
-	// setup of Classdiagram instances pointers
-	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_Content)
-	// setup of DiagramPackage instances pointers
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_07_07T03_02_10Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_07_07T03_02_10Z.Classdiagrams, __Classdiagram__000000_Default)
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_07_07T03_02_10Z.SelectedClassdiagram = __Classdiagram__000000_Default
-	// setup of GongStructShape instances pointers
-	__GongStructShape__000000_Default_Content.AttributeShapes = append(__GongStructShape__000000_Default_Content.AttributeShapes, __AttributeShape__000000_Name)
-	__GongStructShape__000000_Default_Content.AttributeShapes = append(__GongStructShape__000000_Default_Content.AttributeShapes, __AttributeShape__000001_Content)
+	__AttributeShape__00000007_.Name = `Name`
+	__AttributeShape__00000007_.IdentifierMeta = ref_models.SvgImage{}.Name
+	__AttributeShape__00000007_.FieldTypeAsString = ``
+	__AttributeShape__00000007_.Structname = `SvgImage`
+	__AttributeShape__00000007_.Fieldtypename = `string`
+
+	__Classdiagram__00000000_.Name = `Default`
+	__Classdiagram__00000000_.Description = ``
+	__Classdiagram__00000000_.IsIncludedInStaticWebSite = false
+	__Classdiagram__00000000_.ShowNbInstances = false
+	__Classdiagram__00000000_.ShowMultiplicity = false
+	__Classdiagram__00000000_.ShowLinkNames = false
+	__Classdiagram__00000000_.IsInRenameMode = false
+	__Classdiagram__00000000_.IsExpanded = true
+	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
+	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[true,true,true,true]`
+	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
+	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = ``
+	__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
+	__Classdiagram__00000000_.NodeGongNoteNodeExpansion = ``
+
+	__DiagramPackage__00000000_.Name = `Diagram Package created the 2025-07-07T03:02:10Z`
+	__DiagramPackage__00000000_.Path = ``
+	__DiagramPackage__00000000_.GongModelPath = ``
+	__DiagramPackage__00000000_.AbsolutePathToDiagramPackage = ``
+
+	__GongStructShape__00000000_.Name = `Default-Content`
+	__GongStructShape__00000000_.X = 33.000000
+	__GongStructShape__00000000_.Y = 88.000000
+	__GongStructShape__00000000_.IdentifierMeta = ref_models.Content{}
+	__GongStructShape__00000000_.Width = 240.000000
+	__GongStructShape__00000000_.Height = 103.000000
+	__GongStructShape__00000000_.IsSelected = false
+
+	__GongStructShape__00000001_.Name = `Default-JpgImage`
+	__GongStructShape__00000001_.X = 424.000000
+	__GongStructShape__00000001_.Y = 323.000000
+	__GongStructShape__00000001_.IdentifierMeta = ref_models.JpgImage{}
+	__GongStructShape__00000001_.Width = 240.000000
+	__GongStructShape__00000001_.Height = 103.000000
+	__GongStructShape__00000001_.IsSelected = false
+
+	__GongStructShape__00000002_.Name = `Default-PngImage`
+	__GongStructShape__00000002_.X = 440.000000
+	__GongStructShape__00000002_.Y = 193.000000
+	__GongStructShape__00000002_.IdentifierMeta = ref_models.PngImage{}
+	__GongStructShape__00000002_.Width = 240.000000
+	__GongStructShape__00000002_.Height = 103.000000
+	__GongStructShape__00000002_.IsSelected = false
+
+	__GongStructShape__00000003_.Name = `Default-SvgImage`
+	__GongStructShape__00000003_.X = 441.000000
+	__GongStructShape__00000003_.Y = 49.000000
+	__GongStructShape__00000003_.IdentifierMeta = ref_models.SvgImage{}
+	__GongStructShape__00000003_.Width = 240.000000
+	__GongStructShape__00000003_.Height = 103.000000
+	__GongStructShape__00000003_.IsSelected = false
+
+	// insertion point for setup of pointers
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000000_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000001_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000002_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000003_)
+	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000000_)
+	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000000_
+	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000000_)
+	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000001_)
+	__GongStructShape__00000001_.AttributeShapes = append(__GongStructShape__00000001_.AttributeShapes, __AttributeShape__00000002_)
+	__GongStructShape__00000001_.AttributeShapes = append(__GongStructShape__00000001_.AttributeShapes, __AttributeShape__00000003_)
+	__GongStructShape__00000002_.AttributeShapes = append(__GongStructShape__00000002_.AttributeShapes, __AttributeShape__00000004_)
+	__GongStructShape__00000002_.AttributeShapes = append(__GongStructShape__00000002_.AttributeShapes, __AttributeShape__00000005_)
+	__GongStructShape__00000003_.AttributeShapes = append(__GongStructShape__00000003_.AttributeShapes, __AttributeShape__00000007_)
+	__GongStructShape__00000003_.AttributeShapes = append(__GongStructShape__00000003_.AttributeShapes, __AttributeShape__00000006_)
 }

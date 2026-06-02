@@ -80,9 +80,9 @@ type ViewDB struct {
 	// Declation for basic field viewDB.Direction
 	Direction_Data sql.NullString
 
-	// Declation for basic field viewDB.IsSecondatyView
+	// Declation for basic field viewDB.IsSecondaryView
 	// provide the sql storage for the boolan
-	IsSecondatyView_Data sql.NullBool
+	IsSecondaryView_Data sql.NullBool
 
 	// Declation for basic field viewDB.IsSizeInPixel
 	// provide the sql storage for the boolan
@@ -125,7 +125,7 @@ type ViewWOP struct {
 
 	Direction models.Direction `xlsx:"4"`
 
-	IsSecondatyView bool `xlsx:"5"`
+	IsSecondaryView bool `xlsx:"5"`
 
 	IsSizeInPixel bool `xlsx:"6"`
 
@@ -142,7 +142,7 @@ var View_Fields = []string{
 	"ShowViewName",
 	"IsSelectedView",
 	"Direction",
-	"IsSecondatyView",
+	"IsSecondaryView",
 	"IsSizeInPixel",
 	"IsWithCustomGutterSize",
 	"GutterSize",
@@ -460,8 +460,8 @@ func (viewDB *ViewDB) CopyBasicFieldsFromView(view *models.View) {
 	viewDB.Direction_Data.String = view.Direction.ToString()
 	viewDB.Direction_Data.Valid = true
 
-	viewDB.IsSecondatyView_Data.Bool = view.IsSecondatyView
-	viewDB.IsSecondatyView_Data.Valid = true
+	viewDB.IsSecondaryView_Data.Bool = view.IsSecondaryView
+	viewDB.IsSecondaryView_Data.Valid = true
 
 	viewDB.IsSizeInPixel_Data.Bool = view.IsSizeInPixel
 	viewDB.IsSizeInPixel_Data.Valid = true
@@ -489,8 +489,8 @@ func (viewDB *ViewDB) CopyBasicFieldsFromView_WOP(view *models.View_WOP) {
 	viewDB.Direction_Data.String = view.Direction.ToString()
 	viewDB.Direction_Data.Valid = true
 
-	viewDB.IsSecondatyView_Data.Bool = view.IsSecondatyView
-	viewDB.IsSecondatyView_Data.Valid = true
+	viewDB.IsSecondaryView_Data.Bool = view.IsSecondaryView
+	viewDB.IsSecondaryView_Data.Valid = true
 
 	viewDB.IsSizeInPixel_Data.Bool = view.IsSizeInPixel
 	viewDB.IsSizeInPixel_Data.Valid = true
@@ -518,8 +518,8 @@ func (viewDB *ViewDB) CopyBasicFieldsFromViewWOP(view *ViewWOP) {
 	viewDB.Direction_Data.String = view.Direction.ToString()
 	viewDB.Direction_Data.Valid = true
 
-	viewDB.IsSecondatyView_Data.Bool = view.IsSecondatyView
-	viewDB.IsSecondatyView_Data.Valid = true
+	viewDB.IsSecondaryView_Data.Bool = view.IsSecondaryView
+	viewDB.IsSecondaryView_Data.Valid = true
 
 	viewDB.IsSizeInPixel_Data.Bool = view.IsSizeInPixel
 	viewDB.IsSizeInPixel_Data.Valid = true
@@ -538,7 +538,7 @@ func (viewDB *ViewDB) CopyBasicFieldsToView(view *models.View) {
 	view.ShowViewName = viewDB.ShowViewName_Data.Bool
 	view.IsSelectedView = viewDB.IsSelectedView_Data.Bool
 	view.Direction.FromString(viewDB.Direction_Data.String)
-	view.IsSecondatyView = viewDB.IsSecondatyView_Data.Bool
+	view.IsSecondaryView = viewDB.IsSecondaryView_Data.Bool
 	view.IsSizeInPixel = viewDB.IsSizeInPixel_Data.Bool
 	view.IsWithCustomGutterSize = viewDB.IsWithCustomGutterSize_Data.Bool
 	view.GutterSize = viewDB.GutterSize_Data.Float64
@@ -551,7 +551,7 @@ func (viewDB *ViewDB) CopyBasicFieldsToView_WOP(view *models.View_WOP) {
 	view.ShowViewName = viewDB.ShowViewName_Data.Bool
 	view.IsSelectedView = viewDB.IsSelectedView_Data.Bool
 	view.Direction.FromString(viewDB.Direction_Data.String)
-	view.IsSecondatyView = viewDB.IsSecondatyView_Data.Bool
+	view.IsSecondaryView = viewDB.IsSecondaryView_Data.Bool
 	view.IsSizeInPixel = viewDB.IsSizeInPixel_Data.Bool
 	view.IsWithCustomGutterSize = viewDB.IsWithCustomGutterSize_Data.Bool
 	view.GutterSize = viewDB.GutterSize_Data.Float64
@@ -565,7 +565,7 @@ func (viewDB *ViewDB) CopyBasicFieldsToViewWOP(view *ViewWOP) {
 	view.ShowViewName = viewDB.ShowViewName_Data.Bool
 	view.IsSelectedView = viewDB.IsSelectedView_Data.Bool
 	view.Direction.FromString(viewDB.Direction_Data.String)
-	view.IsSecondatyView = viewDB.IsSecondatyView_Data.Bool
+	view.IsSecondaryView = viewDB.IsSecondaryView_Data.Bool
 	view.IsSizeInPixel = viewDB.IsSizeInPixel_Data.Bool
 	view.IsWithCustomGutterSize = viewDB.IsWithCustomGutterSize_Data.Bool
 	view.GutterSize = viewDB.GutterSize_Data.Float64

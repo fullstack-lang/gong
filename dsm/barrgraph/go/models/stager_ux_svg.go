@@ -8,7 +8,7 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
-func (stager *Stager) svg() {
+func (stager *Stager) ux_svg() {
 	log.Println("svg")
 	stager.svgStage.Reset()
 

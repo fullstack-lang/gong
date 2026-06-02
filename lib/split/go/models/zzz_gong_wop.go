@@ -294,7 +294,7 @@ type View_WOP struct {
 
 	Direction Direction
 
-	IsSecondatyView bool
+	IsSecondaryView bool
 
 	IsSizeInPixel bool
 
@@ -309,7 +309,7 @@ func (from *View) CopyBasicFields(to *View) {
 	to.ShowViewName = from.ShowViewName
 	to.IsSelectedView = from.IsSelectedView
 	to.Direction = from.Direction
-	to.IsSecondatyView = from.IsSecondatyView
+	to.IsSecondaryView = from.IsSecondaryView
 	to.IsSizeInPixel = from.IsSizeInPixel
 	to.IsWithCustomGutterSize = from.IsWithCustomGutterSize
 	to.GutterSize = from.GutterSize

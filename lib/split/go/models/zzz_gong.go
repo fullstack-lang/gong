@@ -5385,7 +5385,7 @@ func (view *View) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Direction",
 		},
 		{
-			Name:               "IsSecondatyView",
+			Name:               "IsSecondaryView",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -5822,9 +5822,9 @@ func (view *View) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "Direction":
 		enum := view.Direction
 		res.valueString = enum.ToCodeString()
-	case "IsSecondatyView":
-		res.valueString = fmt.Sprintf("%t", view.IsSecondatyView)
-		res.valueBool = view.IsSecondatyView
+	case "IsSecondaryView":
+		res.valueString = fmt.Sprintf("%t", view.IsSecondaryView)
+		res.valueBool = view.IsSecondaryView
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsSizeInPixel":
 		res.valueString = fmt.Sprintf("%t", view.IsSizeInPixel)
@@ -6286,8 +6286,8 @@ func (view *View) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		view.IsSelectedView = value.GetValueBool()
 	case "Direction":
 		view.Direction.FromCodeString(value.GetValueString())
-	case "IsSecondatyView":
-		view.IsSecondatyView = value.GetValueBool()
+	case "IsSecondaryView":
+		view.IsSecondaryView = value.GetValueBool()
 	case "IsSizeInPixel":
 		view.IsSizeInPixel = value.GetValueBool()
 	case "IsWithCustomGutterSize":
