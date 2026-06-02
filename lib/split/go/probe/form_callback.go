@@ -1676,8 +1676,8 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(view_.IsSelectedView), formDiv)
 		case "Direction":
 			FormDivEnumStringFieldToField(&(view_.Direction), formDiv)
-		case "IsSecondatyView":
-			FormDivBasicFieldToField(&(view_.IsSecondatyView), formDiv)
+		case "IsSecondaryView":
+			FormDivBasicFieldToField(&(view_.IsSecondaryView), formDiv)
 		case "IsSizeInPixel":
 			FormDivBasicFieldToField(&(view_.IsSizeInPixel), formDiv)
 		case "IsWithCustomGutterSize":
