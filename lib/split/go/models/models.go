@@ -31,7 +31,7 @@ type View struct {
 	Direction Direction
 
 	// will be displayed in a vertical manner, with the first element at the top and the last element at the bottom
-	IsSecondatyView bool
+	IsSecondaryView bool
 
 	IsSizeInPixel          bool
 	IsWithCustomGutterSize bool

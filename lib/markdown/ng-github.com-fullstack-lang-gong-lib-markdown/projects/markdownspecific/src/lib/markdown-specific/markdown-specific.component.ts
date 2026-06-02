@@ -78,7 +78,13 @@ export class MarkdownSpecificComponent {
                 }
             }
             
-            const encodedSvg = btoa(svgContent);
+            // btoa throws an error if the string contains characters outside the Latin1 range.
+            // We safely encode Unicode string to base64 by first using encodeURIComponent.
+            const encodedSvg = btoa(
+                encodeURIComponent(svgContent).replace(/%([0-9A-F]{2})/g,
+                    (match, p1) => String.fromCharCode(parseInt(p1, 16))
+                )
+            );
             const dataUri = `data:image/svg+xml;base64,${encodedSvg}`;
             return `![${altText}](${dataUri})`;
         }

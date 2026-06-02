@@ -2,7 +2,7 @@ package models
 
 import split "github.com/fullstack-lang/gong/lib/split/go/models"
 
-func (stager *Stager) createViews() {
+func (stager *Stager) ux_createViews() {
 	split.StageBranch(stager.splitStage, &split.View{
 		Name: "tree & diagram",
 
@@ -17,21 +17,21 @@ func (stager *Stager) createViews() {
 								Direction: split.Vertical,
 								AsSplitAreas: []*split.AsSplitArea{
 									{
-										Size: 90,
+										Size: 80,
 										Tree: (&split.Tree{
 											StackName: stager.treeStage.GetName(),
 										}),
 									},
 									{
 										Size: 10,
-										Button: &split.Button{
-											StackName: stager.buttonStage.GetName(),
+										Load: &split.Load{
+											StackName: stager.loadStage.GetName(),
 										},
 									},
 									{
-										Size: 0,
-										Load: &split.Load{
-											StackName: stager.loadStage.GetName(),
+										Size: 10,
+										Button: &split.Button{
+											StackName: stager.buttonStage.GetName(),
 										},
 									},
 								},
@@ -67,26 +67,19 @@ func (stager *Stager) createViews() {
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name: "Load / Download / Buttons",
+		Name: "About",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Name:             "Load  Buttons Download",
 				ShowNameInHeader: false,
-				Size:             35,
 				AsSplit: &split.AsSplit{
 					Name:      "as split",
 					Direction: split.Horizontal,
 					AsSplitAreas: []*split.AsSplitArea{
 						{
-							Size: 50,
-							Load: &split.Load{
-								StackName: stager.loadStage.GetName(),
-							},
-						},
-						{
-							Size: 50,
-							Button: &split.Button{
-								StackName: stager.buttonStage.GetName(),
+							Size: 100,
+							Markdown: &split.Markdown{
+								StackName: stager.markdownStage.GetName(),
 							},
 						},
 					},
@@ -96,11 +89,24 @@ func (stager *Stager) createViews() {
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name: "svg probe",
+		Name:            "svg probe",
+		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
 				Split: (&split.Split{
 					StackName: stager.svgStage.GetProbeSplitStageName(),
+				}),
+			}),
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:            "markdown probe",
+		IsSecondaryView: true,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Split: (&split.Split{
+					StackName: stager.markdownStage.GetProbeSplitStageName(),
 				}),
 			}),
 		},
