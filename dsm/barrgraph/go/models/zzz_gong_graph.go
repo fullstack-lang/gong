@@ -1694,6 +1694,9 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.ComputedPrefix != diagramOther.ComputedPrefix {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if diagram.IsChecked != diagramOther.IsChecked {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsChecked"))
+	}
 	MovementShapesDifferent := false
 	if len(diagram.MovementShapes) != len(diagramOther.MovementShapes) {
 		MovementShapesDifferent = true
@@ -2029,9 +2032,6 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	}
 	if diagram.InfluenceDashedLinePattern != diagramOther.InfluenceDashedLinePattern {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "InfluenceDashedLinePattern"))
-	}
-	if diagram.IsChecked != diagramOther.IsChecked {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsChecked"))
 	}
 
 	return

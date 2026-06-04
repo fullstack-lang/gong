@@ -157,6 +157,8 @@ type Diagram_WOP struct {
 
 	ComputedPrefix string
 
+	IsChecked bool
+
 	IsEditable bool
 
 	IsNodeExpanded bool
@@ -324,14 +326,13 @@ type Diagram_WOP struct {
 	InfluenceCornerRadius float64
 
 	InfluenceDashedLinePattern string
-
-	IsChecked bool
 }
 
 func (from *Diagram) CopyBasicFields(to *Diagram) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsChecked = from.IsChecked
 	to.IsEditable = from.IsEditable
 	to.IsNodeExpanded = from.IsNodeExpanded
 	to.IsMovementCategoryNodeExpanded = from.IsMovementCategoryNodeExpanded
@@ -416,7 +417,6 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.InfluenceArrowEndOffset = from.InfluenceArrowEndOffset
 	to.InfluenceCornerRadius = from.InfluenceCornerRadius
 	to.InfluenceDashedLinePattern = from.InfluenceDashedLinePattern
-	to.IsChecked = from.IsChecked
 }
 
 type Influence_WOP struct {

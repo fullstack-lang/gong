@@ -704,6 +704,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsChecked":
+		instance.IsChecked = GongExtractBool(valueExpr)
 	case "MovementShapes":
 		GongUnmarshallSliceOfPointers(&instance.MovementShapes, valueExpr, identifierMap)
 	case "ArtefactTypeShapes":
@@ -892,8 +894,6 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.InfluenceCornerRadius = GongExtractFloat(valueExpr)
 	case "InfluenceDashedLinePattern":
 		instance.InfluenceDashedLinePattern = GongExtractString(valueExpr)
-	case "IsChecked":
-		instance.IsChecked = GongExtractBool(valueExpr)
 	}
 	return nil
 }
