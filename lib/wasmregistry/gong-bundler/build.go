@@ -174,6 +174,23 @@ func main() {
 	// Inject the bootloader right before the closing </body> tag
 	html = strings.Replace(html, "</body>", bootloader+"\n</body>", 1)
 
+	// Inject history API patch in <head> to prevent Angular SecurityError on file:///
+	fileProtocolPatch := `
+<script>
+  if (window.location.protocol === 'file:') {
+    const originalReplaceState = history.replaceState;
+    history.replaceState = function() {
+      try { originalReplaceState.apply(this, arguments); } catch (e) {}
+    };
+    const originalPushState = history.pushState;
+    history.pushState = function() {
+      try { originalPushState.apply(this, arguments); } catch (e) {}
+    };
+  }
+</script>
+`
+	html = strings.Replace(html, "<head>", "<head>\n"+fileProtocolPatch, 1)
+
 	// Inline Angular CSS styles AND embed all referenced fonts/assets as Base64
 	cssLinkRe := regexp.MustCompile(`(?i)<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"[^>]*>`)
 	urlRe := regexp.MustCompile(`(?i)url\((?:['"]?)([^'"\)]+)(?:['"]?)\)`)

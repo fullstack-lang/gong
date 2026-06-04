@@ -3,7 +3,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/fullstack-lang/gong/dsm/barrgraph/go/level1stack"
@@ -12,10 +11,11 @@ import (
 )
 
 func main() {
-	fmt.Println("Initializing DSM barrgraph WASM Backend...")
-
+	log.SetOutput(&wasmregistry.ConsoleWriter{})
 	log.SetPrefix("barrgraph: ")
 	log.SetFlags(log.Lmicroseconds)
+
+	log.Println("Initializing DSM barrgraph WASM Backend...")
 
 	unmarshallFromCode := ""
 	marshallOnCommit := ""
