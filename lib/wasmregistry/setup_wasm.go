@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http/httptest"
 	"syscall/js"
 
@@ -15,9 +16,24 @@ import (
 
 var ginEngine *gin.Engine
 
+// ConsoleWriter redirects writes to the browser's console.log.
+type ConsoleWriter struct{}
+
+func (cw *ConsoleWriter) Write(p []byte) (n int, err error) {
+	js.Global().Get("console").Call("log", string(bytes.TrimSuffix(p, []byte("\n"))))
+	return len(p), nil
+}
+
 // SetupWasmHooks exposes the HTTP and Socket bridges to the Angular frontend.
 func SetupWasmHooks(r *gin.Engine) {
 	ginEngine = r
+
+	// Redirect standard log package output to browser console
+	log.SetOutput(&ConsoleWriter{})
+
+	// Redirect Gin logging to browser console
+	gin.DefaultWriter = &ConsoleWriter{}
+	gin.DefaultErrorWriter = &ConsoleWriter{}
 
 	js.Global().Set("wasmFetch", js.FuncOf(wasmFetch))
 	js.Global().Set("openWasmSocket", js.FuncOf(openWasmSocket))
@@ -75,6 +91,16 @@ func openWasmSocket(this js.Value, args []js.Value) any {
 		return nil
 	}
 
-	go handler(callback)
+	index := 0
+	wrappedCallback := js.FuncOf(func(this js.Value, cbArgs []js.Value) any {
+		if len(cbArgs) > 0 {
+			payload := cbArgs[0].String()
+			LogWasmPush(stackType, stackPath, index, len(payload))
+			index++
+		}
+		return callback.Invoke(cbArgs[0])
+	})
+
+	go handler(wrappedCallback.Value)
 	return nil
 }
