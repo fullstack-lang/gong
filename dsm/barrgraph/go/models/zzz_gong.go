@@ -4268,6 +4268,10 @@ func (influenceshape *InfluenceShape) GongGetFieldHeaders() (res []GongFieldHead
 			TargetGongstructName: "Influence",
 		},
 		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "ControlPointShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "ControlPointShape",
@@ -4957,6 +4961,10 @@ func (influenceshape *InfluenceShape) GongGetFieldValue(fieldName string, stage 
 			res.valueString = influenceshape.Influence.Name
 			res.ids = influenceshape.Influence.GongGetUUID(stage)
 		}
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", influenceshape.IsHidden)
+		res.valueBool = influenceshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ControlPointShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range influenceshape.ControlPointShapes {
@@ -5556,6 +5564,8 @@ func (influenceshape *InfluenceShape) GongSetFieldValue(fieldName string, value 
 				}
 			}
 		}
+	case "IsHidden":
+		influenceshape.IsHidden = value.GetValueBool()
 	case "ControlPointShapes":
 		influenceshape.ControlPointShapes = make([]*ControlPointShape, 0)
 		ids := strings.Split(value.ids, ";")

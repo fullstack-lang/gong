@@ -964,6 +964,8 @@ func (u *InfluenceShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		instance.Name = GongExtractString(valueExpr)
 	case "Influence":
 		GongUnmarshallPointer(&instance.Influence, valueExpr, identifierMap)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	case "ControlPointShapes":
 		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}

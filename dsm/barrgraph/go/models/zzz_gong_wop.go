@@ -431,11 +431,14 @@ type InfluenceShape_WOP struct {
 	// insertion point
 
 	Name string
+
+	IsHidden bool
 }
 
 func (from *InfluenceShape) CopyBasicFields(to *InfluenceShape) {
 	// insertion point
 	to.Name = from.Name
+	to.IsHidden = from.IsHidden
 }
 
 type Movement_WOP struct {

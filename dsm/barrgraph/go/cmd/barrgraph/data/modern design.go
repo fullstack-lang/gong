@@ -24,6 +24,7 @@ var _ map[string]any = map[string]any{
 
 // function will stage objects
 func _(stage *models.Stage) {
+
 	// insertion point for declaration of instances to stage
 
 	__ArtefactType__00000000_ := (&models.ArtefactType{Name: `CRAFTSMANSHIP`}).Stage(stage)
@@ -137,10 +138,13 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values
 
 	__ArtefactType__00000000_.Name = `CRAFTSMANSHIP`
+	__ArtefactType__00000000_.IsInRenameMode = false
 
 	__ArtefactType__00000001_.Name = `INDUSTRIAL PRODUCTION`
+	__ArtefactType__00000001_.IsInRenameMode = false
 
 	__ArtefactType__00000002_.Name = `NEW MATERIALS`
+	__ArtefactType__00000002_.IsInRenameMode = false
 
 	__ArtefactTypeShape__00000000_.Name = ``
 	__ArtefactTypeShape__00000000_.X = 100.000000
@@ -164,30 +168,37 @@ func _(stage *models.Stage) {
 	__ArtefactTypeShape__00000002_.IsHidden = false
 
 	__Artist__00000000_.Name = `Mackintosh`
+	__Artist__00000000_.IsInRenameMode = false
 	__Artist__00000000_.IsDead = true
 	__Artist__00000000_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1928-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000001_.Name = `Behrens`
+	__Artist__00000001_.IsInRenameMode = false
 	__Artist__00000001_.IsDead = true
 	__Artist__00000001_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1940-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000002_.Name = `Gropius`
+	__Artist__00000002_.IsInRenameMode = false
 	__Artist__00000002_.IsDead = true
 	__Artist__00000002_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1969-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000003_.Name = `Le Corbusier`
+	__Artist__00000003_.IsInRenameMode = false
 	__Artist__00000003_.IsDead = true
 	__Artist__00000003_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1965-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000004_.Name = `Aalto`
+	__Artist__00000004_.IsInRenameMode = false
 	__Artist__00000004_.IsDead = true
 	__Artist__00000004_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1976-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000005_.Name = `Charles & Ray Eames`
+	__Artist__00000005_.IsInRenameMode = false
 	__Artist__00000005_.IsDead = true
 	__Artist__00000005_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1978-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000006_.Name = `Eero Saarinen`
+	__Artist__00000006_.IsInRenameMode = false
 	__Artist__00000006_.IsDead = true
 	__Artist__00000006_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1961-01-01 00:00:00 +0000 UTC")
 
@@ -197,6 +208,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000000_.Width = 80.000000
 	__ArtistShape__00000000_.Height = 30.000000
 	__ArtistShape__00000000_.IsHidden = false
+	__ArtistShape__00000000_.ImagePng_X = 0.000000
+	__ArtistShape__00000000_.ImagePng_Y = 0.000000
+	__ArtistShape__00000000_.ImagePng_Width = 0.000000
+	__ArtistShape__00000000_.ImagePng_Height = 0.000000
+	__ArtistShape__00000000_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000000_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000000_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000000_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000001_.Name = ``
 	__ArtistShape__00000001_.X = 573.000000
@@ -204,6 +223,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000001_.Width = 80.000000
 	__ArtistShape__00000001_.Height = 30.000000
 	__ArtistShape__00000001_.IsHidden = false
+	__ArtistShape__00000001_.ImagePng_X = 0.000000
+	__ArtistShape__00000001_.ImagePng_Y = 0.000000
+	__ArtistShape__00000001_.ImagePng_Width = 0.000000
+	__ArtistShape__00000001_.ImagePng_Height = 0.000000
+	__ArtistShape__00000001_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000001_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000001_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000001_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000002_.Name = ``
 	__ArtistShape__00000002_.X = 268.000000
@@ -211,6 +238,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000002_.Width = 80.000000
 	__ArtistShape__00000002_.Height = 30.000000
 	__ArtistShape__00000002_.IsHidden = false
+	__ArtistShape__00000002_.ImagePng_X = 0.000000
+	__ArtistShape__00000002_.ImagePng_Y = 0.000000
+	__ArtistShape__00000002_.ImagePng_Width = 0.000000
+	__ArtistShape__00000002_.ImagePng_Height = 0.000000
+	__ArtistShape__00000002_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000002_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000002_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000002_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000003_.Name = ``
 	__ArtistShape__00000003_.X = 605.000000
@@ -218,6 +253,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000003_.Width = 75.000000
 	__ArtistShape__00000003_.Height = 30.000000
 	__ArtistShape__00000003_.IsHidden = false
+	__ArtistShape__00000003_.ImagePng_X = 0.000000
+	__ArtistShape__00000003_.ImagePng_Y = 0.000000
+	__ArtistShape__00000003_.ImagePng_Width = 0.000000
+	__ArtistShape__00000003_.ImagePng_Height = 0.000000
+	__ArtistShape__00000003_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000003_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000003_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000003_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000004_.Name = ``
 	__ArtistShape__00000004_.X = 78.000000
@@ -225,6 +268,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000004_.Width = 80.000000
 	__ArtistShape__00000004_.Height = 30.000000
 	__ArtistShape__00000004_.IsHidden = false
+	__ArtistShape__00000004_.ImagePng_X = 0.000000
+	__ArtistShape__00000004_.ImagePng_Y = 0.000000
+	__ArtistShape__00000004_.ImagePng_Width = 0.000000
+	__ArtistShape__00000004_.ImagePng_Height = 0.000000
+	__ArtistShape__00000004_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000004_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000004_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000004_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000005_.Name = ``
 	__ArtistShape__00000005_.X = 467.000000
@@ -232,6 +283,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000005_.Width = 120.000000
 	__ArtistShape__00000005_.Height = 30.000000
 	__ArtistShape__00000005_.IsHidden = false
+	__ArtistShape__00000005_.ImagePng_X = 0.000000
+	__ArtistShape__00000005_.ImagePng_Y = 0.000000
+	__ArtistShape__00000005_.ImagePng_Width = 0.000000
+	__ArtistShape__00000005_.ImagePng_Height = 0.000000
+	__ArtistShape__00000005_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000005_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000005_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000005_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000006_.Name = ``
 	__ArtistShape__00000006_.X = 621.000000
@@ -239,6 +298,14 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000006_.Width = 119.000000
 	__ArtistShape__00000006_.Height = 30.000000
 	__ArtistShape__00000006_.IsHidden = false
+	__ArtistShape__00000006_.ImagePng_X = 0.000000
+	__ArtistShape__00000006_.ImagePng_Y = 0.000000
+	__ArtistShape__00000006_.ImagePng_Width = 0.000000
+	__ArtistShape__00000006_.ImagePng_Height = 0.000000
+	__ArtistShape__00000006_.ImagePng_X_Offset = 0.000000
+	__ArtistShape__00000006_.ImagePng_Y_Offset = 0.000000
+	__ArtistShape__00000006_.ImagePng_RectAnchorType = ""
+	__ArtistShape__00000006_.ImagePngBase64Content = ``
 
 	__ControlPointShape__00000000_.Name = `Control Point Shape in CRANBROOK ACADEMY to AMERICAN MID-CENTURY 0`
 	__ControlPointShape__00000000_.X_Relative = 0.744183
@@ -301,13 +368,13 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsEditable = false
 	__Diagram__00000000_.IsNodeExpanded = true
 	__Diagram__00000000_.IsMovementCategoryNodeExpanded = false
-	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = false
-	__Diagram__00000000_.IsArtistCategoryNodeExpanded = false
-	__Diagram__00000000_.IsInfluenceCategoryNodeExpanded = false
-	__Diagram__00000000_.IsMovementCategoryHidden = true
-	__Diagram__00000000_.IsArtefactTypeCategoryHidden = true
-	__Diagram__00000000_.IsArtistCategoryHidden = true
-	__Diagram__00000000_.IsInfluenceCategoryHidden = true
+	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = true
+	__Diagram__00000000_.IsArtistCategoryNodeExpanded = true
+	__Diagram__00000000_.IsInfluenceCategoryNodeExpanded = true
+	__Diagram__00000000_.IsMovementCategoryHidden = false
+	__Diagram__00000000_.IsArtefactTypeCategoryHidden = false
+	__Diagram__00000000_.IsArtistCategoryHidden = false
+	__Diagram__00000000_.IsInfluenceCategoryHidden = false
 	__Diagram__00000000_.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1900-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1955-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.NbYearsForIntervals = 5
@@ -459,6 +526,7 @@ func _(stage *models.Stage) {
 	__InfluenceShape__00000014_.Name = `INTERNATIONAL STYLE to AMERICAN MID-CENTURY`
 
 	__Movement__00000000_.Name = `ARTS & CRAFTS`
+	__Movement__00000000_.IsInRenameMode = false
 	__Movement__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1900-01-01 00:00:00 +0000 UTC")
 	__Movement__00000000_.HideDate = false
 	__Movement__00000000_.HasTaxonomicFilter = false
@@ -470,6 +538,7 @@ func _(stage *models.Stage) {
 	__Movement__00000000_.AdditionnalName = ``
 
 	__Movement__00000001_.Name = `WIENER WERKSTÄTTE`
+	__Movement__00000001_.IsInRenameMode = false
 	__Movement__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1903-01-01 00:00:00 +0000 UTC")
 	__Movement__00000001_.HideDate = false
 	__Movement__00000001_.HasTaxonomicFilter = false
@@ -481,6 +550,7 @@ func _(stage *models.Stage) {
 	__Movement__00000001_.AdditionnalName = ``
 
 	__Movement__00000002_.Name = `DEUTSCHER WERKBUND`
+	__Movement__00000002_.IsInRenameMode = false
 	__Movement__00000002_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1907-01-01 00:00:00 +0000 UTC")
 	__Movement__00000002_.HideDate = false
 	__Movement__00000002_.HasTaxonomicFilter = false
@@ -492,6 +562,7 @@ func _(stage *models.Stage) {
 	__Movement__00000002_.AdditionnalName = ``
 
 	__Movement__00000003_.Name = `CONSTRUCTIVISM`
+	__Movement__00000003_.IsInRenameMode = false
 	__Movement__00000003_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1915-01-01 00:00:00 +0000 UTC")
 	__Movement__00000003_.HideDate = false
 	__Movement__00000003_.HasTaxonomicFilter = false
@@ -503,6 +574,7 @@ func _(stage *models.Stage) {
 	__Movement__00000003_.AdditionnalName = ``
 
 	__Movement__00000004_.Name = `DE STIJL`
+	__Movement__00000004_.IsInRenameMode = false
 	__Movement__00000004_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1917-01-01 00:00:00 +0000 UTC")
 	__Movement__00000004_.HideDate = false
 	__Movement__00000004_.HasTaxonomicFilter = false
@@ -514,6 +586,7 @@ func _(stage *models.Stage) {
 	__Movement__00000004_.AdditionnalName = ``
 
 	__Movement__00000005_.Name = `BAUHAUS`
+	__Movement__00000005_.IsInRenameMode = false
 	__Movement__00000005_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1919-01-01 00:00:00 +0000 UTC")
 	__Movement__00000005_.HideDate = false
 	__Movement__00000005_.HasTaxonomicFilter = false
@@ -525,6 +598,7 @@ func _(stage *models.Stage) {
 	__Movement__00000005_.AdditionnalName = ``
 
 	__Movement__00000006_.Name = `INTERNATIONAL STYLE`
+	__Movement__00000006_.IsInRenameMode = false
 	__Movement__00000006_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1925-01-01 00:00:00 +0000 UTC")
 	__Movement__00000006_.HideDate = false
 	__Movement__00000006_.HasTaxonomicFilter = false
@@ -536,6 +610,7 @@ func _(stage *models.Stage) {
 	__Movement__00000006_.AdditionnalName = ``
 
 	__Movement__00000007_.Name = `ORGANIC DESIGN`
+	__Movement__00000007_.IsInRenameMode = false
 	__Movement__00000007_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1930-01-01 00:00:00 +0000 UTC")
 	__Movement__00000007_.HideDate = false
 	__Movement__00000007_.HasTaxonomicFilter = false
@@ -547,6 +622,7 @@ func _(stage *models.Stage) {
 	__Movement__00000007_.AdditionnalName = ``
 
 	__Movement__00000008_.Name = `SCANDINAVIAN`
+	__Movement__00000008_.IsInRenameMode = false
 	__Movement__00000008_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Movement__00000008_.HideDate = true
 	__Movement__00000008_.HasTaxonomicFilter = false
@@ -558,6 +634,7 @@ func _(stage *models.Stage) {
 	__Movement__00000008_.AdditionnalName = ``
 
 	__Movement__00000009_.Name = `CRANBROOK ACADEMY`
+	__Movement__00000009_.IsInRenameMode = false
 	__Movement__00000009_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1932-01-01 00:00:00 +0000 UTC")
 	__Movement__00000009_.HideDate = false
 	__Movement__00000009_.HasTaxonomicFilter = false
@@ -569,6 +646,7 @@ func _(stage *models.Stage) {
 	__Movement__00000009_.AdditionnalName = ``
 
 	__Movement__00000010_.Name = `AMERICAN MID-CENTURY`
+	__Movement__00000010_.IsInRenameMode = false
 	__Movement__00000010_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1945-01-01 00:00:00 +0000 UTC")
 	__Movement__00000010_.HideDate = false
 	__Movement__00000010_.HasTaxonomicFilter = false

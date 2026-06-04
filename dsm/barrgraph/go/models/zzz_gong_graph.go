@@ -1979,6 +1979,9 @@ func (influenceshape *InfluenceShape) GongDiff(stage *Stage, influenceshapeOther
 			diffs = append(diffs, influenceshape.GongMarshallField(stage, "Influence"))
 		}
 	}
+	if influenceshape.IsHidden != influenceshapeOther.IsHidden {
+		diffs = append(diffs, influenceshape.GongMarshallField(stage, "IsHidden"))
+	}
 	ControlPointShapesDifferent := false
 	if len(influenceshape.ControlPointShapes) != len(influenceshapeOther.ControlPointShapes) {
 		ControlPointShapesDifferent = true

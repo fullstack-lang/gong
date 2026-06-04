@@ -586,6 +586,15 @@
       "group": "build"
     },
     {
+      "label": "01 - gong generate barrgraph",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/dsm/barrgraph"
+      },
+      "command": "gong generate go/models --skipGoModCommands",
+      "group": "build"
+    },
+    {
       "label": "01 - gong generate barrgraph & gong-bundler it",
       "type": "shell",
       "options": {
