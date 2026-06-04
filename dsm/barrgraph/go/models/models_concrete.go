@@ -64,6 +64,8 @@ type InfluenceShape struct {
 	Name      string
 	Influence *Influence
 
+	IsHidden bool
+
 	ControlPointShapes []*ControlPointShape
 }
 

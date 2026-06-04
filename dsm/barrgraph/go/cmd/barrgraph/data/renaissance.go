@@ -27,36 +27,21 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
-	__ArtefactType__00000000_ := (&models.ArtefactType{Name: `Byzantine Art`}).Stage(stage)
-	__ArtefactType__00000001_ := (&models.ArtefactType{Name: `Gothic Architecture`}).Stage(stage)
-	__ArtefactType__00000002_ := (&models.ArtefactType{Name: `Classical Antiquity`}).Stage(stage)
-	__ArtefactType__00000003_ := (&models.ArtefactType{Name: `Illuminated Manuscripts`}).Stage(stage)
-	__ArtefactType__00000004_ := (&models.ArtefactType{Name: `Fresco Painting`}).Stage(stage)
+	__ArtefactType__00000000_ := (&models.ArtefactType{Name: `CRAFTSMANSHIP`}).Stage(stage)
+	__ArtefactType__00000001_ := (&models.ArtefactType{Name: `INDUSTRIAL PRODUCTION`}).Stage(stage)
+	__ArtefactType__00000002_ := (&models.ArtefactType{Name: `NEW MATERIALS`}).Stage(stage)
 
 	__ArtefactTypeShape__00000000_ := (&models.ArtefactTypeShape{Name: ``}).Stage(stage)
 	__ArtefactTypeShape__00000001_ := (&models.ArtefactTypeShape{Name: ``}).Stage(stage)
 	__ArtefactTypeShape__00000002_ := (&models.ArtefactTypeShape{Name: ``}).Stage(stage)
-	__ArtefactTypeShape__00000003_ := (&models.ArtefactTypeShape{Name: ``}).Stage(stage)
-	__ArtefactTypeShape__00000004_ := (&models.ArtefactTypeShape{Name: ``}).Stage(stage)
 
-	__Artist__00000000_ := (&models.Artist{Name: `Giotto`}).Stage(stage)
-	__Artist__00000001_ := (&models.Artist{Name: `Duccio`}).Stage(stage)
-	__Artist__00000002_ := (&models.Artist{Name: `Masaccio`}).Stage(stage)
-	__Artist__00000003_ := (&models.Artist{Name: `Donatello`}).Stage(stage)
-	__Artist__00000004_ := (&models.Artist{Name: `Brunelleschi`}).Stage(stage)
-	__Artist__00000005_ := (&models.Artist{Name: `Jan van Eyck`}).Stage(stage)
-	__Artist__00000006_ := (&models.Artist{Name: `Leonardo da Vinci`}).Stage(stage)
-	__Artist__00000007_ := (&models.Artist{Name: `Michelangelo`}).Stage(stage)
-	__Artist__00000008_ := (&models.Artist{Name: `Raphael`}).Stage(stage)
-	__Artist__00000009_ := (&models.Artist{Name: `Titian`}).Stage(stage)
-	__Artist__00000010_ := (&models.Artist{Name: `Sandro Botticelli`}).Stage(stage)
-	__Artist__00000011_ := (&models.Artist{Name: `Piero della Francesca`}).Stage(stage)
-	__Artist__00000012_ := (&models.Artist{Name: `Albrecht Dürer`}).Stage(stage)
-	__Artist__00000013_ := (&models.Artist{Name: `Giorgione`}).Stage(stage)
-	__Artist__00000014_ := (&models.Artist{Name: `Tintoretto`}).Stage(stage)
-	__Artist__00000015_ := (&models.Artist{Name: `Cimabue`}).Stage(stage)
-	__Artist__00000016_ := (&models.Artist{Name: `xxx`}).Stage(stage)
-	__Artist__00000017_ := (&models.Artist{Name: `ttt`}).Stage(stage)
+	__Artist__00000000_ := (&models.Artist{Name: `Mackintosh`}).Stage(stage)
+	__Artist__00000001_ := (&models.Artist{Name: `Behrens`}).Stage(stage)
+	__Artist__00000002_ := (&models.Artist{Name: `Gropius`}).Stage(stage)
+	__Artist__00000003_ := (&models.Artist{Name: `Le Corbusier`}).Stage(stage)
+	__Artist__00000004_ := (&models.Artist{Name: `Aalto`}).Stage(stage)
+	__Artist__00000005_ := (&models.Artist{Name: `Charles & Ray Eames`}).Stage(stage)
+	__Artist__00000006_ := (&models.Artist{Name: `Eero Saarinen`}).Stage(stage)
 
 	__ArtistShape__00000000_ := (&models.ArtistShape{Name: ``}).Stage(stage)
 	__ArtistShape__00000001_ := (&models.ArtistShape{Name: ``}).Stage(stage)
@@ -65,79 +50,66 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000004_ := (&models.ArtistShape{Name: ``}).Stage(stage)
 	__ArtistShape__00000005_ := (&models.ArtistShape{Name: ``}).Stage(stage)
 	__ArtistShape__00000006_ := (&models.ArtistShape{Name: ``}).Stage(stage)
-	__ArtistShape__00000007_ := (&models.ArtistShape{Name: ``}).Stage(stage)
-	__ArtistShape__00000008_ := (&models.ArtistShape{Name: ``}).Stage(stage)
-	__ArtistShape__00000009_ := (&models.ArtistShape{Name: ``}).Stage(stage)
-	__ArtistShape__00000010_ := (&models.ArtistShape{Name: ``}).Stage(stage)
-	__ArtistShape__00000011_ := (&models.ArtistShape{Name: ``}).Stage(stage)
-	__ArtistShape__00000012_ := (&models.ArtistShape{Name: ``}).Stage(stage)
-	__ArtistShape__00000013_ := (&models.ArtistShape{Name: ``}).Stage(stage)
-	__ArtistShape__00000014_ := (&models.ArtistShape{Name: ``}).Stage(stage)
-	__ArtistShape__00000015_ := (&models.ArtistShape{Name: ``}).Stage(stage)
 
-	__ControlPointShape__00000000_ := (&models.ControlPointShape{Name: `Control Point Shape 0`}).Stage(stage)
-	__ControlPointShape__00000001_ := (&models.ControlPointShape{Name: `Control Point Shape 1`}).Stage(stage)
-	__ControlPointShape__00000002_ := (&models.ControlPointShape{Name: `Control Point Shape 2`}).Stage(stage)
-	__ControlPointShape__00000003_ := (&models.ControlPointShape{Name: `Control Point Shape 3`}).Stage(stage)
-	__ControlPointShape__00000004_ := (&models.ControlPointShape{Name: `Control Point Shape 4`}).Stage(stage)
-	__ControlPointShape__00000005_ := (&models.ControlPointShape{Name: `Control Point Shape 5`}).Stage(stage)
-	__ControlPointShape__00000006_ := (&models.ControlPointShape{Name: `Control Point Shape 6`}).Stage(stage)
-	__ControlPointShape__00000007_ := (&models.ControlPointShape{Name: `Control Point Shape 7`}).Stage(stage)
-	__ControlPointShape__00000008_ := (&models.ControlPointShape{Name: `Control Point Shape 8`}).Stage(stage)
-	__ControlPointShape__00000009_ := (&models.ControlPointShape{Name: `Control Point Shape 9`}).Stage(stage)
-	__ControlPointShape__00000010_ := (&models.ControlPointShape{Name: `Control Point Shape 10`}).Stage(stage)
-	__ControlPointShape__00000011_ := (&models.ControlPointShape{Name: `Control Point Shape 11`}).Stage(stage)
-	__ControlPointShape__00000013_ := (&models.ControlPointShape{Name: `Control Point Shape in Early Netherlandish to Venetian Renaissance 1`}).Stage(stage)
-	__ControlPointShape__00000014_ := (&models.ControlPointShape{Name: `Control Point Shape in Early Netherlandish to Venetian Renaissance 2`}).Stage(stage)
-	__ControlPointShape__00000015_ := (&models.ControlPointShape{Name: `Control Point Shape in Early Netherlandish to Venetian Renaissance 3`}).Stage(stage)
-	__ControlPointShape__00000016_ := (&models.ControlPointShape{Name: `Control Point Shape in Early Renaissance to Venetian Renaissance 1`}).Stage(stage)
-	__ControlPointShape__00000017_ := (&models.ControlPointShape{Name: `Control Point Shape in Donatello to Michelangelo 1`}).Stage(stage)
-	__ControlPointShape__00000018_ := (&models.ControlPointShape{Name: `Control Point Shape in Donatello to Michelangelo 2`}).Stage(stage)
-	__ControlPointShape__00000019_ := (&models.ControlPointShape{Name: `Control Point Shape in Donatello to Michelangelo 3`}).Stage(stage)
-	__ControlPointShape__00000021_ := (&models.ControlPointShape{Name: `Control Point Shape in Early Renaissance to High Renaissance 2`}).Stage(stage)
-	__ControlPointShape__00000022_ := (&models.ControlPointShape{Name: `Control Point Shape in Early Renaissance to High Renaissance 2`}).Stage(stage)
-	__ControlPointShape__00000023_ := (&models.ControlPointShape{Name: `Control Point Shape in Early Renaissance to High Renaissance 3`}).Stage(stage)
+	__ControlPointShape__00000000_ := (&models.ControlPointShape{Name: `Control Point Shape in CRANBROOK ACADEMY to AMERICAN MID-CENTURY 0`}).Stage(stage)
+	__ControlPointShape__00000001_ := (&models.ControlPointShape{Name: `Control Point Shape in INTERNATIONAL STYLE to AMERICAN MID-CENTURY 0`}).Stage(stage)
+	__ControlPointShape__00000002_ := (&models.ControlPointShape{Name: `Control Point Shape in CONSTRUCTIVISM to BAUHAUS 1`}).Stage(stage)
+	__ControlPointShape__00000003_ := (&models.ControlPointShape{Name: `Control Point Shape in CONSTRUCTIVISM to BAUHAUS 1`}).Stage(stage)
+	__ControlPointShape__00000004_ := (&models.ControlPointShape{Name: `Control Point Shape in CONSTRUCTIVISM to BAUHAUS 2`}).Stage(stage)
+	__ControlPointShape__00000005_ := (&models.ControlPointShape{Name: `Control Point Shape in WIENER WERKSTÄTTE to DEUTSCHER WERKBUND 1`}).Stage(stage)
+	__ControlPointShape__00000006_ := (&models.ControlPointShape{Name: `Control Point Shape in WIENER WERKSTÄTTE to DEUTSCHER WERKBUND 1`}).Stage(stage)
+	__ControlPointShape__00000007_ := (&models.ControlPointShape{Name: `Control Point Shape in ARTS & CRAFTS to WIENER WERKSTÄTTE 0`}).Stage(stage)
+	__ControlPointShape__00000008_ := (&models.ControlPointShape{Name: `Control Point Shape in ORGANIC DESIGN to AMERICAN MID-CENTURY 0`}).Stage(stage)
+	__ControlPointShape__00000009_ := (&models.ControlPointShape{Name: `Control Point Shape in BAUHAUS to CRANBROOK ACADEMY 0`}).Stage(stage)
+	__ControlPointShape__00000010_ := (&models.ControlPointShape{Name: `Control Point Shape in BAUHAUS to CRANBROOK ACADEMY 1`}).Stage(stage)
 
 	__Desk__00000000_ := (&models.Desk{Name: `Desk`}).Stage(stage)
 
-	__Diagram__00000000_ := (&models.Diagram{Name: `Alfred Barr  &  Renaissance`}).Stage(stage)
+	__Diagram__00000000_ := (&models.Diagram{Name: `  Modernism      in       Design`}).Stage(stage)
 
-	__Influence__00000000_ := (&models.Influence{Name: `Byzantine Art to Proto-Renaissance`}).Stage(stage)
-	__Influence__00000001_ := (&models.Influence{Name: `Gothic Architecture to Proto-Renaissance`}).Stage(stage)
-	__Influence__00000002_ := (&models.Influence{Name: `Proto-Renaissance to Early Renaissance`}).Stage(stage)
-	__Influence__00000003_ := (&models.Influence{Name: `Classical Antiquity to Early Renaissance`}).Stage(stage)
-	__Influence__00000004_ := (&models.Influence{Name: `International Gothic to Early Netherlandish`}).Stage(stage)
-	__Influence__00000005_ := (&models.Influence{Name: `Early Renaissance to High Renaissance`}).Stage(stage)
-	__Influence__00000006_ := (&models.Influence{Name: `Early Netherlandish to Venetian Renaissance`}).Stage(stage)
-	__Influence__00000007_ := (&models.Influence{Name: `Early Renaissance to Venetian Renaissance`}).Stage(stage)
-	__Influence__00000008_ := (&models.Influence{Name: `Giotto to Masaccio`}).Stage(stage)
-	__Influence__00000009_ := (&models.Influence{Name: `Donatello to Michelangelo`}).Stage(stage)
-	__Influence__00000010_ := (&models.Influence{Name: `Leonardo da Vinci to Raphael`}).Stage(stage)
-	__Influence__00000011_ := (&models.Influence{Name: `Byzantine Art to Sienese School`}).Stage(stage)
-	__Influence__00000012_ := (&models.Influence{Name: `High Renaissance to Mannerism`}).Stage(stage)
+	__Influence__00000000_ := (&models.Influence{Name: `CRAFTSMANSHIP to ARTS & CRAFTS`}).Stage(stage)
+	__Influence__00000001_ := (&models.Influence{Name: `ARTS & CRAFTS to WIENER WERKSTÄTTE`}).Stage(stage)
+	__Influence__00000002_ := (&models.Influence{Name: `INDUSTRIAL PRODUCTION to DEUTSCHER WERKBUND`}).Stage(stage)
+	__Influence__00000003_ := (&models.Influence{Name: `WIENER WERKSTÄTTE to DEUTSCHER WERKBUND`}).Stage(stage)
+	__Influence__00000004_ := (&models.Influence{Name: `DEUTSCHER WERKBUND to BAUHAUS`}).Stage(stage)
+	__Influence__00000005_ := (&models.Influence{Name: `CONSTRUCTIVISM to BAUHAUS`}).Stage(stage)
+	__Influence__00000006_ := (&models.Influence{Name: `DE STIJL to BAUHAUS`}).Stage(stage)
+	__Influence__00000007_ := (&models.Influence{Name: `BAUHAUS to INTERNATIONAL STYLE`}).Stage(stage)
+	__Influence__00000008_ := (&models.Influence{Name: `NEW MATERIALS to ORGANIC DESIGN`}).Stage(stage)
+	__Influence__00000009_ := (&models.Influence{Name: `ORGANIC DESIGN to SCANDINAVIAN`}).Stage(stage)
+	__Influence__00000010_ := (&models.Influence{Name: `INTERNATIONAL STYLE to SCANDINAVIAN`}).Stage(stage)
+	__Influence__00000011_ := (&models.Influence{Name: `BAUHAUS to CRANBROOK ACADEMY`}).Stage(stage)
+	__Influence__00000012_ := (&models.Influence{Name: `CRANBROOK ACADEMY to AMERICAN MID-CENTURY`}).Stage(stage)
+	__Influence__00000013_ := (&models.Influence{Name: `ORGANIC DESIGN to AMERICAN MID-CENTURY`}).Stage(stage)
+	__Influence__00000014_ := (&models.Influence{Name: `INTERNATIONAL STYLE to AMERICAN MID-CENTURY`}).Stage(stage)
 
-	__InfluenceShape__00000000_ := (&models.InfluenceShape{Name: `Byzantine Art to Proto-Renaissance`}).Stage(stage)
-	__InfluenceShape__00000001_ := (&models.InfluenceShape{Name: `Gothic Architecture to Proto-Renaissance`}).Stage(stage)
-	__InfluenceShape__00000002_ := (&models.InfluenceShape{Name: `Proto-Renaissance to Early Renaissance`}).Stage(stage)
-	__InfluenceShape__00000003_ := (&models.InfluenceShape{Name: `Classical Antiquity to Early Renaissance`}).Stage(stage)
-	__InfluenceShape__00000004_ := (&models.InfluenceShape{Name: `International Gothic to Early Netherlandish`}).Stage(stage)
-	__InfluenceShape__00000005_ := (&models.InfluenceShape{Name: `Early Renaissance to High Renaissance`}).Stage(stage)
-	__InfluenceShape__00000006_ := (&models.InfluenceShape{Name: `Early Netherlandish to Venetian Renaissance`}).Stage(stage)
-	__InfluenceShape__00000007_ := (&models.InfluenceShape{Name: `Early Renaissance to Venetian Renaissance`}).Stage(stage)
-	__InfluenceShape__00000008_ := (&models.InfluenceShape{Name: `Giotto to Masaccio`}).Stage(stage)
-	__InfluenceShape__00000009_ := (&models.InfluenceShape{Name: `Donatello to Michelangelo`}).Stage(stage)
-	__InfluenceShape__00000010_ := (&models.InfluenceShape{Name: `Leonardo da Vinci to Raphael`}).Stage(stage)
-	__InfluenceShape__00000011_ := (&models.InfluenceShape{Name: `Byzantine Art to Sienese School`}).Stage(stage)
-	__InfluenceShape__00000012_ := (&models.InfluenceShape{Name: `High Renaissance to Mannerism`}).Stage(stage)
+	__InfluenceShape__00000000_ := (&models.InfluenceShape{Name: `CRAFTSMANSHIP to ARTS & CRAFTS`}).Stage(stage)
+	__InfluenceShape__00000001_ := (&models.InfluenceShape{Name: `ARTS & CRAFTS to WIENER WERKSTÄTTE`}).Stage(stage)
+	__InfluenceShape__00000002_ := (&models.InfluenceShape{Name: `INDUSTRIAL PRODUCTION to DEUTSCHER WERKBUND`}).Stage(stage)
+	__InfluenceShape__00000003_ := (&models.InfluenceShape{Name: `WIENER WERKSTÄTTE to DEUTSCHER WERKBUND`}).Stage(stage)
+	__InfluenceShape__00000004_ := (&models.InfluenceShape{Name: `DEUTSCHER WERKBUND to BAUHAUS`}).Stage(stage)
+	__InfluenceShape__00000005_ := (&models.InfluenceShape{Name: `CONSTRUCTIVISM to BAUHAUS`}).Stage(stage)
+	__InfluenceShape__00000006_ := (&models.InfluenceShape{Name: `DE STIJL to BAUHAUS`}).Stage(stage)
+	__InfluenceShape__00000007_ := (&models.InfluenceShape{Name: `BAUHAUS to INTERNATIONAL STYLE`}).Stage(stage)
+	__InfluenceShape__00000008_ := (&models.InfluenceShape{Name: `NEW MATERIALS to ORGANIC DESIGN`}).Stage(stage)
+	__InfluenceShape__00000009_ := (&models.InfluenceShape{Name: `ORGANIC DESIGN to SCANDINAVIAN`}).Stage(stage)
+	__InfluenceShape__00000010_ := (&models.InfluenceShape{Name: `INTERNATIONAL STYLE to SCANDINAVIAN`}).Stage(stage)
+	__InfluenceShape__00000011_ := (&models.InfluenceShape{Name: `BAUHAUS to CRANBROOK ACADEMY`}).Stage(stage)
+	__InfluenceShape__00000012_ := (&models.InfluenceShape{Name: `CRANBROOK ACADEMY to AMERICAN MID-CENTURY`}).Stage(stage)
+	__InfluenceShape__00000013_ := (&models.InfluenceShape{Name: `ORGANIC DESIGN to AMERICAN MID-CENTURY`}).Stage(stage)
+	__InfluenceShape__00000014_ := (&models.InfluenceShape{Name: `INTERNATIONAL STYLE to AMERICAN MID-CENTURY`}).Stage(stage)
 
-	__Movement__00000000_ := (&models.Movement{Name: `Proto-Renaissance`}).Stage(stage)
-	__Movement__00000001_ := (&models.Movement{Name: `International Gothic`}).Stage(stage)
-	__Movement__00000002_ := (&models.Movement{Name: `Early Renaissance`}).Stage(stage)
-	__Movement__00000003_ := (&models.Movement{Name: `Early Netherlandish`}).Stage(stage)
-	__Movement__00000004_ := (&models.Movement{Name: `High Renaissance`}).Stage(stage)
-	__Movement__00000005_ := (&models.Movement{Name: `Venetian Renaissance`}).Stage(stage)
-	__Movement__00000006_ := (&models.Movement{Name: `Sienese School`}).Stage(stage)
-	__Movement__00000007_ := (&models.Movement{Name: `Mannerism`}).Stage(stage)
+	__Movement__00000000_ := (&models.Movement{Name: `ARTS & CRAFTS`}).Stage(stage)
+	__Movement__00000001_ := (&models.Movement{Name: `WIENER WERKSTÄTTE`}).Stage(stage)
+	__Movement__00000002_ := (&models.Movement{Name: `DEUTSCHER WERKBUND`}).Stage(stage)
+	__Movement__00000003_ := (&models.Movement{Name: `CONSTRUCTIVISM`}).Stage(stage)
+	__Movement__00000004_ := (&models.Movement{Name: `DE STIJL`}).Stage(stage)
+	__Movement__00000005_ := (&models.Movement{Name: `BAUHAUS`}).Stage(stage)
+	__Movement__00000006_ := (&models.Movement{Name: `INTERNATIONAL STYLE`}).Stage(stage)
+	__Movement__00000007_ := (&models.Movement{Name: `ORGANIC DESIGN`}).Stage(stage)
+	__Movement__00000008_ := (&models.Movement{Name: `SCANDINAVIAN`}).Stage(stage)
+	__Movement__00000009_ := (&models.Movement{Name: `CRANBROOK ACADEMY`}).Stage(stage)
+	__Movement__00000010_ := (&models.Movement{Name: `AMERICAN MID-CENTURY`}).Stage(stage)
 
 	__MovementShape__00000000_ := (&models.MovementShape{Name: ``}).Stage(stage)
 	__MovementShape__00000001_ := (&models.MovementShape{Name: ``}).Stage(stage)
@@ -147,161 +119,93 @@ func _(stage *models.Stage) {
 	__MovementShape__00000005_ := (&models.MovementShape{Name: ``}).Stage(stage)
 	__MovementShape__00000006_ := (&models.MovementShape{Name: ``}).Stage(stage)
 	__MovementShape__00000007_ := (&models.MovementShape{Name: ``}).Stage(stage)
+	__MovementShape__00000008_ := (&models.MovementShape{Name: ``}).Stage(stage)
+	__MovementShape__00000009_ := (&models.MovementShape{Name: ``}).Stage(stage)
+	__MovementShape__00000010_ := (&models.MovementShape{Name: ``}).Stage(stage)
 
-	__Place__00000000_ := (&models.Place{Name: `Florence`}).Stage(stage)
-	__Place__00000001_ := (&models.Place{Name: `Rome`}).Stage(stage)
-	__Place__00000002_ := (&models.Place{Name: `Siena`}).Stage(stage)
-	__Place__00000003_ := (&models.Place{Name: `Venice`}).Stage(stage)
-	__Place__00000004_ := (&models.Place{Name: `Flanders`}).Stage(stage)
-	__Place__00000005_ := (&models.Place{Name: `Nuremberg`}).Stage(stage)
-	__Place__00000006_ := (&models.Place{Name: `Pisa`}).Stage(stage)
+	__Place__00000000_ := (&models.Place{Name: `London`}).Stage(stage)
+	__Place__00000001_ := (&models.Place{Name: `Vienna`}).Stage(stage)
+	__Place__00000002_ := (&models.Place{Name: `Munich`}).Stage(stage)
+	__Place__00000003_ := (&models.Place{Name: `Weimar`}).Stage(stage)
+	__Place__00000004_ := (&models.Place{Name: `Dessau`}).Stage(stage)
+	__Place__00000005_ := (&models.Place{Name: `Moscow`}).Stage(stage)
+	__Place__00000006_ := (&models.Place{Name: `Paris`}).Stage(stage)
+	__Place__00000007_ := (&models.Place{Name: `Helsinki`}).Stage(stage)
+	__Place__00000008_ := (&models.Place{Name: `Copenhagen`}).Stage(stage)
+	__Place__00000009_ := (&models.Place{Name: `Bloomfield Hills`}).Stage(stage)
+	__Place__00000010_ := (&models.Place{Name: `California`}).Stage(stage)
 
 	// insertion point for initialization of values
 
-	__ArtefactType__00000000_.Name = `Byzantine Art`
+	__ArtefactType__00000000_.Name = `CRAFTSMANSHIP`
 	__ArtefactType__00000000_.IsInRenameMode = false
 
-	__ArtefactType__00000001_.Name = `Gothic Architecture`
+	__ArtefactType__00000001_.Name = `INDUSTRIAL PRODUCTION`
 	__ArtefactType__00000001_.IsInRenameMode = false
 
-	__ArtefactType__00000002_.Name = `Classical Antiquity`
+	__ArtefactType__00000002_.Name = `NEW MATERIALS`
 	__ArtefactType__00000002_.IsInRenameMode = false
-
-	__ArtefactType__00000003_.Name = `Illuminated Manuscripts`
-	__ArtefactType__00000003_.IsInRenameMode = false
-
-	__ArtefactType__00000004_.Name = `Fresco Painting`
-	__ArtefactType__00000004_.IsInRenameMode = false
 
 	__ArtefactTypeShape__00000000_.Name = ``
 	__ArtefactTypeShape__00000000_.X = 100.000000
 	__ArtefactTypeShape__00000000_.Y = 50.000000
-	__ArtefactTypeShape__00000000_.Width = 120.000000
+	__ArtefactTypeShape__00000000_.Width = 140.000000
 	__ArtefactTypeShape__00000000_.Height = 25.000000
 	__ArtefactTypeShape__00000000_.IsHidden = false
 
 	__ArtefactTypeShape__00000001_.Name = ``
-	__ArtefactTypeShape__00000001_.X = 303.000000
-	__ArtefactTypeShape__00000001_.Y = 50.000000
-	__ArtefactTypeShape__00000001_.Width = 159.000000
+	__ArtefactTypeShape__00000001_.X = 520.000000
+	__ArtefactTypeShape__00000001_.Y = 60.000000
+	__ArtefactTypeShape__00000001_.Width = 180.000000
 	__ArtefactTypeShape__00000001_.Height = 25.000000
 	__ArtefactTypeShape__00000001_.IsHidden = false
 
 	__ArtefactTypeShape__00000002_.Name = ``
-	__ArtefactTypeShape__00000002_.X = 372.000000
-	__ArtefactTypeShape__00000002_.Y = 234.000000
+	__ArtefactTypeShape__00000002_.X = 114.000000
+	__ArtefactTypeShape__00000002_.Y = 384.000000
 	__ArtefactTypeShape__00000002_.Width = 140.000000
 	__ArtefactTypeShape__00000002_.Height = 25.000000
 	__ArtefactTypeShape__00000002_.IsHidden = false
 
-	__ArtefactTypeShape__00000003_.Name = ``
-	__ArtefactTypeShape__00000003_.X = 504.000000
-	__ArtefactTypeShape__00000003_.Y = 97.000000
-	__ArtefactTypeShape__00000003_.Width = 189.000000
-	__ArtefactTypeShape__00000003_.Height = 25.000000
-	__ArtefactTypeShape__00000003_.IsHidden = false
-
-	__ArtefactTypeShape__00000004_.Name = ``
-	__ArtefactTypeShape__00000004_.X = 534.000000
-	__ArtefactTypeShape__00000004_.Y = 173.000000
-	__ArtefactTypeShape__00000004_.Width = 120.000000
-	__ArtefactTypeShape__00000004_.Height = 25.000000
-	__ArtefactTypeShape__00000004_.IsHidden = false
-
-	__Artist__00000000_.Name = `Giotto`
+	__Artist__00000000_.Name = `Mackintosh`
 	__Artist__00000000_.IsInRenameMode = false
 	__Artist__00000000_.IsDead = true
-	__Artist__00000000_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1337-01-01 00:00:00 +0000 UTC")
+	__Artist__00000000_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1928-01-01 00:00:00 +0000 UTC")
 
-	__Artist__00000001_.Name = `Duccio`
+	__Artist__00000001_.Name = `Behrens`
 	__Artist__00000001_.IsInRenameMode = false
 	__Artist__00000001_.IsDead = true
-	__Artist__00000001_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1319-01-01 00:00:00 +0000 UTC")
+	__Artist__00000001_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1940-01-01 00:00:00 +0000 UTC")
 
-	__Artist__00000002_.Name = `Masaccio`
+	__Artist__00000002_.Name = `Gropius`
 	__Artist__00000002_.IsInRenameMode = false
 	__Artist__00000002_.IsDead = true
-	__Artist__00000002_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1428-01-01 00:00:00 +0000 UTC")
+	__Artist__00000002_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1969-01-01 00:00:00 +0000 UTC")
 
-	__Artist__00000003_.Name = `Donatello`
+	__Artist__00000003_.Name = `Le Corbusier`
 	__Artist__00000003_.IsInRenameMode = false
 	__Artist__00000003_.IsDead = true
-	__Artist__00000003_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1466-01-01 00:00:00 +0000 UTC")
+	__Artist__00000003_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1965-01-01 00:00:00 +0000 UTC")
 
-	__Artist__00000004_.Name = `Brunelleschi`
+	__Artist__00000004_.Name = `Aalto`
 	__Artist__00000004_.IsInRenameMode = false
 	__Artist__00000004_.IsDead = true
-	__Artist__00000004_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1446-01-01 00:00:00 +0000 UTC")
+	__Artist__00000004_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1976-01-01 00:00:00 +0000 UTC")
 
-	__Artist__00000005_.Name = `Jan van Eyck`
+	__Artist__00000005_.Name = `Charles & Ray Eames`
 	__Artist__00000005_.IsInRenameMode = false
 	__Artist__00000005_.IsDead = true
-	__Artist__00000005_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1441-01-01 00:00:00 +0000 UTC")
+	__Artist__00000005_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1978-01-01 00:00:00 +0000 UTC")
 
-	__Artist__00000006_.Name = `Leonardo da Vinci`
+	__Artist__00000006_.Name = `Eero Saarinen`
 	__Artist__00000006_.IsInRenameMode = false
 	__Artist__00000006_.IsDead = true
-	__Artist__00000006_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1519-01-01 00:00:00 +0000 UTC")
-
-	__Artist__00000007_.Name = `Michelangelo`
-	__Artist__00000007_.IsInRenameMode = false
-	__Artist__00000007_.IsDead = true
-	__Artist__00000007_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1564-01-01 00:00:00 +0000 UTC")
-
-	__Artist__00000008_.Name = `Raphael`
-	__Artist__00000008_.IsInRenameMode = false
-	__Artist__00000008_.IsDead = true
-	__Artist__00000008_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1520-01-01 00:00:00 +0000 UTC")
-
-	__Artist__00000009_.Name = `Titian`
-	__Artist__00000009_.IsInRenameMode = false
-	__Artist__00000009_.IsDead = true
-	__Artist__00000009_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1576-01-01 00:00:00 +0000 UTC")
-
-	__Artist__00000010_.Name = `Sandro Botticelli`
-	__Artist__00000010_.IsInRenameMode = false
-	__Artist__00000010_.IsDead = true
-	__Artist__00000010_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1510-01-01 00:00:00 +0000 UTC")
-
-	__Artist__00000011_.Name = `Piero della Francesca`
-	__Artist__00000011_.IsInRenameMode = false
-	__Artist__00000011_.IsDead = true
-	__Artist__00000011_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1492-01-01 00:00:00 +0000 UTC")
-
-	__Artist__00000012_.Name = `Albrecht Dürer`
-	__Artist__00000012_.IsInRenameMode = false
-	__Artist__00000012_.IsDead = true
-	__Artist__00000012_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1528-01-01 00:00:00 +0000 UTC")
-
-	__Artist__00000013_.Name = `Giorgione`
-	__Artist__00000013_.IsInRenameMode = false
-	__Artist__00000013_.IsDead = true
-	__Artist__00000013_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1510-01-01 00:00:00 +0000 UTC")
-
-	__Artist__00000014_.Name = `Tintoretto`
-	__Artist__00000014_.IsInRenameMode = false
-	__Artist__00000014_.IsDead = true
-	__Artist__00000014_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1594-01-01 00:00:00 +0000 UTC")
-
-	__Artist__00000015_.Name = `Cimabue`
-	__Artist__00000015_.IsInRenameMode = false
-	__Artist__00000015_.IsDead = true
-	__Artist__00000015_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1302-01-01 00:00:00 +0000 UTC")
-
-	__Artist__00000016_.Name = `xxx`
-	__Artist__00000016_.IsInRenameMode = false
-	__Artist__00000016_.IsDead = false
-	__Artist__00000016_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-
-	__Artist__00000017_.Name = `ttt`
-	__Artist__00000017_.IsInRenameMode = false
-	__Artist__00000017_.IsDead = false
-	__Artist__00000017_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Artist__00000006_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1961-01-01 00:00:00 +0000 UTC")
 
 	__ArtistShape__00000000_.Name = ``
-	__ArtistShape__00000000_.X = 108.000000
-	__ArtistShape__00000000_.Y = 219.000000
-	__ArtistShape__00000000_.Width = 95.000000
+	__ArtistShape__00000000_.X = 269.000000
+	__ArtistShape__00000000_.Y = 92.000000
+	__ArtistShape__00000000_.Width = 80.000000
 	__ArtistShape__00000000_.Height = 30.000000
 	__ArtistShape__00000000_.IsHidden = false
 	__ArtistShape__00000000_.ImagePng_X = 0.000000
@@ -314,9 +218,9 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000000_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000001_.Name = ``
-	__ArtistShape__00000001_.X = 270.000000
-	__ArtistShape__00000001_.Y = 214.000000
-	__ArtistShape__00000001_.Width = 60.000000
+	__ArtistShape__00000001_.X = 573.000000
+	__ArtistShape__00000001_.Y = 139.000000
+	__ArtistShape__00000001_.Width = 80.000000
 	__ArtistShape__00000001_.Height = 30.000000
 	__ArtistShape__00000001_.IsHidden = false
 	__ArtistShape__00000001_.ImagePng_X = 0.000000
@@ -329,9 +233,9 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000001_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000002_.Name = ``
-	__ArtistShape__00000002_.X = 145.000000
-	__ArtistShape__00000002_.Y = 455.000000
-	__ArtistShape__00000002_.Width = 86.000000
+	__ArtistShape__00000002_.X = 268.000000
+	__ArtistShape__00000002_.Y = 243.000000
+	__ArtistShape__00000002_.Width = 80.000000
 	__ArtistShape__00000002_.Height = 30.000000
 	__ArtistShape__00000002_.IsHidden = false
 	__ArtistShape__00000002_.ImagePng_X = 0.000000
@@ -344,9 +248,9 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000002_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000003_.Name = ``
-	__ArtistShape__00000003_.X = 408.000000
-	__ArtistShape__00000003_.Y = 392.000000
-	__ArtistShape__00000003_.Width = 89.000000
+	__ArtistShape__00000003_.X = 605.000000
+	__ArtistShape__00000003_.Y = 320.000000
+	__ArtistShape__00000003_.Width = 75.000000
 	__ArtistShape__00000003_.Height = 30.000000
 	__ArtistShape__00000003_.IsHidden = false
 	__ArtistShape__00000003_.ImagePng_X = 0.000000
@@ -359,9 +263,9 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000003_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000004_.Name = ``
-	__ArtistShape__00000004_.X = 419.000000
-	__ArtistShape__00000004_.Y = 460.000000
-	__ArtistShape__00000004_.Width = 94.000000
+	__ArtistShape__00000004_.X = 78.000000
+	__ArtistShape__00000004_.Y = 418.000000
+	__ArtistShape__00000004_.Width = 80.000000
 	__ArtistShape__00000004_.Height = 30.000000
 	__ArtistShape__00000004_.IsHidden = false
 	__ArtistShape__00000004_.ImagePng_X = 0.000000
@@ -374,9 +278,9 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000004_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000005_.Name = ``
-	__ArtistShape__00000005_.X = 613.000000
-	__ArtistShape__00000005_.Y = 463.000000
-	__ArtistShape__00000005_.Width = 90.000000
+	__ArtistShape__00000005_.X = 467.000000
+	__ArtistShape__00000005_.Y = 565.000000
+	__ArtistShape__00000005_.Width = 120.000000
 	__ArtistShape__00000005_.Height = 30.000000
 	__ArtistShape__00000005_.IsHidden = false
 	__ArtistShape__00000005_.ImagePng_X = 0.000000
@@ -389,8 +293,8 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000005_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000006_.Name = ``
-	__ArtistShape__00000006_.X = 105.000000
-	__ArtistShape__00000006_.Y = 700.000000
+	__ArtistShape__00000006_.X = 621.000000
+	__ArtistShape__00000006_.Y = 544.000000
 	__ArtistShape__00000006_.Width = 119.000000
 	__ArtistShape__00000006_.Height = 30.000000
 	__ArtistShape__00000006_.IsHidden = false
@@ -403,267 +307,77 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000006_.ImagePng_RectAnchorType = ""
 	__ArtistShape__00000006_.ImagePngBase64Content = ``
 
-	__ArtistShape__00000007_.Name = ``
-	__ArtistShape__00000007_.X = 388.000000
-	__ArtistShape__00000007_.Y = 710.000000
-	__ArtistShape__00000007_.Width = 80.000000
-	__ArtistShape__00000007_.Height = 30.000000
-	__ArtistShape__00000007_.IsHidden = false
-	__ArtistShape__00000007_.ImagePng_X = 0.000000
-	__ArtistShape__00000007_.ImagePng_Y = 0.000000
-	__ArtistShape__00000007_.ImagePng_Width = 0.000000
-	__ArtistShape__00000007_.ImagePng_Height = 0.000000
-	__ArtistShape__00000007_.ImagePng_X_Offset = 0.000000
-	__ArtistShape__00000007_.ImagePng_Y_Offset = 0.000000
-	__ArtistShape__00000007_.ImagePng_RectAnchorType = ""
-	__ArtistShape__00000007_.ImagePngBase64Content = ``
-
-	__ArtistShape__00000008_.Name = ``
-	__ArtistShape__00000008_.X = 420.000000
-	__ArtistShape__00000008_.Y = 765.000000
-	__ArtistShape__00000008_.Width = 88.000000
-	__ArtistShape__00000008_.Height = 30.000000
-	__ArtistShape__00000008_.IsHidden = false
-	__ArtistShape__00000008_.ImagePng_X = 0.000000
-	__ArtistShape__00000008_.ImagePng_Y = 0.000000
-	__ArtistShape__00000008_.ImagePng_Width = 0.000000
-	__ArtistShape__00000008_.ImagePng_Height = 0.000000
-	__ArtistShape__00000008_.ImagePng_X_Offset = 0.000000
-	__ArtistShape__00000008_.ImagePng_Y_Offset = 0.000000
-	__ArtistShape__00000008_.ImagePng_RectAnchorType = ""
-	__ArtistShape__00000008_.ImagePngBase64Content = ``
-
-	__ArtistShape__00000009_.Name = ``
-	__ArtistShape__00000009_.X = 658.000000
-	__ArtistShape__00000009_.Y = 766.000000
-	__ArtistShape__00000009_.Width = 60.000000
-	__ArtistShape__00000009_.Height = 30.000000
-	__ArtistShape__00000009_.IsHidden = false
-	__ArtistShape__00000009_.ImagePng_X = 0.000000
-	__ArtistShape__00000009_.ImagePng_Y = 0.000000
-	__ArtistShape__00000009_.ImagePng_Width = 0.000000
-	__ArtistShape__00000009_.ImagePng_Height = 0.000000
-	__ArtistShape__00000009_.ImagePng_X_Offset = 0.000000
-	__ArtistShape__00000009_.ImagePng_Y_Offset = 0.000000
-	__ArtistShape__00000009_.ImagePng_RectAnchorType = ""
-	__ArtistShape__00000009_.ImagePngBase64Content = ``
-
-	__ArtistShape__00000010_.Name = ``
-	__ArtistShape__00000010_.X = 154.000000
-	__ArtistShape__00000010_.Y = 548.000000
-	__ArtistShape__00000010_.Width = 100.000000
-	__ArtistShape__00000010_.Height = 30.000000
-	__ArtistShape__00000010_.IsHidden = false
-	__ArtistShape__00000010_.ImagePng_X = 0.000000
-	__ArtistShape__00000010_.ImagePng_Y = 0.000000
-	__ArtistShape__00000010_.ImagePng_Width = 0.000000
-	__ArtistShape__00000010_.ImagePng_Height = 0.000000
-	__ArtistShape__00000010_.ImagePng_X_Offset = 0.000000
-	__ArtistShape__00000010_.ImagePng_Y_Offset = 0.000000
-	__ArtistShape__00000010_.ImagePng_RectAnchorType = ""
-	__ArtistShape__00000010_.ImagePngBase64Content = ``
-
-	__ArtistShape__00000011_.Name = ``
-	__ArtistShape__00000011_.X = 292.000000
-	__ArtistShape__00000011_.Y = 546.000000
-	__ArtistShape__00000011_.Width = 141.000000
-	__ArtistShape__00000011_.Height = 30.000000
-	__ArtistShape__00000011_.IsHidden = false
-	__ArtistShape__00000011_.ImagePng_X = 0.000000
-	__ArtistShape__00000011_.ImagePng_Y = 0.000000
-	__ArtistShape__00000011_.ImagePng_Width = 0.000000
-	__ArtistShape__00000011_.ImagePng_Height = 0.000000
-	__ArtistShape__00000011_.ImagePng_X_Offset = 0.000000
-	__ArtistShape__00000011_.ImagePng_Y_Offset = 0.000000
-	__ArtistShape__00000011_.ImagePng_RectAnchorType = ""
-	__ArtistShape__00000011_.ImagePngBase64Content = ``
-
-	__ArtistShape__00000012_.Name = ``
-	__ArtistShape__00000012_.X = 528.000000
-	__ArtistShape__00000012_.Y = 531.000000
-	__ArtistShape__00000012_.Width = 100.000000
-	__ArtistShape__00000012_.Height = 30.000000
-	__ArtistShape__00000012_.IsHidden = false
-	__ArtistShape__00000012_.ImagePng_X = 0.000000
-	__ArtistShape__00000012_.ImagePng_Y = 0.000000
-	__ArtistShape__00000012_.ImagePng_Width = 0.000000
-	__ArtistShape__00000012_.ImagePng_Height = 0.000000
-	__ArtistShape__00000012_.ImagePng_X_Offset = 0.000000
-	__ArtistShape__00000012_.ImagePng_Y_Offset = 0.000000
-	__ArtistShape__00000012_.ImagePng_RectAnchorType = ""
-	__ArtistShape__00000012_.ImagePngBase64Content = ``
-
-	__ArtistShape__00000013_.Name = ``
-	__ArtistShape__00000013_.X = 629.000000
-	__ArtistShape__00000013_.Y = 642.000000
-	__ArtistShape__00000013_.Width = 80.000000
-	__ArtistShape__00000013_.Height = 30.000000
-	__ArtistShape__00000013_.IsHidden = false
-	__ArtistShape__00000013_.ImagePng_X = 0.000000
-	__ArtistShape__00000013_.ImagePng_Y = 0.000000
-	__ArtistShape__00000013_.ImagePng_Width = 0.000000
-	__ArtistShape__00000013_.ImagePng_Height = 0.000000
-	__ArtistShape__00000013_.ImagePng_X_Offset = 0.000000
-	__ArtistShape__00000013_.ImagePng_Y_Offset = 0.000000
-	__ArtistShape__00000013_.ImagePng_RectAnchorType = ""
-	__ArtistShape__00000013_.ImagePngBase64Content = ``
-
-	__ArtistShape__00000014_.Name = ``
-	__ArtistShape__00000014_.X = 572.000000
-	__ArtistShape__00000014_.Y = 797.000000
-	__ArtistShape__00000014_.Width = 80.000000
-	__ArtistShape__00000014_.Height = 30.000000
-	__ArtistShape__00000014_.IsHidden = false
-	__ArtistShape__00000014_.ImagePng_X = 0.000000
-	__ArtistShape__00000014_.ImagePng_Y = 0.000000
-	__ArtistShape__00000014_.ImagePng_Width = 0.000000
-	__ArtistShape__00000014_.ImagePng_Height = 0.000000
-	__ArtistShape__00000014_.ImagePng_X_Offset = 0.000000
-	__ArtistShape__00000014_.ImagePng_Y_Offset = 0.000000
-	__ArtistShape__00000014_.ImagePng_RectAnchorType = ""
-	__ArtistShape__00000014_.ImagePngBase64Content = ``
-
-	__ArtistShape__00000015_.Name = ``
-	__ArtistShape__00000015_.X = 399.000000
-	__ArtistShape__00000015_.Y = 80.000000
-	__ArtistShape__00000015_.Width = 80.000000
-	__ArtistShape__00000015_.Height = 30.000000
-	__ArtistShape__00000015_.IsHidden = false
-	__ArtistShape__00000015_.ImagePng_X = 0.000000
-	__ArtistShape__00000015_.ImagePng_Y = 0.000000
-	__ArtistShape__00000015_.ImagePng_Width = 0.000000
-	__ArtistShape__00000015_.ImagePng_Height = 0.000000
-	__ArtistShape__00000015_.ImagePng_X_Offset = 0.000000
-	__ArtistShape__00000015_.ImagePng_Y_Offset = 0.000000
-	__ArtistShape__00000015_.ImagePng_RectAnchorType = ""
-	__ArtistShape__00000015_.ImagePngBase64Content = ``
-
-	__ControlPointShape__00000000_.Name = `Control Point Shape 0`
-	__ControlPointShape__00000000_.X_Relative = 0.500000
-	__ControlPointShape__00000000_.Y_Relative = 0.500000
+	__ControlPointShape__00000000_.Name = `Control Point Shape in CRANBROOK ACADEMY to AMERICAN MID-CENTURY 0`
+	__ControlPointShape__00000000_.X_Relative = 0.744183
+	__ControlPointShape__00000000_.Y_Relative = 3.433517
 	__ControlPointShape__00000000_.IsStartShapeTheClosestShape = true
 
-	__ControlPointShape__00000001_.Name = `Control Point Shape 1`
-	__ControlPointShape__00000001_.X_Relative = 0.500000
-	__ControlPointShape__00000001_.Y_Relative = 0.500000
-	__ControlPointShape__00000001_.IsStartShapeTheClosestShape = true
+	__ControlPointShape__00000001_.Name = `Control Point Shape in INTERNATIONAL STYLE to AMERICAN MID-CENTURY 0`
+	__ControlPointShape__00000001_.X_Relative = 0.023254
+	__ControlPointShape__00000001_.Y_Relative = -2.133076
+	__ControlPointShape__00000001_.IsStartShapeTheClosestShape = false
 
-	__ControlPointShape__00000002_.Name = `Control Point Shape 2`
-	__ControlPointShape__00000002_.X_Relative = 0.500000
-	__ControlPointShape__00000002_.Y_Relative = 0.500000
+	__ControlPointShape__00000002_.Name = `Control Point Shape in CONSTRUCTIVISM to BAUHAUS 1`
+	__ControlPointShape__00000002_.X_Relative = 0.384880
+	__ControlPointShape__00000002_.Y_Relative = 0.400231
 	__ControlPointShape__00000002_.IsStartShapeTheClosestShape = true
 
-	__ControlPointShape__00000003_.Name = `Control Point Shape 3`
-	__ControlPointShape__00000003_.X_Relative = 0.500000
-	__ControlPointShape__00000003_.Y_Relative = 0.500000
-	__ControlPointShape__00000003_.IsStartShapeTheClosestShape = true
+	__ControlPointShape__00000003_.Name = `Control Point Shape in CONSTRUCTIVISM to BAUHAUS 1`
+	__ControlPointShape__00000003_.X_Relative = 1.746504
+	__ControlPointShape__00000003_.Y_Relative = -1.233092
+	__ControlPointShape__00000003_.IsStartShapeTheClosestShape = false
 
-	__ControlPointShape__00000004_.Name = `Control Point Shape 4`
-	__ControlPointShape__00000004_.X_Relative = 0.500000
-	__ControlPointShape__00000004_.Y_Relative = 0.500000
-	__ControlPointShape__00000004_.IsStartShapeTheClosestShape = true
+	__ControlPointShape__00000004_.Name = `Control Point Shape in CONSTRUCTIVISM to BAUHAUS 2`
+	__ControlPointShape__00000004_.X_Relative = 0.868731
+	__ControlPointShape__00000004_.Y_Relative = 0.266894
+	__ControlPointShape__00000004_.IsStartShapeTheClosestShape = false
 
-	__ControlPointShape__00000005_.Name = `Control Point Shape 5`
-	__ControlPointShape__00000005_.X_Relative = 0.500000
-	__ControlPointShape__00000005_.Y_Relative = 0.500000
+	__ControlPointShape__00000005_.Name = `Control Point Shape in WIENER WERKSTÄTTE to DEUTSCHER WERKBUND 1`
+	__ControlPointShape__00000005_.X_Relative = 1.368214
+	__ControlPointShape__00000005_.Y_Relative = -0.999766
 	__ControlPointShape__00000005_.IsStartShapeTheClosestShape = true
 
-	__ControlPointShape__00000006_.Name = `Control Point Shape 6`
-	__ControlPointShape__00000006_.X_Relative = 0.500000
-	__ControlPointShape__00000006_.Y_Relative = 0.500000
-	__ControlPointShape__00000006_.IsStartShapeTheClosestShape = true
+	__ControlPointShape__00000006_.Name = `Control Point Shape in WIENER WERKSTÄTTE to DEUTSCHER WERKBUND 1`
+	__ControlPointShape__00000006_.X_Relative = 0.237041
+	__ControlPointShape__00000006_.Y_Relative = 0.800229
+	__ControlPointShape__00000006_.IsStartShapeTheClosestShape = false
 
-	__ControlPointShape__00000007_.Name = `Control Point Shape 7`
-	__ControlPointShape__00000007_.X_Relative = 0.500000
-	__ControlPointShape__00000007_.Y_Relative = 0.500000
+	__ControlPointShape__00000007_.Name = `Control Point Shape in ARTS & CRAFTS to WIENER WERKSTÄTTE 0`
+	__ControlPointShape__00000007_.X_Relative = 0.961857
+	__ControlPointShape__00000007_.Y_Relative = 0.300236
 	__ControlPointShape__00000007_.IsStartShapeTheClosestShape = true
 
-	__ControlPointShape__00000008_.Name = `Control Point Shape 8`
-	__ControlPointShape__00000008_.X_Relative = 0.500000
-	__ControlPointShape__00000008_.Y_Relative = 0.500000
+	__ControlPointShape__00000008_.Name = `Control Point Shape in ORGANIC DESIGN to AMERICAN MID-CENTURY 0`
+	__ControlPointShape__00000008_.X_Relative = 0.834851
+	__ControlPointShape__00000008_.Y_Relative = 0.733556
 	__ControlPointShape__00000008_.IsStartShapeTheClosestShape = true
 
-	__ControlPointShape__00000009_.Name = `Control Point Shape 9`
-	__ControlPointShape__00000009_.X_Relative = 0.500000
-	__ControlPointShape__00000009_.Y_Relative = 0.500000
+	__ControlPointShape__00000009_.Name = `Control Point Shape in BAUHAUS to CRANBROOK ACADEMY 0`
+	__ControlPointShape__00000009_.X_Relative = 2.002024
+	__ControlPointShape__00000009_.Y_Relative = 2.500225
 	__ControlPointShape__00000009_.IsStartShapeTheClosestShape = true
 
-	__ControlPointShape__00000010_.Name = `Control Point Shape 10`
-	__ControlPointShape__00000010_.X_Relative = 0.500000
-	__ControlPointShape__00000010_.Y_Relative = 0.500000
-	__ControlPointShape__00000010_.IsStartShapeTheClosestShape = true
-
-	__ControlPointShape__00000011_.Name = `Control Point Shape 11`
-	__ControlPointShape__00000011_.X_Relative = 0.500000
-	__ControlPointShape__00000011_.Y_Relative = 0.500000
-	__ControlPointShape__00000011_.IsStartShapeTheClosestShape = true
-
-	__ControlPointShape__00000013_.Name = `Control Point Shape in Early Netherlandish to Venetian Renaissance 1`
-	__ControlPointShape__00000013_.X_Relative = 0.410175
-	__ControlPointShape__00000013_.Y_Relative = 4.285890
-	__ControlPointShape__00000013_.IsStartShapeTheClosestShape = true
-
-	__ControlPointShape__00000014_.Name = `Control Point Shape in Early Netherlandish to Venetian Renaissance 2`
-	__ControlPointShape__00000014_.X_Relative = 0.693560
-	__ControlPointShape__00000014_.Y_Relative = -3.799800
-	__ControlPointShape__00000014_.IsStartShapeTheClosestShape = false
-
-	__ControlPointShape__00000015_.Name = `Control Point Shape in Early Netherlandish to Venetian Renaissance 3`
-	__ControlPointShape__00000015_.X_Relative = 0.327182
-	__ControlPointShape__00000015_.Y_Relative = 0.685882
-	__ControlPointShape__00000015_.IsStartShapeTheClosestShape = false
-
-	__ControlPointShape__00000016_.Name = `Control Point Shape in Early Renaissance to Venetian Renaissance 1`
-	__ControlPointShape__00000016_.X_Relative = 0.228044
-	__ControlPointShape__00000016_.Y_Relative = 0.228741
-	__ControlPointShape__00000016_.IsStartShapeTheClosestShape = false
-
-	__ControlPointShape__00000017_.Name = `Control Point Shape in Donatello to Michelangelo 1`
-	__ControlPointShape__00000017_.X_Relative = 1.605683
-	__ControlPointShape__00000017_.Y_Relative = 3.200194
-	__ControlPointShape__00000017_.IsStartShapeTheClosestShape = true
-
-	__ControlPointShape__00000018_.Name = `Control Point Shape in Donatello to Michelangelo 2`
-	__ControlPointShape__00000018_.X_Relative = 0.785459
-	__ControlPointShape__00000018_.Y_Relative = 5.033492
-	__ControlPointShape__00000018_.IsStartShapeTheClosestShape = true
-
-	__ControlPointShape__00000019_.Name = `Control Point Shape in Donatello to Michelangelo 3`
-	__ControlPointShape__00000019_.X_Relative = 1.773819
-	__ControlPointShape__00000019_.Y_Relative = -3.099756
-	__ControlPointShape__00000019_.IsStartShapeTheClosestShape = false
-
-	__ControlPointShape__00000021_.Name = `Control Point Shape in Early Renaissance to High Renaissance 2`
-	__ControlPointShape__00000021_.X_Relative = 0.120150
-	__ControlPointShape__00000021_.Y_Relative = -3.028398
-	__ControlPointShape__00000021_.IsStartShapeTheClosestShape = false
-
-	__ControlPointShape__00000022_.Name = `Control Point Shape in Early Renaissance to High Renaissance 2`
-	__ControlPointShape__00000022_.X_Relative = 0.114404
-	__ControlPointShape__00000022_.Y_Relative = -1.399818
-	__ControlPointShape__00000022_.IsStartShapeTheClosestShape = false
-
-	__ControlPointShape__00000023_.Name = `Control Point Shape in Early Renaissance to High Renaissance 3`
-	__ControlPointShape__00000023_.X_Relative = 0.275323
-	__ControlPointShape__00000023_.Y_Relative = 0.743023
-	__ControlPointShape__00000023_.IsStartShapeTheClosestShape = false
+	__ControlPointShape__00000010_.Name = `Control Point Shape in BAUHAUS to CRANBROOK ACADEMY 1`
+	__ControlPointShape__00000010_.X_Relative = 0.072730
+	__ControlPointShape__00000010_.Y_Relative = 0.033565
+	__ControlPointShape__00000010_.IsStartShapeTheClosestShape = false
 
 	__Desk__00000000_.Name = `Desk`
 
-	__Diagram__00000000_.Name = `Alfred Barr  &  Renaissance`
+	__Diagram__00000000_.Name = `  Modernism      in       Design`
 	__Diagram__00000000_.IsEditable = false
 	__Diagram__00000000_.IsNodeExpanded = true
 	__Diagram__00000000_.IsMovementCategoryNodeExpanded = false
 	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = false
 	__Diagram__00000000_.IsArtistCategoryNodeExpanded = false
-	__Diagram__00000000_.IsInfluenceCategoryNodeExpanded = true
+	__Diagram__00000000_.IsInfluenceCategoryNodeExpanded = false
 	__Diagram__00000000_.IsMovementCategoryHidden = false
 	__Diagram__00000000_.IsArtefactTypeCategoryHidden = false
 	__Diagram__00000000_.IsArtistCategoryHidden = false
 	__Diagram__00000000_.IsInfluenceCategoryHidden = false
-	__Diagram__00000000_.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1300-01-01 00:00:00 +0000 UTC")
-	__Diagram__00000000_.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1600-01-01 00:00:00 +0000 UTC")
-	__Diagram__00000000_.NbYearsForIntervals = 20
+	__Diagram__00000000_.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1900-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000000_.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1955-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000000_.NbYearsForIntervals = 5
 	__Diagram__00000000_.XMargin = 20.000000
 	__Diagram__00000000_.YMargin = 40.000000
 	__Diagram__00000000_.Height = 900.000000
@@ -736,86 +450,111 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.InfluenceCornerRadius = 20.000000
 	__Diagram__00000000_.InfluenceDashedLinePattern = `7 3`
 
-	__Influence__00000000_.Name = `Byzantine Art to Proto-Renaissance`
+	__Influence__00000000_.Name = `CRAFTSMANSHIP to ARTS & CRAFTS`
 	__Influence__00000000_.IsHypothtical = false
 
-	__Influence__00000001_.Name = `Gothic Architecture to Proto-Renaissance`
+	__Influence__00000001_.Name = `ARTS & CRAFTS to WIENER WERKSTÄTTE`
 	__Influence__00000001_.IsHypothtical = false
 
-	__Influence__00000002_.Name = `Proto-Renaissance to Early Renaissance`
+	__Influence__00000002_.Name = `INDUSTRIAL PRODUCTION to DEUTSCHER WERKBUND`
 	__Influence__00000002_.IsHypothtical = false
 
-	__Influence__00000003_.Name = `Classical Antiquity to Early Renaissance`
+	__Influence__00000003_.Name = `WIENER WERKSTÄTTE to DEUTSCHER WERKBUND`
 	__Influence__00000003_.IsHypothtical = false
 
-	__Influence__00000004_.Name = `International Gothic to Early Netherlandish`
+	__Influence__00000004_.Name = `DEUTSCHER WERKBUND to BAUHAUS`
 	__Influence__00000004_.IsHypothtical = false
 
-	__Influence__00000005_.Name = `Early Renaissance to High Renaissance`
+	__Influence__00000005_.Name = `CONSTRUCTIVISM to BAUHAUS`
 	__Influence__00000005_.IsHypothtical = false
 
-	__Influence__00000006_.Name = `Early Netherlandish to Venetian Renaissance`
+	__Influence__00000006_.Name = `DE STIJL to BAUHAUS`
 	__Influence__00000006_.IsHypothtical = false
 
-	__Influence__00000007_.Name = `Early Renaissance to Venetian Renaissance`
+	__Influence__00000007_.Name = `BAUHAUS to INTERNATIONAL STYLE`
 	__Influence__00000007_.IsHypothtical = false
 
-	__Influence__00000008_.Name = `Giotto to Masaccio`
+	__Influence__00000008_.Name = `NEW MATERIALS to ORGANIC DESIGN`
 	__Influence__00000008_.IsHypothtical = false
 
-	__Influence__00000009_.Name = `Donatello to Michelangelo`
+	__Influence__00000009_.Name = `ORGANIC DESIGN to SCANDINAVIAN`
 	__Influence__00000009_.IsHypothtical = false
 
-	__Influence__00000010_.Name = `Leonardo da Vinci to Raphael`
+	__Influence__00000010_.Name = `INTERNATIONAL STYLE to SCANDINAVIAN`
 	__Influence__00000010_.IsHypothtical = false
 
-	__Influence__00000011_.Name = `Byzantine Art to Sienese School`
+	__Influence__00000011_.Name = `BAUHAUS to CRANBROOK ACADEMY`
 	__Influence__00000011_.IsHypothtical = false
 
-	__Influence__00000012_.Name = `High Renaissance to Mannerism`
+	__Influence__00000012_.Name = `CRANBROOK ACADEMY to AMERICAN MID-CENTURY`
 	__Influence__00000012_.IsHypothtical = false
 
-	__InfluenceShape__00000000_.Name = `Byzantine Art to Proto-Renaissance`
+	__Influence__00000013_.Name = `ORGANIC DESIGN to AMERICAN MID-CENTURY`
+	__Influence__00000013_.IsHypothtical = false
 
-	__InfluenceShape__00000001_.Name = `Gothic Architecture to Proto-Renaissance`
+	__Influence__00000014_.Name = `INTERNATIONAL STYLE to AMERICAN MID-CENTURY`
+	__Influence__00000014_.IsHypothtical = false
 
-	__InfluenceShape__00000002_.Name = `Proto-Renaissance to Early Renaissance`
+	__InfluenceShape__00000000_.Name = `CRAFTSMANSHIP to ARTS & CRAFTS`
+	__InfluenceShape__00000000_.IsHidden = false
 
-	__InfluenceShape__00000003_.Name = `Classical Antiquity to Early Renaissance`
+	__InfluenceShape__00000001_.Name = `ARTS & CRAFTS to WIENER WERKSTÄTTE`
+	__InfluenceShape__00000001_.IsHidden = false
 
-	__InfluenceShape__00000004_.Name = `International Gothic to Early Netherlandish`
+	__InfluenceShape__00000002_.Name = `INDUSTRIAL PRODUCTION to DEUTSCHER WERKBUND`
+	__InfluenceShape__00000002_.IsHidden = false
 
-	__InfluenceShape__00000005_.Name = `Early Renaissance to High Renaissance`
+	__InfluenceShape__00000003_.Name = `WIENER WERKSTÄTTE to DEUTSCHER WERKBUND`
+	__InfluenceShape__00000003_.IsHidden = false
 
-	__InfluenceShape__00000006_.Name = `Early Netherlandish to Venetian Renaissance`
+	__InfluenceShape__00000004_.Name = `DEUTSCHER WERKBUND to BAUHAUS`
+	__InfluenceShape__00000004_.IsHidden = false
 
-	__InfluenceShape__00000007_.Name = `Early Renaissance to Venetian Renaissance`
+	__InfluenceShape__00000005_.Name = `CONSTRUCTIVISM to BAUHAUS`
+	__InfluenceShape__00000005_.IsHidden = false
 
-	__InfluenceShape__00000008_.Name = `Giotto to Masaccio`
+	__InfluenceShape__00000006_.Name = `DE STIJL to BAUHAUS`
+	__InfluenceShape__00000006_.IsHidden = false
 
-	__InfluenceShape__00000009_.Name = `Donatello to Michelangelo`
+	__InfluenceShape__00000007_.Name = `BAUHAUS to INTERNATIONAL STYLE`
+	__InfluenceShape__00000007_.IsHidden = false
 
-	__InfluenceShape__00000010_.Name = `Leonardo da Vinci to Raphael`
+	__InfluenceShape__00000008_.Name = `NEW MATERIALS to ORGANIC DESIGN`
+	__InfluenceShape__00000008_.IsHidden = false
 
-	__InfluenceShape__00000011_.Name = `Byzantine Art to Sienese School`
+	__InfluenceShape__00000009_.Name = `ORGANIC DESIGN to SCANDINAVIAN`
+	__InfluenceShape__00000009_.IsHidden = false
 
-	__InfluenceShape__00000012_.Name = `High Renaissance to Mannerism`
+	__InfluenceShape__00000010_.Name = `INTERNATIONAL STYLE to SCANDINAVIAN`
+	__InfluenceShape__00000010_.IsHidden = false
 
-	__Movement__00000000_.Name = `Proto-Renaissance`
+	__InfluenceShape__00000011_.Name = `BAUHAUS to CRANBROOK ACADEMY`
+	__InfluenceShape__00000011_.IsHidden = false
+
+	__InfluenceShape__00000012_.Name = `CRANBROOK ACADEMY to AMERICAN MID-CENTURY`
+	__InfluenceShape__00000012_.IsHidden = false
+
+	__InfluenceShape__00000013_.Name = `ORGANIC DESIGN to AMERICAN MID-CENTURY`
+	__InfluenceShape__00000013_.IsHidden = false
+
+	__InfluenceShape__00000014_.Name = `INTERNATIONAL STYLE to AMERICAN MID-CENTURY`
+	__InfluenceShape__00000014_.IsHidden = false
+
+	__Movement__00000000_.Name = `ARTS & CRAFTS`
 	__Movement__00000000_.IsInRenameMode = false
-	__Movement__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1300-01-01 00:00:00 +0000 UTC")
+	__Movement__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1900-01-01 00:00:00 +0000 UTC")
 	__Movement__00000000_.HideDate = false
 	__Movement__00000000_.HasTaxonomicFilter = false
 	__Movement__00000000_.TaxonomicFilter = ``
 	__Movement__00000000_.IsFeatured = false
 	__Movement__00000000_.FeaturePrefix = ``
-	__Movement__00000000_.IsMajor = false
+	__Movement__00000000_.IsMajor = true
 	__Movement__00000000_.IsMinor = false
 	__Movement__00000000_.AdditionnalName = ``
 
-	__Movement__00000001_.Name = `International Gothic`
+	__Movement__00000001_.Name = `WIENER WERKSTÄTTE`
 	__Movement__00000001_.IsInRenameMode = false
-	__Movement__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1370-01-01 00:00:00 +0000 UTC")
+	__Movement__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1903-01-01 00:00:00 +0000 UTC")
 	__Movement__00000001_.HideDate = false
 	__Movement__00000001_.HasTaxonomicFilter = false
 	__Movement__00000001_.TaxonomicFilter = ``
@@ -825,45 +564,45 @@ func _(stage *models.Stage) {
 	__Movement__00000001_.IsMinor = false
 	__Movement__00000001_.AdditionnalName = ``
 
-	__Movement__00000002_.Name = `Early Renaissance`
+	__Movement__00000002_.Name = `DEUTSCHER WERKBUND`
 	__Movement__00000002_.IsInRenameMode = false
-	__Movement__00000002_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1420-01-01 00:00:00 +0000 UTC")
+	__Movement__00000002_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1907-01-01 00:00:00 +0000 UTC")
 	__Movement__00000002_.HideDate = false
 	__Movement__00000002_.HasTaxonomicFilter = false
 	__Movement__00000002_.TaxonomicFilter = ``
 	__Movement__00000002_.IsFeatured = false
 	__Movement__00000002_.FeaturePrefix = ``
-	__Movement__00000002_.IsMajor = true
+	__Movement__00000002_.IsMajor = false
 	__Movement__00000002_.IsMinor = false
 	__Movement__00000002_.AdditionnalName = ``
 
-	__Movement__00000003_.Name = `Early Netherlandish`
+	__Movement__00000003_.Name = `CONSTRUCTIVISM`
 	__Movement__00000003_.IsInRenameMode = false
-	__Movement__00000003_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1420-01-01 00:00:00 +0000 UTC")
+	__Movement__00000003_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1915-01-01 00:00:00 +0000 UTC")
 	__Movement__00000003_.HideDate = false
 	__Movement__00000003_.HasTaxonomicFilter = false
 	__Movement__00000003_.TaxonomicFilter = ``
 	__Movement__00000003_.IsFeatured = false
 	__Movement__00000003_.FeaturePrefix = ``
-	__Movement__00000003_.IsMajor = true
+	__Movement__00000003_.IsMajor = false
 	__Movement__00000003_.IsMinor = false
 	__Movement__00000003_.AdditionnalName = ``
 
-	__Movement__00000004_.Name = `High Renaissance`
+	__Movement__00000004_.Name = `DE STIJL`
 	__Movement__00000004_.IsInRenameMode = false
-	__Movement__00000004_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1490-01-01 00:00:00 +0000 UTC")
+	__Movement__00000004_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1917-01-01 00:00:00 +0000 UTC")
 	__Movement__00000004_.HideDate = false
 	__Movement__00000004_.HasTaxonomicFilter = false
 	__Movement__00000004_.TaxonomicFilter = ``
 	__Movement__00000004_.IsFeatured = false
 	__Movement__00000004_.FeaturePrefix = ``
-	__Movement__00000004_.IsMajor = true
+	__Movement__00000004_.IsMajor = false
 	__Movement__00000004_.IsMinor = false
 	__Movement__00000004_.AdditionnalName = ``
 
-	__Movement__00000005_.Name = `Venetian Renaissance`
+	__Movement__00000005_.Name = `BAUHAUS`
 	__Movement__00000005_.IsInRenameMode = false
-	__Movement__00000005_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1500-01-01 00:00:00 +0000 UTC")
+	__Movement__00000005_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1919-01-01 00:00:00 +0000 UTC")
 	__Movement__00000005_.HideDate = false
 	__Movement__00000005_.HasTaxonomicFilter = false
 	__Movement__00000005_.TaxonomicFilter = ``
@@ -873,124 +612,176 @@ func _(stage *models.Stage) {
 	__Movement__00000005_.IsMinor = false
 	__Movement__00000005_.AdditionnalName = ``
 
-	__Movement__00000006_.Name = `Sienese School`
+	__Movement__00000006_.Name = `INTERNATIONAL STYLE`
 	__Movement__00000006_.IsInRenameMode = false
-	__Movement__00000006_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1300-01-01 00:00:00 +0000 UTC")
+	__Movement__00000006_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1925-01-01 00:00:00 +0000 UTC")
 	__Movement__00000006_.HideDate = false
 	__Movement__00000006_.HasTaxonomicFilter = false
 	__Movement__00000006_.TaxonomicFilter = ``
 	__Movement__00000006_.IsFeatured = false
 	__Movement__00000006_.FeaturePrefix = ``
-	__Movement__00000006_.IsMajor = false
-	__Movement__00000006_.IsMinor = true
+	__Movement__00000006_.IsMajor = true
+	__Movement__00000006_.IsMinor = false
 	__Movement__00000006_.AdditionnalName = ``
 
-	__Movement__00000007_.Name = `Mannerism`
+	__Movement__00000007_.Name = `ORGANIC DESIGN`
 	__Movement__00000007_.IsInRenameMode = false
-	__Movement__00000007_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1520-01-01 00:00:00 +0000 UTC")
+	__Movement__00000007_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1930-01-01 00:00:00 +0000 UTC")
 	__Movement__00000007_.HideDate = false
 	__Movement__00000007_.HasTaxonomicFilter = false
 	__Movement__00000007_.TaxonomicFilter = ``
 	__Movement__00000007_.IsFeatured = false
 	__Movement__00000007_.FeaturePrefix = ``
 	__Movement__00000007_.IsMajor = false
-	__Movement__00000007_.IsMinor = true
+	__Movement__00000007_.IsMinor = false
 	__Movement__00000007_.AdditionnalName = ``
 
+	__Movement__00000008_.Name = `SCANDINAVIAN`
+	__Movement__00000008_.IsInRenameMode = false
+	__Movement__00000008_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Movement__00000008_.HideDate = true
+	__Movement__00000008_.HasTaxonomicFilter = false
+	__Movement__00000008_.TaxonomicFilter = ``
+	__Movement__00000008_.IsFeatured = true
+	__Movement__00000008_.FeaturePrefix = `modern`
+	__Movement__00000008_.IsMajor = true
+	__Movement__00000008_.IsMinor = false
+	__Movement__00000008_.AdditionnalName = ``
+
+	__Movement__00000009_.Name = `CRANBROOK ACADEMY`
+	__Movement__00000009_.IsInRenameMode = false
+	__Movement__00000009_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1932-01-01 00:00:00 +0000 UTC")
+	__Movement__00000009_.HideDate = false
+	__Movement__00000009_.HasTaxonomicFilter = false
+	__Movement__00000009_.TaxonomicFilter = ``
+	__Movement__00000009_.IsFeatured = false
+	__Movement__00000009_.FeaturePrefix = ``
+	__Movement__00000009_.IsMajor = false
+	__Movement__00000009_.IsMinor = false
+	__Movement__00000009_.AdditionnalName = ``
+
+	__Movement__00000010_.Name = `AMERICAN MID-CENTURY`
+	__Movement__00000010_.IsInRenameMode = false
+	__Movement__00000010_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1945-01-01 00:00:00 +0000 UTC")
+	__Movement__00000010_.HideDate = false
+	__Movement__00000010_.HasTaxonomicFilter = false
+	__Movement__00000010_.TaxonomicFilter = ``
+	__Movement__00000010_.IsFeatured = false
+	__Movement__00000010_.FeaturePrefix = ``
+	__Movement__00000010_.IsMajor = true
+	__Movement__00000010_.IsMinor = false
+	__Movement__00000010_.AdditionnalName = ``
+
 	__MovementShape__00000000_.Name = ``
-	__MovementShape__00000000_.X = 149.000000
-	__MovementShape__00000000_.Y = 136.000000
-	__MovementShape__00000000_.Width = 150.000000
-	__MovementShape__00000000_.Height = 35.000000
+	__MovementShape__00000000_.X = 100.000000
+	__MovementShape__00000000_.Y = 100.000000
+	__MovementShape__00000000_.Width = 130.000000
+	__MovementShape__00000000_.Height = 30.000000
 	__MovementShape__00000000_.IsHidden = false
 
 	__MovementShape__00000001_.Name = ``
-	__MovementShape__00000001_.X = 544.000000
-	__MovementShape__00000001_.Y = 257.000000
-	__MovementShape__00000001_.Width = 167.000000
-	__MovementShape__00000001_.Height = 28.000000
+	__MovementShape__00000001_.X = 240.000000
+	__MovementShape__00000001_.Y = 167.000000
+	__MovementShape__00000001_.Width = 120.000000
+	__MovementShape__00000001_.Height = 30.000000
 	__MovementShape__00000001_.IsHidden = false
 
 	__MovementShape__00000002_.Name = ``
-	__MovementShape__00000002_.X = 208.000000
-	__MovementShape__00000002_.Y = 344.000000
-	__MovementShape__00000002_.Width = 184.000000
-	__MovementShape__00000002_.Height = 35.000000
+	__MovementShape__00000002_.X = 422.000031
+	__MovementShape__00000002_.Y = 184.000000
+	__MovementShape__00000002_.Width = 165.000000
+	__MovementShape__00000002_.Height = 30.000000
 	__MovementShape__00000002_.IsHidden = false
 
 	__MovementShape__00000003_.Name = ``
-	__MovementShape__00000003_.X = 499.000000
-	__MovementShape__00000003_.Y = 365.000000
-	__MovementShape__00000003_.Width = 207.000000
-	__MovementShape__00000003_.Height = 28.000000
+	__MovementShape__00000003_.X = 599.000000
+	__MovementShape__00000003_.Y = 242.000000
+	__MovementShape__00000003_.Width = 120.000000
+	__MovementShape__00000003_.Height = 30.000000
 	__MovementShape__00000003_.IsHidden = false
 
 	__MovementShape__00000004_.Name = ``
-	__MovementShape__00000004_.X = 254.000000
-	__MovementShape__00000004_.Y = 634.000000
-	__MovementShape__00000004_.Width = 174.000000
-	__MovementShape__00000004_.Height = 35.000000
+	__MovementShape__00000004_.X = 467.000031
+	__MovementShape__00000004_.Y = 295.000000
+	__MovementShape__00000004_.Width = 67.000000
+	__MovementShape__00000004_.Height = 30.000000
 	__MovementShape__00000004_.IsHidden = false
 
 	__MovementShape__00000005_.Name = ``
-	__MovementShape__00000005_.X = 485.000000
-	__MovementShape__00000005_.Y = 689.000000
-	__MovementShape__00000005_.Width = 232.000000
-	__MovementShape__00000005_.Height = 35.000000
+	__MovementShape__00000005_.X = 269.000000
+	__MovementShape__00000005_.Y = 299.000000
+	__MovementShape__00000005_.Width = 90.000000
+	__MovementShape__00000005_.Height = 30.000000
 	__MovementShape__00000005_.IsHidden = false
 
 	__MovementShape__00000006_.Name = ``
-	__MovementShape__00000006_.X = 394.000000
-	__MovementShape__00000006_.Y = 140.000000
-	__MovementShape__00000006_.Width = 86.000000
-	__MovementShape__00000006_.Height = 35.000000
+	__MovementShape__00000006_.X = 275.000000
+	__MovementShape__00000006_.Y = 409.000000
+	__MovementShape__00000006_.Width = 200.000000
+	__MovementShape__00000006_.Height = 30.000000
 	__MovementShape__00000006_.IsHidden = false
 
 	__MovementShape__00000007_.Name = ``
-	__MovementShape__00000007_.X = 228.000000
-	__MovementShape__00000007_.Y = 764.000000
-	__MovementShape__00000007_.Width = 100.000000
-	__MovementShape__00000007_.Height = 35.000000
+	__MovementShape__00000007_.X = 122.000000
+	__MovementShape__00000007_.Y = 510.000031
+	__MovementShape__00000007_.Width = 130.000000
+	__MovementShape__00000007_.Height = 30.000000
 	__MovementShape__00000007_.IsHidden = false
 
-	__Place__00000000_.Name = `Florence`
+	__MovementShape__00000008_.Name = ``
+	__MovementShape__00000008_.X = 138.000000
+	__MovementShape__00000008_.Y = 689.999939
+	__MovementShape__00000008_.Width = 167.000000
+	__MovementShape__00000008_.Height = 50.000000
+	__MovementShape__00000008_.IsHidden = false
 
-	__Place__00000001_.Name = `Rome`
+	__MovementShape__00000009_.Name = ``
+	__MovementShape__00000009_.X = 530.000000
+	__MovementShape__00000009_.Y = 395.000000
+	__MovementShape__00000009_.Width = 160.000000
+	__MovementShape__00000009_.Height = 30.000000
+	__MovementShape__00000009_.IsHidden = false
 
-	__Place__00000002_.Name = `Siena`
+	__MovementShape__00000010_.Name = ``
+	__MovementShape__00000010_.X = 451.000000
+	__MovementShape__00000010_.Y = 690.000000
+	__MovementShape__00000010_.Width = 220.000000
+	__MovementShape__00000010_.Height = 30.000000
+	__MovementShape__00000010_.IsHidden = false
 
-	__Place__00000003_.Name = `Venice`
+	__Place__00000000_.Name = `London`
 
-	__Place__00000004_.Name = `Flanders`
+	__Place__00000001_.Name = `Vienna`
 
-	__Place__00000005_.Name = `Nuremberg`
+	__Place__00000002_.Name = `Munich`
 
-	__Place__00000006_.Name = `Pisa`
+	__Place__00000003_.Name = `Weimar`
+
+	__Place__00000004_.Name = `Dessau`
+
+	__Place__00000005_.Name = `Moscow`
+
+	__Place__00000006_.Name = `Paris`
+
+	__Place__00000007_.Name = `Helsinki`
+
+	__Place__00000008_.Name = `Copenhagen`
+
+	__Place__00000009_.Name = `Bloomfield Hills`
+
+	__Place__00000010_.Name = `California`
 
 	// insertion point for setup of pointers
 	__ArtefactTypeShape__00000000_.ArtefactType = __ArtefactType__00000000_
 	__ArtefactTypeShape__00000001_.ArtefactType = __ArtefactType__00000001_
 	__ArtefactTypeShape__00000002_.ArtefactType = __ArtefactType__00000002_
-	__ArtefactTypeShape__00000003_.ArtefactType = __ArtefactType__00000003_
-	__ArtefactTypeShape__00000004_.ArtefactType = __ArtefactType__00000004_
 	__Artist__00000000_.Place = __Place__00000000_
 	__Artist__00000001_.Place = __Place__00000002_
-	__Artist__00000002_.Place = __Place__00000000_
-	__Artist__00000003_.Place = __Place__00000000_
-	__Artist__00000004_.Place = __Place__00000000_
-	__Artist__00000005_.Place = __Place__00000004_
-	__Artist__00000006_.Place = __Place__00000000_
-	__Artist__00000007_.Place = __Place__00000001_
-	__Artist__00000008_.Place = __Place__00000001_
-	__Artist__00000009_.Place = __Place__00000003_
-	__Artist__00000010_.Place = __Place__00000000_
-	__Artist__00000011_.Place = __Place__00000000_
-	__Artist__00000012_.Place = __Place__00000005_
-	__Artist__00000013_.Place = __Place__00000003_
-	__Artist__00000014_.Place = __Place__00000003_
-	__Artist__00000015_.Place = __Place__00000006_
-	__Artist__00000016_.Place = nil
-	__Artist__00000017_.Place = nil
+	__Artist__00000002_.Place = __Place__00000003_
+	__Artist__00000003_.Place = __Place__00000006_
+	__Artist__00000004_.Place = __Place__00000007_
+	__Artist__00000005_.Place = __Place__00000010_
+	__Artist__00000006_.Place = __Place__00000009_
 	__ArtistShape__00000000_.Artist = __Artist__00000000_
 	__ArtistShape__00000001_.Artist = __Artist__00000001_
 	__ArtistShape__00000002_.Artist = __Artist__00000002_
@@ -998,15 +789,6 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000004_.Artist = __Artist__00000004_
 	__ArtistShape__00000005_.Artist = __Artist__00000005_
 	__ArtistShape__00000006_.Artist = __Artist__00000006_
-	__ArtistShape__00000007_.Artist = __Artist__00000007_
-	__ArtistShape__00000008_.Artist = __Artist__00000008_
-	__ArtistShape__00000009_.Artist = __Artist__00000009_
-	__ArtistShape__00000010_.Artist = __Artist__00000010_
-	__ArtistShape__00000011_.Artist = __Artist__00000011_
-	__ArtistShape__00000012_.Artist = __Artist__00000012_
-	__ArtistShape__00000013_.Artist = __Artist__00000013_
-	__ArtistShape__00000014_.Artist = __Artist__00000014_
-	__ArtistShape__00000015_.Artist = __Artist__00000015_
 	__Desk__00000000_.SelectedDiagram = __Diagram__00000000_
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000000_)
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000001_)
@@ -1016,11 +798,12 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000005_)
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000006_)
 	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000007_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000008_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000009_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000010_)
 	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __ArtefactTypeShape__00000000_)
 	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __ArtefactTypeShape__00000001_)
 	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __ArtefactTypeShape__00000002_)
-	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __ArtefactTypeShape__00000003_)
-	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __ArtefactTypeShape__00000004_)
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000000_)
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000001_)
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000002_)
@@ -1028,15 +811,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000004_)
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000005_)
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000006_)
-	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000007_)
-	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000008_)
-	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000009_)
-	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000010_)
-	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000011_)
-	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000012_)
-	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000013_)
-	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000014_)
-	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000015_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000000_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000001_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000002_)
@@ -1050,131 +824,135 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000010_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000011_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000012_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000013_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000014_)
 	__Influence__00000000_.SourceMovement = nil
 	__Influence__00000000_.SourceArtefactType = __ArtefactType__00000000_
 	__Influence__00000000_.SourceArtist = nil
 	__Influence__00000000_.TargetMovement = __Movement__00000000_
 	__Influence__00000000_.TargetArtefactType = nil
 	__Influence__00000000_.TargetArtist = nil
-	__Influence__00000001_.SourceMovement = nil
-	__Influence__00000001_.SourceArtefactType = __ArtefactType__00000001_
+	__Influence__00000001_.SourceMovement = __Movement__00000000_
+	__Influence__00000001_.SourceArtefactType = nil
 	__Influence__00000001_.SourceArtist = nil
-	__Influence__00000001_.TargetMovement = __Movement__00000000_
+	__Influence__00000001_.TargetMovement = __Movement__00000001_
 	__Influence__00000001_.TargetArtefactType = nil
 	__Influence__00000001_.TargetArtist = nil
-	__Influence__00000002_.SourceMovement = __Movement__00000000_
-	__Influence__00000002_.SourceArtefactType = nil
+	__Influence__00000002_.SourceMovement = nil
+	__Influence__00000002_.SourceArtefactType = __ArtefactType__00000001_
 	__Influence__00000002_.SourceArtist = nil
 	__Influence__00000002_.TargetMovement = __Movement__00000002_
 	__Influence__00000002_.TargetArtefactType = nil
 	__Influence__00000002_.TargetArtist = nil
-	__Influence__00000003_.SourceMovement = nil
-	__Influence__00000003_.SourceArtefactType = __ArtefactType__00000002_
+	__Influence__00000003_.SourceMovement = __Movement__00000001_
+	__Influence__00000003_.SourceArtefactType = nil
 	__Influence__00000003_.SourceArtist = nil
 	__Influence__00000003_.TargetMovement = __Movement__00000002_
 	__Influence__00000003_.TargetArtefactType = nil
 	__Influence__00000003_.TargetArtist = nil
-	__Influence__00000004_.SourceMovement = __Movement__00000001_
+	__Influence__00000004_.SourceMovement = __Movement__00000002_
 	__Influence__00000004_.SourceArtefactType = nil
 	__Influence__00000004_.SourceArtist = nil
-	__Influence__00000004_.TargetMovement = __Movement__00000003_
+	__Influence__00000004_.TargetMovement = __Movement__00000005_
 	__Influence__00000004_.TargetArtefactType = nil
 	__Influence__00000004_.TargetArtist = nil
-	__Influence__00000005_.SourceMovement = __Movement__00000002_
+	__Influence__00000005_.SourceMovement = __Movement__00000003_
 	__Influence__00000005_.SourceArtefactType = nil
 	__Influence__00000005_.SourceArtist = nil
-	__Influence__00000005_.TargetMovement = __Movement__00000004_
+	__Influence__00000005_.TargetMovement = __Movement__00000005_
 	__Influence__00000005_.TargetArtefactType = nil
 	__Influence__00000005_.TargetArtist = nil
-	__Influence__00000006_.SourceMovement = __Movement__00000003_
+	__Influence__00000006_.SourceMovement = __Movement__00000004_
 	__Influence__00000006_.SourceArtefactType = nil
 	__Influence__00000006_.SourceArtist = nil
 	__Influence__00000006_.TargetMovement = __Movement__00000005_
 	__Influence__00000006_.TargetArtefactType = nil
 	__Influence__00000006_.TargetArtist = nil
-	__Influence__00000007_.SourceMovement = __Movement__00000002_
+	__Influence__00000007_.SourceMovement = __Movement__00000005_
 	__Influence__00000007_.SourceArtefactType = nil
 	__Influence__00000007_.SourceArtist = nil
-	__Influence__00000007_.TargetMovement = __Movement__00000005_
+	__Influence__00000007_.TargetMovement = __Movement__00000006_
 	__Influence__00000007_.TargetArtefactType = nil
 	__Influence__00000007_.TargetArtist = nil
 	__Influence__00000008_.SourceMovement = nil
-	__Influence__00000008_.SourceArtefactType = nil
-	__Influence__00000008_.SourceArtist = __Artist__00000000_
-	__Influence__00000008_.TargetMovement = nil
+	__Influence__00000008_.SourceArtefactType = __ArtefactType__00000002_
+	__Influence__00000008_.SourceArtist = nil
+	__Influence__00000008_.TargetMovement = __Movement__00000007_
 	__Influence__00000008_.TargetArtefactType = nil
-	__Influence__00000008_.TargetArtist = __Artist__00000002_
-	__Influence__00000009_.SourceMovement = nil
+	__Influence__00000008_.TargetArtist = nil
+	__Influence__00000009_.SourceMovement = __Movement__00000007_
 	__Influence__00000009_.SourceArtefactType = nil
-	__Influence__00000009_.SourceArtist = __Artist__00000003_
-	__Influence__00000009_.TargetMovement = nil
+	__Influence__00000009_.SourceArtist = nil
+	__Influence__00000009_.TargetMovement = __Movement__00000008_
 	__Influence__00000009_.TargetArtefactType = nil
-	__Influence__00000009_.TargetArtist = __Artist__00000007_
-	__Influence__00000010_.SourceMovement = nil
+	__Influence__00000009_.TargetArtist = nil
+	__Influence__00000010_.SourceMovement = __Movement__00000006_
 	__Influence__00000010_.SourceArtefactType = nil
-	__Influence__00000010_.SourceArtist = __Artist__00000006_
-	__Influence__00000010_.TargetMovement = nil
+	__Influence__00000010_.SourceArtist = nil
+	__Influence__00000010_.TargetMovement = __Movement__00000008_
 	__Influence__00000010_.TargetArtefactType = nil
-	__Influence__00000010_.TargetArtist = __Artist__00000008_
-	__Influence__00000011_.SourceMovement = nil
-	__Influence__00000011_.SourceArtefactType = __ArtefactType__00000000_
+	__Influence__00000010_.TargetArtist = nil
+	__Influence__00000011_.SourceMovement = __Movement__00000005_
+	__Influence__00000011_.SourceArtefactType = nil
 	__Influence__00000011_.SourceArtist = nil
-	__Influence__00000011_.TargetMovement = __Movement__00000006_
+	__Influence__00000011_.TargetMovement = __Movement__00000009_
 	__Influence__00000011_.TargetArtefactType = nil
 	__Influence__00000011_.TargetArtist = nil
-	__Influence__00000012_.SourceMovement = __Movement__00000004_
+	__Influence__00000012_.SourceMovement = __Movement__00000009_
 	__Influence__00000012_.SourceArtefactType = nil
 	__Influence__00000012_.SourceArtist = nil
-	__Influence__00000012_.TargetMovement = __Movement__00000007_
+	__Influence__00000012_.TargetMovement = __Movement__00000010_
 	__Influence__00000012_.TargetArtefactType = nil
 	__Influence__00000012_.TargetArtist = nil
+	__Influence__00000013_.SourceMovement = __Movement__00000007_
+	__Influence__00000013_.SourceArtefactType = nil
+	__Influence__00000013_.SourceArtist = nil
+	__Influence__00000013_.TargetMovement = __Movement__00000010_
+	__Influence__00000013_.TargetArtefactType = nil
+	__Influence__00000013_.TargetArtist = nil
+	__Influence__00000014_.SourceMovement = __Movement__00000006_
+	__Influence__00000014_.SourceArtefactType = nil
+	__Influence__00000014_.SourceArtist = nil
+	__Influence__00000014_.TargetMovement = __Movement__00000010_
+	__Influence__00000014_.TargetArtefactType = nil
+	__Influence__00000014_.TargetArtist = nil
 	__InfluenceShape__00000000_.Influence = __Influence__00000000_
-	__InfluenceShape__00000000_.ControlPointShapes = append(__InfluenceShape__00000000_.ControlPointShapes, __ControlPointShape__00000000_)
 	__InfluenceShape__00000001_.Influence = __Influence__00000001_
-	__InfluenceShape__00000001_.ControlPointShapes = append(__InfluenceShape__00000001_.ControlPointShapes, __ControlPointShape__00000001_)
+	__InfluenceShape__00000001_.ControlPointShapes = append(__InfluenceShape__00000001_.ControlPointShapes, __ControlPointShape__00000007_)
 	__InfluenceShape__00000002_.Influence = __Influence__00000002_
-	__InfluenceShape__00000002_.ControlPointShapes = append(__InfluenceShape__00000002_.ControlPointShapes, __ControlPointShape__00000002_)
 	__InfluenceShape__00000003_.Influence = __Influence__00000003_
-	__InfluenceShape__00000003_.ControlPointShapes = append(__InfluenceShape__00000003_.ControlPointShapes, __ControlPointShape__00000003_)
+	__InfluenceShape__00000003_.ControlPointShapes = append(__InfluenceShape__00000003_.ControlPointShapes, __ControlPointShape__00000005_)
+	__InfluenceShape__00000003_.ControlPointShapes = append(__InfluenceShape__00000003_.ControlPointShapes, __ControlPointShape__00000006_)
 	__InfluenceShape__00000004_.Influence = __Influence__00000004_
-	__InfluenceShape__00000004_.ControlPointShapes = append(__InfluenceShape__00000004_.ControlPointShapes, __ControlPointShape__00000004_)
 	__InfluenceShape__00000005_.Influence = __Influence__00000005_
-	__InfluenceShape__00000005_.ControlPointShapes = append(__InfluenceShape__00000005_.ControlPointShapes, __ControlPointShape__00000005_)
-	__InfluenceShape__00000005_.ControlPointShapes = append(__InfluenceShape__00000005_.ControlPointShapes, __ControlPointShape__00000021_)
-	__InfluenceShape__00000005_.ControlPointShapes = append(__InfluenceShape__00000005_.ControlPointShapes, __ControlPointShape__00000022_)
-	__InfluenceShape__00000005_.ControlPointShapes = append(__InfluenceShape__00000005_.ControlPointShapes, __ControlPointShape__00000023_)
+	__InfluenceShape__00000005_.ControlPointShapes = append(__InfluenceShape__00000005_.ControlPointShapes, __ControlPointShape__00000002_)
+	__InfluenceShape__00000005_.ControlPointShapes = append(__InfluenceShape__00000005_.ControlPointShapes, __ControlPointShape__00000003_)
+	__InfluenceShape__00000005_.ControlPointShapes = append(__InfluenceShape__00000005_.ControlPointShapes, __ControlPointShape__00000004_)
 	__InfluenceShape__00000006_.Influence = __Influence__00000006_
-	__InfluenceShape__00000006_.ControlPointShapes = append(__InfluenceShape__00000006_.ControlPointShapes, __ControlPointShape__00000006_)
-	__InfluenceShape__00000006_.ControlPointShapes = append(__InfluenceShape__00000006_.ControlPointShapes, __ControlPointShape__00000013_)
-	__InfluenceShape__00000006_.ControlPointShapes = append(__InfluenceShape__00000006_.ControlPointShapes, __ControlPointShape__00000014_)
-	__InfluenceShape__00000006_.ControlPointShapes = append(__InfluenceShape__00000006_.ControlPointShapes, __ControlPointShape__00000015_)
 	__InfluenceShape__00000007_.Influence = __Influence__00000007_
-	__InfluenceShape__00000007_.ControlPointShapes = append(__InfluenceShape__00000007_.ControlPointShapes, __ControlPointShape__00000007_)
-	__InfluenceShape__00000007_.ControlPointShapes = append(__InfluenceShape__00000007_.ControlPointShapes, __ControlPointShape__00000016_)
 	__InfluenceShape__00000008_.Influence = __Influence__00000008_
-	__InfluenceShape__00000008_.ControlPointShapes = append(__InfluenceShape__00000008_.ControlPointShapes, __ControlPointShape__00000008_)
 	__InfluenceShape__00000009_.Influence = __Influence__00000009_
-	__InfluenceShape__00000009_.ControlPointShapes = append(__InfluenceShape__00000009_.ControlPointShapes, __ControlPointShape__00000009_)
-	__InfluenceShape__00000009_.ControlPointShapes = append(__InfluenceShape__00000009_.ControlPointShapes, __ControlPointShape__00000017_)
-	__InfluenceShape__00000009_.ControlPointShapes = append(__InfluenceShape__00000009_.ControlPointShapes, __ControlPointShape__00000018_)
-	__InfluenceShape__00000009_.ControlPointShapes = append(__InfluenceShape__00000009_.ControlPointShapes, __ControlPointShape__00000019_)
 	__InfluenceShape__00000010_.Influence = __Influence__00000010_
-	__InfluenceShape__00000010_.ControlPointShapes = append(__InfluenceShape__00000010_.ControlPointShapes, __ControlPointShape__00000010_)
 	__InfluenceShape__00000011_.Influence = __Influence__00000011_
-	__InfluenceShape__00000011_.ControlPointShapes = append(__InfluenceShape__00000011_.ControlPointShapes, __ControlPointShape__00000011_)
+	__InfluenceShape__00000011_.ControlPointShapes = append(__InfluenceShape__00000011_.ControlPointShapes, __ControlPointShape__00000009_)
+	__InfluenceShape__00000011_.ControlPointShapes = append(__InfluenceShape__00000011_.ControlPointShapes, __ControlPointShape__00000010_)
 	__InfluenceShape__00000012_.Influence = __Influence__00000012_
+	__InfluenceShape__00000012_.ControlPointShapes = append(__InfluenceShape__00000012_.ControlPointShapes, __ControlPointShape__00000000_)
+	__InfluenceShape__00000013_.Influence = __Influence__00000013_
+	__InfluenceShape__00000013_.ControlPointShapes = append(__InfluenceShape__00000013_.ControlPointShapes, __ControlPointShape__00000008_)
+	__InfluenceShape__00000014_.Influence = __Influence__00000014_
+	__InfluenceShape__00000014_.ControlPointShapes = append(__InfluenceShape__00000014_.ControlPointShapes, __ControlPointShape__00000001_)
 	__Movement__00000000_.Places = append(__Movement__00000000_.Places, __Place__00000000_)
-	__Movement__00000000_.Places = append(__Movement__00000000_.Places, __Place__00000002_)
-	__Movement__00000001_.Places = append(__Movement__00000001_.Places, __Place__00000000_)
-	__Movement__00000001_.Places = append(__Movement__00000001_.Places, __Place__00000004_)
-	__Movement__00000002_.Places = append(__Movement__00000002_.Places, __Place__00000000_)
-	__Movement__00000003_.Places = append(__Movement__00000003_.Places, __Place__00000004_)
+	__Movement__00000001_.Places = append(__Movement__00000001_.Places, __Place__00000001_)
+	__Movement__00000002_.Places = append(__Movement__00000002_.Places, __Place__00000002_)
+	__Movement__00000003_.Places = append(__Movement__00000003_.Places, __Place__00000005_)
 	__Movement__00000004_.Places = append(__Movement__00000004_.Places, __Place__00000000_)
-	__Movement__00000004_.Places = append(__Movement__00000004_.Places, __Place__00000001_)
 	__Movement__00000005_.Places = append(__Movement__00000005_.Places, __Place__00000003_)
-	__Movement__00000006_.Places = append(__Movement__00000006_.Places, __Place__00000002_)
-	__Movement__00000007_.Places = append(__Movement__00000007_.Places, __Place__00000000_)
-	__Movement__00000007_.Places = append(__Movement__00000007_.Places, __Place__00000001_)
+	__Movement__00000005_.Places = append(__Movement__00000005_.Places, __Place__00000004_)
+	__Movement__00000006_.Places = append(__Movement__00000006_.Places, __Place__00000006_)
+	__Movement__00000007_.Places = append(__Movement__00000007_.Places, __Place__00000007_)
+	__Movement__00000009_.Places = append(__Movement__00000009_.Places, __Place__00000009_)
+	__Movement__00000010_.Places = append(__Movement__00000010_.Places, __Place__00000010_)
 	__MovementShape__00000000_.Movement = __Movement__00000000_
 	__MovementShape__00000001_.Movement = __Movement__00000001_
 	__MovementShape__00000002_.Movement = __Movement__00000002_
@@ -1183,4 +961,7 @@ func _(stage *models.Stage) {
 	__MovementShape__00000005_.Movement = __Movement__00000005_
 	__MovementShape__00000006_.Movement = __Movement__00000006_
 	__MovementShape__00000007_.Movement = __Movement__00000007_
+	__MovementShape__00000008_.Movement = __Movement__00000008_
+	__MovementShape__00000009_.Movement = __Movement__00000009_
+	__MovementShape__00000010_.Movement = __Movement__00000010_
 }
