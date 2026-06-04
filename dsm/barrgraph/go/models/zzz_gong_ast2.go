@@ -702,6 +702,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "MovementShapes":
 		GongUnmarshallSliceOfPointers(&instance.MovementShapes, valueExpr, identifierMap)
 	case "ArtefactTypeShapes":
@@ -921,6 +923,8 @@ func (u *InfluenceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "SourceMovement":
 		GongUnmarshallPointer(&instance.SourceMovement, valueExpr, identifierMap)
 	case "SourceArtefactType":

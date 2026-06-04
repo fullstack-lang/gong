@@ -22,8 +22,8 @@ type Node struct {
 	// OnUpdate is a callback called each time a node is modified from the front
 	// Deprecated
 	OnUpdate func(stage *Stage, stagedNode, frontNode *Node)
-	OnClick  func(frontNode *Node)
 
+	OnClick                          func(frontNode *Node)
 	OnIsExpandedChange               func(isExpanded bool)
 	OnIsCheckedChanged               func(isChecked bool)
 	OnIsSecondCheckboxCheckedChanged func(isChecked bool)

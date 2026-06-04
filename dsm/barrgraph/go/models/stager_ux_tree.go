@@ -26,6 +26,7 @@ func (stager *Stager) ux_tree() {
 			Name:              diagram.Name,
 			HasCheckboxButton: true,
 			IsExpanded:        diagram.IsNodeExpanded,
+			IsNodeClickable:   true,
 		}
 		if stager.desk.SelectedDiagram == diagram {
 			diagramNode.IsChecked = true
@@ -47,28 +48,22 @@ func (stager *Stager) ux_tree() {
 
 		tree_.RootNodes = append(tree_.RootNodes, diagramNode)
 
-		diagramNode.OnUpdate = func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
-			if frontNode.IsChecked && !stagedNode.IsChecked {
+		diagramNode.OnIsCheckedChanged = func(isChecked bool) {
+			if isChecked {
 				stager.desk.SelectedDiagram = diagram
+				stage.Commit()
 			}
-
-			if frontNode.IsExpanded != stagedNode.IsExpanded {
-				diagram.IsNodeExpanded = !diagram.IsNodeExpanded
-			}
-
-			stage.Commit()
 		}
+
+		diagramNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsNodeExpanded)
+
+		diagramNode.OnClick = onNodeClicked(stager, diagram)
 
 		movementCategoryNode := &tree.Node{
 			Name:              "Movements",
 			HasCheckboxButton: false,
 			IsExpanded:        diagram.IsMovementCategoryNodeExpanded,
-			OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
-				if frontNode.IsExpanded != stagedNode.IsExpanded {
-					diagram.IsMovementCategoryNodeExpanded = !diagram.IsMovementCategoryNodeExpanded
-					stage.Commit()
-				}
-			},
+			OnIsExpandedChange: stager.onIsExpandedChangeBool(&diagram.IsMovementCategoryNodeExpanded),
 		}
 		movementCategoryNode.Buttons = []*tree.Button{
 			{
@@ -102,8 +97,9 @@ func (stager *Stager) ux_tree() {
 				Name:              movement.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
-				OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
-					if frontNode.IsChecked && !stagedNode.IsChecked {
+				IsNodeClickable:   true,
+				OnIsCheckedChanged: func(isChecked bool) {
+					if isChecked {
 						movementShape := &MovementShape{
 							Movement: movement,
 							PositionAndSize: PositionAndSize{
@@ -115,8 +111,7 @@ func (stager *Stager) ux_tree() {
 						}
 						movementShape.Stage(stage)
 						diagram.MovementShapes = append(diagram.MovementShapes, movementShape)
-					}
-					if !frontNode.IsChecked && stagedNode.IsChecked {
+					} else {
 						for idx, shape := range diagram.MovementShapes {
 							if shape.Movement == movement {
 								diagram.MovementShapes = slices.Delete(diagram.MovementShapes, idx, idx+1)
@@ -124,10 +119,10 @@ func (stager *Stager) ux_tree() {
 							}
 						}
 					}
-
 					stage.Commit()
 				},
 			}
+			movementNode.OnClick = onNodeClicked(stager, movement)
 			movementCategoryNode.Children = append(movementCategoryNode.Children, movementNode)
 
 			if shape != nil {
@@ -155,12 +150,7 @@ func (stager *Stager) ux_tree() {
 			Name:              "ArtefactTypes",
 			HasCheckboxButton: false,
 			IsExpanded:        diagram.IsArtefactTypeCategoryNodeExpanded,
-			OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
-				if frontNode.IsExpanded != stagedNode.IsExpanded {
-					diagram.IsArtefactTypeCategoryNodeExpanded = !diagram.IsArtefactTypeCategoryNodeExpanded
-					stage.Commit()
-				}
-			},
+			OnIsExpandedChange: stager.onIsExpandedChangeBool(&diagram.IsArtefactTypeCategoryNodeExpanded),
 		}
 		diagramNode.Children = append(diagramNode.Children, artefactTypeCategoryNode)
 		artefactTypeCategoryNode.Buttons = []*tree.Button{
@@ -192,8 +182,9 @@ func (stager *Stager) ux_tree() {
 				Name:              artefactType.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
-				OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
-					if frontNode.IsChecked && !stagedNode.IsChecked {
+				IsNodeClickable:   true,
+				OnIsCheckedChanged: func(isChecked bool) {
+					if isChecked {
 						artefactTypeShape := &ArtefactTypeShape{
 							ArtefactType: artefactType,
 							PositionAndSize: PositionAndSize{
@@ -205,8 +196,7 @@ func (stager *Stager) ux_tree() {
 						}
 						artefactTypeShape.Stage(stage)
 						diagram.ArtefactTypeShapes = append(diagram.ArtefactTypeShapes, artefactTypeShape)
-					}
-					if !frontNode.IsChecked && stagedNode.IsChecked {
+					} else {
 						for idx, shape := range diagram.ArtefactTypeShapes {
 							if shape.ArtefactType == artefactType {
 								shape.Unstage(stage)
@@ -215,10 +205,10 @@ func (stager *Stager) ux_tree() {
 							}
 						}
 					}
-
 					stage.Commit()
 				},
 			}
+			artefactTypeNode.OnClick = onNodeClicked(stager, artefactType)
 			artefactTypeCategoryNode.Children = append(artefactTypeCategoryNode.Children, artefactTypeNode)
 
 			if shape != nil {
@@ -246,12 +236,7 @@ func (stager *Stager) ux_tree() {
 			Name:              "Artists",
 			HasCheckboxButton: false,
 			IsExpanded:        diagram.IsArtistCategoryNodeExpanded,
-			OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
-				if frontNode.IsExpanded != stagedNode.IsExpanded {
-					diagram.IsArtistCategoryNodeExpanded = !diagram.IsArtistCategoryNodeExpanded
-					stage.Commit()
-				}
-			},
+			OnIsExpandedChange: stager.onIsExpandedChangeBool(&diagram.IsArtistCategoryNodeExpanded),
 		}
 		diagramNode.Children = append(diagramNode.Children, artistCategoryNode)
 
@@ -285,8 +270,9 @@ func (stager *Stager) ux_tree() {
 				Name:              element.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
-				OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
-					if frontNode.IsChecked && !stagedNode.IsChecked {
+				IsNodeClickable:   true,
+				OnIsCheckedChanged: func(isChecked bool) {
+					if isChecked {
 						artistShape := &ArtistShape{
 							Artist: element,
 							PositionAndSize: PositionAndSize{
@@ -298,8 +284,7 @@ func (stager *Stager) ux_tree() {
 						}
 						artistShape.Stage(stage)
 						diagram.ArtistShapes = append(diagram.ArtistShapes, artistShape)
-					}
-					if !frontNode.IsChecked && stagedNode.IsChecked {
+					} else {
 						for idx, shape := range diagram.ArtistShapes {
 							if shape.Artist == element {
 								shape.Unstage(stage)
@@ -308,10 +293,10 @@ func (stager *Stager) ux_tree() {
 							}
 						}
 					}
-
 					stage.Commit()
 				},
 			}
+			node.OnClick = onNodeClicked(stager, element)
 			artistCategoryNode.Children = append(artistCategoryNode.Children, node)
 			if !element.GetIsInRenameMode() {
 				node.Buttons = append(node.Buttons,
@@ -365,12 +350,7 @@ func (stager *Stager) ux_tree() {
 			Name:              "Influences",
 			HasCheckboxButton: false,
 			IsExpanded:        diagram.IsInfluenceCategoryNodeExpanded,
-			OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
-				if frontNode.IsExpanded != stagedNode.IsExpanded {
-					diagram.IsInfluenceCategoryNodeExpanded = !diagram.IsInfluenceCategoryNodeExpanded
-					stage.Commit()
-				}
-			},
+			OnIsExpandedChange: stager.onIsExpandedChangeBool(&diagram.IsInfluenceCategoryNodeExpanded),
 		}
 		diagramNode.Children = append(diagramNode.Children, influenceCategoryNode)
 
@@ -404,15 +384,15 @@ func (stager *Stager) ux_tree() {
 				Name:              influence.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
-				OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
-					if frontNode.IsChecked && !stagedNode.IsChecked {
+				IsNodeClickable:   true,
+				OnIsCheckedChanged: func(isChecked bool) {
+					if isChecked {
 						influenceShape := &InfluenceShape{
 							Influence: influence,
 						}
 						influenceShape.Stage(stage)
 						diagram.InfluenceShapes = append(diagram.InfluenceShapes, influenceShape)
-					}
-					if !frontNode.IsChecked && stagedNode.IsChecked {
+					} else {
 						for idx, shape := range diagram.InfluenceShapes {
 							if shape.Influence == influence {
 								shape.Unstage(stage)
@@ -421,10 +401,10 @@ func (stager *Stager) ux_tree() {
 							}
 						}
 					}
-
 					stage.Commit()
 				},
 			}
+			influenceNode.OnClick = onNodeClicked(stager, influence)
 			influenceCategoryNode.Children = append(influenceCategoryNode.Children, influenceNode)
 
 			if shape != nil {
