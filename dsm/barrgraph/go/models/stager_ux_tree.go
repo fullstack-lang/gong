@@ -130,22 +130,24 @@ func (stager *Stager) ux_tree() {
 			}
 			movementCategoryNode.Children = append(movementCategoryNode.Children, movementNode)
 
-			movementNode.Buttons = []*tree.Button{
-				{
-					Name:            diagram.GetName(),
-					Icon:            string(buttons.BUTTON_visibility_off),
-					ToolTipText:     "Hide from diagram",
-					HasToolTip:      true,
-					ToolTipPosition: tree.Right,
-					OnClick: func() {
-						shape.IsHidden = !shape.IsHidden
-						stage.Commit()
+			if shape != nil {
+				movementNode.Buttons = []*tree.Button{
+					{
+						Name:            diagram.GetName(),
+						Icon:            string(buttons.BUTTON_visibility_off),
+						ToolTipText:     "Hide from diagram",
+						HasToolTip:      true,
+						ToolTipPosition: tree.Right,
+						OnClick: func() {
+							shape.IsHidden = !shape.IsHidden
+							stage.Commit()
+						},
 					},
-				},
-			}
-			if shape != nil && shape.IsHidden {
-				movementNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
-				movementNode.Buttons[0].ToolTipText = "Show on diagram"
+				}
+				if shape.IsHidden {
+					movementNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+					movementNode.Buttons[0].ToolTipText = "Show on diagram"
+				}
 			}
 		}
 
@@ -219,18 +221,24 @@ func (stager *Stager) ux_tree() {
 			}
 			artefactTypeCategoryNode.Children = append(artefactTypeCategoryNode.Children, artefactTypeNode)
 
-			artefactTypeNode.Buttons = []*tree.Button{
-				{
-					Name:            diagram.GetName(),
-					Icon:            string(buttons.BUTTON_visibility_off),
-					ToolTipText:     "Hide from diagram",
-					HasToolTip:      true,
-					ToolTipPosition: tree.Right,
-					OnClick: func() {
-						shape.IsHidden = !shape.IsHidden
-						stage.Commit()
+			if shape != nil {
+				artefactTypeNode.Buttons = []*tree.Button{
+					{
+						Name:            diagram.GetName(),
+						Icon:            string(buttons.BUTTON_visibility_off),
+						ToolTipText:     "Hide from diagram",
+						HasToolTip:      true,
+						ToolTipPosition: tree.Right,
+						OnClick: func() {
+							shape.IsHidden = !shape.IsHidden
+							stage.Commit()
+						},
 					},
-				},
+				}
+				if shape.IsHidden {
+					artefactTypeNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+					artefactTypeNode.Buttons[0].ToolTipText = "Show on diagram"
+				}
 			}
 		}
 
@@ -334,23 +342,22 @@ func (stager *Stager) ux_tree() {
 			}
 
 			if shape != nil {
-				node.Buttons = []*tree.Button{
-					{
-						Name:            diagram.GetName(),
-						Icon:            string(buttons.BUTTON_visibility_off),
-						ToolTipText:     "Hide from diagram",
-						HasToolTip:      true,
-						ToolTipPosition: tree.Right,
-						OnClick: func() {
-							shape.IsHidden = !shape.IsHidden
-							stage.Commit()
-						},
+				visibilityButton := &tree.Button{
+					Name:            diagram.GetName(),
+					Icon:            string(buttons.BUTTON_visibility_off),
+					ToolTipText:     "Hide from diagram",
+					HasToolTip:      true,
+					ToolTipPosition: tree.Right,
+					OnClick: func() {
+						shape.IsHidden = !shape.IsHidden
+						stage.Commit()
 					},
 				}
-				if !diagram.IsArtistCategoryHidden {
-					node.Buttons[0].Icon = string(buttons.BUTTON_visibility)
-					node.Buttons[0].ToolTipText = "Show on diagram"
+				if shape.IsHidden {
+					visibilityButton.Icon = string(buttons.BUTTON_visibility)
+					visibilityButton.ToolTipText = "Show on diagram"
 				}
+				node.Buttons = append(node.Buttons, visibilityButton)
 			}
 		}
 
@@ -383,10 +390,12 @@ func (stager *Stager) ux_tree() {
 		for _, influence := range GetGongstrucsSorted[*Influence](stager.stage) {
 
 			isInDiagram := false
+			var shape *InfluenceShape
 
-			for _, shape := range diagram.InfluenceShapes {
-				if shape.Influence == influence {
+			for _, _shape := range diagram.InfluenceShapes {
+				if _shape.Influence == influence {
 					isInDiagram = true
+					shape = _shape
 					continue
 				}
 			}
@@ -417,6 +426,26 @@ func (stager *Stager) ux_tree() {
 				},
 			}
 			influenceCategoryNode.Children = append(influenceCategoryNode.Children, influenceNode)
+
+			if shape != nil {
+				influenceNode.Buttons = []*tree.Button{
+					{
+						Name:            diagram.GetName(),
+						Icon:            string(buttons.BUTTON_visibility_off),
+						ToolTipText:     "Hide from diagram",
+						HasToolTip:      true,
+						ToolTipPosition: tree.Right,
+						OnClick: func() {
+							shape.IsHidden = !shape.IsHidden
+							stage.Commit()
+						},
+					},
+				}
+				if shape.IsHidden {
+					influenceNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+					influenceNode.Buttons[0].ToolTipText = "Show on diagram"
+				}
+			}
 		}
 	}
 

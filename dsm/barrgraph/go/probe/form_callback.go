@@ -1254,6 +1254,8 @@ func (influenceshapeFormCallback *InfluenceShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(influenceshape_.Name), formDiv)
 		case "Influence":
 			FormDivSelectFieldToField(&(influenceshape_.Influence), influenceshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(influenceshape_.IsHidden), formDiv)
 		case "ControlPointShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPointShape](influenceshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ControlPointShape, 0)

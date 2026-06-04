@@ -538,7 +538,9 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 	}
 
 	for _, influenceShape := range diagram.InfluenceShapes {
-
+		if influenceShape.IsHidden {
+			continue
+		}
 		influence := influenceShape.Influence
 
 		link := new(svg.Link)

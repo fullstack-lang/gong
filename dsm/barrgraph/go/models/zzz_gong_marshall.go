@@ -627,6 +627,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(influenceshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(influenceshape.GongMarshallField(stage, "Influence"))
+		initializerStatements.WriteString(influenceshape.GongMarshallField(stage, "IsHidden"))
 		pointersInitializesStatements.WriteString(influenceshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 
@@ -1916,6 +1917,11 @@ func (influenceshape *InfluenceShape) GongMarshallField(stage *Stage, fieldName 
 		res = strings.ReplaceAll(res, "{{Identifier}}", influenceshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(influenceshape.Name))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", influenceshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", influenceshape.IsHidden))
 
 	case "Influence":
 		if influenceshape.Influence != nil {
@@ -2309,6 +2315,7 @@ func (influenceshape *InfluenceShape) GongMarshallAllFields(stage *Stage) (initR
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(influenceshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(influenceshape.GongMarshallField(stage, "Influence"))
+		initializerStatements.WriteString(influenceshape.GongMarshallField(stage, "IsHidden"))
 		pointersInitializesStatements.WriteString(influenceshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 	initRes = initializerStatements.String()
