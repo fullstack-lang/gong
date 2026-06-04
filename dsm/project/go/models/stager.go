@@ -90,7 +90,7 @@ func NewStager(
 		stager.enforceSemantic()
 	}
 	afterCommit := func(stage *Stage) {
-		stager.tree()
+		stager.ux_tree()
 		stager.svg()
 		stager.button()
 		stager.load()

@@ -119,6 +119,15 @@ func (influenceshape *InfluenceShape) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by Library
+func (library *Library) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &library.SubLibraries) || modified
+	modified = GongCleanSlice(stage, &library.SubLibrariesWhoseNodeIsExpanded) || modified
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Movement
 func (movement *Movement) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field

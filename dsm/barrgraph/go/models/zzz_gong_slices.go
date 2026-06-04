@@ -82,6 +82,23 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct Library
+	// insertion point per field
+	stage.Library_SubLibraries_reverseMap = make(map[*Library]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _library := range library.SubLibraries {
+			stage.Library_SubLibraries_reverseMap[_library] = library
+		}
+	}
+	stage.Library_SubLibrariesWhoseNodeIsExpanded_reverseMap = make(map[*Library]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
+			stage.Library_SubLibrariesWhoseNodeIsExpanded_reverseMap[_library] = library
+		}
+	}
+
 	// Compute reverse map for named struct Movement
 	// insertion point per field
 	stage.Movement_Places_reverseMap = make(map[*Place]*Movement)
@@ -136,6 +153,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.InfluenceShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Librarys {
 		res = append(res, instance)
 	}
 
@@ -206,6 +227,12 @@ func (influence *Influence) GongCopy() GongstructIF {
 func (influenceshape *InfluenceShape) GongCopy() GongstructIF {
 	newInstance := new(InfluenceShape)
 	influenceshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (library *Library) GongCopy() GongstructIF {
+	newInstance := new(Library)
+	library.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -315,6 +342,16 @@ func (influenceshape *InfluenceShape) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(influenceshape), uint64(GetOrderPointerGongstruct(stage, influenceshape)))
+	return
+}
+
+func (library *Library) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(library).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(library), uint64(GetOrderPointerGongstruct(stage, library)))
 	return
 }
 
@@ -861,6 +898,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(influenceshapes_newInstances)
 	lenDeletedInstances += len(influenceshapes_deletedInstances)
+	var librarys_newInstances []*Library
+	var librarys_deletedInstances []*Library
+
+	// parse all staged instances and check if they have a reference
+	for library := range stage.Librarys {
+		if ref, ok := stage.Librarys_reference[library]; !ok {
+			librarys_newInstances = append(librarys_newInstances, library)
+			newInstancesSlice = append(newInstancesSlice, library.GongMarshallIdentifier(stage))
+			if stage.Librarys_referenceOrder == nil {
+				stage.Librarys_referenceOrder = make(map[*Library]uint)
+			}
+			stage.Librarys_referenceOrder[library] = stage.Library_stagedOrder[library]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, library.GongMarshallUnstaging(stage))
+			// delete(stage.Librarys_referenceOrder, library)
+			fieldInitializers, pointersInitializations := library.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Library_stagedOrder[ref] = stage.Library_stagedOrder[library]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := library.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, library)
+			// delete(stage.Library_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if library.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", library.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Librarys_reference {
+		instance := stage.Librarys_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Librarys[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			librarys_deletedInstances = append(librarys_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(librarys_newInstances)
+	lenDeletedInstances += len(librarys_deletedInstances)
 	var movements_newInstances []*Movement
 	var movements_deletedInstances []*Movement
 
@@ -1151,6 +1243,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.InfluenceShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Librarys_reference = make(map[*Library]*Library)
+	stage.Librarys_referenceOrder = make(map[*Library]uint) // diff Unstage needs the reference order
+	stage.Librarys_instance = make(map[*Library]*Library)
+	for instance := range stage.Librarys {
+		_copy := instance.GongCopy().(*Library)
+		stage.Librarys_reference[instance] = _copy
+		stage.Librarys_instance[_copy] = instance
+		stage.Librarys_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Movements_reference = make(map[*Movement]*Movement)
 	stage.Movements_referenceOrder = make(map[*Movement]uint) // diff Unstage needs the reference order
 	stage.Movements_instance = make(map[*Movement]*Movement)
@@ -1224,6 +1326,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.InfluenceShapes {
 		reference := stage.InfluenceShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Librarys {
+		reference := stage.Librarys_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -1360,6 +1467,18 @@ func (influenceshape *InfluenceShape) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (library *Library) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Library_stagedOrder[library]; ok {
+		return order
+	}
+	if order, ok := stage.Librarys_referenceOrder[library]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Library was not staged and does not have a reference order", library)
+		return 0
+	}
+}
+
 func (movement *Movement) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Movement_stagedOrder[movement]; ok {
 		return order
@@ -1482,6 +1601,15 @@ func (influenceshape *InfluenceShape) GongGetReferenceIdentifier(stage *Stage) s
 	return fmt.Sprintf("__%s__%08d_", influenceshape.GongGetGongstructName(), influenceshape.GongGetOrder(stage))
 }
 
+func (library *Library) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", library.GongGetGongstructName(), library.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (library *Library) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", library.GongGetGongstructName(), library.GongGetOrder(stage))
+}
+
 func (movement *Movement) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", movement.GongGetGongstructName(), movement.GongGetOrder(stage))
 }
@@ -1584,6 +1712,14 @@ func (influenceshape *InfluenceShape) GongMarshallIdentifier(stage *Stage) (decl
 	return
 }
 
+func (library *Library) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Library")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.Name))
+	return
+}
+
 func (movement *Movement) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", movement.GongGetIdentifier(stage))
@@ -1660,6 +1796,12 @@ func (influence *Influence) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (influenceshape *InfluenceShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", influenceshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (library *Library) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetReferenceIdentifier(stage))
 	return
 }
 

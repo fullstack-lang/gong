@@ -464,8 +464,8 @@ func (u *ArtefactTypeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
 	}
 	return nil
 }
@@ -536,8 +536,8 @@ func (u *ArtistUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsDead":
 		instance.IsDead = GongExtractBool(valueExpr)
 	case "DateOfDeath":
@@ -890,6 +890,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.InfluenceCornerRadius = GongExtractFloat(valueExpr)
 	case "InfluenceDashedLinePattern":
 		instance.InfluenceDashedLinePattern = GongExtractString(valueExpr)
+	case "IsChecked":
+		instance.IsChecked = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -972,6 +974,53 @@ func (u *InfluenceShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 	return nil
 }
 
+type LibraryUnmarshaller struct{}
+
+func (u *LibraryUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Library)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Library)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsRootLibrary":
+		instance.IsRootLibrary = GongExtractBool(valueExpr)
+	case "SubLibraries":
+		GongUnmarshallSliceOfPointers(&instance.SubLibraries, valueExpr, identifierMap)
+	case "IsSubLibrariesNodeExpanded":
+		instance.IsSubLibrariesNodeExpanded = GongExtractBool(valueExpr)
+	case "SubLibrariesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.SubLibrariesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "NbPixPerCharacter":
+		instance.NbPixPerCharacter = GongExtractFloat(valueExpr)
+	case "LogoSVGFile":
+		instance.LogoSVGFile = GongExtractString(valueExpr)
+	case "IsExpandedTmp":
+		instance.IsExpandedTmp = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
 type MovementUnmarshaller struct{}
 
 func (u *MovementUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -997,8 +1046,8 @@ func (u *MovementUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "Date":
 		if call, ok := valueExpr.(*ast.CallExpr); ok {
 			if len(call.Args) == 2 {

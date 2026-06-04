@@ -3,6 +3,8 @@
 package models
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
@@ -44,6 +46,9 @@ type Stager struct {
 	probeForm ProbeIF
 
 	desk *Desk
+
+	// necessary for "--dsm"
+	map_Element_Diagrams map[AbstractType][]*Diagram
 }
 
 func NewStager(
@@ -95,4 +100,16 @@ func (stager *Stager) GetAsSplitArea() (asSplitArea *split.AsSplitArea) {
 
 func (stager *Stager) GetGongtreeStage() *tree.Stage {
 	return stager.treeStage
+}
+
+func (stager *Stager) getRootLibrary() *Library {
+	for library := range *GetGongstructInstancesSet[Library](stager.stage) {
+		if library.IsRootLibrary {
+			return library
+		}
+	}
+
+	// should not happen
+	log.Panic("No root library found")
+	return nil
 }

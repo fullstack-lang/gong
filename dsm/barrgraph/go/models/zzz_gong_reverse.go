@@ -111,6 +111,26 @@ func (inst *InfluenceShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	return
 }
 
+func (inst *Library) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Library":
+		switch reverseField.Fieldname {
+		case "SubLibraries":
+			if _library, ok := stage.Library_SubLibraries_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		case "SubLibrariesWhoseNodeIsExpanded":
+			if _library, ok := stage.Library_SubLibrariesWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *Movement) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -249,6 +269,22 @@ func (inst *InfluenceShape) GongGetReverseFieldOwner(stage *Stage, reverseField 
 		switch reverseField.Fieldname {
 		case "InfluenceShapes":
 			res = stage.Diagram_InfluenceShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *Library) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Library":
+		switch reverseField.Fieldname {
+		case "SubLibraries":
+			res = stage.Library_SubLibraries_reverseMap[inst]
+		case "SubLibrariesWhoseNodeIsExpanded":
+			res = stage.Library_SubLibrariesWhoseNodeIsExpanded_reverseMap[inst]
 		}
 	}
 	return res

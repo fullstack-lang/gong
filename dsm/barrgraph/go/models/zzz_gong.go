@@ -271,6 +271,25 @@ type Stage struct {
 	OnAfterInfluenceShapeDeleteCallback OnAfterDeleteInterface[InfluenceShape]
 	OnAfterInfluenceShapeReadCallback   OnAfterReadInterface[InfluenceShape]
 
+	Librarys                map[*Library]struct{}
+	Librarys_instance       map[*Library]*Library
+	Librarys_mapString      map[string]*Library
+	LibraryOrder            uint
+	Library_stagedOrder     map[*Library]uint
+	Library_orderStaged     map[uint]*Library
+	Librarys_reference      map[*Library]*Library
+	Librarys_referenceOrder map[*Library]uint
+
+	// insertion point for slice of pointers maps
+	Library_SubLibraries_reverseMap map[*Library]*Library
+
+	Library_SubLibrariesWhoseNodeIsExpanded_reverseMap map[*Library]*Library
+
+	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
+	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
+	OnAfterLibraryDeleteCallback OnAfterDeleteInterface[Library]
+	OnAfterLibraryReadCallback   OnAfterReadInterface[Library]
+
 	Movements                map[*Movement]struct{}
 	Movements_instance       map[*Movement]*Movement
 	Movements_mapString      map[string]*Movement
@@ -590,6 +609,10 @@ func (stage *Stage) Squash() {
 	stage.InfluenceShapes_instance = make(map[*InfluenceShape]*InfluenceShape)
 	stage.InfluenceShapes_referenceOrder = make(map[*InfluenceShape]uint)
 
+	stage.Librarys_reference = make(map[*Library]*Library)
+	stage.Librarys_instance = make(map[*Library]*Library)
+	stage.Librarys_referenceOrder = make(map[*Library]uint)
+
 	stage.Movements_reference = make(map[*Movement]*Movement)
 	stage.Movements_instance = make(map[*Movement]*Movement)
 	stage.Movements_referenceOrder = make(map[*Movement]uint)
@@ -753,6 +776,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.InfluenceShapeOrder = maxInfluenceShapeOrder + 1
 	} else {
 		stage.InfluenceShapeOrder = 0
+	}
+
+	var maxLibraryOrder uint
+	var foundLibrary bool
+	for _, order := range stage.Library_stagedOrder {
+		if !foundLibrary || order > maxLibraryOrder {
+			maxLibraryOrder = order
+			foundLibrary = true
+		}
+	}
+	if foundLibrary {
+		stage.LibraryOrder = maxLibraryOrder + 1
+	} else {
+		stage.LibraryOrder = 0
 	}
 
 	var maxMovementOrder uint
@@ -984,6 +1021,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Library:
+		tmp := GetStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Library implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Movement:
 		tmp := GetStructInstancesByOrder(stage.Movements, stage.Movement_stagedOrder)
 
@@ -1073,6 +1124,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Influences, stage.Influence_stagedOrder)
 	case "InfluenceShape":
 		res = GetNamedStructInstances(stage.InfluenceShapes, stage.InfluenceShape_stagedOrder)
+	case "Library":
+		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
 	case "Movement":
 		res = GetNamedStructInstances(stage.Movements, stage.Movement_stagedOrder)
 	case "MovementShape":
@@ -1166,6 +1219,8 @@ type BackRepoInterface interface {
 	CheckoutInfluence(influence *Influence)
 	CommitInfluenceShape(influenceshape *InfluenceShape)
 	CheckoutInfluenceShape(influenceshape *InfluenceShape)
+	CommitLibrary(library *Library)
+	CheckoutLibrary(library *Library)
 	CommitMovement(movement *Movement)
 	CheckoutMovement(movement *Movement)
 	CommitMovementShape(movementshape *MovementShape)
@@ -1204,6 +1259,9 @@ func NewStage(name string) (stage *Stage) {
 
 		InfluenceShapes:           make(map[*InfluenceShape]struct{}),
 		InfluenceShapes_mapString: make(map[string]*InfluenceShape),
+
+		Librarys:           make(map[*Library]struct{}),
+		Librarys_mapString: make(map[string]*Library),
 
 		Movements:           make(map[*Movement]struct{}),
 		Movements_mapString: make(map[string]*Movement),
@@ -1260,6 +1318,10 @@ func NewStage(name string) (stage *Stage) {
 		InfluenceShape_orderStaged: make(map[uint]*InfluenceShape),
 		InfluenceShapes_reference:  make(map[*InfluenceShape]*InfluenceShape),
 
+		Library_stagedOrder: make(map[*Library]uint),
+		Library_orderStaged: make(map[uint]*Library),
+		Librarys_reference:  make(map[*Library]*Library),
+
 		Movement_stagedOrder: make(map[*Movement]uint),
 		Movement_orderStaged: make(map[uint]*Movement),
 		Movements_reference:  make(map[*Movement]*Movement),
@@ -1292,6 +1354,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"InfluenceShape": &InfluenceShapeUnmarshaller{},
 
+			"Library": &LibraryUnmarshaller{},
+
 			"Movement": &MovementUnmarshaller{},
 
 			"MovementShape": &MovementShapeUnmarshaller{},
@@ -1311,6 +1375,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Diagram"},
 			{name: "Influence"},
 			{name: "InfluenceShape"},
+			{name: "Library"},
 			{name: "Movement"},
 			{name: "MovementShape"},
 			{name: "Place"},
@@ -1343,6 +1408,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Influence_stagedOrder[instance]
 	case *InfluenceShape:
 		return stage.InfluenceShape_stagedOrder[instance]
+	case *Library:
+		return stage.Library_stagedOrder[instance]
 	case *Movement:
 		return stage.Movement_stagedOrder[instance]
 	case *MovementShape:
@@ -1376,6 +1443,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.Influence_orderStaged[order]).(Type)
 	case *InfluenceShape:
 		return any(stage.InfluenceShape_orderStaged[order]).(Type)
+	case *Library:
+		return any(stage.Library_orderStaged[order]).(Type)
 	case *Movement:
 		return any(stage.Movement_orderStaged[order]).(Type)
 	case *MovementShape:
@@ -1408,6 +1477,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.Influence_stagedOrder[instance]
 	case *InfluenceShape:
 		return stage.InfluenceShape_stagedOrder[instance]
+	case *Library:
+		return stage.Library_stagedOrder[instance]
 	case *Movement:
 		return stage.Movement_stagedOrder[instance]
 	case *MovementShape:
@@ -1488,6 +1559,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Diagram"] = len(stage.Diagrams)
 	stage.Map_GongStructName_InstancesNb["Influence"] = len(stage.Influences)
 	stage.Map_GongStructName_InstancesNb["InfluenceShape"] = len(stage.InfluenceShapes)
+	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Movement"] = len(stage.Movements)
 	stage.Map_GongStructName_InstancesNb["MovementShape"] = len(stage.MovementShapes)
 	stage.Map_GongStructName_InstancesNb["Place"] = len(stage.Places)
@@ -2323,6 +2395,94 @@ func (influenceshape *InfluenceShape) SetName(name string) {
 	influenceshape.Name = name
 }
 
+// Stage puts library to the model stage
+func (library *Library) Stage(stage *Stage) *Library {
+	if _, ok := stage.Librarys[library]; !ok {
+		stage.Librarys[library] = struct{}{}
+		stage.Library_stagedOrder[library] = stage.LibraryOrder
+		stage.Library_orderStaged[stage.LibraryOrder] = library
+		stage.LibraryOrder++
+	}
+	stage.Librarys_mapString[library.Name] = library
+
+	return library
+}
+
+// StagePreserveOrder puts library to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.LibraryOrder
+// - update stage.LibraryOrder accordingly
+func (library *Library) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Librarys[library]; !ok {
+		stage.Librarys[library] = struct{}{}
+
+		if order > stage.LibraryOrder {
+			stage.LibraryOrder = order
+		}
+		stage.Library_stagedOrder[library] = order
+		stage.Library_orderStaged[order] = library
+		stage.LibraryOrder++
+	}
+	stage.Librarys_mapString[library.Name] = library
+}
+
+// Unstage removes library off the model stage
+func (library *Library) Unstage(stage *Stage) *Library {
+	delete(stage.Librarys, library)
+	// issue1150
+	// delete(stage.Library_stagedOrder, library)
+	delete(stage.Librarys_mapString, library.Name)
+
+	return library
+}
+
+// UnstageVoid removes library off the model stage
+func (library *Library) UnstageVoid(stage *Stage) {
+	delete(stage.Librarys, library)
+	// issue1150
+	// delete(stage.Library_stagedOrder, library)
+	delete(stage.Librarys_mapString, library.Name)
+}
+
+// commit library to the back repo (if it is already staged)
+func (library *Library) Commit(stage *Stage) *Library {
+	if _, ok := stage.Librarys[library]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitLibrary(library)
+		}
+	}
+	return library
+}
+
+func (library *Library) CommitVoid(stage *Stage) {
+	library.Commit(stage)
+}
+
+func (library *Library) StageVoid(stage *Stage) {
+	library.Stage(stage)
+}
+
+// Checkout library to the back repo (if it is already staged)
+func (library *Library) Checkout(stage *Stage) *Library {
+	if _, ok := stage.Librarys[library]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutLibrary(library)
+		}
+	}
+	return library
+}
+
+// for satisfaction of GongStruct interface
+func (library *Library) GetName() (res string) {
+	return library.Name
+}
+
+// for satisfaction of GongStruct interface
+func (library *Library) SetName(name string) {
+	library.Name = name
+}
+
 // Stage puts movement to the model stage
 func (movement *Movement) Stage(stage *Stage) *Movement {
 	if _, ok := stage.Movements[movement]; !ok {
@@ -2598,6 +2758,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMDiagram(Diagram *Diagram)
 	CreateORMInfluence(Influence *Influence)
 	CreateORMInfluenceShape(InfluenceShape *InfluenceShape)
+	CreateORMLibrary(Library *Library)
 	CreateORMMovement(Movement *Movement)
 	CreateORMMovementShape(MovementShape *MovementShape)
 	CreateORMPlace(Place *Place)
@@ -2613,6 +2774,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMDiagram(Diagram *Diagram)
 	DeleteORMInfluence(Influence *Influence)
 	DeleteORMInfluenceShape(InfluenceShape *InfluenceShape)
+	DeleteORMLibrary(Library *Library)
 	DeleteORMMovement(Movement *Movement)
 	DeleteORMMovementShape(MovementShape *MovementShape)
 	DeleteORMPlace(Place *Place)
@@ -2663,6 +2825,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.InfluenceShapes_mapString = make(map[string]*InfluenceShape)
 	stage.InfluenceShape_stagedOrder = make(map[*InfluenceShape]uint)
 	stage.InfluenceShapeOrder = 0
+
+	stage.Librarys = make(map[*Library]struct{})
+	stage.Librarys_mapString = make(map[string]*Library)
+	stage.Library_stagedOrder = make(map[*Library]uint)
+	stage.LibraryOrder = 0
 
 	stage.Movements = make(map[*Movement]struct{})
 	stage.Movements_mapString = make(map[string]*Movement)
@@ -2715,6 +2882,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.InfluenceShapes = nil
 	stage.InfluenceShapes_mapString = nil
 
+	stage.Librarys = nil
+	stage.Librarys_mapString = nil
+
 	stage.Movements = nil
 	stage.Movements_mapString = nil
 
@@ -2762,6 +2932,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for influenceshape := range stage.InfluenceShapes {
 		influenceshape.Unstage(stage)
+	}
+
+	for library := range stage.Librarys {
+		library.Unstage(stage)
 	}
 
 	for movement := range stage.Movements {
@@ -2870,6 +3044,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Influences).(*Type)
 	case map[*InfluenceShape]any:
 		return any(&stage.InfluenceShapes).(*Type)
+	case map[*Library]any:
+		return any(&stage.Librarys).(*Type)
 	case map[*Movement]any:
 		return any(&stage.Movements).(*Type)
 	case map[*MovementShape]any:
@@ -2906,6 +3082,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Influences_mapString).(map[string]Type)
 	case *InfluenceShape:
 		return any(stage.InfluenceShapes_mapString).(map[string]Type)
+	case *Library:
+		return any(stage.Librarys_mapString).(map[string]Type)
 	case *Movement:
 		return any(stage.Movements_mapString).(map[string]Type)
 	case *MovementShape:
@@ -2942,6 +3120,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Influences).(*map[*Type]struct{})
 	case InfluenceShape:
 		return any(&stage.InfluenceShapes).(*map[*Type]struct{})
+	case Library:
+		return any(&stage.Librarys).(*map[*Type]struct{})
 	case Movement:
 		return any(&stage.Movements).(*map[*Type]struct{})
 	case MovementShape:
@@ -2978,6 +3158,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Influences).(*map[Type]struct{})
 	case *InfluenceShape:
 		return any(&stage.InfluenceShapes).(*map[Type]struct{})
+	case *Library:
+		return any(&stage.Librarys).(*map[Type]struct{})
 	case *Movement:
 		return any(&stage.Movements).(*map[Type]struct{})
 	case *MovementShape:
@@ -3014,6 +3196,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Influences_mapString).(*map[string]*Type)
 	case InfluenceShape:
 		return any(&stage.InfluenceShapes_mapString).(*map[string]*Type)
+	case Library:
+		return any(&stage.Librarys_mapString).(*map[string]*Type)
 	case Movement:
 		return any(&stage.Movements_mapString).(*map[string]*Type)
 	case MovementShape:
@@ -3101,6 +3285,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Influence: &Influence{Name: "Influence"},
 			// field is initialized with an instance of ControlPointShape with the name of the field
 			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
+		}).(*Type)
+	case Library:
+		return any(&Library{
+			// Initialisation of associations
+			// field is initialized with an instance of Library with the name of the field
+			SubLibraries: []*Library{{Name: "SubLibraries"}},
+			// field is initialized with an instance of Library with the name of the field
+			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case Movement:
 		return any(&Movement{
@@ -3367,6 +3559,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of Library
+	case Library:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Movement
 	case Movement:
 		switch fieldname {
@@ -3499,6 +3696,27 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of Library
+	case Library:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "SubLibraries":
+			res := make(map[*Library][]*Library)
+			for library := range stage.Librarys {
+				for _, library_ := range library.SubLibraries {
+					res[library_] = append(res[library_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "SubLibrariesWhoseNodeIsExpanded":
+			res := make(map[*Library][]*Library)
+			for library := range stage.Librarys {
+				for _, library_ := range library.SubLibrariesWhoseNodeIsExpanded {
+					res[library_] = append(res[library_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of Movement
 	case Movement:
 		switch fieldname {
@@ -3551,6 +3769,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Influence"
 	case *InfluenceShape:
 		res = "InfluenceShape"
+	case *Library:
+		res = "Library"
 	case *Movement:
 		res = "Movement"
 	case *MovementShape:
@@ -3613,6 +3833,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Diagram"
 		rf.Fieldname = "InfluenceShapes"
 		res = append(res, rf)
+	case *Library:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Library"
+		rf.Fieldname = "SubLibraries"
+		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "SubLibrariesWhoseNodeIsExpanded"
+		res = append(res, rf)
 	case *Movement:
 		var rf ReverseField
 		_ = rf
@@ -3641,8 +3870,8 @@ func (artefacttype *ArtefactType) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBool,
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -3692,8 +3921,8 @@ func (artist *Artist) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBool,
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "IsDead",
@@ -4206,6 +4435,10 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "InfluenceDashedLinePattern",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
+		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -4280,6 +4513,55 @@ func (influenceshape *InfluenceShape) GongGetFieldHeaders() (res []GongFieldHead
 	return
 }
 
+func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsRootLibrary",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "SubLibraries",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Library",
+		},
+		{
+			Name:               "IsSubLibrariesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "SubLibrariesWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Library",
+		},
+		{
+			Name:               "NbPixPerCharacter",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "LogoSVGFile",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpandedTmp",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
 func (movement *Movement) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -4288,8 +4570,8 @@ func (movement *Movement) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsInRenameMode",
-			GongFieldValueType: GongFieldValueTypeBool,
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "Date",
@@ -4443,10 +4725,8 @@ func (artefacttype *ArtefactType) GongGetFieldValue(fieldName string, stage *Sta
 	// string value of fields
 	case "Name":
 		res.valueString = artefacttype.Name
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", artefacttype.IsInRenameMode)
-		res.valueBool = artefacttype.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = artefacttype.ComputedPrefix
 	}
 	return
 }
@@ -4491,10 +4771,8 @@ func (artist *Artist) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	// string value of fields
 	case "Name":
 		res.valueString = artist.Name
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", artist.IsInRenameMode)
-		res.valueBool = artist.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = artist.ComputedPrefix
 	case "IsDead":
 		res.valueString = fmt.Sprintf("%t", artist.IsDead)
 		res.valueBool = artist.IsDead
@@ -4897,6 +5175,10 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "InfluenceDashedLinePattern":
 		res.valueString = diagram.InfluenceDashedLinePattern
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
+		res.valueBool = diagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -4979,15 +5261,64 @@ func (influenceshape *InfluenceShape) GongGetFieldValue(fieldName string, stage 
 	return
 }
 
+func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = library.Name
+	case "Description":
+		res.valueString = library.Description
+	case "ComputedPrefix":
+		res.valueString = library.ComputedPrefix
+	case "IsRootLibrary":
+		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
+		res.valueBool = library.IsRootLibrary
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SubLibraries":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.SubLibraries {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsSubLibrariesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsSubLibrariesNodeExpanded)
+		res.valueBool = library.IsSubLibrariesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SubLibrariesWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.SubLibrariesWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "NbPixPerCharacter":
+		res.valueString = fmt.Sprintf("%f", library.NbPixPerCharacter)
+		res.valueFloat = library.NbPixPerCharacter
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "LogoSVGFile":
+		res.valueString = library.LogoSVGFile
+	case "IsExpandedTmp":
+		res.valueString = fmt.Sprintf("%t", library.IsExpandedTmp)
+		res.valueBool = library.IsExpandedTmp
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
 func (movement *Movement) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
 		res.valueString = movement.Name
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", movement.IsInRenameMode)
-		res.valueBool = movement.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = movement.ComputedPrefix
 	case "Date":
 		res.valueString = movement.Date.String()
 	case "HideDate":
@@ -5085,8 +5416,8 @@ func (artefacttype *ArtefactType) GongSetFieldValue(fieldName string, value Gong
 	// insertion point for per field code
 	case "Name":
 		artefacttype.Name = value.GetValueString()
-	case "IsInRenameMode":
-		artefacttype.IsInRenameMode = value.GetValueBool()
+	case "ComputedPrefix":
+		artefacttype.ComputedPrefix = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -5130,8 +5461,8 @@ func (artist *Artist) GongSetFieldValue(fieldName string, value GongFieldValue, 
 	// insertion point for per field code
 	case "Name":
 		artist.Name = value.GetValueString()
-	case "IsInRenameMode":
-		artist.IsInRenameMode = value.GetValueBool()
+	case "ComputedPrefix":
+		artist.ComputedPrefix = value.GetValueString()
 	case "IsDead":
 		artist.IsDead = value.GetValueBool()
 	case "Place":
@@ -5463,6 +5794,8 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.InfluenceCornerRadius = value.GetValueFloat()
 	case "InfluenceDashedLinePattern":
 		diagram.InfluenceDashedLinePattern = value.GetValueString()
+	case "IsChecked":
+		diagram.IsChecked = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -5586,13 +5919,66 @@ func (influenceshape *InfluenceShape) GongSetFieldValue(fieldName string, value 
 	return nil
 }
 
+func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		library.Name = value.GetValueString()
+	case "Description":
+		library.Description = value.GetValueString()
+	case "ComputedPrefix":
+		library.ComputedPrefix = value.GetValueString()
+	case "IsRootLibrary":
+		library.IsRootLibrary = value.GetValueBool()
+	case "SubLibraries":
+		library.SubLibraries = make([]*Library, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Librarys {
+					if stage.Library_stagedOrder[__instance__] == uint(id) {
+						library.SubLibraries = append(library.SubLibraries, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsSubLibrariesNodeExpanded":
+		library.IsSubLibrariesNodeExpanded = value.GetValueBool()
+	case "SubLibrariesWhoseNodeIsExpanded":
+		library.SubLibrariesWhoseNodeIsExpanded = make([]*Library, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Librarys {
+					if stage.Library_stagedOrder[__instance__] == uint(id) {
+						library.SubLibrariesWhoseNodeIsExpanded = append(library.SubLibrariesWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "NbPixPerCharacter":
+		library.NbPixPerCharacter = value.GetValueFloat()
+	case "LogoSVGFile":
+		library.LogoSVGFile = value.GetValueString()
+	case "IsExpandedTmp":
+		library.IsExpandedTmp = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (movement *Movement) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
 	case "Name":
 		movement.Name = value.GetValueString()
-	case "IsInRenameMode":
-		movement.IsInRenameMode = value.GetValueBool()
+	case "ComputedPrefix":
+		movement.ComputedPrefix = value.GetValueString()
 	case "HideDate":
 		movement.HideDate = value.GetValueBool()
 	case "Places":
@@ -5713,6 +6099,10 @@ func (influenceshape *InfluenceShape) GongGetGongstructName() string {
 	return "InfluenceShape"
 }
 
+func (library *Library) GongGetGongstructName() string {
+	return "Library"
+}
+
 func (movement *Movement) GongGetGongstructName() string {
 	return "Movement"
 }
@@ -5775,6 +6165,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.InfluenceShapes_mapString = make(map[string]*InfluenceShape)
 	for influenceshape := range stage.InfluenceShapes {
 		stage.InfluenceShapes_mapString[influenceshape.Name] = influenceshape
+	}
+
+	stage.Librarys_mapString = make(map[string]*Library)
+	for library := range stage.Librarys {
+		stage.Librarys_mapString[library.Name] = library
 	}
 
 	stage.Movements_mapString = make(map[string]*Movement)
