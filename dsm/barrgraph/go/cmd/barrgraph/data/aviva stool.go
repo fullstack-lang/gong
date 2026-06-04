@@ -45,7 +45,6 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values
 
 	__Artist__00000000_.Name = `Isamo Noguchi`
-	__Artist__00000000_.IsInRenameMode = false
 	__Artist__00000000_.IsDead = true
 	__Artist__00000000_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1984-01-01 00:00:00 +0000 UTC")
 
@@ -153,7 +152,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.InfluenceDashedLinePattern = `7 3`
 
 	__Movement__00000000_.Name = `biomorphism`
-	__Movement__00000000_.IsInRenameMode = false
 	__Movement__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Movement__00000000_.HideDate = false
 	__Movement__00000000_.HasTaxonomicFilter = false

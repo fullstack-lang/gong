@@ -129,6 +129,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.Diagram](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Influence](stage)
 	models.SetOrchestratorOnAfterUpdate[models.InfluenceShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Library](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Movement](stage)
 	models.SetOrchestratorOnAfterUpdate[models.MovementShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Place](stage)

@@ -42,6 +42,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterInfluenceShapeCreateCallback != nil {
 			stage.OnAfterInfluenceShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Library:
+		if stage.OnAfterLibraryCreateCallback != nil {
+			stage.OnAfterLibraryCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Movement:
 		if stage.OnAfterMovementCreateCallback != nil {
 			stage.OnAfterMovementCreateCallback.OnAfterCreate(stage, target)
@@ -113,6 +117,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterInfluenceShapeUpdateCallback != nil {
 			stage.OnAfterInfluenceShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *Library:
+		newTarget := any(new).(*Library)
+		if stage.OnAfterLibraryUpdateCallback != nil {
+			stage.OnAfterLibraryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Movement:
 		newTarget := any(new).(*Movement)
 		if stage.OnAfterMovementUpdateCallback != nil {
@@ -183,6 +192,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*InfluenceShape)
 			stage.OnAfterInfluenceShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Library:
+		if stage.OnAfterLibraryDeleteCallback != nil {
+			staged := any(staged).(*Library)
+			stage.OnAfterLibraryDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Movement:
 		if stage.OnAfterMovementDeleteCallback != nil {
 			staged := any(staged).(*Movement)
@@ -244,6 +258,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterInfluenceShapeReadCallback != nil {
 			stage.OnAfterInfluenceShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *Library:
+		if stage.OnAfterLibraryReadCallback != nil {
+			stage.OnAfterLibraryReadCallback.OnAfterRead(stage, target)
+		}
 	case *Movement:
 		if stage.OnAfterMovementReadCallback != nil {
 			stage.OnAfterMovementReadCallback.OnAfterRead(stage, target)
@@ -285,6 +303,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterInfluenceUpdateCallback = any(callback).(OnAfterUpdateInterface[Influence])
 	case *InfluenceShape:
 		stage.OnAfterInfluenceShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[InfluenceShape])
+	case *Library:
+		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *Movement:
 		stage.OnAfterMovementUpdateCallback = any(callback).(OnAfterUpdateInterface[Movement])
 	case *MovementShape:
@@ -316,6 +336,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterInfluenceCreateCallback = any(callback).(OnAfterCreateInterface[Influence])
 	case *InfluenceShape:
 		stage.OnAfterInfluenceShapeCreateCallback = any(callback).(OnAfterCreateInterface[InfluenceShape])
+	case *Library:
+		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *Movement:
 		stage.OnAfterMovementCreateCallback = any(callback).(OnAfterCreateInterface[Movement])
 	case *MovementShape:
@@ -347,6 +369,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterInfluenceDeleteCallback = any(callback).(OnAfterDeleteInterface[Influence])
 	case *InfluenceShape:
 		stage.OnAfterInfluenceShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[InfluenceShape])
+	case *Library:
+		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *Movement:
 		stage.OnAfterMovementDeleteCallback = any(callback).(OnAfterDeleteInterface[Movement])
 	case *MovementShape:
@@ -378,6 +402,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterInfluenceReadCallback = any(callback).(OnAfterReadInterface[Influence])
 	case *InfluenceShape:
 		stage.OnAfterInfluenceShapeReadCallback = any(callback).(OnAfterReadInterface[InfluenceShape])
+	case *Library:
+		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *Movement:
 		stage.OnAfterMovementReadCallback = any(callback).(OnAfterReadInterface[Movement])
 	case *MovementShape:

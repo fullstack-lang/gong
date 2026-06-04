@@ -4,7 +4,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) tree() {
+func (stager *Stager) ux_tree() {
 	stager.treeStage.Reset()
 
 	rootLibrary := stager.getRootLibrary()

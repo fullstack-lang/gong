@@ -69,6 +69,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.influenceshape, probe)
 			}
+		case *LibraryFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Library", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.library, probe)
+			}
 		case *MovementFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Movement", true)
@@ -226,6 +232,19 @@ func FillUpFormFromGongstructName(
 		influenceshape := new(models.InfluenceShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(influenceshape, formGroup, probe)
+	case "Library":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Library Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__LibraryFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		library := new(models.Library)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(library, formGroup, probe)
 	case "Movement":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

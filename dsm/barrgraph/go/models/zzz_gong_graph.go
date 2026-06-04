@@ -34,6 +34,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *InfluenceShape:
 		ok = stage.IsStagedInfluenceShape(target)
 
+	case *Library:
+		ok = stage.IsStagedLibrary(target)
+
 	case *Movement:
 		ok = stage.IsStagedMovement(target)
 
@@ -79,6 +82,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *InfluenceShape:
 		ok = stage.IsStagedInfluenceShape(target)
+
+	case *Library:
+		ok = stage.IsStagedLibrary(target)
 
 	case *Movement:
 		ok = stage.IsStagedMovement(target)
@@ -159,6 +165,13 @@ func (stage *Stage) IsStagedInfluenceShape(influenceshape *InfluenceShape) (ok b
 	return
 }
 
+func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
+
+	_, ok = stage.Librarys[library]
+
+	return
+}
+
 func (stage *Stage) IsStagedMovement(movement *Movement) (ok bool) {
 
 	_, ok = stage.Movements[movement]
@@ -214,6 +227,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *InfluenceShape:
 		stage.StageBranchInfluenceShape(target)
+
+	case *Library:
+		stage.StageBranchLibrary(target)
 
 	case *Movement:
 		stage.StageBranchMovement(target)
@@ -413,6 +429,27 @@ func (stage *Stage) StageBranchInfluenceShape(influenceshape *InfluenceShape) {
 
 }
 
+func (stage *Stage) StageBranchLibrary(library *Library) {
+
+	// check if instance is already staged
+	if IsStaged(stage, library) {
+		return
+	}
+
+	library.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _library := range library.SubLibraries {
+		StageBranch(stage, _library)
+	}
+	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
+		StageBranch(stage, _library)
+	}
+
+}
+
 func (stage *Stage) StageBranchMovement(movement *Movement) {
 
 	// check if instance is already staged
@@ -509,6 +546,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *InfluenceShape:
 		toT := CopyBranchInfluenceShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Library:
+		toT := CopyBranchLibrary(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Movement:
@@ -749,6 +790,31 @@ func CopyBranchInfluenceShape(mapOrigCopy map[any]any, influenceshapeFrom *Influ
 	return
 }
 
+func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
+
+	// libraryFrom has already been copied
+	if _libraryTo, ok := mapOrigCopy[libraryFrom]; ok {
+		libraryTo = _libraryTo.(*Library)
+		return
+	}
+
+	libraryTo = new(Library)
+	mapOrigCopy[libraryFrom] = libraryTo
+	libraryFrom.CopyBasicFields(libraryTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _library := range libraryFrom.SubLibraries {
+		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
+	}
+	for _, _library := range libraryFrom.SubLibrariesWhoseNodeIsExpanded {
+		libraryTo.SubLibrariesWhoseNodeIsExpanded = append(libraryTo.SubLibrariesWhoseNodeIsExpanded, CopyBranchLibrary(mapOrigCopy, _library))
+	}
+
+	return
+}
+
 func CopyBranchMovement(mapOrigCopy map[any]any, movementFrom *Movement) (movementTo *Movement) {
 
 	// movementFrom has already been copied
@@ -846,6 +912,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *InfluenceShape:
 		stage.UnstageBranchInfluenceShape(target)
+
+	case *Library:
+		stage.UnstageBranchLibrary(target)
 
 	case *Movement:
 		stage.UnstageBranchMovement(target)
@@ -1045,6 +1114,27 @@ func (stage *Stage) UnstageBranchInfluenceShape(influenceshape *InfluenceShape) 
 
 }
 
+func (stage *Stage) UnstageBranchLibrary(library *Library) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, library) {
+		return
+	}
+
+	library.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _library := range library.SubLibraries {
+		UnstageBranch(stage, _library)
+	}
+	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
+		UnstageBranch(stage, _library)
+	}
+
+}
+
 func (stage *Stage) UnstageBranchMovement(movement *Movement) {
 
 	// check if instance is already staged
@@ -1192,6 +1282,19 @@ func (reference *InfluenceShape) GongReconstructPointersFromReferences(stage *St
 	reference.ControlPointShapes = reference.ControlPointShapes[:0]
 	for _, _b := range instance.ControlPointShapes {
 		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
+	}
+}
+
+func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.SubLibraries = reference.SubLibraries[:0]
+	for _, _b := range instance.SubLibraries {
+		reference.SubLibraries = append(reference.SubLibraries, stage.Librarys_reference[_b])
+	}
+	reference.SubLibrariesWhoseNodeIsExpanded = reference.SubLibrariesWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.SubLibrariesWhoseNodeIsExpanded {
+		reference.SubLibrariesWhoseNodeIsExpanded = append(reference.SubLibrariesWhoseNodeIsExpanded, stage.Librarys_reference[_b])
 	}
 }
 
@@ -1364,6 +1467,25 @@ func (reference *InfluenceShape) GongReconstructPointersFromInstances(stage *Sta
 	reference.ControlPointShapes = _ControlPointShapes
 }
 
+func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _SubLibraries []*Library
+	for _, _reference := range reference.SubLibraries {
+		if _instance, ok := stage.Librarys_instance[_reference]; ok {
+			_SubLibraries = append(_SubLibraries, _instance)
+		}
+	}
+	reference.SubLibraries = _SubLibraries
+	var _SubLibrariesWhoseNodeIsExpanded []*Library
+	for _, _reference := range reference.SubLibrariesWhoseNodeIsExpanded {
+		if _instance, ok := stage.Librarys_instance[_reference]; ok {
+			_SubLibrariesWhoseNodeIsExpanded = append(_SubLibrariesWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.SubLibrariesWhoseNodeIsExpanded = _SubLibrariesWhoseNodeIsExpanded
+}
+
 func (reference *Movement) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -1400,8 +1522,8 @@ func (artefacttype *ArtefactType) GongDiff(stage *Stage, artefacttypeOther *Arte
 	if artefacttype.Name != artefacttypeOther.Name {
 		diffs = append(diffs, artefacttype.GongMarshallField(stage, "Name"))
 	}
-	if artefacttype.IsInRenameMode != artefacttypeOther.IsInRenameMode {
-		diffs = append(diffs, artefacttype.GongMarshallField(stage, "IsInRenameMode"))
+	if artefacttype.ComputedPrefix != artefacttypeOther.ComputedPrefix {
+		diffs = append(diffs, artefacttype.GongMarshallField(stage, "ComputedPrefix"))
 	}
 
 	return
@@ -1447,8 +1569,8 @@ func (artist *Artist) GongDiff(stage *Stage, artistOther *Artist) (diffs []strin
 	if artist.Name != artistOther.Name {
 		diffs = append(diffs, artist.GongMarshallField(stage, "Name"))
 	}
-	if artist.IsInRenameMode != artistOther.IsInRenameMode {
-		diffs = append(diffs, artist.GongMarshallField(stage, "IsInRenameMode"))
+	if artist.ComputedPrefix != artistOther.ComputedPrefix {
+		diffs = append(diffs, artist.GongMarshallField(stage, "ComputedPrefix"))
 	}
 	if artist.IsDead != artistOther.IsDead {
 		diffs = append(diffs, artist.GongMarshallField(stage, "IsDead"))
@@ -1905,6 +2027,9 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.InfluenceDashedLinePattern != diagramOther.InfluenceDashedLinePattern {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "InfluenceDashedLinePattern"))
 	}
+	if diagram.IsChecked != diagramOther.IsChecked {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsChecked"))
+	}
 
 	return
 }
@@ -2009,13 +2134,87 @@ func (influenceshape *InfluenceShape) GongDiff(stage *Stage, influenceshapeOther
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
+func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []string) {
+	// insertion point for field diffs
+	if library.Name != libraryOther.Name {
+		diffs = append(diffs, library.GongMarshallField(stage, "Name"))
+	}
+	if library.Description != libraryOther.Description {
+		diffs = append(diffs, library.GongMarshallField(stage, "Description"))
+	}
+	if library.ComputedPrefix != libraryOther.ComputedPrefix {
+		diffs = append(diffs, library.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if library.IsRootLibrary != libraryOther.IsRootLibrary {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
+	}
+	SubLibrariesDifferent := false
+	if len(library.SubLibraries) != len(libraryOther.SubLibraries) {
+		SubLibrariesDifferent = true
+	} else {
+		for i := range library.SubLibraries {
+			if (library.SubLibraries[i] == nil) != (libraryOther.SubLibraries[i] == nil) {
+				SubLibrariesDifferent = true
+				break
+			} else if library.SubLibraries[i] != nil && libraryOther.SubLibraries[i] != nil {
+				// this is a pointer comparaison
+				if library.SubLibraries[i] != libraryOther.SubLibraries[i] {
+					SubLibrariesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubLibrariesDifferent {
+		ops := Diff(stage, library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
+		diffs = append(diffs, ops)
+	}
+	if library.IsSubLibrariesNodeExpanded != libraryOther.IsSubLibrariesNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
+	}
+	SubLibrariesWhoseNodeIsExpandedDifferent := false
+	if len(library.SubLibrariesWhoseNodeIsExpanded) != len(libraryOther.SubLibrariesWhoseNodeIsExpanded) {
+		SubLibrariesWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range library.SubLibrariesWhoseNodeIsExpanded {
+			if (library.SubLibrariesWhoseNodeIsExpanded[i] == nil) != (libraryOther.SubLibrariesWhoseNodeIsExpanded[i] == nil) {
+				SubLibrariesWhoseNodeIsExpandedDifferent = true
+				break
+			} else if library.SubLibrariesWhoseNodeIsExpanded[i] != nil && libraryOther.SubLibrariesWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if library.SubLibrariesWhoseNodeIsExpanded[i] != libraryOther.SubLibrariesWhoseNodeIsExpanded[i] {
+					SubLibrariesWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubLibrariesWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, library, libraryOther, "SubLibrariesWhoseNodeIsExpanded", libraryOther.SubLibrariesWhoseNodeIsExpanded, library.SubLibrariesWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
+		diffs = append(diffs, library.GongMarshallField(stage, "NbPixPerCharacter"))
+	}
+	if library.LogoSVGFile != libraryOther.LogoSVGFile {
+		diffs = append(diffs, library.GongMarshallField(stage, "LogoSVGFile"))
+	}
+	if library.IsExpandedTmp != libraryOther.IsExpandedTmp {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsExpandedTmp"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
 func (movement *Movement) GongDiff(stage *Stage, movementOther *Movement) (diffs []string) {
 	// insertion point for field diffs
 	if movement.Name != movementOther.Name {
 		diffs = append(diffs, movement.GongMarshallField(stage, "Name"))
 	}
-	if movement.IsInRenameMode != movementOther.IsInRenameMode {
-		diffs = append(diffs, movement.GongMarshallField(stage, "IsInRenameMode"))
+	if movement.ComputedPrefix != movementOther.ComputedPrefix {
+		diffs = append(diffs, movement.GongMarshallField(stage, "ComputedPrefix"))
 	}
 	if movement.Date != movementOther.Date {
 		diffs = append(diffs, movement.GongMarshallField(stage, "Date"))

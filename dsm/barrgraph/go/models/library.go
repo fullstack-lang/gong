@@ -1,16 +1,10 @@
 package models
 
 type Library struct {
-
-	// DSM mandatory
 	Name string
 
-	SubLibraries []*Library
-
-	NbPixPerCharacter float64 // stored at the root Library only
-
-	//gong:width 600 gong:height 300
-	LogoSVGFile string // the content of the logo file, used for the static site generation
+	//gong:text width:300 height:300
+	Description string
 
 	LibraryAbstractFields
 	AbstractTypeFields
@@ -18,16 +12,19 @@ type Library struct {
 	// There is one and only one root library per stage.
 	IsRootLibrary bool
 
-	// DSM specific
-	RootProducts  []*Product
-	RootTasks     []*Task
-	RootResources []*Resource
-
-	Notes []*Note
-
-	Diagrams []*Diagram
-
 	objects []AbstractType
+
+	SubLibraries                    []*Library
+	IsSubLibrariesNodeExpanded      bool
+	SubLibrariesWhoseNodeIsExpanded []*Library
+
+	NbPixPerCharacter float64 // stored at the root Library only
+
+	//gong:width 600 gong:height 300
+	LogoSVGFile string // the content of the logo file, used for the static site generation
+
+	// temporary persistance of the library expand status.
+	IsExpandedTmp bool
 }
 
 type LibraryAbstractFields struct {
