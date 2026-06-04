@@ -517,6 +517,15 @@
       ]
     },
     {
+      "label": "01 - gong generate process & gong-bundler it",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/dsm/process"
+      },
+      "command": "gong generate go/models --skipGoModCommands && gong-bundler go/cmd/process",
+      "group": "build"
+    },
+    {
       "label": "04 - go run process on stage",
       "type": "shell",
       "options": {
