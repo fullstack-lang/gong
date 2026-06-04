@@ -792,6 +792,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
+		case "IsChecked":
+			FormDivBasicFieldToField(&(diagram_.IsChecked), formDiv)
 		case "MovementShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.MovementShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.MovementShape, 0)
@@ -1084,8 +1086,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.InfluenceCornerRadius), formDiv)
 		case "InfluenceDashedLinePattern":
 			FormDivBasicFieldToField(&(diagram_.InfluenceDashedLinePattern), formDiv)
-		case "IsChecked":
-			FormDivBasicFieldToField(&(diagram_.IsChecked), formDiv)
 		}
 	}
 

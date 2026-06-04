@@ -172,6 +172,8 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		AssociationSliceToForm("MovementShapes", instanceWithInferedType, &instanceWithInferedType.MovementShapes, formGroup, probe)
 		AssociationSliceToForm("ArtefactTypeShapes", instanceWithInferedType, &instanceWithInferedType.ArtefactTypeShapes, formGroup, probe)
 		AssociationSliceToForm("ArtistShapes", instanceWithInferedType, &instanceWithInferedType.ArtistShapes, formGroup, probe)
@@ -320,8 +322,6 @@ func FillUpForm(
 		BasicFieldtoForm("InfluenceCornerRadius", instanceWithInferedType.InfluenceCornerRadius, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("InfluenceDashedLinePattern", instanceWithInferedType.InfluenceDashedLinePattern, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
 	case *models.Influence:

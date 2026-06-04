@@ -480,6 +480,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "MovementShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ArtefactTypeShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ArtistShapes"))
@@ -568,7 +569,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceArrowEndOffset"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceCornerRadius"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceDashedLinePattern"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
 	}
 
 	influenceOrdered := []*Influence{}
@@ -1211,6 +1211,11 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.ComputedPrefix))
+	case "IsChecked":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsChecked")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsChecked))
 	case "IsEditable":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -1815,11 +1820,6 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "InfluenceDashedLinePattern")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.InfluenceDashedLinePattern))
-	case "IsChecked":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsChecked")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsChecked))
 
 	case "MovementShapes":
 		var sb strings.Builder
@@ -2329,6 +2329,7 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "MovementShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ArtefactTypeShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ArtistShapes"))
@@ -2417,7 +2418,6 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceArrowEndOffset"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceCornerRadius"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "InfluenceDashedLinePattern"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

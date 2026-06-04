@@ -4061,6 +4061,10 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "MovementShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "MovementShape",
@@ -4438,10 +4442,6 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "InfluenceDashedLinePattern",
 			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsChecked",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -4904,6 +4904,10 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = diagram.Name
 	case "ComputedPrefix":
 		res.valueString = diagram.ComputedPrefix
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
+		res.valueBool = diagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "MovementShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.MovementShapes {
@@ -5185,10 +5189,6 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "InfluenceDashedLinePattern":
 		res.valueString = diagram.InfluenceDashedLinePattern
-	case "IsChecked":
-		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
-		res.valueBool = diagram.IsChecked
-		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -5588,6 +5588,8 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.Name = value.GetValueString()
 	case "ComputedPrefix":
 		diagram.ComputedPrefix = value.GetValueString()
+	case "IsChecked":
+		diagram.IsChecked = value.GetValueBool()
 	case "MovementShapes":
 		diagram.MovementShapes = make([]*MovementShape, 0)
 		ids := strings.Split(value.ids, ";")
@@ -5808,8 +5810,6 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.InfluenceCornerRadius = value.GetValueFloat()
 	case "InfluenceDashedLinePattern":
 		diagram.InfluenceDashedLinePattern = value.GetValueString()
-	case "IsChecked":
-		diagram.IsChecked = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
