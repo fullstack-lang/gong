@@ -107,9 +107,11 @@ func main() {
 
 <script>%s</script>
 
+<script id="wasm-base64-data" type="text/plain">%s</script>
+
 <script>
   console.log("Initializing %s WASM Backend from Base64...");
-  const base64String = "%s";
+  const base64String = document.getElementById('wasm-base64-data').textContent.trim();
   
   async function processBase64InChunks(base64Str) {
       let padding = 0;
@@ -144,7 +146,10 @@ func main() {
               if (progressBar) progressBar.style.width = percentage + '%%';
               
               if (stringOffset < totalLength) {
-                  setTimeout(processChunk, 0);
+                  // 2. Yield to the browser's rendering engine so it actually paints the progress bar
+                  requestAnimationFrame(() => {
+                      setTimeout(processChunk, 0);
+                  });
               } else {
                   resolve(bytes);
               }
@@ -155,21 +160,29 @@ func main() {
   }
 
   processBase64InChunks(base64String).then((bytes) => {
-      const progressContainer = document.getElementById('wasm-progress-container');
-      if (progressContainer) {
-          progressContainer.style.display = 'none';
+      const progressText = document.getElementById('wasm-progress-text');
+      if (progressText) {
+          progressText.innerText = "Compiling WASM (this may take a moment)...";
       }
 
-      const go = new Go();
-      WebAssembly.instantiate(bytes.buffer, go.importObject)
-        .then((result) => {
-            go.run(result.instance);
-            console.log("✅ %s WASM backend loaded successfully from memory!");
-        })
-        .catch(err => console.error("WASM Boot Error:", err));
+      // 3. Small timeout to allow the browser to paint the "Compiling..." text before blocking the main thread
+      setTimeout(() => {
+          const go = new Go();
+          WebAssembly.instantiate(bytes.buffer, go.importObject)
+            .then((result) => {
+                // 4. Hide the progress bar ONLY when the app is completely instantiated and ready
+                const progressContainer = document.getElementById('wasm-progress-container');
+                if (progressContainer) {
+                    progressContainer.style.display = 'none';
+                }
+                go.run(result.instance);
+                console.log("✅ %s WASM backend loaded successfully from memory!");
+            })
+            .catch(err => console.error("WASM Boot Error:", err));
+      }, 50);
   });
 </script>
-`, wasmExecJs, pkgName, wasmBase64, pkgName)
+`, wasmExecJs, wasmBase64, pkgName, pkgName)
 
 	// Inject the bootloader right before the closing </body> tag
 	html = strings.Replace(html, "</body>", bootloader+"\n</body>", 1)
