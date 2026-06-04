@@ -29,6 +29,17 @@ type Diagram struct {
 	NbYearsForIntervals int
 
 	DiagramPresentation
+
+	// if checked, will be displayed
+	IsChecked bool
+}
+
+func (d *Diagram) GetIsChecked() bool {
+	return d.IsChecked
+}
+
+func (d *Diagram) SetIsChecked(v bool) {
+	d.IsChecked = v
 }
 
 type DiagramPresentation struct {

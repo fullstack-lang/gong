@@ -14,13 +14,13 @@ type ArtefactType_WOP struct {
 
 	Name string
 
-	IsInRenameMode bool
+	ComputedPrefix string
 }
 
 func (from *ArtefactType) CopyBasicFields(to *ArtefactType) {
 	// insertion point
 	to.Name = from.Name
-	to.IsInRenameMode = from.IsInRenameMode
+	to.ComputedPrefix = from.ComputedPrefix
 }
 
 type ArtefactTypeShape_WOP struct {
@@ -54,7 +54,7 @@ type Artist_WOP struct {
 
 	Name string
 
-	IsInRenameMode bool
+	ComputedPrefix string
 
 	IsDead bool
 
@@ -64,7 +64,7 @@ type Artist_WOP struct {
 func (from *Artist) CopyBasicFields(to *Artist) {
 	// insertion point
 	to.Name = from.Name
-	to.IsInRenameMode = from.IsInRenameMode
+	to.ComputedPrefix = from.ComputedPrefix
 	to.IsDead = from.IsDead
 	to.DateOfDeath = from.DateOfDeath
 }
@@ -322,6 +322,8 @@ type Diagram_WOP struct {
 	InfluenceCornerRadius float64
 
 	InfluenceDashedLinePattern string
+
+	IsChecked bool
 }
 
 func (from *Diagram) CopyBasicFields(to *Diagram) {
@@ -411,6 +413,7 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.InfluenceArrowEndOffset = from.InfluenceArrowEndOffset
 	to.InfluenceCornerRadius = from.InfluenceCornerRadius
 	to.InfluenceDashedLinePattern = from.InfluenceDashedLinePattern
+	to.IsChecked = from.IsChecked
 }
 
 type Influence_WOP struct {
@@ -441,12 +444,44 @@ func (from *InfluenceShape) CopyBasicFields(to *InfluenceShape) {
 	to.IsHidden = from.IsHidden
 }
 
+type Library_WOP struct {
+	// insertion point
+
+	Name string
+
+	Description string
+
+	ComputedPrefix string
+
+	IsRootLibrary bool
+
+	IsSubLibrariesNodeExpanded bool
+
+	NbPixPerCharacter float64
+
+	LogoSVGFile string
+
+	IsExpandedTmp bool
+}
+
+func (from *Library) CopyBasicFields(to *Library) {
+	// insertion point
+	to.Name = from.Name
+	to.Description = from.Description
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsRootLibrary = from.IsRootLibrary
+	to.IsSubLibrariesNodeExpanded = from.IsSubLibrariesNodeExpanded
+	to.NbPixPerCharacter = from.NbPixPerCharacter
+	to.LogoSVGFile = from.LogoSVGFile
+	to.IsExpandedTmp = from.IsExpandedTmp
+}
+
 type Movement_WOP struct {
 	// insertion point
 
 	Name string
 
-	IsInRenameMode bool
+	ComputedPrefix string
 
 	Date time.Time
 
@@ -470,7 +505,7 @@ type Movement_WOP struct {
 func (from *Movement) CopyBasicFields(to *Movement) {
 	// insertion point
 	to.Name = from.Name
-	to.IsInRenameMode = from.IsInRenameMode
+	to.ComputedPrefix = from.ComputedPrefix
 	to.Date = from.Date
 	to.HideDate = from.HideDate
 	to.HasTaxonomicFilter = from.HasTaxonomicFilter

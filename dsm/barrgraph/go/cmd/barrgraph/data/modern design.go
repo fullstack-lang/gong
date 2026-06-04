@@ -138,13 +138,10 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values
 
 	__ArtefactType__00000000_.Name = `CRAFTSMANSHIP`
-	__ArtefactType__00000000_.IsInRenameMode = false
 
 	__ArtefactType__00000001_.Name = `INDUSTRIAL PRODUCTION`
-	__ArtefactType__00000001_.IsInRenameMode = false
 
 	__ArtefactType__00000002_.Name = `NEW MATERIALS`
-	__ArtefactType__00000002_.IsInRenameMode = false
 
 	__ArtefactTypeShape__00000000_.Name = ``
 	__ArtefactTypeShape__00000000_.X = 100.000000
@@ -168,37 +165,30 @@ func _(stage *models.Stage) {
 	__ArtefactTypeShape__00000002_.IsHidden = false
 
 	__Artist__00000000_.Name = `Mackintosh`
-	__Artist__00000000_.IsInRenameMode = false
 	__Artist__00000000_.IsDead = true
 	__Artist__00000000_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1928-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000001_.Name = `Behrens`
-	__Artist__00000001_.IsInRenameMode = false
 	__Artist__00000001_.IsDead = true
 	__Artist__00000001_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1940-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000002_.Name = `Gropius`
-	__Artist__00000002_.IsInRenameMode = false
 	__Artist__00000002_.IsDead = true
 	__Artist__00000002_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1969-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000003_.Name = `Le Corbusier`
-	__Artist__00000003_.IsInRenameMode = false
 	__Artist__00000003_.IsDead = true
 	__Artist__00000003_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1965-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000004_.Name = `Aalto`
-	__Artist__00000004_.IsInRenameMode = false
 	__Artist__00000004_.IsDead = true
 	__Artist__00000004_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1976-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000005_.Name = `Charles & Ray Eames`
-	__Artist__00000005_.IsInRenameMode = false
 	__Artist__00000005_.IsDead = true
 	__Artist__00000005_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1978-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000006_.Name = `Eero Saarinen`
-	__Artist__00000006_.IsInRenameMode = false
 	__Artist__00000006_.IsDead = true
 	__Artist__00000006_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1961-01-01 00:00:00 +0000 UTC")
 
@@ -526,7 +516,6 @@ func _(stage *models.Stage) {
 	__InfluenceShape__00000014_.Name = `INTERNATIONAL STYLE to AMERICAN MID-CENTURY`
 
 	__Movement__00000000_.Name = `ARTS & CRAFTS`
-	__Movement__00000000_.IsInRenameMode = false
 	__Movement__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1900-01-01 00:00:00 +0000 UTC")
 	__Movement__00000000_.HideDate = false
 	__Movement__00000000_.HasTaxonomicFilter = false
@@ -538,7 +527,6 @@ func _(stage *models.Stage) {
 	__Movement__00000000_.AdditionnalName = ``
 
 	__Movement__00000001_.Name = `WIENER WERKSTÄTTE`
-	__Movement__00000001_.IsInRenameMode = false
 	__Movement__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1903-01-01 00:00:00 +0000 UTC")
 	__Movement__00000001_.HideDate = false
 	__Movement__00000001_.HasTaxonomicFilter = false
@@ -550,7 +538,6 @@ func _(stage *models.Stage) {
 	__Movement__00000001_.AdditionnalName = ``
 
 	__Movement__00000002_.Name = `DEUTSCHER WERKBUND`
-	__Movement__00000002_.IsInRenameMode = false
 	__Movement__00000002_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1907-01-01 00:00:00 +0000 UTC")
 	__Movement__00000002_.HideDate = false
 	__Movement__00000002_.HasTaxonomicFilter = false
@@ -562,7 +549,6 @@ func _(stage *models.Stage) {
 	__Movement__00000002_.AdditionnalName = ``
 
 	__Movement__00000003_.Name = `CONSTRUCTIVISM`
-	__Movement__00000003_.IsInRenameMode = false
 	__Movement__00000003_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1915-01-01 00:00:00 +0000 UTC")
 	__Movement__00000003_.HideDate = false
 	__Movement__00000003_.HasTaxonomicFilter = false
@@ -574,7 +560,6 @@ func _(stage *models.Stage) {
 	__Movement__00000003_.AdditionnalName = ``
 
 	__Movement__00000004_.Name = `DE STIJL`
-	__Movement__00000004_.IsInRenameMode = false
 	__Movement__00000004_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1917-01-01 00:00:00 +0000 UTC")
 	__Movement__00000004_.HideDate = false
 	__Movement__00000004_.HasTaxonomicFilter = false
@@ -586,7 +571,6 @@ func _(stage *models.Stage) {
 	__Movement__00000004_.AdditionnalName = ``
 
 	__Movement__00000005_.Name = `BAUHAUS`
-	__Movement__00000005_.IsInRenameMode = false
 	__Movement__00000005_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1919-01-01 00:00:00 +0000 UTC")
 	__Movement__00000005_.HideDate = false
 	__Movement__00000005_.HasTaxonomicFilter = false
@@ -598,7 +582,6 @@ func _(stage *models.Stage) {
 	__Movement__00000005_.AdditionnalName = ``
 
 	__Movement__00000006_.Name = `INTERNATIONAL STYLE`
-	__Movement__00000006_.IsInRenameMode = false
 	__Movement__00000006_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1925-01-01 00:00:00 +0000 UTC")
 	__Movement__00000006_.HideDate = false
 	__Movement__00000006_.HasTaxonomicFilter = false
@@ -610,7 +593,6 @@ func _(stage *models.Stage) {
 	__Movement__00000006_.AdditionnalName = ``
 
 	__Movement__00000007_.Name = `ORGANIC DESIGN`
-	__Movement__00000007_.IsInRenameMode = false
 	__Movement__00000007_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1930-01-01 00:00:00 +0000 UTC")
 	__Movement__00000007_.HideDate = false
 	__Movement__00000007_.HasTaxonomicFilter = false
@@ -622,7 +604,6 @@ func _(stage *models.Stage) {
 	__Movement__00000007_.AdditionnalName = ``
 
 	__Movement__00000008_.Name = `SCANDINAVIAN`
-	__Movement__00000008_.IsInRenameMode = false
 	__Movement__00000008_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Movement__00000008_.HideDate = true
 	__Movement__00000008_.HasTaxonomicFilter = false
@@ -634,7 +615,6 @@ func _(stage *models.Stage) {
 	__Movement__00000008_.AdditionnalName = ``
 
 	__Movement__00000009_.Name = `CRANBROOK ACADEMY`
-	__Movement__00000009_.IsInRenameMode = false
 	__Movement__00000009_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1932-01-01 00:00:00 +0000 UTC")
 	__Movement__00000009_.HideDate = false
 	__Movement__00000009_.HasTaxonomicFilter = false
@@ -646,7 +626,6 @@ func _(stage *models.Stage) {
 	__Movement__00000009_.AdditionnalName = ``
 
 	__Movement__00000010_.Name = `AMERICAN MID-CENTURY`
-	__Movement__00000010_.IsInRenameMode = false
 	__Movement__00000010_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1945-01-01 00:00:00 +0000 UTC")
 	__Movement__00000010_.HideDate = false
 	__Movement__00000010_.HasTaxonomicFilter = false

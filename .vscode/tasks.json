@@ -591,7 +591,7 @@
       "options": {
         "cwd": "${workspaceFolder}/dsm/barrgraph"
       },
-      "command": "gong generate go/models --skipGoModCommands",
+      "command": "gong generate go/models --dsm --skipGoModCommands",
       "group": "build"
     },
     {
@@ -600,7 +600,7 @@
       "options": {
         "cwd": "${workspaceFolder}/dsm/barrgraph"
       },
-      "command": "gong generate go/models --skipGoModCommands && gong-bundler go/cmd/barrgraph",
+      "command": "gong generate go/models --dsm --skipGoModCommands && gong-bundler go/cmd/barrgraph",
       "group": "build"
     },
     {

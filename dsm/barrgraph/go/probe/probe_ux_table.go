@@ -42,6 +42,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Influence](probe)
 	case "InfluenceShape":
 		updateProbeTable[*models.InfluenceShape](probe)
+	case "Library":
+		updateProbeTable[*models.Library](probe)
 	case "Movement":
 		updateProbeTable[*models.Movement](probe)
 	case "MovementShape":

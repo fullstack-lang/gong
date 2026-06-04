@@ -5,21 +5,6 @@ import "time"
 type ArtElement interface {
 	IsArtElement()
 	GetName() string
-	GetIsInRenameMode() bool
-	SetIsInRenameMode(bool)
-}
-
-type AbstractTypeFields struct {
-	// nodes can be edited
-	IsInRenameMode bool
-}
-
-func (r *AbstractTypeFields) GetIsInRenameMode() bool {
-	return r.IsInRenameMode
-}
-
-func (r *AbstractTypeFields) SetIsInRenameMode(isInRenameMode bool) {
-	r.IsInRenameMode = isInRenameMode
 }
 
 type Place struct {
