@@ -4057,6 +4057,10 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:                 "MovementShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "MovementShape",
@@ -4448,6 +4452,10 @@ func (influence *Influence) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
@@ -4894,6 +4902,8 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = diagram.Name
+	case "ComputedPrefix":
+		res.valueString = diagram.ComputedPrefix
 	case "MovementShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.MovementShapes {
@@ -5188,6 +5198,8 @@ func (influence *Influence) GongGetFieldValue(fieldName string, stage *Stage) (r
 	// string value of fields
 	case "Name":
 		res.valueString = influence.Name
+	case "ComputedPrefix":
+		res.valueString = influence.ComputedPrefix
 	case "SourceMovement":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if influence.SourceMovement != nil {
@@ -5574,6 +5586,8 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 	// insertion point for per field code
 	case "Name":
 		diagram.Name = value.GetValueString()
+	case "ComputedPrefix":
+		diagram.ComputedPrefix = value.GetValueString()
 	case "MovementShapes":
 		diagram.MovementShapes = make([]*MovementShape, 0)
 		ids := strings.Split(value.ids, ";")
@@ -5807,6 +5821,8 @@ func (influence *Influence) GongSetFieldValue(fieldName string, value GongFieldV
 	// insertion point for per field code
 	case "Name":
 		influence.Name = value.GetValueString()
+	case "ComputedPrefix":
+		influence.ComputedPrefix = value.GetValueString()
 	case "SourceMovement":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {

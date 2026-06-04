@@ -155,6 +155,8 @@ type Diagram_WOP struct {
 
 	Name string
 
+	ComputedPrefix string
+
 	IsEditable bool
 
 	IsNodeExpanded bool
@@ -329,6 +331,7 @@ type Diagram_WOP struct {
 func (from *Diagram) CopyBasicFields(to *Diagram) {
 	// insertion point
 	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
 	to.IsEditable = from.IsEditable
 	to.IsNodeExpanded = from.IsNodeExpanded
 	to.IsMovementCategoryNodeExpanded = from.IsMovementCategoryNodeExpanded
@@ -421,12 +424,15 @@ type Influence_WOP struct {
 
 	Name string
 
+	ComputedPrefix string
+
 	IsHypothtical bool
 }
 
 func (from *Influence) CopyBasicFields(to *Influence) {
 	// insertion point
 	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
 	to.IsHypothtical = from.IsHypothtical
 }
 

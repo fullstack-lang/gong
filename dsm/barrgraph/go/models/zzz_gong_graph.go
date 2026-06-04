@@ -1691,6 +1691,9 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.Name != diagramOther.Name {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "Name"))
 	}
+	if diagram.ComputedPrefix != diagramOther.ComputedPrefix {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedPrefix"))
+	}
 	MovementShapesDifferent := false
 	if len(diagram.MovementShapes) != len(diagramOther.MovementShapes) {
 		MovementShapesDifferent = true
@@ -2040,6 +2043,9 @@ func (influence *Influence) GongDiff(stage *Stage, influenceOther *Influence) (d
 	// insertion point for field diffs
 	if influence.Name != influenceOther.Name {
 		diffs = append(diffs, influence.GongMarshallField(stage, "Name"))
+	}
+	if influence.ComputedPrefix != influenceOther.ComputedPrefix {
+		diffs = append(diffs, influence.GongMarshallField(stage, "ComputedPrefix"))
 	}
 	if (influence.SourceMovement == nil) != (influenceOther.SourceMovement == nil) {
 		diffs = append(diffs, influence.GongMarshallField(stage, "SourceMovement"))

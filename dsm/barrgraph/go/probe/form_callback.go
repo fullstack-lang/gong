@@ -790,6 +790,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(diagram_.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
 		case "MovementShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.MovementShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.MovementShape, 0)
@@ -1162,6 +1164,8 @@ func (influenceFormCallback *InfluenceFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(influence_.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(influence_.ComputedPrefix), formDiv)
 		case "SourceMovement":
 			FormDivSelectFieldToField(&(influence_.SourceMovement), influenceFormCallback.probe.stageOfInterest, formDiv)
 		case "SourceArtefactType":

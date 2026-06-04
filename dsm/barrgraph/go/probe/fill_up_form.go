@@ -170,6 +170,8 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		AssociationSliceToForm("MovementShapes", instanceWithInferedType, &instanceWithInferedType.MovementShapes, formGroup, probe)
 		AssociationSliceToForm("ArtefactTypeShapes", instanceWithInferedType, &instanceWithInferedType.ArtefactTypeShapes, formGroup, probe)
 		AssociationSliceToForm("ArtistShapes", instanceWithInferedType, &instanceWithInferedType.ArtistShapes, formGroup, probe)
@@ -325,6 +327,8 @@ func FillUpForm(
 	case *models.Influence:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationFieldToForm("SourceMovement", instanceWithInferedType.SourceMovement, formGroup, probe)
 		AssociationFieldToForm("SourceArtefactType", instanceWithInferedType.SourceArtefactType, formGroup, probe)

@@ -5,7 +5,10 @@ import (
 )
 
 type Diagram struct {
-	Name               string
+	Name string
+
+	AbstractTypeFields
+
 	MovementShapes     []*MovementShape
 	ArtefactTypeShapes []*ArtefactTypeShape
 	ArtistShapes       []*ArtistShape
