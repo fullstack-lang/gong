@@ -189,6 +189,8 @@ type Stage struct {
 	Librarys_referenceOrder map[*Library]uint
 
 	// insertion point for slice of pointers maps
+	Library_SubLibraries_reverseMap map[*Library]*Library
+
 	Library_RootProducts_reverseMap map[*Product]*Library
 
 	Library_RootTasks_reverseMap map[*Task]*Library
@@ -198,8 +200,6 @@ type Stage struct {
 	Library_Notes_reverseMap map[*Note]*Library
 
 	Library_Diagrams_reverseMap map[*Diagram]*Library
-
-	Library_SubLibraries_reverseMap map[*Library]*Library
 
 	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
 	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
@@ -4395,6 +4395,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Library:
 		return any(&Library{
 			// Initialisation of associations
+			// field is initialized with an instance of Library with the name of the field
+			SubLibraries: []*Library{{Name: "SubLibraries"}},
 			// field is initialized with an instance of Product with the name of the field
 			RootProducts: []*Product{{Name: "RootProducts"}},
 			// field is initialized with an instance of Task with the name of the field
@@ -4405,8 +4407,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Notes: []*Note{{Name: "Notes"}},
 			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
-			// field is initialized with an instance of Library with the name of the field
-			SubLibraries: []*Library{{Name: "SubLibraries"}},
 		}).(*Type)
 	case Note:
 		return any(&Note{
@@ -5143,6 +5143,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Library:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "SubLibraries":
+			res := make(map[*Library][]*Library)
+			for library := range stage.Librarys {
+				for _, library_ := range library.SubLibraries {
+					res[library_] = append(res[library_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "RootProducts":
 			res := make(map[*Product][]*Library)
 			for library := range stage.Librarys {
@@ -5180,14 +5188,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for library := range stage.Librarys {
 				for _, diagram_ := range library.Diagrams {
 					res[diagram_] = append(res[diagram_], library)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "SubLibraries":
-			res := make(map[*Library][]*Library)
-			for library := range stage.Librarys {
-				for _, library_ := range library.SubLibraries {
-					res[library_] = append(res[library_], library)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -5741,6 +5741,19 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:                 "SubLibraries",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Library",
+		},
+		{
+			Name:               "NbPixPerCharacter",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "LogoSVGFile",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -5772,19 +5785,6 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Diagrams",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Diagram",
-		},
-		{
-			Name:                 "SubLibraries",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Library",
-		},
-		{
-			Name:               "NbPixPerCharacter",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "LogoSVGFile",
-			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -6797,6 +6797,22 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = library.Name
+	case "SubLibraries":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.SubLibraries {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "NbPixPerCharacter":
+		res.valueString = fmt.Sprintf("%f", library.NbPixPerCharacter)
+		res.valueFloat = library.NbPixPerCharacter
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "LogoSVGFile":
+		res.valueString = library.LogoSVGFile
 	case "ComputedPrefix":
 		res.valueString = library.ComputedPrefix
 	case "IsRootLibrary":
@@ -6853,22 +6869,6 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "SubLibraries":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range library.SubLibraries {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "NbPixPerCharacter":
-		res.valueString = fmt.Sprintf("%f", library.NbPixPerCharacter)
-		res.valueFloat = library.NbPixPerCharacter
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "LogoSVGFile":
-		res.valueString = library.LogoSVGFile
 	}
 	return
 }
@@ -7861,6 +7861,24 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 	// insertion point for per field code
 	case "Name":
 		library.Name = value.GetValueString()
+	case "SubLibraries":
+		library.SubLibraries = make([]*Library, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Librarys {
+					if stage.Library_stagedOrder[__instance__] == uint(id) {
+						library.SubLibraries = append(library.SubLibraries, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "NbPixPerCharacter":
+		library.NbPixPerCharacter = value.GetValueFloat()
+	case "LogoSVGFile":
+		library.LogoSVGFile = value.GetValueString()
 	case "ComputedPrefix":
 		library.ComputedPrefix = value.GetValueString()
 	case "IsRootLibrary":
@@ -7935,24 +7953,6 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
-	case "SubLibraries":
-		library.SubLibraries = make([]*Library, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Librarys {
-					if stage.Library_stagedOrder[__instance__] == uint(id) {
-						library.SubLibraries = append(library.SubLibraries, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "NbPixPerCharacter":
-		library.NbPixPerCharacter = value.GetValueFloat()
-	case "LogoSVGFile":
-		library.LogoSVGFile = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

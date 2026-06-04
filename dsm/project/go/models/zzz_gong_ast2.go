@@ -555,6 +555,12 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "SubLibraries":
+		GongUnmarshallSliceOfPointers(&instance.SubLibraries, valueExpr, identifierMap)
+	case "NbPixPerCharacter":
+		instance.NbPixPerCharacter = GongExtractFloat(valueExpr)
+	case "LogoSVGFile":
+		instance.LogoSVGFile = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsRootLibrary":
@@ -569,12 +575,6 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.Notes, valueExpr, identifierMap)
 	case "Diagrams":
 		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
-	case "SubLibraries":
-		GongUnmarshallSliceOfPointers(&instance.SubLibraries, valueExpr, identifierMap)
-	case "NbPixPerCharacter":
-		instance.NbPixPerCharacter = GongExtractFloat(valueExpr)
-	case "LogoSVGFile":
-		instance.LogoSVGFile = GongExtractString(valueExpr)
 	}
 	return nil
 }

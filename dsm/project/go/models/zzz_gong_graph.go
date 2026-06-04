@@ -426,6 +426,9 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _library := range library.SubLibraries {
+		StageBranch(stage, _library)
+	}
 	for _, _product := range library.RootProducts {
 		StageBranch(stage, _product)
 	}
@@ -440,9 +443,6 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	}
 	for _, _diagram := range library.Diagrams {
 		StageBranch(stage, _diagram)
-	}
-	for _, _library := range library.SubLibraries {
-		StageBranch(stage, _library)
 	}
 
 }
@@ -971,6 +971,9 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _library := range libraryFrom.SubLibraries {
+		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
+	}
 	for _, _product := range libraryFrom.RootProducts {
 		libraryTo.RootProducts = append(libraryTo.RootProducts, CopyBranchProduct(mapOrigCopy, _product))
 	}
@@ -985,9 +988,6 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	}
 	for _, _diagram := range libraryFrom.Diagrams {
 		libraryTo.Diagrams = append(libraryTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
-	}
-	for _, _library := range libraryFrom.SubLibraries {
-		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
 	}
 
 	return
@@ -1555,6 +1555,9 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _library := range library.SubLibraries {
+		UnstageBranch(stage, _library)
+	}
 	for _, _product := range library.RootProducts {
 		UnstageBranch(stage, _product)
 	}
@@ -1569,9 +1572,6 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	}
 	for _, _diagram := range library.Diagrams {
 		UnstageBranch(stage, _diagram)
-	}
-	for _, _library := range library.SubLibraries {
-		UnstageBranch(stage, _library)
 	}
 
 }
@@ -2000,6 +2000,10 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
+	reference.SubLibraries = reference.SubLibraries[:0]
+	for _, _b := range instance.SubLibraries {
+		reference.SubLibraries = append(reference.SubLibraries, stage.Librarys_reference[_b])
+	}
 	reference.RootProducts = reference.RootProducts[:0]
 	for _, _b := range instance.RootProducts {
 		reference.RootProducts = append(reference.RootProducts, stage.Products_reference[_b])
@@ -2019,10 +2023,6 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	reference.Diagrams = reference.Diagrams[:0]
 	for _, _b := range instance.Diagrams {
 		reference.Diagrams = append(reference.Diagrams, stage.Diagrams_reference[_b])
-	}
-	reference.SubLibraries = reference.SubLibraries[:0]
-	for _, _b := range instance.SubLibraries {
-		reference.SubLibraries = append(reference.SubLibraries, stage.Librarys_reference[_b])
 	}
 }
 
@@ -2346,6 +2346,13 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
+	var _SubLibraries []*Library
+	for _, _reference := range reference.SubLibraries {
+		if _instance, ok := stage.Librarys_instance[_reference]; ok {
+			_SubLibraries = append(_SubLibraries, _instance)
+		}
+	}
+	reference.SubLibraries = _SubLibraries
 	var _RootProducts []*Product
 	for _, _reference := range reference.RootProducts {
 		if _instance, ok := stage.Products_instance[_reference]; ok {
@@ -2381,13 +2388,6 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Diagrams = _Diagrams
-	var _SubLibraries []*Library
-	for _, _reference := range reference.SubLibraries {
-		if _instance, ok := stage.Librarys_instance[_reference]; ok {
-			_SubLibraries = append(_SubLibraries, _instance)
-		}
-	}
-	reference.SubLibraries = _SubLibraries
 }
 
 func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3106,6 +3106,33 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.Name != libraryOther.Name {
 		diffs = append(diffs, library.GongMarshallField(stage, "Name"))
 	}
+	SubLibrariesDifferent := false
+	if len(library.SubLibraries) != len(libraryOther.SubLibraries) {
+		SubLibrariesDifferent = true
+	} else {
+		for i := range library.SubLibraries {
+			if (library.SubLibraries[i] == nil) != (libraryOther.SubLibraries[i] == nil) {
+				SubLibrariesDifferent = true
+				break
+			} else if library.SubLibraries[i] != nil && libraryOther.SubLibraries[i] != nil {
+				// this is a pointer comparaison
+				if library.SubLibraries[i] != libraryOther.SubLibraries[i] {
+					SubLibrariesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubLibrariesDifferent {
+		ops := Diff(stage, library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
+		diffs = append(diffs, ops)
+	}
+	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
+		diffs = append(diffs, library.GongMarshallField(stage, "NbPixPerCharacter"))
+	}
+	if library.LogoSVGFile != libraryOther.LogoSVGFile {
+		diffs = append(diffs, library.GongMarshallField(stage, "LogoSVGFile"))
+	}
 	if library.ComputedPrefix != libraryOther.ComputedPrefix {
 		diffs = append(diffs, library.GongMarshallField(stage, "ComputedPrefix"))
 	}
@@ -3216,33 +3243,6 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if DiagramsDifferent {
 		ops := Diff(stage, library, libraryOther, "Diagrams", libraryOther.Diagrams, library.Diagrams)
 		diffs = append(diffs, ops)
-	}
-	SubLibrariesDifferent := false
-	if len(library.SubLibraries) != len(libraryOther.SubLibraries) {
-		SubLibrariesDifferent = true
-	} else {
-		for i := range library.SubLibraries {
-			if (library.SubLibraries[i] == nil) != (libraryOther.SubLibraries[i] == nil) {
-				SubLibrariesDifferent = true
-				break
-			} else if library.SubLibraries[i] != nil && libraryOther.SubLibraries[i] != nil {
-				// this is a pointer comparaison
-				if library.SubLibraries[i] != libraryOther.SubLibraries[i] {
-					SubLibrariesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SubLibrariesDifferent {
-		ops := Diff(stage, library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
-		diffs = append(diffs, ops)
-	}
-	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
-		diffs = append(diffs, library.GongMarshallField(stage, "NbPixPerCharacter"))
-	}
-	if library.LogoSVGFile != libraryOther.LogoSVGFile {
-		diffs = append(diffs, library.GongMarshallField(stage, "LogoSVGFile"))
 	}
 
 	return
