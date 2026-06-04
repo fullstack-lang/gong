@@ -48,6 +48,9 @@ func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
 		return fmt.Errorf("base64.StdEncoding.DecodeString failed: %w", err)
 	}
 
+	// if the user loads a second file, we don't want the previous file to be committed
+	proxy.stager.stage.OnInitCommitCallback = nil
+
 	proxy.stager.stage.Reset()
 	ParseAstFromBytes(proxy.stager.stage, decodedBytes)
 	proxy.stager.stage.Commit()
