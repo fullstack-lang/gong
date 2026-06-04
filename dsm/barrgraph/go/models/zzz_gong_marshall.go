@@ -479,6 +479,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "MovementShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ArtefactTypeShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ArtistShapes"))
@@ -594,6 +595,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(influence.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(influence.GongMarshallField(stage, "ComputedPrefix"))
 		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "SourceMovement"))
 		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "SourceArtefactType"))
 		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "SourceArtist"))
@@ -1204,6 +1206,11 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.ComputedPrefix))
 	case "IsEditable":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -1868,6 +1875,11 @@ func (influence *Influence) GongMarshallField(stage *Stage, fieldName string) (r
 		res = strings.ReplaceAll(res, "{{Identifier}}", influence.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(influence.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", influence.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(influence.ComputedPrefix))
 	case "IsHypothtical":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", influence.GongGetIdentifier(stage))
@@ -2316,6 +2328,7 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "MovementShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ArtefactTypeShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ArtistShapes"))
@@ -2416,6 +2429,7 @@ func (influence *Influence) GongMarshallAllFields(stage *Stage) (initRes string,
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(influence.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(influence.GongMarshallField(stage, "ComputedPrefix"))
 		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "SourceMovement"))
 		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "SourceArtefactType"))
 		pointersInitializesStatements.WriteString(influence.GongMarshallField(stage, "SourceArtist"))

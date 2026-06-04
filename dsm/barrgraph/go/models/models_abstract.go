@@ -86,6 +86,8 @@ func (*ArtefactType) IsArtElement() {
 type Influence struct {
 	Name string
 
+	AbstractTypeFields
+
 	SourceMovement     *Movement
 	SourceArtefactType *ArtefactType
 	SourceArtist       *Artist
