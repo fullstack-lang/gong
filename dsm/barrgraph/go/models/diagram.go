@@ -7,7 +7,12 @@ import (
 type Diagram struct {
 	Name string
 
+	// mandatory for --dsm
 	AbstractTypeFields
+
+	// if checked, will be displayed
+	IsChecked bool
+	// end of mandatory for --dsm
 
 	MovementShapes     []*MovementShape
 	ArtefactTypeShapes []*ArtefactTypeShape
@@ -32,9 +37,6 @@ type Diagram struct {
 	NbYearsForIntervals int
 
 	DiagramPresentation
-
-	// if checked, will be displayed
-	IsChecked bool
 }
 
 func (d *Diagram) GetIsChecked() bool {

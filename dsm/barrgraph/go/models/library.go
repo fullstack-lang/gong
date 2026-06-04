@@ -31,6 +31,7 @@ type LibraryAbstractFields struct {
 	owningLibrary *Library
 }
 
+// mandatory for --dsm
 type LibraryOwnedType interface {
 	GetOwningLibrary() *Library
 	SetOwningLibrary(library *Library)
