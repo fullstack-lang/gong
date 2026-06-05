@@ -47,6 +47,8 @@ type Stager struct {
 
 	// map to navigate from abstract elements to all diagrams where they are displayed
 	map_Element_Diagrams map[AbstractType][]DiagramIF
+
+	persistanceFile string
 }
 
 func (stager *Stager) getRootLibrary() *Library {
@@ -65,11 +67,13 @@ func NewStager(
 	r *gin.Engine,
 	stage *Stage,
 	probeForm ProbeIF,
+	persistanceFile string,
 ) (stager *Stager) {
 	stager = new(Stager)
 
 	stager.stage = stage
 	stager.probeForm = probeForm
+	stager.persistanceFile = persistanceFile
 
 	// enable delta mode on the stage
 	// so that changes are tracked and undo/redo are possible
