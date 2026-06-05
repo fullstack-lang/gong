@@ -13,6 +13,7 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+	"testing/fstest"
 	"time"
 
 	"github.com/yuin/goldmark"
@@ -299,24 +300,36 @@ func BuildSiteStructure(site *SiteInfo) {
 
 // --- renderPages - Unchanged ---
 // It now accepts the build target and passes it to the template context.
-func RenderPages(site *SiteInfo, outputDir string, buildTarget string) error {
+func RenderPages(site *SiteInfo, outputDir string, buildTarget string, inMemory bool, outFS fstest.MapFS) error {
 	// log.Println("Rendering pages...")
 	var renderErrors []error
 
 	for _, page := range site.Pages {
 		// Note: page.OutputPath already includes the base outputDir from parseContent
 		outputPageDir := filepath.Dir(page.OutputPath)
-		if err := os.MkdirAll(outputPageDir, 0755); err != nil {
-			log.Printf("Error creating directory %s for page %s: %v\n", outputPageDir, page.SourcePath, err)
-			renderErrors = append(renderErrors, fmt.Errorf("mkdir failed for %s: %w", page.OutputPath, err))
-			continue
+		
+		if !inMemory {
+			if err := os.MkdirAll(outputPageDir, 0755); err != nil {
+				log.Printf("Error creating directory %s for page %s: %v\n", outputPageDir, page.SourcePath, err)
+				renderErrors = append(renderErrors, fmt.Errorf("mkdir failed for %s: %w", page.OutputPath, err))
+				continue
+			}
 		}
 
-		outFile, err := os.Create(page.OutputPath)
-		if err != nil {
-			log.Printf("Error creating output file %s for page %s: %v\n", page.OutputPath, page.SourcePath, err)
-			renderErrors = append(renderErrors, fmt.Errorf("create failed for %s: %w", page.OutputPath, err))
-			continue
+		var outWriter io.Writer
+		var outFile *os.File
+		var err error
+
+		if !inMemory {
+			outFile, err = os.Create(page.OutputPath)
+			if err != nil {
+				log.Printf("Error creating output file %s for page %s: %v\n", page.OutputPath, page.SourcePath, err)
+				renderErrors = append(renderErrors, fmt.Errorf("create failed for %s: %w", page.OutputPath, err))
+				continue
+			}
+			outWriter = outFile
+		} else {
+			outWriter = new(bytes.Buffer)
 		}
 
 		// Determine which layout to use: list.html for sections/home, single.html otherwise
@@ -334,19 +347,27 @@ func RenderPages(site *SiteInfo, outputDir string, buildTarget string) error {
 
 		// Execute the base template if it exists, otherwise fallback to the specific layout block
 		if site.Templates.Lookup("baseof.html") != nil {
-			err = site.Templates.ExecuteTemplate(outFile, "baseof.html", templateData)
+			err = site.Templates.ExecuteTemplate(outWriter, "baseof.html", templateData)
 		} else {
-			err = site.Templates.ExecuteTemplate(outFile, layoutName, templateData)
+			err = site.Templates.ExecuteTemplate(outWriter, layoutName, templateData)
 		}
-		closeErr := outFile.Close() // Close file after execution attempt
 
-		if err != nil {
-			log.Printf("Error executing template (layout: %s) for %s (URL: %s): %v\n", layoutName, page.SourcePath, page.URL, err)
-			renderErrors = append(renderErrors, fmt.Errorf("template failed for %s: %w", page.SourcePath, err))
-		} else if closeErr != nil {
-			log.Printf("Error closing output file %s: %v\n", page.OutputPath, closeErr)
-			// Decide if this is fatal or just a warning. For now, treat as an error.
-			renderErrors = append(renderErrors, fmt.Errorf("close failed for %s: %w", page.OutputPath, closeErr))
+		if !inMemory {
+			closeErr := outFile.Close() // Close file after execution attempt
+			if err != nil {
+				log.Printf("Error executing template (layout: %s) for %s (URL: %s): %v\n", layoutName, page.SourcePath, page.URL, err)
+				renderErrors = append(renderErrors, fmt.Errorf("template failed for %s: %w", page.SourcePath, err))
+			} else if closeErr != nil {
+				log.Printf("Error closing output file %s: %v\n", page.OutputPath, closeErr)
+				renderErrors = append(renderErrors, fmt.Errorf("close failed for %s: %w", page.OutputPath, closeErr))
+			}
+		} else {
+			if err != nil {
+				log.Printf("Error executing template (layout: %s) for %s (URL: %s): %v\n", layoutName, page.SourcePath, page.URL, err)
+				renderErrors = append(renderErrors, fmt.Errorf("template failed for %s: %w", page.SourcePath, err))
+			} else {
+				outFS[filepath.ToSlash(page.OutputPath)] = &fstest.MapFile{Data: outWriter.(*bytes.Buffer).Bytes()}
+			}
 		}
 	}
 
@@ -359,7 +380,7 @@ func RenderPages(site *SiteInfo, outputDir string, buildTarget string) error {
 }
 
 // --- copyStaticFiles ---
-func CopyStaticFiles(staticDir, outputDir string) error {
+func CopyStaticFiles(staticDir, outputDir string, inMemory bool, outFS fstest.MapFS) error {
 	if staticDir == "" {
 		log.Printf("StaticPath is empty, using embedded default static/css files.\n")
 		return fs.WalkDir(defaults.StaticFS, "static/css", func(filePath string, d fs.DirEntry, err error) error {
@@ -379,7 +400,10 @@ func CopyStaticFiles(staticDir, outputDir string) error {
 			targetPath := filepath.Join(outputDir, relPath)
 
 			if d.IsDir() {
-				return os.MkdirAll(targetPath, 0755)
+				if !inMemory {
+					return os.MkdirAll(targetPath, 0755)
+				}
+				return nil
 			}
 
 			sourceFile, err := defaults.StaticFS.Open(filePath)
@@ -388,17 +412,26 @@ func CopyStaticFiles(staticDir, outputDir string) error {
 			}
 			defer sourceFile.Close()
 
-			if err := os.MkdirAll(filepath.Dir(targetPath), 0755); err != nil {
-				return err
-			}
-			targetFile, err := os.Create(targetPath)
-			if err != nil {
-				return err
-			}
-			defer targetFile.Close()
+			if !inMemory {
+				if err := os.MkdirAll(filepath.Dir(targetPath), 0755); err != nil {
+					return err
+				}
+				targetFile, err := os.Create(targetPath)
+				if err != nil {
+					return err
+				}
+				defer targetFile.Close()
 
-			_, err = io.Copy(targetFile, sourceFile)
-			return err
+				_, err = io.Copy(targetFile, sourceFile)
+				return err
+			} else {
+				fileData, err := io.ReadAll(sourceFile)
+				if err != nil {
+					return err
+				}
+				outFS[filepath.ToSlash(targetPath)] = &fstest.MapFile{Data: fileData}
+				return nil
+			}
 		})
 	}
 
@@ -426,9 +459,11 @@ func CopyStaticFiles(staticDir, outputDir string) error {
 
 		if d.IsDir() {
 			// Create directory structure in the output directory
-			if err := os.MkdirAll(targetPath, 0755); err != nil {
-				log.Printf("Error creating static directory %s: %v\n", targetPath, err)
-				return err // Stop copying if directory creation fails
+			if !inMemory {
+				if err := os.MkdirAll(targetPath, 0755); err != nil {
+					log.Printf("Error creating static directory %s: %v\n", targetPath, err)
+					return err // Stop copying if directory creation fails
+				}
 			}
 			return nil // Directory processed, continue walking
 		}
@@ -441,24 +476,32 @@ func CopyStaticFiles(staticDir, outputDir string) error {
 		}
 		defer sourceFile.Close() // Ensure source file is closed
 
-		// Ensure the target directory exists (needed if copying single files into new dirs)
-		targetFileDir := filepath.Dir(targetPath)
-		if err := os.MkdirAll(targetFileDir, 0755); err != nil {
-			log.Printf("Error creating directory %s for static file %s: %v\n", targetFileDir, targetPath, err)
-			return err
-		}
+		if !inMemory {
+			// Ensure the target directory exists (needed if copying single files into new dirs)
+			targetFileDir := filepath.Dir(targetPath)
+			if err := os.MkdirAll(targetFileDir, 0755); err != nil {
+				log.Printf("Error creating directory %s for static file %s: %v\n", targetFileDir, targetPath, err)
+				return err
+			}
 
-		targetFile, err := os.Create(targetPath)
-		if err != nil {
-			log.Printf("Error creating static target file %s: %v\n", targetPath, err)
-			return err // Stop if target file cannot be created
-		}
-		defer targetFile.Close() // Ensure target file is closed
+			targetFile, err := os.Create(targetPath)
+			if err != nil {
+				log.Printf("Error creating static target file %s: %v\n", targetPath, err)
+				return err // Stop if target file cannot be created
+			}
+			defer targetFile.Close() // Ensure target file is closed
 
-		_, err = io.Copy(targetFile, sourceFile)
-		if err != nil {
-			log.Printf("Error copying static file from %s to %s: %v\n", path, targetPath, err)
-			return err // Stop if copying fails
+			_, err = io.Copy(targetFile, sourceFile)
+			if err != nil {
+				log.Printf("Error copying static file from %s to %s: %v\n", path, targetPath, err)
+				return err // Stop if copying fails
+			}
+		} else {
+			fileData, err := io.ReadAll(sourceFile)
+			if err != nil {
+				return err
+			}
+			outFS[filepath.ToSlash(targetPath)] = &fstest.MapFile{Data: fileData}
 		}
 		// log.Printf("Copied static file: %s -> %s\n", path, targetPath) // Optional: log successful copies
 		return nil
