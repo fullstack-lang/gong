@@ -2,9 +2,19 @@ package models
 
 import split "github.com/fullstack-lang/gong/lib/split/go/models"
 
+func getPersistanceFile(stager *Stager) string {
+	if stager.stage.OnInitCommitCallback != nil {
+		return "Edit PBS/WBS (" + stager.persistanceFile + ")"
+	} else {
+		return "Edit PBS/WBS (no persistance)"
+	}
+}
+
 func (stager *Stager) createViews(stage *Stage) {
+	stager.splitStage.Reset()
+
 	split.StageBranch(stager.splitStage, &split.View{
-		Name:           "Edit PBS/WBS",
+		Name:           getPersistanceFile(stager),
 		Direction:      split.Horizontal,
 		IsSelectedView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{

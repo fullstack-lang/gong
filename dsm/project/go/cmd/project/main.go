@@ -49,6 +49,7 @@ func main() {
 		stack.R,
 		stack.Stage,
 		stack.Probe,
+		*marshallOnCommit,
 	)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
