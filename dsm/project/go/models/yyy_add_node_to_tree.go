@@ -182,7 +182,7 @@ func createBaseNode[
 	if shape, ok := shapesMap[element]; ok {
 		node.IsChecked = true
 		visibilityButton := &tree.Button{
-			Name:            "Remove",
+			Name:            "Hide",
 			Icon:            string(buttons.BUTTON_visibility_off),
 			ToolTipText:     "Hide from diagram",
 			HasToolTip:      true,
@@ -197,10 +197,7 @@ func createBaseNode[
 			visibilityButton.Name = "Show"
 			visibilityButton.ToolTipText = "Show on diagram"
 		}
-		if node.Menu == nil {
-			node.Menu = &tree.Menu{Name: "Menu"}
-		}
-		node.Menu.Buttons = append(node.Menu.Buttons, visibilityButton)
+		node.Buttons = append(node.Buttons, visibilityButton)
 	}
 
 	// add a button to have the list of other diagrams where the element is present
@@ -311,18 +308,39 @@ func addNodeToTree[
 	// if the parent element is in the diagram and the child element is in the diagram,
 	// then we can add a checkbox to add/remove the link between the parent and child element to/from the diagram
 	if conf.parentElement != nil && isParentInDiagram && isChildInDiagram {
-		node.HasSecondCheckboxButton = true
-		node.SecondCheckboxHasToolTip = true
-		node.SecondCheckboxToolTipPosition = tree.Right
-
+		var toggleLinkButton *tree.Button
 		if _, ok := conf.map_Element_CompositionShape[conf.element]; ok {
-			node.CheckboxToolTipText = "Remove link shape \"" + conf.parentElement.GetName() +
-				"\" to \"" + conf.element.GetName() + "\" to diagram"
 			node.IsSecondCheckboxChecked = true
+			toggleLinkButton = &tree.Button{
+				Name:            "Remove link shape",
+				Icon:            string(buttons.BUTTON_link_off),
+				ToolTipText:     "Remove link shape \"" + conf.parentElement.GetName() + "\" to \"" + conf.element.GetName() + "\" to diagram",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					frontNode := *node
+					frontNode.IsSecondCheckboxChecked = false
+					node.OnUpdate(stager.treeStage, node, &frontNode)
+				},
+			}
 		} else {
-			node.CheckboxToolTipText = "Add link shape \"" + conf.parentElement.GetName() +
-				"\" to \"" + conf.element.GetName() + "\" to diagram"
+			toggleLinkButton = &tree.Button{
+				Name:            "Add link shape",
+				Icon:            string(buttons.BUTTON_link),
+				ToolTipText:     "Add link shape \"" + conf.parentElement.GetName() + "\" to \"" + conf.element.GetName() + "\" to diagram",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					frontNode := *node
+					frontNode.IsSecondCheckboxChecked = true
+					node.OnUpdate(stager.treeStage, node, &frontNode)
+				},
+			}
 		}
+		if node.Menu == nil {
+			node.Menu = &tree.Menu{Name: "Menu"}
+		}
+		node.Menu.Buttons = append(node.Menu.Buttons, toggleLinkButton)
 
 		if compositionShape != nil {
 			showHideCompositionButton := &tree.Button{

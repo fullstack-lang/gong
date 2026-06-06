@@ -75,18 +75,21 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 
 		{
 			copyButton := &tree.Button{
-				Name:            "Diagram Copy",
+				Name:            "Copy Diagram",
 				Icon:            string(buttons.BUTTON_copy_all),
 				HasToolTip:      true,
 				ToolTipPosition: tree.Above,
 				ToolTipText:     "Copy Diagram",
 				OnClick:         onCopyDiagram(stager, diagram),
 			}
-			diagramNode.Buttons = append(diagramNode.Buttons, copyButton)
+			if diagramNode.Menu == nil {
+				diagramNode.Menu = &tree.Menu{Name: "Menu"}
+			}
+			diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, copyButton)
 		}
 		{
 			showPrefixButton := &tree.Button{
-				Name:            "Diagram Prefix",
+				Name:            "Show Prefix",
 				Icon:            string(buttons.BUTTON_show_chart),
 				HasToolTip:      true,
 				ToolTipPosition: tree.Above,
@@ -98,12 +101,17 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			}
 			if !diagram.IsShowPrefix {
 				showPrefixButton.Icon = string(buttons.BUTTON_label)
+				showPrefixButton.Name = "Show Prefix"
 				showPrefixButton.ToolTipText = "Show Prefix"
 			} else {
 				showPrefixButton.Icon = string(buttons.BUTTON_label_off)
+				showPrefixButton.Name = "Hide Prefix"
 				showPrefixButton.ToolTipText = "Hide Prefix"
 			}
-			diagramNode.Buttons = append(diagramNode.Buttons, showPrefixButton)
+			if diagramNode.Menu == nil {
+				diagramNode.Menu = &tree.Menu{Name: "Menu"}
+			}
+			diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, showPrefixButton)
 		}
 
 		pbsNode := &tree.Node{
