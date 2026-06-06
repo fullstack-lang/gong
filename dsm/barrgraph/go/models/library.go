@@ -26,21 +26,3 @@ type Library struct {
 	// temporary persistance of the library expand status.
 	IsExpandedTmp bool
 }
-
-type LibraryAbstractFields struct {
-	owningLibrary *Library
-}
-
-// mandatory for --dsm
-type LibraryOwnedType interface {
-	GetOwningLibrary() *Library
-	SetOwningLibrary(library *Library)
-}
-
-func (r *LibraryAbstractFields) GetOwningLibrary() *Library {
-	return r.owningLibrary
-}
-
-func (r *LibraryAbstractFields) SetOwningLibrary(library *Library) {
-	r.owningLibrary = library
-}
