@@ -182,14 +182,17 @@ func addCreateItemButton[
 
 	var dummyItem PAT
 	addButton := &tree.Button{
-		Name: GetGongstructNameFromPointer(dummyItem) + " " + string(buttons.BUTTON_add),
+		Name: "Add " + GetGongstructNameFromPointer(dummyItem),
 		Icon: string(buttons.BUTTON_add),
 		ToolTipText: "Add a " + GetGongstructNameFromPointer(dummyItem) + " to \"" +
 			conf.parentNode.Name + "\"",
 		HasToolTip:      true,
 		ToolTipPosition: tree.Right,
 	}
-	conf.parentNode.Buttons = append(conf.parentNode.Buttons, addButton)
+	if conf.parentNode.Menu == nil {
+		conf.parentNode.Menu = &tree.Menu{Name: "Menu"}
+	}
+	conf.parentNode.Menu.Buttons = append(conf.parentNode.Menu.Buttons, addButton)
 
 	addButton.OnClick = func() {
 		processAbstractItemAddition(stager, conf, callbacks)
@@ -229,14 +232,17 @@ func addCreateItemAndShapeButton[
 
 	var dummyItem PAT
 	addButton := &tree.Button{
-		Name: GetGongstructNameFromPointer(dummyItem) + " " + string(buttons.BUTTON_add),
+		Name: "Add " + GetGongstructNameFromPointer(dummyItem),
 		Icon: string(buttons.BUTTON_add),
 		ToolTipText: "Add a " + GetGongstructNameFromPointer(dummyItem) + " to \"" +
 			conf.parentNode.Name + "\"",
 		HasToolTip:      true,
 		ToolTipPosition: tree.Right,
 	}
-	conf.parentNode.Buttons = append(conf.parentNode.Buttons, addButton)
+	if conf.parentNode.Menu == nil {
+		conf.parentNode.Menu = &tree.Menu{Name: "Menu"}
+	}
+	conf.parentNode.Menu.Buttons = append(conf.parentNode.Menu.Buttons, addButton)
 
 	addButton.OnClick = func() {
 		newAbstractElement := processAbstractItemAddition(stager, conf.ItemButtonConfiguration, callbacks)
@@ -286,14 +292,17 @@ func addCreateItemShapeAndLinkButton[
 
 	var dummyItem PAT
 	addButton := &tree.Button{
-		Name: GetGongstructNameFromPointer(dummyItem) + " " + string(buttons.BUTTON_add),
+		Name: "Add " + GetGongstructNameFromPointer(dummyItem),
 		Icon: string(buttons.BUTTON_add),
 		ToolTipText: "Add a " + GetGongstructNameFromPointer(dummyItem) + " to \"" +
 			conf.parentNode.Name + "\"",
 		HasToolTip:      true,
 		ToolTipPosition: tree.Right,
 	}
-	conf.parentNode.Buttons = append(conf.parentNode.Buttons, addButton)
+	if conf.parentNode.Menu == nil {
+		conf.parentNode.Menu = &tree.Menu{Name: "Menu"}
+	}
+	conf.parentNode.Menu.Buttons = append(conf.parentNode.Menu.Buttons, addButton)
 
 	addButton.OnClick = func() {
 		newAbstractElement := processAbstractItemAddition(stager, conf.ItemButtonConfiguration, callbacks)

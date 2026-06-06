@@ -201,7 +201,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__Product__00000002_ := (&models.Product{Name: `CST-100 Starliner`}).Stage(stage)
 	__Product__00000003_ := (&models.Product{Name: `Reports`}).Stage(stage)
 	__Product__00000004_ := (&models.Product{Name: ` Starliner Tests and Anomalies Review (STAR) Investigation Report`}).Stage(stage)
-	__Product__00000005_ := (&models.Product{Name: `Program Investigation Team (PIT) Report`}).Stage(stage)
+	__Product__00000005_ := (&models.Product{Name: `Program Investigation Team (PIT) Reports`}).Stage(stage)
 	__Product__00000006_ := (&models.Product{Name: `Commercial Crew Transportation Capability (CCtCap).`}).Stage(stage)
 	__Product__00000007_ := (&models.Product{Name: `NASA Assets/Capabities`}).Stage(stage)
 	__Product__00000008_ := (&models.Product{Name: `ISS`}).Stage(stage)
@@ -245,7 +245,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__Product__00000046_ := (&models.Product{Name: `4.6.1 Description of the system`}).Stage(stage)
 
 	__ProductCompositionShape__00000000_ := (&models.ProductCompositionShape{Name: `Reports to `}).Stage(stage)
-	__ProductCompositionShape__00000001_ := (&models.ProductCompositionShape{Name: `Reports to `}).Stage(stage)
 	__ProductCompositionShape__00000002_ := (&models.ProductCompositionShape{Name: `Commercial Crew Transportation Capability (CCtCap). to Starliner`}).Stage(stage)
 	__ProductCompositionShape__00000003_ := (&models.ProductCompositionShape{Name: `Commercial Crew Transportation Capability (CCtCap). to Dragon`}).Stage(stage)
 	__ProductCompositionShape__00000004_ := (&models.ProductCompositionShape{Name: `NASA Assets/Capabities to Commercial Crew Transportation Capability (CCtCap).`}).Stage(stage)
@@ -1077,7 +1076,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__Product__00000004_.IsProducersNodeExpanded = false
 	__Product__00000004_.IsConsumersNodeExpanded = false
 
-	__Product__00000005_.Name = `Program Investigation Team (PIT) Report`
+	__Product__00000005_.Name = `Program Investigation Team (PIT) Reports`
 	__Product__00000005_.ComputedPrefix = `2.2`
 	__Product__00000005_.Description = ``
 	__Product__00000005_.IsProducersNodeExpanded = false
@@ -1336,14 +1335,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__ProductCompositionShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ProductCompositionShape__00000000_.CornerOffsetRatio = 1.680000
 	__ProductCompositionShape__00000000_.IsHidden = false
-
-	__ProductCompositionShape__00000001_.Name = `Reports to `
-	__ProductCompositionShape__00000001_.StartRatio = 0.500000
-	__ProductCompositionShape__00000001_.EndRatio = 0.500000
-	__ProductCompositionShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000001_.CornerOffsetRatio = 1.680000
-	__ProductCompositionShape__00000001_.IsHidden = false
 
 	__ProductCompositionShape__00000002_.Name = `Commercial Crew Transportation Capability (CCtCap). to Starliner`
 	__ProductCompositionShape__00000002_.StartRatio = 0.500000
@@ -2470,8 +2461,9 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000002_.ProductsWhoseNodeIsExpanded, __Product__00000006_)
 	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000002_.ProductsWhoseNodeIsExpanded, __Product__00000002_)
 	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000002_.ProductsWhoseNodeIsExpanded, __Product__00000003_)
+	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000002_.ProductsWhoseNodeIsExpanded, __Product__00000005_)
+	__Diagram__00000002_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000002_.ProductsWhoseNodeIsExpanded, __Product__00000017_)
 	__Diagram__00000002_.ProductComposition_Shapes = append(__Diagram__00000002_.ProductComposition_Shapes, __ProductCompositionShape__00000000_)
-	__Diagram__00000002_.ProductComposition_Shapes = append(__Diagram__00000002_.ProductComposition_Shapes, __ProductCompositionShape__00000001_)
 	__Diagram__00000002_.ProductComposition_Shapes = append(__Diagram__00000002_.ProductComposition_Shapes, __ProductCompositionShape__00000002_)
 	__Diagram__00000002_.ProductComposition_Shapes = append(__Diagram__00000002_.ProductComposition_Shapes, __ProductCompositionShape__00000003_)
 	__Diagram__00000002_.ProductComposition_Shapes = append(__Diagram__00000002_.ProductComposition_Shapes, __ProductCompositionShape__00000004_)
@@ -2853,7 +2845,6 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__Product__00000043_.SubProducts = append(__Product__00000043_.SubProducts, __Product__00000044_)
 	__Product__00000045_.SubProducts = append(__Product__00000045_.SubProducts, __Product__00000046_)
 	__ProductCompositionShape__00000000_.Product = __Product__00000004_
-	__ProductCompositionShape__00000001_.Product = __Product__00000005_
 	__ProductCompositionShape__00000002_.Product = __Product__00000002_
 	__ProductCompositionShape__00000003_.Product = __Product__00000001_
 	__ProductCompositionShape__00000004_.Product = __Product__00000006_
