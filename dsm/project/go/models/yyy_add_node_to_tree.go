@@ -182,7 +182,7 @@ func createBaseNode[
 	if shape, ok := shapesMap[element]; ok {
 		node.IsChecked = true
 		visibilityButton := &tree.Button{
-			Name:            diagram.GetName(),
+			Name:            "Remove",
 			Icon:            string(buttons.BUTTON_visibility_off),
 			ToolTipText:     "Hide from diagram",
 			HasToolTip:      true,
@@ -194,9 +194,13 @@ func createBaseNode[
 		}
 		if shape.GetIsHidden() {
 			visibilityButton.Icon = string(buttons.BUTTON_visibility)
+			visibilityButton.Name = "Show"
 			visibilityButton.ToolTipText = "Show on diagram"
 		}
-		node.Buttons = append(node.Buttons, visibilityButton)
+		if node.Menu == nil {
+			node.Menu = &tree.Menu{Name: "Menu"}
+		}
+		node.Menu.Buttons = append(node.Menu.Buttons, visibilityButton)
 	}
 
 	// add a button to have the list of other diagrams where the element is present
@@ -205,7 +209,7 @@ func createBaseNode[
 		if diagram.GetDiagramListElement() == any(element).(AbstractType) {
 			node.IsExpanded = true
 			diagramsButton := &tree.Button{
-				Name:            diagram.GetName(),
+				Name:            "Hide diagrams",
 				Icon:            string(buttons.BUTTON_list),
 				ToolTipText:     "List of other " + fmt.Sprint(len(diagrams)-1) + " diagrams where element is present",
 				HasToolTip:      true,
@@ -215,7 +219,10 @@ func createBaseNode[
 					stage.Commit()
 				},
 			}
-			node.Buttons = append(node.Buttons, diagramsButton)
+			if node.Menu == nil {
+				node.Menu = &tree.Menu{Name: "Menu"}
+			}
+			node.Menu.Buttons = append(node.Menu.Buttons, diagramsButton)
 
 			for _, diag := range diagrams {
 				if any(diag) == any(diagram) {
@@ -239,9 +246,12 @@ func createBaseNode[
 				node.Children = append(node.Children, diagramNode)
 			}
 		} else {
-			node.Buttons = append(node.Buttons,
+			if node.Menu == nil {
+				node.Menu = &tree.Menu{Name: "Menu"}
+			}
+			node.Menu.Buttons = append(node.Menu.Buttons,
 				&tree.Button{
-					Name:            diagram.GetName(),
+					Name:            "Show diagrams",
 					Icon:            string(buttons.BUTTON_list),
 					ToolTipText:     "Show list of other diagrams where \"" + element.GetName() + "\" is present",
 					HasToolTip:      true,
@@ -316,7 +326,7 @@ func addNodeToTree[
 
 		if compositionShape != nil {
 			showHideCompositionButton := &tree.Button{
-				Name:            GetGongstructNameFromPointer(conf.element) + " " + string(buttons.BUTTON_add),
+				Name:            "Hide link",
 				HasToolTip:      true,
 				ToolTipPosition: tree.Right,
 				OnClick: func() {
@@ -327,15 +337,20 @@ func addNodeToTree[
 
 			if compositionShape.GetIsHidden() {
 				_ = compositionShape
+				showHideCompositionButton.Name = "Show link"
 				showHideCompositionButton.Icon = string(buttons.BUTTON_visibility)
 				showHideCompositionButton.ToolTipText = "Show link from \"" + conf.parentElement.GetName() +
 					"\" to \"" + conf.element.GetName() + "\""
 			} else {
+				showHideCompositionButton.Name = "Hide link"
 				showHideCompositionButton.Icon = string(buttons.BUTTON_visibility_off)
 				showHideCompositionButton.ToolTipText = "Hide link from \"" + conf.parentElement.GetName() +
 					"\" to \"" + conf.element.GetName() + "\""
 			}
-			node.Buttons = append(node.Buttons, showHideCompositionButton)
+			if node.Menu == nil {
+				node.Menu = &tree.Menu{Name: "Menu"}
+			}
+			node.Menu.Buttons = append(node.Menu.Buttons, showHideCompositionButton)
 		}
 	}
 
