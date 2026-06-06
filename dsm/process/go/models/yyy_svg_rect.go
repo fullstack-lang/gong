@@ -130,7 +130,7 @@ func onUpdateRectElement[CT interface {
 			stager.stage.CommitWithSuspendedCallbacks()
 			stager.probeForm.FillUpFormFromGongstruct(abstractElement, GetPointerToGongstructName[AbstractType]())
 			// update the tree because it contains the undo/redo calls
-			stager.tree()
+			stager.ux_tree()
 		}
 
 		if diffPosition {
@@ -138,7 +138,7 @@ func onUpdateRectElement[CT interface {
 				// Issue #7, this will allow multiple rect to be moved together
 				stager.stage.CommitWithSuspendedCallbacks()
 				// update the tree because it contains the undo/redo calls
-				stager.tree()
+				stager.ux_tree()
 			} else {
 				// if the position is different, no need to generates
 				// the SVG updates with the semantic rules updates.

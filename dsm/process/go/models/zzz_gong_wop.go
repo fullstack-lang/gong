@@ -257,6 +257,8 @@ type Library_WOP struct {
 
 	ComputedPrefix string
 
+	IsRootLibrary bool
+
 	IsSubLibrariesNodeExpanded bool
 
 	NbPixPerCharacter float64
@@ -281,6 +283,7 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.Name = from.Name
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsRootLibrary = from.IsRootLibrary
 	to.IsSubLibrariesNodeExpanded = from.IsSubLibrariesNodeExpanded
 	to.NbPixPerCharacter = from.NbPixPerCharacter
 	to.LogoSVGFile = from.LogoSVGFile
