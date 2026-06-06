@@ -144,6 +144,7 @@ func processAbstractItemAddition[
 
 	// add the parent item to the list of items whose node is expanded
 	if conf.isParentNodeExpandedByAddOperation {
+		conf.parentNode.IsExpanded = true
 		switch conf.parentNodeExpansionType {
 		case parentNodeExpansionTypeBySlice:
 			if conf.parentNodeExpansionSliceEncoding != nil && conf.parentElement != nil &&
