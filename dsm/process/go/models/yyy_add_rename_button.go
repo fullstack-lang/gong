@@ -7,10 +7,13 @@ import (
 )
 
 func addRenameButton[T AbstractType](at T, node *tree.Node, stager *Stager) {
+	if node.Menu == nil {
+		node.Menu = &tree.Menu{Name: "Menu"}
+	}
 	if !at.GetIsInRenameMode() {
-		node.Buttons = append(node.Buttons,
+		node.Menu.Buttons = append(node.Menu.Buttons,
 			&tree.Button{
-				Name: at.GetName() + " " + string(buttons.BUTTON_edit_note),
+				Name: "Rename",
 				Icon: string(buttons.BUTTON_edit_note),
 				OnClick: func() {
 					at.SetIsInRenameMode(true)
@@ -21,9 +24,9 @@ func addRenameButton[T AbstractType](at T, node *tree.Node, stager *Stager) {
 				ToolTipPosition: tree.Above,
 			})
 	} else {
-		node.Buttons = append(node.Buttons,
+		node.Menu.Buttons = append(node.Menu.Buttons,
 			&tree.Button{
-				Name: at.GetName() + " " + string(buttons.BUTTON_edit_off),
+				Name: "Cancel rename",
 				Icon: string(buttons.BUTTON_edit_off),
 				OnClick: func() {
 					at.SetIsInRenameMode(false)

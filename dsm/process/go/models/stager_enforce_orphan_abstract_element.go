@@ -40,14 +40,14 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 	if reattachToLibraryRoots(
 		stager,
 		func() []*Library {
-			return stager.rootLibrary.SubLibraries
+			return stager.getRootLibrary().SubLibraries
 		},
 		func(library *Library) {
 			// attach to root, only if it is not the root library
 			// (which is the only one without an owning library)
-			if library != stager.rootLibrary {
-				stager.rootLibrary.SubLibraries = append(stager.rootLibrary.SubLibraries, library)
-				library.SetOwningLibrary(stager.rootLibrary)
+			if library != stager.getRootLibrary() {
+				stager.getRootLibrary().SubLibraries = append(stager.getRootLibrary().SubLibraries, library)
+				library.SetOwningLibrary(stager.getRootLibrary())
 			}
 		},
 		func(library *Library) []*Library {

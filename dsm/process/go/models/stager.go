@@ -30,8 +30,6 @@ type Stager struct {
 	splitStage *split.Stage
 	probeForm  ProbeIF
 
-	rootLibrary *Library
-
 	treeStage *tree.Stage
 	// the tree stage can be very deep. The zoomTreeStage display on the tree starting from the current diagram.
 	zoomTreeStage            *tree.Stage
@@ -52,10 +50,6 @@ type Stager struct {
 	// reverse map to navigate
 	rm_Data_DataFlows        map[*Data][]*DataFlow
 	rm_Resource_Participants map[*Resource][]*Participant
-}
-
-func (s *Stager) GetRootLibrary() *Library {
-	return s.rootLibrary
 }
 
 func NewStager(
@@ -87,7 +81,7 @@ func NewStager(
 		stager.enforceSemantic()
 	}
 	afterCommit := func(stage *Stage) {
-		stager.tree()
+		stager.ux_tree()
 		stager.treeZoom()
 		stager.svg()
 		stager.button()

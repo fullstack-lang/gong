@@ -4,11 +4,8 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) tree() {
+func (stager *Stager) ux_tree() {
 	stager.treeStage.Reset()
-
-	rootLibrary := stager.rootLibrary
-	_ = rootLibrary
 
 	treeInstance := &tree.Tree{Name: "Library Tree"}
 
@@ -16,7 +13,7 @@ func (stager *Stager) tree() {
 		treeInstance.RootNodes = append(treeInstance.RootNodes, gni.(*tree.Node))
 	})
 
-	stager.treeLibrary(rootLibrary, &treeInstance.RootNodes)
+	stager.treeLibrary(stager.getRootLibrary(), &treeInstance.RootNodes)
 
 	tree.StageBranch(stager.treeStage, treeInstance)
 

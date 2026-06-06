@@ -354,15 +354,16 @@ func _(stage *models.Stage) {
 	__Library__00000000_.Name = `ICAO 4444 Chapter 11`
 	__Library__00000000_.Description = `Modeling of message exchanges handled by the ATS Reporting Office (ARO)`
 	__Library__00000000_.ComputedPrefix = ``
+	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.IsProcessesNodeExpanded = false
 	__Library__00000000_.IsDataFlowsNodeExpanded = false
 	__Library__00000000_.IsDatasNodeExpanded = false
-	__Library__00000000_.IsResourcesNodeExpanded = true
+	__Library__00000000_.IsResourcesNodeExpanded = false
 	__Library__00000000_.IsNotesNodeExpanded = false
-	__Library__00000000_.IsExpandedTmp = true
+	__Library__00000000_.IsExpandedTmp = false
 
 	__Participant__00000000_.Name = `Flight Plan Originator`
 	__Participant__00000000_.IsProcessResource = false
@@ -558,8 +559,8 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000007_.Name = `-DiagramProcess`
 	__TaskShape__00000007_.IsExpanded = false
-	__TaskShape__00000007_.X = 933.666667
-	__TaskShape__00000007_.Y = 1061.033535
+	__TaskShape__00000007_.X = 814.666667
+	__TaskShape__00000007_.Y = 927.033596
 	__TaskShape__00000007_.Width = 97.000000
 	__TaskShape__00000007_.Height = 36.000000
 	__TaskShape__00000007_.IsHidden = false
@@ -687,7 +688,6 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.AllocatedResourceShapes = append(__DiagramProcess__00000000_.AllocatedResourceShapes, __AllocatedResourceShape__00000001_)
 	__DiagramProcess__00000000_.AllocatedResourceShapes = append(__DiagramProcess__00000000_.AllocatedResourceShapes, __AllocatedResourceShape__00000002_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000000_)
-	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000000_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000000_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000001_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000002_)
@@ -725,7 +725,6 @@ func _(stage *models.Stage) {
 	__ParticipantShape__00000001_.Participant = __Participant__00000001_
 	__ParticipantShape__00000002_.Participant = __Participant__00000002_
 	__Process__00000000_.DiagramProcesss = append(__Process__00000000_.DiagramProcesss, __DiagramProcess__00000000_)
-	__Process__00000000_.DiagramProcessWhoseNodeIsExpanded = append(__Process__00000000_.DiagramProcessWhoseNodeIsExpanded, __DiagramProcess__00000000_)
 	__Process__00000000_.Participants = append(__Process__00000000_.Participants, __Participant__00000000_)
 	__Process__00000000_.Participants = append(__Process__00000000_.Participants, __Participant__00000001_)
 	__Process__00000000_.Participants = append(__Process__00000000_.Participants, __Participant__00000002_)

@@ -6852,6 +6852,10 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsRootLibrary",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "SubLibraries",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Library",
@@ -8057,6 +8061,10 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = library.Description
 	case "ComputedPrefix":
 		res.valueString = library.ComputedPrefix
+	case "IsRootLibrary":
+		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
+		res.valueBool = library.IsRootLibrary
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "SubLibraries":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.SubLibraries {
@@ -9453,6 +9461,8 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.Description = value.GetValueString()
 	case "ComputedPrefix":
 		library.ComputedPrefix = value.GetValueString()
+	case "IsRootLibrary":
+		library.IsRootLibrary = value.GetValueBool()
 	case "SubLibraries":
 		library.SubLibraries = make([]*Library, 0)
 		ids := strings.Split(value.ids, ";")
