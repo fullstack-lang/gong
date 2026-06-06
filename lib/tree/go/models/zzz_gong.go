@@ -141,6 +141,23 @@ type Stage struct {
 	OnAfterButtonDeleteCallback OnAfterDeleteInterface[Button]
 	OnAfterButtonReadCallback   OnAfterReadInterface[Button]
 
+	Menus                map[*Menu]struct{}
+	Menus_instance       map[*Menu]*Menu
+	Menus_mapString      map[string]*Menu
+	MenuOrder            uint
+	Menu_stagedOrder     map[*Menu]uint
+	Menu_orderStaged     map[uint]*Menu
+	Menus_reference      map[*Menu]*Menu
+	Menus_referenceOrder map[*Menu]uint
+
+	// insertion point for slice of pointers maps
+	Menu_Buttons_reverseMap map[*Button]*Menu
+
+	OnAfterMenuCreateCallback OnAfterCreateInterface[Menu]
+	OnAfterMenuUpdateCallback OnAfterUpdateInterface[Menu]
+	OnAfterMenuDeleteCallback OnAfterDeleteInterface[Menu]
+	OnAfterMenuReadCallback   OnAfterReadInterface[Menu]
+
 	Nodes                map[*Node]struct{}
 	Nodes_instance       map[*Node]*Node
 	Nodes_mapString      map[string]*Node
@@ -432,6 +449,10 @@ func (stage *Stage) Squash() {
 	stage.Buttons_instance = make(map[*Button]*Button)
 	stage.Buttons_referenceOrder = make(map[*Button]uint)
 
+	stage.Menus_reference = make(map[*Menu]*Menu)
+	stage.Menus_instance = make(map[*Menu]*Menu)
+	stage.Menus_referenceOrder = make(map[*Menu]uint)
+
 	stage.Nodes_reference = make(map[*Node]*Node)
 	stage.Nodes_instance = make(map[*Node]*Node)
 	stage.Nodes_referenceOrder = make(map[*Node]uint)
@@ -483,6 +504,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.ButtonOrder = maxButtonOrder + 1
 	} else {
 		stage.ButtonOrder = 0
+	}
+
+	var maxMenuOrder uint
+	var foundMenu bool
+	for _, order := range stage.Menu_stagedOrder {
+		if !foundMenu || order > maxMenuOrder {
+			maxMenuOrder = order
+			foundMenu = true
+		}
+	}
+	if foundMenu {
+		stage.MenuOrder = maxMenuOrder + 1
+	} else {
+		stage.MenuOrder = 0
 	}
 
 	var maxNodeOrder uint
@@ -602,6 +637,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Menu:
+		tmp := GetStructInstancesByOrder(stage.Menus, stage.Menu_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Menu implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Node:
 		tmp := GetStructInstancesByOrder(stage.Nodes, stage.Node_stagedOrder)
 
@@ -675,6 +724,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	// insertion point for case
 	case "Button":
 		res = GetNamedStructInstances(stage.Buttons, stage.Button_stagedOrder)
+	case "Menu":
+		res = GetNamedStructInstances(stage.Menus, stage.Menu_stagedOrder)
 	case "Node":
 		res = GetNamedStructInstances(stage.Nodes, stage.Node_stagedOrder)
 	case "SVGIcon":
@@ -752,6 +803,8 @@ type BackRepoInterface interface {
 	// insertion point for Commit and Checkout signatures
 	CommitButton(button *Button)
 	CheckoutButton(button *Button)
+	CommitMenu(menu *Menu)
+	CheckoutMenu(menu *Menu)
 	CommitNode(node *Node)
 	CheckoutNode(node *Node)
 	CommitSVGIcon(svgicon *SVGIcon)
@@ -766,6 +819,9 @@ func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
 		Buttons:           make(map[*Button]struct{}),
 		Buttons_mapString: make(map[string]*Button),
+
+		Menus:           make(map[*Menu]struct{}),
+		Menus_mapString: make(map[string]*Menu),
 
 		Nodes:           make(map[*Node]struct{}),
 		Nodes_mapString: make(map[string]*Node),
@@ -790,6 +846,10 @@ func NewStage(name string) (stage *Stage) {
 		Button_orderStaged: make(map[uint]*Button),
 		Buttons_reference:  make(map[*Button]*Button),
 
+		Menu_stagedOrder: make(map[*Menu]uint),
+		Menu_orderStaged: make(map[uint]*Menu),
+		Menus_reference:  make(map[*Menu]*Menu),
+
 		Node_stagedOrder: make(map[*Node]uint),
 		Node_orderStaged: make(map[uint]*Node),
 		Nodes_reference:  make(map[*Node]*Node),
@@ -806,6 +866,8 @@ func NewStage(name string) (stage *Stage) {
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"Button": &ButtonUnmarshaller{},
 
+			"Menu": &MenuUnmarshaller{},
+
 			"Node": &NodeUnmarshaller{},
 
 			"SVGIcon": &SVGIconUnmarshaller{},
@@ -817,6 +879,7 @@ func NewStage(name string) (stage *Stage) {
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Button"},
+			{name: "Menu"},
 			{name: "Node"},
 			{name: "SVGIcon"},
 			{name: "Tree"},
@@ -833,6 +896,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	// insertion point for order map initialisations
 	case *Button:
 		return stage.Button_stagedOrder[instance]
+	case *Menu:
+		return stage.Menu_stagedOrder[instance]
 	case *Node:
 		return stage.Node_stagedOrder[instance]
 	case *SVGIcon:
@@ -850,6 +915,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 	// insertion point for order map initialisations
 	case *Button:
 		return any(stage.Button_orderStaged[order]).(Type)
+	case *Menu:
+		return any(stage.Menu_orderStaged[order]).(Type)
 	case *Node:
 		return any(stage.Node_orderStaged[order]).(Type)
 	case *SVGIcon:
@@ -866,6 +933,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	// insertion point for order map initialisations
 	case *Button:
 		return stage.Button_stagedOrder[instance]
+	case *Menu:
+		return stage.Menu_stagedOrder[instance]
 	case *Node:
 		return stage.Node_stagedOrder[instance]
 	case *SVGIcon:
@@ -938,6 +1007,7 @@ func (stage *Stage) Commit() {
 func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Button"] = len(stage.Buttons)
+	stage.Map_GongStructName_InstancesNb["Menu"] = len(stage.Menus)
 	stage.Map_GongStructName_InstancesNb["Node"] = len(stage.Nodes)
 	stage.Map_GongStructName_InstancesNb["SVGIcon"] = len(stage.SVGIcons)
 	stage.Map_GongStructName_InstancesNb["Tree"] = len(stage.Trees)
@@ -1067,6 +1137,94 @@ func (button *Button) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (button *Button) SetName(name string) {
 	button.Name = name
+}
+
+// Stage puts menu to the model stage
+func (menu *Menu) Stage(stage *Stage) *Menu {
+	if _, ok := stage.Menus[menu]; !ok {
+		stage.Menus[menu] = struct{}{}
+		stage.Menu_stagedOrder[menu] = stage.MenuOrder
+		stage.Menu_orderStaged[stage.MenuOrder] = menu
+		stage.MenuOrder++
+	}
+	stage.Menus_mapString[menu.Name] = menu
+
+	return menu
+}
+
+// StagePreserveOrder puts menu to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.MenuOrder
+// - update stage.MenuOrder accordingly
+func (menu *Menu) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Menus[menu]; !ok {
+		stage.Menus[menu] = struct{}{}
+
+		if order > stage.MenuOrder {
+			stage.MenuOrder = order
+		}
+		stage.Menu_stagedOrder[menu] = order
+		stage.Menu_orderStaged[order] = menu
+		stage.MenuOrder++
+	}
+	stage.Menus_mapString[menu.Name] = menu
+}
+
+// Unstage removes menu off the model stage
+func (menu *Menu) Unstage(stage *Stage) *Menu {
+	delete(stage.Menus, menu)
+	// issue1150
+	// delete(stage.Menu_stagedOrder, menu)
+	delete(stage.Menus_mapString, menu.Name)
+
+	return menu
+}
+
+// UnstageVoid removes menu off the model stage
+func (menu *Menu) UnstageVoid(stage *Stage) {
+	delete(stage.Menus, menu)
+	// issue1150
+	// delete(stage.Menu_stagedOrder, menu)
+	delete(stage.Menus_mapString, menu.Name)
+}
+
+// commit menu to the back repo (if it is already staged)
+func (menu *Menu) Commit(stage *Stage) *Menu {
+	if _, ok := stage.Menus[menu]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitMenu(menu)
+		}
+	}
+	return menu
+}
+
+func (menu *Menu) CommitVoid(stage *Stage) {
+	menu.Commit(stage)
+}
+
+func (menu *Menu) StageVoid(stage *Stage) {
+	menu.Stage(stage)
+}
+
+// Checkout menu to the back repo (if it is already staged)
+func (menu *Menu) Checkout(stage *Stage) *Menu {
+	if _, ok := stage.Menus[menu]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutMenu(menu)
+		}
+	}
+	return menu
+}
+
+// for satisfaction of GongStruct interface
+func (menu *Menu) GetName() (res string) {
+	return menu.Name
+}
+
+// for satisfaction of GongStruct interface
+func (menu *Menu) SetName(name string) {
+	menu.Name = name
 }
 
 // Stage puts node to the model stage
@@ -1336,6 +1494,7 @@ func (tree *Tree) SetName(name string) {
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMButton(Button *Button)
+	CreateORMMenu(Menu *Menu)
 	CreateORMNode(Node *Node)
 	CreateORMSVGIcon(SVGIcon *SVGIcon)
 	CreateORMTree(Tree *Tree)
@@ -1343,6 +1502,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMButton(Button *Button)
+	DeleteORMMenu(Menu *Menu)
 	DeleteORMNode(Node *Node)
 	DeleteORMSVGIcon(SVGIcon *SVGIcon)
 	DeleteORMTree(Tree *Tree)
@@ -1353,6 +1513,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Buttons_mapString = make(map[string]*Button)
 	stage.Button_stagedOrder = make(map[*Button]uint)
 	stage.ButtonOrder = 0
+
+	stage.Menus = make(map[*Menu]struct{})
+	stage.Menus_mapString = make(map[string]*Menu)
+	stage.Menu_stagedOrder = make(map[*Menu]uint)
+	stage.MenuOrder = 0
 
 	stage.Nodes = make(map[*Node]struct{})
 	stage.Nodes_mapString = make(map[string]*Node)
@@ -1381,6 +1546,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Buttons = nil
 	stage.Buttons_mapString = nil
 
+	stage.Menus = nil
+	stage.Menus_mapString = nil
+
 	stage.Nodes = nil
 	stage.Nodes_mapString = nil
 
@@ -1396,6 +1564,10 @@ func (stage *Stage) Nil() { // insertion point for array nil
 func (stage *Stage) Unstage() { // insertion point for array nil
 	for button := range stage.Buttons {
 		button.Unstage(stage)
+	}
+
+	for menu := range stage.Menus {
+		menu.Unstage(stage)
 	}
 
 	for node := range stage.Nodes {
@@ -1488,6 +1660,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	// insertion point for generic get functions
 	case map[*Button]any:
 		return any(&stage.Buttons).(*Type)
+	case map[*Menu]any:
+		return any(&stage.Menus).(*Type)
 	case map[*Node]any:
 		return any(&stage.Nodes).(*Type)
 	case map[*SVGIcon]any:
@@ -1508,6 +1682,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	// insertion point for generic get functions
 	case *Button:
 		return any(stage.Buttons_mapString).(map[string]Type)
+	case *Menu:
+		return any(stage.Menus_mapString).(map[string]Type)
 	case *Node:
 		return any(stage.Nodes_mapString).(map[string]Type)
 	case *SVGIcon:
@@ -1528,6 +1704,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 	// insertion point for generic get functions
 	case Button:
 		return any(&stage.Buttons).(*map[*Type]struct{})
+	case Menu:
+		return any(&stage.Menus).(*map[*Type]struct{})
 	case Node:
 		return any(&stage.Nodes).(*map[*Type]struct{})
 	case SVGIcon:
@@ -1548,6 +1726,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 	// insertion point for generic get functions
 	case *Button:
 		return any(&stage.Buttons).(*map[Type]struct{})
+	case *Menu:
+		return any(&stage.Menus).(*map[Type]struct{})
 	case *Node:
 		return any(&stage.Nodes).(*map[Type]struct{})
 	case *SVGIcon:
@@ -1568,6 +1748,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 	// insertion point for generic get functions
 	case Button:
 		return any(&stage.Buttons_mapString).(*map[string]*Type)
+	case Menu:
+		return any(&stage.Menus_mapString).(*map[string]*Type)
 	case Node:
 		return any(&stage.Nodes_mapString).(*map[string]*Type)
 	case SVGIcon:
@@ -1594,6 +1776,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of SVGIcon with the name of the field
 			SVGIcon: &SVGIcon{Name: "SVGIcon"},
 		}).(*Type)
+	case Menu:
+		return any(&Menu{
+			// Initialisation of associations
+			// field is initialized with an instance of Button with the name of the field
+			Buttons: []*Button{{Name: "Buttons"}},
+		}).(*Type)
 	case Node:
 		return any(&Node{
 			// Initialisation of associations
@@ -1603,6 +1791,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Children: []*Node{{Name: "Children"}},
 			// field is initialized with an instance of Button with the name of the field
 			Buttons: []*Button{{Name: "Buttons"}},
+			// field is initialized with an instance of Menu with the name of the field
+			Menu: &Menu{Name: "Menu"},
 		}).(*Type)
 	case SVGIcon:
 		return any(&SVGIcon{
@@ -1653,6 +1843,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of Menu
+	case Menu:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Node
 	case Node:
 		switch fieldname {
@@ -1671,6 +1866,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					nodes = append(nodes, node)
 					res[svgicon_] = nodes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Menu":
+			res := make(map[*Menu][]*Node)
+			for node := range stage.Nodes {
+				if node.Menu != nil {
+					menu_ := node.Menu
+					var nodes []*Node
+					_, ok := res[menu_]
+					if ok {
+						nodes = res[menu_]
+					} else {
+						nodes = make([]*Node, 0)
+					}
+					nodes = append(nodes, node)
+					res[menu_] = nodes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -1704,6 +1916,19 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Button:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Menu
+	case Menu:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Buttons":
+			res := make(map[*Button][]*Menu)
+			for menu := range stage.Menus {
+				for _, button_ := range menu.Buttons {
+					res[button_] = append(res[button_], menu)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Node
 	case Node:
@@ -1757,6 +1982,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 	// insertion point for generic get gongstruct name
 	case *Button:
 		res = "Button"
+	case *Menu:
+		res = "Menu"
 	case *Node:
 		res = "Node"
 	case *SVGIcon:
@@ -1783,9 +2010,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Button:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Menu"
+		rf.Fieldname = "Buttons"
+		res = append(res, rf)
 		rf.GongstructName = "Node"
 		rf.Fieldname = "Buttons"
 		res = append(res, rf)
+	case *Menu:
+		var rf ReverseField
+		_ = rf
 	case *Node:
 		var rf ReverseField
 		_ = rf
@@ -1838,6 +2071,22 @@ func (button *Button) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "ToolTipPosition",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "ToolTipPositionEnum",
+		},
+	}
+	return
+}
+
+func (menu *Menu) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Buttons",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Button",
 		},
 	}
 	return
@@ -1969,6 +2218,11 @@ func (node *Node) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Button",
 		},
+		{
+			Name:                 "Menu",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Menu",
+		},
 	}
 	return
 }
@@ -2089,6 +2343,25 @@ func (button *Button) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	return
 }
 
+func (menu *Menu) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = menu.Name
+	case "Buttons":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range menu.Buttons {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
 func (node *Node) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -2202,6 +2475,12 @@ func (node *Node) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "Menu":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if node.Menu != nil {
+			res.valueString = node.Menu.Name
+			res.ids = node.Menu.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -2268,6 +2547,31 @@ func (button *Button) GongSetFieldValue(fieldName string, value GongFieldValue, 
 		button.ToolTipText = value.GetValueString()
 	case "ToolTipPosition":
 		button.ToolTipPosition.FromCodeString(value.GetValueString())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (menu *Menu) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		menu.Name = value.GetValueString()
+	case "Buttons":
+		menu.Buttons = make([]*Button, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Buttons {
+					if stage.Button_stagedOrder[__instance__] == uint(id) {
+						menu.Buttons = append(menu.Buttons, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -2368,6 +2672,17 @@ func (node *Node) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
+	case "Menu":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			node.Menu = nil
+			for __instance__ := range stage.Menus {
+				if stage.Menu_stagedOrder[__instance__] == uint(id) {
+					node.Menu = __instance__
+					break
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -2421,6 +2736,10 @@ func (button *Button) GongGetGongstructName() string {
 	return "Button"
 }
 
+func (menu *Menu) GongGetGongstructName() string {
+	return "Menu"
+}
+
 func (node *Node) GongGetGongstructName() string {
 	return "Node"
 }
@@ -2443,6 +2762,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Buttons_mapString = make(map[string]*Button)
 	for button := range stage.Buttons {
 		stage.Buttons_mapString[button.Name] = button
+	}
+
+	stage.Menus_mapString = make(map[string]*Menu)
+	for menu := range stage.Menus {
+		stage.Menus_mapString[menu.Name] = menu
 	}
 
 	stage.Nodes_mapString = make(map[string]*Node)

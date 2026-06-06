@@ -6,6 +6,8 @@ type BackRepoData struct {
 
 	ButtonAPIs []*ButtonAPI
 
+	MenuAPIs []*MenuAPI
+
 	NodeAPIs []*NodeAPI
 
 	SVGIconAPIs []*SVGIconAPI
@@ -31,6 +33,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		buttonDB.CopyBasicFieldsToButton_WOP(&buttonAPI.Button_WOP)
 
 		backRepoData.ButtonAPIs = append(backRepoData.ButtonAPIs, &buttonAPI)
+	}
+
+	for _, menuDB := range backRepo.BackRepoMenu.Map_MenuDBID_MenuDB {
+
+		var menuAPI MenuAPI
+		menuAPI.ID = menuDB.ID
+		menuAPI.MenuPointersEncoding = menuDB.MenuPointersEncoding
+		menuDB.CopyBasicFieldsToMenu_WOP(&menuAPI.Menu_WOP)
+
+		backRepoData.MenuAPIs = append(backRepoData.MenuAPIs, &menuAPI)
 	}
 
 	for _, nodeDB := range backRepo.BackRepoNode.Map_NodeDBID_NodeDB {

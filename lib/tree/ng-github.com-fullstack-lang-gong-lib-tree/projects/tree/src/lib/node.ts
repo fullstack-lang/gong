@@ -6,6 +6,7 @@ import { FrontRepo } from './front-repo.service';
 // insertion point for imports
 import { SVGIcon } from './svgicon'
 import { Button } from './button'
+import { Menu } from './menu'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -49,6 +50,8 @@ export class Node {
 
 	Children: Array<Node> = []
 	Buttons: Array<Button> = []
+	Menu?: Menu
+
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -94,6 +97,13 @@ export function CopyNodeToNodeAPI(node: Node, nodeAPI: NodeAPI) {
 		nodeAPI.NodePointersEncoding.PreceedingSVGIconID.Int64 = node.PreceedingSVGIcon.ID  
 	} else {
 		nodeAPI.NodePointersEncoding.PreceedingSVGIconID.Int64 = 0 		
+	}
+
+	nodeAPI.NodePointersEncoding.MenuID.Valid = true
+	if (node.Menu != undefined) {
+		nodeAPI.NodePointersEncoding.MenuID.Int64 = node.Menu.ID  
+	} else {
+		nodeAPI.NodePointersEncoding.MenuID.Int64 = 0 		
 	}
 
 
@@ -150,6 +160,7 @@ export function CopyNodeAPIToNode(nodeAPI: NodeAPI, node: Node, frontRepo: Front
 
 	// insertion point for pointer fields encoding
 	node.PreceedingSVGIcon = frontRepo.map_ID_SVGIcon.get(nodeAPI.NodePointersEncoding.PreceedingSVGIconID.Int64)
+	node.Menu = frontRepo.map_ID_Menu.get(nodeAPI.NodePointersEncoding.MenuID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 	if (!Array.isArray(nodeAPI.NodePointersEncoding.Children)) {

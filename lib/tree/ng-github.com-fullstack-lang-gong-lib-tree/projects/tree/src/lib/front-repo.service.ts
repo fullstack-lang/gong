@@ -9,6 +9,10 @@ import { ButtonAPI } from './button-api'
 import { Button, CopyButtonAPIToButton } from './button'
 import { ButtonService } from './button.service'
 
+import { MenuAPI } from './menu-api'
+import { Menu, CopyMenuAPIToMenu } from './menu'
+import { MenuService } from './menu.service'
+
 import { NodeAPI } from './node-api'
 import { Node, CopyNodeAPIToNode } from './node'
 import { NodeService } from './node.service'
@@ -31,6 +35,9 @@ export class FrontRepo { // insertion point sub template
 	array_Buttons = new Array<Button>() // array of front instances
 	map_ID_Button = new Map<number, Button>() // map of front instances
 
+	array_Menus = new Array<Menu>() // array of front instances
+	map_ID_Menu = new Map<number, Menu>() // map of front instances
+
 	array_Nodes = new Array<Node>() // array of front instances
 	map_ID_Node = new Map<number, Node>() // map of front instances
 
@@ -51,6 +58,8 @@ export class FrontRepo { // insertion point sub template
 			// insertion point
 			case 'Button':
 				return this.array_Buttons as unknown as Array<Type>
+			case 'Menu':
+				return this.array_Menus as unknown as Array<Type>
 			case 'Node':
 				return this.array_Nodes as unknown as Array<Type>
 			case 'SVGIcon':
@@ -67,6 +76,8 @@ export class FrontRepo { // insertion point sub template
 			// insertion point
 			case 'Button':
 				return this.map_ID_Button as unknown as Map<number, Type>
+			case 'Menu':
+				return this.map_ID_Menu as unknown as Map<number, Type>
 			case 'Node':
 				return this.map_ID_Node as unknown as Map<number, Type>
 			case 'SVGIcon':
@@ -144,6 +155,7 @@ export class FrontRepoService {
 	constructor(
 		private http: HttpClient, // insertion point sub template 
 		private buttonService: ButtonService,
+		private menuService: MenuService,
 		private nodeService: NodeService,
 		private svgiconService: SVGIconService,
 		private treeService: TreeService,
@@ -180,6 +192,7 @@ export class FrontRepoService {
 		Observable<null>, // see below for the of(null) observable
 		// insertion point sub template 
 		Observable<ButtonAPI[]>,
+		Observable<MenuAPI[]>,
 		Observable<NodeAPI[]>,
 		Observable<SVGIconAPI[]>,
 		Observable<TreeAPI[]>,
@@ -199,6 +212,7 @@ export class FrontRepoService {
 			of(null), // see above for justification
 			// insertion point sub template
 			this.buttonService.getButtons(this.Name, this.frontRepo),
+			this.menuService.getMenus(this.Name, this.frontRepo),
 			this.nodeService.getNodes(this.Name, this.frontRepo),
 			this.svgiconService.getSVGIcons(this.Name, this.frontRepo),
 			this.treeService.getTrees(this.Name, this.frontRepo),
@@ -213,6 +227,7 @@ export class FrontRepoService {
 						___of_null, // see above for the explanation about of
 						// insertion point sub template for declarations 
 						buttons_,
+						menus_,
 						nodes_,
 						svgicons_,
 						trees_,
@@ -222,6 +237,8 @@ export class FrontRepoService {
 						// insertion point sub template for type casting 
 						var buttons: ButtonAPI[]
 						buttons = buttons_ as ButtonAPI[]
+						var menus: MenuAPI[]
+						menus = menus_ as MenuAPI[]
 						var nodes: NodeAPI[]
 						nodes = nodes_ as NodeAPI[]
 						var svgicons: SVGIconAPI[]
@@ -241,6 +258,18 @@ export class FrontRepoService {
 								let button = new Button
 								this.frontRepo.array_Buttons.push(button)
 								this.frontRepo.map_ID_Button.set(buttonAPI.ID, button)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_Menus = []
+						this.frontRepo.map_ID_Menu.clear()
+
+						menus.forEach(
+							menuAPI => {
+								let menu = new Menu
+								this.frontRepo.array_Menus.push(menu)
+								this.frontRepo.map_ID_Menu.set(menuAPI.ID, menu)
 							}
 						)
 
@@ -289,6 +318,14 @@ export class FrontRepoService {
 							buttonAPI => {
 								let button = this.frontRepo.map_ID_Button.get(buttonAPI.ID)
 								CopyButtonAPIToButton(buttonAPI, button!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						menus.forEach(
+							menuAPI => {
+								let menu = this.frontRepo.map_ID_Menu.get(menuAPI.ID)
+								CopyMenuAPIToMenu(menuAPI, menu!, this.frontRepo)
 							}
 						)
 
@@ -382,6 +419,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_Menus = []
+				frontRepo.map_ID_Menu.clear()
+
+				backRepoData.MenuAPIs.forEach(
+					menuAPI => {
+						let menu = new Menu
+						frontRepo.array_Menus.push(menu)
+						frontRepo.map_ID_Menu.set(menuAPI.ID, menu)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Nodes = []
 				frontRepo.map_ID_Node.clear()
 
@@ -426,6 +475,14 @@ export class FrontRepoService {
 					buttonAPI => {
 						let button = frontRepo.map_ID_Button.get(buttonAPI.ID)
 						CopyButtonAPIToButton(buttonAPI, button!, frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.MenuAPIs.forEach(
+					menuAPI => {
+						let menu = frontRepo.map_ID_Menu.get(menuAPI.ID)
+						CopyMenuAPIToMenu(menuAPI, menu!, frontRepo)
 					}
 				)
 
@@ -528,12 +585,15 @@ export class FrontRepoService {
 export function getButtonUniqueID(id: number): number {
 	return 31 * id
 }
-export function getNodeUniqueID(id: number): number {
+export function getMenuUniqueID(id: number): number {
 	return 37 * id
 }
-export function getSVGIconUniqueID(id: number): number {
+export function getNodeUniqueID(id: number): number {
 	return 41 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getSVGIconUniqueID(id: number): number {
 	return 43 * id
+}
+export function getTreeUniqueID(id: number): number {
+	return 47 * id
 }

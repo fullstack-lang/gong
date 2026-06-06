@@ -25,6 +25,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 	{
 		// insertion point
 		SerializeExcelizePointerToGongstruct2[*Button](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*Menu](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Node](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*SVGIcon](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Tree](stage, f, addIDs)

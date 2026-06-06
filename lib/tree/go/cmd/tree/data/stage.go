@@ -40,6 +40,8 @@ func _(stage *models.Stage) {
 	__Button__00000010_ := (&models.Button{Name: `test`}).Stage(stage)
 	__Button__00000011_ := (&models.Button{Name: `test 1.3 plus button`}).Stage(stage)
 
+	__Menu__00000000_ := (&models.Menu{Name: `Menu for test 1.2`}).Stage(stage)
+
 	__Node__00000000_ := (&models.Node{Name: `Test 1.2 without checkbox`}).Stage(stage)
 	__Node__00000001_ := (&models.Node{Name: `root1`}).Stage(stage)
 	__Node__00000002_ := (&models.Node{Name: `root2`}).Stage(stage)
@@ -144,6 +146,8 @@ func _(stage *models.Stage) {
 	__Button__00000011_.HasToolTip = true
 	__Button__00000011_.ToolTipText = `refresh`
 	__Button__00000011_.ToolTipPosition = models.Right
+
+	__Menu__00000000_.Name = `Menu for test 1.2`
 
 	__Node__00000000_.Name = `Test 1.2 without checkbox`
 	__Node__00000000_.IsWithPrefix = false
@@ -517,7 +521,11 @@ func _(stage *models.Stage) {
 	__Button__00000009_.SVGIcon = nil
 	__Button__00000010_.SVGIcon = nil
 	__Button__00000011_.SVGIcon = nil
+	__Menu__00000000_.Buttons = append(__Menu__00000000_.Buttons, __Button__00000009_)
+	__Menu__00000000_.Buttons = append(__Menu__00000000_.Buttons, __Button__00000010_)
+	__Menu__00000000_.Buttons = append(__Menu__00000000_.Buttons, __Button__00000003_)
 	__Node__00000000_.PreceedingSVGIcon = nil
+	__Node__00000000_.Menu = nil
 	__Node__00000001_.PreceedingSVGIcon = nil
 	__Node__00000001_.Children = append(__Node__00000001_.Children, __Node__00000005_)
 	__Node__00000001_.Children = append(__Node__00000001_.Children, __Node__00000006_)
@@ -526,32 +534,44 @@ func _(stage *models.Stage) {
 	__Node__00000001_.Children = append(__Node__00000001_.Children, __Node__00000012_)
 	__Node__00000001_.Buttons = append(__Node__00000001_.Buttons, __Button__00000006_)
 	__Node__00000001_.Buttons = append(__Node__00000001_.Buttons, __Button__00000005_)
+	__Node__00000001_.Menu = nil
 	__Node__00000002_.PreceedingSVGIcon = nil
 	__Node__00000002_.Children = append(__Node__00000002_.Children, __Node__00000000_)
 	__Node__00000002_.Children = append(__Node__00000002_.Children, __Node__00000011_)
 	__Node__00000002_.Buttons = append(__Node__00000002_.Buttons, __Button__00000008_)
+	__Node__00000002_.Menu = nil
 	__Node__00000003_.PreceedingSVGIcon = nil
 	__Node__00000003_.Children = append(__Node__00000003_.Children, __Node__00000004_)
+	__Node__00000003_.Menu = nil
 	__Node__00000004_.PreceedingSVGIcon = nil
+	__Node__00000004_.Menu = nil
 	__Node__00000005_.PreceedingSVGIcon = nil
 	__Node__00000005_.Buttons = append(__Node__00000005_.Buttons, __Button__00000007_)
 	__Node__00000005_.Buttons = append(__Node__00000005_.Buttons, __Button__00000004_)
+	__Node__00000005_.Menu = nil
 	__Node__00000006_.PreceedingSVGIcon = nil
 	__Node__00000006_.Buttons = append(__Node__00000006_.Buttons, __Button__00000006_)
+	__Node__00000006_.Menu = nil
 	__Node__00000007_.PreceedingSVGIcon = nil
 	__Node__00000007_.Children = append(__Node__00000007_.Children, __Node__00000009_)
 	__Node__00000007_.Children = append(__Node__00000007_.Children, __Node__00000008_)
 	__Node__00000007_.Buttons = append(__Node__00000007_.Buttons, __Button__00000011_)
+	__Node__00000007_.Menu = __Menu__00000000_
 	__Node__00000008_.PreceedingSVGIcon = nil
+	__Node__00000008_.Menu = nil
 	__Node__00000009_.PreceedingSVGIcon = __SVGIcon__00000001_
 	__Node__00000009_.Buttons = append(__Node__00000009_.Buttons, __Button__00000001_)
+	__Node__00000009_.Menu = nil
 	__Node__00000010_.PreceedingSVGIcon = nil
 	__Node__00000010_.Buttons = append(__Node__00000010_.Buttons, __Button__00000003_)
+	__Node__00000010_.Menu = nil
 	__Node__00000011_.PreceedingSVGIcon = nil
 	__Node__00000011_.Buttons = append(__Node__00000011_.Buttons, __Button__00000000_)
+	__Node__00000011_.Menu = nil
 	__Node__00000012_.PreceedingSVGIcon = nil
 	__Node__00000012_.Buttons = append(__Node__00000012_.Buttons, __Button__00000010_)
 	__Node__00000012_.Buttons = append(__Node__00000012_.Buttons, __Button__00000009_)
+	__Node__00000012_.Menu = nil
 	__Tree__00000000_.RootNodes = append(__Tree__00000000_.RootNodes, __Node__00000001_)
 	__Tree__00000000_.RootNodes = append(__Tree__00000000_.RootNodes, __Node__00000002_)
 	__Tree__00000000_.RootNodes = append(__Tree__00000000_.RootNodes, __Node__00000003_)

@@ -23,6 +23,16 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct Button
 	// insertion point per field
 
+	// Compute reverse map for named struct Menu
+	// insertion point per field
+	stage.Menu_Buttons_reverseMap = make(map[*Button]*Menu)
+	for menu := range stage.Menus {
+		_ = menu
+		for _, _button := range menu.Buttons {
+			stage.Menu_Buttons_reverseMap[_button] = menu
+		}
+	}
+
 	// Compute reverse map for named struct Node
 	// insertion point per field
 	stage.Node_Children_reverseMap = make(map[*Node]*Node)
@@ -62,6 +72,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.Menus {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Nodes {
 		res = append(res, instance)
 	}
@@ -81,6 +95,12 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 func (button *Button) GongCopy() GongstructIF {
 	newInstance := new(Button)
 	button.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (menu *Menu) GongCopy() GongstructIF {
+	newInstance := new(Menu)
+	menu.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -110,6 +130,16 @@ func (button *Button) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(button), uint64(GetOrderPointerGongstruct(stage, button)))
+	return
+}
+
+func (menu *Menu) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(menu).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(menu), uint64(GetOrderPointerGongstruct(stage, menu)))
 	return
 }
 
@@ -216,6 +246,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(buttons_newInstances)
 	lenDeletedInstances += len(buttons_deletedInstances)
+	var menus_newInstances []*Menu
+	var menus_deletedInstances []*Menu
+
+	// parse all staged instances and check if they have a reference
+	for menu := range stage.Menus {
+		if ref, ok := stage.Menus_reference[menu]; !ok {
+			menus_newInstances = append(menus_newInstances, menu)
+			newInstancesSlice = append(newInstancesSlice, menu.GongMarshallIdentifier(stage))
+			if stage.Menus_referenceOrder == nil {
+				stage.Menus_referenceOrder = make(map[*Menu]uint)
+			}
+			stage.Menus_referenceOrder[menu] = stage.Menu_stagedOrder[menu]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, menu.GongMarshallUnstaging(stage))
+			// delete(stage.Menus_referenceOrder, menu)
+			fieldInitializers, pointersInitializations := menu.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Menu_stagedOrder[ref] = stage.Menu_stagedOrder[menu]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := menu.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, menu)
+			// delete(stage.Menu_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if menu.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", menu.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Menus_reference {
+		instance := stage.Menus_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Menus[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			menus_deletedInstances = append(menus_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(menus_newInstances)
+	lenDeletedInstances += len(menus_deletedInstances)
 	var nodes_newInstances []*Node
 	var nodes_deletedInstances []*Node
 
@@ -426,6 +511,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Buttons_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Menus_reference = make(map[*Menu]*Menu)
+	stage.Menus_referenceOrder = make(map[*Menu]uint) // diff Unstage needs the reference order
+	stage.Menus_instance = make(map[*Menu]*Menu)
+	for instance := range stage.Menus {
+		_copy := instance.GongCopy().(*Menu)
+		stage.Menus_reference[instance] = _copy
+		stage.Menus_instance[_copy] = instance
+		stage.Menus_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Nodes_reference = make(map[*Node]*Node)
 	stage.Nodes_referenceOrder = make(map[*Node]uint) // diff Unstage needs the reference order
 	stage.Nodes_instance = make(map[*Node]*Node)
@@ -462,6 +557,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.Menus {
+		reference := stage.Menus_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.Nodes {
 		reference := stage.Nodes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -495,6 +595,18 @@ func (button *Button) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Button was not staged and does not have a reference order", button)
+		return 0
+	}
+}
+
+func (menu *Menu) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Menu_stagedOrder[menu]; ok {
+		return order
+	}
+	if order, ok := stage.Menus_referenceOrder[menu]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Menu was not staged and does not have a reference order", menu)
 		return 0
 	}
 }
@@ -549,6 +661,15 @@ func (button *Button) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", button.GongGetGongstructName(), button.GongGetOrder(stage))
 }
 
+func (menu *Menu) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", menu.GongGetGongstructName(), menu.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (menu *Menu) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", menu.GongGetGongstructName(), menu.GongGetOrder(stage))
+}
+
 func (node *Node) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", node.GongGetGongstructName(), node.GongGetOrder(stage))
 }
@@ -587,6 +708,14 @@ func (button *Button) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (menu *Menu) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", menu.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Menu")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(menu.Name))
+	return
+}
+
 func (node *Node) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", node.GongGetIdentifier(stage))
@@ -615,6 +744,12 @@ func (tree *Tree) GongMarshallIdentifier(stage *Stage) (decl string) {
 func (button *Button) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (menu *Menu) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", menu.GongGetReferenceIdentifier(stage))
 	return
 }
 

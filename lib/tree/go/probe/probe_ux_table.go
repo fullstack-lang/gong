@@ -26,6 +26,8 @@ func (probe *Probe) ux_table() {
 	// insertion point
 	case "Button":
 		updateProbeTable[*models.Button](probe)
+	case "Menu":
+		updateProbeTable[*models.Menu](probe)
 	case "Node":
 		updateProbeTable[*models.Node](probe)
 	case "SVGIcon":

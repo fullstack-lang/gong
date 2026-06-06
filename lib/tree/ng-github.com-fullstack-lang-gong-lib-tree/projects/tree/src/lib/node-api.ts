@@ -1,6 +1,7 @@
 // insertion point for imports
 import { SVGIconAPI } from './svgicon-api'
 import { ButtonAPI } from './button-api'
+import { MenuAPI } from './menu-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -53,4 +54,6 @@ export class NodePointersEncoding {
 
 	Children: number[] = []
 	Buttons: number[] = []
+	MenuID: NullInt64 = new NullInt64 // if pointer is null, Menu.ID = 0
+
 }
