@@ -7,6 +7,13 @@ func (inst *Button) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rev
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+	case "Menu":
+		switch reverseField.Fieldname {
+		case "Buttons":
+			if _menu, ok := stage.Menu_Buttons_reverseMap[inst]; ok {
+				res = _menu.Name
+			}
+		}
 	case "Node":
 		switch reverseField.Fieldname {
 		case "Buttons":
@@ -14,6 +21,15 @@ func (inst *Button) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rev
 				res = _node.Name
 			}
 		}
+	}
+	return
+}
+
+func (inst *Menu) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 	}
 	return
 }
@@ -65,11 +81,25 @@ func (inst *Button) GongGetReverseFieldOwner(stage *Stage, reverseField *Reverse
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+	case "Menu":
+		switch reverseField.Fieldname {
+		case "Buttons":
+			res = stage.Menu_Buttons_reverseMap[inst]
+		}
 	case "Node":
 		switch reverseField.Fieldname {
 		case "Buttons":
 			res = stage.Node_Buttons_reverseMap[inst]
 		}
+	}
+	return res
+}
+
+func (inst *Menu) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 	}
 	return res
 }

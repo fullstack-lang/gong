@@ -48,6 +48,14 @@ func (button *Button) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by Menu
+func (menu *Menu) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &menu.Buttons) || modified
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Node
 func (node *Node) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -55,6 +63,7 @@ func (node *Node) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &node.Buttons) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &node.PreceedingSVGIcon) || modified
+	modified = GongCleanPointer(stage, &node.Menu) || modified
 	return
 }
 

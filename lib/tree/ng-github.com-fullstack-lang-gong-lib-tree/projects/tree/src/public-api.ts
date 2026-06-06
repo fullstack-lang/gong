@@ -17,6 +17,10 @@ export * from './lib/button-api'
 export * from './lib/button'
 export * from './lib/button.service'
 
+export * from './lib/menu-api'
+export * from './lib/menu'
+export * from './lib/menu.service'
+
 export * from './lib/node-api'
 export * from './lib/node'
 export * from './lib/node.service'

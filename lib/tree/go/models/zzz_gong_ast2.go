@@ -480,6 +480,37 @@ func (u *ButtonUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 	return nil
 }
 
+type MenuUnmarshaller struct{}
+
+func (u *MenuUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Menu)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *MenuUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Menu)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Buttons":
+		GongUnmarshallSliceOfPointers(&instance.Buttons, valueExpr, identifierMap)
+	}
+	return nil
+}
+
 type NodeUnmarshaller struct{}
 
 func (u *NodeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -561,6 +592,8 @@ func (u *NodeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		GongUnmarshallSliceOfPointers(&instance.Children, valueExpr, identifierMap)
 	case "Buttons":
 		GongUnmarshallSliceOfPointers(&instance.Buttons, valueExpr, identifierMap)
+	case "Menu":
+		GongUnmarshallPointer(&instance.Menu, valueExpr, identifierMap)
 	}
 	return nil
 }

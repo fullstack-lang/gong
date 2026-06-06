@@ -74,6 +74,8 @@ type Node struct {
 	Children []*Node
 
 	Buttons []*Button
+
+	Menu *Menu
 }
 
 // OnAfterUpdate, notice that node == stagedNode

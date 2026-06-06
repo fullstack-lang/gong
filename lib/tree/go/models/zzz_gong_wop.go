@@ -35,6 +35,17 @@ func (from *Button) CopyBasicFields(to *Button) {
 	to.ToolTipPosition = from.ToolTipPosition
 }
 
+type Menu_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *Menu) CopyBasicFields(to *Menu) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type Node_WOP struct {
 	// insertion point
 

@@ -21,6 +21,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.button, probe)
 			}
+		case *MenuFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Menu", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.menu, probe)
+			}
 		case *NodeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Node", true)
@@ -74,6 +80,19 @@ func FillUpFormFromGongstructName(
 		button := new(models.Button)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(button, formGroup, probe)
+	case "Menu":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Menu Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MenuFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		menu := new(models.Menu)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(menu, formGroup, probe)
 	case "Node":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

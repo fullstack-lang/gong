@@ -302,6 +302,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipPosition"))
 	}
 
+	menuOrdered := []*Menu{}
+	for menu := range stage.Menus {
+		menuOrdered = append(menuOrdered, menu)
+	}
+	sort.Slice(menuOrdered[:], func(i, j int) bool {
+		menui := menuOrdered[i]
+		menuj := menuOrdered[j]
+		menui_order, oki := stage.Menu_stagedOrder[menui]
+		menuj_order, okj := stage.Menu_stagedOrder[menuj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return menui_order < menuj_order
+	})
+	if len(menuOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, menu := range menuOrdered {
+
+		identifiersDecl.WriteString(menu.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(menu.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(menu.GongMarshallField(stage, "Buttons"))
+	}
+
 	nodeOrdered := []*Node{}
 	for node := range stage.Nodes {
 		nodeOrdered = append(nodeOrdered, node)
@@ -354,6 +381,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "PreceedingSVGIcon"))
 		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "Children"))
 		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "Buttons"))
+		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "Menu"))
 	}
 
 	svgiconOrdered := []*SVGIcon{}
@@ -413,6 +441,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	// insertion initialization of objects to stage
 	for _, button := range buttonOrdered {
 		_ = button
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, menu := range menuOrdered {
+		_ = menu
 		var setPointerField string
 		_ = setPointerField
 
@@ -554,6 +590,31 @@ func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res str
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Button", fieldName)
+	}
+	return
+}
+
+func (menu *Menu) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", menu.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(menu.Name))
+
+	case "Buttons":
+		var sb strings.Builder
+		for _, _button := range menu.Buttons {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", menu.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Buttons")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _button.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Menu", fieldName)
 	}
 	return
 }
@@ -757,6 +818,19 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "Menu":
+		if node.Menu != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Menu")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", node.Menu.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Menu")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Node", fieldName)
 	}
@@ -826,6 +900,18 @@ func (button *Button) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (menu *Menu) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(menu.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(menu.GongMarshallField(stage, "Buttons"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (node *Node) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -860,6 +946,7 @@ func (node *Node) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "PreceedingSVGIcon"))
 		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "Children"))
 		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "Buttons"))
+		pointersInitializesStatements.WriteString(node.GongMarshallField(stage, "Menu"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

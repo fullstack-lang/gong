@@ -24,6 +24,10 @@ type DBLite struct {
 
 	nextIDButtonDB uint
 
+	menuDBs map[uint]*MenuDB
+
+	nextIDMenuDB uint
+
 	nodeDBs map[uint]*NodeDB
 
 	nextIDNodeDB uint
@@ -43,6 +47,8 @@ func NewDBLite() *DBLite {
 		// insertion point maps init
 
 		buttonDBs: make(map[uint]*ButtonDB),
+
+		menuDBs: make(map[uint]*MenuDB),
 
 		nodeDBs: make(map[uint]*NodeDB),
 
@@ -67,6 +73,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDButtonDB++
 		v.ID = db.nextIDButtonDB
 		db.buttonDBs[v.ID] = v
+	case *MenuDB:
+		db.nextIDMenuDB++
+		v.ID = db.nextIDMenuDB
+		db.menuDBs[v.ID] = v
 	case *NodeDB:
 		db.nextIDNodeDB++
 		v.ID = db.nextIDNodeDB
@@ -109,6 +119,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 	// insertion point delete
 	case *ButtonDB:
 		delete(db.buttonDBs, v.ID)
+	case *MenuDB:
+		delete(db.menuDBs, v.ID)
 	case *NodeDB:
 		delete(db.nodeDBs, v.ID)
 	case *SVGIconDB:
@@ -135,6 +147,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	// insertion point delete
 	case *ButtonDB:
 		db.buttonDBs[v.ID] = v
+		return db, nil
+	case *MenuDB:
+		db.menuDBs[v.ID] = v
 		return db, nil
 	case *NodeDB:
 		db.nodeDBs[v.ID] = v
@@ -166,6 +181,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Button github.com/fullstack-lang/gong/lib/tree/go, record not found")
+		}
+	case *MenuDB:
+		if existing, ok := db.menuDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Menu github.com/fullstack-lang/gong/lib/tree/go, record not found")
 		}
 	case *NodeDB:
 		if existing, ok := db.nodeDBs[v.ID]; ok {
@@ -202,6 +223,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]ButtonDB:
 		*ptr = make([]ButtonDB, 0, len(db.buttonDBs))
 		for _, v := range db.buttonDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]MenuDB:
+		*ptr = make([]MenuDB, 0, len(db.menuDBs))
+		for _, v := range db.menuDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -265,6 +292,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		buttonDB, _ := instanceDB.(*ButtonDB)
 		*buttonDB = *tmp
+
+	case *MenuDB:
+		tmp, ok := db.menuDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Menu Unkown entry %d", i))
+		}
+
+		menuDB, _ := instanceDB.(*MenuDB)
+		*menuDB = *tmp
 
 	case *NodeDB:
 		tmp, ok := db.nodeDBs[uint(i)]

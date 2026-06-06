@@ -60,6 +60,10 @@ type NodePointersEncoding struct {
 
 	// field Buttons is a slice of pointers to another Struct (optional or 0..1)
 	Buttons IntSlice `gorm:"type:TEXT"`
+
+	// field Menu is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	MenuID sql.NullInt64
 }
 
 // NodeDB describes a node in the database
@@ -448,6 +452,18 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(nodeDB.NodePointersEncoding.Buttons, int(buttonAssocEnd_DB.ID))
 		}
 
+		// commit pointer value node.Menu translates to updating the node.MenuID
+		nodeDB.MenuID.Valid = true // allow for a 0 value (nil association)
+		if node.Menu != nil {
+			if MenuId, ok := backRepo.BackRepoMenu.Map_MenuPtr_MenuDBID[node.Menu]; ok {
+				nodeDB.MenuID.Int64 = int64(MenuId)
+				nodeDB.MenuID.Valid = true
+			}
+		} else {
+			nodeDB.MenuID.Int64 = 0
+			nodeDB.MenuID.Valid = true
+		}
+
 		_, err := backRepoNode.db.Save(nodeDB)
 		if err != nil {
 			log.Fatal(err)
@@ -597,6 +613,27 @@ func (nodeDB *NodeDB) DecodePointers(backRepo *BackRepoStruct, node *models.Node
 	node.Buttons = node.Buttons[:0]
 	for _, _Buttonid := range nodeDB.NodePointersEncoding.Buttons {
 		node.Buttons = append(node.Buttons, backRepo.BackRepoButton.Map_ButtonDBID_ButtonPtr[uint(_Buttonid)])
+	}
+
+	// Menu field
+	{
+		id := nodeDB.MenuID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoMenu.Map_MenuDBID_MenuPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: node.Menu, unknown pointer id", id)
+				node.Menu = nil
+			} else {
+				// updates only if field has changed
+				if node.Menu == nil || node.Menu != tmp {
+					node.Menu = tmp
+				}
+			}
+		} else {
+			node.Menu = nil
+		}
 	}
 
 }
@@ -1130,6 +1167,12 @@ func (backRepoNode *BackRepoNodeStruct) RestorePhaseTwo() {
 		if nodeDB.PreceedingSVGIconID.Int64 != 0 {
 			nodeDB.PreceedingSVGIconID.Int64 = int64(BackRepoSVGIconid_atBckpTime_newID[uint(nodeDB.PreceedingSVGIconID.Int64)])
 			nodeDB.PreceedingSVGIconID.Valid = true
+		}
+
+		// reindexing Menu field
+		if nodeDB.MenuID.Int64 != 0 {
+			nodeDB.MenuID.Int64 = int64(BackRepoMenuid_atBckpTime_newID[uint(nodeDB.MenuID.Int64)])
+			nodeDB.MenuID.Valid = true
 		}
 
 		// update databse with new index encoding
