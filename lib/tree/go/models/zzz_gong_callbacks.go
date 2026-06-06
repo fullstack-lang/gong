@@ -10,6 +10,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterButtonCreateCallback != nil {
 			stage.OnAfterButtonCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Menu:
+		if stage.OnAfterMenuCreateCallback != nil {
+			stage.OnAfterMenuCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Node:
 		if stage.OnAfterNodeCreateCallback != nil {
 			stage.OnAfterNodeCreateCallback.OnAfterCreate(stage, target)
@@ -41,6 +45,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterButtonUpdateCallback != nil {
 			stage.OnAfterButtonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *Menu:
+		newTarget := any(new).(*Menu)
+		if stage.OnAfterMenuUpdateCallback != nil {
+			stage.OnAfterMenuUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Node:
 		newTarget := any(new).(*Node)
 		if stage.OnAfterNodeUpdateCallback != nil {
@@ -71,6 +80,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Button)
 			stage.OnAfterButtonDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Menu:
+		if stage.OnAfterMenuDeleteCallback != nil {
+			staged := any(staged).(*Menu)
+			stage.OnAfterMenuDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Node:
 		if stage.OnAfterNodeDeleteCallback != nil {
 			staged := any(staged).(*Node)
@@ -100,6 +114,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterButtonReadCallback != nil {
 			stage.OnAfterButtonReadCallback.OnAfterRead(stage, target)
 		}
+	case *Menu:
+		if stage.OnAfterMenuReadCallback != nil {
+			stage.OnAfterMenuReadCallback.OnAfterRead(stage, target)
+		}
 	case *Node:
 		if stage.OnAfterNodeReadCallback != nil {
 			stage.OnAfterNodeReadCallback.OnAfterRead(stage, target)
@@ -125,6 +143,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	// insertion point
 	case *Button:
 		stage.OnAfterButtonUpdateCallback = any(callback).(OnAfterUpdateInterface[Button])
+	case *Menu:
+		stage.OnAfterMenuUpdateCallback = any(callback).(OnAfterUpdateInterface[Menu])
 	case *Node:
 		stage.OnAfterNodeUpdateCallback = any(callback).(OnAfterUpdateInterface[Node])
 	case *SVGIcon:
@@ -140,6 +160,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	// insertion point
 	case *Button:
 		stage.OnAfterButtonCreateCallback = any(callback).(OnAfterCreateInterface[Button])
+	case *Menu:
+		stage.OnAfterMenuCreateCallback = any(callback).(OnAfterCreateInterface[Menu])
 	case *Node:
 		stage.OnAfterNodeCreateCallback = any(callback).(OnAfterCreateInterface[Node])
 	case *SVGIcon:
@@ -155,6 +177,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	// insertion point
 	case *Button:
 		stage.OnAfterButtonDeleteCallback = any(callback).(OnAfterDeleteInterface[Button])
+	case *Menu:
+		stage.OnAfterMenuDeleteCallback = any(callback).(OnAfterDeleteInterface[Menu])
 	case *Node:
 		stage.OnAfterNodeDeleteCallback = any(callback).(OnAfterDeleteInterface[Node])
 	case *SVGIcon:
@@ -170,6 +194,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	// insertion point
 	case *Button:
 		stage.OnAfterButtonReadCallback = any(callback).(OnAfterReadInterface[Button])
+	case *Menu:
+		stage.OnAfterMenuReadCallback = any(callback).(OnAfterReadInterface[Menu])
 	case *Node:
 		stage.OnAfterNodeReadCallback = any(callback).(OnAfterReadInterface[Node])
 	case *SVGIcon:

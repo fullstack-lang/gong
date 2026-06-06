@@ -112,6 +112,30 @@
                     </button>
                 </span>
             }
+
+            @if (node.gongNode.Menu) {
+                <button mat-icon-button [matMenuTriggerFor]="menu" [matMenuTriggerData]="{node: node}" (click)="$event.stopPropagation()">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <ng-template matMenuContent let-node="node">
+                        @for (button of node.gongNode.Menu.Buttons; track $index) {
+                            <button mat-menu-item (click)="onButtonClick($event, node, button)" [disabled]="button.IsDisabled">
+                                @if (!button.SVGIcon) {
+                                    <mat-icon [ngStyle]="{'color': button.IsDisabled ? 'rgba(0,0,0,.20)' : 'rgba(0,0,0,.50)'}">
+                                        {{button.Icon}}
+                                    </mat-icon>
+                                } @else {
+                                    <mat-icon [ngStyle]="{'color': button.IsDisabled ? 'rgba(0,0,0,.20)' : 'rgba(0,0,0,.50)'}"
+                                              [svgIcon]="button.SVGIcon.Name">
+                                    </mat-icon>
+                                }
+                                <span>{{button.Name}}</span>
+                            </button>
+                        }
+                    </ng-template>
+                </mat-menu>
+            }
         </ng-template>
         
         <mat-tree-node class="custom-tree-node" 

@@ -18,6 +18,7 @@ import { FrontRepo, FrontRepoService } from './front-repo.service';
 // insertion point for imports
 import { SVGIconAPI } from './svgicon-api'
 import { ButtonAPI } from './button-api'
+import { MenuAPI } from './menu-api'
 
 @Injectable({
   providedIn: 'root'

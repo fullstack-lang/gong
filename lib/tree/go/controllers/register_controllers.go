@@ -63,6 +63,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/buttons/:id", GetController().UpdateButton)
 		v1.DELETE("/v1/buttons/:id", GetController().DeleteButton)
 
+		v1.GET("/v1/menus", GetController().GetMenus)
+		v1.GET("/v1/menus/:id", GetController().GetMenu)
+		v1.POST("/v1/menus", GetController().PostMenu)
+		v1.PATCH("/v1/menus/:id", GetController().UpdateMenu)
+		v1.PUT("/v1/menus/:id", GetController().UpdateMenu)
+		v1.DELETE("/v1/menus/:id", GetController().DeleteMenu)
+
 		v1.GET("/v1/nodes", GetController().GetNodes)
 		v1.GET("/v1/nodes/:id", GetController().GetNode)
 		v1.POST("/v1/nodes", GetController().PostNode)

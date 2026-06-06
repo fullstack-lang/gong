@@ -78,6 +78,72 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(button_.ToolTipText), formDiv)
 		case "ToolTipPosition":
 			FormDivEnumStringFieldToField(&(button_.ToolTipPosition), formDiv)
+		case "Menu:Buttons":
+			// WARNING : this form deals with the N-N association "Menu.Buttons []*Button" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Button). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Menu
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Menu"
+				rf.Fieldname = "Buttons"
+				formerAssociationSource := button_.GongGetReverseFieldOwner(
+					buttonFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Menu)
+					if !ok {
+						log.Fatalln("Source of Menu.Buttons []*Button, is not an Menu instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Buttons, button_)
+					formerSource.Buttons = slices.Delete(formerSource.Buttons, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Menu
+			for _menu := range *models.GetGongstructInstancesSet[models.Menu](buttonFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _menu.GetName() == newSourceName.GetName() {
+					newSource = _menu // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Menu.Buttons []*Button, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Buttons = append(newSource.Buttons, button_)
 		case "Node:Buttons":
 			// WARNING : this form deals with the N-N association "Node.Buttons []*Button" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -174,6 +240,115 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 	}
 
 	buttonFormCallback.probe.ux_tree()
+}
+func __gong__New__MenuFormCallback(
+	menu *models.Menu,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (menuFormCallback *MenuFormCallback) {
+	menuFormCallback = new(MenuFormCallback)
+	menuFormCallback.probe = probe
+	menuFormCallback.menu = menu
+	menuFormCallback.formGroup = formGroup
+
+	menuFormCallback.CreationMode = (menu == nil)
+
+	return
+}
+
+type MenuFormCallback struct {
+	menu *models.Menu
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (menuFormCallback *MenuFormCallback) OnSave() {
+	menuFormCallback.probe.stageOfInterest.Lock()
+	defer menuFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("MenuFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	menuFormCallback.probe.formStage.Checkout()
+
+	if menuFormCallback.menu == nil {
+		menuFormCallback.menu = new(models.Menu).Stage(menuFormCallback.probe.stageOfInterest)
+	}
+	menu_ := menuFormCallback.menu
+	_ = menu_
+
+	for _, formDiv := range menuFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(menu_.Name), formDiv)
+		case "Buttons":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Button](menuFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Button, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Button)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					menuFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Button](menuFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			menu_.Buttons = instanceSlice
+
+		}
+	}
+
+	// manage the suppress operation
+	if menuFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		menu_.Unstage(menuFormCallback.probe.stageOfInterest)
+	}
+
+	menuFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Menu](
+		menuFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if menuFormCallback.CreationMode || menuFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		menuFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(menuFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__MenuFormCallback(
+			nil,
+			menuFormCallback.probe,
+			newFormGroup,
+		)
+		menu := new(models.Menu)
+		FillUpForm(menu, newFormGroup, menuFormCallback.probe)
+		menuFormCallback.probe.formStage.Commit()
+	}
+
+	menuFormCallback.probe.ux_tree()
 }
 func __gong__New__NodeFormCallback(
 	node *models.Node,
@@ -336,6 +511,8 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 			}
 			node_.Buttons = instanceSlice
 
+		case "Menu":
+			FormDivSelectFieldToField(&(node_.Menu), nodeFormCallback.probe.stageOfInterest, formDiv)
 		case "Node:Children":
 			// WARNING : this form deals with the N-N association "Node.Children []*Node" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

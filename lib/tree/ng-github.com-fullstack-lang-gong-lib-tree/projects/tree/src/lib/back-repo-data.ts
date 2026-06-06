@@ -3,6 +3,8 @@
 //insertion point for imports
 import { ButtonAPI } from './button-api'
 
+import { MenuAPI } from './menu-api'
+
 import { NodeAPI } from './node-api'
 
 import { SVGIconAPI } from './svgicon-api'
@@ -13,6 +15,8 @@ import { TreeAPI } from './tree-api'
 export class BackRepoData {
 	// insertion point for declarations
 	ButtonAPIs = new Array<ButtonAPI>()
+
+	MenuAPIs = new Array<MenuAPI>()
 
 	NodeAPIs = new Array<NodeAPI>()
 
@@ -27,6 +31,8 @@ export class BackRepoData {
 	constructor(data?: Partial<BackRepoData>) {
 		// insertion point for copies
 		this.ButtonAPIs = data?.ButtonAPIs || [];
+
+		this.MenuAPIs = data?.MenuAPIs || [];
 
 		this.NodeAPIs = data?.NodeAPIs || [];
 

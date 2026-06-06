@@ -26,6 +26,8 @@ type BackRepoStruct struct {
 	// insertion point for per struct back repo declarations
 	BackRepoButton BackRepoButtonStruct
 
+	BackRepoMenu BackRepoMenuStruct
+
 	BackRepoNode BackRepoNodeStruct
 
 	BackRepoSVGIcon BackRepoSVGIconStruct
@@ -54,6 +56,7 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 	/* THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm
 	db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_lib_tree_go",
 		&ButtonDB{},
+		&MenuDB{},
 		&NodeDB{},
 		&SVGIconDB{},
 		&TreeDB{},
@@ -67,6 +70,14 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		Map_ButtonDBID_ButtonPtr: make(map[uint]*models.Button, 0),
 		Map_ButtonDBID_ButtonDB:  make(map[uint]*ButtonDB, 0),
 		Map_ButtonPtr_ButtonDBID: make(map[*models.Button]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoMenu = BackRepoMenuStruct{
+		Map_MenuDBID_MenuPtr: make(map[uint]*models.Menu, 0),
+		Map_MenuDBID_MenuDB:  make(map[uint]*MenuDB, 0),
+		Map_MenuPtr_MenuDBID: make(map[*models.Menu]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -142,12 +153,14 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoButton.CommitPhaseOne(stage)
+	backRepo.BackRepoMenu.CommitPhaseOne(stage)
 	backRepo.BackRepoNode.CommitPhaseOne(stage)
 	backRepo.BackRepoSVGIcon.CommitPhaseOne(stage)
 	backRepo.BackRepoTree.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoButton.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoMenu.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoNode.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoSVGIcon.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoTree.CommitPhaseTwo(backRepo)
@@ -166,12 +179,14 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	defer backRepo.rwMutex.Unlock()
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoButton.CheckoutPhaseOne()
+	backRepo.BackRepoMenu.CheckoutPhaseOne()
 	backRepo.BackRepoNode.CheckoutPhaseOne()
 	backRepo.BackRepoSVGIcon.CheckoutPhaseOne()
 	backRepo.BackRepoTree.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoButton.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoMenu.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoNode.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoSVGIcon.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoTree.CheckoutPhaseTwo(backRepo)
@@ -183,6 +198,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoButton.Backup(dirPath)
+	backRepo.BackRepoMenu.Backup(dirPath)
 	backRepo.BackRepoNode.Backup(dirPath)
 	backRepo.BackRepoSVGIcon.Backup(dirPath)
 	backRepo.BackRepoTree.Backup(dirPath)
@@ -197,6 +213,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoButton.BackupXL(file)
+	backRepo.BackRepoMenu.BackupXL(file)
 	backRepo.BackRepoNode.BackupXL(file)
 	backRepo.BackRepoSVGIcon.BackupXL(file)
 	backRepo.BackRepoTree.BackupXL(file)
@@ -225,6 +242,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoButton.RestorePhaseOne(dirPath)
+	backRepo.BackRepoMenu.RestorePhaseOne(dirPath)
 	backRepo.BackRepoNode.RestorePhaseOne(dirPath)
 	backRepo.BackRepoSVGIcon.RestorePhaseOne(dirPath)
 	backRepo.BackRepoTree.RestorePhaseOne(dirPath)
@@ -235,6 +253,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoButton.RestorePhaseTwo()
+	backRepo.BackRepoMenu.RestorePhaseTwo()
 	backRepo.BackRepoNode.RestorePhaseTwo()
 	backRepo.BackRepoSVGIcon.RestorePhaseTwo()
 	backRepo.BackRepoTree.RestorePhaseTwo()
@@ -266,6 +285,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoButton.RestoreXLPhaseOne(file)
+	backRepo.BackRepoMenu.RestoreXLPhaseOne(file)
 	backRepo.BackRepoNode.RestoreXLPhaseOne(file)
 	backRepo.BackRepoSVGIcon.RestoreXLPhaseOne(file)
 	backRepo.BackRepoTree.RestoreXLPhaseOne(file)
