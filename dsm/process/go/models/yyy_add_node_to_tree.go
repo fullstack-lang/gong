@@ -182,7 +182,7 @@ func createBaseNode[
 	if shape, ok := shapesMap[element]; ok {
 		node.IsChecked = true
 		visibilityButton := &tree.Button{
-			Name:            diagram.GetName(),
+			Name:            "Hide",
 			Icon:            string(buttons.BUTTON_visibility_off),
 			ToolTipText:     "Hide from diagram",
 			HasToolTip:      true,
@@ -194,6 +194,7 @@ func createBaseNode[
 		}
 		if shape.GetIsHidden() {
 			visibilityButton.Icon = string(buttons.BUTTON_visibility)
+			visibilityButton.Name = "Show"
 			visibilityButton.ToolTipText = "Show on diagram"
 		}
 		node.Buttons = append(node.Buttons, visibilityButton)
@@ -205,7 +206,7 @@ func createBaseNode[
 		if diagram.GetDiagramListElement() == any(element).(AbstractType) {
 			node.IsExpanded = true
 			diagramsButton := &tree.Button{
-				Name:            diagram.GetName(),
+				Name:            "Hide diagrams",
 				Icon:            string(buttons.BUTTON_list),
 				ToolTipText:     "List of other " + fmt.Sprint(len(diagrams)-1) + " diagrams where element is present",
 				HasToolTip:      true,
@@ -215,7 +216,10 @@ func createBaseNode[
 					stage.Commit()
 				},
 			}
-			node.Buttons = append(node.Buttons, diagramsButton)
+			if node.Menu == nil {
+				node.Menu = &tree.Menu{Name: "Menu"}
+			}
+			node.Menu.Buttons = append(node.Menu.Buttons, diagramsButton)
 
 			for _, diag := range diagrams {
 				if any(diag) == any(diagram) {
@@ -239,9 +243,12 @@ func createBaseNode[
 				node.Children = append(node.Children, diagramNode)
 			}
 		} else {
-			node.Buttons = append(node.Buttons,
+			if node.Menu == nil {
+				node.Menu = &tree.Menu{Name: "Menu"}
+			}
+			node.Menu.Buttons = append(node.Menu.Buttons,
 				&tree.Button{
-					Name:            diagram.GetName(),
+					Name:            "Show diagrams",
 					Icon:            string(buttons.BUTTON_list),
 					ToolTipText:     "Show list of other diagrams where \"" + element.GetName() + "\" is present",
 					HasToolTip:      true,
@@ -301,22 +308,43 @@ func addNodeToTree[
 	// if the parent element is in the diagram and the child element is in the diagram,
 	// then we can add a checkbox to add/remove the link between the parent and child element to/from the diagram
 	if conf.parentElement != nil && isParentInDiagram && isChildInDiagram {
-		node.HasSecondCheckboxButton = true
-		node.SecondCheckboxHasToolTip = true
-		node.SecondCheckboxToolTipPosition = tree.Right
-
+		var toggleLinkButton *tree.Button
 		if _, ok := conf.map_Element_CompositionShape[conf.element]; ok {
-			node.CheckboxToolTipText = "Remove link shape \"" + conf.parentElement.GetName() +
-				"\" to \"" + conf.element.GetName() + "\" to diagram"
 			node.IsSecondCheckboxChecked = true
+			toggleLinkButton = &tree.Button{
+				Name:            "Remove link shape",
+				Icon:            string(buttons.BUTTON_link_off),
+				ToolTipText:     "Remove link shape \"" + conf.parentElement.GetName() + "\" to \"" + conf.element.GetName() + "\" to diagram",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					frontNode := *node
+					frontNode.IsSecondCheckboxChecked = false
+					node.OnUpdate(stager.treeStage, node, &frontNode)
+				},
+			}
 		} else {
-			node.CheckboxToolTipText = "Add link shape \"" + conf.parentElement.GetName() +
-				"\" to \"" + conf.element.GetName() + "\" to diagram"
+			toggleLinkButton = &tree.Button{
+				Name:            "Add link shape",
+				Icon:            string(buttons.BUTTON_link),
+				ToolTipText:     "Add link shape \"" + conf.parentElement.GetName() + "\" to \"" + conf.element.GetName() + "\" to diagram",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					frontNode := *node
+					frontNode.IsSecondCheckboxChecked = true
+					node.OnUpdate(stager.treeStage, node, &frontNode)
+				},
+			}
 		}
+		if node.Menu == nil {
+			node.Menu = &tree.Menu{Name: "Menu"}
+		}
+		node.Menu.Buttons = append(node.Menu.Buttons, toggleLinkButton)
 
 		if compositionShape != nil {
 			showHideCompositionButton := &tree.Button{
-				Name:            GetGongstructNameFromPointer(conf.element) + " " + string(buttons.BUTTON_add),
+				Name:            "Hide link",
 				HasToolTip:      true,
 				ToolTipPosition: tree.Right,
 				OnClick: func() {
@@ -327,15 +355,20 @@ func addNodeToTree[
 
 			if compositionShape.GetIsHidden() {
 				_ = compositionShape
+				showHideCompositionButton.Name = "Show link"
 				showHideCompositionButton.Icon = string(buttons.BUTTON_visibility)
 				showHideCompositionButton.ToolTipText = "Show link from \"" + conf.parentElement.GetName() +
 					"\" to \"" + conf.element.GetName() + "\""
 			} else {
+				showHideCompositionButton.Name = "Hide link"
 				showHideCompositionButton.Icon = string(buttons.BUTTON_visibility_off)
 				showHideCompositionButton.ToolTipText = "Hide link from \"" + conf.parentElement.GetName() +
 					"\" to \"" + conf.element.GetName() + "\""
 			}
-			node.Buttons = append(node.Buttons, showHideCompositionButton)
+			if node.Menu == nil {
+				node.Menu = &tree.Menu{Name: "Menu"}
+			}
+			node.Menu.Buttons = append(node.Menu.Buttons, showHideCompositionButton)
 		}
 	}
 

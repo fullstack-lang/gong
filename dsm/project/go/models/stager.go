@@ -3,8 +3,6 @@
 package models
 
 import (
-	"log"
-
 	"github.com/gin-gonic/gin"
 
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
@@ -49,18 +47,6 @@ type Stager struct {
 	map_Element_Diagrams map[AbstractType][]DiagramIF
 
 	persistanceFile string
-}
-
-func (stager *Stager) getRootLibrary() *Library {
-	for library := range *GetGongstructInstancesSet[Library](stager.stage) {
-		if library.IsRootLibrary {
-			return library
-		}
-	}
-
-	// should not happen
-	log.Panic("No root library found")
-	return nil
 }
 
 func NewStager(

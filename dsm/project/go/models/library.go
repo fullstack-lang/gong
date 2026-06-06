@@ -29,20 +29,3 @@ type Library struct {
 
 	objects []AbstractType
 }
-
-type LibraryAbstractFields struct {
-	owningLibrary *Library
-}
-
-type LibraryOwnedType interface {
-	GetOwningLibrary() *Library
-	SetOwningLibrary(library *Library)
-}
-
-func (r *LibraryAbstractFields) GetOwningLibrary() *Library {
-	return r.owningLibrary
-}
-
-func (r *LibraryAbstractFields) SetOwningLibrary(library *Library) {
-	r.owningLibrary = library
-}

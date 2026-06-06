@@ -9,9 +9,14 @@ type Library struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
+	// There is one and only one root library per stage.
+	IsRootLibrary bool
+
+	SubLibraries []*Library
+
+	// DSM specifc
 	objects []AbstractType
 
-	SubLibraries                    []*Library
 	IsSubLibrariesNodeExpanded      bool
 	SubLibrariesWhoseNodeIsExpanded []*Library
 
@@ -46,19 +51,3 @@ type Library struct {
 	IsExpandedTmp bool
 }
 
-type LibraryAbstractFields struct {
-	owningLibrary *Library
-}
-
-type LibraryOwnedType interface {
-	GetOwningLibrary() *Library
-	SetOwningLibrary(library *Library)
-}
-
-func (r *LibraryAbstractFields) GetOwningLibrary() *Library {
-	return r.owningLibrary
-}
-
-func (r *LibraryAbstractFields) SetOwningLibrary(library *Library) {
-	r.owningLibrary = library
-}
