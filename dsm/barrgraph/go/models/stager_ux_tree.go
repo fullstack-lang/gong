@@ -34,8 +34,11 @@ func (stager *Stager) ux_tree() {
 
 		diagramNode.Buttons = []*tree.Button{
 			{
-				Name: diagram.GetName(),
-				Icon: string(buttons.BUTTON_edit),
+				Name:            diagram.GetName(),
+				Icon:            string(buttons.BUTTON_edit),
+				HasToolTip:      true,
+				ToolTipText:     "Edit diagram",
+				ToolTipPosition: tree.Right,
 				OnClick: func() {
 					diagram.IsEditable = !diagram.IsEditable
 					stage.Commit()
@@ -44,6 +47,7 @@ func (stager *Stager) ux_tree() {
 		}
 		if diagram.IsEditable {
 			diagramNode.Buttons[0].Icon = string(buttons.BUTTON_edit_off)
+			diagramNode.Buttons[0].ToolTipText = "Stop editing diagram"
 		}
 
 		tree_.RootNodes = append(tree_.RootNodes, diagramNode)
@@ -67,8 +71,11 @@ func (stager *Stager) ux_tree() {
 		}
 		movementCategoryNode.Buttons = []*tree.Button{
 			{
-				Name: diagram.GetName(),
-				Icon: string(buttons.BUTTON_visibility),
+				Name:            diagram.GetName(),
+				Icon:            string(buttons.BUTTON_visibility),
+				HasToolTip:      true,
+				ToolTipText:     "Show movements on diagram",
+				ToolTipPosition: tree.Right,
 				OnClick: func() {
 					diagram.IsMovementCategoryHidden = !diagram.IsMovementCategoryHidden
 					stage.Commit()
@@ -77,6 +84,7 @@ func (stager *Stager) ux_tree() {
 		}
 		if !diagram.IsMovementCategoryHidden {
 			movementCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
+			movementCategoryNode.Buttons[0].ToolTipText = "Hide movements from diagram"
 		}
 		diagramNode.Children = append(diagramNode.Children, movementCategoryNode)
 
@@ -155,8 +163,11 @@ func (stager *Stager) ux_tree() {
 		diagramNode.Children = append(diagramNode.Children, artefactTypeCategoryNode)
 		artefactTypeCategoryNode.Buttons = []*tree.Button{
 			{
-				Name: diagram.GetName(),
-				Icon: string(buttons.BUTTON_visibility),
+				Name:            diagram.GetName(),
+				Icon:            string(buttons.BUTTON_visibility),
+				HasToolTip:      true,
+				ToolTipText:     "Show artefact types on diagram",
+				ToolTipPosition: tree.Right,
 				OnClick: func() {
 					diagram.IsArtefactTypeCategoryHidden = !diagram.IsArtefactTypeCategoryHidden
 					stage.Commit()
@@ -165,6 +176,7 @@ func (stager *Stager) ux_tree() {
 		}
 		if !diagram.IsArtefactTypeCategoryHidden {
 			artefactTypeCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
+			artefactTypeCategoryNode.Buttons[0].ToolTipText = "Hide artefact types from diagram"
 		}
 		for _, artefactType := range GetGongstrucsSorted[*ArtefactType](stager.stage) {
 
@@ -242,8 +254,11 @@ func (stager *Stager) ux_tree() {
 
 		artistCategoryNode.Buttons = []*tree.Button{
 			{
-				Name: diagram.GetName(),
-				Icon: string(buttons.BUTTON_visibility),
+				Name:            diagram.GetName(),
+				Icon:            string(buttons.BUTTON_visibility),
+				HasToolTip:      true,
+				ToolTipText:     "Show artists on diagram",
+				ToolTipPosition: tree.Right,
 				OnClick: func() {
 					diagram.IsArtistCategoryHidden = !diagram.IsArtistCategoryHidden
 					stage.Commit()
@@ -252,6 +267,7 @@ func (stager *Stager) ux_tree() {
 		}
 		if !diagram.IsArtistCategoryHidden {
 			artistCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
+			artistCategoryNode.Buttons[0].ToolTipText = "Hide artists from diagram"
 		}
 		for _, element := range GetGongstrucsSorted[*Artist](stager.stage) {
 
@@ -356,8 +372,11 @@ func (stager *Stager) ux_tree() {
 
 		influenceCategoryNode.Buttons = []*tree.Button{
 			{
-				Name: diagram.GetName(),
-				Icon: string(buttons.BUTTON_visibility),
+				Name:            diagram.GetName(),
+				Icon:            string(buttons.BUTTON_visibility),
+				HasToolTip:      true,
+				ToolTipText:     "Show influences on diagram",
+				ToolTipPosition: tree.Right,
 				OnClick: func() {
 					diagram.IsInfluenceCategoryHidden = !diagram.IsInfluenceCategoryHidden
 					stage.Commit()
@@ -366,6 +385,7 @@ func (stager *Stager) ux_tree() {
 		}
 		if !diagram.IsInfluenceCategoryHidden {
 			influenceCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
+			influenceCategoryNode.Buttons[0].ToolTipText = "Hide influences from diagram"
 		}
 		for _, influence := range GetGongstrucsSorted[*Influence](stager.stage) {
 
