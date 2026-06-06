@@ -595,7 +595,7 @@
       "group": "build"
     },
     {
-      "label": "01 - gong generate barrgraph",
+      "label": "01 - gong generate barrgraph --dsm",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/dsm/barrgraph"
@@ -604,7 +604,7 @@
       "group": "build"
     },
     {
-      "label": "01 - gong generate barrgraph & gong-bundler it",
+      "label": "01 - gong generate barrgraph --dsm & gong-bundler it",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/dsm/barrgraph"
