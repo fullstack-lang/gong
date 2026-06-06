@@ -45,6 +45,7 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values
 
 	__Artist__00000000_.Name = `Isamo Noguchi`
+	__Artist__00000000_.ComputedPrefix = ``
 	__Artist__00000000_.IsDead = true
 	__Artist__00000000_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1984-01-01 00:00:00 +0000 UTC")
 
@@ -66,6 +67,8 @@ func _(stage *models.Stage) {
 	__Desk__00000000_.Name = `Desk`
 
 	__Diagram__00000000_.Name = `  AVIVA    STOOL  BACKGROUND`
+	__Diagram__00000000_.ComputedPrefix = ``
+	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000000_.IsEditable = true
 	__Diagram__00000000_.IsNodeExpanded = true
 	__Diagram__00000000_.IsMovementCategoryNodeExpanded = true
@@ -152,6 +155,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.InfluenceDashedLinePattern = `7 3`
 
 	__Movement__00000000_.Name = `biomorphism`
+	__Movement__00000000_.ComputedPrefix = ``
 	__Movement__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Movement__00000000_.HideDate = false
 	__Movement__00000000_.HasTaxonomicFilter = false
