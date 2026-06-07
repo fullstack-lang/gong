@@ -279,12 +279,16 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values
 
 	__ArtefactType__00000000_.Name = `Japanese prints`
+	__ArtefactType__00000000_.ComputedPrefix = ``
 
 	__ArtefactType__00000001_.Name = `Near-Eastern Art`
+	__ArtefactType__00000001_.ComputedPrefix = ``
 
 	__ArtefactType__00000002_.Name = `African First Art`
+	__ArtefactType__00000002_.ComputedPrefix = ``
 
 	__ArtefactType__00000003_.Name = `Machine Esthetic`
+	__ArtefactType__00000003_.ComputedPrefix = ``
 
 	__ArtefactTypeShape__00000000_.Name = ``
 	__ArtefactTypeShape__00000000_.X = 80.000000
@@ -329,30 +333,37 @@ func _(stage *models.Stage) {
 	__ArtefactTypeShape__00000005_.IsHidden = false
 
 	__Artist__00000000_.Name = `Van Gogh`
+	__Artist__00000000_.ComputedPrefix = ``
 	__Artist__00000000_.IsDead = true
 	__Artist__00000000_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1890-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000001_.Name = `Gauguin`
+	__Artist__00000001_.ComputedPrefix = ``
 	__Artist__00000001_.IsDead = true
 	__Artist__00000001_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1903-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000002_.Name = `Cézanne`
+	__Artist__00000002_.ComputedPrefix = ``
 	__Artist__00000002_.IsDead = true
 	__Artist__00000002_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1906-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000003_.Name = `Seurat`
+	__Artist__00000003_.ComputedPrefix = ``
 	__Artist__00000003_.IsDead = true
 	__Artist__00000003_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1891-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000004_.Name = `Redon`
+	__Artist__00000004_.ComputedPrefix = ``
 	__Artist__00000004_.IsDead = true
 	__Artist__00000004_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1916-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000005_.Name = `Rousseau`
+	__Artist__00000005_.ComputedPrefix = ``
 	__Artist__00000005_.IsDead = true
 	__Artist__00000005_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1910-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000006_.Name = `Brancusi`
+	__Artist__00000006_.ComputedPrefix = ``
 	__Artist__00000006_.IsDead = false
 	__Artist__00000006_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 
@@ -804,7 +815,9 @@ func _(stage *models.Stage) {
 	__Desk__00000000_.Name = `Desk`
 
 	__Diagram__00000000_.Name = `Cubism   and   abstract   art`
-	__Diagram__00000000_.IsEditable = false
+	__Diagram__00000000_.ComputedPrefix = ``
+	__Diagram__00000000_.IsChecked = false
+	__Diagram__00000000_.IsEditable = true
 	__Diagram__00000000_.IsNodeExpanded = true
 	__Diagram__00000000_.IsMovementCategoryNodeExpanded = true
 	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = false
@@ -890,6 +903,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.InfluenceDashedLinePattern = `7 3`
 
 	__Diagram__00000001_.Name = `Post Alfred`
+	__Diagram__00000001_.ComputedPrefix = ``
+	__Diagram__00000001_.IsChecked = false
 	__Diagram__00000001_.IsEditable = true
 	__Diagram__00000001_.IsNodeExpanded = false
 	__Diagram__00000001_.IsMovementCategoryNodeExpanded = true
@@ -976,251 +991,350 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.InfluenceDashedLinePattern = `7 3`
 
 	__Influence__00000000_.Name = `Japanese prints to Synthetism`
+	__Influence__00000000_.ComputedPrefix = ``
 	__Influence__00000000_.IsHypothtical = false
 
 	__Influence__00000001_.Name = `Japanese prints to Fauvism`
+	__Influence__00000001_.ComputedPrefix = ``
 	__Influence__00000001_.IsHypothtical = false
 
 	__Influence__00000002_.Name = `Van Gogh to Fauvism`
+	__Influence__00000002_.ComputedPrefix = ``
 	__Influence__00000002_.IsHypothtical = false
 
 	__Influence__00000003_.Name = `Redon to Expressionism`
+	__Influence__00000003_.ComputedPrefix = ``
 	__Influence__00000003_.IsHypothtical = true
 
 	__Influence__00000004_.Name = `Synthetism to Fauvism`
+	__Influence__00000004_.ComputedPrefix = ``
 	__Influence__00000004_.IsHypothtical = false
 
 	__Influence__00000005_.Name = `Cézanne to Cubism`
+	__Influence__00000005_.ComputedPrefix = ``
 	__Influence__00000005_.IsHypothtical = false
 
 	__Influence__00000006_.Name = `Neo-Impressionism to Fauvism`
+	__Influence__00000006_.ComputedPrefix = ``
 	__Influence__00000006_.IsHypothtical = false
 
 	__Influence__00000007_.Name = `Neo-Impressionism to Cubism`
+	__Influence__00000007_.ComputedPrefix = ``
 	__Influence__00000007_.IsHypothtical = false
 
 	__Influence__00000008_.Name = `Neo-Impressionism to Futurism`
+	__Influence__00000008_.ComputedPrefix = ``
 	__Influence__00000008_.IsHypothtical = false
 
 	__Influence__00000009_.Name = `Rousseau to Cubism`
+	__Influence__00000009_.ComputedPrefix = ``
 	__Influence__00000009_.IsHypothtical = false
 
 	__Influence__00000010_.Name = `Near-Eastern Art to Fauvism`
+	__Influence__00000010_.ComputedPrefix = ``
 	__Influence__00000010_.IsHypothtical = false
 
 	__Influence__00000011_.Name = `Fauvism to Expressionism`
+	__Influence__00000011_.ComputedPrefix = ``
 	__Influence__00000011_.IsHypothtical = false
 
 	__Influence__00000012_.Name = `African First Art to Cubism`
+	__Influence__00000012_.ComputedPrefix = ``
 	__Influence__00000012_.IsHypothtical = false
 
 	__Influence__00000013_.Name = `Cubism to Futurism`
+	__Influence__00000013_.ComputedPrefix = ``
 	__Influence__00000013_.IsHypothtical = false
 
 	__Influence__00000014_.Name = `Cubism to Orphism`
+	__Influence__00000014_.ComputedPrefix = ``
 	__Influence__00000014_.IsHypothtical = false
 
 	__Influence__00000015_.Name = `Cubism to Purism`
+	__Influence__00000015_.ComputedPrefix = ``
 	__Influence__00000015_.IsHypothtical = false
 
 	__Influence__00000016_.Name = `Cubism to Suprematism`
+	__Influence__00000016_.ComputedPrefix = ``
 	__Influence__00000016_.IsHypothtical = false
 
 	__Influence__00000017_.Name = `Cubism to De Stijl`
+	__Influence__00000017_.ComputedPrefix = ``
 	__Influence__00000017_.IsHypothtical = false
 
 	__Influence__00000018_.Name = `Cubism to Constructivism`
+	__Influence__00000018_.ComputedPrefix = ``
 	__Influence__00000018_.IsHypothtical = false
 
 	__Influence__00000019_.Name = `Futurism to Expressionism`
+	__Influence__00000019_.ComputedPrefix = ``
 	__Influence__00000019_.IsHypothtical = false
 
 	__Influence__00000020_.Name = `Futurism to Dadaism`
+	__Influence__00000020_.ComputedPrefix = ``
 	__Influence__00000020_.IsHypothtical = false
 
 	__Influence__00000021_.Name = `Brancusi to Non-Geometrical Abstract Art`
+	__Influence__00000021_.ComputedPrefix = ``
 	__Influence__00000021_.IsHypothtical = false
 
 	__Influence__00000022_.Name = `Expressionism to Non-Geometrical Abstract Art`
+	__Influence__00000022_.ComputedPrefix = ``
 	__Influence__00000022_.IsHypothtical = false
 
 	__Influence__00000023_.Name = `Machine Esthetic to Futurism`
+	__Influence__00000023_.ComputedPrefix = ``
 	__Influence__00000023_.IsHypothtical = false
 
 	__Influence__00000024_.Name = `Machine Esthetic to Purism`
+	__Influence__00000024_.ComputedPrefix = ``
 	__Influence__00000024_.IsHypothtical = false
 
 	__Influence__00000025_.Name = `Machine Esthetic to De Stijl`
+	__Influence__00000025_.ComputedPrefix = ``
 	__Influence__00000025_.IsHypothtical = false
 
 	__Influence__00000026_.Name = `Machine Esthetic to Constructivism`
+	__Influence__00000026_.ComputedPrefix = ``
 	__Influence__00000026_.IsHypothtical = false
 
 	__Influence__00000027_.Name = `Machine Esthetic to Bauhaus`
+	__Influence__00000027_.ComputedPrefix = ``
 	__Influence__00000027_.IsHypothtical = false
 
 	__Influence__00000028_.Name = `Machine Esthetic to Geometrical Abstract Art`
+	__Influence__00000028_.ComputedPrefix = ``
 	__Influence__00000028_.IsHypothtical = false
 
 	__Influence__00000029_.Name = `Suprematism to Geometrical Abstract Art`
+	__Influence__00000029_.ComputedPrefix = ``
 	__Influence__00000029_.IsHypothtical = false
 
 	__Influence__00000030_.Name = `Dadaism to Surrealism`
+	__Influence__00000030_.ComputedPrefix = ``
 	__Influence__00000030_.IsHypothtical = false
 
 	__Influence__00000031_.Name = `Purism to Architecture`
+	__Influence__00000031_.ComputedPrefix = ``
 	__Influence__00000031_.IsHypothtical = false
 
 	__Influence__00000032_.Name = `De Stijl to Bauhaus`
+	__Influence__00000032_.ComputedPrefix = ``
 	__Influence__00000032_.IsHypothtical = false
 
 	__Influence__00000033_.Name = `De Stijl to Architecture`
+	__Influence__00000033_.ComputedPrefix = ``
 	__Influence__00000033_.IsHypothtical = false
 
 	__Influence__00000034_.Name = `De Stijl to Geometrical Abstract Art`
+	__Influence__00000034_.ComputedPrefix = ``
 	__Influence__00000034_.IsHypothtical = false
 
 	__Influence__00000035_.Name = `Constructivism to Bauhaus`
+	__Influence__00000035_.ComputedPrefix = ``
 	__Influence__00000035_.IsHypothtical = false
 
 	__Influence__00000036_.Name = `Constructivism to Geometrical Abstract Art`
+	__Influence__00000036_.ComputedPrefix = ``
 	__Influence__00000036_.IsHypothtical = false
 
 	__Influence__00000037_.Name = `Surrealism to Non-Geometrical Abstract Art`
+	__Influence__00000037_.ComputedPrefix = ``
 	__Influence__00000037_.IsHypothtical = false
 
 	__Influence__00000038_.Name = `Bauhaus to Architecture`
+	__Influence__00000038_.ComputedPrefix = ``
 	__Influence__00000038_.IsHypothtical = false
 
 	__Influence__00000039_.Name = `Near-Eastern Art to Expressionism`
+	__Influence__00000039_.ComputedPrefix = ``
 	__Influence__00000039_.IsHypothtical = false
 
 	__Influence__00000040_.Name = `Machine Esthetic to Brancusi`
+	__Influence__00000040_.ComputedPrefix = ``
 	__Influence__00000040_.IsHypothtical = true
 
 	__Influence__00000041_.Name = `Expressionism to Bauhaus`
+	__Influence__00000041_.ComputedPrefix = ``
 	__Influence__00000041_.IsHypothtical = false
 
 	__Influence__00000042_.Name = `Expressionism to Surrealism`
+	__Influence__00000042_.ComputedPrefix = ``
 	__Influence__00000042_.IsHypothtical = false
 
 	__Influence__00000043_.Name = `Cézanne to Synthetism`
+	__Influence__00000043_.ComputedPrefix = ``
 	__Influence__00000043_.IsHypothtical = false
 
 	__Influence__00000044_.Name = `Cézanne to Fauvism`
+	__Influence__00000044_.ComputedPrefix = ``
 	__Influence__00000044_.IsHypothtical = false
 
 	__Influence__00000045_.Name = `Machine Esthetic to Cubism`
+	__Influence__00000045_.ComputedPrefix = ``
 	__Influence__00000045_.IsHypothtical = false
 
 	__Influence__00000046_.Name = `Machine Esthetic to Suprematism`
+	__Influence__00000046_.ComputedPrefix = ``
 	__Influence__00000046_.IsHypothtical = false
 
 	__Influence__00000047_.Name = `Machine Esthetic to Architecture`
+	__Influence__00000047_.ComputedPrefix = ``
 	__Influence__00000047_.IsHypothtical = false
 
 	__Influence__00000048_.Name = `Suprematism to Bauhaus`
+	__Influence__00000048_.ComputedPrefix = ``
 	__Influence__00000048_.IsHypothtical = false
 
 	__InfluenceShape__00000000_.Name = `Bauhaus to Architecture`
+	__InfluenceShape__00000000_.IsHidden = false
 
 	__InfluenceShape__00000001_.Name = `Brancusi to Non-Geometrical Abstract Art`
+	__InfluenceShape__00000001_.IsHidden = false
 
 	__InfluenceShape__00000002_.Name = `Constructivism to Bauhaus`
+	__InfluenceShape__00000002_.IsHidden = false
 
 	__InfluenceShape__00000003_.Name = `Constructivism to Geometrical Abstract Art`
+	__InfluenceShape__00000003_.IsHidden = false
 
 	__InfluenceShape__00000004_.Name = `Cubism to Constructivism`
+	__InfluenceShape__00000004_.IsHidden = false
 
 	__InfluenceShape__00000005_.Name = `Cubism to De Stijl`
+	__InfluenceShape__00000005_.IsHidden = false
 
 	__InfluenceShape__00000006_.Name = `Cubism to Futurism`
+	__InfluenceShape__00000006_.IsHidden = false
 
 	__InfluenceShape__00000007_.Name = `Cubism to Orphism`
+	__InfluenceShape__00000007_.IsHidden = false
 
 	__InfluenceShape__00000008_.Name = `Cubism to Purism`
+	__InfluenceShape__00000008_.IsHidden = false
 
 	__InfluenceShape__00000009_.Name = `Cubism to Suprematism`
+	__InfluenceShape__00000009_.IsHidden = false
 
 	__InfluenceShape__00000010_.Name = `Cézanne to Cubism`
+	__InfluenceShape__00000010_.IsHidden = false
 
 	__InfluenceShape__00000011_.Name = `Dadaism to Surrealism`
+	__InfluenceShape__00000011_.IsHidden = false
 
 	__InfluenceShape__00000012_.Name = `De Stijl to Bauhaus`
+	__InfluenceShape__00000012_.IsHidden = false
 
 	__InfluenceShape__00000013_.Name = `De Stijl to Geometrical Abstract Art`
+	__InfluenceShape__00000013_.IsHidden = false
 
 	__InfluenceShape__00000014_.Name = `De Stijl to Architecture`
+	__InfluenceShape__00000014_.IsHidden = false
 
 	__InfluenceShape__00000015_.Name = `Expressionism to Non-Geometrical Abstract Art`
+	__InfluenceShape__00000015_.IsHidden = false
 
 	__InfluenceShape__00000016_.Name = `Fauvism to Expressionism`
+	__InfluenceShape__00000016_.IsHidden = false
 
 	__InfluenceShape__00000017_.Name = `Futurism to Dadaism`
+	__InfluenceShape__00000017_.IsHidden = false
 
 	__InfluenceShape__00000018_.Name = `Futurism to Expressionism`
+	__InfluenceShape__00000018_.IsHidden = false
 
 	__InfluenceShape__00000019_.Name = `Japanese prints to Fauvism`
+	__InfluenceShape__00000019_.IsHidden = false
 
 	__InfluenceShape__00000020_.Name = `Japanese prints to Synthetism`
+	__InfluenceShape__00000020_.IsHidden = false
 
 	__InfluenceShape__00000021_.Name = `Machine Esthetic to Bauhaus`
+	__InfluenceShape__00000021_.IsHidden = false
 
 	__InfluenceShape__00000022_.Name = `Machine Esthetic to Constructivism`
+	__InfluenceShape__00000022_.IsHidden = false
 
 	__InfluenceShape__00000023_.Name = `Machine Esthetic to De Stijl`
+	__InfluenceShape__00000023_.IsHidden = false
 
 	__InfluenceShape__00000024_.Name = `Machine Esthetic to Futurism`
+	__InfluenceShape__00000024_.IsHidden = false
 
 	__InfluenceShape__00000025_.Name = `Machine Esthetic to Geometrical Abstract Art`
+	__InfluenceShape__00000025_.IsHidden = false
 
 	__InfluenceShape__00000026_.Name = `Machine Esthetic to Purism`
+	__InfluenceShape__00000026_.IsHidden = false
 
 	__InfluenceShape__00000027_.Name = `Near-Eastern Art to Fauvism`
+	__InfluenceShape__00000027_.IsHidden = false
 
 	__InfluenceShape__00000028_.Name = `Neo-Impressionism to Cubism`
+	__InfluenceShape__00000028_.IsHidden = false
 
 	__InfluenceShape__00000029_.Name = `Neo-Impressionism to Fauvism`
+	__InfluenceShape__00000029_.IsHidden = false
 
 	__InfluenceShape__00000030_.Name = `Neo-Impressionism to Futurism`
+	__InfluenceShape__00000030_.IsHidden = false
 
 	__InfluenceShape__00000031_.Name = `Purism to Architecture`
+	__InfluenceShape__00000031_.IsHidden = false
 
 	__InfluenceShape__00000032_.Name = `Redon to Expressionism`
+	__InfluenceShape__00000032_.IsHidden = false
 
 	__InfluenceShape__00000033_.Name = `Rousseau to Cubism`
+	__InfluenceShape__00000033_.IsHidden = false
 
 	__InfluenceShape__00000034_.Name = `Suprematism to Geometrical Abstract Art`
+	__InfluenceShape__00000034_.IsHidden = false
 
 	__InfluenceShape__00000035_.Name = `Surrealism to Non-Geometrical Abstract Art`
+	__InfluenceShape__00000035_.IsHidden = false
 
 	__InfluenceShape__00000036_.Name = `Synthetism to Fauvism`
+	__InfluenceShape__00000036_.IsHidden = false
 
 	__InfluenceShape__00000037_.Name = `Van Gogh to Fauvism`
+	__InfluenceShape__00000037_.IsHidden = false
 
 	__InfluenceShape__00000038_.Name = `Near-Eastern Art to Expressionism`
+	__InfluenceShape__00000038_.IsHidden = false
 
 	__InfluenceShape__00000039_.Name = `Machine Esthetic to Brancusi`
+	__InfluenceShape__00000039_.IsHidden = false
 
 	__InfluenceShape__00000040_.Name = `African First Art to Cubism`
+	__InfluenceShape__00000040_.IsHidden = false
 
 	__InfluenceShape__00000041_.Name = `Expressionism to Bauhaus`
+	__InfluenceShape__00000041_.IsHidden = false
 
 	__InfluenceShape__00000042_.Name = `Expressionism to Surrealism`
+	__InfluenceShape__00000042_.IsHidden = false
 
 	__InfluenceShape__00000043_.Name = `Cézanne to Synthetism`
+	__InfluenceShape__00000043_.IsHidden = false
 
 	__InfluenceShape__00000044_.Name = `Cézanne to Fauvism`
+	__InfluenceShape__00000044_.IsHidden = false
 
 	__InfluenceShape__00000045_.Name = `Machine Esthetic to Cubism`
+	__InfluenceShape__00000045_.IsHidden = false
 
 	__InfluenceShape__00000046_.Name = `Machine Esthetic to Suprematism`
+	__InfluenceShape__00000046_.IsHidden = false
 
 	__InfluenceShape__00000047_.Name = `Machine Esthetic to Architecture`
+	__InfluenceShape__00000047_.IsHidden = false
 
 	__InfluenceShape__00000048_.Name = `Suprematism to Bauhaus`
+	__InfluenceShape__00000048_.IsHidden = false
 
 	__Movement__00000000_.Name = `Purism`
+	__Movement__00000000_.ComputedPrefix = ``
 	__Movement__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1918-01-01 00:00:00 +0000 UTC")
 	__Movement__00000000_.HideDate = false
 	__Movement__00000000_.HasTaxonomicFilter = false
@@ -1232,6 +1346,7 @@ func _(stage *models.Stage) {
 	__Movement__00000000_.AdditionnalName = ``
 
 	__Movement__00000001_.Name = `Synthetism`
+	__Movement__00000001_.ComputedPrefix = ``
 	__Movement__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1888-01-01 00:00:00 +0000 UTC")
 	__Movement__00000001_.HideDate = false
 	__Movement__00000001_.HasTaxonomicFilter = false
@@ -1243,6 +1358,7 @@ func _(stage *models.Stage) {
 	__Movement__00000001_.AdditionnalName = ``
 
 	__Movement__00000002_.Name = `Neo-Impressionism`
+	__Movement__00000002_.ComputedPrefix = ``
 	__Movement__00000002_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1886-01-01 00:00:00 +0000 UTC")
 	__Movement__00000002_.HideDate = false
 	__Movement__00000002_.HasTaxonomicFilter = false
@@ -1254,6 +1370,7 @@ func _(stage *models.Stage) {
 	__Movement__00000002_.AdditionnalName = ``
 
 	__Movement__00000003_.Name = `Fauvism`
+	__Movement__00000003_.ComputedPrefix = ``
 	__Movement__00000003_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1905-01-01 00:00:00 +0000 UTC")
 	__Movement__00000003_.HideDate = false
 	__Movement__00000003_.HasTaxonomicFilter = false
@@ -1265,6 +1382,7 @@ func _(stage *models.Stage) {
 	__Movement__00000003_.AdditionnalName = ``
 
 	__Movement__00000004_.Name = `Expressionism`
+	__Movement__00000004_.ComputedPrefix = ``
 	__Movement__00000004_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1911-01-01 00:00:00 +0000 UTC")
 	__Movement__00000004_.HideDate = false
 	__Movement__00000004_.HasTaxonomicFilter = true
@@ -1276,6 +1394,7 @@ func _(stage *models.Stage) {
 	__Movement__00000004_.AdditionnalName = ``
 
 	__Movement__00000005_.Name = `Futurism`
+	__Movement__00000005_.ComputedPrefix = ``
 	__Movement__00000005_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1910-01-01 00:00:00 +0000 UTC")
 	__Movement__00000005_.HideDate = false
 	__Movement__00000005_.HasTaxonomicFilter = false
@@ -1287,6 +1406,7 @@ func _(stage *models.Stage) {
 	__Movement__00000005_.AdditionnalName = ``
 
 	__Movement__00000006_.Name = `Orphism`
+	__Movement__00000006_.ComputedPrefix = ``
 	__Movement__00000006_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1912-01-01 00:00:00 +0000 UTC")
 	__Movement__00000006_.HideDate = false
 	__Movement__00000006_.HasTaxonomicFilter = false
@@ -1298,6 +1418,7 @@ func _(stage *models.Stage) {
 	__Movement__00000006_.AdditionnalName = ``
 
 	__Movement__00000007_.Name = `Cubism`
+	__Movement__00000007_.ComputedPrefix = ``
 	__Movement__00000007_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1906-01-01 00:00:00 +0000 UTC")
 	__Movement__00000007_.HideDate = false
 	__Movement__00000007_.HasTaxonomicFilter = false
@@ -1309,6 +1430,7 @@ func _(stage *models.Stage) {
 	__Movement__00000007_.AdditionnalName = ``
 
 	__Movement__00000008_.Name = `Suprematism`
+	__Movement__00000008_.ComputedPrefix = ``
 	__Movement__00000008_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1913-01-01 00:00:00 +0000 UTC")
 	__Movement__00000008_.HideDate = false
 	__Movement__00000008_.HasTaxonomicFilter = false
@@ -1320,6 +1442,7 @@ func _(stage *models.Stage) {
 	__Movement__00000008_.AdditionnalName = ``
 
 	__Movement__00000009_.Name = `Constructivism`
+	__Movement__00000009_.ComputedPrefix = ``
 	__Movement__00000009_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1914-01-01 00:00:00 +0000 UTC")
 	__Movement__00000009_.HideDate = false
 	__Movement__00000009_.HasTaxonomicFilter = false
@@ -1331,6 +1454,7 @@ func _(stage *models.Stage) {
 	__Movement__00000009_.AdditionnalName = ``
 
 	__Movement__00000010_.Name = `Dadaism`
+	__Movement__00000010_.ComputedPrefix = ``
 	__Movement__00000010_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1916-01-01 00:00:00 +0000 UTC")
 	__Movement__00000010_.HideDate = false
 	__Movement__00000010_.HasTaxonomicFilter = true
@@ -1342,6 +1466,7 @@ func _(stage *models.Stage) {
 	__Movement__00000010_.AdditionnalName = ``
 
 	__Movement__00000011_.Name = `De Stijl`
+	__Movement__00000011_.ComputedPrefix = ``
 	__Movement__00000011_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1916-01-01 00:00:00 +0000 UTC")
 	__Movement__00000011_.HideDate = false
 	__Movement__00000011_.HasTaxonomicFilter = false
@@ -1353,6 +1478,7 @@ func _(stage *models.Stage) {
 	__Movement__00000011_.AdditionnalName = `Neoplasticism`
 
 	__Movement__00000012_.Name = `Bauhaus`
+	__Movement__00000012_.ComputedPrefix = ``
 	__Movement__00000012_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1919-01-01 00:00:00 +0000 UTC")
 	__Movement__00000012_.HideDate = false
 	__Movement__00000012_.HasTaxonomicFilter = false
@@ -1364,6 +1490,7 @@ func _(stage *models.Stage) {
 	__Movement__00000012_.AdditionnalName = ``
 
 	__Movement__00000013_.Name = `Surrealism`
+	__Movement__00000013_.ComputedPrefix = ``
 	__Movement__00000013_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1924-01-01 00:00:00 +0000 UTC")
 	__Movement__00000013_.HideDate = false
 	__Movement__00000013_.HasTaxonomicFilter = true
@@ -1375,6 +1502,7 @@ func _(stage *models.Stage) {
 	__Movement__00000013_.AdditionnalName = ``
 
 	__Movement__00000014_.Name = `Non-Geometrical Abstract Art`
+	__Movement__00000014_.ComputedPrefix = ``
 	__Movement__00000014_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1935-01-01 00:00:00 +0000 UTC")
 	__Movement__00000014_.HideDate = true
 	__Movement__00000014_.HasTaxonomicFilter = false
@@ -1386,6 +1514,7 @@ func _(stage *models.Stage) {
 	__Movement__00000014_.AdditionnalName = ``
 
 	__Movement__00000015_.Name = `Geometrical Abstract Art`
+	__Movement__00000015_.ComputedPrefix = ``
 	__Movement__00000015_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1935-01-01 00:00:00 +0000 UTC")
 	__Movement__00000015_.HideDate = true
 	__Movement__00000015_.HasTaxonomicFilter = false
@@ -1397,6 +1526,7 @@ func _(stage *models.Stage) {
 	__Movement__00000015_.AdditionnalName = ``
 
 	__Movement__00000016_.Name = `Architecture`
+	__Movement__00000016_.ComputedPrefix = ``
 	__Movement__00000016_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Movement__00000016_.HideDate = true
 	__Movement__00000016_.HasTaxonomicFilter = false
