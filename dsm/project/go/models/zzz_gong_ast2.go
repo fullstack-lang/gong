@@ -819,6 +819,10 @@ func (u *ProductUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsImport":
+		instance.IsImport = GongExtractBool(valueExpr)
+	case "ReferencedProduct":
+		GongUnmarshallPointer(&instance.ReferencedProduct, valueExpr, identifierMap)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
 	case "SubProducts":
@@ -942,6 +946,10 @@ func (u *ResourceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsImport":
+		instance.IsImport = GongExtractBool(valueExpr)
+	case "ReferencedResource":
+		GongUnmarshallPointer(&instance.ReferencedResource, valueExpr, identifierMap)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
 	case "Tasks":
@@ -1108,6 +1116,10 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsImport":
+		instance.IsImport = GongExtractBool(valueExpr)
+	case "ReferencedTask":
+		GongUnmarshallPointer(&instance.ReferencedTask, valueExpr, identifierMap)
 	case "Start":
 		if call, ok := valueExpr.(*ast.CallExpr); ok {
 			if len(call.Args) == 2 {

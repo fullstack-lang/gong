@@ -129,6 +129,7 @@ func (product *Product) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &product.SubProducts) || modified
 	// insertion point per field
+	modified = GongCleanPointer(stage, &product.ReferencedProduct) || modified
 	return
 }
 
@@ -154,6 +155,7 @@ func (resource *Resource) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &resource.Tasks) || modified
 	modified = GongCleanSlice(stage, &resource.SubResources) || modified
 	// insertion point per field
+	modified = GongCleanPointer(stage, &resource.ReferencedResource) || modified
 	return
 }
 
@@ -189,6 +191,7 @@ func (task *Task) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &task.Inputs) || modified
 	modified = GongCleanSlice(stage, &task.Outputs) || modified
 	// insertion point per field
+	modified = GongCleanPointer(stage, &task.ReferencedTask) || modified
 	return
 }
 

@@ -2104,6 +2104,10 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(product_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(product_.ComputedPrefix), formDiv)
+		case "IsImport":
+			FormDivBasicFieldToField(&(product_.IsImport), formDiv)
+		case "ReferencedProduct":
+			FormDivSelectFieldToField(&(product_.ReferencedProduct), productFormCallback.probe.stageOfInterest, formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(product_.Description), formDiv)
 		case "SubProducts":
@@ -2931,6 +2935,10 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(resource_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(resource_.ComputedPrefix), formDiv)
+		case "IsImport":
+			FormDivBasicFieldToField(&(resource_.IsImport), formDiv)
+		case "ReferencedResource":
+			FormDivSelectFieldToField(&(resource_.ReferencedResource), resourceFormCallback.probe.stageOfInterest, formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(resource_.Description), formDiv)
 		case "Tasks":
@@ -3813,6 +3821,10 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(task_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(task_.ComputedPrefix), formDiv)
+		case "IsImport":
+			FormDivBasicFieldToField(&(task_.IsImport), formDiv)
+		case "ReferencedTask":
+			FormDivSelectFieldToField(&(task_.ReferencedTask), taskFormCallback.probe.stageOfInterest, formDiv)
 		case "Start":
 			FormDivBasicFieldToField(&(task_.Start), formDiv)
 		case "End":
