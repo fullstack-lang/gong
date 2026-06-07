@@ -30,6 +30,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterKillCreateCallback != nil {
 			stage.OnAfterKillCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Library:
+		if stage.OnAfterLibraryCreateCallback != nil {
+			stage.OnAfterLibraryCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Message:
 		if stage.OnAfterMessageCreateCallback != nil {
 			stage.OnAfterMessageCreateCallback.OnAfterCreate(stage, target)
@@ -109,6 +113,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Kill)
 		if stage.OnAfterKillUpdateCallback != nil {
 			stage.OnAfterKillUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Library:
+		newTarget := any(new).(*Library)
+		if stage.OnAfterLibraryUpdateCallback != nil {
+			stage.OnAfterLibraryUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Message:
 		newTarget := any(new).(*Message)
@@ -195,6 +204,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Kill)
 			stage.OnAfterKillDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Library:
+		if stage.OnAfterLibraryDeleteCallback != nil {
+			staged := any(staged).(*Library)
+			stage.OnAfterLibraryDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Message:
 		if stage.OnAfterMessageDeleteCallback != nil {
 			staged := any(staged).(*Message)
@@ -274,6 +288,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterKillReadCallback != nil {
 			stage.OnAfterKillReadCallback.OnAfterRead(stage, target)
 		}
+	case *Library:
+		if stage.OnAfterLibraryReadCallback != nil {
+			stage.OnAfterLibraryReadCallback.OnAfterRead(stage, target)
+		}
 	case *Message:
 		if stage.OnAfterMessageReadCallback != nil {
 			stage.OnAfterMessageReadCallback.OnAfterRead(stage, target)
@@ -333,6 +351,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterGuardUpdateCallback = any(callback).(OnAfterUpdateInterface[Guard])
 	case *Kill:
 		stage.OnAfterKillUpdateCallback = any(callback).(OnAfterUpdateInterface[Kill])
+	case *Library:
+		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *Message:
 		stage.OnAfterMessageUpdateCallback = any(callback).(OnAfterUpdateInterface[Message])
 	case *MessageType:
@@ -370,6 +390,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterGuardCreateCallback = any(callback).(OnAfterCreateInterface[Guard])
 	case *Kill:
 		stage.OnAfterKillCreateCallback = any(callback).(OnAfterCreateInterface[Kill])
+	case *Library:
+		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *Message:
 		stage.OnAfterMessageCreateCallback = any(callback).(OnAfterCreateInterface[Message])
 	case *MessageType:
@@ -407,6 +429,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterGuardDeleteCallback = any(callback).(OnAfterDeleteInterface[Guard])
 	case *Kill:
 		stage.OnAfterKillDeleteCallback = any(callback).(OnAfterDeleteInterface[Kill])
+	case *Library:
+		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *Message:
 		stage.OnAfterMessageDeleteCallback = any(callback).(OnAfterDeleteInterface[Message])
 	case *MessageType:
@@ -444,6 +468,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterGuardReadCallback = any(callback).(OnAfterReadInterface[Guard])
 	case *Kill:
 		stage.OnAfterKillReadCallback = any(callback).(OnAfterReadInterface[Kill])
+	case *Library:
+		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *Message:
 		stage.OnAfterMessageReadCallback = any(callback).(OnAfterReadInterface[Message])
 	case *MessageType:

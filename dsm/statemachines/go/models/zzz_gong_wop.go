@@ -93,6 +93,29 @@ func (from *Kill) CopyBasicFields(to *Kill) {
 	to.Name = from.Name
 }
 
+type Library_WOP struct {
+	// insertion point
+
+	Name string
+
+	NbPixPerCharacter float64
+
+	LogoSVGFile string
+
+	ComputedPrefix string
+
+	IsRootLibrary bool
+}
+
+func (from *Library) CopyBasicFields(to *Library) {
+	// insertion point
+	to.Name = from.Name
+	to.NbPixPerCharacter = from.NbPixPerCharacter
+	to.LogoSVGFile = from.LogoSVGFile
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsRootLibrary = from.IsRootLibrary
+}
+
 type Message_WOP struct {
 	// insertion point
 

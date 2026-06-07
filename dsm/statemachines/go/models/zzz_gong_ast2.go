@@ -635,6 +635,47 @@ func (u *KillUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	return nil
 }
 
+type LibraryUnmarshaller struct{}
+
+func (u *LibraryUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Library)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Library)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "SubLibraries":
+		GongUnmarshallSliceOfPointers(&instance.SubLibraries, valueExpr, identifierMap)
+	case "NbPixPerCharacter":
+		instance.NbPixPerCharacter = GongExtractFloat(valueExpr)
+	case "LogoSVGFile":
+		instance.LogoSVGFile = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsRootLibrary":
+		instance.IsRootLibrary = GongExtractBool(valueExpr)
+	case "Diagrams":
+		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
+	}
+	return nil
+}
+
 type MessageUnmarshaller struct{}
 
 func (u *MessageUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
