@@ -226,6 +226,25 @@ type Stage struct {
 	OnAfterKillDeleteCallback OnAfterDeleteInterface[Kill]
 	OnAfterKillReadCallback   OnAfterReadInterface[Kill]
 
+	Librarys                map[*Library]struct{}
+	Librarys_instance       map[*Library]*Library
+	Librarys_mapString      map[string]*Library
+	LibraryOrder            uint
+	Library_stagedOrder     map[*Library]uint
+	Library_orderStaged     map[uint]*Library
+	Librarys_reference      map[*Library]*Library
+	Librarys_referenceOrder map[*Library]uint
+
+	// insertion point for slice of pointers maps
+	Library_SubLibraries_reverseMap map[*Library]*Library
+
+	Library_Diagrams_reverseMap map[*Diagram]*Library
+
+	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
+	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
+	OnAfterLibraryDeleteCallback OnAfterDeleteInterface[Library]
+	OnAfterLibraryReadCallback   OnAfterReadInterface[Library]
+
 	Messages                map[*Message]struct{}
 	Messages_instance       map[*Message]*Message
 	Messages_mapString      map[string]*Message
@@ -641,6 +660,10 @@ func (stage *Stage) Squash() {
 	stage.Kills_instance = make(map[*Kill]*Kill)
 	stage.Kills_referenceOrder = make(map[*Kill]uint)
 
+	stage.Librarys_reference = make(map[*Library]*Library)
+	stage.Librarys_instance = make(map[*Library]*Library)
+	stage.Librarys_referenceOrder = make(map[*Library]uint)
+
 	stage.Messages_reference = make(map[*Message]*Message)
 	stage.Messages_instance = make(map[*Message]*Message)
 	stage.Messages_referenceOrder = make(map[*Message]uint)
@@ -786,6 +809,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.KillOrder = maxKillOrder + 1
 	} else {
 		stage.KillOrder = 0
+	}
+
+	var maxLibraryOrder uint
+	var foundLibrary bool
+	for _, order := range stage.Library_stagedOrder {
+		if !foundLibrary || order > maxLibraryOrder {
+			maxLibraryOrder = order
+			foundLibrary = true
+		}
+	}
+	if foundLibrary {
+		stage.LibraryOrder = maxLibraryOrder + 1
+	} else {
+		stage.LibraryOrder = 0
 	}
 
 	var maxMessageOrder uint
@@ -1059,6 +1096,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Library:
+		tmp := GetStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Library implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Message:
 		tmp := GetStructInstancesByOrder(stage.Messages, stage.Message_stagedOrder)
 
@@ -1226,6 +1277,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Guards, stage.Guard_stagedOrder)
 	case "Kill":
 		res = GetNamedStructInstances(stage.Kills, stage.Kill_stagedOrder)
+	case "Library":
+		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
 	case "Message":
 		res = GetNamedStructInstances(stage.Messages, stage.Message_stagedOrder)
 	case "MessageType":
@@ -1325,6 +1378,8 @@ type BackRepoInterface interface {
 	CheckoutGuard(guard *Guard)
 	CommitKill(kill *Kill)
 	CheckoutKill(kill *Kill)
+	CommitLibrary(library *Library)
+	CheckoutLibrary(library *Library)
 	CommitMessage(message *Message)
 	CheckoutMessage(message *Message)
 	CommitMessageType(messagetype *MessageType)
@@ -1366,6 +1421,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Kills:           make(map[*Kill]struct{}),
 		Kills_mapString: make(map[string]*Kill),
+
+		Librarys:           make(map[*Library]struct{}),
+		Librarys_mapString: make(map[string]*Library),
 
 		Messages:           make(map[*Message]struct{}),
 		Messages_mapString: make(map[string]*Message),
@@ -1428,6 +1486,10 @@ func NewStage(name string) (stage *Stage) {
 		Kill_orderStaged: make(map[uint]*Kill),
 		Kills_reference:  make(map[*Kill]*Kill),
 
+		Library_stagedOrder: make(map[*Library]uint),
+		Library_orderStaged: make(map[uint]*Library),
+		Librarys_reference:  make(map[*Library]*Library),
+
 		Message_stagedOrder: make(map[*Message]uint),
 		Message_orderStaged: make(map[uint]*Message),
 		Messages_reference:  make(map[*Message]*Message),
@@ -1478,6 +1540,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"Kill": &KillUnmarshaller{},
 
+			"Library": &LibraryUnmarshaller{},
+
 			"Message": &MessageUnmarshaller{},
 
 			"MessageType": &MessageTypeUnmarshaller{},
@@ -1506,6 +1570,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Diagram"},
 			{name: "Guard"},
 			{name: "Kill"},
+			{name: "Library"},
 			{name: "Message"},
 			{name: "MessageType"},
 			{name: "Object"},
@@ -1538,6 +1603,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Guard_stagedOrder[instance]
 	case *Kill:
 		return stage.Kill_stagedOrder[instance]
+	case *Library:
+		return stage.Library_stagedOrder[instance]
 	case *Message:
 		return stage.Message_stagedOrder[instance]
 	case *MessageType:
@@ -1577,6 +1644,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.Guard_orderStaged[order]).(Type)
 	case *Kill:
 		return any(stage.Kill_orderStaged[order]).(Type)
+	case *Library:
+		return any(stage.Library_orderStaged[order]).(Type)
 	case *Message:
 		return any(stage.Message_orderStaged[order]).(Type)
 	case *MessageType:
@@ -1615,6 +1684,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.Guard_stagedOrder[instance]
 	case *Kill:
 		return stage.Kill_stagedOrder[instance]
+	case *Library:
+		return stage.Library_stagedOrder[instance]
 	case *Message:
 		return stage.Message_stagedOrder[instance]
 	case *MessageType:
@@ -1704,6 +1775,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Diagram"] = len(stage.Diagrams)
 	stage.Map_GongStructName_InstancesNb["Guard"] = len(stage.Guards)
 	stage.Map_GongStructName_InstancesNb["Kill"] = len(stage.Kills)
+	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Message"] = len(stage.Messages)
 	stage.Map_GongStructName_InstancesNb["MessageType"] = len(stage.MessageTypes)
 	stage.Map_GongStructName_InstancesNb["Object"] = len(stage.Objects)
@@ -2279,6 +2351,94 @@ func (kill *Kill) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (kill *Kill) SetName(name string) {
 	kill.Name = name
+}
+
+// Stage puts library to the model stage
+func (library *Library) Stage(stage *Stage) *Library {
+	if _, ok := stage.Librarys[library]; !ok {
+		stage.Librarys[library] = struct{}{}
+		stage.Library_stagedOrder[library] = stage.LibraryOrder
+		stage.Library_orderStaged[stage.LibraryOrder] = library
+		stage.LibraryOrder++
+	}
+	stage.Librarys_mapString[library.Name] = library
+
+	return library
+}
+
+// StagePreserveOrder puts library to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.LibraryOrder
+// - update stage.LibraryOrder accordingly
+func (library *Library) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Librarys[library]; !ok {
+		stage.Librarys[library] = struct{}{}
+
+		if order > stage.LibraryOrder {
+			stage.LibraryOrder = order
+		}
+		stage.Library_stagedOrder[library] = order
+		stage.Library_orderStaged[order] = library
+		stage.LibraryOrder++
+	}
+	stage.Librarys_mapString[library.Name] = library
+}
+
+// Unstage removes library off the model stage
+func (library *Library) Unstage(stage *Stage) *Library {
+	delete(stage.Librarys, library)
+	// issue1150
+	// delete(stage.Library_stagedOrder, library)
+	delete(stage.Librarys_mapString, library.Name)
+
+	return library
+}
+
+// UnstageVoid removes library off the model stage
+func (library *Library) UnstageVoid(stage *Stage) {
+	delete(stage.Librarys, library)
+	// issue1150
+	// delete(stage.Library_stagedOrder, library)
+	delete(stage.Librarys_mapString, library.Name)
+}
+
+// commit library to the back repo (if it is already staged)
+func (library *Library) Commit(stage *Stage) *Library {
+	if _, ok := stage.Librarys[library]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitLibrary(library)
+		}
+	}
+	return library
+}
+
+func (library *Library) CommitVoid(stage *Stage) {
+	library.Commit(stage)
+}
+
+func (library *Library) StageVoid(stage *Stage) {
+	library.Stage(stage)
+}
+
+// Checkout library to the back repo (if it is already staged)
+func (library *Library) Checkout(stage *Stage) *Library {
+	if _, ok := stage.Librarys[library]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutLibrary(library)
+		}
+	}
+	return library
+}
+
+// for satisfaction of GongStruct interface
+func (library *Library) GetName() (res string) {
+	return library.Name
+}
+
+// for satisfaction of GongStruct interface
+func (library *Library) SetName(name string) {
+	library.Name = name
 }
 
 // Stage puts message to the model stage
@@ -3081,6 +3241,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMDiagram(Diagram *Diagram)
 	CreateORMGuard(Guard *Guard)
 	CreateORMKill(Kill *Kill)
+	CreateORMLibrary(Library *Library)
 	CreateORMMessage(Message *Message)
 	CreateORMMessageType(MessageType *MessageType)
 	CreateORMObject(Object *Object)
@@ -3099,6 +3260,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMDiagram(Diagram *Diagram)
 	DeleteORMGuard(Guard *Guard)
 	DeleteORMKill(Kill *Kill)
+	DeleteORMLibrary(Library *Library)
 	DeleteORMMessage(Message *Message)
 	DeleteORMMessageType(MessageType *MessageType)
 	DeleteORMObject(Object *Object)
@@ -3140,6 +3302,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Kills_mapString = make(map[string]*Kill)
 	stage.Kill_stagedOrder = make(map[*Kill]uint)
 	stage.KillOrder = 0
+
+	stage.Librarys = make(map[*Library]struct{})
+	stage.Librarys_mapString = make(map[string]*Library)
+	stage.Library_stagedOrder = make(map[*Library]uint)
+	stage.LibraryOrder = 0
 
 	stage.Messages = make(map[*Message]struct{})
 	stage.Messages_mapString = make(map[string]*Message)
@@ -3213,6 +3380,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Kills = nil
 	stage.Kills_mapString = nil
 
+	stage.Librarys = nil
+	stage.Librarys_mapString = nil
+
 	stage.Messages = nil
 	stage.Messages_mapString = nil
 
@@ -3266,6 +3436,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for kill := range stage.Kills {
 		kill.Unstage(stage)
+	}
+
+	for library := range stage.Librarys {
+		library.Unstage(stage)
 	}
 
 	for message := range stage.Messages {
@@ -3392,6 +3566,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Guards).(*Type)
 	case map[*Kill]any:
 		return any(&stage.Kills).(*Type)
+	case map[*Library]any:
+		return any(&stage.Librarys).(*Type)
 	case map[*Message]any:
 		return any(&stage.Messages).(*Type)
 	case map[*MessageType]any:
@@ -3434,6 +3610,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Guards_mapString).(map[string]Type)
 	case *Kill:
 		return any(stage.Kills_mapString).(map[string]Type)
+	case *Library:
+		return any(stage.Librarys_mapString).(map[string]Type)
 	case *Message:
 		return any(stage.Messages_mapString).(map[string]Type)
 	case *MessageType:
@@ -3476,6 +3654,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Guards).(*map[*Type]struct{})
 	case Kill:
 		return any(&stage.Kills).(*map[*Type]struct{})
+	case Library:
+		return any(&stage.Librarys).(*map[*Type]struct{})
 	case Message:
 		return any(&stage.Messages).(*map[*Type]struct{})
 	case MessageType:
@@ -3518,6 +3698,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Guards).(*map[Type]struct{})
 	case *Kill:
 		return any(&stage.Kills).(*map[Type]struct{})
+	case *Library:
+		return any(&stage.Librarys).(*map[Type]struct{})
 	case *Message:
 		return any(&stage.Messages).(*map[Type]struct{})
 	case *MessageType:
@@ -3560,6 +3742,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Guards_mapString).(*map[string]*Type)
 	case Kill:
 		return any(&stage.Kills_mapString).(*map[string]*Type)
+	case Library:
+		return any(&stage.Librarys_mapString).(*map[string]*Type)
 	case Message:
 		return any(&stage.Messages_mapString).(*map[string]*Type)
 	case MessageType:
@@ -3625,6 +3809,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Kill:
 		return any(&Kill{
 			// Initialisation of associations
+		}).(*Type)
+	case Library:
+		return any(&Library{
+			// Initialisation of associations
+			// field is initialized with an instance of Library with the name of the field
+			SubLibraries: []*Library{{Name: "SubLibraries"}},
+			// field is initialized with an instance of Diagram with the name of the field
+			Diagrams: []*Diagram{{Name: "Diagrams"}},
 		}).(*Type)
 	case Message:
 		return any(&Message{
@@ -3750,6 +3942,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of Kill
 	case Kill:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Library
+	case Library:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -4087,6 +4284,27 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Library
+	case Library:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "SubLibraries":
+			res := make(map[*Library][]*Library)
+			for library := range stage.Librarys {
+				for _, library_ := range library.SubLibraries {
+					res[library_] = append(res[library_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Diagrams":
+			res := make(map[*Diagram][]*Library)
+			for library := range stage.Librarys {
+				for _, diagram_ := range library.Diagrams {
+					res[diagram_] = append(res[diagram_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of Message
 	case Message:
 		switch fieldname {
@@ -4235,6 +4453,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Guard"
 	case *Kill:
 		res = "Kill"
+	case *Library:
+		res = "Library"
 	case *Message:
 		res = "Message"
 	case *MessageType:
@@ -4285,6 +4505,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Diagram:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Library"
+		rf.Fieldname = "Diagrams"
+		res = append(res, rf)
 		rf.GongstructName = "State"
 		rf.Fieldname = "Diagrams"
 		res = append(res, rf)
@@ -4300,6 +4523,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Kill:
 		var rf ReverseField
 		_ = rf
+	case *Library:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Library"
+		rf.Fieldname = "SubLibraries"
+		res = append(res, rf)
 	case *Message:
 		var rf ReverseField
 		_ = rf
@@ -4477,6 +4706,43 @@ func (kill *Kill) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "SubLibraries",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Library",
+		},
+		{
+			Name:               "NbPixPerCharacter",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "LogoSVGFile",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsRootLibrary",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Diagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Diagram",
 		},
 	}
 	return
@@ -4954,6 +5220,47 @@ func (kill *Kill) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	// string value of fields
 	case "Name":
 		res.valueString = kill.Name
+	}
+	return
+}
+
+func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = library.Name
+	case "SubLibraries":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.SubLibraries {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "NbPixPerCharacter":
+		res.valueString = fmt.Sprintf("%f", library.NbPixPerCharacter)
+		res.valueFloat = library.NbPixPerCharacter
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "LogoSVGFile":
+		res.valueString = library.LogoSVGFile
+	case "ComputedPrefix":
+		res.valueString = library.ComputedPrefix
+	case "IsRootLibrary":
+		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
+		res.valueBool = library.IsRootLibrary
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Diagrams":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.Diagrams {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -5441,6 +5748,53 @@ func (kill *Kill) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 	return nil
 }
 
+func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		library.Name = value.GetValueString()
+	case "SubLibraries":
+		library.SubLibraries = make([]*Library, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Librarys {
+					if stage.Library_stagedOrder[__instance__] == uint(id) {
+						library.SubLibraries = append(library.SubLibraries, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "NbPixPerCharacter":
+		library.NbPixPerCharacter = value.GetValueFloat()
+	case "LogoSVGFile":
+		library.LogoSVGFile = value.GetValueString()
+	case "ComputedPrefix":
+		library.ComputedPrefix = value.GetValueString()
+	case "IsRootLibrary":
+		library.IsRootLibrary = value.GetValueBool()
+	case "Diagrams":
+		library.Diagrams = make([]*Diagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Diagrams {
+					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
+						library.Diagrams = append(library.Diagrams, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (message *Message) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -5881,6 +6235,10 @@ func (kill *Kill) GongGetGongstructName() string {
 	return "Kill"
 }
 
+func (library *Library) GongGetGongstructName() string {
+	return "Library"
+}
+
 func (message *Message) GongGetGongstructName() string {
 	return "Message"
 }
@@ -5952,6 +6310,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Kills_mapString = make(map[string]*Kill)
 	for kill := range stage.Kills {
 		stage.Kills_mapString[kill.Name] = kill
+	}
+
+	stage.Librarys_mapString = make(map[string]*Library)
+	for library := range stage.Librarys {
+		stage.Librarys_mapString[library.Name] = library
 	}
 
 	stage.Messages_mapString = make(map[string]*Message)

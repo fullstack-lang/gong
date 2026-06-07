@@ -26,7 +26,7 @@ type Stager struct {
 	splitStage *split.Stage
 
 	treeObjectsSimulationStage *tree.Stage
-	treeDiagramStage           *tree.Stage
+	treeStage                  *tree.Stage // "treeStage" is the DSM mandatory name (to be changed)
 	svgStage                   *svg.Stage
 	loadStage                  *load.Stage
 	buttonTransitionsStage     *button.Stage
@@ -52,6 +52,10 @@ type Stager struct {
 	map_SvgRect_StateShape map[*svg.Rect]*StateShape
 
 	filename string
+
+	// DSM mandatory
+	// map to navigate from abstract elements to all diagrams where they are displayed
+	map_Element_Diagrams map[AbstractType][]DiagramIF
 }
 
 func (stager *Stager) GetStage() *Stage {
@@ -84,7 +88,7 @@ func NewStager(
 
 	stackName := "statemachines"
 	stager.treeObjectsSimulationStage = tree_stack.NewStack(r, stackName+"-objects", "", "", "", true, true).Stage
-	stager.treeDiagramStage = tree_stack.NewStack(r, stackName+"-diagrams", "", "", "", true, true).Stage
+	stager.treeStage = tree_stack.NewStack(r, stackName+"-diagrams", "", "", "", true, true).Stage
 	stager.svgStage = svg_stack.NewStack(r, stackName, "", "", "", true, true).Stage
 	stager.loadStage = load_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.buttonTransitionsStage = button_stack.NewStack(r, stackName+"-transitions", "", "", "", false, false).Stage
@@ -101,7 +105,7 @@ func NewStager(
 		stager.buttonsExportXL()
 		stager.svg()
 		stager.load()
-		stager.treeDiagrams()
+		stager.ux_tree()
 	}
 
 	stager.stage.RegisterBeforeCommit(beforeCommit)

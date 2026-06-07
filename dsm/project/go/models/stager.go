@@ -30,7 +30,7 @@ type Stager struct {
 	splitStage *split.Stage
 	probeForm  ProbeIF
 
-	treeStage   *tree.Stage
+	treeStage   *tree.Stage // "treeStage" is the DSM mandatory name (to be changed)
 	svgStage    *svg.Stage
 	ssgStage    *ssg.Stage
 	loadStage   *load.Stage
@@ -43,10 +43,11 @@ type Stager struct {
 	svgObject *svg.SVG
 	diagram   *Diagram // diagram is the current diagram being displayed
 
+	persistanceFile string
+
+	// DSM mandatory
 	// map to navigate from abstract elements to all diagrams where they are displayed
 	map_Element_Diagrams map[AbstractType][]DiagramIF
-
-	persistanceFile string
 }
 
 func NewStager(
@@ -80,7 +81,7 @@ func NewStager(
 		stager.enforceSemantic()
 	}
 	afterCommit := func(stage *Stage) {
-		stager.ux_tree()
+		stager.ux_tree() // DSM mandatory name, to be changed
 		stager.svg()
 		stager.button()
 		stager.load()

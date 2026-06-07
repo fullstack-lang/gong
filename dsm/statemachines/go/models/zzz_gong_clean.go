@@ -87,6 +87,15 @@ func (kill *Kill) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by Library
+func (library *Library) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &library.SubLibraries) || modified
+	modified = GongCleanSlice(stage, &library.Diagrams) || modified
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Message
 func (message *Message) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field

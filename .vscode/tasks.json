@@ -490,7 +490,7 @@
       ]
     },
     {
-      "label": "01 - gong generate statemachines",
+      "label": "01 - gong generate statemachines --dsm",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/dsm/statemachines/go/models"
@@ -499,6 +499,7 @@
       "group": "build",
       "args": [
         "generate",
+        "--dsm",
         "--skipGoModCommands"
       ]
     },
