@@ -59,7 +59,7 @@ func (stager *Stager) createViews() {
 																Size:             10,
 																ShowNameInHeader: false,
 																Button: &split.Button{
-																	StackName: stager.buttonExportXLStage.GetName(),
+																	StackName: stager.buttonStage.GetName(),
 																},
 															},
 															//
@@ -150,7 +150,7 @@ func (stager *Stager) createViews() {
 																Size:             10,
 																ShowNameInHeader: false,
 																Button: &split.Button{
-																	StackName: stager.buttonExportXLStage.GetName(),
+																	StackName: stager.buttonStage.GetName(),
 																},
 															},
 															//
