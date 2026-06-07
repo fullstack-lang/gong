@@ -56,7 +56,7 @@ func (stager *Stager) button() {
 			fileName := filepath.Base(fileToDownload.Name)
 
 			// 2. Use MarshallToString for pure in-memory export (WASM compatible)
-			res, err := stage.MarshallToString("github.com/fullstack-lang/gong/dsm/project/go/models", "main")
+			res, err := stage.MarshallToString("github.com/fullstack-lang/gong/dsm/statemachines/go/models", "main")
 			if err != nil {
 				log.Println("Error marshalling to string:", err)
 				return
@@ -82,13 +82,6 @@ func (stager *Stager) button() {
 			log.Println("Stop")
 			os.Exit(0)
 		},
-	})
-
-	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:    "Export website",
-		Icon:    string(buttons.BUTTON_web),
-		Label:   "Export website",
-		OnClick: stager.exportWebsite,
 	})
 
 	button.StageBranch(buttonStage, layout)

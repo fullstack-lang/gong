@@ -30,7 +30,7 @@ type Stager struct {
 	svgStage                   *svg.Stage
 	loadStage                  *load.Stage
 	buttonTransitionsStage     *button.Stage
-	buttonExportXLStage        *button.Stage
+	buttonStage                *button.Stage
 
 	// maps
 
@@ -93,7 +93,7 @@ func NewStager(
 	stager.svgStage = svg_stack.NewStack(r, stackName, "", "", "", true, true).Stage
 	stager.loadStage = load_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.buttonTransitionsStage = button_stack.NewStack(r, stackName+"-transitions", "", "", "", false, false).Stage
-	stager.buttonExportXLStage = button_stack.NewStack(r, stackName+"-exportXL", "", "", "", true, true).Stage
+	stager.buttonStage = button_stack.NewStack(r, stackName+"-exportXL", "", "", "", true, true).Stage
 
 	stager.createViews()
 
@@ -103,7 +103,7 @@ func NewStager(
 	afterCommit := func(stage *Stage) {
 		stager.treeSimulation()
 		stager.buttonSimulation()
-		stager.buttonsExportXL()
+		stager.button()
 		stager.svg()
 		stager.load()
 		stager.ux_tree()
