@@ -10,7 +10,8 @@ func getPersistanceFile(stager *Stager) string {
 	}
 }
 
-func (stager *Stager) createViews(stage *Stage) {
+func (stager *Stager) createViews() {
+	stage := stager.stage
 	stager.splitStage.Reset()
 
 	tabTitle := &split.Title{
