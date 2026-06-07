@@ -64,9 +64,9 @@ func (stager *Stager) ux_tree() {
 		diagramNode.OnClick = onNodeClicked(stager, diagram)
 
 		movementCategoryNode := &tree.Node{
-			Name:              "Movements",
-			HasCheckboxButton: false,
-			IsExpanded:        diagram.IsMovementCategoryNodeExpanded,
+			Name:               "Movements",
+			HasCheckboxButton:  false,
+			IsExpanded:         diagram.IsMovementCategoryNodeExpanded,
 			OnIsExpandedChange: stager.onIsExpandedChangeBool(&diagram.IsMovementCategoryNodeExpanded),
 		}
 		movementCategoryNode.Buttons = []*tree.Button{
@@ -86,6 +86,32 @@ func (stager *Stager) ux_tree() {
 			movementCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
 			movementCategoryNode.Buttons[0].ToolTipText = "Hide movements from diagram"
 		}
+
+		movementCategoryNode.Buttons = append(movementCategoryNode.Buttons,
+			&tree.Button{
+				Name:            diagram.GetName() + " add movement",
+				Icon:            string(buttons.BUTTON_add),
+				HasToolTip:      true,
+				ToolTipText:     "Add a Movement",
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					movement := (&Movement{Name: ""}).Stage(stage)
+					movement.SetIsInRenameMode(true)
+
+					movementShape := &MovementShape{
+						Movement: movement,
+						PositionAndSize: PositionAndSize{
+							Width:  240,
+							Height: 80,
+							X:      float64(int(rand.Float32()*100) + 10),
+							Y:      float64(int(rand.Float32()*100) + 10),
+						},
+					}
+					movementShape.Stage(stage)
+					diagram.MovementShapes = append(diagram.MovementShapes, movementShape)
+					stage.Commit()
+				},
+			})
 		diagramNode.Children = append(diagramNode.Children, movementCategoryNode)
 
 		map_Movement_MovementShape := make(map[*Movement]*MovementShape, 0)
@@ -106,6 +132,7 @@ func (stager *Stager) ux_tree() {
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
 				IsNodeClickable:   true,
+				IsInEditMode:      movement.GetIsInRenameMode(),
 				OnIsCheckedChanged: func(isChecked bool) {
 					if isChecked {
 						movementShape := &MovementShape{
@@ -131,7 +158,10 @@ func (stager *Stager) ux_tree() {
 				},
 			}
 			movementNode.OnClick = onNodeClicked(stager, movement)
+			movementNode.OnNameChange = stager.onNameChange(movement)
 			movementCategoryNode.Children = append(movementCategoryNode.Children, movementNode)
+
+			addRenameButton(movement, movementNode, stager)
 
 			if shape != nil {
 				movementNode.Buttons = []*tree.Button{
@@ -155,9 +185,9 @@ func (stager *Stager) ux_tree() {
 		}
 
 		artefactTypeCategoryNode := &tree.Node{
-			Name:              "ArtefactTypes",
-			HasCheckboxButton: false,
-			IsExpanded:        diagram.IsArtefactTypeCategoryNodeExpanded,
+			Name:               "ArtefactTypes",
+			HasCheckboxButton:  false,
+			IsExpanded:         diagram.IsArtefactTypeCategoryNodeExpanded,
 			OnIsExpandedChange: stager.onIsExpandedChangeBool(&diagram.IsArtefactTypeCategoryNodeExpanded),
 		}
 		diagramNode.Children = append(diagramNode.Children, artefactTypeCategoryNode)
@@ -178,6 +208,33 @@ func (stager *Stager) ux_tree() {
 			artefactTypeCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
 			artefactTypeCategoryNode.Buttons[0].ToolTipText = "Hide artefact types from diagram"
 		}
+
+		artefactTypeCategoryNode.Buttons = append(artefactTypeCategoryNode.Buttons,
+			&tree.Button{
+				Name:            diagram.GetName() + " add artefactType",
+				Icon:            string(buttons.BUTTON_add),
+				HasToolTip:      true,
+				ToolTipText:     "Add an ArtefactType",
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					artefactType := (&ArtefactType{Name: ""}).Stage(stage)
+					artefactType.SetIsInRenameMode(true)
+
+					artefactTypeShape := &ArtefactTypeShape{
+						ArtefactType: artefactType,
+						PositionAndSize: PositionAndSize{
+							Width:  150,
+							Height: 25,
+							X:      float64(int(rand.Float32()*100) + 10),
+							Y:      float64(int(rand.Float32()*100) + 10),
+						},
+					}
+					artefactTypeShape.Stage(stage)
+					diagram.ArtefactTypeShapes = append(diagram.ArtefactTypeShapes, artefactTypeShape)
+					stage.Commit()
+				},
+			})
+
 		for _, artefactType := range GetGongstrucsSorted[*ArtefactType](stager.stage) {
 
 			isInDiagram := false
@@ -195,6 +252,7 @@ func (stager *Stager) ux_tree() {
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
 				IsNodeClickable:   true,
+				IsInEditMode:      artefactType.GetIsInRenameMode(),
 				OnIsCheckedChanged: func(isChecked bool) {
 					if isChecked {
 						artefactTypeShape := &ArtefactTypeShape{
@@ -221,7 +279,10 @@ func (stager *Stager) ux_tree() {
 				},
 			}
 			artefactTypeNode.OnClick = onNodeClicked(stager, artefactType)
+			artefactTypeNode.OnNameChange = stager.onNameChange(artefactType)
 			artefactTypeCategoryNode.Children = append(artefactTypeCategoryNode.Children, artefactTypeNode)
+
+			addRenameButton(artefactType, artefactTypeNode, stager)
 
 			if shape != nil {
 				artefactTypeNode.Buttons = []*tree.Button{
@@ -245,9 +306,9 @@ func (stager *Stager) ux_tree() {
 		}
 
 		artistCategoryNode := &tree.Node{
-			Name:              "Artists",
-			HasCheckboxButton: false,
-			IsExpanded:        diagram.IsArtistCategoryNodeExpanded,
+			Name:               "Artists",
+			HasCheckboxButton:  false,
+			IsExpanded:         diagram.IsArtistCategoryNodeExpanded,
 			OnIsExpandedChange: stager.onIsExpandedChangeBool(&diagram.IsArtistCategoryNodeExpanded),
 		}
 		diagramNode.Children = append(diagramNode.Children, artistCategoryNode)
@@ -269,6 +330,33 @@ func (stager *Stager) ux_tree() {
 			artistCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
 			artistCategoryNode.Buttons[0].ToolTipText = "Hide artists from diagram"
 		}
+
+		artistCategoryNode.Buttons = append(artistCategoryNode.Buttons,
+			&tree.Button{
+				Name:            diagram.GetName() + " add artist",
+				Icon:            string(buttons.BUTTON_add),
+				HasToolTip:      true,
+				ToolTipText:     "Add an Artist",
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					artist := (&Artist{Name: ""}).Stage(stage)
+					artist.SetIsInRenameMode(true)
+
+					artistShape := &ArtistShape{
+						Artist: artist,
+						PositionAndSize: PositionAndSize{
+							Width:  80,
+							Height: 30,
+							X:      float64(int(rand.Float32()*100) + 10),
+							Y:      float64(int(rand.Float32()*100) + 10),
+						},
+					}
+					artistShape.Stage(stage)
+					diagram.ArtistShapes = append(diagram.ArtistShapes, artistShape)
+					stage.Commit()
+				},
+			})
+
 		for _, element := range GetGongstrucsSorted[*Artist](stager.stage) {
 
 			isInDiagram := false
@@ -287,6 +375,7 @@ func (stager *Stager) ux_tree() {
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
 				IsNodeClickable:   true,
+				IsInEditMode:      element.GetIsInRenameMode(),
 				OnIsCheckedChanged: func(isChecked bool) {
 					if isChecked {
 						artistShape := &ArtistShape{
@@ -313,34 +402,9 @@ func (stager *Stager) ux_tree() {
 				},
 			}
 			node.OnClick = onNodeClicked(stager, element)
+			node.OnNameChange = stager.onNameChange(element)
 			artistCategoryNode.Children = append(artistCategoryNode.Children, node)
-			if !element.GetIsInRenameMode() {
-				node.Buttons = append(node.Buttons,
-					&tree.Button{
-						Name: element.GetName() + " " + string(buttons.BUTTON_edit_note),
-						Icon: string(buttons.BUTTON_edit_note),
-						OnClick: func() {
-							element.SetIsInRenameMode(true)
-							stager.stage.Commit()
-						},
-						HasToolTip:      true,
-						ToolTipText:     "Rename the " + GetGongstructNameFromPointer(element),
-						ToolTipPosition: tree.Above,
-					})
-			} else {
-				node.Buttons = append(node.Buttons,
-					&tree.Button{
-						Name: element.GetName() + " " + string(buttons.BUTTON_edit_off),
-						Icon: string(buttons.BUTTON_edit_off),
-						OnClick: func() {
-							element.SetIsInRenameMode(false)
-							stager.stage.Commit()
-						},
-						HasToolTip:      true,
-						ToolTipText:     "Cancel renaming",
-						ToolTipPosition: tree.Above,
-					})
-			}
+			addRenameButton(element, node, stager)
 
 			if shape != nil {
 				visibilityButton := &tree.Button{
@@ -363,9 +427,9 @@ func (stager *Stager) ux_tree() {
 		}
 
 		influenceCategoryNode := &tree.Node{
-			Name:              "Influences",
-			HasCheckboxButton: false,
-			IsExpanded:        diagram.IsInfluenceCategoryNodeExpanded,
+			Name:               "Influences",
+			HasCheckboxButton:  false,
+			IsExpanded:         diagram.IsInfluenceCategoryNodeExpanded,
 			OnIsExpandedChange: stager.onIsExpandedChangeBool(&diagram.IsInfluenceCategoryNodeExpanded),
 		}
 		diagramNode.Children = append(diagramNode.Children, influenceCategoryNode)
@@ -387,6 +451,7 @@ func (stager *Stager) ux_tree() {
 			influenceCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
 			influenceCategoryNode.Buttons[0].ToolTipText = "Hide influences from diagram"
 		}
+
 		for _, influence := range GetGongstrucsSorted[*Influence](stager.stage) {
 
 			isInDiagram := false
@@ -405,6 +470,7 @@ func (stager *Stager) ux_tree() {
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
 				IsNodeClickable:   true,
+				IsInEditMode:      influence.GetIsInRenameMode(),
 				OnIsCheckedChanged: func(isChecked bool) {
 					if isChecked {
 						influenceShape := &InfluenceShape{
@@ -425,7 +491,9 @@ func (stager *Stager) ux_tree() {
 				},
 			}
 			influenceNode.OnClick = onNodeClicked(stager, influence)
+			influenceNode.OnNameChange = stager.onNameChange(influence)
 			influenceCategoryNode.Children = append(influenceCategoryNode.Children, influenceNode)
+			addRenameButton(influence, influenceNode, stager)
 
 			if shape != nil {
 				influenceNode.Buttons = []*tree.Button{
