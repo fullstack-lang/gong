@@ -5,7 +5,6 @@ package main
 import (
 	"flag"
 	"log"
-	"os"
 	"strconv"
 
 	"github.com/fullstack-lang/gong/dsm/project/go/level1stack"
@@ -28,8 +27,9 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	if len(flag.Args()) > 0 {
-		argument := os.Args[1]
+	// flag.Args() contains all arguments remaining after flags are parsed
+	if flag.NArg() > 0 {
+		argument := flag.Arg(0) // This will correctly pick 'foo.go'
 		marshallOnCommit = &argument
 		unmarshallFromCode = &argument
 	}

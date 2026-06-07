@@ -700,8 +700,19 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/project/go/cmd/project",
             "args": [
-                "data/simple.go",
                 "-embeddedDiagrams=false",
+                "data/simple.go",
+            ]
+        },
+        {
+            "name": "project: go run issue1315.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
+            "args": [
+                "-embeddedDiagrams=false",
+                "data/issue1315.go",
             ]
         },
         {
