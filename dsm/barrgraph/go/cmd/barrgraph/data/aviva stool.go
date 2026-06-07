@@ -36,8 +36,10 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_ := (&models.Diagram{Name: `  AVIVA    STOOL  BACKGROUND`}).Stage(stage)
 
 	__Movement__00000000_ := (&models.Movement{Name: `biomorphism`}).Stage(stage)
+	__Movement__00000001_ := (&models.Movement{Name: `computer design`}).Stage(stage)
 
-	__MovementShape__00000006_ := (&models.MovementShape{Name: ``}).Stage(stage)
+	__MovementShape__00000007_ := (&models.MovementShape{Name: ``}).Stage(stage)
+	__MovementShape__00000008_ := (&models.MovementShape{Name: ``}).Stage(stage)
 
 	__Place__00000000_ := (&models.Place{Name: `Paris`}).Stage(stage)
 	__Place__00000001_ := (&models.Place{Name: `New York`}).Stage(stage)
@@ -69,7 +71,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Name = `  AVIVA    STOOL  BACKGROUND`
 	__Diagram__00000000_.ComputedPrefix = ``
 	__Diagram__00000000_.IsChecked = false
-	__Diagram__00000000_.IsEditable = true
+	__Diagram__00000000_.IsEditable = false
 	__Diagram__00000000_.IsNodeExpanded = true
 	__Diagram__00000000_.IsMovementCategoryNodeExpanded = true
 	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = false
@@ -166,12 +168,31 @@ func _(stage *models.Stage) {
 	__Movement__00000000_.IsMinor = false
 	__Movement__00000000_.AdditionnalName = ``
 
-	__MovementShape__00000006_.Name = ``
-	__MovementShape__00000006_.X = 335.000000
-	__MovementShape__00000006_.Y = 94.000000
-	__MovementShape__00000006_.Width = 121.000000
-	__MovementShape__00000006_.Height = 39.000000
-	__MovementShape__00000006_.IsHidden = false
+	__Movement__00000001_.Name = `computer design`
+	__Movement__00000001_.ComputedPrefix = ``
+	__Movement__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Movement__00000001_.HideDate = false
+	__Movement__00000001_.HasTaxonomicFilter = false
+	__Movement__00000001_.TaxonomicFilter = ``
+	__Movement__00000001_.IsFeatured = false
+	__Movement__00000001_.FeaturePrefix = ``
+	__Movement__00000001_.IsMajor = false
+	__Movement__00000001_.IsMinor = false
+	__Movement__00000001_.AdditionnalName = ``
+
+	__MovementShape__00000007_.Name = ``
+	__MovementShape__00000007_.X = 427.000000
+	__MovementShape__00000007_.Y = 46.000000
+	__MovementShape__00000007_.Width = 138.000000
+	__MovementShape__00000007_.Height = 35.000000
+	__MovementShape__00000007_.IsHidden = false
+
+	__MovementShape__00000008_.Name = ``
+	__MovementShape__00000008_.X = 414.000000
+	__MovementShape__00000008_.Y = 290.999985
+	__MovementShape__00000008_.Width = 160.000000
+	__MovementShape__00000008_.Height = 40.000000
+	__MovementShape__00000008_.IsHidden = false
 
 	__Place__00000000_.Name = `Paris`
 
@@ -181,9 +202,12 @@ func _(stage *models.Stage) {
 	__Artist__00000000_.Place = __Place__00000000_
 	__ArtistShape__00000001_.Artist = __Artist__00000000_
 	__Desk__00000000_.SelectedDiagram = __Diagram__00000000_
-	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000006_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000007_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000008_)
 	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000001_)
 	__Movement__00000000_.Places = append(__Movement__00000000_.Places, __Place__00000001_)
 	__Movement__00000000_.Places = append(__Movement__00000000_.Places, __Place__00000000_)
-	__MovementShape__00000006_.Movement = __Movement__00000000_
+	__Movement__00000001_.Places = append(__Movement__00000001_.Places, __Place__00000001_)
+	__MovementShape__00000007_.Movement = __Movement__00000000_
+	__MovementShape__00000008_.Movement = __Movement__00000001_
 }
