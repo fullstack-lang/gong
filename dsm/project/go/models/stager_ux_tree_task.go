@@ -55,6 +55,11 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 			compositionShapes:            &diagram.TaskComposition_Shapes,
 		})
 
+	if task.IsImport && task.ReferencedTask != nil {
+		taskNode.Name = "🔗 " + task.ReferencedTask.Name
+		taskNode.CheckboxToolTipText = "Add imported task to diagram"
+	}
+
 	conf := ItemShapeAndLinkButtonConfiguration[
 		Task, *Task, // AT, PAT (Added Element)
 		Task, *Task, // ParentAT, PParentAT (Parent Element)

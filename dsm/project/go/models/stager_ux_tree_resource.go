@@ -37,6 +37,11 @@ func (stager *Stager) treeResourceinDiagram(diagram *Diagram, resource *Resource
 	}
 	resourceNode := addNodeToTree(stager, resourceNodeConf)
 
+	if resource.IsImport && resource.ReferencedResource != nil {
+		resourceNode.Name = "🔗 " + resource.ReferencedResource.Name
+		resourceNode.CheckboxToolTipText = "Add imported resource to diagram"
+	}
+
 	conf := ItemShapeAndLinkButtonConfiguration[
 		Resource, *Resource, // AT, PAT (Added Element)
 		Resource, *Resource, // ParentAT, PParentAT (Parent Element)
