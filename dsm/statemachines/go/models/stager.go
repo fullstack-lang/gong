@@ -51,11 +51,12 @@ type Stager struct {
 	svgObject              *svg.SVG
 	map_SvgRect_StateShape map[*svg.Rect]*StateShape
 
-	filename string
-
 	// DSM mandatory
 	// map to navigate from abstract elements to all diagrams where they are displayed
 	map_Element_Diagrams map[AbstractType][]DiagramIF
+	fileName             string
+
+	// End of DSM Mandatory
 }
 
 func (stager *Stager) GetStage() *Stage {
@@ -94,7 +95,7 @@ func NewStager(
 	stager.buttonTransitionsStage = button_stack.NewStack(r, stackName+"-transitions", "", "", "", false, false).Stage
 	stager.buttonExportXLStage = button_stack.NewStack(r, stackName+"-exportXL", "", "", "", true, true).Stage
 
-	stager.create_views()
+	stager.createViews()
 
 	beforeCommit := func(stage *Stage) {
 		stager.enforce_semantic()

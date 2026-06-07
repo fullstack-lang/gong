@@ -4,7 +4,7 @@ import (
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 )
 
-func (stager *Stager) create_views() {
+func (stager *Stager) createViews() {
 	split.StageBranch(stager.splitStage, &split.View{
 		Name:           "Edit view",
 		IsSelectedView: true,
@@ -42,14 +42,18 @@ func (stager *Stager) create_views() {
 														AsSplitAreas: []*split.AsSplitArea{
 															{
 																Name:             "Model tree",
-																Size:             90,
+																Size:             80,
 																ShowNameInHeader: false,
 																Tree: &split.Tree{
 																	StackName: stager.treeStage.GetName(),
 																},
 															},
-
-															//
+															{
+																Size: 10,
+																Load: &split.Load{
+																	StackName: stager.loadStage.GetName(),
+																},
+															},
 															{
 																Name:             "Export XL button",
 																Size:             10,
