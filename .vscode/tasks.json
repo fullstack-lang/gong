@@ -504,6 +504,32 @@
       ]
     },
     {
+      "label": "01 - gong generate statemachines --dsm & gong-bundler it",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/dsm/statemachines"
+      },
+      "command": "gong generate go/models --dsm --skipGoModCommands && gong-bundler go/cmd/statemachines",
+      "group": "build"
+    },
+    {
+      "label": "04 - go run statemachines on stage",
+      "type": "shell",
+      "options": {
+        "cwd": "./dsm/statemachines/go/cmd/statemachines"
+      },
+      "command": "go",
+      "args": [
+        "run",
+        ".",
+        "-unmarshallFromCode",
+        "data/stage.go",
+        "-marshallOnCommit",
+        "data/stage.go"
+      ],
+      "group": "build"
+    },
+    {
       "label": "01 - gong generate process --dsm",
       "type": "shell",
       "options": {
