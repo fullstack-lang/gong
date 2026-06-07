@@ -17,9 +17,9 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	if library != stager.getRootLibrary() {
 		addRenameButton(library, libraryNode, stager)
 	}
-
-	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
-
+	libraryNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.isExpanded)
+	libraryNode.OnNameChange = stager.onNameChange(library)
+	libraryNode.OnClick = onNodeClicked(stager, library)
 	confSubLibraries := ItemButtonConfiguration[
 		Library, *Library, // AT, PAT (Added Element)
 		Library, *Library, // ParentAT, PParentAT (Parent Element)
@@ -70,9 +70,23 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		node := diagramNode
 
 		addRenameButton(element, node, stager)
-
-		diagramNode.OnUpdate = stager.onUpdateDiagram(diagram)
-
+		diagramNode.OnIsCheckedChanged = func(isChecked bool) {
+			if isChecked {
+				for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+					diagram_.IsChecked = false
+				}
+				diagram.IsChecked = true
+			} else {
+				diagram.IsChecked = false
+				for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+					diagram_.IsChecked = false
+				}
+			}
+			stager.stage.Commit()
+		}
+		diagramNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.isExpanded)
+		diagramNode.OnNameChange = stager.onNameChange(diagram)
+		diagramNode.OnClick = onNodeClicked(stager, diagram)
 		{
 			copyButton := &tree.Button{
 				Name:            "Copy Diagram",
@@ -121,7 +135,8 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			IsNodeClickable: true,
 		}
 		diagramNode.Children = append(diagramNode.Children, pbsNode)
-		pbsNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsPBSNodeExpanded)
+		pbsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsPBSNodeExpanded)
+		pbsNode.OnClick = onNodeClicked(stager, diagram)
 		confPBS := ItemShapeAndLinkButtonConfiguration[
 			Product, *Product, // AT, PAT (Added Element)
 			Product, *Product, // ParentAT, PParentAT (Parent Element)
@@ -168,7 +183,8 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			IsNodeClickable: true,
 		}
 		diagramNode.Children = append(diagramNode.Children, wbsNode)
-		wbsNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsWBSNodeExpanded)
+		wbsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsWBSNodeExpanded)
+		wbsNode.OnClick = onNodeClicked(stager, diagram)
 
 		confWBS := ItemShapeAndLinkButtonConfiguration[
 			Task, *Task, // AT, PAT (Added Element)
@@ -209,7 +225,8 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			IsNodeClickable: true,
 		}
 		diagramNode.Children = append(diagramNode.Children, resourcesNode)
-		resourcesNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsResourcesNodeExpanded)
+		resourcesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsResourcesNodeExpanded)
+		resourcesNode.OnClick = onNodeClicked(stager, diagram)
 
 		confRBS := ItemShapeAndLinkButtonConfiguration[
 			Resource, *Resource, // AT, PAT (Added Element)
@@ -251,7 +268,8 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 				IsNodeClickable: true,
 			}
 			diagramNode.Children = append(diagramNode.Children, notesNode)
-			notesNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsNotesNodeExpanded)
+			notesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsNotesNodeExpanded)
+			notesNode.OnClick = onNodeClicked(stager, diagram)
 
 			confNotes := ItemShapeAndLinkButtonConfiguration[
 				Note, *Note, // AT, PAT (Added Element)
@@ -425,30 +443,3 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	}
 }
 
-func (stager *Stager) OnUpdateLibrary(library *Library) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-		if frontNode.IsExpanded != stagedNode.IsExpanded {
-			stagedNode.IsExpanded = frontNode.IsExpanded
-			library.isExpanded = frontNode.IsExpanded
-			stager.stage.Commit()
-			return
-		}
-		if frontNode.Name != stagedNode.Name {
-			library.Name = frontNode.Name
-			library.isInRenameMode = false
-			stager.stage.Commit()
-			return
-		}
-		stager.probeForm.FillUpFormFromGongstruct(library, GetPointerToGongstructName[*Library]())
-		stager.stage.Commit()
-	}
-}
-
-func (stager *Stager) OnUpdateExpansion(isExpanded *bool) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-		if frontNode.IsExpanded != stagedNode.IsExpanded {
-			*isExpanded = !*isExpanded
-		}
-		stager.stage.Commit()
-	}
-}
