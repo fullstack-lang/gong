@@ -25,6 +25,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Kill:
 		ok = stage.IsStagedKill(target)
 
+	case *Library:
+		ok = stage.IsStagedLibrary(target)
+
 	case *Message:
 		ok = stage.IsStagedMessage(target)
 
@@ -79,6 +82,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Kill:
 		ok = stage.IsStagedKill(target)
+
+	case *Library:
+		ok = stage.IsStagedLibrary(target)
 
 	case *Message:
 		ok = stage.IsStagedMessage(target)
@@ -152,6 +158,13 @@ func (stage *Stage) IsStagedGuard(guard *Guard) (ok bool) {
 func (stage *Stage) IsStagedKill(kill *Kill) (ok bool) {
 
 	_, ok = stage.Kills[kill]
+
+	return
+}
+
+func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
+
+	_, ok = stage.Librarys[library]
 
 	return
 }
@@ -244,6 +257,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Kill:
 		stage.StageBranchKill(target)
+
+	case *Library:
+		stage.StageBranchLibrary(target)
 
 	case *Message:
 		stage.StageBranchMessage(target)
@@ -380,6 +396,27 @@ func (stage *Stage) StageBranchKill(kill *Kill) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchLibrary(library *Library) {
+
+	// check if instance is already staged
+	if IsStaged(stage, library) {
+		return
+	}
+
+	library.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _library := range library.SubLibraries {
+		StageBranch(stage, _library)
+	}
+	for _, _diagram := range library.Diagrams {
+		StageBranch(stage, _diagram)
+	}
 
 }
 
@@ -619,6 +656,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchKill(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Library:
+		toT := CopyBranchLibrary(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Message:
 		toT := CopyBranchMessage(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -787,6 +828,31 @@ func CopyBranchKill(mapOrigCopy map[any]any, killFrom *Kill) (killTo *Kill) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
+
+	// libraryFrom has already been copied
+	if _libraryTo, ok := mapOrigCopy[libraryFrom]; ok {
+		libraryTo = _libraryTo.(*Library)
+		return
+	}
+
+	libraryTo = new(Library)
+	mapOrigCopy[libraryFrom] = libraryTo
+	libraryFrom.CopyBasicFields(libraryTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _library := range libraryFrom.SubLibraries {
+		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
+	}
+	for _, _diagram := range libraryFrom.Diagrams {
+		libraryTo.Diagrams = append(libraryTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
+	}
 
 	return
 }
@@ -1054,6 +1120,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Kill:
 		stage.UnstageBranchKill(target)
 
+	case *Library:
+		stage.UnstageBranchLibrary(target)
+
 	case *Message:
 		stage.UnstageBranchMessage(target)
 
@@ -1189,6 +1258,27 @@ func (stage *Stage) UnstageBranchKill(kill *Kill) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchLibrary(library *Library) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, library) {
+		return
+	}
+
+	library.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _library := range library.SubLibraries {
+		UnstageBranch(stage, _library)
+	}
+	for _, _diagram := range library.Diagrams {
+		UnstageBranch(stage, _diagram)
+	}
 
 }
 
@@ -1444,6 +1534,19 @@ func (reference *Kill) GongReconstructPointersFromReferences(stage *Stage, insta
 	// insertion point for slice of pointers field
 }
 
+func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.SubLibraries = reference.SubLibraries[:0]
+	for _, _b := range instance.SubLibraries {
+		reference.SubLibraries = append(reference.SubLibraries, stage.Librarys_reference[_b])
+	}
+	reference.Diagrams = reference.Diagrams[:0]
+	for _, _b := range instance.Diagrams {
+		reference.Diagrams = append(reference.Diagrams, stage.Diagrams_reference[_b])
+	}
+}
+
 func (reference *Message) GongReconstructPointersFromReferences(stage *Stage, instance *Message) {
 	// insertion point for pointers field
 	if instance.MessageType != nil {
@@ -1629,6 +1732,25 @@ func (reference *Guard) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *Kill) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
+}
+
+func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _SubLibraries []*Library
+	for _, _reference := range reference.SubLibraries {
+		if _instance, ok := stage.Librarys_instance[_reference]; ok {
+			_SubLibraries = append(_SubLibraries, _instance)
+		}
+	}
+	reference.SubLibraries = _SubLibraries
+	var _Diagrams []*Diagram
+	for _, _reference := range reference.Diagrams {
+		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
+			_Diagrams = append(_Diagrams, _instance)
+		}
+	}
+	reference.Diagrams = _Diagrams
 }
 
 func (reference *Message) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2003,6 +2125,71 @@ func (kill *Kill) GongDiff(stage *Stage, killOther *Kill) (diffs []string) {
 	// insertion point for field diffs
 	if kill.Name != killOther.Name {
 		diffs = append(diffs, kill.GongMarshallField(stage, "Name"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []string) {
+	// insertion point for field diffs
+	if library.Name != libraryOther.Name {
+		diffs = append(diffs, library.GongMarshallField(stage, "Name"))
+	}
+	SubLibrariesDifferent := false
+	if len(library.SubLibraries) != len(libraryOther.SubLibraries) {
+		SubLibrariesDifferent = true
+	} else {
+		for i := range library.SubLibraries {
+			if (library.SubLibraries[i] == nil) != (libraryOther.SubLibraries[i] == nil) {
+				SubLibrariesDifferent = true
+				break
+			} else if library.SubLibraries[i] != nil && libraryOther.SubLibraries[i] != nil {
+				// this is a pointer comparaison
+				if library.SubLibraries[i] != libraryOther.SubLibraries[i] {
+					SubLibrariesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubLibrariesDifferent {
+		ops := Diff(stage, library, libraryOther, "SubLibraries", libraryOther.SubLibraries, library.SubLibraries)
+		diffs = append(diffs, ops)
+	}
+	if library.NbPixPerCharacter != libraryOther.NbPixPerCharacter {
+		diffs = append(diffs, library.GongMarshallField(stage, "NbPixPerCharacter"))
+	}
+	if library.LogoSVGFile != libraryOther.LogoSVGFile {
+		diffs = append(diffs, library.GongMarshallField(stage, "LogoSVGFile"))
+	}
+	if library.ComputedPrefix != libraryOther.ComputedPrefix {
+		diffs = append(diffs, library.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if library.IsRootLibrary != libraryOther.IsRootLibrary {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
+	}
+	DiagramsDifferent := false
+	if len(library.Diagrams) != len(libraryOther.Diagrams) {
+		DiagramsDifferent = true
+	} else {
+		for i := range library.Diagrams {
+			if (library.Diagrams[i] == nil) != (libraryOther.Diagrams[i] == nil) {
+				DiagramsDifferent = true
+				break
+			} else if library.Diagrams[i] != nil && libraryOther.Diagrams[i] != nil {
+				// this is a pointer comparaison
+				if library.Diagrams[i] != libraryOther.Diagrams[i] {
+					DiagramsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DiagramsDifferent {
+		ops := Diff(stage, library, libraryOther, "Diagrams", libraryOther.Diagrams, library.Diagrams)
+		diffs = append(diffs, ops)
 	}
 
 	return

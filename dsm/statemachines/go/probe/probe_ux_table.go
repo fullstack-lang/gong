@@ -36,6 +36,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Guard](probe)
 	case "Kill":
 		updateProbeTable[*models.Kill](probe)
+	case "Library":
+		updateProbeTable[*models.Library](probe)
 	case "Message":
 		updateProbeTable[*models.Message](probe)
 	case "MessageType":

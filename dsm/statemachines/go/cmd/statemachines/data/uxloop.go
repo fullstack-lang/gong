@@ -513,4 +513,52 @@ func _(stage *models.Stage) {
 	__Transition__00000011_.Guard = __Guard__00000001_
 	__Transition__00000011_.Diagrams = append(__Transition__00000011_.Diagrams, __Diagram__00000000_)
 	stage.Commit()
+
+	// UX Loop Diagram
+	__Diagram__00000000_.StatesWhoseNodeIsExpanded = slices.Insert( __Diagram__00000000_.StatesWhoseNodeIsExpanded, 0, __State__00000000_)
+	stage.Commit()
+
+	// UX 1 - Waiting for User Input to UX 1 - Update Stage
+	__Transition_Shape__00000000_.IsHidden = true
+	stage.Commit()
+
+	// UX 1 - Waiting for User Input to UX 1 - Update Stage
+	__Transition_Shape__00000000_.IsHidden = false
+	stage.Commit()
+
+	// UX Loop Diagram
+	__Diagram__00000000_.StatesWhoseNodeIsExpanded = slices.Delete( __Diagram__00000000_.StatesWhoseNodeIsExpanded, 0, 1)
+	stage.Commit()
+
+	// New Diagram
+	__Diagram__00000001_.IsChecked = true
+	// UX Loop Diagram
+	__Diagram__00000000_.IsChecked = false
+	stage.Commit()
+
+	// New Diagram
+	__Diagram__00000001_.IsChecked = false
+	// UX Loop Diagram
+	__Diagram__00000000_.IsChecked = true
+	stage.Commit()
+
+	// New Diagram
+	__Diagram__00000001_.IsChecked = true
+	// UX Loop Diagram
+	__Diagram__00000000_.IsChecked = false
+	stage.Commit()
+
+	// New Diagram
+	__Diagram__00000001_.IsChecked = false
+	// UX Loop Diagram
+	__Diagram__00000000_.IsChecked = true
+	stage.Commit()
+
+	// UX Loop Diagram
+	__Diagram__00000000_.StatesWhoseNodeIsExpanded = slices.Insert( __Diagram__00000000_.StatesWhoseNodeIsExpanded, 0, __State__00000000_)
+	stage.Commit()
+
+	// UX Loop Diagram
+	__Diagram__00000000_.StatesWhoseNodeIsExpanded = slices.Delete( __Diagram__00000000_.StatesWhoseNodeIsExpanded, 0, 1)
+	stage.Commit()
 }
