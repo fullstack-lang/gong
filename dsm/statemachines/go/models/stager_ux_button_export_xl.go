@@ -66,11 +66,11 @@ func (proxy *ExportXLButtonProxy) Updated() {
 	loadStage.Reset()
 	fileToDownload := new(load.FileToDownload).Stage(loadStage)
 
-	stager.filename = fmt.Sprintf("%s.xlsx", time.Now().Local().Format("2006-01-02-15-04-05"))
+	stager.fileName = fmt.Sprintf("%s.xlsx", time.Now().Local().Format("2006-01-02-15-04-05"))
 
-	fileToDownload.Name = stager.filename
+	fileToDownload.Name = stager.fileName
 
-	tempFile, err := os.CreateTemp("", stager.filename)
+	tempFile, err := os.CreateTemp("", stager.fileName)
 	if err != nil {
 		log.Fatalf("Failed to create temporary file: %v", err)
 	}

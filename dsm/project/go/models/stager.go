@@ -73,7 +73,7 @@ func NewStager(
 	stager.loadStage = load_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 
-	stager.createViews(stage)
+	stager.createViews()
 
 	// Setup your before commit sequence
 

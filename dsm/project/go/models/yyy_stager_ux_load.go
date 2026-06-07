@@ -1,3 +1,4 @@
+// generated code (do not edit)
 package models
 
 import (
@@ -51,7 +52,7 @@ func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
 
 	// if the user loads a second file, we don't want the previous file to be committed
 	proxy.stager.stage.OnInitCommitCallback = nil
-	proxy.stager.createViews(proxy.stager.stage)
+	proxy.stager.createViews()
 
 	proxy.stager.stage.Reset()
 	fmt.Println("OnFileUpload: after reset")
