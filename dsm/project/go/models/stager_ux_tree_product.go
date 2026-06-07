@@ -34,6 +34,11 @@ func (stager *Stager) treeProduct(diagram *Diagram, product *Product, parentNode
 	}
 	productNode := addNodeToTree(stager, productNodeConf)
 
+	if product.IsImport && product.ReferencedProduct != nil {
+		productNode.Name = "🔗 " + product.ReferencedProduct.Name
+		productNode.CheckboxToolTipText = "Add imported product to diagram"
+	}
+
 	conf := ItemShapeAndLinkButtonConfiguration[
 		Product, *Product, // AT, PAT (Added Element)
 		Product, *Product, // ParentAT, PParentAT (Parent Element)

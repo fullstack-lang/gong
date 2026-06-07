@@ -562,6 +562,9 @@ func (stage *Stage) StageBranchProduct(product *Product) {
 	product.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if product.ReferencedProduct != nil {
+		StageBranch(stage, product.ReferencedProduct)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range product.SubProducts {
@@ -616,6 +619,9 @@ func (stage *Stage) StageBranchResource(resource *Resource) {
 	resource.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if resource.ReferencedResource != nil {
+		StageBranch(stage, resource.ReferencedResource)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range resource.Tasks {
@@ -694,6 +700,9 @@ func (stage *Stage) StageBranchTask(task *Task) {
 	task.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if task.ReferencedTask != nil {
+		StageBranch(stage, task.ReferencedTask)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range task.SubTasks {
@@ -1131,6 +1140,9 @@ func CopyBranchProduct(mapOrigCopy map[any]any, productFrom *Product) (productTo
 	productFrom.CopyBasicFields(productTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if productFrom.ReferencedProduct != nil {
+		productTo.ReferencedProduct = CopyBranchProduct(mapOrigCopy, productFrom.ReferencedProduct)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range productFrom.SubProducts {
@@ -1197,6 +1209,9 @@ func CopyBranchResource(mapOrigCopy map[any]any, resourceFrom *Resource) (resour
 	resourceFrom.CopyBasicFields(resourceTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if resourceFrom.ReferencedResource != nil {
+		resourceTo.ReferencedResource = CopyBranchResource(mapOrigCopy, resourceFrom.ReferencedResource)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range resourceFrom.Tasks {
@@ -1291,6 +1306,9 @@ func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 	taskFrom.CopyBasicFields(taskTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if taskFrom.ReferencedTask != nil {
+		taskTo.ReferencedTask = CopyBranchTask(mapOrigCopy, taskFrom.ReferencedTask)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range taskFrom.SubTasks {
@@ -1691,6 +1709,9 @@ func (stage *Stage) UnstageBranchProduct(product *Product) {
 	product.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if product.ReferencedProduct != nil {
+		UnstageBranch(stage, product.ReferencedProduct)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _product := range product.SubProducts {
@@ -1745,6 +1766,9 @@ func (stage *Stage) UnstageBranchResource(resource *Resource) {
 	resource.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if resource.ReferencedResource != nil {
+		UnstageBranch(stage, resource.ReferencedResource)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range resource.Tasks {
@@ -1823,6 +1847,9 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 	task.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if task.ReferencedTask != nil {
+		UnstageBranch(stage, task.ReferencedTask)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range task.SubTasks {
@@ -2086,6 +2113,9 @@ func (reference *NoteTaskShape) GongReconstructPointersFromReferences(stage *Sta
 
 func (reference *Product) GongReconstructPointersFromReferences(stage *Stage, instance *Product) {
 	// insertion point for pointers field
+	if instance.ReferencedProduct != nil {
+		reference.ReferencedProduct = stage.Products_reference[instance.ReferencedProduct]
+	}
 	// insertion point for slice of pointers field
 	reference.SubProducts = reference.SubProducts[:0]
 	for _, _b := range instance.SubProducts {
@@ -2111,6 +2141,9 @@ func (reference *ProductShape) GongReconstructPointersFromReferences(stage *Stag
 
 func (reference *Resource) GongReconstructPointersFromReferences(stage *Stage, instance *Resource) {
 	// insertion point for pointers field
+	if instance.ReferencedResource != nil {
+		reference.ReferencedResource = stage.Resources_reference[instance.ReferencedResource]
+	}
 	// insertion point for slice of pointers field
 	reference.Tasks = reference.Tasks[:0]
 	for _, _b := range instance.Tasks {
@@ -2151,6 +2184,9 @@ func (reference *ResourceTaskShape) GongReconstructPointersFromReferences(stage 
 
 func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, instance *Task) {
 	// insertion point for pointers field
+	if instance.ReferencedTask != nil {
+		reference.ReferencedTask = stage.Tasks_reference[instance.ReferencedTask]
+	}
 	// insertion point for slice of pointers field
 	reference.SubTasks = reference.SubTasks[:0]
 	for _, _b := range instance.SubTasks {
@@ -2480,6 +2516,12 @@ func (reference *NoteTaskShape) GongReconstructPointersFromInstances(stage *Stag
 
 func (reference *Product) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
+	if _reference := reference.ReferencedProduct; _reference != nil {
+		reference.ReferencedProduct = nil
+		if _instance, ok := stage.Products_instance[_reference]; ok {
+			reference.ReferencedProduct = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 	var _SubProducts []*Product
 	for _, _reference := range reference.SubProducts {
@@ -2514,6 +2556,12 @@ func (reference *ProductShape) GongReconstructPointersFromInstances(stage *Stage
 
 func (reference *Resource) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
+	if _reference := reference.ReferencedResource; _reference != nil {
+		reference.ReferencedResource = nil
+		if _instance, ok := stage.Resources_instance[_reference]; ok {
+			reference.ReferencedResource = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 	var _Tasks []*Task
 	for _, _reference := range reference.Tasks {
@@ -2572,6 +2620,12 @@ func (reference *ResourceTaskShape) GongReconstructPointersFromInstances(stage *
 
 func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
+	if _reference := reference.ReferencedTask; _reference != nil {
+		reference.ReferencedTask = nil
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			reference.ReferencedTask = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 	var _SubTasks []*Task
 	for _, _reference := range reference.SubTasks {
@@ -3497,6 +3551,16 @@ func (product *Product) GongDiff(stage *Stage, productOther *Product) (diffs []s
 	if product.ComputedPrefix != productOther.ComputedPrefix {
 		diffs = append(diffs, product.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if product.IsImport != productOther.IsImport {
+		diffs = append(diffs, product.GongMarshallField(stage, "IsImport"))
+	}
+	if (product.ReferencedProduct == nil) != (productOther.ReferencedProduct == nil) {
+		diffs = append(diffs, product.GongMarshallField(stage, "ReferencedProduct"))
+	} else if product.ReferencedProduct != nil && productOther.ReferencedProduct != nil {
+		if product.ReferencedProduct != productOther.ReferencedProduct {
+			diffs = append(diffs, product.GongMarshallField(stage, "ReferencedProduct"))
+		}
+	}
 	if product.Description != productOther.Description {
 		diffs = append(diffs, product.GongMarshallField(stage, "Description"))
 	}
@@ -3609,6 +3673,16 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 	}
 	if resource.ComputedPrefix != resourceOther.ComputedPrefix {
 		diffs = append(diffs, resource.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if resource.IsImport != resourceOther.IsImport {
+		diffs = append(diffs, resource.GongMarshallField(stage, "IsImport"))
+	}
+	if (resource.ReferencedResource == nil) != (resourceOther.ReferencedResource == nil) {
+		diffs = append(diffs, resource.GongMarshallField(stage, "ReferencedResource"))
+	} else if resource.ReferencedResource != nil && resourceOther.ReferencedResource != nil {
+		if resource.ReferencedResource != resourceOther.ReferencedResource {
+			diffs = append(diffs, resource.GongMarshallField(stage, "ReferencedResource"))
+		}
 	}
 	if resource.Description != resourceOther.Description {
 		diffs = append(diffs, resource.GongMarshallField(stage, "Description"))
@@ -3780,6 +3854,16 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	}
 	if task.ComputedPrefix != taskOther.ComputedPrefix {
 		diffs = append(diffs, task.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if task.IsImport != taskOther.IsImport {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsImport"))
+	}
+	if (task.ReferencedTask == nil) != (taskOther.ReferencedTask == nil) {
+		diffs = append(diffs, task.GongMarshallField(stage, "ReferencedTask"))
+	} else if task.ReferencedTask != nil && taskOther.ReferencedTask != nil {
+		if task.ReferencedTask != taskOther.ReferencedTask {
+			diffs = append(diffs, task.GongMarshallField(stage, "ReferencedTask"))
+		}
 	}
 	if task.Start != taskOther.Start {
 		diffs = append(diffs, task.GongMarshallField(stage, "Start"))

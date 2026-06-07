@@ -83,6 +83,16 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		rect.RX = 3
 		diagram.map_Product_Rect[productShape.Product] = rect
 		diagram.map_SvgRect_ProductShape[rect] = productShape
+
+		if productShape.Product.IsImport && productShape.Product.ReferencedProduct != nil {
+			if len(rect.RectAnchoredTexts) > 0 {
+				content := "🔗 " + productShape.Product.ReferencedProduct.Name
+				if rect.Width > 0 {
+					content = strutils.WrapStringPreservingNewlines(content, int(rect.Width/stager.getRootLibrary().NbPixPerCharacter))
+				}
+				rect.RectAnchoredTexts[0].Content = content
+			}
+		}
 	}
 
 	for _, productCompositionShape := range diagram.ProductComposition_Shapes {
@@ -126,6 +136,16 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			layer)
 		diagram.map_Task_Rect[taskShape.Task] = rect
 		diagram.map_SvgRect_TaskShape[rect] = taskShape
+
+		if taskShape.Task.IsImport && taskShape.Task.ReferencedTask != nil {
+			if len(rect.RectAnchoredTexts) > 0 {
+				content := "🔗 " + taskShape.Task.ReferencedTask.Name
+				if rect.Width > 0 {
+					content = strutils.WrapStringPreservingNewlines(content, int(rect.Width/stager.getRootLibrary().NbPixPerCharacter))
+				}
+				rect.RectAnchoredTexts[0].Content = content
+			}
+		}
 
 		if taskShape.Task.IsWithCompletion {
 			rectAnchoredPath := new(svg.RectAnchoredPath)
@@ -281,18 +301,8 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		rect.Stroke = "#FBC02D"
 		rect.StrokeWidth = 1.0
 
-		// fake dog-ear fold (inward fold)
-		fold := new(svg.RectAnchoredPath)
-		fold.Name = "DogEar"
-		fold.Definition = "M -15 0 L -15 15 L 0 15 Z"
-		fold.Color = "#FFF176" // slightly darker yellow for the fold
-		fold.FillOpacity = 1.0
-		fold.Stroke = "#FBC02D"
-		fold.StrokeWidth = 1.0
-		fold.RectAnchorType = svg.RECT_TOP_RIGHT
-		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, fold)
-
 		if len(rect.RectAnchoredTexts) > 0 {
+			rect.RectAnchoredTexts[0].Content = "📝 " + rect.RectAnchoredTexts[0].Content
 			rect.RectAnchoredTexts[0].FontWeight = "normal"
 			rect.RectAnchoredTexts[0].FontStyle = "italic"
 			rect.RectAnchoredTexts[0].TextAnchorType = svg.TEXT_ANCHOR_START
@@ -303,18 +313,6 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		diagram.map_Note_Rect[note] = rect
 		diagram.map_SvgRect_NoteShape[rect] = noteShape
 
-		penLogo := new(svg.RectAnchoredPath)
-		penLogo.Stroke = svg.Black.ToString()
-		penLogo.StrokeWidth = 2
-		penLogo.StrokeOpacity = 1
-		penLogo.ScalePropotionnally = true
-		penLogo.AppliedScaling = 1
-
-		penLogo.Definition = "M 5 16 L 9 20 L 20 9 L 25 0 L 16 5 Z"
-		penLogo.X_Offset = 0
-		penLogo.Y_Offset = 5
-		penLogo.RectAnchorType = svg.RECT_TOP_LEFT
-		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, penLogo)
 		_ = rect
 	}
 
@@ -387,6 +385,16 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			layer)
 		diagram.map_Resource_Rect[resourceShape.Resource] = rect
 		diagram.map_SvgRect_ResourceShape[rect] = resourceShape
+
+		if resourceShape.Resource.IsImport && resourceShape.Resource.ReferencedResource != nil {
+			if len(rect.RectAnchoredTexts) > 0 {
+				content := "🔗 " + resourceShape.Resource.ReferencedResource.Name
+				if rect.Width > 0 {
+					content = strutils.WrapStringPreservingNewlines(content, int(rect.Width/stager.getRootLibrary().NbPixPerCharacter))
+				}
+				rect.RectAnchoredTexts[0].Content = content
+			}
+		}
 		{
 			rectAnchoredPath := new(svg.RectAnchoredPath)
 			rect.IsScalingProportionally = false

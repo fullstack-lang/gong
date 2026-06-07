@@ -23,6 +23,9 @@ type Task struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
+	IsImport       bool
+	ReferencedTask *Task
+
 	Start time.Time
 	End   time.Time
 
@@ -75,6 +78,9 @@ type Product struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
+	IsImport          bool
+	ReferencedProduct *Product
+
 	//gong:text width:300 height:300
 	Description string
 
@@ -102,6 +108,9 @@ type Resource struct {
 
 	LibraryAbstractFields
 	AbstractTypeFields
+
+	IsImport           bool
+	ReferencedResource *Resource
 
 	//gong:text width:300 height:300
 	Description string
