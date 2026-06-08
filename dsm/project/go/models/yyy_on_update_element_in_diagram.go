@@ -46,6 +46,7 @@ func onUpdateElementInDiagram[
 				log.Panic("adding a shape to an already product shape")
 			}
 			shape = newShapeToDiagram(element, diagram, shapes, stager.stage)
+			shapesMap[element] = shape
 
 			if parentElement != nil {
 				if parentShape, ok := shapesMap[parentElement]; ok {
@@ -155,6 +156,7 @@ func onUpdateElementInDiagramWithoutLink[
 				log.Panic("adding a shape to an already existing shape")
 			}
 			shape = newShapeToDiagram(element, diagram, shapes, stager.stage)
+			shapesMap[element] = shape
 
 			stager.stage.Commit()
 			return
