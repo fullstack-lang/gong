@@ -2,6 +2,8 @@ package models
 
 import (
 	"time"
+
+	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
 type Diagram struct {
@@ -18,6 +20,10 @@ type Diagram struct {
 	ArtefactTypeShapes []*ArtefactTypeShape
 	ArtistShapes       []*ArtistShape
 	InfluenceShapes    []*InfluenceShape
+
+	map_SvgRect_MovementShape     map[*svg.Rect]*MovementShape
+	map_SvgRect_ArtefactTypeShape map[*svg.Rect]*ArtefactTypeShape
+	map_SvgRect_ArtistShape       map[*svg.Rect]*ArtistShape
 
 	IsEditable bool
 
