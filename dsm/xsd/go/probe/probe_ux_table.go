@@ -344,6 +344,18 @@ func (probe *Probe) UpdateAndCommitNotificationTable() {
 	}
 	table.Buttons = append(table.Buttons, notificationsResetButton)
 
+	notificationsDownloadCSVButton := &table_models.Button{
+		Name:            "NotificationsDownloadCSVButton",
+		Icon:            string(tree_buttons.BUTTON_download),
+		HasToolTip:      true,
+		ToolTipText:     "Download notifications as CSV",
+		ToolTipPosition: table_models.Below,
+		OnClick: func() {
+			probe.DownloadNotificationsCSV()
+		},
+	}
+	table.Buttons = append(table.Buttons, notificationsDownloadCSVButton)
+
 	column := new(table_models.DisplayedColumn)
 	column.Name = "Date"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
