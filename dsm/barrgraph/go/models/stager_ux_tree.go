@@ -53,6 +53,9 @@ func (stager *Stager) ux_tree() {
 					OnClick: func() {
 						content, err := DataFS.ReadFile("data/" + entryName)
 						if err == nil {
+							// if the user loads a gallery file, we don't want the file to be automatically overwritten
+							stager.stage.OnInitCommitCallback = nil
+
 							stager.stage.Reset()
 
 							fset := token.NewFileSet()
