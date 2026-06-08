@@ -64,7 +64,7 @@ func _(stage *models.Stage) {
 
 	__Desk__00000000_ := (&models.Desk{Name: `Desk`}).Stage(stage)
 
-	__Diagram__00000000_ := (&models.Diagram{Name: `Netherland       Golden        Century`}).Stage(stage)
+	__Diagram__00000000_ := (&models.Diagram{Name: `Netherland   Golden    Century`}).Stage(stage)
 
 	__Influence__00000000_ := (&models.Influence{Name: `Haarlem Mannerism to Pre-Rembrandtists`}).Stage(stage)
 	__Influence__00000001_ := (&models.Influence{Name: `Pre-Rembrandtists to Rembrandt van Rijn`}).Stage(stage)
@@ -334,10 +334,10 @@ func _(stage *models.Stage) {
 
 	__Desk__00000000_.Name = `Desk`
 
-	__Diagram__00000000_.Name = `Netherland       Golden        Century`
+	__Diagram__00000000_.Name = `Netherland   Golden    Century`
 	__Diagram__00000000_.ComputedPrefix = ``
 	__Diagram__00000000_.IsChecked = false
-	__Diagram__00000000_.IsEditable = false
+	__Diagram__00000000_.IsEditable = true
 	__Diagram__00000000_.IsNodeExpanded = true
 	__Diagram__00000000_.IsMovementCategoryNodeExpanded = false
 	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = false
@@ -360,7 +360,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.BottomBoxYOffset = 50.000000
 	__Diagram__00000000_.BottomBoxWidth = 870.000000
 	__Diagram__00000000_.BottomBoxHeigth = 150.000000
-	__Diagram__00000000_.BottomBoxFontSize = `50px`
+	__Diagram__00000000_.BottomBoxFontSize = `74px`
 	__Diagram__00000000_.BottomBoxFontWeigth = `500`
 	__Diagram__00000000_.BottomBoxFontFamily = `ChunkFive, sans-serif`
 	__Diagram__00000000_.BottomBoxLetterSpacing = `1`
