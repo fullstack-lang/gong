@@ -3,6 +3,9 @@ package probe
 
 import (
 	"embed"
+	"encoding/base64"
+	"fmt"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -12,6 +15,7 @@ import (
 	split_fullstack "github.com/fullstack-lang/gong/lib/split/go/fullstack"
 	table_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	tree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
+	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
@@ -20,6 +24,7 @@ import (
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
+	load "github.com/fullstack-lang/gong/lib/load/go/models"
 
 	"github.com/fullstack-lang/gong/lib/cursor/go/models"
 
@@ -36,6 +41,7 @@ type Probe struct {
 	tableStage             *table.Stage
 	notificationTableStage *table.Stage
 	splitStage             *split.Stage
+	loadStage              *load.Stage
 
 	// AsSplit to be used if one need only the data editor
 	dataEditor *split.AsSplit
@@ -108,6 +114,9 @@ func NewProbe(
 	formStage, _ := form_fullstack.NewStackInstance(r, stageOfInterest.GetProbeFormStageName())
 	formStage.Commit()
 
+	loadStage, _ := load_fullstack.NewStackInstance(r, stageOfInterest.GetName())
+	loadStage.Commit()
+
 	probe = &Probe{
 		r:                              r,
 		stageOfInterest:                stageOfInterest,
@@ -118,6 +127,7 @@ func NewProbe(
 		tableStage:                     tableStage,
 		notificationTableStage:         notificationTableStage,
 		splitStage:                     splitStage,
+		loadStage:                      loadStage,
 		maxElementsNbPerGongStructNode: 10,
 		commitMode:                     true,
 	}
@@ -196,6 +206,14 @@ func NewProbe(
 							Table: &split.Table{
 								Name:      "Table",
 								StackName: probe.notificationTableStage.GetName(),
+							},
+						},
+						{
+							Name: "load",
+							Size: 0,
+							Load: &split.Load{
+								Name:      "Table",
+								StackName: probe.loadStage.GetName(),
 							},
 						},
 					},
@@ -283,4 +301,23 @@ func (probe *Probe) FillUpFormFromGongstruct(instance any, formName string) {
 type Notification struct {
 	Date    time.Time
 	Message string
+}
+
+func (probe *Probe) DownloadNotificationsCSV() {
+	var csvContent string
+	csvContent += "Date,Message\n"
+	for _, notification := range probe.notification {
+		// Escape quotes in message
+		escapedMessage := strings.ReplaceAll(notification.Message, "\"", "\"\"")
+		csvContent += fmt.Sprintf("\"%s\",\"%s\"\n", notification.Date.Format(time.StampMicro), escapedMessage)
+	}
+
+	probe.loadStage.Reset()
+
+	fileToDownload := new(load.FileToDownload)
+	fileToDownload.Name = "notifications.csv"
+	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(csvContent))
+
+	load.StageBranch(probe.loadStage, fileToDownload)
+	probe.loadStage.Commit()
 }
