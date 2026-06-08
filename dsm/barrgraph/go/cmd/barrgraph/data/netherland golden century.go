@@ -84,6 +84,7 @@ func _(stage *models.Stage) {
 	__Influence__00000015_ := (&models.Influence{Name: `History Painting to Pre-Rembrandtists`}).Stage(stage)
 	__Influence__00000016_ := (&models.Influence{Name: `Landscape Painting to Jacob van Ruisdael`}).Stage(stage)
 	__Influence__00000017_ := (&models.Influence{Name: `Genre Painting to Jan Steen`}).Stage(stage)
+	__Influence__00000018_ := (&models.Influence{Name: `Eighty Years' War to Landscape Painting`}).Stage(stage)
 
 	__InfluenceShape__00000000_ := (&models.InfluenceShape{Name: `Haarlem Mannerism to Pre-Rembrandtists`}).Stage(stage)
 	__InfluenceShape__00000001_ := (&models.InfluenceShape{Name: `Pre-Rembrandtists to Rembrandt van Rijn`}).Stage(stage)
@@ -103,6 +104,7 @@ func _(stage *models.Stage) {
 	__InfluenceShape__00000015_ := (&models.InfluenceShape{Name: `History Painting to Pre-Rembrandtists`}).Stage(stage)
 	__InfluenceShape__00000016_ := (&models.InfluenceShape{Name: `Landscape Painting to Jacob van Ruisdael`}).Stage(stage)
 	__InfluenceShape__00000017_ := (&models.InfluenceShape{Name: `Genre Painting to Jan Steen`}).Stage(stage)
+	__InfluenceShape__00000018_ := (&models.InfluenceShape{Name: `Eighty Years' War to Landscape Painting`}).Stage(stage)
 
 	__Movement__00000000_ := (&models.Movement{Name: `Haarlem Mannerism`}).Stage(stage)
 	__Movement__00000001_ := (&models.Movement{Name: `Pre-Rembrandtists`}).Stage(stage)
@@ -494,6 +496,10 @@ func _(stage *models.Stage) {
 	__Influence__00000017_.ComputedPrefix = ``
 	__Influence__00000017_.IsHypothtical = false
 
+	__Influence__00000018_.Name = `Eighty Years' War to Landscape Painting`
+	__Influence__00000018_.ComputedPrefix = ``
+	__Influence__00000018_.IsHypothtical = false
+
 	__InfluenceShape__00000000_.Name = `Haarlem Mannerism to Pre-Rembrandtists`
 	__InfluenceShape__00000000_.IsHidden = false
 
@@ -547,6 +553,9 @@ func _(stage *models.Stage) {
 
 	__InfluenceShape__00000017_.Name = `Genre Painting to Jan Steen`
 	__InfluenceShape__00000017_.IsHidden = false
+
+	__InfluenceShape__00000018_.Name = `Eighty Years' War to Landscape Painting`
+	__InfluenceShape__00000018_.IsHidden = false
 
 	__Movement__00000000_.Name = `Haarlem Mannerism`
 	__Movement__00000000_.ComputedPrefix = ``
@@ -690,6 +699,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000015_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000016_)
 	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000017_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000018_)
 	__Influence__00000000_.SourceMovement = __Movement__00000000_
 	__Influence__00000000_.SourceArtefactType = nil
 	__Influence__00000000_.SourceArtist = nil
@@ -798,6 +808,12 @@ func _(stage *models.Stage) {
 	__Influence__00000017_.TargetMovement = nil
 	__Influence__00000017_.TargetArtefactType = nil
 	__Influence__00000017_.TargetArtist = __Artist__00000003_
+	__Influence__00000018_.SourceMovement = nil
+	__Influence__00000018_.SourceArtefactType = __ArtefactType__00000006_
+	__Influence__00000018_.SourceArtist = nil
+	__Influence__00000018_.TargetMovement = nil
+	__Influence__00000018_.TargetArtefactType = __ArtefactType__00000003_
+	__Influence__00000018_.TargetArtist = nil
 	__InfluenceShape__00000000_.Influence = __Influence__00000000_
 	__InfluenceShape__00000001_.Influence = __Influence__00000001_
 	__InfluenceShape__00000002_.Influence = __Influence__00000002_
@@ -820,6 +836,7 @@ func _(stage *models.Stage) {
 	__InfluenceShape__00000015_.ControlPointShapes = append(__InfluenceShape__00000015_.ControlPointShapes, __ControlPointShape__00000001_)
 	__InfluenceShape__00000016_.Influence = __Influence__00000016_
 	__InfluenceShape__00000017_.Influence = __Influence__00000017_
+	__InfluenceShape__00000018_.Influence = __Influence__00000018_
 	__Movement__00000000_.Places = append(__Movement__00000000_.Places, __Place__00000000_)
 	__Movement__00000001_.Places = append(__Movement__00000001_.Places, __Place__00000001_)
 	__Movement__00000002_.Places = append(__Movement__00000002_.Places, __Place__00000004_)

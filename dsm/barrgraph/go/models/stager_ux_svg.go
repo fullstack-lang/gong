@@ -17,6 +17,8 @@ func (stager *Stager) ux_svg() {
 		return
 	}
 	svgObject := stager.generateSvgObject(stager.desk.SelectedDiagram)
+	stager.svgObject = svgObject
+	stager.svgObject.OnUpdate = stager.onUpdateSVG
 
 	svg.StageBranch(stager.svgStage, svgObject)
 
@@ -30,6 +32,10 @@ func (stager *Stager) ux_svg() {
 func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 	// creates a map of art history element
 	map_ArtElement_Rect := make(map[ArtElement]*svg.Rect)
+
+	diagram.map_SvgRect_MovementShape = make(map[*svg.Rect]*MovementShape)
+	diagram.map_SvgRect_ArtefactTypeShape = make(map[*svg.Rect]*ArtefactTypeShape)
+	diagram.map_SvgRect_ArtistShape = make(map[*svg.Rect]*ArtistShape)
 
 	map_Artist_Influences := GetPointerReverseMap[Influence, Artist](GetAssociationName[Influence]().SourceArtist.Name, stager.stage)
 
@@ -189,6 +195,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			},
 		}
 		map_ArtElement_Rect[movement] = rect
+		diagram.map_SvgRect_MovementShape[rect] = movementShape
 
 		if movement.IsMajor {
 			titleRectAnchoredText.FontSize = diagram.MajorMovementFontSize
@@ -349,6 +356,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			},
 		}
 		map_ArtElement_Rect[artefactType] = rect
+		diagram.map_SvgRect_ArtefactTypeShape[rect] = artefactTypeShape
 
 		rect.OnUpdate = func(frontRect *svg.Rect) {
 			diff := artefactTypeShape.X != frontRect.X ||
@@ -487,6 +495,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			},
 		}
 		map_ArtElement_Rect[artist] = rect
+		diagram.map_SvgRect_ArtistShape[rect] = artistShape
 
 		if artistShape.ImagePngBase64Content != "" {
 			rect.RectAnchoredPngImages = append(
