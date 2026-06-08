@@ -51,6 +51,8 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000004_ := (&models.ArtistShape{Name: ``}).Stage(stage)
 	__ArtistShape__00000005_ := (&models.ArtistShape{Name: ``}).Stage(stage)
 
+	__Desk__00000000_ := (&models.Desk{Name: `Desk`}).Stage(stage)
+
 	__Diagram__00000000_ := (&models.Diagram{Name: `Netherland Golden Century`}).Stage(stage)
 
 	__Influence__00000000_ := (&models.Influence{Name: `Haarlem Mannerism to Pre-Rembrandtists`}).Stage(stage)
@@ -167,6 +169,8 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000005_.Width = 120.0
 	__ArtistShape__00000005_.Height = 30.0
 
+	__Desk__00000000_.Name = `Desk`
+
 	__Diagram__00000000_.Name = `Netherland Golden Century`
 	__Diagram__00000000_.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1580-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1700-01-01 00:00:00 +0000 UTC")
@@ -269,4 +273,121 @@ func _(stage *models.Stage) {
 	__Place__00000002_.Name = `Delft`
 	__Place__00000003_.Name = `Leiden`
 
+	// insertion point for setup of pointers
+	__ArtefactTypeShape__00000000_.ArtefactType = __ArtefactType__00000000_
+	__ArtefactTypeShape__00000001_.ArtefactType = __ArtefactType__00000001_
+	__ArtefactTypeShape__00000002_.ArtefactType = __ArtefactType__00000002_
+	__ArtefactTypeShape__00000003_.ArtefactType = __ArtefactType__00000003_
+
+	__Artist__00000000_.Place = __Place__00000000_
+	__Artist__00000001_.Place = __Place__00000001_
+	__Artist__00000002_.Place = __Place__00000002_
+	__Artist__00000003_.Place = __Place__00000003_
+	__Artist__00000004_.Place = __Place__00000002_
+	__Artist__00000005_.Place = __Place__00000000_
+
+	__ArtistShape__00000000_.Artist = __Artist__00000000_
+	__ArtistShape__00000001_.Artist = __Artist__00000001_
+	__ArtistShape__00000002_.Artist = __Artist__00000002_
+	__ArtistShape__00000003_.Artist = __Artist__00000003_
+	__ArtistShape__00000004_.Artist = __Artist__00000004_
+	__ArtistShape__00000005_.Artist = __Artist__00000005_
+
+	__Desk__00000000_.SelectedDiagram = __Diagram__00000000_
+
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000000_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000001_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000002_)
+	__Diagram__00000000_.MovementShapes = append(__Diagram__00000000_.MovementShapes, __MovementShape__00000003_)
+
+	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __ArtefactTypeShape__00000000_)
+	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __ArtefactTypeShape__00000001_)
+	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __ArtefactTypeShape__00000002_)
+	__Diagram__00000000_.ArtefactTypeShapes = append(__Diagram__00000000_.ArtefactTypeShapes, __ArtefactTypeShape__00000003_)
+
+	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000000_)
+	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000001_)
+	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000002_)
+	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000003_)
+	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000004_)
+	__Diagram__00000000_.ArtistShapes = append(__Diagram__00000000_.ArtistShapes, __ArtistShape__00000005_)
+
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000000_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000001_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000002_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000003_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000004_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000005_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000006_)
+	__Diagram__00000000_.InfluenceShapes = append(__Diagram__00000000_.InfluenceShapes, __InfluenceShape__00000007_)
+
+	__Influence__00000000_.SourceMovement = __Movement__00000000_
+	__Influence__00000000_.SourceArtefactType = nil
+	__Influence__00000000_.SourceArtist = nil
+	__Influence__00000000_.TargetMovement = __Movement__00000001_
+	__Influence__00000000_.TargetArtefactType = nil
+	__Influence__00000000_.TargetArtist = nil
+
+	__Influence__00000001_.SourceMovement = __Movement__00000001_
+	__Influence__00000001_.SourceArtefactType = nil
+	__Influence__00000001_.SourceArtist = nil
+	__Influence__00000001_.TargetMovement = nil
+	__Influence__00000001_.TargetArtefactType = nil
+	__Influence__00000001_.TargetArtist = __Artist__00000001_
+
+	__Influence__00000002_.SourceMovement = __Movement__00000002_
+	__Influence__00000002_.SourceArtefactType = nil
+	__Influence__00000002_.SourceArtist = nil
+	__Influence__00000002_.TargetMovement = nil
+	__Influence__00000002_.TargetArtefactType = nil
+	__Influence__00000002_.TargetArtist = __Artist__00000001_
+
+	__Influence__00000003_.SourceMovement = __Movement__00000000_
+	__Influence__00000003_.SourceArtefactType = nil
+	__Influence__00000003_.SourceArtist = nil
+	__Influence__00000003_.TargetMovement = nil
+	__Influence__00000003_.TargetArtefactType = nil
+	__Influence__00000003_.TargetArtist = __Artist__00000000_
+
+	__Influence__00000004_.SourceMovement = nil
+	__Influence__00000004_.SourceArtefactType = nil
+	__Influence__00000004_.SourceArtist = __Artist__00000000_
+	__Influence__00000004_.TargetMovement = nil
+	__Influence__00000004_.TargetArtefactType = nil
+	__Influence__00000004_.TargetArtist = __Artist__00000003_
+
+	__Influence__00000005_.SourceMovement = nil
+	__Influence__00000005_.SourceArtefactType = nil
+	__Influence__00000005_.SourceArtist = __Artist__00000001_
+	__Influence__00000005_.TargetMovement = __Movement__00000003_
+	__Influence__00000005_.TargetArtefactType = nil
+	__Influence__00000005_.TargetArtist = nil
+
+	__Influence__00000006_.SourceMovement = __Movement__00000003_
+	__Influence__00000006_.SourceArtefactType = nil
+	__Influence__00000006_.SourceArtist = nil
+	__Influence__00000006_.TargetMovement = nil
+	__Influence__00000006_.TargetArtefactType = nil
+	__Influence__00000006_.TargetArtist = __Artist__00000002_
+
+	__Influence__00000007_.SourceMovement = __Movement__00000003_
+	__Influence__00000007_.SourceArtefactType = nil
+	__Influence__00000007_.SourceArtist = nil
+	__Influence__00000007_.TargetMovement = nil
+	__Influence__00000007_.TargetArtefactType = nil
+	__Influence__00000007_.TargetArtist = __Artist__00000004_
+
+	__InfluenceShape__00000000_.Influence = __Influence__00000000_
+	__InfluenceShape__00000001_.Influence = __Influence__00000001_
+	__InfluenceShape__00000002_.Influence = __Influence__00000002_
+	__InfluenceShape__00000003_.Influence = __Influence__00000003_
+	__InfluenceShape__00000004_.Influence = __Influence__00000004_
+	__InfluenceShape__00000005_.Influence = __Influence__00000005_
+	__InfluenceShape__00000006_.Influence = __Influence__00000006_
+	__InfluenceShape__00000007_.Influence = __Influence__00000007_
+
+	__MovementShape__00000000_.Movement = __Movement__00000000_
+	__MovementShape__00000001_.Movement = __Movement__00000001_
+	__MovementShape__00000002_.Movement = __Movement__00000002_
+	__MovementShape__00000003_.Movement = __Movement__00000003_
 }

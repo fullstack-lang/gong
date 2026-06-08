@@ -532,6 +532,17 @@
             ]
         },
         {
+            "name": "barrgraph: go run netherland golden century",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
+            "args": [
+                "-unmarshallFromCode=data/netherland golden century.go",
+                "-marshallOnCommit=data/netherland golden century.go"
+            ]
+        },
+        {
             "name": "barrgraph: go run modern design",
             "type": "go",
             "request": "launch",
