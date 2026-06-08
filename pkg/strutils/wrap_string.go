@@ -1,6 +1,9 @@
 package strutils
 
-import "strings"
+import (
+	"strings"
+	"unicode/utf8"
+)
 
 // WrapString wraps a string at a specified character limit.
 // It inserts newlines (\n) to ensure no line exceeds the cutoff.
@@ -17,7 +20,7 @@ func WrapString(s string, cutoff int) string {
 	words := strings.Fields(s) // Split the string into words
 
 	for _, word := range words {
-		wordLen := len(word)
+		wordLen := utf8.RuneCountInString(word)
 
 		// If this word alone is longer than the cutoff,
 		// we have to break it, or just let it overflow.
