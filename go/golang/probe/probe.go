@@ -116,7 +116,7 @@ func NewProbe(
 	formStage, _ := form_fullstack.NewStackInstance(r, stageOfInterest.GetProbeFormStageName())
 	formStage.Commit()
 
-	loadStage, _ := load_fullstack.NewStackInstance(r, stageOfInterest.GetName())
+	loadStage, _ := load_fullstack.NewStackInstance(r, stageOfInterest.GetName()+"-probe")
 	loadStage.Commit()
 
 	probe = &Probe{

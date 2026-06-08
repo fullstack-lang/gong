@@ -39,14 +39,14 @@ func (stager *Stager) createViews() {
 								AsSplitAreas: []*split.AsSplitArea{
 									{
 										Name:             "Libraries",
-										Size:             70,
+										Size:             80,
 										ShowNameInHeader: false,
 										Tree: &split.Tree{
 											StackName: stager.treeStage.GetName(),
 										},
 									},
 									{
-										Size: 20,
+										Size: 10,
 										Load: &split.Load{
 											StackName: stager.loadStage.GetName(),
 										},
