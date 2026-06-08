@@ -871,9 +871,9 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteProductShape__00000026_.IsHidden = false
 
 	__NoteShape__00000001_.Name = `-PIT focus`
-	__NoteShape__00000001_.X = 892.606649
-	__NoteShape__00000001_.Y = 74.204707
-	__NoteShape__00000001_.Width = 250.000000
+	__NoteShape__00000001_.X = 778.606649
+	__NoteShape__00000001_.Y = 81.204707
+	__NoteShape__00000001_.Width = 306.000000
 	__NoteShape__00000001_.Height = 70.000000
 	__NoteShape__00000001_.IsHidden = false
 
@@ -1055,276 +1055,322 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 
 	__Product__00000001_.Name = `Dragon`
 	__Product__00000001_.ComputedPrefix = `1.1.2`
+	__Product__00000001_.IsImport = false
 	__Product__00000001_.Description = ``
 	__Product__00000001_.IsProducersNodeExpanded = false
 	__Product__00000001_.IsConsumersNodeExpanded = false
 
 	__Product__00000002_.Name = `CST-100 Starliner`
 	__Product__00000002_.ComputedPrefix = `1.1.1`
+	__Product__00000002_.IsImport = false
 	__Product__00000002_.Description = ``
 	__Product__00000002_.IsProducersNodeExpanded = false
 	__Product__00000002_.IsConsumersNodeExpanded = false
 
 	__Product__00000003_.Name = `Reports`
 	__Product__00000003_.ComputedPrefix = `2`
+	__Product__00000003_.IsImport = false
 	__Product__00000003_.Description = ``
 	__Product__00000003_.IsProducersNodeExpanded = false
 	__Product__00000003_.IsConsumersNodeExpanded = false
 
 	__Product__00000004_.Name = ` Starliner Tests and Anomalies Review (STAR) Investigation Report`
 	__Product__00000004_.ComputedPrefix = `2.1`
+	__Product__00000004_.IsImport = false
 	__Product__00000004_.Description = ``
 	__Product__00000004_.IsProducersNodeExpanded = false
 	__Product__00000004_.IsConsumersNodeExpanded = false
 
 	__Product__00000005_.Name = `Program Investigation Team (PIT) Reports`
 	__Product__00000005_.ComputedPrefix = `2.2`
+	__Product__00000005_.IsImport = false
 	__Product__00000005_.Description = ``
 	__Product__00000005_.IsProducersNodeExpanded = false
 	__Product__00000005_.IsConsumersNodeExpanded = false
 
 	__Product__00000006_.Name = `Commercial Crew Transportation Capability (CCtCap).`
 	__Product__00000006_.ComputedPrefix = `1.1`
+	__Product__00000006_.IsImport = false
 	__Product__00000006_.Description = ``
 	__Product__00000006_.IsProducersNodeExpanded = false
 	__Product__00000006_.IsConsumersNodeExpanded = false
 
 	__Product__00000007_.Name = `NASA Assets/Capabities`
 	__Product__00000007_.ComputedPrefix = `1`
+	__Product__00000007_.IsImport = false
 	__Product__00000007_.Description = ``
 	__Product__00000007_.IsProducersNodeExpanded = false
 	__Product__00000007_.IsConsumersNodeExpanded = false
 
 	__Product__00000008_.Name = `ISS`
 	__Product__00000008_.ComputedPrefix = `1.2`
+	__Product__00000008_.IsImport = false
 	__Product__00000008_.Description = ``
 	__Product__00000008_.IsProducersNodeExpanded = false
 	__Product__00000008_.IsConsumersNodeExpanded = false
 
 	__Product__00000009_.Name = `3 Commercial Crew Program (CCP) Background`
 	__Product__00000009_.ComputedPrefix = `2.2.2`
+	__Product__00000009_.IsImport = false
 	__Product__00000009_.Description = ``
 	__Product__00000009_.IsProducersNodeExpanded = false
 	__Product__00000009_.IsConsumersNodeExpanded = false
 
 	__Product__00000010_.Name = `CCP Requirements`
 	__Product__00000010_.ComputedPrefix = `1.1.3`
+	__Product__00000010_.IsImport = false
 	__Product__00000010_.Description = ``
 	__Product__00000010_.IsProducersNodeExpanded = false
 	__Product__00000010_.IsConsumersNodeExpanded = false
 
 	__Product__00000011_.Name = `Crew Module (CM)`
 	__Product__00000011_.ComputedPrefix = `1.1.1.1`
+	__Product__00000011_.IsImport = false
 	__Product__00000011_.Description = ``
 	__Product__00000011_.IsProducersNodeExpanded = false
 	__Product__00000011_.IsConsumersNodeExpanded = false
 
 	__Product__00000012_.Name = `CM Reaction Control System (RCS)`
 	__Product__00000012_.ComputedPrefix = `1.1.1.1.1`
+	__Product__00000012_.IsImport = false
 	__Product__00000012_.Description = ``
 	__Product__00000012_.IsProducersNodeExpanded = false
 	__Product__00000012_.IsConsumersNodeExpanded = false
 
 	__Product__00000013_.Name = `12 CM RCS Thrusters (1200 lbf)`
 	__Product__00000013_.ComputedPrefix = `1.1.1.1.1.1`
+	__Product__00000013_.IsImport = false
 	__Product__00000013_.Description = ``
 	__Product__00000013_.IsProducersNodeExpanded = false
 	__Product__00000013_.IsConsumersNodeExpanded = false
 
 	__Product__00000014_.Name = `Service Module (SM)`
 	__Product__00000014_.ComputedPrefix = `1.1.1.2`
+	__Product__00000014_.IsImport = false
 	__Product__00000014_.Description = ``
 	__Product__00000014_.IsProducersNodeExpanded = false
 	__Product__00000014_.IsConsumersNodeExpanded = false
 
 	__Product__00000015_.Name = `SM Reaction Control System (SM RCS)`
 	__Product__00000015_.ComputedPrefix = `1.1.1.2.1`
+	__Product__00000015_.IsImport = false
 	__Product__00000015_.Description = ``
 	__Product__00000015_.IsProducersNodeExpanded = false
 	__Product__00000015_.IsConsumersNodeExpanded = false
 
 	__Product__00000016_.Name = `28 SM RCS Thrusters (2800 lbf)`
 	__Product__00000016_.ComputedPrefix = `1.1.1.2.1.1`
+	__Product__00000016_.IsImport = false
 	__Product__00000016_.Description = ``
 	__Product__00000016_.IsProducersNodeExpanded = false
 	__Product__00000016_.IsConsumersNodeExpanded = false
 
 	__Product__00000017_.Name = `2 Additional Investigations `
 	__Product__00000017_.ComputedPrefix = `2.2.1`
+	__Product__00000017_.IsImport = false
 	__Product__00000017_.Description = ``
 	__Product__00000017_.IsProducersNodeExpanded = false
 	__Product__00000017_.IsConsumersNodeExpanded = false
 
 	__Product__00000018_.Name = `STAR Report Summary and Findings `
 	__Product__00000018_.ComputedPrefix = `2.2.1.1`
+	__Product__00000018_.IsImport = false
 	__Product__00000018_.Description = ``
 	__Product__00000018_.IsProducersNodeExpanded = false
 	__Product__00000018_.IsConsumersNodeExpanded = false
 
 	__Product__00000019_.Name = `Thermal Sensors`
 	__Product__00000019_.ComputedPrefix = `1.1.1.3`
+	__Product__00000019_.IsImport = false
 	__Product__00000019_.Description = ``
 	__Product__00000019_.IsProducersNodeExpanded = false
 	__Product__00000019_.IsConsumersNodeExpanded = false
 
 	__Product__00000020_.Name = `Dog House`
 	__Product__00000020_.ComputedPrefix = `1.1.1.1.1.1.1`
+	__Product__00000020_.IsImport = false
 	__Product__00000020_.Description = ``
 	__Product__00000020_.IsProducersNodeExpanded = false
 	__Product__00000020_.IsConsumersNodeExpanded = false
 
 	__Product__00000021_.Name = `Orbital Maneuvering and Attitude Control (OMAC), 30 000 lbf`
 	__Product__00000021_.ComputedPrefix = `1.1.1.4`
+	__Product__00000021_.IsImport = false
 	__Product__00000021_.Description = ``
 	__Product__00000021_.IsProducersNodeExpanded = false
 	__Product__00000021_.IsConsumersNodeExpanded = false
 
 	__Product__00000022_.Name = `Boeing’s Enterprise Root Cause/Corrective Actions (eRCCA)`
 	__Product__00000022_.ComputedPrefix = `2.3`
+	__Product__00000022_.IsImport = false
 	__Product__00000022_.Description = ``
 	__Product__00000022_.IsProducersNodeExpanded = false
 	__Product__00000022_.IsConsumersNodeExpanded = false
 
 	__Product__00000023_.Name = `3.1   Orbital Flight Test (OFT) Summary`
 	__Product__00000023_.ComputedPrefix = `2.2.2.1`
+	__Product__00000023_.IsImport = false
 	__Product__00000023_.Description = ``
 	__Product__00000023_.IsProducersNodeExpanded = false
 	__Product__00000023_.IsConsumersNodeExpanded = false
 
 	__Product__00000024_.Name = `3.2   Orbital Flight Test 2 (OFT-2) Summary`
 	__Product__00000024_.ComputedPrefix = `2.2.2.2`
+	__Product__00000024_.IsImport = false
 	__Product__00000024_.Description = ``
 	__Product__00000024_.IsProducersNodeExpanded = false
 	__Product__00000024_.IsConsumersNodeExpanded = false
 
 	__Product__00000025_.Name = `Flight Software (FSW)`
 	__Product__00000025_.ComputedPrefix = `1.1.1.5`
+	__Product__00000025_.IsImport = false
 	__Product__00000025_.Description = ``
 	__Product__00000025_.IsProducersNodeExpanded = false
 	__Product__00000025_.IsConsumersNodeExpanded = false
 
 	__Product__00000026_.Name = `Fault Detection, Isolation, and Recovery (FDIR)`
 	__Product__00000026_.ComputedPrefix = `1.1.1.6`
+	__Product__00000026_.IsImport = false
 	__Product__00000026_.Description = ``
 	__Product__00000026_.IsProducersNodeExpanded = false
 	__Product__00000026_.IsConsumersNodeExpanded = false
 
 	__Product__00000027_.Name = `3.3 Comparing SM RCS Thrusters Triggering Fail-Off FDIR on OFT1/OFT2`
 	__Product__00000027_.ComputedPrefix = `2.2.2.3`
+	__Product__00000027_.IsImport = false
 	__Product__00000027_.Description = ``
 	__Product__00000027_.IsProducersNodeExpanded = false
 	__Product__00000027_.IsConsumersNodeExpanded = false
 
 	__Product__00000028_.Name = `Transducer / pressure sensor (Pc)`
 	__Product__00000028_.ComputedPrefix = `1.1.1.1.1.1.2`
+	__Product__00000028_.IsImport = false
 	__Product__00000028_.Description = ``
 	__Product__00000028_.IsProducersNodeExpanded = false
 	__Product__00000028_.IsConsumersNodeExpanded = false
 
 	__Product__00000029_.Name = `4     Technical Root Cause Analysis (RCA) and Findings`
 	__Product__00000029_.ComputedPrefix = `2.2.3`
+	__Product__00000029_.IsImport = false
 	__Product__00000029_.Description = ``
 	__Product__00000029_.IsProducersNodeExpanded = false
 	__Product__00000029_.IsConsumersNodeExpanded = false
 
 	__Product__00000030_.Name = `4.1   Objectives and Approach `
 	__Product__00000030_.ComputedPrefix = `2.2.3.1`
+	__Product__00000030_.IsImport = false
 	__Product__00000030_.Description = ``
 	__Product__00000030_.IsProducersNodeExpanded = false
 	__Product__00000030_.IsConsumersNodeExpanded = false
 
 	__Product__00000031_.Name = `4.2 Definitions`
 	__Product__00000031_.ComputedPrefix = `2.2.3.2`
+	__Product__00000031_.IsImport = false
 	__Product__00000031_.Description = ``
 	__Product__00000031_.IsProducersNodeExpanded = false
 	__Product__00000031_.IsConsumersNodeExpanded = false
 
 	__Product__00000032_.Name = `4.3 Fault Tree`
 	__Product__00000032_.ComputedPrefix = `2.2.3.3`
+	__Product__00000032_.IsImport = false
 	__Product__00000032_.Description = ``
 	__Product__00000032_.IsProducersNodeExpanded = false
 	__Product__00000032_.IsConsumersNodeExpanded = false
 
 	__Product__00000033_.Name = `Guidance, Navigation, and Control (GNC)`
 	__Product__00000033_.ComputedPrefix = `1.1.1.7`
+	__Product__00000033_.IsImport = false
 	__Product__00000033_.Description = ``
 	__Product__00000033_.IsProducersNodeExpanded = false
 	__Product__00000033_.IsConsumersNodeExpanded = false
 
 	__Product__00000034_.Name = `4.4   Analysis: CM RCS Jet Failure`
 	__Product__00000034_.ComputedPrefix = `2.2.3.4`
+	__Product__00000034_.IsImport = false
 	__Product__00000034_.Description = ``
 	__Product__00000034_.IsProducersNodeExpanded = false
 	__Product__00000034_.IsConsumersNodeExpanded = false
 
 	__Product__00000035_.Name = `4.5   Analysis: Loss of 6DOF Control - SM RCS Jet Failures`
 	__Product__00000035_.ComputedPrefix = `2.2.3.5`
+	__Product__00000035_.IsImport = false
 	__Product__00000035_.Description = ``
 	__Product__00000035_.IsProducersNodeExpanded = false
 	__Product__00000035_.IsConsumersNodeExpanded = false
 
 	__Product__00000036_.Name = `4.5.1 Description of the system`
 	__Product__00000036_.ComputedPrefix = `2.2.3.5.1`
+	__Product__00000036_.IsImport = false
 	__Product__00000036_.Description = ``
 	__Product__00000036_.IsProducersNodeExpanded = false
 	__Product__00000036_.IsConsumersNodeExpanded = false
 
 	__Product__00000037_.Name = ``
 	__Product__00000037_.ComputedPrefix = `2.2.3.6`
+	__Product__00000037_.IsImport = false
 	__Product__00000037_.Description = ``
 	__Product__00000037_.IsProducersNodeExpanded = false
 	__Product__00000037_.IsConsumersNodeExpanded = false
 
 	__Product__00000038_.Name = `Inertial Measurement Unit (IMU) `
 	__Product__00000038_.ComputedPrefix = `1.1.1.7.1`
+	__Product__00000038_.IsImport = false
 	__Product__00000038_.Description = ``
 	__Product__00000038_.IsProducersNodeExpanded = false
 	__Product__00000038_.IsConsumersNodeExpanded = false
 
 	__Product__00000039_.Name = `4.5.2   Description of Events and Timeline `
 	__Product__00000039_.ComputedPrefix = `2.2.3.5.2`
+	__Product__00000039_.IsImport = false
 	__Product__00000039_.Description = ``
 	__Product__00000039_.IsProducersNodeExpanded = false
 	__Product__00000039_.IsConsumersNodeExpanded = false
 
 	__Product__00000040_.Name = `B1A3 Thruster failure`
 	__Product__00000040_.ComputedPrefix = `2.2.3.5.3`
+	__Product__00000040_.IsImport = false
 	__Product__00000040_.Description = ``
 	__Product__00000040_.IsProducersNodeExpanded = false
 	__Product__00000040_.IsConsumersNodeExpanded = false
 
 	__Product__00000041_.Name = `4.5.4   Starliner Engine Testing at White Sands Test Facility (WSTF) during CFT`
 	__Product__00000041_.ComputedPrefix = `2.2.3.5.4`
+	__Product__00000041_.IsImport = false
 	__Product__00000041_.Description = ``
 	__Product__00000041_.IsProducersNodeExpanded = false
 	__Product__00000041_.IsConsumersNodeExpanded = false
 
 	__Product__00000042_.Name = `4.5.5 Fault Tree`
 	__Product__00000042_.ComputedPrefix = `2.2.3.5.5`
+	__Product__00000042_.IsImport = false
 	__Product__00000042_.Description = ``
 	__Product__00000042_.IsProducersNodeExpanded = false
 	__Product__00000042_.IsConsumersNodeExpanded = false
 
 	__Product__00000043_.Name = `4.5.6 Most Probable Proximate Cause`
 	__Product__00000043_.ComputedPrefix = `2.2.3.5.6`
+	__Product__00000043_.IsImport = false
 	__Product__00000043_.Description = ``
 	__Product__00000043_.IsProducersNodeExpanded = false
 	__Product__00000043_.IsConsumersNodeExpanded = false
 
 	__Product__00000044_.Name = `Intermediate Cause 5: Inadequate Thruster Thermal Models Inadequate thermal modelling caused insufficient scrutiny for the thermal environment, leading to excessive heating from RCS thermal soakback and integrated heating from OMACs.`
 	__Product__00000044_.ComputedPrefix = `2.2.3.5.6.1`
+	__Product__00000044_.IsImport = false
 	__Product__00000044_.Description = ``
 	__Product__00000044_.IsProducersNodeExpanded = false
 	__Product__00000044_.IsConsumersNodeExpanded = false
 
 	__Product__00000045_.Name = `4.6 Analysis: Helium Leak`
 	__Product__00000045_.ComputedPrefix = `2.2.3.5.7`
+	__Product__00000045_.IsImport = false
 	__Product__00000045_.Description = ``
 	__Product__00000045_.IsProducersNodeExpanded = false
 	__Product__00000045_.IsConsumersNodeExpanded = false
 
 	__Product__00000046_.Name = `4.6.1 Description of the system`
 	__Product__00000046_.ComputedPrefix = `2.2.3.5.7.1`
+	__Product__00000046_.IsImport = false
 	__Product__00000046_.Description = ``
 	__Product__00000046_.IsProducersNodeExpanded = false
 	__Product__00000046_.IsConsumersNodeExpanded = false
@@ -1708,8 +1754,8 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__ProductShape__00000007_.IsHidden = false
 
 	__ProductShape__00000008_.Name = ` Starliner Tests and Anomalies Review (STAR) Investigation Report-PIT focus`
-	__ProductShape__00000008_.X = 499.019526
-	__ProductShape__00000008_.Y = 77.170905
+	__ProductShape__00000008_.X = 452.865680
+	__ProductShape__00000008_.Y = 64.093982
 	__ProductShape__00000008_.Width = 250.000000
 	__ProductShape__00000008_.Height = 70.000000
 	__ProductShape__00000008_.IsHidden = false
@@ -2017,42 +2063,52 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 
 	__Resource__00000000_.Name = `Program Investigation Team (PIT)`
 	__Resource__00000000_.ComputedPrefix = `1.2`
+	__Resource__00000000_.IsImport = false
 	__Resource__00000000_.Description = ``
 
 	__Resource__00000001_.Name = `Barry "Butch" Wilmore`
 	__Resource__00000001_.ComputedPrefix = `1.1.1.1`
+	__Resource__00000001_.IsImport = false
 	__Resource__00000001_.Description = ``
 
 	__Resource__00000002_.Name = `Sunita "Suni" Williams`
 	__Resource__00000002_.ComputedPrefix = `1.1.1.2`
+	__Resource__00000002_.IsImport = false
 	__Resource__00000002_.Description = ``
 
 	__Resource__00000003_.Name = `NASA`
 	__Resource__00000003_.ComputedPrefix = `1`
+	__Resource__00000003_.IsImport = false
 	__Resource__00000003_.Description = ``
 
 	__Resource__00000004_.Name = `Crew Commercial Program (CPP2)`
 	__Resource__00000004_.ComputedPrefix = `1.1`
+	__Resource__00000004_.IsImport = false
 	__Resource__00000004_.Description = ``
 
 	__Resource__00000005_.Name = `Crews`
 	__Resource__00000005_.ComputedPrefix = `1.1.1`
+	__Resource__00000005_.IsImport = false
 	__Resource__00000005_.Description = ``
 
 	__Resource__00000006_.Name = `Boeing`
 	__Resource__00000006_.ComputedPrefix = `2`
+	__Resource__00000006_.IsImport = false
 	__Resource__00000006_.Description = ``
 
 	__Resource__00000007_.Name = ``
 	__Resource__00000007_.ComputedPrefix = `2.1`
+	__Resource__00000007_.IsImport = false
 	__Resource__00000007_.Description = ``
 
 	__Resource__00000009_.Name = ` Starliner Tests and Anomalies Review (STAR) Investigation Team`
 	__Resource__00000009_.ComputedPrefix = `1.1.2`
+	__Resource__00000009_.IsImport = false
 	__Resource__00000009_.Description = ``
 
 	__Resource__00000010_.Name = `Flight Control Team (FCT)`
 	__Resource__00000010_.ComputedPrefix = `1.1.3`
+	__Resource__00000010_.IsImport = false
 	__Resource__00000010_.Description = ``
 
 	__ResourceCompositionShape__00000000_.Name = `NASA to `
@@ -2234,6 +2290,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 
 	__Task__00000000_.Name = `Starliner Crewed Flight Test (CFT)`
 	__Task__00000000_.ComputedPrefix = `2.3`
+	__Task__00000000_.IsImport = false
 	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-06-05 00:00:00 +0000 UTC")
 	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-06-10 00:00:00 +0000 UTC")
 	__Task__00000000_.Description = `The mission of interest to the report.`
@@ -2244,6 +2301,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 
 	__Task__00000001_.Name = `Mishap investigations`
 	__Task__00000001_.ComputedPrefix = `1`
+	__Task__00000001_.IsImport = false
 	__Task__00000001_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2025-02-01 00:00:00 +0000 UTC")
 	__Task__00000001_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2025-11-01 00:00:00 +0000 UTC")
 	__Task__00000001_.Description = ``
@@ -2254,6 +2312,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 
 	__Task__00000002_.Name = `Commercial Crew Program (CCP),`
 	__Task__00000002_.ComputedPrefix = `2`
+	__Task__00000002_.IsImport = false
 	__Task__00000002_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000002_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000002_.Description = ``
@@ -2264,6 +2323,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 
 	__Task__00000003_.Name = ` Commercial ReSupply (CRS) `
 	__Task__00000003_.ComputedPrefix = `3`
+	__Task__00000003_.IsImport = false
 	__Task__00000003_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000003_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000003_.Description = ``
@@ -2274,6 +2334,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 
 	__Task__00000004_.Name = `Program Investigation Team (PIT) Report`
 	__Task__00000004_.ComputedPrefix = `1.1`
+	__Task__00000004_.IsImport = false
 	__Task__00000004_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000004_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000004_.Description = ``
@@ -2284,6 +2345,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 
 	__Task__00000005_.Name = `Orbital Flight Test-1 (OFT-1)`
 	__Task__00000005_.ComputedPrefix = `2.1`
+	__Task__00000005_.IsImport = false
 	__Task__00000005_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2019-12-20 00:00:00 +0000 UTC")
 	__Task__00000005_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2019-12-20 00:00:00 +0000 UTC")
 	__Task__00000005_.Description = ``
@@ -2294,6 +2356,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 
 	__Task__00000006_.Name = `Orbital Flight Test-2 (OFT-2)`
 	__Task__00000006_.ComputedPrefix = `2.2`
+	__Task__00000006_.IsImport = false
 	__Task__00000006_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-05-19 00:00:00 +0000 UTC")
 	__Task__00000006_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-05-25 00:00:00 +0000 UTC")
 	__Task__00000006_.Description = ``
@@ -2304,6 +2367,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 
 	__Task__00000007_.Name = `ISS Approach`
 	__Task__00000007_.ComputedPrefix = `2.3.1`
+	__Task__00000007_.IsImport = false
 	__Task__00000007_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-06-05 00:00:00 +0000 UTC")
 	__Task__00000007_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-06-05 00:00:00 +0000 UTC")
 	__Task__00000007_.Description = ``
@@ -2813,6 +2877,8 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__NoteShape__00000025_.Note = __Note__00000025_
 	__NoteTaskShape__00000001_.Note = __Note__00000017_
 	__NoteTaskShape__00000001_.Task = __Task__00000007_
+	__Product__00000001_.ReferencedProduct = nil
+	__Product__00000002_.ReferencedProduct = nil
 	__Product__00000002_.SubProducts = append(__Product__00000002_.SubProducts, __Product__00000011_)
 	__Product__00000002_.SubProducts = append(__Product__00000002_.SubProducts, __Product__00000014_)
 	__Product__00000002_.SubProducts = append(__Product__00000002_.SubProducts, __Product__00000019_)
@@ -2820,34 +2886,67 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__Product__00000002_.SubProducts = append(__Product__00000002_.SubProducts, __Product__00000025_)
 	__Product__00000002_.SubProducts = append(__Product__00000002_.SubProducts, __Product__00000026_)
 	__Product__00000002_.SubProducts = append(__Product__00000002_.SubProducts, __Product__00000033_)
+	__Product__00000003_.ReferencedProduct = nil
 	__Product__00000003_.SubProducts = append(__Product__00000003_.SubProducts, __Product__00000004_)
 	__Product__00000003_.SubProducts = append(__Product__00000003_.SubProducts, __Product__00000005_)
 	__Product__00000003_.SubProducts = append(__Product__00000003_.SubProducts, __Product__00000022_)
+	__Product__00000004_.ReferencedProduct = nil
+	__Product__00000005_.ReferencedProduct = nil
 	__Product__00000005_.SubProducts = append(__Product__00000005_.SubProducts, __Product__00000017_)
 	__Product__00000005_.SubProducts = append(__Product__00000005_.SubProducts, __Product__00000009_)
 	__Product__00000005_.SubProducts = append(__Product__00000005_.SubProducts, __Product__00000029_)
+	__Product__00000006_.ReferencedProduct = nil
 	__Product__00000006_.SubProducts = append(__Product__00000006_.SubProducts, __Product__00000002_)
 	__Product__00000006_.SubProducts = append(__Product__00000006_.SubProducts, __Product__00000001_)
 	__Product__00000006_.SubProducts = append(__Product__00000006_.SubProducts, __Product__00000010_)
+	__Product__00000007_.ReferencedProduct = nil
 	__Product__00000007_.SubProducts = append(__Product__00000007_.SubProducts, __Product__00000006_)
 	__Product__00000007_.SubProducts = append(__Product__00000007_.SubProducts, __Product__00000008_)
+	__Product__00000008_.ReferencedProduct = nil
+	__Product__00000009_.ReferencedProduct = nil
 	__Product__00000009_.SubProducts = append(__Product__00000009_.SubProducts, __Product__00000023_)
 	__Product__00000009_.SubProducts = append(__Product__00000009_.SubProducts, __Product__00000024_)
 	__Product__00000009_.SubProducts = append(__Product__00000009_.SubProducts, __Product__00000027_)
+	__Product__00000010_.ReferencedProduct = nil
+	__Product__00000011_.ReferencedProduct = nil
 	__Product__00000011_.SubProducts = append(__Product__00000011_.SubProducts, __Product__00000012_)
+	__Product__00000012_.ReferencedProduct = nil
 	__Product__00000012_.SubProducts = append(__Product__00000012_.SubProducts, __Product__00000013_)
+	__Product__00000013_.ReferencedProduct = nil
 	__Product__00000013_.SubProducts = append(__Product__00000013_.SubProducts, __Product__00000020_)
 	__Product__00000013_.SubProducts = append(__Product__00000013_.SubProducts, __Product__00000028_)
+	__Product__00000014_.ReferencedProduct = nil
 	__Product__00000014_.SubProducts = append(__Product__00000014_.SubProducts, __Product__00000015_)
+	__Product__00000015_.ReferencedProduct = nil
 	__Product__00000015_.SubProducts = append(__Product__00000015_.SubProducts, __Product__00000016_)
+	__Product__00000016_.ReferencedProduct = nil
+	__Product__00000017_.ReferencedProduct = nil
 	__Product__00000017_.SubProducts = append(__Product__00000017_.SubProducts, __Product__00000018_)
+	__Product__00000018_.ReferencedProduct = nil
+	__Product__00000019_.ReferencedProduct = nil
+	__Product__00000020_.ReferencedProduct = nil
+	__Product__00000021_.ReferencedProduct = nil
+	__Product__00000022_.ReferencedProduct = nil
+	__Product__00000023_.ReferencedProduct = nil
+	__Product__00000024_.ReferencedProduct = nil
+	__Product__00000025_.ReferencedProduct = nil
+	__Product__00000026_.ReferencedProduct = nil
+	__Product__00000027_.ReferencedProduct = nil
+	__Product__00000028_.ReferencedProduct = nil
+	__Product__00000029_.ReferencedProduct = nil
 	__Product__00000029_.SubProducts = append(__Product__00000029_.SubProducts, __Product__00000030_)
 	__Product__00000029_.SubProducts = append(__Product__00000029_.SubProducts, __Product__00000031_)
 	__Product__00000029_.SubProducts = append(__Product__00000029_.SubProducts, __Product__00000032_)
 	__Product__00000029_.SubProducts = append(__Product__00000029_.SubProducts, __Product__00000034_)
 	__Product__00000029_.SubProducts = append(__Product__00000029_.SubProducts, __Product__00000035_)
 	__Product__00000029_.SubProducts = append(__Product__00000029_.SubProducts, __Product__00000037_)
+	__Product__00000030_.ReferencedProduct = nil
+	__Product__00000031_.ReferencedProduct = nil
+	__Product__00000032_.ReferencedProduct = nil
+	__Product__00000033_.ReferencedProduct = nil
 	__Product__00000033_.SubProducts = append(__Product__00000033_.SubProducts, __Product__00000038_)
+	__Product__00000034_.ReferencedProduct = nil
+	__Product__00000035_.ReferencedProduct = nil
 	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000036_)
 	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000039_)
 	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000040_)
@@ -2855,8 +2954,19 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000042_)
 	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000043_)
 	__Product__00000035_.SubProducts = append(__Product__00000035_.SubProducts, __Product__00000045_)
+	__Product__00000036_.ReferencedProduct = nil
+	__Product__00000037_.ReferencedProduct = nil
+	__Product__00000038_.ReferencedProduct = nil
+	__Product__00000039_.ReferencedProduct = nil
+	__Product__00000040_.ReferencedProduct = nil
+	__Product__00000041_.ReferencedProduct = nil
+	__Product__00000042_.ReferencedProduct = nil
+	__Product__00000043_.ReferencedProduct = nil
 	__Product__00000043_.SubProducts = append(__Product__00000043_.SubProducts, __Product__00000044_)
+	__Product__00000044_.ReferencedProduct = nil
+	__Product__00000045_.ReferencedProduct = nil
 	__Product__00000045_.SubProducts = append(__Product__00000045_.SubProducts, __Product__00000046_)
+	__Product__00000046_.ReferencedProduct = nil
 	__ProductCompositionShape__00000000_.Product = __Product__00000004_
 	__ProductCompositionShape__00000002_.Product = __Product__00000002_
 	__ProductCompositionShape__00000003_.Product = __Product__00000001_
@@ -2949,15 +3059,25 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__ProductShape__00000050_.Product = __Product__00000044_
 	__ProductShape__00000051_.Product = __Product__00000045_
 	__ProductShape__00000052_.Product = __Product__00000046_
+	__Resource__00000000_.ReferencedResource = nil
 	__Resource__00000000_.Tasks = append(__Resource__00000000_.Tasks, __Task__00000001_)
+	__Resource__00000001_.ReferencedResource = nil
+	__Resource__00000002_.ReferencedResource = nil
+	__Resource__00000003_.ReferencedResource = nil
 	__Resource__00000003_.SubResources = append(__Resource__00000003_.SubResources, __Resource__00000004_)
 	__Resource__00000003_.SubResources = append(__Resource__00000003_.SubResources, __Resource__00000000_)
+	__Resource__00000004_.ReferencedResource = nil
 	__Resource__00000004_.SubResources = append(__Resource__00000004_.SubResources, __Resource__00000005_)
 	__Resource__00000004_.SubResources = append(__Resource__00000004_.SubResources, __Resource__00000009_)
 	__Resource__00000004_.SubResources = append(__Resource__00000004_.SubResources, __Resource__00000010_)
+	__Resource__00000005_.ReferencedResource = nil
 	__Resource__00000005_.SubResources = append(__Resource__00000005_.SubResources, __Resource__00000001_)
 	__Resource__00000005_.SubResources = append(__Resource__00000005_.SubResources, __Resource__00000002_)
+	__Resource__00000006_.ReferencedResource = nil
 	__Resource__00000006_.SubResources = append(__Resource__00000006_.SubResources, __Resource__00000007_)
+	__Resource__00000007_.ReferencedResource = nil
+	__Resource__00000009_.ReferencedResource = nil
+	__Resource__00000010_.ReferencedResource = nil
 	__ResourceCompositionShape__00000000_.Resource = __Resource__00000004_
 	__ResourceCompositionShape__00000001_.Resource = __Resource__00000005_
 	__ResourceCompositionShape__00000002_.Resource = __Resource__00000001_
@@ -2983,13 +3103,21 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__ResourceShape__00000015_.Resource = __Resource__00000010_
 	__ResourceTaskShape__00000000_.Resource = __Resource__00000000_
 	__ResourceTaskShape__00000000_.Task = __Task__00000001_
+	__Task__00000000_.ReferencedTask = nil
 	__Task__00000000_.SubTasks = append(__Task__00000000_.SubTasks, __Task__00000007_)
+	__Task__00000001_.ReferencedTask = nil
 	__Task__00000001_.SubTasks = append(__Task__00000001_.SubTasks, __Task__00000004_)
+	__Task__00000002_.ReferencedTask = nil
 	__Task__00000002_.SubTasks = append(__Task__00000002_.SubTasks, __Task__00000005_)
 	__Task__00000002_.SubTasks = append(__Task__00000002_.SubTasks, __Task__00000006_)
 	__Task__00000002_.SubTasks = append(__Task__00000002_.SubTasks, __Task__00000000_)
+	__Task__00000003_.ReferencedTask = nil
+	__Task__00000004_.ReferencedTask = nil
 	__Task__00000004_.Inputs = append(__Task__00000004_.Inputs, __Product__00000004_)
 	__Task__00000004_.Outputs = append(__Task__00000004_.Outputs, __Product__00000005_)
+	__Task__00000005_.ReferencedTask = nil
+	__Task__00000006_.ReferencedTask = nil
+	__Task__00000007_.ReferencedTask = nil
 	__TaskCompositionShape__00000001_.Task = __Task__00000000_
 	__TaskCompositionShape__00000002_.Task = __Task__00000004_
 	__TaskCompositionShape__00000003_.Task = __Task__00000005_
