@@ -3,7 +3,7 @@
 package main
 
 import (
-	_ "embed"
+	"embed"
 	"flag"
 	"go/parser"
 	"go/token"
@@ -27,6 +27,9 @@ var (
 //go:embed "data/cubism and abstract art.go"
 var stageGo string
 
+//go:embed data/*
+var dataFS embed.FS
+
 func main() {
 	log.SetPrefix("barrgraph: ")
 	log.SetFlags(log.Lmicroseconds)
@@ -35,6 +38,8 @@ func main() {
 	flag.Parse()
 
 	// setup
+	// - set embedded data to models
+	models.DataFS = &dataFS
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
 	stack := level1stack.NewLevel1Stack("barrgraph", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams)

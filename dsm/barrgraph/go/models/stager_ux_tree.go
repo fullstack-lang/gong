@@ -1,12 +1,18 @@
 package models
 
 import (
+	"embed"
+	"go/parser"
+	"go/token"
 	"math/rand/v2"
 	"slices"
+	"strings"
 
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
+
+var DataFS *embed.FS
 
 func (stager *Stager) ux_tree() {
 	stage := stager.stage
@@ -19,6 +25,53 @@ func (stager *Stager) ux_tree() {
 	stager.probeForm.AddCommitNavigationNode(func(gni GongNodeIF) {
 		tree_.RootNodes = append(tree_.RootNodes, gni.(*tree.Node))
 	})
+
+	galleryNode := &tree.Node{
+		Name:            "Gallery",
+		IsNodeClickable: true,
+		IsExpanded:      true,
+	}
+
+	galleryNode.Menu = &tree.Menu{
+		Name: "Gallery Menu",
+	}
+
+	if DataFS != nil {
+		entries, err := DataFS.ReadDir("data")
+		if err == nil {
+			for _, entry := range entries {
+				if entry.IsDir() {
+					continue
+				}
+				entryName := entry.Name()
+				if !strings.HasSuffix(entryName, ".go") {
+					continue
+				}
+				galleryNode.Menu.Buttons = append(galleryNode.Menu.Buttons, &tree.Button{
+					Name: entryName,
+					Icon: string(buttons.BUTTON_file_open),
+					OnClick: func() {
+						content, err := DataFS.ReadFile("data/" + entryName)
+						if err == nil {
+							stager.stage.Reset()
+
+							fset := token.NewFileSet()
+							file, err := parser.ParseFile(fset, "", string(content), parser.ParseComments)
+							if err == nil {
+								ParseAstFileFromAst(stager.stage, file, fset, true)
+								stager.stage.ComputeReverseMaps()
+								stager.stage.ComputeInstancesNb()
+								stager.stage.ComputeReferenceAndOrders()
+								stager.stage.Commit()
+								stager.probeForm.Refresh()
+							}
+						}
+					},
+				})
+			}
+		}
+	}
+	tree_.RootNodes = append(tree_.RootNodes, galleryNode)
 
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
 

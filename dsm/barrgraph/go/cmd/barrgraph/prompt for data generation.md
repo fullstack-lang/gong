@@ -2,7 +2,9 @@
 
 I want to do chronological flowcharts to map the genealogy and evolution of art movements, inspired by the methodology of **Alfred Barr**. His diagram for the 1936 exhibition *Cubism and Abstract Art* remains a canonical example of data visualization in art history.
 
-I want to do the same with the modernism movement in design, starting the graph in 1900 with the english art & craft (affordable design) and finish it around 1965 with the scandinavians masters. 
+I want to do the same with :
+
+- the <art subject>, starting the graph in <start date> with <...> and <>>> and finish it around <end date> with the <...> 
 
 I need you to help with a list of "movement", "artefact types" and "artist". "Movements and Artists can be related to places. Next I need a list of "influences" between those elements. The point is that you have to generate the data in a structured format that can be understood by a tool named barrgraph.
 
@@ -13,3 +15,9 @@ In practice, I want you to:
 - update the enclosed modernism.go file with generated elements
 - respect strict __<StructName>__<8-digit-index>_ nomenclature for variable declarations
 - respect single-item appending for slices.
+
+Exemples :
+
+- cubism and abstract art : the originial alfred barr's poster
+- modernism movement in design, starting the graph in 1900 with the english art & craft (affordable design) and finish it around 1965 with the scandinavians masters.
+- renaissance
