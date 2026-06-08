@@ -15,6 +15,7 @@ In practice, I want you to:
 - update the enclosed modernism.go file with generated elements
 - respect strict __<StructName>__<8-digit-index>_ nomenclature for variable declarations
 - respect single-item appending for slices.
+- populate all associations that are mantatory for the semantic (every influence shall have a source & target)
 
 Exemples :
 
