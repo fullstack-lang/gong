@@ -302,7 +302,20 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		rect.StrokeWidth = 1.0
 
 		if len(rect.RectAnchoredTexts) > 0 {
-			rect.RectAnchoredTexts[0].Content = "📝 " + rect.RectAnchoredTexts[0].Content
+			abstractElement := noteShape.GetAbstractElement()
+			content := abstractElement.GetName()
+			if diagram.GetIsShowPrefix() {
+				content = abstractElement.GetComputedPrefix() + " " + content
+			}
+			content = "📝 " + content
+
+			margin := 20.0
+			wrapWidth := rect.Width - margin
+			if wrapWidth > 0 {
+				content = strutils.WrapStringPreservingNewlines(content, int(wrapWidth/stager.getRootLibrary().NbPixPerCharacter))
+			}
+
+			rect.RectAnchoredTexts[0].Content = content
 			rect.RectAnchoredTexts[0].FontWeight = "normal"
 			rect.RectAnchoredTexts[0].FontStyle = "italic"
 			rect.RectAnchoredTexts[0].TextAnchorType = svg.TEXT_ANCHOR_START
