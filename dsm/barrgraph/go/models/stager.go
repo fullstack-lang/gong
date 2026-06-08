@@ -33,6 +33,8 @@ type Stager struct {
 	asSplitArea *split.AsSplitArea
 
 	svgStage  *svg.Stage
+	svgObject *svg.SVG
+
 	ssgStage  *ssg.Stage
 	treeStage *tree.Stage
 
