@@ -34,11 +34,63 @@ type Diagram_WOP struct {
 
 	IsWBSNodeExpanded bool
 
+	IsTaskGroupsNodeExpanded bool
+
 	DateFormat string
 
 	IsNotesNodeExpanded bool
 
 	IsResourcesNodeExpanded bool
+
+	IsTimeDiagram bool
+
+	ComputedStart time.Time
+
+	ComputedEnd time.Time
+
+	ComputedDuration time.Duration
+
+	UseManualStartAndEndDates bool
+
+	ManualStart time.Time
+
+	ManualEnd time.Time
+
+	LaneHeight float64
+
+	RatioBarToLaneHeight float64
+
+	YTopMargin float64
+
+	XLeftText float64
+
+	TextHeight float64
+
+	XLeftLanes float64
+
+	XRightMargin float64
+
+	ArrowLengthToTheRightOfStartBar float64
+
+	ArrowTipLenght float64
+
+	TimeLine_Color string
+
+	TimeLine_FillOpacity float64
+
+	TimeLine_Stroke string
+
+	TimeLine_StrokeWidth float64
+
+	Group_Stroke string
+
+	Group_StrokeWidth float64
+
+	Group_StrokeDashArray string
+
+	DateYOffset float64
+
+	AlignOnStartEndOnYearStart bool
 }
 
 func (from *Diagram) CopyBasicFields(to *Diagram) {
@@ -54,9 +106,35 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.Height = from.Height
 	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
 	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
+	to.IsTaskGroupsNodeExpanded = from.IsTaskGroupsNodeExpanded
 	to.DateFormat = from.DateFormat
 	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
+	to.IsTimeDiagram = from.IsTimeDiagram
+	to.ComputedStart = from.ComputedStart
+	to.ComputedEnd = from.ComputedEnd
+	to.ComputedDuration = from.ComputedDuration
+	to.UseManualStartAndEndDates = from.UseManualStartAndEndDates
+	to.ManualStart = from.ManualStart
+	to.ManualEnd = from.ManualEnd
+	to.LaneHeight = from.LaneHeight
+	to.RatioBarToLaneHeight = from.RatioBarToLaneHeight
+	to.YTopMargin = from.YTopMargin
+	to.XLeftText = from.XLeftText
+	to.TextHeight = from.TextHeight
+	to.XLeftLanes = from.XLeftLanes
+	to.XRightMargin = from.XRightMargin
+	to.ArrowLengthToTheRightOfStartBar = from.ArrowLengthToTheRightOfStartBar
+	to.ArrowTipLenght = from.ArrowTipLenght
+	to.TimeLine_Color = from.TimeLine_Color
+	to.TimeLine_FillOpacity = from.TimeLine_FillOpacity
+	to.TimeLine_Stroke = from.TimeLine_Stroke
+	to.TimeLine_StrokeWidth = from.TimeLine_StrokeWidth
+	to.Group_Stroke = from.Group_Stroke
+	to.Group_StrokeWidth = from.Group_StrokeWidth
+	to.Group_StrokeDashArray = from.Group_StrokeDashArray
+	to.DateYOffset = from.DateYOffset
+	to.AlignOnStartEndOnYearStart = from.AlignOnStartEndOnYearStart
 }
 
 type Library_WOP struct {
@@ -459,6 +537,17 @@ func (from *TaskCompositionShape) CopyBasicFields(to *TaskCompositionShape) {
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
 	to.IsHidden = from.IsHidden
+}
+
+type TaskGroup_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *TaskGroup) CopyBasicFields(to *TaskGroup) {
+	// insertion point
+	to.Name = from.Name
 }
 
 type TaskInputShape_WOP struct {

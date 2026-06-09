@@ -1,6 +1,8 @@
 package models
 
 import (
+	"slices"
+
 	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
@@ -213,6 +215,63 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			sliceForNewCompositionShapes: &diagram.TaskComposition_Shapes,
 		}
 		addCreateItemShapeAndLinkButton(stager, confWBS)
+
+		taskGroupsNode := &tree.Node{
+			Name:            "TaskGroups",
+			FontStyle:       tree.ITALIC,
+			IsExpanded:      diagram.IsTaskGroupsNodeExpanded,
+			IsNodeClickable: true,
+		}
+		wbsNode.Children = append(wbsNode.Children, taskGroupsNode)
+		taskGroupsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsTaskGroupsNodeExpanded)
+		taskGroupsNode.OnClick = onNodeClicked(stager, diagram)
+
+		addTaskGroupButton := &tree.Button{
+			Name:            "Add TaskGroup",
+			Icon:            string(buttons.BUTTON_add),
+			ToolTipText:     "Add a TaskGroup",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+		}
+		taskGroupsNode.Menu = &tree.Menu{Name: "Menu", Buttons: []*tree.Button{addTaskGroupButton}}
+		addTaskGroupButton.OnClick = func() {
+			newTaskGroup := new(TaskGroup).Stage(stager.stage)
+			newTaskGroup.Name = "NewTaskGroup"
+			diagram.TaskGroups = append(diagram.TaskGroups, newTaskGroup)
+			stager.probeForm.FillUpFormFromGongstruct(newTaskGroup, "TaskGroup")
+			diagram.IsTaskGroupsNodeExpanded = true
+			diagram.IsWBSNodeExpanded = true
+			stager.stage.Commit()
+		}
+
+		for _, taskGroup_ := range diagram.TaskGroups {
+			taskGroup := taskGroup_
+			taskGroupNode := &tree.Node{
+				Name:            taskGroup.Name,
+				IsExpanded:      slices.Contains(diagram.TaskGroupsWhoseNodeIsExpanded, taskGroup),
+				IsNodeClickable: true,
+			}
+			taskGroupsNode.Children = append(taskGroupsNode.Children, taskGroupNode)
+			taskGroupNode.OnIsExpandedChange = func(isExpanded bool) {
+				if isExpanded {
+					if !slices.Contains(diagram.TaskGroupsWhoseNodeIsExpanded, taskGroup) {
+						diagram.TaskGroupsWhoseNodeIsExpanded = append(diagram.TaskGroupsWhoseNodeIsExpanded, taskGroup)
+					}
+				} else {
+					if idx := slices.Index(diagram.TaskGroupsWhoseNodeIsExpanded, taskGroup); idx != -1 {
+						diagram.TaskGroupsWhoseNodeIsExpanded = slices.Delete(diagram.TaskGroupsWhoseNodeIsExpanded, idx, idx+1)
+					}
+				}
+				stager.stage.Commit()
+			}
+			taskGroupNode.OnClick = func(frontNode *tree.Node) {
+				stager.probeForm.FillUpFormFromGongstruct(taskGroup, "TaskGroup")
+				stager.stage.Commit()
+			}
+			for _, task := range taskGroup.Tasks {
+				stager.treeTask(diagram, task, taskGroupNode)
+			}
+		}
 
 		for _, task := range library.RootTasks {
 			stager.treeTask(diagram, task, wbsNode)
