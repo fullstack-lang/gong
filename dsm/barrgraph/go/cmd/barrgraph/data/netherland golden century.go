@@ -61,6 +61,7 @@ func _(stage *models.Stage) {
 	__ControlPointShape__00000001_ := (&models.ControlPointShape{Name: `Control Point Shape in History Painting to Pre-Rembrandtists 1`}).Stage(stage)
 	__ControlPointShape__00000002_ := (&models.ControlPointShape{Name: `Control Point Shape in Portraiture to Frans Hals 0`}).Stage(stage)
 	__ControlPointShape__00000003_ := (&models.ControlPointShape{Name: `Control Point Shape in Protestantism to Landscape Painting 0`}).Stage(stage)
+	__ControlPointShape__00000004_ := (&models.ControlPointShape{Name: `Control Point Shape in Haarlem Mannerism to Frans Hals 0`}).Stage(stage)
 
 	__Desk__00000000_ := (&models.Desk{Name: `Desk`}).Stage(stage)
 
@@ -188,8 +189,8 @@ func _(stage *models.Stage) {
 	__ArtefactTypeShape__00000005_.IsHidden = false
 
 	__ArtefactTypeShape__00000006_.Name = ``
-	__ArtefactTypeShape__00000006_.X = 457.000000
-	__ArtefactTypeShape__00000006_.Y = 79.000000
+	__ArtefactTypeShape__00000006_.X = 471.000000
+	__ArtefactTypeShape__00000006_.Y = 52.000000
 	__ArtefactTypeShape__00000006_.Width = 155.000000
 	__ArtefactTypeShape__00000006_.Height = 25.000000
 	__ArtefactTypeShape__00000006_.IsHidden = false
@@ -300,8 +301,8 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000004_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000005_.Name = ``
-	__ArtistShape__00000005_.X = 568.000000
-	__ArtistShape__00000005_.Y = 551.000000
+	__ArtistShape__00000005_.X = 556.000000
+	__ArtistShape__00000005_.Y = 531.000000
 	__ArtistShape__00000005_.Width = 120.000000
 	__ArtistShape__00000005_.Height = 30.000000
 	__ArtistShape__00000005_.IsHidden = false
@@ -334,12 +335,17 @@ func _(stage *models.Stage) {
 	__ControlPointShape__00000003_.Y_Relative = -1.799746
 	__ControlPointShape__00000003_.IsStartShapeTheClosestShape = false
 
+	__ControlPointShape__00000004_.Name = `Control Point Shape in Haarlem Mannerism to Frans Hals 0`
+	__ControlPointShape__00000004_.X_Relative = 0.466326
+	__ControlPointShape__00000004_.Y_Relative = 2.366854
+	__ControlPointShape__00000004_.IsStartShapeTheClosestShape = true
+
 	__Desk__00000000_.Name = `Desk`
 
 	__Diagram__00000000_.Name = `Netherland   Golden    Century`
 	__Diagram__00000000_.ComputedPrefix = ``
 	__Diagram__00000000_.IsChecked = false
-	__Diagram__00000000_.IsEditable = true
+	__Diagram__00000000_.IsEditable = false
 	__Diagram__00000000_.IsNodeExpanded = true
 	__Diagram__00000000_.IsMovementCategoryNodeExpanded = false
 	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = false
@@ -606,15 +612,15 @@ func _(stage *models.Stage) {
 	__Movement__00000003_.AdditionnalName = ``
 
 	__MovementShape__00000000_.Name = ``
-	__MovementShape__00000000_.X = 68.000000
-	__MovementShape__00000000_.Y = 160.000000
+	__MovementShape__00000000_.X = 74.000000
+	__MovementShape__00000000_.Y = 187.000000
 	__MovementShape__00000000_.Width = 166.000000
 	__MovementShape__00000000_.Height = 30.000000
 	__MovementShape__00000000_.IsHidden = false
 
 	__MovementShape__00000001_.Name = ``
-	__MovementShape__00000001_.X = 239.000000
-	__MovementShape__00000001_.Y = 312.000000
+	__MovementShape__00000001_.X = 259.000000
+	__MovementShape__00000001_.Y = 338.000000
 	__MovementShape__00000001_.Width = 120.000000
 	__MovementShape__00000001_.Height = 30.000000
 	__MovementShape__00000001_.IsHidden = false
@@ -818,6 +824,7 @@ func _(stage *models.Stage) {
 	__InfluenceShape__00000001_.Influence = __Influence__00000001_
 	__InfluenceShape__00000002_.Influence = __Influence__00000002_
 	__InfluenceShape__00000003_.Influence = __Influence__00000003_
+	__InfluenceShape__00000003_.ControlPointShapes = append(__InfluenceShape__00000003_.ControlPointShapes, __ControlPointShape__00000004_)
 	__InfluenceShape__00000004_.Influence = __Influence__00000004_
 	__InfluenceShape__00000005_.Influence = __Influence__00000005_
 	__InfluenceShape__00000006_.Influence = __Influence__00000006_

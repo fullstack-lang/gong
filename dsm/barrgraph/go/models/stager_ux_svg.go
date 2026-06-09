@@ -247,26 +247,25 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			Together, these four values define the basic structure of the arc.
 
 		*/
-		x := movementShape.X + movementShape.Width/2.0
-		y := movementShape.Y + movementShape.Height +
-			diagram.MovementBelowArcY_Offset +
-			float64(len(movement.Places)*
-				int(diagram.MovementBelowArcY_OffsetPerPlace))
-		path := &svg.Path{
+		path := &svg.RectAnchoredPath{
 			Name: movement.Name,
 			Definition: fmt.Sprintf("M %f %f A %f %f 0 0 0 %f %f",
 				// move to
-				x-movementShape.Width/2.0,
-				y,
+				-movementShape.Width/2.0,
+				0.0,
 
 				// rx, ry
 				movementShape.Width/2.0,
 				movementShape.Height/2.0,
 
 				// end of the stroke
-				x+movementShape.Width/2.0,
-				y,
+				movementShape.Width/2.0,
+				0.0,
 			),
+			RectAnchorType: svg.RECT_BOTTOM,
+			Y_Offset: diagram.MovementBelowArcY_Offset +
+				float64(len(movement.Places)*
+					int(diagram.MovementBelowArcY_OffsetPerPlace)),
 			Presentation: svg.Presentation{
 				Stroke:        diagram.GrayColorCode,
 				StrokeOpacity: 1.0,
@@ -299,11 +298,11 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 		if !diagram.IsInfluenceCategoryHidden {
 			// some movements have no underlying arcs
 			if !movement.IsFeatured && len(movement.Places) > 0 {
-				arcLayer.Paths = append(arcLayer.Paths, path)
+				rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, path)
 			}
 		}
 		if !diagram.IsMovementCategoryHidden {
-			layer.Rects = append(layer.Rects, rect)
+			arcLayer.Rects = append(arcLayer.Rects, rect)
 		}
 	}
 
@@ -445,25 +444,24 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			placesRectAnchoredText.Content += artist.Place.Name
 		}
 
-		x := artistShape.X + artistShape.Width/2.0
-		y := artistShape.Y + artistShape.Height +
-			diagram.MovementBelowArcY_Offset +
-			diagram.MovementBelowArcY_OffsetPerPlace
-		path := &svg.Path{
+		path := &svg.RectAnchoredPath{
 			Name: artist.Name,
 			Definition: fmt.Sprintf("M %f %f A %f %f 0 0 0 %f %f",
 				// move to
-				x-artistShape.Width/2.0,
-				y,
+				-artistShape.Width/2.0,
+				0.0,
 
 				// rx, ry
 				artistShape.Width/2.0,
 				artistShape.Height/2.0,
 
 				// end of the stroke
-				x+artistShape.Width/2.0,
-				y,
+				artistShape.Width/2.0,
+				0.0,
 			),
+			RectAnchorType: svg.RECT_BOTTOM,
+			Y_Offset: diagram.MovementBelowArcY_Offset +
+				diagram.MovementBelowArcY_OffsetPerPlace,
 			Presentation: svg.Presentation{
 				Stroke:        diagram.GrayColorCode,
 				StrokeOpacity: 1.0,
@@ -538,11 +536,11 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 		if !diagram.IsInfluenceCategoryHidden {
 			// only artists with influence have a bottom arc
 			if len(map_Artist_Influences[artist]) > 0 {
-				arcLayer.Paths = append(arcLayer.Paths, path)
+				rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, path)
 			}
 		}
 		if !diagram.IsArtistCategoryHidden {
-			layer.Rects = append(layer.Rects, rect)
+			arcLayer.Rects = append(arcLayer.Rects, rect)
 		}
 	}
 
