@@ -310,6 +310,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagram_.TasksWhoseOutputNodeIsExpanded = instanceSlice
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TasksWhoseOutputNodeIsExpanded", &diagram_.TasksWhoseOutputNodeIsExpanded)
 
+		case "DateFormat":
+			FormDivBasicFieldToField(&(diagram_.DateFormat), formDiv)
 		case "TaskComposition_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskCompositionShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskCompositionShape, 0)

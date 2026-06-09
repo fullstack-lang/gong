@@ -35,6 +35,10 @@ type Diagram struct {
 	TasksWhoseInputNodeIsExpanded  []*Task
 	TasksWhoseOutputNodeIsExpanded []*Task
 
+	// date format for task shapes. If "", use "2006-01-02"
+	// date format is go date format convention
+	DateFormat string
+
 	TaskComposition_Shapes        []*TaskCompositionShape
 	map_Task_TaskCompositionShape map[*Task]*TaskCompositionShape
 

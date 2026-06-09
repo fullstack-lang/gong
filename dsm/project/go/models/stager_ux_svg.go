@@ -150,7 +150,13 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		if taskShape.IsShowDate {
 			dateText := new(svg.RectAnchoredText)
 			dateText.Name = "Date"
-			dateText.Content = taskShape.Task.Start.Format("2006 05 06") + " - " + taskShape.Task.End.Format("2006 05 06")
+
+			dateFormat := "2006-01-02"
+			if diagram.DateFormat != "" {
+				dateFormat = diagram.DateFormat
+			}
+
+			dateText.Content = taskShape.Task.Start.Format(dateFormat) + " - " + taskShape.Task.End.Format(dateFormat)
 			dateText.Stroke = svg.Black.ToString()
 			dateText.StrokeWidth = 1
 			dateText.StrokeOpacity = 1

@@ -2891,6 +2891,9 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		ops := Diff(stage, diagram, diagramOther, "TasksWhoseOutputNodeIsExpanded", diagramOther.TasksWhoseOutputNodeIsExpanded, diagram.TasksWhoseOutputNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
+	if diagram.DateFormat != diagramOther.DateFormat {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "DateFormat"))
+	}
 	TaskComposition_ShapesDifferent := false
 	if len(diagram.TaskComposition_Shapes) != len(diagramOther.TaskComposition_Shapes) {
 		TaskComposition_ShapesDifferent = true
