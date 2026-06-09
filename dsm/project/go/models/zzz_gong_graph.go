@@ -4089,6 +4089,9 @@ func (taskshape *TaskShape) GongDiff(stage *Stage, taskshapeOther *TaskShape) (d
 			diffs = append(diffs, taskshape.GongMarshallField(stage, "Task"))
 		}
 	}
+	if taskshape.IsShowDate != taskshapeOther.IsShowDate {
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "IsShowDate"))
+	}
 	if taskshape.X != taskshapeOther.X {
 		diffs = append(diffs, taskshape.GongMarshallField(stage, "X"))
 	}
