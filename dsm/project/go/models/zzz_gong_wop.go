@@ -521,6 +521,8 @@ type TaskShape_WOP struct {
 
 	Name string
 
+	IsShowDate bool
+
 	X float64
 
 	Y float64
@@ -535,6 +537,7 @@ type TaskShape_WOP struct {
 func (from *TaskShape) CopyBasicFields(to *TaskShape) {
 	// insertion point
 	to.Name = from.Name
+	to.IsShowDate = from.IsShowDate
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width

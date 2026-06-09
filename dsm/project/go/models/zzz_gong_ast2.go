@@ -1316,6 +1316,8 @@ func (u *TaskShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.Name = GongExtractString(valueExpr)
 	case "Task":
 		GongUnmarshallPointer(&instance.Task, valueExpr, identifierMap)
+	case "IsShowDate":
+		instance.IsShowDate = GongExtractBool(valueExpr)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":

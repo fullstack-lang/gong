@@ -4986,6 +4986,8 @@ func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(taskshape_.Name), formDiv)
 		case "Task":
 			FormDivSelectFieldToField(&(taskshape_.Task), taskshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "IsShowDate":
+			FormDivBasicFieldToField(&(taskshape_.IsShowDate), formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(taskshape_.X), formDiv)
 		case "Y":

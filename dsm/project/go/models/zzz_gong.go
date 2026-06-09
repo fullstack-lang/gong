@@ -6553,6 +6553,10 @@ func (taskshape *TaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Task",
 		},
 		{
+			Name:               "IsShowDate",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "X",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -7639,6 +7643,10 @@ func (taskshape *TaskShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 			res.valueString = taskshape.Task.Name
 			res.ids = taskshape.Task.GongGetUUID(stage)
 		}
+	case "IsShowDate":
+		res.valueString = fmt.Sprintf("%t", taskshape.IsShowDate)
+		res.valueBool = taskshape.IsShowDate
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "X":
 		res.valueString = fmt.Sprintf("%f", taskshape.X)
 		res.valueFloat = taskshape.X
@@ -8792,6 +8800,8 @@ func (taskshape *TaskShape) GongSetFieldValue(fieldName string, value GongFieldV
 				}
 			}
 		}
+	case "IsShowDate":
+		taskshape.IsShowDate = value.GetValueBool()
 	case "X":
 		taskshape.X = value.GetValueFloat()
 	case "Y":
