@@ -406,6 +406,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				}
 			}
 			group_.Buttons = instanceSlice
+			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "Buttons", &group_.Buttons)
 
 		case "NbColumns":
 			FormDivBasicFieldToField(&(group_.NbColumns), formDiv)
@@ -585,6 +586,7 @@ func (grouptoogleFormCallback *GroupToogleFormCallback) OnSave() {
 				}
 			}
 			grouptoogle_.ButtonToggles = instanceSlice
+			grouptoogleFormCallback.probe.UpdateSliceOfPointersCallback(grouptoogle_, "ButtonToggles", &grouptoogle_.ButtonToggles)
 
 		case "IsSingleSelector":
 			FormDivBasicFieldToField(&(grouptoogle_.IsSingleSelector), formDiv)
@@ -762,6 +764,7 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 				}
 			}
 			layout_.Groups = instanceSlice
+			layoutFormCallback.probe.UpdateSliceOfPointersCallback(layout_, "Groups", &layout_.Groups)
 
 		case "GroupToogles":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GroupToogle](layoutFormCallback.probe.stageOfInterest)
@@ -793,6 +796,7 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 				}
 			}
 			layout_.GroupToogles = instanceSlice
+			layoutFormCallback.probe.UpdateSliceOfPointersCallback(layout_, "GroupToogles", &layout_.GroupToogles)
 
 		}
 	}

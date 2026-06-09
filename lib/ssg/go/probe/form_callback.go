@@ -98,6 +98,7 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 				}
 			}
 			chapter_.Sections = instanceSlice
+			chapterFormCallback.probe.UpdateSliceOfPointersCallback(chapter_, "Sections", &chapter_.Sections)
 
 		case "Pages":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Page](chapterFormCallback.probe.stageOfInterest)
@@ -129,6 +130,7 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 				}
 			}
 			chapter_.Pages = instanceSlice
+			chapterFormCallback.probe.UpdateSliceOfPointersCallback(chapter_, "Pages", &chapter_.Pages)
 
 		case "SubChapters":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Chapter](chapterFormCallback.probe.stageOfInterest)
@@ -160,6 +162,7 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 				}
 			}
 			chapter_.SubChapters = instanceSlice
+			chapterFormCallback.probe.UpdateSliceOfPointersCallback(chapter_, "SubChapters", &chapter_.SubChapters)
 
 		case "Chapter:SubChapters":
 			// WARNING : this form deals with the N-N association "Chapter.SubChapters []*Chapter" but
@@ -421,6 +424,7 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 				}
 			}
 			content_.Chapters = instanceSlice
+			contentFormCallback.probe.UpdateSliceOfPointersCallback(content_, "Chapters", &content_.Chapters)
 
 		case "VersionInfo":
 			FormDivBasicFieldToField(&(content_.VersionInfo), formDiv)
@@ -694,6 +698,7 @@ func (pageFormCallback *PageFormCallback) OnSave() {
 				}
 			}
 			page_.Sections = instanceSlice
+			pageFormCallback.probe.UpdateSliceOfPointersCallback(page_, "Sections", &page_.Sections)
 
 		case "Chapter:Pages":
 			// WARNING : this form deals with the N-N association "Chapter.Pages []*Page" but
