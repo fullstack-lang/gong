@@ -58,6 +58,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		fn   func() bool
 	}{
 		// abstract semantic check
+		{"Assign Probe Callback", stager.assignProbeCallback},
 
 		// VERY important because the probe only unstages objects
 		// this is the Clean that delete them from slices and pointers that reference

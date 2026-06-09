@@ -27,6 +27,7 @@ type ProbeIF interface {
 
 	// UpdateSliceOfPointersCallback is called after a SliceOfPointers field is updated in the probe
 	UpdateSliceOfPointersCallback(instance any, fieldName string, slicePtr any)
+	SetUpdateSliceOfPointersCallback(cb func(instance any, fieldName string, slicePtr any))
 }
 
 type GongNodeIF interface {
