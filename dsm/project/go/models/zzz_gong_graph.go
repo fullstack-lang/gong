@@ -55,6 +55,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *TaskCompositionShape:
 		ok = stage.IsStagedTaskCompositionShape(target)
 
+	case *TaskGroup:
+		ok = stage.IsStagedTaskGroup(target)
+
 	case *TaskInputShape:
 		ok = stage.IsStagedTaskInputShape(target)
 
@@ -121,6 +124,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *TaskCompositionShape:
 		ok = stage.IsStagedTaskCompositionShape(target)
+
+	case *TaskGroup:
+		ok = stage.IsStagedTaskGroup(target)
 
 	case *TaskInputShape:
 		ok = stage.IsStagedTaskInputShape(target)
@@ -250,6 +256,13 @@ func (stage *Stage) IsStagedTaskCompositionShape(taskcompositionshape *TaskCompo
 	return
 }
 
+func (stage *Stage) IsStagedTaskGroup(taskgroup *TaskGroup) (ok bool) {
+
+	_, ok = stage.TaskGroups[taskgroup]
+
+	return
+}
+
 func (stage *Stage) IsStagedTaskInputShape(taskinputshape *TaskInputShape) (ok bool) {
 
 	_, ok = stage.TaskInputShapes[taskinputshape]
@@ -327,6 +340,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *TaskCompositionShape:
 		stage.StageBranchTaskCompositionShape(target)
 
+	case *TaskGroup:
+		stage.StageBranchTaskGroup(target)
+
 	case *TaskInputShape:
 		stage.StageBranchTaskInputShape(target)
 
@@ -374,6 +390,12 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	}
 	for _, _task := range diagram.TasksWhoseOutputNodeIsExpanded {
 		StageBranch(stage, _task)
+	}
+	for _, _taskgroup := range diagram.TaskGroups {
+		StageBranch(stage, _taskgroup)
+	}
+	for _, _taskgroup := range diagram.TaskGroupsWhoseNodeIsExpanded {
+		StageBranch(stage, _taskgroup)
 	}
 	for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
 		StageBranch(stage, _taskcompositionshape)
@@ -735,6 +757,24 @@ func (stage *Stage) StageBranchTaskCompositionShape(taskcompositionshape *TaskCo
 
 }
 
+func (stage *Stage) StageBranchTaskGroup(taskgroup *TaskGroup) {
+
+	// check if instance is already staged
+	if IsStaged(stage, taskgroup) {
+		return
+	}
+
+	taskgroup.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _task := range taskgroup.Tasks {
+		StageBranch(stage, _task)
+	}
+
+}
+
 func (stage *Stage) StageBranchTaskInputShape(taskinputshape *TaskInputShape) {
 
 	// check if instance is already staged
@@ -870,6 +910,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchTaskCompositionShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *TaskGroup:
+		toT := CopyBranchTaskGroup(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *TaskInputShape:
 		toT := CopyBranchTaskInputShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -924,6 +968,12 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	}
 	for _, _task := range diagramFrom.TasksWhoseOutputNodeIsExpanded {
 		diagramTo.TasksWhoseOutputNodeIsExpanded = append(diagramTo.TasksWhoseOutputNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+	}
+	for _, _taskgroup := range diagramFrom.TaskGroups {
+		diagramTo.TaskGroups = append(diagramTo.TaskGroups, CopyBranchTaskGroup(mapOrigCopy, _taskgroup))
+	}
+	for _, _taskgroup := range diagramFrom.TaskGroupsWhoseNodeIsExpanded {
+		diagramTo.TaskGroupsWhoseNodeIsExpanded = append(diagramTo.TaskGroupsWhoseNodeIsExpanded, CopyBranchTaskGroup(mapOrigCopy, _taskgroup))
 	}
 	for _, _taskcompositionshape := range diagramFrom.TaskComposition_Shapes {
 		diagramTo.TaskComposition_Shapes = append(diagramTo.TaskComposition_Shapes, CopyBranchTaskCompositionShape(mapOrigCopy, _taskcompositionshape))
@@ -1346,6 +1396,28 @@ func CopyBranchTaskCompositionShape(mapOrigCopy map[any]any, taskcompositionshap
 	return
 }
 
+func CopyBranchTaskGroup(mapOrigCopy map[any]any, taskgroupFrom *TaskGroup) (taskgroupTo *TaskGroup) {
+
+	// taskgroupFrom has already been copied
+	if _taskgroupTo, ok := mapOrigCopy[taskgroupFrom]; ok {
+		taskgroupTo = _taskgroupTo.(*TaskGroup)
+		return
+	}
+
+	taskgroupTo = new(TaskGroup)
+	mapOrigCopy[taskgroupFrom] = taskgroupTo
+	taskgroupFrom.CopyBasicFields(taskgroupTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _task := range taskgroupFrom.Tasks {
+		taskgroupTo.Tasks = append(taskgroupTo.Tasks, CopyBranchTask(mapOrigCopy, _task))
+	}
+
+	return
+}
+
 func CopyBranchTaskInputShape(mapOrigCopy map[any]any, taskinputshapeFrom *TaskInputShape) (taskinputshapeTo *TaskInputShape) {
 
 	// taskinputshapeFrom has already been copied
@@ -1474,6 +1546,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *TaskCompositionShape:
 		stage.UnstageBranchTaskCompositionShape(target)
 
+	case *TaskGroup:
+		stage.UnstageBranchTaskGroup(target)
+
 	case *TaskInputShape:
 		stage.UnstageBranchTaskInputShape(target)
 
@@ -1521,6 +1596,12 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	}
 	for _, _task := range diagram.TasksWhoseOutputNodeIsExpanded {
 		UnstageBranch(stage, _task)
+	}
+	for _, _taskgroup := range diagram.TaskGroups {
+		UnstageBranch(stage, _taskgroup)
+	}
+	for _, _taskgroup := range diagram.TaskGroupsWhoseNodeIsExpanded {
+		UnstageBranch(stage, _taskgroup)
 	}
 	for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
 		UnstageBranch(stage, _taskcompositionshape)
@@ -1882,6 +1963,24 @@ func (stage *Stage) UnstageBranchTaskCompositionShape(taskcompositionshape *Task
 
 }
 
+func (stage *Stage) UnstageBranchTaskGroup(taskgroup *TaskGroup) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, taskgroup) {
+		return
+	}
+
+	taskgroup.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _task := range taskgroup.Tasks {
+		UnstageBranch(stage, _task)
+	}
+
+}
+
 func (stage *Stage) UnstageBranchTaskInputShape(taskinputshape *TaskInputShape) {
 
 	// check if instance is already staged
@@ -1973,6 +2072,14 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	reference.TasksWhoseOutputNodeIsExpanded = reference.TasksWhoseOutputNodeIsExpanded[:0]
 	for _, _b := range instance.TasksWhoseOutputNodeIsExpanded {
 		reference.TasksWhoseOutputNodeIsExpanded = append(reference.TasksWhoseOutputNodeIsExpanded, stage.Tasks_reference[_b])
+	}
+	reference.TaskGroups = reference.TaskGroups[:0]
+	for _, _b := range instance.TaskGroups {
+		reference.TaskGroups = append(reference.TaskGroups, stage.TaskGroups_reference[_b])
+	}
+	reference.TaskGroupsWhoseNodeIsExpanded = reference.TaskGroupsWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.TaskGroupsWhoseNodeIsExpanded {
+		reference.TaskGroupsWhoseNodeIsExpanded = append(reference.TaskGroupsWhoseNodeIsExpanded, stage.TaskGroups_reference[_b])
 	}
 	reference.TaskComposition_Shapes = reference.TaskComposition_Shapes[:0]
 	for _, _b := range instance.TaskComposition_Shapes {
@@ -2210,6 +2317,15 @@ func (reference *TaskCompositionShape) GongReconstructPointersFromReferences(sta
 	// insertion point for slice of pointers field
 }
 
+func (reference *TaskGroup) GongReconstructPointersFromReferences(stage *Stage, instance *TaskGroup) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.Tasks = reference.Tasks[:0]
+	for _, _b := range instance.Tasks {
+		reference.Tasks = append(reference.Tasks, stage.Tasks_reference[_b])
+	}
+}
+
 func (reference *TaskInputShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskInputShape) {
 	// insertion point for pointers field
 	if instance.Product != nil {
@@ -2293,6 +2409,20 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.TasksWhoseOutputNodeIsExpanded = _TasksWhoseOutputNodeIsExpanded
+	var _TaskGroups []*TaskGroup
+	for _, _reference := range reference.TaskGroups {
+		if _instance, ok := stage.TaskGroups_instance[_reference]; ok {
+			_TaskGroups = append(_TaskGroups, _instance)
+		}
+	}
+	reference.TaskGroups = _TaskGroups
+	var _TaskGroupsWhoseNodeIsExpanded []*TaskGroup
+	for _, _reference := range reference.TaskGroupsWhoseNodeIsExpanded {
+		if _instance, ok := stage.TaskGroups_instance[_reference]; ok {
+			_TaskGroupsWhoseNodeIsExpanded = append(_TaskGroupsWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.TaskGroupsWhoseNodeIsExpanded = _TaskGroupsWhoseNodeIsExpanded
 	var _TaskComposition_Shapes []*TaskCompositionShape
 	for _, _reference := range reference.TaskComposition_Shapes {
 		if _instance, ok := stage.TaskCompositionShapes_instance[_reference]; ok {
@@ -2661,6 +2791,18 @@ func (reference *TaskCompositionShape) GongReconstructPointersFromInstances(stag
 	// insertion point for slice of pointers fields
 }
 
+func (reference *TaskGroup) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _Tasks []*Task
+	for _, _reference := range reference.Tasks {
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			_Tasks = append(_Tasks, _instance)
+		}
+	}
+	reference.Tasks = _Tasks
+}
+
 func (reference *TaskInputShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Product; _reference != nil {
@@ -2889,6 +3031,51 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	}
 	if TasksWhoseOutputNodeIsExpandedDifferent {
 		ops := Diff(stage, diagram, diagramOther, "TasksWhoseOutputNodeIsExpanded", diagramOther.TasksWhoseOutputNodeIsExpanded, diagram.TasksWhoseOutputNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	if diagram.IsTaskGroupsNodeExpanded != diagramOther.IsTaskGroupsNodeExpanded {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsTaskGroupsNodeExpanded"))
+	}
+	TaskGroupsDifferent := false
+	if len(diagram.TaskGroups) != len(diagramOther.TaskGroups) {
+		TaskGroupsDifferent = true
+	} else {
+		for i := range diagram.TaskGroups {
+			if (diagram.TaskGroups[i] == nil) != (diagramOther.TaskGroups[i] == nil) {
+				TaskGroupsDifferent = true
+				break
+			} else if diagram.TaskGroups[i] != nil && diagramOther.TaskGroups[i] != nil {
+				// this is a pointer comparaison
+				if diagram.TaskGroups[i] != diagramOther.TaskGroups[i] {
+					TaskGroupsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TaskGroupsDifferent {
+		ops := Diff(stage, diagram, diagramOther, "TaskGroups", diagramOther.TaskGroups, diagram.TaskGroups)
+		diffs = append(diffs, ops)
+	}
+	TaskGroupsWhoseNodeIsExpandedDifferent := false
+	if len(diagram.TaskGroupsWhoseNodeIsExpanded) != len(diagramOther.TaskGroupsWhoseNodeIsExpanded) {
+		TaskGroupsWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagram.TaskGroupsWhoseNodeIsExpanded {
+			if (diagram.TaskGroupsWhoseNodeIsExpanded[i] == nil) != (diagramOther.TaskGroupsWhoseNodeIsExpanded[i] == nil) {
+				TaskGroupsWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagram.TaskGroupsWhoseNodeIsExpanded[i] != nil && diagramOther.TaskGroupsWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagram.TaskGroupsWhoseNodeIsExpanded[i] != diagramOther.TaskGroupsWhoseNodeIsExpanded[i] {
+					TaskGroupsWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TaskGroupsWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, diagram, diagramOther, "TaskGroupsWhoseNodeIsExpanded", diagramOther.TaskGroupsWhoseNodeIsExpanded, diagram.TaskGroupsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagram.DateFormat != diagramOther.DateFormat {
@@ -3151,6 +3338,81 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if ResourceTaskShapesDifferent {
 		ops := Diff(stage, diagram, diagramOther, "ResourceTaskShapes", diagramOther.ResourceTaskShapes, diagram.ResourceTaskShapes)
 		diffs = append(diffs, ops)
+	}
+	if diagram.IsTimeDiagram != diagramOther.IsTimeDiagram {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsTimeDiagram"))
+	}
+	if diagram.ComputedStart != diagramOther.ComputedStart {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedStart"))
+	}
+	if diagram.ComputedEnd != diagramOther.ComputedEnd {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedEnd"))
+	}
+	if diagram.ComputedDuration != diagramOther.ComputedDuration {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedDuration"))
+	}
+	if diagram.UseManualStartAndEndDates != diagramOther.UseManualStartAndEndDates {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "UseManualStartAndEndDates"))
+	}
+	if diagram.ManualStart != diagramOther.ManualStart {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ManualStart"))
+	}
+	if diagram.ManualEnd != diagramOther.ManualEnd {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ManualEnd"))
+	}
+	if diagram.LaneHeight != diagramOther.LaneHeight {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "LaneHeight"))
+	}
+	if diagram.RatioBarToLaneHeight != diagramOther.RatioBarToLaneHeight {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "RatioBarToLaneHeight"))
+	}
+	if diagram.YTopMargin != diagramOther.YTopMargin {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "YTopMargin"))
+	}
+	if diagram.XLeftText != diagramOther.XLeftText {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "XLeftText"))
+	}
+	if diagram.TextHeight != diagramOther.TextHeight {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TextHeight"))
+	}
+	if diagram.XLeftLanes != diagramOther.XLeftLanes {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "XLeftLanes"))
+	}
+	if diagram.XRightMargin != diagramOther.XRightMargin {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "XRightMargin"))
+	}
+	if diagram.ArrowLengthToTheRightOfStartBar != diagramOther.ArrowLengthToTheRightOfStartBar {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ArrowLengthToTheRightOfStartBar"))
+	}
+	if diagram.ArrowTipLenght != diagramOther.ArrowTipLenght {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ArrowTipLenght"))
+	}
+	if diagram.TimeLine_Color != diagramOther.TimeLine_Color {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeLine_Color"))
+	}
+	if diagram.TimeLine_FillOpacity != diagramOther.TimeLine_FillOpacity {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeLine_FillOpacity"))
+	}
+	if diagram.TimeLine_Stroke != diagramOther.TimeLine_Stroke {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeLine_Stroke"))
+	}
+	if diagram.TimeLine_StrokeWidth != diagramOther.TimeLine_StrokeWidth {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeLine_StrokeWidth"))
+	}
+	if diagram.Group_Stroke != diagramOther.Group_Stroke {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Group_Stroke"))
+	}
+	if diagram.Group_StrokeWidth != diagramOther.Group_StrokeWidth {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Group_StrokeWidth"))
+	}
+	if diagram.Group_StrokeDashArray != diagramOther.Group_StrokeDashArray {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Group_StrokeDashArray"))
+	}
+	if diagram.DateYOffset != diagramOther.DateYOffset {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "DateYOffset"))
+	}
+	if diagram.AlignOnStartEndOnYearStart != diagramOther.AlignOnStartEndOnYearStart {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "AlignOnStartEndOnYearStart"))
 	}
 
 	return
@@ -3987,6 +4249,38 @@ func (taskcompositionshape *TaskCompositionShape) GongDiff(stage *Stage, taskcom
 	}
 	if taskcompositionshape.IsHidden != taskcompositionshapeOther.IsHidden {
 		diffs = append(diffs, taskcompositionshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (taskgroup *TaskGroup) GongDiff(stage *Stage, taskgroupOther *TaskGroup) (diffs []string) {
+	// insertion point for field diffs
+	if taskgroup.Name != taskgroupOther.Name {
+		diffs = append(diffs, taskgroup.GongMarshallField(stage, "Name"))
+	}
+	TasksDifferent := false
+	if len(taskgroup.Tasks) != len(taskgroupOther.Tasks) {
+		TasksDifferent = true
+	} else {
+		for i := range taskgroup.Tasks {
+			if (taskgroup.Tasks[i] == nil) != (taskgroupOther.Tasks[i] == nil) {
+				TasksDifferent = true
+				break
+			} else if taskgroup.Tasks[i] != nil && taskgroupOther.Tasks[i] != nil {
+				// this is a pointer comparaison
+				if taskgroup.Tasks[i] != taskgroupOther.Tasks[i] {
+					TasksDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TasksDifferent {
+		ops := Diff(stage, taskgroup, taskgroupOther, "Tasks", taskgroupOther.Tasks, taskgroup.Tasks)
+		diffs = append(diffs, ops)
 	}
 
 	return

@@ -311,6 +311,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseInputNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseOutputNodeIsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsTaskGroupsNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroups"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DateFormat"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskComposition_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskInputShapes"))
@@ -326,6 +329,31 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsResourcesNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourceComposition_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourceTaskShapes"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsTimeDiagram"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedStart"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedEnd"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedDuration"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "UseManualStartAndEndDates"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualStart"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualEnd"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "LaneHeight"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "RatioBarToLaneHeight"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "YTopMargin"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XLeftText"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TextHeight"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XLeftLanes"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XRightMargin"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ArrowLengthToTheRightOfStartBar"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ArrowTipLenght"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_Color"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_FillOpacity"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_Stroke"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_StrokeWidth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_Stroke"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeWidth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeDashArray"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DateYOffset"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "AlignOnStartEndOnYearStart"))
 	}
 
 	libraryOrdered := []*Library{}
@@ -829,6 +857,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(taskcompositionshape.GongMarshallField(stage, "IsHidden"))
 	}
 
+	taskgroupOrdered := []*TaskGroup{}
+	for taskgroup := range stage.TaskGroups {
+		taskgroupOrdered = append(taskgroupOrdered, taskgroup)
+	}
+	sort.Slice(taskgroupOrdered[:], func(i, j int) bool {
+		taskgroupi := taskgroupOrdered[i]
+		taskgroupj := taskgroupOrdered[j]
+		taskgroupi_order, oki := stage.TaskGroup_stagedOrder[taskgroupi]
+		taskgroupj_order, okj := stage.TaskGroup_stagedOrder[taskgroupj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return taskgroupi_order < taskgroupj_order
+	})
+	if len(taskgroupOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, taskgroup := range taskgroupOrdered {
+
+		identifiersDecl.WriteString(taskgroup.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(taskgroup.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(taskgroup.GongMarshallField(stage, "Tasks"))
+	}
+
 	taskinputshapeOrdered := []*TaskInputShape{}
 	for taskinputshape := range stage.TaskInputShapes {
 		taskinputshapeOrdered = append(taskinputshapeOrdered, taskinputshape)
@@ -1059,6 +1114,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, taskgroup := range taskgroupOrdered {
+		_ = taskgroup
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, taskinputshape := range taskinputshapeOrdered {
 		_ = taskinputshape
 		var setPointerField string
@@ -1195,6 +1258,11 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWBSNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsWBSNodeExpanded))
+	case "IsTaskGroupsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsTaskGroupsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsTaskGroupsNodeExpanded))
 	case "DateFormat":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -1210,6 +1278,131 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsResourcesNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsResourcesNodeExpanded))
+	case "IsTimeDiagram":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsTimeDiagram")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsTimeDiagram))
+	case "ComputedStart":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedStart")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.ComputedStart.String())
+	case "ComputedEnd":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedEnd")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.ComputedEnd.String())
+	case "ComputedDuration":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedDuration")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", diagram.ComputedDuration))
+	case "UseManualStartAndEndDates":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "UseManualStartAndEndDates")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.UseManualStartAndEndDates))
+	case "ManualStart":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ManualStart")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.ManualStart.String())
+	case "ManualEnd":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ManualEnd")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.ManualEnd.String())
+	case "LaneHeight":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LaneHeight")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.LaneHeight))
+	case "RatioBarToLaneHeight":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RatioBarToLaneHeight")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.RatioBarToLaneHeight))
+	case "YTopMargin":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "YTopMargin")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.YTopMargin))
+	case "XLeftText":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XLeftText")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.XLeftText))
+	case "TextHeight":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextHeight")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.TextHeight))
+	case "XLeftLanes":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XLeftLanes")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.XLeftLanes))
+	case "XRightMargin":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XRightMargin")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.XRightMargin))
+	case "ArrowLengthToTheRightOfStartBar":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ArrowLengthToTheRightOfStartBar")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.ArrowLengthToTheRightOfStartBar))
+	case "ArrowTipLenght":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ArrowTipLenght")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.ArrowTipLenght))
+	case "TimeLine_Color":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_Color")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.TimeLine_Color))
+	case "TimeLine_FillOpacity":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_FillOpacity")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.TimeLine_FillOpacity))
+	case "TimeLine_Stroke":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_Stroke")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.TimeLine_Stroke))
+	case "TimeLine_StrokeWidth":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_StrokeWidth")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.TimeLine_StrokeWidth))
+	case "Group_Stroke":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_Stroke")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.Group_Stroke))
+	case "Group_StrokeWidth":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_StrokeWidth")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.Group_StrokeWidth))
+	case "Group_StrokeDashArray":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_StrokeDashArray")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.Group_StrokeDashArray))
+	case "DateYOffset":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DateYOffset")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.DateYOffset))
+	case "AlignOnStartEndOnYearStart":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AlignOnStartEndOnYearStart")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.AlignOnStartEndOnYearStart))
 
 	case "Product_Shapes":
 		var sb strings.Builder
@@ -1278,6 +1471,26 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TasksWhoseOutputNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "TaskGroups":
+		var sb strings.Builder
+		for _, _taskgroup := range diagram.TaskGroups {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskGroups")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskgroup.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "TaskGroupsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _taskgroup := range diagram.TaskGroupsWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskGroupsWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskgroup.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -2518,6 +2731,31 @@ func (taskcompositionshape *TaskCompositionShape) GongMarshallField(stage *Stage
 	return
 }
 
+func (taskgroup *TaskGroup) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", taskgroup.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(taskgroup.Name))
+
+	case "Tasks":
+		var sb strings.Builder
+		for _, _task := range taskgroup.Tasks {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", taskgroup.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Tasks")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct TaskGroup", fieldName)
+	}
+	return
+}
+
 func (taskinputshape *TaskInputShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -2774,6 +3012,9 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseInputNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseOutputNodeIsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsTaskGroupsNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroups"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupsWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DateFormat"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskComposition_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskInputShapes"))
@@ -2789,6 +3030,31 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsResourcesNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourceComposition_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourceTaskShapes"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsTimeDiagram"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedStart"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedEnd"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedDuration"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "UseManualStartAndEndDates"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualStart"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualEnd"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "LaneHeight"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "RatioBarToLaneHeight"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "YTopMargin"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XLeftText"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TextHeight"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XLeftLanes"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XRightMargin"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ArrowLengthToTheRightOfStartBar"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ArrowTipLenght"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_Color"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_FillOpacity"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_Stroke"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_StrokeWidth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_Stroke"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeWidth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeDashArray"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DateYOffset"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "AlignOnStartEndOnYearStart"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3065,6 +3331,18 @@ func (taskcompositionshape *TaskCompositionShape) GongMarshallAllFields(stage *S
 		initializerStatements.WriteString(taskcompositionshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(taskcompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(taskcompositionshape.GongMarshallField(stage, "IsHidden"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (taskgroup *TaskGroup) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(taskgroup.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(taskgroup.GongMarshallField(stage, "Tasks"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
