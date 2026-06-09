@@ -240,6 +240,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 				}
 			}
 			note_.Frequencies = instanceSlice
+			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Frequencies", &note_.Frequencies)
 
 		case "Start":
 			FormDivBasicFieldToField(&(note_.Start), formDiv)

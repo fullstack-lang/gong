@@ -242,6 +242,7 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 				}
 			}
 			formdiv_.FormFields = instanceSlice
+			formdivFormCallback.probe.UpdateSliceOfPointersCallback(formdiv_, "FormFields", &formdiv_.FormFields)
 
 		case "CheckBoxs":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.CheckBox](formdivFormCallback.probe.stageOfInterest)
@@ -273,6 +274,7 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 				}
 			}
 			formdiv_.CheckBoxs = instanceSlice
+			formdivFormCallback.probe.UpdateSliceOfPointersCallback(formdiv_, "CheckBoxs", &formdiv_.CheckBoxs)
 
 		case "FormEditAssocButton":
 			FormDivSelectFieldToField(&(formdiv_.FormEditAssocButton), formdivFormCallback.probe.stageOfInterest, formDiv)
@@ -1054,6 +1056,7 @@ func (formfieldselectFormCallback *FormFieldSelectFormCallback) OnSave() {
 				}
 			}
 			formfieldselect_.Options = instanceSlice
+			formfieldselectFormCallback.probe.UpdateSliceOfPointersCallback(formfieldselect_, "Options", &formfieldselect_.Options)
 
 		case "CanBeEmpty":
 			FormDivBasicFieldToField(&(formfieldselect_.CanBeEmpty), formDiv)
@@ -1333,6 +1336,7 @@ func (formgroupFormCallback *FormGroupFormCallback) OnSave() {
 				}
 			}
 			formgroup_.FormDivs = instanceSlice
+			formgroupFormCallback.probe.UpdateSliceOfPointersCallback(formgroup_, "FormDivs", &formgroup_.FormDivs)
 
 		case "HasSuppressButton":
 			FormDivBasicFieldToField(&(formgroup_.HasSuppressButton), formDiv)

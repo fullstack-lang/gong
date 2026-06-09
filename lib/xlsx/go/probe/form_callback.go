@@ -394,6 +394,7 @@ func (xlfileFormCallback *XLFileFormCallback) OnSave() {
 				}
 			}
 			xlfile_.Sheets = instanceSlice
+			xlfileFormCallback.probe.UpdateSliceOfPointersCallback(xlfile_, "Sheets", &xlfile_.Sheets)
 
 		}
 	}
@@ -505,6 +506,7 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 				}
 			}
 			xlrow_.Cells = instanceSlice
+			xlrowFormCallback.probe.UpdateSliceOfPointersCallback(xlrow_, "Cells", &xlrow_.Cells)
 
 		case "XLSheet:Rows":
 			// WARNING : this form deals with the N-N association "XLSheet.Rows []*XLRow" but
@@ -686,6 +688,7 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 				}
 			}
 			xlsheet_.Rows = instanceSlice
+			xlsheetFormCallback.probe.UpdateSliceOfPointersCallback(xlsheet_, "Rows", &xlsheet_.Rows)
 
 		case "SheetCells":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.XLCell](xlsheetFormCallback.probe.stageOfInterest)
@@ -717,6 +720,7 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 				}
 			}
 			xlsheet_.SheetCells = instanceSlice
+			xlsheetFormCallback.probe.UpdateSliceOfPointersCallback(xlsheet_, "SheetCells", &xlsheet_.SheetCells)
 
 		case "XLFile:Sheets":
 			// WARNING : this form deals with the N-N association "XLFile.Sheets []*XLSheet" but

@@ -98,6 +98,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 				}
 			}
 			astruct_.Anarrayofb = instanceSlice
+			astructFormCallback.probe.UpdateSliceOfPointersCallback(astruct_, "Anarrayofb", &astruct_.Anarrayofb)
 
 		case "Anotherassociationtob_2":
 			FormDivSelectFieldToField(&(astruct_.Anotherassociationtob_2), astructFormCallback.probe.stageOfInterest, formDiv)
@@ -161,6 +162,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 				}
 			}
 			astruct_.Dstruct4s = instanceSlice
+			astructFormCallback.probe.UpdateSliceOfPointersCallback(astruct_, "Dstruct4s", &astruct_.Dstruct4s)
 
 		case "Floatfield":
 			FormDivBasicFieldToField(&(astruct_.Floatfield), formDiv)
@@ -200,6 +202,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 				}
 			}
 			astruct_.Anarrayofa = instanceSlice
+			astructFormCallback.probe.UpdateSliceOfPointersCallback(astruct_, "Anarrayofa", &astruct_.Anarrayofa)
 
 		case "Anotherarrayofb":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bstruct](astructFormCallback.probe.stageOfInterest)
@@ -231,6 +234,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 				}
 			}
 			astruct_.Anotherarrayofb = instanceSlice
+			astructFormCallback.probe.UpdateSliceOfPointersCallback(astruct_, "Anotherarrayofb", &astruct_.Anotherarrayofb)
 
 		case "AnarrayofbUse":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AstructBstructUse](astructFormCallback.probe.stageOfInterest)
@@ -262,6 +266,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 				}
 			}
 			astruct_.AnarrayofbUse = instanceSlice
+			astructFormCallback.probe.UpdateSliceOfPointersCallback(astruct_, "AnarrayofbUse", &astruct_.AnarrayofbUse)
 
 		case "Anarrayofb2Use":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AstructBstruct2Use](astructFormCallback.probe.stageOfInterest)
@@ -293,6 +298,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 				}
 			}
 			astruct_.Anarrayofb2Use = instanceSlice
+			astructFormCallback.probe.UpdateSliceOfPointersCallback(astruct_, "Anarrayofb2Use", &astruct_.Anarrayofb2Use)
 
 		case "AnAstruct":
 			FormDivSelectFieldToField(&(astruct_.AnAstruct), astructFormCallback.probe.stageOfInterest, formDiv)
@@ -1048,6 +1054,7 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 				}
 			}
 			dstruct_.Anarrayofb = instanceSlice
+			dstructFormCallback.probe.UpdateSliceOfPointersCallback(dstruct_, "Anarrayofb", &dstruct_.Anarrayofb)
 
 		case "Gstruct":
 			FormDivSelectFieldToField(&(dstruct_.Gstruct), dstructFormCallback.probe.stageOfInterest, formDiv)
@@ -1081,6 +1088,7 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 				}
 			}
 			dstruct_.Gstructs = instanceSlice
+			dstructFormCallback.probe.UpdateSliceOfPointersCallback(dstruct_, "Gstructs", &dstruct_.Gstructs)
 
 		case "Astruct:Dstruct4s":
 			// WARNING : this form deals with the N-N association "Astruct.Dstruct4s []*Dstruct" but

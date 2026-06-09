@@ -318,6 +318,7 @@ func (menuFormCallback *MenuFormCallback) OnSave() {
 				}
 			}
 			menu_.Buttons = instanceSlice
+			menuFormCallback.probe.UpdateSliceOfPointersCallback(menu_, "Buttons", &menu_.Buttons)
 
 		}
 	}
@@ -479,6 +480,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 				}
 			}
 			node_.Children = instanceSlice
+			nodeFormCallback.probe.UpdateSliceOfPointersCallback(node_, "Children", &node_.Children)
 
 		case "Buttons":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Button](nodeFormCallback.probe.stageOfInterest)
@@ -510,6 +512,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 				}
 			}
 			node_.Buttons = instanceSlice
+			nodeFormCallback.probe.UpdateSliceOfPointersCallback(node_, "Buttons", &node_.Buttons)
 
 		case "Menu":
 			FormDivSelectFieldToField(&(node_.Menu), nodeFormCallback.probe.stageOfInterest, formDiv)
@@ -833,6 +836,7 @@ func (treeFormCallback *TreeFormCallback) OnSave() {
 				}
 			}
 			tree_.RootNodes = instanceSlice
+			treeFormCallback.probe.UpdateSliceOfPointersCallback(tree_, "RootNodes", &tree_.RootNodes)
 
 		}
 	}
