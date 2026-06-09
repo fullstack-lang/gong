@@ -250,6 +250,7 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 				}
 			}
 			classdiagram_.GongStructShapes = instanceSlice
+			classdiagramFormCallback.probe.UpdateSliceOfPointersCallback(classdiagram_, "GongStructShapes", &classdiagram_.GongStructShapes)
 
 		case "GongEnumShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongEnumShape](classdiagramFormCallback.probe.stageOfInterest)
@@ -281,6 +282,7 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 				}
 			}
 			classdiagram_.GongEnumShapes = instanceSlice
+			classdiagramFormCallback.probe.UpdateSliceOfPointersCallback(classdiagram_, "GongEnumShapes", &classdiagram_.GongEnumShapes)
 
 		case "GongNoteShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongNoteShape](classdiagramFormCallback.probe.stageOfInterest)
@@ -312,6 +314,7 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 				}
 			}
 			classdiagram_.GongNoteShapes = instanceSlice
+			classdiagramFormCallback.probe.UpdateSliceOfPointersCallback(classdiagram_, "GongNoteShapes", &classdiagram_.GongNoteShapes)
 
 		case "ShowNbInstances":
 			FormDivBasicFieldToField(&(classdiagram_.ShowNbInstances), formDiv)
@@ -513,6 +516,7 @@ func (diagrampackageFormCallback *DiagramPackageFormCallback) OnSave() {
 				}
 			}
 			diagrampackage_.Classdiagrams = instanceSlice
+			diagrampackageFormCallback.probe.UpdateSliceOfPointersCallback(diagrampackage_, "Classdiagrams", &diagrampackage_.Classdiagrams)
 
 		case "SelectedClassdiagram":
 			FormDivSelectFieldToField(&(diagrampackage_.SelectedClassdiagram), diagrampackageFormCallback.probe.stageOfInterest, formDiv)
@@ -630,6 +634,7 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 				}
 			}
 			gongenumshape_.GongEnumValueShapes = instanceSlice
+			gongenumshapeFormCallback.probe.UpdateSliceOfPointersCallback(gongenumshape_, "GongEnumValueShapes", &gongenumshape_.GongEnumValueShapes)
 
 		case "Width":
 			FormDivBasicFieldToField(&(gongenumshape_.Width), formDiv)
@@ -1119,6 +1124,7 @@ func (gongnoteshapeFormCallback *GongNoteShapeFormCallback) OnSave() {
 				}
 			}
 			gongnoteshape_.GongNoteLinkShapes = instanceSlice
+			gongnoteshapeFormCallback.probe.UpdateSliceOfPointersCallback(gongnoteshape_, "GongNoteLinkShapes", &gongnoteshape_.GongNoteLinkShapes)
 
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(gongnoteshape_.IsExpanded), formDiv)
@@ -1300,6 +1306,7 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 				}
 			}
 			gongstructshape_.AttributeShapes = instanceSlice
+			gongstructshapeFormCallback.probe.UpdateSliceOfPointersCallback(gongstructshape_, "AttributeShapes", &gongstructshape_.AttributeShapes)
 
 		case "LinkShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkShape](gongstructshapeFormCallback.probe.stageOfInterest)
@@ -1331,6 +1338,7 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 				}
 			}
 			gongstructshape_.LinkShapes = instanceSlice
+			gongstructshapeFormCallback.probe.UpdateSliceOfPointersCallback(gongstructshape_, "LinkShapes", &gongstructshape_.LinkShapes)
 
 		case "Width":
 			FormDivBasicFieldToField(&(gongstructshape_.Width), formDiv)

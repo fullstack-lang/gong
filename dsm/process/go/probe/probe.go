@@ -62,6 +62,19 @@ type Probe struct {
 
 	// bulkDeleteMode is used to control if the bulk delete button has been clicked.
 	bulkDeleteMode bool
+
+	// updateSliceOfPointersCallback is called after a SliceOfPointers field is updated in the probe
+	updateSliceOfPointersCallback func(instance any, fieldName string, slicePtr any)
+}
+
+func (probe *Probe) UpdateSliceOfPointersCallback(instance any, fieldName string, slicePtr any) {
+	if probe.updateSliceOfPointersCallback != nil {
+		probe.updateSliceOfPointersCallback(instance, fieldName, slicePtr)
+	}
+}
+
+func (probe *Probe) SetUpdateSliceOfPointersCallback(cb func(instance any, fieldName string, slicePtr any)) {
+	probe.updateSliceOfPointersCallback = cb
 }
 
 func (probe *Probe) SetCommitMode(commitMode bool) {

@@ -98,6 +98,7 @@ func (assplitFormCallback *AsSplitFormCallback) OnSave() {
 				}
 			}
 			assplit_.AsSplitAreas = instanceSlice
+			assplitFormCallback.probe.UpdateSliceOfPointersCallback(assplit_, "AsSplitAreas", &assplit_.AsSplitAreas)
 
 		case "IsSizeInPixel":
 			FormDivBasicFieldToField(&(assplit_.IsSizeInPixel), formDiv)
@@ -1671,6 +1672,7 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 				}
 			}
 			view_.RootAsSplitAreas = instanceSlice
+			viewFormCallback.probe.UpdateSliceOfPointersCallback(view_, "RootAsSplitAreas", &view_.RootAsSplitAreas)
 
 		case "IsSelectedView":
 			FormDivBasicFieldToField(&(view_.IsSelectedView), formDiv)

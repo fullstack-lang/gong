@@ -824,6 +824,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 				}
 			}
 			diagram_.MovementShapes = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "MovementShapes", &diagram_.MovementShapes)
 
 		case "ArtefactTypeShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ArtefactTypeShape](diagramFormCallback.probe.stageOfInterest)
@@ -855,6 +856,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 				}
 			}
 			diagram_.ArtefactTypeShapes = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ArtefactTypeShapes", &diagram_.ArtefactTypeShapes)
 
 		case "ArtistShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ArtistShape](diagramFormCallback.probe.stageOfInterest)
@@ -886,6 +888,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 				}
 			}
 			diagram_.ArtistShapes = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ArtistShapes", &diagram_.ArtistShapes)
 
 		case "InfluenceShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.InfluenceShape](diagramFormCallback.probe.stageOfInterest)
@@ -917,6 +920,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 				}
 			}
 			diagram_.InfluenceShapes = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "InfluenceShapes", &diagram_.InfluenceShapes)
 
 		case "IsEditable":
 			FormDivBasicFieldToField(&(diagram_.IsEditable), formDiv)
@@ -1292,6 +1296,7 @@ func (influenceshapeFormCallback *InfluenceShapeFormCallback) OnSave() {
 				}
 			}
 			influenceshape_.ControlPointShapes = instanceSlice
+			influenceshapeFormCallback.probe.UpdateSliceOfPointersCallback(influenceshape_, "ControlPointShapes", &influenceshape_.ControlPointShapes)
 
 		case "Diagram:InfluenceShapes":
 			// WARNING : this form deals with the N-N association "Diagram.InfluenceShapes []*InfluenceShape" but
@@ -1473,6 +1478,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.SubLibraries = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "SubLibraries", &library_.SubLibraries)
 
 		case "IsSubLibrariesNodeExpanded":
 			FormDivBasicFieldToField(&(library_.IsSubLibrariesNodeExpanded), formDiv)
@@ -1506,6 +1512,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.SubLibrariesWhoseNodeIsExpanded = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "SubLibrariesWhoseNodeIsExpanded", &library_.SubLibrariesWhoseNodeIsExpanded)
 
 		case "NbPixPerCharacter":
 			FormDivBasicFieldToField(&(library_.NbPixPerCharacter), formDiv)
@@ -1759,6 +1766,7 @@ func (movementFormCallback *MovementFormCallback) OnSave() {
 				}
 			}
 			movement_.Places = instanceSlice
+			movementFormCallback.probe.UpdateSliceOfPointersCallback(movement_, "Places", &movement_.Places)
 
 		case "HasTaxonomicFilter":
 			FormDivBasicFieldToField(&(movement_.HasTaxonomicFilter), formDiv)

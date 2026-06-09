@@ -182,6 +182,7 @@ map[FormCallbackSubTemplateId]string{
 				}
 			}
 			{{structname}}_.{{FieldName}} = instanceSlice
+			{{structname}}FormCallback.probe.UpdateSliceOfPointersCallback({{structname}}_, "{{FieldName}}", &{{structname}}_.{{FieldName}})
 `,
 	FormCallbackSubTmplSliceOfPointersReversePointer: `
 		case "{{AssocStructName}}:{{FieldName}}":

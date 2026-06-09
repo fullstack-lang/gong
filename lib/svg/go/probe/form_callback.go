@@ -868,6 +868,7 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 				}
 			}
 			circle_.Animations = instanceSlice
+			circleFormCallback.probe.UpdateSliceOfPointersCallback(circle_, "Animations", &circle_.Animations)
 
 		case "Layer:Circles":
 			// WARNING : this form deals with the N-N association "Layer.Circles []*Circle" but
@@ -1427,6 +1428,7 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 				}
 			}
 			ellipse_.Animates = instanceSlice
+			ellipseFormCallback.probe.UpdateSliceOfPointersCallback(ellipse_, "Animates", &ellipse_.Animates)
 
 		case "Layer:Ellipses":
 			// WARNING : this form deals with the N-N association "Layer.Ellipses []*Ellipse" but
@@ -1682,6 +1684,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 				}
 			}
 			layer_.Rects = instanceSlice
+			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Rects", &layer_.Rects)
 
 		case "Texts":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Text](layerFormCallback.probe.stageOfInterest)
@@ -1713,6 +1716,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 				}
 			}
 			layer_.Texts = instanceSlice
+			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Texts", &layer_.Texts)
 
 		case "Circles":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Circle](layerFormCallback.probe.stageOfInterest)
@@ -1744,6 +1748,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 				}
 			}
 			layer_.Circles = instanceSlice
+			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Circles", &layer_.Circles)
 
 		case "Lines":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Line](layerFormCallback.probe.stageOfInterest)
@@ -1775,6 +1780,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 				}
 			}
 			layer_.Lines = instanceSlice
+			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Lines", &layer_.Lines)
 
 		case "Ellipses":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Ellipse](layerFormCallback.probe.stageOfInterest)
@@ -1806,6 +1812,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 				}
 			}
 			layer_.Ellipses = instanceSlice
+			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Ellipses", &layer_.Ellipses)
 
 		case "Polylines":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Polyline](layerFormCallback.probe.stageOfInterest)
@@ -1837,6 +1844,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 				}
 			}
 			layer_.Polylines = instanceSlice
+			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Polylines", &layer_.Polylines)
 
 		case "Polygones":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Polygone](layerFormCallback.probe.stageOfInterest)
@@ -1868,6 +1876,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 				}
 			}
 			layer_.Polygones = instanceSlice
+			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Polygones", &layer_.Polygones)
 
 		case "Paths":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Path](layerFormCallback.probe.stageOfInterest)
@@ -1899,6 +1908,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 				}
 			}
 			layer_.Paths = instanceSlice
+			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Paths", &layer_.Paths)
 
 		case "Links":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Link](layerFormCallback.probe.stageOfInterest)
@@ -1930,6 +1940,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 				}
 			}
 			layer_.Links = instanceSlice
+			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "Links", &layer_.Links)
 
 		case "RectLinkLinks":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectLinkLink](layerFormCallback.probe.stageOfInterest)
@@ -1961,6 +1972,7 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 				}
 			}
 			layer_.RectLinkLinks = instanceSlice
+			layerFormCallback.probe.UpdateSliceOfPointersCallback(layer_, "RectLinkLinks", &layer_.RectLinkLinks)
 
 		case "SVG:Layers":
 			// WARNING : this form deals with the N-N association "SVG.Layers []*Layer" but
@@ -2160,6 +2172,7 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 				}
 			}
 			line_.Animates = instanceSlice
+			lineFormCallback.probe.UpdateSliceOfPointersCallback(line_, "Animates", &line_.Animates)
 
 		case "MouseClickX":
 			FormDivBasicFieldToField(&(line_.MouseClickX), formDiv)
@@ -2375,6 +2388,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 				}
 			}
 			link_.TextAtArrowStart = instanceSlice
+			linkFormCallback.probe.UpdateSliceOfPointersCallback(link_, "TextAtArrowStart", &link_.TextAtArrowStart)
 
 		case "TextAtArrowEnd":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredText](linkFormCallback.probe.stageOfInterest)
@@ -2406,6 +2420,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 				}
 			}
 			link_.TextAtArrowEnd = instanceSlice
+			linkFormCallback.probe.UpdateSliceOfPointersCallback(link_, "TextAtArrowEnd", &link_.TextAtArrowEnd)
 
 		case "TextAtCorner":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredText](linkFormCallback.probe.stageOfInterest)
@@ -2437,6 +2452,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 				}
 			}
 			link_.TextAtCorner = instanceSlice
+			linkFormCallback.probe.UpdateSliceOfPointersCallback(link_, "TextAtCorner", &link_.TextAtCorner)
 
 		case "PathAtArrowStart":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredPath](linkFormCallback.probe.stageOfInterest)
@@ -2468,6 +2484,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 				}
 			}
 			link_.PathAtArrowStart = instanceSlice
+			linkFormCallback.probe.UpdateSliceOfPointersCallback(link_, "PathAtArrowStart", &link_.PathAtArrowStart)
 
 		case "PathAtArrowEnd":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredPath](linkFormCallback.probe.stageOfInterest)
@@ -2499,6 +2516,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 				}
 			}
 			link_.PathAtArrowEnd = instanceSlice
+			linkFormCallback.probe.UpdateSliceOfPointersCallback(link_, "PathAtArrowEnd", &link_.PathAtArrowEnd)
 
 		case "PathAtCorner":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LinkAnchoredPath](linkFormCallback.probe.stageOfInterest)
@@ -2530,6 +2548,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 				}
 			}
 			link_.PathAtCorner = instanceSlice
+			linkFormCallback.probe.UpdateSliceOfPointersCallback(link_, "PathAtCorner", &link_.PathAtCorner)
 
 		case "ControlPoints":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPoint](linkFormCallback.probe.stageOfInterest)
@@ -2561,6 +2580,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 				}
 			}
 			link_.ControlPoints = instanceSlice
+			linkFormCallback.probe.UpdateSliceOfPointersCallback(link_, "ControlPoints", &link_.ControlPoints)
 
 		case "Color":
 			FormDivBasicFieldToField(&(link_.Color), formDiv)
@@ -3098,6 +3118,7 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 				}
 			}
 			linkanchoredtext_.Animates = instanceSlice
+			linkanchoredtextFormCallback.probe.UpdateSliceOfPointersCallback(linkanchoredtext_, "Animates", &linkanchoredtext_.Animates)
 
 		case "Link:TextAtArrowStart":
 			// WARNING : this form deals with the N-N association "Link.TextAtArrowStart []*LinkAnchoredText" but
@@ -3423,6 +3444,7 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 				}
 			}
 			path_.Animates = instanceSlice
+			pathFormCallback.probe.UpdateSliceOfPointersCallback(path_, "Animates", &path_.Animates)
 
 		case "Layer:Paths":
 			// WARNING : this form deals with the N-N association "Layer.Paths []*Path" but
@@ -3698,6 +3720,7 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 				}
 			}
 			polygone_.Animates = instanceSlice
+			polygoneFormCallback.probe.UpdateSliceOfPointersCallback(polygone_, "Animates", &polygone_.Animates)
 
 		case "Layer:Polygones":
 			// WARNING : this form deals with the N-N association "Layer.Polygones []*Polygone" but
@@ -3891,6 +3914,7 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 				}
 			}
 			polyline_.Animates = instanceSlice
+			polylineFormCallback.probe.UpdateSliceOfPointersCallback(polyline_, "Animates", &polyline_.Animates)
 
 		case "Layer:Polylines":
 			// WARNING : this form deals with the N-N association "Layer.Polylines []*Polyline" but
@@ -4076,6 +4100,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 				}
 			}
 			rect_.Peers = instanceSlice
+			rectFormCallback.probe.UpdateSliceOfPointersCallback(rect_, "Peers", &rect_.Peers)
 
 		case "EnclosingRect":
 			FormDivSelectFieldToField(&(rect_.EnclosingRect), rectFormCallback.probe.stageOfInterest, formDiv)
@@ -4109,6 +4134,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 				}
 			}
 			rect_.Obstacles = instanceSlice
+			rectFormCallback.probe.UpdateSliceOfPointersCallback(rect_, "Obstacles", &rect_.Obstacles)
 
 		case "Color":
 			FormDivBasicFieldToField(&(rect_.Color), formDiv)
@@ -4156,6 +4182,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 				}
 			}
 			rect_.HoveringTrigger = instanceSlice
+			rectFormCallback.probe.UpdateSliceOfPointersCallback(rect_, "HoveringTrigger", &rect_.HoveringTrigger)
 
 		case "DisplayConditions":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](rectFormCallback.probe.stageOfInterest)
@@ -4187,6 +4214,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 				}
 			}
 			rect_.DisplayConditions = instanceSlice
+			rectFormCallback.probe.UpdateSliceOfPointersCallback(rect_, "DisplayConditions", &rect_.DisplayConditions)
 
 		case "Animations":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](rectFormCallback.probe.stageOfInterest)
@@ -4218,6 +4246,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 				}
 			}
 			rect_.Animations = instanceSlice
+			rectFormCallback.probe.UpdateSliceOfPointersCallback(rect_, "Animations", &rect_.Animations)
 
 		case "IsSelectable":
 			FormDivBasicFieldToField(&(rect_.IsSelectable), formDiv)
@@ -4275,6 +4304,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 				}
 			}
 			rect_.RectAnchoredTexts = instanceSlice
+			rectFormCallback.probe.UpdateSliceOfPointersCallback(rect_, "RectAnchoredTexts", &rect_.RectAnchoredTexts)
 
 		case "RectAnchoredRects":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredRect](rectFormCallback.probe.stageOfInterest)
@@ -4306,6 +4336,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 				}
 			}
 			rect_.RectAnchoredRects = instanceSlice
+			rectFormCallback.probe.UpdateSliceOfPointersCallback(rect_, "RectAnchoredRects", &rect_.RectAnchoredRects)
 
 		case "RectAnchoredPaths":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredPath](rectFormCallback.probe.stageOfInterest)
@@ -4337,6 +4368,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 				}
 			}
 			rect_.RectAnchoredPaths = instanceSlice
+			rectFormCallback.probe.UpdateSliceOfPointersCallback(rect_, "RectAnchoredPaths", &rect_.RectAnchoredPaths)
 
 		case "RectAnchoredPngImages":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RectAnchoredPngImage](rectFormCallback.probe.stageOfInterest)
@@ -4368,6 +4400,7 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 				}
 			}
 			rect_.RectAnchoredPngImages = instanceSlice
+			rectFormCallback.probe.UpdateSliceOfPointersCallback(rect_, "RectAnchoredPngImages", &rect_.RectAnchoredPngImages)
 
 		case "ChangeColorWhenHovered":
 			FormDivBasicFieldToField(&(rect_.ChangeColorWhenHovered), formDiv)
@@ -5261,6 +5294,7 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 				}
 			}
 			rectanchoredtext_.Animates = instanceSlice
+			rectanchoredtextFormCallback.probe.UpdateSliceOfPointersCallback(rectanchoredtext_, "Animates", &rectanchoredtext_.Animates)
 
 		case "URLPath":
 			FormDivBasicFieldToField(&(rectanchoredtext_.URLPath), formDiv)
@@ -5606,6 +5640,7 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 				}
 			}
 			svg_.Layers = instanceSlice
+			svgFormCallback.probe.UpdateSliceOfPointersCallback(svg_, "Layers", &svg_.Layers)
 
 		case "DrawingState":
 			FormDivEnumStringFieldToField(&(svg_.DrawingState), formDiv)
@@ -5853,6 +5888,7 @@ func (textFormCallback *TextFormCallback) OnSave() {
 				}
 			}
 			text_.Animates = instanceSlice
+			textFormCallback.probe.UpdateSliceOfPointersCallback(text_, "Animates", &text_.Animates)
 
 		case "Layer:Texts":
 			// WARNING : this form deals with the N-N association "Layer.Texts []*Text" but
