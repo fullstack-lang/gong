@@ -100,6 +100,7 @@ func (aFormCallback *AFormCallback) OnSave() {
 				}
 			}
 			a_.Bs = instanceSlice
+			aFormCallback.probe.UpdateSliceOfPointersCallback(a_, "Bs", &a_.Bs)
 
 		}
 	}

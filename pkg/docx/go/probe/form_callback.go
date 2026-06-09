@@ -96,6 +96,7 @@ func (bodyFormCallback *BodyFormCallback) OnSave() {
 				}
 			}
 			body_.Paragraphs = instanceSlice
+			bodyFormCallback.probe.UpdateSliceOfPointersCallback(body_, "Paragraphs", &body_.Paragraphs)
 
 		case "Tables":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Table](bodyFormCallback.probe.stageOfInterest)
@@ -127,6 +128,7 @@ func (bodyFormCallback *BodyFormCallback) OnSave() {
 				}
 			}
 			body_.Tables = instanceSlice
+			bodyFormCallback.probe.UpdateSliceOfPointersCallback(body_, "Tables", &body_.Tables)
 
 		case "LastParagraph":
 			FormDivSelectFieldToField(&(body_.LastParagraph), bodyFormCallback.probe.stageOfInterest, formDiv)
@@ -322,6 +324,7 @@ func (docxFormCallback *DocxFormCallback) OnSave() {
 				}
 			}
 			docx_.Files = instanceSlice
+			docxFormCallback.probe.UpdateSliceOfPointersCallback(docx_, "Files", &docx_.Files)
 
 		case "Document":
 			FormDivSelectFieldToField(&(docx_.Document), docxFormCallback.probe.stageOfInterest, formDiv)
@@ -577,6 +580,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 				}
 			}
 			node_.Nodes = instanceSlice
+			nodeFormCallback.probe.UpdateSliceOfPointersCallback(node_, "Nodes", &node_.Nodes)
 
 		case "Node:Nodes":
 			// WARNING : this form deals with the N-N association "Node.Nodes []*Node" but
@@ -758,6 +762,7 @@ func (paragraphFormCallback *ParagraphFormCallback) OnSave() {
 				}
 			}
 			paragraph_.Runes = instanceSlice
+			paragraphFormCallback.probe.UpdateSliceOfPointersCallback(paragraph_, "Runes", &paragraph_.Runes)
 
 		case "CollatedText":
 			FormDivBasicFieldToField(&(paragraph_.CollatedText), formDiv)
@@ -1425,6 +1430,7 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 				}
 			}
 			table_.TableRows = instanceSlice
+			tableFormCallback.probe.UpdateSliceOfPointersCallback(table_, "TableRows", &table_.TableRows)
 
 		case "Body:Tables":
 			// WARNING : this form deals with the N-N association "Body.Tables []*Table" but
@@ -1604,6 +1610,7 @@ func (tablecolumnFormCallback *TableColumnFormCallback) OnSave() {
 				}
 			}
 			tablecolumn_.Paragraphs = instanceSlice
+			tablecolumnFormCallback.probe.UpdateSliceOfPointersCallback(tablecolumn_, "Paragraphs", &tablecolumn_.Paragraphs)
 
 		case "TableRow:TableColumns":
 			// WARNING : this form deals with the N-N association "TableRow.TableColumns []*TableColumn" but
@@ -1867,6 +1874,7 @@ func (tablerowFormCallback *TableRowFormCallback) OnSave() {
 				}
 			}
 			tablerow_.TableColumns = instanceSlice
+			tablerowFormCallback.probe.UpdateSliceOfPointersCallback(tablerow_, "TableColumns", &tablerow_.TableColumns)
 
 		case "Table:TableRows":
 			// WARNING : this form deals with the N-N association "Table.TableRows []*TableRow" but
