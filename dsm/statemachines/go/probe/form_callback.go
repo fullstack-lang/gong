@@ -322,6 +322,7 @@ func (architectureFormCallback *ArchitectureFormCallback) OnSave() {
 				}
 			}
 			architecture_.StateMachines = instanceSlice
+			architectureFormCallback.probe.UpdateSliceOfPointersCallback(architecture_, "StateMachines", &architecture_.StateMachines)
 
 		case "Roles":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Role](architectureFormCallback.probe.stageOfInterest)
@@ -353,6 +354,7 @@ func (architectureFormCallback *ArchitectureFormCallback) OnSave() {
 				}
 			}
 			architecture_.Roles = instanceSlice
+			architectureFormCallback.probe.UpdateSliceOfPointersCallback(architecture_, "Roles", &architecture_.Roles)
 
 		case "NbPixPerCharacter":
 			FormDivBasicFieldToField(&(architecture_.NbPixPerCharacter), formDiv)
@@ -470,6 +472,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 				}
 			}
 			diagram_.State_Shapes = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "State_Shapes", &diagram_.State_Shapes)
 
 		case "StatesWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.State](diagramFormCallback.probe.stageOfInterest)
@@ -501,6 +504,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 				}
 			}
 			diagram_.StatesWhoseNodeIsExpanded = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "StatesWhoseNodeIsExpanded", &diagram_.StatesWhoseNodeIsExpanded)
 
 		case "Transition_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Transition_Shape](diagramFormCallback.probe.stageOfInterest)
@@ -532,6 +536,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 				}
 			}
 			diagram_.Transition_Shapes = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "Transition_Shapes", &diagram_.Transition_Shapes)
 
 		case "Library:Diagrams":
 			// WARNING : this form deals with the N-N association "Library.Diagrams []*Diagram" but
@@ -1061,6 +1066,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.SubLibraries = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "SubLibraries", &library_.SubLibraries)
 
 		case "NbPixPerCharacter":
 			FormDivBasicFieldToField(&(library_.NbPixPerCharacter), formDiv)
@@ -1100,6 +1106,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.Diagrams = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "Diagrams", &library_.Diagrams)
 
 		case "Library:SubLibraries":
 			// WARNING : this form deals with the N-N association "Library.SubLibraries []*Library" but
@@ -1579,6 +1586,7 @@ func (objectFormCallback *ObjectFormCallback) OnSave() {
 				}
 			}
 			object_.Messages = instanceSlice
+			objectFormCallback.probe.UpdateSliceOfPointersCallback(object_, "Messages", &object_.Messages)
 
 		}
 	}
@@ -1690,6 +1698,7 @@ func (roleFormCallback *RoleFormCallback) OnSave() {
 				}
 			}
 			role_.RolesWithSamePermissions = instanceSlice
+			roleFormCallback.probe.UpdateSliceOfPointersCallback(role_, "RolesWithSamePermissions", &role_.RolesWithSamePermissions)
 
 		case "Architecture:Roles":
 			// WARNING : this form deals with the N-N association "Architecture.Roles []*Role" but
@@ -2005,6 +2014,7 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 				}
 			}
 			state_.SubStates = instanceSlice
+			stateFormCallback.probe.UpdateSliceOfPointersCallback(state_, "SubStates", &state_.SubStates)
 
 		case "Diagrams":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](stateFormCallback.probe.stageOfInterest)
@@ -2036,6 +2046,7 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 				}
 			}
 			state_.Diagrams = instanceSlice
+			stateFormCallback.probe.UpdateSliceOfPointersCallback(state_, "Diagrams", &state_.Diagrams)
 
 		case "Entry":
 			FormDivSelectFieldToField(&(state_.Entry), stateFormCallback.probe.stageOfInterest, formDiv)
@@ -2069,6 +2080,7 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 				}
 			}
 			state_.Activities = instanceSlice
+			stateFormCallback.probe.UpdateSliceOfPointersCallback(state_, "Activities", &state_.Activities)
 
 		case "Exit":
 			FormDivSelectFieldToField(&(state_.Exit), stateFormCallback.probe.stageOfInterest, formDiv)
@@ -2380,6 +2392,7 @@ func (statemachineFormCallback *StateMachineFormCallback) OnSave() {
 				}
 			}
 			statemachine_.States = instanceSlice
+			statemachineFormCallback.probe.UpdateSliceOfPointersCallback(statemachine_, "States", &statemachine_.States)
 
 		case "Diagrams":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](statemachineFormCallback.probe.stageOfInterest)
@@ -2411,6 +2424,7 @@ func (statemachineFormCallback *StateMachineFormCallback) OnSave() {
 				}
 			}
 			statemachine_.Diagrams = instanceSlice
+			statemachineFormCallback.probe.UpdateSliceOfPointersCallback(statemachine_, "Diagrams", &statemachine_.Diagrams)
 
 		case "InitialState":
 			FormDivSelectFieldToField(&(statemachine_.InitialState), statemachineFormCallback.probe.stageOfInterest, formDiv)
@@ -2748,6 +2762,7 @@ func (transitionFormCallback *TransitionFormCallback) OnSave() {
 				}
 			}
 			transition_.RolesWithPermissions = instanceSlice
+			transitionFormCallback.probe.UpdateSliceOfPointersCallback(transition_, "RolesWithPermissions", &transition_.RolesWithPermissions)
 
 		case "GeneratedMessages":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.MessageType](transitionFormCallback.probe.stageOfInterest)
@@ -2779,6 +2794,7 @@ func (transitionFormCallback *TransitionFormCallback) OnSave() {
 				}
 			}
 			transition_.GeneratedMessages = instanceSlice
+			transitionFormCallback.probe.UpdateSliceOfPointersCallback(transition_, "GeneratedMessages", &transition_.GeneratedMessages)
 
 		case "Guard":
 			FormDivSelectFieldToField(&(transition_.Guard), transitionFormCallback.probe.stageOfInterest, formDiv)
@@ -2812,6 +2828,7 @@ func (transitionFormCallback *TransitionFormCallback) OnSave() {
 				}
 			}
 			transition_.Diagrams = instanceSlice
+			transitionFormCallback.probe.UpdateSliceOfPointersCallback(transition_, "Diagrams", &transition_.Diagrams)
 
 		}
 	}

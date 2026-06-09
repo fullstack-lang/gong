@@ -274,6 +274,7 @@ func (a_measureFormCallback *A_measureFormCallback) OnSave() {
 				}
 			}
 			a_measure_.Note = instanceSlice
+			a_measureFormCallback.probe.UpdateSliceOfPointersCallback(a_measure_, "Note", &a_measure_.Note)
 
 		case "Backup":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Backup](a_measureFormCallback.probe.stageOfInterest)
@@ -305,6 +306,7 @@ func (a_measureFormCallback *A_measureFormCallback) OnSave() {
 				}
 			}
 			a_measure_.Backup = instanceSlice
+			a_measureFormCallback.probe.UpdateSliceOfPointersCallback(a_measure_, "Backup", &a_measure_.Backup)
 
 		case "Forward":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Forward](a_measureFormCallback.probe.stageOfInterest)
@@ -336,6 +338,7 @@ func (a_measureFormCallback *A_measureFormCallback) OnSave() {
 				}
 			}
 			a_measure_.Forward = instanceSlice
+			a_measureFormCallback.probe.UpdateSliceOfPointersCallback(a_measure_, "Forward", &a_measure_.Forward)
 
 		case "Direction":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Direction](a_measureFormCallback.probe.stageOfInterest)
@@ -367,6 +370,7 @@ func (a_measureFormCallback *A_measureFormCallback) OnSave() {
 				}
 			}
 			a_measure_.Direction = instanceSlice
+			a_measureFormCallback.probe.UpdateSliceOfPointersCallback(a_measure_, "Direction", &a_measure_.Direction)
 
 		case "Attributes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Attributes](a_measureFormCallback.probe.stageOfInterest)
@@ -398,6 +402,7 @@ func (a_measureFormCallback *A_measureFormCallback) OnSave() {
 				}
 			}
 			a_measure_.Attributes = instanceSlice
+			a_measureFormCallback.probe.UpdateSliceOfPointersCallback(a_measure_, "Attributes", &a_measure_.Attributes)
 
 		case "Harmony":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Harmony](a_measureFormCallback.probe.stageOfInterest)
@@ -429,6 +434,7 @@ func (a_measureFormCallback *A_measureFormCallback) OnSave() {
 				}
 			}
 			a_measure_.Harmony = instanceSlice
+			a_measureFormCallback.probe.UpdateSliceOfPointersCallback(a_measure_, "Harmony", &a_measure_.Harmony)
 
 		case "Figured_bass":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Figured_bass](a_measureFormCallback.probe.stageOfInterest)
@@ -460,6 +466,7 @@ func (a_measureFormCallback *A_measureFormCallback) OnSave() {
 				}
 			}
 			a_measure_.Figured_bass = instanceSlice
+			a_measureFormCallback.probe.UpdateSliceOfPointersCallback(a_measure_, "Figured_bass", &a_measure_.Figured_bass)
 
 		case "Print":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Print](a_measureFormCallback.probe.stageOfInterest)
@@ -491,6 +498,7 @@ func (a_measureFormCallback *A_measureFormCallback) OnSave() {
 				}
 			}
 			a_measure_.Print = instanceSlice
+			a_measureFormCallback.probe.UpdateSliceOfPointersCallback(a_measure_, "Print", &a_measure_.Print)
 
 		case "Sound":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Sound](a_measureFormCallback.probe.stageOfInterest)
@@ -522,6 +530,7 @@ func (a_measureFormCallback *A_measureFormCallback) OnSave() {
 				}
 			}
 			a_measure_.Sound = instanceSlice
+			a_measureFormCallback.probe.UpdateSliceOfPointersCallback(a_measure_, "Sound", &a_measure_.Sound)
 
 		case "Listening":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Listening](a_measureFormCallback.probe.stageOfInterest)
@@ -553,6 +562,7 @@ func (a_measureFormCallback *A_measureFormCallback) OnSave() {
 				}
 			}
 			a_measure_.Listening = instanceSlice
+			a_measureFormCallback.probe.UpdateSliceOfPointersCallback(a_measure_, "Listening", &a_measure_.Listening)
 
 		case "Barline":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Barline](a_measureFormCallback.probe.stageOfInterest)
@@ -584,6 +594,7 @@ func (a_measureFormCallback *A_measureFormCallback) OnSave() {
 				}
 			}
 			a_measure_.Barline = instanceSlice
+			a_measureFormCallback.probe.UpdateSliceOfPointersCallback(a_measure_, "Barline", &a_measure_.Barline)
 
 		case "Grouping":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Grouping](a_measureFormCallback.probe.stageOfInterest)
@@ -615,6 +626,7 @@ func (a_measureFormCallback *A_measureFormCallback) OnSave() {
 				}
 			}
 			a_measure_.Grouping = instanceSlice
+			a_measureFormCallback.probe.UpdateSliceOfPointersCallback(a_measure_, "Grouping", &a_measure_.Grouping)
 
 		case "Link":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Link](a_measureFormCallback.probe.stageOfInterest)
@@ -646,6 +658,7 @@ func (a_measureFormCallback *A_measureFormCallback) OnSave() {
 				}
 			}
 			a_measure_.Link = instanceSlice
+			a_measureFormCallback.probe.UpdateSliceOfPointersCallback(a_measure_, "Link", &a_measure_.Link)
 
 		case "Bookmark":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bookmark](a_measureFormCallback.probe.stageOfInterest)
@@ -677,6 +690,7 @@ func (a_measureFormCallback *A_measureFormCallback) OnSave() {
 				}
 			}
 			a_measure_.Bookmark = instanceSlice
+			a_measureFormCallback.probe.UpdateSliceOfPointersCallback(a_measure_, "Bookmark", &a_measure_.Bookmark)
 
 		case "A_part:Measure":
 			// WARNING : this form deals with the N-N association "A_part.Measure []*A_measure" but
@@ -864,6 +878,7 @@ func (a_measure_1FormCallback *A_measure_1FormCallback) OnSave() {
 				}
 			}
 			a_measure_1_.Part = instanceSlice
+			a_measure_1FormCallback.probe.UpdateSliceOfPointersCallback(a_measure_1_, "Part", &a_measure_1_.Part)
 
 		case "Score_timewise:Measure":
 			// WARNING : this form deals with the N-N association "Score_timewise.Measure []*A_measure_1" but
@@ -1041,6 +1056,7 @@ func (a_partFormCallback *A_partFormCallback) OnSave() {
 				}
 			}
 			a_part_.Measure = instanceSlice
+			a_partFormCallback.probe.UpdateSliceOfPointersCallback(a_part_, "Measure", &a_part_.Measure)
 
 		case "Score_partwise:Part":
 			// WARNING : this form deals with the N-N association "Score_partwise.Part []*A_part" but
@@ -1218,6 +1234,7 @@ func (a_part_1FormCallback *A_part_1FormCallback) OnSave() {
 				}
 			}
 			a_part_1_.Note = instanceSlice
+			a_part_1FormCallback.probe.UpdateSliceOfPointersCallback(a_part_1_, "Note", &a_part_1_.Note)
 
 		case "Backup":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Backup](a_part_1FormCallback.probe.stageOfInterest)
@@ -1249,6 +1266,7 @@ func (a_part_1FormCallback *A_part_1FormCallback) OnSave() {
 				}
 			}
 			a_part_1_.Backup = instanceSlice
+			a_part_1FormCallback.probe.UpdateSliceOfPointersCallback(a_part_1_, "Backup", &a_part_1_.Backup)
 
 		case "Forward":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Forward](a_part_1FormCallback.probe.stageOfInterest)
@@ -1280,6 +1298,7 @@ func (a_part_1FormCallback *A_part_1FormCallback) OnSave() {
 				}
 			}
 			a_part_1_.Forward = instanceSlice
+			a_part_1FormCallback.probe.UpdateSliceOfPointersCallback(a_part_1_, "Forward", &a_part_1_.Forward)
 
 		case "Direction":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Direction](a_part_1FormCallback.probe.stageOfInterest)
@@ -1311,6 +1330,7 @@ func (a_part_1FormCallback *A_part_1FormCallback) OnSave() {
 				}
 			}
 			a_part_1_.Direction = instanceSlice
+			a_part_1FormCallback.probe.UpdateSliceOfPointersCallback(a_part_1_, "Direction", &a_part_1_.Direction)
 
 		case "Attributes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Attributes](a_part_1FormCallback.probe.stageOfInterest)
@@ -1342,6 +1362,7 @@ func (a_part_1FormCallback *A_part_1FormCallback) OnSave() {
 				}
 			}
 			a_part_1_.Attributes = instanceSlice
+			a_part_1FormCallback.probe.UpdateSliceOfPointersCallback(a_part_1_, "Attributes", &a_part_1_.Attributes)
 
 		case "Harmony":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Harmony](a_part_1FormCallback.probe.stageOfInterest)
@@ -1373,6 +1394,7 @@ func (a_part_1FormCallback *A_part_1FormCallback) OnSave() {
 				}
 			}
 			a_part_1_.Harmony = instanceSlice
+			a_part_1FormCallback.probe.UpdateSliceOfPointersCallback(a_part_1_, "Harmony", &a_part_1_.Harmony)
 
 		case "Figured_bass":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Figured_bass](a_part_1FormCallback.probe.stageOfInterest)
@@ -1404,6 +1426,7 @@ func (a_part_1FormCallback *A_part_1FormCallback) OnSave() {
 				}
 			}
 			a_part_1_.Figured_bass = instanceSlice
+			a_part_1FormCallback.probe.UpdateSliceOfPointersCallback(a_part_1_, "Figured_bass", &a_part_1_.Figured_bass)
 
 		case "Print":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Print](a_part_1FormCallback.probe.stageOfInterest)
@@ -1435,6 +1458,7 @@ func (a_part_1FormCallback *A_part_1FormCallback) OnSave() {
 				}
 			}
 			a_part_1_.Print = instanceSlice
+			a_part_1FormCallback.probe.UpdateSliceOfPointersCallback(a_part_1_, "Print", &a_part_1_.Print)
 
 		case "Sound":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Sound](a_part_1FormCallback.probe.stageOfInterest)
@@ -1466,6 +1490,7 @@ func (a_part_1FormCallback *A_part_1FormCallback) OnSave() {
 				}
 			}
 			a_part_1_.Sound = instanceSlice
+			a_part_1FormCallback.probe.UpdateSliceOfPointersCallback(a_part_1_, "Sound", &a_part_1_.Sound)
 
 		case "Listening":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Listening](a_part_1FormCallback.probe.stageOfInterest)
@@ -1497,6 +1522,7 @@ func (a_part_1FormCallback *A_part_1FormCallback) OnSave() {
 				}
 			}
 			a_part_1_.Listening = instanceSlice
+			a_part_1FormCallback.probe.UpdateSliceOfPointersCallback(a_part_1_, "Listening", &a_part_1_.Listening)
 
 		case "Barline":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Barline](a_part_1FormCallback.probe.stageOfInterest)
@@ -1528,6 +1554,7 @@ func (a_part_1FormCallback *A_part_1FormCallback) OnSave() {
 				}
 			}
 			a_part_1_.Barline = instanceSlice
+			a_part_1FormCallback.probe.UpdateSliceOfPointersCallback(a_part_1_, "Barline", &a_part_1_.Barline)
 
 		case "Grouping":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Grouping](a_part_1FormCallback.probe.stageOfInterest)
@@ -1559,6 +1586,7 @@ func (a_part_1FormCallback *A_part_1FormCallback) OnSave() {
 				}
 			}
 			a_part_1_.Grouping = instanceSlice
+			a_part_1FormCallback.probe.UpdateSliceOfPointersCallback(a_part_1_, "Grouping", &a_part_1_.Grouping)
 
 		case "Link":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Link](a_part_1FormCallback.probe.stageOfInterest)
@@ -1590,6 +1618,7 @@ func (a_part_1FormCallback *A_part_1FormCallback) OnSave() {
 				}
 			}
 			a_part_1_.Link = instanceSlice
+			a_part_1FormCallback.probe.UpdateSliceOfPointersCallback(a_part_1_, "Link", &a_part_1_.Link)
 
 		case "Bookmark":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bookmark](a_part_1FormCallback.probe.stageOfInterest)
@@ -1621,6 +1650,7 @@ func (a_part_1FormCallback *A_part_1FormCallback) OnSave() {
 				}
 			}
 			a_part_1_.Bookmark = instanceSlice
+			a_part_1FormCallback.probe.UpdateSliceOfPointersCallback(a_part_1_, "Bookmark", &a_part_1_.Bookmark)
 
 		case "A_measure_1:Part":
 			// WARNING : this form deals with the N-N association "A_measure_1.Part []*A_part_1" but
@@ -2666,6 +2696,7 @@ func (appearanceFormCallback *AppearanceFormCallback) OnSave() {
 				}
 			}
 			appearance_.Line_width = instanceSlice
+			appearanceFormCallback.probe.UpdateSliceOfPointersCallback(appearance_, "Line_width", &appearance_.Line_width)
 
 		case "Note_size":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Note_size](appearanceFormCallback.probe.stageOfInterest)
@@ -2697,6 +2728,7 @@ func (appearanceFormCallback *AppearanceFormCallback) OnSave() {
 				}
 			}
 			appearance_.Note_size = instanceSlice
+			appearanceFormCallback.probe.UpdateSliceOfPointersCallback(appearance_, "Note_size", &appearance_.Note_size)
 
 		case "Distance":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Distance](appearanceFormCallback.probe.stageOfInterest)
@@ -2728,6 +2760,7 @@ func (appearanceFormCallback *AppearanceFormCallback) OnSave() {
 				}
 			}
 			appearance_.Distance = instanceSlice
+			appearanceFormCallback.probe.UpdateSliceOfPointersCallback(appearance_, "Distance", &appearance_.Distance)
 
 		case "Glyph":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Glyph](appearanceFormCallback.probe.stageOfInterest)
@@ -2759,6 +2792,7 @@ func (appearanceFormCallback *AppearanceFormCallback) OnSave() {
 				}
 			}
 			appearance_.Glyph = instanceSlice
+			appearanceFormCallback.probe.UpdateSliceOfPointersCallback(appearance_, "Glyph", &appearance_.Glyph)
 
 		case "Other_appearance":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Other_appearance](appearanceFormCallback.probe.stageOfInterest)
@@ -2790,6 +2824,7 @@ func (appearanceFormCallback *AppearanceFormCallback) OnSave() {
 				}
 			}
 			appearance_.Other_appearance = instanceSlice
+			appearanceFormCallback.probe.UpdateSliceOfPointersCallback(appearance_, "Other_appearance", &appearance_.Other_appearance)
 
 		}
 	}
@@ -3239,6 +3274,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Accent = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Accent", &articulations_.Accent)
 
 		case "Strong_accent":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Strong_accent](articulationsFormCallback.probe.stageOfInterest)
@@ -3270,6 +3306,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Strong_accent = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Strong_accent", &articulations_.Strong_accent)
 
 		case "Staccato":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](articulationsFormCallback.probe.stageOfInterest)
@@ -3301,6 +3338,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Staccato = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Staccato", &articulations_.Staccato)
 
 		case "Tenuto":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](articulationsFormCallback.probe.stageOfInterest)
@@ -3332,6 +3370,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Tenuto = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Tenuto", &articulations_.Tenuto)
 
 		case "Detached_legato":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](articulationsFormCallback.probe.stageOfInterest)
@@ -3363,6 +3402,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Detached_legato = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Detached_legato", &articulations_.Detached_legato)
 
 		case "Staccatissimo":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](articulationsFormCallback.probe.stageOfInterest)
@@ -3394,6 +3434,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Staccatissimo = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Staccatissimo", &articulations_.Staccatissimo)
 
 		case "Spiccato":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](articulationsFormCallback.probe.stageOfInterest)
@@ -3425,6 +3466,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Spiccato = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Spiccato", &articulations_.Spiccato)
 
 		case "Scoop":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_line](articulationsFormCallback.probe.stageOfInterest)
@@ -3456,6 +3498,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Scoop = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Scoop", &articulations_.Scoop)
 
 		case "Plop":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_line](articulationsFormCallback.probe.stageOfInterest)
@@ -3487,6 +3530,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Plop = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Plop", &articulations_.Plop)
 
 		case "Doit":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_line](articulationsFormCallback.probe.stageOfInterest)
@@ -3518,6 +3562,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Doit = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Doit", &articulations_.Doit)
 
 		case "Falloff":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_line](articulationsFormCallback.probe.stageOfInterest)
@@ -3549,6 +3594,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Falloff = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Falloff", &articulations_.Falloff)
 
 		case "Breath_mark":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Breath_mark](articulationsFormCallback.probe.stageOfInterest)
@@ -3580,6 +3626,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Breath_mark = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Breath_mark", &articulations_.Breath_mark)
 
 		case "Caesura":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Caesura](articulationsFormCallback.probe.stageOfInterest)
@@ -3611,6 +3658,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Caesura = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Caesura", &articulations_.Caesura)
 
 		case "Stress":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](articulationsFormCallback.probe.stageOfInterest)
@@ -3642,6 +3690,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Stress = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Stress", &articulations_.Stress)
 
 		case "Unstress":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](articulationsFormCallback.probe.stageOfInterest)
@@ -3673,6 +3722,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Unstress = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Unstress", &articulations_.Unstress)
 
 		case "Soft_accent":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](articulationsFormCallback.probe.stageOfInterest)
@@ -3704,6 +3754,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Soft_accent = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Soft_accent", &articulations_.Soft_accent)
 
 		case "Other_articulation":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Other_placement_text](articulationsFormCallback.probe.stageOfInterest)
@@ -3735,6 +3786,7 @@ func (articulationsFormCallback *ArticulationsFormCallback) OnSave() {
 				}
 			}
 			articulations_.Other_articulation = instanceSlice
+			articulationsFormCallback.probe.UpdateSliceOfPointersCallback(articulations_, "Other_articulation", &articulations_.Other_articulation)
 
 		case "Notations:Articulations":
 			// WARNING : this form deals with the N-N association "Notations.Articulations []*Articulations" but
@@ -4066,6 +4118,7 @@ func (attributesFormCallback *AttributesFormCallback) OnSave() {
 				}
 			}
 			attributes_.Key = instanceSlice
+			attributesFormCallback.probe.UpdateSliceOfPointersCallback(attributes_, "Key", &attributes_.Key)
 
 		case "Time":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Time](attributesFormCallback.probe.stageOfInterest)
@@ -4097,6 +4150,7 @@ func (attributesFormCallback *AttributesFormCallback) OnSave() {
 				}
 			}
 			attributes_.Time = instanceSlice
+			attributesFormCallback.probe.UpdateSliceOfPointersCallback(attributes_, "Time", &attributes_.Time)
 
 		case "Staves":
 			FormDivBasicFieldToField(&(attributes_.Staves), formDiv)
@@ -4134,6 +4188,7 @@ func (attributesFormCallback *AttributesFormCallback) OnSave() {
 				}
 			}
 			attributes_.Clef = instanceSlice
+			attributesFormCallback.probe.UpdateSliceOfPointersCallback(attributes_, "Clef", &attributes_.Clef)
 
 		case "Staff_details":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Staff_details](attributesFormCallback.probe.stageOfInterest)
@@ -4165,6 +4220,7 @@ func (attributesFormCallback *AttributesFormCallback) OnSave() {
 				}
 			}
 			attributes_.Staff_details = instanceSlice
+			attributesFormCallback.probe.UpdateSliceOfPointersCallback(attributes_, "Staff_details", &attributes_.Staff_details)
 
 		case "Transpose":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Transpose](attributesFormCallback.probe.stageOfInterest)
@@ -4196,6 +4252,7 @@ func (attributesFormCallback *AttributesFormCallback) OnSave() {
 				}
 			}
 			attributes_.Transpose = instanceSlice
+			attributesFormCallback.probe.UpdateSliceOfPointersCallback(attributes_, "Transpose", &attributes_.Transpose)
 
 		case "For_part":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.For_part](attributesFormCallback.probe.stageOfInterest)
@@ -4227,6 +4284,7 @@ func (attributesFormCallback *AttributesFormCallback) OnSave() {
 				}
 			}
 			attributes_.For_part = instanceSlice
+			attributesFormCallback.probe.UpdateSliceOfPointersCallback(attributes_, "For_part", &attributes_.For_part)
 
 		case "Directive":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.A_directive](attributesFormCallback.probe.stageOfInterest)
@@ -4258,6 +4316,7 @@ func (attributesFormCallback *AttributesFormCallback) OnSave() {
 				}
 			}
 			attributes_.Directive = instanceSlice
+			attributesFormCallback.probe.UpdateSliceOfPointersCallback(attributes_, "Directive", &attributes_.Directive)
 
 		case "Measure_style":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Measure_style](attributesFormCallback.probe.stageOfInterest)
@@ -4289,6 +4348,7 @@ func (attributesFormCallback *AttributesFormCallback) OnSave() {
 				}
 			}
 			attributes_.Measure_style = instanceSlice
+			attributesFormCallback.probe.UpdateSliceOfPointersCallback(attributes_, "Measure_style", &attributes_.Measure_style)
 
 		case "A_measure:Attributes":
 			// WARNING : this form deals with the N-N association "A_measure.Attributes []*Attributes" but
@@ -7084,6 +7144,7 @@ func (creditFormCallback *CreditFormCallback) OnSave() {
 				}
 			}
 			credit_.Link = instanceSlice
+			creditFormCallback.probe.UpdateSliceOfPointersCallback(credit_, "Link", &credit_.Link)
 
 		case "Bookmark":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bookmark](creditFormCallback.probe.stageOfInterest)
@@ -7115,6 +7176,7 @@ func (creditFormCallback *CreditFormCallback) OnSave() {
 				}
 			}
 			credit_.Bookmark = instanceSlice
+			creditFormCallback.probe.UpdateSliceOfPointersCallback(credit_, "Bookmark", &credit_.Bookmark)
 
 		case "Credit_words":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Formatted_text_id](creditFormCallback.probe.stageOfInterest)
@@ -7146,6 +7208,7 @@ func (creditFormCallback *CreditFormCallback) OnSave() {
 				}
 			}
 			credit_.Credit_words = instanceSlice
+			creditFormCallback.probe.UpdateSliceOfPointersCallback(credit_, "Credit_words", &credit_.Credit_words)
 
 		case "Credit_symbol":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Formatted_symbol_id](creditFormCallback.probe.stageOfInterest)
@@ -7177,6 +7240,7 @@ func (creditFormCallback *CreditFormCallback) OnSave() {
 				}
 			}
 			credit_.Credit_symbol = instanceSlice
+			creditFormCallback.probe.UpdateSliceOfPointersCallback(credit_, "Credit_symbol", &credit_.Credit_symbol)
 
 		case "Score_partwise:Credit":
 			// WARNING : this form deals with the N-N association "Score_partwise.Credit []*Credit" but
@@ -7524,6 +7588,7 @@ func (defaultsFormCallback *DefaultsFormCallback) OnSave() {
 				}
 			}
 			defaults_.Staff_layout = instanceSlice
+			defaultsFormCallback.probe.UpdateSliceOfPointersCallback(defaults_, "Staff_layout", &defaults_.Staff_layout)
 
 		case "Appearance":
 			FormDivSelectFieldToField(&(defaults_.Appearance), defaultsFormCallback.probe.stageOfInterest, formDiv)
@@ -7561,6 +7626,7 @@ func (defaultsFormCallback *DefaultsFormCallback) OnSave() {
 				}
 			}
 			defaults_.Lyric_font = instanceSlice
+			defaultsFormCallback.probe.UpdateSliceOfPointersCallback(defaults_, "Lyric_font", &defaults_.Lyric_font)
 
 		case "Lyric_language":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Lyric_language](defaultsFormCallback.probe.stageOfInterest)
@@ -7592,6 +7658,7 @@ func (defaultsFormCallback *DefaultsFormCallback) OnSave() {
 				}
 			}
 			defaults_.Lyric_language = instanceSlice
+			defaultsFormCallback.probe.UpdateSliceOfPointersCallback(defaults_, "Lyric_language", &defaults_.Lyric_language)
 
 		}
 	}
@@ -8163,6 +8230,7 @@ func (directionFormCallback *DirectionFormCallback) OnSave() {
 				}
 			}
 			direction_.Direction_type = instanceSlice
+			directionFormCallback.probe.UpdateSliceOfPointersCallback(direction_, "Direction_type", &direction_.Direction_type)
 
 		case "Offset":
 			FormDivSelectFieldToField(&(direction_.Offset), directionFormCallback.probe.stageOfInterest, formDiv)
@@ -8420,6 +8488,7 @@ func (direction_typeFormCallback *Direction_typeFormCallback) OnSave() {
 				}
 			}
 			direction_type_.Rehearsal = instanceSlice
+			direction_typeFormCallback.probe.UpdateSliceOfPointersCallback(direction_type_, "Rehearsal", &direction_type_.Rehearsal)
 
 		case "Segno":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Segno](direction_typeFormCallback.probe.stageOfInterest)
@@ -8451,6 +8520,7 @@ func (direction_typeFormCallback *Direction_typeFormCallback) OnSave() {
 				}
 			}
 			direction_type_.Segno = instanceSlice
+			direction_typeFormCallback.probe.UpdateSliceOfPointersCallback(direction_type_, "Segno", &direction_type_.Segno)
 
 		case "Coda":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Coda](direction_typeFormCallback.probe.stageOfInterest)
@@ -8482,6 +8552,7 @@ func (direction_typeFormCallback *Direction_typeFormCallback) OnSave() {
 				}
 			}
 			direction_type_.Coda = instanceSlice
+			direction_typeFormCallback.probe.UpdateSliceOfPointersCallback(direction_type_, "Coda", &direction_type_.Coda)
 
 		case "Words":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Formatted_text_id](direction_typeFormCallback.probe.stageOfInterest)
@@ -8513,6 +8584,7 @@ func (direction_typeFormCallback *Direction_typeFormCallback) OnSave() {
 				}
 			}
 			direction_type_.Words = instanceSlice
+			direction_typeFormCallback.probe.UpdateSliceOfPointersCallback(direction_type_, "Words", &direction_type_.Words)
 
 		case "Symbol":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Formatted_symbol_id](direction_typeFormCallback.probe.stageOfInterest)
@@ -8544,6 +8616,7 @@ func (direction_typeFormCallback *Direction_typeFormCallback) OnSave() {
 				}
 			}
 			direction_type_.Symbol = instanceSlice
+			direction_typeFormCallback.probe.UpdateSliceOfPointersCallback(direction_type_, "Symbol", &direction_type_.Symbol)
 
 		case "Wedge":
 			FormDivSelectFieldToField(&(direction_type_.Wedge), direction_typeFormCallback.probe.stageOfInterest, formDiv)
@@ -8577,6 +8650,7 @@ func (direction_typeFormCallback *Direction_typeFormCallback) OnSave() {
 				}
 			}
 			direction_type_.Dynamics = instanceSlice
+			direction_typeFormCallback.probe.UpdateSliceOfPointersCallback(direction_type_, "Dynamics", &direction_type_.Dynamics)
 
 		case "Dashes":
 			FormDivSelectFieldToField(&(direction_type_.Dashes), direction_typeFormCallback.probe.stageOfInterest, formDiv)
@@ -8634,6 +8708,7 @@ func (direction_typeFormCallback *Direction_typeFormCallback) OnSave() {
 				}
 			}
 			direction_type_.Percussion = instanceSlice
+			direction_typeFormCallback.probe.UpdateSliceOfPointersCallback(direction_type_, "Percussion", &direction_type_.Percussion)
 
 		case "Accordion_registration":
 			FormDivSelectFieldToField(&(direction_type_.Accordion_registration), direction_typeFormCallback.probe.stageOfInterest, formDiv)
@@ -9129,6 +9204,7 @@ func (dynamicsFormCallback *DynamicsFormCallback) OnSave() {
 				}
 			}
 			dynamics_.Other_dynamics = instanceSlice
+			dynamicsFormCallback.probe.UpdateSliceOfPointersCallback(dynamics_, "Other_dynamics", &dynamics_.Other_dynamics)
 
 		case "Direction_type:Dynamics":
 			// WARNING : this form deals with the N-N association "Direction_type.Dynamics []*Dynamics" but
@@ -12902,6 +12978,7 @@ func (encodingFormCallback *EncodingFormCallback) OnSave() {
 				}
 			}
 			encoding_.Encoder = instanceSlice
+			encodingFormCallback.probe.UpdateSliceOfPointersCallback(encoding_, "Encoder", &encoding_.Encoder)
 
 		case "Software":
 			FormDivBasicFieldToField(&(encoding_.Software), formDiv)
@@ -12937,6 +13014,7 @@ func (encodingFormCallback *EncodingFormCallback) OnSave() {
 				}
 			}
 			encoding_.Supports = instanceSlice
+			encodingFormCallback.probe.UpdateSliceOfPointersCallback(encoding_, "Supports", &encoding_.Supports)
 
 		}
 	}
@@ -13756,6 +13834,7 @@ func (figured_bassFormCallback *Figured_bassFormCallback) OnSave() {
 				}
 			}
 			figured_bass_.Figure = instanceSlice
+			figured_bassFormCallback.probe.UpdateSliceOfPointersCallback(figured_bass_, "Figure", &figured_bass_.Figure)
 
 		case "Duration":
 			FormDivBasicFieldToField(&(figured_bass_.Duration), formDiv)
@@ -15611,6 +15690,7 @@ func (frameFormCallback *FrameFormCallback) OnSave() {
 				}
 			}
 			frame_.Frame_note = instanceSlice
+			frameFormCallback.probe.UpdateSliceOfPointersCallback(frame_, "Frame_note", &frame_.Frame_note)
 
 		}
 	}
@@ -16800,6 +16880,7 @@ func (groupingFormCallback *GroupingFormCallback) OnSave() {
 				}
 			}
 			grouping_.Feature = instanceSlice
+			groupingFormCallback.probe.UpdateSliceOfPointersCallback(grouping_, "Feature", &grouping_.Feature)
 
 		case "A_measure:Grouping":
 			// WARNING : this form deals with the N-N association "A_measure.Grouping []*Grouping" but
@@ -17911,6 +17992,7 @@ func (harmonyFormCallback *HarmonyFormCallback) OnSave() {
 				}
 			}
 			harmony_.Degree = instanceSlice
+			harmonyFormCallback.probe.UpdateSliceOfPointersCallback(harmony_, "Degree", &harmony_.Degree)
 
 		case "Frame":
 			FormDivSelectFieldToField(&(harmony_.Frame), harmonyFormCallback.probe.stageOfInterest, formDiv)
@@ -18288,6 +18370,7 @@ func (harp_pedalsFormCallback *Harp_pedalsFormCallback) OnSave() {
 				}
 			}
 			harp_pedals_.Pedal_tuning = instanceSlice
+			harp_pedalsFormCallback.probe.UpdateSliceOfPointersCallback(harp_pedals_, "Pedal_tuning", &harp_pedals_.Pedal_tuning)
 
 		}
 	}
@@ -19237,6 +19320,7 @@ func (identificationFormCallback *IdentificationFormCallback) OnSave() {
 				}
 			}
 			identification_.Creator = instanceSlice
+			identificationFormCallback.probe.UpdateSliceOfPointersCallback(identification_, "Creator", &identification_.Creator)
 
 		case "Rights":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Typed_text](identificationFormCallback.probe.stageOfInterest)
@@ -19268,6 +19352,7 @@ func (identificationFormCallback *IdentificationFormCallback) OnSave() {
 				}
 			}
 			identification_.Rights = instanceSlice
+			identificationFormCallback.probe.UpdateSliceOfPointersCallback(identification_, "Rights", &identification_.Rights)
 
 		case "Encoding":
 			FormDivSelectFieldToField(&(identification_.Encoding), identificationFormCallback.probe.stageOfInterest, formDiv)
@@ -19303,6 +19388,7 @@ func (identificationFormCallback *IdentificationFormCallback) OnSave() {
 				}
 			}
 			identification_.Relation = instanceSlice
+			identificationFormCallback.probe.UpdateSliceOfPointersCallback(identification_, "Relation", &identification_.Relation)
 
 		case "Miscellaneous":
 			FormDivSelectFieldToField(&(identification_.Miscellaneous), identificationFormCallback.probe.stageOfInterest, formDiv)
@@ -20184,6 +20270,7 @@ func (keyFormCallback *KeyFormCallback) OnSave() {
 				}
 			}
 			key_.Key_octave = instanceSlice
+			keyFormCallback.probe.UpdateSliceOfPointersCallback(key_, "Key_octave", &key_.Key_octave)
 
 		case "Attributes:Key":
 			// WARNING : this form deals with the N-N association "Attributes.Key []*Key" but
@@ -21397,6 +21484,7 @@ func (listenFormCallback *ListenFormCallback) OnSave() {
 				}
 			}
 			listen_.Assess = instanceSlice
+			listenFormCallback.probe.UpdateSliceOfPointersCallback(listen_, "Assess", &listen_.Assess)
 
 		case "Wait":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Wait](listenFormCallback.probe.stageOfInterest)
@@ -21428,6 +21516,7 @@ func (listenFormCallback *ListenFormCallback) OnSave() {
 				}
 			}
 			listen_.Wait = instanceSlice
+			listenFormCallback.probe.UpdateSliceOfPointersCallback(listen_, "Wait", &listen_.Wait)
 
 		case "Other_listen":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Other_listening](listenFormCallback.probe.stageOfInterest)
@@ -21459,6 +21548,7 @@ func (listenFormCallback *ListenFormCallback) OnSave() {
 				}
 			}
 			listen_.Other_listen = instanceSlice
+			listenFormCallback.probe.UpdateSliceOfPointersCallback(listen_, "Other_listen", &listen_.Other_listen)
 
 		}
 	}
@@ -21568,6 +21658,7 @@ func (listeningFormCallback *ListeningFormCallback) OnSave() {
 				}
 			}
 			listening_.Sync = instanceSlice
+			listeningFormCallback.probe.UpdateSliceOfPointersCallback(listening_, "Sync", &listening_.Sync)
 
 		case "Other_listening":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Other_listening](listeningFormCallback.probe.stageOfInterest)
@@ -21599,6 +21690,7 @@ func (listeningFormCallback *ListeningFormCallback) OnSave() {
 				}
 			}
 			listening_.Other_listening = instanceSlice
+			listeningFormCallback.probe.UpdateSliceOfPointersCallback(listening_, "Other_listening", &listening_.Other_listening)
 
 		case "Offset":
 			FormDivSelectFieldToField(&(listening_.Offset), listeningFormCallback.probe.stageOfInterest, formDiv)
@@ -21866,6 +21958,7 @@ func (lyricFormCallback *LyricFormCallback) OnSave() {
 				}
 			}
 			lyric_.Elision = instanceSlice
+			lyricFormCallback.probe.UpdateSliceOfPointersCallback(lyric_, "Elision", &lyric_.Elision)
 
 		case "Syllabic":
 			FormDivBasicFieldToField(&(lyric_.Syllabic), formDiv)
@@ -21899,6 +21992,7 @@ func (lyricFormCallback *LyricFormCallback) OnSave() {
 				}
 			}
 			lyric_.Text = instanceSlice
+			lyricFormCallback.probe.UpdateSliceOfPointersCallback(lyric_, "Text", &lyric_.Text)
 
 		case "Extend":
 			FormDivSelectFieldToField(&(lyric_.Extend), lyricFormCallback.probe.stageOfInterest, formDiv)
@@ -23034,6 +23128,7 @@ func (metronomeFormCallback *MetronomeFormCallback) OnSave() {
 				}
 			}
 			metronome_.Beat_unit_tied = instanceSlice
+			metronomeFormCallback.probe.UpdateSliceOfPointersCallback(metronome_, "Beat_unit_tied", &metronome_.Beat_unit_tied)
 
 		case "Metronome_arrows":
 			FormDivBasicFieldToField(&(metronome_.Metronome_arrows), formDiv)
@@ -23069,6 +23164,7 @@ func (metronomeFormCallback *MetronomeFormCallback) OnSave() {
 				}
 			}
 			metronome_.Metronome_note = instanceSlice
+			metronomeFormCallback.probe.UpdateSliceOfPointersCallback(metronome_, "Metronome_note", &metronome_.Metronome_note)
 
 		}
 	}
@@ -23330,6 +23426,7 @@ func (metronome_noteFormCallback *Metronome_noteFormCallback) OnSave() {
 				}
 			}
 			metronome_note_.Metronome_beam = instanceSlice
+			metronome_noteFormCallback.probe.UpdateSliceOfPointersCallback(metronome_note_, "Metronome_beam", &metronome_note_.Metronome_beam)
 
 		case "Metronome_tied":
 			FormDivSelectFieldToField(&(metronome_note_.Metronome_tied), metronome_noteFormCallback.probe.stageOfInterest, formDiv)
@@ -24111,6 +24208,7 @@ func (miscellaneousFormCallback *MiscellaneousFormCallback) OnSave() {
 				}
 			}
 			miscellaneous_.Miscellaneous_field = instanceSlice
+			miscellaneousFormCallback.probe.UpdateSliceOfPointersCallback(miscellaneous_, "Miscellaneous_field", &miscellaneous_.Miscellaneous_field)
 
 		}
 	}
@@ -24662,6 +24760,7 @@ func (name_displayFormCallback *Name_displayFormCallback) OnSave() {
 				}
 			}
 			name_display_.Display_text = instanceSlice
+			name_displayFormCallback.probe.UpdateSliceOfPointersCallback(name_display_, "Display_text", &name_display_.Display_text)
 
 		case "Accidental_text":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Accidental_text](name_displayFormCallback.probe.stageOfInterest)
@@ -24693,6 +24792,7 @@ func (name_displayFormCallback *Name_displayFormCallback) OnSave() {
 				}
 			}
 			name_display_.Accidental_text = instanceSlice
+			name_displayFormCallback.probe.UpdateSliceOfPointersCallback(name_display_, "Accidental_text", &name_display_.Accidental_text)
 
 		}
 	}
@@ -24972,6 +25072,7 @@ func (notationsFormCallback *NotationsFormCallback) OnSave() {
 				}
 			}
 			notations_.Tied = instanceSlice
+			notationsFormCallback.probe.UpdateSliceOfPointersCallback(notations_, "Tied", &notations_.Tied)
 
 		case "Slur":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Slur](notationsFormCallback.probe.stageOfInterest)
@@ -25003,6 +25104,7 @@ func (notationsFormCallback *NotationsFormCallback) OnSave() {
 				}
 			}
 			notations_.Slur = instanceSlice
+			notationsFormCallback.probe.UpdateSliceOfPointersCallback(notations_, "Slur", &notations_.Slur)
 
 		case "Tuplet":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Tuplet](notationsFormCallback.probe.stageOfInterest)
@@ -25034,6 +25136,7 @@ func (notationsFormCallback *NotationsFormCallback) OnSave() {
 				}
 			}
 			notations_.Tuplet = instanceSlice
+			notationsFormCallback.probe.UpdateSliceOfPointersCallback(notations_, "Tuplet", &notations_.Tuplet)
 
 		case "Glissando":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Glissando](notationsFormCallback.probe.stageOfInterest)
@@ -25065,6 +25168,7 @@ func (notationsFormCallback *NotationsFormCallback) OnSave() {
 				}
 			}
 			notations_.Glissando = instanceSlice
+			notationsFormCallback.probe.UpdateSliceOfPointersCallback(notations_, "Glissando", &notations_.Glissando)
 
 		case "Slide":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Slide](notationsFormCallback.probe.stageOfInterest)
@@ -25096,6 +25200,7 @@ func (notationsFormCallback *NotationsFormCallback) OnSave() {
 				}
 			}
 			notations_.Slide = instanceSlice
+			notationsFormCallback.probe.UpdateSliceOfPointersCallback(notations_, "Slide", &notations_.Slide)
 
 		case "Ornaments":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Ornaments](notationsFormCallback.probe.stageOfInterest)
@@ -25127,6 +25232,7 @@ func (notationsFormCallback *NotationsFormCallback) OnSave() {
 				}
 			}
 			notations_.Ornaments = instanceSlice
+			notationsFormCallback.probe.UpdateSliceOfPointersCallback(notations_, "Ornaments", &notations_.Ornaments)
 
 		case "Technical":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Technical](notationsFormCallback.probe.stageOfInterest)
@@ -25158,6 +25264,7 @@ func (notationsFormCallback *NotationsFormCallback) OnSave() {
 				}
 			}
 			notations_.Technical = instanceSlice
+			notationsFormCallback.probe.UpdateSliceOfPointersCallback(notations_, "Technical", &notations_.Technical)
 
 		case "Articulations":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Articulations](notationsFormCallback.probe.stageOfInterest)
@@ -25189,6 +25296,7 @@ func (notationsFormCallback *NotationsFormCallback) OnSave() {
 				}
 			}
 			notations_.Articulations = instanceSlice
+			notationsFormCallback.probe.UpdateSliceOfPointersCallback(notations_, "Articulations", &notations_.Articulations)
 
 		case "Dynamics":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Dynamics](notationsFormCallback.probe.stageOfInterest)
@@ -25220,6 +25328,7 @@ func (notationsFormCallback *NotationsFormCallback) OnSave() {
 				}
 			}
 			notations_.Dynamics = instanceSlice
+			notationsFormCallback.probe.UpdateSliceOfPointersCallback(notations_, "Dynamics", &notations_.Dynamics)
 
 		case "Fermata":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Fermata](notationsFormCallback.probe.stageOfInterest)
@@ -25251,6 +25360,7 @@ func (notationsFormCallback *NotationsFormCallback) OnSave() {
 				}
 			}
 			notations_.Fermata = instanceSlice
+			notationsFormCallback.probe.UpdateSliceOfPointersCallback(notations_, "Fermata", &notations_.Fermata)
 
 		case "Arpeggiate":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Arpeggiate](notationsFormCallback.probe.stageOfInterest)
@@ -25282,6 +25392,7 @@ func (notationsFormCallback *NotationsFormCallback) OnSave() {
 				}
 			}
 			notations_.Arpeggiate = instanceSlice
+			notationsFormCallback.probe.UpdateSliceOfPointersCallback(notations_, "Arpeggiate", &notations_.Arpeggiate)
 
 		case "Non_arpeggiate":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Non_arpeggiate](notationsFormCallback.probe.stageOfInterest)
@@ -25313,6 +25424,7 @@ func (notationsFormCallback *NotationsFormCallback) OnSave() {
 				}
 			}
 			notations_.Non_arpeggiate = instanceSlice
+			notationsFormCallback.probe.UpdateSliceOfPointersCallback(notations_, "Non_arpeggiate", &notations_.Non_arpeggiate)
 
 		case "Accidental_mark":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Accidental_mark](notationsFormCallback.probe.stageOfInterest)
@@ -25344,6 +25456,7 @@ func (notationsFormCallback *NotationsFormCallback) OnSave() {
 				}
 			}
 			notations_.Accidental_mark = instanceSlice
+			notationsFormCallback.probe.UpdateSliceOfPointersCallback(notations_, "Accidental_mark", &notations_.Accidental_mark)
 
 		case "Other_notation":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Other_notation](notationsFormCallback.probe.stageOfInterest)
@@ -25375,6 +25488,7 @@ func (notationsFormCallback *NotationsFormCallback) OnSave() {
 				}
 			}
 			notations_.Other_notation = instanceSlice
+			notationsFormCallback.probe.UpdateSliceOfPointersCallback(notations_, "Other_notation", &notations_.Other_notation)
 
 		case "Note:Notations":
 			// WARNING : this form deals with the N-N association "Note.Notations []*Notations" but
@@ -25608,6 +25722,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 				}
 			}
 			note_.Instrument = instanceSlice
+			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Instrument", &note_.Instrument)
 
 		case "Footnote":
 			FormDivSelectFieldToField(&(note_.Footnote), noteFormCallback.probe.stageOfInterest, formDiv)
@@ -25647,6 +25762,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 				}
 			}
 			note_.Dot = instanceSlice
+			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Dot", &note_.Dot)
 
 		case "Accidental":
 			FormDivSelectFieldToField(&(note_.Accidental), noteFormCallback.probe.stageOfInterest, formDiv)
@@ -25692,6 +25808,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 				}
 			}
 			note_.Notations = instanceSlice
+			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Notations", &note_.Notations)
 
 		case "Lyric":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Lyric](noteFormCallback.probe.stageOfInterest)
@@ -25723,6 +25840,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 				}
 			}
 			note_.Lyric = instanceSlice
+			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Lyric", &note_.Lyric)
 
 		case "Play":
 			FormDivSelectFieldToField(&(note_.Play), noteFormCallback.probe.stageOfInterest, formDiv)
@@ -26294,6 +26412,7 @@ func (notehead_textFormCallback *Notehead_textFormCallback) OnSave() {
 				}
 			}
 			notehead_text_.Display_text = instanceSlice
+			notehead_textFormCallback.probe.UpdateSliceOfPointersCallback(notehead_text_, "Display_text", &notehead_text_.Display_text)
 
 		case "Accidental_text":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Accidental_text](notehead_textFormCallback.probe.stageOfInterest)
@@ -26325,6 +26444,7 @@ func (notehead_textFormCallback *Notehead_textFormCallback) OnSave() {
 				}
 			}
 			notehead_text_.Accidental_text = instanceSlice
+			notehead_textFormCallback.probe.UpdateSliceOfPointersCallback(notehead_text_, "Accidental_text", &notehead_text_.Accidental_text)
 
 		}
 	}
@@ -26984,6 +27104,7 @@ func (ornamentsFormCallback *OrnamentsFormCallback) OnSave() {
 				}
 			}
 			ornaments_.Trill_mark = instanceSlice
+			ornamentsFormCallback.probe.UpdateSliceOfPointersCallback(ornaments_, "Trill_mark", &ornaments_.Trill_mark)
 
 		case "Turn":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Horizontal_turn](ornamentsFormCallback.probe.stageOfInterest)
@@ -27015,6 +27136,7 @@ func (ornamentsFormCallback *OrnamentsFormCallback) OnSave() {
 				}
 			}
 			ornaments_.Turn = instanceSlice
+			ornamentsFormCallback.probe.UpdateSliceOfPointersCallback(ornaments_, "Turn", &ornaments_.Turn)
 
 		case "Delayed_turn":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Horizontal_turn](ornamentsFormCallback.probe.stageOfInterest)
@@ -27046,6 +27168,7 @@ func (ornamentsFormCallback *OrnamentsFormCallback) OnSave() {
 				}
 			}
 			ornaments_.Delayed_turn = instanceSlice
+			ornamentsFormCallback.probe.UpdateSliceOfPointersCallback(ornaments_, "Delayed_turn", &ornaments_.Delayed_turn)
 
 		case "Inverted_turn":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Horizontal_turn](ornamentsFormCallback.probe.stageOfInterest)
@@ -27077,6 +27200,7 @@ func (ornamentsFormCallback *OrnamentsFormCallback) OnSave() {
 				}
 			}
 			ornaments_.Inverted_turn = instanceSlice
+			ornamentsFormCallback.probe.UpdateSliceOfPointersCallback(ornaments_, "Inverted_turn", &ornaments_.Inverted_turn)
 
 		case "Delayed_inverted_turn":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Horizontal_turn](ornamentsFormCallback.probe.stageOfInterest)
@@ -27108,6 +27232,7 @@ func (ornamentsFormCallback *OrnamentsFormCallback) OnSave() {
 				}
 			}
 			ornaments_.Delayed_inverted_turn = instanceSlice
+			ornamentsFormCallback.probe.UpdateSliceOfPointersCallback(ornaments_, "Delayed_inverted_turn", &ornaments_.Delayed_inverted_turn)
 
 		case "Vertical_turn":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_trill_sound](ornamentsFormCallback.probe.stageOfInterest)
@@ -27139,6 +27264,7 @@ func (ornamentsFormCallback *OrnamentsFormCallback) OnSave() {
 				}
 			}
 			ornaments_.Vertical_turn = instanceSlice
+			ornamentsFormCallback.probe.UpdateSliceOfPointersCallback(ornaments_, "Vertical_turn", &ornaments_.Vertical_turn)
 
 		case "Inverted_vertical_turn":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_trill_sound](ornamentsFormCallback.probe.stageOfInterest)
@@ -27170,6 +27296,7 @@ func (ornamentsFormCallback *OrnamentsFormCallback) OnSave() {
 				}
 			}
 			ornaments_.Inverted_vertical_turn = instanceSlice
+			ornamentsFormCallback.probe.UpdateSliceOfPointersCallback(ornaments_, "Inverted_vertical_turn", &ornaments_.Inverted_vertical_turn)
 
 		case "Shake":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_trill_sound](ornamentsFormCallback.probe.stageOfInterest)
@@ -27201,6 +27328,7 @@ func (ornamentsFormCallback *OrnamentsFormCallback) OnSave() {
 				}
 			}
 			ornaments_.Shake = instanceSlice
+			ornamentsFormCallback.probe.UpdateSliceOfPointersCallback(ornaments_, "Shake", &ornaments_.Shake)
 
 		case "Wavy_line":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Wavy_line](ornamentsFormCallback.probe.stageOfInterest)
@@ -27232,6 +27360,7 @@ func (ornamentsFormCallback *OrnamentsFormCallback) OnSave() {
 				}
 			}
 			ornaments_.Wavy_line = instanceSlice
+			ornamentsFormCallback.probe.UpdateSliceOfPointersCallback(ornaments_, "Wavy_line", &ornaments_.Wavy_line)
 
 		case "Mordent":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Mordent](ornamentsFormCallback.probe.stageOfInterest)
@@ -27263,6 +27392,7 @@ func (ornamentsFormCallback *OrnamentsFormCallback) OnSave() {
 				}
 			}
 			ornaments_.Mordent = instanceSlice
+			ornamentsFormCallback.probe.UpdateSliceOfPointersCallback(ornaments_, "Mordent", &ornaments_.Mordent)
 
 		case "Inverted_mordent":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Mordent](ornamentsFormCallback.probe.stageOfInterest)
@@ -27294,6 +27424,7 @@ func (ornamentsFormCallback *OrnamentsFormCallback) OnSave() {
 				}
 			}
 			ornaments_.Inverted_mordent = instanceSlice
+			ornamentsFormCallback.probe.UpdateSliceOfPointersCallback(ornaments_, "Inverted_mordent", &ornaments_.Inverted_mordent)
 
 		case "Schleifer":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](ornamentsFormCallback.probe.stageOfInterest)
@@ -27325,6 +27456,7 @@ func (ornamentsFormCallback *OrnamentsFormCallback) OnSave() {
 				}
 			}
 			ornaments_.Schleifer = instanceSlice
+			ornamentsFormCallback.probe.UpdateSliceOfPointersCallback(ornaments_, "Schleifer", &ornaments_.Schleifer)
 
 		case "Tremolo":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Tremolo](ornamentsFormCallback.probe.stageOfInterest)
@@ -27356,6 +27488,7 @@ func (ornamentsFormCallback *OrnamentsFormCallback) OnSave() {
 				}
 			}
 			ornaments_.Tremolo = instanceSlice
+			ornamentsFormCallback.probe.UpdateSliceOfPointersCallback(ornaments_, "Tremolo", &ornaments_.Tremolo)
 
 		case "Haydn":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_trill_sound](ornamentsFormCallback.probe.stageOfInterest)
@@ -27387,6 +27520,7 @@ func (ornamentsFormCallback *OrnamentsFormCallback) OnSave() {
 				}
 			}
 			ornaments_.Haydn = instanceSlice
+			ornamentsFormCallback.probe.UpdateSliceOfPointersCallback(ornaments_, "Haydn", &ornaments_.Haydn)
 
 		case "Other_ornament":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Other_placement_text](ornamentsFormCallback.probe.stageOfInterest)
@@ -27418,6 +27552,7 @@ func (ornamentsFormCallback *OrnamentsFormCallback) OnSave() {
 				}
 			}
 			ornaments_.Other_ornament = instanceSlice
+			ornamentsFormCallback.probe.UpdateSliceOfPointersCallback(ornaments_, "Other_ornament", &ornaments_.Other_ornament)
 
 		case "Accidental_mark":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Accidental_mark](ornamentsFormCallback.probe.stageOfInterest)
@@ -27449,6 +27584,7 @@ func (ornamentsFormCallback *OrnamentsFormCallback) OnSave() {
 				}
 			}
 			ornaments_.Accidental_mark = instanceSlice
+			ornamentsFormCallback.probe.UpdateSliceOfPointersCallback(ornaments_, "Accidental_mark", &ornaments_.Accidental_mark)
 
 		case "Notations:Ornaments":
 			// WARNING : this form deals with the N-N association "Notations.Ornaments []*Ornaments" but
@@ -29238,6 +29374,7 @@ func (part_linkFormCallback *Part_linkFormCallback) OnSave() {
 				}
 			}
 			part_link_.Instrument_link = instanceSlice
+			part_linkFormCallback.probe.UpdateSliceOfPointersCallback(part_link_, "Instrument_link", &part_link_.Instrument_link)
 
 		case "Group_link":
 			FormDivBasicFieldToField(&(part_link_.Group_link), formDiv)
@@ -30659,6 +30796,7 @@ func (playFormCallback *PlayFormCallback) OnSave() {
 				}
 			}
 			play_.Other_play = instanceSlice
+			playFormCallback.probe.UpdateSliceOfPointersCallback(play_, "Other_play", &play_.Other_play)
 
 		case "Sound:Play":
 			// WARNING : this form deals with the N-N association "Sound.Play []*Play" but
@@ -31106,6 +31244,7 @@ func (printFormCallback *PrintFormCallback) OnSave() {
 				}
 			}
 			print_.Staff_layout = instanceSlice
+			printFormCallback.probe.UpdateSliceOfPointersCallback(print_, "Staff_layout", &print_.Staff_layout)
 
 		case "Measure_layout":
 			FormDivSelectFieldToField(&(print_.Measure_layout), printFormCallback.probe.stageOfInterest, formDiv)
@@ -31869,6 +32008,7 @@ func (scordaturaFormCallback *ScordaturaFormCallback) OnSave() {
 				}
 			}
 			scordatura_.Accord = instanceSlice
+			scordaturaFormCallback.probe.UpdateSliceOfPointersCallback(scordatura_, "Accord", &scordatura_.Accord)
 
 		}
 	}
@@ -32140,6 +32280,7 @@ func (score_partFormCallback *Score_partFormCallback) OnSave() {
 				}
 			}
 			score_part_.Part_link = instanceSlice
+			score_partFormCallback.probe.UpdateSliceOfPointersCallback(score_part_, "Part_link", &score_part_.Part_link)
 
 		case "Part_name":
 			FormDivSelectFieldToField(&(score_part_.Part_name), score_partFormCallback.probe.stageOfInterest, formDiv)
@@ -32181,6 +32322,7 @@ func (score_partFormCallback *Score_partFormCallback) OnSave() {
 				}
 			}
 			score_part_.Score_instrument = instanceSlice
+			score_partFormCallback.probe.UpdateSliceOfPointersCallback(score_part_, "Score_instrument", &score_part_.Score_instrument)
 
 		case "Player":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Player](score_partFormCallback.probe.stageOfInterest)
@@ -32212,6 +32354,7 @@ func (score_partFormCallback *Score_partFormCallback) OnSave() {
 				}
 			}
 			score_part_.Player = instanceSlice
+			score_partFormCallback.probe.UpdateSliceOfPointersCallback(score_part_, "Player", &score_part_.Player)
 
 		case "Midi_device":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Midi_device](score_partFormCallback.probe.stageOfInterest)
@@ -32243,6 +32386,7 @@ func (score_partFormCallback *Score_partFormCallback) OnSave() {
 				}
 			}
 			score_part_.Midi_device = instanceSlice
+			score_partFormCallback.probe.UpdateSliceOfPointersCallback(score_part_, "Midi_device", &score_part_.Midi_device)
 
 		case "Midi_instrument":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Midi_instrument](score_partFormCallback.probe.stageOfInterest)
@@ -32274,6 +32418,7 @@ func (score_partFormCallback *Score_partFormCallback) OnSave() {
 				}
 			}
 			score_part_.Midi_instrument = instanceSlice
+			score_partFormCallback.probe.UpdateSliceOfPointersCallback(score_part_, "Midi_instrument", &score_part_.Midi_instrument)
 
 		}
 	}
@@ -32395,6 +32540,7 @@ func (score_partwiseFormCallback *Score_partwiseFormCallback) OnSave() {
 				}
 			}
 			score_partwise_.Credit = instanceSlice
+			score_partwiseFormCallback.probe.UpdateSliceOfPointersCallback(score_partwise_, "Credit", &score_partwise_.Credit)
 
 		case "Part_list":
 			FormDivSelectFieldToField(&(score_partwise_.Part_list), score_partwiseFormCallback.probe.stageOfInterest, formDiv)
@@ -32428,6 +32574,7 @@ func (score_partwiseFormCallback *Score_partwiseFormCallback) OnSave() {
 				}
 			}
 			score_partwise_.Part = instanceSlice
+			score_partwiseFormCallback.probe.UpdateSliceOfPointersCallback(score_partwise_, "Part", &score_partwise_.Part)
 
 		}
 	}
@@ -32549,6 +32696,7 @@ func (score_timewiseFormCallback *Score_timewiseFormCallback) OnSave() {
 				}
 			}
 			score_timewise_.Credit = instanceSlice
+			score_timewiseFormCallback.probe.UpdateSliceOfPointersCallback(score_timewise_, "Credit", &score_timewise_.Credit)
 
 		case "Part_list":
 			FormDivSelectFieldToField(&(score_timewise_.Part_list), score_timewiseFormCallback.probe.stageOfInterest, formDiv)
@@ -32582,6 +32730,7 @@ func (score_timewiseFormCallback *Score_timewiseFormCallback) OnSave() {
 				}
 			}
 			score_timewise_.Measure = instanceSlice
+			score_timewiseFormCallback.probe.UpdateSliceOfPointersCallback(score_timewise_, "Measure", &score_timewise_.Measure)
 
 		}
 	}
@@ -33353,6 +33502,7 @@ func (soundFormCallback *SoundFormCallback) OnSave() {
 				}
 			}
 			sound_.Instrument_change = instanceSlice
+			soundFormCallback.probe.UpdateSliceOfPointersCallback(sound_, "Instrument_change", &sound_.Instrument_change)
 
 		case "Midi_device":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Midi_device](soundFormCallback.probe.stageOfInterest)
@@ -33384,6 +33534,7 @@ func (soundFormCallback *SoundFormCallback) OnSave() {
 				}
 			}
 			sound_.Midi_device = instanceSlice
+			soundFormCallback.probe.UpdateSliceOfPointersCallback(sound_, "Midi_device", &sound_.Midi_device)
 
 		case "Midi_instrument":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Midi_instrument](soundFormCallback.probe.stageOfInterest)
@@ -33415,6 +33566,7 @@ func (soundFormCallback *SoundFormCallback) OnSave() {
 				}
 			}
 			sound_.Midi_instrument = instanceSlice
+			soundFormCallback.probe.UpdateSliceOfPointersCallback(sound_, "Midi_instrument", &sound_.Midi_instrument)
 
 		case "Play":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Play](soundFormCallback.probe.stageOfInterest)
@@ -33446,6 +33598,7 @@ func (soundFormCallback *SoundFormCallback) OnSave() {
 				}
 			}
 			sound_.Play = instanceSlice
+			soundFormCallback.probe.UpdateSliceOfPointersCallback(sound_, "Play", &sound_.Play)
 
 		case "Swing":
 			FormDivSelectFieldToField(&(sound_.Swing), soundFormCallback.probe.stageOfInterest, formDiv)
@@ -33703,6 +33856,7 @@ func (staff_detailsFormCallback *Staff_detailsFormCallback) OnSave() {
 				}
 			}
 			staff_details_.Line_detail = instanceSlice
+			staff_detailsFormCallback.probe.UpdateSliceOfPointersCallback(staff_details_, "Line_detail", &staff_details_.Line_detail)
 
 		case "Staff_tuning":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Staff_tuning](staff_detailsFormCallback.probe.stageOfInterest)
@@ -33734,6 +33888,7 @@ func (staff_detailsFormCallback *Staff_detailsFormCallback) OnSave() {
 				}
 			}
 			staff_details_.Staff_tuning = instanceSlice
+			staff_detailsFormCallback.probe.UpdateSliceOfPointersCallback(staff_details_, "Staff_tuning", &staff_details_.Staff_tuning)
 
 		case "Capo":
 			FormDivBasicFieldToField(&(staff_details_.Capo), formDiv)
@@ -35967,6 +36122,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Up_bow = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Up_bow", &technical_.Up_bow)
 
 		case "Down_bow":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](technicalFormCallback.probe.stageOfInterest)
@@ -35998,6 +36154,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Down_bow = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Down_bow", &technical_.Down_bow)
 
 		case "Harmonic":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Harmonic](technicalFormCallback.probe.stageOfInterest)
@@ -36029,6 +36186,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Harmonic = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Harmonic", &technical_.Harmonic)
 
 		case "Open_string":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](technicalFormCallback.probe.stageOfInterest)
@@ -36060,6 +36218,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Open_string = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Open_string", &technical_.Open_string)
 
 		case "Thumb_position":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](technicalFormCallback.probe.stageOfInterest)
@@ -36091,6 +36250,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Thumb_position = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Thumb_position", &technical_.Thumb_position)
 
 		case "Fingering":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Fingering](technicalFormCallback.probe.stageOfInterest)
@@ -36122,6 +36282,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Fingering = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Fingering", &technical_.Fingering)
 
 		case "Pluck":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Placement_text](technicalFormCallback.probe.stageOfInterest)
@@ -36153,6 +36314,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Pluck = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Pluck", &technical_.Pluck)
 
 		case "Double_tongue":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](technicalFormCallback.probe.stageOfInterest)
@@ -36184,6 +36346,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Double_tongue = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Double_tongue", &technical_.Double_tongue)
 
 		case "Triple_tongue":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](technicalFormCallback.probe.stageOfInterest)
@@ -36215,6 +36378,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Triple_tongue = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Triple_tongue", &technical_.Triple_tongue)
 
 		case "Stopped":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement_smufl](technicalFormCallback.probe.stageOfInterest)
@@ -36246,6 +36410,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Stopped = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Stopped", &technical_.Stopped)
 
 		case "Snap_pizzicato":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](technicalFormCallback.probe.stageOfInterest)
@@ -36277,6 +36442,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Snap_pizzicato = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Snap_pizzicato", &technical_.Snap_pizzicato)
 
 		case "Fret":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Fret](technicalFormCallback.probe.stageOfInterest)
@@ -36308,6 +36474,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Fret = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Fret", &technical_.Fret)
 
 		case "String":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.String_type](technicalFormCallback.probe.stageOfInterest)
@@ -36339,6 +36506,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.String = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "String", &technical_.String)
 
 		case "Hammer_on":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Hammer_on_pull_off](technicalFormCallback.probe.stageOfInterest)
@@ -36370,6 +36538,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Hammer_on = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Hammer_on", &technical_.Hammer_on)
 
 		case "Pull_off":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Hammer_on_pull_off](technicalFormCallback.probe.stageOfInterest)
@@ -36401,6 +36570,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Pull_off = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Pull_off", &technical_.Pull_off)
 
 		case "Bend":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Bend](technicalFormCallback.probe.stageOfInterest)
@@ -36432,6 +36602,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Bend = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Bend", &technical_.Bend)
 
 		case "Tap":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Tap](technicalFormCallback.probe.stageOfInterest)
@@ -36463,6 +36634,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Tap = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Tap", &technical_.Tap)
 
 		case "Heel":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Heel_toe](technicalFormCallback.probe.stageOfInterest)
@@ -36494,6 +36666,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Heel = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Heel", &technical_.Heel)
 
 		case "Toe":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Heel_toe](technicalFormCallback.probe.stageOfInterest)
@@ -36525,6 +36698,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Toe = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Toe", &technical_.Toe)
 
 		case "Fingernails":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](technicalFormCallback.probe.stageOfInterest)
@@ -36556,6 +36730,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Fingernails = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Fingernails", &technical_.Fingernails)
 
 		case "Hole":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Hole](technicalFormCallback.probe.stageOfInterest)
@@ -36587,6 +36762,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Hole = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Hole", &technical_.Hole)
 
 		case "Arrow":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Arrow](technicalFormCallback.probe.stageOfInterest)
@@ -36618,6 +36794,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Arrow = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Arrow", &technical_.Arrow)
 
 		case "Handbell":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Handbell](technicalFormCallback.probe.stageOfInterest)
@@ -36649,6 +36826,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Handbell = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Handbell", &technical_.Handbell)
 
 		case "Brass_bend":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](technicalFormCallback.probe.stageOfInterest)
@@ -36680,6 +36858,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Brass_bend = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Brass_bend", &technical_.Brass_bend)
 
 		case "Flip":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](technicalFormCallback.probe.stageOfInterest)
@@ -36711,6 +36890,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Flip = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Flip", &technical_.Flip)
 
 		case "Smear":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](technicalFormCallback.probe.stageOfInterest)
@@ -36742,6 +36922,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Smear = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Smear", &technical_.Smear)
 
 		case "Open":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement_smufl](technicalFormCallback.probe.stageOfInterest)
@@ -36773,6 +36954,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Open = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Open", &technical_.Open)
 
 		case "Half_muted":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement_smufl](technicalFormCallback.probe.stageOfInterest)
@@ -36804,6 +36986,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Half_muted = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Half_muted", &technical_.Half_muted)
 
 		case "Harmon_mute":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Harmon_mute](technicalFormCallback.probe.stageOfInterest)
@@ -36835,6 +37018,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Harmon_mute = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Harmon_mute", &technical_.Harmon_mute)
 
 		case "Golpe":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Empty_placement](technicalFormCallback.probe.stageOfInterest)
@@ -36866,6 +37050,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Golpe = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Golpe", &technical_.Golpe)
 
 		case "Other_technical":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Other_placement_text](technicalFormCallback.probe.stageOfInterest)
@@ -36897,6 +37082,7 @@ func (technicalFormCallback *TechnicalFormCallback) OnSave() {
 				}
 			}
 			technical_.Other_technical = instanceSlice
+			technicalFormCallback.probe.UpdateSliceOfPointersCallback(technical_, "Other_technical", &technical_.Other_technical)
 
 		case "Notations:Technical":
 			// WARNING : this form deals with the N-N association "Notations.Technical []*Technical" but
@@ -38602,6 +38788,7 @@ func (tuplet_portionFormCallback *Tuplet_portionFormCallback) OnSave() {
 				}
 			}
 			tuplet_portion_.Tuplet_dot = instanceSlice
+			tuplet_portionFormCallback.probe.UpdateSliceOfPointersCallback(tuplet_portion_, "Tuplet_dot", &tuplet_portion_.Tuplet_dot)
 
 		}
 	}

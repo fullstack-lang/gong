@@ -1120,6 +1120,7 @@ func (dataflowFormCallback *DataFlowFormCallback) OnSave() {
 				}
 			}
 			dataflow_.Datas = instanceSlice
+			dataflowFormCallback.probe.UpdateSliceOfPointersCallback(dataflow_, "Datas", &dataflow_.Datas)
 
 		case "Description":
 			FormDivBasicFieldToField(&(dataflow_.Description), formDiv)
@@ -1899,6 +1900,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.Process_Shapes = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "Process_Shapes", &diagramprocess_.Process_Shapes)
 
 		case "IsProcesssNodeExpanded":
 			FormDivBasicFieldToField(&(diagramprocess_.IsProcesssNodeExpanded), formDiv)
@@ -1932,6 +1934,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.ProcesssWhoseNodeIsExpanded = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "ProcesssWhoseNodeIsExpanded", &diagramprocess_.ProcesssWhoseNodeIsExpanded)
 
 		case "Participant_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ParticipantShape](diagramprocessFormCallback.probe.stageOfInterest)
@@ -1963,6 +1966,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.Participant_Shapes = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "Participant_Shapes", &diagramprocess_.Participant_Shapes)
 
 		case "IsParticipantsNodeExpanded":
 			FormDivBasicFieldToField(&(diagramprocess_.IsParticipantsNodeExpanded), formDiv)
@@ -1996,6 +2000,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.ParticipantWhoseNodeIsExpanded = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "ParticipantWhoseNodeIsExpanded", &diagramprocess_.ParticipantWhoseNodeIsExpanded)
 
 		case "ExternalParticipant_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ExternalParticipantShape](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2027,6 +2032,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.ExternalParticipant_Shapes = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "ExternalParticipant_Shapes", &diagramprocess_.ExternalParticipant_Shapes)
 
 		case "IsExternalParticipantsNodeExpanded":
 			FormDivBasicFieldToField(&(diagramprocess_.IsExternalParticipantsNodeExpanded), formDiv)
@@ -2060,6 +2066,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.ExternalParticipantWhoseNodeIsExpanded = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "ExternalParticipantWhoseNodeIsExpanded", &diagramprocess_.ExternalParticipantWhoseNodeIsExpanded)
 
 		case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2091,6 +2098,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded", &diagramprocess_.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded)
 
 		case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2122,6 +2130,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded", &diagramprocess_.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded)
 
 		case "TasksWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2153,6 +2162,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.TasksWhoseNodeIsExpanded = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "TasksWhoseNodeIsExpanded", &diagramprocess_.TasksWhoseNodeIsExpanded)
 
 		case "Task_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskShape](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2184,6 +2194,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.Task_Shapes = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "Task_Shapes", &diagramprocess_.Task_Shapes)
 
 		case "ControlFlowsWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlFlow](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2215,6 +2226,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.ControlFlowsWhoseNodeIsExpanded = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "ControlFlowsWhoseNodeIsExpanded", &diagramprocess_.ControlFlowsWhoseNodeIsExpanded)
 
 		case "ControlFlow_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlFlowShape](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2246,6 +2258,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.ControlFlow_Shapes = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "ControlFlow_Shapes", &diagramprocess_.ControlFlow_Shapes)
 
 		case "DataFlowsWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlow](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2277,6 +2290,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.DataFlowsWhoseNodeIsExpanded = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "DataFlowsWhoseNodeIsExpanded", &diagramprocess_.DataFlowsWhoseNodeIsExpanded)
 
 		case "DataFlow_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlowShape](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2308,6 +2322,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.DataFlow_Shapes = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "DataFlow_Shapes", &diagramprocess_.DataFlow_Shapes)
 
 		case "DatasWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Data](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2339,6 +2354,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.DatasWhoseNodeIsExpanded = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "DatasWhoseNodeIsExpanded", &diagramprocess_.DatasWhoseNodeIsExpanded)
 
 		case "Data_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataShape](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2370,6 +2386,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.Data_Shapes = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "Data_Shapes", &diagramprocess_.Data_Shapes)
 
 		case "DataFlowsWhoseDataNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlow](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2401,6 +2418,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.DataFlowsWhoseDataNodeIsExpanded = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "DataFlowsWhoseDataNodeIsExpanded", &diagramprocess_.DataFlowsWhoseDataNodeIsExpanded)
 
 		case "AllocatedResourcesWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Resource](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2432,6 +2450,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.AllocatedResourcesWhoseNodeIsExpanded = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "AllocatedResourcesWhoseNodeIsExpanded", &diagramprocess_.AllocatedResourcesWhoseNodeIsExpanded)
 
 		case "AllocatedResourceShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AllocatedResourceShape](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2463,6 +2482,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.AllocatedResourceShapes = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "AllocatedResourceShapes", &diagramprocess_.AllocatedResourceShapes)
 
 		case "AllocatedProcessesWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Process](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2494,6 +2514,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.AllocatedProcessesWhoseNodeIsExpanded = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "AllocatedProcessesWhoseNodeIsExpanded", &diagramprocess_.AllocatedProcessesWhoseNodeIsExpanded)
 
 		case "AllocatedProcessShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AllocatedProcessShape](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2525,6 +2546,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.AllocatedProcessShapes = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "AllocatedProcessShapes", &diagramprocess_.AllocatedProcessShapes)
 
 		case "Note_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteShape](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2556,6 +2578,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.Note_Shapes = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "Note_Shapes", &diagramprocess_.Note_Shapes)
 
 		case "NotesWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Note](diagramprocessFormCallback.probe.stageOfInterest)
@@ -2587,6 +2610,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.NotesWhoseNodeIsExpanded = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "NotesWhoseNodeIsExpanded", &diagramprocess_.NotesWhoseNodeIsExpanded)
 
 		case "IsNotesNodeExpanded":
 			FormDivBasicFieldToField(&(diagramprocess_.IsNotesNodeExpanded), formDiv)
@@ -2620,6 +2644,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 				}
 			}
 			diagramprocess_.NoteTaskShapes = instanceSlice
+			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "NoteTaskShapes", &diagramprocess_.NoteTaskShapes)
 
 		case "Process:DiagramProcesss":
 			// WARNING : this form deals with the N-N association "Process.DiagramProcesss []*DiagramProcess" but
@@ -3027,6 +3052,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.SubLibraries = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "SubLibraries", &library_.SubLibraries)
 
 		case "IsSubLibrariesNodeExpanded":
 			FormDivBasicFieldToField(&(library_.IsSubLibrariesNodeExpanded), formDiv)
@@ -3060,6 +3086,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.SubLibrariesWhoseNodeIsExpanded = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "SubLibrariesWhoseNodeIsExpanded", &library_.SubLibrariesWhoseNodeIsExpanded)
 
 		case "NbPixPerCharacter":
 			FormDivBasicFieldToField(&(library_.NbPixPerCharacter), formDiv)
@@ -3095,6 +3122,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.RootProcesses = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootProcesses", &library_.RootProcesses)
 
 		case "IsProcessesNodeExpanded":
 			FormDivBasicFieldToField(&(library_.IsProcessesNodeExpanded), formDiv)
@@ -3128,6 +3156,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.ProcesssWhoseNodeIsExpanded = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "ProcesssWhoseNodeIsExpanded", &library_.ProcesssWhoseNodeIsExpanded)
 
 		case "RootDataFlows":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlow](libraryFormCallback.probe.stageOfInterest)
@@ -3159,6 +3188,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.RootDataFlows = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootDataFlows", &library_.RootDataFlows)
 
 		case "IsDataFlowsNodeExpanded":
 			FormDivBasicFieldToField(&(library_.IsDataFlowsNodeExpanded), formDiv)
@@ -3192,6 +3222,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.DataFlowsWhoseNodeIsExpanded = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "DataFlowsWhoseNodeIsExpanded", &library_.DataFlowsWhoseNodeIsExpanded)
 
 		case "RootDatas":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Data](libraryFormCallback.probe.stageOfInterest)
@@ -3223,6 +3254,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.RootDatas = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootDatas", &library_.RootDatas)
 
 		case "IsDatasNodeExpanded":
 			FormDivBasicFieldToField(&(library_.IsDatasNodeExpanded), formDiv)
@@ -3256,6 +3288,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.DatasWhoseNodeIsExpanded = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "DatasWhoseNodeIsExpanded", &library_.DatasWhoseNodeIsExpanded)
 
 		case "RootResources":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Resource](libraryFormCallback.probe.stageOfInterest)
@@ -3287,6 +3320,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.RootResources = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootResources", &library_.RootResources)
 
 		case "IsResourcesNodeExpanded":
 			FormDivBasicFieldToField(&(library_.IsResourcesNodeExpanded), formDiv)
@@ -3320,6 +3354,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.ResourcesWhoseNodeIsExpanded = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "ResourcesWhoseNodeIsExpanded", &library_.ResourcesWhoseNodeIsExpanded)
 
 		case "ParticipantsWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](libraryFormCallback.probe.stageOfInterest)
@@ -3351,6 +3386,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.ParticipantsWhoseNodeIsExpanded = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "ParticipantsWhoseNodeIsExpanded", &library_.ParticipantsWhoseNodeIsExpanded)
 
 		case "RootNotes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Note](libraryFormCallback.probe.stageOfInterest)
@@ -3382,6 +3418,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.RootNotes = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootNotes", &library_.RootNotes)
 
 		case "IsNotesNodeExpanded":
 			FormDivBasicFieldToField(&(library_.IsNotesNodeExpanded), formDiv)
@@ -3415,6 +3452,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 				}
 			}
 			library_.NotesWhoseNodeIsExpanded = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "NotesWhoseNodeIsExpanded", &library_.NotesWhoseNodeIsExpanded)
 
 		case "IsExpandedTmp":
 			FormDivBasicFieldToField(&(library_.IsExpandedTmp), formDiv)
@@ -3664,6 +3702,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 				}
 			}
 			note_.Tasks = instanceSlice
+			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Tasks", &note_.Tasks)
 
 		case "DiagramProcess:NotesWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "DiagramProcess.NotesWhoseNodeIsExpanded []*Note" but
@@ -4291,6 +4330,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 				}
 			}
 			participant_.Resources = instanceSlice
+			participantFormCallback.probe.UpdateSliceOfPointersCallback(participant_, "Resources", &participant_.Resources)
 
 		case "IsResourcesNodeExpanded":
 			FormDivBasicFieldToField(&(participant_.IsResourcesNodeExpanded), formDiv)
@@ -4324,6 +4364,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 				}
 			}
 			participant_.Processes = instanceSlice
+			participantFormCallback.probe.UpdateSliceOfPointersCallback(participant_, "Processes", &participant_.Processes)
 
 		case "IsProcessesNodeExpanded":
 			FormDivBasicFieldToField(&(participant_.IsProcessesNodeExpanded), formDiv)
@@ -4361,6 +4402,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 				}
 			}
 			participant_.Tasks = instanceSlice
+			participantFormCallback.probe.UpdateSliceOfPointersCallback(participant_, "Tasks", &participant_.Tasks)
 
 		case "IsControlFlowsNodeExpanded":
 			FormDivBasicFieldToField(&(participant_.IsControlFlowsNodeExpanded), formDiv)
@@ -4394,6 +4436,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 				}
 			}
 			participant_.ControlFlows = instanceSlice
+			participantFormCallback.probe.UpdateSliceOfPointersCallback(participant_, "ControlFlows", &participant_.ControlFlows)
 
 		case "TaskWhoseOutControlFlowsNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](participantFormCallback.probe.stageOfInterest)
@@ -4425,6 +4468,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 				}
 			}
 			participant_.TaskWhoseOutControlFlowsNodeIsExpanded = instanceSlice
+			participantFormCallback.probe.UpdateSliceOfPointersCallback(participant_, "TaskWhoseOutControlFlowsNodeIsExpanded", &participant_.TaskWhoseOutControlFlowsNodeIsExpanded)
 
 		case "TaskWhoseInControlFlowsNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](participantFormCallback.probe.stageOfInterest)
@@ -4456,6 +4500,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 				}
 			}
 			participant_.TaskWhoseInControlFlowsNodeIsExpanded = instanceSlice
+			participantFormCallback.probe.UpdateSliceOfPointersCallback(participant_, "TaskWhoseInControlFlowsNodeIsExpanded", &participant_.TaskWhoseInControlFlowsNodeIsExpanded)
 
 		case "IsDataFlowsNodeExpanded":
 			FormDivBasicFieldToField(&(participant_.IsDataFlowsNodeExpanded), formDiv)
@@ -4489,6 +4534,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 				}
 			}
 			participant_.TaskWhoseOutDataFlowsNodeIsExpanded = instanceSlice
+			participantFormCallback.probe.UpdateSliceOfPointersCallback(participant_, "TaskWhoseOutDataFlowsNodeIsExpanded", &participant_.TaskWhoseOutDataFlowsNodeIsExpanded)
 
 		case "TaskWhoseInDataFlowsNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](participantFormCallback.probe.stageOfInterest)
@@ -4520,6 +4566,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 				}
 			}
 			participant_.TaskWhoseInDataFlowsNodeIsExpanded = instanceSlice
+			participantFormCallback.probe.UpdateSliceOfPointersCallback(participant_, "TaskWhoseInDataFlowsNodeIsExpanded", &participant_.TaskWhoseInDataFlowsNodeIsExpanded)
 
 		case "DiagramProcess:ParticipantWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "DiagramProcess.ParticipantWhoseNodeIsExpanded []*Participant" but
@@ -5391,6 +5438,7 @@ func (processFormCallback *ProcessFormCallback) OnSave() {
 				}
 			}
 			process_.DiagramProcesss = instanceSlice
+			processFormCallback.probe.UpdateSliceOfPointersCallback(process_, "DiagramProcesss", &process_.DiagramProcesss)
 
 		case "DiagramProcessWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](processFormCallback.probe.stageOfInterest)
@@ -5422,6 +5470,7 @@ func (processFormCallback *ProcessFormCallback) OnSave() {
 				}
 			}
 			process_.DiagramProcessWhoseNodeIsExpanded = instanceSlice
+			processFormCallback.probe.UpdateSliceOfPointersCallback(process_, "DiagramProcessWhoseNodeIsExpanded", &process_.DiagramProcessWhoseNodeIsExpanded)
 
 		case "IsSubProcessNodeExpanded":
 			FormDivBasicFieldToField(&(process_.IsSubProcessNodeExpanded), formDiv)
@@ -5455,6 +5504,7 @@ func (processFormCallback *ProcessFormCallback) OnSave() {
 				}
 			}
 			process_.SubProcesses = instanceSlice
+			processFormCallback.probe.UpdateSliceOfPointersCallback(process_, "SubProcesses", &process_.SubProcesses)
 
 		case "Participants":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](processFormCallback.probe.stageOfInterest)
@@ -5486,6 +5536,7 @@ func (processFormCallback *ProcessFormCallback) OnSave() {
 				}
 			}
 			process_.Participants = instanceSlice
+			processFormCallback.probe.UpdateSliceOfPointersCallback(process_, "Participants", &process_.Participants)
 
 		case "ParticipantWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](processFormCallback.probe.stageOfInterest)
@@ -5517,6 +5568,7 @@ func (processFormCallback *ProcessFormCallback) OnSave() {
 				}
 			}
 			process_.ParticipantWhoseNodeIsExpanded = instanceSlice
+			processFormCallback.probe.UpdateSliceOfPointersCallback(process_, "ParticipantWhoseNodeIsExpanded", &process_.ParticipantWhoseNodeIsExpanded)
 
 		case "DataFlows":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlow](processFormCallback.probe.stageOfInterest)
@@ -5548,6 +5600,7 @@ func (processFormCallback *ProcessFormCallback) OnSave() {
 				}
 			}
 			process_.DataFlows = instanceSlice
+			processFormCallback.probe.UpdateSliceOfPointersCallback(process_, "DataFlows", &process_.DataFlows)
 
 		case "IsDataFlowsNodeExpanded":
 			FormDivBasicFieldToField(&(process_.IsDataFlowsNodeExpanded), formDiv)
@@ -5581,6 +5634,7 @@ func (processFormCallback *ProcessFormCallback) OnSave() {
 				}
 			}
 			process_.ExternalParticipants = instanceSlice
+			processFormCallback.probe.UpdateSliceOfPointersCallback(process_, "ExternalParticipants", &process_.ExternalParticipants)
 
 		case "ExternalParticipantWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](processFormCallback.probe.stageOfInterest)
@@ -5612,6 +5666,7 @@ func (processFormCallback *ProcessFormCallback) OnSave() {
 				}
 			}
 			process_.ExternalParticipantWhoseNodeIsExpanded = instanceSlice
+			processFormCallback.probe.UpdateSliceOfPointersCallback(process_, "ExternalParticipantWhoseNodeIsExpanded", &process_.ExternalParticipantWhoseNodeIsExpanded)
 
 		case "DiagramProcess:ProcesssWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "DiagramProcess.ProcesssWhoseNodeIsExpanded []*Process" but

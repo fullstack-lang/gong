@@ -110,6 +110,7 @@ func (booktypeFormCallback *BookTypeFormCallback) OnSave() {
 				}
 			}
 			booktype_.Credit = instanceSlice
+			booktypeFormCallback.probe.UpdateSliceOfPointersCallback(booktype_, "Credit", &booktype_.Credit)
 
 		case "Books:Book":
 			// WARNING : this form deals with the N-N association "Books.Book []*BookType" but
@@ -285,6 +286,7 @@ func (booksFormCallback *BooksFormCallback) OnSave() {
 				}
 			}
 			books_.Book = instanceSlice
+			booksFormCallback.probe.UpdateSliceOfPointersCallback(books_, "Book", &books_.Book)
 
 		}
 	}
@@ -398,6 +400,7 @@ func (creditFormCallback *CreditFormCallback) OnSave() {
 				}
 			}
 			credit_.Link = instanceSlice
+			creditFormCallback.probe.UpdateSliceOfPointersCallback(credit_, "Link", &credit_.Link)
 
 		case "Credit_words":
 			FormDivBasicFieldToField(&(credit_.Credit_words), formDiv)

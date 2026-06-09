@@ -262,6 +262,7 @@ func (gongenumFormCallback *GongEnumFormCallback) OnSave() {
 				}
 			}
 			gongenum_.GongEnumValues = instanceSlice
+			gongenumFormCallback.probe.UpdateSliceOfPointersCallback(gongenum_, "GongEnumValues", &gongenum_.GongEnumValues)
 
 		}
 	}
@@ -669,6 +670,7 @@ func (gongnoteFormCallback *GongNoteFormCallback) OnSave() {
 				}
 			}
 			gongnote_.Links = instanceSlice
+			gongnoteFormCallback.probe.UpdateSliceOfPointersCallback(gongnote_, "Links", &gongnote_.Links)
 
 		}
 	}
@@ -778,6 +780,7 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 				}
 			}
 			gongstruct_.GongBasicFields = instanceSlice
+			gongstructFormCallback.probe.UpdateSliceOfPointersCallback(gongstruct_, "GongBasicFields", &gongstruct_.GongBasicFields)
 
 		case "GongTimeFields":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongTimeField](gongstructFormCallback.probe.stageOfInterest)
@@ -809,6 +812,7 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 				}
 			}
 			gongstruct_.GongTimeFields = instanceSlice
+			gongstructFormCallback.probe.UpdateSliceOfPointersCallback(gongstruct_, "GongTimeFields", &gongstruct_.GongTimeFields)
 
 		case "PointerToGongStructFields":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PointerToGongStructField](gongstructFormCallback.probe.stageOfInterest)
@@ -840,6 +844,7 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 				}
 			}
 			gongstruct_.PointerToGongStructFields = instanceSlice
+			gongstructFormCallback.probe.UpdateSliceOfPointersCallback(gongstruct_, "PointerToGongStructFields", &gongstruct_.PointerToGongStructFields)
 
 		case "SliceOfPointerToGongStructFields":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SliceOfPointerToGongStructField](gongstructFormCallback.probe.stageOfInterest)
@@ -871,6 +876,7 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 				}
 			}
 			gongstruct_.SliceOfPointerToGongStructFields = instanceSlice
+			gongstructFormCallback.probe.UpdateSliceOfPointersCallback(gongstruct_, "SliceOfPointerToGongStructFields", &gongstruct_.SliceOfPointerToGongStructFields)
 
 		case "HasOnAfterUpdateSignature":
 			FormDivBasicFieldToField(&(gongstruct_.HasOnAfterUpdateSignature), formDiv)
