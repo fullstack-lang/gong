@@ -4128,6 +4128,7 @@ func (a_attribute_value_booleanFormCallback *A_ATTRIBUTE_VALUE_BOOLEANFormCallba
 				}
 			}
 			a_attribute_value_boolean_.ATTRIBUTE_VALUE_BOOLEAN = instanceSlice
+			a_attribute_value_booleanFormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_boolean_, "ATTRIBUTE_VALUE_BOOLEAN", &a_attribute_value_boolean_.ATTRIBUTE_VALUE_BOOLEAN)
 
 		}
 	}
@@ -4237,6 +4238,7 @@ func (a_attribute_value_dateFormCallback *A_ATTRIBUTE_VALUE_DATEFormCallback) On
 				}
 			}
 			a_attribute_value_date_.ATTRIBUTE_VALUE_DATE = instanceSlice
+			a_attribute_value_dateFormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_date_, "ATTRIBUTE_VALUE_DATE", &a_attribute_value_date_.ATTRIBUTE_VALUE_DATE)
 
 		}
 	}
@@ -4346,6 +4348,7 @@ func (a_attribute_value_enumerationFormCallback *A_ATTRIBUTE_VALUE_ENUMERATIONFo
 				}
 			}
 			a_attribute_value_enumeration_.ATTRIBUTE_VALUE_ENUMERATION = instanceSlice
+			a_attribute_value_enumerationFormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_enumeration_, "ATTRIBUTE_VALUE_ENUMERATION", &a_attribute_value_enumeration_.ATTRIBUTE_VALUE_ENUMERATION)
 
 		}
 	}
@@ -4455,6 +4458,7 @@ func (a_attribute_value_integerFormCallback *A_ATTRIBUTE_VALUE_INTEGERFormCallba
 				}
 			}
 			a_attribute_value_integer_.ATTRIBUTE_VALUE_INTEGER = instanceSlice
+			a_attribute_value_integerFormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_integer_, "ATTRIBUTE_VALUE_INTEGER", &a_attribute_value_integer_.ATTRIBUTE_VALUE_INTEGER)
 
 		}
 	}
@@ -4564,6 +4568,7 @@ func (a_attribute_value_realFormCallback *A_ATTRIBUTE_VALUE_REALFormCallback) On
 				}
 			}
 			a_attribute_value_real_.ATTRIBUTE_VALUE_REAL = instanceSlice
+			a_attribute_value_realFormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_real_, "ATTRIBUTE_VALUE_REAL", &a_attribute_value_real_.ATTRIBUTE_VALUE_REAL)
 
 		}
 	}
@@ -4673,6 +4678,7 @@ func (a_attribute_value_stringFormCallback *A_ATTRIBUTE_VALUE_STRINGFormCallback
 				}
 			}
 			a_attribute_value_string_.ATTRIBUTE_VALUE_STRING = instanceSlice
+			a_attribute_value_stringFormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_string_, "ATTRIBUTE_VALUE_STRING", &a_attribute_value_string_.ATTRIBUTE_VALUE_STRING)
 
 		}
 	}
@@ -4782,6 +4788,7 @@ func (a_attribute_value_xhtmlFormCallback *A_ATTRIBUTE_VALUE_XHTMLFormCallback) 
 				}
 			}
 			a_attribute_value_xhtml_.ATTRIBUTE_VALUE_XHTML = instanceSlice
+			a_attribute_value_xhtmlFormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_xhtml_, "ATTRIBUTE_VALUE_XHTML", &a_attribute_value_xhtml_.ATTRIBUTE_VALUE_XHTML)
 
 		}
 	}
@@ -4891,6 +4898,7 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 				}
 			}
 			a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_BOOLEAN = instanceSlice
+			a_attribute_value_xhtml_1FormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_xhtml_1_, "ATTRIBUTE_VALUE_BOOLEAN", &a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_BOOLEAN)
 
 		case "ATTRIBUTE_VALUE_DATE":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_DATE](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
@@ -4922,6 +4930,7 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 				}
 			}
 			a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_DATE = instanceSlice
+			a_attribute_value_xhtml_1FormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_xhtml_1_, "ATTRIBUTE_VALUE_DATE", &a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_DATE)
 
 		case "ATTRIBUTE_VALUE_ENUMERATION":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_ENUMERATION](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
@@ -4953,6 +4962,7 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 				}
 			}
 			a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_ENUMERATION = instanceSlice
+			a_attribute_value_xhtml_1FormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_xhtml_1_, "ATTRIBUTE_VALUE_ENUMERATION", &a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_ENUMERATION)
 
 		case "ATTRIBUTE_VALUE_INTEGER":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_INTEGER](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
@@ -4984,6 +4994,7 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 				}
 			}
 			a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_INTEGER = instanceSlice
+			a_attribute_value_xhtml_1FormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_xhtml_1_, "ATTRIBUTE_VALUE_INTEGER", &a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_INTEGER)
 
 		case "ATTRIBUTE_VALUE_REAL":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_REAL](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
@@ -5015,6 +5026,7 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 				}
 			}
 			a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_REAL = instanceSlice
+			a_attribute_value_xhtml_1FormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_xhtml_1_, "ATTRIBUTE_VALUE_REAL", &a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_REAL)
 
 		case "ATTRIBUTE_VALUE_STRING":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_STRING](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
@@ -5046,6 +5058,7 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 				}
 			}
 			a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_STRING = instanceSlice
+			a_attribute_value_xhtml_1FormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_xhtml_1_, "ATTRIBUTE_VALUE_STRING", &a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_STRING)
 
 		case "ATTRIBUTE_VALUE_XHTML":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_VALUE_XHTML](a_attribute_value_xhtml_1FormCallback.probe.stageOfInterest)
@@ -5077,6 +5090,7 @@ func (a_attribute_value_xhtml_1FormCallback *A_ATTRIBUTE_VALUE_XHTML_1FormCallba
 				}
 			}
 			a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_XHTML = instanceSlice
+			a_attribute_value_xhtml_1FormCallback.probe.UpdateSliceOfPointersCallback(a_attribute_value_xhtml_1_, "ATTRIBUTE_VALUE_XHTML", &a_attribute_value_xhtml_1_.ATTRIBUTE_VALUE_XHTML)
 
 		}
 	}
@@ -5186,6 +5200,7 @@ func (a_childrenFormCallback *A_CHILDRENFormCallback) OnSave() {
 				}
 			}
 			a_children_.SPEC_HIERARCHY = instanceSlice
+			a_childrenFormCallback.probe.UpdateSliceOfPointersCallback(a_children_, "SPEC_HIERARCHY", &a_children_.SPEC_HIERARCHY)
 
 		}
 	}
@@ -5375,6 +5390,7 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 				}
 			}
 			a_datatypes_.DATATYPE_DEFINITION_BOOLEAN = instanceSlice
+			a_datatypesFormCallback.probe.UpdateSliceOfPointersCallback(a_datatypes_, "DATATYPE_DEFINITION_BOOLEAN", &a_datatypes_.DATATYPE_DEFINITION_BOOLEAN)
 
 		case "DATATYPE_DEFINITION_DATE":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_DATE](a_datatypesFormCallback.probe.stageOfInterest)
@@ -5406,6 +5422,7 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 				}
 			}
 			a_datatypes_.DATATYPE_DEFINITION_DATE = instanceSlice
+			a_datatypesFormCallback.probe.UpdateSliceOfPointersCallback(a_datatypes_, "DATATYPE_DEFINITION_DATE", &a_datatypes_.DATATYPE_DEFINITION_DATE)
 
 		case "DATATYPE_DEFINITION_ENUMERATION":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_ENUMERATION](a_datatypesFormCallback.probe.stageOfInterest)
@@ -5437,6 +5454,7 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 				}
 			}
 			a_datatypes_.DATATYPE_DEFINITION_ENUMERATION = instanceSlice
+			a_datatypesFormCallback.probe.UpdateSliceOfPointersCallback(a_datatypes_, "DATATYPE_DEFINITION_ENUMERATION", &a_datatypes_.DATATYPE_DEFINITION_ENUMERATION)
 
 		case "DATATYPE_DEFINITION_INTEGER":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_INTEGER](a_datatypesFormCallback.probe.stageOfInterest)
@@ -5468,6 +5486,7 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 				}
 			}
 			a_datatypes_.DATATYPE_DEFINITION_INTEGER = instanceSlice
+			a_datatypesFormCallback.probe.UpdateSliceOfPointersCallback(a_datatypes_, "DATATYPE_DEFINITION_INTEGER", &a_datatypes_.DATATYPE_DEFINITION_INTEGER)
 
 		case "DATATYPE_DEFINITION_REAL":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_REAL](a_datatypesFormCallback.probe.stageOfInterest)
@@ -5499,6 +5518,7 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 				}
 			}
 			a_datatypes_.DATATYPE_DEFINITION_REAL = instanceSlice
+			a_datatypesFormCallback.probe.UpdateSliceOfPointersCallback(a_datatypes_, "DATATYPE_DEFINITION_REAL", &a_datatypes_.DATATYPE_DEFINITION_REAL)
 
 		case "DATATYPE_DEFINITION_STRING":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_STRING](a_datatypesFormCallback.probe.stageOfInterest)
@@ -5530,6 +5550,7 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 				}
 			}
 			a_datatypes_.DATATYPE_DEFINITION_STRING = instanceSlice
+			a_datatypesFormCallback.probe.UpdateSliceOfPointersCallback(a_datatypes_, "DATATYPE_DEFINITION_STRING", &a_datatypes_.DATATYPE_DEFINITION_STRING)
 
 		case "DATATYPE_DEFINITION_XHTML":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DATATYPE_DEFINITION_XHTML](a_datatypesFormCallback.probe.stageOfInterest)
@@ -5561,6 +5582,7 @@ func (a_datatypesFormCallback *A_DATATYPESFormCallback) OnSave() {
 				}
 			}
 			a_datatypes_.DATATYPE_DEFINITION_XHTML = instanceSlice
+			a_datatypesFormCallback.probe.UpdateSliceOfPointersCallback(a_datatypes_, "DATATYPE_DEFINITION_XHTML", &a_datatypes_.DATATYPE_DEFINITION_XHTML)
 
 		}
 	}
@@ -6802,6 +6824,7 @@ func (a_specificationsFormCallback *A_SPECIFICATIONSFormCallback) OnSave() {
 				}
 			}
 			a_specifications_.SPECIFICATION = instanceSlice
+			a_specificationsFormCallback.probe.UpdateSliceOfPointersCallback(a_specifications_, "SPECIFICATION", &a_specifications_.SPECIFICATION)
 
 		}
 	}
@@ -6991,6 +7014,7 @@ func (a_specified_valuesFormCallback *A_SPECIFIED_VALUESFormCallback) OnSave() {
 				}
 			}
 			a_specified_values_.ENUM_VALUE = instanceSlice
+			a_specified_valuesFormCallback.probe.UpdateSliceOfPointersCallback(a_specified_values_, "ENUM_VALUE", &a_specified_values_.ENUM_VALUE)
 
 		}
 	}
@@ -7100,6 +7124,7 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 				}
 			}
 			a_spec_attributes_.ATTRIBUTE_DEFINITION_BOOLEAN = instanceSlice
+			a_spec_attributesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_attributes_, "ATTRIBUTE_DEFINITION_BOOLEAN", &a_spec_attributes_.ATTRIBUTE_DEFINITION_BOOLEAN)
 
 		case "ATTRIBUTE_DEFINITION_DATE":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_DATE](a_spec_attributesFormCallback.probe.stageOfInterest)
@@ -7131,6 +7156,7 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 				}
 			}
 			a_spec_attributes_.ATTRIBUTE_DEFINITION_DATE = instanceSlice
+			a_spec_attributesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_attributes_, "ATTRIBUTE_DEFINITION_DATE", &a_spec_attributes_.ATTRIBUTE_DEFINITION_DATE)
 
 		case "ATTRIBUTE_DEFINITION_ENUMERATION":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_ENUMERATION](a_spec_attributesFormCallback.probe.stageOfInterest)
@@ -7162,6 +7188,7 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 				}
 			}
 			a_spec_attributes_.ATTRIBUTE_DEFINITION_ENUMERATION = instanceSlice
+			a_spec_attributesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_attributes_, "ATTRIBUTE_DEFINITION_ENUMERATION", &a_spec_attributes_.ATTRIBUTE_DEFINITION_ENUMERATION)
 
 		case "ATTRIBUTE_DEFINITION_INTEGER":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_INTEGER](a_spec_attributesFormCallback.probe.stageOfInterest)
@@ -7193,6 +7220,7 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 				}
 			}
 			a_spec_attributes_.ATTRIBUTE_DEFINITION_INTEGER = instanceSlice
+			a_spec_attributesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_attributes_, "ATTRIBUTE_DEFINITION_INTEGER", &a_spec_attributes_.ATTRIBUTE_DEFINITION_INTEGER)
 
 		case "ATTRIBUTE_DEFINITION_REAL":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_REAL](a_spec_attributesFormCallback.probe.stageOfInterest)
@@ -7224,6 +7252,7 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 				}
 			}
 			a_spec_attributes_.ATTRIBUTE_DEFINITION_REAL = instanceSlice
+			a_spec_attributesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_attributes_, "ATTRIBUTE_DEFINITION_REAL", &a_spec_attributes_.ATTRIBUTE_DEFINITION_REAL)
 
 		case "ATTRIBUTE_DEFINITION_STRING":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_STRING](a_spec_attributesFormCallback.probe.stageOfInterest)
@@ -7255,6 +7284,7 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 				}
 			}
 			a_spec_attributes_.ATTRIBUTE_DEFINITION_STRING = instanceSlice
+			a_spec_attributesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_attributes_, "ATTRIBUTE_DEFINITION_STRING", &a_spec_attributes_.ATTRIBUTE_DEFINITION_STRING)
 
 		case "ATTRIBUTE_DEFINITION_XHTML":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ATTRIBUTE_DEFINITION_XHTML](a_spec_attributesFormCallback.probe.stageOfInterest)
@@ -7286,6 +7316,7 @@ func (a_spec_attributesFormCallback *A_SPEC_ATTRIBUTESFormCallback) OnSave() {
 				}
 			}
 			a_spec_attributes_.ATTRIBUTE_DEFINITION_XHTML = instanceSlice
+			a_spec_attributesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_attributes_, "ATTRIBUTE_DEFINITION_XHTML", &a_spec_attributes_.ATTRIBUTE_DEFINITION_XHTML)
 
 		}
 	}
@@ -7395,6 +7426,7 @@ func (a_spec_objectsFormCallback *A_SPEC_OBJECTSFormCallback) OnSave() {
 				}
 			}
 			a_spec_objects_.SPEC_OBJECT = instanceSlice
+			a_spec_objectsFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_objects_, "SPEC_OBJECT", &a_spec_objects_.SPEC_OBJECT)
 
 		}
 	}
@@ -7584,6 +7616,7 @@ func (a_spec_relationsFormCallback *A_SPEC_RELATIONSFormCallback) OnSave() {
 				}
 			}
 			a_spec_relations_.SPEC_RELATION = instanceSlice
+			a_spec_relationsFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_relations_, "SPEC_RELATION", &a_spec_relations_.SPEC_RELATION)
 
 		}
 	}
@@ -7693,6 +7726,7 @@ func (a_spec_relation_groupsFormCallback *A_SPEC_RELATION_GROUPSFormCallback) On
 				}
 			}
 			a_spec_relation_groups_.RELATION_GROUP = instanceSlice
+			a_spec_relation_groupsFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_relation_groups_, "RELATION_GROUP", &a_spec_relation_groups_.RELATION_GROUP)
 
 		}
 	}
@@ -7962,6 +7996,7 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 				}
 			}
 			a_spec_types_.RELATION_GROUP_TYPE = instanceSlice
+			a_spec_typesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_types_, "RELATION_GROUP_TYPE", &a_spec_types_.RELATION_GROUP_TYPE)
 
 		case "SPEC_OBJECT_TYPE":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPEC_OBJECT_TYPE](a_spec_typesFormCallback.probe.stageOfInterest)
@@ -7993,6 +8028,7 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 				}
 			}
 			a_spec_types_.SPEC_OBJECT_TYPE = instanceSlice
+			a_spec_typesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_types_, "SPEC_OBJECT_TYPE", &a_spec_types_.SPEC_OBJECT_TYPE)
 
 		case "SPEC_RELATION_TYPE":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPEC_RELATION_TYPE](a_spec_typesFormCallback.probe.stageOfInterest)
@@ -8024,6 +8060,7 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 				}
 			}
 			a_spec_types_.SPEC_RELATION_TYPE = instanceSlice
+			a_spec_typesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_types_, "SPEC_RELATION_TYPE", &a_spec_types_.SPEC_RELATION_TYPE)
 
 		case "SPECIFICATION_TYPE":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SPECIFICATION_TYPE](a_spec_typesFormCallback.probe.stageOfInterest)
@@ -8055,6 +8092,7 @@ func (a_spec_typesFormCallback *A_SPEC_TYPESFormCallback) OnSave() {
 				}
 			}
 			a_spec_types_.SPECIFICATION_TYPE = instanceSlice
+			a_spec_typesFormCallback.probe.UpdateSliceOfPointersCallback(a_spec_types_, "SPECIFICATION_TYPE", &a_spec_types_.SPECIFICATION_TYPE)
 
 		}
 	}
@@ -8244,6 +8282,7 @@ func (a_tool_extensionsFormCallback *A_TOOL_EXTENSIONSFormCallback) OnSave() {
 				}
 			}
 			a_tool_extensions_.REQ_IF_TOOL_EXTENSION = instanceSlice
+			a_tool_extensionsFormCallback.probe.UpdateSliceOfPointersCallback(a_tool_extensions_, "REQ_IF_TOOL_EXTENSION", &a_tool_extensions_.REQ_IF_TOOL_EXTENSION)
 
 		}
 	}
@@ -12099,6 +12138,7 @@ func (staticwebsiteFormCallback *StaticWebSiteFormCallback) OnSave() {
 				}
 			}
 			staticwebsite_.Chapters = instanceSlice
+			staticwebsiteFormCallback.probe.UpdateSliceOfPointersCallback(staticwebsite_, "Chapters", &staticwebsite_.Chapters)
 
 		case "InputImagesDir":
 			FormDivBasicFieldToField(&(staticwebsite_.InputImagesDir), formDiv)
@@ -12216,6 +12256,7 @@ func (staticwebsitechapterFormCallback *StaticWebSiteChapterFormCallback) OnSave
 				}
 			}
 			staticwebsitechapter_.Paragraphs = instanceSlice
+			staticwebsitechapterFormCallback.probe.UpdateSliceOfPointersCallback(staticwebsitechapter_, "Paragraphs", &staticwebsitechapter_.Paragraphs)
 
 		case "StaticWebSite:Chapters":
 			// WARNING : this form deals with the N-N association "StaticWebSite.Chapters []*StaticWebSiteChapter" but

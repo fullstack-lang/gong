@@ -954,6 +954,7 @@ func (rowFormCallback *RowFormCallback) OnSave() {
 				}
 			}
 			row_.Cells = instanceSlice
+			rowFormCallback.probe.UpdateSliceOfPointersCallback(row_, "Cells", &row_.Cells)
 
 		case "IsChecked":
 			FormDivBasicFieldToField(&(row_.IsChecked), formDiv)
@@ -1277,6 +1278,7 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 				}
 			}
 			table_.DisplayedColumns = instanceSlice
+			tableFormCallback.probe.UpdateSliceOfPointersCallback(table_, "DisplayedColumns", &table_.DisplayedColumns)
 
 		case "Rows":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Row](tableFormCallback.probe.stageOfInterest)
@@ -1308,6 +1310,7 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 				}
 			}
 			table_.Rows = instanceSlice
+			tableFormCallback.probe.UpdateSliceOfPointersCallback(table_, "Rows", &table_.Rows)
 
 		case "HasFiltering":
 			FormDivBasicFieldToField(&(table_.HasFiltering), formDiv)
@@ -1355,6 +1358,7 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 				}
 			}
 			table_.RowsSelectedForBulkDelete = instanceSlice
+			tableFormCallback.probe.UpdateSliceOfPointersCallback(table_, "RowsSelectedForBulkDelete", &table_.RowsSelectedForBulkDelete)
 
 		case "CanDragDropRows":
 			FormDivBasicFieldToField(&(table_.CanDragDropRows), formDiv)
@@ -1394,6 +1398,7 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 				}
 			}
 			table_.Buttons = instanceSlice
+			tableFormCallback.probe.UpdateSliceOfPointersCallback(table_, "Buttons", &table_.Buttons)
 
 		}
 	}

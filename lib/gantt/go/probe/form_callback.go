@@ -456,6 +456,7 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 				}
 			}
 			gantt_.Lanes = instanceSlice
+			ganttFormCallback.probe.UpdateSliceOfPointersCallback(gantt_, "Lanes", &gantt_.Lanes)
 
 		case "Milestones":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Milestone](ganttFormCallback.probe.stageOfInterest)
@@ -487,6 +488,7 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 				}
 			}
 			gantt_.Milestones = instanceSlice
+			ganttFormCallback.probe.UpdateSliceOfPointersCallback(gantt_, "Milestones", &gantt_.Milestones)
 
 		case "Groups":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](ganttFormCallback.probe.stageOfInterest)
@@ -518,6 +520,7 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 				}
 			}
 			gantt_.Groups = instanceSlice
+			ganttFormCallback.probe.UpdateSliceOfPointersCallback(gantt_, "Groups", &gantt_.Groups)
 
 		case "Arrows":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Arrow](ganttFormCallback.probe.stageOfInterest)
@@ -549,6 +552,7 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 				}
 			}
 			gantt_.Arrows = instanceSlice
+			ganttFormCallback.probe.UpdateSliceOfPointersCallback(gantt_, "Arrows", &gantt_.Arrows)
 
 		}
 	}
@@ -658,6 +662,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				}
 			}
 			group_.GroupLanes = instanceSlice
+			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "GroupLanes", &group_.GroupLanes)
 
 		case "Gantt:Groups":
 			// WARNING : this form deals with the N-N association "Gantt.Groups []*Group" but
@@ -835,6 +840,7 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 				}
 			}
 			lane_.Bars = instanceSlice
+			laneFormCallback.probe.UpdateSliceOfPointersCallback(lane_, "Bars", &lane_.Bars)
 
 		case "Gantt:Lanes":
 			// WARNING : this form deals with the N-N association "Gantt.Lanes []*Lane" but
@@ -1226,6 +1232,7 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 				}
 			}
 			milestone_.LanesToDisplay = instanceSlice
+			milestoneFormCallback.probe.UpdateSliceOfPointersCallback(milestone_, "LanesToDisplay", &milestone_.LanesToDisplay)
 
 		case "Gantt:Milestones":
 			// WARNING : this form deals with the N-N association "Gantt.Milestones []*Milestone" but

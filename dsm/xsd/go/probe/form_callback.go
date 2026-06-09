@@ -100,6 +100,7 @@ func (allFormCallback *AllFormCallback) OnSave() {
 				}
 			}
 			all_.Sequences = instanceSlice
+			allFormCallback.probe.UpdateSliceOfPointersCallback(all_, "Sequences", &all_.Sequences)
 
 		case "Alls":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](allFormCallback.probe.stageOfInterest)
@@ -131,6 +132,7 @@ func (allFormCallback *AllFormCallback) OnSave() {
 				}
 			}
 			all_.Alls = instanceSlice
+			allFormCallback.probe.UpdateSliceOfPointersCallback(all_, "Alls", &all_.Alls)
 
 		case "Choices":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](allFormCallback.probe.stageOfInterest)
@@ -162,6 +164,7 @@ func (allFormCallback *AllFormCallback) OnSave() {
 				}
 			}
 			all_.Choices = instanceSlice
+			allFormCallback.probe.UpdateSliceOfPointersCallback(all_, "Choices", &all_.Choices)
 
 		case "Groups":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](allFormCallback.probe.stageOfInterest)
@@ -193,6 +196,7 @@ func (allFormCallback *AllFormCallback) OnSave() {
 				}
 			}
 			all_.Groups = instanceSlice
+			allFormCallback.probe.UpdateSliceOfPointersCallback(all_, "Groups", &all_.Groups)
 
 		case "Elements":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](allFormCallback.probe.stageOfInterest)
@@ -224,6 +228,7 @@ func (allFormCallback *AllFormCallback) OnSave() {
 				}
 			}
 			all_.Elements = instanceSlice
+			allFormCallback.probe.UpdateSliceOfPointersCallback(all_, "Elements", &all_.Elements)
 
 		case "Order":
 			FormDivBasicFieldToField(&(all_.Order), formDiv)
@@ -737,6 +742,7 @@ func (annotationFormCallback *AnnotationFormCallback) OnSave() {
 				}
 			}
 			annotation_.Documentations = instanceSlice
+			annotationFormCallback.probe.UpdateSliceOfPointersCallback(annotation_, "Documentations", &annotation_.Documentations)
 
 		}
 	}
@@ -1156,6 +1162,7 @@ func (attributegroupFormCallback *AttributeGroupFormCallback) OnSave() {
 				}
 			}
 			attributegroup_.AttributeGroups = instanceSlice
+			attributegroupFormCallback.probe.UpdateSliceOfPointersCallback(attributegroup_, "AttributeGroups", &attributegroup_.AttributeGroups)
 
 		case "Ref":
 			FormDivBasicFieldToField(&(attributegroup_.Ref), formDiv)
@@ -1189,6 +1196,7 @@ func (attributegroupFormCallback *AttributeGroupFormCallback) OnSave() {
 				}
 			}
 			attributegroup_.Attributes = instanceSlice
+			attributegroupFormCallback.probe.UpdateSliceOfPointersCallback(attributegroup_, "Attributes", &attributegroup_.Attributes)
 
 		case "Order":
 			FormDivBasicFieldToField(&(attributegroup_.Order), formDiv)
@@ -1570,6 +1578,7 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 				}
 			}
 			choice_.Sequences = instanceSlice
+			choiceFormCallback.probe.UpdateSliceOfPointersCallback(choice_, "Sequences", &choice_.Sequences)
 
 		case "Alls":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](choiceFormCallback.probe.stageOfInterest)
@@ -1601,6 +1610,7 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 				}
 			}
 			choice_.Alls = instanceSlice
+			choiceFormCallback.probe.UpdateSliceOfPointersCallback(choice_, "Alls", &choice_.Alls)
 
 		case "Choices":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](choiceFormCallback.probe.stageOfInterest)
@@ -1632,6 +1642,7 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 				}
 			}
 			choice_.Choices = instanceSlice
+			choiceFormCallback.probe.UpdateSliceOfPointersCallback(choice_, "Choices", &choice_.Choices)
 
 		case "Groups":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](choiceFormCallback.probe.stageOfInterest)
@@ -1663,6 +1674,7 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 				}
 			}
 			choice_.Groups = instanceSlice
+			choiceFormCallback.probe.UpdateSliceOfPointersCallback(choice_, "Groups", &choice_.Groups)
 
 		case "Elements":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](choiceFormCallback.probe.stageOfInterest)
@@ -1694,6 +1706,7 @@ func (choiceFormCallback *ChoiceFormCallback) OnSave() {
 				}
 			}
 			choice_.Elements = instanceSlice
+			choiceFormCallback.probe.UpdateSliceOfPointersCallback(choice_, "Elements", &choice_.Elements)
 
 		case "Order":
 			FormDivBasicFieldToField(&(choice_.Order), formDiv)
@@ -2301,6 +2314,7 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 				}
 			}
 			complextype_.Sequences = instanceSlice
+			complextypeFormCallback.probe.UpdateSliceOfPointersCallback(complextype_, "Sequences", &complextype_.Sequences)
 
 		case "Alls":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](complextypeFormCallback.probe.stageOfInterest)
@@ -2332,6 +2346,7 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 				}
 			}
 			complextype_.Alls = instanceSlice
+			complextypeFormCallback.probe.UpdateSliceOfPointersCallback(complextype_, "Alls", &complextype_.Alls)
 
 		case "Choices":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](complextypeFormCallback.probe.stageOfInterest)
@@ -2363,6 +2378,7 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 				}
 			}
 			complextype_.Choices = instanceSlice
+			complextypeFormCallback.probe.UpdateSliceOfPointersCallback(complextype_, "Choices", &complextype_.Choices)
 
 		case "Groups":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](complextypeFormCallback.probe.stageOfInterest)
@@ -2394,6 +2410,7 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 				}
 			}
 			complextype_.Groups = instanceSlice
+			complextypeFormCallback.probe.UpdateSliceOfPointersCallback(complextype_, "Groups", &complextype_.Groups)
 
 		case "Elements":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](complextypeFormCallback.probe.stageOfInterest)
@@ -2425,6 +2442,7 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 				}
 			}
 			complextype_.Elements = instanceSlice
+			complextypeFormCallback.probe.UpdateSliceOfPointersCallback(complextype_, "Elements", &complextype_.Elements)
 
 		case "Order":
 			FormDivBasicFieldToField(&(complextype_.Order), formDiv)
@@ -2470,6 +2488,7 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 				}
 			}
 			complextype_.Attributes = instanceSlice
+			complextypeFormCallback.probe.UpdateSliceOfPointersCallback(complextype_, "Attributes", &complextype_.Attributes)
 
 		case "AttributeGroups":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AttributeGroup](complextypeFormCallback.probe.stageOfInterest)
@@ -2501,6 +2520,7 @@ func (complextypeFormCallback *ComplexTypeFormCallback) OnSave() {
 				}
 			}
 			complextype_.AttributeGroups = instanceSlice
+			complextypeFormCallback.probe.UpdateSliceOfPointersCallback(complextype_, "AttributeGroups", &complextype_.AttributeGroups)
 
 		case "IsDuplicatedInXSD":
 			FormDivBasicFieldToField(&(complextype_.IsDuplicatedInXSD), formDiv)
@@ -2866,6 +2886,7 @@ func (elementFormCallback *ElementFormCallback) OnSave() {
 				}
 			}
 			element_.Groups = instanceSlice
+			elementFormCallback.probe.UpdateSliceOfPointersCallback(element_, "Groups", &element_.Groups)
 
 		case "IsDuplicatedInXSD":
 			FormDivBasicFieldToField(&(element_.IsDuplicatedInXSD), formDiv)
@@ -3589,6 +3610,7 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 				}
 			}
 			extension_.Sequences = instanceSlice
+			extensionFormCallback.probe.UpdateSliceOfPointersCallback(extension_, "Sequences", &extension_.Sequences)
 
 		case "Alls":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](extensionFormCallback.probe.stageOfInterest)
@@ -3620,6 +3642,7 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 				}
 			}
 			extension_.Alls = instanceSlice
+			extensionFormCallback.probe.UpdateSliceOfPointersCallback(extension_, "Alls", &extension_.Alls)
 
 		case "Choices":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](extensionFormCallback.probe.stageOfInterest)
@@ -3651,6 +3674,7 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 				}
 			}
 			extension_.Choices = instanceSlice
+			extensionFormCallback.probe.UpdateSliceOfPointersCallback(extension_, "Choices", &extension_.Choices)
 
 		case "Groups":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](extensionFormCallback.probe.stageOfInterest)
@@ -3682,6 +3706,7 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 				}
 			}
 			extension_.Groups = instanceSlice
+			extensionFormCallback.probe.UpdateSliceOfPointersCallback(extension_, "Groups", &extension_.Groups)
 
 		case "Elements":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](extensionFormCallback.probe.stageOfInterest)
@@ -3713,6 +3738,7 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 				}
 			}
 			extension_.Elements = instanceSlice
+			extensionFormCallback.probe.UpdateSliceOfPointersCallback(extension_, "Elements", &extension_.Elements)
 
 		case "Order":
 			FormDivBasicFieldToField(&(extension_.Order), formDiv)
@@ -3756,6 +3782,7 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 				}
 			}
 			extension_.Attributes = instanceSlice
+			extensionFormCallback.probe.UpdateSliceOfPointersCallback(extension_, "Attributes", &extension_.Attributes)
 
 		case "AttributeGroups":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AttributeGroup](extensionFormCallback.probe.stageOfInterest)
@@ -3787,6 +3814,7 @@ func (extensionFormCallback *ExtensionFormCallback) OnSave() {
 				}
 			}
 			extension_.AttributeGroups = instanceSlice
+			extensionFormCallback.probe.UpdateSliceOfPointersCallback(extension_, "AttributeGroups", &extension_.AttributeGroups)
 
 		}
 	}
@@ -3912,6 +3940,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				}
 			}
 			group_.Sequences = instanceSlice
+			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "Sequences", &group_.Sequences)
 
 		case "Alls":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](groupFormCallback.probe.stageOfInterest)
@@ -3943,6 +3972,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				}
 			}
 			group_.Alls = instanceSlice
+			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "Alls", &group_.Alls)
 
 		case "Choices":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](groupFormCallback.probe.stageOfInterest)
@@ -3974,6 +4004,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				}
 			}
 			group_.Choices = instanceSlice
+			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "Choices", &group_.Choices)
 
 		case "Groups":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](groupFormCallback.probe.stageOfInterest)
@@ -4005,6 +4036,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				}
 			}
 			group_.Groups = instanceSlice
+			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "Groups", &group_.Groups)
 
 		case "Elements":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](groupFormCallback.probe.stageOfInterest)
@@ -4036,6 +4068,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				}
 			}
 			group_.Elements = instanceSlice
+			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "Elements", &group_.Elements)
 
 		case "Order":
 			FormDivBasicFieldToField(&(group_.Order), formDiv)
@@ -5177,6 +5210,7 @@ func (restrictionFormCallback *RestrictionFormCallback) OnSave() {
 				}
 			}
 			restriction_.Enumerations = instanceSlice
+			restrictionFormCallback.probe.UpdateSliceOfPointersCallback(restriction_, "Enumerations", &restriction_.Enumerations)
 
 		case "MinInclusive":
 			FormDivSelectFieldToField(&(restriction_.MinInclusive), restrictionFormCallback.probe.stageOfInterest, formDiv)
@@ -5306,6 +5340,7 @@ func (schemaFormCallback *SchemaFormCallback) OnSave() {
 				}
 			}
 			schema_.Elements = instanceSlice
+			schemaFormCallback.probe.UpdateSliceOfPointersCallback(schema_, "Elements", &schema_.Elements)
 
 		case "SimpleTypes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SimpleType](schemaFormCallback.probe.stageOfInterest)
@@ -5337,6 +5372,7 @@ func (schemaFormCallback *SchemaFormCallback) OnSave() {
 				}
 			}
 			schema_.SimpleTypes = instanceSlice
+			schemaFormCallback.probe.UpdateSliceOfPointersCallback(schema_, "SimpleTypes", &schema_.SimpleTypes)
 
 		case "ComplexTypes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ComplexType](schemaFormCallback.probe.stageOfInterest)
@@ -5368,6 +5404,7 @@ func (schemaFormCallback *SchemaFormCallback) OnSave() {
 				}
 			}
 			schema_.ComplexTypes = instanceSlice
+			schemaFormCallback.probe.UpdateSliceOfPointersCallback(schema_, "ComplexTypes", &schema_.ComplexTypes)
 
 		case "AttributeGroups":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AttributeGroup](schemaFormCallback.probe.stageOfInterest)
@@ -5399,6 +5436,7 @@ func (schemaFormCallback *SchemaFormCallback) OnSave() {
 				}
 			}
 			schema_.AttributeGroups = instanceSlice
+			schemaFormCallback.probe.UpdateSliceOfPointersCallback(schema_, "AttributeGroups", &schema_.AttributeGroups)
 
 		case "Groups":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](schemaFormCallback.probe.stageOfInterest)
@@ -5430,6 +5468,7 @@ func (schemaFormCallback *SchemaFormCallback) OnSave() {
 				}
 			}
 			schema_.Groups = instanceSlice
+			schemaFormCallback.probe.UpdateSliceOfPointersCallback(schema_, "Groups", &schema_.Groups)
 
 		case "Order":
 			FormDivBasicFieldToField(&(schema_.Order), formDiv)
@@ -5547,6 +5586,7 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 				}
 			}
 			sequence_.Sequences = instanceSlice
+			sequenceFormCallback.probe.UpdateSliceOfPointersCallback(sequence_, "Sequences", &sequence_.Sequences)
 
 		case "Alls":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.All](sequenceFormCallback.probe.stageOfInterest)
@@ -5578,6 +5618,7 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 				}
 			}
 			sequence_.Alls = instanceSlice
+			sequenceFormCallback.probe.UpdateSliceOfPointersCallback(sequence_, "Alls", &sequence_.Alls)
 
 		case "Choices":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Choice](sequenceFormCallback.probe.stageOfInterest)
@@ -5609,6 +5650,7 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 				}
 			}
 			sequence_.Choices = instanceSlice
+			sequenceFormCallback.probe.UpdateSliceOfPointersCallback(sequence_, "Choices", &sequence_.Choices)
 
 		case "Groups":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Group](sequenceFormCallback.probe.stageOfInterest)
@@ -5640,6 +5682,7 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 				}
 			}
 			sequence_.Groups = instanceSlice
+			sequenceFormCallback.probe.UpdateSliceOfPointersCallback(sequence_, "Groups", &sequence_.Groups)
 
 		case "Elements":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Element](sequenceFormCallback.probe.stageOfInterest)
@@ -5671,6 +5714,7 @@ func (sequenceFormCallback *SequenceFormCallback) OnSave() {
 				}
 			}
 			sequence_.Elements = instanceSlice
+			sequenceFormCallback.probe.UpdateSliceOfPointersCallback(sequence_, "Elements", &sequence_.Elements)
 
 		case "Order":
 			FormDivBasicFieldToField(&(sequence_.Order), formDiv)

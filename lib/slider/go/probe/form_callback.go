@@ -248,6 +248,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				}
 			}
 			group_.Sliders = instanceSlice
+			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "Sliders", &group_.Sliders)
 
 		case "Checkboxes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Checkbox](groupFormCallback.probe.stageOfInterest)
@@ -279,6 +280,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				}
 			}
 			group_.Checkboxes = instanceSlice
+			groupFormCallback.probe.UpdateSliceOfPointersCallback(group_, "Checkboxes", &group_.Checkboxes)
 
 		case "Layout:Groups":
 			// WARNING : this form deals with the N-N association "Layout.Groups []*Group" but
@@ -454,6 +456,7 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 				}
 			}
 			layout_.Groups = instanceSlice
+			layoutFormCallback.probe.UpdateSliceOfPointersCallback(layout_, "Groups", &layout_.Groups)
 
 		case "IsWithCustomGutterSize":
 			FormDivBasicFieldToField(&(layout_.IsWithCustomGutterSize), formDiv)
