@@ -921,6 +921,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(taskshape.GongMarshallField(stage, "Task"))
+		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsShowDate"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Width"))
@@ -2693,6 +2694,11 @@ func (taskshape *TaskShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(taskshape.Name))
+	case "IsShowDate":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsShowDate")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", taskshape.IsShowDate))
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
@@ -3102,6 +3108,7 @@ func (taskshape *TaskShape) GongMarshallAllFields(stage *Stage) (initRes string,
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(taskshape.GongMarshallField(stage, "Task"))
+		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsShowDate"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Width"))

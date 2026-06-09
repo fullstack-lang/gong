@@ -147,6 +147,24 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			}
 		}
 
+		if taskShape.IsShowDate {
+			dateText := new(svg.RectAnchoredText)
+			dateText.Name = "Date"
+			dateText.Content = taskShape.Task.Start.Format("2006 05 06") + " - " + taskShape.Task.End.Format("2006 05 06")
+			dateText.Stroke = svg.Black.ToString()
+			dateText.StrokeWidth = 1
+			dateText.StrokeOpacity = 1
+			dateText.Color = svg.Black.ToString()
+			dateText.FillOpacity = 1
+			dateText.FontSize = "12px"
+			dateText.X_Offset = 0
+			dateText.Y_Offset = 60
+			dateText.RectAnchorType = svg.RECT_TOP
+			dateText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+
+			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, dateText)
+		}
+
 		if taskShape.Task.IsWithCompletion {
 			rectAnchoredPath := new(svg.RectAnchoredPath)
 			rect.IsScalingProportionally = false
