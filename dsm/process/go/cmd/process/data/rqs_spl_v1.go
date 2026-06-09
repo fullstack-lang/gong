@@ -219,6 +219,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.Name = `IFPS Operations`
 	__Library__00000000_.Description = `Modeling of message exchanges handled by EUROCONTROL IFPS`
 	__Library__00000000_.ComputedPrefix = ``
+	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``

@@ -585,7 +585,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000001_.Name = `RQS SPL, AO in the loop`
 	__DiagramProcess__00000001_.Description = ``
 	__DiagramProcess__00000001_.ComputedPrefix = ``
-	__DiagramProcess__00000001_.IsChecked = false
+	__DiagramProcess__00000001_.IsChecked = true
 	__DiagramProcess__00000001_.IsEditable_ = true
 	__DiagramProcess__00000001_.IsShowPrefix = false
 	__DiagramProcess__00000001_.DefaultBoxWidth = 250.000000
@@ -600,7 +600,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000002_.Name = `RQS SPL, AO out of the loop`
 	__DiagramProcess__00000002_.Description = ``
 	__DiagramProcess__00000002_.ComputedPrefix = ``
-	__DiagramProcess__00000002_.IsChecked = true
+	__DiagramProcess__00000002_.IsChecked = false
 	__DiagramProcess__00000002_.IsEditable_ = true
 	__DiagramProcess__00000002_.IsShowPrefix = false
 	__DiagramProcess__00000002_.DefaultBoxWidth = 250.000000
@@ -615,6 +615,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.Name = `ICAO 4444 Chapter 11`
 	__Library__00000000_.Description = `Modeling of message exchanges handled by the ATS Reporting Office (ARO)`
 	__Library__00000000_.ComputedPrefix = ``
+	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
