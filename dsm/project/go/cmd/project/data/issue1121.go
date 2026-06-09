@@ -52,6 +52,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Height = 478.902722
 	__Diagram__00000000_.IsPBSNodeExpanded = false
 	__Diagram__00000000_.IsWBSNodeExpanded = true
+	__Diagram__00000000_.DateFormat = `2006`
 	__Diagram__00000000_.IsNotesNodeExpanded = false
 	__Diagram__00000000_.IsResourcesNodeExpanded = false
 

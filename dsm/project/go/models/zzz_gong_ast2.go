@@ -498,6 +498,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.TasksWhoseInputNodeIsExpanded, valueExpr, identifierMap)
 	case "TasksWhoseOutputNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.TasksWhoseOutputNodeIsExpanded, valueExpr, identifierMap)
+	case "DateFormat":
+		instance.DateFormat = GongExtractString(valueExpr)
 	case "TaskComposition_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.TaskComposition_Shapes, valueExpr, identifierMap)
 	case "TaskInputShapes":

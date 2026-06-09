@@ -5719,6 +5719,10 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Task",
 		},
 		{
+			Name:               "DateFormat",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:                 "TaskComposition_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "TaskCompositionShape",
@@ -6748,6 +6752,8 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "DateFormat":
+		res.valueString = diagram.DateFormat
 	case "TaskComposition_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.TaskComposition_Shapes {
@@ -7800,6 +7806,8 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "DateFormat":
+		diagram.DateFormat = value.GetValueString()
 	case "TaskComposition_Shapes":
 		diagram.TaskComposition_Shapes = make([]*TaskCompositionShape, 0)
 		ids := strings.Split(value.ids, ";")
