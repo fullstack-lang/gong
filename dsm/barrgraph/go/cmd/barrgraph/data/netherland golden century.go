@@ -226,9 +226,9 @@ func _(stage *models.Stage) {
 	__Artist__00000005_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1682-01-01 00:00:00 +0000 UTC")
 
 	__ArtistShape__00000000_.Name = ``
-	__ArtistShape__00000000_.X = 86.000000
+	__ArtistShape__00000000_.X = 95.000000
 	__ArtistShape__00000000_.Y = 404.000000
-	__ArtistShape__00000000_.Width = 120.000000
+	__ArtistShape__00000000_.Width = 94.000000
 	__ArtistShape__00000000_.Height = 30.000000
 	__ArtistShape__00000000_.IsHidden = false
 	__ArtistShape__00000000_.ImagePng_X = 0.000000
@@ -256,8 +256,8 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000001_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000002_.Name = ``
-	__ArtistShape__00000002_.X = 267.000000
-	__ArtistShape__00000002_.Y = 724.000000
+	__ArtistShape__00000002_.X = 271.000000
+	__ArtistShape__00000002_.Y = 682.000000
 	__ArtistShape__00000002_.Width = 120.000000
 	__ArtistShape__00000002_.Height = 30.000000
 	__ArtistShape__00000002_.IsHidden = false
@@ -345,7 +345,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Name = `Netherland   Golden    Century`
 	__Diagram__00000000_.ComputedPrefix = ``
 	__Diagram__00000000_.IsChecked = false
-	__Diagram__00000000_.IsEditable = false
+	__Diagram__00000000_.IsEditable = true
 	__Diagram__00000000_.IsNodeExpanded = true
 	__Diagram__00000000_.IsMovementCategoryNodeExpanded = false
 	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = false
@@ -626,17 +626,17 @@ func _(stage *models.Stage) {
 	__MovementShape__00000001_.IsHidden = false
 
 	__MovementShape__00000002_.Name = ``
-	__MovementShape__00000002_.X = 650.000000
+	__MovementShape__00000002_.X = 605.000000
 	__MovementShape__00000002_.Y = 340.000000
-	__MovementShape__00000002_.Width = 120.000000
+	__MovementShape__00000002_.Width = 164.000000
 	__MovementShape__00000002_.Height = 30.000000
 	__MovementShape__00000002_.IsHidden = false
 
 	__MovementShape__00000003_.Name = ``
-	__MovementShape__00000003_.X = 409.000000
+	__MovementShape__00000003_.X = 425.000000
 	__MovementShape__00000003_.Y = 584.000000
-	__MovementShape__00000003_.Width = 120.000000
-	__MovementShape__00000003_.Height = 30.000000
+	__MovementShape__00000003_.Width = 104.000000
+	__MovementShape__00000003_.Height = 24.000000
 	__MovementShape__00000003_.IsHidden = false
 
 	__Place__00000000_.Name = `Haarlem`
