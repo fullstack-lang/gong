@@ -314,7 +314,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsTaskGroupsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupsWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsMilestonesNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "MilestoneShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "MilestonesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DateFormat"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskComposition_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskInputShapes"))
@@ -391,6 +393,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootProducts"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootTasks"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootTaskGroups"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootMilestones"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootResources"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Notes"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Diagrams"))
@@ -1386,6 +1389,11 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsTaskGroupsNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsTaskGroupsNodeExpanded))
+	case "IsMilestonesNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsMilestonesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsMilestonesNodeExpanded))
 	case "DateFormat":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -1645,6 +1653,16 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "MilestonesWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _milestone := range diagram.MilestonesWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "MilestonesWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _milestone.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "TaskComposition_Shapes":
 		var sb strings.Builder
 		for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
@@ -1837,6 +1855,16 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootTaskGroups")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskgroup.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "RootMilestones":
+		var sb strings.Builder
+		for _, _milestone := range library.RootMilestones {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootMilestones")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _milestone.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -3327,7 +3355,9 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsTaskGroupsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupsWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsMilestonesNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "MilestoneShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "MilestonesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DateFormat"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskComposition_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskInputShapes"))
@@ -3389,6 +3419,7 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootProducts"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootTasks"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootTaskGroups"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootMilestones"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootResources"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Notes"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Diagrams"))

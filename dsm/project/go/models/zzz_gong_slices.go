@@ -92,6 +92,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_MilestoneShapes_reverseMap[_milestoneshape] = diagram
 		}
 	}
+	stage.Diagram_MilestonesWhoseNodeIsExpanded_reverseMap = make(map[*Milestone]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _milestone := range diagram.MilestonesWhoseNodeIsExpanded {
+			stage.Diagram_MilestonesWhoseNodeIsExpanded_reverseMap[_milestone] = diagram
+		}
+	}
 	stage.Diagram_TaskComposition_Shapes_reverseMap = make(map[*TaskCompositionShape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
@@ -205,6 +212,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = library
 		for _, _taskgroup := range library.RootTaskGroups {
 			stage.Library_RootTaskGroups_reverseMap[_taskgroup] = library
+		}
+	}
+	stage.Library_RootMilestones_reverseMap = make(map[*Milestone]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _milestone := range library.RootMilestones {
+			stage.Library_RootMilestones_reverseMap[_milestone] = library
 		}
 	}
 	stage.Library_RootResources_reverseMap = make(map[*Resource]*Library)

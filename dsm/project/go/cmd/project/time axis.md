@@ -16,3 +16,15 @@ I am sure there exist well not approachs to this problem with a suitable data mo
 
 do not hesitate to trash the current approach with NumberOfYearsBetweenTicks
 
+
+in lib/gantt/go/models/milestone.go
+
+there is a nice implementation of the concept 
+
+add it to the dsm/project library (abstract & concrete)
+
+
+replace "Lane" by "TaskGroup" in
+
+	// a red diamond a text anchor will be displayed
+	LanesToDisplay []*Lane

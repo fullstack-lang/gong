@@ -448,6 +448,9 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	for _, _milestoneshape := range diagram.MilestoneShapes {
 		StageBranch(stage, _milestoneshape)
 	}
+	for _, _milestone := range diagram.MilestonesWhoseNodeIsExpanded {
+		StageBranch(stage, _milestone)
+	}
 	for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
 		StageBranch(stage, _taskcompositionshape)
 	}
@@ -510,6 +513,9 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	}
 	for _, _taskgroup := range library.RootTaskGroups {
 		StageBranch(stage, _taskgroup)
+	}
+	for _, _milestone := range library.RootMilestones {
+		StageBranch(stage, _milestone)
 	}
 	for _, _resource := range library.RootResources {
 		StageBranch(stage, _resource)
@@ -1098,6 +1104,9 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	for _, _milestoneshape := range diagramFrom.MilestoneShapes {
 		diagramTo.MilestoneShapes = append(diagramTo.MilestoneShapes, CopyBranchMilestoneShape(mapOrigCopy, _milestoneshape))
 	}
+	for _, _milestone := range diagramFrom.MilestonesWhoseNodeIsExpanded {
+		diagramTo.MilestonesWhoseNodeIsExpanded = append(diagramTo.MilestonesWhoseNodeIsExpanded, CopyBranchMilestone(mapOrigCopy, _milestone))
+	}
 	for _, _taskcompositionshape := range diagramFrom.TaskComposition_Shapes {
 		diagramTo.TaskComposition_Shapes = append(diagramTo.TaskComposition_Shapes, CopyBranchTaskCompositionShape(mapOrigCopy, _taskcompositionshape))
 	}
@@ -1164,6 +1173,9 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	}
 	for _, _taskgroup := range libraryFrom.RootTaskGroups {
 		libraryTo.RootTaskGroups = append(libraryTo.RootTaskGroups, CopyBranchTaskGroup(mapOrigCopy, _taskgroup))
+	}
+	for _, _milestone := range libraryFrom.RootMilestones {
+		libraryTo.RootMilestones = append(libraryTo.RootMilestones, CopyBranchMilestone(mapOrigCopy, _milestone))
 	}
 	for _, _resource := range libraryFrom.RootResources {
 		libraryTo.RootResources = append(libraryTo.RootResources, CopyBranchResource(mapOrigCopy, _resource))
@@ -1807,6 +1819,9 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	for _, _milestoneshape := range diagram.MilestoneShapes {
 		UnstageBranch(stage, _milestoneshape)
 	}
+	for _, _milestone := range diagram.MilestonesWhoseNodeIsExpanded {
+		UnstageBranch(stage, _milestone)
+	}
 	for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
 		UnstageBranch(stage, _taskcompositionshape)
 	}
@@ -1869,6 +1884,9 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	}
 	for _, _taskgroup := range library.RootTaskGroups {
 		UnstageBranch(stage, _taskgroup)
+	}
+	for _, _milestone := range library.RootMilestones {
+		UnstageBranch(stage, _milestone)
 	}
 	for _, _resource := range library.RootResources {
 		UnstageBranch(stage, _resource)
@@ -2346,6 +2364,10 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.MilestoneShapes {
 		reference.MilestoneShapes = append(reference.MilestoneShapes, stage.MilestoneShapes_reference[_b])
 	}
+	reference.MilestonesWhoseNodeIsExpanded = reference.MilestonesWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.MilestonesWhoseNodeIsExpanded {
+		reference.MilestonesWhoseNodeIsExpanded = append(reference.MilestonesWhoseNodeIsExpanded, stage.Milestones_reference[_b])
+	}
 	reference.TaskComposition_Shapes = reference.TaskComposition_Shapes[:0]
 	for _, _b := range instance.TaskComposition_Shapes {
 		reference.TaskComposition_Shapes = append(reference.TaskComposition_Shapes, stage.TaskCompositionShapes_reference[_b])
@@ -2414,6 +2436,10 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	reference.RootTaskGroups = reference.RootTaskGroups[:0]
 	for _, _b := range instance.RootTaskGroups {
 		reference.RootTaskGroups = append(reference.RootTaskGroups, stage.TaskGroups_reference[_b])
+	}
+	reference.RootMilestones = reference.RootMilestones[:0]
+	for _, _b := range instance.RootMilestones {
+		reference.RootMilestones = append(reference.RootMilestones, stage.Milestones_reference[_b])
 	}
 	reference.RootResources = reference.RootResources[:0]
 	for _, _b := range instance.RootResources {
@@ -2724,6 +2750,13 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.MilestoneShapes = _MilestoneShapes
+	var _MilestonesWhoseNodeIsExpanded []*Milestone
+	for _, _reference := range reference.MilestonesWhoseNodeIsExpanded {
+		if _instance, ok := stage.Milestones_instance[_reference]; ok {
+			_MilestonesWhoseNodeIsExpanded = append(_MilestonesWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.MilestonesWhoseNodeIsExpanded = _MilestonesWhoseNodeIsExpanded
 	var _TaskComposition_Shapes []*TaskCompositionShape
 	for _, _reference := range reference.TaskComposition_Shapes {
 		if _instance, ok := stage.TaskCompositionShapes_instance[_reference]; ok {
@@ -2841,6 +2874,13 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.RootTaskGroups = _RootTaskGroups
+	var _RootMilestones []*Milestone
+	for _, _reference := range reference.RootMilestones {
+		if _instance, ok := stage.Milestones_instance[_reference]; ok {
+			_RootMilestones = append(_RootMilestones, _instance)
+		}
+	}
+	reference.RootMilestones = _RootMilestones
 	var _RootResources []*Resource
 	for _, _reference := range reference.RootResources {
 		if _instance, ok := stage.Resources_instance[_reference]; ok {
@@ -3420,6 +3460,9 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		ops := Diff(stage, diagram, diagramOther, "TaskGroupsWhoseNodeIsExpanded", diagramOther.TaskGroupsWhoseNodeIsExpanded, diagram.TaskGroupsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
+	if diagram.IsMilestonesNodeExpanded != diagramOther.IsMilestonesNodeExpanded {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsMilestonesNodeExpanded"))
+	}
 	MilestoneShapesDifferent := false
 	if len(diagram.MilestoneShapes) != len(diagramOther.MilestoneShapes) {
 		MilestoneShapesDifferent = true
@@ -3439,6 +3482,27 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	}
 	if MilestoneShapesDifferent {
 		ops := Diff(stage, diagram, diagramOther, "MilestoneShapes", diagramOther.MilestoneShapes, diagram.MilestoneShapes)
+		diffs = append(diffs, ops)
+	}
+	MilestonesWhoseNodeIsExpandedDifferent := false
+	if len(diagram.MilestonesWhoseNodeIsExpanded) != len(diagramOther.MilestonesWhoseNodeIsExpanded) {
+		MilestonesWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagram.MilestonesWhoseNodeIsExpanded {
+			if (diagram.MilestonesWhoseNodeIsExpanded[i] == nil) != (diagramOther.MilestonesWhoseNodeIsExpanded[i] == nil) {
+				MilestonesWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagram.MilestonesWhoseNodeIsExpanded[i] != nil && diagramOther.MilestonesWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagram.MilestonesWhoseNodeIsExpanded[i] != diagramOther.MilestonesWhoseNodeIsExpanded[i] {
+					MilestonesWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if MilestonesWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, diagram, diagramOther, "MilestonesWhoseNodeIsExpanded", diagramOther.MilestonesWhoseNodeIsExpanded, diagram.MilestonesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagram.DateFormat != diagramOther.DateFormat {
@@ -3888,6 +3952,27 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	}
 	if RootTaskGroupsDifferent {
 		ops := Diff(stage, library, libraryOther, "RootTaskGroups", libraryOther.RootTaskGroups, library.RootTaskGroups)
+		diffs = append(diffs, ops)
+	}
+	RootMilestonesDifferent := false
+	if len(library.RootMilestones) != len(libraryOther.RootMilestones) {
+		RootMilestonesDifferent = true
+	} else {
+		for i := range library.RootMilestones {
+			if (library.RootMilestones[i] == nil) != (libraryOther.RootMilestones[i] == nil) {
+				RootMilestonesDifferent = true
+				break
+			} else if library.RootMilestones[i] != nil && libraryOther.RootMilestones[i] != nil {
+				// this is a pointer comparaison
+				if library.RootMilestones[i] != libraryOther.RootMilestones[i] {
+					RootMilestonesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootMilestonesDifferent {
+		ops := Diff(stage, library, libraryOther, "RootMilestones", libraryOther.RootMilestones, library.RootMilestones)
 		diffs = append(diffs, ops)
 	}
 	RootResourcesDifferent := false

@@ -36,6 +36,8 @@ type Diagram_WOP struct {
 
 	IsTaskGroupsNodeExpanded bool
 
+	IsMilestonesNodeExpanded bool
+
 	DateFormat string
 
 	IsNotesNodeExpanded bool
@@ -111,6 +113,7 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
 	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
 	to.IsTaskGroupsNodeExpanded = from.IsTaskGroupsNodeExpanded
+	to.IsMilestonesNodeExpanded = from.IsMilestonesNodeExpanded
 	to.DateFormat = from.DateFormat
 	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
