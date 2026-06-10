@@ -27,6 +27,18 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.library, probe)
 			}
+		case *MilestoneFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Milestone", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.milestone, probe)
+			}
+		case *MilestoneShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "MilestoneShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.milestoneshape, probe)
+			}
 		case *NoteFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Note", true)
@@ -189,6 +201,32 @@ func FillUpFormFromGongstructName(
 		library := new(models.Library)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(library, formGroup, probe)
+	case "Milestone":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Milestone Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MilestoneFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		milestone := new(models.Milestone)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(milestone, formGroup, probe)
+	case "MilestoneShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "MilestoneShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__MilestoneShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		milestoneshape := new(models.MilestoneShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(milestoneshape, formGroup, probe)
 	case "Note":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

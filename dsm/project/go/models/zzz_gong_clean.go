@@ -52,6 +52,7 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagram.TasksWhoseOutputNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.TaskGroupShapes) || modified
 	modified = GongCleanSlice(stage, &diagram.TaskGroupsWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagram.MilestoneShapes) || modified
 	modified = GongCleanSlice(stage, &diagram.TaskComposition_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagram.TaskInputShapes) || modified
 	modified = GongCleanSlice(stage, &diagram.TaskOutputShapes) || modified
@@ -79,6 +80,22 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &library.Notes) || modified
 	modified = GongCleanSlice(stage, &library.Diagrams) || modified
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Milestone
+func (milestone *Milestone) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &milestone.TaskGroupsToDisplay) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by MilestoneShape
+func (milestoneshape *MilestoneShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &milestoneshape.Milestone) || modified
 	return
 }
 

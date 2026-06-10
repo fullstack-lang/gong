@@ -190,6 +190,8 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 	currentY := YTopMargin
 	laneIndex := 0
 
+	mapTaskGroup_TextY := make(map[*TaskGroup]float64, 0)
+
 	for _, taskGroupShape := range diagram.TaskGroupShapes {
 		if taskGroupShape.IsHidden {
 			continue
@@ -219,6 +221,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 		laneText.Content = laneText.Name
 		laneText.X = XLeftText
 		laneText.Y = currentY + LaneHeight/2.0 + TextHeight/2.0
+		mapTaskGroup_TextY[taskGroup] = laneText.Y
 		laneText.Color = "black"
 		laneText.FillOpacity = 1.0
 		layer.Texts = append(layer.Texts, laneText)
@@ -297,5 +300,70 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 		}
 
 		currentY = currentY + LaneHeight
+	}
+
+	//
+	// Milestones
+	//
+	for _, milestoneShape := range diagram.MilestoneShapes {
+		if milestoneShape.IsHidden {
+			continue
+		}
+		milestone := milestoneShape.Milestone
+
+		if diagram.UseManualStartAndEndDates &&
+			(milestone.Date.Before(diagram.ManualStart) ||
+				milestone.Date.After(diagram.ManualEnd)) {
+			continue
+		}
+		durationBetweenMilestoneAndGanttStart := milestone.Date.Sub(diagram.ComputedStart)
+
+		durationBetweenMilestoneAndGanttStartRelativeToGanttDuration :=
+			float64(durationBetweenMilestoneAndGanttStart) / float64(diagram.ComputedDuration)
+
+		//
+		// draw the line
+		//
+		lineX := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenMilestoneAndGanttStartRelativeToGanttDuration
+		if milestone.DisplayVerticalBar {
+			line := new(svg.Line).Stage(stager.svgStage)
+			line.Name = milestone.Name
+			layer.Lines = append(layer.Lines, line)
+			line.X1 = lineX
+			line.X2 = line.X1
+			line.Y1 = YTopMargin
+			line.Y2 = yTimeLine
+			line.Stroke = "black"
+			line.StrokeWidth = 0.5
+			line.StrokeDashArray = "2 2"
+		}
+
+		//
+		// draw diamond
+		//
+		diamondWidth := 18.0
+		for _, taskGroupToDisplay := range milestone.TaskGroupsToDisplay {
+
+			diamond := new(svg.Rect).Stage(stager.svgStage)
+			layer.Rects = append(layer.Rects, diamond)
+			diamond.Name = milestone.Name
+			diamond.X = lineX - diamondWidth/2.0
+			diamond.Y = mapTaskGroup_TextY[taskGroupToDisplay] - diamondWidth + LaneHeight/2.0
+			diamond.Width = diamondWidth
+			diamond.Height = diamondWidth
+			diamond.Color = "red"
+			diamond.FillOpacity = 0.4
+			diamond.Transform = fmt.Sprintf("rotate(%d %d %d)", 45, int64(diamond.X+diamondWidth/2.0), int64(diamond.Y+diamondWidth/2.0))
+
+			// bar text
+			milestoneText := new(svg.Text).Stage(stager.svgStage)
+			milestoneText.Name = milestone.Name
+			milestoneText.Content = milestoneText.Name
+			milestoneText.X = diamond.X + XLeftText + diamondWidth
+			milestoneText.Y = diamond.Y + TextHeight/2.0 + 5 // manual fine tuning
+			milestoneText.Color = "black"
+			milestoneText.FillOpacity = 1.0
+			layer.Texts = append(layer.Texts, milestoneText)
+		}
 	}
 }
