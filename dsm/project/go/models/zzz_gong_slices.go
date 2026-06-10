@@ -85,6 +85,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_TaskGroupsWhoseNodeIsExpanded_reverseMap[_taskgroup] = diagram
 		}
 	}
+	stage.Diagram_MilestoneShapes_reverseMap = make(map[*MilestoneShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _milestoneshape := range diagram.MilestoneShapes {
+			stage.Diagram_MilestoneShapes_reverseMap[_milestoneshape] = diagram
+		}
+	}
 	stage.Diagram_TaskComposition_Shapes_reverseMap = make(map[*TaskCompositionShape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
@@ -221,6 +228,19 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_Diagrams_reverseMap[_diagram] = library
 		}
 	}
+
+	// Compute reverse map for named struct Milestone
+	// insertion point per field
+	stage.Milestone_TaskGroupsToDisplay_reverseMap = make(map[*TaskGroup]*Milestone)
+	for milestone := range stage.Milestones {
+		_ = milestone
+		for _, _taskgroup := range milestone.TaskGroupsToDisplay {
+			stage.Milestone_TaskGroupsToDisplay_reverseMap[_taskgroup] = milestone
+		}
+	}
+
+	// Compute reverse map for named struct MilestoneShape
+	// insertion point per field
 
 	// Compute reverse map for named struct Note
 	// insertion point per field
@@ -362,6 +382,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.Milestones {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.MilestoneShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Notes {
 		res = append(res, instance)
 	}
@@ -451,6 +479,18 @@ func (diagram *Diagram) GongCopy() GongstructIF {
 func (library *Library) GongCopy() GongstructIF {
 	newInstance := new(Library)
 	library.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (milestone *Milestone) GongCopy() GongstructIF {
+	newInstance := new(Milestone)
+	milestone.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (milestoneshape *MilestoneShape) GongCopy() GongstructIF {
+	newInstance := new(MilestoneShape)
+	milestoneshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -586,6 +626,26 @@ func (library *Library) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(library), uint64(GetOrderPointerGongstruct(stage, library)))
+	return
+}
+
+func (milestone *Milestone) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(milestone).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(milestone), uint64(GetOrderPointerGongstruct(stage, milestone)))
+	return
+}
+
+func (milestoneshape *MilestoneShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(milestoneshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(milestoneshape), uint64(GetOrderPointerGongstruct(stage, milestoneshape)))
 	return
 }
 
@@ -907,6 +967,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(librarys_newInstances)
 	lenDeletedInstances += len(librarys_deletedInstances)
+	var milestones_newInstances []*Milestone
+	var milestones_deletedInstances []*Milestone
+
+	// parse all staged instances and check if they have a reference
+	for milestone := range stage.Milestones {
+		if ref, ok := stage.Milestones_reference[milestone]; !ok {
+			milestones_newInstances = append(milestones_newInstances, milestone)
+			newInstancesSlice = append(newInstancesSlice, milestone.GongMarshallIdentifier(stage))
+			if stage.Milestones_referenceOrder == nil {
+				stage.Milestones_referenceOrder = make(map[*Milestone]uint)
+			}
+			stage.Milestones_referenceOrder[milestone] = stage.Milestone_stagedOrder[milestone]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, milestone.GongMarshallUnstaging(stage))
+			// delete(stage.Milestones_referenceOrder, milestone)
+			fieldInitializers, pointersInitializations := milestone.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Milestone_stagedOrder[ref] = stage.Milestone_stagedOrder[milestone]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := milestone.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, milestone)
+			// delete(stage.Milestone_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if milestone.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", milestone.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Milestones_reference {
+		instance := stage.Milestones_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Milestones[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			milestones_deletedInstances = append(milestones_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(milestones_newInstances)
+	lenDeletedInstances += len(milestones_deletedInstances)
+	var milestoneshapes_newInstances []*MilestoneShape
+	var milestoneshapes_deletedInstances []*MilestoneShape
+
+	// parse all staged instances and check if they have a reference
+	for milestoneshape := range stage.MilestoneShapes {
+		if ref, ok := stage.MilestoneShapes_reference[milestoneshape]; !ok {
+			milestoneshapes_newInstances = append(milestoneshapes_newInstances, milestoneshape)
+			newInstancesSlice = append(newInstancesSlice, milestoneshape.GongMarshallIdentifier(stage))
+			if stage.MilestoneShapes_referenceOrder == nil {
+				stage.MilestoneShapes_referenceOrder = make(map[*MilestoneShape]uint)
+			}
+			stage.MilestoneShapes_referenceOrder[milestoneshape] = stage.MilestoneShape_stagedOrder[milestoneshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, milestoneshape.GongMarshallUnstaging(stage))
+			// delete(stage.MilestoneShapes_referenceOrder, milestoneshape)
+			fieldInitializers, pointersInitializations := milestoneshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.MilestoneShape_stagedOrder[ref] = stage.MilestoneShape_stagedOrder[milestoneshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := milestoneshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, milestoneshape)
+			// delete(stage.MilestoneShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if milestoneshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", milestoneshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.MilestoneShapes_reference {
+		instance := stage.MilestoneShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.MilestoneShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			milestoneshapes_deletedInstances = append(milestoneshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(milestoneshapes_newInstances)
+	lenDeletedInstances += len(milestoneshapes_deletedInstances)
 	var notes_newInstances []*Note
 	var notes_deletedInstances []*Note
 
@@ -2007,6 +2177,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Librarys_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Milestones_reference = make(map[*Milestone]*Milestone)
+	stage.Milestones_referenceOrder = make(map[*Milestone]uint) // diff Unstage needs the reference order
+	stage.Milestones_instance = make(map[*Milestone]*Milestone)
+	for instance := range stage.Milestones {
+		_copy := instance.GongCopy().(*Milestone)
+		stage.Milestones_reference[instance] = _copy
+		stage.Milestones_instance[_copy] = instance
+		stage.Milestones_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.MilestoneShapes_reference = make(map[*MilestoneShape]*MilestoneShape)
+	stage.MilestoneShapes_referenceOrder = make(map[*MilestoneShape]uint) // diff Unstage needs the reference order
+	stage.MilestoneShapes_instance = make(map[*MilestoneShape]*MilestoneShape)
+	for instance := range stage.MilestoneShapes {
+		_copy := instance.GongCopy().(*MilestoneShape)
+		stage.MilestoneShapes_reference[instance] = _copy
+		stage.MilestoneShapes_instance[_copy] = instance
+		stage.MilestoneShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Notes_reference = make(map[*Note]*Note)
 	stage.Notes_referenceOrder = make(map[*Note]uint) // diff Unstage needs the reference order
 	stage.Notes_instance = make(map[*Note]*Note)
@@ -2208,6 +2398,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.Milestones {
+		reference := stage.Milestones_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.MilestoneShapes {
+		reference := stage.MilestoneShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.Notes {
 		reference := stage.Notes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -2333,6 +2533,30 @@ func (library *Library) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Library was not staged and does not have a reference order", library)
+		return 0
+	}
+}
+
+func (milestone *Milestone) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Milestone_stagedOrder[milestone]; ok {
+		return order
+	}
+	if order, ok := stage.Milestones_referenceOrder[milestone]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Milestone was not staged and does not have a reference order", milestone)
+		return 0
+	}
+}
+
+func (milestoneshape *MilestoneShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.MilestoneShape_stagedOrder[milestoneshape]; ok {
+		return order
+	}
+	if order, ok := stage.MilestoneShapes_referenceOrder[milestoneshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type MilestoneShape was not staged and does not have a reference order", milestoneshape)
 		return 0
 	}
 }
@@ -2588,6 +2812,24 @@ func (library *Library) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", library.GongGetGongstructName(), library.GongGetOrder(stage))
 }
 
+func (milestone *Milestone) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", milestone.GongGetGongstructName(), milestone.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (milestone *Milestone) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", milestone.GongGetGongstructName(), milestone.GongGetOrder(stage))
+}
+
+func (milestoneshape *MilestoneShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", milestoneshape.GongGetGongstructName(), milestoneshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (milestoneshape *MilestoneShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", milestoneshape.GongGetGongstructName(), milestoneshape.GongGetOrder(stage))
+}
+
 func (note *Note) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", note.GongGetGongstructName(), note.GongGetOrder(stage))
 }
@@ -2778,6 +3020,22 @@ func (library *Library) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (milestone *Milestone) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", milestone.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Milestone")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(milestone.Name))
+	return
+}
+
+func (milestoneshape *MilestoneShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", milestoneshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "MilestoneShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(milestoneshape.Name))
+	return
+}
+
 func (note *Note) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetIdentifier(stage))
@@ -2940,6 +3198,18 @@ func (diagram *Diagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (library *Library) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (milestone *Milestone) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", milestone.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (milestoneshape *MilestoneShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", milestoneshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

@@ -314,6 +314,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsTaskGroupsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "MilestoneShapes"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DateFormat"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskComposition_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskInputShapes"))
@@ -393,6 +394,68 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootResources"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Notes"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Diagrams"))
+	}
+
+	milestoneOrdered := []*Milestone{}
+	for milestone := range stage.Milestones {
+		milestoneOrdered = append(milestoneOrdered, milestone)
+	}
+	sort.Slice(milestoneOrdered[:], func(i, j int) bool {
+		milestonei := milestoneOrdered[i]
+		milestonej := milestoneOrdered[j]
+		milestonei_order, oki := stage.Milestone_stagedOrder[milestonei]
+		milestonej_order, okj := stage.Milestone_stagedOrder[milestonej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return milestonei_order < milestonej_order
+	})
+	if len(milestoneOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, milestone := range milestoneOrdered {
+
+		identifiersDecl.WriteString(milestone.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(milestone.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(milestone.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(milestone.GongMarshallField(stage, "Date"))
+		initializerStatements.WriteString(milestone.GongMarshallField(stage, "DisplayVerticalBar"))
+		pointersInitializesStatements.WriteString(milestone.GongMarshallField(stage, "TaskGroupsToDisplay"))
+	}
+
+	milestoneshapeOrdered := []*MilestoneShape{}
+	for milestoneshape := range stage.MilestoneShapes {
+		milestoneshapeOrdered = append(milestoneshapeOrdered, milestoneshape)
+	}
+	sort.Slice(milestoneshapeOrdered[:], func(i, j int) bool {
+		milestoneshapei := milestoneshapeOrdered[i]
+		milestoneshapej := milestoneshapeOrdered[j]
+		milestoneshapei_order, oki := stage.MilestoneShape_stagedOrder[milestoneshapei]
+		milestoneshapej_order, okj := stage.MilestoneShape_stagedOrder[milestoneshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return milestoneshapei_order < milestoneshapej_order
+	})
+	if len(milestoneshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, milestoneshape := range milestoneshapeOrdered {
+
+		identifiersDecl.WriteString(milestoneshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(milestoneshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(milestoneshape.GongMarshallField(stage, "Milestone"))
+		initializerStatements.WriteString(milestoneshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(milestoneshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(milestoneshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(milestoneshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(milestoneshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	noteOrdered := []*Note{}
@@ -1038,6 +1101,22 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, milestone := range milestoneOrdered {
+		_ = milestone
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, milestoneshape := range milestoneshapeOrdered {
+		_ = milestoneshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, note := range noteOrdered {
 		_ = note
 		var setPointerField string
@@ -1556,6 +1635,16 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "MilestoneShapes":
+		var sb strings.Builder
+		for _, _milestoneshape := range diagram.MilestoneShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "MilestoneShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _milestoneshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "TaskComposition_Shapes":
 		var sb strings.Builder
 		for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
@@ -1783,6 +1872,99 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Library", fieldName)
+	}
+	return
+}
+
+func (milestone *Milestone) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", milestone.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(milestone.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", milestone.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(milestone.ComputedPrefix))
+	case "Date":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", milestone.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Date")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", milestone.Date.String())
+	case "DisplayVerticalBar":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", milestone.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DisplayVerticalBar")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", milestone.DisplayVerticalBar))
+
+	case "TaskGroupsToDisplay":
+		var sb strings.Builder
+		for _, _taskgroup := range milestone.TaskGroupsToDisplay {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", milestone.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskGroupsToDisplay")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskgroup.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Milestone", fieldName)
+	}
+	return
+}
+
+func (milestoneshape *MilestoneShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", milestoneshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(milestoneshape.Name))
+	case "X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", milestoneshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", milestoneshape.X))
+	case "Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", milestoneshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", milestoneshape.Y))
+	case "Width":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", milestoneshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", milestoneshape.Width))
+	case "Height":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", milestoneshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", milestoneshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", milestoneshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", milestoneshape.IsHidden))
+
+	case "Milestone":
+		if milestoneshape.Milestone != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", milestoneshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Milestone")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", milestoneshape.Milestone.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", milestoneshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Milestone")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct MilestoneShape", fieldName)
 	}
 	return
 }
@@ -3145,6 +3327,7 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsTaskGroupsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupShapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "MilestoneShapes"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DateFormat"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskComposition_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskInputShapes"))
@@ -3209,6 +3392,38 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootResources"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Notes"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Diagrams"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (milestone *Milestone) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(milestone.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(milestone.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(milestone.GongMarshallField(stage, "Date"))
+		initializerStatements.WriteString(milestone.GongMarshallField(stage, "DisplayVerticalBar"))
+		pointersInitializesStatements.WriteString(milestone.GongMarshallField(stage, "TaskGroupsToDisplay"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (milestoneshape *MilestoneShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(milestoneshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(milestoneshape.GongMarshallField(stage, "Milestone"))
+		initializerStatements.WriteString(milestoneshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(milestoneshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(milestoneshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(milestoneshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(milestoneshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

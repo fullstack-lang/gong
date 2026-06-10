@@ -43,6 +43,14 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 				height = shape.Y + shape.Height
 			}
 		}
+		for _, shape := range diagram.MilestoneShapes {
+			if shape.X+shape.Width > width {
+				width = shape.X + shape.Width
+			}
+			if shape.Y+shape.Height > height {
+				height = shape.Y + shape.Height
+			}
+		}
 		// add a margin to the diagram size
 		margin := 100.0
 		width += margin

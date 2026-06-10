@@ -34,6 +34,31 @@ func (inst *Library) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 	return
 }
 
+func (inst *Milestone) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *MilestoneShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "MilestoneShapes":
+			if _diagram, ok := stage.Diagram_MilestoneShapes_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *Note) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -380,6 +405,13 @@ func (inst *TaskGroup) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 				res = _library.Name
 			}
 		}
+	case "Milestone":
+		switch reverseField.Fieldname {
+		case "TaskGroupsToDisplay":
+			if _milestone, ok := stage.Milestone_TaskGroupsToDisplay_reverseMap[inst]; ok {
+				res = _milestone.Name
+			}
+		}
 	}
 	return
 }
@@ -472,6 +504,29 @@ func (inst *Library) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 		switch reverseField.Fieldname {
 		case "SubLibraries":
 			res = stage.Library_SubLibraries_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *Milestone) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *MilestoneShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "MilestoneShapes":
+			res = stage.Diagram_MilestoneShapes_reverseMap[inst]
 		}
 	}
 	return res
@@ -758,6 +813,11 @@ func (inst *TaskGroup) GongGetReverseFieldOwner(stage *Stage, reverseField *Reve
 		switch reverseField.Fieldname {
 		case "RootTaskGroups":
 			res = stage.Library_RootTaskGroups_reverseMap[inst]
+		}
+	case "Milestone":
+		switch reverseField.Fieldname {
+		case "TaskGroupsToDisplay":
+			res = stage.Milestone_TaskGroupsToDisplay_reverseMap[inst]
 		}
 	}
 	return res

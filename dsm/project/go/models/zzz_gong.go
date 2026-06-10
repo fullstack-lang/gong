@@ -154,6 +154,8 @@ type Stage struct {
 
 	Diagram_TaskGroupsWhoseNodeIsExpanded_reverseMap map[*TaskGroup]*Diagram
 
+	Diagram_MilestoneShapes_reverseMap map[*MilestoneShape]*Diagram
+
 	Diagram_TaskComposition_Shapes_reverseMap map[*TaskCompositionShape]*Diagram
 
 	Diagram_TaskInputShapes_reverseMap map[*TaskInputShape]*Diagram
@@ -211,6 +213,38 @@ type Stage struct {
 	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
 	OnAfterLibraryDeleteCallback OnAfterDeleteInterface[Library]
 	OnAfterLibraryReadCallback   OnAfterReadInterface[Library]
+
+	Milestones                map[*Milestone]struct{}
+	Milestones_instance       map[*Milestone]*Milestone
+	Milestones_mapString      map[string]*Milestone
+	MilestoneOrder            uint
+	Milestone_stagedOrder     map[*Milestone]uint
+	Milestone_orderStaged     map[uint]*Milestone
+	Milestones_reference      map[*Milestone]*Milestone
+	Milestones_referenceOrder map[*Milestone]uint
+
+	// insertion point for slice of pointers maps
+	Milestone_TaskGroupsToDisplay_reverseMap map[*TaskGroup]*Milestone
+
+	OnAfterMilestoneCreateCallback OnAfterCreateInterface[Milestone]
+	OnAfterMilestoneUpdateCallback OnAfterUpdateInterface[Milestone]
+	OnAfterMilestoneDeleteCallback OnAfterDeleteInterface[Milestone]
+	OnAfterMilestoneReadCallback   OnAfterReadInterface[Milestone]
+
+	MilestoneShapes                map[*MilestoneShape]struct{}
+	MilestoneShapes_instance       map[*MilestoneShape]*MilestoneShape
+	MilestoneShapes_mapString      map[string]*MilestoneShape
+	MilestoneShapeOrder            uint
+	MilestoneShape_stagedOrder     map[*MilestoneShape]uint
+	MilestoneShape_orderStaged     map[uint]*MilestoneShape
+	MilestoneShapes_reference      map[*MilestoneShape]*MilestoneShape
+	MilestoneShapes_referenceOrder map[*MilestoneShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterMilestoneShapeCreateCallback OnAfterCreateInterface[MilestoneShape]
+	OnAfterMilestoneShapeUpdateCallback OnAfterUpdateInterface[MilestoneShape]
+	OnAfterMilestoneShapeDeleteCallback OnAfterDeleteInterface[MilestoneShape]
+	OnAfterMilestoneShapeReadCallback   OnAfterReadInterface[MilestoneShape]
 
 	Notes                map[*Note]struct{}
 	Notes_instance       map[*Note]*Note
@@ -761,6 +795,14 @@ func (stage *Stage) Squash() {
 	stage.Librarys_instance = make(map[*Library]*Library)
 	stage.Librarys_referenceOrder = make(map[*Library]uint)
 
+	stage.Milestones_reference = make(map[*Milestone]*Milestone)
+	stage.Milestones_instance = make(map[*Milestone]*Milestone)
+	stage.Milestones_referenceOrder = make(map[*Milestone]uint)
+
+	stage.MilestoneShapes_reference = make(map[*MilestoneShape]*MilestoneShape)
+	stage.MilestoneShapes_instance = make(map[*MilestoneShape]*MilestoneShape)
+	stage.MilestoneShapes_referenceOrder = make(map[*MilestoneShape]uint)
+
 	stage.Notes_reference = make(map[*Note]*Note)
 	stage.Notes_instance = make(map[*Note]*Note)
 	stage.Notes_referenceOrder = make(map[*Note]uint)
@@ -890,6 +932,34 @@ func (stage *Stage) recomputeOrders() {
 		stage.LibraryOrder = maxLibraryOrder + 1
 	} else {
 		stage.LibraryOrder = 0
+	}
+
+	var maxMilestoneOrder uint
+	var foundMilestone bool
+	for _, order := range stage.Milestone_stagedOrder {
+		if !foundMilestone || order > maxMilestoneOrder {
+			maxMilestoneOrder = order
+			foundMilestone = true
+		}
+	}
+	if foundMilestone {
+		stage.MilestoneOrder = maxMilestoneOrder + 1
+	} else {
+		stage.MilestoneOrder = 0
+	}
+
+	var maxMilestoneShapeOrder uint
+	var foundMilestoneShape bool
+	for _, order := range stage.MilestoneShape_stagedOrder {
+		if !foundMilestoneShape || order > maxMilestoneShapeOrder {
+			maxMilestoneShapeOrder = order
+			foundMilestoneShape = true
+		}
+	}
+	if foundMilestoneShape {
+		stage.MilestoneShapeOrder = maxMilestoneShapeOrder + 1
+	} else {
+		stage.MilestoneShapeOrder = 0
 	}
 
 	var maxNoteOrder uint
@@ -1247,6 +1317,34 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Milestone:
+		tmp := GetStructInstancesByOrder(stage.Milestones, stage.Milestone_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Milestone implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *MilestoneShape:
+		tmp := GetStructInstancesByOrder(stage.MilestoneShapes, stage.MilestoneShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *MilestoneShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Note:
 		tmp := GetStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder)
 
@@ -1546,6 +1644,10 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Diagrams, stage.Diagram_stagedOrder)
 	case "Library":
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
+	case "Milestone":
+		res = GetNamedStructInstances(stage.Milestones, stage.Milestone_stagedOrder)
+	case "MilestoneShape":
+		res = GetNamedStructInstances(stage.MilestoneShapes, stage.MilestoneShape_stagedOrder)
 	case "Note":
 		res = GetNamedStructInstances(stage.Notes, stage.Note_stagedOrder)
 	case "NoteProductShape":
@@ -1657,6 +1759,10 @@ type BackRepoInterface interface {
 	CheckoutDiagram(diagram *Diagram)
 	CommitLibrary(library *Library)
 	CheckoutLibrary(library *Library)
+	CommitMilestone(milestone *Milestone)
+	CheckoutMilestone(milestone *Milestone)
+	CommitMilestoneShape(milestoneshape *MilestoneShape)
+	CheckoutMilestoneShape(milestoneshape *MilestoneShape)
 	CommitNote(note *Note)
 	CheckoutNote(note *Note)
 	CommitNoteProductShape(noteproductshape *NoteProductShape)
@@ -1706,6 +1812,12 @@ func NewStage(name string) (stage *Stage) {
 
 		Librarys:           make(map[*Library]struct{}),
 		Librarys_mapString: make(map[string]*Library),
+
+		Milestones:           make(map[*Milestone]struct{}),
+		Milestones_mapString: make(map[string]*Milestone),
+
+		MilestoneShapes:           make(map[*MilestoneShape]struct{}),
+		MilestoneShapes_mapString: make(map[string]*MilestoneShape),
 
 		Notes:           make(map[*Note]struct{}),
 		Notes_mapString: make(map[string]*Note),
@@ -1781,6 +1893,14 @@ func NewStage(name string) (stage *Stage) {
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
 		Librarys_reference:  make(map[*Library]*Library),
+
+		Milestone_stagedOrder: make(map[*Milestone]uint),
+		Milestone_orderStaged: make(map[uint]*Milestone),
+		Milestones_reference:  make(map[*Milestone]*Milestone),
+
+		MilestoneShape_stagedOrder: make(map[*MilestoneShape]uint),
+		MilestoneShape_orderStaged: make(map[uint]*MilestoneShape),
+		MilestoneShapes_reference:  make(map[*MilestoneShape]*MilestoneShape),
 
 		Note_stagedOrder: make(map[*Note]uint),
 		Note_orderStaged: make(map[uint]*Note),
@@ -1864,6 +1984,10 @@ func NewStage(name string) (stage *Stage) {
 
 			"Library": &LibraryUnmarshaller{},
 
+			"Milestone": &MilestoneUnmarshaller{},
+
+			"MilestoneShape": &MilestoneShapeUnmarshaller{},
+
 			"Note": &NoteUnmarshaller{},
 
 			"NoteProductShape": &NoteProductShapeUnmarshaller{},
@@ -1908,6 +2032,8 @@ func NewStage(name string) (stage *Stage) {
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Diagram"},
 			{name: "Library"},
+			{name: "Milestone"},
+			{name: "MilestoneShape"},
 			{name: "Note"},
 			{name: "NoteProductShape"},
 			{name: "NoteResourceShape"},
@@ -1942,6 +2068,10 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Diagram_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
+	case *Milestone:
+		return stage.Milestone_stagedOrder[instance]
+	case *MilestoneShape:
+		return stage.MilestoneShape_stagedOrder[instance]
 	case *Note:
 		return stage.Note_stagedOrder[instance]
 	case *NoteProductShape:
@@ -1993,6 +2123,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.Diagram_orderStaged[order]).(Type)
 	case *Library:
 		return any(stage.Library_orderStaged[order]).(Type)
+	case *Milestone:
+		return any(stage.Milestone_orderStaged[order]).(Type)
+	case *MilestoneShape:
+		return any(stage.MilestoneShape_orderStaged[order]).(Type)
 	case *Note:
 		return any(stage.Note_orderStaged[order]).(Type)
 	case *NoteProductShape:
@@ -2043,6 +2177,10 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.Diagram_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
+	case *Milestone:
+		return stage.Milestone_stagedOrder[instance]
+	case *MilestoneShape:
+		return stage.MilestoneShape_stagedOrder[instance]
 	case *Note:
 		return stage.Note_stagedOrder[instance]
 	case *NoteProductShape:
@@ -2148,6 +2286,8 @@ func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Diagram"] = len(stage.Diagrams)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
+	stage.Map_GongStructName_InstancesNb["Milestone"] = len(stage.Milestones)
+	stage.Map_GongStructName_InstancesNb["MilestoneShape"] = len(stage.MilestoneShapes)
 	stage.Map_GongStructName_InstancesNb["Note"] = len(stage.Notes)
 	stage.Map_GongStructName_InstancesNb["NoteProductShape"] = len(stage.NoteProductShapes)
 	stage.Map_GongStructName_InstancesNb["NoteResourceShape"] = len(stage.NoteResourceShapes)
@@ -2381,6 +2521,182 @@ func (library *Library) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (library *Library) SetName(name string) {
 	library.Name = name
+}
+
+// Stage puts milestone to the model stage
+func (milestone *Milestone) Stage(stage *Stage) *Milestone {
+	if _, ok := stage.Milestones[milestone]; !ok {
+		stage.Milestones[milestone] = struct{}{}
+		stage.Milestone_stagedOrder[milestone] = stage.MilestoneOrder
+		stage.Milestone_orderStaged[stage.MilestoneOrder] = milestone
+		stage.MilestoneOrder++
+	}
+	stage.Milestones_mapString[milestone.Name] = milestone
+
+	return milestone
+}
+
+// StagePreserveOrder puts milestone to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.MilestoneOrder
+// - update stage.MilestoneOrder accordingly
+func (milestone *Milestone) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Milestones[milestone]; !ok {
+		stage.Milestones[milestone] = struct{}{}
+
+		if order > stage.MilestoneOrder {
+			stage.MilestoneOrder = order
+		}
+		stage.Milestone_stagedOrder[milestone] = order
+		stage.Milestone_orderStaged[order] = milestone
+		stage.MilestoneOrder++
+	}
+	stage.Milestones_mapString[milestone.Name] = milestone
+}
+
+// Unstage removes milestone off the model stage
+func (milestone *Milestone) Unstage(stage *Stage) *Milestone {
+	delete(stage.Milestones, milestone)
+	// issue1150
+	// delete(stage.Milestone_stagedOrder, milestone)
+	delete(stage.Milestones_mapString, milestone.Name)
+
+	return milestone
+}
+
+// UnstageVoid removes milestone off the model stage
+func (milestone *Milestone) UnstageVoid(stage *Stage) {
+	delete(stage.Milestones, milestone)
+	// issue1150
+	// delete(stage.Milestone_stagedOrder, milestone)
+	delete(stage.Milestones_mapString, milestone.Name)
+}
+
+// commit milestone to the back repo (if it is already staged)
+func (milestone *Milestone) Commit(stage *Stage) *Milestone {
+	if _, ok := stage.Milestones[milestone]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitMilestone(milestone)
+		}
+	}
+	return milestone
+}
+
+func (milestone *Milestone) CommitVoid(stage *Stage) {
+	milestone.Commit(stage)
+}
+
+func (milestone *Milestone) StageVoid(stage *Stage) {
+	milestone.Stage(stage)
+}
+
+// Checkout milestone to the back repo (if it is already staged)
+func (milestone *Milestone) Checkout(stage *Stage) *Milestone {
+	if _, ok := stage.Milestones[milestone]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutMilestone(milestone)
+		}
+	}
+	return milestone
+}
+
+// for satisfaction of GongStruct interface
+func (milestone *Milestone) GetName() (res string) {
+	return milestone.Name
+}
+
+// for satisfaction of GongStruct interface
+func (milestone *Milestone) SetName(name string) {
+	milestone.Name = name
+}
+
+// Stage puts milestoneshape to the model stage
+func (milestoneshape *MilestoneShape) Stage(stage *Stage) *MilestoneShape {
+	if _, ok := stage.MilestoneShapes[milestoneshape]; !ok {
+		stage.MilestoneShapes[milestoneshape] = struct{}{}
+		stage.MilestoneShape_stagedOrder[milestoneshape] = stage.MilestoneShapeOrder
+		stage.MilestoneShape_orderStaged[stage.MilestoneShapeOrder] = milestoneshape
+		stage.MilestoneShapeOrder++
+	}
+	stage.MilestoneShapes_mapString[milestoneshape.Name] = milestoneshape
+
+	return milestoneshape
+}
+
+// StagePreserveOrder puts milestoneshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.MilestoneShapeOrder
+// - update stage.MilestoneShapeOrder accordingly
+func (milestoneshape *MilestoneShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.MilestoneShapes[milestoneshape]; !ok {
+		stage.MilestoneShapes[milestoneshape] = struct{}{}
+
+		if order > stage.MilestoneShapeOrder {
+			stage.MilestoneShapeOrder = order
+		}
+		stage.MilestoneShape_stagedOrder[milestoneshape] = order
+		stage.MilestoneShape_orderStaged[order] = milestoneshape
+		stage.MilestoneShapeOrder++
+	}
+	stage.MilestoneShapes_mapString[milestoneshape.Name] = milestoneshape
+}
+
+// Unstage removes milestoneshape off the model stage
+func (milestoneshape *MilestoneShape) Unstage(stage *Stage) *MilestoneShape {
+	delete(stage.MilestoneShapes, milestoneshape)
+	// issue1150
+	// delete(stage.MilestoneShape_stagedOrder, milestoneshape)
+	delete(stage.MilestoneShapes_mapString, milestoneshape.Name)
+
+	return milestoneshape
+}
+
+// UnstageVoid removes milestoneshape off the model stage
+func (milestoneshape *MilestoneShape) UnstageVoid(stage *Stage) {
+	delete(stage.MilestoneShapes, milestoneshape)
+	// issue1150
+	// delete(stage.MilestoneShape_stagedOrder, milestoneshape)
+	delete(stage.MilestoneShapes_mapString, milestoneshape.Name)
+}
+
+// commit milestoneshape to the back repo (if it is already staged)
+func (milestoneshape *MilestoneShape) Commit(stage *Stage) *MilestoneShape {
+	if _, ok := stage.MilestoneShapes[milestoneshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitMilestoneShape(milestoneshape)
+		}
+	}
+	return milestoneshape
+}
+
+func (milestoneshape *MilestoneShape) CommitVoid(stage *Stage) {
+	milestoneshape.Commit(stage)
+}
+
+func (milestoneshape *MilestoneShape) StageVoid(stage *Stage) {
+	milestoneshape.Stage(stage)
+}
+
+// Checkout milestoneshape to the back repo (if it is already staged)
+func (milestoneshape *MilestoneShape) Checkout(stage *Stage) *MilestoneShape {
+	if _, ok := stage.MilestoneShapes[milestoneshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutMilestoneShape(milestoneshape)
+		}
+	}
+	return milestoneshape
+}
+
+// for satisfaction of GongStruct interface
+func (milestoneshape *MilestoneShape) GetName() (res string) {
+	return milestoneshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (milestoneshape *MilestoneShape) SetName(name string) {
+	milestoneshape.Name = name
 }
 
 // Stage puts note to the model stage
@@ -4059,6 +4375,8 @@ func (taskshape *TaskShape) SetName(name string) {
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMDiagram(Diagram *Diagram)
 	CreateORMLibrary(Library *Library)
+	CreateORMMilestone(Milestone *Milestone)
+	CreateORMMilestoneShape(MilestoneShape *MilestoneShape)
 	CreateORMNote(Note *Note)
 	CreateORMNoteProductShape(NoteProductShape *NoteProductShape)
 	CreateORMNoteResourceShape(NoteResourceShape *NoteResourceShape)
@@ -4083,6 +4401,8 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMDiagram(Diagram *Diagram)
 	DeleteORMLibrary(Library *Library)
+	DeleteORMMilestone(Milestone *Milestone)
+	DeleteORMMilestoneShape(MilestoneShape *MilestoneShape)
 	DeleteORMNote(Note *Note)
 	DeleteORMNoteProductShape(NoteProductShape *NoteProductShape)
 	DeleteORMNoteResourceShape(NoteResourceShape *NoteResourceShape)
@@ -4114,6 +4434,16 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Librarys_mapString = make(map[string]*Library)
 	stage.Library_stagedOrder = make(map[*Library]uint)
 	stage.LibraryOrder = 0
+
+	stage.Milestones = make(map[*Milestone]struct{})
+	stage.Milestones_mapString = make(map[string]*Milestone)
+	stage.Milestone_stagedOrder = make(map[*Milestone]uint)
+	stage.MilestoneOrder = 0
+
+	stage.MilestoneShapes = make(map[*MilestoneShape]struct{})
+	stage.MilestoneShapes_mapString = make(map[string]*MilestoneShape)
+	stage.MilestoneShape_stagedOrder = make(map[*MilestoneShape]uint)
+	stage.MilestoneShapeOrder = 0
 
 	stage.Notes = make(map[*Note]struct{})
 	stage.Notes_mapString = make(map[string]*Note)
@@ -4225,6 +4555,12 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Librarys = nil
 	stage.Librarys_mapString = nil
 
+	stage.Milestones = nil
+	stage.Milestones_mapString = nil
+
+	stage.MilestoneShapes = nil
+	stage.MilestoneShapes_mapString = nil
+
 	stage.Notes = nil
 	stage.Notes_mapString = nil
 
@@ -4292,6 +4628,14 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for library := range stage.Librarys {
 		library.Unstage(stage)
+	}
+
+	for milestone := range stage.Milestones {
+		milestone.Unstage(stage)
+	}
+
+	for milestoneshape := range stage.MilestoneShapes {
+		milestoneshape.Unstage(stage)
 	}
 
 	for note := range stage.Notes {
@@ -4450,6 +4794,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Diagrams).(*Type)
 	case map[*Library]any:
 		return any(&stage.Librarys).(*Type)
+	case map[*Milestone]any:
+		return any(&stage.Milestones).(*Type)
+	case map[*MilestoneShape]any:
+		return any(&stage.MilestoneShapes).(*Type)
 	case map[*Note]any:
 		return any(&stage.Notes).(*Type)
 	case map[*NoteProductShape]any:
@@ -4504,6 +4852,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Diagrams_mapString).(map[string]Type)
 	case *Library:
 		return any(stage.Librarys_mapString).(map[string]Type)
+	case *Milestone:
+		return any(stage.Milestones_mapString).(map[string]Type)
+	case *MilestoneShape:
+		return any(stage.MilestoneShapes_mapString).(map[string]Type)
 	case *Note:
 		return any(stage.Notes_mapString).(map[string]Type)
 	case *NoteProductShape:
@@ -4558,6 +4910,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Diagrams).(*map[*Type]struct{})
 	case Library:
 		return any(&stage.Librarys).(*map[*Type]struct{})
+	case Milestone:
+		return any(&stage.Milestones).(*map[*Type]struct{})
+	case MilestoneShape:
+		return any(&stage.MilestoneShapes).(*map[*Type]struct{})
 	case Note:
 		return any(&stage.Notes).(*map[*Type]struct{})
 	case NoteProductShape:
@@ -4612,6 +4968,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Diagrams).(*map[Type]struct{})
 	case *Library:
 		return any(&stage.Librarys).(*map[Type]struct{})
+	case *Milestone:
+		return any(&stage.Milestones).(*map[Type]struct{})
+	case *MilestoneShape:
+		return any(&stage.MilestoneShapes).(*map[Type]struct{})
 	case *Note:
 		return any(&stage.Notes).(*map[Type]struct{})
 	case *NoteProductShape:
@@ -4666,6 +5026,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Diagrams_mapString).(*map[string]*Type)
 	case Library:
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
+	case Milestone:
+		return any(&stage.Milestones_mapString).(*map[string]*Type)
+	case MilestoneShape:
+		return any(&stage.MilestoneShapes_mapString).(*map[string]*Type)
 	case Note:
 		return any(&stage.Notes_mapString).(*map[string]*Type)
 	case NoteProductShape:
@@ -4739,6 +5103,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			TaskGroupShapes: []*TaskGroupShape{{Name: "TaskGroupShapes"}},
 			// field is initialized with an instance of TaskGroup with the name of the field
 			TaskGroupsWhoseNodeIsExpanded: []*TaskGroup{{Name: "TaskGroupsWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of MilestoneShape with the name of the field
+			MilestoneShapes: []*MilestoneShape{{Name: "MilestoneShapes"}},
 			// field is initialized with an instance of TaskCompositionShape with the name of the field
 			TaskComposition_Shapes: []*TaskCompositionShape{{Name: "TaskComposition_Shapes"}},
 			// field is initialized with an instance of TaskInputShape with the name of the field
@@ -4781,6 +5147,18 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Notes: []*Note{{Name: "Notes"}},
 			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
+		}).(*Type)
+	case Milestone:
+		return any(&Milestone{
+			// Initialisation of associations
+			// field is initialized with an instance of TaskGroup with the name of the field
+			TaskGroupsToDisplay: []*TaskGroup{{Name: "TaskGroupsToDisplay"}},
+		}).(*Type)
+	case MilestoneShape:
+		return any(&MilestoneShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Milestone with the name of the field
+			Milestone: &Milestone{Name: "Milestone"},
 		}).(*Type)
 	case Note:
 		return any(&Note{
@@ -4950,6 +5328,33 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Library:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Milestone
+	case Milestone:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of MilestoneShape
+	case MilestoneShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Milestone":
+			res := make(map[*Milestone][]*MilestoneShape)
+			for milestoneshape := range stage.MilestoneShapes {
+				if milestoneshape.Milestone != nil {
+					milestone_ := milestoneshape.Milestone
+					var milestoneshapes []*MilestoneShape
+					_, ok := res[milestone_]
+					if ok {
+						milestoneshapes = res[milestone_]
+					} else {
+						milestoneshapes = make([]*MilestoneShape, 0)
+					}
+					milestoneshapes = append(milestoneshapes, milestoneshape)
+					res[milestone_] = milestoneshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Note
 	case Note:
@@ -5528,6 +5933,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "MilestoneShapes":
+			res := make(map[*MilestoneShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, milestoneshape_ := range diagram.MilestoneShapes {
+					res[milestoneshape_] = append(res[milestoneshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "TaskComposition_Shapes":
 			res := make(map[*TaskCompositionShape][]*Diagram)
 			for diagram := range stage.Diagrams {
@@ -5685,6 +6098,24 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of Milestone
+	case Milestone:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "TaskGroupsToDisplay":
+			res := make(map[*TaskGroup][]*Milestone)
+			for milestone := range stage.Milestones {
+				for _, taskgroup_ := range milestone.TaskGroupsToDisplay {
+					res[taskgroup_] = append(res[taskgroup_], milestone)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of MilestoneShape
+	case MilestoneShape:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Note
 	case Note:
@@ -5876,6 +6307,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Diagram"
 	case *Library:
 		res = "Library"
+	case *Milestone:
+		res = "Milestone"
+	case *MilestoneShape:
+		res = "MilestoneShape"
 	case *Note:
 		res = "Note"
 	case *NoteProductShape:
@@ -5942,6 +6377,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Library"
 		rf.Fieldname = "SubLibraries"
+		res = append(res, rf)
+	case *Milestone:
+		var rf ReverseField
+		_ = rf
+	case *MilestoneShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "MilestoneShapes"
 		res = append(res, rf)
 	case *Note:
 		var rf ReverseField
@@ -6084,6 +6528,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Library"
 		rf.Fieldname = "RootTaskGroups"
 		res = append(res, rf)
+		rf.GongstructName = "Milestone"
+		rf.Fieldname = "TaskGroupsToDisplay"
+		res = append(res, rf)
 	case *TaskGroupShape:
 		var rf ReverseField
 		_ = rf
@@ -6208,6 +6655,11 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "TaskGroupsWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "TaskGroup",
+		},
+		{
+			Name:                 "MilestoneShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "MilestoneShape",
 		},
 		{
 			Name:               "DateFormat",
@@ -6451,6 +6903,70 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Diagrams",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Diagram",
+		},
+	}
+	return
+}
+
+func (milestone *Milestone) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Date",
+			GongFieldValueType: GongFieldValueTypeDate,
+		},
+		{
+			Name:               "DisplayVerticalBar",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "TaskGroupsToDisplay",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "TaskGroup",
+		},
+	}
+	return
+}
+
+func (milestoneshape *MilestoneShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Milestone",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Milestone",
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -7437,6 +7953,16 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "MilestoneShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.MilestoneShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "DateFormat":
 		res.valueString = diagram.DateFormat
 	case "TaskComposition_Shapes":
@@ -7786,6 +8312,68 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	}
+	return
+}
+
+func (milestone *Milestone) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = milestone.Name
+	case "ComputedPrefix":
+		res.valueString = milestone.ComputedPrefix
+	case "Date":
+		res.valueString = milestone.Date.String()
+	case "DisplayVerticalBar":
+		res.valueString = fmt.Sprintf("%t", milestone.DisplayVerticalBar)
+		res.valueBool = milestone.DisplayVerticalBar
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "TaskGroupsToDisplay":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range milestone.TaskGroupsToDisplay {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (milestoneshape *MilestoneShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = milestoneshape.Name
+	case "Milestone":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if milestoneshape.Milestone != nil {
+			res.valueString = milestoneshape.Milestone.Name
+			res.ids = milestoneshape.Milestone.GongGetUUID(stage)
+		}
+	case "X":
+		res.valueString = fmt.Sprintf("%f", milestoneshape.X)
+		res.valueFloat = milestoneshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", milestoneshape.Y)
+		res.valueFloat = milestoneshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", milestoneshape.Width)
+		res.valueFloat = milestoneshape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", milestoneshape.Height)
+		res.valueFloat = milestoneshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", milestoneshape.IsHidden)
+		res.valueBool = milestoneshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -8715,6 +9303,20 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "MilestoneShapes":
+		diagram.MilestoneShapes = make([]*MilestoneShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.MilestoneShapes {
+					if stage.MilestoneShape_stagedOrder[__instance__] == uint(id) {
+						diagram.MilestoneShapes = append(diagram.MilestoneShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "DateFormat":
 		diagram.DateFormat = value.GetValueString()
 	case "TaskComposition_Shapes":
@@ -9050,6 +9652,67 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (milestone *Milestone) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		milestone.Name = value.GetValueString()
+	case "ComputedPrefix":
+		milestone.ComputedPrefix = value.GetValueString()
+	case "DisplayVerticalBar":
+		milestone.DisplayVerticalBar = value.GetValueBool()
+	case "TaskGroupsToDisplay":
+		milestone.TaskGroupsToDisplay = make([]*TaskGroup, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.TaskGroups {
+					if stage.TaskGroup_stagedOrder[__instance__] == uint(id) {
+						milestone.TaskGroupsToDisplay = append(milestone.TaskGroupsToDisplay, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (milestoneshape *MilestoneShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		milestoneshape.Name = value.GetValueString()
+	case "Milestone":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			milestoneshape.Milestone = nil
+			for __instance__ := range stage.Milestones {
+				if stage.Milestone_stagedOrder[__instance__] == uint(id) {
+					milestoneshape.Milestone = __instance__
+					break
+				}
+			}
+		}
+	case "X":
+		milestoneshape.X = value.GetValueFloat()
+	case "Y":
+		milestoneshape.Y = value.GetValueFloat()
+	case "Width":
+		milestoneshape.Width = value.GetValueFloat()
+	case "Height":
+		milestoneshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		milestoneshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -9865,6 +10528,14 @@ func (library *Library) GongGetGongstructName() string {
 	return "Library"
 }
 
+func (milestone *Milestone) GongGetGongstructName() string {
+	return "Milestone"
+}
+
+func (milestoneshape *MilestoneShape) GongGetGongstructName() string {
+	return "MilestoneShape"
+}
+
 func (note *Note) GongGetGongstructName() string {
 	return "Note"
 }
@@ -9956,6 +10627,16 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Librarys_mapString = make(map[string]*Library)
 	for library := range stage.Librarys {
 		stage.Librarys_mapString[library.Name] = library
+	}
+
+	stage.Milestones_mapString = make(map[string]*Milestone)
+	for milestone := range stage.Milestones {
+		stage.Milestones_mapString[milestone.Name] = milestone
+	}
+
+	stage.MilestoneShapes_mapString = make(map[string]*MilestoneShape)
+	for milestoneshape := range stage.MilestoneShapes {
+		stage.MilestoneShapes_mapString[milestoneshape.Name] = milestoneshape
 	}
 
 	stage.Notes_mapString = make(map[string]*Note)
