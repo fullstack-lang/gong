@@ -70,6 +70,10 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	layer := (&svg.Layer{Name: "Layer 1"})
 	svgObject.Layers = append(svgObject.Layers, layer)
 
+	if diagram.IsTimeDiagram {
+		stager.generateTimeDiagram(diagram, layer)
+	}
+
 	for _, productShape := range diagram.Product_Shapes {
 		if productShape.IsHidden {
 			continue
@@ -126,6 +130,13 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 
 	for _, taskShape := range diagram.Task_Shapes {
 		if taskShape.IsHidden {
+			continue
+		}
+
+		// In a time diagram, task shapes are drawn as Gantt bars in generateTimeDiagram.
+		// However, tasks that don't belong to any TaskGroup might not be rendered.
+		// We still skip the generic Rect generation for all tasks if it's a Time Diagram.
+		if diagram.IsTimeDiagram {
 			continue
 		}
 
