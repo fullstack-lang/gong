@@ -41,7 +41,7 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 
 		if diagram.IsTimeDiagram {
 			if diagram.LaneHeight == 0 {
-				diagram.LaneHeight = 30.0
+				diagram.LaneHeight = 100.0
 				needCommit = true
 			}
 			if diagram.RatioBarToLaneHeight == 0 {
@@ -65,7 +65,7 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 				needCommit = true
 			}
 			if diagram.XRightMargin == 0 {
-				diagram.XRightMargin = 50.0
+				diagram.XRightMargin = 1000.0
 				needCommit = true
 			}
 			if diagram.ArrowLengthToTheRightOfStartBar == 0 {
