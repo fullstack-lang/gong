@@ -572,6 +572,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 				}
 			}
 		}
+	case "NumberOfYearsBetweenTicks":
+		instance.NumberOfYearsBetweenTicks = GongExtractInt(valueExpr)
 	case "LaneHeight":
 		instance.LaneHeight = GongExtractFloat(valueExpr)
 	case "RatioBarToLaneHeight":

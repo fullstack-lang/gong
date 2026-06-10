@@ -29,7 +29,18 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
+	__AttributeShape__00000000_ := (&models.AttributeShape{Name: `Name`}).Stage(stage)
+	__AttributeShape__00000001_ := (&models.AttributeShape{Name: `ComputedPrefix`}).Stage(stage)
+	__AttributeShape__00000002_ := (&models.AttributeShape{Name: `IsChecked`}).Stage(stage)
+	__AttributeShape__00000003_ := (&models.AttributeShape{Name: `IsEditable_`}).Stage(stage)
+	__AttributeShape__00000004_ := (&models.AttributeShape{Name: `IsShowPrefix`}).Stage(stage)
+	__AttributeShape__00000005_ := (&models.AttributeShape{Name: `DefaultBoxWidth`}).Stage(stage)
+	__AttributeShape__00000006_ := (&models.AttributeShape{Name: `DefaultBoxHeigth`}).Stage(stage)
+	__AttributeShape__00000007_ := (&models.AttributeShape{Name: `Width`}).Stage(stage)
+	__AttributeShape__00000008_ := (&models.AttributeShape{Name: `Height`}).Stage(stage)
+
 	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `Abstract model`}).Stage(stage)
+	__Classdiagram__00000001_ := (&models.Classdiagram{Name: `Concrete model`}).Stage(stage)
 
 	__DiagramPackage__00000000_ := (&models.DiagramPackage{Name: `Diagram Package created the 2025-12-18T17:41:37Z`}).Stage(stage)
 
@@ -38,6 +49,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000002_ := (&models.GongStructShape{Name: `Default-Task`}).Stage(stage)
 	__GongStructShape__00000003_ := (&models.GongStructShape{Name: `Default-Note`}).Stage(stage)
 	__GongStructShape__00000004_ := (&models.GongStructShape{Name: `Abstract model-Resource`}).Stage(stage)
+	__GongStructShape__00000005_ := (&models.GongStructShape{Name: `Concrete model-Diagram`}).Stage(stage)
 
 	__LinkShape__00000000_ := (&models.LinkShape{Name: `SubProducts`}).Stage(stage)
 	__LinkShape__00000001_ := (&models.LinkShape{Name: `SubTasks`}).Stage(stage)
@@ -54,6 +66,60 @@ func _(stage *models.Stage) {
 
 	// insertion point for initialization of values
 
+	__AttributeShape__00000000_.Name = `Name`
+	__AttributeShape__00000000_.IdentifierMeta = ref_models.Diagram{}.Name
+	__AttributeShape__00000000_.FieldTypeAsString = ``
+	__AttributeShape__00000000_.Structname = `Diagram`
+	__AttributeShape__00000000_.Fieldtypename = `string`
+
+	__AttributeShape__00000001_.Name = `ComputedPrefix`
+	__AttributeShape__00000001_.IdentifierMeta = ref_models.Diagram{}.ComputedPrefix
+	__AttributeShape__00000001_.FieldTypeAsString = ``
+	__AttributeShape__00000001_.Structname = `Diagram`
+	__AttributeShape__00000001_.Fieldtypename = `string`
+
+	__AttributeShape__00000002_.Name = `IsChecked`
+	__AttributeShape__00000002_.IdentifierMeta = ref_models.Diagram{}.IsChecked
+	__AttributeShape__00000002_.FieldTypeAsString = ``
+	__AttributeShape__00000002_.Structname = `Diagram`
+	__AttributeShape__00000002_.Fieldtypename = `bool`
+
+	__AttributeShape__00000003_.Name = `IsEditable_`
+	__AttributeShape__00000003_.IdentifierMeta = ref_models.Diagram{}.IsEditable_
+	__AttributeShape__00000003_.FieldTypeAsString = ``
+	__AttributeShape__00000003_.Structname = `Diagram`
+	__AttributeShape__00000003_.Fieldtypename = `bool`
+
+	__AttributeShape__00000004_.Name = `IsShowPrefix`
+	__AttributeShape__00000004_.IdentifierMeta = ref_models.Diagram{}.IsShowPrefix
+	__AttributeShape__00000004_.FieldTypeAsString = ``
+	__AttributeShape__00000004_.Structname = `Diagram`
+	__AttributeShape__00000004_.Fieldtypename = `bool`
+
+	__AttributeShape__00000005_.Name = `DefaultBoxWidth`
+	__AttributeShape__00000005_.IdentifierMeta = ref_models.Diagram{}.DefaultBoxWidth
+	__AttributeShape__00000005_.FieldTypeAsString = ``
+	__AttributeShape__00000005_.Structname = `Diagram`
+	__AttributeShape__00000005_.Fieldtypename = `float64`
+
+	__AttributeShape__00000006_.Name = `DefaultBoxHeigth`
+	__AttributeShape__00000006_.IdentifierMeta = ref_models.Diagram{}.DefaultBoxHeigth
+	__AttributeShape__00000006_.FieldTypeAsString = ``
+	__AttributeShape__00000006_.Structname = `Diagram`
+	__AttributeShape__00000006_.Fieldtypename = `float64`
+
+	__AttributeShape__00000007_.Name = `Width`
+	__AttributeShape__00000007_.IdentifierMeta = ref_models.Diagram{}.Width
+	__AttributeShape__00000007_.FieldTypeAsString = ``
+	__AttributeShape__00000007_.Structname = `Diagram`
+	__AttributeShape__00000007_.Fieldtypename = `float64`
+
+	__AttributeShape__00000008_.Name = `Height`
+	__AttributeShape__00000008_.IdentifierMeta = ref_models.Diagram{}.Height
+	__AttributeShape__00000008_.FieldTypeAsString = ``
+	__AttributeShape__00000008_.Structname = `Diagram`
+	__AttributeShape__00000008_.Fieldtypename = `float64`
+
 	__Classdiagram__00000000_.Name = `Abstract model`
 	__Classdiagram__00000000_.Description = ``
 	__Classdiagram__00000000_.IsIncludedInStaticWebSite = false
@@ -62,12 +128,27 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.ShowLinkNames = true
 	__Classdiagram__00000000_.IsInRenameMode = false
 	__Classdiagram__00000000_.IsExpanded = true
-	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
-	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,true,false,false,false,false,false,false,true,true]`
+	__Classdiagram__00000000_.NodeGongStructsIsExpanded = false
+	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,false,true,true]`
 	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
 	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
 	__Classdiagram__00000000_.NodeGongNoteNodeExpansion = ``
+
+	__Classdiagram__00000001_.Name = `Concrete model`
+	__Classdiagram__00000001_.Description = ``
+	__Classdiagram__00000001_.IsIncludedInStaticWebSite = false
+	__Classdiagram__00000001_.ShowNbInstances = false
+	__Classdiagram__00000001_.ShowMultiplicity = false
+	__Classdiagram__00000001_.ShowLinkNames = false
+	__Classdiagram__00000001_.IsInRenameMode = false
+	__Classdiagram__00000001_.IsExpanded = true
+	__Classdiagram__00000001_.NodeGongStructsIsExpanded = true
+	__Classdiagram__00000001_.NodeGongStructNodeExpansion = `[true]`
+	__Classdiagram__00000001_.NodeGongEnumsIsExpanded = false
+	__Classdiagram__00000001_.NodeGongEnumNodeExpansion = ``
+	__Classdiagram__00000001_.NodeGongNotesIsExpanded = false
+	__Classdiagram__00000001_.NodeGongNoteNodeExpansion = ``
 
 	__DiagramPackage__00000000_.Name = `Diagram Package created the 2025-12-18T17:41:37Z`
 	__DiagramPackage__00000000_.Path = ``
@@ -113,6 +194,14 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000004_.Width = 240.000000
 	__GongStructShape__00000004_.Height = 102.000000
 	__GongStructShape__00000004_.IsSelected = false
+
+	__GongStructShape__00000005_.Name = `Concrete model-Diagram`
+	__GongStructShape__00000005_.X = 17.000000
+	__GongStructShape__00000005_.Y = 85.000000
+	__GongStructShape__00000005_.IdentifierMeta = ref_models.Diagram{}
+	__GongStructShape__00000005_.Width = 240.000000
+	__GongStructShape__00000005_.Height = 243.000000
+	__GongStructShape__00000005_.IsSelected = false
 
 	__LinkShape__00000000_.Name = `SubProducts`
 	__LinkShape__00000000_.IdentifierMeta = ref_models.Product{}.SubProducts
@@ -348,8 +437,10 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000002_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000003_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000004_)
+	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000005_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000000_)
-	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000000_
+	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000001_)
+	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000001_
 	__GongStructShape__00000000_.LinkShapes = append(__GongStructShape__00000000_.LinkShapes, __LinkShape__00000000_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000002_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000003_)
@@ -362,4 +453,13 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000003_.LinkShapes = append(__GongStructShape__00000003_.LinkShapes, __LinkShape__00000008_)
 	__GongStructShape__00000004_.LinkShapes = append(__GongStructShape__00000004_.LinkShapes, __LinkShape__00000010_)
 	__GongStructShape__00000004_.LinkShapes = append(__GongStructShape__00000004_.LinkShapes, __LinkShape__00000011_)
+	__GongStructShape__00000005_.AttributeShapes = append(__GongStructShape__00000005_.AttributeShapes, __AttributeShape__00000000_)
+	__GongStructShape__00000005_.AttributeShapes = append(__GongStructShape__00000005_.AttributeShapes, __AttributeShape__00000001_)
+	__GongStructShape__00000005_.AttributeShapes = append(__GongStructShape__00000005_.AttributeShapes, __AttributeShape__00000002_)
+	__GongStructShape__00000005_.AttributeShapes = append(__GongStructShape__00000005_.AttributeShapes, __AttributeShape__00000003_)
+	__GongStructShape__00000005_.AttributeShapes = append(__GongStructShape__00000005_.AttributeShapes, __AttributeShape__00000004_)
+	__GongStructShape__00000005_.AttributeShapes = append(__GongStructShape__00000005_.AttributeShapes, __AttributeShape__00000005_)
+	__GongStructShape__00000005_.AttributeShapes = append(__GongStructShape__00000005_.AttributeShapes, __AttributeShape__00000006_)
+	__GongStructShape__00000005_.AttributeShapes = append(__GongStructShape__00000005_.AttributeShapes, __AttributeShape__00000007_)
+	__GongStructShape__00000005_.AttributeShapes = append(__GongStructShape__00000005_.AttributeShapes, __AttributeShape__00000008_)
 }

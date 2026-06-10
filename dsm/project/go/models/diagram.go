@@ -108,6 +108,10 @@ type Diagram struct {
 	ManualStart               time.Time
 	ManualEnd                 time.Time
 
+	// NumberOfYearsBetweenTicks is when too many years would clutter the display
+	// if 0 years is equivalent to 1
+	NumberOfYearsBetweenTicks int
+
 	LaneHeight           float64
 	RatioBarToLaneHeight float64
 	YTopMargin           float64

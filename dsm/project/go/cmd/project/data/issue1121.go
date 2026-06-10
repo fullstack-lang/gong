@@ -79,6 +79,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.UseManualStartAndEndDates = false
 	__Diagram__00000000_.ManualStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.ManualEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Diagram__00000000_.NumberOfYearsBetweenTicks = 5
 	__Diagram__00000000_.LaneHeight = 100.000000
 	__Diagram__00000000_.RatioBarToLaneHeight = 0.800000
 	__Diagram__00000000_.YTopMargin = 40.000000
