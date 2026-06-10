@@ -238,10 +238,13 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			newTaskGroup := new(TaskGroup).Stage(stager.stage)
 			newTaskGroup.Name = "NewTaskGroup"
 			diagram.TaskGroups = append(diagram.TaskGroups, newTaskGroup)
-			stager.probeForm.FillUpFormFromGongstruct(newTaskGroup, "TaskGroup")
 			diagram.IsTaskGroupsNodeExpanded = true
 			diagram.IsWBSNodeExpanded = true
 			stager.stage.Commit()
+
+			// probe has to be set after the commit, in order for the association
+			// diagram to taskgroup to be set
+			stager.probeForm.FillUpFormFromGongstruct(newTaskGroup, "TaskGroup")
 		}
 
 		for _, taskGroup_ := range diagram.TaskGroups {
@@ -501,4 +504,3 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		stager.treeLibrary(treeInstance, subLibrary, &libraryNode.Children)
 	}
 }
-
