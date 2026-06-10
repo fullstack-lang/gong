@@ -53,6 +53,7 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagram.TaskGroupShapes) || modified
 	modified = GongCleanSlice(stage, &diagram.TaskGroupsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.MilestoneShapes) || modified
+	modified = GongCleanSlice(stage, &diagram.MilestonesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.TaskComposition_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagram.TaskInputShapes) || modified
 	modified = GongCleanSlice(stage, &diagram.TaskOutputShapes) || modified
@@ -76,6 +77,7 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &library.RootProducts) || modified
 	modified = GongCleanSlice(stage, &library.RootTasks) || modified
 	modified = GongCleanSlice(stage, &library.RootTaskGroups) || modified
+	modified = GongCleanSlice(stage, &library.RootMilestones) || modified
 	modified = GongCleanSlice(stage, &library.RootResources) || modified
 	modified = GongCleanSlice(stage, &library.Notes) || modified
 	modified = GongCleanSlice(stage, &library.Diagrams) || modified

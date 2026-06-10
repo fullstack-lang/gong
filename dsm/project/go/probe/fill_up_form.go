@@ -52,7 +52,10 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		AssociationSliceToForm("TaskGroupShapes", instanceWithInferedType, &instanceWithInferedType.TaskGroupShapes, formGroup, probe)
 		AssociationSliceToForm("TaskGroupsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.TaskGroupsWhoseNodeIsExpanded, formGroup, probe)
+		BasicFieldtoForm("IsMilestonesNodeExpanded", instanceWithInferedType.IsMilestonesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		AssociationSliceToForm("MilestoneShapes", instanceWithInferedType, &instanceWithInferedType.MilestoneShapes, formGroup, probe)
+		AssociationSliceToForm("MilestonesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.MilestonesWhoseNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("DateFormat", instanceWithInferedType.DateFormat, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("TaskComposition_Shapes", instanceWithInferedType, &instanceWithInferedType.TaskComposition_Shapes, formGroup, probe)
@@ -163,6 +166,7 @@ func FillUpForm(
 		AssociationSliceToForm("RootProducts", instanceWithInferedType, &instanceWithInferedType.RootProducts, formGroup, probe)
 		AssociationSliceToForm("RootTasks", instanceWithInferedType, &instanceWithInferedType.RootTasks, formGroup, probe)
 		AssociationSliceToForm("RootTaskGroups", instanceWithInferedType, &instanceWithInferedType.RootTaskGroups, formGroup, probe)
+		AssociationSliceToForm("RootMilestones", instanceWithInferedType, &instanceWithInferedType.RootMilestones, formGroup, probe)
 		AssociationSliceToForm("RootResources", instanceWithInferedType, &instanceWithInferedType.RootResources, formGroup, probe)
 		AssociationSliceToForm("Notes", instanceWithInferedType, &instanceWithInferedType.Notes, formGroup, probe)
 		AssociationSliceToForm("Diagrams", instanceWithInferedType, &instanceWithInferedType.Diagrams, formGroup, probe)
@@ -200,6 +204,50 @@ func FillUpForm(
 		BasicFieldtoForm("DisplayVerticalBar", instanceWithInferedType.DisplayVerticalBar, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("TaskGroupsToDisplay", instanceWithInferedType, &instanceWithInferedType.TaskGroupsToDisplay, formGroup, probe)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Diagram"
+			rf.Fieldname = "MilestonesWhoseNodeIsExpanded"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Diagram),
+					"MilestonesWhoseNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Diagram](
+					nil,
+					"MilestonesWhoseNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Library"
+			rf.Fieldname = "RootMilestones"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Library),
+					"RootMilestones",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Library](
+					nil,
+					"RootMilestones",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
 
 	case *models.MilestoneShape:
 		// insertion point

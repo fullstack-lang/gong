@@ -156,6 +156,8 @@ type Stage struct {
 
 	Diagram_MilestoneShapes_reverseMap map[*MilestoneShape]*Diagram
 
+	Diagram_MilestonesWhoseNodeIsExpanded_reverseMap map[*Milestone]*Diagram
+
 	Diagram_TaskComposition_Shapes_reverseMap map[*TaskCompositionShape]*Diagram
 
 	Diagram_TaskInputShapes_reverseMap map[*TaskInputShape]*Diagram
@@ -202,6 +204,8 @@ type Stage struct {
 	Library_RootTasks_reverseMap map[*Task]*Library
 
 	Library_RootTaskGroups_reverseMap map[*TaskGroup]*Library
+
+	Library_RootMilestones_reverseMap map[*Milestone]*Library
 
 	Library_RootResources_reverseMap map[*Resource]*Library
 
@@ -5105,6 +5109,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			TaskGroupsWhoseNodeIsExpanded: []*TaskGroup{{Name: "TaskGroupsWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of MilestoneShape with the name of the field
 			MilestoneShapes: []*MilestoneShape{{Name: "MilestoneShapes"}},
+			// field is initialized with an instance of Milestone with the name of the field
+			MilestonesWhoseNodeIsExpanded: []*Milestone{{Name: "MilestonesWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of TaskCompositionShape with the name of the field
 			TaskComposition_Shapes: []*TaskCompositionShape{{Name: "TaskComposition_Shapes"}},
 			// field is initialized with an instance of TaskInputShape with the name of the field
@@ -5141,6 +5147,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RootTasks: []*Task{{Name: "RootTasks"}},
 			// field is initialized with an instance of TaskGroup with the name of the field
 			RootTaskGroups: []*TaskGroup{{Name: "RootTaskGroups"}},
+			// field is initialized with an instance of Milestone with the name of the field
+			RootMilestones: []*Milestone{{Name: "RootMilestones"}},
 			// field is initialized with an instance of Resource with the name of the field
 			RootResources: []*Resource{{Name: "RootResources"}},
 			// field is initialized with an instance of Note with the name of the field
@@ -5941,6 +5949,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "MilestonesWhoseNodeIsExpanded":
+			res := make(map[*Milestone][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, milestone_ := range diagram.MilestonesWhoseNodeIsExpanded {
+					res[milestone_] = append(res[milestone_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "TaskComposition_Shapes":
 			res := make(map[*TaskCompositionShape][]*Diagram)
 			for diagram := range stage.Diagrams {
@@ -6071,6 +6087,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for library := range stage.Librarys {
 				for _, taskgroup_ := range library.RootTaskGroups {
 					res[taskgroup_] = append(res[taskgroup_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RootMilestones":
+			res := make(map[*Milestone][]*Library)
+			for library := range stage.Librarys {
+				for _, milestone_ := range library.RootMilestones {
+					res[milestone_] = append(res[milestone_], library)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -6381,6 +6405,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Milestone:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "MilestonesWhoseNodeIsExpanded"
+		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "RootMilestones"
+		res = append(res, rf)
 	case *MilestoneShape:
 		var rf ReverseField
 		_ = rf
@@ -6657,9 +6687,18 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "TaskGroup",
 		},
 		{
+			Name:               "IsMilestonesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "MilestoneShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "MilestoneShape",
+		},
+		{
+			Name:                 "MilestonesWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Milestone",
 		},
 		{
 			Name:               "DateFormat",
@@ -6888,6 +6927,11 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "RootTaskGroups",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "TaskGroup",
+		},
+		{
+			Name:                 "RootMilestones",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Milestone",
 		},
 		{
 			Name:                 "RootResources",
@@ -7953,9 +7997,23 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsMilestonesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsMilestonesNodeExpanded)
+		res.valueBool = diagram.IsMilestonesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "MilestoneShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.MilestoneShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "MilestonesWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.MilestonesWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8275,6 +8333,16 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "RootTaskGroups":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.RootTaskGroups {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RootMilestones":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootMilestones {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -9303,6 +9371,8 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "IsMilestonesNodeExpanded":
+		diagram.IsMilestonesNodeExpanded = value.GetValueBool()
 	case "MilestoneShapes":
 		diagram.MilestoneShapes = make([]*MilestoneShape, 0)
 		ids := strings.Split(value.ids, ";")
@@ -9312,6 +9382,20 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				for __instance__ := range stage.MilestoneShapes {
 					if stage.MilestoneShape_stagedOrder[__instance__] == uint(id) {
 						diagram.MilestoneShapes = append(diagram.MilestoneShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "MilestonesWhoseNodeIsExpanded":
+		diagram.MilestonesWhoseNodeIsExpanded = make([]*Milestone, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Milestones {
+					if stage.Milestone_stagedOrder[__instance__] == uint(id) {
+						diagram.MilestonesWhoseNodeIsExpanded = append(diagram.MilestonesWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
@@ -9605,6 +9689,20 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				for __instance__ := range stage.TaskGroups {
 					if stage.TaskGroup_stagedOrder[__instance__] == uint(id) {
 						library.RootTaskGroups = append(library.RootTaskGroups, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "RootMilestones":
+		library.RootMilestones = make([]*Milestone, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Milestones {
+					if stage.Milestone_stagedOrder[__instance__] == uint(id) {
+						library.RootMilestones = append(library.RootMilestones, __instance__)
 						break
 					}
 				}
