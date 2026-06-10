@@ -504,8 +504,12 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.TaskGroupShapes, valueExpr, identifierMap)
 	case "TaskGroupsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.TaskGroupsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsMilestonesNodeExpanded":
+		instance.IsMilestonesNodeExpanded = GongExtractBool(valueExpr)
 	case "MilestoneShapes":
 		GongUnmarshallSliceOfPointers(&instance.MilestoneShapes, valueExpr, identifierMap)
+	case "MilestonesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.MilestonesWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "DateFormat":
 		instance.DateFormat = GongExtractString(valueExpr)
 	case "TaskComposition_Shapes":
@@ -659,6 +663,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.RootTasks, valueExpr, identifierMap)
 	case "RootTaskGroups":
 		GongUnmarshallSliceOfPointers(&instance.RootTaskGroups, valueExpr, identifierMap)
+	case "RootMilestones":
+		GongUnmarshallSliceOfPointers(&instance.RootMilestones, valueExpr, identifierMap)
 	case "RootResources":
 		GongUnmarshallSliceOfPointers(&instance.RootResources, valueExpr, identifierMap)
 	case "Notes":

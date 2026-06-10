@@ -39,6 +39,20 @@ func (inst *Milestone) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "MilestonesWhoseNodeIsExpanded":
+			if _diagram, ok := stage.Diagram_MilestonesWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
+		}
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootMilestones":
+			if _library, ok := stage.Library_RootMilestones_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		}
 	}
 	return
 }
@@ -514,6 +528,16 @@ func (inst *Milestone) GongGetReverseFieldOwner(stage *Stage, reverseField *Reve
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "MilestonesWhoseNodeIsExpanded":
+			res = stage.Diagram_MilestonesWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootMilestones":
+			res = stage.Library_RootMilestones_reverseMap[inst]
+		}
 	}
 	return res
 }

@@ -69,7 +69,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Height = 816.403016
 	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsWBSNodeExpanded = true
-	__Diagram__00000000_.IsTaskGroupsNodeExpanded = true
+	__Diagram__00000000_.IsTaskGroupsNodeExpanded = false
 	__Diagram__00000000_.DateFormat = `2006`
 	__Diagram__00000000_.IsNotesNodeExpanded = false
 	__Diagram__00000000_.IsResourcesNodeExpanded = false
@@ -80,7 +80,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.UseManualStartAndEndDates = false
 	__Diagram__00000000_.ManualStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.ManualEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Diagram__00000000_.NumberOfYearsBetweenTicks = 5
+	__Diagram__00000000_.TimeStep = 5
+	__Diagram__00000000_.TimeStepScale = models.YEARS
 	__Diagram__00000000_.LaneHeight = 100.000000
 	__Diagram__00000000_.RatioBarToLaneHeight = 0.800000
 	__Diagram__00000000_.YTopMargin = 40.000000
@@ -247,7 +248,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.TaskGroupShapes = append(__Diagram__00000000_.TaskGroupShapes, __TaskGroupShape__00000000_)
 	__Diagram__00000000_.TaskGroupShapes = append(__Diagram__00000000_.TaskGroupShapes, __TaskGroupShape__00000002_)
 	__Diagram__00000000_.TaskGroupShapes = append(__Diagram__00000000_.TaskGroupShapes, __TaskGroupShape__00000001_)
-	__Diagram__00000000_.TaskGroupsWhoseNodeIsExpanded = append(__Diagram__00000000_.TaskGroupsWhoseNodeIsExpanded, __TaskGroup__00000000_)
 	__Library__00000000_.RootProducts = append(__Library__00000000_.RootProducts, __Product__00000000_)
 	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000000_)
 	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000001_)
