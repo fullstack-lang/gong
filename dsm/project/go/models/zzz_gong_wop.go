@@ -546,11 +546,40 @@ type TaskGroup_WOP struct {
 	// insertion point
 
 	Name string
+
+	ComputedPrefix string
 }
 
 func (from *TaskGroup) CopyBasicFields(to *TaskGroup) {
 	// insertion point
 	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
+}
+
+type TaskGroupShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+}
+
+func (from *TaskGroupShape) CopyBasicFields(to *TaskGroupShape) {
+	// insertion point
+	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
 }
 
 type TaskInputShape_WOP struct {

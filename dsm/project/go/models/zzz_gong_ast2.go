@@ -500,8 +500,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.TasksWhoseOutputNodeIsExpanded, valueExpr, identifierMap)
 	case "IsTaskGroupsNodeExpanded":
 		instance.IsTaskGroupsNodeExpanded = GongExtractBool(valueExpr)
-	case "TaskGroups":
-		GongUnmarshallSliceOfPointers(&instance.TaskGroups, valueExpr, identifierMap)
+	case "TaskGroupShapes":
+		GongUnmarshallSliceOfPointers(&instance.TaskGroupShapes, valueExpr, identifierMap)
 	case "TaskGroupsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.TaskGroupsWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "DateFormat":
@@ -653,6 +653,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.RootProducts, valueExpr, identifierMap)
 	case "RootTasks":
 		GongUnmarshallSliceOfPointers(&instance.RootTasks, valueExpr, identifierMap)
+	case "RootTaskGroups":
+		GongUnmarshallSliceOfPointers(&instance.RootTaskGroups, valueExpr, identifierMap)
 	case "RootResources":
 		GongUnmarshallSliceOfPointers(&instance.RootResources, valueExpr, identifierMap)
 	case "Notes":
@@ -1308,8 +1310,51 @@ func (u *TaskGroupUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "Tasks":
 		GongUnmarshallSliceOfPointers(&instance.Tasks, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type TaskGroupShapeUnmarshaller struct{}
+
+func (u *TaskGroupShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TaskGroupShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TaskGroupShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TaskGroupShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "TaskGroup":
+		GongUnmarshallPointer(&instance.TaskGroup, valueExpr, identifierMap)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }

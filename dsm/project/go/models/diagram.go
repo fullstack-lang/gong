@@ -40,7 +40,8 @@ type Diagram struct {
 	TasksWhoseOutputNodeIsExpanded []*Task
 
 	IsTaskGroupsNodeExpanded      bool
-	TaskGroups                    []*TaskGroup
+	TaskGroupShapes               []*TaskGroupShape
+	map_TaskGroup_TaskGroupShape  map[*TaskGroup]*TaskGroupShape
 	TaskGroupsWhoseNodeIsExpanded []*TaskGroup
 
 	// date format for task shapes. If "", use "2006-01-02"

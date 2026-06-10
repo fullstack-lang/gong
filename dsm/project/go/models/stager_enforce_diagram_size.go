@@ -48,6 +48,25 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 		width += margin
 		height += margin
 
+		if diagram.IsTimeDiagram {
+			if width < diagram.XRightMargin+margin {
+				width = diagram.XRightMargin + margin
+			}
+
+			var nbVisibleTaskGroups int
+			for _, taskGroupShape := range diagram.TaskGroupShapes {
+				if !taskGroupShape.IsHidden {
+					nbVisibleTaskGroups++
+				}
+			}
+
+			timeDiagramHeight := diagram.YTopMargin + diagram.LaneHeight*float64(nbVisibleTaskGroups)
+			timeDiagramHeight += diagram.DateYOffset + margin // margin for date labels
+			if height < timeDiagramHeight {
+				height = timeDiagramHeight
+			}
+		}
+
 		if width != diagram.Width {
 			diagram.Width = width
 			needCommit = true

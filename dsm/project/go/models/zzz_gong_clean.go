@@ -50,7 +50,7 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagram.TasksWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.TasksWhoseInputNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.TasksWhoseOutputNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.TaskGroups) || modified
+	modified = GongCleanSlice(stage, &diagram.TaskGroupShapes) || modified
 	modified = GongCleanSlice(stage, &diagram.TaskGroupsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.TaskComposition_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagram.TaskInputShapes) || modified
@@ -74,6 +74,7 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &library.SubLibraries) || modified
 	modified = GongCleanSlice(stage, &library.RootProducts) || modified
 	modified = GongCleanSlice(stage, &library.RootTasks) || modified
+	modified = GongCleanSlice(stage, &library.RootTaskGroups) || modified
 	modified = GongCleanSlice(stage, &library.RootResources) || modified
 	modified = GongCleanSlice(stage, &library.Notes) || modified
 	modified = GongCleanSlice(stage, &library.Diagrams) || modified
@@ -210,6 +211,14 @@ func (taskgroup *TaskGroup) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &taskgroup.Tasks) || modified
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by TaskGroupShape
+func (taskgroupshape *TaskGroupShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &taskgroupshape.TaskGroup) || modified
 	return
 }
 

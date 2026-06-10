@@ -19,9 +19,10 @@ type Library struct {
 	IsRootLibrary bool
 
 	// DSM specific
-	RootProducts  []*Product
-	RootTasks     []*Task
-	RootResources []*Resource
+	RootProducts   []*Product
+	RootTasks      []*Task
+	RootTaskGroups []*TaskGroup
+	RootResources  []*Resource
 
 	Notes []*Note
 

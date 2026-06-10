@@ -120,6 +120,29 @@ func (s *TaskCompositionShape) SetAbstractStartElement(abstractElement AbstractT
 
 var _ AssociationConcreteType = (*TaskCompositionShape)(nil)
 
+// TaskGroupShape
+type TaskGroupShape struct {
+	Name      string
+	TaskGroup *TaskGroup
+
+	isExpanded bool
+
+	RectShape
+}
+
+func (s *TaskGroupShape) GetAbstractElement() AbstractType {
+	if s.TaskGroup == nil {
+		return nil // Explicitly return interface nil
+	}
+	return s.TaskGroup
+}
+
+func (s *TaskGroupShape) SetAbstractElement(abstractElement AbstractType) {
+	s.TaskGroup = abstractElement.(*TaskGroup)
+}
+
+var _ ConcreteType = (*TaskGroupShape)(nil)
+
 // A taskProductKey allows mapping of [TaskInputShape] within a diagram
 type taskProductKey struct {
 	Task    *Task
