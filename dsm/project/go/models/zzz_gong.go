@@ -6077,6 +6077,10 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
+			Name:               "NumberOfYearsBetweenTicks",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
 			Name:               "LaneHeight",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -7337,6 +7341,10 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = diagram.ManualStart.String()
 	case "ManualEnd":
 		res.valueString = diagram.ManualEnd.String()
+	case "NumberOfYearsBetweenTicks":
+		res.valueString = fmt.Sprintf("%d", diagram.NumberOfYearsBetweenTicks)
+		res.valueInt = diagram.NumberOfYearsBetweenTicks
+		res.GongFieldValueType = GongFieldValueTypeInt
 	case "LaneHeight":
 		res.valueString = fmt.Sprintf("%f", diagram.LaneHeight)
 		res.valueFloat = diagram.LaneHeight
@@ -8552,6 +8560,8 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.IsTimeDiagram = value.GetValueBool()
 	case "UseManualStartAndEndDates":
 		diagram.UseManualStartAndEndDates = value.GetValueBool()
+	case "NumberOfYearsBetweenTicks":
+		diagram.NumberOfYearsBetweenTicks = int(value.GetValueInt())
 	case "LaneHeight":
 		diagram.LaneHeight = value.GetValueFloat()
 	case "RatioBarToLaneHeight":

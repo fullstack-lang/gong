@@ -47,33 +47,86 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 	DateYOffset := diagram.DateYOffset
 
 	// put a date for every year
+	firsts_of_January := make([]time.Time, 0)
 	for year := diagram.ComputedStart.Year(); year <= diagram.ComputedEnd.Year(); year++ {
-		yearTime := time.Date(year, time.January, 1, 0, 0, 0, 0, time.UTC)
-		durationBetweenYearAndGanttStart := yearTime.Sub(diagram.ComputedStart)
+		firsts_of_January = append(firsts_of_January, time.Date(year, time.January, 1, 0, 0, 0, 0, time.UTC))
+	}
 
+	if diagram.NumberOfYearsBetweenTicks > 1 {
+		sampledDownFirstsOfJanuary := make([]time.Time, 0)
+		for idx, first_of_January := range firsts_of_January {
+			if idx%diagram.NumberOfYearsBetweenTicks == 0 {
+				sampledDownFirstsOfJanuary = append(sampledDownFirstsOfJanuary, first_of_January)
+			}
+		}
+		firsts_of_January = sampledDownFirstsOfJanuary
+	}
+
+	for _, first_of_January := range firsts_of_January {
+		nextFirst_if_january := first_of_January.AddDate(1, 0, 0)
+		if diagram.NumberOfYearsBetweenTicks > 1 {
+			nextFirst_if_january = nextFirst_if_january.AddDate(diagram.NumberOfYearsBetweenTicks-1, 0, 0)
+		}
+
+		durationBetweenYearAndGanttStart := first_of_January.Sub(diagram.ComputedStart)
 		durationBetweenYearStartAndGanttStartRelativeToGanttDuration :=
 			float64(durationBetweenYearAndGanttStart) / float64(diagram.ComputedDuration)
 
+		xOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenYearStartAndGanttStartRelativeToGanttDuration
+
+		// draw the line ONLY if x is within the visible area
+		if xOriginal >= XLeftLanes && xOriginal <= XRightMargin {
+			lineForYear := new(svg.Line).Stage(stager.svgStage)
+			lineForYear.Name = fmt.Sprintf("tick for year %d", first_of_January.Year())
+			layer.Lines = append(layer.Lines, lineForYear)
+			lineForYear.X1 = xOriginal
+			lineForYear.X2 = xOriginal
+			lineForYear.Y1 = YTopMargin
+			lineForYear.Y2 = yTimeLine
+			lineForYear.Stroke = "black"
+			lineForYear.StrokeWidth = 0.25
+			lineForYear.StrokeDashArray = "4 4"
+		}
+
+		durationBetweenNextYearAndGanttStart := nextFirst_if_january.Sub(diagram.ComputedStart)
+		durationBetweenNextYearStartAndGanttStartRelativeToGanttDuration :=
+			float64(durationBetweenNextYearAndGanttStart) / float64(diagram.ComputedDuration)
+
+		xNextOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenNextYearStartAndGanttStartRelativeToGanttDuration
+
+		xVisible := xOriginal
+		if xVisible < XLeftLanes {
+			xVisible = XLeftLanes
+		}
+		if xVisible > XRightMargin {
+			xVisible = XRightMargin
+		}
+
+		xNextVisible := xNextOriginal
+		if xNextVisible < XLeftLanes {
+			xNextVisible = XLeftLanes
+		}
+		if xNextVisible > XRightMargin {
+			xNextVisible = XRightMargin
+		}
+
+		if xVisible == xNextVisible {
+			continue
+		}
+
 		yearText := new(svg.Text).Stage(stager.svgStage)
-		yearText.Name = fmt.Sprintf("%d", year)
+		if diagram.NumberOfYearsBetweenTicks > 1 {
+			yearText.Name = fmt.Sprintf("%d -> %d", first_of_January.Year(), nextFirst_if_january.Year())
+			yearText.X = (xVisible+xNextVisible)/2.0 - 50
+		} else {
+			yearText.Name = fmt.Sprintf("%d", first_of_January.Year())
+			yearText.X = (xVisible+xNextVisible)/2.0 - 20
+		}
 		yearText.Content = yearText.Name
-		yearText.X = XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenYearStartAndGanttStartRelativeToGanttDuration
 		yearText.Y = yTimeLine + DateYOffset
 		yearText.Color = "black"
 		yearText.FillOpacity = 1.0
 		layer.Texts = append(layer.Texts, yearText)
-
-		// draw the line
-		lineForYear := new(svg.Line).Stage(stager.svgStage)
-		lineForYear.Name = yearText.Name
-		layer.Lines = append(layer.Lines, lineForYear)
-		lineForYear.X1 = yearText.X
-		lineForYear.X2 = lineForYear.X1
-		lineForYear.Y1 = YTopMargin
-		lineForYear.Y2 = yTimeLine
-		lineForYear.Stroke = "black"
-		lineForYear.StrokeWidth = 0.25
-		lineForYear.StrokeDashArray = "4 4"
 	}
 
 	// Lanes
