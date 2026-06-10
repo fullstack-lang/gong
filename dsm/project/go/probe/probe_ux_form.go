@@ -117,6 +117,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.taskgroup, probe)
 			}
+		case *TaskGroupShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "TaskGroupShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.taskgroupshape, probe)
+			}
 		case *TaskInputShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "TaskInputShape", true)
@@ -378,6 +384,19 @@ func FillUpFormFromGongstructName(
 		taskgroup := new(models.TaskGroup)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(taskgroup, formGroup, probe)
+	case "TaskGroupShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TaskGroupShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TaskGroupShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		taskgroupshape := new(models.TaskGroupShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(taskgroupshape, formGroup, probe)
 	case "TaskInputShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

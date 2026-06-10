@@ -50,7 +50,7 @@ func FillUpForm(
 		AssociationSliceToForm("TasksWhoseOutputNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.TasksWhoseOutputNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsTaskGroupsNodeExpanded", instanceWithInferedType.IsTaskGroupsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationSliceToForm("TaskGroups", instanceWithInferedType, &instanceWithInferedType.TaskGroups, formGroup, probe)
+		AssociationSliceToForm("TaskGroupShapes", instanceWithInferedType, &instanceWithInferedType.TaskGroupShapes, formGroup, probe)
 		AssociationSliceToForm("TaskGroupsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.TaskGroupsWhoseNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("DateFormat", instanceWithInferedType.DateFormat, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -160,6 +160,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		AssociationSliceToForm("RootProducts", instanceWithInferedType, &instanceWithInferedType.RootProducts, formGroup, probe)
 		AssociationSliceToForm("RootTasks", instanceWithInferedType, &instanceWithInferedType.RootTasks, formGroup, probe)
+		AssociationSliceToForm("RootTaskGroups", instanceWithInferedType, &instanceWithInferedType.RootTaskGroups, formGroup, probe)
 		AssociationSliceToForm("RootResources", instanceWithInferedType, &instanceWithInferedType.RootResources, formGroup, probe)
 		AssociationSliceToForm("Notes", instanceWithInferedType, &instanceWithInferedType.Notes, formGroup, probe)
 		AssociationSliceToForm("Diagrams", instanceWithInferedType, &instanceWithInferedType.Diagrams, formGroup, probe)
@@ -1081,29 +1082,9 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		AssociationSliceToForm("Tasks", instanceWithInferedType, &instanceWithInferedType.Tasks, formGroup, probe)
-		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "TaskGroups"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"TaskGroups",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"TaskGroups",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
-		}
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -1121,6 +1102,66 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.Diagram](
 					nil,
 					"TaskGroupsWhoseNodeIsExpanded",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Library"
+			rf.Fieldname = "RootTaskGroups"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Library),
+					"RootTaskGroups",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Library](
+					nil,
+					"RootTaskGroups",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+
+	case *models.TaskGroupShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationFieldToForm("TaskGroup", instanceWithInferedType.TaskGroup, formGroup, probe)
+		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Diagram"
+			rf.Fieldname = "TaskGroupShapes"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Diagram),
+					"TaskGroupShapes",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Diagram](
+					nil,
+					"TaskGroupShapes",
 					instanceWithInferedType,
 					formGroup,
 					probe)

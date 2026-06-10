@@ -58,6 +58,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.TaskCompositionShape](probe)
 	case "TaskGroup":
 		updateProbeTable[*models.TaskGroup](probe)
+	case "TaskGroupShape":
+		updateProbeTable[*models.TaskGroupShape](probe)
 	case "TaskInputShape":
 		updateProbeTable[*models.TaskInputShape](probe)
 	case "TaskOutputShape":
