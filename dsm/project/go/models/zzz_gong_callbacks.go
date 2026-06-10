@@ -70,6 +70,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterTaskCompositionShapeCreateCallback != nil {
 			stage.OnAfterTaskCompositionShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *TaskGroup:
+		if stage.OnAfterTaskGroupCreateCallback != nil {
+			stage.OnAfterTaskGroupCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *TaskInputShape:
 		if stage.OnAfterTaskInputShapeCreateCallback != nil {
 			stage.OnAfterTaskInputShapeCreateCallback.OnAfterCreate(stage, target)
@@ -176,6 +180,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterTaskCompositionShapeUpdateCallback != nil {
 			stage.OnAfterTaskCompositionShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *TaskGroup:
+		newTarget := any(new).(*TaskGroup)
+		if stage.OnAfterTaskGroupUpdateCallback != nil {
+			stage.OnAfterTaskGroupUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *TaskInputShape:
 		newTarget := any(new).(*TaskInputShape)
 		if stage.OnAfterTaskInputShapeUpdateCallback != nil {
@@ -281,6 +290,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*TaskCompositionShape)
 			stage.OnAfterTaskCompositionShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *TaskGroup:
+		if stage.OnAfterTaskGroupDeleteCallback != nil {
+			staged := any(staged).(*TaskGroup)
+			stage.OnAfterTaskGroupDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *TaskInputShape:
 		if stage.OnAfterTaskInputShapeDeleteCallback != nil {
 			staged := any(staged).(*TaskInputShape)
@@ -370,6 +384,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterTaskCompositionShapeReadCallback != nil {
 			stage.OnAfterTaskCompositionShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *TaskGroup:
+		if stage.OnAfterTaskGroupReadCallback != nil {
+			stage.OnAfterTaskGroupReadCallback.OnAfterRead(stage, target)
+		}
 	case *TaskInputShape:
 		if stage.OnAfterTaskInputShapeReadCallback != nil {
 			stage.OnAfterTaskInputShapeReadCallback.OnAfterRead(stage, target)
@@ -425,6 +443,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterTaskUpdateCallback = any(callback).(OnAfterUpdateInterface[Task])
 	case *TaskCompositionShape:
 		stage.OnAfterTaskCompositionShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[TaskCompositionShape])
+	case *TaskGroup:
+		stage.OnAfterTaskGroupUpdateCallback = any(callback).(OnAfterUpdateInterface[TaskGroup])
 	case *TaskInputShape:
 		stage.OnAfterTaskInputShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[TaskInputShape])
 	case *TaskOutputShape:
@@ -470,6 +490,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterTaskCreateCallback = any(callback).(OnAfterCreateInterface[Task])
 	case *TaskCompositionShape:
 		stage.OnAfterTaskCompositionShapeCreateCallback = any(callback).(OnAfterCreateInterface[TaskCompositionShape])
+	case *TaskGroup:
+		stage.OnAfterTaskGroupCreateCallback = any(callback).(OnAfterCreateInterface[TaskGroup])
 	case *TaskInputShape:
 		stage.OnAfterTaskInputShapeCreateCallback = any(callback).(OnAfterCreateInterface[TaskInputShape])
 	case *TaskOutputShape:
@@ -515,6 +537,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterTaskDeleteCallback = any(callback).(OnAfterDeleteInterface[Task])
 	case *TaskCompositionShape:
 		stage.OnAfterTaskCompositionShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[TaskCompositionShape])
+	case *TaskGroup:
+		stage.OnAfterTaskGroupDeleteCallback = any(callback).(OnAfterDeleteInterface[TaskGroup])
 	case *TaskInputShape:
 		stage.OnAfterTaskInputShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[TaskInputShape])
 	case *TaskOutputShape:
@@ -560,6 +584,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterTaskReadCallback = any(callback).(OnAfterReadInterface[Task])
 	case *TaskCompositionShape:
 		stage.OnAfterTaskCompositionShapeReadCallback = any(callback).(OnAfterReadInterface[TaskCompositionShape])
+	case *TaskGroup:
+		stage.OnAfterTaskGroupReadCallback = any(callback).(OnAfterReadInterface[TaskGroup])
 	case *TaskInputShape:
 		stage.OnAfterTaskInputShapeReadCallback = any(callback).(OnAfterReadInterface[TaskInputShape])
 	case *TaskOutputShape:

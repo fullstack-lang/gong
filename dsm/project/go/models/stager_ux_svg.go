@@ -70,6 +70,10 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	layer := (&svg.Layer{Name: "Layer 1"})
 	svgObject.Layers = append(svgObject.Layers, layer)
 
+	if diagram.IsTimeDiagram {
+		stager.generateTimeDiagram(diagram, layer)
+	}
+
 	for _, productShape := range diagram.Product_Shapes {
 		if productShape.IsHidden {
 			continue
@@ -129,6 +133,13 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			continue
 		}
 
+		// In a time diagram, task shapes are drawn as Gantt bars in generateTimeDiagram.
+		// However, tasks that don't belong to any TaskGroup might not be rendered.
+		// We still skip the generic Rect generation for all tasks if it's a Time Diagram.
+		if diagram.IsTimeDiagram {
+			continue
+		}
+
 		rect := svgRect(
 			stager,
 			diagram,
@@ -145,6 +156,30 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 				}
 				rect.RectAnchoredTexts[0].Content = content
 			}
+		}
+
+		if taskShape.IsShowDate {
+			dateText := new(svg.RectAnchoredText)
+			dateText.Name = "Date"
+
+			dateFormat := "2006-01-02"
+			if diagram.DateFormat != "" {
+				dateFormat = diagram.DateFormat
+			}
+
+			dateText.Content = taskShape.Task.Start.Format(dateFormat) + " - " + taskShape.Task.End.Format(dateFormat)
+			dateText.Stroke = svg.Black.ToString()
+			dateText.StrokeWidth = 1
+			dateText.StrokeOpacity = 1
+			dateText.Color = svg.Black.ToString()
+			dateText.FillOpacity = 1
+			dateText.FontSize = "12px"
+			dateText.X_Offset = 0
+			dateText.Y_Offset = 60
+			dateText.RectAnchorType = svg.RECT_TOP
+			dateText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+
+			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, dateText)
 		}
 
 		if taskShape.Task.IsWithCompletion {

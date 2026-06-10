@@ -89,6 +89,29 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 	}
 	addCreateItemShapeAndLinkButton(stager, conf)
 
+	if taskShape, ok := diagram.map_Task_TaskShape[task]; ok {
+		button := &tree.Button{
+			Name:            "Show dates on diagram",
+			Icon:            string(buttons.BUTTON_calendar_month),
+			ToolTipText:     "Show dates on diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				taskShape.IsShowDate = !taskShape.IsShowDate
+				stage.Commit()
+			},
+		}
+		if taskShape.IsShowDate {
+			button.Name = "Hide dates on diagram"
+			button.ToolTipText = "Hide dates on diagram"
+			button.Icon = string(buttons.BUTTON_calendar_today)
+		}
+		if taskNode.Menu == nil {
+			taskNode.Menu = &tree.Menu{Name: "Menu"}
+		}
+		taskNode.Menu.Buttons = append(taskNode.Menu.Buttons, button)
+	}
+
 	for _, task := range task.SubTasks {
 		stager.treeTask(diagram, task, taskNode)
 	}

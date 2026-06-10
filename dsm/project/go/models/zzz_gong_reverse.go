@@ -334,6 +334,13 @@ func (inst *Task) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 				res = _task.Name
 			}
 		}
+	case "TaskGroup":
+		switch reverseField.Fieldname {
+		case "Tasks":
+			if _taskgroup, ok := stage.TaskGroup_Tasks_reverseMap[inst]; ok {
+				res = _taskgroup.Name
+			}
+		}
 	}
 	return
 }
@@ -347,6 +354,26 @@ func (inst *TaskCompositionShape) GongGetReverseFieldOwnerName(stage *Stage, rev
 		switch reverseField.Fieldname {
 		case "TaskComposition_Shapes":
 			if _diagram, ok := stage.Diagram_TaskComposition_Shapes_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *TaskGroup) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "TaskGroups":
+			if _diagram, ok := stage.Diagram_TaskGroups_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
+		case "TaskGroupsWhoseNodeIsExpanded":
+			if _diagram, ok := stage.Diagram_TaskGroupsWhoseNodeIsExpanded_reverseMap[inst]; ok {
 				res = _diagram.Name
 			}
 		}
@@ -675,6 +702,11 @@ func (inst *Task) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 		case "SubTasks":
 			res = stage.Task_SubTasks_reverseMap[inst]
 		}
+	case "TaskGroup":
+		switch reverseField.Fieldname {
+		case "Tasks":
+			res = stage.TaskGroup_Tasks_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -688,6 +720,22 @@ func (inst *TaskCompositionShape) GongGetReverseFieldOwner(stage *Stage, reverse
 		switch reverseField.Fieldname {
 		case "TaskComposition_Shapes":
 			res = stage.Diagram_TaskComposition_Shapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *TaskGroup) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "TaskGroups":
+			res = stage.Diagram_TaskGroups_reverseMap[inst]
+		case "TaskGroupsWhoseNodeIsExpanded":
+			res = stage.Diagram_TaskGroupsWhoseNodeIsExpanded_reverseMap[inst]
 		}
 	}
 	return res

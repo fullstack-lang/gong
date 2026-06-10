@@ -71,6 +71,20 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_TasksWhoseOutputNodeIsExpanded_reverseMap[_task] = diagram
 		}
 	}
+	stage.Diagram_TaskGroups_reverseMap = make(map[*TaskGroup]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _taskgroup := range diagram.TaskGroups {
+			stage.Diagram_TaskGroups_reverseMap[_taskgroup] = diagram
+		}
+	}
+	stage.Diagram_TaskGroupsWhoseNodeIsExpanded_reverseMap = make(map[*TaskGroup]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _taskgroup := range diagram.TaskGroupsWhoseNodeIsExpanded {
+			stage.Diagram_TaskGroupsWhoseNodeIsExpanded_reverseMap[_taskgroup] = diagram
+		}
+	}
 	stage.Diagram_TaskComposition_Shapes_reverseMap = make(map[*TaskCompositionShape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
@@ -306,6 +320,16 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct TaskCompositionShape
 	// insertion point per field
 
+	// Compute reverse map for named struct TaskGroup
+	// insertion point per field
+	stage.TaskGroup_Tasks_reverseMap = make(map[*Task]*TaskGroup)
+	for taskgroup := range stage.TaskGroups {
+		_ = taskgroup
+		for _, _task := range taskgroup.Tasks {
+			stage.TaskGroup_Tasks_reverseMap[_task] = taskgroup
+		}
+	}
+
 	// Compute reverse map for named struct TaskInputShape
 	// insertion point per field
 
@@ -381,6 +405,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.TaskCompositionShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.TaskGroups {
 		res = append(res, instance)
 	}
 
@@ -493,6 +521,12 @@ func (task *Task) GongCopy() GongstructIF {
 func (taskcompositionshape *TaskCompositionShape) GongCopy() GongstructIF {
 	newInstance := new(TaskCompositionShape)
 	taskcompositionshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (taskgroup *TaskGroup) GongCopy() GongstructIF {
+	newInstance := new(TaskGroup)
+	taskgroup.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -672,6 +706,16 @@ func (taskcompositionshape *TaskCompositionShape) GongGetUUID(stage *Stage) (uui
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(taskcompositionshape), uint64(GetOrderPointerGongstruct(stage, taskcompositionshape)))
+	return
+}
+
+func (taskgroup *TaskGroup) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(taskgroup).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(taskgroup), uint64(GetOrderPointerGongstruct(stage, taskgroup)))
 	return
 }
 
@@ -1603,6 +1647,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(taskcompositionshapes_newInstances)
 	lenDeletedInstances += len(taskcompositionshapes_deletedInstances)
+	var taskgroups_newInstances []*TaskGroup
+	var taskgroups_deletedInstances []*TaskGroup
+
+	// parse all staged instances and check if they have a reference
+	for taskgroup := range stage.TaskGroups {
+		if ref, ok := stage.TaskGroups_reference[taskgroup]; !ok {
+			taskgroups_newInstances = append(taskgroups_newInstances, taskgroup)
+			newInstancesSlice = append(newInstancesSlice, taskgroup.GongMarshallIdentifier(stage))
+			if stage.TaskGroups_referenceOrder == nil {
+				stage.TaskGroups_referenceOrder = make(map[*TaskGroup]uint)
+			}
+			stage.TaskGroups_referenceOrder[taskgroup] = stage.TaskGroup_stagedOrder[taskgroup]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, taskgroup.GongMarshallUnstaging(stage))
+			// delete(stage.TaskGroups_referenceOrder, taskgroup)
+			fieldInitializers, pointersInitializations := taskgroup.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.TaskGroup_stagedOrder[ref] = stage.TaskGroup_stagedOrder[taskgroup]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := taskgroup.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, taskgroup)
+			// delete(stage.TaskGroup_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if taskgroup.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", taskgroup.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.TaskGroups_reference {
+		instance := stage.TaskGroups_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.TaskGroups[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			taskgroups_deletedInstances = append(taskgroups_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(taskgroups_newInstances)
+	lenDeletedInstances += len(taskgroups_deletedInstances)
 	var taskinputshapes_newInstances []*TaskInputShape
 	var taskinputshapes_deletedInstances []*TaskInputShape
 
@@ -1963,6 +2062,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.TaskCompositionShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.TaskGroups_reference = make(map[*TaskGroup]*TaskGroup)
+	stage.TaskGroups_referenceOrder = make(map[*TaskGroup]uint) // diff Unstage needs the reference order
+	stage.TaskGroups_instance = make(map[*TaskGroup]*TaskGroup)
+	for instance := range stage.TaskGroups {
+		_copy := instance.GongCopy().(*TaskGroup)
+		stage.TaskGroups_reference[instance] = _copy
+		stage.TaskGroups_instance[_copy] = instance
+		stage.TaskGroups_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.TaskInputShapes_reference = make(map[*TaskInputShape]*TaskInputShape)
 	stage.TaskInputShapes_referenceOrder = make(map[*TaskInputShape]uint) // diff Unstage needs the reference order
 	stage.TaskInputShapes_instance = make(map[*TaskInputShape]*TaskInputShape)
@@ -2071,6 +2180,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.TaskCompositionShapes {
 		reference := stage.TaskCompositionShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.TaskGroups {
+		reference := stage.TaskGroups_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -2291,6 +2405,18 @@ func (taskcompositionshape *TaskCompositionShape) GongGetOrder(stage *Stage) uin
 	}
 }
 
+func (taskgroup *TaskGroup) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.TaskGroup_stagedOrder[taskgroup]; ok {
+		return order
+	}
+	if order, ok := stage.TaskGroups_referenceOrder[taskgroup]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type TaskGroup was not staged and does not have a reference order", taskgroup)
+		return 0
+	}
+}
+
 func (taskinputshape *TaskInputShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.TaskInputShape_stagedOrder[taskinputshape]; ok {
 		return order
@@ -2476,6 +2602,15 @@ func (taskcompositionshape *TaskCompositionShape) GongGetReferenceIdentifier(sta
 	return fmt.Sprintf("__%s__%08d_", taskcompositionshape.GongGetGongstructName(), taskcompositionshape.GongGetOrder(stage))
 }
 
+func (taskgroup *TaskGroup) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", taskgroup.GongGetGongstructName(), taskgroup.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (taskgroup *TaskGroup) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", taskgroup.GongGetGongstructName(), taskgroup.GongGetOrder(stage))
+}
+
 func (taskinputshape *TaskInputShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", taskinputshape.GongGetGongstructName(), taskinputshape.GongGetOrder(stage))
 }
@@ -2634,6 +2769,14 @@ func (taskcompositionshape *TaskCompositionShape) GongMarshallIdentifier(stage *
 	return
 }
 
+func (taskgroup *TaskGroup) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskgroup.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TaskGroup")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(taskgroup.Name))
+	return
+}
+
 func (taskinputshape *TaskInputShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
@@ -2752,6 +2895,12 @@ func (task *Task) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (taskcompositionshape *TaskCompositionShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskcompositionshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (taskgroup *TaskGroup) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", taskgroup.GongGetReferenceIdentifier(stage))
 	return
 }
 
