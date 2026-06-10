@@ -31,6 +31,10 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: `Root`}).Stage(stage)
 
+	__Milestone__00000000_ := (&models.Milestone{Name: `M1`}).Stage(stage)
+
+	__MilestoneShape__00000000_ := (&models.MilestoneShape{Name: `-Default Diagram`}).Stage(stage)
+
 	__Product__00000000_ := (&models.Product{Name: `P1`}).Stage(stage)
 	__Product__00000001_ := (&models.Product{Name: `P1.1`}).Stage(stage)
 	__Product__00000002_ := (&models.Product{Name: `P1.2`}).Stage(stage)
@@ -70,6 +74,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsWBSNodeExpanded = true
 	__Diagram__00000000_.IsTaskGroupsNodeExpanded = false
+	__Diagram__00000000_.IsMilestonesNodeExpanded = false
 	__Diagram__00000000_.DateFormat = `2006`
 	__Diagram__00000000_.IsNotesNodeExpanded = false
 	__Diagram__00000000_.IsResourcesNodeExpanded = false
@@ -106,6 +111,18 @@ func _(stage *models.Stage) {
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsRootLibrary = true
+
+	__Milestone__00000000_.Name = `M1`
+	__Milestone__00000000_.ComputedPrefix = ``
+	__Milestone__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2015-01-01 00:00:00 +0000 UTC")
+	__Milestone__00000000_.DisplayVerticalBar = false
+
+	__MilestoneShape__00000000_.Name = `-Default Diagram`
+	__MilestoneShape__00000000_.X = 105.703445
+	__MilestoneShape__00000000_.Y = 160.791992
+	__MilestoneShape__00000000_.Width = 250.000000
+	__MilestoneShape__00000000_.Height = 70.000000
+	__MilestoneShape__00000000_.IsHidden = false
 
 	__Product__00000000_.Name = `P1`
 	__Product__00000000_.ComputedPrefix = `1`
@@ -248,6 +265,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.TaskGroupShapes = append(__Diagram__00000000_.TaskGroupShapes, __TaskGroupShape__00000000_)
 	__Diagram__00000000_.TaskGroupShapes = append(__Diagram__00000000_.TaskGroupShapes, __TaskGroupShape__00000002_)
 	__Diagram__00000000_.TaskGroupShapes = append(__Diagram__00000000_.TaskGroupShapes, __TaskGroupShape__00000001_)
+	__Diagram__00000000_.MilestoneShapes = append(__Diagram__00000000_.MilestoneShapes, __MilestoneShape__00000000_)
 	__Library__00000000_.RootProducts = append(__Library__00000000_.RootProducts, __Product__00000000_)
 	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000000_)
 	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000001_)
@@ -255,7 +273,12 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000000_)
 	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000002_)
 	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000003_)
+	__Library__00000000_.RootMilestones = append(__Library__00000000_.RootMilestones, __Milestone__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
+	__Milestone__00000000_.TaskGroupsToDisplay = append(__Milestone__00000000_.TaskGroupsToDisplay, __TaskGroup__00000002_)
+	__Milestone__00000000_.TaskGroupsToDisplay = append(__Milestone__00000000_.TaskGroupsToDisplay, __TaskGroup__00000003_)
+	__Milestone__00000000_.TaskGroupsToDisplay = append(__Milestone__00000000_.TaskGroupsToDisplay, __TaskGroup__00000000_)
+	__MilestoneShape__00000000_.Milestone = __Milestone__00000000_
 	__Product__00000000_.ReferencedProduct = nil
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000001_)
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000002_)
