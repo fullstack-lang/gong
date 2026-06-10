@@ -56,7 +56,9 @@ type Diagram_WOP struct {
 
 	ManualEnd time.Time
 
-	NumberOfYearsBetweenTicks int
+	TimeStep int
+
+	TimeStepScale TimeStepScaleEnum
 
 	LaneHeight float64
 
@@ -119,7 +121,8 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.UseManualStartAndEndDates = from.UseManualStartAndEndDates
 	to.ManualStart = from.ManualStart
 	to.ManualEnd = from.ManualEnd
-	to.NumberOfYearsBetweenTicks = from.NumberOfYearsBetweenTicks
+	to.TimeStep = from.TimeStep
+	to.TimeStepScale = from.TimeStepScale
 	to.LaneHeight = from.LaneHeight
 	to.RatioBarToLaneHeight = from.RatioBarToLaneHeight
 	to.YTopMargin = from.YTopMargin

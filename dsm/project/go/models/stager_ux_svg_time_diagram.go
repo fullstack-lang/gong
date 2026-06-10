@@ -52,53 +52,85 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 	// Dates
 	DateYOffset := diagram.DateYOffset
 
-	// put a date for every year
-	firsts_of_January := make([]time.Time, 0)
-	for year := diagram.ComputedStart.Year(); year <= diagram.ComputedEnd.Year(); year++ {
-		firsts_of_January = append(firsts_of_January, time.Date(year, time.January, 1, 0, 0, 0, 0, time.UTC))
+	// put a date for every tick according to scale
+	timeStep := diagram.TimeStep
+	if timeStep <= 0 {
+		timeStep = 1
+	}
+	timeStepScale := diagram.TimeStepScale
+	if timeStepScale == "" {
+		timeStepScale = YEARS
 	}
 
-	if diagram.NumberOfYearsBetweenTicks > 1 {
-		sampledDownFirstsOfJanuary := make([]time.Time, 0)
-		for idx, first_of_January := range firsts_of_January {
-			if idx%diagram.NumberOfYearsBetweenTicks == 0 {
-				sampledDownFirstsOfJanuary = append(sampledDownFirstsOfJanuary, first_of_January)
-			}
+	var ticks []time.Time
+	start := diagram.ComputedStart
+	var currentTick time.Time
+
+	switch timeStepScale {
+	case YEARS:
+		currentTick = time.Date(start.Year(), time.January, 1, 0, 0, 0, 0, start.Location())
+	case MONTHS:
+		currentTick = time.Date(start.Year(), start.Month(), 1, 0, 0, 0, 0, start.Location())
+	case WEEKS:
+		offset := int(time.Monday - start.Weekday())
+		if offset > 0 {
+			offset -= 7
 		}
-		firsts_of_January = sampledDownFirstsOfJanuary
+		currentTick = time.Date(start.Year(), start.Month(), start.Day(), 0, 0, 0, 0, start.Location()).AddDate(0, 0, offset)
+	case DAYS:
+		currentTick = time.Date(start.Year(), start.Month(), start.Day(), 0, 0, 0, 0, start.Location())
+	default:
+		currentTick = time.Date(start.Year(), time.January, 1, 0, 0, 0, 0, start.Location())
 	}
 
-	for _, first_of_January := range firsts_of_January {
-		nextFirst_if_january := first_of_January.AddDate(1, 0, 0)
-		if diagram.NumberOfYearsBetweenTicks > 1 {
-			nextFirst_if_january = nextFirst_if_january.AddDate(diagram.NumberOfYearsBetweenTicks-1, 0, 0)
+	for currentTick.Before(diagram.ComputedEnd) || currentTick.Equal(diagram.ComputedEnd) {
+		ticks = append(ticks, currentTick)
+
+		switch timeStepScale {
+		case YEARS:
+			currentTick = currentTick.AddDate(timeStep, 0, 0)
+		case MONTHS:
+			currentTick = currentTick.AddDate(0, timeStep, 0)
+		case WEEKS:
+			currentTick = currentTick.AddDate(0, 0, 7*timeStep)
+		case DAYS:
+			currentTick = currentTick.AddDate(0, 0, timeStep)
+		default:
+			currentTick = currentTick.AddDate(timeStep, 0, 0)
 		}
+	}
+	// Add one more tick at the end to cover the last interval
+	ticks = append(ticks, currentTick)
 
-		durationBetweenYearAndGanttStart := first_of_January.Sub(diagram.ComputedStart)
-		durationBetweenYearStartAndGanttStartRelativeToGanttDuration :=
-			float64(durationBetweenYearAndGanttStart) / float64(diagram.ComputedDuration)
+	for i := 0; i < len(ticks)-1; i++ {
+		tick := ticks[i]
+		nextTick := ticks[i+1]
 
-		xOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenYearStartAndGanttStartRelativeToGanttDuration
+		durationBetweenTickAndGanttStart := tick.Sub(diagram.ComputedStart)
+		durationBetweenTickAndGanttStartRelativeToGanttDuration :=
+			float64(durationBetweenTickAndGanttStart) / float64(diagram.ComputedDuration)
+
+		xOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenTickAndGanttStartRelativeToGanttDuration
 
 		// draw the line ONLY if x is within the visible area
 		if xOriginal >= XLeftLanes && xOriginal <= XRightMargin {
-			lineForYear := new(svg.Line).Stage(stager.svgStage)
-			lineForYear.Name = fmt.Sprintf("tick for year %d", first_of_January.Year())
-			layer.Lines = append(layer.Lines, lineForYear)
-			lineForYear.X1 = xOriginal
-			lineForYear.X2 = xOriginal
-			lineForYear.Y1 = YTopMargin
-			lineForYear.Y2 = yTimeLine
-			lineForYear.Stroke = "black"
-			lineForYear.StrokeWidth = 0.25
-			lineForYear.StrokeDashArray = "4 4"
+			lineForTick := new(svg.Line).Stage(stager.svgStage)
+			lineForTick.Name = fmt.Sprintf("tick for %s", tick.Format("2006-01-02"))
+			layer.Lines = append(layer.Lines, lineForTick)
+			lineForTick.X1 = xOriginal
+			lineForTick.X2 = xOriginal
+			lineForTick.Y1 = YTopMargin
+			lineForTick.Y2 = yTimeLine
+			lineForTick.Stroke = "black"
+			lineForTick.StrokeWidth = 0.25
+			lineForTick.StrokeDashArray = "4 4"
 		}
 
-		durationBetweenNextYearAndGanttStart := nextFirst_if_january.Sub(diagram.ComputedStart)
-		durationBetweenNextYearStartAndGanttStartRelativeToGanttDuration :=
-			float64(durationBetweenNextYearAndGanttStart) / float64(diagram.ComputedDuration)
+		durationBetweenNextTickAndGanttStart := nextTick.Sub(diagram.ComputedStart)
+		durationBetweenNextTickAndGanttStartRelativeToGanttDuration :=
+			float64(durationBetweenNextTickAndGanttStart) / float64(diagram.ComputedDuration)
 
-		xNextOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenNextYearStartAndGanttStartRelativeToGanttDuration
+		xNextOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenNextTickAndGanttStartRelativeToGanttDuration
 
 		xVisible := xOriginal
 		if xVisible < XLeftLanes {
@@ -120,19 +152,38 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 			continue
 		}
 
-		yearText := new(svg.Text).Stage(stager.svgStage)
-		if diagram.NumberOfYearsBetweenTicks > 1 {
-			yearText.Name = fmt.Sprintf("%d -> %d", first_of_January.Year(), nextFirst_if_january.Year())
-			yearText.X = (xVisible+xNextVisible)/2.0 - 50
-		} else {
-			yearText.Name = fmt.Sprintf("%d", first_of_January.Year())
-			yearText.X = (xVisible+xNextVisible)/2.0 - 20
+		tickText := new(svg.Text).Stage(stager.svgStage)
+		
+		var tickLabel string
+		switch timeStepScale {
+		case YEARS:
+			if timeStep > 1 {
+				tickLabel = fmt.Sprintf("%d -> %d", tick.Year(), nextTick.Year())
+			} else {
+				tickLabel = fmt.Sprintf("%d", tick.Year())
+			}
+		case MONTHS:
+			if timeStep > 1 {
+				tickLabel = fmt.Sprintf("%s - %s '%02d", tick.Format("Jan"), nextTick.AddDate(0, -1, 0).Format("Jan"), tick.Year()%100)
+			} else {
+				tickLabel = tick.Format("Jan '06")
+			}
+		case WEEKS:
+			_, week := tick.ISOWeek()
+			tickLabel = fmt.Sprintf("W%02d", week)
+		case DAYS:
+			tickLabel = tick.Format("02 Jan")
+		default:
+			tickLabel = fmt.Sprintf("%d", tick.Year())
 		}
-		yearText.Content = yearText.Name
-		yearText.Y = yTimeLine + DateYOffset
-		yearText.Color = "black"
-		yearText.FillOpacity = 1.0
-		layer.Texts = append(layer.Texts, yearText)
+
+		tickText.Name = tickLabel
+		tickText.X = (xVisible+xNextVisible)/2.0 - 20
+		tickText.Content = tickText.Name
+		tickText.Y = yTimeLine + DateYOffset
+		tickText.Color = "black"
+		tickText.FillOpacity = 1.0
+		layer.Texts = append(layer.Texts, tickText)
 	}
 
 	// Lanes
