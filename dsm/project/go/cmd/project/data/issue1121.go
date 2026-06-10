@@ -74,7 +74,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsWBSNodeExpanded = true
 	__Diagram__00000000_.IsTaskGroupsNodeExpanded = false
-	__Diagram__00000000_.IsMilestonesNodeExpanded = false
+	__Diagram__00000000_.IsMilestonesNodeExpanded = true
 	__Diagram__00000000_.DateFormat = `2006`
 	__Diagram__00000000_.IsNotesNodeExpanded = false
 	__Diagram__00000000_.IsResourcesNodeExpanded = false

@@ -266,10 +266,6 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			}
 		}
 
-		for _, task := range library.RootTasks {
-			stager.treeTask(diagram, task, wbsNode)
-		}
-
 		milestonesNode := &tree.Node{
 			Name:            "Milestones",
 			FontStyle:       tree.ITALIC,
@@ -317,6 +313,10 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			}
 			milestoneNode := addNodeToTreeWithoutLink(stager, milestoneNodeConf)
 			_ = milestoneNode
+		}
+
+		for _, task := range library.RootTasks {
+			stager.treeTask(diagram, task, wbsNode)
 		}
 
 		resourcesNode := &tree.Node{
