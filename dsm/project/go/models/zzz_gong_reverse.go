@@ -368,12 +368,31 @@ func (inst *TaskGroup) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 	// insertion point
 	case "Diagram":
 		switch reverseField.Fieldname {
-		case "TaskGroups":
-			if _diagram, ok := stage.Diagram_TaskGroups_reverseMap[inst]; ok {
-				res = _diagram.Name
-			}
 		case "TaskGroupsWhoseNodeIsExpanded":
 			if _diagram, ok := stage.Diagram_TaskGroupsWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
+		}
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootTaskGroups":
+			if _library, ok := stage.Library_RootTaskGroups_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *TaskGroupShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "TaskGroupShapes":
+			if _diagram, ok := stage.Diagram_TaskGroupShapes_reverseMap[inst]; ok {
 				res = _diagram.Name
 			}
 		}
@@ -732,10 +751,27 @@ func (inst *TaskGroup) GongGetReverseFieldOwner(stage *Stage, reverseField *Reve
 	// insertion point
 	case "Diagram":
 		switch reverseField.Fieldname {
-		case "TaskGroups":
-			res = stage.Diagram_TaskGroups_reverseMap[inst]
 		case "TaskGroupsWhoseNodeIsExpanded":
 			res = stage.Diagram_TaskGroupsWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootTaskGroups":
+			res = stage.Library_RootTaskGroups_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *TaskGroupShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "TaskGroupShapes":
+			res = stage.Diagram_TaskGroupShapes_reverseMap[inst]
 		}
 	}
 	return res

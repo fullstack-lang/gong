@@ -1,9 +1,7 @@
 package models
 
 import (
-	"slices"
-
-	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
+	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
@@ -226,51 +224,43 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		taskGroupsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsTaskGroupsNodeExpanded)
 		taskGroupsNode.OnClick = onNodeClicked(stager, diagram)
 
-		addTaskGroupButton := &tree.Button{
-			Name:            "Add TaskGroup",
-			Icon:            string(buttons.BUTTON_add),
-			ToolTipText:     "Add a TaskGroup",
-			HasToolTip:      true,
-			ToolTipPosition: tree.Right,
+		confTaskGroups := ItemAndShapeButtonConfiguration[
+			TaskGroup, *TaskGroup, // AT, PAT (Added Element)
+			TaskGroup, *TaskGroup, // ParentAT, PParentAT (Parent Element)
+			TaskGroupShape, *TaskGroupShape, // CT, PCT (Concrete Shape)
+		]{
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				TaskGroup, *TaskGroup, // AT, PAT (Added Element)
+				TaskGroup, *TaskGroup, // ParentAT, PParentAT (Parent Element)
+			]{
+				parentNode:                         taskGroupsNode,
+				sliceForNewAddedItem:               &library.RootTaskGroups,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsTaskGroupsNodeExpanded,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.TaskGroupShapes,
 		}
-		taskGroupsNode.Menu = &tree.Menu{Name: "Menu", Buttons: []*tree.Button{addTaskGroupButton}}
-		addTaskGroupButton.OnClick = func() {
-			newTaskGroup := new(TaskGroup).Stage(stager.stage)
-			newTaskGroup.Name = "NewTaskGroup"
-			diagram.TaskGroups = append(diagram.TaskGroups, newTaskGroup)
-			diagram.IsTaskGroupsNodeExpanded = true
-			diagram.IsWBSNodeExpanded = true
-			stager.stage.Commit()
+		addCreateItemAndShapeButton(stager, confTaskGroups)
 
-			// probe has to be set after the commit, in order for the association
-			// diagram to taskgroup to be set
-			stager.probeForm.FillUpFormFromGongstruct(newTaskGroup, "TaskGroup")
-		}
+		for _, taskGroup := range library.RootTaskGroups {
+			taskGroupNodeConf := TreeNodeAndShapeConfigurationWithoutLink[
+				*TaskGroup, TaskGroup, // AT, AT_
+				*Library, Library, // ParentAT, ParentAT_
+				*TaskGroupShape, TaskGroupShape, // CT, CT_
+				*Diagram, // DiagramType
+			]{
+				diagram:                     diagram,
+				parentNode:                  taskGroupsNode,
+				element:                     taskGroup,
+				parentElement:               library,
+				elementsWhoseNodeIsExpanded: &diagram.TaskGroupsWhoseNodeIsExpanded,
+				shapes:                      &diagram.TaskGroupShapes,
+				shapesMap:                   diagram.map_TaskGroup_TaskGroupShape,
+			}
+			taskGroupNode := addNodeToTreeWithoutLink(stager, taskGroupNodeConf)
 
-		for _, taskGroup_ := range diagram.TaskGroups {
-			taskGroup := taskGroup_
-			taskGroupNode := &tree.Node{
-				Name:            taskGroup.Name,
-				IsExpanded:      slices.Contains(diagram.TaskGroupsWhoseNodeIsExpanded, taskGroup),
-				IsNodeClickable: true,
-			}
-			taskGroupsNode.Children = append(taskGroupsNode.Children, taskGroupNode)
-			taskGroupNode.OnIsExpandedChange = func(isExpanded bool) {
-				if isExpanded {
-					if !slices.Contains(diagram.TaskGroupsWhoseNodeIsExpanded, taskGroup) {
-						diagram.TaskGroupsWhoseNodeIsExpanded = append(diagram.TaskGroupsWhoseNodeIsExpanded, taskGroup)
-					}
-				} else {
-					if idx := slices.Index(diagram.TaskGroupsWhoseNodeIsExpanded, taskGroup); idx != -1 {
-						diagram.TaskGroupsWhoseNodeIsExpanded = slices.Delete(diagram.TaskGroupsWhoseNodeIsExpanded, idx, idx+1)
-					}
-				}
-				stager.stage.Commit()
-			}
-			taskGroupNode.OnClick = func(frontNode *tree.Node) {
-				stager.probeForm.FillUpFormFromGongstruct(taskGroup, "TaskGroup")
-				stager.stage.Commit()
-			}
 			for _, task := range taskGroup.Tasks {
 				stager.treeTask(diagram, task, taskGroupNode)
 			}

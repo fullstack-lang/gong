@@ -41,6 +41,23 @@ func (stager *Stager) enforceDiagramMaps() {
 			}
 		}
 
+		diagram.map_TaskGroup_TaskGroupShape = make(map[*TaskGroup]*TaskGroupShape)
+		for _, shape := range diagram.TaskGroupShapes {
+			if shape.TaskGroup != nil {
+				diagram.map_TaskGroup_TaskGroupShape[shape.TaskGroup] = shape
+				diagrams := stager.map_Element_Diagrams[shape.TaskGroup]
+
+				if diagrams == nil {
+					diagrams = []DiagramIF{diagram}
+				}
+
+				if !slices.Contains(diagrams, DiagramIF(diagram)) {
+					diagrams = append(diagrams, diagram)
+				}
+				stager.map_Element_Diagrams[shape.TaskGroup] = diagrams
+			}
+		}
+
 		diagram.map_Task_TaskInputShape = make(map[taskProductKey]*TaskInputShape)
 		for _, shape := range diagram.TaskInputShapes {
 			if shape.Task != nil && shape.Product != nil {

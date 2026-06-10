@@ -8,7 +8,6 @@ import (
 )
 
 func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
-	diagram.ComputeStartAndEndDate()
 
 	// If no duration, return early to prevent division by zero
 	if diagram.ComputedDuration == 0 {
@@ -20,7 +19,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 	barHeigth := LaneHeight * RatioBarToLaneHeight
 	YTopMargin := diagram.YTopMargin
 
-	yTimeLine := LaneHeight*float64(len(diagram.TaskGroups)) + YTopMargin
+	yTimeLine := LaneHeight*float64(len(diagram.TaskGroupShapes)) + YTopMargin
 
 	XLeftText := diagram.XLeftText
 	TextHeight := diagram.TextHeight
@@ -133,7 +132,11 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 	currentY := YTopMargin
 	laneIndex := 0
 
-	for _, taskGroup := range diagram.TaskGroups {
+	for _, taskGroupShape := range diagram.TaskGroupShapes {
+		if taskGroupShape.IsHidden {
+			continue
+		}
+		taskGroup := taskGroupShape.TaskGroup
 
 		laneSVG := new(svg.Rect).Stage(stager.svgStage)
 		layer.Rects = append(layer.Rects, laneSVG)

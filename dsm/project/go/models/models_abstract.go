@@ -66,7 +66,11 @@ const (
 // A task can belong to multiple task groups.
 // A TaskGroup is used to be displayed in a single lane when the diagram is a time diagram.
 type TaskGroup struct {
-	Name  string
+	Name string
+
+	LibraryAbstractFields
+	AbstractTypeFields
+
 	Tasks []*Task
 }
 
@@ -140,4 +144,5 @@ var (
 	_ AbstractType = (*Task)(nil)
 	_ AbstractType = (*Note)(nil)
 	_ AbstractType = (*Resource)(nil)
+	_ AbstractType = (*TaskGroup)(nil)
 )
