@@ -348,7 +348,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 			layer.Rects = append(layer.Rects, diamond)
 			diamond.Name = milestone.Name
 			diamond.X = lineX - diamondWidth/2.0
-			diamond.Y = mapTaskGroup_TextY[taskGroupToDisplay] - diamondWidth + LaneHeight/2.0
+			diamond.Y = mapTaskGroup_TextY[taskGroupToDisplay] - TextHeight/2.0 - diamondWidth/2.0
 			diamond.Width = diamondWidth
 			diamond.Height = diamondWidth
 			diamond.Color = "red"
@@ -360,7 +360,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 			milestoneText.Name = milestone.Name
 			milestoneText.Content = milestoneText.Name
 			milestoneText.X = diamond.X + XLeftText + diamondWidth
-			milestoneText.Y = diamond.Y + TextHeight/2.0 + 5 // manual fine tuning
+			milestoneText.Y = mapTaskGroup_TextY[taskGroupToDisplay]
 			milestoneText.Color = "black"
 			milestoneText.FillOpacity = 1.0
 			layer.Texts = append(layer.Texts, milestoneText)
