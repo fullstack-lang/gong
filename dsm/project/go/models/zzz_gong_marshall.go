@@ -336,6 +336,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "UseManualStartAndEndDates"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualStart"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualEnd"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "NumberOfYearsBetweenTicks"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "LaneHeight"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "RatioBarToLaneHeight"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "YTopMargin"))
@@ -1313,6 +1314,11 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ManualEnd")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.ManualEnd.String())
+	case "NumberOfYearsBetweenTicks":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NumberOfYearsBetweenTicks")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", diagram.NumberOfYearsBetweenTicks))
 	case "LaneHeight":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -3037,6 +3043,7 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "UseManualStartAndEndDates"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualStart"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualEnd"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "NumberOfYearsBetweenTicks"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "LaneHeight"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "RatioBarToLaneHeight"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "YTopMargin"))
