@@ -5,13 +5,10 @@ import "time"
 func (diagram *Diagram) ComputeStartAndEndDate() {
 	firstTask := true
 	for _, taskGroupShape := range diagram.TaskGroupShapes {
-		if taskGroupShape.IsHidden {
-			continue
-		}
 		taskGroup := taskGroupShape.TaskGroup
 		for _, task := range taskGroup.Tasks {
-			taskShape, ok := diagram.map_Task_TaskShape[task]
-			if !ok || taskShape.IsHidden {
+			_, ok := diagram.map_Task_TaskShape[task]
+			if !ok {
 				continue
 			}
 
