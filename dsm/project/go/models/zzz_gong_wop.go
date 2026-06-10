@@ -166,6 +166,52 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.IsRootLibrary = from.IsRootLibrary
 }
 
+type Milestone_WOP struct {
+	// insertion point
+
+	Name string
+
+	ComputedPrefix string
+
+	Date time.Time
+
+	DisplayVerticalBar bool
+}
+
+func (from *Milestone) CopyBasicFields(to *Milestone) {
+	// insertion point
+	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
+	to.Date = from.Date
+	to.DisplayVerticalBar = from.DisplayVerticalBar
+}
+
+type MilestoneShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+}
+
+func (from *MilestoneShape) CopyBasicFields(to *MilestoneShape) {
+	// insertion point
+	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
+}
+
 type Note_WOP struct {
 	// insertion point
 

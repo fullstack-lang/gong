@@ -52,6 +52,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		AssociationSliceToForm("TaskGroupShapes", instanceWithInferedType, &instanceWithInferedType.TaskGroupShapes, formGroup, probe)
 		AssociationSliceToForm("TaskGroupsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.TaskGroupsWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("MilestoneShapes", instanceWithInferedType, &instanceWithInferedType.MilestoneShapes, formGroup, probe)
 		BasicFieldtoForm("DateFormat", instanceWithInferedType.DateFormat, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("TaskComposition_Shapes", instanceWithInferedType, &instanceWithInferedType.TaskComposition_Shapes, formGroup, probe)
@@ -182,6 +183,56 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.Library](
 					nil,
 					"SubLibraries",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+
+	case *models.Milestone:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Date", instanceWithInferedType.Date, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("DisplayVerticalBar", instanceWithInferedType.DisplayVerticalBar, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationSliceToForm("TaskGroupsToDisplay", instanceWithInferedType, &instanceWithInferedType.TaskGroupsToDisplay, formGroup, probe)
+
+	case *models.MilestoneShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationFieldToForm("Milestone", instanceWithInferedType.Milestone, formGroup, probe)
+		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Diagram"
+			rf.Fieldname = "MilestoneShapes"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Diagram),
+					"MilestoneShapes",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Diagram](
+					nil,
+					"MilestoneShapes",
 					instanceWithInferedType,
 					formGroup,
 					probe)
@@ -1125,6 +1176,28 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.Library](
 					nil,
 					"RootTaskGroups",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Milestone"
+			rf.Fieldname = "TaskGroupsToDisplay"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Milestone),
+					"TaskGroupsToDisplay",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Milestone](
+					nil,
+					"TaskGroupsToDisplay",
 					instanceWithInferedType,
 					formGroup,
 					probe)

@@ -367,6 +367,37 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 			diagram_.TaskGroupsWhoseNodeIsExpanded = instanceSlice
 
+		case "MilestoneShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.MilestoneShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.MilestoneShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.MilestoneShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.MilestoneShape](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagram_.MilestoneShapes = instanceSlice
+
 		case "DateFormat":
 			FormDivBasicFieldToField(&(diagram_.DateFormat), formDiv)
 		case "TaskComposition_Shapes":
@@ -1264,6 +1295,277 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 	}
 
 	libraryFormCallback.probe.ux_tree()
+}
+func __gong__New__MilestoneFormCallback(
+	milestone *models.Milestone,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (milestoneFormCallback *MilestoneFormCallback) {
+	milestoneFormCallback = new(MilestoneFormCallback)
+	milestoneFormCallback.probe = probe
+	milestoneFormCallback.milestone = milestone
+	milestoneFormCallback.formGroup = formGroup
+
+	milestoneFormCallback.CreationMode = (milestone == nil)
+
+	return
+}
+
+type MilestoneFormCallback struct {
+	milestone *models.Milestone
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
+	milestoneFormCallback.probe.stageOfInterest.Lock()
+	defer milestoneFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("MilestoneFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	milestoneFormCallback.probe.formStage.Checkout()
+
+	if milestoneFormCallback.milestone == nil {
+		milestoneFormCallback.milestone = new(models.Milestone).Stage(milestoneFormCallback.probe.stageOfInterest)
+	}
+	milestone_ := milestoneFormCallback.milestone
+	_ = milestone_
+
+	for _, formDiv := range milestoneFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(milestone_.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(milestone_.ComputedPrefix), formDiv)
+		case "Date":
+			FormDivBasicFieldToField(&(milestone_.Date), formDiv)
+		case "DisplayVerticalBar":
+			FormDivBasicFieldToField(&(milestone_.DisplayVerticalBar), formDiv)
+		case "TaskGroupsToDisplay":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskGroup](milestoneFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.TaskGroup, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.TaskGroup)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					milestoneFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.TaskGroup](milestoneFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			milestone_.TaskGroupsToDisplay = instanceSlice
+
+		}
+	}
+
+	// manage the suppress operation
+	if milestoneFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		milestone_.Unstage(milestoneFormCallback.probe.stageOfInterest)
+	}
+
+	milestoneFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Milestone](
+		milestoneFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if milestoneFormCallback.CreationMode || milestoneFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		milestoneFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(milestoneFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__MilestoneFormCallback(
+			nil,
+			milestoneFormCallback.probe,
+			newFormGroup,
+		)
+		milestone := new(models.Milestone)
+		FillUpForm(milestone, newFormGroup, milestoneFormCallback.probe)
+		milestoneFormCallback.probe.formStage.Commit()
+	}
+
+	milestoneFormCallback.probe.ux_tree()
+}
+func __gong__New__MilestoneShapeFormCallback(
+	milestoneshape *models.MilestoneShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (milestoneshapeFormCallback *MilestoneShapeFormCallback) {
+	milestoneshapeFormCallback = new(MilestoneShapeFormCallback)
+	milestoneshapeFormCallback.probe = probe
+	milestoneshapeFormCallback.milestoneshape = milestoneshape
+	milestoneshapeFormCallback.formGroup = formGroup
+
+	milestoneshapeFormCallback.CreationMode = (milestoneshape == nil)
+
+	return
+}
+
+type MilestoneShapeFormCallback struct {
+	milestoneshape *models.MilestoneShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (milestoneshapeFormCallback *MilestoneShapeFormCallback) OnSave() {
+	milestoneshapeFormCallback.probe.stageOfInterest.Lock()
+	defer milestoneshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("MilestoneShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	milestoneshapeFormCallback.probe.formStage.Checkout()
+
+	if milestoneshapeFormCallback.milestoneshape == nil {
+		milestoneshapeFormCallback.milestoneshape = new(models.MilestoneShape).Stage(milestoneshapeFormCallback.probe.stageOfInterest)
+	}
+	milestoneshape_ := milestoneshapeFormCallback.milestoneshape
+	_ = milestoneshape_
+
+	for _, formDiv := range milestoneshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(milestoneshape_.Name), formDiv)
+		case "Milestone":
+			FormDivSelectFieldToField(&(milestoneshape_.Milestone), milestoneshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(milestoneshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(milestoneshape_.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(milestoneshape_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(milestoneshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(milestoneshape_.IsHidden), formDiv)
+		case "Diagram:MilestoneShapes":
+			// WARNING : this form deals with the N-N association "Diagram.MilestoneShapes []*MilestoneShape" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of MilestoneShape). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Diagram
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Diagram"
+				rf.Fieldname = "MilestoneShapes"
+				formerAssociationSource := milestoneshape_.GongGetReverseFieldOwner(
+					milestoneshapeFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Diagram)
+					if !ok {
+						log.Fatalln("Source of Diagram.MilestoneShapes []*MilestoneShape, is not an Diagram instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.MilestoneShapes, milestoneshape_)
+					formerSource.MilestoneShapes = slices.Delete(formerSource.MilestoneShapes, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Diagram
+			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](milestoneshapeFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _diagram.GetName() == newSourceName.GetName() {
+					newSource = _diagram // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Diagram.MilestoneShapes []*MilestoneShape, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.MilestoneShapes = append(newSource.MilestoneShapes, milestoneshape_)
+		}
+	}
+
+	// manage the suppress operation
+	if milestoneshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		milestoneshape_.Unstage(milestoneshapeFormCallback.probe.stageOfInterest)
+	}
+
+	milestoneshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.MilestoneShape](
+		milestoneshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if milestoneshapeFormCallback.CreationMode || milestoneshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		milestoneshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(milestoneshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__MilestoneShapeFormCallback(
+			nil,
+			milestoneshapeFormCallback.probe,
+			newFormGroup,
+		)
+		milestoneshape := new(models.MilestoneShape)
+		FillUpForm(milestoneshape, newFormGroup, milestoneshapeFormCallback.probe)
+		milestoneshapeFormCallback.probe.formStage.Commit()
+	}
+
+	milestoneshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__NoteFormCallback(
 	note *models.Note,
@@ -5012,6 +5314,72 @@ func (taskgroupFormCallback *TaskGroupFormCallback) OnSave() {
 
 			// (3) append the new value to the new source field
 			newSource.RootTaskGroups = append(newSource.RootTaskGroups, taskgroup_)
+		case "Milestone:TaskGroupsToDisplay":
+			// WARNING : this form deals with the N-N association "Milestone.TaskGroupsToDisplay []*TaskGroup" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of TaskGroup). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Milestone
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Milestone"
+				rf.Fieldname = "TaskGroupsToDisplay"
+				formerAssociationSource := taskgroup_.GongGetReverseFieldOwner(
+					taskgroupFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Milestone)
+					if !ok {
+						log.Fatalln("Source of Milestone.TaskGroupsToDisplay []*TaskGroup, is not an Milestone instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.TaskGroupsToDisplay, taskgroup_)
+					formerSource.TaskGroupsToDisplay = slices.Delete(formerSource.TaskGroupsToDisplay, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Milestone
+			for _milestone := range *models.GetGongstructInstancesSet[models.Milestone](taskgroupFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _milestone.GetName() == newSourceName.GetName() {
+					newSource = _milestone // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Milestone.TaskGroupsToDisplay []*TaskGroup, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.TaskGroupsToDisplay = append(newSource.TaskGroupsToDisplay, taskgroup_)
 		}
 	}
 

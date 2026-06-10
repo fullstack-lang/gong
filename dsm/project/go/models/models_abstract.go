@@ -148,6 +148,22 @@ type Resource struct {
 	parentResource *Resource
 }
 
+type Milestone struct {
+	Name string
+
+	LibraryAbstractFields
+	AbstractTypeFields
+
+	Date time.Time
+
+	// DisplayVerticalBar indicates wether the milestone
+	// has a vertical vertical on the whole gantt
+	DisplayVerticalBar bool
+
+	// a red diamond a text anchor will be displayed
+	TaskGroupsToDisplay []*TaskGroup
+}
+
 var (
 	_ AbstractType = (*Product)(nil)
 	_ AbstractType = (*Library)(nil)
@@ -155,4 +171,5 @@ var (
 	_ AbstractType = (*Note)(nil)
 	_ AbstractType = (*Resource)(nil)
 	_ AbstractType = (*TaskGroup)(nil)
+	_ AbstractType = (*Milestone)(nil)
 )

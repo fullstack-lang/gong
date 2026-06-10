@@ -504,6 +504,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.TaskGroupShapes, valueExpr, identifierMap)
 	case "TaskGroupsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.TaskGroupsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "MilestoneShapes":
+		GongUnmarshallSliceOfPointers(&instance.MilestoneShapes, valueExpr, identifierMap)
 	case "DateFormat":
 		instance.DateFormat = GongExtractString(valueExpr)
 	case "TaskComposition_Shapes":
@@ -663,6 +665,90 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.Notes, valueExpr, identifierMap)
 	case "Diagrams":
 		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type MilestoneUnmarshaller struct{}
+
+func (u *MilestoneUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Milestone)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *MilestoneUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Milestone)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "Date":
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
+		}
+	case "DisplayVerticalBar":
+		instance.DisplayVerticalBar = GongExtractBool(valueExpr)
+	case "TaskGroupsToDisplay":
+		GongUnmarshallSliceOfPointers(&instance.TaskGroupsToDisplay, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type MilestoneShapeUnmarshaller struct{}
+
+func (u *MilestoneShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(MilestoneShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *MilestoneShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*MilestoneShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Milestone":
+		GongUnmarshallPointer(&instance.Milestone, valueExpr, identifierMap)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
