@@ -35,7 +35,10 @@ func _(stage *models.Stage) {
 	__Product__00000001_ := (&models.Product{Name: `P1.1`}).Stage(stage)
 	__Product__00000002_ := (&models.Product{Name: `P1.2`}).Stage(stage)
 
+	__ProductCompositionShape__00000000_ := (&models.ProductCompositionShape{Name: `P1 to P1.1`}).Stage(stage)
+
 	__ProductShape__00000000_ := (&models.ProductShape{Name: `P1-Default Diagram`}).Stage(stage)
+	__ProductShape__00000001_ := (&models.ProductShape{Name: `P1.1-Default Diagram`}).Stage(stage)
 
 	__Task__00000000_ := (&models.Task{Name: `L1.W1`}).Stage(stage)
 	__Task__00000001_ := (&models.Task{Name: `L1.W2`}).Stage(stage)
@@ -63,7 +66,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000000_.Width = 1100.000000
-	__Diagram__00000000_.Height = 455.000000
+	__Diagram__00000000_.Height = 816.403016
 	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsWBSNodeExpanded = true
 	__Diagram__00000000_.IsTaskGroupsNodeExpanded = true
@@ -124,12 +127,27 @@ func _(stage *models.Stage) {
 	__Product__00000002_.IsProducersNodeExpanded = false
 	__Product__00000002_.IsConsumersNodeExpanded = false
 
+	__ProductCompositionShape__00000000_.Name = `P1 to P1.1`
+	__ProductCompositionShape__00000000_.StartRatio = 0.500000
+	__ProductCompositionShape__00000000_.EndRatio = 0.500000
+	__ProductCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000000_.CornerOffsetRatio = 1.680000
+	__ProductCompositionShape__00000000_.IsHidden = false
+
 	__ProductShape__00000000_.Name = `P1-Default Diagram`
-	__ProductShape__00000000_.X = 1017.214319
-	__ProductShape__00000000_.Y = 421.403016
+	__ProductShape__00000000_.X = 241.214319
+	__ProductShape__00000000_.Y = 506.403016
 	__ProductShape__00000000_.Width = 250.000000
 	__ProductShape__00000000_.Height = 70.000000
 	__ProductShape__00000000_.IsHidden = false
+
+	__ProductShape__00000001_.Name = `P1.1-Default Diagram`
+	__ProductShape__00000001_.X = 241.214319
+	__ProductShape__00000001_.Y = 646.403016
+	__ProductShape__00000001_.Width = 250.000000
+	__ProductShape__00000001_.Height = 70.000000
+	__ProductShape__00000001_.IsHidden = false
 
 	__Task__00000000_.Name = `L1.W1`
 	__Task__00000000_.ComputedPrefix = `1`
@@ -220,7 +238,9 @@ func _(stage *models.Stage) {
 
 	// insertion point for setup of pointers
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000000_)
+	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000001_)
 	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Product__00000000_)
+	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000000_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000002_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000008_)
 	__Diagram__00000000_.Task_Shapes = append(__Diagram__00000000_.Task_Shapes, __TaskShape__00000009_)
@@ -241,7 +261,9 @@ func _(stage *models.Stage) {
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000002_)
 	__Product__00000001_.ReferencedProduct = nil
 	__Product__00000002_.ReferencedProduct = nil
+	__ProductCompositionShape__00000000_.Product = __Product__00000001_
 	__ProductShape__00000000_.Product = __Product__00000000_
+	__ProductShape__00000001_.Product = __Product__00000001_
 	__Task__00000000_.ReferencedTask = nil
 	__Task__00000001_.ReferencedTask = nil
 	__Task__00000002_.ReferencedTask = nil

@@ -19,7 +19,14 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 	barHeigth := LaneHeight * RatioBarToLaneHeight
 	YTopMargin := diagram.YTopMargin
 
-	yTimeLine := LaneHeight*float64(len(diagram.TaskGroupShapes)) + YTopMargin
+	var nbVisibleTaskGroups int
+	for _, taskGroupShape := range diagram.TaskGroupShapes {
+		if !taskGroupShape.IsHidden {
+			nbVisibleTaskGroups++
+		}
+	}
+
+	yTimeLine := LaneHeight*float64(nbVisibleTaskGroups) + YTopMargin
 
 	XLeftText := diagram.XLeftText
 	TextHeight := diagram.TextHeight
