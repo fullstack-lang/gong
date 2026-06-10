@@ -193,6 +193,107 @@ func (orientationtype OrientationType) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for TimeStepScaleEnum
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (timestepscaleenum TimeStepScaleEnum) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch timestepscaleenum {
+	// insertion code per enum code
+	case YEARS:
+		res = "YEARS"
+	case MONTHS:
+		res = "MONTHS"
+	case WEEKS:
+		res = "WEEKS"
+	case DAYS:
+		res = "DAYS"
+	}
+	return
+}
+
+func (timestepscaleenum *TimeStepScaleEnum) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "YEARS":
+		*timestepscaleenum = YEARS
+		return
+	case "MONTHS":
+		*timestepscaleenum = MONTHS
+		return
+	case "WEEKS":
+		*timestepscaleenum = WEEKS
+		return
+	case "DAYS":
+		*timestepscaleenum = DAYS
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (timestepscaleenum *TimeStepScaleEnum) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "YEARS":
+		*timestepscaleenum = YEARS
+	case "MONTHS":
+		*timestepscaleenum = MONTHS
+	case "WEEKS":
+		*timestepscaleenum = WEEKS
+	case "DAYS":
+		*timestepscaleenum = DAYS
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (timestepscaleenum *TimeStepScaleEnum) ToCodeString() (res string) {
+
+	switch *timestepscaleenum {
+	// insertion code per enum code
+	case YEARS:
+		res = "YEARS"
+	case MONTHS:
+		res = "MONTHS"
+	case WEEKS:
+		res = "WEEKS"
+	case DAYS:
+		res = "DAYS"
+	}
+	return
+}
+
+func (timestepscaleenum TimeStepScaleEnum) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "YEARS")
+	res = append(res, "MONTHS")
+	res = append(res, "WEEKS")
+	res = append(res, "DAYS")
+
+	return
+}
+
+func (timestepscaleenum TimeStepScaleEnum) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "YEARS")
+	res = append(res, "MONTHS")
+	res = append(res, "WEEKS")
+	res = append(res, "DAYS")
+
+	return
+}
+
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {

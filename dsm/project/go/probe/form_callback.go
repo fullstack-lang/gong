@@ -759,8 +759,10 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.ManualStart), formDiv)
 		case "ManualEnd":
 			FormDivBasicFieldToField(&(diagram_.ManualEnd), formDiv)
-		case "NumberOfYearsBetweenTicks":
-			FormDivBasicFieldToField(&(diagram_.NumberOfYearsBetweenTicks), formDiv)
+		case "TimeStep":
+			FormDivBasicFieldToField(&(diagram_.TimeStep), formDiv)
+		case "TimeStepScale":
+			FormDivEnumStringFieldToField(&(diagram_.TimeStepScale), formDiv)
 		case "LaneHeight":
 			FormDivBasicFieldToField(&(diagram_.LaneHeight), formDiv)
 		case "RatioBarToLaneHeight":

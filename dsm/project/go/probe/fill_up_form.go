@@ -84,8 +84,9 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("ManualEnd", instanceWithInferedType.ManualEnd, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("NumberOfYearsBetweenTicks", instanceWithInferedType.NumberOfYearsBetweenTicks, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("TimeStep", instanceWithInferedType.TimeStep, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeStringToForm("TimeStepScale", instanceWithInferedType.TimeStepScale, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("LaneHeight", instanceWithInferedType.LaneHeight, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("RatioBarToLaneHeight", instanceWithInferedType.RatioBarToLaneHeight, instanceWithInferedType, probe.formStage, formGroup,

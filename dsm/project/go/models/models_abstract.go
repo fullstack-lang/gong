@@ -62,6 +62,16 @@ const (
 	PERCENT_000 CompletionEnum = "0 %"
 )
 
+// TimeStepScaleEnum
+type TimeStepScaleEnum string
+
+const (
+	YEARS  TimeStepScaleEnum = "YEARS"
+	MONTHS TimeStepScaleEnum = "MONTHS"
+	WEEKS  TimeStepScaleEnum = "WEEKS"
+	DAYS   TimeStepScaleEnum = "DAYS"
+)
+
 // A TaskGroup is a set of task.
 // A task can belong to multiple task groups.
 // A TaskGroup is used to be displayed in a single lane when the diagram is a time diagram.
