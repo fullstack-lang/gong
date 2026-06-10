@@ -62,6 +62,14 @@ const (
 	PERCENT_000 CompletionEnum = "0 %"
 )
 
+// A TaskGroup is a set of task.
+// A task can belong to multiple task groups.
+// A TaskGroup is used to be displayed in a single lane when the diagram is a time diagram.
+type TaskGroup struct {
+	Name  string
+	Tasks []*Task
+}
+
 // GONGDOC(NoteSemantic): Note on the models semantic
 //
 // [models.Product] and [models.Task] are in Product Breakdown Structure (PBS)

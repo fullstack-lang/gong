@@ -50,6 +50,8 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagram.TasksWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.TasksWhoseInputNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.TasksWhoseOutputNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagram.TaskGroups) || modified
+	modified = GongCleanSlice(stage, &diagram.TaskGroupsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.TaskComposition_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagram.TaskInputShapes) || modified
 	modified = GongCleanSlice(stage, &diagram.TaskOutputShapes) || modified
@@ -200,6 +202,14 @@ func (taskcompositionshape *TaskCompositionShape) GongClean(stage *Stage) (modif
 	// insertion point per field
 	// insertion point per field
 	modified = GongCleanPointer(stage, &taskcompositionshape.Task) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by TaskGroup
+func (taskgroup *TaskGroup) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &taskgroup.Tasks) || modified
+	// insertion point per field
 	return
 }
 
