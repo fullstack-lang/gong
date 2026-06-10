@@ -413,8 +413,8 @@ func _(stage *models.Stage) {
 	__ArtistShape__00000002_.ImagePngBase64Content = ``
 
 	__ArtistShape__00000003_.Name = ``
-	__ArtistShape__00000003_.X = 57.000000
-	__ArtistShape__00000003_.Y = 116.000000
+	__ArtistShape__00000003_.X = 53.666667
+	__ArtistShape__00000003_.Y = 119.333333
 	__ArtistShape__00000003_.Width = 73.000000
 	__ArtistShape__00000003_.Height = 30.000000
 	__ArtistShape__00000003_.IsHidden = false
@@ -819,7 +819,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000000_.IsEditable = false
 	__Diagram__00000000_.IsNodeExpanded = true
-	__Diagram__00000000_.IsMovementCategoryNodeExpanded = true
+	__Diagram__00000000_.IsMovementCategoryNodeExpanded = false
 	__Diagram__00000000_.IsArtefactTypeCategoryNodeExpanded = false
 	__Diagram__00000000_.IsArtistCategoryNodeExpanded = false
 	__Diagram__00000000_.IsInfluenceCategoryNodeExpanded = false

@@ -498,6 +498,14 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.TasksWhoseInputNodeIsExpanded, valueExpr, identifierMap)
 	case "TasksWhoseOutputNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.TasksWhoseOutputNodeIsExpanded, valueExpr, identifierMap)
+	case "IsTaskGroupsNodeExpanded":
+		instance.IsTaskGroupsNodeExpanded = GongExtractBool(valueExpr)
+	case "TaskGroups":
+		GongUnmarshallSliceOfPointers(&instance.TaskGroups, valueExpr, identifierMap)
+	case "TaskGroupsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.TaskGroupsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "DateFormat":
+		instance.DateFormat = GongExtractString(valueExpr)
 	case "TaskComposition_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.TaskComposition_Shapes, valueExpr, identifierMap)
 	case "TaskInputShapes":
@@ -526,6 +534,80 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.ResourceComposition_Shapes, valueExpr, identifierMap)
 	case "ResourceTaskShapes":
 		GongUnmarshallSliceOfPointers(&instance.ResourceTaskShapes, valueExpr, identifierMap)
+	case "IsTimeDiagram":
+		instance.IsTimeDiagram = GongExtractBool(valueExpr)
+	case "ComputedStart":
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
+		}
+	case "ComputedEnd":
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
+		}
+	case "ComputedDuration":
+		instance.ComputedDuration = time.Duration(GongExtractInt(valueExpr))
+	case "UseManualStartAndEndDates":
+		instance.UseManualStartAndEndDates = GongExtractBool(valueExpr)
+	case "ManualStart":
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.ManualStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
+		}
+	case "ManualEnd":
+		if call, ok := valueExpr.(*ast.CallExpr); ok {
+			if len(call.Args) == 2 {
+				if bl, ok := call.Args[1].(*ast.BasicLit); ok {
+					instance.ManualEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", strings.Trim(bl.Value, "\"`"))
+				}
+			}
+		}
+	case "LaneHeight":
+		instance.LaneHeight = GongExtractFloat(valueExpr)
+	case "RatioBarToLaneHeight":
+		instance.RatioBarToLaneHeight = GongExtractFloat(valueExpr)
+	case "YTopMargin":
+		instance.YTopMargin = GongExtractFloat(valueExpr)
+	case "XLeftText":
+		instance.XLeftText = GongExtractFloat(valueExpr)
+	case "TextHeight":
+		instance.TextHeight = GongExtractFloat(valueExpr)
+	case "XLeftLanes":
+		instance.XLeftLanes = GongExtractFloat(valueExpr)
+	case "XRightMargin":
+		instance.XRightMargin = GongExtractFloat(valueExpr)
+	case "ArrowLengthToTheRightOfStartBar":
+		instance.ArrowLengthToTheRightOfStartBar = GongExtractFloat(valueExpr)
+	case "ArrowTipLenght":
+		instance.ArrowTipLenght = GongExtractFloat(valueExpr)
+	case "TimeLine_Color":
+		instance.TimeLine_Color = GongExtractString(valueExpr)
+	case "TimeLine_FillOpacity":
+		instance.TimeLine_FillOpacity = GongExtractFloat(valueExpr)
+	case "TimeLine_Stroke":
+		instance.TimeLine_Stroke = GongExtractString(valueExpr)
+	case "TimeLine_StrokeWidth":
+		instance.TimeLine_StrokeWidth = GongExtractFloat(valueExpr)
+	case "Group_Stroke":
+		instance.Group_Stroke = GongExtractString(valueExpr)
+	case "Group_StrokeWidth":
+		instance.Group_StrokeWidth = GongExtractFloat(valueExpr)
+	case "Group_StrokeDashArray":
+		instance.Group_StrokeDashArray = GongExtractString(valueExpr)
+	case "DateYOffset":
+		instance.DateYOffset = GongExtractFloat(valueExpr)
+	case "AlignOnStartEndOnYearStart":
+		instance.AlignOnStartEndOnYearStart = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -1199,6 +1281,37 @@ func (u *TaskCompositionShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 	return nil
 }
 
+type TaskGroupUnmarshaller struct{}
+
+func (u *TaskGroupUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TaskGroup)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TaskGroupUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TaskGroup)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Tasks":
+		GongUnmarshallSliceOfPointers(&instance.Tasks, valueExpr, identifierMap)
+	}
+	return nil
+}
+
 type TaskInputShapeUnmarshaller struct{}
 
 func (u *TaskInputShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -1316,6 +1429,8 @@ func (u *TaskShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.Name = GongExtractString(valueExpr)
 	case "Task":
 		GongUnmarshallPointer(&instance.Task, valueExpr, identifierMap)
+	case "IsShowDate":
+		instance.IsShowDate = GongExtractBool(valueExpr)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":

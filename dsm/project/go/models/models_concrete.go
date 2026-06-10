@@ -66,6 +66,8 @@ type TaskShape struct {
 
 	isExpanded bool
 
+	IsShowDate bool
+
 	RectShape
 }
 

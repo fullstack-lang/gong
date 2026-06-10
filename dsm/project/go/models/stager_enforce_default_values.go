@@ -38,6 +38,77 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 					fmt.Sprintf("Diagram %s: setting default box width to %f", diagram.Name, defaultBoxWidth))
 			}
 		}
+
+		if diagram.IsTimeDiagram {
+			if diagram.LaneHeight == 0 {
+				diagram.LaneHeight = 30.0
+				needCommit = true
+			}
+			if diagram.RatioBarToLaneHeight == 0 {
+				diagram.RatioBarToLaneHeight = 0.8
+				needCommit = true
+			}
+			if diagram.YTopMargin == 0 {
+				diagram.YTopMargin = 40.0
+				needCommit = true
+			}
+			if diagram.XLeftText == 0 {
+				diagram.XLeftText = 10.0
+				needCommit = true
+			}
+			if diagram.TextHeight == 0 {
+				diagram.TextHeight = 15.0
+				needCommit = true
+			}
+			if diagram.XLeftLanes == 0 {
+				diagram.XLeftLanes = 200.0
+				needCommit = true
+			}
+			if diagram.XRightMargin == 0 {
+				diagram.XRightMargin = 50.0
+				needCommit = true
+			}
+			if diagram.ArrowLengthToTheRightOfStartBar == 0 {
+				diagram.ArrowLengthToTheRightOfStartBar = 15.0
+				needCommit = true
+			}
+			if diagram.ArrowTipLenght == 0 {
+				diagram.ArrowTipLenght = 5.0
+				needCommit = true
+			}
+			if diagram.TimeLine_Color == "" {
+				diagram.TimeLine_Color = "grey"
+				needCommit = true
+			}
+			if diagram.TimeLine_FillOpacity == 0 {
+				diagram.TimeLine_FillOpacity = 0.1
+				needCommit = true
+			}
+			if diagram.TimeLine_Stroke == "" {
+				diagram.TimeLine_Stroke = "grey"
+				needCommit = true
+			}
+			if diagram.TimeLine_StrokeWidth == 0 {
+				diagram.TimeLine_StrokeWidth = 1.0
+				needCommit = true
+			}
+			if diagram.Group_Stroke == "" {
+				diagram.Group_Stroke = "black"
+				needCommit = true
+			}
+			if diagram.Group_StrokeWidth == 0 {
+				diagram.Group_StrokeWidth = 1.0
+				needCommit = true
+			}
+			if diagram.Group_StrokeDashArray == "" {
+				diagram.Group_StrokeDashArray = "2 2"
+				needCommit = true
+			}
+			if diagram.DateYOffset == 0 {
+				diagram.DateYOffset = 15.0
+				needCommit = true
+			}
+		}
 	}
 	return
 }
