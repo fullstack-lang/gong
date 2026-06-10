@@ -336,7 +336,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "UseManualStartAndEndDates"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualStart"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualEnd"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "NumberOfYearsBetweenTicks"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeStep"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeStepScale"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "LaneHeight"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "RatioBarToLaneHeight"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "YTopMargin"))
@@ -1356,11 +1357,24 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ManualEnd")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.ManualEnd.String())
-	case "NumberOfYearsBetweenTicks":
+	case "TimeStep":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NumberOfYearsBetweenTicks")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", diagram.NumberOfYearsBetweenTicks))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeStep")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", diagram.TimeStep))
+	case "TimeStepScale":
+		if diagram.TimeStepScale.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeStepScale")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+diagram.TimeStepScale.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeStepScale")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
 	case "LaneHeight":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -3153,7 +3167,8 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "UseManualStartAndEndDates"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualStart"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualEnd"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "NumberOfYearsBetweenTicks"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeStep"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeStepScale"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "LaneHeight"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "RatioBarToLaneHeight"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "YTopMargin"))

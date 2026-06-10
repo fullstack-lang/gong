@@ -3480,8 +3480,11 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.ManualEnd != diagramOther.ManualEnd {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "ManualEnd"))
 	}
-	if diagram.NumberOfYearsBetweenTicks != diagramOther.NumberOfYearsBetweenTicks {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "NumberOfYearsBetweenTicks"))
+	if diagram.TimeStep != diagramOther.TimeStep {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeStep"))
+	}
+	if diagram.TimeStepScale != diagramOther.TimeStepScale {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeStepScale"))
 	}
 	if diagram.LaneHeight != diagramOther.LaneHeight {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "LaneHeight"))
