@@ -466,6 +466,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "IsEditable_":
@@ -657,6 +659,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.LogoSVGFile = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "IsRootLibrary":
 		instance.IsRootLibrary = GongExtractBool(valueExpr)
 	case "RootProducts":
@@ -704,6 +708,8 @@ func (u *MilestoneUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "Date":
 		if call, ok := valueExpr.(*ast.CallExpr); ok {
 			if len(call.Args) == 2 {
@@ -788,6 +794,8 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "Products":
 		GongUnmarshallSliceOfPointers(&instance.Products, valueExpr, identifierMap)
 	case "Tasks":
@@ -1001,6 +1009,8 @@ func (u *ProductUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "IsImport":
 		instance.IsImport = GongExtractBool(valueExpr)
 	case "ReferencedProduct":
@@ -1128,6 +1138,8 @@ func (u *ResourceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "IsImport":
 		instance.IsImport = GongExtractBool(valueExpr)
 	case "ReferencedResource":
@@ -1298,6 +1310,8 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "IsImport":
 		instance.IsImport = GongExtractBool(valueExpr)
 	case "ReferencedTask":
@@ -1408,6 +1422,8 @@ func (u *TaskGroupUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "Tasks":
 		GongUnmarshallSliceOfPointers(&instance.Tasks, valueExpr, identifierMap)
 	}

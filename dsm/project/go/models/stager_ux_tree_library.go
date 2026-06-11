@@ -8,7 +8,7 @@ import (
 func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, parentNodes *[]*tree.Node) {
 	libraryNode := &tree.Node{
 		Name:            library.Name,
-		IsExpanded:      library.isExpanded,
+		IsExpanded:      library.IsExpanded,
 		IsNodeClickable: true,
 		IsInEditMode:    library.isInRenameMode,
 	}
@@ -17,7 +17,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	if library != stager.getRootLibrary() {
 		addRenameButton(library, libraryNode, stager)
 	}
-	libraryNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.isExpanded)
+	libraryNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsExpanded)
 	libraryNode.OnNameChange = stager.onNameChange(library)
 	libraryNode.OnClick = onNodeClicked(stager, library)
 	confSubLibraries := ItemButtonConfiguration[
@@ -28,7 +28,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		sliceForNewAddedItem:               &library.SubLibraries,
 		isParentNodeExpandedByAddOperation: true,
 		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &library.isExpanded,
+		parentNodeExpansionBooleanValue:    &library.IsExpanded,
 	}
 	addCreateItemButton(stager, confSubLibraries)
 
@@ -40,14 +40,14 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		sliceForNewAddedItem:               &library.Diagrams,
 		isParentNodeExpandedByAddOperation: true,
 		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &library.isExpanded,
+		parentNodeExpansionBooleanValue:    &library.IsExpanded,
 	}
 	itemAdderCallback := addCreateItemButton(stager, confDiagrams)
 
 	itemAdderCallback.OnBeforeCommit = func() {
 		newDiagram := itemAdderCallback.createdItem
 		newDiagram.IsEditable_ = true
-		newDiagram.isExpanded = true
+		newDiagram.IsExpanded = true
 		for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
 			diagram_.IsChecked = false
 		}
@@ -57,7 +57,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	for _, diagram := range library.Diagrams {
 		diagramNode := &tree.Node{
 			Name:              diagram.Name,
-			IsExpanded:        diagram.isExpanded,
+			IsExpanded:        diagram.IsExpanded,
 			IsNodeClickable:   true,
 			HasCheckboxButton: true,
 			IsChecked:         diagram.IsChecked,
@@ -84,7 +84,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			}
 			stager.stage.Commit()
 		}
-		diagramNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.isExpanded)
+		diagramNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsExpanded)
 		diagramNode.OnNameChange = stager.onNameChange(diagram)
 		diagramNode.OnClick = onNodeClicked(stager, diagram)
 		{
