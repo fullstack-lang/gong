@@ -138,6 +138,8 @@ type Diagram struct {
 	TimeLine_Stroke      string
 	TimeLine_StrokeWidth float64
 
+	DrawVerticalTimeLines bool
+
 	Group_Stroke          string
 	Group_StrokeWidth     float64
 	Group_StrokeDashArray string
