@@ -7,7 +7,7 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
-func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
+func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, svgObject *svg.SVG) {
 
 	// If no duration, return early to prevent division by zero
 	if diagram.ComputedDuration == 0 {
@@ -99,8 +99,10 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 			currentTick = currentTick.AddDate(timeStep, 0, 0)
 		}
 	}
-	// Add one more tick at the end to cover the last interval
-	ticks = append(ticks, currentTick)
+	// Move tick drawing to the end so they are drawn over the lanes
+	ticksToDraw := ticks
+
+	// Ticks text only at this point
 
 	for i := 0; i < len(ticks)-1; i++ {
 		tick := ticks[i]
@@ -111,20 +113,6 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 			float64(durationBetweenTickAndGanttStart) / float64(diagram.ComputedDuration)
 
 		xOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenTickAndGanttStartRelativeToGanttDuration
-
-		// draw the line ONLY if x is within the visible area
-		if xOriginal >= XLeftLanes && xOriginal <= XRightMargin {
-			lineForTick := new(svg.Line).Stage(stager.svgStage)
-			lineForTick.Name = fmt.Sprintf("tick for %s", tick.Format("2006-01-02"))
-			layer.Lines = append(layer.Lines, lineForTick)
-			lineForTick.X1 = xOriginal
-			lineForTick.X2 = xOriginal
-			lineForTick.Y1 = YTopMargin
-			lineForTick.Y2 = yTimeLine
-			lineForTick.Stroke = "lightgrey"
-			lineForTick.StrokeWidth = 0.5
-			lineForTick.StrokeDashArray = "4 4"
-		}
 
 		durationBetweenNextTickAndGanttStart := nextTick.Sub(diagram.ComputedStart)
 		durationBetweenNextTickAndGanttStartRelativeToGanttDuration :=
@@ -386,6 +374,32 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 			milestoneText.FillOpacity = 1.0
 			
 			dummyRect.RectAnchoredTexts = append(dummyRect.RectAnchoredTexts, milestoneText)
+		}
+	}
+
+	// Draw the vertical grid lines as thin Rects so they overlay the lanes perfectly
+	if diagram.DrawVerticalTimeLines {
+		for i := 0; i < len(ticksToDraw)-1; i++ {
+			tick := ticksToDraw[i]
+			
+			durationBetweenTickAndGanttStart := tick.Sub(diagram.ComputedStart)
+			durationBetweenTickAndGanttStartRelativeToGanttDuration :=
+				float64(durationBetweenTickAndGanttStart) / float64(diagram.ComputedDuration)
+
+			xOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenTickAndGanttStartRelativeToGanttDuration
+
+			if xOriginal >= XLeftLanes && xOriginal <= XRightMargin {
+				gridLine := new(svg.Rect).Stage(stager.svgStage)
+				gridLine.Name = fmt.Sprintf("grid line for %s", tick.Format("2006-01-02"))
+				layer.Rects = append(layer.Rects, gridLine)
+				gridLine.X = xOriginal
+				gridLine.Y = YTopMargin
+				gridLine.Width = 1.0 // thin solid line
+				gridLine.Height = yTimeLine - YTopMargin
+				gridLine.Color = "lightgrey"
+				gridLine.FillOpacity = 0.5 // semi-transparent to blend nicely
+				gridLine.StrokeOpacity = 0.0
+			}
 		}
 	}
 }

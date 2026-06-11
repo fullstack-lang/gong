@@ -6862,6 +6862,10 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "DrawVerticalTimeLines",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "Group_Stroke",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -8263,6 +8267,10 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%f", diagram.TimeLine_StrokeWidth)
 		res.valueFloat = diagram.TimeLine_StrokeWidth
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DrawVerticalTimeLines":
+		res.valueString = fmt.Sprintf("%t", diagram.DrawVerticalTimeLines)
+		res.valueBool = diagram.DrawVerticalTimeLines
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Group_Stroke":
 		res.valueString = diagram.Group_Stroke
 	case "Group_StrokeWidth":
@@ -9609,6 +9617,8 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.TimeLine_Stroke = value.GetValueString()
 	case "TimeLine_StrokeWidth":
 		diagram.TimeLine_StrokeWidth = value.GetValueFloat()
+	case "DrawVerticalTimeLines":
+		diagram.DrawVerticalTimeLines = value.GetValueBool()
 	case "Group_Stroke":
 		diagram.Group_Stroke = value.GetValueString()
 	case "Group_StrokeWidth":

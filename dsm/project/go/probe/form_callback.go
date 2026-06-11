@@ -853,6 +853,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.TimeLine_Stroke), formDiv)
 		case "TimeLine_StrokeWidth":
 			FormDivBasicFieldToField(&(diagram_.TimeLine_StrokeWidth), formDiv)
+		case "DrawVerticalTimeLines":
+			FormDivBasicFieldToField(&(diagram_.DrawVerticalTimeLines), formDiv)
 		case "Group_Stroke":
 			FormDivBasicFieldToField(&(diagram_.Group_Stroke), formDiv)
 		case "Group_StrokeWidth":

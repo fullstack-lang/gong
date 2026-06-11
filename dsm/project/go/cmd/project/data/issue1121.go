@@ -114,6 +114,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.TimeLine_FillOpacity = 0.100000
 	__Diagram__00000000_.TimeLine_Stroke = `grey`
 	__Diagram__00000000_.TimeLine_StrokeWidth = 1.000000
+	__Diagram__00000000_.DrawVerticalTimeLines = false
 	__Diagram__00000000_.Group_Stroke = `black`
 	__Diagram__00000000_.Group_StrokeWidth = 1.000000
 	__Diagram__00000000_.Group_StrokeDashArray = `2 2`
@@ -158,6 +159,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.TimeLine_FillOpacity = 0.100000
 	__Diagram__00000001_.TimeLine_Stroke = `grey`
 	__Diagram__00000001_.TimeLine_StrokeWidth = 1.000000
+	__Diagram__00000001_.DrawVerticalTimeLines = true
 	__Diagram__00000001_.Group_Stroke = `black`
 	__Diagram__00000001_.Group_StrokeWidth = 1.000000
 	__Diagram__00000001_.Group_StrokeDashArray = `2 2`
