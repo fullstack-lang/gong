@@ -3241,6 +3241,9 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.ComputedPrefix != diagramOther.ComputedPrefix {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if diagram.IsExpanded != diagramOther.IsExpanded {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsExpanded"))
+	}
 	if diagram.IsChecked != diagramOther.IsChecked {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -3891,6 +3894,9 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.ComputedPrefix != libraryOther.ComputedPrefix {
 		diffs = append(diffs, library.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if library.IsExpanded != libraryOther.IsExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
+	}
 	if library.IsRootLibrary != libraryOther.IsRootLibrary {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
 	}
@@ -4055,6 +4061,9 @@ func (milestone *Milestone) GongDiff(stage *Stage, milestoneOther *Milestone) (d
 	if milestone.ComputedPrefix != milestoneOther.ComputedPrefix {
 		diffs = append(diffs, milestone.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if milestone.IsExpanded != milestoneOther.IsExpanded {
+		diffs = append(diffs, milestone.GongMarshallField(stage, "IsExpanded"))
+	}
 	if milestone.Date != milestoneOther.Date {
 		diffs = append(diffs, milestone.GongMarshallField(stage, "Date"))
 	}
@@ -4128,6 +4137,9 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	}
 	if note.ComputedPrefix != noteOther.ComputedPrefix {
 		diffs = append(diffs, note.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if note.IsExpanded != noteOther.IsExpanded {
+		diffs = append(diffs, note.GongMarshallField(stage, "IsExpanded"))
 	}
 	ProductsDifferent := false
 	if len(note.Products) != len(noteOther.Products) {
@@ -4368,6 +4380,9 @@ func (product *Product) GongDiff(stage *Stage, productOther *Product) (diffs []s
 	if product.ComputedPrefix != productOther.ComputedPrefix {
 		diffs = append(diffs, product.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if product.IsExpanded != productOther.IsExpanded {
+		diffs = append(diffs, product.GongMarshallField(stage, "IsExpanded"))
+	}
 	if product.IsImport != productOther.IsImport {
 		diffs = append(diffs, product.GongMarshallField(stage, "IsImport"))
 	}
@@ -4490,6 +4505,9 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 	}
 	if resource.ComputedPrefix != resourceOther.ComputedPrefix {
 		diffs = append(diffs, resource.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if resource.IsExpanded != resourceOther.IsExpanded {
+		diffs = append(diffs, resource.GongMarshallField(stage, "IsExpanded"))
 	}
 	if resource.IsImport != resourceOther.IsImport {
 		diffs = append(diffs, resource.GongMarshallField(stage, "IsImport"))
@@ -4672,6 +4690,9 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	if task.ComputedPrefix != taskOther.ComputedPrefix {
 		diffs = append(diffs, task.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if task.IsExpanded != taskOther.IsExpanded {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsExpanded"))
+	}
 	if task.IsImport != taskOther.IsImport {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsImport"))
 	}
@@ -4815,6 +4836,9 @@ func (taskgroup *TaskGroup) GongDiff(stage *Stage, taskgroupOther *TaskGroup) (d
 	}
 	if taskgroup.ComputedPrefix != taskgroupOther.ComputedPrefix {
 		diffs = append(diffs, taskgroup.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if taskgroup.IsExpanded != taskgroupOther.IsExpanded {
+		diffs = append(diffs, taskgroup.GongMarshallField(stage, "IsExpanded"))
 	}
 	TasksDifferent := false
 	if len(taskgroup.Tasks) != len(taskgroupOther.Tasks) {

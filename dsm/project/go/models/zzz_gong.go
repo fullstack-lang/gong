@@ -6602,6 +6602,10 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -6914,6 +6918,10 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsRootLibrary",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -6966,6 +6974,10 @@ func (milestone *Milestone) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "Date",
@@ -7030,6 +7042,10 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "Products",
@@ -7239,6 +7255,10 @@ func (product *Product) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsImport",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -7356,6 +7376,10 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsImport",
@@ -7521,6 +7545,10 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsImport",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -7629,6 +7657,10 @@ func (taskgroup *TaskGroup) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "Tasks",
@@ -7871,6 +7903,10 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = diagram.Name
 	case "ComputedPrefix":
 		res.valueString = diagram.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
+		res.valueBool = diagram.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
 		res.valueBool = diagram.IsChecked
@@ -8314,6 +8350,10 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = library.LogoSVGFile
 	case "ComputedPrefix":
 		res.valueString = library.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsExpanded)
+		res.valueBool = library.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsRootLibrary":
 		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
 		res.valueBool = library.IsRootLibrary
@@ -8399,6 +8439,10 @@ func (milestone *Milestone) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = milestone.Name
 	case "ComputedPrefix":
 		res.valueString = milestone.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", milestone.IsExpanded)
+		res.valueBool = milestone.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Date":
 		res.valueString = milestone.Date.String()
 	case "DisplayVerticalBar":
@@ -8461,6 +8505,10 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = note.Name
 	case "ComputedPrefix":
 		res.valueString = note.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", note.IsExpanded)
+		res.valueBool = note.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Products":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range note.Products {
@@ -8666,6 +8714,10 @@ func (product *Product) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = product.Name
 	case "ComputedPrefix":
 		res.valueString = product.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", product.IsExpanded)
+		res.valueBool = product.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsImport":
 		res.valueString = fmt.Sprintf("%t", product.IsImport)
 		res.valueBool = product.IsImport
@@ -8779,6 +8831,10 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = resource.Name
 	case "ComputedPrefix":
 		res.valueString = resource.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", resource.IsExpanded)
+		res.valueBool = resource.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsImport":
 		res.valueString = fmt.Sprintf("%t", resource.IsImport)
 		res.valueBool = resource.IsImport
@@ -8937,6 +8993,10 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = task.Name
 	case "ComputedPrefix":
 		res.valueString = task.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", task.IsExpanded)
+		res.valueBool = task.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsImport":
 		res.valueString = fmt.Sprintf("%t", task.IsImport)
 		res.valueBool = task.IsImport
@@ -9046,6 +9106,10 @@ func (taskgroup *TaskGroup) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = taskgroup.Name
 	case "ComputedPrefix":
 		res.valueString = taskgroup.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", taskgroup.IsExpanded)
+		res.valueBool = taskgroup.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Tasks":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range taskgroup.Tasks {
@@ -9233,6 +9297,8 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.Name = value.GetValueString()
 	case "ComputedPrefix":
 		diagram.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		diagram.IsExpanded = value.GetValueBool()
 	case "IsChecked":
 		diagram.IsChecked = value.GetValueBool()
 	case "IsEditable_":
@@ -9660,6 +9726,8 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.LogoSVGFile = value.GetValueString()
 	case "ComputedPrefix":
 		library.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		library.IsExpanded = value.GetValueBool()
 	case "IsRootLibrary":
 		library.IsRootLibrary = value.GetValueBool()
 	case "RootProducts":
@@ -9773,6 +9841,8 @@ func (milestone *Milestone) GongSetFieldValue(fieldName string, value GongFieldV
 		milestone.Name = value.GetValueString()
 	case "ComputedPrefix":
 		milestone.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		milestone.IsExpanded = value.GetValueBool()
 	case "DisplayVerticalBar":
 		milestone.DisplayVerticalBar = value.GetValueBool()
 	case "TaskGroupsToDisplay":
@@ -9834,6 +9904,8 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		note.Name = value.GetValueString()
 	case "ComputedPrefix":
 		note.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		note.IsExpanded = value.GetValueBool()
 	case "Products":
 		note.Products = make([]*Product, 0)
 		ids := strings.Split(value.ids, ";")
@@ -10056,6 +10128,8 @@ func (product *Product) GongSetFieldValue(fieldName string, value GongFieldValue
 		product.Name = value.GetValueString()
 	case "ComputedPrefix":
 		product.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		product.IsExpanded = value.GetValueBool()
 	case "IsImport":
 		product.IsImport = value.GetValueBool()
 	case "ReferencedProduct":
@@ -10168,6 +10242,8 @@ func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldVal
 		resource.Name = value.GetValueString()
 	case "ComputedPrefix":
 		resource.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		resource.IsExpanded = value.GetValueBool()
 	case "IsImport":
 		resource.IsImport = value.GetValueBool()
 	case "ReferencedResource":
@@ -10335,6 +10411,8 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		task.Name = value.GetValueString()
 	case "ComputedPrefix":
 		task.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		task.IsExpanded = value.GetValueBool()
 	case "IsImport":
 		task.IsImport = value.GetValueBool()
 	case "ReferencedTask":
@@ -10447,6 +10525,8 @@ func (taskgroup *TaskGroup) GongSetFieldValue(fieldName string, value GongFieldV
 		taskgroup.Name = value.GetValueString()
 	case "ComputedPrefix":
 		taskgroup.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		taskgroup.IsExpanded = value.GetValueBool()
 	case "Tasks":
 		taskgroup.Tasks = make([]*Task, 0)
 		ids := strings.Split(value.ids, ";")

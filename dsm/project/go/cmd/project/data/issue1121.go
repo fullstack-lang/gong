@@ -78,6 +78,7 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000000_.Name = `Default Diagram`
 	__Diagram__00000000_.ComputedPrefix = `1`
+	__Diagram__00000000_.IsExpanded = false
 	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsShowPrefix = false
@@ -123,6 +124,7 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000001_.Name = `Default Diagram`
 	__Diagram__00000001_.ComputedPrefix = `1`
+	__Diagram__00000001_.IsExpanded = true
 	__Diagram__00000001_.IsChecked = true
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsShowPrefix = false
@@ -170,16 +172,19 @@ func _(stage *models.Stage) {
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.ComputedPrefix = ``
+	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.IsRootLibrary = true
 
 	__Library__00000001_.Name = `Montly diagram`
 	__Library__00000001_.NbPixPerCharacter = 0.000000
 	__Library__00000001_.LogoSVGFile = ``
 	__Library__00000001_.ComputedPrefix = ``
+	__Library__00000001_.IsExpanded = true
 	__Library__00000001_.IsRootLibrary = false
 
 	__Milestone__00000000_.Name = `M1`
 	__Milestone__00000000_.ComputedPrefix = ``
+	__Milestone__00000000_.IsExpanded = false
 	__Milestone__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2015-01-01 00:00:00 +0000 UTC")
 	__Milestone__00000000_.DisplayVerticalBar = false
 
@@ -192,6 +197,7 @@ func _(stage *models.Stage) {
 
 	__Product__00000000_.Name = `P1`
 	__Product__00000000_.ComputedPrefix = `1`
+	__Product__00000000_.IsExpanded = false
 	__Product__00000000_.IsImport = false
 	__Product__00000000_.Description = ``
 	__Product__00000000_.IsProducersNodeExpanded = false
@@ -199,6 +205,7 @@ func _(stage *models.Stage) {
 
 	__Product__00000001_.Name = `P1.1`
 	__Product__00000001_.ComputedPrefix = `1.1`
+	__Product__00000001_.IsExpanded = false
 	__Product__00000001_.IsImport = false
 	__Product__00000001_.Description = ``
 	__Product__00000001_.IsProducersNodeExpanded = false
@@ -206,6 +213,7 @@ func _(stage *models.Stage) {
 
 	__Product__00000002_.Name = `P1.2`
 	__Product__00000002_.ComputedPrefix = `1.2`
+	__Product__00000002_.IsExpanded = false
 	__Product__00000002_.IsImport = false
 	__Product__00000002_.Description = ``
 	__Product__00000002_.IsProducersNodeExpanded = false
@@ -235,6 +243,7 @@ func _(stage *models.Stage) {
 
 	__Task__00000000_.Name = `L1.W1`
 	__Task__00000000_.ComputedPrefix = `1`
+	__Task__00000000_.IsExpanded = false
 	__Task__00000000_.IsImport = false
 	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2000-01-01 00:00:00 +0000 UTC")
 	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2030-01-01 00:00:00 +0000 UTC")
@@ -246,6 +255,7 @@ func _(stage *models.Stage) {
 
 	__Task__00000001_.Name = `L1.W2`
 	__Task__00000001_.ComputedPrefix = `2`
+	__Task__00000001_.IsExpanded = false
 	__Task__00000001_.IsImport = false
 	__Task__00000001_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2020-01-01 00:00:00 +0000 UTC")
 	__Task__00000001_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2025-01-01 00:00:00 +0000 UTC")
@@ -257,6 +267,7 @@ func _(stage *models.Stage) {
 
 	__Task__00000002_.Name = `L2.W1`
 	__Task__00000002_.ComputedPrefix = `3`
+	__Task__00000002_.IsExpanded = false
 	__Task__00000002_.IsImport = false
 	__Task__00000002_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2021-01-01 00:00:00 +0000 UTC")
 	__Task__00000002_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-01-01 00:00:00 +0000 UTC")
@@ -268,6 +279,7 @@ func _(stage *models.Stage) {
 
 	__Task__00000003_.Name = `spring 26`
 	__Task__00000003_.ComputedPrefix = `2`
+	__Task__00000003_.IsExpanded = false
 	__Task__00000003_.IsImport = false
 	__Task__00000003_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-04-01 00:00:00 +0000 UTC")
 	__Task__00000003_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-07-01 00:00:00 +0000 UTC")
@@ -279,6 +291,7 @@ func _(stage *models.Stage) {
 
 	__Task__00000004_.Name = `summer 26`
 	__Task__00000004_.ComputedPrefix = `3`
+	__Task__00000004_.IsExpanded = false
 	__Task__00000004_.IsImport = false
 	__Task__00000004_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-07-01 00:00:00 +0000 UTC")
 	__Task__00000004_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-10-01 00:00:00 +0000 UTC")
@@ -290,6 +303,7 @@ func _(stage *models.Stage) {
 
 	__Task__00000005_.Name = `winter 26`
 	__Task__00000005_.ComputedPrefix = `1`
+	__Task__00000005_.IsExpanded = false
 	__Task__00000005_.IsImport = false
 	__Task__00000005_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-01-01 00:00:00 +0000 UTC")
 	__Task__00000005_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-04-01 00:00:00 +0000 UTC")
@@ -301,6 +315,7 @@ func _(stage *models.Stage) {
 
 	__Task__00000006_.Name = `winter 27`
 	__Task__00000006_.ComputedPrefix = `4`
+	__Task__00000006_.IsExpanded = false
 	__Task__00000006_.IsImport = false
 	__Task__00000006_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2027-01-01 00:00:00 +0000 UTC")
 	__Task__00000006_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2027-04-01 00:00:00 +0000 UTC")
@@ -312,18 +327,23 @@ func _(stage *models.Stage) {
 
 	__TaskGroup__00000000_.Name = `L1`
 	__TaskGroup__00000000_.ComputedPrefix = ``
+	__TaskGroup__00000000_.IsExpanded = false
 
 	__TaskGroup__00000002_.Name = `L2`
 	__TaskGroup__00000002_.ComputedPrefix = ``
+	__TaskGroup__00000002_.IsExpanded = false
 
 	__TaskGroup__00000003_.Name = `L3`
 	__TaskGroup__00000003_.ComputedPrefix = ``
+	__TaskGroup__00000003_.IsExpanded = false
 
 	__TaskGroup__00000004_.Name = `year 2026`
 	__TaskGroup__00000004_.ComputedPrefix = ``
+	__TaskGroup__00000004_.IsExpanded = false
 
 	__TaskGroup__00000005_.Name = `year 2027`
 	__TaskGroup__00000005_.ComputedPrefix = ``
+	__TaskGroup__00000005_.IsExpanded = false
 
 	__TaskGroupShape__00000000_.Name = `L1-Default Diagram`
 	__TaskGroupShape__00000000_.X = 127.204461

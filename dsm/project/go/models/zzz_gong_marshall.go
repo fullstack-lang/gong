@@ -295,6 +295,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEditable_"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsShowPrefix"))
@@ -390,6 +391,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(library.GongMarshallField(stage, "NbPixPerCharacter"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "LogoSVGFile"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootProducts"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootTasks"))
@@ -425,6 +427,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(milestone.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(milestone.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(milestone.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(milestone.GongMarshallField(stage, "Date"))
 		initializerStatements.WriteString(milestone.GongMarshallField(stage, "DisplayVerticalBar"))
 		pointersInitializesStatements.WriteString(milestone.GongMarshallField(stage, "TaskGroupsToDisplay"))
@@ -487,6 +490,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(note.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Products"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Tasks"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Resources"))
@@ -651,6 +655,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(product.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(product.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "IsImport"))
 		pointersInitializesStatements.WriteString(product.GongMarshallField(stage, "ReferencedProduct"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "Description"))
@@ -749,6 +754,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(resource.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "IsImport"))
 		pointersInitializesStatements.WriteString(resource.GongMarshallField(stage, "ReferencedResource"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "Description"))
@@ -880,6 +886,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsImport"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "ReferencedTask"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Start"))
@@ -952,6 +959,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(taskgroup.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(taskgroup.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(taskgroup.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(taskgroup.GongMarshallField(stage, "Tasks"))
 	}
 
@@ -1340,6 +1348,11 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsExpanded))
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -1818,6 +1831,11 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsExpanded))
 	case "IsRootLibrary":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
@@ -1923,6 +1941,11 @@ func (milestone *Milestone) GongMarshallField(stage *Stage, fieldName string) (r
 		res = strings.ReplaceAll(res, "{{Identifier}}", milestone.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(milestone.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", milestone.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", milestone.IsExpanded))
 	case "Date":
 		res = TimeInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", milestone.GongGetIdentifier(stage))
@@ -2016,6 +2039,11 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", note.IsExpanded))
 
 	case "Products":
 		var sb strings.Builder
@@ -2380,6 +2408,11 @@ func (product *Product) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(product.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", product.IsExpanded))
 	case "IsImport":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
@@ -2570,6 +2603,11 @@ func (resource *Resource) GongMarshallField(stage *Stage, fieldName string) (res
 		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(resource.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", resource.IsExpanded))
 	case "IsImport":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
@@ -2847,6 +2885,11 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(task.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsExpanded))
 	case "IsImport":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
@@ -3032,6 +3075,11 @@ func (taskgroup *TaskGroup) GongMarshallField(stage *Stage, fieldName string) (r
 		res = strings.ReplaceAll(res, "{{Identifier}}", taskgroup.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(taskgroup.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", taskgroup.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", taskgroup.IsExpanded))
 
 	case "Tasks":
 		var sb strings.Builder
@@ -3342,6 +3390,7 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEditable_"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsShowPrefix"))
@@ -3422,6 +3471,7 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(library.GongMarshallField(stage, "NbPixPerCharacter"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "LogoSVGFile"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootProducts"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootTasks"))
@@ -3442,6 +3492,7 @@ func (milestone *Milestone) GongMarshallAllFields(stage *Stage) (initRes string,
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(milestone.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(milestone.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(milestone.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(milestone.GongMarshallField(stage, "Date"))
 		initializerStatements.WriteString(milestone.GongMarshallField(stage, "DisplayVerticalBar"))
 		pointersInitializesStatements.WriteString(milestone.GongMarshallField(stage, "TaskGroupsToDisplay"))
@@ -3474,6 +3525,7 @@ func (note *Note) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(note.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Products"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Tasks"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Resources"))
@@ -3563,6 +3615,7 @@ func (product *Product) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(product.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(product.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "IsImport"))
 		pointersInitializesStatements.WriteString(product.GongMarshallField(stage, "ReferencedProduct"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "Description"))
@@ -3616,6 +3669,7 @@ func (resource *Resource) GongMarshallAllFields(stage *Stage) (initRes string, p
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(resource.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "IsImport"))
 		pointersInitializesStatements.WriteString(resource.GongMarshallField(stage, "ReferencedResource"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "Description"))
@@ -3687,6 +3741,7 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsImport"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "ReferencedTask"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Start"))
@@ -3729,6 +3784,7 @@ func (taskgroup *TaskGroup) GongMarshallAllFields(stage *Stage) (initRes string,
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(taskgroup.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(taskgroup.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(taskgroup.GongMarshallField(stage, "IsExpanded"))
 		pointersInitializesStatements.WriteString(taskgroup.GongMarshallField(stage, "Tasks"))
 	}
 	initRes = initializerStatements.String()
