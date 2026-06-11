@@ -354,6 +354,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_FillOpacity"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_Stroke"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_StrokeWidth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DrawVerticalTimeLines"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_Stroke"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeWidth"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeDashArray"))
@@ -1527,6 +1528,11 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_StrokeWidth")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.TimeLine_StrokeWidth))
+	case "DrawVerticalTimeLines":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DrawVerticalTimeLines")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.DrawVerticalTimeLines))
 	case "Group_Stroke":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -3395,6 +3401,7 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_FillOpacity"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_Stroke"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_StrokeWidth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DrawVerticalTimeLines"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_Stroke"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeWidth"))
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeDashArray"))

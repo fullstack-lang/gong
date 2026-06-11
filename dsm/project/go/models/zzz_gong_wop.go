@@ -88,6 +88,8 @@ type Diagram_WOP struct {
 
 	TimeLine_StrokeWidth float64
 
+	DrawVerticalTimeLines bool
+
 	Group_Stroke string
 
 	Group_StrokeWidth float64
@@ -139,6 +141,7 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.TimeLine_FillOpacity = from.TimeLine_FillOpacity
 	to.TimeLine_Stroke = from.TimeLine_Stroke
 	to.TimeLine_StrokeWidth = from.TimeLine_StrokeWidth
+	to.DrawVerticalTimeLines = from.DrawVerticalTimeLines
 	to.Group_Stroke = from.Group_Stroke
 	to.Group_StrokeWidth = from.Group_StrokeWidth
 	to.Group_StrokeDashArray = from.Group_StrokeDashArray

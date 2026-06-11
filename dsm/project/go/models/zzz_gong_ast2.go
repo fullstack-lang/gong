@@ -608,6 +608,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.TimeLine_Stroke = GongExtractString(valueExpr)
 	case "TimeLine_StrokeWidth":
 		instance.TimeLine_StrokeWidth = GongExtractFloat(valueExpr)
+	case "DrawVerticalTimeLines":
+		instance.DrawVerticalTimeLines = GongExtractBool(valueExpr)
 	case "Group_Stroke":
 		instance.Group_Stroke = GongExtractString(valueExpr)
 	case "Group_StrokeWidth":
