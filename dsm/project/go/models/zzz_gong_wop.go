@@ -16,6 +16,8 @@ type Diagram_WOP struct {
 
 	ComputedPrefix string
 
+	IsExpanded bool
+
 	IsChecked bool
 
 	IsEditable_ bool
@@ -105,6 +107,7 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
 	to.IsShowPrefix = from.IsShowPrefix
@@ -160,6 +163,8 @@ type Library_WOP struct {
 
 	ComputedPrefix string
 
+	IsExpanded bool
+
 	IsRootLibrary bool
 }
 
@@ -169,6 +174,7 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.NbPixPerCharacter = from.NbPixPerCharacter
 	to.LogoSVGFile = from.LogoSVGFile
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
 	to.IsRootLibrary = from.IsRootLibrary
 }
 
@@ -179,6 +185,8 @@ type Milestone_WOP struct {
 
 	ComputedPrefix string
 
+	IsExpanded bool
+
 	Date time.Time
 
 	DisplayVerticalBar bool
@@ -188,6 +196,7 @@ func (from *Milestone) CopyBasicFields(to *Milestone) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
 	to.Date = from.Date
 	to.DisplayVerticalBar = from.DisplayVerticalBar
 }
@@ -224,12 +233,15 @@ type Note_WOP struct {
 	Name string
 
 	ComputedPrefix string
+
+	IsExpanded bool
 }
 
 func (from *Note) CopyBasicFields(to *Note) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
 }
 
 type NoteProductShape_WOP struct {
@@ -352,6 +364,8 @@ type Product_WOP struct {
 
 	ComputedPrefix string
 
+	IsExpanded bool
+
 	IsImport bool
 
 	Description string
@@ -365,6 +379,7 @@ func (from *Product) CopyBasicFields(to *Product) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
 	to.IsImport = from.IsImport
 	to.Description = from.Description
 	to.IsProducersNodeExpanded = from.IsProducersNodeExpanded
@@ -433,6 +448,8 @@ type Resource_WOP struct {
 
 	ComputedPrefix string
 
+	IsExpanded bool
+
 	IsImport bool
 
 	Description string
@@ -442,6 +459,7 @@ func (from *Resource) CopyBasicFields(to *Resource) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
 	to.IsImport = from.IsImport
 	to.Description = from.Description
 }
@@ -537,6 +555,8 @@ type Task_WOP struct {
 
 	ComputedPrefix string
 
+	IsExpanded bool
+
 	IsImport bool
 
 	Start time.Time
@@ -558,6 +578,7 @@ func (from *Task) CopyBasicFields(to *Task) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
 	to.IsImport = from.IsImport
 	to.Start = from.Start
 	to.End = from.End
@@ -603,12 +624,15 @@ type TaskGroup_WOP struct {
 	Name string
 
 	ComputedPrefix string
+
+	IsExpanded bool
 }
 
 func (from *TaskGroup) CopyBasicFields(to *TaskGroup) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
 }
 
 type TaskGroupShape_WOP struct {
