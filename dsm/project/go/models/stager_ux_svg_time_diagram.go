@@ -121,8 +121,8 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 			lineForTick.X2 = xOriginal
 			lineForTick.Y1 = YTopMargin
 			lineForTick.Y2 = yTimeLine
-			lineForTick.Stroke = "black"
-			lineForTick.StrokeWidth = 0.25
+			lineForTick.Stroke = "lightgrey"
+			lineForTick.StrokeWidth = 0.5
 			lineForTick.StrokeDashArray = "4 4"
 		}
 
@@ -157,17 +157,9 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 		var tickLabel string
 		switch timeStepScale {
 		case YEARS:
-			if timeStep > 1 {
-				tickLabel = fmt.Sprintf("%d -> %d", tick.Year(), nextTick.Year())
-			} else {
-				tickLabel = fmt.Sprintf("%d", tick.Year())
-			}
+			tickLabel = fmt.Sprintf("%d", tick.Year())
 		case MONTHS:
-			if timeStep > 1 {
-				tickLabel = fmt.Sprintf("%s - %s '%02d", tick.Format("Jan"), nextTick.AddDate(0, -1, 0).Format("Jan"), tick.Year()%100)
-			} else {
-				tickLabel = tick.Format("Jan '06")
-			}
+			tickLabel = tick.Format("Jan '06")
 		case WEEKS:
 			_, week := tick.ISOWeek()
 			tickLabel = fmt.Sprintf("W%02d", week)
@@ -178,7 +170,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 		}
 
 		tickText.Name = tickLabel
-		tickText.X = (xVisible+xNextVisible)/2.0 - 20
+		tickText.X = xVisible - float64(len(tickLabel))*4.0
 		tickText.Content = tickText.Name
 		tickText.Y = yTimeLine + DateYOffset
 		tickText.Color = "black"
@@ -189,6 +181,17 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 	// Lanes
 	currentY := YTopMargin
 	laneIndex := 0
+
+	// vertical separator for lane headers
+	headerSeparator := new(svg.Line).Stage(stager.svgStage)
+	headerSeparator.Name = "Header Separator"
+	layer.Lines = append(layer.Lines, headerSeparator)
+	headerSeparator.X1 = XLeftLanes
+	headerSeparator.X2 = XLeftLanes
+	headerSeparator.Y1 = YTopMargin
+	headerSeparator.Y2 = yTimeLine
+	headerSeparator.Stroke = "darkgrey"
+	headerSeparator.StrokeWidth = 1.0
 
 	mapTaskGroup_TextY := make(map[*TaskGroup]float64, 0)
 
@@ -207,11 +210,12 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 		laneSVG.Width = XRightMargin - XLeftLanes
 		laneSVG.Height = LaneHeight
 
-		laneSVG.Color = "grey"
-		laneSVG.FillOpacity = 0.1
+		laneSVG.Color = "lightgrey"
+		laneSVG.FillOpacity = 0.2
 
 		if laneIndex%2 == 0 {
-			laneSVG.Color = "black"
+			laneSVG.Color = "white"
+			laneSVG.FillOpacity = 0.8
 		}
 		laneIndex = laneIndex + 1
 		laneSVG.StrokeWidth = 1.5
@@ -283,20 +287,23 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 			rect4Bar.Height = barHeigth
 			rect4Bar.Width = (XRightMargin - XLeftLanes) * durationBetweenBarEndAndBarStartRelativeToGanttDuration
 
-			rect4Bar.Color = "blue"
-			rect4Bar.FillOpacity = 0.1
-			rect4Bar.Stroke = "blue"
-			rect4Bar.StrokeWidth = 0.5
+			rect4Bar.Color = "steelblue"
+			rect4Bar.FillOpacity = 0.6
+			rect4Bar.Stroke = "darkblue"
+			rect4Bar.StrokeWidth = 1.0
+			rect4Bar.RX = 4.0 // rounded corners
 
-			// bar text
-			barText := new(svg.Text).Stage(stager.svgStage)
+			// bar text using RectAnchoredText to ensure it renders on top of the bar
+			barText := new(svg.RectAnchoredText).Stage(stager.svgStage)
 			barText.Name = task.Name
-			barText.Content = barText.Name
-			barText.X = rect4Bar.X + XLeftText
-			barText.Y = currentY + LaneHeight/2.0 + TextHeight/2.0
+			barText.Content = task.Name
+			barText.X_Offset = XLeftText
+			barText.Y_Offset = 0
+			barText.RectAnchorType = svg.RECT_LEFT
+			barText.TextAnchorType = svg.TEXT_ANCHOR_START
 			barText.Color = "black"
 			barText.FillOpacity = 1.0
-			layer.Texts = append(layer.Texts, barText)
+			rect4Bar.RectAnchoredTexts = append(rect4Bar.RectAnchoredTexts, barText)
 		}
 
 		currentY = currentY + LaneHeight
@@ -351,19 +358,34 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer) {
 			diamond.Y = mapTaskGroup_TextY[taskGroupToDisplay] - TextHeight/2.0 - diamondWidth/2.0
 			diamond.Width = diamondWidth
 			diamond.Height = diamondWidth
-			diamond.Color = "red"
-			diamond.FillOpacity = 0.4
+			diamond.Color = "crimson"
+			diamond.FillOpacity = 1.0
+			diamond.Stroke = "darkred"
+			diamond.StrokeWidth = 1.0
 			diamond.Transform = fmt.Sprintf("rotate(%d %d %d)", 45, int64(diamond.X+diamondWidth/2.0), int64(diamond.Y+diamondWidth/2.0))
 
-			// bar text
-			milestoneText := new(svg.Text).Stage(stager.svgStage)
+			// dummy rect to hold the text so it renders on top of everything
+			dummyRect := new(svg.Rect).Stage(stager.svgStage)
+			layer.Rects = append(layer.Rects, dummyRect)
+			dummyRect.Name = milestone.Name + " text holder"
+			dummyRect.X = diamond.X + diamondWidth
+			dummyRect.Y = diamond.Y
+			dummyRect.Width = 0
+			dummyRect.Height = diamondWidth
+			dummyRect.FillOpacity = 0.0
+			dummyRect.StrokeOpacity = 0.0
+
+			milestoneText := new(svg.RectAnchoredText).Stage(stager.svgStage)
 			milestoneText.Name = milestone.Name
-			milestoneText.Content = milestoneText.Name
-			milestoneText.X = diamond.X + XLeftText + diamondWidth
-			milestoneText.Y = mapTaskGroup_TextY[taskGroupToDisplay]
+			milestoneText.Content = milestone.Name
+			milestoneText.X_Offset = XLeftText
+			milestoneText.Y_Offset = 0
+			milestoneText.RectAnchorType = svg.RECT_LEFT
+			milestoneText.TextAnchorType = svg.TEXT_ANCHOR_START
 			milestoneText.Color = "black"
 			milestoneText.FillOpacity = 1.0
-			layer.Texts = append(layer.Texts, milestoneText)
+			
+			dummyRect.RectAnchoredTexts = append(dummyRect.RectAnchoredTexts, milestoneText)
 		}
 	}
 }
