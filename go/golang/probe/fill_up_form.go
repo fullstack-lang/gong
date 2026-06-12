@@ -68,6 +68,7 @@ const (
 	ButtonImplSubTmplPointerField
 	ButtonImplSubTmplSliceOfPointersField
 	ButtonImplSubTmplSliceOfPointersReversePointer
+	ButtonImplSubTmplDivider
 )
 
 var ButtonImplFileFieldFieldSubTemplateCode map[ButtonImplSubTemplateId]string = // declaration of the sub templates
@@ -107,6 +108,12 @@ map[ButtonImplSubTemplateId]string{
 					probe)
 			}
 		}`,
+	ButtonImplSubTmplDivider: `
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)`,
 }
 
 func CodeGeneratorFillUpForm(
@@ -211,6 +218,8 @@ func CodeGeneratorFillUpForm(
 				}
 
 			}
+
+			fieldToFormCode += ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplDivider]
 
 			//
 			// Parse all fields from other structs that points to this struct
