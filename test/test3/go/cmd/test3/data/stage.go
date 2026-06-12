@@ -31,31 +31,7 @@ func _(stage *models.Stage) {
 	__B__00000000_ := (&models.B{Name: `B_0`}).Stage(stage)
 	__B__00000001_ := (&models.B{Name: `B_1`}).Stage(stage)
 	__B__00000002_ := (&models.B{Name: `6`}).Stage(stage)
-	__B__00000003_ := (&models.B{Name: `7`}).Stage(stage)
-	__B__00000004_ := (&models.B{Name: `8`}).Stage(stage)
-	__B__00000005_ := (&models.B{Name: `9`}).Stage(stage)
-	__B__00000006_ := (&models.B{Name: `10`}).Stage(stage)
-	__B__00000007_ := (&models.B{Name: `11`}).Stage(stage)
-	__B__00000008_ := (&models.B{Name: `12`}).Stage(stage)
-	__B__00000009_ := (&models.B{Name: `13`}).Stage(stage)
-	__B__00000010_ := (&models.B{Name: `14`}).Stage(stage)
-	__B__00000011_ := (&models.B{Name: `15`}).Stage(stage)
-	__B__00000012_ := (&models.B{Name: `16`}).Stage(stage)
-	__B__00000013_ := (&models.B{Name: `17`}).Stage(stage)
-	__B__00000014_ := (&models.B{Name: `20`}).Stage(stage)
-	__B__00000015_ := (&models.B{Name: `21`}).Stage(stage)
-	__B__00000016_ := (&models.B{Name: `22`}).Stage(stage)
-	__B__00000017_ := (&models.B{Name: `24`}).Stage(stage)
-	__B__00000018_ := (&models.B{Name: `25`}).Stage(stage)
-	__B__00000019_ := (&models.B{Name: `26`}).Stage(stage)
-	__B__00000020_ := (&models.B{Name: `27`}).Stage(stage)
-	__B__00000021_ := (&models.B{Name: `29`}).Stage(stage)
-	__B__00000022_ := (&models.B{Name: `30`}).Stage(stage)
-	__B__00000023_ := (&models.B{Name: `31`}).Stage(stage)
-	__B__00000024_ := (&models.B{Name: `32`}).Stage(stage)
-	__B__00000025_ := (&models.B{Name: `33`}).Stage(stage)
-	__B__00000026_ := (&models.B{Name: `34`}).Stage(stage)
-	__B__00000027_ := (&models.B{Name: `B35`}).Stage(stage)
+
 	__A__00000000_.Name = `ID 0`
 	__A__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-01-01 00:00:00 +0000 UTC")
 	__A__00000000_.FloatValue = 14.500000
@@ -141,10 +117,60 @@ func _(stage *models.Stage) {
 
 	// ID 2
 	__A__00000002_.EnumInt = models.EnumTypeInt_Value2
-	__A__00000002_.Bs = slices.Insert( __A__00000002_.Bs, 2, __B__00000003_)
+	__A__00000002_.Bs = slices.Insert(__A__00000002_.Bs, 2, __B__00000003_)
+	stage.Commit()
+
+	// ID 0
+	__A__00000000_.Bs = slices.Insert(__A__00000000_.Bs, 0, __B__00000001_)
+	stage.Commit()
+
+	// ID 0
+	__A__00000000_.Bs = slices.Insert(__A__00000000_.Bs, 1, __B__00000000_)
+	stage.Commit()
+
+	// ID 5
+	__A__00000005_.Bs = slices.Insert(__A__00000005_.Bs, 0, __B__00000000_)
+	stage.Commit()
+
+	// ID 5
+	__A__00000005_.Bs = slices.Insert(__A__00000005_.Bs, 1, __B__00000020_)
+	stage.Commit()
+
+	// ID 0
+	__A__00000000_.Bs = slices.Delete( __A__00000000_.Bs, 1, 2)
+	// ID 1
+	__A__00000001_.Bs = slices.Delete( __A__00000001_.Bs, 2, 3)
+	// ID 5
+	__A__00000005_.Bs = slices.Delete( __A__00000005_.Bs, 0, 1)
+	stage.Commit()
+
+	// ID 0
+	__A__00000000_.Bs = slices.Delete( __A__00000000_.Bs, 0, 1)
+	// ID 1
+	__A__00000001_.Bs = slices.Delete( __A__00000001_.Bs, 1, 2)
+	stage.Commit()
+
+	// ID 1
+	__A__00000001_.Bs = slices.Delete( __A__00000001_.Bs, 0, 1)
+	// ID 2
+	__A__00000002_.Bs = slices.Delete( __A__00000002_.Bs, 0, 1)
 	stage.Commit()
 
 	// ID 0
 	__A__00000000_.Bs = slices.Insert( __A__00000000_.Bs, 0, __B__00000001_)
+	// ID 6
+	__A__00000006_.Bs = slices.Insert( __A__00000006_.Bs, 0, __B__00000001_)
+	stage.Commit()
+
+	// ID 0
+	__A__00000000_.Bs = slices.Insert( __A__00000000_.Bs, 1, __B__00000000_)
+	// ID 1
+	__A__00000001_.Bs = slices.Insert( __A__00000001_.Bs, 0, __B__00000000_)
+	// ID 2
+	__A__00000002_.Bs = slices.Insert( __A__00000002_.Bs, 0, __B__00000000_)
+	// ID 5
+	__A__00000005_.Bs = slices.Insert( __A__00000005_.Bs, 0, __B__00000000_)
+	// ID 6
+	__A__00000006_.Bs = slices.Insert( __A__00000006_.Bs, 1, __B__00000000_)
 	stage.Commit()
 }
