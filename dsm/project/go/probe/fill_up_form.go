@@ -137,26 +137,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Library"
-			rf.Fieldname = "Diagrams"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Library),
-					"Diagrams",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Library](
-					nil,
-					"Diagrams",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Library, *models.Diagram](
+				"Library",
+				"Diagrams",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.Diagram {
+					return owner.Diagrams
+				})
 		}
 
 	case *models.Library:
@@ -187,26 +176,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Library"
-			rf.Fieldname = "SubLibraries"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Library),
-					"SubLibraries",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Library](
-					nil,
-					"SubLibraries",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Library, *models.Library](
+				"Library",
+				"SubLibraries",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.Library {
+					return owner.SubLibraries
+				})
 		}
 
 	case *models.Milestone:
@@ -228,48 +206,26 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "MilestonesWhoseNodeIsExpanded"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"MilestonesWhoseNodeIsExpanded",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"MilestonesWhoseNodeIsExpanded",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.Milestone](
+				"Diagram",
+				"MilestonesWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.Milestone {
+					return owner.MilestonesWhoseNodeIsExpanded
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Library"
-			rf.Fieldname = "RootMilestones"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Library),
-					"RootMilestones",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Library](
-					nil,
-					"RootMilestones",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Library, *models.Milestone](
+				"Library",
+				"RootMilestones",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.Milestone {
+					return owner.RootMilestones
+				})
 		}
 
 	case *models.MilestoneShape:
@@ -293,26 +249,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "MilestoneShapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"MilestoneShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"MilestoneShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.MilestoneShape](
+				"Diagram",
+				"MilestoneShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.MilestoneShape {
+					return owner.MilestoneShapes
+				})
 		}
 
 	case *models.Note:
@@ -332,48 +277,26 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "NotesWhoseNodeIsExpanded"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"NotesWhoseNodeIsExpanded",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"NotesWhoseNodeIsExpanded",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.Note](
+				"Diagram",
+				"NotesWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.Note {
+					return owner.NotesWhoseNodeIsExpanded
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Library"
-			rf.Fieldname = "Notes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Library),
-					"Notes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Library](
-					nil,
-					"Notes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Library, *models.Note](
+				"Library",
+				"Notes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.Note {
+					return owner.Notes
+				})
 		}
 
 	case *models.NoteProductShape:
@@ -398,26 +321,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "NoteProductShapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"NoteProductShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"NoteProductShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.NoteProductShape](
+				"Diagram",
+				"NoteProductShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.NoteProductShape {
+					return owner.NoteProductShapes
+				})
 		}
 
 	case *models.NoteResourceShape:
@@ -442,26 +354,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "NoteResourceShapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"NoteResourceShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"NoteResourceShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.NoteResourceShape](
+				"Diagram",
+				"NoteResourceShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.NoteResourceShape {
+					return owner.NoteResourceShapes
+				})
 		}
 
 	case *models.NoteShape:
@@ -485,26 +386,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "Note_Shapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"Note_Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"Note_Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.NoteShape](
+				"Diagram",
+				"Note_Shapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.NoteShape {
+					return owner.Note_Shapes
+				})
 		}
 
 	case *models.NoteTaskShape:
@@ -529,26 +419,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "NoteTaskShapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"NoteTaskShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"NoteTaskShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.NoteTaskShape](
+				"Diagram",
+				"NoteTaskShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.NoteTaskShape {
+					return owner.NoteTaskShapes
+				})
 		}
 
 	case *models.Product:
@@ -575,136 +454,70 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "ProductsWhoseNodeIsExpanded"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"ProductsWhoseNodeIsExpanded",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"ProductsWhoseNodeIsExpanded",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.Product](
+				"Diagram",
+				"ProductsWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.Product {
+					return owner.ProductsWhoseNodeIsExpanded
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Library"
-			rf.Fieldname = "RootProducts"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Library),
-					"RootProducts",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Library](
-					nil,
-					"RootProducts",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Library, *models.Product](
+				"Library",
+				"RootProducts",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.Product {
+					return owner.RootProducts
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Note"
-			rf.Fieldname = "Products"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Note),
-					"Products",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Note](
-					nil,
-					"Products",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Note, *models.Product](
+				"Note",
+				"Products",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Note) []*models.Product {
+					return owner.Products
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Product"
-			rf.Fieldname = "SubProducts"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Product),
-					"SubProducts",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Product](
-					nil,
-					"SubProducts",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Product, *models.Product](
+				"Product",
+				"SubProducts",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Product) []*models.Product {
+					return owner.SubProducts
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Task"
-			rf.Fieldname = "Inputs"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Task),
-					"Inputs",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Task](
-					nil,
-					"Inputs",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Task, *models.Product](
+				"Task",
+				"Inputs",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Task) []*models.Product {
+					return owner.Inputs
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Task"
-			rf.Fieldname = "Outputs"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Task),
-					"Outputs",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Task](
-					nil,
-					"Outputs",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Task, *models.Product](
+				"Task",
+				"Outputs",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Task) []*models.Product {
+					return owner.Outputs
+				})
 		}
 
 	case *models.ProductCompositionShape:
@@ -728,26 +541,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "ProductComposition_Shapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"ProductComposition_Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"ProductComposition_Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.ProductCompositionShape](
+				"Diagram",
+				"ProductComposition_Shapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.ProductCompositionShape {
+					return owner.ProductComposition_Shapes
+				})
 		}
 
 	case *models.ProductShape:
@@ -771,26 +573,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "Product_Shapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"Product_Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"Product_Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.ProductShape](
+				"Diagram",
+				"Product_Shapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.ProductShape {
+					return owner.Product_Shapes
+				})
 		}
 
 	case *models.Resource:
@@ -814,92 +605,48 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "ResourcesWhoseNodeIsExpanded"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"ResourcesWhoseNodeIsExpanded",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"ResourcesWhoseNodeIsExpanded",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.Resource](
+				"Diagram",
+				"ResourcesWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.Resource {
+					return owner.ResourcesWhoseNodeIsExpanded
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Library"
-			rf.Fieldname = "RootResources"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Library),
-					"RootResources",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Library](
-					nil,
-					"RootResources",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Library, *models.Resource](
+				"Library",
+				"RootResources",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.Resource {
+					return owner.RootResources
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Note"
-			rf.Fieldname = "Resources"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Note),
-					"Resources",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Note](
-					nil,
-					"Resources",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Note, *models.Resource](
+				"Note",
+				"Resources",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Note) []*models.Resource {
+					return owner.Resources
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Resource"
-			rf.Fieldname = "SubResources"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Resource),
-					"SubResources",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Resource](
-					nil,
-					"SubResources",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Resource, *models.Resource](
+				"Resource",
+				"SubResources",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Resource) []*models.Resource {
+					return owner.SubResources
+				})
 		}
 
 	case *models.ResourceCompositionShape:
@@ -923,26 +670,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "ResourceComposition_Shapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"ResourceComposition_Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"ResourceComposition_Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.ResourceCompositionShape](
+				"Diagram",
+				"ResourceComposition_Shapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.ResourceCompositionShape {
+					return owner.ResourceComposition_Shapes
+				})
 		}
 
 	case *models.ResourceShape:
@@ -966,26 +702,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "Resource_Shapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"Resource_Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"Resource_Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.ResourceShape](
+				"Diagram",
+				"Resource_Shapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.ResourceShape {
+					return owner.Resource_Shapes
+				})
 		}
 
 	case *models.ResourceTaskShape:
@@ -1010,26 +735,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "ResourceTaskShapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"ResourceTaskShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"ResourceTaskShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.ResourceTaskShape](
+				"Diagram",
+				"ResourceTaskShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.ResourceTaskShape {
+					return owner.ResourceTaskShapes
+				})
 		}
 
 	case *models.Task:
@@ -1065,180 +779,92 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "TasksWhoseNodeIsExpanded"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"TasksWhoseNodeIsExpanded",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"TasksWhoseNodeIsExpanded",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.Task](
+				"Diagram",
+				"TasksWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.Task {
+					return owner.TasksWhoseNodeIsExpanded
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "TasksWhoseInputNodeIsExpanded"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"TasksWhoseInputNodeIsExpanded",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"TasksWhoseInputNodeIsExpanded",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.Task](
+				"Diagram",
+				"TasksWhoseInputNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.Task {
+					return owner.TasksWhoseInputNodeIsExpanded
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "TasksWhoseOutputNodeIsExpanded"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"TasksWhoseOutputNodeIsExpanded",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"TasksWhoseOutputNodeIsExpanded",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.Task](
+				"Diagram",
+				"TasksWhoseOutputNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.Task {
+					return owner.TasksWhoseOutputNodeIsExpanded
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Library"
-			rf.Fieldname = "RootTasks"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Library),
-					"RootTasks",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Library](
-					nil,
-					"RootTasks",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Library, *models.Task](
+				"Library",
+				"RootTasks",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.Task {
+					return owner.RootTasks
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Note"
-			rf.Fieldname = "Tasks"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Note),
-					"Tasks",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Note](
-					nil,
-					"Tasks",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Note, *models.Task](
+				"Note",
+				"Tasks",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Note) []*models.Task {
+					return owner.Tasks
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Resource"
-			rf.Fieldname = "Tasks"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Resource),
-					"Tasks",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Resource](
-					nil,
-					"Tasks",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Resource, *models.Task](
+				"Resource",
+				"Tasks",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Resource) []*models.Task {
+					return owner.Tasks
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Task"
-			rf.Fieldname = "SubTasks"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Task),
-					"SubTasks",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Task](
-					nil,
-					"SubTasks",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Task, *models.Task](
+				"Task",
+				"SubTasks",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Task) []*models.Task {
+					return owner.SubTasks
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "TaskGroup"
-			rf.Fieldname = "Tasks"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.TaskGroup),
-					"Tasks",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.TaskGroup](
-					nil,
-					"Tasks",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.TaskGroup, *models.Task](
+				"TaskGroup",
+				"Tasks",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.TaskGroup) []*models.Task {
+					return owner.Tasks
+				})
 		}
 
 	case *models.TaskCompositionShape:
@@ -1262,26 +888,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "TaskComposition_Shapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"TaskComposition_Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"TaskComposition_Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.TaskCompositionShape](
+				"Diagram",
+				"TaskComposition_Shapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.TaskCompositionShape {
+					return owner.TaskComposition_Shapes
+				})
 		}
 
 	case *models.TaskGroup:
@@ -1299,70 +914,37 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "TaskGroupsWhoseNodeIsExpanded"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"TaskGroupsWhoseNodeIsExpanded",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"TaskGroupsWhoseNodeIsExpanded",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.TaskGroup](
+				"Diagram",
+				"TaskGroupsWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.TaskGroup {
+					return owner.TaskGroupsWhoseNodeIsExpanded
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Library"
-			rf.Fieldname = "RootTaskGroups"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Library),
-					"RootTaskGroups",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Library](
-					nil,
-					"RootTaskGroups",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Library, *models.TaskGroup](
+				"Library",
+				"RootTaskGroups",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.TaskGroup {
+					return owner.RootTaskGroups
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Milestone"
-			rf.Fieldname = "TaskGroupsToDisplay"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Milestone),
-					"TaskGroupsToDisplay",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Milestone](
-					nil,
-					"TaskGroupsToDisplay",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Milestone, *models.TaskGroup](
+				"Milestone",
+				"TaskGroupsToDisplay",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Milestone) []*models.TaskGroup {
+					return owner.TaskGroupsToDisplay
+				})
 		}
 
 	case *models.TaskGroupShape:
@@ -1386,26 +968,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "TaskGroupShapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"TaskGroupShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"TaskGroupShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.TaskGroupShape](
+				"Diagram",
+				"TaskGroupShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.TaskGroupShape {
+					return owner.TaskGroupShapes
+				})
 		}
 
 	case *models.TaskInputShape:
@@ -1430,26 +1001,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "TaskInputShapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"TaskInputShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"TaskInputShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.TaskInputShape](
+				"Diagram",
+				"TaskInputShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.TaskInputShape {
+					return owner.TaskInputShapes
+				})
 		}
 
 	case *models.TaskOutputShape:
@@ -1474,26 +1034,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "TaskOutputShapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"TaskOutputShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"TaskOutputShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.TaskOutputShape](
+				"Diagram",
+				"TaskOutputShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.TaskOutputShape {
+					return owner.TaskOutputShapes
+				})
 		}
 
 	case *models.TaskShape:
@@ -1519,26 +1068,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Diagram"
-			rf.Fieldname = "Task_Shapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Diagram),
-					"Task_Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Diagram](
-					nil,
-					"Task_Shapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Diagram, *models.TaskShape](
+				"Diagram",
+				"Task_Shapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.TaskShape {
+					return owner.Task_Shapes
+				})
 		}
 
 	default:

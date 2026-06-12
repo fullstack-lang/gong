@@ -186,71 +186,50 @@ map[FormCallbackSubTemplateId]string{
 `,
 	FormCallbackSubTmplSliceOfPointersReversePointer: `
 		case "{{AssocStructName}}:{{FieldName}}":
-			// WARNING : this form deals with the N-N association "{{AssocStructName}}.{{FieldName}} []*{{Structname}}" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of {{Structname}}). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.{{AssocStructName}}
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "{{AssocStructName}}"
-				rf.Fieldname = "{{FieldName}}"
-				formerAssociationSource := {{structname}}_.GongGetReverseFieldOwner(
-					{{structname}}FormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the {{AssocStructName}} instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.{{AssocStructName}})
-					if !ok {
-						log.Fatalln("Source of {{AssocStructName}}.{{FieldName}} []*{{Structname}}, is not an {{AssocStructName}} instance")
+			// 2. Build a map of target {{AssocStructName}} instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.{{AssocStructName}}]({{structname}}FormCallback.probe.stageOfInterest)
+			target{{AssocStructName}}IDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					target{{AssocStructName}}IDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all {{AssocStructName}} instances and update their {{FieldName}} slice
+			for _{{assocStructName}} := range *models.GetGongstructInstancesSetFromPointerType[*models.{{AssocStructName}}]({{structname}}FormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct({{structname}}FormCallback.probe.stageOfInterest, _{{assocStructName}})
+				
+				// if {{AssocStructName}} is selected
+				if target{{AssocStructName}}IDs[id] {
+					// ensure {{structname}}_ is in _{{assocStructName}}.{{FieldName}}
+					found := false
+					for _, _b := range _{{assocStructName}}.{{FieldName}} {
+						if _b == {{structname}}_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_{{assocStructName}}.{{FieldName}} = append(_{{assocStructName}}.{{FieldName}}, {{structname}}_)
+						{{structname}}FormCallback.probe.UpdateSliceOfPointersCallback(_{{assocStructName}}, "{{FieldName}}", &_{{assocStructName}}.{{FieldName}})
+					}
+				} else {
+					// ensure {{structname}}_ is NOT in _{{assocStructName}}.{{FieldName}}
+					idx := slices.Index(_{{assocStructName}}.{{FieldName}}, {{structname}}_)
+					if idx != -1 {
+						_{{assocStructName}}.{{FieldName}} = slices.Delete(_{{assocStructName}}.{{FieldName}}, idx, idx+1)
+						{{structname}}FormCallback.probe.UpdateSliceOfPointersCallback(_{{assocStructName}}, "{{FieldName}}", &_{{assocStructName}}.{{FieldName}})
 					}
 				}
-			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.{{FieldName}}, {{structname}}_)
-					formerSource.{{FieldName}} = slices.Delete(formerSource.{{FieldName}}, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.{{AssocStructName}}
-			for _{{assocStructName}} := range *models.GetGongstructInstancesSet[models.{{AssocStructName}}]({{structname}}FormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _{{assocStructName}}.GetName() == newSourceName.GetName() {
-					newSource = _{{assocStructName}} // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of {{AssocStructName}}.{{FieldName}} []*{{Structname}}, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.{{FieldName}} = append(newSource.{{FieldName}}, {{structname}}_)`,
+			}`,
 }
 
 func CodeGeneratorModelFormCallback(
