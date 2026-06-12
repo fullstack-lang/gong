@@ -79,71 +79,50 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 		case "MatButtonAppearance":
 			FormDivEnumStringFieldToField(&(button_.MatButtonAppearance), formDiv)
 		case "Group:Buttons":
-			// WARNING : this form deals with the N-N association "Group.Buttons []*Button" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of Button). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.Group
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "Group"
-				rf.Fieldname = "Buttons"
-				formerAssociationSource := button_.GongGetReverseFieldOwner(
-					buttonFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Group instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Group)
-					if !ok {
-						log.Fatalln("Source of Group.Buttons []*Button, is not an Group instance")
+			// 2. Build a map of target Group instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Group](buttonFormCallback.probe.stageOfInterest)
+			targetGroupIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetGroupIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Group instances and update their Buttons slice
+			for _group := range *models.GetGongstructInstancesSetFromPointerType[*models.Group](buttonFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(buttonFormCallback.probe.stageOfInterest, _group)
+				
+				// if Group is selected
+				if targetGroupIDs[id] {
+					// ensure button_ is in _group.Buttons
+					found := false
+					for _, _b := range _group.Buttons {
+						if _b == button_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_group.Buttons = append(_group.Buttons, button_)
+						buttonFormCallback.probe.UpdateSliceOfPointersCallback(_group, "Buttons", &_group.Buttons)
+					}
+				} else {
+					// ensure button_ is NOT in _group.Buttons
+					idx := slices.Index(_group.Buttons, button_)
+					if idx != -1 {
+						_group.Buttons = slices.Delete(_group.Buttons, idx, idx+1)
+						buttonFormCallback.probe.UpdateSliceOfPointersCallback(_group, "Buttons", &_group.Buttons)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Buttons, button_)
-					formerSource.Buttons = slices.Delete(formerSource.Buttons, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.Group
-			for _group := range *models.GetGongstructInstancesSet[models.Group](buttonFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _group.GetName() == newSourceName.GetName() {
-					newSource = _group // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of Group.Buttons []*Button, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.Buttons = append(newSource.Buttons, button_)
 		}
 	}
 
@@ -231,71 +210,50 @@ func (buttontoggleFormCallback *ButtonToggleFormCallback) OnSave() {
 		case "IsChecked":
 			FormDivBasicFieldToField(&(buttontoggle_.IsChecked), formDiv)
 		case "GroupToogle:ButtonToggles":
-			// WARNING : this form deals with the N-N association "GroupToogle.ButtonToggles []*ButtonToggle" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of ButtonToggle). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.GroupToogle
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "GroupToogle"
-				rf.Fieldname = "ButtonToggles"
-				formerAssociationSource := buttontoggle_.GongGetReverseFieldOwner(
-					buttontoggleFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the GroupToogle instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.GroupToogle)
-					if !ok {
-						log.Fatalln("Source of GroupToogle.ButtonToggles []*ButtonToggle, is not an GroupToogle instance")
+			// 2. Build a map of target GroupToogle instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.GroupToogle](buttontoggleFormCallback.probe.stageOfInterest)
+			targetGroupToogleIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetGroupToogleIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all GroupToogle instances and update their ButtonToggles slice
+			for _grouptoogle := range *models.GetGongstructInstancesSetFromPointerType[*models.GroupToogle](buttontoggleFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(buttontoggleFormCallback.probe.stageOfInterest, _grouptoogle)
+				
+				// if GroupToogle is selected
+				if targetGroupToogleIDs[id] {
+					// ensure buttontoggle_ is in _grouptoogle.ButtonToggles
+					found := false
+					for _, _b := range _grouptoogle.ButtonToggles {
+						if _b == buttontoggle_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_grouptoogle.ButtonToggles = append(_grouptoogle.ButtonToggles, buttontoggle_)
+						buttontoggleFormCallback.probe.UpdateSliceOfPointersCallback(_grouptoogle, "ButtonToggles", &_grouptoogle.ButtonToggles)
+					}
+				} else {
+					// ensure buttontoggle_ is NOT in _grouptoogle.ButtonToggles
+					idx := slices.Index(_grouptoogle.ButtonToggles, buttontoggle_)
+					if idx != -1 {
+						_grouptoogle.ButtonToggles = slices.Delete(_grouptoogle.ButtonToggles, idx, idx+1)
+						buttontoggleFormCallback.probe.UpdateSliceOfPointersCallback(_grouptoogle, "ButtonToggles", &_grouptoogle.ButtonToggles)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.ButtonToggles, buttontoggle_)
-					formerSource.ButtonToggles = slices.Delete(formerSource.ButtonToggles, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.GroupToogle
-			for _grouptoogle := range *models.GetGongstructInstancesSet[models.GroupToogle](buttontoggleFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _grouptoogle.GetName() == newSourceName.GetName() {
-					newSource = _grouptoogle // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of GroupToogle.ButtonToggles []*ButtonToggle, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.ButtonToggles = append(newSource.ButtonToggles, buttontoggle_)
 		}
 	}
 
@@ -411,71 +369,50 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 		case "NbColumns":
 			FormDivBasicFieldToField(&(group_.NbColumns), formDiv)
 		case "Layout:Groups":
-			// WARNING : this form deals with the N-N association "Layout.Groups []*Group" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of Group). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.Layout
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "Layout"
-				rf.Fieldname = "Groups"
-				formerAssociationSource := group_.GongGetReverseFieldOwner(
-					groupFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Layout instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Layout)
-					if !ok {
-						log.Fatalln("Source of Layout.Groups []*Group, is not an Layout instance")
+			// 2. Build a map of target Layout instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Layout](groupFormCallback.probe.stageOfInterest)
+			targetLayoutIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetLayoutIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Layout instances and update their Groups slice
+			for _layout := range *models.GetGongstructInstancesSetFromPointerType[*models.Layout](groupFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(groupFormCallback.probe.stageOfInterest, _layout)
+				
+				// if Layout is selected
+				if targetLayoutIDs[id] {
+					// ensure group_ is in _layout.Groups
+					found := false
+					for _, _b := range _layout.Groups {
+						if _b == group_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_layout.Groups = append(_layout.Groups, group_)
+						groupFormCallback.probe.UpdateSliceOfPointersCallback(_layout, "Groups", &_layout.Groups)
+					}
+				} else {
+					// ensure group_ is NOT in _layout.Groups
+					idx := slices.Index(_layout.Groups, group_)
+					if idx != -1 {
+						_layout.Groups = slices.Delete(_layout.Groups, idx, idx+1)
+						groupFormCallback.probe.UpdateSliceOfPointersCallback(_layout, "Groups", &_layout.Groups)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Groups, group_)
-					formerSource.Groups = slices.Delete(formerSource.Groups, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.Layout
-			for _layout := range *models.GetGongstructInstancesSet[models.Layout](groupFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _layout.GetName() == newSourceName.GetName() {
-					newSource = _layout // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of Layout.Groups []*Group, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.Groups = append(newSource.Groups, group_)
 		}
 	}
 
@@ -591,71 +528,50 @@ func (grouptoogleFormCallback *GroupToogleFormCallback) OnSave() {
 		case "IsSingleSelector":
 			FormDivBasicFieldToField(&(grouptoogle_.IsSingleSelector), formDiv)
 		case "Layout:GroupToogles":
-			// WARNING : this form deals with the N-N association "Layout.GroupToogles []*GroupToogle" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of GroupToogle). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.Layout
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "Layout"
-				rf.Fieldname = "GroupToogles"
-				formerAssociationSource := grouptoogle_.GongGetReverseFieldOwner(
-					grouptoogleFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Layout instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Layout)
-					if !ok {
-						log.Fatalln("Source of Layout.GroupToogles []*GroupToogle, is not an Layout instance")
+			// 2. Build a map of target Layout instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Layout](grouptoogleFormCallback.probe.stageOfInterest)
+			targetLayoutIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetLayoutIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Layout instances and update their GroupToogles slice
+			for _layout := range *models.GetGongstructInstancesSetFromPointerType[*models.Layout](grouptoogleFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(grouptoogleFormCallback.probe.stageOfInterest, _layout)
+				
+				// if Layout is selected
+				if targetLayoutIDs[id] {
+					// ensure grouptoogle_ is in _layout.GroupToogles
+					found := false
+					for _, _b := range _layout.GroupToogles {
+						if _b == grouptoogle_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_layout.GroupToogles = append(_layout.GroupToogles, grouptoogle_)
+						grouptoogleFormCallback.probe.UpdateSliceOfPointersCallback(_layout, "GroupToogles", &_layout.GroupToogles)
+					}
+				} else {
+					// ensure grouptoogle_ is NOT in _layout.GroupToogles
+					idx := slices.Index(_layout.GroupToogles, grouptoogle_)
+					if idx != -1 {
+						_layout.GroupToogles = slices.Delete(_layout.GroupToogles, idx, idx+1)
+						grouptoogleFormCallback.probe.UpdateSliceOfPointersCallback(_layout, "GroupToogles", &_layout.GroupToogles)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.GroupToogles, grouptoogle_)
-					formerSource.GroupToogles = slices.Delete(formerSource.GroupToogles, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.Layout
-			for _layout := range *models.GetGongstructInstancesSet[models.Layout](grouptoogleFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _layout.GetName() == newSourceName.GetName() {
-					newSource = _layout // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of Layout.GroupToogles []*GroupToogle, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.GroupToogles = append(newSource.GroupToogles, grouptoogle_)
 		}
 	}
 

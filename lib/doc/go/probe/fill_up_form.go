@@ -33,26 +33,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "GongStructShape"
-			rf.Fieldname = "AttributeShapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.GongStructShape),
-					"AttributeShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.GongStructShape](
-					nil,
-					"AttributeShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.GongStructShape, *models.AttributeShape](
+				"GongStructShape",
+				"AttributeShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.GongStructShape) []*models.AttributeShape {
+					return owner.AttributeShapes
+				})
 		}
 
 	case *models.Classdiagram:
@@ -94,26 +83,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "DiagramPackage"
-			rf.Fieldname = "Classdiagrams"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.DiagramPackage),
-					"Classdiagrams",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.DiagramPackage](
-					nil,
-					"Classdiagrams",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.DiagramPackage, *models.Classdiagram](
+				"DiagramPackage",
+				"Classdiagrams",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.DiagramPackage) []*models.Classdiagram {
+					return owner.Classdiagrams
+				})
 		}
 
 	case *models.DiagramPackage:
@@ -155,26 +133,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Classdiagram"
-			rf.Fieldname = "GongEnumShapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Classdiagram),
-					"GongEnumShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Classdiagram](
-					nil,
-					"GongEnumShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Classdiagram, *models.GongEnumShape](
+				"Classdiagram",
+				"GongEnumShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Classdiagram) []*models.GongEnumShape {
+					return owner.GongEnumShapes
+				})
 		}
 
 	case *models.GongEnumValueShape:
@@ -187,26 +154,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "GongEnumShape"
-			rf.Fieldname = "GongEnumValueShapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.GongEnumShape),
-					"GongEnumValueShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.GongEnumShape](
-					nil,
-					"GongEnumValueShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.GongEnumShape, *models.GongEnumValueShape](
+				"GongEnumShape",
+				"GongEnumValueShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.GongEnumShape) []*models.GongEnumValueShape {
+					return owner.GongEnumValueShapes
+				})
 		}
 
 	case *models.GongNoteLinkShape:
@@ -222,26 +178,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "GongNoteShape"
-			rf.Fieldname = "GongNoteLinkShapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.GongNoteShape),
-					"GongNoteLinkShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.GongNoteShape](
-					nil,
-					"GongNoteLinkShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.GongNoteShape, *models.GongNoteLinkShape](
+				"GongNoteShape",
+				"GongNoteLinkShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.GongNoteShape) []*models.GongNoteLinkShape {
+					return owner.GongNoteLinkShapes
+				})
 		}
 
 	case *models.GongNoteShape:
@@ -273,26 +218,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Classdiagram"
-			rf.Fieldname = "GongNoteShapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Classdiagram),
-					"GongNoteShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Classdiagram](
-					nil,
-					"GongNoteShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Classdiagram, *models.GongNoteShape](
+				"Classdiagram",
+				"GongNoteShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Classdiagram) []*models.GongNoteShape {
+					return owner.GongNoteShapes
+				})
 		}
 
 	case *models.GongStructShape:
@@ -317,26 +251,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Classdiagram"
-			rf.Fieldname = "GongStructShapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Classdiagram),
-					"GongStructShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Classdiagram](
-					nil,
-					"GongStructShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Classdiagram, *models.GongStructShape](
+				"Classdiagram",
+				"GongStructShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Classdiagram) []*models.GongStructShape {
+					return owner.GongStructShapes
+				})
 		}
 
 	case *models.LinkShape:
@@ -375,26 +298,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "GongStructShape"
-			rf.Fieldname = "LinkShapes"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.GongStructShape),
-					"LinkShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.GongStructShape](
-					nil,
-					"LinkShapes",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.GongStructShape, *models.LinkShape](
+				"GongStructShape",
+				"LinkShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.GongStructShape) []*models.LinkShape {
+					return owner.LinkShapes
+				})
 		}
 
 	default:

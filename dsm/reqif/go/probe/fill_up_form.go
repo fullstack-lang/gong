@@ -52,26 +52,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_SPEC_ATTRIBUTES"
-			rf.Fieldname = "ATTRIBUTE_DEFINITION_BOOLEAN"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_SPEC_ATTRIBUTES),
-					"ATTRIBUTE_DEFINITION_BOOLEAN",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_SPEC_ATTRIBUTES](
-					nil,
-					"ATTRIBUTE_DEFINITION_BOOLEAN",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_SPEC_ATTRIBUTES, *models.ATTRIBUTE_DEFINITION_BOOLEAN](
+				"A_SPEC_ATTRIBUTES",
+				"ATTRIBUTE_DEFINITION_BOOLEAN",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_SPEC_ATTRIBUTES) []*models.ATTRIBUTE_DEFINITION_BOOLEAN {
+					return owner.ATTRIBUTE_DEFINITION_BOOLEAN
+				})
 		}
 
 	case *models.ATTRIBUTE_DEFINITION_BOOLEAN_Rendering:
@@ -115,26 +104,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_SPEC_ATTRIBUTES"
-			rf.Fieldname = "ATTRIBUTE_DEFINITION_DATE"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_SPEC_ATTRIBUTES),
-					"ATTRIBUTE_DEFINITION_DATE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_SPEC_ATTRIBUTES](
-					nil,
-					"ATTRIBUTE_DEFINITION_DATE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_SPEC_ATTRIBUTES, *models.ATTRIBUTE_DEFINITION_DATE](
+				"A_SPEC_ATTRIBUTES",
+				"ATTRIBUTE_DEFINITION_DATE",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_SPEC_ATTRIBUTES) []*models.ATTRIBUTE_DEFINITION_DATE {
+					return owner.ATTRIBUTE_DEFINITION_DATE
+				})
 		}
 
 	case *models.ATTRIBUTE_DEFINITION_DATE_Rendering:
@@ -180,26 +158,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_SPEC_ATTRIBUTES"
-			rf.Fieldname = "ATTRIBUTE_DEFINITION_ENUMERATION"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_SPEC_ATTRIBUTES),
-					"ATTRIBUTE_DEFINITION_ENUMERATION",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_SPEC_ATTRIBUTES](
-					nil,
-					"ATTRIBUTE_DEFINITION_ENUMERATION",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_SPEC_ATTRIBUTES, *models.ATTRIBUTE_DEFINITION_ENUMERATION](
+				"A_SPEC_ATTRIBUTES",
+				"ATTRIBUTE_DEFINITION_ENUMERATION",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_SPEC_ATTRIBUTES) []*models.ATTRIBUTE_DEFINITION_ENUMERATION {
+					return owner.ATTRIBUTE_DEFINITION_ENUMERATION
+				})
 		}
 
 	case *models.ATTRIBUTE_DEFINITION_ENUMERATION_Rendering:
@@ -243,26 +210,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_SPEC_ATTRIBUTES"
-			rf.Fieldname = "ATTRIBUTE_DEFINITION_INTEGER"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_SPEC_ATTRIBUTES),
-					"ATTRIBUTE_DEFINITION_INTEGER",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_SPEC_ATTRIBUTES](
-					nil,
-					"ATTRIBUTE_DEFINITION_INTEGER",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_SPEC_ATTRIBUTES, *models.ATTRIBUTE_DEFINITION_INTEGER](
+				"A_SPEC_ATTRIBUTES",
+				"ATTRIBUTE_DEFINITION_INTEGER",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_SPEC_ATTRIBUTES) []*models.ATTRIBUTE_DEFINITION_INTEGER {
+					return owner.ATTRIBUTE_DEFINITION_INTEGER
+				})
 		}
 
 	case *models.ATTRIBUTE_DEFINITION_INTEGER_Rendering:
@@ -306,26 +262,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_SPEC_ATTRIBUTES"
-			rf.Fieldname = "ATTRIBUTE_DEFINITION_REAL"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_SPEC_ATTRIBUTES),
-					"ATTRIBUTE_DEFINITION_REAL",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_SPEC_ATTRIBUTES](
-					nil,
-					"ATTRIBUTE_DEFINITION_REAL",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_SPEC_ATTRIBUTES, *models.ATTRIBUTE_DEFINITION_REAL](
+				"A_SPEC_ATTRIBUTES",
+				"ATTRIBUTE_DEFINITION_REAL",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_SPEC_ATTRIBUTES) []*models.ATTRIBUTE_DEFINITION_REAL {
+					return owner.ATTRIBUTE_DEFINITION_REAL
+				})
 		}
 
 	case *models.ATTRIBUTE_DEFINITION_REAL_Rendering:
@@ -387,26 +332,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_SPEC_ATTRIBUTES"
-			rf.Fieldname = "ATTRIBUTE_DEFINITION_STRING"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_SPEC_ATTRIBUTES),
-					"ATTRIBUTE_DEFINITION_STRING",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_SPEC_ATTRIBUTES](
-					nil,
-					"ATTRIBUTE_DEFINITION_STRING",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_SPEC_ATTRIBUTES, *models.ATTRIBUTE_DEFINITION_STRING](
+				"A_SPEC_ATTRIBUTES",
+				"ATTRIBUTE_DEFINITION_STRING",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_SPEC_ATTRIBUTES) []*models.ATTRIBUTE_DEFINITION_STRING {
+					return owner.ATTRIBUTE_DEFINITION_STRING
+				})
 		}
 
 	case *models.ATTRIBUTE_DEFINITION_STRING_Rendering:
@@ -450,26 +384,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_SPEC_ATTRIBUTES"
-			rf.Fieldname = "ATTRIBUTE_DEFINITION_XHTML"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_SPEC_ATTRIBUTES),
-					"ATTRIBUTE_DEFINITION_XHTML",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_SPEC_ATTRIBUTES](
-					nil,
-					"ATTRIBUTE_DEFINITION_XHTML",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_SPEC_ATTRIBUTES, *models.ATTRIBUTE_DEFINITION_XHTML](
+				"A_SPEC_ATTRIBUTES",
+				"ATTRIBUTE_DEFINITION_XHTML",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_SPEC_ATTRIBUTES) []*models.ATTRIBUTE_DEFINITION_XHTML {
+					return owner.ATTRIBUTE_DEFINITION_XHTML
+				})
 		}
 
 	case *models.ATTRIBUTE_DEFINITION_XHTML_Rendering:
@@ -503,48 +426,26 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_ATTRIBUTE_VALUE_BOOLEAN"
-			rf.Fieldname = "ATTRIBUTE_VALUE_BOOLEAN"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_ATTRIBUTE_VALUE_BOOLEAN),
-					"ATTRIBUTE_VALUE_BOOLEAN",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_ATTRIBUTE_VALUE_BOOLEAN](
-					nil,
-					"ATTRIBUTE_VALUE_BOOLEAN",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_ATTRIBUTE_VALUE_BOOLEAN, *models.ATTRIBUTE_VALUE_BOOLEAN](
+				"A_ATTRIBUTE_VALUE_BOOLEAN",
+				"ATTRIBUTE_VALUE_BOOLEAN",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_ATTRIBUTE_VALUE_BOOLEAN) []*models.ATTRIBUTE_VALUE_BOOLEAN {
+					return owner.ATTRIBUTE_VALUE_BOOLEAN
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_ATTRIBUTE_VALUE_XHTML_1"
-			rf.Fieldname = "ATTRIBUTE_VALUE_BOOLEAN"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_ATTRIBUTE_VALUE_XHTML_1),
-					"ATTRIBUTE_VALUE_BOOLEAN",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_ATTRIBUTE_VALUE_XHTML_1](
-					nil,
-					"ATTRIBUTE_VALUE_BOOLEAN",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_ATTRIBUTE_VALUE_XHTML_1, *models.ATTRIBUTE_VALUE_BOOLEAN](
+				"A_ATTRIBUTE_VALUE_XHTML_1",
+				"ATTRIBUTE_VALUE_BOOLEAN",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_ATTRIBUTE_VALUE_XHTML_1) []*models.ATTRIBUTE_VALUE_BOOLEAN {
+					return owner.ATTRIBUTE_VALUE_BOOLEAN
+				})
 		}
 
 	case *models.ATTRIBUTE_VALUE_DATE:
@@ -560,48 +461,26 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_ATTRIBUTE_VALUE_DATE"
-			rf.Fieldname = "ATTRIBUTE_VALUE_DATE"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_ATTRIBUTE_VALUE_DATE),
-					"ATTRIBUTE_VALUE_DATE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_ATTRIBUTE_VALUE_DATE](
-					nil,
-					"ATTRIBUTE_VALUE_DATE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_ATTRIBUTE_VALUE_DATE, *models.ATTRIBUTE_VALUE_DATE](
+				"A_ATTRIBUTE_VALUE_DATE",
+				"ATTRIBUTE_VALUE_DATE",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_ATTRIBUTE_VALUE_DATE) []*models.ATTRIBUTE_VALUE_DATE {
+					return owner.ATTRIBUTE_VALUE_DATE
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_ATTRIBUTE_VALUE_XHTML_1"
-			rf.Fieldname = "ATTRIBUTE_VALUE_DATE"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_ATTRIBUTE_VALUE_XHTML_1),
-					"ATTRIBUTE_VALUE_DATE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_ATTRIBUTE_VALUE_XHTML_1](
-					nil,
-					"ATTRIBUTE_VALUE_DATE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_ATTRIBUTE_VALUE_XHTML_1, *models.ATTRIBUTE_VALUE_DATE](
+				"A_ATTRIBUTE_VALUE_XHTML_1",
+				"ATTRIBUTE_VALUE_DATE",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_ATTRIBUTE_VALUE_XHTML_1) []*models.ATTRIBUTE_VALUE_DATE {
+					return owner.ATTRIBUTE_VALUE_DATE
+				})
 		}
 
 	case *models.ATTRIBUTE_VALUE_ENUMERATION:
@@ -616,48 +495,26 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_ATTRIBUTE_VALUE_ENUMERATION"
-			rf.Fieldname = "ATTRIBUTE_VALUE_ENUMERATION"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_ATTRIBUTE_VALUE_ENUMERATION),
-					"ATTRIBUTE_VALUE_ENUMERATION",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_ATTRIBUTE_VALUE_ENUMERATION](
-					nil,
-					"ATTRIBUTE_VALUE_ENUMERATION",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_ATTRIBUTE_VALUE_ENUMERATION, *models.ATTRIBUTE_VALUE_ENUMERATION](
+				"A_ATTRIBUTE_VALUE_ENUMERATION",
+				"ATTRIBUTE_VALUE_ENUMERATION",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_ATTRIBUTE_VALUE_ENUMERATION) []*models.ATTRIBUTE_VALUE_ENUMERATION {
+					return owner.ATTRIBUTE_VALUE_ENUMERATION
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_ATTRIBUTE_VALUE_XHTML_1"
-			rf.Fieldname = "ATTRIBUTE_VALUE_ENUMERATION"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_ATTRIBUTE_VALUE_XHTML_1),
-					"ATTRIBUTE_VALUE_ENUMERATION",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_ATTRIBUTE_VALUE_XHTML_1](
-					nil,
-					"ATTRIBUTE_VALUE_ENUMERATION",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_ATTRIBUTE_VALUE_XHTML_1, *models.ATTRIBUTE_VALUE_ENUMERATION](
+				"A_ATTRIBUTE_VALUE_XHTML_1",
+				"ATTRIBUTE_VALUE_ENUMERATION",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_ATTRIBUTE_VALUE_XHTML_1) []*models.ATTRIBUTE_VALUE_ENUMERATION {
+					return owner.ATTRIBUTE_VALUE_ENUMERATION
+				})
 		}
 
 	case *models.ATTRIBUTE_VALUE_INTEGER:
@@ -673,48 +530,26 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_ATTRIBUTE_VALUE_INTEGER"
-			rf.Fieldname = "ATTRIBUTE_VALUE_INTEGER"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_ATTRIBUTE_VALUE_INTEGER),
-					"ATTRIBUTE_VALUE_INTEGER",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_ATTRIBUTE_VALUE_INTEGER](
-					nil,
-					"ATTRIBUTE_VALUE_INTEGER",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_ATTRIBUTE_VALUE_INTEGER, *models.ATTRIBUTE_VALUE_INTEGER](
+				"A_ATTRIBUTE_VALUE_INTEGER",
+				"ATTRIBUTE_VALUE_INTEGER",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_ATTRIBUTE_VALUE_INTEGER) []*models.ATTRIBUTE_VALUE_INTEGER {
+					return owner.ATTRIBUTE_VALUE_INTEGER
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_ATTRIBUTE_VALUE_XHTML_1"
-			rf.Fieldname = "ATTRIBUTE_VALUE_INTEGER"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_ATTRIBUTE_VALUE_XHTML_1),
-					"ATTRIBUTE_VALUE_INTEGER",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_ATTRIBUTE_VALUE_XHTML_1](
-					nil,
-					"ATTRIBUTE_VALUE_INTEGER",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_ATTRIBUTE_VALUE_XHTML_1, *models.ATTRIBUTE_VALUE_INTEGER](
+				"A_ATTRIBUTE_VALUE_XHTML_1",
+				"ATTRIBUTE_VALUE_INTEGER",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_ATTRIBUTE_VALUE_XHTML_1) []*models.ATTRIBUTE_VALUE_INTEGER {
+					return owner.ATTRIBUTE_VALUE_INTEGER
+				})
 		}
 
 	case *models.ATTRIBUTE_VALUE_REAL:
@@ -730,48 +565,26 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_ATTRIBUTE_VALUE_REAL"
-			rf.Fieldname = "ATTRIBUTE_VALUE_REAL"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_ATTRIBUTE_VALUE_REAL),
-					"ATTRIBUTE_VALUE_REAL",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_ATTRIBUTE_VALUE_REAL](
-					nil,
-					"ATTRIBUTE_VALUE_REAL",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_ATTRIBUTE_VALUE_REAL, *models.ATTRIBUTE_VALUE_REAL](
+				"A_ATTRIBUTE_VALUE_REAL",
+				"ATTRIBUTE_VALUE_REAL",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_ATTRIBUTE_VALUE_REAL) []*models.ATTRIBUTE_VALUE_REAL {
+					return owner.ATTRIBUTE_VALUE_REAL
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_ATTRIBUTE_VALUE_XHTML_1"
-			rf.Fieldname = "ATTRIBUTE_VALUE_REAL"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_ATTRIBUTE_VALUE_XHTML_1),
-					"ATTRIBUTE_VALUE_REAL",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_ATTRIBUTE_VALUE_XHTML_1](
-					nil,
-					"ATTRIBUTE_VALUE_REAL",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_ATTRIBUTE_VALUE_XHTML_1, *models.ATTRIBUTE_VALUE_REAL](
+				"A_ATTRIBUTE_VALUE_XHTML_1",
+				"ATTRIBUTE_VALUE_REAL",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_ATTRIBUTE_VALUE_XHTML_1) []*models.ATTRIBUTE_VALUE_REAL {
+					return owner.ATTRIBUTE_VALUE_REAL
+				})
 		}
 
 	case *models.ATTRIBUTE_VALUE_STRING:
@@ -787,48 +600,26 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_ATTRIBUTE_VALUE_STRING"
-			rf.Fieldname = "ATTRIBUTE_VALUE_STRING"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_ATTRIBUTE_VALUE_STRING),
-					"ATTRIBUTE_VALUE_STRING",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_ATTRIBUTE_VALUE_STRING](
-					nil,
-					"ATTRIBUTE_VALUE_STRING",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_ATTRIBUTE_VALUE_STRING, *models.ATTRIBUTE_VALUE_STRING](
+				"A_ATTRIBUTE_VALUE_STRING",
+				"ATTRIBUTE_VALUE_STRING",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_ATTRIBUTE_VALUE_STRING) []*models.ATTRIBUTE_VALUE_STRING {
+					return owner.ATTRIBUTE_VALUE_STRING
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_ATTRIBUTE_VALUE_XHTML_1"
-			rf.Fieldname = "ATTRIBUTE_VALUE_STRING"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_ATTRIBUTE_VALUE_XHTML_1),
-					"ATTRIBUTE_VALUE_STRING",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_ATTRIBUTE_VALUE_XHTML_1](
-					nil,
-					"ATTRIBUTE_VALUE_STRING",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_ATTRIBUTE_VALUE_XHTML_1, *models.ATTRIBUTE_VALUE_STRING](
+				"A_ATTRIBUTE_VALUE_XHTML_1",
+				"ATTRIBUTE_VALUE_STRING",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_ATTRIBUTE_VALUE_XHTML_1) []*models.ATTRIBUTE_VALUE_STRING {
+					return owner.ATTRIBUTE_VALUE_STRING
+				})
 		}
 
 	case *models.ATTRIBUTE_VALUE_XHTML:
@@ -846,48 +637,26 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_ATTRIBUTE_VALUE_XHTML"
-			rf.Fieldname = "ATTRIBUTE_VALUE_XHTML"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_ATTRIBUTE_VALUE_XHTML),
-					"ATTRIBUTE_VALUE_XHTML",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_ATTRIBUTE_VALUE_XHTML](
-					nil,
-					"ATTRIBUTE_VALUE_XHTML",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_ATTRIBUTE_VALUE_XHTML, *models.ATTRIBUTE_VALUE_XHTML](
+				"A_ATTRIBUTE_VALUE_XHTML",
+				"ATTRIBUTE_VALUE_XHTML",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_ATTRIBUTE_VALUE_XHTML) []*models.ATTRIBUTE_VALUE_XHTML {
+					return owner.ATTRIBUTE_VALUE_XHTML
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_ATTRIBUTE_VALUE_XHTML_1"
-			rf.Fieldname = "ATTRIBUTE_VALUE_XHTML"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_ATTRIBUTE_VALUE_XHTML_1),
-					"ATTRIBUTE_VALUE_XHTML",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_ATTRIBUTE_VALUE_XHTML_1](
-					nil,
-					"ATTRIBUTE_VALUE_XHTML",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_ATTRIBUTE_VALUE_XHTML_1, *models.ATTRIBUTE_VALUE_XHTML](
+				"A_ATTRIBUTE_VALUE_XHTML_1",
+				"ATTRIBUTE_VALUE_XHTML",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_ATTRIBUTE_VALUE_XHTML_1) []*models.ATTRIBUTE_VALUE_XHTML {
+					return owner.ATTRIBUTE_VALUE_XHTML
+				})
 		}
 
 	case *models.A_ALTERNATIVE_ID:
@@ -1471,26 +1240,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_DATATYPES"
-			rf.Fieldname = "DATATYPE_DEFINITION_BOOLEAN"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_DATATYPES),
-					"DATATYPE_DEFINITION_BOOLEAN",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_DATATYPES](
-					nil,
-					"DATATYPE_DEFINITION_BOOLEAN",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_DATATYPES, *models.DATATYPE_DEFINITION_BOOLEAN](
+				"A_DATATYPES",
+				"DATATYPE_DEFINITION_BOOLEAN",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_DATATYPES) []*models.DATATYPE_DEFINITION_BOOLEAN {
+					return owner.DATATYPE_DEFINITION_BOOLEAN
+				})
 		}
 
 	case *models.DATATYPE_DEFINITION_DATE:
@@ -1512,26 +1270,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_DATATYPES"
-			rf.Fieldname = "DATATYPE_DEFINITION_DATE"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_DATATYPES),
-					"DATATYPE_DEFINITION_DATE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_DATATYPES](
-					nil,
-					"DATATYPE_DEFINITION_DATE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_DATATYPES, *models.DATATYPE_DEFINITION_DATE](
+				"A_DATATYPES",
+				"DATATYPE_DEFINITION_DATE",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_DATATYPES) []*models.DATATYPE_DEFINITION_DATE {
+					return owner.DATATYPE_DEFINITION_DATE
+				})
 		}
 
 	case *models.DATATYPE_DEFINITION_ENUMERATION:
@@ -1554,26 +1301,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_DATATYPES"
-			rf.Fieldname = "DATATYPE_DEFINITION_ENUMERATION"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_DATATYPES),
-					"DATATYPE_DEFINITION_ENUMERATION",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_DATATYPES](
-					nil,
-					"DATATYPE_DEFINITION_ENUMERATION",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_DATATYPES, *models.DATATYPE_DEFINITION_ENUMERATION](
+				"A_DATATYPES",
+				"DATATYPE_DEFINITION_ENUMERATION",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_DATATYPES) []*models.DATATYPE_DEFINITION_ENUMERATION {
+					return owner.DATATYPE_DEFINITION_ENUMERATION
+				})
 		}
 
 	case *models.DATATYPE_DEFINITION_INTEGER:
@@ -1599,26 +1335,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_DATATYPES"
-			rf.Fieldname = "DATATYPE_DEFINITION_INTEGER"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_DATATYPES),
-					"DATATYPE_DEFINITION_INTEGER",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_DATATYPES](
-					nil,
-					"DATATYPE_DEFINITION_INTEGER",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_DATATYPES, *models.DATATYPE_DEFINITION_INTEGER](
+				"A_DATATYPES",
+				"DATATYPE_DEFINITION_INTEGER",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_DATATYPES) []*models.DATATYPE_DEFINITION_INTEGER {
+					return owner.DATATYPE_DEFINITION_INTEGER
+				})
 		}
 
 	case *models.DATATYPE_DEFINITION_REAL:
@@ -1646,26 +1371,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_DATATYPES"
-			rf.Fieldname = "DATATYPE_DEFINITION_REAL"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_DATATYPES),
-					"DATATYPE_DEFINITION_REAL",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_DATATYPES](
-					nil,
-					"DATATYPE_DEFINITION_REAL",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_DATATYPES, *models.DATATYPE_DEFINITION_REAL](
+				"A_DATATYPES",
+				"DATATYPE_DEFINITION_REAL",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_DATATYPES) []*models.DATATYPE_DEFINITION_REAL {
+					return owner.DATATYPE_DEFINITION_REAL
+				})
 		}
 
 	case *models.DATATYPE_DEFINITION_STRING:
@@ -1689,26 +1403,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_DATATYPES"
-			rf.Fieldname = "DATATYPE_DEFINITION_STRING"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_DATATYPES),
-					"DATATYPE_DEFINITION_STRING",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_DATATYPES](
-					nil,
-					"DATATYPE_DEFINITION_STRING",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_DATATYPES, *models.DATATYPE_DEFINITION_STRING](
+				"A_DATATYPES",
+				"DATATYPE_DEFINITION_STRING",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_DATATYPES) []*models.DATATYPE_DEFINITION_STRING {
+					return owner.DATATYPE_DEFINITION_STRING
+				})
 		}
 
 	case *models.DATATYPE_DEFINITION_XHTML:
@@ -1730,26 +1433,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_DATATYPES"
-			rf.Fieldname = "DATATYPE_DEFINITION_XHTML"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_DATATYPES),
-					"DATATYPE_DEFINITION_XHTML",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_DATATYPES](
-					nil,
-					"DATATYPE_DEFINITION_XHTML",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_DATATYPES, *models.DATATYPE_DEFINITION_XHTML](
+				"A_DATATYPES",
+				"DATATYPE_DEFINITION_XHTML",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_DATATYPES) []*models.DATATYPE_DEFINITION_XHTML {
+					return owner.DATATYPE_DEFINITION_XHTML
+				})
 		}
 
 	case *models.EMBEDDED_VALUE:
@@ -1786,26 +1478,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_SPECIFIED_VALUES"
-			rf.Fieldname = "ENUM_VALUE"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_SPECIFIED_VALUES),
-					"ENUM_VALUE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_SPECIFIED_VALUES](
-					nil,
-					"ENUM_VALUE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_SPECIFIED_VALUES, *models.ENUM_VALUE](
+				"A_SPECIFIED_VALUES",
+				"ENUM_VALUE",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_SPECIFIED_VALUES) []*models.ENUM_VALUE {
+					return owner.ENUM_VALUE
+				})
 		}
 
 	case *models.EmbeddedJpgImage:
@@ -1889,26 +1570,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_SPEC_RELATION_GROUPS"
-			rf.Fieldname = "RELATION_GROUP"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_SPEC_RELATION_GROUPS),
-					"RELATION_GROUP",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_SPEC_RELATION_GROUPS](
-					nil,
-					"RELATION_GROUP",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_SPEC_RELATION_GROUPS, *models.RELATION_GROUP](
+				"A_SPEC_RELATION_GROUPS",
+				"RELATION_GROUP",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_SPEC_RELATION_GROUPS) []*models.RELATION_GROUP {
+					return owner.RELATION_GROUP
+				})
 		}
 
 	case *models.RELATION_GROUP_TYPE:
@@ -1931,26 +1601,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_SPEC_TYPES"
-			rf.Fieldname = "RELATION_GROUP_TYPE"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_SPEC_TYPES),
-					"RELATION_GROUP_TYPE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_SPEC_TYPES](
-					nil,
-					"RELATION_GROUP_TYPE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_SPEC_TYPES, *models.RELATION_GROUP_TYPE](
+				"A_SPEC_TYPES",
+				"RELATION_GROUP_TYPE",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_SPEC_TYPES) []*models.RELATION_GROUP_TYPE {
+					return owner.RELATION_GROUP_TYPE
+				})
 		}
 
 	case *models.REQ_IF:
@@ -2020,26 +1679,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_TOOL_EXTENSIONS"
-			rf.Fieldname = "REQ_IF_TOOL_EXTENSION"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_TOOL_EXTENSIONS),
-					"REQ_IF_TOOL_EXTENSION",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_TOOL_EXTENSIONS](
-					nil,
-					"REQ_IF_TOOL_EXTENSION",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_TOOL_EXTENSIONS, *models.REQ_IF_TOOL_EXTENSION](
+				"A_TOOL_EXTENSIONS",
+				"REQ_IF_TOOL_EXTENSION",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_TOOL_EXTENSIONS) []*models.REQ_IF_TOOL_EXTENSION {
+					return owner.REQ_IF_TOOL_EXTENSION
+				})
 		}
 
 	case *models.SPECIFICATION:
@@ -2064,26 +1712,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_SPECIFICATIONS"
-			rf.Fieldname = "SPECIFICATION"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_SPECIFICATIONS),
-					"SPECIFICATION",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_SPECIFICATIONS](
-					nil,
-					"SPECIFICATION",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_SPECIFICATIONS, *models.SPECIFICATION](
+				"A_SPECIFICATIONS",
+				"SPECIFICATION",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_SPECIFICATIONS) []*models.SPECIFICATION {
+					return owner.SPECIFICATION
+				})
 		}
 
 	case *models.SPECIFICATION_Rendering:
@@ -2122,26 +1759,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_SPEC_TYPES"
-			rf.Fieldname = "SPECIFICATION_TYPE"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_SPEC_TYPES),
-					"SPECIFICATION_TYPE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_SPEC_TYPES](
-					nil,
-					"SPECIFICATION_TYPE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_SPEC_TYPES, *models.SPECIFICATION_TYPE](
+				"A_SPEC_TYPES",
+				"SPECIFICATION_TYPE",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_SPEC_TYPES) []*models.SPECIFICATION_TYPE {
+					return owner.SPECIFICATION_TYPE
+				})
 		}
 
 	case *models.SPEC_HIERARCHY:
@@ -2170,26 +1796,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_CHILDREN"
-			rf.Fieldname = "SPEC_HIERARCHY"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_CHILDREN),
-					"SPEC_HIERARCHY",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_CHILDREN](
-					nil,
-					"SPEC_HIERARCHY",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_CHILDREN, *models.SPEC_HIERARCHY](
+				"A_CHILDREN",
+				"SPEC_HIERARCHY",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_CHILDREN) []*models.SPEC_HIERARCHY {
+					return owner.SPEC_HIERARCHY
+				})
 		}
 
 	case *models.SPEC_OBJECT:
@@ -2213,26 +1828,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_SPEC_OBJECTS"
-			rf.Fieldname = "SPEC_OBJECT"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_SPEC_OBJECTS),
-					"SPEC_OBJECT",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_SPEC_OBJECTS](
-					nil,
-					"SPEC_OBJECT",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_SPEC_OBJECTS, *models.SPEC_OBJECT](
+				"A_SPEC_OBJECTS",
+				"SPEC_OBJECT",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_SPEC_OBJECTS) []*models.SPEC_OBJECT {
+					return owner.SPEC_OBJECT
+				})
 		}
 
 	case *models.SPEC_OBJECT_TYPE:
@@ -2255,26 +1859,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_SPEC_TYPES"
-			rf.Fieldname = "SPEC_OBJECT_TYPE"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_SPEC_TYPES),
-					"SPEC_OBJECT_TYPE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_SPEC_TYPES](
-					nil,
-					"SPEC_OBJECT_TYPE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_SPEC_TYPES, *models.SPEC_OBJECT_TYPE](
+				"A_SPEC_TYPES",
+				"SPEC_OBJECT_TYPE",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_SPEC_TYPES) []*models.SPEC_OBJECT_TYPE {
+					return owner.SPEC_OBJECT_TYPE
+				})
 		}
 
 	case *models.SPEC_OBJECT_TYPE_Rendering:
@@ -2320,26 +1913,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_SPEC_RELATIONS"
-			rf.Fieldname = "SPEC_RELATION"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_SPEC_RELATIONS),
-					"SPEC_RELATION",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_SPEC_RELATIONS](
-					nil,
-					"SPEC_RELATION",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_SPEC_RELATIONS, *models.SPEC_RELATION](
+				"A_SPEC_RELATIONS",
+				"SPEC_RELATION",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_SPEC_RELATIONS) []*models.SPEC_RELATION {
+					return owner.SPEC_RELATION
+				})
 		}
 
 	case *models.SPEC_RELATION_TYPE:
@@ -2362,26 +1944,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "A_SPEC_TYPES"
-			rf.Fieldname = "SPEC_RELATION_TYPE"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.A_SPEC_TYPES),
-					"SPEC_RELATION_TYPE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.A_SPEC_TYPES](
-					nil,
-					"SPEC_RELATION_TYPE",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.A_SPEC_TYPES, *models.SPEC_RELATION_TYPE](
+				"A_SPEC_TYPES",
+				"SPEC_RELATION_TYPE",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.A_SPEC_TYPES) []*models.SPEC_RELATION_TYPE {
+					return owner.SPEC_RELATION_TYPE
+				})
 		}
 
 	case *models.StaticWebSite:
@@ -2416,26 +1987,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "StaticWebSite"
-			rf.Fieldname = "Chapters"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.StaticWebSite),
-					"Chapters",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.StaticWebSite](
-					nil,
-					"Chapters",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.StaticWebSite, *models.StaticWebSiteChapter](
+				"StaticWebSite",
+				"Chapters",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.StaticWebSite) []*models.StaticWebSiteChapter {
+					return owner.Chapters
+				})
 		}
 
 	case *models.StaticWebSiteGeneratedImage:
@@ -2483,26 +2043,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "StaticWebSiteChapter"
-			rf.Fieldname = "Paragraphs"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.StaticWebSiteChapter),
-					"Paragraphs",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.StaticWebSiteChapter](
-					nil,
-					"Paragraphs",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.StaticWebSiteChapter, *models.StaticWebSiteParagraph](
+				"StaticWebSiteChapter",
+				"Paragraphs",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.StaticWebSiteChapter) []*models.StaticWebSiteParagraph {
+					return owner.Paragraphs
+				})
 		}
 
 	case *models.XHTML_CONTENT:

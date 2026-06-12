@@ -37,26 +37,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Table"
-			rf.Fieldname = "Buttons"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Table),
-					"Buttons",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Table](
-					nil,
-					"Buttons",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Table, *models.Button](
+				"Table",
+				"Buttons",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Table) []*models.Button {
+					return owner.Buttons
+				})
 		}
 
 	case *models.Cell:
@@ -74,26 +63,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Row"
-			rf.Fieldname = "Cells"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Row),
-					"Cells",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Row](
-					nil,
-					"Cells",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Row, *models.Cell](
+				"Row",
+				"Cells",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Row) []*models.Cell {
+					return owner.Cells
+				})
 		}
 
 	case *models.CellBoolean:
@@ -170,26 +148,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Table"
-			rf.Fieldname = "DisplayedColumns"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Table),
-					"DisplayedColumns",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Table](
-					nil,
-					"DisplayedColumns",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Table, *models.DisplayedColumn](
+				"Table",
+				"DisplayedColumns",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Table) []*models.DisplayedColumn {
+					return owner.DisplayedColumns
+				})
 		}
 
 	case *models.Row:
@@ -205,48 +172,26 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Table"
-			rf.Fieldname = "Rows"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Table),
-					"Rows",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Table](
-					nil,
-					"Rows",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Table, *models.Row](
+				"Table",
+				"Rows",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Table) []*models.Row {
+					return owner.Rows
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "Table"
-			rf.Fieldname = "RowsSelectedForBulkDelete"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.Table),
-					"RowsSelectedForBulkDelete",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.Table](
-					nil,
-					"RowsSelectedForBulkDelete",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.Table, *models.Row](
+				"Table",
+				"RowsSelectedForBulkDelete",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Table) []*models.Row {
+					return owner.RowsSelectedForBulkDelete
+				})
 		}
 
 	case *models.SVGIcon:

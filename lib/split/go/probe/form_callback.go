@@ -221,137 +221,95 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 		case "DivStyle":
 			FormDivBasicFieldToField(&(assplitarea_.DivStyle), formDiv)
 		case "AsSplit:AsSplitAreas":
-			// WARNING : this form deals with the N-N association "AsSplit.AsSplitAreas []*AsSplitArea" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of AsSplitArea). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.AsSplit
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "AsSplit"
-				rf.Fieldname = "AsSplitAreas"
-				formerAssociationSource := assplitarea_.GongGetReverseFieldOwner(
-					assplitareaFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the AsSplit instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.AsSplit)
-					if !ok {
-						log.Fatalln("Source of AsSplit.AsSplitAreas []*AsSplitArea, is not an AsSplit instance")
+			// 2. Build a map of target AsSplit instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.AsSplit](assplitareaFormCallback.probe.stageOfInterest)
+			targetAsSplitIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetAsSplitIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all AsSplit instances and update their AsSplitAreas slice
+			for _assplit := range *models.GetGongstructInstancesSetFromPointerType[*models.AsSplit](assplitareaFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(assplitareaFormCallback.probe.stageOfInterest, _assplit)
+				
+				// if AsSplit is selected
+				if targetAsSplitIDs[id] {
+					// ensure assplitarea_ is in _assplit.AsSplitAreas
+					found := false
+					for _, _b := range _assplit.AsSplitAreas {
+						if _b == assplitarea_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_assplit.AsSplitAreas = append(_assplit.AsSplitAreas, assplitarea_)
+						assplitareaFormCallback.probe.UpdateSliceOfPointersCallback(_assplit, "AsSplitAreas", &_assplit.AsSplitAreas)
+					}
+				} else {
+					// ensure assplitarea_ is NOT in _assplit.AsSplitAreas
+					idx := slices.Index(_assplit.AsSplitAreas, assplitarea_)
+					if idx != -1 {
+						_assplit.AsSplitAreas = slices.Delete(_assplit.AsSplitAreas, idx, idx+1)
+						assplitareaFormCallback.probe.UpdateSliceOfPointersCallback(_assplit, "AsSplitAreas", &_assplit.AsSplitAreas)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.AsSplitAreas, assplitarea_)
-					formerSource.AsSplitAreas = slices.Delete(formerSource.AsSplitAreas, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.AsSplit
-			for _assplit := range *models.GetGongstructInstancesSet[models.AsSplit](assplitareaFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _assplit.GetName() == newSourceName.GetName() {
-					newSource = _assplit // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of AsSplit.AsSplitAreas []*AsSplitArea, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.AsSplitAreas = append(newSource.AsSplitAreas, assplitarea_)
 		case "View:RootAsSplitAreas":
-			// WARNING : this form deals with the N-N association "View.RootAsSplitAreas []*AsSplitArea" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of AsSplitArea). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.View
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "View"
-				rf.Fieldname = "RootAsSplitAreas"
-				formerAssociationSource := assplitarea_.GongGetReverseFieldOwner(
-					assplitareaFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the View instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.View)
-					if !ok {
-						log.Fatalln("Source of View.RootAsSplitAreas []*AsSplitArea, is not an View instance")
+			// 2. Build a map of target View instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.View](assplitareaFormCallback.probe.stageOfInterest)
+			targetViewIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetViewIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all View instances and update their RootAsSplitAreas slice
+			for _view := range *models.GetGongstructInstancesSetFromPointerType[*models.View](assplitareaFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(assplitareaFormCallback.probe.stageOfInterest, _view)
+				
+				// if View is selected
+				if targetViewIDs[id] {
+					// ensure assplitarea_ is in _view.RootAsSplitAreas
+					found := false
+					for _, _b := range _view.RootAsSplitAreas {
+						if _b == assplitarea_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_view.RootAsSplitAreas = append(_view.RootAsSplitAreas, assplitarea_)
+						assplitareaFormCallback.probe.UpdateSliceOfPointersCallback(_view, "RootAsSplitAreas", &_view.RootAsSplitAreas)
+					}
+				} else {
+					// ensure assplitarea_ is NOT in _view.RootAsSplitAreas
+					idx := slices.Index(_view.RootAsSplitAreas, assplitarea_)
+					if idx != -1 {
+						_view.RootAsSplitAreas = slices.Delete(_view.RootAsSplitAreas, idx, idx+1)
+						assplitareaFormCallback.probe.UpdateSliceOfPointersCallback(_view, "RootAsSplitAreas", &_view.RootAsSplitAreas)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.RootAsSplitAreas, assplitarea_)
-					formerSource.RootAsSplitAreas = slices.Delete(formerSource.RootAsSplitAreas, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.View
-			for _view := range *models.GetGongstructInstancesSet[models.View](assplitareaFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _view.GetName() == newSourceName.GetName() {
-					newSource = _view // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of View.RootAsSplitAreas []*AsSplitArea, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.RootAsSplitAreas = append(newSource.RootAsSplitAreas, assplitarea_)
 		}
 	}
 
