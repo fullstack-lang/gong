@@ -768,6 +768,7 @@ func FillUpForm(
 		AssociationSliceToForm("Peers", instanceWithInferedType, &instanceWithInferedType.Peers, formGroup, probe)
 		AssociationFieldToForm("EnclosingRect", instanceWithInferedType.EnclosingRect, formGroup, probe)
 		AssociationSliceToForm("Obstacles", instanceWithInferedType, &instanceWithInferedType.Obstacles, formGroup, probe)
+		AssociationFieldToForm("AnchoredTo", instanceWithInferedType.AnchoredTo, formGroup, probe)
 		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("FillOpacity", instanceWithInferedType.FillOpacity, instanceWithInferedType, probe.formStage, formGroup,

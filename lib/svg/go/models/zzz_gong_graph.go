@@ -741,6 +741,9 @@ func (stage *Stage) StageBranchRect(rect *Rect) {
 	if rect.EnclosingRect != nil {
 		StageBranch(stage, rect.EnclosingRect)
 	}
+	if rect.AnchoredTo != nil {
+		StageBranch(stage, rect.AnchoredTo)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _rect := range rect.Peers {
@@ -1410,6 +1413,9 @@ func CopyBranchRect(mapOrigCopy map[any]any, rectFrom *Rect) (rectTo *Rect) {
 	if rectFrom.EnclosingRect != nil {
 		rectTo.EnclosingRect = CopyBranchRect(mapOrigCopy, rectFrom.EnclosingRect)
 	}
+	if rectFrom.AnchoredTo != nil {
+		rectTo.AnchoredTo = CopyBranchRect(mapOrigCopy, rectFrom.AnchoredTo)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _rect := range rectFrom.Peers {
@@ -2021,6 +2027,9 @@ func (stage *Stage) UnstageBranchRect(rect *Rect) {
 	if rect.EnclosingRect != nil {
 		UnstageBranch(stage, rect.EnclosingRect)
 	}
+	if rect.AnchoredTo != nil {
+		UnstageBranch(stage, rect.AnchoredTo)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _rect := range rect.Peers {
@@ -2379,6 +2388,9 @@ func (reference *Rect) GongReconstructPointersFromReferences(stage *Stage, insta
 	// insertion point for pointers field
 	if instance.EnclosingRect != nil {
 		reference.EnclosingRect = stage.Rects_reference[instance.EnclosingRect]
+	}
+	if instance.AnchoredTo != nil {
+		reference.AnchoredTo = stage.Rects_reference[instance.AnchoredTo]
 	}
 	// insertion point for slice of pointers field
 	reference.Peers = reference.Peers[:0]
@@ -2751,6 +2763,12 @@ func (reference *Rect) GongReconstructPointersFromInstances(stage *Stage) {
 		reference.EnclosingRect = nil
 		if _instance, ok := stage.Rects_instance[_reference]; ok {
 			reference.EnclosingRect = _instance
+		}
+	}
+	if _reference := reference.AnchoredTo; _reference != nil {
+		reference.AnchoredTo = nil
+		if _instance, ok := stage.Rects_instance[_reference]; ok {
+			reference.AnchoredTo = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -4067,6 +4085,13 @@ func (rect *Rect) GongDiff(stage *Stage, rectOther *Rect) (diffs []string) {
 	if ObstaclesDifferent {
 		ops := Diff(stage, rect, rectOther, "Obstacles", rectOther.Obstacles, rect.Obstacles)
 		diffs = append(diffs, ops)
+	}
+	if (rect.AnchoredTo == nil) != (rectOther.AnchoredTo == nil) {
+		diffs = append(diffs, rect.GongMarshallField(stage, "AnchoredTo"))
+	} else if rect.AnchoredTo != nil && rectOther.AnchoredTo != nil {
+		if rect.AnchoredTo != rectOther.AnchoredTo {
+			diffs = append(diffs, rect.GongMarshallField(stage, "AnchoredTo"))
+		}
 	}
 	if rect.Color != rectOther.Color {
 		diffs = append(diffs, rect.GongMarshallField(stage, "Color"))

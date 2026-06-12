@@ -5377,6 +5377,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			EnclosingRect: &Rect{Name: "EnclosingRect"},
 			// field is initialized with an instance of Rect with the name of the field
 			Obstacles: []*Rect{{Name: "Obstacles"}},
+			// field is initialized with an instance of Rect with the name of the field
+			AnchoredTo: &Rect{Name: "AnchoredTo"},
 			// field is initialized with an instance of Animate with the name of the field
 			Animations: []*Animate{{Name: "Animations"}},
 			// field is initialized with an instance of RectAnchoredText with the name of the field
@@ -5586,6 +5588,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 			for rect := range stage.Rects {
 				if rect.EnclosingRect != nil {
 					rect_ := rect.EnclosingRect
+					var rects []*Rect
+					_, ok := res[rect_]
+					if ok {
+						rects = res[rect_]
+					} else {
+						rects = make([]*Rect, 0)
+					}
+					rects = append(rects, rect)
+					res[rect_] = rects
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "AnchoredTo":
+			res := make(map[*Rect][]*Rect)
+			for rect := range stage.Rects {
+				if rect.AnchoredTo != nil {
+					rect_ := rect.AnchoredTo
 					var rects []*Rect
 					_, ok := res[rect_]
 					if ok {
@@ -7278,6 +7297,11 @@ func (rect *Rect) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Rect",
 		},
 		{
+			Name:                 "AnchoredTo",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Rect",
+		},
+		{
 			Name:               "Color",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -8904,6 +8928,12 @@ func (rect *Rect) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "AnchoredTo":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if rect.AnchoredTo != nil {
+			res.valueString = rect.AnchoredTo.Name
+			res.ids = rect.AnchoredTo.GongGetUUID(stage)
+		}
 	case "Color":
 		res.valueString = rect.Color
 	case "FillOpacity":
@@ -10393,6 +10423,17 @@ func (rect *Rect) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 						rect.Obstacles = append(rect.Obstacles, __instance__)
 						break
 					}
+				}
+			}
+		}
+	case "AnchoredTo":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			rect.AnchoredTo = nil
+			for __instance__ := range stage.Rects {
+				if stage.Rect_stagedOrder[__instance__] == uint(id) {
+					rect.AnchoredTo = __instance__
+					break
 				}
 			}
 		}

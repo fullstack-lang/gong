@@ -723,6 +723,40 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private constrainRect(rect: svg.Rect, originalX?: number, originalY?: number) {
+    if (rect.AnchoredTo) {
+      let anchor = rect.AnchoredTo;
+      let cx = rect.X + rect.Width / 2;
+      let cy = rect.Y + rect.Height / 2;
+
+      let minX = anchor.X;
+      let maxX = anchor.X + anchor.Width;
+      let minY = anchor.Y;
+      let maxY = anchor.Y + anchor.Height;
+
+      let clampedCX = Math.max(minX, Math.min(cx, maxX));
+      let clampedCY = Math.max(minY, Math.min(cy, maxY));
+
+      let distLeft = Math.abs(clampedCX - minX);
+      let distRight = Math.abs(clampedCX - maxX);
+      let distTop = Math.abs(clampedCY - minY);
+      let distBottom = Math.abs(clampedCY - maxY);
+
+      let minDist = Math.min(distLeft, distRight, distTop, distBottom);
+
+      if (minDist === distLeft) {
+        clampedCX = minX;
+      } else if (minDist === distRight) {
+        clampedCX = maxX;
+      } else if (minDist === distTop) {
+        clampedCY = minY;
+      } else if (minDist === distBottom) {
+        clampedCY = maxY;
+      }
+
+      rect.X = clampedCX - rect.Width / 2;
+      rect.Y = clampedCY - rect.Height / 2;
+    }
+
     if (rect.EnclosingRect) {
       // Priority 2: if X too big, resize X
       // (This is performed first to guarantee that the shifting below can succeed)
@@ -894,8 +928,14 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
         let dy = testRect.Y - orig.Y;
 
         // Keep the most restrictive delta (closest to 0) to ensure the group stays rigid
-        if (Math.abs(dx) < Math.abs(allowedDeltaX)) allowedDeltaX = dx;
-        if (Math.abs(dy) < Math.abs(allowedDeltaY)) allowedDeltaY = dy;
+        // For AnchoredTo, the snap MUST take precedence, as it can introduce orthogonal movement
+        if (r.AnchoredTo) {
+          allowedDeltaX = dx;
+          allowedDeltaY = dy;
+        } else {
+          if (Math.abs(dx) < Math.abs(allowedDeltaX)) allowedDeltaX = dx;
+          if (Math.abs(dy) < Math.abs(allowedDeltaY)) allowedDeltaY = dy;
+        }
       }
 
       // 3. Apply the unified safe movement to all rects and update links

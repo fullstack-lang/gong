@@ -37,8 +37,8 @@ func main() {
 	// setup
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
-	stack := level1stack.NewLevel1StackDelta("test3", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams, true)
-	stack.Stage.SetGongMarshallingMode(models.GongMarshallingAppendCommit)
+	stack := level1stack.NewLevel1StackDelta("test3", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams, false)
+	// stack.Stage.SetGongMarshallingMode(models.GongMarshallingAppendCommit)
 
 	// refresh the probe, therefore we can see what has been unmarshalled
 	stack.Probe.Refresh()
