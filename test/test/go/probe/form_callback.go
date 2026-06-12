@@ -307,71 +307,50 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		case "TextArea":
 			FormDivBasicFieldToField(&(astruct_.TextArea), formDiv)
 		case "Astruct:Anarrayofa":
-			// WARNING : this form deals with the N-N association "Astruct.Anarrayofa []*Astruct" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of Astruct). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.Astruct
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "Astruct"
-				rf.Fieldname = "Anarrayofa"
-				formerAssociationSource := astruct_.GongGetReverseFieldOwner(
-					astructFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Astruct instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Astruct)
-					if !ok {
-						log.Fatalln("Source of Astruct.Anarrayofa []*Astruct, is not an Astruct instance")
+			// 2. Build a map of target Astruct instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Astruct](astructFormCallback.probe.stageOfInterest)
+			targetAstructIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetAstructIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Astruct instances and update their Anarrayofa slice
+			for _astruct := range *models.GetGongstructInstancesSetFromPointerType[*models.Astruct](astructFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(astructFormCallback.probe.stageOfInterest, _astruct)
+				
+				// if Astruct is selected
+				if targetAstructIDs[id] {
+					// ensure astruct_ is in _astruct.Anarrayofa
+					found := false
+					for _, _b := range _astruct.Anarrayofa {
+						if _b == astruct_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_astruct.Anarrayofa = append(_astruct.Anarrayofa, astruct_)
+						astructFormCallback.probe.UpdateSliceOfPointersCallback(_astruct, "Anarrayofa", &_astruct.Anarrayofa)
+					}
+				} else {
+					// ensure astruct_ is NOT in _astruct.Anarrayofa
+					idx := slices.Index(_astruct.Anarrayofa, astruct_)
+					if idx != -1 {
+						_astruct.Anarrayofa = slices.Delete(_astruct.Anarrayofa, idx, idx+1)
+						astructFormCallback.probe.UpdateSliceOfPointersCallback(_astruct, "Anarrayofa", &_astruct.Anarrayofa)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Anarrayofa, astruct_)
-					formerSource.Anarrayofa = slices.Delete(formerSource.Anarrayofa, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.Astruct
-			for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](astructFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _astruct.GetName() == newSourceName.GetName() {
-					newSource = _astruct // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of Astruct.Anarrayofa []*Astruct, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.Anarrayofa = append(newSource.Anarrayofa, astruct_)
 		}
 	}
 
@@ -453,71 +432,50 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 		case "Bstrcut2":
 			FormDivSelectFieldToField(&(astructbstruct2use_.Bstrcut2), astructbstruct2useFormCallback.probe.stageOfInterest, formDiv)
 		case "Astruct:Anarrayofb2Use":
-			// WARNING : this form deals with the N-N association "Astruct.Anarrayofb2Use []*AstructBstruct2Use" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of AstructBstruct2Use). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.Astruct
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "Astruct"
-				rf.Fieldname = "Anarrayofb2Use"
-				formerAssociationSource := astructbstruct2use_.GongGetReverseFieldOwner(
-					astructbstruct2useFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Astruct instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Astruct)
-					if !ok {
-						log.Fatalln("Source of Astruct.Anarrayofb2Use []*AstructBstruct2Use, is not an Astruct instance")
+			// 2. Build a map of target Astruct instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Astruct](astructbstruct2useFormCallback.probe.stageOfInterest)
+			targetAstructIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetAstructIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Astruct instances and update their Anarrayofb2Use slice
+			for _astruct := range *models.GetGongstructInstancesSetFromPointerType[*models.Astruct](astructbstruct2useFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(astructbstruct2useFormCallback.probe.stageOfInterest, _astruct)
+				
+				// if Astruct is selected
+				if targetAstructIDs[id] {
+					// ensure astructbstruct2use_ is in _astruct.Anarrayofb2Use
+					found := false
+					for _, _b := range _astruct.Anarrayofb2Use {
+						if _b == astructbstruct2use_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_astruct.Anarrayofb2Use = append(_astruct.Anarrayofb2Use, astructbstruct2use_)
+						astructbstruct2useFormCallback.probe.UpdateSliceOfPointersCallback(_astruct, "Anarrayofb2Use", &_astruct.Anarrayofb2Use)
+					}
+				} else {
+					// ensure astructbstruct2use_ is NOT in _astruct.Anarrayofb2Use
+					idx := slices.Index(_astruct.Anarrayofb2Use, astructbstruct2use_)
+					if idx != -1 {
+						_astruct.Anarrayofb2Use = slices.Delete(_astruct.Anarrayofb2Use, idx, idx+1)
+						astructbstruct2useFormCallback.probe.UpdateSliceOfPointersCallback(_astruct, "Anarrayofb2Use", &_astruct.Anarrayofb2Use)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Anarrayofb2Use, astructbstruct2use_)
-					formerSource.Anarrayofb2Use = slices.Delete(formerSource.Anarrayofb2Use, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.Astruct
-			for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](astructbstruct2useFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _astruct.GetName() == newSourceName.GetName() {
-					newSource = _astruct // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of Astruct.Anarrayofb2Use []*AstructBstruct2Use, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.Anarrayofb2Use = append(newSource.Anarrayofb2Use, astructbstruct2use_)
 		}
 	}
 
@@ -599,71 +557,50 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 		case "Bstruct2":
 			FormDivSelectFieldToField(&(astructbstructuse_.Bstruct2), astructbstructuseFormCallback.probe.stageOfInterest, formDiv)
 		case "Astruct:AnarrayofbUse":
-			// WARNING : this form deals with the N-N association "Astruct.AnarrayofbUse []*AstructBstructUse" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of AstructBstructUse). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.Astruct
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "Astruct"
-				rf.Fieldname = "AnarrayofbUse"
-				formerAssociationSource := astructbstructuse_.GongGetReverseFieldOwner(
-					astructbstructuseFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Astruct instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Astruct)
-					if !ok {
-						log.Fatalln("Source of Astruct.AnarrayofbUse []*AstructBstructUse, is not an Astruct instance")
+			// 2. Build a map of target Astruct instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Astruct](astructbstructuseFormCallback.probe.stageOfInterest)
+			targetAstructIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetAstructIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Astruct instances and update their AnarrayofbUse slice
+			for _astruct := range *models.GetGongstructInstancesSetFromPointerType[*models.Astruct](astructbstructuseFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(astructbstructuseFormCallback.probe.stageOfInterest, _astruct)
+				
+				// if Astruct is selected
+				if targetAstructIDs[id] {
+					// ensure astructbstructuse_ is in _astruct.AnarrayofbUse
+					found := false
+					for _, _b := range _astruct.AnarrayofbUse {
+						if _b == astructbstructuse_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_astruct.AnarrayofbUse = append(_astruct.AnarrayofbUse, astructbstructuse_)
+						astructbstructuseFormCallback.probe.UpdateSliceOfPointersCallback(_astruct, "AnarrayofbUse", &_astruct.AnarrayofbUse)
+					}
+				} else {
+					// ensure astructbstructuse_ is NOT in _astruct.AnarrayofbUse
+					idx := slices.Index(_astruct.AnarrayofbUse, astructbstructuse_)
+					if idx != -1 {
+						_astruct.AnarrayofbUse = slices.Delete(_astruct.AnarrayofbUse, idx, idx+1)
+						astructbstructuseFormCallback.probe.UpdateSliceOfPointersCallback(_astruct, "AnarrayofbUse", &_astruct.AnarrayofbUse)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.AnarrayofbUse, astructbstructuse_)
-					formerSource.AnarrayofbUse = slices.Delete(formerSource.AnarrayofbUse, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.Astruct
-			for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](astructbstructuseFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _astruct.GetName() == newSourceName.GetName() {
-					newSource = _astruct // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of Astruct.AnarrayofbUse []*AstructBstructUse, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.AnarrayofbUse = append(newSource.AnarrayofbUse, astructbstructuse_)
 		}
 	}
 
@@ -749,203 +686,140 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 		case "Intfield":
 			FormDivBasicFieldToField(&(bstruct_.Intfield), formDiv)
 		case "Astruct:Anarrayofb":
-			// WARNING : this form deals with the N-N association "Astruct.Anarrayofb []*Bstruct" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of Bstruct). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.Astruct
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "Astruct"
-				rf.Fieldname = "Anarrayofb"
-				formerAssociationSource := bstruct_.GongGetReverseFieldOwner(
-					bstructFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Astruct instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Astruct)
-					if !ok {
-						log.Fatalln("Source of Astruct.Anarrayofb []*Bstruct, is not an Astruct instance")
+			// 2. Build a map of target Astruct instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Astruct](bstructFormCallback.probe.stageOfInterest)
+			targetAstructIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetAstructIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Astruct instances and update their Anarrayofb slice
+			for _astruct := range *models.GetGongstructInstancesSetFromPointerType[*models.Astruct](bstructFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(bstructFormCallback.probe.stageOfInterest, _astruct)
+				
+				// if Astruct is selected
+				if targetAstructIDs[id] {
+					// ensure bstruct_ is in _astruct.Anarrayofb
+					found := false
+					for _, _b := range _astruct.Anarrayofb {
+						if _b == bstruct_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_astruct.Anarrayofb = append(_astruct.Anarrayofb, bstruct_)
+						bstructFormCallback.probe.UpdateSliceOfPointersCallback(_astruct, "Anarrayofb", &_astruct.Anarrayofb)
+					}
+				} else {
+					// ensure bstruct_ is NOT in _astruct.Anarrayofb
+					idx := slices.Index(_astruct.Anarrayofb, bstruct_)
+					if idx != -1 {
+						_astruct.Anarrayofb = slices.Delete(_astruct.Anarrayofb, idx, idx+1)
+						bstructFormCallback.probe.UpdateSliceOfPointersCallback(_astruct, "Anarrayofb", &_astruct.Anarrayofb)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Anarrayofb, bstruct_)
-					formerSource.Anarrayofb = slices.Delete(formerSource.Anarrayofb, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.Astruct
-			for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _astruct.GetName() == newSourceName.GetName() {
-					newSource = _astruct // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of Astruct.Anarrayofb []*Bstruct, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.Anarrayofb = append(newSource.Anarrayofb, bstruct_)
 		case "Astruct:Anotherarrayofb":
-			// WARNING : this form deals with the N-N association "Astruct.Anotherarrayofb []*Bstruct" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of Bstruct). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.Astruct
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "Astruct"
-				rf.Fieldname = "Anotherarrayofb"
-				formerAssociationSource := bstruct_.GongGetReverseFieldOwner(
-					bstructFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Astruct instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Astruct)
-					if !ok {
-						log.Fatalln("Source of Astruct.Anotherarrayofb []*Bstruct, is not an Astruct instance")
+			// 2. Build a map of target Astruct instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Astruct](bstructFormCallback.probe.stageOfInterest)
+			targetAstructIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetAstructIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Astruct instances and update their Anotherarrayofb slice
+			for _astruct := range *models.GetGongstructInstancesSetFromPointerType[*models.Astruct](bstructFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(bstructFormCallback.probe.stageOfInterest, _astruct)
+				
+				// if Astruct is selected
+				if targetAstructIDs[id] {
+					// ensure bstruct_ is in _astruct.Anotherarrayofb
+					found := false
+					for _, _b := range _astruct.Anotherarrayofb {
+						if _b == bstruct_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_astruct.Anotherarrayofb = append(_astruct.Anotherarrayofb, bstruct_)
+						bstructFormCallback.probe.UpdateSliceOfPointersCallback(_astruct, "Anotherarrayofb", &_astruct.Anotherarrayofb)
+					}
+				} else {
+					// ensure bstruct_ is NOT in _astruct.Anotherarrayofb
+					idx := slices.Index(_astruct.Anotherarrayofb, bstruct_)
+					if idx != -1 {
+						_astruct.Anotherarrayofb = slices.Delete(_astruct.Anotherarrayofb, idx, idx+1)
+						bstructFormCallback.probe.UpdateSliceOfPointersCallback(_astruct, "Anotherarrayofb", &_astruct.Anotherarrayofb)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Anotherarrayofb, bstruct_)
-					formerSource.Anotherarrayofb = slices.Delete(formerSource.Anotherarrayofb, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.Astruct
-			for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _astruct.GetName() == newSourceName.GetName() {
-					newSource = _astruct // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of Astruct.Anotherarrayofb []*Bstruct, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.Anotherarrayofb = append(newSource.Anotherarrayofb, bstruct_)
 		case "Dstruct:Anarrayofb":
-			// WARNING : this form deals with the N-N association "Dstruct.Anarrayofb []*Bstruct" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of Bstruct). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.Dstruct
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "Dstruct"
-				rf.Fieldname = "Anarrayofb"
-				formerAssociationSource := bstruct_.GongGetReverseFieldOwner(
-					bstructFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Dstruct instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Dstruct)
-					if !ok {
-						log.Fatalln("Source of Dstruct.Anarrayofb []*Bstruct, is not an Dstruct instance")
+			// 2. Build a map of target Dstruct instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Dstruct](bstructFormCallback.probe.stageOfInterest)
+			targetDstructIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDstructIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Dstruct instances and update their Anarrayofb slice
+			for _dstruct := range *models.GetGongstructInstancesSetFromPointerType[*models.Dstruct](bstructFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(bstructFormCallback.probe.stageOfInterest, _dstruct)
+				
+				// if Dstruct is selected
+				if targetDstructIDs[id] {
+					// ensure bstruct_ is in _dstruct.Anarrayofb
+					found := false
+					for _, _b := range _dstruct.Anarrayofb {
+						if _b == bstruct_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_dstruct.Anarrayofb = append(_dstruct.Anarrayofb, bstruct_)
+						bstructFormCallback.probe.UpdateSliceOfPointersCallback(_dstruct, "Anarrayofb", &_dstruct.Anarrayofb)
+					}
+				} else {
+					// ensure bstruct_ is NOT in _dstruct.Anarrayofb
+					idx := slices.Index(_dstruct.Anarrayofb, bstruct_)
+					if idx != -1 {
+						_dstruct.Anarrayofb = slices.Delete(_dstruct.Anarrayofb, idx, idx+1)
+						bstructFormCallback.probe.UpdateSliceOfPointersCallback(_dstruct, "Anarrayofb", &_dstruct.Anarrayofb)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Anarrayofb, bstruct_)
-					formerSource.Anarrayofb = slices.Delete(formerSource.Anarrayofb, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.Dstruct
-			for _dstruct := range *models.GetGongstructInstancesSet[models.Dstruct](bstructFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _dstruct.GetName() == newSourceName.GetName() {
-					newSource = _dstruct // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of Dstruct.Anarrayofb []*Bstruct, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.Anarrayofb = append(newSource.Anarrayofb, bstruct_)
 		}
 	}
 
@@ -1091,71 +965,50 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 			dstructFormCallback.probe.UpdateSliceOfPointersCallback(dstruct_, "Gstructs", &dstruct_.Gstructs)
 
 		case "Astruct:Dstruct4s":
-			// WARNING : this form deals with the N-N association "Astruct.Dstruct4s []*Dstruct" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of Dstruct). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.Astruct
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "Astruct"
-				rf.Fieldname = "Dstruct4s"
-				formerAssociationSource := dstruct_.GongGetReverseFieldOwner(
-					dstructFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Astruct instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Astruct)
-					if !ok {
-						log.Fatalln("Source of Astruct.Dstruct4s []*Dstruct, is not an Astruct instance")
+			// 2. Build a map of target Astruct instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Astruct](dstructFormCallback.probe.stageOfInterest)
+			targetAstructIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetAstructIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Astruct instances and update their Dstruct4s slice
+			for _astruct := range *models.GetGongstructInstancesSetFromPointerType[*models.Astruct](dstructFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(dstructFormCallback.probe.stageOfInterest, _astruct)
+				
+				// if Astruct is selected
+				if targetAstructIDs[id] {
+					// ensure dstruct_ is in _astruct.Dstruct4s
+					found := false
+					for _, _b := range _astruct.Dstruct4s {
+						if _b == dstruct_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_astruct.Dstruct4s = append(_astruct.Dstruct4s, dstruct_)
+						dstructFormCallback.probe.UpdateSliceOfPointersCallback(_astruct, "Dstruct4s", &_astruct.Dstruct4s)
+					}
+				} else {
+					// ensure dstruct_ is NOT in _astruct.Dstruct4s
+					idx := slices.Index(_astruct.Dstruct4s, dstruct_)
+					if idx != -1 {
+						_astruct.Dstruct4s = slices.Delete(_astruct.Dstruct4s, idx, idx+1)
+						dstructFormCallback.probe.UpdateSliceOfPointersCallback(_astruct, "Dstruct4s", &_astruct.Dstruct4s)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Dstruct4s, dstruct_)
-					formerSource.Dstruct4s = slices.Delete(formerSource.Dstruct4s, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.Astruct
-			for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](dstructFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _astruct.GetName() == newSourceName.GetName() {
-					newSource = _astruct // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of Astruct.Dstruct4s []*Dstruct, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.Dstruct4s = append(newSource.Dstruct4s, dstruct_)
 		}
 	}
 
@@ -1321,71 +1174,50 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 		case "Intfield":
 			FormDivBasicFieldToField(&(gstruct_.Intfield), formDiv)
 		case "Dstruct:Gstructs":
-			// WARNING : this form deals with the N-N association "Dstruct.Gstructs []*Gstruct" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of Gstruct). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.Dstruct
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "Dstruct"
-				rf.Fieldname = "Gstructs"
-				formerAssociationSource := gstruct_.GongGetReverseFieldOwner(
-					gstructFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Dstruct instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Dstruct)
-					if !ok {
-						log.Fatalln("Source of Dstruct.Gstructs []*Gstruct, is not an Dstruct instance")
+			// 2. Build a map of target Dstruct instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Dstruct](gstructFormCallback.probe.stageOfInterest)
+			targetDstructIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDstructIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Dstruct instances and update their Gstructs slice
+			for _dstruct := range *models.GetGongstructInstancesSetFromPointerType[*models.Dstruct](gstructFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(gstructFormCallback.probe.stageOfInterest, _dstruct)
+				
+				// if Dstruct is selected
+				if targetDstructIDs[id] {
+					// ensure gstruct_ is in _dstruct.Gstructs
+					found := false
+					for _, _b := range _dstruct.Gstructs {
+						if _b == gstruct_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_dstruct.Gstructs = append(_dstruct.Gstructs, gstruct_)
+						gstructFormCallback.probe.UpdateSliceOfPointersCallback(_dstruct, "Gstructs", &_dstruct.Gstructs)
+					}
+				} else {
+					// ensure gstruct_ is NOT in _dstruct.Gstructs
+					idx := slices.Index(_dstruct.Gstructs, gstruct_)
+					if idx != -1 {
+						_dstruct.Gstructs = slices.Delete(_dstruct.Gstructs, idx, idx+1)
+						gstructFormCallback.probe.UpdateSliceOfPointersCallback(_dstruct, "Gstructs", &_dstruct.Gstructs)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Gstructs, gstruct_)
-					formerSource.Gstructs = slices.Delete(formerSource.Gstructs, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.Dstruct
-			for _dstruct := range *models.GetGongstructInstancesSet[models.Dstruct](gstructFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _dstruct.GetName() == newSourceName.GetName() {
-					newSource = _dstruct // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of Dstruct.Gstructs []*Gstruct, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.Gstructs = append(newSource.Gstructs, gstruct_)
 		}
 	}
 

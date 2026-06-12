@@ -43,48 +43,26 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "XLRow"
-			rf.Fieldname = "Cells"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.XLRow),
-					"Cells",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.XLRow](
-					nil,
-					"Cells",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.XLRow, *models.XLCell](
+				"XLRow",
+				"Cells",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.XLRow) []*models.XLCell {
+					return owner.Cells
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "XLSheet"
-			rf.Fieldname = "SheetCells"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.XLSheet),
-					"SheetCells",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.XLSheet](
-					nil,
-					"SheetCells",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.XLSheet, *models.XLCell](
+				"XLSheet",
+				"SheetCells",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.XLSheet) []*models.XLCell {
+					return owner.SheetCells
+				})
 		}
 
 	case *models.XLFile:
@@ -113,26 +91,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "XLSheet"
-			rf.Fieldname = "Rows"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.XLSheet),
-					"Rows",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.XLSheet](
-					nil,
-					"Rows",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.XLSheet, *models.XLRow](
+				"XLSheet",
+				"Rows",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.XLSheet) []*models.XLRow {
+					return owner.Rows
+				})
 		}
 
 	case *models.XLSheet:
@@ -153,26 +120,15 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "XLFile"
-			rf.Fieldname = "Sheets"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.XLFile),
-					"Sheets",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.XLFile](
-					nil,
-					"Sheets",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.XLFile, *models.XLSheet](
+				"XLFile",
+				"Sheets",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.XLFile) []*models.XLSheet {
+					return owner.Sheets
+				})
 		}
 
 	default:

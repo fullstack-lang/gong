@@ -68,48 +68,26 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "AsSplit"
-			rf.Fieldname = "AsSplitAreas"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.AsSplit),
-					"AsSplitAreas",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.AsSplit](
-					nil,
-					"AsSplitAreas",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.AsSplit, *models.AsSplitArea](
+				"AsSplit",
+				"AsSplitAreas",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.AsSplit) []*models.AsSplitArea {
+					return owner.AsSplitAreas
+				})
 		}
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "View"
-			rf.Fieldname = "RootAsSplitAreas"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.View),
-					"RootAsSplitAreas",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.View](
-					nil,
-					"RootAsSplitAreas",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.View, *models.AsSplitArea](
+				"View",
+				"RootAsSplitAreas",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.View) []*models.AsSplitArea {
+					return owner.RootAsSplitAreas
+				})
 		}
 
 	case *models.Button:
