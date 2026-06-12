@@ -19,8 +19,11 @@
     }
 
     @for (div of selectedFormGroup?.FormDivs; track div) {
-      <div class="form-div-container">
-        @for (formField of div.FormFields; track formField; let i = $index) {
+      @if (div.IsADivider) {
+        <mat-divider class="custom-divider"></mat-divider>
+      } @else {
+        <div class="form-div-container">
+          @for (formField of div.FormFields; track formField; let i = $index) {
           @if (formField.FormFieldInt || formField.FormFieldFloat64 || formField.FormFieldString || formField.FormFieldDate || formField.FormFieldTime || formField.FormFieldDateTime || formField.FormFieldSelect) {
             <mat-form-field [ngStyle]="getDynamicStyles(formField)" class="custom-form-field">
               <mat-label>{{formField.Label}}</mat-label>
@@ -148,6 +151,7 @@
           </div>
         }
       </div>
+      }
     }
   </form>
 }

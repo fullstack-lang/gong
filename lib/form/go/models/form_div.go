@@ -6,4 +6,7 @@ type FormDiv struct {
 	CheckBoxs           []*CheckBox
 	FormEditAssocButton *FormEditAssocButton
 	FormSortAssocButton *FormSortAssocButton
+
+	// IsADivider indicates if the FormDiv is a divider
+	IsADivider bool
 }

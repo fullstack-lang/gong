@@ -80,6 +80,10 @@ type FormDivDB struct {
 	// Declation for basic field formdivDB.Name
 	Name_Data sql.NullString
 
+	// Declation for basic field formdivDB.IsADivider
+	// provide the sql storage for the boolan
+	IsADivider_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormDivPointersEncoding
@@ -103,6 +107,8 @@ type FormDivWOP struct {
 	// insertion for WOP basic fields
 
 	Name string `xlsx:"1"`
+
+	IsADivider bool `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -110,6 +116,7 @@ var FormDiv_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"IsADivider",
 }
 
 type BackRepoFormDivStruct struct {
@@ -507,6 +514,9 @@ func (formdivDB *FormDivDB) CopyBasicFieldsFromFormDiv(formdiv *models.FormDiv) 
 
 	formdivDB.Name_Data.String = formdiv.Name
 	formdivDB.Name_Data.Valid = true
+
+	formdivDB.IsADivider_Data.Bool = formdiv.IsADivider
+	formdivDB.IsADivider_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormDiv_WOP
@@ -515,6 +525,9 @@ func (formdivDB *FormDivDB) CopyBasicFieldsFromFormDiv_WOP(formdiv *models.FormD
 
 	formdivDB.Name_Data.String = formdiv.Name
 	formdivDB.Name_Data.Valid = true
+
+	formdivDB.IsADivider_Data.Bool = formdiv.IsADivider
+	formdivDB.IsADivider_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormDivWOP
@@ -523,18 +536,23 @@ func (formdivDB *FormDivDB) CopyBasicFieldsFromFormDivWOP(formdiv *FormDivWOP) {
 
 	formdivDB.Name_Data.String = formdiv.Name
 	formdivDB.Name_Data.Valid = true
+
+	formdivDB.IsADivider_Data.Bool = formdiv.IsADivider
+	formdivDB.IsADivider_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormDiv
 func (formdivDB *FormDivDB) CopyBasicFieldsToFormDiv(formdiv *models.FormDiv) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	formdiv.Name = formdivDB.Name_Data.String
+	formdiv.IsADivider = formdivDB.IsADivider_Data.Bool
 }
 
 // CopyBasicFieldsToFormDiv_WOP
 func (formdivDB *FormDivDB) CopyBasicFieldsToFormDiv_WOP(formdiv *models.FormDiv_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	formdiv.Name = formdivDB.Name_Data.String
+	formdiv.IsADivider = formdivDB.IsADivider_Data.Bool
 }
 
 // CopyBasicFieldsToFormDivWOP
@@ -542,6 +560,7 @@ func (formdivDB *FormDivDB) CopyBasicFieldsToFormDivWOP(formdiv *FormDivWOP) {
 	formdiv.ID = int(formdivDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	formdiv.Name = formdivDB.Name_Data.String
+	formdiv.IsADivider = formdivDB.IsADivider_Data.Bool
 }
 
 // Backup generates a json file from a slice of all FormDivDB instances in the backrepo
