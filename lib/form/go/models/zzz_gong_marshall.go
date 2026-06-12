@@ -325,6 +325,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(formdiv.GongMarshallField(stage, "CheckBoxs"))
 		pointersInitializesStatements.WriteString(formdiv.GongMarshallField(stage, "FormEditAssocButton"))
 		pointersInitializesStatements.WriteString(formdiv.GongMarshallField(stage, "FormSortAssocButton"))
+		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "IsADivider"))
 	}
 
 	formeditassocbuttonOrdered := []*FormEditAssocButton{}
@@ -884,6 +885,11 @@ func (formdiv *FormDiv) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formdiv.Name))
+	case "IsADivider":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsADivider")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formdiv.IsADivider))
 
 	case "FormFields":
 		var sb strings.Builder
@@ -1480,6 +1486,7 @@ func (formdiv *FormDiv) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(formdiv.GongMarshallField(stage, "CheckBoxs"))
 		pointersInitializesStatements.WriteString(formdiv.GongMarshallField(stage, "FormEditAssocButton"))
 		pointersInitializesStatements.WriteString(formdiv.GongMarshallField(stage, "FormSortAssocButton"))
+		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "IsADivider"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

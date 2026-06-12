@@ -27,11 +27,14 @@ type FormDiv_WOP struct {
 	// insertion point
 
 	Name string
+
+	IsADivider bool
 }
 
 func (from *FormDiv) CopyBasicFields(to *FormDiv) {
 	// insertion point
 	to.Name = from.Name
+	to.IsADivider = from.IsADivider
 }
 
 type FormEditAssocButton_WOP struct {

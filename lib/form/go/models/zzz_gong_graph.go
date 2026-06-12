@@ -1576,6 +1576,9 @@ func (formdiv *FormDiv) GongDiff(stage *Stage, formdivOther *FormDiv) (diffs []s
 			diffs = append(diffs, formdiv.GongMarshallField(stage, "FormSortAssocButton"))
 		}
 	}
+	if formdiv.IsADivider != formdivOther.IsADivider {
+		diffs = append(diffs, formdiv.GongMarshallField(stage, "IsADivider"))
+	}
 
 	return
 }

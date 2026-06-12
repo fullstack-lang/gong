@@ -4024,6 +4024,10 @@ func (formdiv *FormDiv) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "FormSortAssocButton",
 		},
+		{
+			Name:               "IsADivider",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -4477,6 +4481,10 @@ func (formdiv *FormDiv) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString = formdiv.FormSortAssocButton.Name
 			res.ids = formdiv.FormSortAssocButton.GongGetUUID(stage)
 		}
+	case "IsADivider":
+		res.valueString = fmt.Sprintf("%t", formdiv.IsADivider)
+		res.valueBool = formdiv.IsADivider
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -4864,6 +4872,8 @@ func (formdiv *FormDiv) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "IsADivider":
+		formdiv.IsADivider = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

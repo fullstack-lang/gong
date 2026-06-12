@@ -81,6 +81,15 @@ mat-form-field {
   padding-bottom: 4px;
 }
 
+.custom-divider {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  border-top-width: 2px;
+  border-top-color: rgba(0, 0, 0, 0.2);
+}
+
 /* Additional styles for textarea */
 textarea.mat-input-element {
   resize: vertical;

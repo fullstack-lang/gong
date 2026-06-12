@@ -503,6 +503,8 @@ func (u *FormDivUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallPointer(&instance.FormEditAssocButton, valueExpr, identifierMap)
 	case "FormSortAssocButton":
 		GongUnmarshallPointer(&instance.FormSortAssocButton, valueExpr, identifierMap)
+	case "IsADivider":
+		instance.IsADivider = GongExtractBool(valueExpr)
 	}
 	return nil
 }

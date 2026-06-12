@@ -15,6 +15,7 @@ export class FormDivAPI {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	IsADivider: boolean = false
 
 	// insertion point for other decls
 

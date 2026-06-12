@@ -20,7 +20,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
+import { MatDividerModule } from "@angular/material/divider";
 
 import { TableDialogData } from '../../../../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/table-dialog-data';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -30,6 +30,7 @@ import { decodeStringToIntArray_json, encodeIntArrayToString_json } from '../../
 
 import { TableExtraPathEnum } from '../../../../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/table/src/lib/TableExtraPathEnum';
 import { TableExtraNameEnum } from '../../../../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/table/src/lib/TableExtraNameEnum';
+
 
 @Component({
   selector: 'lib-form-specific',
@@ -46,6 +47,7 @@ import { TableExtraNameEnum } from '../../../../../../../table/ng-github.com-ful
     MatCheckboxModule,
     MatPaginatorModule,
     MatTooltipModule,
+    MatDividerModule
   ],
   templateUrl: './form-specific.html',
   styleUrl: './form-specific.css',

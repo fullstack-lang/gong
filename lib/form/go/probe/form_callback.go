@@ -280,6 +280,8 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(formdiv_.FormEditAssocButton), formdivFormCallback.probe.stageOfInterest, formDiv)
 		case "FormSortAssocButton":
 			FormDivSelectFieldToField(&(formdiv_.FormSortAssocButton), formdivFormCallback.probe.stageOfInterest, formDiv)
+		case "IsADivider":
+			FormDivBasicFieldToField(&(formdiv_.IsADivider), formDiv)
 		case "FormGroup:FormDivs":
 			// WARNING : this form deals with the N-N association "FormGroup.FormDivs []*FormDiv" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
