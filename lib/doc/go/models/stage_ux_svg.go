@@ -221,7 +221,7 @@ func (stager *Stager) Svg() {
 
 			linkLayer := new(svg_models.Layer)
 
-			stager.map_Fieldname_Link[fieldMetaIdentifierString] = link
+			stager.map_Fieldname_Link[strings.ReplaceAll(fieldMetaIdentifierString, "{}", "")] = link
 
 			linkLayer.Links = append(linkLayer.Links, link)
 			svg.Layers = append(svg.Layers, linkLayer)
@@ -589,6 +589,9 @@ func (stager *Stager) Svg() {
 				var ok bool
 				// find the endRect
 				endRect, ok = stager.map_Structname_Rect[noteLink.Identifier]
+				if !ok {
+					endRect, ok = stager.map_Structname_Rect[IdentifierToGongStructName(noteLink.Identifier)]
+				}
 				if ok {
 					// create the link
 					link := new(svg_models.Link)
