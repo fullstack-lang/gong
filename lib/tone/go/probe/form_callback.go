@@ -67,71 +67,50 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(freqency_.Name), formDiv)
 		case "Note:Frequencies":
-			// WARNING : this form deals with the N-N association "Note.Frequencies []*Freqency" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of Freqency). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.Note
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "Note"
-				rf.Fieldname = "Frequencies"
-				formerAssociationSource := freqency_.GongGetReverseFieldOwner(
-					freqencyFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Note instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Note)
-					if !ok {
-						log.Fatalln("Source of Note.Frequencies []*Freqency, is not an Note instance")
+			// 2. Build a map of target Note instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Note](freqencyFormCallback.probe.stageOfInterest)
+			targetNoteIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetNoteIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Note instances and update their Frequencies slice
+			for _note := range *models.GetGongstructInstancesSetFromPointerType[*models.Note](freqencyFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(freqencyFormCallback.probe.stageOfInterest, _note)
+				
+				// if Note is selected
+				if targetNoteIDs[id] {
+					// ensure freqency_ is in _note.Frequencies
+					found := false
+					for _, _b := range _note.Frequencies {
+						if _b == freqency_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_note.Frequencies = append(_note.Frequencies, freqency_)
+						freqencyFormCallback.probe.UpdateSliceOfPointersCallback(_note, "Frequencies", &_note.Frequencies)
+					}
+				} else {
+					// ensure freqency_ is NOT in _note.Frequencies
+					idx := slices.Index(_note.Frequencies, freqency_)
+					if idx != -1 {
+						_note.Frequencies = slices.Delete(_note.Frequencies, idx, idx+1)
+						freqencyFormCallback.probe.UpdateSliceOfPointersCallback(_note, "Frequencies", &_note.Frequencies)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Frequencies, freqency_)
-					formerSource.Frequencies = slices.Delete(formerSource.Frequencies, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.Note
-			for _note := range *models.GetGongstructInstancesSet[models.Note](freqencyFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _note.GetName() == newSourceName.GetName() {
-					newSource = _note // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of Note.Frequencies []*Freqency, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.Frequencies = append(newSource.Frequencies, freqency_)
 		}
 	}
 

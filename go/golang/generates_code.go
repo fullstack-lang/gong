@@ -490,6 +490,11 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
+		filepath.Join(pkgPath, "../probe/association_reverse_slice_to_form.go"),
+		probe.AssociationReverseSliceToFormTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
 		filepath.Join(pkgPath, "../probe/enum_type_to_form.go"),
 		probe.EnumTypeStringToForm)
 
