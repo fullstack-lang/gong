@@ -67,6 +67,8 @@ export class Rect {
 	EnclosingRect?: Rect
 
 	Obstacles: Array<Rect> = []
+	AnchoredTo?: Rect
+
 	HoveringTrigger: Array<Condition> = []
 	DisplayConditions: Array<Condition> = []
 	Animations: Array<Animate> = []
@@ -133,6 +135,13 @@ export function CopyRectToRectAPI(rect: Rect, rectAPI: RectAPI) {
 		rectAPI.RectPointersEncoding.EnclosingRectID.Int64 = rect.EnclosingRect.ID  
 	} else {
 		rectAPI.RectPointersEncoding.EnclosingRectID.Int64 = 0 		
+	}
+
+	rectAPI.RectPointersEncoding.AnchoredToID.Valid = true
+	if (rect.AnchoredTo != undefined) {
+		rectAPI.RectPointersEncoding.AnchoredToID.Int64 = rect.AnchoredTo.ID  
+	} else {
+		rectAPI.RectPointersEncoding.AnchoredToID.Int64 = 0 		
 	}
 
 
@@ -238,6 +247,7 @@ export function CopyRectAPIToRect(rectAPI: RectAPI, rect: Rect, frontRepo: Front
 
 	// insertion point for pointer fields encoding
 	rect.EnclosingRect = frontRepo.map_ID_Rect.get(rectAPI.RectPointersEncoding.EnclosingRectID.Int64)
+	rect.AnchoredTo = frontRepo.map_ID_Rect.get(rectAPI.RectPointersEncoding.AnchoredToID.Int64)
 
 	// insertion point for slice of pointers fields encoding
 	if (!Array.isArray(rectAPI.RectPointersEncoding.Peers)) {
