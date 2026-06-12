@@ -71,6 +71,8 @@ export class RectPointersEncoding {
 	EnclosingRectID: NullInt64 = new NullInt64 // if pointer is null, EnclosingRect.ID = 0
 
 	Obstacles: number[] = []
+	AnchoredToID: NullInt64 = new NullInt64 // if pointer is null, AnchoredTo.ID = 0
+
 	HoveringTrigger: number[] = []
 	DisplayConditions: number[] = []
 	Animations: number[] = []

@@ -21,6 +21,11 @@ type Rect struct {
 	// Obstacles are rects that this rect cannot overlap with
 	Obstacles []*Rect
 
+	// If AnchoredTo is non nil, the rect can only move along
+	// the border of the rect it is anchored to (not taking into
+	// account the rounded corner of the AnchoredTo Rect)
+	AnchoredTo *Rect
+
 	Presentation
 	ShapeConditions
 
