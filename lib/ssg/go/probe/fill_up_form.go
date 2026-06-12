@@ -26,6 +26,11 @@ func FillUpForm(
 		AssociationSliceToForm("Sections", instanceWithInferedType, &instanceWithInferedType.Sections, formGroup, probe)
 		AssociationSliceToForm("Pages", instanceWithInferedType, &instanceWithInferedType.Pages, formGroup, probe)
 		AssociationSliceToForm("SubChapters", instanceWithInferedType, &instanceWithInferedType.SubChapters, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -97,6 +102,11 @@ func FillUpForm(
 		AssociationSliceToForm("Chapters", instanceWithInferedType, &instanceWithInferedType.Chapters, formGroup, probe)
 		BasicFieldtoForm("VersionInfo", instanceWithInferedType.VersionInfo, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.DownloadableFile:
 		// insertion point
@@ -104,6 +114,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Base64Content", instanceWithInferedType.Base64Content, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 400)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.JpgImage:
 		// insertion point
@@ -111,6 +126,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Base64Content", instanceWithInferedType.Base64Content, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 400)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.Page:
 		// insertion point
@@ -119,6 +139,11 @@ func FillUpForm(
 		BasicFieldtoForm("MardownContent", instanceWithInferedType.MardownContent, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 300)
 		AssociationSliceToForm("Sections", instanceWithInferedType, &instanceWithInferedType.Sections, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -148,6 +173,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Base64Content", instanceWithInferedType.Base64Content, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 400)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.Section:
 		// insertion point
@@ -163,6 +193,11 @@ func FillUpForm(
 		BasicFieldtoForm("IsDownloadableFile", instanceWithInferedType.IsDownloadableFile, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationFieldToForm("DownloadableFile", instanceWithInferedType.DownloadableFile, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -214,6 +249,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 400)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	default:
 		_ = instanceWithInferedType

@@ -27,6 +27,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("OptionnalStroke", instanceWithInferedType.OptionnalStroke, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -70,6 +75,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("StrokeDashArray", instanceWithInferedType.StrokeDashArray, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -149,12 +159,22 @@ func FillUpForm(
 		AssociationSliceToForm("Milestones", instanceWithInferedType, &instanceWithInferedType.Milestones, formGroup, probe)
 		AssociationSliceToForm("Groups", instanceWithInferedType, &instanceWithInferedType.Groups, formGroup, probe)
 		AssociationSliceToForm("Arrows", instanceWithInferedType, &instanceWithInferedType.Arrows, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.Group:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("GroupLanes", instanceWithInferedType, &instanceWithInferedType.GroupLanes, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -185,6 +205,11 @@ func FillUpForm(
 		BasicFieldtoForm("Order", instanceWithInferedType.Order, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("Bars", instanceWithInferedType, &instanceWithInferedType.Bars, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -257,6 +282,11 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationFieldToForm("Lane", instanceWithInferedType.Lane, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.Milestone:
 		// insertion point
@@ -267,6 +297,11 @@ func FillUpForm(
 		BasicFieldtoForm("DisplayVerticalBar", instanceWithInferedType.DisplayVerticalBar, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("LanesToDisplay", instanceWithInferedType, &instanceWithInferedType.LanesToDisplay, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
 			var rf models.ReverseField
 			_ = rf

@@ -23,6 +23,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
 			true, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.JpgImage:
 		// insertion point
@@ -30,6 +35,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Base64Content", instanceWithInferedType.Base64Content, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 400)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.PngImage:
 		// insertion point
@@ -37,6 +47,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Base64Content", instanceWithInferedType.Base64Content, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 400)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.SvgImage:
 		// insertion point
@@ -44,6 +59,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 400)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	default:
 		_ = instanceWithInferedType

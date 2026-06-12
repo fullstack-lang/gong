@@ -23,6 +23,11 @@ func FillUpForm(
 			false, true, 600, false, 0)
 		BasicFieldtoForm("Base64EncodedContent", instanceWithInferedType.Base64EncodedContent, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 2000)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.FileToUpload:
 		// insertion point
@@ -30,11 +35,21 @@ func FillUpForm(
 			false, true, 600, false, 0)
 		BasicFieldtoForm("Base64EncodedContent", instanceWithInferedType.Base64EncodedContent, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 2000)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.Message:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 2000)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	default:
 		_ = instanceWithInferedType

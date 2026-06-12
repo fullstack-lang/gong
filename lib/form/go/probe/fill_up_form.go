@@ -23,6 +23,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Value", instanceWithInferedType.Value, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -56,6 +61,11 @@ func FillUpForm(
 		AssociationFieldToForm("FormSortAssocButton", instanceWithInferedType.FormSortAssocButton, formGroup, probe)
 		BasicFieldtoForm("IsADivider", instanceWithInferedType.IsADivider, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -97,6 +107,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("MatTooltipShowDelay", instanceWithInferedType.MatTooltipShowDelay, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.FormField:
 		// insertion point
@@ -122,6 +137,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("BespokeHeightPx", instanceWithInferedType.BespokeHeightPx, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -151,6 +171,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Value", instanceWithInferedType.Value, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.FormFieldDateTime:
 		// insertion point
@@ -158,6 +183,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Value", instanceWithInferedType.Value, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.FormFieldFloat64:
 		// insertion point
@@ -173,6 +203,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("MaxValue", instanceWithInferedType.MaxValue, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.FormFieldInt:
 		// insertion point
@@ -188,6 +223,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("MaxValue", instanceWithInferedType.MaxValue, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.FormFieldSelect:
 		// insertion point
@@ -199,6 +239,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("PreserveInitialOrder", instanceWithInferedType.PreserveInitialOrder, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.FormFieldString:
 		// insertion point
@@ -208,6 +253,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsTextArea", instanceWithInferedType.IsTextArea, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.FormFieldTime:
 		// insertion point
@@ -217,6 +267,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Step", instanceWithInferedType.Step, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.FormGroup:
 		// insertion point
@@ -229,6 +284,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("HasSuppressButtonBeenPressed", instanceWithInferedType.HasSuppressButtonBeenPressed, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.FormSortAssocButton:
 		// insertion point
@@ -243,11 +303,21 @@ func FillUpForm(
 		BasicFieldtoForm("MatTooltipShowDelay", instanceWithInferedType.MatTooltipShowDelay, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationFieldToForm("FormEditAssocButton", instanceWithInferedType.FormEditAssocButton, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.Option:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 		{
 			var rf models.ReverseField
 			_ = rf
