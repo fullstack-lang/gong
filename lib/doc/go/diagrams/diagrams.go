@@ -11,8 +11,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
-var _ = slices.Index[[]int, int]
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration
 var _ ref_models.Stage
@@ -215,7 +217,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.ShowLinkNames = true
 	__Classdiagram__00000000_.IsInRenameMode = false
 	__Classdiagram__00000000_.IsExpanded = true
-	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
+	__Classdiagram__00000000_.NodeGongStructsIsExpanded = false
 	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,true,true,false,true,false,true,true]`
 	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = true
 	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = `[false]`
