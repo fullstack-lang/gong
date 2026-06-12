@@ -506,11 +506,57 @@ func (stager *Stager) tree() {
 				// }
 				// _ = gongNoteLinkShape
 
+				name := gongLink.Name
+				if gongLink.Recv != "" {
+					name = gongLink.Recv + "." + gongLink.Name
+				}
+
+				isTargetAbsent := true
+				if gongLink.Recv == "" {
+					// check if a GongStructShape, GongEnumShape, or GongNoteShape exists with that name
+					for _, shape := range classDiagram.GongStructShapes {
+						if IdentifierMetaToGongStructName(shape.IdentifierMeta) == gongLink.Name {
+							isTargetAbsent = false
+						}
+					}
+					for _, shape := range classDiagram.GongEnumShapes {
+						if GongEnumIdentifierMetaToGongEnumName(shape.IdentifierMeta) == gongLink.Name {
+							isTargetAbsent = false
+						}
+					}
+					for _, shape := range classDiagram.GongNoteShapes {
+						if IdentifierToGongStructName(shape.Identifier) == gongLink.Name {
+							isTargetAbsent = false
+						}
+					}
+				} else {
+					// check if a LinkShape exists for the receiver
+					for _, shape := range classDiagram.GongStructShapes {
+						if IdentifierMetaToGongStructName(shape.IdentifierMeta) == gongLink.Recv {
+							for _, linkShape := range shape.LinkShapes {
+								if IdentifierMetaToFieldName(linkShape.IdentifierMeta) == gongLink.Name {
+									isTargetAbsent = false
+								}
+							}
+						}
+					}
+				}
+
 				docLinkNode := &tree.Node{
-					Name:              gongLink.Name,
+					Name:              name,
 					HasCheckboxButton: true,
 					IsChecked:         isGongLinkShapeInDiagram,
 					IsExpanded:        noteIsExpanded, // Links inherit expansion from parent note
+					IsCheckboxDisabled: !isGongNoteShapeInDiagram || isTargetAbsent || stager.embeddedDiagrams || !selected,
+				}
+				docLinkNode.OnIsCheckedChanged = func(isChecked bool) {
+					if isChecked {
+						classDiagram.AddGongNoteLinkShapeToDiagram(stager.stage, gongNoteShape, gongLink)
+						stager.stage.Commit()
+					} else {
+						classDiagram.RemoveGongNoteLinkShapeFromDiagram(stager.stage, gongNoteShape, gongLink)
+						stager.stage.Commit()
+					}
 				}
 				gongNoteNode.Children = append(gongNoteNode.Children, docLinkNode)
 			}
