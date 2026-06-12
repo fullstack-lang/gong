@@ -87,26 +87,15 @@ map[ButtonImplSubTemplateId]string{
 		AssociationSliceToForm("{{FieldName}}", instanceWithInferedType, &instanceWithInferedType.{{FieldName}}, formGroup, probe)`,
 	ButtonImplSubTmplSliceOfPointersReversePointer: `
 		{
-			var rf models.ReverseField
-			_ = rf
-			rf.GongstructName = "{{AssocStructName}}"
-			rf.Fieldname = "{{FieldName}}"
-			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
-			if reverseFieldOwner != nil {
-				AssociationReverseFieldToForm(
-					reverseFieldOwner.(*models.{{AssocStructName}}),
-					"{{FieldName}}",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			} else {
-				AssociationReverseFieldToForm[*models.{{AssocStructName}}](
-					nil,
-					"{{FieldName}}",
-					instanceWithInferedType,
-					formGroup,
-					probe)
-			}
+			AssociationReverseSliceToForm[*models.{{AssocStructName}}, *models.{{Structname}}](
+				"{{AssocStructName}}",
+				"{{FieldName}}",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.{{AssocStructName}}) []*models.{{Structname}} {
+					return owner.{{FieldName}}
+				})
 		}`,
 	ButtonImplSubTmplDivider: `
 		formDivDivider := (&form.FormDiv{
