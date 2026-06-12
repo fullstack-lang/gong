@@ -153,137 +153,95 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 		case "Y":
 			FormDivBasicFieldToField(&(xlcell_.Y), formDiv)
 		case "XLRow:Cells":
-			// WARNING : this form deals with the N-N association "XLRow.Cells []*XLCell" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of XLCell). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.XLRow
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "XLRow"
-				rf.Fieldname = "Cells"
-				formerAssociationSource := xlcell_.GongGetReverseFieldOwner(
-					xlcellFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the XLRow instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.XLRow)
-					if !ok {
-						log.Fatalln("Source of XLRow.Cells []*XLCell, is not an XLRow instance")
+			// 2. Build a map of target XLRow instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.XLRow](xlcellFormCallback.probe.stageOfInterest)
+			targetXLRowIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetXLRowIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all XLRow instances and update their Cells slice
+			for _xlrow := range *models.GetGongstructInstancesSetFromPointerType[*models.XLRow](xlcellFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(xlcellFormCallback.probe.stageOfInterest, _xlrow)
+				
+				// if XLRow is selected
+				if targetXLRowIDs[id] {
+					// ensure xlcell_ is in _xlrow.Cells
+					found := false
+					for _, _b := range _xlrow.Cells {
+						if _b == xlcell_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_xlrow.Cells = append(_xlrow.Cells, xlcell_)
+						xlcellFormCallback.probe.UpdateSliceOfPointersCallback(_xlrow, "Cells", &_xlrow.Cells)
+					}
+				} else {
+					// ensure xlcell_ is NOT in _xlrow.Cells
+					idx := slices.Index(_xlrow.Cells, xlcell_)
+					if idx != -1 {
+						_xlrow.Cells = slices.Delete(_xlrow.Cells, idx, idx+1)
+						xlcellFormCallback.probe.UpdateSliceOfPointersCallback(_xlrow, "Cells", &_xlrow.Cells)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Cells, xlcell_)
-					formerSource.Cells = slices.Delete(formerSource.Cells, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.XLRow
-			for _xlrow := range *models.GetGongstructInstancesSet[models.XLRow](xlcellFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _xlrow.GetName() == newSourceName.GetName() {
-					newSource = _xlrow // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of XLRow.Cells []*XLCell, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.Cells = append(newSource.Cells, xlcell_)
 		case "XLSheet:SheetCells":
-			// WARNING : this form deals with the N-N association "XLSheet.SheetCells []*XLCell" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of XLCell). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.XLSheet
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "XLSheet"
-				rf.Fieldname = "SheetCells"
-				formerAssociationSource := xlcell_.GongGetReverseFieldOwner(
-					xlcellFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the XLSheet instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.XLSheet)
-					if !ok {
-						log.Fatalln("Source of XLSheet.SheetCells []*XLCell, is not an XLSheet instance")
+			// 2. Build a map of target XLSheet instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.XLSheet](xlcellFormCallback.probe.stageOfInterest)
+			targetXLSheetIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetXLSheetIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all XLSheet instances and update their SheetCells slice
+			for _xlsheet := range *models.GetGongstructInstancesSetFromPointerType[*models.XLSheet](xlcellFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(xlcellFormCallback.probe.stageOfInterest, _xlsheet)
+				
+				// if XLSheet is selected
+				if targetXLSheetIDs[id] {
+					// ensure xlcell_ is in _xlsheet.SheetCells
+					found := false
+					for _, _b := range _xlsheet.SheetCells {
+						if _b == xlcell_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_xlsheet.SheetCells = append(_xlsheet.SheetCells, xlcell_)
+						xlcellFormCallback.probe.UpdateSliceOfPointersCallback(_xlsheet, "SheetCells", &_xlsheet.SheetCells)
+					}
+				} else {
+					// ensure xlcell_ is NOT in _xlsheet.SheetCells
+					idx := slices.Index(_xlsheet.SheetCells, xlcell_)
+					if idx != -1 {
+						_xlsheet.SheetCells = slices.Delete(_xlsheet.SheetCells, idx, idx+1)
+						xlcellFormCallback.probe.UpdateSliceOfPointersCallback(_xlsheet, "SheetCells", &_xlsheet.SheetCells)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.SheetCells, xlcell_)
-					formerSource.SheetCells = slices.Delete(formerSource.SheetCells, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.XLSheet
-			for _xlsheet := range *models.GetGongstructInstancesSet[models.XLSheet](xlcellFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _xlsheet.GetName() == newSourceName.GetName() {
-					newSource = _xlsheet // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of XLSheet.SheetCells []*XLCell, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.SheetCells = append(newSource.SheetCells, xlcell_)
 		}
 	}
 
@@ -509,71 +467,50 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 			xlrowFormCallback.probe.UpdateSliceOfPointersCallback(xlrow_, "Cells", &xlrow_.Cells)
 
 		case "XLSheet:Rows":
-			// WARNING : this form deals with the N-N association "XLSheet.Rows []*XLRow" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of XLRow). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.XLSheet
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "XLSheet"
-				rf.Fieldname = "Rows"
-				formerAssociationSource := xlrow_.GongGetReverseFieldOwner(
-					xlrowFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the XLSheet instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.XLSheet)
-					if !ok {
-						log.Fatalln("Source of XLSheet.Rows []*XLRow, is not an XLSheet instance")
+			// 2. Build a map of target XLSheet instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.XLSheet](xlrowFormCallback.probe.stageOfInterest)
+			targetXLSheetIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetXLSheetIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all XLSheet instances and update their Rows slice
+			for _xlsheet := range *models.GetGongstructInstancesSetFromPointerType[*models.XLSheet](xlrowFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(xlrowFormCallback.probe.stageOfInterest, _xlsheet)
+				
+				// if XLSheet is selected
+				if targetXLSheetIDs[id] {
+					// ensure xlrow_ is in _xlsheet.Rows
+					found := false
+					for _, _b := range _xlsheet.Rows {
+						if _b == xlrow_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_xlsheet.Rows = append(_xlsheet.Rows, xlrow_)
+						xlrowFormCallback.probe.UpdateSliceOfPointersCallback(_xlsheet, "Rows", &_xlsheet.Rows)
+					}
+				} else {
+					// ensure xlrow_ is NOT in _xlsheet.Rows
+					idx := slices.Index(_xlsheet.Rows, xlrow_)
+					if idx != -1 {
+						_xlsheet.Rows = slices.Delete(_xlsheet.Rows, idx, idx+1)
+						xlrowFormCallback.probe.UpdateSliceOfPointersCallback(_xlsheet, "Rows", &_xlsheet.Rows)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Rows, xlrow_)
-					formerSource.Rows = slices.Delete(formerSource.Rows, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.XLSheet
-			for _xlsheet := range *models.GetGongstructInstancesSet[models.XLSheet](xlrowFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _xlsheet.GetName() == newSourceName.GetName() {
-					newSource = _xlsheet // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of XLSheet.Rows []*XLRow, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.Rows = append(newSource.Rows, xlrow_)
 		}
 	}
 
@@ -723,71 +660,50 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 			xlsheetFormCallback.probe.UpdateSliceOfPointersCallback(xlsheet_, "SheetCells", &xlsheet_.SheetCells)
 
 		case "XLFile:Sheets":
-			// WARNING : this form deals with the N-N association "XLFile.Sheets []*XLSheet" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of XLSheet). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.XLFile
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "XLFile"
-				rf.Fieldname = "Sheets"
-				formerAssociationSource := xlsheet_.GongGetReverseFieldOwner(
-					xlsheetFormCallback.probe.stageOfInterest,
-					&rf)
+			// 1. Decode the AssociationStorage which contains the rowIDs of the XLFile instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
 
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.XLFile)
-					if !ok {
-						log.Fatalln("Source of XLFile.Sheets []*XLSheet, is not an XLFile instance")
+			// 2. Build a map of target XLFile instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.XLFile](xlsheetFormCallback.probe.stageOfInterest)
+			targetXLFileIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetXLFileIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all XLFile instances and update their Sheets slice
+			for _xlfile := range *models.GetGongstructInstancesSetFromPointerType[*models.XLFile](xlsheetFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(xlsheetFormCallback.probe.stageOfInterest, _xlfile)
+				
+				// if XLFile is selected
+				if targetXLFileIDs[id] {
+					// ensure xlsheet_ is in _xlfile.Sheets
+					found := false
+					for _, _b := range _xlfile.Sheets {
+						if _b == xlsheet_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_xlfile.Sheets = append(_xlfile.Sheets, xlsheet_)
+						xlsheetFormCallback.probe.UpdateSliceOfPointersCallback(_xlfile, "Sheets", &_xlfile.Sheets)
+					}
+				} else {
+					// ensure xlsheet_ is NOT in _xlfile.Sheets
+					idx := slices.Index(_xlfile.Sheets, xlsheet_)
+					if idx != -1 {
+						_xlfile.Sheets = slices.Delete(_xlfile.Sheets, idx, idx+1)
+						xlsheetFormCallback.probe.UpdateSliceOfPointersCallback(_xlfile, "Sheets", &_xlfile.Sheets)
 					}
 				}
 			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.Sheets, xlsheet_)
-					formerSource.Sheets = slices.Delete(formerSource.Sheets, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.XLFile
-			for _xlfile := range *models.GetGongstructInstancesSet[models.XLFile](xlsheetFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _xlfile.GetName() == newSourceName.GetName() {
-					newSource = _xlfile // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of XLFile.Sheets []*XLSheet, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.Sheets = append(newSource.Sheets, xlsheet_)
 		}
 	}
 
