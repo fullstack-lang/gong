@@ -10,8 +10,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
-var _ = slices.Index[[]int, int]
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -37,6 +39,7 @@ func _(stage *models.Stage) {
 	__FormDiv__00000007_ := (&models.FormDiv{Name: `Select (can be set empty)`}).Stage(stage)
 	__FormDiv__00000008_ := (&models.FormDiv{Name: `Select (cannot be set empty)`}).Stage(stage)
 	__FormDiv__00000009_ := (&models.FormDiv{Name: `Text Area`}).Stage(stage)
+	__FormDiv__00000010_ := (&models.FormDiv{Name: `Divider`}).Stage(stage)
 
 	__FormEditAssocButton__00000000_ := (&models.FormEditAssocButton{Name: `Edit Assoc`}).Stage(stage)
 
@@ -87,24 +90,37 @@ func _(stage *models.Stage) {
 	__CheckBox__00000000_.Value = true
 
 	__FormDiv__00000000_.Name = `CheckBoxs`
+	__FormDiv__00000000_.IsADivider = false
 
 	__FormDiv__00000001_.Name = `Date - Time`
+	__FormDiv__00000001_.IsADivider = false
 
 	__FormDiv__00000002_.Name = `DateTime`
+	__FormDiv__00000002_.IsADivider = false
 
 	__FormDiv__00000003_.Name = `Edit Assoc`
+	__FormDiv__00000003_.IsADivider = false
 
 	__FormDiv__00000004_.Name = `Float64 - level of x`
+	__FormDiv__00000004_.IsADivider = false
 
 	__FormDiv__00000005_.Name = `Form Div First Name  - Name`
+	__FormDiv__00000005_.IsADivider = false
 
 	__FormDiv__00000006_.Name = `Int - Age`
+	__FormDiv__00000006_.IsADivider = false
 
 	__FormDiv__00000007_.Name = `Select (can be set empty)`
+	__FormDiv__00000007_.IsADivider = false
 
 	__FormDiv__00000008_.Name = `Select (cannot be set empty)`
+	__FormDiv__00000008_.IsADivider = false
 
 	__FormDiv__00000009_.Name = `Text Area`
+	__FormDiv__00000009_.IsADivider = false
+
+	__FormDiv__00000010_.Name = `Divider`
+	__FormDiv__00000010_.IsADivider = true
 
 	__FormEditAssocButton__00000000_.Name = `Edit Assoc`
 	__FormEditAssocButton__00000000_.Label = `Association to B`
@@ -319,6 +335,8 @@ second line`
 	__FormDiv__00000009_.FormFields = append(__FormDiv__00000009_.FormFields, __FormField__00000008_)
 	__FormDiv__00000009_.FormEditAssocButton = nil
 	__FormDiv__00000009_.FormSortAssocButton = nil
+	__FormDiv__00000010_.FormEditAssocButton = nil
+	__FormDiv__00000010_.FormSortAssocButton = nil
 	__FormField__00000000_.FormFieldString = nil
 	__FormField__00000000_.FormFieldFloat64 = nil
 	__FormField__00000000_.FormFieldInt = __FormFieldInt__00000000_
@@ -406,6 +424,7 @@ second line`
 	__FormFieldSelect__00000001_.Options = append(__FormFieldSelect__00000001_.Options, __Option__00000001_)
 	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000009_)
 	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000000_)
+	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000010_)
 	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000001_)
 	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000003_)
 	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000002_)
