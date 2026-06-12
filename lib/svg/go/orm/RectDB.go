@@ -61,6 +61,10 @@ type RectPointersEncoding struct {
 	// field Obstacles is a slice of pointers to another Struct (optional or 0..1)
 	Obstacles IntSlice `gorm:"type:TEXT"`
 
+	// field AnchoredTo is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	AnchoredToID sql.NullInt64
+
 	// field HoveringTrigger is a slice of pointers to another Struct (optional or 0..1)
 	HoveringTrigger IntSlice `gorm:"type:TEXT"`
 
@@ -554,6 +558,18 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(rectDB.RectPointersEncoding.Obstacles, int(rectAssocEnd_DB.ID))
 		}
 
+		// commit pointer value rect.AnchoredTo translates to updating the rect.AnchoredToID
+		rectDB.AnchoredToID.Valid = true // allow for a 0 value (nil association)
+		if rect.AnchoredTo != nil {
+			if AnchoredToId, ok := backRepo.BackRepoRect.Map_RectPtr_RectDBID[rect.AnchoredTo]; ok {
+				rectDB.AnchoredToID.Int64 = int64(AnchoredToId)
+				rectDB.AnchoredToID.Valid = true
+			}
+		} else {
+			rectDB.AnchoredToID.Int64 = 0
+			rectDB.AnchoredToID.Valid = true
+		}
+
 		// 1. reset
 		rectDB.RectPointersEncoding.HoveringTrigger = make([]int, 0)
 		// 2. encode
@@ -829,6 +845,27 @@ func (rectDB *RectDB) DecodePointers(backRepo *BackRepoStruct, rect *models.Rect
 	rect.Obstacles = rect.Obstacles[:0]
 	for _, _Rectid := range rectDB.RectPointersEncoding.Obstacles {
 		rect.Obstacles = append(rect.Obstacles, backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(_Rectid)])
+	}
+
+	// AnchoredTo field
+	{
+		id := rectDB.AnchoredToID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: rect.AnchoredTo, unknown pointer id", id)
+				rect.AnchoredTo = nil
+			} else {
+				// updates only if field has changed
+				if rect.AnchoredTo == nil || rect.AnchoredTo != tmp {
+					rect.AnchoredTo = tmp
+				}
+			}
+		} else {
+			rect.AnchoredTo = nil
+		}
 	}
 
 	// This loop redeem rect.HoveringTrigger in the stage from the encode in the back repo
@@ -1593,6 +1630,12 @@ func (backRepoRect *BackRepoRectStruct) RestorePhaseTwo() {
 		if rectDB.EnclosingRectID.Int64 != 0 {
 			rectDB.EnclosingRectID.Int64 = int64(BackRepoRectid_atBckpTime_newID[uint(rectDB.EnclosingRectID.Int64)])
 			rectDB.EnclosingRectID.Valid = true
+		}
+
+		// reindexing AnchoredTo field
+		if rectDB.AnchoredToID.Int64 != 0 {
+			rectDB.AnchoredToID.Int64 = int64(BackRepoRectid_atBckpTime_newID[uint(rectDB.AnchoredToID.Int64)])
+			rectDB.AnchoredToID.Valid = true
 		}
 
 		// update databse with new index encoding

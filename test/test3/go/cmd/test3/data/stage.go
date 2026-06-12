@@ -10,8 +10,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
-var _ = slices.Index[[]int, int]
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -23,14 +25,19 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
+	// insertion point for declaration of instances to stage
+
 	__A__00000000_ := (&models.A{Name: `ID 0`}).Stage(stage)
 	__A__00000001_ := (&models.A{Name: `ID 1`}).Stage(stage)
 	__A__00000002_ := (&models.A{Name: `ID 2`}).Stage(stage)
 	__A__00000005_ := (&models.A{Name: `ID 5`}).Stage(stage)
 	__A__00000006_ := (&models.A{Name: `ID 6`}).Stage(stage)
+
 	__B__00000000_ := (&models.B{Name: `B_0`}).Stage(stage)
 	__B__00000001_ := (&models.B{Name: `B_1`}).Stage(stage)
 	__B__00000002_ := (&models.B{Name: `6`}).Stage(stage)
+
+	// insertion point for initialization of values
 
 	__A__00000000_.Name = `ID 0`
 	__A__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-01-01 00:00:00 +0000 UTC")
@@ -40,7 +47,7 @@ func _(stage *models.Stage) {
 	__A__00000000_.EnumString = ""
 	__A__00000000_.EnumInt = models.EnumTypeInt_Value2
 	__A__00000000_.UUID = ``
-	__A__00000000_.B = __B__00000006_
+
 	__A__00000001_.Name = `ID 1`
 	__A__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__A__00000001_.FloatValue = 0.000000
@@ -49,24 +56,16 @@ func _(stage *models.Stage) {
 	__A__00000001_.EnumString = ""
 	__A__00000001_.EnumInt = models.EnumTypeInt_Value2
 	__A__00000001_.UUID = ``
-	__A__00000001_.B = __B__00000000_
-	__A__00000001_.Bs = append(__A__00000001_.Bs, __B__00000003_)
-	__A__00000001_.Bs = append(__A__00000001_.Bs, __B__00000004_)
-	__A__00000001_.Bs = append(__A__00000001_.Bs, __B__00000002_)
-	__A__00000001_.Bs = append(__A__00000001_.Bs, __B__00000001_)
-	__A__00000001_.Bs = append(__A__00000001_.Bs, __B__00000000_)
-	__A__00000001_.Bs = append(__A__00000001_.Bs, __B__00000005_)
+
 	__A__00000002_.Name = `ID 2`
 	__A__00000002_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__A__00000002_.FloatValue = 0.000000
 	__A__00000002_.IntValue = 0
 	__A__00000002_.Duration = 0
 	__A__00000002_.EnumString = ""
-	__A__00000002_.EnumInt = models.EnumTypeInt_Value1
+	__A__00000002_.EnumInt = models.EnumTypeInt_Value2
 	__A__00000002_.UUID = ``
-	__A__00000002_.B = __B__00000008_
-	__A__00000002_.Bs = append(__A__00000002_.Bs, __B__00000002_)
-	__A__00000002_.Bs = append(__A__00000002_.Bs, __B__00000004_)
+
 	__A__00000005_.Name = `ID 5`
 	__A__00000005_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__A__00000005_.FloatValue = 0.000000
@@ -75,7 +74,7 @@ func _(stage *models.Stage) {
 	__A__00000005_.EnumString = ""
 	__A__00000005_.EnumInt = models.EnumTypeInt_Value2
 	__A__00000005_.UUID = ``
-	__A__00000005_.B = nil
+
 	__A__00000006_.Name = `ID 6`
 	__A__00000006_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__A__00000006_.FloatValue = 0.000000
@@ -84,93 +83,24 @@ func _(stage *models.Stage) {
 	__A__00000006_.EnumString = ""
 	__A__00000006_.EnumInt = models.EnumTypeInt_Value2
 	__A__00000006_.UUID = ``
-	__A__00000006_.B = nil
+
 	__B__00000000_.Name = `B_0`
+
 	__B__00000001_.Name = `B_1`
+
 	__B__00000002_.Name = `6`
-	__B__00000003_.Name = `7`
-	__B__00000004_.Name = `8`
-	__B__00000005_.Name = `9`
-	__B__00000006_.Name = `10`
-	__B__00000007_.Name = `11`
-	__B__00000008_.Name = `12`
-	__B__00000009_.Name = `13`
-	__B__00000010_.Name = `14`
-	__B__00000011_.Name = `15`
-	__B__00000012_.Name = `16`
-	__B__00000013_.Name = `17`
-	__B__00000014_.Name = `20`
-	__B__00000015_.Name = `21`
-	__B__00000016_.Name = `22`
-	__B__00000017_.Name = `24`
-	__B__00000018_.Name = `25`
-	__B__00000019_.Name = `26`
-	__B__00000020_.Name = `27`
-	__B__00000021_.Name = `29`
-	__B__00000022_.Name = `30`
-	__B__00000023_.Name = `31`
-	__B__00000024_.Name = `32`
-	__B__00000025_.Name = `33`
-	__B__00000026_.Name = `34`
-	__B__00000027_.Name = `B35`
-	stage.Commit()
 
-	// ID 2
-	__A__00000002_.EnumInt = models.EnumTypeInt_Value2
-	__A__00000002_.Bs = slices.Insert(__A__00000002_.Bs, 2, __B__00000003_)
-	stage.Commit()
-
-	// ID 0
-	__A__00000000_.Bs = slices.Insert(__A__00000000_.Bs, 0, __B__00000001_)
-	stage.Commit()
-
-	// ID 0
-	__A__00000000_.Bs = slices.Insert(__A__00000000_.Bs, 1, __B__00000000_)
-	stage.Commit()
-
-	// ID 5
-	__A__00000005_.Bs = slices.Insert(__A__00000005_.Bs, 0, __B__00000000_)
-	stage.Commit()
-
-	// ID 5
-	__A__00000005_.Bs = slices.Insert(__A__00000005_.Bs, 1, __B__00000020_)
-	stage.Commit()
-
-	// ID 0
-	__A__00000000_.Bs = slices.Delete( __A__00000000_.Bs, 1, 2)
-	// ID 1
-	__A__00000001_.Bs = slices.Delete( __A__00000001_.Bs, 2, 3)
-	// ID 5
-	__A__00000005_.Bs = slices.Delete( __A__00000005_.Bs, 0, 1)
-	stage.Commit()
-
-	// ID 0
-	__A__00000000_.Bs = slices.Delete( __A__00000000_.Bs, 0, 1)
-	// ID 1
-	__A__00000001_.Bs = slices.Delete( __A__00000001_.Bs, 1, 2)
-	stage.Commit()
-
-	// ID 1
-	__A__00000001_.Bs = slices.Delete( __A__00000001_.Bs, 0, 1)
-	// ID 2
-	__A__00000002_.Bs = slices.Delete( __A__00000002_.Bs, 0, 1)
-	stage.Commit()
-
-	// ID 0
-	__A__00000000_.Bs = slices.Insert( __A__00000000_.Bs, 0, __B__00000001_)
-	// ID 6
-	__A__00000006_.Bs = slices.Insert( __A__00000006_.Bs, 0, __B__00000001_)
-	stage.Commit()
-
-	// ID 0
-	__A__00000000_.Bs = slices.Insert( __A__00000000_.Bs, 1, __B__00000000_)
-	// ID 1
-	__A__00000001_.Bs = slices.Insert( __A__00000001_.Bs, 0, __B__00000000_)
-	// ID 2
-	__A__00000002_.Bs = slices.Insert( __A__00000002_.Bs, 0, __B__00000000_)
-	// ID 5
-	__A__00000005_.Bs = slices.Insert( __A__00000005_.Bs, 0, __B__00000000_)
-	// ID 6
-	__A__00000006_.Bs = slices.Insert( __A__00000006_.Bs, 1, __B__00000000_)
-	stage.Commit()
+	// insertion point for setup of pointers
+	__A__00000000_.B = nil
+	__A__00000000_.Bs = append(__A__00000000_.Bs, __B__00000001_)
+	__A__00000000_.Bs = append(__A__00000000_.Bs, __B__00000000_)
+	__A__00000001_.B = __B__00000000_
+	__A__00000001_.Bs = append(__A__00000001_.Bs, __B__00000000_)
+	__A__00000002_.B = nil
+	__A__00000002_.Bs = append(__A__00000002_.Bs, __B__00000000_)
+	__A__00000005_.B = nil
+	__A__00000005_.Bs = append(__A__00000005_.Bs, __B__00000000_)
+	__A__00000006_.B = nil
+	__A__00000006_.Bs = append(__A__00000006_.Bs, __B__00000001_)
+	__A__00000006_.Bs = append(__A__00000006_.Bs, __B__00000000_)
 }

@@ -3569,6 +3569,8 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			rect_.Obstacles = instanceSlice
 			rectFormCallback.probe.UpdateSliceOfPointersCallback(rect_, "Obstacles", &rect_.Obstacles)
 
+		case "AnchoredTo":
+			FormDivSelectFieldToField(&(rect_.AnchoredTo), rectFormCallback.probe.stageOfInterest, formDiv)
 		case "Color":
 			FormDivBasicFieldToField(&(rect_.Color), formDiv)
 		case "FillOpacity":
