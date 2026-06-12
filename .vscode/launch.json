@@ -470,32 +470,6 @@
                 "^TestBasicCommitNavigation$"
             ]
         },
-        {
-            "name": "test4: gong generate test4",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/test/test4/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands",
-                "--skipNpmInstall",
-                "--stack-height=4"
-            ]
-        },
-        {
-            "name": "test4 : go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/test4/go/cmd/test4",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage",
-                "-embeddedDiagrams=false"
-            ]
-        },
         //
         // "dsm" configurations
         //
