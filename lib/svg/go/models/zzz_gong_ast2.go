@@ -1237,6 +1237,8 @@ func (u *RectUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		GongUnmarshallPointer(&instance.EnclosingRect, valueExpr, identifierMap)
 	case "Obstacles":
 		GongUnmarshallSliceOfPointers(&instance.Obstacles, valueExpr, identifierMap)
+	case "AnchoredTo":
+		GongUnmarshallPointer(&instance.AnchoredTo, valueExpr, identifierMap)
 	case "Color":
 		instance.Color = GongExtractString(valueExpr)
 	case "FillOpacity":
