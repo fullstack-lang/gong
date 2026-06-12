@@ -853,6 +853,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "Peers"))
 		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "EnclosingRect"))
 		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "Obstacles"))
+		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "AnchoredTo"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Color"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "FillOpacity"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Stroke"))
@@ -2960,6 +2961,19 @@ func (rect *Rect) GongMarshallField(stage *Stage, fieldName string) (res string)
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "AnchoredTo":
+		if rect.AnchoredTo != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AnchoredTo")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", rect.AnchoredTo.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", rect.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AnchoredTo")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	case "HoveringTrigger":
 		var sb strings.Builder
 		for _, _condition := range rect.HoveringTrigger {
@@ -4182,6 +4196,7 @@ func (rect *Rect) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "Peers"))
 		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "EnclosingRect"))
 		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "Obstacles"))
+		pointersInitializesStatements.WriteString(rect.GongMarshallField(stage, "AnchoredTo"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Color"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "FillOpacity"))
 		initializerStatements.WriteString(rect.GongMarshallField(stage, "Stroke"))
