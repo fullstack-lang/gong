@@ -227,7 +227,7 @@ func _(stage *models.Stage) {
 	__Product__00000001_.IsConsumersNodeExpanded = false
 
 	__Product__00000002_.Name = `P1.2`
-	__Product__00000002_.ComputedPrefix = `1.2`
+	__Product__00000002_.ComputedPrefix = `1.3`
 	__Product__00000002_.IsExpanded = false
 	__Product__00000002_.IsImport = false
 	__Product__00000002_.Description = ``
@@ -235,7 +235,7 @@ func _(stage *models.Stage) {
 	__Product__00000002_.IsConsumersNodeExpanded = false
 
 	__Product__00000003_.Name = `P1.3`
-	__Product__00000003_.ComputedPrefix = `1.3`
+	__Product__00000003_.ComputedPrefix = `1.2`
 	__Product__00000003_.IsExpanded = false
 	__Product__00000003_.IsImport = false
 	__Product__00000003_.Description = ``
@@ -243,7 +243,7 @@ func _(stage *models.Stage) {
 	__Product__00000003_.IsConsumersNodeExpanded = false
 
 	__Product__00000004_.Name = `P1.3.1`
-	__Product__00000004_.ComputedPrefix = `1.3.1`
+	__Product__00000004_.ComputedPrefix = `1.2.1`
 	__Product__00000004_.IsExpanded = false
 	__Product__00000004_.IsImport = false
 	__Product__00000004_.Description = ``
@@ -251,7 +251,7 @@ func _(stage *models.Stage) {
 	__Product__00000004_.IsConsumersNodeExpanded = false
 
 	__Product__00000005_.Name = `P1.2.1`
-	__Product__00000005_.ComputedPrefix = `1.2.1`
+	__Product__00000005_.ComputedPrefix = `1.3.1`
 	__Product__00000005_.IsExpanded = false
 	__Product__00000005_.IsImport = false
 	__Product__00000005_.Description = ``
@@ -259,7 +259,7 @@ func _(stage *models.Stage) {
 	__Product__00000005_.IsConsumersNodeExpanded = false
 
 	__Product__00000006_.Name = `P1.2.2`
-	__Product__00000006_.ComputedPrefix = `1.2.2`
+	__Product__00000006_.ComputedPrefix = `1.3.2`
 	__Product__00000006_.IsExpanded = false
 	__Product__00000006_.IsImport = false
 	__Product__00000006_.Description = ``
@@ -329,35 +329,35 @@ func _(stage *models.Stage) {
 	__ProductShape__00000012_.IsHidden = false
 
 	__ProductShape__00000013_.Name = `P1.2-Default Diagram`
-	__ProductShape__00000013_.X = 350.000000
+	__ProductShape__00000013_.X = 650.000000
 	__ProductShape__00000013_.Y = 190.000000
 	__ProductShape__00000013_.Width = 250.000000
 	__ProductShape__00000013_.Height = 70.000000
 	__ProductShape__00000013_.IsHidden = false
 
 	__ProductShape__00000014_.Name = `P1.2.1-Default Diagram`
-	__ProductShape__00000014_.X = 350.000000
+	__ProductShape__00000014_.X = 650.000000
 	__ProductShape__00000014_.Y = 330.000000
 	__ProductShape__00000014_.Width = 250.000000
 	__ProductShape__00000014_.Height = 70.000000
 	__ProductShape__00000014_.IsHidden = false
 
 	__ProductShape__00000015_.Name = `P1.2.2-Default Diagram`
-	__ProductShape__00000015_.X = 650.000000
+	__ProductShape__00000015_.X = 950.000000
 	__ProductShape__00000015_.Y = 330.000000
 	__ProductShape__00000015_.Width = 250.000000
 	__ProductShape__00000015_.Height = 70.000000
 	__ProductShape__00000015_.IsHidden = false
 
 	__ProductShape__00000016_.Name = `P1.3-Default Diagram`
-	__ProductShape__00000016_.X = 950.000000
+	__ProductShape__00000016_.X = 350.000000
 	__ProductShape__00000016_.Y = 190.000000
 	__ProductShape__00000016_.Width = 250.000000
 	__ProductShape__00000016_.Height = 70.000000
 	__ProductShape__00000016_.IsHidden = false
 
 	__ProductShape__00000017_.Name = `P1.3.1-Default Diagram`
-	__ProductShape__00000017_.X = 950.000000
+	__ProductShape__00000017_.X = 350.000000
 	__ProductShape__00000017_.Y = 330.000000
 	__ProductShape__00000017_.Width = 250.000000
 	__ProductShape__00000017_.Height = 70.000000
@@ -617,8 +617,8 @@ func _(stage *models.Stage) {
 	__MilestoneShape__00000000_.Milestone = __Milestone__00000000_
 	__Product__00000000_.ReferencedProduct = nil
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000001_)
-	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000002_)
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000003_)
+	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000002_)
 	__Product__00000001_.ReferencedProduct = nil
 	__Product__00000002_.ReferencedProduct = nil
 	__Product__00000002_.SubProducts = append(__Product__00000002_.SubProducts, __Product__00000005_)
