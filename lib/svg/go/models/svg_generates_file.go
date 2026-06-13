@@ -345,6 +345,8 @@ func getRectAnchorPointWithOffset(rect *Rect, anchorType RectAnchorType, xOffset
 		return rect.X + xOffset, rect.Y + rect.Height/2 + yOffset
 	case RECT_CENTER:
 		return rect.X + rect.Width/2 + xOffset, rect.Y + rect.Height/2 + yOffset
+	case RECT_CENTER_MIDDLE:
+		return rect.X + rect.Width/2 + xOffset, rect.Y + rect.Height/2 + yOffset
 	case RECT_RIGHT:
 		return rect.X + rect.Width + xOffset, rect.Y + rect.Height/2 + yOffset
 	case RECT_BOTTOM_LEFT:
