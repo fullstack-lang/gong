@@ -314,13 +314,34 @@ func addCreateItemShapeAndLinkButton[
 			if parentShape != nil && conf.parentElement != nil && conf.sliceForNewCompositionShapes != nil {
 				addAssociationShapeToDiagram(stager, conf.parentElement, newAbstractElement, conf.sliceForNewCompositionShapes)
 
-				newShape.SetX(parentShape.GetX() + float64(len(*conf.sliceForNewAddedItem)-1)*parentShape.GetWidth()*1.2)
-				newShape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
+				var isHorizontal bool
+				if pShape, ok := any(parentShape).(*ProductShape); ok {
+					if pShape.LayoutDirection == Horizontal {
+						isHorizontal = true
+					}
+				}
 
-				if len(*conf.sliceForNewCompositionShapes) > 0 {
-					newCompositionShape := (*conf.sliceForNewCompositionShapes)[len(*conf.sliceForNewCompositionShapes)-1]
-					ratio := (newShape.GetY() - parentShape.GetY()) / parentShape.GetHeight()
-					newCompositionShape.SetCornerOffsetRatio((ratio - 1.0)/2.0 + 1.0)
+				if isHorizontal {
+					newShape.SetX(parentShape.GetX() + parentShape.GetWidth()/2.0 + 50.0)
+					newShape.SetY(parentShape.GetY() + parentShape.GetHeight() + 50.0 + float64(len(*conf.sliceForNewAddedItem)-1)*parentShape.GetHeight()*1.2)
+
+					if len(*conf.sliceForNewCompositionShapes) > 0 {
+						newCompositionShape := (*conf.sliceForNewCompositionShapes)[len(*conf.sliceForNewCompositionShapes)-1]
+						newCompositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
+						newCompositionShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
+						newCompositionShape.SetCornerOffsetRatio(1.5)
+					}
+				} else {
+					newShape.SetX(parentShape.GetX() + float64(len(*conf.sliceForNewAddedItem)-1)*parentShape.GetWidth()*1.2)
+					newShape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
+
+					if len(*conf.sliceForNewCompositionShapes) > 0 {
+						newCompositionShape := (*conf.sliceForNewCompositionShapes)[len(*conf.sliceForNewCompositionShapes)-1]
+						newCompositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
+						newCompositionShape.SetEndOrientation(ORIENTATION_VERTICAL)
+						ratio := (newShape.GetY() - parentShape.GetY()) / parentShape.GetHeight()
+						newCompositionShape.SetCornerOffsetRatio((ratio - 1.0)/2.0 + 1.0)
+					}
 				}
 			}
 		}

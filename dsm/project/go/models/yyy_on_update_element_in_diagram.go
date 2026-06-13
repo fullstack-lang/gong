@@ -60,13 +60,34 @@ func onUpdateElementInDiagram[
 							}
 						}
 
-						shape.SetX(parentShape.GetX() + float64(siblingsCount-1)*parentShape.GetWidth()*1.2)
-						shape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
+						var isHorizontal bool
+						if pShape, ok := any(parentShape).(*ProductShape); ok {
+							if pShape.LayoutDirection == Horizontal {
+								isHorizontal = true
+							}
+						}
 
-						if len(*compositionShapes) > 0 {
-							newCompositionShape := (*compositionShapes)[len(*compositionShapes)-1]
-							ratio := (shape.GetY() - parentShape.GetY()) / parentShape.GetHeight()
-							newCompositionShape.SetCornerOffsetRatio((ratio - 1.0)/2.0 + 1.0)
+						if isHorizontal {
+							shape.SetX(parentShape.GetX() + parentShape.GetWidth()/2.0 + 50.0)
+							shape.SetY(parentShape.GetY() + parentShape.GetHeight() + 50.0 + float64(siblingsCount-1)*parentShape.GetHeight()*1.2)
+
+							if len(*compositionShapes) > 0 {
+								newCompositionShape := (*compositionShapes)[len(*compositionShapes)-1]
+								newCompositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
+								newCompositionShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
+								newCompositionShape.SetCornerOffsetRatio(1.5)
+							}
+						} else {
+							shape.SetX(parentShape.GetX() + float64(siblingsCount-1)*parentShape.GetWidth()*1.2)
+							shape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
+
+							if len(*compositionShapes) > 0 {
+								newCompositionShape := (*compositionShapes)[len(*compositionShapes)-1]
+								newCompositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
+								newCompositionShape.SetEndOrientation(ORIENTATION_VERTICAL)
+								ratio := (shape.GetY() - parentShape.GetY()) / parentShape.GetHeight()
+								newCompositionShape.SetCornerOffsetRatio((ratio - 1.0)/2.0 + 1.0)
+							}
 						}
 					}
 				}
