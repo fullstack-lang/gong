@@ -1492,6 +1492,7 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
         anchorY = parentRect.Y + parentRect.Height / 2 + anchoredRect.Y_Offset;
         break;
       case svg.RectAnchorType.RECT_CENTER:
+      case svg.RectAnchorType.RECT_CENTER_MIDDLE:
         anchorX = parentRect.X + parentRect.Width / 2 + anchoredRect.X_Offset;
         anchorY = parentRect.Y + parentRect.Height / 2 + anchoredRect.Y_Offset;
         break;
@@ -1557,6 +1558,7 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
         anchorY = parentRect.Y + parentRect.Height / 2 + path.Y_Offset;
         break;
       case svg.RectAnchorType.RECT_CENTER:
+      case svg.RectAnchorType.RECT_CENTER_MIDDLE:
         anchorX = parentRect.X + parentRect.Width / 2 + path.X_Offset;
         anchorY = parentRect.Y + parentRect.Height / 2 + path.Y_Offset;
         break;
@@ -1574,6 +1576,7 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
     let anchorX = 0;
     let anchorY = 0;
 
+    let firstLineDy = '0';
     // The same switch logic is now consistent with rect method
     switch (text.RectAnchorType) {
       case svg.RectAnchorType.RECT_TOP:
@@ -1624,6 +1627,12 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
         anchorX = rect.X + rect.Width / 2 + text.X_Offset;
         anchorY = rect.Y + rect.Height / 2 + text.Y_Offset;
         break;
+      case svg.RectAnchorType.RECT_CENTER_MIDDLE:
+        anchorX = rect.X + rect.Width / 2 + text.X_Offset;
+        anchorY = rect.Y + rect.Height / 2 + text.Y_Offset;
+        let lineCount = text.Content ? text.Content.split('\n').length : 1;
+        firstLineDy = -(lineCount - 1) / 2 + 'em';
+        break;
     }
 
     // Return the context object the template needs
@@ -1631,6 +1640,7 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
       text: text,
       anchorX: anchorX,
       anchorY: anchorY,
+      firstLineDy: firstLineDy,
     };
   }
 

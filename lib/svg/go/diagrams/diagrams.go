@@ -383,8 +383,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000006_.IsSelected = false
 
 	__GongStructShape__00000007_.Name = `Default-Link`
-	__GongStructShape__00000007_.X = 977.000000
-	__GongStructShape__00000007_.Y = 46.000000
+	__GongStructShape__00000007_.X = 979.000000
+	__GongStructShape__00000007_.Y = 75.000000
 	__GongStructShape__00000007_.IdentifierMeta = ref_models.Link{}
 	__GongStructShape__00000007_.Width = 287.000000
 	__GongStructShape__00000007_.Height = 263.000000

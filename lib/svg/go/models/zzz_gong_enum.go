@@ -2606,6 +2606,8 @@ func (rectanchortype RectAnchorType) ToString() (res string) {
 		res = "RECT_RIGHT"
 	case RECT_CENTER:
 		res = "RECT_CENTER"
+	case RECT_CENTER_MIDDLE:
+		res = "RECT_CENTER_MIDDLE"
 	}
 	return
 }
@@ -2650,6 +2652,9 @@ func (rectanchortype *RectAnchorType) FromString(input string) (err error) {
 	case "RECT_CENTER":
 		*rectanchortype = RECT_CENTER
 		return
+	case "RECT_CENTER_MIDDLE":
+		*rectanchortype = RECT_CENTER_MIDDLE
+		return
 	default:
 		return errUnkownEnum
 	}
@@ -2683,6 +2688,8 @@ func (rectanchortype *RectAnchorType) FromCodeString(input string) (err error) {
 		*rectanchortype = RECT_RIGHT
 	case "RECT_CENTER":
 		*rectanchortype = RECT_CENTER
+	case "RECT_CENTER_MIDDLE":
+		*rectanchortype = RECT_CENTER_MIDDLE
 	default:
 		err = errUnkownEnum
 	}
@@ -2717,6 +2724,8 @@ func (rectanchortype *RectAnchorType) ToCodeString() (res string) {
 		res = "RECT_RIGHT"
 	case RECT_CENTER:
 		res = "RECT_CENTER"
+	case RECT_CENTER_MIDDLE:
+		res = "RECT_CENTER_MIDDLE"
 	}
 	return
 }
@@ -2738,6 +2747,7 @@ func (rectanchortype RectAnchorType) Codes() (res []string) {
 	res = append(res, "RECT_LEFT")
 	res = append(res, "RECT_RIGHT")
 	res = append(res, "RECT_CENTER")
+	res = append(res, "RECT_CENTER_MIDDLE")
 
 	return
 }
@@ -2759,6 +2769,7 @@ func (rectanchortype RectAnchorType) CodeValues() (res []string) {
 	res = append(res, "RECT_LEFT")
 	res = append(res, "RECT_RIGHT")
 	res = append(res, "RECT_CENTER")
+	res = append(res, "RECT_CENTER_MIDDLE")
 
 	return
 }
