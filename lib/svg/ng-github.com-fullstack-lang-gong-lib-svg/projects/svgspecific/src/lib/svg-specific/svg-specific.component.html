@@ -829,7 +829,7 @@
   </g>
 </svg>
 
-<ng-template #anchoredText let-text="text" let-anchorX="anchorX" let-anchorY="anchorY">
+<ng-template #anchoredText let-text="text" let-anchorX="anchorX" let-anchorY="anchorY" let-firstLineDy="firstLineDy">
     @let lines = splitTextIntoLines(text.Content);
     <svg:text class="click-through"
       [attr.x]="anchorX" 
@@ -842,7 +842,7 @@
       [attr.stroke-dasharray]="text.StrokeDashArray"
       [attr.transform]="text.Transform"
       [attr.writing-mode]="text.WritingMode"
-      [attr.dominant-baseline]="text.DominantBaseline"
+      [attr.dominant-baseline]="text.RectAnchorType === 'RECT_CENTER_MIDDLE' ? 'central' : text.DominantBaseline"
       [style.white-space]="text.WhiteSpace"
       [attr.text-anchor]="text.TextAnchorType"
       [attr.font-weight]="text.FontWeight"
@@ -852,7 +852,7 @@
       >
       @for(line of lines; track i; let i = $index) {
         <tspan [attr.x]="anchorX"
-               [attr.dy]="(i > 0) ? '1em' : '0'"
+               [attr.dy]="(i === 0 && firstLineDy && firstLineDy !== '0') ? firstLineDy : ((i > 0) ? '1em' : '0')"
                [attr.text-anchor]="text.TextAnchorType">{{line || ' '}}</tspan>
       }
       </svg:text>
