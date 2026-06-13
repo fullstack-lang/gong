@@ -6,8 +6,25 @@ import (
 	"time"
 )
 
+// enforceTreesAndDAG ensures the structural integrity of the project model by enforcing tree and DAG properties.
+//
+// Specifically, it performs the following checks and corrections:
+// 1. Hierarchy Trees: Ensures that Products, Resources, Tasks, and Libraries form valid forests (collections of trees).
+//    - It prevents any node from having multiple parents.
+//    - It prevents cyclic parent-child relationships.
+// 2. Root Element Cleanup: Ensures that an element is either a root element or a sub-element, but not both.
+//    - If a Product, Resource, Task, or Library is found to be a sub-element of another node, it is removed
+//      from its library's Root list (e.g., RootProducts, RootTasks, etc.).
+// 3. Dependency DAG: Ensures that the relationships between Tasks and Products (via Inputs and Outputs)
+//    form a Directed Acyclic Graph.
+//    - It prevents circular dependencies (e.g., Task A outputs Product 1, which is input to Task B, which outputs
+//      Product 2, which is input to Task A).
+//
+// If any violations are found, they are automatically corrected (by breaking edges) and the stage is marked
+// as needing a commit. Notifications are also added to the stager's probe form if available.
 func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 	products := GetGongstrucsSorted[*Product](stager.stage)
+	libraries := GetGongstrucsSorted[*Library](stager.stage)
 
 	// 1. Hierarchy Tree for Product
 	needCommit = EnforceTree(
@@ -24,6 +41,31 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 		},
 		func(p *Product) string { return "Product " + p.Name },
 	) || needCommit
+
+	// remove products from library.RootProducts if they are a sub-product of another product
+	isSubProduct := make(map[*Product]bool)
+	for _, product := range products {
+		for _, sub := range product.SubProducts {
+			isSubProduct[sub] = true
+		}
+	}
+	for _, lib := range libraries {
+		var filteredRootProducts []*Product
+		for _, prod := range lib.RootProducts {
+			if !isSubProduct[prod] {
+				filteredRootProducts = append(filteredRootProducts, prod)
+			} else {
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(),
+						fmt.Sprintf("Product %s is a sub-product, removing it from library %s RootProducts", prod.Name, lib.Name))
+				}
+				needCommit = true
+			}
+		}
+		if len(filteredRootProducts) != len(lib.RootProducts) {
+			lib.RootProducts = filteredRootProducts
+		}
+	}
 
 	// 2. Hierarchy Tree for Resource
 	resources := GetGongstrucsSorted[*Resource](stager.stage)
@@ -42,6 +84,31 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 		func(r *Resource) string { return "Resource " + r.Name },
 	) || needCommit
 
+	// remove resources from library.RootResources if they are a sub-resource of another resource
+	isSubResource := make(map[*Resource]bool)
+	for _, resource := range resources {
+		for _, sub := range resource.SubResources {
+			isSubResource[sub] = true
+		}
+	}
+	for _, lib := range libraries {
+		var filteredRootResources []*Resource
+		for _, res := range lib.RootResources {
+			if !isSubResource[res] {
+				filteredRootResources = append(filteredRootResources, res)
+			} else {
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(),
+						fmt.Sprintf("Resource %s is a sub-resource, removing it from library %s RootResources", res.Name, lib.Name))
+				}
+				needCommit = true
+			}
+		}
+		if len(filteredRootResources) != len(lib.RootResources) {
+			lib.RootResources = filteredRootResources
+		}
+	}
+
 	// 3. Hierarchy Tree for Task
 	tasks := GetGongstrucsSorted[*Task](stager.stage)
 	needCommit = EnforceTree(
@@ -59,8 +126,32 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 		func(t *Task) string { return "Task " + t.Name },
 	) || needCommit
 
+	// remove tasks from library.RootTasks if they are a sub-task of another task
+	isSubTask := make(map[*Task]bool)
+	for _, task := range tasks {
+		for _, sub := range task.SubTasks {
+			isSubTask[sub] = true
+		}
+	}
+	for _, lib := range libraries {
+		var filteredRootTasks []*Task
+		for _, task := range lib.RootTasks {
+			if !isSubTask[task] {
+				filteredRootTasks = append(filteredRootTasks, task)
+			} else {
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(),
+						fmt.Sprintf("Task %s is a sub-task, removing it from library %s RootTasks", task.Name, lib.Name))
+				}
+				needCommit = true
+			}
+		}
+		if len(filteredRootTasks) != len(lib.RootTasks) {
+			lib.RootTasks = filteredRootTasks
+		}
+	}
+
 	// 4. Hierarchy Tree for Library
-	libraries := GetGongstrucsSorted[*Library](stager.stage)
 	needCommit = EnforceTree(
 		stager,
 		libraries,
@@ -92,8 +183,10 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 		if !isSubLibrary[lib] {
 			filteredRootLibraries = append(filteredRootLibraries, lib)
 		} else {
-			stager.probeForm.AddNotification(time.Now(),
-				fmt.Sprintf("Library %s is a sub-library, removing it from root.SubLibraries", lib.Name))
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(),
+					fmt.Sprintf("Library %s is a sub-library, removing it from root.SubLibraries", lib.Name))
+			}
 			needCommit = true
 		}
 	}
@@ -207,9 +300,11 @@ func EnforceTree[T comparable](
 			if existingParent, ok := parentMap[child]; ok {
 				// Child already has a parent, remove from this node
 				removeChild(node, child)
-				stager.probeForm.AddNotification(time.Now(),
-					fmt.Sprintf("Node \"%s\" has 2 parents ; \"%s\" and \"%s\". Link to the later is deleted",
-						getName(child), getName(existingParent), getName(node)))
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(),
+						fmt.Sprintf("Node \"%s\" has 2 parents ; \"%s\" and \"%s\". Link to the later is deleted",
+							getName(child), getName(existingParent), getName(node)))
+				}
 				needCommit = true
 			} else {
 				parentMap[child] = node
@@ -263,8 +358,10 @@ func EnforceDAG[T comparable](
 			// If child is in gray set, we found a back edge -> CYCLE
 			if _, ok := graySet[child]; ok {
 				removeChild(node, child)
-				stager.probeForm.AddNotification(time.Now(),
-					fmt.Sprintf("Found loop involving %s, breaking edge with %s", getName(node), getName(child)))
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(),
+						fmt.Sprintf("Found loop involving %s, breaking edge with %s", getName(node), getName(child)))
+				}
 				needCommit = true
 				continue
 			}
