@@ -44,6 +44,27 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
+	validTaskCompositions := make(map[*Task]bool)
+	for _, task := range GetGongstrucsSorted[*Task](stage) {
+		for _, subTask := range task.SubTasks {
+			validTaskCompositions[subTask] = true
+		}
+	}
+
+	validProductCompositions := make(map[*Product]bool)
+	for _, product := range GetGongstrucsSorted[*Product](stage) {
+		for _, subProduct := range product.SubProducts {
+			validProductCompositions[subProduct] = true
+		}
+	}
+
+	validResourceCompositions := make(map[*Resource]bool)
+	for _, resource := range GetGongstrucsSorted[*Resource](stage) {
+		for _, subResource := range resource.SubResources {
+			validResourceCompositions[subResource] = true
+		}
+	}
+
 	for _, shape := range GetGongstrucsSorted[*TaskInputShape](stage) {
 		if shape.Task != nil && shape.Product != nil {
 			if !validTaskInputs[taskProductKey{Task: shape.Task, Product: shape.Product}] {
@@ -99,6 +120,36 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 			if !validResourceTasks[resourceTaskKey{Resource: shape.Resource, Task: shape.Task}] {
 				shape.UnstageVoid(stage)
 				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid ResourceTaskShape %s", shape.GetName()))
+				needCommit = true
+			}
+		}
+	}
+
+	for _, shape := range GetGongstrucsSorted[*TaskCompositionShape](stage) {
+		if shape.Task != nil {
+			if !validTaskCompositions[shape.Task] {
+				shape.UnstageVoid(stage)
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid TaskCompositionShape %s", shape.GetName()))
+				needCommit = true
+			}
+		}
+	}
+
+	for _, shape := range GetGongstrucsSorted[*ProductCompositionShape](stage) {
+		if shape.Product != nil {
+			if !validProductCompositions[shape.Product] {
+				shape.UnstageVoid(stage)
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid ProductCompositionShape %s", shape.GetName()))
+				needCommit = true
+			}
+		}
+	}
+
+	for _, shape := range GetGongstrucsSorted[*ResourceCompositionShape](stage) {
+		if shape.Resource != nil {
+			if !validResourceCompositions[shape.Resource] {
+				shape.UnstageVoid(stage)
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid ResourceCompositionShape %s", shape.GetName()))
 				needCommit = true
 			}
 		}
