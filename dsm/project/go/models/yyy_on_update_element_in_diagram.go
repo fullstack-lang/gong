@@ -62,6 +62,12 @@ func onUpdateElementInDiagram[
 
 						shape.SetX(parentShape.GetX() + float64(siblingsCount-1)*parentShape.GetWidth()*1.2)
 						shape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
+
+						if len(*compositionShapes) > 0 {
+							newCompositionShape := (*compositionShapes)[len(*compositionShapes)-1]
+							ratio := (shape.GetY() - parentShape.GetY()) / parentShape.GetHeight()
+							newCompositionShape.SetCornerOffsetRatio((ratio - 1.0)/2.0 + 1.0)
+						}
 					}
 				}
 			}
@@ -106,6 +112,10 @@ func onUpdateElementInDiagram[
 
 		if frontNode.IsSecondCheckboxChecked && !stagedNode.IsSecondCheckboxChecked {
 			compositionShape := newConcreteAssociation(parentElement, element, compositionShapes)
+			if parentShape, ok := shapesMap[parentElement]; ok && shape != nil {
+				ratio := (shape.GetY() - parentShape.GetY()) / parentShape.GetHeight()
+				compositionShape.SetCornerOffsetRatio((ratio - 1.0)/2.0 + 1.0)
+			}
 			compositionShape.StageVoid(stager.stage)
 		}
 		if !frontNode.IsSecondCheckboxChecked && stagedNode.IsSecondCheckboxChecked {
