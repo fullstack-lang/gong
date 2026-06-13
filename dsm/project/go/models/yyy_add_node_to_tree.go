@@ -206,7 +206,7 @@ func createBaseNode[
 	}
 
 	addAllChildrenButton := &tree.Button{
-		Name:            "Add all children",
+		Name:            "Add item & all children to diagram",
 		Icon:            string(buttons.BUTTON_add_circle),
 		ToolTipText:     "Add element and all children to diagram",
 		HasToolTip:      true,
@@ -244,7 +244,7 @@ func createBaseNode[
 	}
 
 	removeAllChildrenButton := &tree.Button{
-		Name:            "Remove all children",
+		Name:            "Remove item & all children from diagram",
 		Icon:            string(buttons.BUTTON_remove_circle),
 		ToolTipText:     "Remove element and all children from diagram",
 		HasToolTip:      true,
