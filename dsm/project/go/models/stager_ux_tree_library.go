@@ -127,6 +127,32 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			}
 			diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, showPrefixButton)
 		}
+		{
+			timeDiagramButton := &tree.Button{
+				Name:            "Time Diagram",
+				Icon:            string(buttons.BUTTON_timer),
+				HasToolTip:      true,
+				ToolTipPosition: tree.Above,
+
+				OnClick: func() {
+					diagram.IsTimeDiagram = !diagram.IsTimeDiagram
+					stager.stage.Commit()
+				},
+			}
+			if !diagram.IsTimeDiagram {
+				timeDiagramButton.Icon = string(buttons.BUTTON_timer_off)
+				timeDiagramButton.Name = "Set as Time Diagram"
+				timeDiagramButton.ToolTipText = "Set as Time Diagram"
+			} else {
+				timeDiagramButton.Icon = string(buttons.BUTTON_timer)
+				timeDiagramButton.Name = "Unset Time Diagram"
+				timeDiagramButton.ToolTipText = "Unset Time Diagram"
+			}
+			if diagramNode.Menu == nil {
+				diagramNode.Menu = &tree.Menu{Name: "Menu"}
+			}
+			diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, timeDiagramButton)
+		}
 
 		pbsNode := &tree.Node{
 			Name:            "PBS",
