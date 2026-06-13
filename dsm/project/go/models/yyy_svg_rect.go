@@ -93,8 +93,8 @@ func svgRect[CT interface {
 
 		title.FontSize = "16px"
 		title.X_Offset = 0
-		title.Y_Offset = 30
-		title.RectAnchorType = svg.RECT_TOP
+		title.Y_Offset = 0
+		title.RectAnchorType = svg.RECT_CENTER_MIDDLE
 		title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
 
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
