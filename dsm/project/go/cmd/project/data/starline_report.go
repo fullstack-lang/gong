@@ -27,12 +27,12 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
-	__Diagram__00000001_ := (&models.Diagram{Name: `WBS`}).Stage(stage)
-	__Diagram__00000002_ := (&models.Diagram{Name: `PBS`}).Stage(stage)
-	__Diagram__00000003_ := (&models.Diagram{Name: `RBS`}).Stage(stage)
-	__Diagram__00000004_ := (&models.Diagram{Name: `PIT focus`}).Stage(stage)
-	__Diagram__00000005_ := (&models.Diagram{Name: `PIT Report`}).Stage(stage)
-	__Diagram__00000006_ := (&models.Diagram{Name: `RCS PBS`}).Stage(stage)
+	__Diagram__00000001_ := (&models.DiagramHierarchy{Name: `WBS`}).Stage(stage)
+	__Diagram__00000002_ := (&models.DiagramHierarchy{Name: `PBS`}).Stage(stage)
+	__Diagram__00000003_ := (&models.DiagramHierarchy{Name: `RBS`}).Stage(stage)
+	__Diagram__00000004_ := (&models.DiagramHierarchy{Name: `PIT focus`}).Stage(stage)
+	__Diagram__00000005_ := (&models.DiagramHierarchy{Name: `PIT Report`}).Stage(stage)
+	__Diagram__00000006_ := (&models.DiagramHierarchy{Name: `RCS PBS`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: `Startliner Mishape Report`}).Stage(stage)
 

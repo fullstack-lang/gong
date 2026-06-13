@@ -7,8 +7,8 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
-	case *Diagram:
-		ok = stage.IsStagedDiagram(target)
+	case *DiagramHierarchy:
+		ok = stage.IsStagedDiagramHierarchy(target)
 
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
@@ -86,8 +86,8 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
-	case *Diagram:
-		ok = stage.IsStagedDiagram(target)
+	case *DiagramHierarchy:
+		ok = stage.IsStagedDiagramHierarchy(target)
 
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
@@ -162,9 +162,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
+func (stage *Stage) IsStagedDiagramHierarchy(diagramhierarchy *DiagramHierarchy) (ok bool) {
 
-	_, ok = stage.Diagrams[diagram]
+	_, ok = stage.DiagramHierarchys[diagramhierarchy]
 
 	return
 }
@@ -331,8 +331,8 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
-	case *Diagram:
-		stage.StageBranchDiagram(target)
+	case *DiagramHierarchy:
+		stage.StageBranchDiagramHierarchy(target)
 
 	case *Library:
 		stage.StageBranchLibrary(target)
@@ -406,85 +406,85 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct
-func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
+func (stage *Stage) StageBranchDiagramHierarchy(diagramhierarchy *DiagramHierarchy) {
 
 	// check if instance is already staged
-	if IsStaged(stage, diagram) {
+	if IsStaged(stage, diagramhierarchy) {
 		return
 	}
 
-	diagram.Stage(stage)
+	diagramhierarchy.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _productshape := range diagram.Product_Shapes {
+	for _, _productshape := range diagramhierarchy.Product_Shapes {
 		StageBranch(stage, _productshape)
 	}
-	for _, _product := range diagram.ProductsWhoseNodeIsExpanded {
+	for _, _product := range diagramhierarchy.ProductsWhoseNodeIsExpanded {
 		StageBranch(stage, _product)
 	}
-	for _, _productcompositionshape := range diagram.ProductComposition_Shapes {
+	for _, _productcompositionshape := range diagramhierarchy.ProductComposition_Shapes {
 		StageBranch(stage, _productcompositionshape)
 	}
-	for _, _taskshape := range diagram.Task_Shapes {
+	for _, _taskshape := range diagramhierarchy.Task_Shapes {
 		StageBranch(stage, _taskshape)
 	}
-	for _, _task := range diagram.TasksWhoseNodeIsExpanded {
+	for _, _task := range diagramhierarchy.TasksWhoseNodeIsExpanded {
 		StageBranch(stage, _task)
 	}
-	for _, _task := range diagram.TasksWhoseInputNodeIsExpanded {
+	for _, _task := range diagramhierarchy.TasksWhoseInputNodeIsExpanded {
 		StageBranch(stage, _task)
 	}
-	for _, _task := range diagram.TasksWhoseOutputNodeIsExpanded {
+	for _, _task := range diagramhierarchy.TasksWhoseOutputNodeIsExpanded {
 		StageBranch(stage, _task)
 	}
-	for _, _taskgroupshape := range diagram.TaskGroupShapes {
+	for _, _taskgroupshape := range diagramhierarchy.TaskGroupShapes {
 		StageBranch(stage, _taskgroupshape)
 	}
-	for _, _taskgroup := range diagram.TaskGroupsWhoseNodeIsExpanded {
+	for _, _taskgroup := range diagramhierarchy.TaskGroupsWhoseNodeIsExpanded {
 		StageBranch(stage, _taskgroup)
 	}
-	for _, _milestoneshape := range diagram.MilestoneShapes {
+	for _, _milestoneshape := range diagramhierarchy.MilestoneShapes {
 		StageBranch(stage, _milestoneshape)
 	}
-	for _, _milestone := range diagram.MilestonesWhoseNodeIsExpanded {
+	for _, _milestone := range diagramhierarchy.MilestonesWhoseNodeIsExpanded {
 		StageBranch(stage, _milestone)
 	}
-	for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
+	for _, _taskcompositionshape := range diagramhierarchy.TaskComposition_Shapes {
 		StageBranch(stage, _taskcompositionshape)
 	}
-	for _, _taskinputshape := range diagram.TaskInputShapes {
+	for _, _taskinputshape := range diagramhierarchy.TaskInputShapes {
 		StageBranch(stage, _taskinputshape)
 	}
-	for _, _taskoutputshape := range diagram.TaskOutputShapes {
+	for _, _taskoutputshape := range diagramhierarchy.TaskOutputShapes {
 		StageBranch(stage, _taskoutputshape)
 	}
-	for _, _noteshape := range diagram.Note_Shapes {
+	for _, _noteshape := range diagramhierarchy.Note_Shapes {
 		StageBranch(stage, _noteshape)
 	}
-	for _, _note := range diagram.NotesWhoseNodeIsExpanded {
+	for _, _note := range diagramhierarchy.NotesWhoseNodeIsExpanded {
 		StageBranch(stage, _note)
 	}
-	for _, _noteproductshape := range diagram.NoteProductShapes {
+	for _, _noteproductshape := range diagramhierarchy.NoteProductShapes {
 		StageBranch(stage, _noteproductshape)
 	}
-	for _, _notetaskshape := range diagram.NoteTaskShapes {
+	for _, _notetaskshape := range diagramhierarchy.NoteTaskShapes {
 		StageBranch(stage, _notetaskshape)
 	}
-	for _, _noteresourceshape := range diagram.NoteResourceShapes {
+	for _, _noteresourceshape := range diagramhierarchy.NoteResourceShapes {
 		StageBranch(stage, _noteresourceshape)
 	}
-	for _, _resourceshape := range diagram.Resource_Shapes {
+	for _, _resourceshape := range diagramhierarchy.Resource_Shapes {
 		StageBranch(stage, _resourceshape)
 	}
-	for _, _resource := range diagram.ResourcesWhoseNodeIsExpanded {
+	for _, _resource := range diagramhierarchy.ResourcesWhoseNodeIsExpanded {
 		StageBranch(stage, _resource)
 	}
-	for _, _resourcecompositionshape := range diagram.ResourceComposition_Shapes {
+	for _, _resourcecompositionshape := range diagramhierarchy.ResourceComposition_Shapes {
 		StageBranch(stage, _resourcecompositionshape)
 	}
-	for _, _resourcetaskshape := range diagram.ResourceTaskShapes {
+	for _, _resourcetaskshape := range diagramhierarchy.ResourceTaskShapes {
 		StageBranch(stage, _resourcetaskshape)
 	}
 
@@ -523,8 +523,8 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _note := range library.Notes {
 		StageBranch(stage, _note)
 	}
-	for _, _diagram := range library.Diagrams {
-		StageBranch(stage, _diagram)
+	for _, _diagramhierarchy := range library.Diagrams {
+		StageBranch(stage, _diagramhierarchy)
 	}
 
 }
@@ -960,8 +960,8 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
-	case *Diagram:
-		toT := CopyBranchDiagram(mapOrigCopy, fromT)
+	case *DiagramHierarchy:
+		toT := CopyBranchDiagramHierarchy(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Library:
@@ -1059,89 +1059,89 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
-func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo *Diagram) {
+func CopyBranchDiagramHierarchy(mapOrigCopy map[any]any, diagramhierarchyFrom *DiagramHierarchy) (diagramhierarchyTo *DiagramHierarchy) {
 
-	// diagramFrom has already been copied
-	if _diagramTo, ok := mapOrigCopy[diagramFrom]; ok {
-		diagramTo = _diagramTo.(*Diagram)
+	// diagramhierarchyFrom has already been copied
+	if _diagramhierarchyTo, ok := mapOrigCopy[diagramhierarchyFrom]; ok {
+		diagramhierarchyTo = _diagramhierarchyTo.(*DiagramHierarchy)
 		return
 	}
 
-	diagramTo = new(Diagram)
-	mapOrigCopy[diagramFrom] = diagramTo
-	diagramFrom.CopyBasicFields(diagramTo)
+	diagramhierarchyTo = new(DiagramHierarchy)
+	mapOrigCopy[diagramhierarchyFrom] = diagramhierarchyTo
+	diagramhierarchyFrom.CopyBasicFields(diagramhierarchyTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _productshape := range diagramFrom.Product_Shapes {
-		diagramTo.Product_Shapes = append(diagramTo.Product_Shapes, CopyBranchProductShape(mapOrigCopy, _productshape))
+	for _, _productshape := range diagramhierarchyFrom.Product_Shapes {
+		diagramhierarchyTo.Product_Shapes = append(diagramhierarchyTo.Product_Shapes, CopyBranchProductShape(mapOrigCopy, _productshape))
 	}
-	for _, _product := range diagramFrom.ProductsWhoseNodeIsExpanded {
-		diagramTo.ProductsWhoseNodeIsExpanded = append(diagramTo.ProductsWhoseNodeIsExpanded, CopyBranchProduct(mapOrigCopy, _product))
+	for _, _product := range diagramhierarchyFrom.ProductsWhoseNodeIsExpanded {
+		diagramhierarchyTo.ProductsWhoseNodeIsExpanded = append(diagramhierarchyTo.ProductsWhoseNodeIsExpanded, CopyBranchProduct(mapOrigCopy, _product))
 	}
-	for _, _productcompositionshape := range diagramFrom.ProductComposition_Shapes {
-		diagramTo.ProductComposition_Shapes = append(diagramTo.ProductComposition_Shapes, CopyBranchProductCompositionShape(mapOrigCopy, _productcompositionshape))
+	for _, _productcompositionshape := range diagramhierarchyFrom.ProductComposition_Shapes {
+		diagramhierarchyTo.ProductComposition_Shapes = append(diagramhierarchyTo.ProductComposition_Shapes, CopyBranchProductCompositionShape(mapOrigCopy, _productcompositionshape))
 	}
-	for _, _taskshape := range diagramFrom.Task_Shapes {
-		diagramTo.Task_Shapes = append(diagramTo.Task_Shapes, CopyBranchTaskShape(mapOrigCopy, _taskshape))
+	for _, _taskshape := range diagramhierarchyFrom.Task_Shapes {
+		diagramhierarchyTo.Task_Shapes = append(diagramhierarchyTo.Task_Shapes, CopyBranchTaskShape(mapOrigCopy, _taskshape))
 	}
-	for _, _task := range diagramFrom.TasksWhoseNodeIsExpanded {
-		diagramTo.TasksWhoseNodeIsExpanded = append(diagramTo.TasksWhoseNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+	for _, _task := range diagramhierarchyFrom.TasksWhoseNodeIsExpanded {
+		diagramhierarchyTo.TasksWhoseNodeIsExpanded = append(diagramhierarchyTo.TasksWhoseNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
 	}
-	for _, _task := range diagramFrom.TasksWhoseInputNodeIsExpanded {
-		diagramTo.TasksWhoseInputNodeIsExpanded = append(diagramTo.TasksWhoseInputNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+	for _, _task := range diagramhierarchyFrom.TasksWhoseInputNodeIsExpanded {
+		diagramhierarchyTo.TasksWhoseInputNodeIsExpanded = append(diagramhierarchyTo.TasksWhoseInputNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
 	}
-	for _, _task := range diagramFrom.TasksWhoseOutputNodeIsExpanded {
-		diagramTo.TasksWhoseOutputNodeIsExpanded = append(diagramTo.TasksWhoseOutputNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+	for _, _task := range diagramhierarchyFrom.TasksWhoseOutputNodeIsExpanded {
+		diagramhierarchyTo.TasksWhoseOutputNodeIsExpanded = append(diagramhierarchyTo.TasksWhoseOutputNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
 	}
-	for _, _taskgroupshape := range diagramFrom.TaskGroupShapes {
-		diagramTo.TaskGroupShapes = append(diagramTo.TaskGroupShapes, CopyBranchTaskGroupShape(mapOrigCopy, _taskgroupshape))
+	for _, _taskgroupshape := range diagramhierarchyFrom.TaskGroupShapes {
+		diagramhierarchyTo.TaskGroupShapes = append(diagramhierarchyTo.TaskGroupShapes, CopyBranchTaskGroupShape(mapOrigCopy, _taskgroupshape))
 	}
-	for _, _taskgroup := range diagramFrom.TaskGroupsWhoseNodeIsExpanded {
-		diagramTo.TaskGroupsWhoseNodeIsExpanded = append(diagramTo.TaskGroupsWhoseNodeIsExpanded, CopyBranchTaskGroup(mapOrigCopy, _taskgroup))
+	for _, _taskgroup := range diagramhierarchyFrom.TaskGroupsWhoseNodeIsExpanded {
+		diagramhierarchyTo.TaskGroupsWhoseNodeIsExpanded = append(diagramhierarchyTo.TaskGroupsWhoseNodeIsExpanded, CopyBranchTaskGroup(mapOrigCopy, _taskgroup))
 	}
-	for _, _milestoneshape := range diagramFrom.MilestoneShapes {
-		diagramTo.MilestoneShapes = append(diagramTo.MilestoneShapes, CopyBranchMilestoneShape(mapOrigCopy, _milestoneshape))
+	for _, _milestoneshape := range diagramhierarchyFrom.MilestoneShapes {
+		diagramhierarchyTo.MilestoneShapes = append(diagramhierarchyTo.MilestoneShapes, CopyBranchMilestoneShape(mapOrigCopy, _milestoneshape))
 	}
-	for _, _milestone := range diagramFrom.MilestonesWhoseNodeIsExpanded {
-		diagramTo.MilestonesWhoseNodeIsExpanded = append(diagramTo.MilestonesWhoseNodeIsExpanded, CopyBranchMilestone(mapOrigCopy, _milestone))
+	for _, _milestone := range diagramhierarchyFrom.MilestonesWhoseNodeIsExpanded {
+		diagramhierarchyTo.MilestonesWhoseNodeIsExpanded = append(diagramhierarchyTo.MilestonesWhoseNodeIsExpanded, CopyBranchMilestone(mapOrigCopy, _milestone))
 	}
-	for _, _taskcompositionshape := range diagramFrom.TaskComposition_Shapes {
-		diagramTo.TaskComposition_Shapes = append(diagramTo.TaskComposition_Shapes, CopyBranchTaskCompositionShape(mapOrigCopy, _taskcompositionshape))
+	for _, _taskcompositionshape := range diagramhierarchyFrom.TaskComposition_Shapes {
+		diagramhierarchyTo.TaskComposition_Shapes = append(diagramhierarchyTo.TaskComposition_Shapes, CopyBranchTaskCompositionShape(mapOrigCopy, _taskcompositionshape))
 	}
-	for _, _taskinputshape := range diagramFrom.TaskInputShapes {
-		diagramTo.TaskInputShapes = append(diagramTo.TaskInputShapes, CopyBranchTaskInputShape(mapOrigCopy, _taskinputshape))
+	for _, _taskinputshape := range diagramhierarchyFrom.TaskInputShapes {
+		diagramhierarchyTo.TaskInputShapes = append(diagramhierarchyTo.TaskInputShapes, CopyBranchTaskInputShape(mapOrigCopy, _taskinputshape))
 	}
-	for _, _taskoutputshape := range diagramFrom.TaskOutputShapes {
-		diagramTo.TaskOutputShapes = append(diagramTo.TaskOutputShapes, CopyBranchTaskOutputShape(mapOrigCopy, _taskoutputshape))
+	for _, _taskoutputshape := range diagramhierarchyFrom.TaskOutputShapes {
+		diagramhierarchyTo.TaskOutputShapes = append(diagramhierarchyTo.TaskOutputShapes, CopyBranchTaskOutputShape(mapOrigCopy, _taskoutputshape))
 	}
-	for _, _noteshape := range diagramFrom.Note_Shapes {
-		diagramTo.Note_Shapes = append(diagramTo.Note_Shapes, CopyBranchNoteShape(mapOrigCopy, _noteshape))
+	for _, _noteshape := range diagramhierarchyFrom.Note_Shapes {
+		diagramhierarchyTo.Note_Shapes = append(diagramhierarchyTo.Note_Shapes, CopyBranchNoteShape(mapOrigCopy, _noteshape))
 	}
-	for _, _note := range diagramFrom.NotesWhoseNodeIsExpanded {
-		diagramTo.NotesWhoseNodeIsExpanded = append(diagramTo.NotesWhoseNodeIsExpanded, CopyBranchNote(mapOrigCopy, _note))
+	for _, _note := range diagramhierarchyFrom.NotesWhoseNodeIsExpanded {
+		diagramhierarchyTo.NotesWhoseNodeIsExpanded = append(diagramhierarchyTo.NotesWhoseNodeIsExpanded, CopyBranchNote(mapOrigCopy, _note))
 	}
-	for _, _noteproductshape := range diagramFrom.NoteProductShapes {
-		diagramTo.NoteProductShapes = append(diagramTo.NoteProductShapes, CopyBranchNoteProductShape(mapOrigCopy, _noteproductshape))
+	for _, _noteproductshape := range diagramhierarchyFrom.NoteProductShapes {
+		diagramhierarchyTo.NoteProductShapes = append(diagramhierarchyTo.NoteProductShapes, CopyBranchNoteProductShape(mapOrigCopy, _noteproductshape))
 	}
-	for _, _notetaskshape := range diagramFrom.NoteTaskShapes {
-		diagramTo.NoteTaskShapes = append(diagramTo.NoteTaskShapes, CopyBranchNoteTaskShape(mapOrigCopy, _notetaskshape))
+	for _, _notetaskshape := range diagramhierarchyFrom.NoteTaskShapes {
+		diagramhierarchyTo.NoteTaskShapes = append(diagramhierarchyTo.NoteTaskShapes, CopyBranchNoteTaskShape(mapOrigCopy, _notetaskshape))
 	}
-	for _, _noteresourceshape := range diagramFrom.NoteResourceShapes {
-		diagramTo.NoteResourceShapes = append(diagramTo.NoteResourceShapes, CopyBranchNoteResourceShape(mapOrigCopy, _noteresourceshape))
+	for _, _noteresourceshape := range diagramhierarchyFrom.NoteResourceShapes {
+		diagramhierarchyTo.NoteResourceShapes = append(diagramhierarchyTo.NoteResourceShapes, CopyBranchNoteResourceShape(mapOrigCopy, _noteresourceshape))
 	}
-	for _, _resourceshape := range diagramFrom.Resource_Shapes {
-		diagramTo.Resource_Shapes = append(diagramTo.Resource_Shapes, CopyBranchResourceShape(mapOrigCopy, _resourceshape))
+	for _, _resourceshape := range diagramhierarchyFrom.Resource_Shapes {
+		diagramhierarchyTo.Resource_Shapes = append(diagramhierarchyTo.Resource_Shapes, CopyBranchResourceShape(mapOrigCopy, _resourceshape))
 	}
-	for _, _resource := range diagramFrom.ResourcesWhoseNodeIsExpanded {
-		diagramTo.ResourcesWhoseNodeIsExpanded = append(diagramTo.ResourcesWhoseNodeIsExpanded, CopyBranchResource(mapOrigCopy, _resource))
+	for _, _resource := range diagramhierarchyFrom.ResourcesWhoseNodeIsExpanded {
+		diagramhierarchyTo.ResourcesWhoseNodeIsExpanded = append(diagramhierarchyTo.ResourcesWhoseNodeIsExpanded, CopyBranchResource(mapOrigCopy, _resource))
 	}
-	for _, _resourcecompositionshape := range diagramFrom.ResourceComposition_Shapes {
-		diagramTo.ResourceComposition_Shapes = append(diagramTo.ResourceComposition_Shapes, CopyBranchResourceCompositionShape(mapOrigCopy, _resourcecompositionshape))
+	for _, _resourcecompositionshape := range diagramhierarchyFrom.ResourceComposition_Shapes {
+		diagramhierarchyTo.ResourceComposition_Shapes = append(diagramhierarchyTo.ResourceComposition_Shapes, CopyBranchResourceCompositionShape(mapOrigCopy, _resourcecompositionshape))
 	}
-	for _, _resourcetaskshape := range diagramFrom.ResourceTaskShapes {
-		diagramTo.ResourceTaskShapes = append(diagramTo.ResourceTaskShapes, CopyBranchResourceTaskShape(mapOrigCopy, _resourcetaskshape))
+	for _, _resourcetaskshape := range diagramhierarchyFrom.ResourceTaskShapes {
+		diagramhierarchyTo.ResourceTaskShapes = append(diagramhierarchyTo.ResourceTaskShapes, CopyBranchResourceTaskShape(mapOrigCopy, _resourcetaskshape))
 	}
 
 	return
@@ -1183,8 +1183,8 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	for _, _note := range libraryFrom.Notes {
 		libraryTo.Notes = append(libraryTo.Notes, CopyBranchNote(mapOrigCopy, _note))
 	}
-	for _, _diagram := range libraryFrom.Diagrams {
-		libraryTo.Diagrams = append(libraryTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
+	for _, _diagramhierarchy := range libraryFrom.Diagrams {
+		libraryTo.Diagrams = append(libraryTo.Diagrams, CopyBranchDiagramHierarchy(mapOrigCopy, _diagramhierarchy))
 	}
 
 	return
@@ -1702,8 +1702,8 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
-	case *Diagram:
-		stage.UnstageBranchDiagram(target)
+	case *DiagramHierarchy:
+		stage.UnstageBranchDiagramHierarchy(target)
 
 	case *Library:
 		stage.UnstageBranchLibrary(target)
@@ -1777,85 +1777,85 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
-func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
+func (stage *Stage) UnstageBranchDiagramHierarchy(diagramhierarchy *DiagramHierarchy) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, diagram) {
+	if !IsStaged(stage, diagramhierarchy) {
 		return
 	}
 
-	diagram.Unstage(stage)
+	diagramhierarchy.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _productshape := range diagram.Product_Shapes {
+	for _, _productshape := range diagramhierarchy.Product_Shapes {
 		UnstageBranch(stage, _productshape)
 	}
-	for _, _product := range diagram.ProductsWhoseNodeIsExpanded {
+	for _, _product := range diagramhierarchy.ProductsWhoseNodeIsExpanded {
 		UnstageBranch(stage, _product)
 	}
-	for _, _productcompositionshape := range diagram.ProductComposition_Shapes {
+	for _, _productcompositionshape := range diagramhierarchy.ProductComposition_Shapes {
 		UnstageBranch(stage, _productcompositionshape)
 	}
-	for _, _taskshape := range diagram.Task_Shapes {
+	for _, _taskshape := range diagramhierarchy.Task_Shapes {
 		UnstageBranch(stage, _taskshape)
 	}
-	for _, _task := range diagram.TasksWhoseNodeIsExpanded {
+	for _, _task := range diagramhierarchy.TasksWhoseNodeIsExpanded {
 		UnstageBranch(stage, _task)
 	}
-	for _, _task := range diagram.TasksWhoseInputNodeIsExpanded {
+	for _, _task := range diagramhierarchy.TasksWhoseInputNodeIsExpanded {
 		UnstageBranch(stage, _task)
 	}
-	for _, _task := range diagram.TasksWhoseOutputNodeIsExpanded {
+	for _, _task := range diagramhierarchy.TasksWhoseOutputNodeIsExpanded {
 		UnstageBranch(stage, _task)
 	}
-	for _, _taskgroupshape := range diagram.TaskGroupShapes {
+	for _, _taskgroupshape := range diagramhierarchy.TaskGroupShapes {
 		UnstageBranch(stage, _taskgroupshape)
 	}
-	for _, _taskgroup := range diagram.TaskGroupsWhoseNodeIsExpanded {
+	for _, _taskgroup := range diagramhierarchy.TaskGroupsWhoseNodeIsExpanded {
 		UnstageBranch(stage, _taskgroup)
 	}
-	for _, _milestoneshape := range diagram.MilestoneShapes {
+	for _, _milestoneshape := range diagramhierarchy.MilestoneShapes {
 		UnstageBranch(stage, _milestoneshape)
 	}
-	for _, _milestone := range diagram.MilestonesWhoseNodeIsExpanded {
+	for _, _milestone := range diagramhierarchy.MilestonesWhoseNodeIsExpanded {
 		UnstageBranch(stage, _milestone)
 	}
-	for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
+	for _, _taskcompositionshape := range diagramhierarchy.TaskComposition_Shapes {
 		UnstageBranch(stage, _taskcompositionshape)
 	}
-	for _, _taskinputshape := range diagram.TaskInputShapes {
+	for _, _taskinputshape := range diagramhierarchy.TaskInputShapes {
 		UnstageBranch(stage, _taskinputshape)
 	}
-	for _, _taskoutputshape := range diagram.TaskOutputShapes {
+	for _, _taskoutputshape := range diagramhierarchy.TaskOutputShapes {
 		UnstageBranch(stage, _taskoutputshape)
 	}
-	for _, _noteshape := range diagram.Note_Shapes {
+	for _, _noteshape := range diagramhierarchy.Note_Shapes {
 		UnstageBranch(stage, _noteshape)
 	}
-	for _, _note := range diagram.NotesWhoseNodeIsExpanded {
+	for _, _note := range diagramhierarchy.NotesWhoseNodeIsExpanded {
 		UnstageBranch(stage, _note)
 	}
-	for _, _noteproductshape := range diagram.NoteProductShapes {
+	for _, _noteproductshape := range diagramhierarchy.NoteProductShapes {
 		UnstageBranch(stage, _noteproductshape)
 	}
-	for _, _notetaskshape := range diagram.NoteTaskShapes {
+	for _, _notetaskshape := range diagramhierarchy.NoteTaskShapes {
 		UnstageBranch(stage, _notetaskshape)
 	}
-	for _, _noteresourceshape := range diagram.NoteResourceShapes {
+	for _, _noteresourceshape := range diagramhierarchy.NoteResourceShapes {
 		UnstageBranch(stage, _noteresourceshape)
 	}
-	for _, _resourceshape := range diagram.Resource_Shapes {
+	for _, _resourceshape := range diagramhierarchy.Resource_Shapes {
 		UnstageBranch(stage, _resourceshape)
 	}
-	for _, _resource := range diagram.ResourcesWhoseNodeIsExpanded {
+	for _, _resource := range diagramhierarchy.ResourcesWhoseNodeIsExpanded {
 		UnstageBranch(stage, _resource)
 	}
-	for _, _resourcecompositionshape := range diagram.ResourceComposition_Shapes {
+	for _, _resourcecompositionshape := range diagramhierarchy.ResourceComposition_Shapes {
 		UnstageBranch(stage, _resourcecompositionshape)
 	}
-	for _, _resourcetaskshape := range diagram.ResourceTaskShapes {
+	for _, _resourcetaskshape := range diagramhierarchy.ResourceTaskShapes {
 		UnstageBranch(stage, _resourcetaskshape)
 	}
 
@@ -1894,8 +1894,8 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _note := range library.Notes {
 		UnstageBranch(stage, _note)
 	}
-	for _, _diagram := range library.Diagrams {
-		UnstageBranch(stage, _diagram)
+	for _, _diagramhierarchy := range library.Diagrams {
+		UnstageBranch(stage, _diagramhierarchy)
 	}
 
 }
@@ -2321,7 +2321,7 @@ func (stage *Stage) UnstageBranchTaskShape(taskshape *TaskShape) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) {
+func (reference *DiagramHierarchy) GongReconstructPointersFromReferences(stage *Stage, instance *DiagramHierarchy) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Product_Shapes = reference.Product_Shapes[:0]
@@ -2451,7 +2451,7 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	}
 	reference.Diagrams = reference.Diagrams[:0]
 	for _, _b := range instance.Diagrams {
-		reference.Diagrams = append(reference.Diagrams, stage.Diagrams_reference[_b])
+		reference.Diagrams = append(reference.Diagrams, stage.DiagramHierarchys_reference[_b])
 	}
 }
 
@@ -2677,7 +2677,7 @@ func (reference *TaskShape) GongReconstructPointersFromReferences(stage *Stage, 
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
+func (reference *DiagramHierarchy) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Product_Shapes []*ProductShape
@@ -2895,9 +2895,9 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Notes = _Notes
-	var _Diagrams []*Diagram
+	var _Diagrams []*DiagramHierarchy
 	for _, _reference := range reference.Diagrams {
-		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
+		if _instance, ok := stage.DiagramHierarchys_instance[_reference]; ok {
 			_Diagrams = append(_Diagrams, _instance)
 		}
 	}
@@ -3233,49 +3233,49 @@ func (reference *TaskShape) GongReconstructPointersFromInstances(stage *Stage) {
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []string) {
+func (diagramhierarchy *DiagramHierarchy) GongDiff(stage *Stage, diagramhierarchyOther *DiagramHierarchy) (diffs []string) {
 	// insertion point for field diffs
-	if diagram.Name != diagramOther.Name {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "Name"))
+	if diagramhierarchy.Name != diagramhierarchyOther.Name {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "Name"))
 	}
-	if diagram.ComputedPrefix != diagramOther.ComputedPrefix {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedPrefix"))
+	if diagramhierarchy.ComputedPrefix != diagramhierarchyOther.ComputedPrefix {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "ComputedPrefix"))
 	}
-	if diagram.IsExpanded != diagramOther.IsExpanded {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsExpanded"))
+	if diagramhierarchy.IsExpanded != diagramhierarchyOther.IsExpanded {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "IsExpanded"))
 	}
-	if diagram.IsChecked != diagramOther.IsChecked {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsChecked"))
+	if diagramhierarchy.IsChecked != diagramhierarchyOther.IsChecked {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "IsChecked"))
 	}
-	if diagram.IsEditable_ != diagramOther.IsEditable_ {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsEditable_"))
+	if diagramhierarchy.IsEditable_ != diagramhierarchyOther.IsEditable_ {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "IsEditable_"))
 	}
-	if diagram.IsShowPrefix != diagramOther.IsShowPrefix {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsShowPrefix"))
+	if diagramhierarchy.IsShowPrefix != diagramhierarchyOther.IsShowPrefix {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "IsShowPrefix"))
 	}
-	if diagram.DefaultBoxWidth != diagramOther.DefaultBoxWidth {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "DefaultBoxWidth"))
+	if diagramhierarchy.DefaultBoxWidth != diagramhierarchyOther.DefaultBoxWidth {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "DefaultBoxWidth"))
 	}
-	if diagram.DefaultBoxHeigth != diagramOther.DefaultBoxHeigth {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "DefaultBoxHeigth"))
+	if diagramhierarchy.DefaultBoxHeigth != diagramhierarchyOther.DefaultBoxHeigth {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "DefaultBoxHeigth"))
 	}
-	if diagram.Width != diagramOther.Width {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "Width"))
+	if diagramhierarchy.Width != diagramhierarchyOther.Width {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "Width"))
 	}
-	if diagram.Height != diagramOther.Height {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "Height"))
+	if diagramhierarchy.Height != diagramhierarchyOther.Height {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "Height"))
 	}
 	Product_ShapesDifferent := false
-	if len(diagram.Product_Shapes) != len(diagramOther.Product_Shapes) {
+	if len(diagramhierarchy.Product_Shapes) != len(diagramhierarchyOther.Product_Shapes) {
 		Product_ShapesDifferent = true
 	} else {
-		for i := range diagram.Product_Shapes {
-			if (diagram.Product_Shapes[i] == nil) != (diagramOther.Product_Shapes[i] == nil) {
+		for i := range diagramhierarchy.Product_Shapes {
+			if (diagramhierarchy.Product_Shapes[i] == nil) != (diagramhierarchyOther.Product_Shapes[i] == nil) {
 				Product_ShapesDifferent = true
 				break
-			} else if diagram.Product_Shapes[i] != nil && diagramOther.Product_Shapes[i] != nil {
+			} else if diagramhierarchy.Product_Shapes[i] != nil && diagramhierarchyOther.Product_Shapes[i] != nil {
 				// this is a pointer comparaison
-				if diagram.Product_Shapes[i] != diagramOther.Product_Shapes[i] {
+				if diagramhierarchy.Product_Shapes[i] != diagramhierarchyOther.Product_Shapes[i] {
 					Product_ShapesDifferent = true
 					break
 				}
@@ -3283,20 +3283,20 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Product_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Product_Shapes", diagramOther.Product_Shapes, diagram.Product_Shapes)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "Product_Shapes", diagramhierarchyOther.Product_Shapes, diagramhierarchy.Product_Shapes)
 		diffs = append(diffs, ops)
 	}
 	ProductsWhoseNodeIsExpandedDifferent := false
-	if len(diagram.ProductsWhoseNodeIsExpanded) != len(diagramOther.ProductsWhoseNodeIsExpanded) {
+	if len(diagramhierarchy.ProductsWhoseNodeIsExpanded) != len(diagramhierarchyOther.ProductsWhoseNodeIsExpanded) {
 		ProductsWhoseNodeIsExpandedDifferent = true
 	} else {
-		for i := range diagram.ProductsWhoseNodeIsExpanded {
-			if (diagram.ProductsWhoseNodeIsExpanded[i] == nil) != (diagramOther.ProductsWhoseNodeIsExpanded[i] == nil) {
+		for i := range diagramhierarchy.ProductsWhoseNodeIsExpanded {
+			if (diagramhierarchy.ProductsWhoseNodeIsExpanded[i] == nil) != (diagramhierarchyOther.ProductsWhoseNodeIsExpanded[i] == nil) {
 				ProductsWhoseNodeIsExpandedDifferent = true
 				break
-			} else if diagram.ProductsWhoseNodeIsExpanded[i] != nil && diagramOther.ProductsWhoseNodeIsExpanded[i] != nil {
+			} else if diagramhierarchy.ProductsWhoseNodeIsExpanded[i] != nil && diagramhierarchyOther.ProductsWhoseNodeIsExpanded[i] != nil {
 				// this is a pointer comparaison
-				if diagram.ProductsWhoseNodeIsExpanded[i] != diagramOther.ProductsWhoseNodeIsExpanded[i] {
+				if diagramhierarchy.ProductsWhoseNodeIsExpanded[i] != diagramhierarchyOther.ProductsWhoseNodeIsExpanded[i] {
 					ProductsWhoseNodeIsExpandedDifferent = true
 					break
 				}
@@ -3304,23 +3304,23 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ProductsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ProductsWhoseNodeIsExpanded", diagramOther.ProductsWhoseNodeIsExpanded, diagram.ProductsWhoseNodeIsExpanded)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "ProductsWhoseNodeIsExpanded", diagramhierarchyOther.ProductsWhoseNodeIsExpanded, diagramhierarchy.ProductsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
-	if diagram.IsPBSNodeExpanded != diagramOther.IsPBSNodeExpanded {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsPBSNodeExpanded"))
+	if diagramhierarchy.IsPBSNodeExpanded != diagramhierarchyOther.IsPBSNodeExpanded {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "IsPBSNodeExpanded"))
 	}
 	ProductComposition_ShapesDifferent := false
-	if len(diagram.ProductComposition_Shapes) != len(diagramOther.ProductComposition_Shapes) {
+	if len(diagramhierarchy.ProductComposition_Shapes) != len(diagramhierarchyOther.ProductComposition_Shapes) {
 		ProductComposition_ShapesDifferent = true
 	} else {
-		for i := range diagram.ProductComposition_Shapes {
-			if (diagram.ProductComposition_Shapes[i] == nil) != (diagramOther.ProductComposition_Shapes[i] == nil) {
+		for i := range diagramhierarchy.ProductComposition_Shapes {
+			if (diagramhierarchy.ProductComposition_Shapes[i] == nil) != (diagramhierarchyOther.ProductComposition_Shapes[i] == nil) {
 				ProductComposition_ShapesDifferent = true
 				break
-			} else if diagram.ProductComposition_Shapes[i] != nil && diagramOther.ProductComposition_Shapes[i] != nil {
+			} else if diagramhierarchy.ProductComposition_Shapes[i] != nil && diagramhierarchyOther.ProductComposition_Shapes[i] != nil {
 				// this is a pointer comparaison
-				if diagram.ProductComposition_Shapes[i] != diagramOther.ProductComposition_Shapes[i] {
+				if diagramhierarchy.ProductComposition_Shapes[i] != diagramhierarchyOther.ProductComposition_Shapes[i] {
 					ProductComposition_ShapesDifferent = true
 					break
 				}
@@ -3328,23 +3328,23 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ProductComposition_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ProductComposition_Shapes", diagramOther.ProductComposition_Shapes, diagram.ProductComposition_Shapes)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "ProductComposition_Shapes", diagramhierarchyOther.ProductComposition_Shapes, diagramhierarchy.ProductComposition_Shapes)
 		diffs = append(diffs, ops)
 	}
-	if diagram.IsWBSNodeExpanded != diagramOther.IsWBSNodeExpanded {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsWBSNodeExpanded"))
+	if diagramhierarchy.IsWBSNodeExpanded != diagramhierarchyOther.IsWBSNodeExpanded {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "IsWBSNodeExpanded"))
 	}
 	Task_ShapesDifferent := false
-	if len(diagram.Task_Shapes) != len(diagramOther.Task_Shapes) {
+	if len(diagramhierarchy.Task_Shapes) != len(diagramhierarchyOther.Task_Shapes) {
 		Task_ShapesDifferent = true
 	} else {
-		for i := range diagram.Task_Shapes {
-			if (diagram.Task_Shapes[i] == nil) != (diagramOther.Task_Shapes[i] == nil) {
+		for i := range diagramhierarchy.Task_Shapes {
+			if (diagramhierarchy.Task_Shapes[i] == nil) != (diagramhierarchyOther.Task_Shapes[i] == nil) {
 				Task_ShapesDifferent = true
 				break
-			} else if diagram.Task_Shapes[i] != nil && diagramOther.Task_Shapes[i] != nil {
+			} else if diagramhierarchy.Task_Shapes[i] != nil && diagramhierarchyOther.Task_Shapes[i] != nil {
 				// this is a pointer comparaison
-				if diagram.Task_Shapes[i] != diagramOther.Task_Shapes[i] {
+				if diagramhierarchy.Task_Shapes[i] != diagramhierarchyOther.Task_Shapes[i] {
 					Task_ShapesDifferent = true
 					break
 				}
@@ -3352,20 +3352,20 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Task_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Task_Shapes", diagramOther.Task_Shapes, diagram.Task_Shapes)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "Task_Shapes", diagramhierarchyOther.Task_Shapes, diagramhierarchy.Task_Shapes)
 		diffs = append(diffs, ops)
 	}
 	TasksWhoseNodeIsExpandedDifferent := false
-	if len(diagram.TasksWhoseNodeIsExpanded) != len(diagramOther.TasksWhoseNodeIsExpanded) {
+	if len(diagramhierarchy.TasksWhoseNodeIsExpanded) != len(diagramhierarchyOther.TasksWhoseNodeIsExpanded) {
 		TasksWhoseNodeIsExpandedDifferent = true
 	} else {
-		for i := range diagram.TasksWhoseNodeIsExpanded {
-			if (diagram.TasksWhoseNodeIsExpanded[i] == nil) != (diagramOther.TasksWhoseNodeIsExpanded[i] == nil) {
+		for i := range diagramhierarchy.TasksWhoseNodeIsExpanded {
+			if (diagramhierarchy.TasksWhoseNodeIsExpanded[i] == nil) != (diagramhierarchyOther.TasksWhoseNodeIsExpanded[i] == nil) {
 				TasksWhoseNodeIsExpandedDifferent = true
 				break
-			} else if diagram.TasksWhoseNodeIsExpanded[i] != nil && diagramOther.TasksWhoseNodeIsExpanded[i] != nil {
+			} else if diagramhierarchy.TasksWhoseNodeIsExpanded[i] != nil && diagramhierarchyOther.TasksWhoseNodeIsExpanded[i] != nil {
 				// this is a pointer comparaison
-				if diagram.TasksWhoseNodeIsExpanded[i] != diagramOther.TasksWhoseNodeIsExpanded[i] {
+				if diagramhierarchy.TasksWhoseNodeIsExpanded[i] != diagramhierarchyOther.TasksWhoseNodeIsExpanded[i] {
 					TasksWhoseNodeIsExpandedDifferent = true
 					break
 				}
@@ -3373,20 +3373,20 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TasksWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TasksWhoseNodeIsExpanded", diagramOther.TasksWhoseNodeIsExpanded, diagram.TasksWhoseNodeIsExpanded)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "TasksWhoseNodeIsExpanded", diagramhierarchyOther.TasksWhoseNodeIsExpanded, diagramhierarchy.TasksWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	TasksWhoseInputNodeIsExpandedDifferent := false
-	if len(diagram.TasksWhoseInputNodeIsExpanded) != len(diagramOther.TasksWhoseInputNodeIsExpanded) {
+	if len(diagramhierarchy.TasksWhoseInputNodeIsExpanded) != len(diagramhierarchyOther.TasksWhoseInputNodeIsExpanded) {
 		TasksWhoseInputNodeIsExpandedDifferent = true
 	} else {
-		for i := range diagram.TasksWhoseInputNodeIsExpanded {
-			if (diagram.TasksWhoseInputNodeIsExpanded[i] == nil) != (diagramOther.TasksWhoseInputNodeIsExpanded[i] == nil) {
+		for i := range diagramhierarchy.TasksWhoseInputNodeIsExpanded {
+			if (diagramhierarchy.TasksWhoseInputNodeIsExpanded[i] == nil) != (diagramhierarchyOther.TasksWhoseInputNodeIsExpanded[i] == nil) {
 				TasksWhoseInputNodeIsExpandedDifferent = true
 				break
-			} else if diagram.TasksWhoseInputNodeIsExpanded[i] != nil && diagramOther.TasksWhoseInputNodeIsExpanded[i] != nil {
+			} else if diagramhierarchy.TasksWhoseInputNodeIsExpanded[i] != nil && diagramhierarchyOther.TasksWhoseInputNodeIsExpanded[i] != nil {
 				// this is a pointer comparaison
-				if diagram.TasksWhoseInputNodeIsExpanded[i] != diagramOther.TasksWhoseInputNodeIsExpanded[i] {
+				if diagramhierarchy.TasksWhoseInputNodeIsExpanded[i] != diagramhierarchyOther.TasksWhoseInputNodeIsExpanded[i] {
 					TasksWhoseInputNodeIsExpandedDifferent = true
 					break
 				}
@@ -3394,20 +3394,20 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TasksWhoseInputNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TasksWhoseInputNodeIsExpanded", diagramOther.TasksWhoseInputNodeIsExpanded, diagram.TasksWhoseInputNodeIsExpanded)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "TasksWhoseInputNodeIsExpanded", diagramhierarchyOther.TasksWhoseInputNodeIsExpanded, diagramhierarchy.TasksWhoseInputNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	TasksWhoseOutputNodeIsExpandedDifferent := false
-	if len(diagram.TasksWhoseOutputNodeIsExpanded) != len(diagramOther.TasksWhoseOutputNodeIsExpanded) {
+	if len(diagramhierarchy.TasksWhoseOutputNodeIsExpanded) != len(diagramhierarchyOther.TasksWhoseOutputNodeIsExpanded) {
 		TasksWhoseOutputNodeIsExpandedDifferent = true
 	} else {
-		for i := range diagram.TasksWhoseOutputNodeIsExpanded {
-			if (diagram.TasksWhoseOutputNodeIsExpanded[i] == nil) != (diagramOther.TasksWhoseOutputNodeIsExpanded[i] == nil) {
+		for i := range diagramhierarchy.TasksWhoseOutputNodeIsExpanded {
+			if (diagramhierarchy.TasksWhoseOutputNodeIsExpanded[i] == nil) != (diagramhierarchyOther.TasksWhoseOutputNodeIsExpanded[i] == nil) {
 				TasksWhoseOutputNodeIsExpandedDifferent = true
 				break
-			} else if diagram.TasksWhoseOutputNodeIsExpanded[i] != nil && diagramOther.TasksWhoseOutputNodeIsExpanded[i] != nil {
+			} else if diagramhierarchy.TasksWhoseOutputNodeIsExpanded[i] != nil && diagramhierarchyOther.TasksWhoseOutputNodeIsExpanded[i] != nil {
 				// this is a pointer comparaison
-				if diagram.TasksWhoseOutputNodeIsExpanded[i] != diagramOther.TasksWhoseOutputNodeIsExpanded[i] {
+				if diagramhierarchy.TasksWhoseOutputNodeIsExpanded[i] != diagramhierarchyOther.TasksWhoseOutputNodeIsExpanded[i] {
 					TasksWhoseOutputNodeIsExpandedDifferent = true
 					break
 				}
@@ -3415,23 +3415,23 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TasksWhoseOutputNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TasksWhoseOutputNodeIsExpanded", diagramOther.TasksWhoseOutputNodeIsExpanded, diagram.TasksWhoseOutputNodeIsExpanded)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "TasksWhoseOutputNodeIsExpanded", diagramhierarchyOther.TasksWhoseOutputNodeIsExpanded, diagramhierarchy.TasksWhoseOutputNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
-	if diagram.IsTaskGroupsNodeExpanded != diagramOther.IsTaskGroupsNodeExpanded {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsTaskGroupsNodeExpanded"))
+	if diagramhierarchy.IsTaskGroupsNodeExpanded != diagramhierarchyOther.IsTaskGroupsNodeExpanded {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "IsTaskGroupsNodeExpanded"))
 	}
 	TaskGroupShapesDifferent := false
-	if len(diagram.TaskGroupShapes) != len(diagramOther.TaskGroupShapes) {
+	if len(diagramhierarchy.TaskGroupShapes) != len(diagramhierarchyOther.TaskGroupShapes) {
 		TaskGroupShapesDifferent = true
 	} else {
-		for i := range diagram.TaskGroupShapes {
-			if (diagram.TaskGroupShapes[i] == nil) != (diagramOther.TaskGroupShapes[i] == nil) {
+		for i := range diagramhierarchy.TaskGroupShapes {
+			if (diagramhierarchy.TaskGroupShapes[i] == nil) != (diagramhierarchyOther.TaskGroupShapes[i] == nil) {
 				TaskGroupShapesDifferent = true
 				break
-			} else if diagram.TaskGroupShapes[i] != nil && diagramOther.TaskGroupShapes[i] != nil {
+			} else if diagramhierarchy.TaskGroupShapes[i] != nil && diagramhierarchyOther.TaskGroupShapes[i] != nil {
 				// this is a pointer comparaison
-				if diagram.TaskGroupShapes[i] != diagramOther.TaskGroupShapes[i] {
+				if diagramhierarchy.TaskGroupShapes[i] != diagramhierarchyOther.TaskGroupShapes[i] {
 					TaskGroupShapesDifferent = true
 					break
 				}
@@ -3439,20 +3439,20 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskGroupShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TaskGroupShapes", diagramOther.TaskGroupShapes, diagram.TaskGroupShapes)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "TaskGroupShapes", diagramhierarchyOther.TaskGroupShapes, diagramhierarchy.TaskGroupShapes)
 		diffs = append(diffs, ops)
 	}
 	TaskGroupsWhoseNodeIsExpandedDifferent := false
-	if len(diagram.TaskGroupsWhoseNodeIsExpanded) != len(diagramOther.TaskGroupsWhoseNodeIsExpanded) {
+	if len(diagramhierarchy.TaskGroupsWhoseNodeIsExpanded) != len(diagramhierarchyOther.TaskGroupsWhoseNodeIsExpanded) {
 		TaskGroupsWhoseNodeIsExpandedDifferent = true
 	} else {
-		for i := range diagram.TaskGroupsWhoseNodeIsExpanded {
-			if (diagram.TaskGroupsWhoseNodeIsExpanded[i] == nil) != (diagramOther.TaskGroupsWhoseNodeIsExpanded[i] == nil) {
+		for i := range diagramhierarchy.TaskGroupsWhoseNodeIsExpanded {
+			if (diagramhierarchy.TaskGroupsWhoseNodeIsExpanded[i] == nil) != (diagramhierarchyOther.TaskGroupsWhoseNodeIsExpanded[i] == nil) {
 				TaskGroupsWhoseNodeIsExpandedDifferent = true
 				break
-			} else if diagram.TaskGroupsWhoseNodeIsExpanded[i] != nil && diagramOther.TaskGroupsWhoseNodeIsExpanded[i] != nil {
+			} else if diagramhierarchy.TaskGroupsWhoseNodeIsExpanded[i] != nil && diagramhierarchyOther.TaskGroupsWhoseNodeIsExpanded[i] != nil {
 				// this is a pointer comparaison
-				if diagram.TaskGroupsWhoseNodeIsExpanded[i] != diagramOther.TaskGroupsWhoseNodeIsExpanded[i] {
+				if diagramhierarchy.TaskGroupsWhoseNodeIsExpanded[i] != diagramhierarchyOther.TaskGroupsWhoseNodeIsExpanded[i] {
 					TaskGroupsWhoseNodeIsExpandedDifferent = true
 					break
 				}
@@ -3460,23 +3460,23 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskGroupsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TaskGroupsWhoseNodeIsExpanded", diagramOther.TaskGroupsWhoseNodeIsExpanded, diagram.TaskGroupsWhoseNodeIsExpanded)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "TaskGroupsWhoseNodeIsExpanded", diagramhierarchyOther.TaskGroupsWhoseNodeIsExpanded, diagramhierarchy.TaskGroupsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
-	if diagram.IsMilestonesNodeExpanded != diagramOther.IsMilestonesNodeExpanded {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsMilestonesNodeExpanded"))
+	if diagramhierarchy.IsMilestonesNodeExpanded != diagramhierarchyOther.IsMilestonesNodeExpanded {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "IsMilestonesNodeExpanded"))
 	}
 	MilestoneShapesDifferent := false
-	if len(diagram.MilestoneShapes) != len(diagramOther.MilestoneShapes) {
+	if len(diagramhierarchy.MilestoneShapes) != len(diagramhierarchyOther.MilestoneShapes) {
 		MilestoneShapesDifferent = true
 	} else {
-		for i := range diagram.MilestoneShapes {
-			if (diagram.MilestoneShapes[i] == nil) != (diagramOther.MilestoneShapes[i] == nil) {
+		for i := range diagramhierarchy.MilestoneShapes {
+			if (diagramhierarchy.MilestoneShapes[i] == nil) != (diagramhierarchyOther.MilestoneShapes[i] == nil) {
 				MilestoneShapesDifferent = true
 				break
-			} else if diagram.MilestoneShapes[i] != nil && diagramOther.MilestoneShapes[i] != nil {
+			} else if diagramhierarchy.MilestoneShapes[i] != nil && diagramhierarchyOther.MilestoneShapes[i] != nil {
 				// this is a pointer comparaison
-				if diagram.MilestoneShapes[i] != diagramOther.MilestoneShapes[i] {
+				if diagramhierarchy.MilestoneShapes[i] != diagramhierarchyOther.MilestoneShapes[i] {
 					MilestoneShapesDifferent = true
 					break
 				}
@@ -3484,20 +3484,20 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if MilestoneShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "MilestoneShapes", diagramOther.MilestoneShapes, diagram.MilestoneShapes)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "MilestoneShapes", diagramhierarchyOther.MilestoneShapes, diagramhierarchy.MilestoneShapes)
 		diffs = append(diffs, ops)
 	}
 	MilestonesWhoseNodeIsExpandedDifferent := false
-	if len(diagram.MilestonesWhoseNodeIsExpanded) != len(diagramOther.MilestonesWhoseNodeIsExpanded) {
+	if len(diagramhierarchy.MilestonesWhoseNodeIsExpanded) != len(diagramhierarchyOther.MilestonesWhoseNodeIsExpanded) {
 		MilestonesWhoseNodeIsExpandedDifferent = true
 	} else {
-		for i := range diagram.MilestonesWhoseNodeIsExpanded {
-			if (diagram.MilestonesWhoseNodeIsExpanded[i] == nil) != (diagramOther.MilestonesWhoseNodeIsExpanded[i] == nil) {
+		for i := range diagramhierarchy.MilestonesWhoseNodeIsExpanded {
+			if (diagramhierarchy.MilestonesWhoseNodeIsExpanded[i] == nil) != (diagramhierarchyOther.MilestonesWhoseNodeIsExpanded[i] == nil) {
 				MilestonesWhoseNodeIsExpandedDifferent = true
 				break
-			} else if diagram.MilestonesWhoseNodeIsExpanded[i] != nil && diagramOther.MilestonesWhoseNodeIsExpanded[i] != nil {
+			} else if diagramhierarchy.MilestonesWhoseNodeIsExpanded[i] != nil && diagramhierarchyOther.MilestonesWhoseNodeIsExpanded[i] != nil {
 				// this is a pointer comparaison
-				if diagram.MilestonesWhoseNodeIsExpanded[i] != diagramOther.MilestonesWhoseNodeIsExpanded[i] {
+				if diagramhierarchy.MilestonesWhoseNodeIsExpanded[i] != diagramhierarchyOther.MilestonesWhoseNodeIsExpanded[i] {
 					MilestonesWhoseNodeIsExpandedDifferent = true
 					break
 				}
@@ -3505,23 +3505,23 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if MilestonesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "MilestonesWhoseNodeIsExpanded", diagramOther.MilestonesWhoseNodeIsExpanded, diagram.MilestonesWhoseNodeIsExpanded)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "MilestonesWhoseNodeIsExpanded", diagramhierarchyOther.MilestonesWhoseNodeIsExpanded, diagramhierarchy.MilestonesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
-	if diagram.DateFormat != diagramOther.DateFormat {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "DateFormat"))
+	if diagramhierarchy.DateFormat != diagramhierarchyOther.DateFormat {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "DateFormat"))
 	}
 	TaskComposition_ShapesDifferent := false
-	if len(diagram.TaskComposition_Shapes) != len(diagramOther.TaskComposition_Shapes) {
+	if len(diagramhierarchy.TaskComposition_Shapes) != len(diagramhierarchyOther.TaskComposition_Shapes) {
 		TaskComposition_ShapesDifferent = true
 	} else {
-		for i := range diagram.TaskComposition_Shapes {
-			if (diagram.TaskComposition_Shapes[i] == nil) != (diagramOther.TaskComposition_Shapes[i] == nil) {
+		for i := range diagramhierarchy.TaskComposition_Shapes {
+			if (diagramhierarchy.TaskComposition_Shapes[i] == nil) != (diagramhierarchyOther.TaskComposition_Shapes[i] == nil) {
 				TaskComposition_ShapesDifferent = true
 				break
-			} else if diagram.TaskComposition_Shapes[i] != nil && diagramOther.TaskComposition_Shapes[i] != nil {
+			} else if diagramhierarchy.TaskComposition_Shapes[i] != nil && diagramhierarchyOther.TaskComposition_Shapes[i] != nil {
 				// this is a pointer comparaison
-				if diagram.TaskComposition_Shapes[i] != diagramOther.TaskComposition_Shapes[i] {
+				if diagramhierarchy.TaskComposition_Shapes[i] != diagramhierarchyOther.TaskComposition_Shapes[i] {
 					TaskComposition_ShapesDifferent = true
 					break
 				}
@@ -3529,20 +3529,20 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskComposition_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TaskComposition_Shapes", diagramOther.TaskComposition_Shapes, diagram.TaskComposition_Shapes)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "TaskComposition_Shapes", diagramhierarchyOther.TaskComposition_Shapes, diagramhierarchy.TaskComposition_Shapes)
 		diffs = append(diffs, ops)
 	}
 	TaskInputShapesDifferent := false
-	if len(diagram.TaskInputShapes) != len(diagramOther.TaskInputShapes) {
+	if len(diagramhierarchy.TaskInputShapes) != len(diagramhierarchyOther.TaskInputShapes) {
 		TaskInputShapesDifferent = true
 	} else {
-		for i := range diagram.TaskInputShapes {
-			if (diagram.TaskInputShapes[i] == nil) != (diagramOther.TaskInputShapes[i] == nil) {
+		for i := range diagramhierarchy.TaskInputShapes {
+			if (diagramhierarchy.TaskInputShapes[i] == nil) != (diagramhierarchyOther.TaskInputShapes[i] == nil) {
 				TaskInputShapesDifferent = true
 				break
-			} else if diagram.TaskInputShapes[i] != nil && diagramOther.TaskInputShapes[i] != nil {
+			} else if diagramhierarchy.TaskInputShapes[i] != nil && diagramhierarchyOther.TaskInputShapes[i] != nil {
 				// this is a pointer comparaison
-				if diagram.TaskInputShapes[i] != diagramOther.TaskInputShapes[i] {
+				if diagramhierarchy.TaskInputShapes[i] != diagramhierarchyOther.TaskInputShapes[i] {
 					TaskInputShapesDifferent = true
 					break
 				}
@@ -3550,20 +3550,20 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskInputShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TaskInputShapes", diagramOther.TaskInputShapes, diagram.TaskInputShapes)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "TaskInputShapes", diagramhierarchyOther.TaskInputShapes, diagramhierarchy.TaskInputShapes)
 		diffs = append(diffs, ops)
 	}
 	TaskOutputShapesDifferent := false
-	if len(diagram.TaskOutputShapes) != len(diagramOther.TaskOutputShapes) {
+	if len(diagramhierarchy.TaskOutputShapes) != len(diagramhierarchyOther.TaskOutputShapes) {
 		TaskOutputShapesDifferent = true
 	} else {
-		for i := range diagram.TaskOutputShapes {
-			if (diagram.TaskOutputShapes[i] == nil) != (diagramOther.TaskOutputShapes[i] == nil) {
+		for i := range diagramhierarchy.TaskOutputShapes {
+			if (diagramhierarchy.TaskOutputShapes[i] == nil) != (diagramhierarchyOther.TaskOutputShapes[i] == nil) {
 				TaskOutputShapesDifferent = true
 				break
-			} else if diagram.TaskOutputShapes[i] != nil && diagramOther.TaskOutputShapes[i] != nil {
+			} else if diagramhierarchy.TaskOutputShapes[i] != nil && diagramhierarchyOther.TaskOutputShapes[i] != nil {
 				// this is a pointer comparaison
-				if diagram.TaskOutputShapes[i] != diagramOther.TaskOutputShapes[i] {
+				if diagramhierarchy.TaskOutputShapes[i] != diagramhierarchyOther.TaskOutputShapes[i] {
 					TaskOutputShapesDifferent = true
 					break
 				}
@@ -3571,20 +3571,20 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskOutputShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "TaskOutputShapes", diagramOther.TaskOutputShapes, diagram.TaskOutputShapes)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "TaskOutputShapes", diagramhierarchyOther.TaskOutputShapes, diagramhierarchy.TaskOutputShapes)
 		diffs = append(diffs, ops)
 	}
 	Note_ShapesDifferent := false
-	if len(diagram.Note_Shapes) != len(diagramOther.Note_Shapes) {
+	if len(diagramhierarchy.Note_Shapes) != len(diagramhierarchyOther.Note_Shapes) {
 		Note_ShapesDifferent = true
 	} else {
-		for i := range diagram.Note_Shapes {
-			if (diagram.Note_Shapes[i] == nil) != (diagramOther.Note_Shapes[i] == nil) {
+		for i := range diagramhierarchy.Note_Shapes {
+			if (diagramhierarchy.Note_Shapes[i] == nil) != (diagramhierarchyOther.Note_Shapes[i] == nil) {
 				Note_ShapesDifferent = true
 				break
-			} else if diagram.Note_Shapes[i] != nil && diagramOther.Note_Shapes[i] != nil {
+			} else if diagramhierarchy.Note_Shapes[i] != nil && diagramhierarchyOther.Note_Shapes[i] != nil {
 				// this is a pointer comparaison
-				if diagram.Note_Shapes[i] != diagramOther.Note_Shapes[i] {
+				if diagramhierarchy.Note_Shapes[i] != diagramhierarchyOther.Note_Shapes[i] {
 					Note_ShapesDifferent = true
 					break
 				}
@@ -3592,20 +3592,20 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Note_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Note_Shapes", diagramOther.Note_Shapes, diagram.Note_Shapes)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "Note_Shapes", diagramhierarchyOther.Note_Shapes, diagramhierarchy.Note_Shapes)
 		diffs = append(diffs, ops)
 	}
 	NotesWhoseNodeIsExpandedDifferent := false
-	if len(diagram.NotesWhoseNodeIsExpanded) != len(diagramOther.NotesWhoseNodeIsExpanded) {
+	if len(diagramhierarchy.NotesWhoseNodeIsExpanded) != len(diagramhierarchyOther.NotesWhoseNodeIsExpanded) {
 		NotesWhoseNodeIsExpandedDifferent = true
 	} else {
-		for i := range diagram.NotesWhoseNodeIsExpanded {
-			if (diagram.NotesWhoseNodeIsExpanded[i] == nil) != (diagramOther.NotesWhoseNodeIsExpanded[i] == nil) {
+		for i := range diagramhierarchy.NotesWhoseNodeIsExpanded {
+			if (diagramhierarchy.NotesWhoseNodeIsExpanded[i] == nil) != (diagramhierarchyOther.NotesWhoseNodeIsExpanded[i] == nil) {
 				NotesWhoseNodeIsExpandedDifferent = true
 				break
-			} else if diagram.NotesWhoseNodeIsExpanded[i] != nil && diagramOther.NotesWhoseNodeIsExpanded[i] != nil {
+			} else if diagramhierarchy.NotesWhoseNodeIsExpanded[i] != nil && diagramhierarchyOther.NotesWhoseNodeIsExpanded[i] != nil {
 				// this is a pointer comparaison
-				if diagram.NotesWhoseNodeIsExpanded[i] != diagramOther.NotesWhoseNodeIsExpanded[i] {
+				if diagramhierarchy.NotesWhoseNodeIsExpanded[i] != diagramhierarchyOther.NotesWhoseNodeIsExpanded[i] {
 					NotesWhoseNodeIsExpandedDifferent = true
 					break
 				}
@@ -3613,23 +3613,23 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NotesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "NotesWhoseNodeIsExpanded", diagramOther.NotesWhoseNodeIsExpanded, diagram.NotesWhoseNodeIsExpanded)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "NotesWhoseNodeIsExpanded", diagramhierarchyOther.NotesWhoseNodeIsExpanded, diagramhierarchy.NotesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
-	if diagram.IsNotesNodeExpanded != diagramOther.IsNotesNodeExpanded {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsNotesNodeExpanded"))
+	if diagramhierarchy.IsNotesNodeExpanded != diagramhierarchyOther.IsNotesNodeExpanded {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "IsNotesNodeExpanded"))
 	}
 	NoteProductShapesDifferent := false
-	if len(diagram.NoteProductShapes) != len(diagramOther.NoteProductShapes) {
+	if len(diagramhierarchy.NoteProductShapes) != len(diagramhierarchyOther.NoteProductShapes) {
 		NoteProductShapesDifferent = true
 	} else {
-		for i := range diagram.NoteProductShapes {
-			if (diagram.NoteProductShapes[i] == nil) != (diagramOther.NoteProductShapes[i] == nil) {
+		for i := range diagramhierarchy.NoteProductShapes {
+			if (diagramhierarchy.NoteProductShapes[i] == nil) != (diagramhierarchyOther.NoteProductShapes[i] == nil) {
 				NoteProductShapesDifferent = true
 				break
-			} else if diagram.NoteProductShapes[i] != nil && diagramOther.NoteProductShapes[i] != nil {
+			} else if diagramhierarchy.NoteProductShapes[i] != nil && diagramhierarchyOther.NoteProductShapes[i] != nil {
 				// this is a pointer comparaison
-				if diagram.NoteProductShapes[i] != diagramOther.NoteProductShapes[i] {
+				if diagramhierarchy.NoteProductShapes[i] != diagramhierarchyOther.NoteProductShapes[i] {
 					NoteProductShapesDifferent = true
 					break
 				}
@@ -3637,20 +3637,20 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteProductShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "NoteProductShapes", diagramOther.NoteProductShapes, diagram.NoteProductShapes)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "NoteProductShapes", diagramhierarchyOther.NoteProductShapes, diagramhierarchy.NoteProductShapes)
 		diffs = append(diffs, ops)
 	}
 	NoteTaskShapesDifferent := false
-	if len(diagram.NoteTaskShapes) != len(diagramOther.NoteTaskShapes) {
+	if len(diagramhierarchy.NoteTaskShapes) != len(diagramhierarchyOther.NoteTaskShapes) {
 		NoteTaskShapesDifferent = true
 	} else {
-		for i := range diagram.NoteTaskShapes {
-			if (diagram.NoteTaskShapes[i] == nil) != (diagramOther.NoteTaskShapes[i] == nil) {
+		for i := range diagramhierarchy.NoteTaskShapes {
+			if (diagramhierarchy.NoteTaskShapes[i] == nil) != (diagramhierarchyOther.NoteTaskShapes[i] == nil) {
 				NoteTaskShapesDifferent = true
 				break
-			} else if diagram.NoteTaskShapes[i] != nil && diagramOther.NoteTaskShapes[i] != nil {
+			} else if diagramhierarchy.NoteTaskShapes[i] != nil && diagramhierarchyOther.NoteTaskShapes[i] != nil {
 				// this is a pointer comparaison
-				if diagram.NoteTaskShapes[i] != diagramOther.NoteTaskShapes[i] {
+				if diagramhierarchy.NoteTaskShapes[i] != diagramhierarchyOther.NoteTaskShapes[i] {
 					NoteTaskShapesDifferent = true
 					break
 				}
@@ -3658,20 +3658,20 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteTaskShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "NoteTaskShapes", diagramOther.NoteTaskShapes, diagram.NoteTaskShapes)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "NoteTaskShapes", diagramhierarchyOther.NoteTaskShapes, diagramhierarchy.NoteTaskShapes)
 		diffs = append(diffs, ops)
 	}
 	NoteResourceShapesDifferent := false
-	if len(diagram.NoteResourceShapes) != len(diagramOther.NoteResourceShapes) {
+	if len(diagramhierarchy.NoteResourceShapes) != len(diagramhierarchyOther.NoteResourceShapes) {
 		NoteResourceShapesDifferent = true
 	} else {
-		for i := range diagram.NoteResourceShapes {
-			if (diagram.NoteResourceShapes[i] == nil) != (diagramOther.NoteResourceShapes[i] == nil) {
+		for i := range diagramhierarchy.NoteResourceShapes {
+			if (diagramhierarchy.NoteResourceShapes[i] == nil) != (diagramhierarchyOther.NoteResourceShapes[i] == nil) {
 				NoteResourceShapesDifferent = true
 				break
-			} else if diagram.NoteResourceShapes[i] != nil && diagramOther.NoteResourceShapes[i] != nil {
+			} else if diagramhierarchy.NoteResourceShapes[i] != nil && diagramhierarchyOther.NoteResourceShapes[i] != nil {
 				// this is a pointer comparaison
-				if diagram.NoteResourceShapes[i] != diagramOther.NoteResourceShapes[i] {
+				if diagramhierarchy.NoteResourceShapes[i] != diagramhierarchyOther.NoteResourceShapes[i] {
 					NoteResourceShapesDifferent = true
 					break
 				}
@@ -3679,20 +3679,20 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteResourceShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "NoteResourceShapes", diagramOther.NoteResourceShapes, diagram.NoteResourceShapes)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "NoteResourceShapes", diagramhierarchyOther.NoteResourceShapes, diagramhierarchy.NoteResourceShapes)
 		diffs = append(diffs, ops)
 	}
 	Resource_ShapesDifferent := false
-	if len(diagram.Resource_Shapes) != len(diagramOther.Resource_Shapes) {
+	if len(diagramhierarchy.Resource_Shapes) != len(diagramhierarchyOther.Resource_Shapes) {
 		Resource_ShapesDifferent = true
 	} else {
-		for i := range diagram.Resource_Shapes {
-			if (diagram.Resource_Shapes[i] == nil) != (diagramOther.Resource_Shapes[i] == nil) {
+		for i := range diagramhierarchy.Resource_Shapes {
+			if (diagramhierarchy.Resource_Shapes[i] == nil) != (diagramhierarchyOther.Resource_Shapes[i] == nil) {
 				Resource_ShapesDifferent = true
 				break
-			} else if diagram.Resource_Shapes[i] != nil && diagramOther.Resource_Shapes[i] != nil {
+			} else if diagramhierarchy.Resource_Shapes[i] != nil && diagramhierarchyOther.Resource_Shapes[i] != nil {
 				// this is a pointer comparaison
-				if diagram.Resource_Shapes[i] != diagramOther.Resource_Shapes[i] {
+				if diagramhierarchy.Resource_Shapes[i] != diagramhierarchyOther.Resource_Shapes[i] {
 					Resource_ShapesDifferent = true
 					break
 				}
@@ -3700,20 +3700,20 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Resource_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "Resource_Shapes", diagramOther.Resource_Shapes, diagram.Resource_Shapes)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "Resource_Shapes", diagramhierarchyOther.Resource_Shapes, diagramhierarchy.Resource_Shapes)
 		diffs = append(diffs, ops)
 	}
 	ResourcesWhoseNodeIsExpandedDifferent := false
-	if len(diagram.ResourcesWhoseNodeIsExpanded) != len(diagramOther.ResourcesWhoseNodeIsExpanded) {
+	if len(diagramhierarchy.ResourcesWhoseNodeIsExpanded) != len(diagramhierarchyOther.ResourcesWhoseNodeIsExpanded) {
 		ResourcesWhoseNodeIsExpandedDifferent = true
 	} else {
-		for i := range diagram.ResourcesWhoseNodeIsExpanded {
-			if (diagram.ResourcesWhoseNodeIsExpanded[i] == nil) != (diagramOther.ResourcesWhoseNodeIsExpanded[i] == nil) {
+		for i := range diagramhierarchy.ResourcesWhoseNodeIsExpanded {
+			if (diagramhierarchy.ResourcesWhoseNodeIsExpanded[i] == nil) != (diagramhierarchyOther.ResourcesWhoseNodeIsExpanded[i] == nil) {
 				ResourcesWhoseNodeIsExpandedDifferent = true
 				break
-			} else if diagram.ResourcesWhoseNodeIsExpanded[i] != nil && diagramOther.ResourcesWhoseNodeIsExpanded[i] != nil {
+			} else if diagramhierarchy.ResourcesWhoseNodeIsExpanded[i] != nil && diagramhierarchyOther.ResourcesWhoseNodeIsExpanded[i] != nil {
 				// this is a pointer comparaison
-				if diagram.ResourcesWhoseNodeIsExpanded[i] != diagramOther.ResourcesWhoseNodeIsExpanded[i] {
+				if diagramhierarchy.ResourcesWhoseNodeIsExpanded[i] != diagramhierarchyOther.ResourcesWhoseNodeIsExpanded[i] {
 					ResourcesWhoseNodeIsExpandedDifferent = true
 					break
 				}
@@ -3721,23 +3721,23 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ResourcesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ResourcesWhoseNodeIsExpanded", diagramOther.ResourcesWhoseNodeIsExpanded, diagram.ResourcesWhoseNodeIsExpanded)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "ResourcesWhoseNodeIsExpanded", diagramhierarchyOther.ResourcesWhoseNodeIsExpanded, diagramhierarchy.ResourcesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
-	if diagram.IsResourcesNodeExpanded != diagramOther.IsResourcesNodeExpanded {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsResourcesNodeExpanded"))
+	if diagramhierarchy.IsResourcesNodeExpanded != diagramhierarchyOther.IsResourcesNodeExpanded {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "IsResourcesNodeExpanded"))
 	}
 	ResourceComposition_ShapesDifferent := false
-	if len(diagram.ResourceComposition_Shapes) != len(diagramOther.ResourceComposition_Shapes) {
+	if len(diagramhierarchy.ResourceComposition_Shapes) != len(diagramhierarchyOther.ResourceComposition_Shapes) {
 		ResourceComposition_ShapesDifferent = true
 	} else {
-		for i := range diagram.ResourceComposition_Shapes {
-			if (diagram.ResourceComposition_Shapes[i] == nil) != (diagramOther.ResourceComposition_Shapes[i] == nil) {
+		for i := range diagramhierarchy.ResourceComposition_Shapes {
+			if (diagramhierarchy.ResourceComposition_Shapes[i] == nil) != (diagramhierarchyOther.ResourceComposition_Shapes[i] == nil) {
 				ResourceComposition_ShapesDifferent = true
 				break
-			} else if diagram.ResourceComposition_Shapes[i] != nil && diagramOther.ResourceComposition_Shapes[i] != nil {
+			} else if diagramhierarchy.ResourceComposition_Shapes[i] != nil && diagramhierarchyOther.ResourceComposition_Shapes[i] != nil {
 				// this is a pointer comparaison
-				if diagram.ResourceComposition_Shapes[i] != diagramOther.ResourceComposition_Shapes[i] {
+				if diagramhierarchy.ResourceComposition_Shapes[i] != diagramhierarchyOther.ResourceComposition_Shapes[i] {
 					ResourceComposition_ShapesDifferent = true
 					break
 				}
@@ -3745,20 +3745,20 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ResourceComposition_ShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ResourceComposition_Shapes", diagramOther.ResourceComposition_Shapes, diagram.ResourceComposition_Shapes)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "ResourceComposition_Shapes", diagramhierarchyOther.ResourceComposition_Shapes, diagramhierarchy.ResourceComposition_Shapes)
 		diffs = append(diffs, ops)
 	}
 	ResourceTaskShapesDifferent := false
-	if len(diagram.ResourceTaskShapes) != len(diagramOther.ResourceTaskShapes) {
+	if len(diagramhierarchy.ResourceTaskShapes) != len(diagramhierarchyOther.ResourceTaskShapes) {
 		ResourceTaskShapesDifferent = true
 	} else {
-		for i := range diagram.ResourceTaskShapes {
-			if (diagram.ResourceTaskShapes[i] == nil) != (diagramOther.ResourceTaskShapes[i] == nil) {
+		for i := range diagramhierarchy.ResourceTaskShapes {
+			if (diagramhierarchy.ResourceTaskShapes[i] == nil) != (diagramhierarchyOther.ResourceTaskShapes[i] == nil) {
 				ResourceTaskShapesDifferent = true
 				break
-			} else if diagram.ResourceTaskShapes[i] != nil && diagramOther.ResourceTaskShapes[i] != nil {
+			} else if diagramhierarchy.ResourceTaskShapes[i] != nil && diagramhierarchyOther.ResourceTaskShapes[i] != nil {
 				// this is a pointer comparaison
-				if diagram.ResourceTaskShapes[i] != diagramOther.ResourceTaskShapes[i] {
+				if diagramhierarchy.ResourceTaskShapes[i] != diagramhierarchyOther.ResourceTaskShapes[i] {
 					ResourceTaskShapesDifferent = true
 					break
 				}
@@ -3766,92 +3766,92 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ResourceTaskShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "ResourceTaskShapes", diagramOther.ResourceTaskShapes, diagram.ResourceTaskShapes)
+		ops := Diff(stage, diagramhierarchy, diagramhierarchyOther, "ResourceTaskShapes", diagramhierarchyOther.ResourceTaskShapes, diagramhierarchy.ResourceTaskShapes)
 		diffs = append(diffs, ops)
 	}
-	if diagram.IsTimeDiagram != diagramOther.IsTimeDiagram {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsTimeDiagram"))
+	if diagramhierarchy.IsTimeDiagram != diagramhierarchyOther.IsTimeDiagram {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "IsTimeDiagram"))
 	}
-	if diagram.ComputedStart != diagramOther.ComputedStart {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedStart"))
+	if diagramhierarchy.ComputedStart != diagramhierarchyOther.ComputedStart {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "ComputedStart"))
 	}
-	if diagram.ComputedEnd != diagramOther.ComputedEnd {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedEnd"))
+	if diagramhierarchy.ComputedEnd != diagramhierarchyOther.ComputedEnd {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "ComputedEnd"))
 	}
-	if diagram.ComputedDuration != diagramOther.ComputedDuration {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedDuration"))
+	if diagramhierarchy.ComputedDuration != diagramhierarchyOther.ComputedDuration {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "ComputedDuration"))
 	}
-	if diagram.UseManualStartAndEndDates != diagramOther.UseManualStartAndEndDates {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "UseManualStartAndEndDates"))
+	if diagramhierarchy.UseManualStartAndEndDates != diagramhierarchyOther.UseManualStartAndEndDates {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "UseManualStartAndEndDates"))
 	}
-	if diagram.ManualStart != diagramOther.ManualStart {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ManualStart"))
+	if diagramhierarchy.ManualStart != diagramhierarchyOther.ManualStart {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "ManualStart"))
 	}
-	if diagram.ManualEnd != diagramOther.ManualEnd {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ManualEnd"))
+	if diagramhierarchy.ManualEnd != diagramhierarchyOther.ManualEnd {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "ManualEnd"))
 	}
-	if diagram.TimeStep != diagramOther.TimeStep {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeStep"))
+	if diagramhierarchy.TimeStep != diagramhierarchyOther.TimeStep {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "TimeStep"))
 	}
-	if diagram.TimeStepScale != diagramOther.TimeStepScale {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeStepScale"))
+	if diagramhierarchy.TimeStepScale != diagramhierarchyOther.TimeStepScale {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "TimeStepScale"))
 	}
-	if diagram.LaneHeight != diagramOther.LaneHeight {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "LaneHeight"))
+	if diagramhierarchy.LaneHeight != diagramhierarchyOther.LaneHeight {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "LaneHeight"))
 	}
-	if diagram.RatioBarToLaneHeight != diagramOther.RatioBarToLaneHeight {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "RatioBarToLaneHeight"))
+	if diagramhierarchy.RatioBarToLaneHeight != diagramhierarchyOther.RatioBarToLaneHeight {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "RatioBarToLaneHeight"))
 	}
-	if diagram.YTopMargin != diagramOther.YTopMargin {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "YTopMargin"))
+	if diagramhierarchy.YTopMargin != diagramhierarchyOther.YTopMargin {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "YTopMargin"))
 	}
-	if diagram.XLeftText != diagramOther.XLeftText {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "XLeftText"))
+	if diagramhierarchy.XLeftText != diagramhierarchyOther.XLeftText {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "XLeftText"))
 	}
-	if diagram.TextHeight != diagramOther.TextHeight {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TextHeight"))
+	if diagramhierarchy.TextHeight != diagramhierarchyOther.TextHeight {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "TextHeight"))
 	}
-	if diagram.XLeftLanes != diagramOther.XLeftLanes {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "XLeftLanes"))
+	if diagramhierarchy.XLeftLanes != diagramhierarchyOther.XLeftLanes {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "XLeftLanes"))
 	}
-	if diagram.XRightMargin != diagramOther.XRightMargin {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "XRightMargin"))
+	if diagramhierarchy.XRightMargin != diagramhierarchyOther.XRightMargin {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "XRightMargin"))
 	}
-	if diagram.ArrowLengthToTheRightOfStartBar != diagramOther.ArrowLengthToTheRightOfStartBar {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ArrowLengthToTheRightOfStartBar"))
+	if diagramhierarchy.ArrowLengthToTheRightOfStartBar != diagramhierarchyOther.ArrowLengthToTheRightOfStartBar {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "ArrowLengthToTheRightOfStartBar"))
 	}
-	if diagram.ArrowTipLenght != diagramOther.ArrowTipLenght {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ArrowTipLenght"))
+	if diagramhierarchy.ArrowTipLenght != diagramhierarchyOther.ArrowTipLenght {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "ArrowTipLenght"))
 	}
-	if diagram.TimeLine_Color != diagramOther.TimeLine_Color {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeLine_Color"))
+	if diagramhierarchy.TimeLine_Color != diagramhierarchyOther.TimeLine_Color {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "TimeLine_Color"))
 	}
-	if diagram.TimeLine_FillOpacity != diagramOther.TimeLine_FillOpacity {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeLine_FillOpacity"))
+	if diagramhierarchy.TimeLine_FillOpacity != diagramhierarchyOther.TimeLine_FillOpacity {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "TimeLine_FillOpacity"))
 	}
-	if diagram.TimeLine_Stroke != diagramOther.TimeLine_Stroke {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeLine_Stroke"))
+	if diagramhierarchy.TimeLine_Stroke != diagramhierarchyOther.TimeLine_Stroke {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "TimeLine_Stroke"))
 	}
-	if diagram.TimeLine_StrokeWidth != diagramOther.TimeLine_StrokeWidth {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeLine_StrokeWidth"))
+	if diagramhierarchy.TimeLine_StrokeWidth != diagramhierarchyOther.TimeLine_StrokeWidth {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "TimeLine_StrokeWidth"))
 	}
-	if diagram.DrawVerticalTimeLines != diagramOther.DrawVerticalTimeLines {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "DrawVerticalTimeLines"))
+	if diagramhierarchy.DrawVerticalTimeLines != diagramhierarchyOther.DrawVerticalTimeLines {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "DrawVerticalTimeLines"))
 	}
-	if diagram.Group_Stroke != diagramOther.Group_Stroke {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "Group_Stroke"))
+	if diagramhierarchy.Group_Stroke != diagramhierarchyOther.Group_Stroke {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "Group_Stroke"))
 	}
-	if diagram.Group_StrokeWidth != diagramOther.Group_StrokeWidth {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "Group_StrokeWidth"))
+	if diagramhierarchy.Group_StrokeWidth != diagramhierarchyOther.Group_StrokeWidth {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "Group_StrokeWidth"))
 	}
-	if diagram.Group_StrokeDashArray != diagramOther.Group_StrokeDashArray {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "Group_StrokeDashArray"))
+	if diagramhierarchy.Group_StrokeDashArray != diagramhierarchyOther.Group_StrokeDashArray {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "Group_StrokeDashArray"))
 	}
-	if diagram.DateYOffset != diagramOther.DateYOffset {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "DateYOffset"))
+	if diagramhierarchy.DateYOffset != diagramhierarchyOther.DateYOffset {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "DateYOffset"))
 	}
-	if diagram.AlignOnStartEndOnYearStart != diagramOther.AlignOnStartEndOnYearStart {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "AlignOnStartEndOnYearStart"))
+	if diagramhierarchy.AlignOnStartEndOnYearStart != diagramhierarchyOther.AlignOnStartEndOnYearStart {
+		diffs = append(diffs, diagramhierarchy.GongMarshallField(stage, "AlignOnStartEndOnYearStart"))
 	}
 
 	return

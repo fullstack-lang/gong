@@ -126,66 +126,66 @@ type Stage struct {
 	isWithGenesisCommit bool
 
 	// insertion point for definition of arrays registering instances
-	Diagrams                map[*Diagram]struct{}
-	Diagrams_instance       map[*Diagram]*Diagram
-	Diagrams_mapString      map[string]*Diagram
-	DiagramOrder            uint
-	Diagram_stagedOrder     map[*Diagram]uint
-	Diagram_orderStaged     map[uint]*Diagram
-	Diagrams_reference      map[*Diagram]*Diagram
-	Diagrams_referenceOrder map[*Diagram]uint
+	DiagramHierarchys                map[*DiagramHierarchy]struct{}
+	DiagramHierarchys_instance       map[*DiagramHierarchy]*DiagramHierarchy
+	DiagramHierarchys_mapString      map[string]*DiagramHierarchy
+	DiagramHierarchyOrder            uint
+	DiagramHierarchy_stagedOrder     map[*DiagramHierarchy]uint
+	DiagramHierarchy_orderStaged     map[uint]*DiagramHierarchy
+	DiagramHierarchys_reference      map[*DiagramHierarchy]*DiagramHierarchy
+	DiagramHierarchys_referenceOrder map[*DiagramHierarchy]uint
 
 	// insertion point for slice of pointers maps
-	Diagram_Product_Shapes_reverseMap map[*ProductShape]*Diagram
+	DiagramHierarchy_Product_Shapes_reverseMap map[*ProductShape]*DiagramHierarchy
 
-	Diagram_ProductsWhoseNodeIsExpanded_reverseMap map[*Product]*Diagram
+	DiagramHierarchy_ProductsWhoseNodeIsExpanded_reverseMap map[*Product]*DiagramHierarchy
 
-	Diagram_ProductComposition_Shapes_reverseMap map[*ProductCompositionShape]*Diagram
+	DiagramHierarchy_ProductComposition_Shapes_reverseMap map[*ProductCompositionShape]*DiagramHierarchy
 
-	Diagram_Task_Shapes_reverseMap map[*TaskShape]*Diagram
+	DiagramHierarchy_Task_Shapes_reverseMap map[*TaskShape]*DiagramHierarchy
 
-	Diagram_TasksWhoseNodeIsExpanded_reverseMap map[*Task]*Diagram
+	DiagramHierarchy_TasksWhoseNodeIsExpanded_reverseMap map[*Task]*DiagramHierarchy
 
-	Diagram_TasksWhoseInputNodeIsExpanded_reverseMap map[*Task]*Diagram
+	DiagramHierarchy_TasksWhoseInputNodeIsExpanded_reverseMap map[*Task]*DiagramHierarchy
 
-	Diagram_TasksWhoseOutputNodeIsExpanded_reverseMap map[*Task]*Diagram
+	DiagramHierarchy_TasksWhoseOutputNodeIsExpanded_reverseMap map[*Task]*DiagramHierarchy
 
-	Diagram_TaskGroupShapes_reverseMap map[*TaskGroupShape]*Diagram
+	DiagramHierarchy_TaskGroupShapes_reverseMap map[*TaskGroupShape]*DiagramHierarchy
 
-	Diagram_TaskGroupsWhoseNodeIsExpanded_reverseMap map[*TaskGroup]*Diagram
+	DiagramHierarchy_TaskGroupsWhoseNodeIsExpanded_reverseMap map[*TaskGroup]*DiagramHierarchy
 
-	Diagram_MilestoneShapes_reverseMap map[*MilestoneShape]*Diagram
+	DiagramHierarchy_MilestoneShapes_reverseMap map[*MilestoneShape]*DiagramHierarchy
 
-	Diagram_MilestonesWhoseNodeIsExpanded_reverseMap map[*Milestone]*Diagram
+	DiagramHierarchy_MilestonesWhoseNodeIsExpanded_reverseMap map[*Milestone]*DiagramHierarchy
 
-	Diagram_TaskComposition_Shapes_reverseMap map[*TaskCompositionShape]*Diagram
+	DiagramHierarchy_TaskComposition_Shapes_reverseMap map[*TaskCompositionShape]*DiagramHierarchy
 
-	Diagram_TaskInputShapes_reverseMap map[*TaskInputShape]*Diagram
+	DiagramHierarchy_TaskInputShapes_reverseMap map[*TaskInputShape]*DiagramHierarchy
 
-	Diagram_TaskOutputShapes_reverseMap map[*TaskOutputShape]*Diagram
+	DiagramHierarchy_TaskOutputShapes_reverseMap map[*TaskOutputShape]*DiagramHierarchy
 
-	Diagram_Note_Shapes_reverseMap map[*NoteShape]*Diagram
+	DiagramHierarchy_Note_Shapes_reverseMap map[*NoteShape]*DiagramHierarchy
 
-	Diagram_NotesWhoseNodeIsExpanded_reverseMap map[*Note]*Diagram
+	DiagramHierarchy_NotesWhoseNodeIsExpanded_reverseMap map[*Note]*DiagramHierarchy
 
-	Diagram_NoteProductShapes_reverseMap map[*NoteProductShape]*Diagram
+	DiagramHierarchy_NoteProductShapes_reverseMap map[*NoteProductShape]*DiagramHierarchy
 
-	Diagram_NoteTaskShapes_reverseMap map[*NoteTaskShape]*Diagram
+	DiagramHierarchy_NoteTaskShapes_reverseMap map[*NoteTaskShape]*DiagramHierarchy
 
-	Diagram_NoteResourceShapes_reverseMap map[*NoteResourceShape]*Diagram
+	DiagramHierarchy_NoteResourceShapes_reverseMap map[*NoteResourceShape]*DiagramHierarchy
 
-	Diagram_Resource_Shapes_reverseMap map[*ResourceShape]*Diagram
+	DiagramHierarchy_Resource_Shapes_reverseMap map[*ResourceShape]*DiagramHierarchy
 
-	Diagram_ResourcesWhoseNodeIsExpanded_reverseMap map[*Resource]*Diagram
+	DiagramHierarchy_ResourcesWhoseNodeIsExpanded_reverseMap map[*Resource]*DiagramHierarchy
 
-	Diagram_ResourceComposition_Shapes_reverseMap map[*ResourceCompositionShape]*Diagram
+	DiagramHierarchy_ResourceComposition_Shapes_reverseMap map[*ResourceCompositionShape]*DiagramHierarchy
 
-	Diagram_ResourceTaskShapes_reverseMap map[*ResourceTaskShape]*Diagram
+	DiagramHierarchy_ResourceTaskShapes_reverseMap map[*ResourceTaskShape]*DiagramHierarchy
 
-	OnAfterDiagramCreateCallback OnAfterCreateInterface[Diagram]
-	OnAfterDiagramUpdateCallback OnAfterUpdateInterface[Diagram]
-	OnAfterDiagramDeleteCallback OnAfterDeleteInterface[Diagram]
-	OnAfterDiagramReadCallback   OnAfterReadInterface[Diagram]
+	OnAfterDiagramHierarchyCreateCallback OnAfterCreateInterface[DiagramHierarchy]
+	OnAfterDiagramHierarchyUpdateCallback OnAfterUpdateInterface[DiagramHierarchy]
+	OnAfterDiagramHierarchyDeleteCallback OnAfterDeleteInterface[DiagramHierarchy]
+	OnAfterDiagramHierarchyReadCallback   OnAfterReadInterface[DiagramHierarchy]
 
 	Librarys                map[*Library]struct{}
 	Librarys_instance       map[*Library]*Library
@@ -211,7 +211,7 @@ type Stage struct {
 
 	Library_Notes_reverseMap map[*Note]*Library
 
-	Library_Diagrams_reverseMap map[*Diagram]*Library
+	Library_Diagrams_reverseMap map[*DiagramHierarchy]*Library
 
 	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
 	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
@@ -791,9 +791,9 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.Diagrams_reference = make(map[*Diagram]*Diagram)
-	stage.Diagrams_instance = make(map[*Diagram]*Diagram)
-	stage.Diagrams_referenceOrder = make(map[*Diagram]uint)
+	stage.DiagramHierarchys_reference = make(map[*DiagramHierarchy]*DiagramHierarchy)
+	stage.DiagramHierarchys_instance = make(map[*DiagramHierarchy]*DiagramHierarchy)
+	stage.DiagramHierarchys_referenceOrder = make(map[*DiagramHierarchy]uint)
 
 	stage.Librarys_reference = make(map[*Library]*Library)
 	stage.Librarys_instance = make(map[*Library]*Library)
@@ -910,18 +910,18 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxDiagramOrder uint
-	var foundDiagram bool
-	for _, order := range stage.Diagram_stagedOrder {
-		if !foundDiagram || order > maxDiagramOrder {
-			maxDiagramOrder = order
-			foundDiagram = true
+	var maxDiagramHierarchyOrder uint
+	var foundDiagramHierarchy bool
+	for _, order := range stage.DiagramHierarchy_stagedOrder {
+		if !foundDiagramHierarchy || order > maxDiagramHierarchyOrder {
+			maxDiagramHierarchyOrder = order
+			foundDiagramHierarchy = true
 		}
 	}
-	if foundDiagram {
-		stage.DiagramOrder = maxDiagramOrder + 1
+	if foundDiagramHierarchy {
+		stage.DiagramHierarchyOrder = maxDiagramHierarchyOrder + 1
 	} else {
-		stage.DiagramOrder = 0
+		stage.DiagramHierarchyOrder = 0
 	}
 
 	var maxLibraryOrder uint
@@ -1293,8 +1293,8 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
-	case *Diagram:
-		tmp := GetStructInstancesByOrder(stage.Diagrams, stage.Diagram_stagedOrder)
+	case *DiagramHierarchy:
+		tmp := GetStructInstancesByOrder(stage.DiagramHierarchys, stage.DiagramHierarchy_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1303,7 +1303,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		for _, v := range tmp {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Diagram implements.
+			// is an interface that *DiagramHierarchy implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -1644,8 +1644,8 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 	switch namedStructName {
 	// insertion point for case
-	case "Diagram":
-		res = GetNamedStructInstances(stage.Diagrams, stage.Diagram_stagedOrder)
+	case "DiagramHierarchy":
+		res = GetNamedStructInstances(stage.DiagramHierarchys, stage.DiagramHierarchy_stagedOrder)
 	case "Library":
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
 	case "Milestone":
@@ -1759,8 +1759,8 @@ type BackRepoInterface interface {
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
 	// insertion point for Commit and Checkout signatures
-	CommitDiagram(diagram *Diagram)
-	CheckoutDiagram(diagram *Diagram)
+	CommitDiagramHierarchy(diagramhierarchy *DiagramHierarchy)
+	CheckoutDiagramHierarchy(diagramhierarchy *DiagramHierarchy)
 	CommitLibrary(library *Library)
 	CheckoutLibrary(library *Library)
 	CommitMilestone(milestone *Milestone)
@@ -1811,8 +1811,8 @@ type BackRepoInterface interface {
 
 func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
-		Diagrams:           make(map[*Diagram]struct{}),
-		Diagrams_mapString: make(map[string]*Diagram),
+		DiagramHierarchys:           make(map[*DiagramHierarchy]struct{}),
+		DiagramHierarchys_mapString: make(map[string]*DiagramHierarchy),
 
 		Librarys:           make(map[*Library]struct{}),
 		Librarys_mapString: make(map[string]*Library),
@@ -1890,9 +1890,9 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		Diagram_stagedOrder: make(map[*Diagram]uint),
-		Diagram_orderStaged: make(map[uint]*Diagram),
-		Diagrams_reference:  make(map[*Diagram]*Diagram),
+		DiagramHierarchy_stagedOrder: make(map[*DiagramHierarchy]uint),
+		DiagramHierarchy_orderStaged: make(map[uint]*DiagramHierarchy),
+		DiagramHierarchys_reference:  make(map[*DiagramHierarchy]*DiagramHierarchy),
 
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
@@ -1984,7 +1984,7 @@ func NewStage(name string) (stage *Stage) {
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
-			"Diagram": &DiagramUnmarshaller{},
+			"DiagramHierarchy": &DiagramHierarchyUnmarshaller{},
 
 			"Library": &LibraryUnmarshaller{},
 
@@ -2034,7 +2034,7 @@ func NewStage(name string) (stage *Stage) {
 		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "Diagram"},
+			{name: "DiagramHierarchy"},
 			{name: "Library"},
 			{name: "Milestone"},
 			{name: "MilestoneShape"},
@@ -2068,8 +2068,8 @@ func NewStage(name string) (stage *Stage) {
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
-	case *Diagram:
-		return stage.Diagram_stagedOrder[instance]
+	case *DiagramHierarchy:
+		return stage.DiagramHierarchy_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *Milestone:
@@ -2123,8 +2123,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
-	case *Diagram:
-		return any(stage.Diagram_orderStaged[order]).(Type)
+	case *DiagramHierarchy:
+		return any(stage.DiagramHierarchy_orderStaged[order]).(Type)
 	case *Library:
 		return any(stage.Library_orderStaged[order]).(Type)
 	case *Milestone:
@@ -2177,8 +2177,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
-	case *Diagram:
-		return stage.Diagram_stagedOrder[instance]
+	case *DiagramHierarchy:
+		return stage.DiagramHierarchy_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *Milestone:
@@ -2288,7 +2288,7 @@ func (stage *Stage) Commit() {
 
 func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["Diagram"] = len(stage.Diagrams)
+	stage.Map_GongStructName_InstancesNb["DiagramHierarchy"] = len(stage.DiagramHierarchys)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Milestone"] = len(stage.Milestones)
 	stage.Map_GongStructName_InstancesNb["MilestoneShape"] = len(stage.MilestoneShapes)
@@ -2351,92 +2351,92 @@ func (stage *Stage) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
-// Stage puts diagram to the model stage
-func (diagram *Diagram) Stage(stage *Stage) *Diagram {
-	if _, ok := stage.Diagrams[diagram]; !ok {
-		stage.Diagrams[diagram] = struct{}{}
-		stage.Diagram_stagedOrder[diagram] = stage.DiagramOrder
-		stage.Diagram_orderStaged[stage.DiagramOrder] = diagram
-		stage.DiagramOrder++
+// Stage puts diagramhierarchy to the model stage
+func (diagramhierarchy *DiagramHierarchy) Stage(stage *Stage) *DiagramHierarchy {
+	if _, ok := stage.DiagramHierarchys[diagramhierarchy]; !ok {
+		stage.DiagramHierarchys[diagramhierarchy] = struct{}{}
+		stage.DiagramHierarchy_stagedOrder[diagramhierarchy] = stage.DiagramHierarchyOrder
+		stage.DiagramHierarchy_orderStaged[stage.DiagramHierarchyOrder] = diagramhierarchy
+		stage.DiagramHierarchyOrder++
 	}
-	stage.Diagrams_mapString[diagram.Name] = diagram
+	stage.DiagramHierarchys_mapString[diagramhierarchy.Name] = diagramhierarchy
 
-	return diagram
+	return diagramhierarchy
 }
 
-// StagePreserveOrder puts diagram to the model stage, and if the astrtuct
+// StagePreserveOrder puts diagramhierarchy to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.DiagramOrder
-// - update stage.DiagramOrder accordingly
-func (diagram *Diagram) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Diagrams[diagram]; !ok {
-		stage.Diagrams[diagram] = struct{}{}
+// - force the order if the order is equal or greater than the stage.DiagramHierarchyOrder
+// - update stage.DiagramHierarchyOrder accordingly
+func (diagramhierarchy *DiagramHierarchy) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.DiagramHierarchys[diagramhierarchy]; !ok {
+		stage.DiagramHierarchys[diagramhierarchy] = struct{}{}
 
-		if order > stage.DiagramOrder {
-			stage.DiagramOrder = order
+		if order > stage.DiagramHierarchyOrder {
+			stage.DiagramHierarchyOrder = order
 		}
-		stage.Diagram_stagedOrder[diagram] = order
-		stage.Diagram_orderStaged[order] = diagram
-		stage.DiagramOrder++
+		stage.DiagramHierarchy_stagedOrder[diagramhierarchy] = order
+		stage.DiagramHierarchy_orderStaged[order] = diagramhierarchy
+		stage.DiagramHierarchyOrder++
 	}
-	stage.Diagrams_mapString[diagram.Name] = diagram
+	stage.DiagramHierarchys_mapString[diagramhierarchy.Name] = diagramhierarchy
 }
 
-// Unstage removes diagram off the model stage
-func (diagram *Diagram) Unstage(stage *Stage) *Diagram {
-	delete(stage.Diagrams, diagram)
+// Unstage removes diagramhierarchy off the model stage
+func (diagramhierarchy *DiagramHierarchy) Unstage(stage *Stage) *DiagramHierarchy {
+	delete(stage.DiagramHierarchys, diagramhierarchy)
 	// issue1150
-	// delete(stage.Diagram_stagedOrder, diagram)
-	delete(stage.Diagrams_mapString, diagram.Name)
+	// delete(stage.DiagramHierarchy_stagedOrder, diagramhierarchy)
+	delete(stage.DiagramHierarchys_mapString, diagramhierarchy.Name)
 
-	return diagram
+	return diagramhierarchy
 }
 
-// UnstageVoid removes diagram off the model stage
-func (diagram *Diagram) UnstageVoid(stage *Stage) {
-	delete(stage.Diagrams, diagram)
+// UnstageVoid removes diagramhierarchy off the model stage
+func (diagramhierarchy *DiagramHierarchy) UnstageVoid(stage *Stage) {
+	delete(stage.DiagramHierarchys, diagramhierarchy)
 	// issue1150
-	// delete(stage.Diagram_stagedOrder, diagram)
-	delete(stage.Diagrams_mapString, diagram.Name)
+	// delete(stage.DiagramHierarchy_stagedOrder, diagramhierarchy)
+	delete(stage.DiagramHierarchys_mapString, diagramhierarchy.Name)
 }
 
-// commit diagram to the back repo (if it is already staged)
-func (diagram *Diagram) Commit(stage *Stage) *Diagram {
-	if _, ok := stage.Diagrams[diagram]; ok {
+// commit diagramhierarchy to the back repo (if it is already staged)
+func (diagramhierarchy *DiagramHierarchy) Commit(stage *Stage) *DiagramHierarchy {
+	if _, ok := stage.DiagramHierarchys[diagramhierarchy]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitDiagram(diagram)
+			stage.BackRepo.CommitDiagramHierarchy(diagramhierarchy)
 		}
 	}
-	return diagram
+	return diagramhierarchy
 }
 
-func (diagram *Diagram) CommitVoid(stage *Stage) {
-	diagram.Commit(stage)
+func (diagramhierarchy *DiagramHierarchy) CommitVoid(stage *Stage) {
+	diagramhierarchy.Commit(stage)
 }
 
-func (diagram *Diagram) StageVoid(stage *Stage) {
-	diagram.Stage(stage)
+func (diagramhierarchy *DiagramHierarchy) StageVoid(stage *Stage) {
+	diagramhierarchy.Stage(stage)
 }
 
-// Checkout diagram to the back repo (if it is already staged)
-func (diagram *Diagram) Checkout(stage *Stage) *Diagram {
-	if _, ok := stage.Diagrams[diagram]; ok {
+// Checkout diagramhierarchy to the back repo (if it is already staged)
+func (diagramhierarchy *DiagramHierarchy) Checkout(stage *Stage) *DiagramHierarchy {
+	if _, ok := stage.DiagramHierarchys[diagramhierarchy]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutDiagram(diagram)
+			stage.BackRepo.CheckoutDiagramHierarchy(diagramhierarchy)
 		}
 	}
-	return diagram
+	return diagramhierarchy
 }
 
 // for satisfaction of GongStruct interface
-func (diagram *Diagram) GetName() (res string) {
-	return diagram.Name
+func (diagramhierarchy *DiagramHierarchy) GetName() (res string) {
+	return diagramhierarchy.Name
 }
 
 // for satisfaction of GongStruct interface
-func (diagram *Diagram) SetName(name string) {
-	diagram.Name = name
+func (diagramhierarchy *DiagramHierarchy) SetName(name string) {
+	diagramhierarchy.Name = name
 }
 
 // Stage puts library to the model stage
@@ -4377,7 +4377,7 @@ func (taskshape *TaskShape) SetName(name string) {
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMDiagram(Diagram *Diagram)
+	CreateORMDiagramHierarchy(DiagramHierarchy *DiagramHierarchy)
 	CreateORMLibrary(Library *Library)
 	CreateORMMilestone(Milestone *Milestone)
 	CreateORMMilestoneShape(MilestoneShape *MilestoneShape)
@@ -4403,7 +4403,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMDiagram(Diagram *Diagram)
+	DeleteORMDiagramHierarchy(DiagramHierarchy *DiagramHierarchy)
 	DeleteORMLibrary(Library *Library)
 	DeleteORMMilestone(Milestone *Milestone)
 	DeleteORMMilestoneShape(MilestoneShape *MilestoneShape)
@@ -4429,10 +4429,10 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Diagrams = make(map[*Diagram]struct{})
-	stage.Diagrams_mapString = make(map[string]*Diagram)
-	stage.Diagram_stagedOrder = make(map[*Diagram]uint)
-	stage.DiagramOrder = 0
+	stage.DiagramHierarchys = make(map[*DiagramHierarchy]struct{})
+	stage.DiagramHierarchys_mapString = make(map[string]*DiagramHierarchy)
+	stage.DiagramHierarchy_stagedOrder = make(map[*DiagramHierarchy]uint)
+	stage.DiagramHierarchyOrder = 0
 
 	stage.Librarys = make(map[*Library]struct{})
 	stage.Librarys_mapString = make(map[string]*Library)
@@ -4553,8 +4553,8 @@ func (stage *Stage) Reset() { // insertion point for array reset
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
-	stage.Diagrams = nil
-	stage.Diagrams_mapString = nil
+	stage.DiagramHierarchys = nil
+	stage.DiagramHierarchys_mapString = nil
 
 	stage.Librarys = nil
 	stage.Librarys_mapString = nil
@@ -4626,8 +4626,8 @@ func (stage *Stage) Nil() { // insertion point for array nil
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
-	for diagram := range stage.Diagrams {
-		diagram.Unstage(stage)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		diagramhierarchy.Unstage(stage)
 	}
 
 	for library := range stage.Librarys {
@@ -4794,8 +4794,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[*Diagram]any:
-		return any(&stage.Diagrams).(*Type)
+	case map[*DiagramHierarchy]any:
+		return any(&stage.DiagramHierarchys).(*Type)
 	case map[*Library]any:
 		return any(&stage.Librarys).(*Type)
 	case map[*Milestone]any:
@@ -4852,8 +4852,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case *Diagram:
-		return any(stage.Diagrams_mapString).(map[string]Type)
+	case *DiagramHierarchy:
+		return any(stage.DiagramHierarchys_mapString).(map[string]Type)
 	case *Library:
 		return any(stage.Librarys_mapString).(map[string]Type)
 	case *Milestone:
@@ -4910,8 +4910,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case Diagram:
-		return any(&stage.Diagrams).(*map[*Type]struct{})
+	case DiagramHierarchy:
+		return any(&stage.DiagramHierarchys).(*map[*Type]struct{})
 	case Library:
 		return any(&stage.Librarys).(*map[*Type]struct{})
 	case Milestone:
@@ -4968,8 +4968,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case *Diagram:
-		return any(&stage.Diagrams).(*map[Type]struct{})
+	case *DiagramHierarchy:
+		return any(&stage.DiagramHierarchys).(*map[Type]struct{})
 	case *Library:
 		return any(&stage.Librarys).(*map[Type]struct{})
 	case *Milestone:
@@ -5026,8 +5026,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case Diagram:
-		return any(&stage.Diagrams_mapString).(*map[string]*Type)
+	case DiagramHierarchy:
+		return any(&stage.DiagramHierarchys_mapString).(*map[string]*Type)
 	case Library:
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
 	case Milestone:
@@ -5086,8 +5086,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case Diagram:
-		return any(&Diagram{
+	case DiagramHierarchy:
+		return any(&DiagramHierarchy{
 			// Initialisation of associations
 			// field is initialized with an instance of ProductShape with the name of the field
 			Product_Shapes: []*ProductShape{{Name: "Product_Shapes"}},
@@ -5153,8 +5153,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RootResources: []*Resource{{Name: "RootResources"}},
 			// field is initialized with an instance of Note with the name of the field
 			Notes: []*Note{{Name: "Notes"}},
-			// field is initialized with an instance of Diagram with the name of the field
-			Diagrams: []*Diagram{{Name: "Diagrams"}},
+			// field is initialized with an instance of DiagramHierarchy with the name of the field
+			Diagrams: []*DiagramHierarchy{{Name: "Diagrams"}},
 		}).(*Type)
 	case Milestone:
 		return any(&Milestone{
@@ -5327,8 +5327,8 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
-	// reverse maps of direct associations of Diagram
-	case Diagram:
+	// reverse maps of direct associations of DiagramHierarchy
+	case DiagramHierarchy:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -5865,191 +5865,191 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
-	// reverse maps of direct associations of Diagram
-	case Diagram:
+	// reverse maps of direct associations of DiagramHierarchy
+	case DiagramHierarchy:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Product_Shapes":
-			res := make(map[*ProductShape][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, productshape_ := range diagram.Product_Shapes {
-					res[productshape_] = append(res[productshape_], diagram)
+			res := make(map[*ProductShape][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, productshape_ := range diagramhierarchy.Product_Shapes {
+					res[productshape_] = append(res[productshape_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ProductsWhoseNodeIsExpanded":
-			res := make(map[*Product][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, product_ := range diagram.ProductsWhoseNodeIsExpanded {
-					res[product_] = append(res[product_], diagram)
+			res := make(map[*Product][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, product_ := range diagramhierarchy.ProductsWhoseNodeIsExpanded {
+					res[product_] = append(res[product_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ProductComposition_Shapes":
-			res := make(map[*ProductCompositionShape][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, productcompositionshape_ := range diagram.ProductComposition_Shapes {
-					res[productcompositionshape_] = append(res[productcompositionshape_], diagram)
+			res := make(map[*ProductCompositionShape][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, productcompositionshape_ := range diagramhierarchy.ProductComposition_Shapes {
+					res[productcompositionshape_] = append(res[productcompositionshape_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "Task_Shapes":
-			res := make(map[*TaskShape][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, taskshape_ := range diagram.Task_Shapes {
-					res[taskshape_] = append(res[taskshape_], diagram)
+			res := make(map[*TaskShape][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, taskshape_ := range diagramhierarchy.Task_Shapes {
+					res[taskshape_] = append(res[taskshape_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TasksWhoseNodeIsExpanded":
-			res := make(map[*Task][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, task_ := range diagram.TasksWhoseNodeIsExpanded {
-					res[task_] = append(res[task_], diagram)
+			res := make(map[*Task][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, task_ := range diagramhierarchy.TasksWhoseNodeIsExpanded {
+					res[task_] = append(res[task_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TasksWhoseInputNodeIsExpanded":
-			res := make(map[*Task][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, task_ := range diagram.TasksWhoseInputNodeIsExpanded {
-					res[task_] = append(res[task_], diagram)
+			res := make(map[*Task][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, task_ := range diagramhierarchy.TasksWhoseInputNodeIsExpanded {
+					res[task_] = append(res[task_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TasksWhoseOutputNodeIsExpanded":
-			res := make(map[*Task][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, task_ := range diagram.TasksWhoseOutputNodeIsExpanded {
-					res[task_] = append(res[task_], diagram)
+			res := make(map[*Task][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, task_ := range diagramhierarchy.TasksWhoseOutputNodeIsExpanded {
+					res[task_] = append(res[task_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TaskGroupShapes":
-			res := make(map[*TaskGroupShape][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, taskgroupshape_ := range diagram.TaskGroupShapes {
-					res[taskgroupshape_] = append(res[taskgroupshape_], diagram)
+			res := make(map[*TaskGroupShape][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, taskgroupshape_ := range diagramhierarchy.TaskGroupShapes {
+					res[taskgroupshape_] = append(res[taskgroupshape_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TaskGroupsWhoseNodeIsExpanded":
-			res := make(map[*TaskGroup][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, taskgroup_ := range diagram.TaskGroupsWhoseNodeIsExpanded {
-					res[taskgroup_] = append(res[taskgroup_], diagram)
+			res := make(map[*TaskGroup][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, taskgroup_ := range diagramhierarchy.TaskGroupsWhoseNodeIsExpanded {
+					res[taskgroup_] = append(res[taskgroup_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "MilestoneShapes":
-			res := make(map[*MilestoneShape][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, milestoneshape_ := range diagram.MilestoneShapes {
-					res[milestoneshape_] = append(res[milestoneshape_], diagram)
+			res := make(map[*MilestoneShape][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, milestoneshape_ := range diagramhierarchy.MilestoneShapes {
+					res[milestoneshape_] = append(res[milestoneshape_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "MilestonesWhoseNodeIsExpanded":
-			res := make(map[*Milestone][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, milestone_ := range diagram.MilestonesWhoseNodeIsExpanded {
-					res[milestone_] = append(res[milestone_], diagram)
+			res := make(map[*Milestone][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, milestone_ := range diagramhierarchy.MilestonesWhoseNodeIsExpanded {
+					res[milestone_] = append(res[milestone_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TaskComposition_Shapes":
-			res := make(map[*TaskCompositionShape][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, taskcompositionshape_ := range diagram.TaskComposition_Shapes {
-					res[taskcompositionshape_] = append(res[taskcompositionshape_], diagram)
+			res := make(map[*TaskCompositionShape][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, taskcompositionshape_ := range diagramhierarchy.TaskComposition_Shapes {
+					res[taskcompositionshape_] = append(res[taskcompositionshape_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TaskInputShapes":
-			res := make(map[*TaskInputShape][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, taskinputshape_ := range diagram.TaskInputShapes {
-					res[taskinputshape_] = append(res[taskinputshape_], diagram)
+			res := make(map[*TaskInputShape][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, taskinputshape_ := range diagramhierarchy.TaskInputShapes {
+					res[taskinputshape_] = append(res[taskinputshape_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "TaskOutputShapes":
-			res := make(map[*TaskOutputShape][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, taskoutputshape_ := range diagram.TaskOutputShapes {
-					res[taskoutputshape_] = append(res[taskoutputshape_], diagram)
+			res := make(map[*TaskOutputShape][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, taskoutputshape_ := range diagramhierarchy.TaskOutputShapes {
+					res[taskoutputshape_] = append(res[taskoutputshape_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "Note_Shapes":
-			res := make(map[*NoteShape][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, noteshape_ := range diagram.Note_Shapes {
-					res[noteshape_] = append(res[noteshape_], diagram)
+			res := make(map[*NoteShape][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, noteshape_ := range diagramhierarchy.Note_Shapes {
+					res[noteshape_] = append(res[noteshape_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "NotesWhoseNodeIsExpanded":
-			res := make(map[*Note][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, note_ := range diagram.NotesWhoseNodeIsExpanded {
-					res[note_] = append(res[note_], diagram)
+			res := make(map[*Note][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, note_ := range diagramhierarchy.NotesWhoseNodeIsExpanded {
+					res[note_] = append(res[note_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "NoteProductShapes":
-			res := make(map[*NoteProductShape][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, noteproductshape_ := range diagram.NoteProductShapes {
-					res[noteproductshape_] = append(res[noteproductshape_], diagram)
+			res := make(map[*NoteProductShape][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, noteproductshape_ := range diagramhierarchy.NoteProductShapes {
+					res[noteproductshape_] = append(res[noteproductshape_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "NoteTaskShapes":
-			res := make(map[*NoteTaskShape][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, notetaskshape_ := range diagram.NoteTaskShapes {
-					res[notetaskshape_] = append(res[notetaskshape_], diagram)
+			res := make(map[*NoteTaskShape][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, notetaskshape_ := range diagramhierarchy.NoteTaskShapes {
+					res[notetaskshape_] = append(res[notetaskshape_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "NoteResourceShapes":
-			res := make(map[*NoteResourceShape][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, noteresourceshape_ := range diagram.NoteResourceShapes {
-					res[noteresourceshape_] = append(res[noteresourceshape_], diagram)
+			res := make(map[*NoteResourceShape][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, noteresourceshape_ := range diagramhierarchy.NoteResourceShapes {
+					res[noteresourceshape_] = append(res[noteresourceshape_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "Resource_Shapes":
-			res := make(map[*ResourceShape][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, resourceshape_ := range diagram.Resource_Shapes {
-					res[resourceshape_] = append(res[resourceshape_], diagram)
+			res := make(map[*ResourceShape][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, resourceshape_ := range diagramhierarchy.Resource_Shapes {
+					res[resourceshape_] = append(res[resourceshape_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ResourcesWhoseNodeIsExpanded":
-			res := make(map[*Resource][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, resource_ := range diagram.ResourcesWhoseNodeIsExpanded {
-					res[resource_] = append(res[resource_], diagram)
+			res := make(map[*Resource][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, resource_ := range diagramhierarchy.ResourcesWhoseNodeIsExpanded {
+					res[resource_] = append(res[resource_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ResourceComposition_Shapes":
-			res := make(map[*ResourceCompositionShape][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, resourcecompositionshape_ := range diagram.ResourceComposition_Shapes {
-					res[resourcecompositionshape_] = append(res[resourcecompositionshape_], diagram)
+			res := make(map[*ResourceCompositionShape][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, resourcecompositionshape_ := range diagramhierarchy.ResourceComposition_Shapes {
+					res[resourcecompositionshape_] = append(res[resourcecompositionshape_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ResourceTaskShapes":
-			res := make(map[*ResourceTaskShape][]*Diagram)
-			for diagram := range stage.Diagrams {
-				for _, resourcetaskshape_ := range diagram.ResourceTaskShapes {
-					res[resourcetaskshape_] = append(res[resourcetaskshape_], diagram)
+			res := make(map[*ResourceTaskShape][]*DiagramHierarchy)
+			for diagramhierarchy := range stage.DiagramHierarchys {
+				for _, resourcetaskshape_ := range diagramhierarchy.ResourceTaskShapes {
+					res[resourcetaskshape_] = append(res[resourcetaskshape_], diagramhierarchy)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -6115,10 +6115,10 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		case "Diagrams":
-			res := make(map[*Diagram][]*Library)
+			res := make(map[*DiagramHierarchy][]*Library)
 			for library := range stage.Librarys {
-				for _, diagram_ := range library.Diagrams {
-					res[diagram_] = append(res[diagram_], library)
+				for _, diagramhierarchy_ := range library.Diagrams {
+					res[diagramhierarchy_] = append(res[diagramhierarchy_], library)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -6327,8 +6327,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
-	case *Diagram:
-		res = "Diagram"
+	case *DiagramHierarchy:
+		res = "DiagramHierarchy"
 	case *Library:
 		res = "Library"
 	case *Milestone:
@@ -6390,7 +6390,7 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
-	case *Diagram:
+	case *DiagramHierarchy:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Library"
@@ -6405,7 +6405,7 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Milestone:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "MilestonesWhoseNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Library"
@@ -6414,13 +6414,13 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *MilestoneShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "MilestoneShapes"
 		res = append(res, rf)
 	case *Note:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "NotesWhoseNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Library"
@@ -6429,31 +6429,31 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *NoteProductShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "NoteProductShapes"
 		res = append(res, rf)
 	case *NoteResourceShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "NoteResourceShapes"
 		res = append(res, rf)
 	case *NoteShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "Note_Shapes"
 		res = append(res, rf)
 	case *NoteTaskShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "NoteTaskShapes"
 		res = append(res, rf)
 	case *Product:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "ProductsWhoseNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Library"
@@ -6474,19 +6474,19 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *ProductCompositionShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "ProductComposition_Shapes"
 		res = append(res, rf)
 	case *ProductShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "Product_Shapes"
 		res = append(res, rf)
 	case *Resource:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "ResourcesWhoseNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Library"
@@ -6501,31 +6501,31 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *ResourceCompositionShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "ResourceComposition_Shapes"
 		res = append(res, rf)
 	case *ResourceShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "Resource_Shapes"
 		res = append(res, rf)
 	case *ResourceTaskShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "ResourceTaskShapes"
 		res = append(res, rf)
 	case *Task:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "TasksWhoseNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "TasksWhoseInputNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "TasksWhoseOutputNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Library"
@@ -6546,13 +6546,13 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *TaskCompositionShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "TaskComposition_Shapes"
 		res = append(res, rf)
 	case *TaskGroup:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "TaskGroupsWhoseNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Library"
@@ -6564,25 +6564,25 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *TaskGroupShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "TaskGroupShapes"
 		res = append(res, rf)
 	case *TaskInputShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "TaskInputShapes"
 		res = append(res, rf)
 	case *TaskOutputShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "TaskOutputShapes"
 		res = append(res, rf)
 	case *TaskShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Diagram"
+		rf.GongstructName = "DiagramHierarchy"
 		rf.Fieldname = "Task_Shapes"
 		res = append(res, rf)
 	}
@@ -6590,7 +6590,7 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 }
 
 // insertion point for get fields header method
-func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (diagramhierarchy *DiagramHierarchy) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -6958,7 +6958,7 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:                 "Diagrams",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Diagram",
+			TargetGongstructName: "DiagramHierarchy",
 		},
 	}
 	return
@@ -7896,48 +7896,48 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
-func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (diagramhierarchy *DiagramHierarchy) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = diagram.Name
+		res.valueString = diagramhierarchy.Name
 	case "ComputedPrefix":
-		res.valueString = diagram.ComputedPrefix
+		res.valueString = diagramhierarchy.ComputedPrefix
 	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
-		res.valueBool = diagram.IsExpanded
+		res.valueString = fmt.Sprintf("%t", diagramhierarchy.IsExpanded)
+		res.valueBool = diagramhierarchy.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsChecked":
-		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
-		res.valueBool = diagram.IsChecked
+		res.valueString = fmt.Sprintf("%t", diagramhierarchy.IsChecked)
+		res.valueBool = diagramhierarchy.IsChecked
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsEditable_":
-		res.valueString = fmt.Sprintf("%t", diagram.IsEditable_)
-		res.valueBool = diagram.IsEditable_
+		res.valueString = fmt.Sprintf("%t", diagramhierarchy.IsEditable_)
+		res.valueBool = diagramhierarchy.IsEditable_
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsShowPrefix":
-		res.valueString = fmt.Sprintf("%t", diagram.IsShowPrefix)
-		res.valueBool = diagram.IsShowPrefix
+		res.valueString = fmt.Sprintf("%t", diagramhierarchy.IsShowPrefix)
+		res.valueBool = diagramhierarchy.IsShowPrefix
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "DefaultBoxWidth":
-		res.valueString = fmt.Sprintf("%f", diagram.DefaultBoxWidth)
-		res.valueFloat = diagram.DefaultBoxWidth
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.DefaultBoxWidth)
+		res.valueFloat = diagramhierarchy.DefaultBoxWidth
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "DefaultBoxHeigth":
-		res.valueString = fmt.Sprintf("%f", diagram.DefaultBoxHeigth)
-		res.valueFloat = diagram.DefaultBoxHeigth
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.DefaultBoxHeigth)
+		res.valueFloat = diagramhierarchy.DefaultBoxHeigth
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Width":
-		res.valueString = fmt.Sprintf("%f", diagram.Width)
-		res.valueFloat = diagram.Width
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.Width)
+		res.valueFloat = diagramhierarchy.Width
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Height":
-		res.valueString = fmt.Sprintf("%f", diagram.Height)
-		res.valueFloat = diagram.Height
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.Height)
+		res.valueFloat = diagramhierarchy.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Product_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.Product_Shapes {
+		for idx, __instance__ := range diagramhierarchy.Product_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7947,7 +7947,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		}
 	case "ProductsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.ProductsWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagramhierarchy.ProductsWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7956,12 +7956,12 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "IsPBSNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsPBSNodeExpanded)
-		res.valueBool = diagram.IsPBSNodeExpanded
+		res.valueString = fmt.Sprintf("%t", diagramhierarchy.IsPBSNodeExpanded)
+		res.valueBool = diagramhierarchy.IsPBSNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ProductComposition_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.ProductComposition_Shapes {
+		for idx, __instance__ := range diagramhierarchy.ProductComposition_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7970,12 +7970,12 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "IsWBSNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsWBSNodeExpanded)
-		res.valueBool = diagram.IsWBSNodeExpanded
+		res.valueString = fmt.Sprintf("%t", diagramhierarchy.IsWBSNodeExpanded)
+		res.valueBool = diagramhierarchy.IsWBSNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Task_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.Task_Shapes {
+		for idx, __instance__ := range diagramhierarchy.Task_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7985,7 +7985,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		}
 	case "TasksWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.TasksWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagramhierarchy.TasksWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7995,7 +7995,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		}
 	case "TasksWhoseInputNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.TasksWhoseInputNodeIsExpanded {
+		for idx, __instance__ := range diagramhierarchy.TasksWhoseInputNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8005,7 +8005,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		}
 	case "TasksWhoseOutputNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.TasksWhoseOutputNodeIsExpanded {
+		for idx, __instance__ := range diagramhierarchy.TasksWhoseOutputNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8014,12 +8014,12 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "IsTaskGroupsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsTaskGroupsNodeExpanded)
-		res.valueBool = diagram.IsTaskGroupsNodeExpanded
+		res.valueString = fmt.Sprintf("%t", diagramhierarchy.IsTaskGroupsNodeExpanded)
+		res.valueBool = diagramhierarchy.IsTaskGroupsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "TaskGroupShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.TaskGroupShapes {
+		for idx, __instance__ := range diagramhierarchy.TaskGroupShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8029,7 +8029,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		}
 	case "TaskGroupsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.TaskGroupsWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagramhierarchy.TaskGroupsWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8038,12 +8038,12 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "IsMilestonesNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsMilestonesNodeExpanded)
-		res.valueBool = diagram.IsMilestonesNodeExpanded
+		res.valueString = fmt.Sprintf("%t", diagramhierarchy.IsMilestonesNodeExpanded)
+		res.valueBool = diagramhierarchy.IsMilestonesNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "MilestoneShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.MilestoneShapes {
+		for idx, __instance__ := range diagramhierarchy.MilestoneShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8053,7 +8053,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		}
 	case "MilestonesWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.MilestonesWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagramhierarchy.MilestonesWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8062,10 +8062,10 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "DateFormat":
-		res.valueString = diagram.DateFormat
+		res.valueString = diagramhierarchy.DateFormat
 	case "TaskComposition_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.TaskComposition_Shapes {
+		for idx, __instance__ := range diagramhierarchy.TaskComposition_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8075,7 +8075,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		}
 	case "TaskInputShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.TaskInputShapes {
+		for idx, __instance__ := range diagramhierarchy.TaskInputShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8085,7 +8085,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		}
 	case "TaskOutputShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.TaskOutputShapes {
+		for idx, __instance__ := range diagramhierarchy.TaskOutputShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8095,7 +8095,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		}
 	case "Note_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.Note_Shapes {
+		for idx, __instance__ := range diagramhierarchy.Note_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8105,7 +8105,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		}
 	case "NotesWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.NotesWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagramhierarchy.NotesWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8114,12 +8114,12 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "IsNotesNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsNotesNodeExpanded)
-		res.valueBool = diagram.IsNotesNodeExpanded
+		res.valueString = fmt.Sprintf("%t", diagramhierarchy.IsNotesNodeExpanded)
+		res.valueBool = diagramhierarchy.IsNotesNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "NoteProductShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.NoteProductShapes {
+		for idx, __instance__ := range diagramhierarchy.NoteProductShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8129,7 +8129,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		}
 	case "NoteTaskShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.NoteTaskShapes {
+		for idx, __instance__ := range diagramhierarchy.NoteTaskShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8139,7 +8139,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		}
 	case "NoteResourceShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.NoteResourceShapes {
+		for idx, __instance__ := range diagramhierarchy.NoteResourceShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8149,7 +8149,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		}
 	case "Resource_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.Resource_Shapes {
+		for idx, __instance__ := range diagramhierarchy.Resource_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8159,7 +8159,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		}
 	case "ResourcesWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.ResourcesWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagramhierarchy.ResourcesWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8168,12 +8168,12 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "IsResourcesNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsResourcesNodeExpanded)
-		res.valueBool = diagram.IsResourcesNodeExpanded
+		res.valueString = fmt.Sprintf("%t", diagramhierarchy.IsResourcesNodeExpanded)
+		res.valueBool = diagramhierarchy.IsResourcesNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ResourceComposition_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.ResourceComposition_Shapes {
+		for idx, __instance__ := range diagramhierarchy.ResourceComposition_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8183,7 +8183,7 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		}
 	case "ResourceTaskShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.ResourceTaskShapes {
+		for idx, __instance__ := range diagramhierarchy.ResourceTaskShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8192,24 +8192,24 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "IsTimeDiagram":
-		res.valueString = fmt.Sprintf("%t", diagram.IsTimeDiagram)
-		res.valueBool = diagram.IsTimeDiagram
+		res.valueString = fmt.Sprintf("%t", diagramhierarchy.IsTimeDiagram)
+		res.valueBool = diagramhierarchy.IsTimeDiagram
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ComputedStart":
-		res.valueString = diagram.ComputedStart.String()
+		res.valueString = diagramhierarchy.ComputedStart.String()
 	case "ComputedEnd":
-		res.valueString = diagram.ComputedEnd.String()
+		res.valueString = diagramhierarchy.ComputedEnd.String()
 	case "ComputedDuration":
-		if math.Abs(diagram.ComputedDuration.Hours()) >= 24 {
-			days := __Gong__Abs(int(int(diagram.ComputedDuration.Hours()) / 24))
+		if math.Abs(diagramhierarchy.ComputedDuration.Hours()) >= 24 {
+			days := __Gong__Abs(int(int(diagramhierarchy.ComputedDuration.Hours()) / 24))
 			months := int(days / 31)
 			days = days - months*31
 
-			remainingHours := int(diagram.ComputedDuration.Hours()) % 24
-			remainingMinutes := int(diagram.ComputedDuration.Minutes()) % 60
-			remainingSeconds := int(diagram.ComputedDuration.Seconds()) % 60
+			remainingHours := int(diagramhierarchy.ComputedDuration.Hours()) % 24
+			remainingMinutes := int(diagramhierarchy.ComputedDuration.Minutes()) % 60
+			remainingSeconds := int(diagramhierarchy.ComputedDuration.Seconds()) % 60
 
-			if diagram.ComputedDuration.Hours() < 0 {
+			if diagramhierarchy.ComputedDuration.Hours() < 0 {
 				res.valueString = "- "
 			}
 
@@ -8238,90 +8238,90 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 				res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
 			}
 		} else {
-			res.valueString = fmt.Sprintf("%s\n", diagram.ComputedDuration.String())
+			res.valueString = fmt.Sprintf("%s\n", diagramhierarchy.ComputedDuration.String())
 		}
 	case "UseManualStartAndEndDates":
-		res.valueString = fmt.Sprintf("%t", diagram.UseManualStartAndEndDates)
-		res.valueBool = diagram.UseManualStartAndEndDates
+		res.valueString = fmt.Sprintf("%t", diagramhierarchy.UseManualStartAndEndDates)
+		res.valueBool = diagramhierarchy.UseManualStartAndEndDates
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ManualStart":
-		res.valueString = diagram.ManualStart.String()
+		res.valueString = diagramhierarchy.ManualStart.String()
 	case "ManualEnd":
-		res.valueString = diagram.ManualEnd.String()
+		res.valueString = diagramhierarchy.ManualEnd.String()
 	case "TimeStep":
-		res.valueString = fmt.Sprintf("%d", diagram.TimeStep)
-		res.valueInt = diagram.TimeStep
+		res.valueString = fmt.Sprintf("%d", diagramhierarchy.TimeStep)
+		res.valueInt = diagramhierarchy.TimeStep
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "TimeStepScale":
-		enum := diagram.TimeStepScale
+		enum := diagramhierarchy.TimeStepScale
 		res.valueString = enum.ToCodeString()
 	case "LaneHeight":
-		res.valueString = fmt.Sprintf("%f", diagram.LaneHeight)
-		res.valueFloat = diagram.LaneHeight
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.LaneHeight)
+		res.valueFloat = diagramhierarchy.LaneHeight
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RatioBarToLaneHeight":
-		res.valueString = fmt.Sprintf("%f", diagram.RatioBarToLaneHeight)
-		res.valueFloat = diagram.RatioBarToLaneHeight
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.RatioBarToLaneHeight)
+		res.valueFloat = diagramhierarchy.RatioBarToLaneHeight
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "YTopMargin":
-		res.valueString = fmt.Sprintf("%f", diagram.YTopMargin)
-		res.valueFloat = diagram.YTopMargin
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.YTopMargin)
+		res.valueFloat = diagramhierarchy.YTopMargin
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "XLeftText":
-		res.valueString = fmt.Sprintf("%f", diagram.XLeftText)
-		res.valueFloat = diagram.XLeftText
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.XLeftText)
+		res.valueFloat = diagramhierarchy.XLeftText
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "TextHeight":
-		res.valueString = fmt.Sprintf("%f", diagram.TextHeight)
-		res.valueFloat = diagram.TextHeight
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.TextHeight)
+		res.valueFloat = diagramhierarchy.TextHeight
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "XLeftLanes":
-		res.valueString = fmt.Sprintf("%f", diagram.XLeftLanes)
-		res.valueFloat = diagram.XLeftLanes
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.XLeftLanes)
+		res.valueFloat = diagramhierarchy.XLeftLanes
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "XRightMargin":
-		res.valueString = fmt.Sprintf("%f", diagram.XRightMargin)
-		res.valueFloat = diagram.XRightMargin
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.XRightMargin)
+		res.valueFloat = diagramhierarchy.XRightMargin
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "ArrowLengthToTheRightOfStartBar":
-		res.valueString = fmt.Sprintf("%f", diagram.ArrowLengthToTheRightOfStartBar)
-		res.valueFloat = diagram.ArrowLengthToTheRightOfStartBar
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.ArrowLengthToTheRightOfStartBar)
+		res.valueFloat = diagramhierarchy.ArrowLengthToTheRightOfStartBar
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "ArrowTipLenght":
-		res.valueString = fmt.Sprintf("%f", diagram.ArrowTipLenght)
-		res.valueFloat = diagram.ArrowTipLenght
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.ArrowTipLenght)
+		res.valueFloat = diagramhierarchy.ArrowTipLenght
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "TimeLine_Color":
-		res.valueString = diagram.TimeLine_Color
+		res.valueString = diagramhierarchy.TimeLine_Color
 	case "TimeLine_FillOpacity":
-		res.valueString = fmt.Sprintf("%f", diagram.TimeLine_FillOpacity)
-		res.valueFloat = diagram.TimeLine_FillOpacity
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.TimeLine_FillOpacity)
+		res.valueFloat = diagramhierarchy.TimeLine_FillOpacity
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "TimeLine_Stroke":
-		res.valueString = diagram.TimeLine_Stroke
+		res.valueString = diagramhierarchy.TimeLine_Stroke
 	case "TimeLine_StrokeWidth":
-		res.valueString = fmt.Sprintf("%f", diagram.TimeLine_StrokeWidth)
-		res.valueFloat = diagram.TimeLine_StrokeWidth
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.TimeLine_StrokeWidth)
+		res.valueFloat = diagramhierarchy.TimeLine_StrokeWidth
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "DrawVerticalTimeLines":
-		res.valueString = fmt.Sprintf("%t", diagram.DrawVerticalTimeLines)
-		res.valueBool = diagram.DrawVerticalTimeLines
+		res.valueString = fmt.Sprintf("%t", diagramhierarchy.DrawVerticalTimeLines)
+		res.valueBool = diagramhierarchy.DrawVerticalTimeLines
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Group_Stroke":
-		res.valueString = diagram.Group_Stroke
+		res.valueString = diagramhierarchy.Group_Stroke
 	case "Group_StrokeWidth":
-		res.valueString = fmt.Sprintf("%f", diagram.Group_StrokeWidth)
-		res.valueFloat = diagram.Group_StrokeWidth
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.Group_StrokeWidth)
+		res.valueFloat = diagramhierarchy.Group_StrokeWidth
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Group_StrokeDashArray":
-		res.valueString = diagram.Group_StrokeDashArray
+		res.valueString = diagramhierarchy.Group_StrokeDashArray
 	case "DateYOffset":
-		res.valueString = fmt.Sprintf("%f", diagram.DateYOffset)
-		res.valueFloat = diagram.DateYOffset
+		res.valueString = fmt.Sprintf("%f", diagramhierarchy.DateYOffset)
+		res.valueFloat = diagramhierarchy.DateYOffset
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "AlignOnStartEndOnYearStart":
-		res.valueString = fmt.Sprintf("%t", diagram.AlignOnStartEndOnYearStart)
-		res.valueBool = diagram.AlignOnStartEndOnYearStart
+		res.valueString = fmt.Sprintf("%t", diagramhierarchy.AlignOnStartEndOnYearStart)
+		res.valueBool = diagramhierarchy.AlignOnStartEndOnYearStart
 		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
@@ -9290,411 +9290,411 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 }
 
 // insertion point for generic set gongstruct field value
-func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+func (diagramhierarchy *DiagramHierarchy) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
 	case "Name":
-		diagram.Name = value.GetValueString()
+		diagramhierarchy.Name = value.GetValueString()
 	case "ComputedPrefix":
-		diagram.ComputedPrefix = value.GetValueString()
+		diagramhierarchy.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
-		diagram.IsExpanded = value.GetValueBool()
+		diagramhierarchy.IsExpanded = value.GetValueBool()
 	case "IsChecked":
-		diagram.IsChecked = value.GetValueBool()
+		diagramhierarchy.IsChecked = value.GetValueBool()
 	case "IsEditable_":
-		diagram.IsEditable_ = value.GetValueBool()
+		diagramhierarchy.IsEditable_ = value.GetValueBool()
 	case "IsShowPrefix":
-		diagram.IsShowPrefix = value.GetValueBool()
+		diagramhierarchy.IsShowPrefix = value.GetValueBool()
 	case "DefaultBoxWidth":
-		diagram.DefaultBoxWidth = value.GetValueFloat()
+		diagramhierarchy.DefaultBoxWidth = value.GetValueFloat()
 	case "DefaultBoxHeigth":
-		diagram.DefaultBoxHeigth = value.GetValueFloat()
+		diagramhierarchy.DefaultBoxHeigth = value.GetValueFloat()
 	case "Width":
-		diagram.Width = value.GetValueFloat()
+		diagramhierarchy.Width = value.GetValueFloat()
 	case "Height":
-		diagram.Height = value.GetValueFloat()
+		diagramhierarchy.Height = value.GetValueFloat()
 	case "Product_Shapes":
-		diagram.Product_Shapes = make([]*ProductShape, 0)
+		diagramhierarchy.Product_Shapes = make([]*ProductShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ProductShapes {
 					if stage.ProductShape_stagedOrder[__instance__] == uint(id) {
-						diagram.Product_Shapes = append(diagram.Product_Shapes, __instance__)
+						diagramhierarchy.Product_Shapes = append(diagramhierarchy.Product_Shapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "ProductsWhoseNodeIsExpanded":
-		diagram.ProductsWhoseNodeIsExpanded = make([]*Product, 0)
+		diagramhierarchy.ProductsWhoseNodeIsExpanded = make([]*Product, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Products {
 					if stage.Product_stagedOrder[__instance__] == uint(id) {
-						diagram.ProductsWhoseNodeIsExpanded = append(diagram.ProductsWhoseNodeIsExpanded, __instance__)
+						diagramhierarchy.ProductsWhoseNodeIsExpanded = append(diagramhierarchy.ProductsWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "IsPBSNodeExpanded":
-		diagram.IsPBSNodeExpanded = value.GetValueBool()
+		diagramhierarchy.IsPBSNodeExpanded = value.GetValueBool()
 	case "ProductComposition_Shapes":
-		diagram.ProductComposition_Shapes = make([]*ProductCompositionShape, 0)
+		diagramhierarchy.ProductComposition_Shapes = make([]*ProductCompositionShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ProductCompositionShapes {
 					if stage.ProductCompositionShape_stagedOrder[__instance__] == uint(id) {
-						diagram.ProductComposition_Shapes = append(diagram.ProductComposition_Shapes, __instance__)
+						diagramhierarchy.ProductComposition_Shapes = append(diagramhierarchy.ProductComposition_Shapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "IsWBSNodeExpanded":
-		diagram.IsWBSNodeExpanded = value.GetValueBool()
+		diagramhierarchy.IsWBSNodeExpanded = value.GetValueBool()
 	case "Task_Shapes":
-		diagram.Task_Shapes = make([]*TaskShape, 0)
+		diagramhierarchy.Task_Shapes = make([]*TaskShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.TaskShapes {
 					if stage.TaskShape_stagedOrder[__instance__] == uint(id) {
-						diagram.Task_Shapes = append(diagram.Task_Shapes, __instance__)
+						diagramhierarchy.Task_Shapes = append(diagramhierarchy.Task_Shapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "TasksWhoseNodeIsExpanded":
-		diagram.TasksWhoseNodeIsExpanded = make([]*Task, 0)
+		diagramhierarchy.TasksWhoseNodeIsExpanded = make([]*Task, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Tasks {
 					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						diagram.TasksWhoseNodeIsExpanded = append(diagram.TasksWhoseNodeIsExpanded, __instance__)
+						diagramhierarchy.TasksWhoseNodeIsExpanded = append(diagramhierarchy.TasksWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "TasksWhoseInputNodeIsExpanded":
-		diagram.TasksWhoseInputNodeIsExpanded = make([]*Task, 0)
+		diagramhierarchy.TasksWhoseInputNodeIsExpanded = make([]*Task, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Tasks {
 					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						diagram.TasksWhoseInputNodeIsExpanded = append(diagram.TasksWhoseInputNodeIsExpanded, __instance__)
+						diagramhierarchy.TasksWhoseInputNodeIsExpanded = append(diagramhierarchy.TasksWhoseInputNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "TasksWhoseOutputNodeIsExpanded":
-		diagram.TasksWhoseOutputNodeIsExpanded = make([]*Task, 0)
+		diagramhierarchy.TasksWhoseOutputNodeIsExpanded = make([]*Task, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Tasks {
 					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						diagram.TasksWhoseOutputNodeIsExpanded = append(diagram.TasksWhoseOutputNodeIsExpanded, __instance__)
+						diagramhierarchy.TasksWhoseOutputNodeIsExpanded = append(diagramhierarchy.TasksWhoseOutputNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "IsTaskGroupsNodeExpanded":
-		diagram.IsTaskGroupsNodeExpanded = value.GetValueBool()
+		diagramhierarchy.IsTaskGroupsNodeExpanded = value.GetValueBool()
 	case "TaskGroupShapes":
-		diagram.TaskGroupShapes = make([]*TaskGroupShape, 0)
+		diagramhierarchy.TaskGroupShapes = make([]*TaskGroupShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.TaskGroupShapes {
 					if stage.TaskGroupShape_stagedOrder[__instance__] == uint(id) {
-						diagram.TaskGroupShapes = append(diagram.TaskGroupShapes, __instance__)
+						diagramhierarchy.TaskGroupShapes = append(diagramhierarchy.TaskGroupShapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "TaskGroupsWhoseNodeIsExpanded":
-		diagram.TaskGroupsWhoseNodeIsExpanded = make([]*TaskGroup, 0)
+		diagramhierarchy.TaskGroupsWhoseNodeIsExpanded = make([]*TaskGroup, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.TaskGroups {
 					if stage.TaskGroup_stagedOrder[__instance__] == uint(id) {
-						diagram.TaskGroupsWhoseNodeIsExpanded = append(diagram.TaskGroupsWhoseNodeIsExpanded, __instance__)
+						diagramhierarchy.TaskGroupsWhoseNodeIsExpanded = append(diagramhierarchy.TaskGroupsWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "IsMilestonesNodeExpanded":
-		diagram.IsMilestonesNodeExpanded = value.GetValueBool()
+		diagramhierarchy.IsMilestonesNodeExpanded = value.GetValueBool()
 	case "MilestoneShapes":
-		diagram.MilestoneShapes = make([]*MilestoneShape, 0)
+		diagramhierarchy.MilestoneShapes = make([]*MilestoneShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.MilestoneShapes {
 					if stage.MilestoneShape_stagedOrder[__instance__] == uint(id) {
-						diagram.MilestoneShapes = append(diagram.MilestoneShapes, __instance__)
+						diagramhierarchy.MilestoneShapes = append(diagramhierarchy.MilestoneShapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "MilestonesWhoseNodeIsExpanded":
-		diagram.MilestonesWhoseNodeIsExpanded = make([]*Milestone, 0)
+		diagramhierarchy.MilestonesWhoseNodeIsExpanded = make([]*Milestone, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Milestones {
 					if stage.Milestone_stagedOrder[__instance__] == uint(id) {
-						diagram.MilestonesWhoseNodeIsExpanded = append(diagram.MilestonesWhoseNodeIsExpanded, __instance__)
+						diagramhierarchy.MilestonesWhoseNodeIsExpanded = append(diagramhierarchy.MilestonesWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "DateFormat":
-		diagram.DateFormat = value.GetValueString()
+		diagramhierarchy.DateFormat = value.GetValueString()
 	case "TaskComposition_Shapes":
-		diagram.TaskComposition_Shapes = make([]*TaskCompositionShape, 0)
+		diagramhierarchy.TaskComposition_Shapes = make([]*TaskCompositionShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.TaskCompositionShapes {
 					if stage.TaskCompositionShape_stagedOrder[__instance__] == uint(id) {
-						diagram.TaskComposition_Shapes = append(diagram.TaskComposition_Shapes, __instance__)
+						diagramhierarchy.TaskComposition_Shapes = append(diagramhierarchy.TaskComposition_Shapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "TaskInputShapes":
-		diagram.TaskInputShapes = make([]*TaskInputShape, 0)
+		diagramhierarchy.TaskInputShapes = make([]*TaskInputShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.TaskInputShapes {
 					if stage.TaskInputShape_stagedOrder[__instance__] == uint(id) {
-						diagram.TaskInputShapes = append(diagram.TaskInputShapes, __instance__)
+						diagramhierarchy.TaskInputShapes = append(diagramhierarchy.TaskInputShapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "TaskOutputShapes":
-		diagram.TaskOutputShapes = make([]*TaskOutputShape, 0)
+		diagramhierarchy.TaskOutputShapes = make([]*TaskOutputShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.TaskOutputShapes {
 					if stage.TaskOutputShape_stagedOrder[__instance__] == uint(id) {
-						diagram.TaskOutputShapes = append(diagram.TaskOutputShapes, __instance__)
+						diagramhierarchy.TaskOutputShapes = append(diagramhierarchy.TaskOutputShapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "Note_Shapes":
-		diagram.Note_Shapes = make([]*NoteShape, 0)
+		diagramhierarchy.Note_Shapes = make([]*NoteShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.NoteShapes {
 					if stage.NoteShape_stagedOrder[__instance__] == uint(id) {
-						diagram.Note_Shapes = append(diagram.Note_Shapes, __instance__)
+						diagramhierarchy.Note_Shapes = append(diagramhierarchy.Note_Shapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "NotesWhoseNodeIsExpanded":
-		diagram.NotesWhoseNodeIsExpanded = make([]*Note, 0)
+		diagramhierarchy.NotesWhoseNodeIsExpanded = make([]*Note, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Notes {
 					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						diagram.NotesWhoseNodeIsExpanded = append(diagram.NotesWhoseNodeIsExpanded, __instance__)
+						diagramhierarchy.NotesWhoseNodeIsExpanded = append(diagramhierarchy.NotesWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "IsNotesNodeExpanded":
-		diagram.IsNotesNodeExpanded = value.GetValueBool()
+		diagramhierarchy.IsNotesNodeExpanded = value.GetValueBool()
 	case "NoteProductShapes":
-		diagram.NoteProductShapes = make([]*NoteProductShape, 0)
+		diagramhierarchy.NoteProductShapes = make([]*NoteProductShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.NoteProductShapes {
 					if stage.NoteProductShape_stagedOrder[__instance__] == uint(id) {
-						diagram.NoteProductShapes = append(diagram.NoteProductShapes, __instance__)
+						diagramhierarchy.NoteProductShapes = append(diagramhierarchy.NoteProductShapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "NoteTaskShapes":
-		diagram.NoteTaskShapes = make([]*NoteTaskShape, 0)
+		diagramhierarchy.NoteTaskShapes = make([]*NoteTaskShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.NoteTaskShapes {
 					if stage.NoteTaskShape_stagedOrder[__instance__] == uint(id) {
-						diagram.NoteTaskShapes = append(diagram.NoteTaskShapes, __instance__)
+						diagramhierarchy.NoteTaskShapes = append(diagramhierarchy.NoteTaskShapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "NoteResourceShapes":
-		diagram.NoteResourceShapes = make([]*NoteResourceShape, 0)
+		diagramhierarchy.NoteResourceShapes = make([]*NoteResourceShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.NoteResourceShapes {
 					if stage.NoteResourceShape_stagedOrder[__instance__] == uint(id) {
-						diagram.NoteResourceShapes = append(diagram.NoteResourceShapes, __instance__)
+						diagramhierarchy.NoteResourceShapes = append(diagramhierarchy.NoteResourceShapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "Resource_Shapes":
-		diagram.Resource_Shapes = make([]*ResourceShape, 0)
+		diagramhierarchy.Resource_Shapes = make([]*ResourceShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ResourceShapes {
 					if stage.ResourceShape_stagedOrder[__instance__] == uint(id) {
-						diagram.Resource_Shapes = append(diagram.Resource_Shapes, __instance__)
+						diagramhierarchy.Resource_Shapes = append(diagramhierarchy.Resource_Shapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "ResourcesWhoseNodeIsExpanded":
-		diagram.ResourcesWhoseNodeIsExpanded = make([]*Resource, 0)
+		diagramhierarchy.ResourcesWhoseNodeIsExpanded = make([]*Resource, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Resources {
 					if stage.Resource_stagedOrder[__instance__] == uint(id) {
-						diagram.ResourcesWhoseNodeIsExpanded = append(diagram.ResourcesWhoseNodeIsExpanded, __instance__)
+						diagramhierarchy.ResourcesWhoseNodeIsExpanded = append(diagramhierarchy.ResourcesWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "IsResourcesNodeExpanded":
-		diagram.IsResourcesNodeExpanded = value.GetValueBool()
+		diagramhierarchy.IsResourcesNodeExpanded = value.GetValueBool()
 	case "ResourceComposition_Shapes":
-		diagram.ResourceComposition_Shapes = make([]*ResourceCompositionShape, 0)
+		diagramhierarchy.ResourceComposition_Shapes = make([]*ResourceCompositionShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ResourceCompositionShapes {
 					if stage.ResourceCompositionShape_stagedOrder[__instance__] == uint(id) {
-						diagram.ResourceComposition_Shapes = append(diagram.ResourceComposition_Shapes, __instance__)
+						diagramhierarchy.ResourceComposition_Shapes = append(diagramhierarchy.ResourceComposition_Shapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "ResourceTaskShapes":
-		diagram.ResourceTaskShapes = make([]*ResourceTaskShape, 0)
+		diagramhierarchy.ResourceTaskShapes = make([]*ResourceTaskShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ResourceTaskShapes {
 					if stage.ResourceTaskShape_stagedOrder[__instance__] == uint(id) {
-						diagram.ResourceTaskShapes = append(diagram.ResourceTaskShapes, __instance__)
+						diagramhierarchy.ResourceTaskShapes = append(diagramhierarchy.ResourceTaskShapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "IsTimeDiagram":
-		diagram.IsTimeDiagram = value.GetValueBool()
+		diagramhierarchy.IsTimeDiagram = value.GetValueBool()
 	case "UseManualStartAndEndDates":
-		diagram.UseManualStartAndEndDates = value.GetValueBool()
+		diagramhierarchy.UseManualStartAndEndDates = value.GetValueBool()
 	case "TimeStep":
-		diagram.TimeStep = int(value.GetValueInt())
+		diagramhierarchy.TimeStep = int(value.GetValueInt())
 	case "TimeStepScale":
-		diagram.TimeStepScale.FromCodeString(value.GetValueString())
+		diagramhierarchy.TimeStepScale.FromCodeString(value.GetValueString())
 	case "LaneHeight":
-		diagram.LaneHeight = value.GetValueFloat()
+		diagramhierarchy.LaneHeight = value.GetValueFloat()
 	case "RatioBarToLaneHeight":
-		diagram.RatioBarToLaneHeight = value.GetValueFloat()
+		diagramhierarchy.RatioBarToLaneHeight = value.GetValueFloat()
 	case "YTopMargin":
-		diagram.YTopMargin = value.GetValueFloat()
+		diagramhierarchy.YTopMargin = value.GetValueFloat()
 	case "XLeftText":
-		diagram.XLeftText = value.GetValueFloat()
+		diagramhierarchy.XLeftText = value.GetValueFloat()
 	case "TextHeight":
-		diagram.TextHeight = value.GetValueFloat()
+		diagramhierarchy.TextHeight = value.GetValueFloat()
 	case "XLeftLanes":
-		diagram.XLeftLanes = value.GetValueFloat()
+		diagramhierarchy.XLeftLanes = value.GetValueFloat()
 	case "XRightMargin":
-		diagram.XRightMargin = value.GetValueFloat()
+		diagramhierarchy.XRightMargin = value.GetValueFloat()
 	case "ArrowLengthToTheRightOfStartBar":
-		diagram.ArrowLengthToTheRightOfStartBar = value.GetValueFloat()
+		diagramhierarchy.ArrowLengthToTheRightOfStartBar = value.GetValueFloat()
 	case "ArrowTipLenght":
-		diagram.ArrowTipLenght = value.GetValueFloat()
+		diagramhierarchy.ArrowTipLenght = value.GetValueFloat()
 	case "TimeLine_Color":
-		diagram.TimeLine_Color = value.GetValueString()
+		diagramhierarchy.TimeLine_Color = value.GetValueString()
 	case "TimeLine_FillOpacity":
-		diagram.TimeLine_FillOpacity = value.GetValueFloat()
+		diagramhierarchy.TimeLine_FillOpacity = value.GetValueFloat()
 	case "TimeLine_Stroke":
-		diagram.TimeLine_Stroke = value.GetValueString()
+		diagramhierarchy.TimeLine_Stroke = value.GetValueString()
 	case "TimeLine_StrokeWidth":
-		diagram.TimeLine_StrokeWidth = value.GetValueFloat()
+		diagramhierarchy.TimeLine_StrokeWidth = value.GetValueFloat()
 	case "DrawVerticalTimeLines":
-		diagram.DrawVerticalTimeLines = value.GetValueBool()
+		diagramhierarchy.DrawVerticalTimeLines = value.GetValueBool()
 	case "Group_Stroke":
-		diagram.Group_Stroke = value.GetValueString()
+		diagramhierarchy.Group_Stroke = value.GetValueString()
 	case "Group_StrokeWidth":
-		diagram.Group_StrokeWidth = value.GetValueFloat()
+		diagramhierarchy.Group_StrokeWidth = value.GetValueFloat()
 	case "Group_StrokeDashArray":
-		diagram.Group_StrokeDashArray = value.GetValueString()
+		diagramhierarchy.Group_StrokeDashArray = value.GetValueString()
 	case "DateYOffset":
-		diagram.DateYOffset = value.GetValueFloat()
+		diagramhierarchy.DateYOffset = value.GetValueFloat()
 	case "AlignOnStartEndOnYearStart":
-		diagram.AlignOnStartEndOnYearStart = value.GetValueBool()
+		diagramhierarchy.AlignOnStartEndOnYearStart = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -9815,13 +9815,13 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 			}
 		}
 	case "Diagrams":
-		library.Diagrams = make([]*Diagram, 0)
+		library.Diagrams = make([]*DiagramHierarchy, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Diagrams {
-					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
+				for __instance__ := range stage.DiagramHierarchys {
+					if stage.DiagramHierarchy_stagedOrder[__instance__] == uint(id) {
 						library.Diagrams = append(library.Diagrams, __instance__)
 						break
 					}
@@ -10708,8 +10708,8 @@ func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, val
 }
 
 // insertion point for generic get gongstruct name
-func (diagram *Diagram) GongGetGongstructName() string {
-	return "Diagram"
+func (diagramhierarchy *DiagramHierarchy) GongGetGongstructName() string {
+	return "DiagramHierarchy"
 }
 
 func (library *Library) GongGetGongstructName() string {
@@ -10807,9 +10807,9 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.Diagrams_mapString = make(map[string]*Diagram)
-	for diagram := range stage.Diagrams {
-		stage.Diagrams_mapString[diagram.Name] = diagram
+	stage.DiagramHierarchys_mapString = make(map[string]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		stage.DiagramHierarchys_mapString[diagramhierarchy.Name] = diagramhierarchy
 	}
 
 	stage.Librarys_mapString = make(map[string]*Library)

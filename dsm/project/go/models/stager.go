@@ -40,8 +40,8 @@ type Stager struct {
 	productToLibrary map[*Product]*Library
 	taskToLibrary    map[*Task]*Library
 
-	svgObject *svg.SVG
-	diagram   *Diagram // diagram is the current diagram being displayed
+	svgObject        *svg.SVG
+	diagramHierarchy *DiagramHierarchy // diagram is the current diagram being displayed
 
 	persistanceFile string
 

@@ -67,55 +67,55 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values
 
 	__AttributeShape__00000000_.Name = `Name`
-	__AttributeShape__00000000_.IdentifierMeta = ref_models.Diagram{}.Name
+	__AttributeShape__00000000_.IdentifierMeta = ref_models.DiagramHierarchy{}.Name
 	__AttributeShape__00000000_.FieldTypeAsString = ``
 	__AttributeShape__00000000_.Structname = `Diagram`
 	__AttributeShape__00000000_.Fieldtypename = `string`
 
 	__AttributeShape__00000001_.Name = `ComputedPrefix`
-	__AttributeShape__00000001_.IdentifierMeta = ref_models.Diagram{}.ComputedPrefix
+	__AttributeShape__00000001_.IdentifierMeta = ref_models.DiagramHierarchy{}.ComputedPrefix
 	__AttributeShape__00000001_.FieldTypeAsString = ``
 	__AttributeShape__00000001_.Structname = `Diagram`
 	__AttributeShape__00000001_.Fieldtypename = `string`
 
 	__AttributeShape__00000002_.Name = `IsChecked`
-	__AttributeShape__00000002_.IdentifierMeta = ref_models.Diagram{}.IsChecked
+	__AttributeShape__00000002_.IdentifierMeta = ref_models.DiagramHierarchy{}.IsChecked
 	__AttributeShape__00000002_.FieldTypeAsString = ``
 	__AttributeShape__00000002_.Structname = `Diagram`
 	__AttributeShape__00000002_.Fieldtypename = `bool`
 
 	__AttributeShape__00000003_.Name = `IsEditable_`
-	__AttributeShape__00000003_.IdentifierMeta = ref_models.Diagram{}.IsEditable_
+	__AttributeShape__00000003_.IdentifierMeta = ref_models.DiagramHierarchy{}.IsEditable_
 	__AttributeShape__00000003_.FieldTypeAsString = ``
 	__AttributeShape__00000003_.Structname = `Diagram`
 	__AttributeShape__00000003_.Fieldtypename = `bool`
 
 	__AttributeShape__00000004_.Name = `IsShowPrefix`
-	__AttributeShape__00000004_.IdentifierMeta = ref_models.Diagram{}.IsShowPrefix
+	__AttributeShape__00000004_.IdentifierMeta = ref_models.DiagramHierarchy{}.IsShowPrefix
 	__AttributeShape__00000004_.FieldTypeAsString = ``
 	__AttributeShape__00000004_.Structname = `Diagram`
 	__AttributeShape__00000004_.Fieldtypename = `bool`
 
 	__AttributeShape__00000005_.Name = `DefaultBoxWidth`
-	__AttributeShape__00000005_.IdentifierMeta = ref_models.Diagram{}.DefaultBoxWidth
+	__AttributeShape__00000005_.IdentifierMeta = ref_models.DiagramHierarchy{}.DefaultBoxWidth
 	__AttributeShape__00000005_.FieldTypeAsString = ``
 	__AttributeShape__00000005_.Structname = `Diagram`
 	__AttributeShape__00000005_.Fieldtypename = `float64`
 
 	__AttributeShape__00000006_.Name = `DefaultBoxHeigth`
-	__AttributeShape__00000006_.IdentifierMeta = ref_models.Diagram{}.DefaultBoxHeigth
+	__AttributeShape__00000006_.IdentifierMeta = ref_models.DiagramHierarchy{}.DefaultBoxHeigth
 	__AttributeShape__00000006_.FieldTypeAsString = ``
 	__AttributeShape__00000006_.Structname = `Diagram`
 	__AttributeShape__00000006_.Fieldtypename = `float64`
 
 	__AttributeShape__00000007_.Name = `Width`
-	__AttributeShape__00000007_.IdentifierMeta = ref_models.Diagram{}.Width
+	__AttributeShape__00000007_.IdentifierMeta = ref_models.DiagramHierarchy{}.Width
 	__AttributeShape__00000007_.FieldTypeAsString = ``
 	__AttributeShape__00000007_.Structname = `Diagram`
 	__AttributeShape__00000007_.Fieldtypename = `float64`
 
 	__AttributeShape__00000008_.Name = `Height`
-	__AttributeShape__00000008_.IdentifierMeta = ref_models.Diagram{}.Height
+	__AttributeShape__00000008_.IdentifierMeta = ref_models.DiagramHierarchy{}.Height
 	__AttributeShape__00000008_.FieldTypeAsString = ``
 	__AttributeShape__00000008_.Structname = `Diagram`
 	__AttributeShape__00000008_.Fieldtypename = `float64`
@@ -198,7 +198,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000005_.Name = `Concrete model-Diagram`
 	__GongStructShape__00000005_.X = 17.000000
 	__GongStructShape__00000005_.Y = 85.000000
-	__GongStructShape__00000005_.IdentifierMeta = ref_models.Diagram{}
+	__GongStructShape__00000005_.IdentifierMeta = ref_models.DiagramHierarchy{}
 	__GongStructShape__00000005_.Width = 240.000000
 	__GongStructShape__00000005_.Height = 243.000000
 	__GongStructShape__00000005_.IsSelected = false

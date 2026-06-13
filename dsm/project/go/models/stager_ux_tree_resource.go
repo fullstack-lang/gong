@@ -7,33 +7,33 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treeResourceinDiagram(diagram *Diagram, resource *Resource, parentNode *tree.Node) {
+func (stager *Stager) treeResourceinDiagram(diagramHierarchy *DiagramHierarchy, resource *Resource, parentNode *tree.Node) {
 	resourceNodeConf := TreeNodeShapeAndLinkConfiguration[
 		*Resource, Resource, // AT, AT_
 		*ResourceShape, ResourceShape, // CT, CT_
 		*ResourceCompositionShape, ResourceCompositionShape, // ACT, ACT_
-		*Diagram, // DiagramType
+		*DiagramHierarchy, // DiagramType
 	]{
 		TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
 			*Resource, Resource, // AT, AT_
 			*ResourceShape, ResourceShape, // CT, CT_
-			*Diagram, // DiagramType
+			*DiagramHierarchy, // DiagramType
 		]{
 			TreeNodeConfiguration: TreeNodeConfiguration[
 				*Resource, Resource, // AT, AT_
-				*Diagram, // DiagramType
+				*DiagramHierarchy, // DiagramType
 			]{
-				diagram:                     diagram,
+				diagram:            diagramHierarchy,
 				parentNode:                  parentNode,
 				element:                     resource,
 				parentElement:               resource.parentResource,
-				elementsWhoseNodeIsExpanded: &diagram.ResourcesWhoseNodeIsExpanded,
+				elementsWhoseNodeIsExpanded: &diagramHierarchy.ResourcesWhoseNodeIsExpanded,
 			},
-			shapes:    &diagram.Resource_Shapes,
-			shapesMap: diagram.map_Resource_ResourceShape,
+			shapes:    &diagramHierarchy.Resource_Shapes,
+			shapesMap: diagramHierarchy.map_Resource_ResourceShape,
 		},
-		map_Element_CompositionShape: diagram.map_Resource_ResourceCompositionShape,
-		compositionShapes:            &diagram.ResourceComposition_Shapes,
+		map_Element_CompositionShape: diagramHierarchy.map_Resource_ResourceCompositionShape,
+		compositionShapes:            &diagramHierarchy.ResourceComposition_Shapes,
 	}
 	resourceNode := addNodeToTree(stager, resourceNodeConf)
 
@@ -61,18 +61,18 @@ func (stager *Stager) treeResourceinDiagram(diagram *Diagram, resource *Resource
 				sliceForNewAddedItem:               &resource.SubResources,
 				isParentNodeExpandedByAddOperation: true,
 				parentNodeExpansionType:            parentNodeExpansionTypeBySlice,
-				parentNodeExpansionSliceEncoding:   &diagram.ResourcesWhoseNodeIsExpanded,
+				parentNodeExpansionSliceEncoding:   &diagramHierarchy.ResourcesWhoseNodeIsExpanded,
 				parentElement:                      resource,
 			},
-			receivingDiagram:      diagram,
-			sliceForNewAddedShape: &diagram.Resource_Shapes,
+			receivingDiagram:      diagramHierarchy,
+			sliceForNewAddedShape: &diagramHierarchy.Resource_Shapes,
 		},
-		sliceForNewCompositionShapes: &diagram.ResourceComposition_Shapes,
+		sliceForNewCompositionShapes: &diagramHierarchy.ResourceComposition_Shapes,
 	}
 	addCreateItemShapeAndLinkButton(stager, conf)
 
 	for _, subResource := range resource.SubResources {
-		stager.treeResourceinDiagram(diagram, subResource, resourceNode)
+		stager.treeResourceinDiagram(diagramHierarchy, subResource, resourceNode)
 	}
 
 	if len(resource.Tasks) > 0 {
@@ -96,13 +96,13 @@ func (stager *Stager) treeResourceinDiagram(diagram *Diagram, resource *Resource
 			tasksNode.Children = append(tasksNode.Children, taskNode)
 			taskNode.IsCheckboxDisabled = true
 
-			if _, ok := diagram.map_Task_TaskShape[task]; ok {
-				if _, ok := diagram.map_Resource_ResourceShape[resource]; ok {
+			if _, ok := diagramHierarchy.map_Task_TaskShape[task]; ok {
+				if _, ok := diagramHierarchy.map_Resource_ResourceShape[resource]; ok {
 
 					taskNode.IsCheckboxDisabled = false
 
 					key := resourceTaskKey{Resource: resource, Task: task}
-					resourceTaskShape, ok := diagram.map_Resource_ResourceTaskShape[key]
+					resourceTaskShape, ok := diagramHierarchy.map_Resource_ResourceTaskShape[key]
 					taskNode.IsChecked = ok
 
 					if ok {
@@ -114,7 +114,7 @@ func (stager *Stager) treeResourceinDiagram(diagram *Diagram, resource *Resource
 					taskNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 						if frontNode.IsChecked && !stagedNode.IsChecked {
 							stagedNode.IsChecked = true
-							addAssociationShapeToDiagram(stager, resource, task, &diagram.ResourceTaskShapes)
+							addAssociationShapeToDiagram(stager, resource, task, &diagramHierarchy.ResourceTaskShapes)
 							stager.stage.Commit()
 						}
 						if !frontNode.IsChecked && stagedNode.IsChecked {
@@ -126,7 +126,7 @@ func (stager *Stager) treeResourceinDiagram(diagram *Diagram, resource *Resource
 
 					taskNode.Buttons = []*tree.Button{
 						{
-							Name:            diagram.GetName(),
+							Name:            diagramHierarchy.GetName(),
 							Icon:            string(buttons.BUTTON_visibility_off),
 							ToolTipText:     "Hide link from diagram",
 							HasToolTip:      true,

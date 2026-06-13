@@ -9,7 +9,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.Node) {
+func (stager *Stager) treeTask(diagramHierarchy *DiagramHierarchy, task *Task, parentNode *tree.Node) {
 	stage := stager.stage
 
 	/*
@@ -31,28 +31,28 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 			*Task, Task, // AT, AT_
 			*TaskShape, TaskShape, // CT, CT_
 			*TaskCompositionShape, TaskCompositionShape, // ACT, ACT_
-			*Diagram, // DiagramType
+			*DiagramHierarchy, // DiagramType
 		]{
 			TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
 				*Task, Task, // AT, AT_
 				*TaskShape, TaskShape, // CT, CT_
-				*Diagram, // DiagramType
+				*DiagramHierarchy, // DiagramType
 			]{
 				TreeNodeConfiguration: TreeNodeConfiguration[
 					*Task, Task, // AT, AT_
-					*Diagram, // DiagramType
+					*DiagramHierarchy, // DiagramType
 				]{
-					diagram:                     diagram,
+					diagram:            diagramHierarchy,
 					parentNode:                  parentNode,
 					element:                     task,
 					parentElement:               task.parentTask,
-					elementsWhoseNodeIsExpanded: &diagram.TasksWhoseNodeIsExpanded,
+					elementsWhoseNodeIsExpanded: &diagramHierarchy.TasksWhoseNodeIsExpanded,
 				},
-				shapes:    &diagram.Task_Shapes,
-				shapesMap: diagram.map_Task_TaskShape,
+				shapes:    &diagramHierarchy.Task_Shapes,
+				shapesMap: diagramHierarchy.map_Task_TaskShape,
 			},
-			map_Element_CompositionShape: diagram.map_Task_TaskCompositionShape,
-			compositionShapes:            &diagram.TaskComposition_Shapes,
+			map_Element_CompositionShape: diagramHierarchy.map_Task_TaskCompositionShape,
+			compositionShapes:            &diagramHierarchy.TaskComposition_Shapes,
 		})
 
 	if task.IsImport && task.ReferencedTask != nil {
@@ -79,17 +79,17 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 				sliceForNewAddedItem:               &task.SubTasks,
 				isParentNodeExpandedByAddOperation: true,
 				parentNodeExpansionType:            parentNodeExpansionTypeBySlice,
-				parentNodeExpansionSliceEncoding:   &diagram.TasksWhoseNodeIsExpanded,
+				parentNodeExpansionSliceEncoding:   &diagramHierarchy.TasksWhoseNodeIsExpanded,
 				parentElement:                      task,
 			},
-			receivingDiagram:      diagram,
-			sliceForNewAddedShape: &diagram.Task_Shapes,
+			receivingDiagram:      diagramHierarchy,
+			sliceForNewAddedShape: &diagramHierarchy.Task_Shapes,
 		},
-		sliceForNewCompositionShapes: &diagram.TaskComposition_Shapes,
+		sliceForNewCompositionShapes: &diagramHierarchy.TaskComposition_Shapes,
 	}
 	addCreateItemShapeAndLinkButton(stager, conf)
 
-	if taskShape, ok := diagram.map_Task_TaskShape[task]; ok {
+	if taskShape, ok := diagramHierarchy.map_Task_TaskShape[task]; ok {
 		button := &tree.Button{
 			Name:            "Show dates on diagram",
 			Icon:            string(buttons.BUTTON_calendar_month),
@@ -113,20 +113,20 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 	}
 
 	for _, task := range task.SubTasks {
-		stager.treeTask(diagram, task, taskNode)
+		stager.treeTask(diagramHierarchy, task, taskNode)
 	}
 
 	if len(task.Inputs) > 0 {
 		inputProductsNode := &tree.Node{
 			Name:                 fmt.Sprintf("In (%d)", len(task.Inputs)),
-			IsExpanded:           slices.Contains(diagram.TasksWhoseInputNodeIsExpanded, task),
+			IsExpanded:           slices.Contains(diagramHierarchy.TasksWhoseInputNodeIsExpanded, task),
 			IsNodeClickable:      true,
 			IsWithPreceedingIcon: true,
 			PreceedingIcon:       string(buttons.BUTTON_input),
 		}
 		taskNode.Children = append(taskNode.Children, inputProductsNode)
 
-		inputProductsNode.OnUpdate = onUpdateExpandableNode(stager, task, &diagram.TasksWhoseInputNodeIsExpanded)
+		inputProductsNode.OnUpdate = onUpdateExpandableNode(stager, task, &diagramHierarchy.TasksWhoseInputNodeIsExpanded)
 
 		for _, product := range task.Inputs {
 			inputProductNode := &tree.Node{
@@ -140,8 +140,8 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 
 			// if input task is present in diagram as well as the input product
 			// display the show/hide input relation button
-			if _, ok := diagram.map_Product_ProductShape[product]; ok {
-				if _, ok := diagram.map_Task_TaskShape[task]; ok {
+			if _, ok := diagramHierarchy.map_Product_ProductShape[product]; ok {
+				if _, ok := diagramHierarchy.map_Task_TaskShape[task]; ok {
 
 					inputProductNode.HasCheckboxButton = true
 
@@ -149,7 +149,7 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 						Task:    task,
 						Product: product,
 					}
-					taskInputShape, ok := diagram.map_Task_TaskInputShape[taskProductKey]
+					taskInputShape, ok := diagramHierarchy.map_Task_TaskInputShape[taskProductKey]
 					inputProductNode.IsChecked = ok
 
 					if ok {
@@ -161,7 +161,7 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 					inputProductNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 						if frontNode.IsChecked && !stagedNode.IsChecked {
 							stagedNode.IsChecked = true
-							addAssociationShapeToDiagram(stager, task, product, &diagram.TaskInputShapes)
+							addAssociationShapeToDiagram(stager, task, product, &diagramHierarchy.TaskInputShapes)
 							stager.stage.Commit()
 						}
 						if !frontNode.IsChecked && stagedNode.IsChecked {
@@ -173,7 +173,7 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 
 					inputProductNode.Buttons = []*tree.Button{
 						{
-							Name: diagram.GetName(),
+							Name: diagramHierarchy.GetName(),
 							Icon: string(buttons.BUTTON_visibility_off),
 							// SVGIcon:         svgIconLinkVisibilityOff,
 							ToolTipText:     "Hide link from diagram",
@@ -202,14 +202,14 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 	if len(task.Outputs) > 0 {
 		outputProductsNode := &tree.Node{
 			Name:                 fmt.Sprintf("Out (%d)", len(task.Outputs)),
-			IsExpanded:           slices.Contains(diagram.TasksWhoseOutputNodeIsExpanded, task),
+			IsExpanded:           slices.Contains(diagramHierarchy.TasksWhoseOutputNodeIsExpanded, task),
 			IsNodeClickable:      true,
 			IsWithPreceedingIcon: true,
 			PreceedingIcon:       string(buttons.BUTTON_output),
 		}
 		taskNode.Children = append(taskNode.Children, outputProductsNode)
 
-		outputProductsNode.OnUpdate = onUpdateExpandableNode(stager, task, &diagram.TasksWhoseOutputNodeIsExpanded)
+		outputProductsNode.OnUpdate = onUpdateExpandableNode(stager, task, &diagramHierarchy.TasksWhoseOutputNodeIsExpanded)
 
 		for _, product := range task.Outputs {
 			outputProductNode := &tree.Node{
@@ -223,8 +223,8 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 
 			// if output task is present in diagram as well as the output product
 			// display the show/hide output relation button
-			if _, ok := diagram.map_Product_ProductShape[product]; ok {
-				if _, ok := diagram.map_Task_TaskShape[task]; ok {
+			if _, ok := diagramHierarchy.map_Product_ProductShape[product]; ok {
+				if _, ok := diagramHierarchy.map_Task_TaskShape[task]; ok {
 
 					outputProductNode.HasCheckboxButton = true
 
@@ -232,7 +232,7 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 						Task:    task,
 						Product: product,
 					}
-					taskOutputShape, ok := diagram.map_Task_TaskOutputShape[taskProductKey]
+					taskOutputShape, ok := diagramHierarchy.map_Task_TaskOutputShape[taskProductKey]
 					outputProductNode.IsChecked = ok
 
 					if ok {
@@ -244,7 +244,7 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 					outputProductNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 						if frontNode.IsChecked && !stagedNode.IsChecked {
 							stagedNode.IsChecked = true
-							addAssociationShapeToDiagram(stager, task, product, &diagram.TaskOutputShapes)
+							addAssociationShapeToDiagram(stager, task, product, &diagramHierarchy.TaskOutputShapes)
 							stager.stage.Commit()
 						}
 						if !frontNode.IsChecked && stagedNode.IsChecked {
@@ -256,7 +256,7 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 
 					outputProductNode.Buttons = []*tree.Button{
 						{
-							Name:            diagram.GetName(),
+							Name:            diagramHierarchy.GetName(),
 							Icon:            string(buttons.BUTTON_visibility_off),
 							ToolTipText:     "Hide link from diagram",
 							HasToolTip:      true,

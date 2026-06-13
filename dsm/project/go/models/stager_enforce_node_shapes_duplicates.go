@@ -7,12 +7,12 @@ import (
 )
 
 func (stager *Stager) enforceNodeShapeDuplicates() (needCommit bool) {
-	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
-		needCommit = removeDuplicateNodeShape(stager, &diagram.Product_Shapes) || needCommit
-		needCommit = removeDuplicateNodeShape(stager, &diagram.Task_Shapes) || needCommit
-		needCommit = removeDuplicateNodeShape(stager, &diagram.Note_Shapes) || needCommit
-		needCommit = removeDuplicateNodeShape(stager, &diagram.Resource_Shapes) || needCommit
-		needCommit = removeDuplicateNodeShape(stager, &diagram.TaskGroupShapes) || needCommit
+	for _, diagramHierarchy := range GetGongstrucsSorted[*DiagramHierarchy](stager.stage) {
+		needCommit = removeDuplicateNodeShape(stager, &diagramHierarchy.Product_Shapes) || needCommit
+		needCommit = removeDuplicateNodeShape(stager, &diagramHierarchy.Task_Shapes) || needCommit
+		needCommit = removeDuplicateNodeShape(stager, &diagramHierarchy.Note_Shapes) || needCommit
+		needCommit = removeDuplicateNodeShape(stager, &diagramHierarchy.Resource_Shapes) || needCommit
+		needCommit = removeDuplicateNodeShape(stager, &diagramHierarchy.TaskGroupShapes) || needCommit
 	}
 	return
 }

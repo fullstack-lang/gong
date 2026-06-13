@@ -19,23 +19,23 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 var _ = log.Panicf
 
 // insertion point
-func __gong__New__DiagramFormCallback(
-	diagram *models.Diagram,
+func __gong__New__DiagramHierarchyFormCallback(
+	diagramhierarchy *models.DiagramHierarchy,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (diagramFormCallback *DiagramFormCallback) {
-	diagramFormCallback = new(DiagramFormCallback)
-	diagramFormCallback.probe = probe
-	diagramFormCallback.diagram = diagram
-	diagramFormCallback.formGroup = formGroup
+) (diagramhierarchyFormCallback *DiagramHierarchyFormCallback) {
+	diagramhierarchyFormCallback = new(DiagramHierarchyFormCallback)
+	diagramhierarchyFormCallback.probe = probe
+	diagramhierarchyFormCallback.diagramhierarchy = diagramhierarchy
+	diagramhierarchyFormCallback.formGroup = formGroup
 
-	diagramFormCallback.CreationMode = (diagram == nil)
+	diagramhierarchyFormCallback.CreationMode = (diagramhierarchy == nil)
 
 	return
 }
 
-type DiagramFormCallback struct {
-	diagram *models.Diagram
+type DiagramHierarchyFormCallback struct {
+	diagramhierarchy *models.DiagramHierarchy
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -45,47 +45,47 @@ type DiagramFormCallback struct {
 	formGroup *form.FormGroup
 }
 
-func (diagramFormCallback *DiagramFormCallback) OnSave() {
-	diagramFormCallback.probe.stageOfInterest.Lock()
-	defer diagramFormCallback.probe.stageOfInterest.Unlock()
+func (diagramhierarchyFormCallback *DiagramHierarchyFormCallback) OnSave() {
+	diagramhierarchyFormCallback.probe.stageOfInterest.Lock()
+	defer diagramhierarchyFormCallback.probe.stageOfInterest.Unlock()
 
-	// log.Println("DiagramFormCallback, OnSave")
+	// log.Println("DiagramHierarchyFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	diagramFormCallback.probe.formStage.Checkout()
+	diagramhierarchyFormCallback.probe.formStage.Checkout()
 
-	if diagramFormCallback.diagram == nil {
-		diagramFormCallback.diagram = new(models.Diagram).Stage(diagramFormCallback.probe.stageOfInterest)
+	if diagramhierarchyFormCallback.diagramhierarchy == nil {
+		diagramhierarchyFormCallback.diagramhierarchy = new(models.DiagramHierarchy).Stage(diagramhierarchyFormCallback.probe.stageOfInterest)
 	}
-	diagram_ := diagramFormCallback.diagram
-	_ = diagram_
+	diagramhierarchy_ := diagramhierarchyFormCallback.diagramhierarchy
+	_ = diagramhierarchy_
 
-	for _, formDiv := range diagramFormCallback.formGroup.FormDivs {
+	for _, formDiv := range diagramhierarchyFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(diagram_.Name), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.Name), formDiv)
 		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.ComputedPrefix), formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.IsExpanded), formDiv)
 		case "IsChecked":
-			FormDivBasicFieldToField(&(diagram_.IsChecked), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.IsChecked), formDiv)
 		case "IsEditable_":
-			FormDivBasicFieldToField(&(diagram_.IsEditable_), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.IsEditable_), formDiv)
 		case "IsShowPrefix":
-			FormDivBasicFieldToField(&(diagram_.IsShowPrefix), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.IsShowPrefix), formDiv)
 		case "DefaultBoxWidth":
-			FormDivBasicFieldToField(&(diagram_.DefaultBoxWidth), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.DefaultBoxWidth), formDiv)
 		case "DefaultBoxHeigth":
-			FormDivBasicFieldToField(&(diagram_.DefaultBoxHeigth), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.DefaultBoxHeigth), formDiv)
 		case "Width":
-			FormDivBasicFieldToField(&(diagram_.Width), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.Width), formDiv)
 		case "Height":
-			FormDivBasicFieldToField(&(diagram_.Height), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.Height), formDiv)
 		case "Product_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ProductShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ProductShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ProductShape, 0)
 
 			// make a map of all instances by their ID
@@ -93,7 +93,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -104,7 +104,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.ProductShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.ProductShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -113,11 +113,11 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.Product_Shapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "Product_Shapes", &diagram_.Product_Shapes)
+			diagramhierarchy_.Product_Shapes = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "Product_Shapes", &diagramhierarchy_.Product_Shapes)
 
 		case "ProductsWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
 
 			// make a map of all instances by their ID
@@ -125,7 +125,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -136,7 +136,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Product](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Product](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -145,13 +145,13 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.ProductsWhoseNodeIsExpanded = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ProductsWhoseNodeIsExpanded", &diagram_.ProductsWhoseNodeIsExpanded)
+			diagramhierarchy_.ProductsWhoseNodeIsExpanded = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "ProductsWhoseNodeIsExpanded", &diagramhierarchy_.ProductsWhoseNodeIsExpanded)
 
 		case "IsPBSNodeExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsPBSNodeExpanded), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.IsPBSNodeExpanded), formDiv)
 		case "ProductComposition_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ProductCompositionShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ProductCompositionShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ProductCompositionShape, 0)
 
 			// make a map of all instances by their ID
@@ -159,7 +159,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -170,7 +170,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.ProductCompositionShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.ProductCompositionShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -179,13 +179,13 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.ProductComposition_Shapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ProductComposition_Shapes", &diagram_.ProductComposition_Shapes)
+			diagramhierarchy_.ProductComposition_Shapes = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "ProductComposition_Shapes", &diagramhierarchy_.ProductComposition_Shapes)
 
 		case "IsWBSNodeExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsWBSNodeExpanded), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.IsWBSNodeExpanded), formDiv)
 		case "Task_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskShape, 0)
 
 			// make a map of all instances by their ID
@@ -193,7 +193,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -204,7 +204,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.TaskShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.TaskShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -213,11 +213,11 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.Task_Shapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "Task_Shapes", &diagram_.Task_Shapes)
+			diagramhierarchy_.Task_Shapes = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "Task_Shapes", &diagramhierarchy_.Task_Shapes)
 
 		case "TasksWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Task, 0)
 
 			// make a map of all instances by their ID
@@ -225,7 +225,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -236,7 +236,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Task](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -245,11 +245,11 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.TasksWhoseNodeIsExpanded = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TasksWhoseNodeIsExpanded", &diagram_.TasksWhoseNodeIsExpanded)
+			diagramhierarchy_.TasksWhoseNodeIsExpanded = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "TasksWhoseNodeIsExpanded", &diagramhierarchy_.TasksWhoseNodeIsExpanded)
 
 		case "TasksWhoseInputNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Task, 0)
 
 			// make a map of all instances by their ID
@@ -257,7 +257,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -268,7 +268,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Task](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -277,11 +277,11 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.TasksWhoseInputNodeIsExpanded = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TasksWhoseInputNodeIsExpanded", &diagram_.TasksWhoseInputNodeIsExpanded)
+			diagramhierarchy_.TasksWhoseInputNodeIsExpanded = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "TasksWhoseInputNodeIsExpanded", &diagramhierarchy_.TasksWhoseInputNodeIsExpanded)
 
 		case "TasksWhoseOutputNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Task, 0)
 
 			// make a map of all instances by their ID
@@ -289,7 +289,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -300,7 +300,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Task](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -309,13 +309,13 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.TasksWhoseOutputNodeIsExpanded = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TasksWhoseOutputNodeIsExpanded", &diagram_.TasksWhoseOutputNodeIsExpanded)
+			diagramhierarchy_.TasksWhoseOutputNodeIsExpanded = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "TasksWhoseOutputNodeIsExpanded", &diagramhierarchy_.TasksWhoseOutputNodeIsExpanded)
 
 		case "IsTaskGroupsNodeExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsTaskGroupsNodeExpanded), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.IsTaskGroupsNodeExpanded), formDiv)
 		case "TaskGroupShapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskGroupShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskGroupShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskGroupShape, 0)
 
 			// make a map of all instances by their ID
@@ -323,7 +323,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -334,7 +334,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.TaskGroupShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.TaskGroupShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -343,11 +343,11 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.TaskGroupShapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TaskGroupShapes", &diagram_.TaskGroupShapes)
+			diagramhierarchy_.TaskGroupShapes = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "TaskGroupShapes", &diagramhierarchy_.TaskGroupShapes)
 
 		case "TaskGroupsWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskGroup](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskGroup](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskGroup, 0)
 
 			// make a map of all instances by their ID
@@ -355,7 +355,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -366,7 +366,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.TaskGroup](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.TaskGroup](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -375,13 +375,13 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.TaskGroupsWhoseNodeIsExpanded = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TaskGroupsWhoseNodeIsExpanded", &diagram_.TaskGroupsWhoseNodeIsExpanded)
+			diagramhierarchy_.TaskGroupsWhoseNodeIsExpanded = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "TaskGroupsWhoseNodeIsExpanded", &diagramhierarchy_.TaskGroupsWhoseNodeIsExpanded)
 
 		case "IsMilestonesNodeExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsMilestonesNodeExpanded), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.IsMilestonesNodeExpanded), formDiv)
 		case "MilestoneShapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.MilestoneShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.MilestoneShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.MilestoneShape, 0)
 
 			// make a map of all instances by their ID
@@ -389,7 +389,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -400,7 +400,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.MilestoneShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.MilestoneShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -409,11 +409,11 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.MilestoneShapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "MilestoneShapes", &diagram_.MilestoneShapes)
+			diagramhierarchy_.MilestoneShapes = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "MilestoneShapes", &diagramhierarchy_.MilestoneShapes)
 
 		case "MilestonesWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Milestone](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Milestone](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Milestone, 0)
 
 			// make a map of all instances by their ID
@@ -421,7 +421,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -432,7 +432,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Milestone](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Milestone](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -441,13 +441,13 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.MilestonesWhoseNodeIsExpanded = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "MilestonesWhoseNodeIsExpanded", &diagram_.MilestonesWhoseNodeIsExpanded)
+			diagramhierarchy_.MilestonesWhoseNodeIsExpanded = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "MilestonesWhoseNodeIsExpanded", &diagramhierarchy_.MilestonesWhoseNodeIsExpanded)
 
 		case "DateFormat":
-			FormDivBasicFieldToField(&(diagram_.DateFormat), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.DateFormat), formDiv)
 		case "TaskComposition_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskCompositionShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskCompositionShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskCompositionShape, 0)
 
 			// make a map of all instances by their ID
@@ -455,7 +455,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -466,7 +466,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.TaskCompositionShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.TaskCompositionShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -475,11 +475,11 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.TaskComposition_Shapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TaskComposition_Shapes", &diagram_.TaskComposition_Shapes)
+			diagramhierarchy_.TaskComposition_Shapes = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "TaskComposition_Shapes", &diagramhierarchy_.TaskComposition_Shapes)
 
 		case "TaskInputShapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskInputShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskInputShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskInputShape, 0)
 
 			// make a map of all instances by their ID
@@ -487,7 +487,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -498,7 +498,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.TaskInputShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.TaskInputShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -507,11 +507,11 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.TaskInputShapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TaskInputShapes", &diagram_.TaskInputShapes)
+			diagramhierarchy_.TaskInputShapes = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "TaskInputShapes", &diagramhierarchy_.TaskInputShapes)
 
 		case "TaskOutputShapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskOutputShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskOutputShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskOutputShape, 0)
 
 			// make a map of all instances by their ID
@@ -519,7 +519,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -530,7 +530,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.TaskOutputShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.TaskOutputShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -539,11 +539,11 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.TaskOutputShapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TaskOutputShapes", &diagram_.TaskOutputShapes)
+			diagramhierarchy_.TaskOutputShapes = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "TaskOutputShapes", &diagramhierarchy_.TaskOutputShapes)
 
 		case "Note_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.NoteShape, 0)
 
 			// make a map of all instances by their ID
@@ -551,7 +551,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -562,7 +562,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.NoteShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.NoteShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -571,11 +571,11 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.Note_Shapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "Note_Shapes", &diagram_.Note_Shapes)
+			diagramhierarchy_.Note_Shapes = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "Note_Shapes", &diagramhierarchy_.Note_Shapes)
 
 		case "NotesWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Note](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Note](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Note, 0)
 
 			// make a map of all instances by their ID
@@ -583,7 +583,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -594,7 +594,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Note](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Note](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -603,13 +603,13 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.NotesWhoseNodeIsExpanded = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "NotesWhoseNodeIsExpanded", &diagram_.NotesWhoseNodeIsExpanded)
+			diagramhierarchy_.NotesWhoseNodeIsExpanded = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "NotesWhoseNodeIsExpanded", &diagramhierarchy_.NotesWhoseNodeIsExpanded)
 
 		case "IsNotesNodeExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsNotesNodeExpanded), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.IsNotesNodeExpanded), formDiv)
 		case "NoteProductShapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteProductShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteProductShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.NoteProductShape, 0)
 
 			// make a map of all instances by their ID
@@ -617,7 +617,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -628,7 +628,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.NoteProductShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.NoteProductShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -637,11 +637,11 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.NoteProductShapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "NoteProductShapes", &diagram_.NoteProductShapes)
+			diagramhierarchy_.NoteProductShapes = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "NoteProductShapes", &diagramhierarchy_.NoteProductShapes)
 
 		case "NoteTaskShapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteTaskShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteTaskShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.NoteTaskShape, 0)
 
 			// make a map of all instances by their ID
@@ -649,7 +649,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -660,7 +660,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.NoteTaskShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.NoteTaskShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -669,11 +669,11 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.NoteTaskShapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "NoteTaskShapes", &diagram_.NoteTaskShapes)
+			diagramhierarchy_.NoteTaskShapes = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "NoteTaskShapes", &diagramhierarchy_.NoteTaskShapes)
 
 		case "NoteResourceShapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteResourceShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteResourceShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.NoteResourceShape, 0)
 
 			// make a map of all instances by their ID
@@ -681,7 +681,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -692,7 +692,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.NoteResourceShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.NoteResourceShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -701,11 +701,11 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.NoteResourceShapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "NoteResourceShapes", &diagram_.NoteResourceShapes)
+			diagramhierarchy_.NoteResourceShapes = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "NoteResourceShapes", &diagramhierarchy_.NoteResourceShapes)
 
 		case "Resource_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ResourceShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ResourceShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ResourceShape, 0)
 
 			// make a map of all instances by their ID
@@ -713,7 +713,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -724,7 +724,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.ResourceShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.ResourceShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -733,11 +733,11 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.Resource_Shapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "Resource_Shapes", &diagram_.Resource_Shapes)
+			diagramhierarchy_.Resource_Shapes = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "Resource_Shapes", &diagramhierarchy_.Resource_Shapes)
 
 		case "ResourcesWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Resource](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Resource](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Resource, 0)
 
 			// make a map of all instances by their ID
@@ -745,7 +745,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -756,7 +756,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Resource](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Resource](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -765,13 +765,13 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.ResourcesWhoseNodeIsExpanded = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ResourcesWhoseNodeIsExpanded", &diagram_.ResourcesWhoseNodeIsExpanded)
+			diagramhierarchy_.ResourcesWhoseNodeIsExpanded = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "ResourcesWhoseNodeIsExpanded", &diagramhierarchy_.ResourcesWhoseNodeIsExpanded)
 
 		case "IsResourcesNodeExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsResourcesNodeExpanded), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.IsResourcesNodeExpanded), formDiv)
 		case "ResourceComposition_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ResourceCompositionShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ResourceCompositionShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ResourceCompositionShape, 0)
 
 			// make a map of all instances by their ID
@@ -779,7 +779,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -790,7 +790,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.ResourceCompositionShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.ResourceCompositionShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -799,11 +799,11 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.ResourceComposition_Shapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ResourceComposition_Shapes", &diagram_.ResourceComposition_Shapes)
+			diagramhierarchy_.ResourceComposition_Shapes = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "ResourceComposition_Shapes", &diagramhierarchy_.ResourceComposition_Shapes)
 
 		case "ResourceTaskShapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ResourceTaskShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ResourceTaskShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ResourceTaskShape, 0)
 
 			// make a map of all instances by their ID
@@ -811,7 +811,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
+					diagramhierarchyFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -822,7 +822,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.ResourceTaskShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.ResourceTaskShape](diagramhierarchyFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -831,65 +831,65 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.ResourceTaskShapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ResourceTaskShapes", &diagram_.ResourceTaskShapes)
+			diagramhierarchy_.ResourceTaskShapes = instanceSlice
+			diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(diagramhierarchy_, "ResourceTaskShapes", &diagramhierarchy_.ResourceTaskShapes)
 
 		case "IsTimeDiagram":
-			FormDivBasicFieldToField(&(diagram_.IsTimeDiagram), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.IsTimeDiagram), formDiv)
 		case "ComputedStart":
-			FormDivBasicFieldToField(&(diagram_.ComputedStart), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.ComputedStart), formDiv)
 		case "ComputedEnd":
-			FormDivBasicFieldToField(&(diagram_.ComputedEnd), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.ComputedEnd), formDiv)
 		case "ComputedDuration":
-			FormDivBasicFieldToField(&(diagram_.ComputedDuration), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.ComputedDuration), formDiv)
 		case "UseManualStartAndEndDates":
-			FormDivBasicFieldToField(&(diagram_.UseManualStartAndEndDates), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.UseManualStartAndEndDates), formDiv)
 		case "ManualStart":
-			FormDivBasicFieldToField(&(diagram_.ManualStart), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.ManualStart), formDiv)
 		case "ManualEnd":
-			FormDivBasicFieldToField(&(diagram_.ManualEnd), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.ManualEnd), formDiv)
 		case "TimeStep":
-			FormDivBasicFieldToField(&(diagram_.TimeStep), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.TimeStep), formDiv)
 		case "TimeStepScale":
-			FormDivEnumStringFieldToField(&(diagram_.TimeStepScale), formDiv)
+			FormDivEnumStringFieldToField(&(diagramhierarchy_.TimeStepScale), formDiv)
 		case "LaneHeight":
-			FormDivBasicFieldToField(&(diagram_.LaneHeight), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.LaneHeight), formDiv)
 		case "RatioBarToLaneHeight":
-			FormDivBasicFieldToField(&(diagram_.RatioBarToLaneHeight), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.RatioBarToLaneHeight), formDiv)
 		case "YTopMargin":
-			FormDivBasicFieldToField(&(diagram_.YTopMargin), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.YTopMargin), formDiv)
 		case "XLeftText":
-			FormDivBasicFieldToField(&(diagram_.XLeftText), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.XLeftText), formDiv)
 		case "TextHeight":
-			FormDivBasicFieldToField(&(diagram_.TextHeight), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.TextHeight), formDiv)
 		case "XLeftLanes":
-			FormDivBasicFieldToField(&(diagram_.XLeftLanes), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.XLeftLanes), formDiv)
 		case "XRightMargin":
-			FormDivBasicFieldToField(&(diagram_.XRightMargin), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.XRightMargin), formDiv)
 		case "ArrowLengthToTheRightOfStartBar":
-			FormDivBasicFieldToField(&(diagram_.ArrowLengthToTheRightOfStartBar), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.ArrowLengthToTheRightOfStartBar), formDiv)
 		case "ArrowTipLenght":
-			FormDivBasicFieldToField(&(diagram_.ArrowTipLenght), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.ArrowTipLenght), formDiv)
 		case "TimeLine_Color":
-			FormDivBasicFieldToField(&(diagram_.TimeLine_Color), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.TimeLine_Color), formDiv)
 		case "TimeLine_FillOpacity":
-			FormDivBasicFieldToField(&(diagram_.TimeLine_FillOpacity), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.TimeLine_FillOpacity), formDiv)
 		case "TimeLine_Stroke":
-			FormDivBasicFieldToField(&(diagram_.TimeLine_Stroke), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.TimeLine_Stroke), formDiv)
 		case "TimeLine_StrokeWidth":
-			FormDivBasicFieldToField(&(diagram_.TimeLine_StrokeWidth), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.TimeLine_StrokeWidth), formDiv)
 		case "DrawVerticalTimeLines":
-			FormDivBasicFieldToField(&(diagram_.DrawVerticalTimeLines), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.DrawVerticalTimeLines), formDiv)
 		case "Group_Stroke":
-			FormDivBasicFieldToField(&(diagram_.Group_Stroke), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.Group_Stroke), formDiv)
 		case "Group_StrokeWidth":
-			FormDivBasicFieldToField(&(diagram_.Group_StrokeWidth), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.Group_StrokeWidth), formDiv)
 		case "Group_StrokeDashArray":
-			FormDivBasicFieldToField(&(diagram_.Group_StrokeDashArray), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.Group_StrokeDashArray), formDiv)
 		case "DateYOffset":
-			FormDivBasicFieldToField(&(diagram_.DateYOffset), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.DateYOffset), formDiv)
 		case "AlignOnStartEndOnYearStart":
-			FormDivBasicFieldToField(&(diagram_.AlignOnStartEndOnYearStart), formDiv)
+			FormDivBasicFieldToField(&(diagramhierarchy_.AlignOnStartEndOnYearStart), formDiv)
 		case "Library:Diagrams":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -898,7 +898,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			// 2. Build a map of target Library instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Library](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](diagramhierarchyFormCallback.probe.stageOfInterest)
 			targetLibraryIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -909,29 +909,29 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 
 			// 3. Iterate over all Library instances and update their Diagrams slice
-			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](diagramFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(diagramFormCallback.probe.stageOfInterest, _library)
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](diagramhierarchyFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(diagramhierarchyFormCallback.probe.stageOfInterest, _library)
 				
 				// if Library is selected
 				if targetLibraryIDs[id] {
-					// ensure diagram_ is in _library.Diagrams
+					// ensure diagramhierarchy_ is in _library.Diagrams
 					found := false
 					for _, _b := range _library.Diagrams {
-						if _b == diagram_ {
+						if _b == diagramhierarchy_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_library.Diagrams = append(_library.Diagrams, diagram_)
-						diagramFormCallback.probe.UpdateSliceOfPointersCallback(_library, "Diagrams", &_library.Diagrams)
+						_library.Diagrams = append(_library.Diagrams, diagramhierarchy_)
+						diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(_library, "Diagrams", &_library.Diagrams)
 					}
 				} else {
-					// ensure diagram_ is NOT in _library.Diagrams
-					idx := slices.Index(_library.Diagrams, diagram_)
+					// ensure diagramhierarchy_ is NOT in _library.Diagrams
+					idx := slices.Index(_library.Diagrams, diagramhierarchy_)
 					if idx != -1 {
 						_library.Diagrams = slices.Delete(_library.Diagrams, idx, idx+1)
-						diagramFormCallback.probe.UpdateSliceOfPointersCallback(_library, "Diagrams", &_library.Diagrams)
+						diagramhierarchyFormCallback.probe.UpdateSliceOfPointersCallback(_library, "Diagrams", &_library.Diagrams)
 					}
 				}
 			}
@@ -939,32 +939,32 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 	}
 
 	// manage the suppress operation
-	if diagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		diagram_.Unstage(diagramFormCallback.probe.stageOfInterest)
+	if diagramhierarchyFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		diagramhierarchy_.Unstage(diagramhierarchyFormCallback.probe.stageOfInterest)
 	}
 
-	diagramFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Diagram](
-		diagramFormCallback.probe,
+	diagramhierarchyFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.DiagramHierarchy](
+		diagramhierarchyFormCallback.probe,
 	)
 
 	// display a new form by reset the form stage
-	if diagramFormCallback.CreationMode || diagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		diagramFormCallback.probe.formStage.Reset()
+	if diagramhierarchyFormCallback.CreationMode || diagramhierarchyFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		diagramhierarchyFormCallback.probe.formStage.Reset()
 		newFormGroup := (&form.FormGroup{
 			Name: FormName,
-		}).Stage(diagramFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__DiagramFormCallback(
+		}).Stage(diagramhierarchyFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__DiagramHierarchyFormCallback(
 			nil,
-			diagramFormCallback.probe,
+			diagramhierarchyFormCallback.probe,
 			newFormGroup,
 		)
-		diagram := new(models.Diagram)
-		FillUpForm(diagram, newFormGroup, diagramFormCallback.probe)
-		diagramFormCallback.probe.formStage.Commit()
+		diagramhierarchy := new(models.DiagramHierarchy)
+		FillUpForm(diagramhierarchy, newFormGroup, diagramhierarchyFormCallback.probe)
+		diagramhierarchyFormCallback.probe.formStage.Commit()
 	}
 
-	diagramFormCallback.probe.ux_tree()
+	diagramhierarchyFormCallback.probe.ux_tree()
 }
 func __gong__New__LibraryFormCallback(
 	library *models.Library,
@@ -1248,11 +1248,11 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "Notes", &library_.Notes)
 
 		case "Diagrams":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](libraryFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Diagram, 0)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.DiagramHierarchy, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Diagram)
+			map_id_instances := make(map[uint]*models.DiagramHierarchy)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
@@ -1267,7 +1267,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](libraryFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](libraryFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -1442,48 +1442,48 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 			milestone_.TaskGroupsToDisplay = instanceSlice
 			milestoneFormCallback.probe.UpdateSliceOfPointersCallback(milestone_, "TaskGroupsToDisplay", &milestone_.TaskGroupsToDisplay)
 
-		case "Diagram:MilestonesWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:MilestonesWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](milestoneFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](milestoneFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their MilestonesWhoseNodeIsExpanded slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](milestoneFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(milestoneFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their MilestonesWhoseNodeIsExpanded slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](milestoneFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(milestoneFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure milestone_ is in _diagram.MilestonesWhoseNodeIsExpanded
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure milestone_ is in _diagramhierarchy.MilestonesWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _diagram.MilestonesWhoseNodeIsExpanded {
+					for _, _b := range _diagramhierarchy.MilestonesWhoseNodeIsExpanded {
 						if _b == milestone_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.MilestonesWhoseNodeIsExpanded = append(_diagram.MilestonesWhoseNodeIsExpanded, milestone_)
-						milestoneFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "MilestonesWhoseNodeIsExpanded", &_diagram.MilestonesWhoseNodeIsExpanded)
+						_diagramhierarchy.MilestonesWhoseNodeIsExpanded = append(_diagramhierarchy.MilestonesWhoseNodeIsExpanded, milestone_)
+						milestoneFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "MilestonesWhoseNodeIsExpanded", &_diagramhierarchy.MilestonesWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure milestone_ is NOT in _diagram.MilestonesWhoseNodeIsExpanded
-					idx := slices.Index(_diagram.MilestonesWhoseNodeIsExpanded, milestone_)
+					// ensure milestone_ is NOT in _diagramhierarchy.MilestonesWhoseNodeIsExpanded
+					idx := slices.Index(_diagramhierarchy.MilestonesWhoseNodeIsExpanded, milestone_)
 					if idx != -1 {
-						_diagram.MilestonesWhoseNodeIsExpanded = slices.Delete(_diagram.MilestonesWhoseNodeIsExpanded, idx, idx+1)
-						milestoneFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "MilestonesWhoseNodeIsExpanded", &_diagram.MilestonesWhoseNodeIsExpanded)
+						_diagramhierarchy.MilestonesWhoseNodeIsExpanded = slices.Delete(_diagramhierarchy.MilestonesWhoseNodeIsExpanded, idx, idx+1)
+						milestoneFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "MilestonesWhoseNodeIsExpanded", &_diagramhierarchy.MilestonesWhoseNodeIsExpanded)
 					}
 				}
 			}
@@ -1622,48 +1622,48 @@ func (milestoneshapeFormCallback *MilestoneShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(milestoneshape_.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(milestoneshape_.IsHidden), formDiv)
-		case "Diagram:MilestoneShapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:MilestoneShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](milestoneshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](milestoneshapeFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their MilestoneShapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](milestoneshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(milestoneshapeFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their MilestoneShapes slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](milestoneshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(milestoneshapeFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure milestoneshape_ is in _diagram.MilestoneShapes
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure milestoneshape_ is in _diagramhierarchy.MilestoneShapes
 					found := false
-					for _, _b := range _diagram.MilestoneShapes {
+					for _, _b := range _diagramhierarchy.MilestoneShapes {
 						if _b == milestoneshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.MilestoneShapes = append(_diagram.MilestoneShapes, milestoneshape_)
-						milestoneshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "MilestoneShapes", &_diagram.MilestoneShapes)
+						_diagramhierarchy.MilestoneShapes = append(_diagramhierarchy.MilestoneShapes, milestoneshape_)
+						milestoneshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "MilestoneShapes", &_diagramhierarchy.MilestoneShapes)
 					}
 				} else {
-					// ensure milestoneshape_ is NOT in _diagram.MilestoneShapes
-					idx := slices.Index(_diagram.MilestoneShapes, milestoneshape_)
+					// ensure milestoneshape_ is NOT in _diagramhierarchy.MilestoneShapes
+					idx := slices.Index(_diagramhierarchy.MilestoneShapes, milestoneshape_)
 					if idx != -1 {
-						_diagram.MilestoneShapes = slices.Delete(_diagram.MilestoneShapes, idx, idx+1)
-						milestoneshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "MilestoneShapes", &_diagram.MilestoneShapes)
+						_diagramhierarchy.MilestoneShapes = slices.Delete(_diagramhierarchy.MilestoneShapes, idx, idx+1)
+						milestoneshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "MilestoneShapes", &_diagramhierarchy.MilestoneShapes)
 					}
 				}
 			}
@@ -1845,48 +1845,48 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			note_.Resources = instanceSlice
 			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Resources", &note_.Resources)
 
-		case "Diagram:NotesWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:NotesWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](noteFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](noteFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their NotesWhoseNodeIsExpanded slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](noteFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(noteFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their NotesWhoseNodeIsExpanded slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](noteFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(noteFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure note_ is in _diagram.NotesWhoseNodeIsExpanded
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure note_ is in _diagramhierarchy.NotesWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _diagram.NotesWhoseNodeIsExpanded {
+					for _, _b := range _diagramhierarchy.NotesWhoseNodeIsExpanded {
 						if _b == note_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.NotesWhoseNodeIsExpanded = append(_diagram.NotesWhoseNodeIsExpanded, note_)
-						noteFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "NotesWhoseNodeIsExpanded", &_diagram.NotesWhoseNodeIsExpanded)
+						_diagramhierarchy.NotesWhoseNodeIsExpanded = append(_diagramhierarchy.NotesWhoseNodeIsExpanded, note_)
+						noteFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "NotesWhoseNodeIsExpanded", &_diagramhierarchy.NotesWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure note_ is NOT in _diagram.NotesWhoseNodeIsExpanded
-					idx := slices.Index(_diagram.NotesWhoseNodeIsExpanded, note_)
+					// ensure note_ is NOT in _diagramhierarchy.NotesWhoseNodeIsExpanded
+					idx := slices.Index(_diagramhierarchy.NotesWhoseNodeIsExpanded, note_)
 					if idx != -1 {
-						_diagram.NotesWhoseNodeIsExpanded = slices.Delete(_diagram.NotesWhoseNodeIsExpanded, idx, idx+1)
-						noteFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "NotesWhoseNodeIsExpanded", &_diagram.NotesWhoseNodeIsExpanded)
+						_diagramhierarchy.NotesWhoseNodeIsExpanded = slices.Delete(_diagramhierarchy.NotesWhoseNodeIsExpanded, idx, idx+1)
+						noteFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "NotesWhoseNodeIsExpanded", &_diagramhierarchy.NotesWhoseNodeIsExpanded)
 					}
 				}
 			}
@@ -2029,48 +2029,48 @@ func (noteproductshapeFormCallback *NoteProductShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(noteproductshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(noteproductshape_.IsHidden), formDiv)
-		case "Diagram:NoteProductShapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:NoteProductShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](noteproductshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](noteproductshapeFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their NoteProductShapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](noteproductshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(noteproductshapeFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their NoteProductShapes slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](noteproductshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(noteproductshapeFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure noteproductshape_ is in _diagram.NoteProductShapes
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure noteproductshape_ is in _diagramhierarchy.NoteProductShapes
 					found := false
-					for _, _b := range _diagram.NoteProductShapes {
+					for _, _b := range _diagramhierarchy.NoteProductShapes {
 						if _b == noteproductshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.NoteProductShapes = append(_diagram.NoteProductShapes, noteproductshape_)
-						noteproductshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "NoteProductShapes", &_diagram.NoteProductShapes)
+						_diagramhierarchy.NoteProductShapes = append(_diagramhierarchy.NoteProductShapes, noteproductshape_)
+						noteproductshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "NoteProductShapes", &_diagramhierarchy.NoteProductShapes)
 					}
 				} else {
-					// ensure noteproductshape_ is NOT in _diagram.NoteProductShapes
-					idx := slices.Index(_diagram.NoteProductShapes, noteproductshape_)
+					// ensure noteproductshape_ is NOT in _diagramhierarchy.NoteProductShapes
+					idx := slices.Index(_diagramhierarchy.NoteProductShapes, noteproductshape_)
 					if idx != -1 {
-						_diagram.NoteProductShapes = slices.Delete(_diagram.NoteProductShapes, idx, idx+1)
-						noteproductshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "NoteProductShapes", &_diagram.NoteProductShapes)
+						_diagramhierarchy.NoteProductShapes = slices.Delete(_diagramhierarchy.NoteProductShapes, idx, idx+1)
+						noteproductshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "NoteProductShapes", &_diagramhierarchy.NoteProductShapes)
 					}
 				}
 			}
@@ -2168,48 +2168,48 @@ func (noteresourceshapeFormCallback *NoteResourceShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(noteresourceshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(noteresourceshape_.IsHidden), formDiv)
-		case "Diagram:NoteResourceShapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:NoteResourceShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](noteresourceshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](noteresourceshapeFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their NoteResourceShapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](noteresourceshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(noteresourceshapeFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their NoteResourceShapes slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](noteresourceshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(noteresourceshapeFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure noteresourceshape_ is in _diagram.NoteResourceShapes
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure noteresourceshape_ is in _diagramhierarchy.NoteResourceShapes
 					found := false
-					for _, _b := range _diagram.NoteResourceShapes {
+					for _, _b := range _diagramhierarchy.NoteResourceShapes {
 						if _b == noteresourceshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.NoteResourceShapes = append(_diagram.NoteResourceShapes, noteresourceshape_)
-						noteresourceshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "NoteResourceShapes", &_diagram.NoteResourceShapes)
+						_diagramhierarchy.NoteResourceShapes = append(_diagramhierarchy.NoteResourceShapes, noteresourceshape_)
+						noteresourceshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "NoteResourceShapes", &_diagramhierarchy.NoteResourceShapes)
 					}
 				} else {
-					// ensure noteresourceshape_ is NOT in _diagram.NoteResourceShapes
-					idx := slices.Index(_diagram.NoteResourceShapes, noteresourceshape_)
+					// ensure noteresourceshape_ is NOT in _diagramhierarchy.NoteResourceShapes
+					idx := slices.Index(_diagramhierarchy.NoteResourceShapes, noteresourceshape_)
 					if idx != -1 {
-						_diagram.NoteResourceShapes = slices.Delete(_diagram.NoteResourceShapes, idx, idx+1)
-						noteresourceshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "NoteResourceShapes", &_diagram.NoteResourceShapes)
+						_diagramhierarchy.NoteResourceShapes = slices.Delete(_diagramhierarchy.NoteResourceShapes, idx, idx+1)
+						noteresourceshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "NoteResourceShapes", &_diagramhierarchy.NoteResourceShapes)
 					}
 				}
 			}
@@ -2303,48 +2303,48 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(noteshape_.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(noteshape_.IsHidden), formDiv)
-		case "Diagram:Note_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:Note_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](noteshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](noteshapeFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their Note_Shapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](noteshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(noteshapeFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their Note_Shapes slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](noteshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(noteshapeFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure noteshape_ is in _diagram.Note_Shapes
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure noteshape_ is in _diagramhierarchy.Note_Shapes
 					found := false
-					for _, _b := range _diagram.Note_Shapes {
+					for _, _b := range _diagramhierarchy.Note_Shapes {
 						if _b == noteshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.Note_Shapes = append(_diagram.Note_Shapes, noteshape_)
-						noteshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "Note_Shapes", &_diagram.Note_Shapes)
+						_diagramhierarchy.Note_Shapes = append(_diagramhierarchy.Note_Shapes, noteshape_)
+						noteshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "Note_Shapes", &_diagramhierarchy.Note_Shapes)
 					}
 				} else {
-					// ensure noteshape_ is NOT in _diagram.Note_Shapes
-					idx := slices.Index(_diagram.Note_Shapes, noteshape_)
+					// ensure noteshape_ is NOT in _diagramhierarchy.Note_Shapes
+					idx := slices.Index(_diagramhierarchy.Note_Shapes, noteshape_)
 					if idx != -1 {
-						_diagram.Note_Shapes = slices.Delete(_diagram.Note_Shapes, idx, idx+1)
-						noteshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "Note_Shapes", &_diagram.Note_Shapes)
+						_diagramhierarchy.Note_Shapes = slices.Delete(_diagramhierarchy.Note_Shapes, idx, idx+1)
+						noteshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "Note_Shapes", &_diagramhierarchy.Note_Shapes)
 					}
 				}
 			}
@@ -2442,48 +2442,48 @@ func (notetaskshapeFormCallback *NoteTaskShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(notetaskshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(notetaskshape_.IsHidden), formDiv)
-		case "Diagram:NoteTaskShapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:NoteTaskShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](notetaskshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](notetaskshapeFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their NoteTaskShapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](notetaskshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(notetaskshapeFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their NoteTaskShapes slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](notetaskshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(notetaskshapeFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure notetaskshape_ is in _diagram.NoteTaskShapes
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure notetaskshape_ is in _diagramhierarchy.NoteTaskShapes
 					found := false
-					for _, _b := range _diagram.NoteTaskShapes {
+					for _, _b := range _diagramhierarchy.NoteTaskShapes {
 						if _b == notetaskshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.NoteTaskShapes = append(_diagram.NoteTaskShapes, notetaskshape_)
-						notetaskshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "NoteTaskShapes", &_diagram.NoteTaskShapes)
+						_diagramhierarchy.NoteTaskShapes = append(_diagramhierarchy.NoteTaskShapes, notetaskshape_)
+						notetaskshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "NoteTaskShapes", &_diagramhierarchy.NoteTaskShapes)
 					}
 				} else {
-					// ensure notetaskshape_ is NOT in _diagram.NoteTaskShapes
-					idx := slices.Index(_diagram.NoteTaskShapes, notetaskshape_)
+					// ensure notetaskshape_ is NOT in _diagramhierarchy.NoteTaskShapes
+					idx := slices.Index(_diagramhierarchy.NoteTaskShapes, notetaskshape_)
 					if idx != -1 {
-						_diagram.NoteTaskShapes = slices.Delete(_diagram.NoteTaskShapes, idx, idx+1)
-						notetaskshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "NoteTaskShapes", &_diagram.NoteTaskShapes)
+						_diagramhierarchy.NoteTaskShapes = slices.Delete(_diagramhierarchy.NoteTaskShapes, idx, idx+1)
+						notetaskshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "NoteTaskShapes", &_diagramhierarchy.NoteTaskShapes)
 					}
 				}
 			}
@@ -2611,48 +2611,48 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(product_.IsProducersNodeExpanded), formDiv)
 		case "IsConsumersNodeExpanded":
 			FormDivBasicFieldToField(&(product_.IsConsumersNodeExpanded), formDiv)
-		case "Diagram:ProductsWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:ProductsWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](productFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](productFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their ProductsWhoseNodeIsExpanded slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](productFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(productFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their ProductsWhoseNodeIsExpanded slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](productFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(productFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure product_ is in _diagram.ProductsWhoseNodeIsExpanded
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure product_ is in _diagramhierarchy.ProductsWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _diagram.ProductsWhoseNodeIsExpanded {
+					for _, _b := range _diagramhierarchy.ProductsWhoseNodeIsExpanded {
 						if _b == product_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.ProductsWhoseNodeIsExpanded = append(_diagram.ProductsWhoseNodeIsExpanded, product_)
-						productFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ProductsWhoseNodeIsExpanded", &_diagram.ProductsWhoseNodeIsExpanded)
+						_diagramhierarchy.ProductsWhoseNodeIsExpanded = append(_diagramhierarchy.ProductsWhoseNodeIsExpanded, product_)
+						productFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "ProductsWhoseNodeIsExpanded", &_diagramhierarchy.ProductsWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure product_ is NOT in _diagram.ProductsWhoseNodeIsExpanded
-					idx := slices.Index(_diagram.ProductsWhoseNodeIsExpanded, product_)
+					// ensure product_ is NOT in _diagramhierarchy.ProductsWhoseNodeIsExpanded
+					idx := slices.Index(_diagramhierarchy.ProductsWhoseNodeIsExpanded, product_)
 					if idx != -1 {
-						_diagram.ProductsWhoseNodeIsExpanded = slices.Delete(_diagram.ProductsWhoseNodeIsExpanded, idx, idx+1)
-						productFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ProductsWhoseNodeIsExpanded", &_diagram.ProductsWhoseNodeIsExpanded)
+						_diagramhierarchy.ProductsWhoseNodeIsExpanded = slices.Delete(_diagramhierarchy.ProductsWhoseNodeIsExpanded, idx, idx+1)
+						productFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "ProductsWhoseNodeIsExpanded", &_diagramhierarchy.ProductsWhoseNodeIsExpanded)
 					}
 				}
 			}
@@ -2973,48 +2973,48 @@ func (productcompositionshapeFormCallback *ProductCompositionShapeFormCallback) 
 			FormDivBasicFieldToField(&(productcompositionshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(productcompositionshape_.IsHidden), formDiv)
-		case "Diagram:ProductComposition_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:ProductComposition_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](productcompositionshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](productcompositionshapeFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their ProductComposition_Shapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](productcompositionshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(productcompositionshapeFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their ProductComposition_Shapes slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](productcompositionshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(productcompositionshapeFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure productcompositionshape_ is in _diagram.ProductComposition_Shapes
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure productcompositionshape_ is in _diagramhierarchy.ProductComposition_Shapes
 					found := false
-					for _, _b := range _diagram.ProductComposition_Shapes {
+					for _, _b := range _diagramhierarchy.ProductComposition_Shapes {
 						if _b == productcompositionshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.ProductComposition_Shapes = append(_diagram.ProductComposition_Shapes, productcompositionshape_)
-						productcompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ProductComposition_Shapes", &_diagram.ProductComposition_Shapes)
+						_diagramhierarchy.ProductComposition_Shapes = append(_diagramhierarchy.ProductComposition_Shapes, productcompositionshape_)
+						productcompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "ProductComposition_Shapes", &_diagramhierarchy.ProductComposition_Shapes)
 					}
 				} else {
-					// ensure productcompositionshape_ is NOT in _diagram.ProductComposition_Shapes
-					idx := slices.Index(_diagram.ProductComposition_Shapes, productcompositionshape_)
+					// ensure productcompositionshape_ is NOT in _diagramhierarchy.ProductComposition_Shapes
+					idx := slices.Index(_diagramhierarchy.ProductComposition_Shapes, productcompositionshape_)
 					if idx != -1 {
-						_diagram.ProductComposition_Shapes = slices.Delete(_diagram.ProductComposition_Shapes, idx, idx+1)
-						productcompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ProductComposition_Shapes", &_diagram.ProductComposition_Shapes)
+						_diagramhierarchy.ProductComposition_Shapes = slices.Delete(_diagramhierarchy.ProductComposition_Shapes, idx, idx+1)
+						productcompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "ProductComposition_Shapes", &_diagramhierarchy.ProductComposition_Shapes)
 					}
 				}
 			}
@@ -3108,48 +3108,48 @@ func (productshapeFormCallback *ProductShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(productshape_.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(productshape_.IsHidden), formDiv)
-		case "Diagram:Product_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:Product_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](productshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](productshapeFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their Product_Shapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](productshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(productshapeFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their Product_Shapes slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](productshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(productshapeFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure productshape_ is in _diagram.Product_Shapes
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure productshape_ is in _diagramhierarchy.Product_Shapes
 					found := false
-					for _, _b := range _diagram.Product_Shapes {
+					for _, _b := range _diagramhierarchy.Product_Shapes {
 						if _b == productshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.Product_Shapes = append(_diagram.Product_Shapes, productshape_)
-						productshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "Product_Shapes", &_diagram.Product_Shapes)
+						_diagramhierarchy.Product_Shapes = append(_diagramhierarchy.Product_Shapes, productshape_)
+						productshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "Product_Shapes", &_diagramhierarchy.Product_Shapes)
 					}
 				} else {
-					// ensure productshape_ is NOT in _diagram.Product_Shapes
-					idx := slices.Index(_diagram.Product_Shapes, productshape_)
+					// ensure productshape_ is NOT in _diagramhierarchy.Product_Shapes
+					idx := slices.Index(_diagramhierarchy.Product_Shapes, productshape_)
 					if idx != -1 {
-						_diagram.Product_Shapes = slices.Delete(_diagram.Product_Shapes, idx, idx+1)
-						productshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "Product_Shapes", &_diagram.Product_Shapes)
+						_diagramhierarchy.Product_Shapes = slices.Delete(_diagramhierarchy.Product_Shapes, idx, idx+1)
+						productshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "Product_Shapes", &_diagramhierarchy.Product_Shapes)
 					}
 				}
 			}
@@ -3305,48 +3305,48 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 			resource_.SubResources = instanceSlice
 			resourceFormCallback.probe.UpdateSliceOfPointersCallback(resource_, "SubResources", &resource_.SubResources)
 
-		case "Diagram:ResourcesWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:ResourcesWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](resourceFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](resourceFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their ResourcesWhoseNodeIsExpanded slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](resourceFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(resourceFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their ResourcesWhoseNodeIsExpanded slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](resourceFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(resourceFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure resource_ is in _diagram.ResourcesWhoseNodeIsExpanded
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure resource_ is in _diagramhierarchy.ResourcesWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _diagram.ResourcesWhoseNodeIsExpanded {
+					for _, _b := range _diagramhierarchy.ResourcesWhoseNodeIsExpanded {
 						if _b == resource_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.ResourcesWhoseNodeIsExpanded = append(_diagram.ResourcesWhoseNodeIsExpanded, resource_)
-						resourceFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ResourcesWhoseNodeIsExpanded", &_diagram.ResourcesWhoseNodeIsExpanded)
+						_diagramhierarchy.ResourcesWhoseNodeIsExpanded = append(_diagramhierarchy.ResourcesWhoseNodeIsExpanded, resource_)
+						resourceFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "ResourcesWhoseNodeIsExpanded", &_diagramhierarchy.ResourcesWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure resource_ is NOT in _diagram.ResourcesWhoseNodeIsExpanded
-					idx := slices.Index(_diagram.ResourcesWhoseNodeIsExpanded, resource_)
+					// ensure resource_ is NOT in _diagramhierarchy.ResourcesWhoseNodeIsExpanded
+					idx := slices.Index(_diagramhierarchy.ResourcesWhoseNodeIsExpanded, resource_)
 					if idx != -1 {
-						_diagram.ResourcesWhoseNodeIsExpanded = slices.Delete(_diagram.ResourcesWhoseNodeIsExpanded, idx, idx+1)
-						resourceFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ResourcesWhoseNodeIsExpanded", &_diagram.ResourcesWhoseNodeIsExpanded)
+						_diagramhierarchy.ResourcesWhoseNodeIsExpanded = slices.Delete(_diagramhierarchy.ResourcesWhoseNodeIsExpanded, idx, idx+1)
+						resourceFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "ResourcesWhoseNodeIsExpanded", &_diagramhierarchy.ResourcesWhoseNodeIsExpanded)
 					}
 				}
 			}
@@ -3577,48 +3577,48 @@ func (resourcecompositionshapeFormCallback *ResourceCompositionShapeFormCallback
 			FormDivBasicFieldToField(&(resourcecompositionshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(resourcecompositionshape_.IsHidden), formDiv)
-		case "Diagram:ResourceComposition_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:ResourceComposition_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](resourcecompositionshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](resourcecompositionshapeFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their ResourceComposition_Shapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](resourcecompositionshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(resourcecompositionshapeFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their ResourceComposition_Shapes slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](resourcecompositionshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(resourcecompositionshapeFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure resourcecompositionshape_ is in _diagram.ResourceComposition_Shapes
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure resourcecompositionshape_ is in _diagramhierarchy.ResourceComposition_Shapes
 					found := false
-					for _, _b := range _diagram.ResourceComposition_Shapes {
+					for _, _b := range _diagramhierarchy.ResourceComposition_Shapes {
 						if _b == resourcecompositionshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.ResourceComposition_Shapes = append(_diagram.ResourceComposition_Shapes, resourcecompositionshape_)
-						resourcecompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ResourceComposition_Shapes", &_diagram.ResourceComposition_Shapes)
+						_diagramhierarchy.ResourceComposition_Shapes = append(_diagramhierarchy.ResourceComposition_Shapes, resourcecompositionshape_)
+						resourcecompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "ResourceComposition_Shapes", &_diagramhierarchy.ResourceComposition_Shapes)
 					}
 				} else {
-					// ensure resourcecompositionshape_ is NOT in _diagram.ResourceComposition_Shapes
-					idx := slices.Index(_diagram.ResourceComposition_Shapes, resourcecompositionshape_)
+					// ensure resourcecompositionshape_ is NOT in _diagramhierarchy.ResourceComposition_Shapes
+					idx := slices.Index(_diagramhierarchy.ResourceComposition_Shapes, resourcecompositionshape_)
 					if idx != -1 {
-						_diagram.ResourceComposition_Shapes = slices.Delete(_diagram.ResourceComposition_Shapes, idx, idx+1)
-						resourcecompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ResourceComposition_Shapes", &_diagram.ResourceComposition_Shapes)
+						_diagramhierarchy.ResourceComposition_Shapes = slices.Delete(_diagramhierarchy.ResourceComposition_Shapes, idx, idx+1)
+						resourcecompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "ResourceComposition_Shapes", &_diagramhierarchy.ResourceComposition_Shapes)
 					}
 				}
 			}
@@ -3712,48 +3712,48 @@ func (resourceshapeFormCallback *ResourceShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(resourceshape_.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(resourceshape_.IsHidden), formDiv)
-		case "Diagram:Resource_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:Resource_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](resourceshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](resourceshapeFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their Resource_Shapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](resourceshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(resourceshapeFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their Resource_Shapes slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](resourceshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(resourceshapeFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure resourceshape_ is in _diagram.Resource_Shapes
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure resourceshape_ is in _diagramhierarchy.Resource_Shapes
 					found := false
-					for _, _b := range _diagram.Resource_Shapes {
+					for _, _b := range _diagramhierarchy.Resource_Shapes {
 						if _b == resourceshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.Resource_Shapes = append(_diagram.Resource_Shapes, resourceshape_)
-						resourceshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "Resource_Shapes", &_diagram.Resource_Shapes)
+						_diagramhierarchy.Resource_Shapes = append(_diagramhierarchy.Resource_Shapes, resourceshape_)
+						resourceshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "Resource_Shapes", &_diagramhierarchy.Resource_Shapes)
 					}
 				} else {
-					// ensure resourceshape_ is NOT in _diagram.Resource_Shapes
-					idx := slices.Index(_diagram.Resource_Shapes, resourceshape_)
+					// ensure resourceshape_ is NOT in _diagramhierarchy.Resource_Shapes
+					idx := slices.Index(_diagramhierarchy.Resource_Shapes, resourceshape_)
 					if idx != -1 {
-						_diagram.Resource_Shapes = slices.Delete(_diagram.Resource_Shapes, idx, idx+1)
-						resourceshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "Resource_Shapes", &_diagram.Resource_Shapes)
+						_diagramhierarchy.Resource_Shapes = slices.Delete(_diagramhierarchy.Resource_Shapes, idx, idx+1)
+						resourceshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "Resource_Shapes", &_diagramhierarchy.Resource_Shapes)
 					}
 				}
 			}
@@ -3851,48 +3851,48 @@ func (resourcetaskshapeFormCallback *ResourceTaskShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(resourcetaskshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(resourcetaskshape_.IsHidden), formDiv)
-		case "Diagram:ResourceTaskShapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:ResourceTaskShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](resourcetaskshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](resourcetaskshapeFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their ResourceTaskShapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](resourcetaskshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(resourcetaskshapeFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their ResourceTaskShapes slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](resourcetaskshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(resourcetaskshapeFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure resourcetaskshape_ is in _diagram.ResourceTaskShapes
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure resourcetaskshape_ is in _diagramhierarchy.ResourceTaskShapes
 					found := false
-					for _, _b := range _diagram.ResourceTaskShapes {
+					for _, _b := range _diagramhierarchy.ResourceTaskShapes {
 						if _b == resourcetaskshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.ResourceTaskShapes = append(_diagram.ResourceTaskShapes, resourcetaskshape_)
-						resourcetaskshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ResourceTaskShapes", &_diagram.ResourceTaskShapes)
+						_diagramhierarchy.ResourceTaskShapes = append(_diagramhierarchy.ResourceTaskShapes, resourcetaskshape_)
+						resourcetaskshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "ResourceTaskShapes", &_diagramhierarchy.ResourceTaskShapes)
 					}
 				} else {
-					// ensure resourcetaskshape_ is NOT in _diagram.ResourceTaskShapes
-					idx := slices.Index(_diagram.ResourceTaskShapes, resourcetaskshape_)
+					// ensure resourcetaskshape_ is NOT in _diagramhierarchy.ResourceTaskShapes
+					idx := slices.Index(_diagramhierarchy.ResourceTaskShapes, resourcetaskshape_)
 					if idx != -1 {
-						_diagram.ResourceTaskShapes = slices.Delete(_diagram.ResourceTaskShapes, idx, idx+1)
-						resourcetaskshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ResourceTaskShapes", &_diagram.ResourceTaskShapes)
+						_diagramhierarchy.ResourceTaskShapes = slices.Delete(_diagramhierarchy.ResourceTaskShapes, idx, idx+1)
+						resourcetaskshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "ResourceTaskShapes", &_diagramhierarchy.ResourceTaskShapes)
 					}
 				}
 			}
@@ -4092,138 +4092,138 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(task_.IsWithCompletion), formDiv)
 		case "Completion":
 			FormDivEnumStringFieldToField(&(task_.Completion), formDiv)
-		case "Diagram:TasksWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:TasksWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](taskFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](taskFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their TasksWhoseNodeIsExpanded slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](taskFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their TasksWhoseNodeIsExpanded slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](taskFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure task_ is in _diagram.TasksWhoseNodeIsExpanded
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure task_ is in _diagramhierarchy.TasksWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _diagram.TasksWhoseNodeIsExpanded {
+					for _, _b := range _diagramhierarchy.TasksWhoseNodeIsExpanded {
 						if _b == task_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.TasksWhoseNodeIsExpanded = append(_diagram.TasksWhoseNodeIsExpanded, task_)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TasksWhoseNodeIsExpanded", &_diagram.TasksWhoseNodeIsExpanded)
+						_diagramhierarchy.TasksWhoseNodeIsExpanded = append(_diagramhierarchy.TasksWhoseNodeIsExpanded, task_)
+						taskFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "TasksWhoseNodeIsExpanded", &_diagramhierarchy.TasksWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure task_ is NOT in _diagram.TasksWhoseNodeIsExpanded
-					idx := slices.Index(_diagram.TasksWhoseNodeIsExpanded, task_)
+					// ensure task_ is NOT in _diagramhierarchy.TasksWhoseNodeIsExpanded
+					idx := slices.Index(_diagramhierarchy.TasksWhoseNodeIsExpanded, task_)
 					if idx != -1 {
-						_diagram.TasksWhoseNodeIsExpanded = slices.Delete(_diagram.TasksWhoseNodeIsExpanded, idx, idx+1)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TasksWhoseNodeIsExpanded", &_diagram.TasksWhoseNodeIsExpanded)
+						_diagramhierarchy.TasksWhoseNodeIsExpanded = slices.Delete(_diagramhierarchy.TasksWhoseNodeIsExpanded, idx, idx+1)
+						taskFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "TasksWhoseNodeIsExpanded", &_diagramhierarchy.TasksWhoseNodeIsExpanded)
 					}
 				}
 			}
-		case "Diagram:TasksWhoseInputNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:TasksWhoseInputNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](taskFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](taskFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their TasksWhoseInputNodeIsExpanded slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](taskFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their TasksWhoseInputNodeIsExpanded slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](taskFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure task_ is in _diagram.TasksWhoseInputNodeIsExpanded
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure task_ is in _diagramhierarchy.TasksWhoseInputNodeIsExpanded
 					found := false
-					for _, _b := range _diagram.TasksWhoseInputNodeIsExpanded {
+					for _, _b := range _diagramhierarchy.TasksWhoseInputNodeIsExpanded {
 						if _b == task_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.TasksWhoseInputNodeIsExpanded = append(_diagram.TasksWhoseInputNodeIsExpanded, task_)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TasksWhoseInputNodeIsExpanded", &_diagram.TasksWhoseInputNodeIsExpanded)
+						_diagramhierarchy.TasksWhoseInputNodeIsExpanded = append(_diagramhierarchy.TasksWhoseInputNodeIsExpanded, task_)
+						taskFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "TasksWhoseInputNodeIsExpanded", &_diagramhierarchy.TasksWhoseInputNodeIsExpanded)
 					}
 				} else {
-					// ensure task_ is NOT in _diagram.TasksWhoseInputNodeIsExpanded
-					idx := slices.Index(_diagram.TasksWhoseInputNodeIsExpanded, task_)
+					// ensure task_ is NOT in _diagramhierarchy.TasksWhoseInputNodeIsExpanded
+					idx := slices.Index(_diagramhierarchy.TasksWhoseInputNodeIsExpanded, task_)
 					if idx != -1 {
-						_diagram.TasksWhoseInputNodeIsExpanded = slices.Delete(_diagram.TasksWhoseInputNodeIsExpanded, idx, idx+1)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TasksWhoseInputNodeIsExpanded", &_diagram.TasksWhoseInputNodeIsExpanded)
+						_diagramhierarchy.TasksWhoseInputNodeIsExpanded = slices.Delete(_diagramhierarchy.TasksWhoseInputNodeIsExpanded, idx, idx+1)
+						taskFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "TasksWhoseInputNodeIsExpanded", &_diagramhierarchy.TasksWhoseInputNodeIsExpanded)
 					}
 				}
 			}
-		case "Diagram:TasksWhoseOutputNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:TasksWhoseOutputNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](taskFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](taskFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their TasksWhoseOutputNodeIsExpanded slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](taskFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their TasksWhoseOutputNodeIsExpanded slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](taskFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure task_ is in _diagram.TasksWhoseOutputNodeIsExpanded
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure task_ is in _diagramhierarchy.TasksWhoseOutputNodeIsExpanded
 					found := false
-					for _, _b := range _diagram.TasksWhoseOutputNodeIsExpanded {
+					for _, _b := range _diagramhierarchy.TasksWhoseOutputNodeIsExpanded {
 						if _b == task_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.TasksWhoseOutputNodeIsExpanded = append(_diagram.TasksWhoseOutputNodeIsExpanded, task_)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TasksWhoseOutputNodeIsExpanded", &_diagram.TasksWhoseOutputNodeIsExpanded)
+						_diagramhierarchy.TasksWhoseOutputNodeIsExpanded = append(_diagramhierarchy.TasksWhoseOutputNodeIsExpanded, task_)
+						taskFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "TasksWhoseOutputNodeIsExpanded", &_diagramhierarchy.TasksWhoseOutputNodeIsExpanded)
 					}
 				} else {
-					// ensure task_ is NOT in _diagram.TasksWhoseOutputNodeIsExpanded
-					idx := slices.Index(_diagram.TasksWhoseOutputNodeIsExpanded, task_)
+					// ensure task_ is NOT in _diagramhierarchy.TasksWhoseOutputNodeIsExpanded
+					idx := slices.Index(_diagramhierarchy.TasksWhoseOutputNodeIsExpanded, task_)
 					if idx != -1 {
-						_diagram.TasksWhoseOutputNodeIsExpanded = slices.Delete(_diagram.TasksWhoseOutputNodeIsExpanded, idx, idx+1)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TasksWhoseOutputNodeIsExpanded", &_diagram.TasksWhoseOutputNodeIsExpanded)
+						_diagramhierarchy.TasksWhoseOutputNodeIsExpanded = slices.Delete(_diagramhierarchy.TasksWhoseOutputNodeIsExpanded, idx, idx+1)
+						taskFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "TasksWhoseOutputNodeIsExpanded", &_diagramhierarchy.TasksWhoseOutputNodeIsExpanded)
 					}
 				}
 			}
@@ -4544,48 +4544,48 @@ func (taskcompositionshapeFormCallback *TaskCompositionShapeFormCallback) OnSave
 			FormDivBasicFieldToField(&(taskcompositionshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(taskcompositionshape_.IsHidden), formDiv)
-		case "Diagram:TaskComposition_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:TaskComposition_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](taskcompositionshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](taskcompositionshapeFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their TaskComposition_Shapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](taskcompositionshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskcompositionshapeFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their TaskComposition_Shapes slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](taskcompositionshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(taskcompositionshapeFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure taskcompositionshape_ is in _diagram.TaskComposition_Shapes
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure taskcompositionshape_ is in _diagramhierarchy.TaskComposition_Shapes
 					found := false
-					for _, _b := range _diagram.TaskComposition_Shapes {
+					for _, _b := range _diagramhierarchy.TaskComposition_Shapes {
 						if _b == taskcompositionshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.TaskComposition_Shapes = append(_diagram.TaskComposition_Shapes, taskcompositionshape_)
-						taskcompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TaskComposition_Shapes", &_diagram.TaskComposition_Shapes)
+						_diagramhierarchy.TaskComposition_Shapes = append(_diagramhierarchy.TaskComposition_Shapes, taskcompositionshape_)
+						taskcompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "TaskComposition_Shapes", &_diagramhierarchy.TaskComposition_Shapes)
 					}
 				} else {
-					// ensure taskcompositionshape_ is NOT in _diagram.TaskComposition_Shapes
-					idx := slices.Index(_diagram.TaskComposition_Shapes, taskcompositionshape_)
+					// ensure taskcompositionshape_ is NOT in _diagramhierarchy.TaskComposition_Shapes
+					idx := slices.Index(_diagramhierarchy.TaskComposition_Shapes, taskcompositionshape_)
 					if idx != -1 {
-						_diagram.TaskComposition_Shapes = slices.Delete(_diagram.TaskComposition_Shapes, idx, idx+1)
-						taskcompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TaskComposition_Shapes", &_diagram.TaskComposition_Shapes)
+						_diagramhierarchy.TaskComposition_Shapes = slices.Delete(_diagramhierarchy.TaskComposition_Shapes, idx, idx+1)
+						taskcompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "TaskComposition_Shapes", &_diagramhierarchy.TaskComposition_Shapes)
 					}
 				}
 			}
@@ -4703,48 +4703,48 @@ func (taskgroupFormCallback *TaskGroupFormCallback) OnSave() {
 			taskgroup_.Tasks = instanceSlice
 			taskgroupFormCallback.probe.UpdateSliceOfPointersCallback(taskgroup_, "Tasks", &taskgroup_.Tasks)
 
-		case "Diagram:TaskGroupsWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:TaskGroupsWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](taskgroupFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](taskgroupFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their TaskGroupsWhoseNodeIsExpanded slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](taskgroupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskgroupFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their TaskGroupsWhoseNodeIsExpanded slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](taskgroupFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(taskgroupFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure taskgroup_ is in _diagram.TaskGroupsWhoseNodeIsExpanded
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure taskgroup_ is in _diagramhierarchy.TaskGroupsWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _diagram.TaskGroupsWhoseNodeIsExpanded {
+					for _, _b := range _diagramhierarchy.TaskGroupsWhoseNodeIsExpanded {
 						if _b == taskgroup_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.TaskGroupsWhoseNodeIsExpanded = append(_diagram.TaskGroupsWhoseNodeIsExpanded, taskgroup_)
-						taskgroupFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TaskGroupsWhoseNodeIsExpanded", &_diagram.TaskGroupsWhoseNodeIsExpanded)
+						_diagramhierarchy.TaskGroupsWhoseNodeIsExpanded = append(_diagramhierarchy.TaskGroupsWhoseNodeIsExpanded, taskgroup_)
+						taskgroupFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "TaskGroupsWhoseNodeIsExpanded", &_diagramhierarchy.TaskGroupsWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure taskgroup_ is NOT in _diagram.TaskGroupsWhoseNodeIsExpanded
-					idx := slices.Index(_diagram.TaskGroupsWhoseNodeIsExpanded, taskgroup_)
+					// ensure taskgroup_ is NOT in _diagramhierarchy.TaskGroupsWhoseNodeIsExpanded
+					idx := slices.Index(_diagramhierarchy.TaskGroupsWhoseNodeIsExpanded, taskgroup_)
 					if idx != -1 {
-						_diagram.TaskGroupsWhoseNodeIsExpanded = slices.Delete(_diagram.TaskGroupsWhoseNodeIsExpanded, idx, idx+1)
-						taskgroupFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TaskGroupsWhoseNodeIsExpanded", &_diagram.TaskGroupsWhoseNodeIsExpanded)
+						_diagramhierarchy.TaskGroupsWhoseNodeIsExpanded = slices.Delete(_diagramhierarchy.TaskGroupsWhoseNodeIsExpanded, idx, idx+1)
+						taskgroupFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "TaskGroupsWhoseNodeIsExpanded", &_diagramhierarchy.TaskGroupsWhoseNodeIsExpanded)
 					}
 				}
 			}
@@ -4928,48 +4928,48 @@ func (taskgroupshapeFormCallback *TaskGroupShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(taskgroupshape_.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(taskgroupshape_.IsHidden), formDiv)
-		case "Diagram:TaskGroupShapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:TaskGroupShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](taskgroupshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](taskgroupshapeFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their TaskGroupShapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](taskgroupshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskgroupshapeFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their TaskGroupShapes slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](taskgroupshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(taskgroupshapeFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure taskgroupshape_ is in _diagram.TaskGroupShapes
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure taskgroupshape_ is in _diagramhierarchy.TaskGroupShapes
 					found := false
-					for _, _b := range _diagram.TaskGroupShapes {
+					for _, _b := range _diagramhierarchy.TaskGroupShapes {
 						if _b == taskgroupshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.TaskGroupShapes = append(_diagram.TaskGroupShapes, taskgroupshape_)
-						taskgroupshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TaskGroupShapes", &_diagram.TaskGroupShapes)
+						_diagramhierarchy.TaskGroupShapes = append(_diagramhierarchy.TaskGroupShapes, taskgroupshape_)
+						taskgroupshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "TaskGroupShapes", &_diagramhierarchy.TaskGroupShapes)
 					}
 				} else {
-					// ensure taskgroupshape_ is NOT in _diagram.TaskGroupShapes
-					idx := slices.Index(_diagram.TaskGroupShapes, taskgroupshape_)
+					// ensure taskgroupshape_ is NOT in _diagramhierarchy.TaskGroupShapes
+					idx := slices.Index(_diagramhierarchy.TaskGroupShapes, taskgroupshape_)
 					if idx != -1 {
-						_diagram.TaskGroupShapes = slices.Delete(_diagram.TaskGroupShapes, idx, idx+1)
-						taskgroupshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TaskGroupShapes", &_diagram.TaskGroupShapes)
+						_diagramhierarchy.TaskGroupShapes = slices.Delete(_diagramhierarchy.TaskGroupShapes, idx, idx+1)
+						taskgroupshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "TaskGroupShapes", &_diagramhierarchy.TaskGroupShapes)
 					}
 				}
 			}
@@ -5067,48 +5067,48 @@ func (taskinputshapeFormCallback *TaskInputShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(taskinputshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(taskinputshape_.IsHidden), formDiv)
-		case "Diagram:TaskInputShapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:TaskInputShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](taskinputshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](taskinputshapeFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their TaskInputShapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](taskinputshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskinputshapeFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their TaskInputShapes slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](taskinputshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(taskinputshapeFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure taskinputshape_ is in _diagram.TaskInputShapes
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure taskinputshape_ is in _diagramhierarchy.TaskInputShapes
 					found := false
-					for _, _b := range _diagram.TaskInputShapes {
+					for _, _b := range _diagramhierarchy.TaskInputShapes {
 						if _b == taskinputshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.TaskInputShapes = append(_diagram.TaskInputShapes, taskinputshape_)
-						taskinputshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TaskInputShapes", &_diagram.TaskInputShapes)
+						_diagramhierarchy.TaskInputShapes = append(_diagramhierarchy.TaskInputShapes, taskinputshape_)
+						taskinputshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "TaskInputShapes", &_diagramhierarchy.TaskInputShapes)
 					}
 				} else {
-					// ensure taskinputshape_ is NOT in _diagram.TaskInputShapes
-					idx := slices.Index(_diagram.TaskInputShapes, taskinputshape_)
+					// ensure taskinputshape_ is NOT in _diagramhierarchy.TaskInputShapes
+					idx := slices.Index(_diagramhierarchy.TaskInputShapes, taskinputshape_)
 					if idx != -1 {
-						_diagram.TaskInputShapes = slices.Delete(_diagram.TaskInputShapes, idx, idx+1)
-						taskinputshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TaskInputShapes", &_diagram.TaskInputShapes)
+						_diagramhierarchy.TaskInputShapes = slices.Delete(_diagramhierarchy.TaskInputShapes, idx, idx+1)
+						taskinputshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "TaskInputShapes", &_diagramhierarchy.TaskInputShapes)
 					}
 				}
 			}
@@ -5206,48 +5206,48 @@ func (taskoutputshapeFormCallback *TaskOutputShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(taskoutputshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(taskoutputshape_.IsHidden), formDiv)
-		case "Diagram:TaskOutputShapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:TaskOutputShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](taskoutputshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](taskoutputshapeFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their TaskOutputShapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](taskoutputshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskoutputshapeFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their TaskOutputShapes slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](taskoutputshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(taskoutputshapeFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure taskoutputshape_ is in _diagram.TaskOutputShapes
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure taskoutputshape_ is in _diagramhierarchy.TaskOutputShapes
 					found := false
-					for _, _b := range _diagram.TaskOutputShapes {
+					for _, _b := range _diagramhierarchy.TaskOutputShapes {
 						if _b == taskoutputshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.TaskOutputShapes = append(_diagram.TaskOutputShapes, taskoutputshape_)
-						taskoutputshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TaskOutputShapes", &_diagram.TaskOutputShapes)
+						_diagramhierarchy.TaskOutputShapes = append(_diagramhierarchy.TaskOutputShapes, taskoutputshape_)
+						taskoutputshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "TaskOutputShapes", &_diagramhierarchy.TaskOutputShapes)
 					}
 				} else {
-					// ensure taskoutputshape_ is NOT in _diagram.TaskOutputShapes
-					idx := slices.Index(_diagram.TaskOutputShapes, taskoutputshape_)
+					// ensure taskoutputshape_ is NOT in _diagramhierarchy.TaskOutputShapes
+					idx := slices.Index(_diagramhierarchy.TaskOutputShapes, taskoutputshape_)
 					if idx != -1 {
-						_diagram.TaskOutputShapes = slices.Delete(_diagram.TaskOutputShapes, idx, idx+1)
-						taskoutputshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "TaskOutputShapes", &_diagram.TaskOutputShapes)
+						_diagramhierarchy.TaskOutputShapes = slices.Delete(_diagramhierarchy.TaskOutputShapes, idx, idx+1)
+						taskoutputshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "TaskOutputShapes", &_diagramhierarchy.TaskOutputShapes)
 					}
 				}
 			}
@@ -5343,48 +5343,48 @@ func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(taskshape_.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(taskshape_.IsHidden), formDiv)
-		case "Diagram:Task_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+		case "DiagramHierarchy:Task_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramHierarchy instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](taskshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramHierarchy instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramHierarchy](taskshapeFormCallback.probe.stageOfInterest)
+			targetDiagramHierarchyIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
+					targetDiagramHierarchyIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their Task_Shapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](taskshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskshapeFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all DiagramHierarchy instances and update their Task_Shapes slice
+			for _diagramhierarchy := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](taskshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(taskshapeFormCallback.probe.stageOfInterest, _diagramhierarchy)
 				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure taskshape_ is in _diagram.Task_Shapes
+				// if DiagramHierarchy is selected
+				if targetDiagramHierarchyIDs[id] {
+					// ensure taskshape_ is in _diagramhierarchy.Task_Shapes
 					found := false
-					for _, _b := range _diagram.Task_Shapes {
+					for _, _b := range _diagramhierarchy.Task_Shapes {
 						if _b == taskshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.Task_Shapes = append(_diagram.Task_Shapes, taskshape_)
-						taskshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "Task_Shapes", &_diagram.Task_Shapes)
+						_diagramhierarchy.Task_Shapes = append(_diagramhierarchy.Task_Shapes, taskshape_)
+						taskshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "Task_Shapes", &_diagramhierarchy.Task_Shapes)
 					}
 				} else {
-					// ensure taskshape_ is NOT in _diagram.Task_Shapes
-					idx := slices.Index(_diagram.Task_Shapes, taskshape_)
+					// ensure taskshape_ is NOT in _diagramhierarchy.Task_Shapes
+					idx := slices.Index(_diagramhierarchy.Task_Shapes, taskshape_)
 					if idx != -1 {
-						_diagram.Task_Shapes = slices.Delete(_diagram.Task_Shapes, idx, idx+1)
-						taskshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "Task_Shapes", &_diagram.Task_Shapes)
+						_diagramhierarchy.Task_Shapes = slices.Delete(_diagramhierarchy.Task_Shapes, idx, idx+1)
+						taskshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramhierarchy, "Task_Shapes", &_diagramhierarchy.Task_Shapes)
 					}
 				}
 			}

@@ -7,26 +7,26 @@ import (
 )
 
 func (stager *Stager) enforceVisibility() (needCommit bool) {
-	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
+	for _, diagramHierarchy := range GetGongstrucsSorted[*DiagramHierarchy](stager.stage) {
 		visibleElements := make(map[AbstractType]struct{})
 
-		collectVisibleElements(diagram.Product_Shapes, visibleElements)
-		collectVisibleElements(diagram.Task_Shapes, visibleElements)
-		collectVisibleElements(diagram.Note_Shapes, visibleElements)
-		collectVisibleElements(diagram.Resource_Shapes, visibleElements)
+		collectVisibleElements(diagramHierarchy.Product_Shapes, visibleElements)
+		collectVisibleElements(diagramHierarchy.Task_Shapes, visibleElements)
+		collectVisibleElements(diagramHierarchy.Note_Shapes, visibleElements)
+		collectVisibleElements(diagramHierarchy.Resource_Shapes, visibleElements)
 
-		needCommit = removeInvisibleShapes(stager, &diagram.ProductComposition_Shapes, visibleElements) || needCommit
+		needCommit = removeInvisibleShapes(stager, &diagramHierarchy.ProductComposition_Shapes, visibleElements) || needCommit
 
-		needCommit = removeInvisibleShapes(stager, &diagram.TaskComposition_Shapes, visibleElements) || needCommit
-		needCommit = removeInvisibleShapes(stager, &diagram.TaskInputShapes, visibleElements) || needCommit
-		needCommit = removeInvisibleShapes(stager, &diagram.TaskOutputShapes, visibleElements) || needCommit
+		needCommit = removeInvisibleShapes(stager, &diagramHierarchy.TaskComposition_Shapes, visibleElements) || needCommit
+		needCommit = removeInvisibleShapes(stager, &diagramHierarchy.TaskInputShapes, visibleElements) || needCommit
+		needCommit = removeInvisibleShapes(stager, &diagramHierarchy.TaskOutputShapes, visibleElements) || needCommit
 
-		needCommit = removeInvisibleShapes(stager, &diagram.NoteProductShapes, visibleElements) || needCommit
-		needCommit = removeInvisibleShapes(stager, &diagram.NoteTaskShapes, visibleElements) || needCommit
-		needCommit = removeInvisibleShapes(stager, &diagram.NoteResourceShapes, visibleElements) || needCommit
+		needCommit = removeInvisibleShapes(stager, &diagramHierarchy.NoteProductShapes, visibleElements) || needCommit
+		needCommit = removeInvisibleShapes(stager, &diagramHierarchy.NoteTaskShapes, visibleElements) || needCommit
+		needCommit = removeInvisibleShapes(stager, &diagramHierarchy.NoteResourceShapes, visibleElements) || needCommit
 
-		needCommit = removeInvisibleShapes(stager, &diagram.ResourceComposition_Shapes, visibleElements) || needCommit
-		needCommit = removeInvisibleShapes(stager, &diagram.ResourceTaskShapes, visibleElements) || needCommit
+		needCommit = removeInvisibleShapes(stager, &diagramHierarchy.ResourceComposition_Shapes, visibleElements) || needCommit
+		needCommit = removeInvisibleShapes(stager, &diagramHierarchy.ResourceTaskShapes, visibleElements) || needCommit
 	}
 	return
 }

@@ -112,9 +112,9 @@ func (stager *Stager) exportWebsite() {
 		}
 
 		if len(lib.Diagrams) > 0 {
-			for _, diagram := range lib.Diagrams {
-				fmt.Println("exportWebsite: Generating SVG for diagram:", diagram.Name)
-				svgObject := stager.generateSvgObject(diagram)
+			for _, diagramHierarchy := range lib.Diagrams {
+				fmt.Println("exportWebsite: Generating SVG for diagram:", diagramHierarchy.Name)
+				svgObject := stager.generateSvgObject(diagramHierarchy)
 				_ = svgObject
 				svgString, maxX, maxY := svgObject.GenerateString()
 
@@ -124,7 +124,7 @@ func (stager *Stager) exportWebsite() {
 				svgString = strings.Replace(svgString, `height="100%"`, fmt.Sprintf(`height="%f"`, maxY), 1)
 
 				section := &ssg.Section{
-					Name:    diagram.Name,
+					Name:    diagramHierarchy.Name,
 					IsImage: true,
 					SvgImage: &ssg.SvgImage{
 						Content: svgString,

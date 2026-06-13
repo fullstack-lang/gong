@@ -6,7 +6,7 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
-type Diagram struct {
+type DiagramHierarchy struct {
 	Name string
 
 	LibraryAbstractFields
@@ -149,42 +149,42 @@ type Diagram struct {
 	AlignOnStartEndOnYearStart bool
 }
 
-func (d *Diagram) IsEditable() bool {
+func (d *DiagramHierarchy) IsEditable() bool {
 	return d.IsEditable_
 }
 
-func (d *Diagram) SetEditable(v bool) {
+func (d *DiagramHierarchy) SetEditable(v bool) {
 	d.IsEditable_ = v
 }
 
-func (d *Diagram) GetDefaultBoxHeigth() float64 {
+func (d *DiagramHierarchy) GetDefaultBoxHeigth() float64 {
 	return d.DefaultBoxHeigth
 }
 
-func (d *Diagram) GetDefaultBoxWidth() float64 {
+func (d *DiagramHierarchy) GetDefaultBoxWidth() float64 {
 	return d.DefaultBoxWidth
 }
 
-func (d *Diagram) GetDiagramListElement() AbstractType {
+func (d *DiagramHierarchy) GetDiagramListElement() AbstractType {
 	return d.diagramListElement
 }
 
-func (d *Diagram) SetDiagramListElement(v AbstractType) {
+func (d *DiagramHierarchy) SetDiagramListElement(v AbstractType) {
 	d.diagramListElement = v
 }
 
-func (d *Diagram) GetIsChecked() bool {
+func (d *DiagramHierarchy) GetIsChecked() bool {
 	return d.IsChecked
 }
 
-func (d *Diagram) SetIsChecked(v bool) {
+func (d *DiagramHierarchy) SetIsChecked(v bool) {
 	d.IsChecked = v
 }
 
-func (d *Diagram) GetIsShowPrefix() bool {
+func (d *DiagramHierarchy) GetIsShowPrefix() bool {
 	return d.IsShowPrefix
 }
 
-func (d *Diagram) SetIsShowPrefix(v bool) {
+func (d *DiagramHierarchy) SetIsShowPrefix(v bool) {
 	d.IsShowPrefix = v
 }

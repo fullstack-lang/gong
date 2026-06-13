@@ -71,18 +71,18 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 
 	needCommit = needCommit || reattachToLibraryRoots(
 		stager,
-		func() []*Diagram {
-			roots := make([]*Diagram, 0)
+		func() []*DiagramHierarchy {
+			roots := make([]*DiagramHierarchy, 0)
 			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
 				roots = append(roots, library.Diagrams...)
 			}
 			return roots
 		},
-		func(diagram *Diagram) {
-			diagram.GetOwningLibrary().Diagrams = append(diagram.GetOwningLibrary().Diagrams, diagram)
+		func(diagramHierarchy *DiagramHierarchy) {
+			diagramHierarchy.GetOwningLibrary().Diagrams = append(diagramHierarchy.GetOwningLibrary().Diagrams, diagramHierarchy)
 		},
-		func(diagram *Diagram) []*Diagram {
-			return []*Diagram{}
+		func(diagramHierarchy *DiagramHierarchy) []*DiagramHierarchy {
+			return []*DiagramHierarchy{}
 		},
 	)
 

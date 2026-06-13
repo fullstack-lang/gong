@@ -21,91 +21,91 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			fmt.Sprintf("Root: setting nbPixPerCharacter to %f", root.NbPixPerCharacter))
 	}
 
-	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
-		if diagram.DefaultBoxHeigth == 0 {
-			diagram.DefaultBoxHeigth = defaultBoxHeigth
+	for _, diagramHierarchy := range GetGongstrucsSorted[*DiagramHierarchy](stager.stage) {
+		if diagramHierarchy.DefaultBoxHeigth == 0 {
+			diagramHierarchy.DefaultBoxHeigth = defaultBoxHeigth
 			needCommit = true
 			if stager.probeForm != nil {
 				stager.probeForm.AddNotification(time.Now(),
-					fmt.Sprintf("Diagram %s: setting default box height to %f", diagram.Name, defaultBoxHeigth))
+					fmt.Sprintf("Diagram %s: setting default box height to %f", diagramHierarchy.Name, defaultBoxHeigth))
 			}
 		}
-		if diagram.DefaultBoxWidth == 0 {
-			diagram.DefaultBoxWidth = defaultBoxWidth
+		if diagramHierarchy.DefaultBoxWidth == 0 {
+			diagramHierarchy.DefaultBoxWidth = defaultBoxWidth
 			needCommit = true
 			if stager.probeForm != nil {
 				stager.probeForm.AddNotification(time.Now(),
-					fmt.Sprintf("Diagram %s: setting default box width to %f", diagram.Name, defaultBoxWidth))
+					fmt.Sprintf("Diagram %s: setting default box width to %f", diagramHierarchy.Name, defaultBoxWidth))
 			}
 		}
 
-		if diagram.IsTimeDiagram {
-			if diagram.LaneHeight == 0 {
-				diagram.LaneHeight = 100.0
+		if diagramHierarchy.IsTimeDiagram {
+			if diagramHierarchy.LaneHeight == 0 {
+				diagramHierarchy.LaneHeight = 100.0
 				needCommit = true
 			}
-			if diagram.RatioBarToLaneHeight == 0 {
-				diagram.RatioBarToLaneHeight = 0.8
+			if diagramHierarchy.RatioBarToLaneHeight == 0 {
+				diagramHierarchy.RatioBarToLaneHeight = 0.8
 				needCommit = true
 			}
-			if diagram.YTopMargin == 0 {
-				diagram.YTopMargin = 40.0
+			if diagramHierarchy.YTopMargin == 0 {
+				diagramHierarchy.YTopMargin = 40.0
 				needCommit = true
 			}
-			if diagram.XLeftText == 0 {
-				diagram.XLeftText = 10.0
+			if diagramHierarchy.XLeftText == 0 {
+				diagramHierarchy.XLeftText = 10.0
 				needCommit = true
 			}
-			if diagram.TextHeight == 0 {
-				diagram.TextHeight = 15.0
+			if diagramHierarchy.TextHeight == 0 {
+				diagramHierarchy.TextHeight = 15.0
 				needCommit = true
 			}
-			if diagram.XLeftLanes == 0 {
-				diagram.XLeftLanes = 200.0
+			if diagramHierarchy.XLeftLanes == 0 {
+				diagramHierarchy.XLeftLanes = 200.0
 				needCommit = true
 			}
-			if diagram.XRightMargin == 0 {
-				diagram.XRightMargin = 1000.0
+			if diagramHierarchy.XRightMargin == 0 {
+				diagramHierarchy.XRightMargin = 1000.0
 				needCommit = true
 			}
-			if diagram.ArrowLengthToTheRightOfStartBar == 0 {
-				diagram.ArrowLengthToTheRightOfStartBar = 15.0
+			if diagramHierarchy.ArrowLengthToTheRightOfStartBar == 0 {
+				diagramHierarchy.ArrowLengthToTheRightOfStartBar = 15.0
 				needCommit = true
 			}
-			if diagram.ArrowTipLenght == 0 {
-				diagram.ArrowTipLenght = 5.0
+			if diagramHierarchy.ArrowTipLenght == 0 {
+				diagramHierarchy.ArrowTipLenght = 5.0
 				needCommit = true
 			}
-			if diagram.TimeLine_Color == "" {
-				diagram.TimeLine_Color = "grey"
+			if diagramHierarchy.TimeLine_Color == "" {
+				diagramHierarchy.TimeLine_Color = "grey"
 				needCommit = true
 			}
-			if diagram.TimeLine_FillOpacity == 0 {
-				diagram.TimeLine_FillOpacity = 0.1
+			if diagramHierarchy.TimeLine_FillOpacity == 0 {
+				diagramHierarchy.TimeLine_FillOpacity = 0.1
 				needCommit = true
 			}
-			if diagram.TimeLine_Stroke == "" {
-				diagram.TimeLine_Stroke = "grey"
+			if diagramHierarchy.TimeLine_Stroke == "" {
+				diagramHierarchy.TimeLine_Stroke = "grey"
 				needCommit = true
 			}
-			if diagram.TimeLine_StrokeWidth == 0 {
-				diagram.TimeLine_StrokeWidth = 1.0
+			if diagramHierarchy.TimeLine_StrokeWidth == 0 {
+				diagramHierarchy.TimeLine_StrokeWidth = 1.0
 				needCommit = true
 			}
-			if diagram.Group_Stroke == "" {
-				diagram.Group_Stroke = "black"
+			if diagramHierarchy.Group_Stroke == "" {
+				diagramHierarchy.Group_Stroke = "black"
 				needCommit = true
 			}
-			if diagram.Group_StrokeWidth == 0 {
-				diagram.Group_StrokeWidth = 1.0
+			if diagramHierarchy.Group_StrokeWidth == 0 {
+				diagramHierarchy.Group_StrokeWidth = 1.0
 				needCommit = true
 			}
-			if diagram.Group_StrokeDashArray == "" {
-				diagram.Group_StrokeDashArray = "2 2"
+			if diagramHierarchy.Group_StrokeDashArray == "" {
+				diagramHierarchy.Group_StrokeDashArray = "2 2"
 				needCommit = true
 			}
-			if diagram.DateYOffset == 0 {
-				diagram.DateYOffset = 15.0
+			if diagramHierarchy.DateYOffset == 0 {
+				diagramHierarchy.DateYOffset = 15.0
 				needCommit = true
 			}
 		}

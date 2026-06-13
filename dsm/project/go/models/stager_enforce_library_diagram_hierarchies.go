@@ -8,10 +8,10 @@ import (
 func (stager *Stager) enforceLibraryHasAtLeastOneDiagram() (needCommit bool) {
 	for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
 		if len(library.Diagrams) == 0 {
-			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
-				diagram_.IsChecked = false
+			for diagramHierarchy_ := range *GetGongstructInstancesSet[DiagramHierarchy](stager.stage) {
+				diagramHierarchy_.IsChecked = false
 			}
-			newDiagram := &Diagram{
+			newDiagramHierarchy := &DiagramHierarchy{
 				Name:        "Default Diagram",
 				IsChecked:   true,
 				IsEditable_: true,
@@ -19,8 +19,8 @@ func (stager *Stager) enforceLibraryHasAtLeastOneDiagram() (needCommit bool) {
 					IsExpanded: true,
 				},
 			}
-			newDiagram.Stage(stager.stage)
-			library.Diagrams = append(library.Diagrams, newDiagram)
+			newDiagramHierarchy.Stage(stager.stage)
+			library.Diagrams = append(library.Diagrams, newDiagramHierarchy)
 
 			if stager.probeForm != nil {
 				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Created 'Default Diagram' for library '%s'", library.Name))

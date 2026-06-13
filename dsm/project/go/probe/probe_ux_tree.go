@@ -102,21 +102,21 @@ func (probe *Probe) ux_tree() {
 
 		switch gongStruct.Name {
 		// insertion point
-		case "Diagram":
+		case "DiagramHierarchy":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.DiagramHierarchy](probe.stageOfInterest)
 			count := 0
-			for _diagram := range set {
+			for _diagramhierarchy := range set {
 				if count >= probe.GetMaxElementsNbPerGongStructNode() {
 					nodeGongstruct.Children = append(nodeGongstruct.Children, &tree_models.Node{Name: "..."})
 					break
 				}
 				count++
 				nodeInstance := &tree_models.Node{
-					Name:            _diagram.GetName(),
+					Name:            _diagramhierarchy.GetName(),
 					IsNodeClickable: true,
 					OnClick: func(frontNode *tree_models.Node) {
-						FillUpFormFromGongstruct(_diagram, probe)
+						FillUpFormFromGongstruct(_diagramhierarchy, probe)
 					},
 				}
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
@@ -126,7 +126,7 @@ func (probe *Probe) ux_tree() {
 				// no commit, it will be done in the refresh
 			}
 			nodeGongstruct.OnClick = func(frontNode *tree_models.Node) {
-				updateProbeTable[*models.Diagram](probe)
+				updateProbeTable[*models.DiagramHierarchy](probe)
 				// set color for node and reset all other nodes color
 				for node := range *tree_models.GetGongstructInstancesSet[tree_models.Node](probe.treeStage) {
 					node.BackgroundColor = ""

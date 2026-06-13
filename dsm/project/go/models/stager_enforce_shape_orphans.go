@@ -18,17 +18,17 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	reachableNoteTaskShapes := make(map[*NoteTaskShape]struct{})
 	reachableNoteResourceShapes := make(map[*NoteResourceShape]struct{})
 
-	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
-		collectShapes(diagram.Product_Shapes, reachableProductShapes)
-		collectShapes(diagram.ProductComposition_Shapes, reachableProductCompositionShapes)
-		collectShapes(diagram.Task_Shapes, reachableTaskShapes)
-		collectShapes(diagram.TaskComposition_Shapes, reachableTaskCompositionShapes)
-		collectShapes(diagram.TaskInputShapes, reachableTaskInputShapes)
-		collectShapes(diagram.TaskOutputShapes, reachableTaskOutputShapes)
-		collectShapes(diagram.Note_Shapes, reachableNoteShapes)
-		collectShapes(diagram.NoteProductShapes, reachableNoteProductShapes)
-		collectShapes(diagram.NoteTaskShapes, reachableNoteTaskShapes)
-		collectShapes(diagram.NoteResourceShapes, reachableNoteResourceShapes)
+	for _, diagramHierarchy := range GetGongstrucsSorted[*DiagramHierarchy](stager.stage) {
+		collectShapes(diagramHierarchy.Product_Shapes, reachableProductShapes)
+		collectShapes(diagramHierarchy.ProductComposition_Shapes, reachableProductCompositionShapes)
+		collectShapes(diagramHierarchy.Task_Shapes, reachableTaskShapes)
+		collectShapes(diagramHierarchy.TaskComposition_Shapes, reachableTaskCompositionShapes)
+		collectShapes(diagramHierarchy.TaskInputShapes, reachableTaskInputShapes)
+		collectShapes(diagramHierarchy.TaskOutputShapes, reachableTaskOutputShapes)
+		collectShapes(diagramHierarchy.Note_Shapes, reachableNoteShapes)
+		collectShapes(diagramHierarchy.NoteProductShapes, reachableNoteProductShapes)
+		collectShapes(diagramHierarchy.NoteTaskShapes, reachableNoteTaskShapes)
+		collectShapes(diagramHierarchy.NoteResourceShapes, reachableNoteResourceShapes)
 	}
 
 	// 2. unstage shapes that are not attached to a diagram

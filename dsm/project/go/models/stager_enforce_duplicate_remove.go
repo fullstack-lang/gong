@@ -9,23 +9,23 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 
 	needCommit = removeDuplicatesSlice(stager, &stager.getRootLibrary().SubLibraries) || needCommit
 
-	for diagram := range *GetGongstructInstancesSetFromPointerType[*Diagram](stage) {
-		needCommit = removeDuplicatesSlice(stager, &diagram.Product_Shapes) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &diagram.ProductComposition_Shapes) || needCommit
+	for diagramHierarchy := range *GetGongstructInstancesSetFromPointerType[*DiagramHierarchy](stage) {
+		needCommit = removeDuplicatesSlice(stager, &diagramHierarchy.Product_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagramHierarchy.ProductComposition_Shapes) || needCommit
 
-		needCommit = removeDuplicatesSlice(stager, &diagram.Task_Shapes) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &diagram.TaskComposition_Shapes) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &diagram.TaskInputShapes) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &diagram.TaskOutputShapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagramHierarchy.Task_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagramHierarchy.TaskComposition_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagramHierarchy.TaskInputShapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagramHierarchy.TaskOutputShapes) || needCommit
 
-		needCommit = removeDuplicatesSlice(stager, &diagram.Note_Shapes) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &diagram.NoteProductShapes) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &diagram.NoteTaskShapes) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &diagram.NoteResourceShapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagramHierarchy.Note_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagramHierarchy.NoteProductShapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagramHierarchy.NoteTaskShapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagramHierarchy.NoteResourceShapes) || needCommit
 
-		needCommit = removeDuplicatesSlice(stager, &diagram.Resource_Shapes) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &diagram.ResourceComposition_Shapes) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &diagram.ResourceTaskShapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagramHierarchy.Resource_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagramHierarchy.ResourceComposition_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagramHierarchy.ResourceTaskShapes) || needCommit
 	}
 
 	for library := range *GetGongstructInstancesSetFromPointerType[*Library](stage) {

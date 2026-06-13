@@ -4,33 +4,33 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treeProduct(diagram *Diagram, product *Product, parentNode *tree.Node) {
+func (stager *Stager) treeProduct(diagramHierarchy *DiagramHierarchy, product *Product, parentNode *tree.Node) {
 	productNodeConf := TreeNodeShapeAndLinkConfiguration[
 		*Product, Product, // AT, AT_
 		*ProductShape, ProductShape, // CT, CT_
 		*ProductCompositionShape, ProductCompositionShape, // ACT, ACT_
-		*Diagram, // DiagramType
+		*DiagramHierarchy, // DiagramType
 	]{
 		TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
 			*Product, Product, // AT, AT_
 			*ProductShape, ProductShape, // CT, CT_
-			*Diagram, // DiagramType
+			*DiagramHierarchy, // DiagramType
 		]{
 			TreeNodeConfiguration: TreeNodeConfiguration[
 				*Product, Product, // AT, AT_
-				*Diagram, // DiagramType
+				*DiagramHierarchy, // DiagramType
 			]{
-				diagram:                     diagram,
+				diagram:            diagramHierarchy,
 				parentNode:                  parentNode,
 				element:                     product,
 				parentElement:               product.parentProduct,
-				elementsWhoseNodeIsExpanded: &diagram.ProductsWhoseNodeIsExpanded,
+				elementsWhoseNodeIsExpanded: &diagramHierarchy.ProductsWhoseNodeIsExpanded,
 			},
-			shapes:    &diagram.Product_Shapes,
-			shapesMap: diagram.map_Product_ProductShape,
+			shapes:    &diagramHierarchy.Product_Shapes,
+			shapesMap: diagramHierarchy.map_Product_ProductShape,
 		},
-		map_Element_CompositionShape: diagram.map_Product_ProductCompositionShape,
-		compositionShapes:            &diagram.ProductComposition_Shapes,
+		map_Element_CompositionShape: diagramHierarchy.map_Product_ProductCompositionShape,
+		compositionShapes:            &diagramHierarchy.ProductComposition_Shapes,
 	}
 	productNode := addNodeToTree(stager, productNodeConf)
 
@@ -58,18 +58,18 @@ func (stager *Stager) treeProduct(diagram *Diagram, product *Product, parentNode
 				sliceForNewAddedItem:               &product.SubProducts,
 				isParentNodeExpandedByAddOperation: true,
 				parentNodeExpansionType:            parentNodeExpansionTypeBySlice,
-				parentNodeExpansionSliceEncoding:   &diagram.ProductsWhoseNodeIsExpanded,
+				parentNodeExpansionSliceEncoding:   &diagramHierarchy.ProductsWhoseNodeIsExpanded,
 				parentElement:                      product,
 			},
-			receivingDiagram:      diagram,
-			sliceForNewAddedShape: &diagram.Product_Shapes,
+			receivingDiagram:      diagramHierarchy,
+			sliceForNewAddedShape: &diagramHierarchy.Product_Shapes,
 		},
-		sliceForNewCompositionShapes: &diagram.ProductComposition_Shapes,
+		sliceForNewCompositionShapes: &diagramHierarchy.ProductComposition_Shapes,
 	}
 
 	addCreateItemShapeAndLinkButton(stager, conf)
 
 	for _, product := range product.SubProducts {
-		stager.treeProduct(diagram, product, productNode)
+		stager.treeProduct(diagramHierarchy, product, productNode)
 	}
 }

@@ -40,32 +40,32 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 }
 
 // insertion point per named struct
-// Clean garbage collect unstaged instances that are referenced by Diagram
-func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
+// Clean garbage collect unstaged instances that are referenced by DiagramHierarchy
+func (diagramhierarchy *DiagramHierarchy) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &diagram.Product_Shapes) || modified
-	modified = GongCleanSlice(stage, &diagram.ProductsWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.ProductComposition_Shapes) || modified
-	modified = GongCleanSlice(stage, &diagram.Task_Shapes) || modified
-	modified = GongCleanSlice(stage, &diagram.TasksWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.TasksWhoseInputNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.TasksWhoseOutputNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.TaskGroupShapes) || modified
-	modified = GongCleanSlice(stage, &diagram.TaskGroupsWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.MilestoneShapes) || modified
-	modified = GongCleanSlice(stage, &diagram.MilestonesWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.TaskComposition_Shapes) || modified
-	modified = GongCleanSlice(stage, &diagram.TaskInputShapes) || modified
-	modified = GongCleanSlice(stage, &diagram.TaskOutputShapes) || modified
-	modified = GongCleanSlice(stage, &diagram.Note_Shapes) || modified
-	modified = GongCleanSlice(stage, &diagram.NotesWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.NoteProductShapes) || modified
-	modified = GongCleanSlice(stage, &diagram.NoteTaskShapes) || modified
-	modified = GongCleanSlice(stage, &diagram.NoteResourceShapes) || modified
-	modified = GongCleanSlice(stage, &diagram.Resource_Shapes) || modified
-	modified = GongCleanSlice(stage, &diagram.ResourcesWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.ResourceComposition_Shapes) || modified
-	modified = GongCleanSlice(stage, &diagram.ResourceTaskShapes) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.Product_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.ProductsWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.ProductComposition_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.Task_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.TasksWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.TasksWhoseInputNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.TasksWhoseOutputNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.TaskGroupShapes) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.TaskGroupsWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.MilestoneShapes) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.MilestonesWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.TaskComposition_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.TaskInputShapes) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.TaskOutputShapes) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.Note_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.NotesWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.NoteProductShapes) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.NoteTaskShapes) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.NoteResourceShapes) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.Resource_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.ResourcesWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.ResourceComposition_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagramhierarchy.ResourceTaskShapes) || modified
 	// insertion point per field
 	return
 }

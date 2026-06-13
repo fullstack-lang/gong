@@ -27,8 +27,8 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
-	__Diagram__00000000_ := (&models.Diagram{Name: `D1`}).Stage(stage)
-	__Diagram__00000007_ := (&models.Diagram{Name: `Default Diagram copy`}).Stage(stage)
+	__Diagram__00000000_ := (&models.DiagramHierarchy{Name: `D1`}).Stage(stage)
+	__Diagram__00000007_ := (&models.DiagramHierarchy{Name: `Default Diagram copy`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
 

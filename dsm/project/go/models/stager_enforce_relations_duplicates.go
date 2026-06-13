@@ -4,18 +4,18 @@ import "time"
 
 func (stager *Stager) enforceRelationDuplicates() (needCommit bool) {
 	// Iterate through all diagrams in the stage
-	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
-		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ProductComposition_Shapes)
-		needCommit = needCommit || removeDuplicateRelation(stager, diagram.TaskComposition_Shapes)
-		needCommit = needCommit || removeDuplicateRelation(stager, diagram.TaskInputShapes)
-		needCommit = needCommit || removeDuplicateRelation(stager, diagram.TaskOutputShapes)
+	for _, diagramHierarchy := range GetGongstrucsSorted[*DiagramHierarchy](stager.stage) {
+		needCommit = needCommit || removeDuplicateRelation(stager, diagramHierarchy.ProductComposition_Shapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagramHierarchy.TaskComposition_Shapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagramHierarchy.TaskInputShapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagramHierarchy.TaskOutputShapes)
 
-		needCommit = needCommit || removeDuplicateRelation(stager, diagram.NoteProductShapes)
-		needCommit = needCommit || removeDuplicateRelation(stager, diagram.NoteTaskShapes)
-		needCommit = needCommit || removeDuplicateRelation(stager, diagram.NoteResourceShapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagramHierarchy.NoteProductShapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagramHierarchy.NoteTaskShapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagramHierarchy.NoteResourceShapes)
 
-		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ResourceComposition_Shapes)
-		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ResourceTaskShapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagramHierarchy.ResourceComposition_Shapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagramHierarchy.ResourceTaskShapes)
 	}
 	return
 }

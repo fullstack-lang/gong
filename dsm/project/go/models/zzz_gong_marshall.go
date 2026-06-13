@@ -270,97 +270,97 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	_ = setValueField
 
 	// insertion initialization of objects to stage
-	diagramOrdered := []*Diagram{}
-	for diagram := range stage.Diagrams {
-		diagramOrdered = append(diagramOrdered, diagram)
+	diagramhierarchyOrdered := []*DiagramHierarchy{}
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		diagramhierarchyOrdered = append(diagramhierarchyOrdered, diagramhierarchy)
 	}
-	sort.Slice(diagramOrdered[:], func(i, j int) bool {
-		diagrami := diagramOrdered[i]
-		diagramj := diagramOrdered[j]
-		diagrami_order, oki := stage.Diagram_stagedOrder[diagrami]
-		diagramj_order, okj := stage.Diagram_stagedOrder[diagramj]
+	sort.Slice(diagramhierarchyOrdered[:], func(i, j int) bool {
+		diagramhierarchyi := diagramhierarchyOrdered[i]
+		diagramhierarchyj := diagramhierarchyOrdered[j]
+		diagramhierarchyi_order, oki := stage.DiagramHierarchy_stagedOrder[diagramhierarchyi]
+		diagramhierarchyj_order, okj := stage.DiagramHierarchy_stagedOrder[diagramhierarchyj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
-		return diagrami_order < diagramj_order
+		return diagramhierarchyi_order < diagramhierarchyj_order
 	})
-	if len(diagramOrdered) > 0 {
+	if len(diagramhierarchyOrdered) > 0 {
 		identifiersDecl.WriteString("\n")
 	}
-	for _, diagram := range diagramOrdered {
+	for _, diagramhierarchy := range diagramhierarchyOrdered {
 
-		identifiersDecl.WriteString(diagram.GongMarshallIdentifier(stage))
+		identifiersDecl.WriteString(diagramhierarchy.GongMarshallIdentifier(stage))
 
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEditable_"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsShowPrefix"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxWidth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxHeigth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Width"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Height"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Product_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ProductsWhoseNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsPBSNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ProductComposition_Shapes"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsWBSNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Task_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseInputNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseOutputNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsTaskGroupsNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupsWhoseNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsMilestonesNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "MilestoneShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "MilestonesWhoseNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DateFormat"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskComposition_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskInputShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskOutputShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Note_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsNotesNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteProductShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteTaskShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteResourceShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Resource_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourcesWhoseNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsResourcesNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourceComposition_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourceTaskShapes"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsTimeDiagram"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedStart"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedEnd"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedDuration"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "UseManualStartAndEndDates"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualStart"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualEnd"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeStep"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeStepScale"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "LaneHeight"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "RatioBarToLaneHeight"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "YTopMargin"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XLeftText"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TextHeight"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XLeftLanes"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XRightMargin"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ArrowLengthToTheRightOfStartBar"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ArrowTipLenght"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_Color"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_FillOpacity"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_Stroke"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_StrokeWidth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DrawVerticalTimeLines"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_Stroke"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeWidth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeDashArray"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DateYOffset"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "AlignOnStartEndOnYearStart"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsChecked"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsEditable_"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsShowPrefix"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "DefaultBoxWidth"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "DefaultBoxHeigth"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Height"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Product_Shapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ProductsWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsPBSNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ProductComposition_Shapes"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsWBSNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Task_Shapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TasksWhoseInputNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TasksWhoseOutputNodeIsExpanded"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsTaskGroupsNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TaskGroupShapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TaskGroupsWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsMilestonesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "MilestoneShapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "MilestonesWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "DateFormat"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TaskComposition_Shapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TaskInputShapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TaskOutputShapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Note_Shapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsNotesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "NoteProductShapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "NoteTaskShapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "NoteResourceShapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Resource_Shapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ResourcesWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsResourcesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ResourceComposition_Shapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ResourceTaskShapes"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsTimeDiagram"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ComputedStart"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ComputedEnd"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ComputedDuration"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "UseManualStartAndEndDates"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ManualStart"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ManualEnd"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TimeStep"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TimeStepScale"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "LaneHeight"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "RatioBarToLaneHeight"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "YTopMargin"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "XLeftText"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TextHeight"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "XLeftLanes"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "XRightMargin"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ArrowLengthToTheRightOfStartBar"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ArrowTipLenght"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TimeLine_Color"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TimeLine_FillOpacity"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TimeLine_Stroke"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TimeLine_StrokeWidth"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "DrawVerticalTimeLines"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Group_Stroke"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Group_StrokeWidth"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Group_StrokeDashArray"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "DateYOffset"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "AlignOnStartEndOnYearStart"))
 	}
 
 	libraryOrdered := []*Library{}
@@ -1097,8 +1097,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 
 	// insertion initialization of objects to stage
-	for _, diagram := range diagramOrdered {
-		_ = diagram
+	for _, diagramhierarchy := range diagramhierarchyOrdered {
+		_ = diagramhierarchy
 		var setPointerField string
 		_ = setPointerField
 
@@ -1335,248 +1335,248 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 }
 
 // insertion point for marshall field methods
-func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res string) {
+func (diagramhierarchy *DiagramHierarchy) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
 	case "Name":
 		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.Name))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramhierarchy.Name))
 	case "ComputedPrefix":
 		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.ComputedPrefix))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramhierarchy.ComputedPrefix))
 	case "IsExpanded":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsExpanded))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramhierarchy.IsExpanded))
 	case "IsChecked":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsChecked")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsChecked))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramhierarchy.IsChecked))
 	case "IsEditable_":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEditable_")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsEditable_))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramhierarchy.IsEditable_))
 	case "IsShowPrefix":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsShowPrefix")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsShowPrefix))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramhierarchy.IsShowPrefix))
 	case "DefaultBoxWidth":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DefaultBoxWidth")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.DefaultBoxWidth))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.DefaultBoxWidth))
 	case "DefaultBoxHeigth":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DefaultBoxHeigth")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.DefaultBoxHeigth))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.DefaultBoxHeigth))
 	case "Width":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.Width))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.Width))
 	case "Height":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.Height))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.Height))
 	case "IsPBSNodeExpanded":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPBSNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsPBSNodeExpanded))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramhierarchy.IsPBSNodeExpanded))
 	case "IsWBSNodeExpanded":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWBSNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsWBSNodeExpanded))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramhierarchy.IsWBSNodeExpanded))
 	case "IsTaskGroupsNodeExpanded":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsTaskGroupsNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsTaskGroupsNodeExpanded))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramhierarchy.IsTaskGroupsNodeExpanded))
 	case "IsMilestonesNodeExpanded":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsMilestonesNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsMilestonesNodeExpanded))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramhierarchy.IsMilestonesNodeExpanded))
 	case "DateFormat":
 		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DateFormat")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.DateFormat))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramhierarchy.DateFormat))
 	case "IsNotesNodeExpanded":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsNotesNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsNotesNodeExpanded))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramhierarchy.IsNotesNodeExpanded))
 	case "IsResourcesNodeExpanded":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsResourcesNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsResourcesNodeExpanded))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramhierarchy.IsResourcesNodeExpanded))
 	case "IsTimeDiagram":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsTimeDiagram")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsTimeDiagram))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramhierarchy.IsTimeDiagram))
 	case "ComputedStart":
 		res = TimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedStart")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.ComputedStart.String())
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagramhierarchy.ComputedStart.String())
 	case "ComputedEnd":
 		res = TimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedEnd")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.ComputedEnd.String())
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagramhierarchy.ComputedEnd.String())
 	case "ComputedDuration":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedDuration")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", diagram.ComputedDuration))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", diagramhierarchy.ComputedDuration))
 	case "UseManualStartAndEndDates":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "UseManualStartAndEndDates")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.UseManualStartAndEndDates))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramhierarchy.UseManualStartAndEndDates))
 	case "ManualStart":
 		res = TimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ManualStart")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.ManualStart.String())
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagramhierarchy.ManualStart.String())
 	case "ManualEnd":
 		res = TimeInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ManualEnd")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.ManualEnd.String())
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagramhierarchy.ManualEnd.String())
 	case "TimeStep":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeStep")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", diagram.TimeStep))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", diagramhierarchy.TimeStep))
 	case "TimeStepScale":
-		if diagram.TimeStepScale.ToCodeString() != "" {
+		if diagramhierarchy.TimeStepScale.ToCodeString() != "" {
 			res = StringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeStepScale")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+diagram.TimeStepScale.ToCodeString())
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+diagramhierarchy.TimeStepScale.ToCodeString())
 		} else {
 			// in case of empty enum, we need to unstage the previous value
 			res = StringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeStepScale")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 	case "LaneHeight":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LaneHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.LaneHeight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.LaneHeight))
 	case "RatioBarToLaneHeight":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RatioBarToLaneHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.RatioBarToLaneHeight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.RatioBarToLaneHeight))
 	case "YTopMargin":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "YTopMargin")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.YTopMargin))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.YTopMargin))
 	case "XLeftText":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XLeftText")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.XLeftText))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.XLeftText))
 	case "TextHeight":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextHeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.TextHeight))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.TextHeight))
 	case "XLeftLanes":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XLeftLanes")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.XLeftLanes))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.XLeftLanes))
 	case "XRightMargin":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XRightMargin")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.XRightMargin))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.XRightMargin))
 	case "ArrowLengthToTheRightOfStartBar":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ArrowLengthToTheRightOfStartBar")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.ArrowLengthToTheRightOfStartBar))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.ArrowLengthToTheRightOfStartBar))
 	case "ArrowTipLenght":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ArrowTipLenght")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.ArrowTipLenght))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.ArrowTipLenght))
 	case "TimeLine_Color":
 		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_Color")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.TimeLine_Color))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramhierarchy.TimeLine_Color))
 	case "TimeLine_FillOpacity":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_FillOpacity")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.TimeLine_FillOpacity))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.TimeLine_FillOpacity))
 	case "TimeLine_Stroke":
 		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.TimeLine_Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramhierarchy.TimeLine_Stroke))
 	case "TimeLine_StrokeWidth":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_StrokeWidth")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.TimeLine_StrokeWidth))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.TimeLine_StrokeWidth))
 	case "DrawVerticalTimeLines":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DrawVerticalTimeLines")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.DrawVerticalTimeLines))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramhierarchy.DrawVerticalTimeLines))
 	case "Group_Stroke":
 		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_Stroke")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.Group_Stroke))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramhierarchy.Group_Stroke))
 	case "Group_StrokeWidth":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_StrokeWidth")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.Group_StrokeWidth))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.Group_StrokeWidth))
 	case "Group_StrokeDashArray":
 		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_StrokeDashArray")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.Group_StrokeDashArray))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramhierarchy.Group_StrokeDashArray))
 	case "DateYOffset":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DateYOffset")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.DateYOffset))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramhierarchy.DateYOffset))
 	case "AlignOnStartEndOnYearStart":
 		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AlignOnStartEndOnYearStart")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.AlignOnStartEndOnYearStart))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramhierarchy.AlignOnStartEndOnYearStart))
 
 	case "Product_Shapes":
 		var sb strings.Builder
-		for _, _productshape := range diagram.Product_Shapes {
+		for _, _productshape := range diagramhierarchy.Product_Shapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Product_Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _productshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1584,9 +1584,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "ProductsWhoseNodeIsExpanded":
 		var sb strings.Builder
-		for _, _product := range diagram.ProductsWhoseNodeIsExpanded {
+		for _, _product := range diagramhierarchy.ProductsWhoseNodeIsExpanded {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ProductsWhoseNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _product.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1594,9 +1594,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "ProductComposition_Shapes":
 		var sb strings.Builder
-		for _, _productcompositionshape := range diagram.ProductComposition_Shapes {
+		for _, _productcompositionshape := range diagramhierarchy.ProductComposition_Shapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ProductComposition_Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _productcompositionshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1604,9 +1604,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "Task_Shapes":
 		var sb strings.Builder
-		for _, _taskshape := range diagram.Task_Shapes {
+		for _, _taskshape := range diagramhierarchy.Task_Shapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Task_Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1614,9 +1614,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "TasksWhoseNodeIsExpanded":
 		var sb strings.Builder
-		for _, _task := range diagram.TasksWhoseNodeIsExpanded {
+		for _, _task := range diagramhierarchy.TasksWhoseNodeIsExpanded {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TasksWhoseNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1624,9 +1624,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "TasksWhoseInputNodeIsExpanded":
 		var sb strings.Builder
-		for _, _task := range diagram.TasksWhoseInputNodeIsExpanded {
+		for _, _task := range diagramhierarchy.TasksWhoseInputNodeIsExpanded {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TasksWhoseInputNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1634,9 +1634,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "TasksWhoseOutputNodeIsExpanded":
 		var sb strings.Builder
-		for _, _task := range diagram.TasksWhoseOutputNodeIsExpanded {
+		for _, _task := range diagramhierarchy.TasksWhoseOutputNodeIsExpanded {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TasksWhoseOutputNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1644,9 +1644,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "TaskGroupShapes":
 		var sb strings.Builder
-		for _, _taskgroupshape := range diagram.TaskGroupShapes {
+		for _, _taskgroupshape := range diagramhierarchy.TaskGroupShapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskGroupShapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskgroupshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1654,9 +1654,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "TaskGroupsWhoseNodeIsExpanded":
 		var sb strings.Builder
-		for _, _taskgroup := range diagram.TaskGroupsWhoseNodeIsExpanded {
+		for _, _taskgroup := range diagramhierarchy.TaskGroupsWhoseNodeIsExpanded {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskGroupsWhoseNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskgroup.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1664,9 +1664,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "MilestoneShapes":
 		var sb strings.Builder
-		for _, _milestoneshape := range diagram.MilestoneShapes {
+		for _, _milestoneshape := range diagramhierarchy.MilestoneShapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "MilestoneShapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _milestoneshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1674,9 +1674,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "MilestonesWhoseNodeIsExpanded":
 		var sb strings.Builder
-		for _, _milestone := range diagram.MilestonesWhoseNodeIsExpanded {
+		for _, _milestone := range diagramhierarchy.MilestonesWhoseNodeIsExpanded {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "MilestonesWhoseNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _milestone.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1684,9 +1684,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "TaskComposition_Shapes":
 		var sb strings.Builder
-		for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
+		for _, _taskcompositionshape := range diagramhierarchy.TaskComposition_Shapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskComposition_Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskcompositionshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1694,9 +1694,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "TaskInputShapes":
 		var sb strings.Builder
-		for _, _taskinputshape := range diagram.TaskInputShapes {
+		for _, _taskinputshape := range diagramhierarchy.TaskInputShapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskInputShapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskinputshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1704,9 +1704,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "TaskOutputShapes":
 		var sb strings.Builder
-		for _, _taskoutputshape := range diagram.TaskOutputShapes {
+		for _, _taskoutputshape := range diagramhierarchy.TaskOutputShapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "TaskOutputShapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _taskoutputshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1714,9 +1714,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "Note_Shapes":
 		var sb strings.Builder
-		for _, _noteshape := range diagram.Note_Shapes {
+		for _, _noteshape := range diagramhierarchy.Note_Shapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Note_Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _noteshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1724,9 +1724,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "NotesWhoseNodeIsExpanded":
 		var sb strings.Builder
-		for _, _note := range diagram.NotesWhoseNodeIsExpanded {
+		for _, _note := range diagramhierarchy.NotesWhoseNodeIsExpanded {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NotesWhoseNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _note.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1734,9 +1734,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "NoteProductShapes":
 		var sb strings.Builder
-		for _, _noteproductshape := range diagram.NoteProductShapes {
+		for _, _noteproductshape := range diagramhierarchy.NoteProductShapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NoteProductShapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _noteproductshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1744,9 +1744,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "NoteTaskShapes":
 		var sb strings.Builder
-		for _, _notetaskshape := range diagram.NoteTaskShapes {
+		for _, _notetaskshape := range diagramhierarchy.NoteTaskShapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NoteTaskShapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _notetaskshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1754,9 +1754,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "NoteResourceShapes":
 		var sb strings.Builder
-		for _, _noteresourceshape := range diagram.NoteResourceShapes {
+		for _, _noteresourceshape := range diagramhierarchy.NoteResourceShapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NoteResourceShapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _noteresourceshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1764,9 +1764,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "Resource_Shapes":
 		var sb strings.Builder
-		for _, _resourceshape := range diagram.Resource_Shapes {
+		for _, _resourceshape := range diagramhierarchy.Resource_Shapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Resource_Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resourceshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1774,9 +1774,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "ResourcesWhoseNodeIsExpanded":
 		var sb strings.Builder
-		for _, _resource := range diagram.ResourcesWhoseNodeIsExpanded {
+		for _, _resource := range diagramhierarchy.ResourcesWhoseNodeIsExpanded {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ResourcesWhoseNodeIsExpanded")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resource.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1784,9 +1784,9 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "ResourceComposition_Shapes":
 		var sb strings.Builder
-		for _, _resourcecompositionshape := range diagram.ResourceComposition_Shapes {
+		for _, _resourcecompositionshape := range diagramhierarchy.ResourceComposition_Shapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ResourceComposition_Shapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resourcecompositionshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
@@ -1794,16 +1794,16 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "ResourceTaskShapes":
 		var sb strings.Builder
-		for _, _resourcetaskshape := range diagram.ResourceTaskShapes {
+		for _, _resourcetaskshape := range diagramhierarchy.ResourceTaskShapes {
 			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ResourceTaskShapes")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resourcetaskshape.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
 	default:
-		log.Panicf("Unknown field %s for Gongstruct Diagram", fieldName)
+		log.Panicf("Unknown field %s for Gongstruct DiagramHierarchy", fieldName)
 	}
 	return
 }
@@ -1914,11 +1914,11 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	case "Diagrams":
 		var sb strings.Builder
-		for _, _diagram := range library.Diagrams {
+		for _, _diagramhierarchy := range library.Diagrams {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Diagrams")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagramhierarchy.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
@@ -3383,79 +3383,79 @@ func (taskshape *TaskShape) GongMarshallField(stage *Stage, fieldName string) (r
 }
 
 // insertion point for marshall all fields methods
-func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+func (diagramhierarchy *DiagramHierarchy) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEditable_"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsShowPrefix"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxWidth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DefaultBoxHeigth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Width"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Height"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Product_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ProductsWhoseNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsPBSNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ProductComposition_Shapes"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsWBSNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Task_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseInputNodeIsExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TasksWhoseOutputNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsTaskGroupsNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskGroupsWhoseNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsMilestonesNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "MilestoneShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "MilestonesWhoseNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DateFormat"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskComposition_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskInputShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "TaskOutputShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Note_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsNotesNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteProductShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteTaskShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "NoteResourceShapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Resource_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourcesWhoseNodeIsExpanded"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsResourcesNodeExpanded"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourceComposition_Shapes"))
-		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourceTaskShapes"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsTimeDiagram"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedStart"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedEnd"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedDuration"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "UseManualStartAndEndDates"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualStart"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ManualEnd"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeStep"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeStepScale"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "LaneHeight"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "RatioBarToLaneHeight"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "YTopMargin"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XLeftText"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TextHeight"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XLeftLanes"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "XRightMargin"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ArrowLengthToTheRightOfStartBar"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ArrowTipLenght"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_Color"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_FillOpacity"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_Stroke"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "TimeLine_StrokeWidth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DrawVerticalTimeLines"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_Stroke"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeWidth"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Group_StrokeDashArray"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "DateYOffset"))
-		initializerStatements.WriteString(diagram.GongMarshallField(stage, "AlignOnStartEndOnYearStart"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsChecked"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsEditable_"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsShowPrefix"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "DefaultBoxWidth"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "DefaultBoxHeigth"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Height"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Product_Shapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ProductsWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsPBSNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ProductComposition_Shapes"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsWBSNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Task_Shapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TasksWhoseInputNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TasksWhoseOutputNodeIsExpanded"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsTaskGroupsNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TaskGroupShapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TaskGroupsWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsMilestonesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "MilestoneShapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "MilestonesWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "DateFormat"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TaskComposition_Shapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TaskInputShapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TaskOutputShapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Note_Shapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsNotesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "NoteProductShapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "NoteTaskShapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "NoteResourceShapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Resource_Shapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ResourcesWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsResourcesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ResourceComposition_Shapes"))
+		pointersInitializesStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ResourceTaskShapes"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "IsTimeDiagram"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ComputedStart"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ComputedEnd"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ComputedDuration"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "UseManualStartAndEndDates"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ManualStart"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ManualEnd"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TimeStep"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TimeStepScale"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "LaneHeight"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "RatioBarToLaneHeight"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "YTopMargin"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "XLeftText"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TextHeight"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "XLeftLanes"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "XRightMargin"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ArrowLengthToTheRightOfStartBar"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "ArrowTipLenght"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TimeLine_Color"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TimeLine_FillOpacity"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TimeLine_Stroke"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "TimeLine_StrokeWidth"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "DrawVerticalTimeLines"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Group_Stroke"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Group_StrokeWidth"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "Group_StrokeDashArray"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "DateYOffset"))
+		initializerStatements.WriteString(diagramhierarchy.GongMarshallField(stage, "AlignOnStartEndOnYearStart"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

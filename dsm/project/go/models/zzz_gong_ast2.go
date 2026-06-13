@@ -439,10 +439,10 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 }
 
 // insertion point per named struct
-type DiagramUnmarshaller struct{}
+type DiagramHierarchyUnmarshaller struct{}
 
-func (u *DiagramUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Diagram)
+func (u *DiagramHierarchyUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(DiagramHierarchy)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -457,8 +457,8 @@ func (u *DiagramUnmarshaller) Initialize(stage *Stage, identifier string, instan
 	return instance, nil
 }
 
-func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*Diagram)
+func (u *DiagramHierarchyUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*DiagramHierarchy)
 	_ = instance
 	switch fieldName {
 	// insertion point per field

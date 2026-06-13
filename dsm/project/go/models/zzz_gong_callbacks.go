@@ -6,9 +6,9 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
-	case *Diagram:
-		if stage.OnAfterDiagramCreateCallback != nil {
-			stage.OnAfterDiagramCreateCallback.OnAfterCreate(stage, target)
+	case *DiagramHierarchy:
+		if stage.OnAfterDiagramHierarchyCreateCallback != nil {
+			stage.OnAfterDiagramHierarchyCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *Library:
 		if stage.OnAfterLibraryCreateCallback != nil {
@@ -112,10 +112,10 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
-	case *Diagram:
-		newTarget := any(new).(*Diagram)
-		if stage.OnAfterDiagramUpdateCallback != nil {
-			stage.OnAfterDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *DiagramHierarchy:
+		newTarget := any(new).(*DiagramHierarchy)
+		if stage.OnAfterDiagramHierarchyUpdateCallback != nil {
+			stage.OnAfterDiagramHierarchyUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Library:
 		newTarget := any(new).(*Library)
@@ -237,10 +237,10 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
-	case *Diagram:
-		if stage.OnAfterDiagramDeleteCallback != nil {
-			staged := any(staged).(*Diagram)
-			stage.OnAfterDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *DiagramHierarchy:
+		if stage.OnAfterDiagramHierarchyDeleteCallback != nil {
+			staged := any(staged).(*DiagramHierarchy)
+			stage.OnAfterDiagramHierarchyDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Library:
 		if stage.OnAfterLibraryDeleteCallback != nil {
@@ -362,9 +362,9 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
-	case *Diagram:
-		if stage.OnAfterDiagramReadCallback != nil {
-			stage.OnAfterDiagramReadCallback.OnAfterRead(stage, target)
+	case *DiagramHierarchy:
+		if stage.OnAfterDiagramHierarchyReadCallback != nil {
+			stage.OnAfterDiagramHierarchyReadCallback.OnAfterRead(stage, target)
 		}
 	case *Library:
 		if stage.OnAfterLibraryReadCallback != nil {
@@ -465,8 +465,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
-	case *Diagram:
-		stage.OnAfterDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Diagram])
+	case *DiagramHierarchy:
+		stage.OnAfterDiagramHierarchyUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramHierarchy])
 	case *Library:
 		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *Milestone:
@@ -518,8 +518,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
-	case *Diagram:
-		stage.OnAfterDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Diagram])
+	case *DiagramHierarchy:
+		stage.OnAfterDiagramHierarchyCreateCallback = any(callback).(OnAfterCreateInterface[DiagramHierarchy])
 	case *Library:
 		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *Milestone:
@@ -571,8 +571,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
-	case *Diagram:
-		stage.OnAfterDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Diagram])
+	case *DiagramHierarchy:
+		stage.OnAfterDiagramHierarchyDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramHierarchy])
 	case *Library:
 		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *Milestone:
@@ -624,8 +624,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
-	case *Diagram:
-		stage.OnAfterDiagramReadCallback = any(callback).(OnAfterReadInterface[Diagram])
+	case *DiagramHierarchy:
+		stage.OnAfterDiagramHierarchyReadCallback = any(callback).(OnAfterReadInterface[DiagramHierarchy])
 	case *Library:
 		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *Milestone:

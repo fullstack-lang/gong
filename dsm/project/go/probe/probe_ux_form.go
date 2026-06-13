@@ -15,11 +15,11 @@ func (probe *Probe) ux_form() {
 	}
 	if formGroup != nil {
 		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *DiagramFormCallback:
+		case *DiagramHierarchyFormCallback:
 			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Diagram", true)
+				FillUpFormFromGongstructName(probe, "DiagramHierarchy", true)
 			} else {
-				FillUpFormFromGongstruct(onSave.diagram, probe)
+				FillUpFormFromGongstruct(onSave.diagramhierarchy, probe)
 			}
 		case *LibraryFormCallback:
 			if onSave.CreationMode {
@@ -175,19 +175,19 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
-	case "Diagram":
+	case "DiagramHierarchy":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
-			Label: prefix + "Diagram Form",
+			Label: prefix + "DiagramHierarchy Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__DiagramFormCallback(
+		formGroup.OnSave = __gong__New__DiagramHierarchyFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		diagram := new(models.Diagram)
+		diagramhierarchy := new(models.DiagramHierarchy)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(diagram, formGroup, probe)
+		FillUpForm(diagramhierarchy, formGroup, probe)
 	case "Library":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

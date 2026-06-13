@@ -11,20 +11,20 @@ func (stager *Stager) svg() {
 	log.Println("svg")
 	stager.svgStage.Reset()
 
-	var diagram *Diagram
+	var diagramHierarchy *DiagramHierarchy
 	{
-		for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+		for diagram_ := range *GetGongstructInstancesSet[DiagramHierarchy](stager.stage) {
 			if diagram_.IsChecked {
-				diagram = diagram_
+				diagramHierarchy = diagram_
 			}
 		}
 	}
 
-	if diagram == nil {
+	if diagramHierarchy == nil {
 		stager.svgStage.Commit()
 		return
 	}
-	svgObject := stager.generateSvgObject(diagram)
+	svgObject := stager.generateSvgObject(diagramHierarchy)
 
 	svg.StageBranch(stager.svgStage, svgObject)
 	stager.svgObject = svgObject
@@ -37,24 +37,24 @@ func (stager *Stager) svg() {
 // It maps all visible domain shapes (Products, Tasks, Notes, Resources) and their associations
 // to SVG elements (Rects, Links, Paths) on a single layer. It also populates the diagram's
 // internal maps to link abstract elements with their visual SVG counterparts.
-func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
+func (stager *Stager) generateSvgObject(diagramHierarchy *DiagramHierarchy) *svg.SVG {
 	svgObject := (&svg.SVG{Name: `SVG`})
-	stager.diagram = diagram
+	stager.diagramHierarchy = diagramHierarchy
 
 	svgObject.OverrideWidth = true
-	svgObject.OverriddenWidth = diagram.Width
+	svgObject.OverriddenWidth = diagramHierarchy.Width
 	svgObject.OverrideHeight = true
-	svgObject.OverriddenHeight = diagram.Height
+	svgObject.OverriddenHeight = diagramHierarchy.Height
 
-	diagram.map_Product_Rect = make(map[*Product]*svg.Rect)
-	diagram.map_Task_Rect = make(map[*Task]*svg.Rect)
-	diagram.map_Note_Rect = make(map[*Note]*svg.Rect)
-	diagram.map_Resource_Rect = make(map[*Resource]*svg.Rect)
+	diagramHierarchy.map_Product_Rect = make(map[*Product]*svg.Rect)
+	diagramHierarchy.map_Task_Rect = make(map[*Task]*svg.Rect)
+	diagramHierarchy.map_Note_Rect = make(map[*Note]*svg.Rect)
+	diagramHierarchy.map_Resource_Rect = make(map[*Resource]*svg.Rect)
 
-	diagram.map_SvgRect_ProductShape = make(map[*svg.Rect]*ProductShape)
-	diagram.map_SvgRect_TaskShape = make(map[*svg.Rect]*TaskShape)
-	diagram.map_SvgRect_NoteShape = make(map[*svg.Rect]*NoteShape)
-	diagram.map_SvgRect_ResourceShape = make(map[*svg.Rect]*ResourceShape)
+	diagramHierarchy.map_SvgRect_ProductShape = make(map[*svg.Rect]*ProductShape)
+	diagramHierarchy.map_SvgRect_TaskShape = make(map[*svg.Rect]*TaskShape)
+	diagramHierarchy.map_SvgRect_NoteShape = make(map[*svg.Rect]*NoteShape)
+	diagramHierarchy.map_SvgRect_ResourceShape = make(map[*svg.Rect]*ResourceShape)
 
 	// // to implement association between abstract elements by mouse drag
 	// svgImpl := &svgProxy{
@@ -64,29 +64,29 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	// }
 	// Impl = svgImpl
 
-	svgObject.Name = diagram.Name
-	svgObject.IsEditable = diagram.IsEditable()
+	svgObject.Name = diagramHierarchy.Name
+	svgObject.IsEditable = diagramHierarchy.IsEditable()
 
 	layer := (&svg.Layer{Name: "Layer 1"})
 	svgObject.Layers = append(svgObject.Layers, layer)
 
-	if diagram.IsTimeDiagram {
-		stager.generateTimeDiagram(diagram, layer, svgObject)
+	if diagramHierarchy.IsTimeDiagram {
+		stager.generateTimeDiagram(diagramHierarchy, layer, svgObject)
 	}
 
-	for _, productShape := range diagram.Product_Shapes {
+	for _, productShape := range diagramHierarchy.Product_Shapes {
 		if productShape.IsHidden {
 			continue
 		}
 
 		rect := svgRect(
 			stager,
-			diagram,
+			diagramHierarchy,
 			productShape,
 			layer)
 		rect.RX = 3
-		diagram.map_Product_Rect[productShape.Product] = rect
-		diagram.map_SvgRect_ProductShape[rect] = productShape
+		diagramHierarchy.map_Product_Rect[productShape.Product] = rect
+		diagramHierarchy.map_SvgRect_ProductShape[rect] = productShape
 
 		if productShape.Product.IsImport && productShape.Product.ReferencedProduct != nil {
 			if len(rect.RectAnchoredTexts) > 0 {
@@ -99,7 +99,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		}
 	}
 
-	for _, productCompositionShape := range diagram.ProductComposition_Shapes {
+	for _, productCompositionShape := range diagramHierarchy.ProductComposition_Shapes {
 		if productCompositionShape.GetIsHidden() {
 			continue
 		}
@@ -111,8 +111,8 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			log.Panic("There should be a subProduct and a parentProduct")
 		}
 
-		startRect := diagram.map_Product_Rect[parentProduct]
-		endRect := diagram.map_Product_Rect[subProduct]
+		startRect := diagramHierarchy.map_Product_Rect[parentProduct]
+		endRect := diagramHierarchy.map_Product_Rect[subProduct]
 
 		if startRect == nil || endRect == nil {
 			continue
@@ -128,7 +128,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			false)
 	}
 
-	for _, taskShape := range diagram.Task_Shapes {
+	for _, taskShape := range diagramHierarchy.Task_Shapes {
 		if taskShape.IsHidden {
 			continue
 		}
@@ -136,17 +136,17 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		// In a time diagram, task shapes are drawn as Gantt bars in generateTimeDiagram.
 		// However, tasks that don't belong to any TaskGroup might not be rendered.
 		// We still skip the generic Rect generation for all tasks if it's a Time Diagram.
-		if diagram.IsTimeDiagram {
+		if diagramHierarchy.IsTimeDiagram {
 			continue
 		}
 
 		rect := svgRect(
 			stager,
-			diagram,
+			diagramHierarchy,
 			taskShape,
 			layer)
-		diagram.map_Task_Rect[taskShape.Task] = rect
-		diagram.map_SvgRect_TaskShape[rect] = taskShape
+		diagramHierarchy.map_Task_Rect[taskShape.Task] = rect
+		diagramHierarchy.map_SvgRect_TaskShape[rect] = taskShape
 
 		if taskShape.Task.IsImport && taskShape.Task.ReferencedTask != nil {
 			if len(rect.RectAnchoredTexts) > 0 {
@@ -163,8 +163,8 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			dateText.Name = "Date"
 
 			dateFormat := "2006-01-02"
-			if diagram.DateFormat != "" {
-				dateFormat = diagram.DateFormat
+			if diagramHierarchy.DateFormat != "" {
+				dateFormat = diagramHierarchy.DateFormat
 			}
 
 			dateText.Content = taskShape.Task.Start.Format(dateFormat) + " - " + taskShape.Task.End.Format(dateFormat)
@@ -230,7 +230,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		}
 	}
 
-	for _, taskCompositionShape := range diagram.TaskComposition_Shapes {
+	for _, taskCompositionShape := range diagramHierarchy.TaskComposition_Shapes {
 		if taskCompositionShape.GetIsHidden() {
 			continue
 		}
@@ -242,8 +242,8 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			log.Panic("There should be a subTask and a parentTask")
 		}
 
-		startRect := diagram.map_Task_Rect[parentTask]
-		endRect := diagram.map_Task_Rect[subTask]
+		startRect := diagramHierarchy.map_Task_Rect[parentTask]
+		endRect := diagramHierarchy.map_Task_Rect[subTask]
 
 		if startRect == nil || endRect == nil {
 			continue
@@ -258,7 +258,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			false)
 	}
 
-	for _, taskInputShape := range diagram.TaskInputShapes {
+	for _, taskInputShape := range diagramHierarchy.TaskInputShapes {
 		if taskInputShape.GetIsHidden() {
 			continue
 		}
@@ -269,8 +269,8 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			log.Panic("There should be a task and a product")
 		}
 
-		startRect := diagram.map_Product_Rect[product]
-		endRect := diagram.map_Task_Rect[task]
+		startRect := diagramHierarchy.map_Product_Rect[product]
+		endRect := diagramHierarchy.map_Task_Rect[task]
 
 		if startRect == nil || endRect == nil {
 			continue
@@ -286,7 +286,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		)
 	}
 
-	for _, taskOutputShape := range diagram.TaskOutputShapes {
+	for _, taskOutputShape := range diagramHierarchy.TaskOutputShapes {
 		if taskOutputShape.GetIsHidden() {
 			continue
 		}
@@ -297,8 +297,8 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			log.Panic("There should be a task and a product")
 		}
 
-		startRect := diagram.map_Task_Rect[task]
-		endRect := diagram.map_Product_Rect[product]
+		startRect := diagramHierarchy.map_Task_Rect[task]
+		endRect := diagramHierarchy.map_Product_Rect[product]
 
 		if startRect == nil || endRect == nil {
 			continue
@@ -314,7 +314,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		)
 	}
 
-	for _, noteShape := range diagram.Note_Shapes {
+	for _, noteShape := range diagramHierarchy.Note_Shapes {
 		if noteShape.IsHidden {
 			continue
 		}
@@ -328,7 +328,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 
 		rect := svgRect(
 			stager,
-			diagram,
+			diagramHierarchy,
 			noteShape,
 			layer)
 		rect.RX = 0
@@ -339,7 +339,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		if len(rect.RectAnchoredTexts) > 0 {
 			abstractElement := noteShape.GetAbstractElement()
 			content := abstractElement.GetName()
-			if diagram.GetIsShowPrefix() {
+			if diagramHierarchy.GetIsShowPrefix() {
 				content = abstractElement.GetComputedPrefix() + " " + content
 			}
 			content = "📝 " + content
@@ -358,18 +358,18 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			rect.RectAnchoredTexts[0].X_Offset = 10
 			rect.RectAnchoredTexts[0].Y_Offset = 20
 		}
-		diagram.map_Note_Rect[note] = rect
-		diagram.map_SvgRect_NoteShape[rect] = noteShape
+		diagramHierarchy.map_Note_Rect[note] = rect
+		diagramHierarchy.map_SvgRect_NoteShape[rect] = noteShape
 
 		_ = rect
 	}
 
-	for _, noteProductShape := range diagram.NoteProductShapes {
+	for _, noteProductShape := range diagramHierarchy.NoteProductShapes {
 		note := noteProductShape.Note
 		product := noteProductShape.Product
 
-		startRect := diagram.map_Note_Rect[note]
-		endRect := diagram.map_Product_Rect[product]
+		startRect := diagramHierarchy.map_Note_Rect[note]
+		endRect := diagramHierarchy.map_Product_Rect[product]
 
 		if startRect == nil || endRect == nil {
 			continue
@@ -393,11 +393,11 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.StrokeWidth = 1.5
 	}
 
-	for _, noteTaskShape := range diagram.NoteTaskShapes {
+	for _, noteTaskShape := range diagramHierarchy.NoteTaskShapes {
 		note := noteTaskShape.Note
 		task := noteTaskShape.Task
-		startRect := diagram.map_Note_Rect[note]
-		endRect := diagram.map_Task_Rect[task]
+		startRect := diagramHierarchy.map_Note_Rect[note]
+		endRect := diagramHierarchy.map_Task_Rect[task]
 
 		if startRect == nil || endRect == nil {
 			continue
@@ -421,18 +421,18 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.StrokeWidth = 1.5
 	}
 
-	for _, resourceShape := range diagram.Resource_Shapes {
+	for _, resourceShape := range diagramHierarchy.Resource_Shapes {
 		if resourceShape.IsHidden {
 			continue
 		}
 
 		rect := svgRect(
 			stager,
-			diagram,
+			diagramHierarchy,
 			resourceShape,
 			layer)
-		diagram.map_Resource_Rect[resourceShape.Resource] = rect
-		diagram.map_SvgRect_ResourceShape[rect] = resourceShape
+		diagramHierarchy.map_Resource_Rect[resourceShape.Resource] = rect
+		diagramHierarchy.map_SvgRect_ResourceShape[rect] = resourceShape
 
 		if resourceShape.Resource.IsImport && resourceShape.Resource.ReferencedResource != nil {
 			if len(rect.RectAnchoredTexts) > 0 {
@@ -477,11 +477,11 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		}
 	}
 
-	for _, noteResourceShape := range diagram.NoteResourceShapes {
+	for _, noteResourceShape := range diagramHierarchy.NoteResourceShapes {
 		note := noteResourceShape.Note
 		resource := noteResourceShape.Resource
-		startRect := diagram.map_Note_Rect[note]
-		endRect := diagram.map_Resource_Rect[resource]
+		startRect := diagramHierarchy.map_Note_Rect[note]
+		endRect := diagramHierarchy.map_Resource_Rect[resource]
 		if startRect == nil || endRect == nil {
 			continue
 		}
@@ -503,7 +503,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.StrokeWidth = 1.5
 	}
 
-	for _, resourceCompositionShape := range diagram.ResourceComposition_Shapes {
+	for _, resourceCompositionShape := range diagramHierarchy.ResourceComposition_Shapes {
 		if resourceCompositionShape.GetIsHidden() {
 			continue
 		}
@@ -512,8 +512,8 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		if subResource == nil || parentResource == nil {
 			log.Panic("There should be a subResource and a parentResource")
 		}
-		startRect := diagram.map_Resource_Rect[parentResource]
-		endRect := diagram.map_Resource_Rect[subResource]
+		startRect := diagramHierarchy.map_Resource_Rect[parentResource]
+		endRect := diagramHierarchy.map_Resource_Rect[subResource]
 		if startRect == nil || endRect == nil {
 			continue
 		}
@@ -527,7 +527,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		)
 	}
 
-	for _, resourceTaskShape := range diagram.ResourceTaskShapes {
+	for _, resourceTaskShape := range diagramHierarchy.ResourceTaskShapes {
 		if resourceTaskShape.GetIsHidden() {
 			continue
 		}
@@ -536,8 +536,8 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		if resource == nil || task == nil {
 			log.Panic("There should be a resource and a task")
 		}
-		startRect := diagram.map_Resource_Rect[resource]
-		endRect := diagram.map_Task_Rect[task]
+		startRect := diagramHierarchy.map_Resource_Rect[resource]
+		endRect := diagramHierarchy.map_Task_Rect[task]
 		if startRect == nil || endRect == nil {
 			continue
 		}

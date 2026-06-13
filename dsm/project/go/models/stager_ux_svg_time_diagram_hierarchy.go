@@ -7,20 +7,20 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
-func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, svgObject *svg.SVG) {
+func (stager *Stager) generateTimeDiagram(diagramHierarchy *DiagramHierarchy, layer *svg.Layer, svgObject *svg.SVG) {
 
 	// If no duration, return early to prevent division by zero
-	if diagram.ComputedDuration == 0 {
+	if diagramHierarchy.ComputedDuration == 0 {
 		return
 	}
 
-	LaneHeight := diagram.LaneHeight
-	RatioBarToLaneHeight := diagram.RatioBarToLaneHeight
+	LaneHeight := diagramHierarchy.LaneHeight
+	RatioBarToLaneHeight := diagramHierarchy.RatioBarToLaneHeight
 	barHeigth := LaneHeight * RatioBarToLaneHeight
-	YTopMargin := diagram.YTopMargin
+	YTopMargin := diagramHierarchy.YTopMargin
 
 	var nbVisibleTaskGroups int
-	for _, taskGroupShape := range diagram.TaskGroupShapes {
+	for _, taskGroupShape := range diagramHierarchy.TaskGroupShapes {
 		if !taskGroupShape.IsHidden {
 			nbVisibleTaskGroups++
 		}
@@ -28,11 +28,11 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 
 	yTimeLine := LaneHeight*float64(nbVisibleTaskGroups) + YTopMargin
 
-	XLeftText := diagram.XLeftText
-	TextHeight := diagram.TextHeight
+	XLeftText := diagramHierarchy.XLeftText
+	TextHeight := diagramHierarchy.TextHeight
 
-	XLeftLanes := diagram.XLeftLanes
-	XRightMargin := diagram.XRightMargin
+	XLeftLanes := diagramHierarchy.XLeftLanes
+	XRightMargin := diagramHierarchy.XRightMargin
 
 	// Time Line
 	timeLine := new(svg.Line).Stage(stager.svgStage)
@@ -42,28 +42,28 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 	timeLine.X2 = XRightMargin
 	timeLine.Y2 = yTimeLine
 
-	timeLine.Color = diagram.TimeLine_Color
-	timeLine.FillOpacity = diagram.TimeLine_FillOpacity
-	timeLine.Stroke = diagram.TimeLine_Stroke
-	timeLine.StrokeWidth = diagram.TimeLine_StrokeWidth
+	timeLine.Color = diagramHierarchy.TimeLine_Color
+	timeLine.FillOpacity = diagramHierarchy.TimeLine_FillOpacity
+	timeLine.Stroke = diagramHierarchy.TimeLine_Stroke
+	timeLine.StrokeWidth = diagramHierarchy.TimeLine_StrokeWidth
 
 	layer.Lines = append(layer.Lines, timeLine)
 
 	// Dates
-	DateYOffset := diagram.DateYOffset
+	DateYOffset := diagramHierarchy.DateYOffset
 
 	// put a date for every tick according to scale
-	timeStep := diagram.TimeStep
+	timeStep := diagramHierarchy.TimeStep
 	if timeStep <= 0 {
 		timeStep = 1
 	}
-	timeStepScale := diagram.TimeStepScale
+	timeStepScale := diagramHierarchy.TimeStepScale
 	if timeStepScale == "" {
 		timeStepScale = YEARS
 	}
 
 	var ticks []time.Time
-	start := diagram.ComputedStart
+	start := diagramHierarchy.ComputedStart
 	var currentTick time.Time
 
 	switch timeStepScale {
@@ -83,7 +83,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 		currentTick = time.Date(start.Year(), time.January, 1, 0, 0, 0, 0, start.Location())
 	}
 
-	for currentTick.Before(diagram.ComputedEnd) || currentTick.Equal(diagram.ComputedEnd) {
+	for currentTick.Before(diagramHierarchy.ComputedEnd) || currentTick.Equal(diagramHierarchy.ComputedEnd) {
 		ticks = append(ticks, currentTick)
 
 		switch timeStepScale {
@@ -108,15 +108,15 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 		tick := ticks[i]
 		nextTick := ticks[i+1]
 
-		durationBetweenTickAndGanttStart := tick.Sub(diagram.ComputedStart)
+		durationBetweenTickAndGanttStart := tick.Sub(diagramHierarchy.ComputedStart)
 		durationBetweenTickAndGanttStartRelativeToGanttDuration :=
-			float64(durationBetweenTickAndGanttStart) / float64(diagram.ComputedDuration)
+			float64(durationBetweenTickAndGanttStart) / float64(diagramHierarchy.ComputedDuration)
 
 		xOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenTickAndGanttStartRelativeToGanttDuration
 
-		durationBetweenNextTickAndGanttStart := nextTick.Sub(diagram.ComputedStart)
+		durationBetweenNextTickAndGanttStart := nextTick.Sub(diagramHierarchy.ComputedStart)
 		durationBetweenNextTickAndGanttStartRelativeToGanttDuration :=
-			float64(durationBetweenNextTickAndGanttStart) / float64(diagram.ComputedDuration)
+			float64(durationBetweenNextTickAndGanttStart) / float64(diagramHierarchy.ComputedDuration)
 
 		xNextOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenNextTickAndGanttStartRelativeToGanttDuration
 
@@ -141,7 +141,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 		}
 
 		tickText := new(svg.Text).Stage(stager.svgStage)
-		
+
 		var tickLabel string
 		switch timeStepScale {
 		case YEARS:
@@ -183,7 +183,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 
 	mapTaskGroup_TextY := make(map[*TaskGroup]float64, 0)
 
-	for _, taskGroupShape := range diagram.TaskGroupShapes {
+	for _, taskGroupShape := range diagramHierarchy.TaskGroupShapes {
 		if taskGroupShape.IsHidden {
 			continue
 		}
@@ -220,14 +220,14 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 
 		// Tasks
 		for _, task := range taskGroup.Tasks {
-			taskShape, ok := diagram.map_Task_TaskShape[task]
+			taskShape, ok := diagramHierarchy.map_Task_TaskShape[task]
 			if !ok || taskShape.IsHidden {
 				continue
 			}
 
 			rect4Bar := new(svg.Rect).Stage(stager.svgStage)
-			diagram.map_Task_Rect[task] = rect4Bar
-			diagram.map_SvgRect_TaskShape[rect4Bar] = taskShape
+			diagramHierarchy.map_Task_Rect[task] = rect4Bar
+			diagramHierarchy.map_SvgRect_TaskShape[rect4Bar] = taskShape
 
 			layer.Rects = append(layer.Rects, rect4Bar)
 			rect4Bar.Name = task.Name
@@ -253,22 +253,22 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 
 			var taskToDisplay = *task
 
-			if diagram.UseManualStartAndEndDates {
-				if task.Start.Before(diagram.ManualStart) {
-					taskToDisplay.Start = diagram.ManualStart
+			if diagramHierarchy.UseManualStartAndEndDates {
+				if task.Start.Before(diagramHierarchy.ManualStart) {
+					taskToDisplay.Start = diagramHierarchy.ManualStart
 				}
-				if task.End.After(diagram.ManualEnd) {
-					taskToDisplay.End = diagram.ManualEnd
+				if task.End.After(diagramHierarchy.ManualEnd) {
+					taskToDisplay.End = diagramHierarchy.ManualEnd
 				}
 			}
 
-			durationFromGanttStartToBarStart := taskToDisplay.Start.Sub(diagram.ComputedStart)
+			durationFromGanttStartToBarStart := taskToDisplay.Start.Sub(diagramHierarchy.ComputedStart)
 			durationBetweenBarStartAndGanttStartRelativeToGanttDuration :=
-				float64(durationFromGanttStartToBarStart) / float64(diagram.ComputedDuration)
+				float64(durationFromGanttStartToBarStart) / float64(diagramHierarchy.ComputedDuration)
 
 			durationFromBarEndAndBarStart := taskToDisplay.End.Sub(taskToDisplay.Start)
 			durationBetweenBarEndAndBarStartRelativeToGanttDuration :=
-				float64(durationFromBarEndAndBarStart) / float64(diagram.ComputedDuration)
+				float64(durationFromBarEndAndBarStart) / float64(diagramHierarchy.ComputedDuration)
 
 			rect4Bar.X = XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenBarStartAndGanttStartRelativeToGanttDuration
 			rect4Bar.Y = currentY + (LaneHeight-barHeigth)/2.0
@@ -300,21 +300,21 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 	//
 	// Milestones
 	//
-	for _, milestoneShape := range diagram.MilestoneShapes {
+	for _, milestoneShape := range diagramHierarchy.MilestoneShapes {
 		if milestoneShape.IsHidden {
 			continue
 		}
 		milestone := milestoneShape.Milestone
 
-		if diagram.UseManualStartAndEndDates &&
-			(milestone.Date.Before(diagram.ManualStart) ||
-				milestone.Date.After(diagram.ManualEnd)) {
+		if diagramHierarchy.UseManualStartAndEndDates &&
+			(milestone.Date.Before(diagramHierarchy.ManualStart) ||
+				milestone.Date.After(diagramHierarchy.ManualEnd)) {
 			continue
 		}
-		durationBetweenMilestoneAndGanttStart := milestone.Date.Sub(diagram.ComputedStart)
+		durationBetweenMilestoneAndGanttStart := milestone.Date.Sub(diagramHierarchy.ComputedStart)
 
 		durationBetweenMilestoneAndGanttStartRelativeToGanttDuration :=
-			float64(durationBetweenMilestoneAndGanttStart) / float64(diagram.ComputedDuration)
+			float64(durationBetweenMilestoneAndGanttStart) / float64(diagramHierarchy.ComputedDuration)
 
 		//
 		// draw the line
@@ -372,19 +372,19 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 			milestoneText.TextAnchorType = svg.TEXT_ANCHOR_START
 			milestoneText.Color = "black"
 			milestoneText.FillOpacity = 1.0
-			
+
 			dummyRect.RectAnchoredTexts = append(dummyRect.RectAnchoredTexts, milestoneText)
 		}
 	}
 
 	// Draw the vertical grid lines as thin Rects so they overlay the lanes perfectly
-	if diagram.DrawVerticalTimeLines {
+	if diagramHierarchy.DrawVerticalTimeLines {
 		for i := 0; i < len(ticksToDraw)-1; i++ {
 			tick := ticksToDraw[i]
-			
-			durationBetweenTickAndGanttStart := tick.Sub(diagram.ComputedStart)
+
+			durationBetweenTickAndGanttStart := tick.Sub(diagramHierarchy.ComputedStart)
 			durationBetweenTickAndGanttStartRelativeToGanttDuration :=
-				float64(durationBetweenTickAndGanttStart) / float64(diagram.ComputedDuration)
+				float64(durationBetweenTickAndGanttStart) / float64(diagramHierarchy.ComputedDuration)
 
 			xOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenTickAndGanttStartRelativeToGanttDuration
 

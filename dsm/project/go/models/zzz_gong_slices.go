@@ -20,167 +20,167 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
-	// Compute reverse map for named struct Diagram
+	// Compute reverse map for named struct DiagramHierarchy
 	// insertion point per field
-	stage.Diagram_Product_Shapes_reverseMap = make(map[*ProductShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _productshape := range diagram.Product_Shapes {
-			stage.Diagram_Product_Shapes_reverseMap[_productshape] = diagram
+	stage.DiagramHierarchy_Product_Shapes_reverseMap = make(map[*ProductShape]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _productshape := range diagramhierarchy.Product_Shapes {
+			stage.DiagramHierarchy_Product_Shapes_reverseMap[_productshape] = diagramhierarchy
 		}
 	}
-	stage.Diagram_ProductsWhoseNodeIsExpanded_reverseMap = make(map[*Product]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _product := range diagram.ProductsWhoseNodeIsExpanded {
-			stage.Diagram_ProductsWhoseNodeIsExpanded_reverseMap[_product] = diagram
+	stage.DiagramHierarchy_ProductsWhoseNodeIsExpanded_reverseMap = make(map[*Product]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _product := range diagramhierarchy.ProductsWhoseNodeIsExpanded {
+			stage.DiagramHierarchy_ProductsWhoseNodeIsExpanded_reverseMap[_product] = diagramhierarchy
 		}
 	}
-	stage.Diagram_ProductComposition_Shapes_reverseMap = make(map[*ProductCompositionShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _productcompositionshape := range diagram.ProductComposition_Shapes {
-			stage.Diagram_ProductComposition_Shapes_reverseMap[_productcompositionshape] = diagram
+	stage.DiagramHierarchy_ProductComposition_Shapes_reverseMap = make(map[*ProductCompositionShape]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _productcompositionshape := range diagramhierarchy.ProductComposition_Shapes {
+			stage.DiagramHierarchy_ProductComposition_Shapes_reverseMap[_productcompositionshape] = diagramhierarchy
 		}
 	}
-	stage.Diagram_Task_Shapes_reverseMap = make(map[*TaskShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _taskshape := range diagram.Task_Shapes {
-			stage.Diagram_Task_Shapes_reverseMap[_taskshape] = diagram
+	stage.DiagramHierarchy_Task_Shapes_reverseMap = make(map[*TaskShape]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _taskshape := range diagramhierarchy.Task_Shapes {
+			stage.DiagramHierarchy_Task_Shapes_reverseMap[_taskshape] = diagramhierarchy
 		}
 	}
-	stage.Diagram_TasksWhoseNodeIsExpanded_reverseMap = make(map[*Task]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _task := range diagram.TasksWhoseNodeIsExpanded {
-			stage.Diagram_TasksWhoseNodeIsExpanded_reverseMap[_task] = diagram
+	stage.DiagramHierarchy_TasksWhoseNodeIsExpanded_reverseMap = make(map[*Task]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _task := range diagramhierarchy.TasksWhoseNodeIsExpanded {
+			stage.DiagramHierarchy_TasksWhoseNodeIsExpanded_reverseMap[_task] = diagramhierarchy
 		}
 	}
-	stage.Diagram_TasksWhoseInputNodeIsExpanded_reverseMap = make(map[*Task]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _task := range diagram.TasksWhoseInputNodeIsExpanded {
-			stage.Diagram_TasksWhoseInputNodeIsExpanded_reverseMap[_task] = diagram
+	stage.DiagramHierarchy_TasksWhoseInputNodeIsExpanded_reverseMap = make(map[*Task]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _task := range diagramhierarchy.TasksWhoseInputNodeIsExpanded {
+			stage.DiagramHierarchy_TasksWhoseInputNodeIsExpanded_reverseMap[_task] = diagramhierarchy
 		}
 	}
-	stage.Diagram_TasksWhoseOutputNodeIsExpanded_reverseMap = make(map[*Task]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _task := range diagram.TasksWhoseOutputNodeIsExpanded {
-			stage.Diagram_TasksWhoseOutputNodeIsExpanded_reverseMap[_task] = diagram
+	stage.DiagramHierarchy_TasksWhoseOutputNodeIsExpanded_reverseMap = make(map[*Task]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _task := range diagramhierarchy.TasksWhoseOutputNodeIsExpanded {
+			stage.DiagramHierarchy_TasksWhoseOutputNodeIsExpanded_reverseMap[_task] = diagramhierarchy
 		}
 	}
-	stage.Diagram_TaskGroupShapes_reverseMap = make(map[*TaskGroupShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _taskgroupshape := range diagram.TaskGroupShapes {
-			stage.Diagram_TaskGroupShapes_reverseMap[_taskgroupshape] = diagram
+	stage.DiagramHierarchy_TaskGroupShapes_reverseMap = make(map[*TaskGroupShape]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _taskgroupshape := range diagramhierarchy.TaskGroupShapes {
+			stage.DiagramHierarchy_TaskGroupShapes_reverseMap[_taskgroupshape] = diagramhierarchy
 		}
 	}
-	stage.Diagram_TaskGroupsWhoseNodeIsExpanded_reverseMap = make(map[*TaskGroup]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _taskgroup := range diagram.TaskGroupsWhoseNodeIsExpanded {
-			stage.Diagram_TaskGroupsWhoseNodeIsExpanded_reverseMap[_taskgroup] = diagram
+	stage.DiagramHierarchy_TaskGroupsWhoseNodeIsExpanded_reverseMap = make(map[*TaskGroup]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _taskgroup := range diagramhierarchy.TaskGroupsWhoseNodeIsExpanded {
+			stage.DiagramHierarchy_TaskGroupsWhoseNodeIsExpanded_reverseMap[_taskgroup] = diagramhierarchy
 		}
 	}
-	stage.Diagram_MilestoneShapes_reverseMap = make(map[*MilestoneShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _milestoneshape := range diagram.MilestoneShapes {
-			stage.Diagram_MilestoneShapes_reverseMap[_milestoneshape] = diagram
+	stage.DiagramHierarchy_MilestoneShapes_reverseMap = make(map[*MilestoneShape]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _milestoneshape := range diagramhierarchy.MilestoneShapes {
+			stage.DiagramHierarchy_MilestoneShapes_reverseMap[_milestoneshape] = diagramhierarchy
 		}
 	}
-	stage.Diagram_MilestonesWhoseNodeIsExpanded_reverseMap = make(map[*Milestone]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _milestone := range diagram.MilestonesWhoseNodeIsExpanded {
-			stage.Diagram_MilestonesWhoseNodeIsExpanded_reverseMap[_milestone] = diagram
+	stage.DiagramHierarchy_MilestonesWhoseNodeIsExpanded_reverseMap = make(map[*Milestone]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _milestone := range diagramhierarchy.MilestonesWhoseNodeIsExpanded {
+			stage.DiagramHierarchy_MilestonesWhoseNodeIsExpanded_reverseMap[_milestone] = diagramhierarchy
 		}
 	}
-	stage.Diagram_TaskComposition_Shapes_reverseMap = make(map[*TaskCompositionShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
-			stage.Diagram_TaskComposition_Shapes_reverseMap[_taskcompositionshape] = diagram
+	stage.DiagramHierarchy_TaskComposition_Shapes_reverseMap = make(map[*TaskCompositionShape]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _taskcompositionshape := range diagramhierarchy.TaskComposition_Shapes {
+			stage.DiagramHierarchy_TaskComposition_Shapes_reverseMap[_taskcompositionshape] = diagramhierarchy
 		}
 	}
-	stage.Diagram_TaskInputShapes_reverseMap = make(map[*TaskInputShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _taskinputshape := range diagram.TaskInputShapes {
-			stage.Diagram_TaskInputShapes_reverseMap[_taskinputshape] = diagram
+	stage.DiagramHierarchy_TaskInputShapes_reverseMap = make(map[*TaskInputShape]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _taskinputshape := range diagramhierarchy.TaskInputShapes {
+			stage.DiagramHierarchy_TaskInputShapes_reverseMap[_taskinputshape] = diagramhierarchy
 		}
 	}
-	stage.Diagram_TaskOutputShapes_reverseMap = make(map[*TaskOutputShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _taskoutputshape := range diagram.TaskOutputShapes {
-			stage.Diagram_TaskOutputShapes_reverseMap[_taskoutputshape] = diagram
+	stage.DiagramHierarchy_TaskOutputShapes_reverseMap = make(map[*TaskOutputShape]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _taskoutputshape := range diagramhierarchy.TaskOutputShapes {
+			stage.DiagramHierarchy_TaskOutputShapes_reverseMap[_taskoutputshape] = diagramhierarchy
 		}
 	}
-	stage.Diagram_Note_Shapes_reverseMap = make(map[*NoteShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _noteshape := range diagram.Note_Shapes {
-			stage.Diagram_Note_Shapes_reverseMap[_noteshape] = diagram
+	stage.DiagramHierarchy_Note_Shapes_reverseMap = make(map[*NoteShape]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _noteshape := range diagramhierarchy.Note_Shapes {
+			stage.DiagramHierarchy_Note_Shapes_reverseMap[_noteshape] = diagramhierarchy
 		}
 	}
-	stage.Diagram_NotesWhoseNodeIsExpanded_reverseMap = make(map[*Note]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _note := range diagram.NotesWhoseNodeIsExpanded {
-			stage.Diagram_NotesWhoseNodeIsExpanded_reverseMap[_note] = diagram
+	stage.DiagramHierarchy_NotesWhoseNodeIsExpanded_reverseMap = make(map[*Note]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _note := range diagramhierarchy.NotesWhoseNodeIsExpanded {
+			stage.DiagramHierarchy_NotesWhoseNodeIsExpanded_reverseMap[_note] = diagramhierarchy
 		}
 	}
-	stage.Diagram_NoteProductShapes_reverseMap = make(map[*NoteProductShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _noteproductshape := range diagram.NoteProductShapes {
-			stage.Diagram_NoteProductShapes_reverseMap[_noteproductshape] = diagram
+	stage.DiagramHierarchy_NoteProductShapes_reverseMap = make(map[*NoteProductShape]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _noteproductshape := range diagramhierarchy.NoteProductShapes {
+			stage.DiagramHierarchy_NoteProductShapes_reverseMap[_noteproductshape] = diagramhierarchy
 		}
 	}
-	stage.Diagram_NoteTaskShapes_reverseMap = make(map[*NoteTaskShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _notetaskshape := range diagram.NoteTaskShapes {
-			stage.Diagram_NoteTaskShapes_reverseMap[_notetaskshape] = diagram
+	stage.DiagramHierarchy_NoteTaskShapes_reverseMap = make(map[*NoteTaskShape]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _notetaskshape := range diagramhierarchy.NoteTaskShapes {
+			stage.DiagramHierarchy_NoteTaskShapes_reverseMap[_notetaskshape] = diagramhierarchy
 		}
 	}
-	stage.Diagram_NoteResourceShapes_reverseMap = make(map[*NoteResourceShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _noteresourceshape := range diagram.NoteResourceShapes {
-			stage.Diagram_NoteResourceShapes_reverseMap[_noteresourceshape] = diagram
+	stage.DiagramHierarchy_NoteResourceShapes_reverseMap = make(map[*NoteResourceShape]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _noteresourceshape := range diagramhierarchy.NoteResourceShapes {
+			stage.DiagramHierarchy_NoteResourceShapes_reverseMap[_noteresourceshape] = diagramhierarchy
 		}
 	}
-	stage.Diagram_Resource_Shapes_reverseMap = make(map[*ResourceShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _resourceshape := range diagram.Resource_Shapes {
-			stage.Diagram_Resource_Shapes_reverseMap[_resourceshape] = diagram
+	stage.DiagramHierarchy_Resource_Shapes_reverseMap = make(map[*ResourceShape]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _resourceshape := range diagramhierarchy.Resource_Shapes {
+			stage.DiagramHierarchy_Resource_Shapes_reverseMap[_resourceshape] = diagramhierarchy
 		}
 	}
-	stage.Diagram_ResourcesWhoseNodeIsExpanded_reverseMap = make(map[*Resource]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _resource := range diagram.ResourcesWhoseNodeIsExpanded {
-			stage.Diagram_ResourcesWhoseNodeIsExpanded_reverseMap[_resource] = diagram
+	stage.DiagramHierarchy_ResourcesWhoseNodeIsExpanded_reverseMap = make(map[*Resource]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _resource := range diagramhierarchy.ResourcesWhoseNodeIsExpanded {
+			stage.DiagramHierarchy_ResourcesWhoseNodeIsExpanded_reverseMap[_resource] = diagramhierarchy
 		}
 	}
-	stage.Diagram_ResourceComposition_Shapes_reverseMap = make(map[*ResourceCompositionShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _resourcecompositionshape := range diagram.ResourceComposition_Shapes {
-			stage.Diagram_ResourceComposition_Shapes_reverseMap[_resourcecompositionshape] = diagram
+	stage.DiagramHierarchy_ResourceComposition_Shapes_reverseMap = make(map[*ResourceCompositionShape]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _resourcecompositionshape := range diagramhierarchy.ResourceComposition_Shapes {
+			stage.DiagramHierarchy_ResourceComposition_Shapes_reverseMap[_resourcecompositionshape] = diagramhierarchy
 		}
 	}
-	stage.Diagram_ResourceTaskShapes_reverseMap = make(map[*ResourceTaskShape]*Diagram)
-	for diagram := range stage.Diagrams {
-		_ = diagram
-		for _, _resourcetaskshape := range diagram.ResourceTaskShapes {
-			stage.Diagram_ResourceTaskShapes_reverseMap[_resourcetaskshape] = diagram
+	stage.DiagramHierarchy_ResourceTaskShapes_reverseMap = make(map[*ResourceTaskShape]*DiagramHierarchy)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		_ = diagramhierarchy
+		for _, _resourcetaskshape := range diagramhierarchy.ResourceTaskShapes {
+			stage.DiagramHierarchy_ResourceTaskShapes_reverseMap[_resourcetaskshape] = diagramhierarchy
 		}
 	}
 
@@ -235,11 +235,11 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_Notes_reverseMap[_note] = library
 		}
 	}
-	stage.Library_Diagrams_reverseMap = make(map[*Diagram]*Library)
+	stage.Library_Diagrams_reverseMap = make(map[*DiagramHierarchy]*Library)
 	for library := range stage.Librarys {
 		_ = library
-		for _, _diagram := range library.Diagrams {
-			stage.Library_Diagrams_reverseMap[_diagram] = library
+		for _, _diagramhierarchy := range library.Diagrams {
+			stage.Library_Diagrams_reverseMap[_diagramhierarchy] = library
 		}
 	}
 
@@ -388,7 +388,7 @@ func (stage *Stage) ComputeReverseMaps() {
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
-	for instance := range stage.Diagrams {
+	for instance := range stage.DiagramHierarchys {
 		res = append(res, instance)
 	}
 
@@ -484,9 +484,9 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct
-func (diagram *Diagram) GongCopy() GongstructIF {
-	newInstance := new(Diagram)
-	diagram.CopyBasicFields(newInstance)
+func (diagramhierarchy *DiagramHierarchy) GongCopy() GongstructIF {
+	newInstance := new(DiagramHierarchy)
+	diagramhierarchy.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -623,13 +623,13 @@ func (taskshape *TaskShape) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
-func (diagram *Diagram) GongGetUUID(stage *Stage) (uuid string) {
+func (diagramhierarchy *DiagramHierarchy) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(diagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+	if __gong__, ok := any(diagramhierarchy).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(diagram), uint64(GetOrderPointerGongstruct(stage, diagram)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(diagramhierarchy), uint64(GetOrderPointerGongstruct(stage, diagramhierarchy)))
 	return
 }
 
@@ -871,32 +871,32 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	stage.Clean()
 
 	// insertion point per named struct
-	var diagrams_newInstances []*Diagram
-	var diagrams_deletedInstances []*Diagram
+	var diagramhierarchys_newInstances []*DiagramHierarchy
+	var diagramhierarchys_deletedInstances []*DiagramHierarchy
 
 	// parse all staged instances and check if they have a reference
-	for diagram := range stage.Diagrams {
-		if ref, ok := stage.Diagrams_reference[diagram]; !ok {
-			diagrams_newInstances = append(diagrams_newInstances, diagram)
-			newInstancesSlice = append(newInstancesSlice, diagram.GongMarshallIdentifier(stage))
-			if stage.Diagrams_referenceOrder == nil {
-				stage.Diagrams_referenceOrder = make(map[*Diagram]uint)
+	for diagramhierarchy := range stage.DiagramHierarchys {
+		if ref, ok := stage.DiagramHierarchys_reference[diagramhierarchy]; !ok {
+			diagramhierarchys_newInstances = append(diagramhierarchys_newInstances, diagramhierarchy)
+			newInstancesSlice = append(newInstancesSlice, diagramhierarchy.GongMarshallIdentifier(stage))
+			if stage.DiagramHierarchys_referenceOrder == nil {
+				stage.DiagramHierarchys_referenceOrder = make(map[*DiagramHierarchy]uint)
 			}
-			stage.Diagrams_referenceOrder[diagram] = stage.Diagram_stagedOrder[diagram]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, diagram.GongMarshallUnstaging(stage))
-			// delete(stage.Diagrams_referenceOrder, diagram)
-			fieldInitializers, pointersInitializations := diagram.GongMarshallAllFields(stage)
+			stage.DiagramHierarchys_referenceOrder[diagramhierarchy] = stage.DiagramHierarchy_stagedOrder[diagramhierarchy]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, diagramhierarchy.GongMarshallUnstaging(stage))
+			// delete(stage.DiagramHierarchys_referenceOrder, diagramhierarchy)
+			fieldInitializers, pointersInitializations := diagramhierarchy.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.Diagram_stagedOrder[ref] = stage.Diagram_stagedOrder[diagram]
+			stage.DiagramHierarchy_stagedOrder[ref] = stage.DiagramHierarchy_stagedOrder[diagramhierarchy]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := diagram.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, diagram)
-			// delete(stage.Diagram_stagedOrder, ref)
+			diffs := diagramhierarchy.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, diagramhierarchy)
+			// delete(stage.DiagramHierarchy_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				if diagram.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", diagram.GetName())
+				if diagramhierarchy.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", diagramhierarchy.GetName())
 				} else {
 					fieldsEdit += "\n\t//"
 				}
@@ -913,10 +913,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Diagrams_reference {
-		instance := stage.Diagrams_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Diagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			diagrams_deletedInstances = append(diagrams_deletedInstances, ref)
+	for _, ref := range stage.DiagramHierarchys_reference {
+		instance := stage.DiagramHierarchys_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.DiagramHierarchys[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			diagramhierarchys_deletedInstances = append(diagramhierarchys_deletedInstances, ref)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -924,8 +924,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		}
 	}
 
-	lenNewInstances += len(diagrams_newInstances)
-	lenDeletedInstances += len(diagrams_deletedInstances)
+	lenNewInstances += len(diagramhierarchys_newInstances)
+	lenDeletedInstances += len(diagramhierarchys_deletedInstances)
 	var librarys_newInstances []*Library
 	var librarys_deletedInstances []*Library
 
@@ -2171,14 +2171,14 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
-	stage.Diagrams_reference = make(map[*Diagram]*Diagram)
-	stage.Diagrams_referenceOrder = make(map[*Diagram]uint) // diff Unstage needs the reference order
-	stage.Diagrams_instance = make(map[*Diagram]*Diagram)
-	for instance := range stage.Diagrams {
-		_copy := instance.GongCopy().(*Diagram)
-		stage.Diagrams_reference[instance] = _copy
-		stage.Diagrams_instance[_copy] = instance
-		stage.Diagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	stage.DiagramHierarchys_reference = make(map[*DiagramHierarchy]*DiagramHierarchy)
+	stage.DiagramHierarchys_referenceOrder = make(map[*DiagramHierarchy]uint) // diff Unstage needs the reference order
+	stage.DiagramHierarchys_instance = make(map[*DiagramHierarchy]*DiagramHierarchy)
+	for instance := range stage.DiagramHierarchys {
+		_copy := instance.GongCopy().(*DiagramHierarchy)
+		stage.DiagramHierarchys_reference[instance] = _copy
+		stage.DiagramHierarchys_instance[_copy] = instance
+		stage.DiagramHierarchys_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Librarys_reference = make(map[*Library]*Library)
@@ -2402,8 +2402,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	}
 
 	// insertion point per named struct
-	for instance := range stage.Diagrams {
-		reference := stage.Diagrams_reference[instance]
+	for instance := range stage.DiagramHierarchys {
+		reference := stage.DiagramHierarchys_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -2527,14 +2527,14 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // which is important for frontends such as web frontends
 // to avoid unnecessary re-renderings
 // insertion point per named struct
-func (diagram *Diagram) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Diagram_stagedOrder[diagram]; ok {
+func (diagramhierarchy *DiagramHierarchy) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.DiagramHierarchy_stagedOrder[diagramhierarchy]; ok {
 		return order
 	}
-	if order, ok := stage.Diagrams_referenceOrder[diagram]; ok {
+	if order, ok := stage.DiagramHierarchys_referenceOrder[diagramhierarchy]; ok {
 		return order
 	} else {
-		log.Printf("instance %p of type Diagram was not staged and does not have a reference order", diagram)
+		log.Printf("instance %p of type DiagramHierarchy was not staged and does not have a reference order", diagramhierarchy)
 		return 0
 	}
 }
@@ -2808,13 +2808,13 @@ func (taskshape *TaskShape) GongGetOrder(stage *Stage) uint {
 // in the staging area
 // It is used to identify instances across sessions
 // insertion point per named struct
-func (diagram *Diagram) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetOrder(stage))
+func (diagramhierarchy *DiagramHierarchy) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", diagramhierarchy.GongGetGongstructName(), diagramhierarchy.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (diagram *Diagram) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetOrder(stage))
+func (diagramhierarchy *DiagramHierarchy) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", diagramhierarchy.GongGetGongstructName(), diagramhierarchy.GongGetOrder(stage))
 }
 
 func (library *Library) GongGetIdentifier(stage *Stage) string {
@@ -3018,11 +3018,11 @@ func (taskshape *TaskShape) GongGetReferenceIdentifier(stage *Stage) string {
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
-func (diagram *Diagram) GongMarshallIdentifier(stage *Stage) (decl string) {
+func (diagramhierarchy *DiagramHierarchy) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Diagram")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.Name))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramhierarchy.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DiagramHierarchy")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramhierarchy.Name))
 	return
 }
 
@@ -3203,9 +3203,9 @@ func (taskshape *TaskShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 }
 
 // insertion point for unstaging
-func (diagram *Diagram) GongMarshallUnstaging(stage *Stage) (decl string) {
+func (diagramhierarchy *DiagramHierarchy) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetReferenceIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramhierarchy.GongGetReferenceIdentifier(stage))
 	return
 }
 

@@ -27,7 +27,7 @@ type Library struct {
 
 	Notes []*Note
 
-	Diagrams []*Diagram
+	Diagrams []*DiagramHierarchy
 
 	objects []AbstractType
 }
