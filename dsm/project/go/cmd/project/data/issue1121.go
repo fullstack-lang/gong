@@ -99,8 +99,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 1100.000000
-	__Diagram__00000000_.Height = 860.000000
+	__Diagram__00000000_.Width = 1175.000000
+	__Diagram__00000000_.Height = 600.000000
 	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsWBSNodeExpanded = false
 	__Diagram__00000000_.IsTaskGroupsNodeExpanded = true
@@ -270,7 +270,7 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000015_.StartRatio = 0.450562
 	__ProductCompositionShape__00000015_.EndRatio = 0.371512
 	__ProductCompositionShape__00000015_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000015_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ProductCompositionShape__00000015_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ProductCompositionShape__00000015_.CornerOffsetRatio = 1.500000
 	__ProductCompositionShape__00000015_.IsHidden = false
 
@@ -278,7 +278,7 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000016_.StartRatio = 0.450562
 	__ProductCompositionShape__00000016_.EndRatio = 0.428655
 	__ProductCompositionShape__00000016_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000016_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ProductCompositionShape__00000016_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ProductCompositionShape__00000016_.CornerOffsetRatio = 1.500000
 	__ProductCompositionShape__00000016_.IsHidden = false
 
@@ -294,7 +294,7 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000018_.StartRatio = 0.454562
 	__ProductCompositionShape__00000018_.EndRatio = 0.500084
 	__ProductCompositionShape__00000018_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000018_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__ProductCompositionShape__00000018_.EndOrientation = models.ORIENTATION_VERTICAL
 	__ProductCompositionShape__00000018_.CornerOffsetRatio = 1.500000
 	__ProductCompositionShape__00000018_.IsHidden = false
 
@@ -302,7 +302,7 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000019_.StartRatio = 0.500000
 	__ProductCompositionShape__00000019_.EndRatio = 0.500000
 	__ProductCompositionShape__00000019_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000019_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000019_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__ProductCompositionShape__00000019_.CornerOffsetRatio = 1.500000
 	__ProductCompositionShape__00000019_.IsHidden = false
 
@@ -310,12 +310,12 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000020_.StartRatio = 0.500000
 	__ProductCompositionShape__00000020_.EndRatio = 0.500000
 	__ProductCompositionShape__00000020_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000020_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000020_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__ProductCompositionShape__00000020_.CornerOffsetRatio = 1.500000
 	__ProductCompositionShape__00000020_.IsHidden = false
 
 	__ProductShape__00000018_.Name = `P1-Default Diagram`
-	__ProductShape__00000018_.LayoutDirection = models.Horizontal
+	__ProductShape__00000018_.LayoutDirection = models.Vertical
 	__ProductShape__00000018_.X = 50.000000
 	__ProductShape__00000018_.Y = 50.000000
 	__ProductShape__00000018_.Width = 250.000000
@@ -324,40 +324,40 @@ func _(stage *models.Stage) {
 
 	__ProductShape__00000019_.Name = `P1.1-Default Diagram`
 	__ProductShape__00000019_.LayoutDirection = models.Vertical
-	__ProductShape__00000019_.X = 225.000000
-	__ProductShape__00000019_.Y = 170.000000
+	__ProductShape__00000019_.X = 50.000000
+	__ProductShape__00000019_.Y = 190.000000
 	__ProductShape__00000019_.Width = 250.000000
 	__ProductShape__00000019_.Height = 70.000000
 	__ProductShape__00000019_.IsHidden = false
 
 	__ProductShape__00000020_.Name = `P1.3-Default Diagram`
 	__ProductShape__00000020_.LayoutDirection = models.Vertical
-	__ProductShape__00000020_.X = 225.000000
-	__ProductShape__00000020_.Y = 550.000000
+	__ProductShape__00000020_.X = 825.000000
+	__ProductShape__00000020_.Y = 190.000000
 	__ProductShape__00000020_.Width = 250.000000
 	__ProductShape__00000020_.Height = 70.000000
 	__ProductShape__00000020_.IsHidden = false
 
 	__ProductShape__00000021_.Name = `P1.3.1-Default Diagram`
 	__ProductShape__00000021_.LayoutDirection = models.Vertical
-	__ProductShape__00000021_.X = 225.000000
-	__ProductShape__00000021_.Y = 690.000000
+	__ProductShape__00000021_.X = 825.000000
+	__ProductShape__00000021_.Y = 330.000000
 	__ProductShape__00000021_.Width = 250.000000
 	__ProductShape__00000021_.Height = 70.000000
 	__ProductShape__00000021_.IsHidden = false
 
 	__ProductShape__00000022_.Name = `P1.2-Default Diagram`
-	__ProductShape__00000022_.LayoutDirection = models.Vertical
-	__ProductShape__00000022_.X = 225.000000
-	__ProductShape__00000022_.Y = 290.000000
+	__ProductShape__00000022_.LayoutDirection = models.Horizontal
+	__ProductShape__00000022_.X = 350.000000
+	__ProductShape__00000022_.Y = 190.000000
 	__ProductShape__00000022_.Width = 250.000000
 	__ProductShape__00000022_.Height = 70.000000
 	__ProductShape__00000022_.IsHidden = false
 
 	__ProductShape__00000023_.Name = `P1.2.1-Default Diagram`
 	__ProductShape__00000023_.LayoutDirection = models.Vertical
-	__ProductShape__00000023_.X = 225.000000
-	__ProductShape__00000023_.Y = 430.000000
+	__ProductShape__00000023_.X = 525.000000
+	__ProductShape__00000023_.Y = 310.000000
 	__ProductShape__00000023_.Width = 250.000000
 	__ProductShape__00000023_.Height = 70.000000
 	__ProductShape__00000023_.IsHidden = false
