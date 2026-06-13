@@ -104,6 +104,23 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		}
 		diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, timeDiagramButton)
 	}
+	{
+		layoutButton := &tree.Button{
+			Name:            "Layout",
+			Icon:            string(buttons.BUTTON_format_align_justify),
+			HasToolTip:      true,
+			ToolTipPosition: tree.Above,
+			ToolTipText:     "Layout Diagram",
+			OnClick: func() {
+				layoutDiagram(diagram, stager)
+				stager.stage.Commit()
+			},
+		}
+		if diagramNode.Menu == nil {
+			diagramNode.Menu = &tree.Menu{Name: "Menu"}
+		}
+		diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, layoutButton)
+	}
 
 	pbsNode := &tree.Node{
 		Name:            "PBS",
