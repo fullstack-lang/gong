@@ -44,7 +44,13 @@ func (stager *Stager) treeProduct(diagram *Diagram, product *Product, parentNode
 
 	if isPresent {
 		toggleLayoutButton := &tree.Button{
-			Name:            "Toggle Layout Direction",
+			Name: "Toggle Layout Direction to " + func() string {
+				if productShape.LayoutDirection == Vertical {
+					return "Horizontal"
+				} else {
+					return "Vertical"
+				}
+			}(),
 			HasToolTip:      true,
 			ToolTipPosition: tree.Above,
 			OnClick: func() {
