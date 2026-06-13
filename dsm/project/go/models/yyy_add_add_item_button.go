@@ -325,6 +325,12 @@ func addCreateItemShapeAndLinkButton[
 
 				newShape.SetX(parentShape.GetX() + float64(len(*conf.sliceForNewAddedItem)-1)*parentShape.GetWidth()*1.2)
 				newShape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
+
+				if len(*conf.sliceForNewCompositionShapes) > 0 {
+					newCompositionShape := (*conf.sliceForNewCompositionShapes)[len(*conf.sliceForNewCompositionShapes)-1]
+					ratio := (newShape.GetY() - parentShape.GetY()) / parentShape.GetHeight()
+					newCompositionShape.SetCornerOffsetRatio((ratio - 1.0)/2.0 + 1.0)
+				}
 			}
 		}
 
