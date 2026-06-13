@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
@@ -37,6 +38,37 @@ func (stager *Stager) treeProduct(diagram *Diagram, product *Product, parentNode
 	if product.IsImport && product.ReferencedProduct != nil {
 		productNode.Name = "🔗 " + product.ReferencedProduct.Name
 		productNode.CheckboxToolTipText = "Add imported product to diagram"
+	}
+
+	productShape, isPresent := diagram.map_Product_ProductShape[product]
+
+	if isPresent {
+		toggleLayoutButton := &tree.Button{
+			Name:            "Toggle Layout Direction",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Above,
+			OnClick: func() {
+				if productShape.LayoutDirection == Vertical {
+					productShape.LayoutDirection = Horizontal
+				} else {
+					productShape.LayoutDirection = Vertical
+				}
+				stager.stage.Commit()
+			},
+		}
+
+		if productShape.LayoutDirection == Vertical {
+			toggleLayoutButton.Icon = string(buttons.BUTTON_swap_horiz)
+			toggleLayoutButton.ToolTipText = "Set layout to Horizontal"
+		} else {
+			toggleLayoutButton.Icon = string(buttons.BUTTON_swap_vert)
+			toggleLayoutButton.ToolTipText = "Set layout to Vertical"
+		}
+
+		if productNode.Menu == nil {
+			productNode.Menu = &tree.Menu{Name: "Menu"}
+		}
+		productNode.Menu.Buttons = append(productNode.Menu.Buttons, toggleLayoutButton)
 	}
 
 	conf := ItemShapeAndLinkButtonConfiguration[

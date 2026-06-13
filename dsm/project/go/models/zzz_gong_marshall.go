@@ -722,6 +722,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(productshape.GongMarshallField(stage, "Product"))
+		initializerStatements.WriteString(productshape.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Width"))
@@ -2545,6 +2546,19 @@ func (productshape *ProductShape) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(productshape.Name))
+	case "LayoutDirection":
+		if productshape.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+productshape.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
@@ -3652,6 +3666,7 @@ func (productshape *ProductShape) GongMarshallAllFields(stage *Stage) (initRes s
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(productshape.GongMarshallField(stage, "Product"))
+		initializerStatements.WriteString(productshape.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Width"))

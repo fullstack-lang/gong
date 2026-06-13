@@ -4477,6 +4477,9 @@ func (productshape *ProductShape) GongDiff(stage *Stage, productshapeOther *Prod
 			diffs = append(diffs, productshape.GongMarshallField(stage, "Product"))
 		}
 	}
+	if productshape.LayoutDirection != productshapeOther.LayoutDirection {
+		diffs = append(diffs, productshape.GongMarshallField(stage, "LayoutDirection"))
+	}
 	if productshape.X != productshapeOther.X {
 		diffs = append(diffs, productshape.GongMarshallField(stage, "X"))
 	}
