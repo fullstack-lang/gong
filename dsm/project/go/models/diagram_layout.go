@@ -87,30 +87,83 @@ func layoutProductShapes(diagram *Diagram, rootLibrary *Library, nextX *float64,
 	})
 
 	for _, root := range rootNodes {
-		layoutProductDFS(root, nextX, startY, margin)
+		maxX, _ := layoutProductDFS(root, *nextX, startY, margin)
+		*nextX = maxX
 	}
 	
+	// Find the parent of each product based on SubProducts
+	parentByProduct := make(map[*Product]*productNode)
+	for _, node := range nodesByProduct {
+		for _, subProduct := range node.shape.Product.SubProducts {
+			parentByProduct[subProduct] = node
+		}
+	}
+
 	for _, link := range diagram.ProductComposition_Shapes {
 		link.SetCornerOffsetRatio(1.5)
+		if link.Product != nil {
+			if parentNode, ok := parentByProduct[link.Product]; ok {
+				if parentNode.shape.LayoutDirection == Horizontal {
+					link.StartOrientation = ORIENTATION_VERTICAL
+					link.EndOrientation = ORIENTATION_HORIZONTAL
+				} else {
+					link.StartOrientation = ORIENTATION_VERTICAL
+					link.EndOrientation = ORIENTATION_VERTICAL
+				}
+			}
+		}
 	}
 }
 
-func layoutProductDFS(node *productNode, nextX *float64, currentY float64, margin float64) {
+func layoutProductDFS(node *productNode, currentX float64, currentY float64, margin float64) (float64, float64) {
+	node.shape.SetX(currentX)
 	node.shape.SetY(currentY)
+
 	w := node.shape.GetWidth()
 	h := node.shape.GetHeight()
 
 	if len(node.children) == 0 {
-		node.shape.SetX(*nextX)
-		*nextX += w + margin
-		return
+		return currentX + w + margin, currentY + h + margin
 	}
 
-	for _, child := range node.children {
-		layoutProductDFS(child, nextX, currentY+h*2.0, margin)
+	var maxX float64 = currentX + w + margin
+	var maxY float64 = currentY + h + margin
+
+	if node.shape.LayoutDirection == Vertical {
+		// Children are arranged horizontally.
+		childX := currentX
+		for _, child := range node.children {
+			childMaxX, childMaxY := layoutProductDFS(child, childX, currentY+h*2.0, margin)
+			childX = childMaxX
+			
+			if childMaxX > maxX {
+				maxX = childMaxX
+			}
+			if childMaxY > maxY {
+				maxY = childMaxY
+			}
+		}
+		node.shape.SetX(node.children[0].shape.GetX())
+		maxX = childX
+	} else {
+		// Children are arranged vertically (indented tree)
+		childY := currentY + h + margin
+		for _, child := range node.children {
+			childMaxX, childMaxY := layoutProductDFS(child, currentX+w/2.0+margin, childY, margin)
+			childY = childMaxY
+
+			if childMaxX > maxX {
+				maxX = childMaxX
+			}
+			if childMaxY > maxY {
+				maxY = childMaxY
+			}
+		}
+		// Do not align parent vertically with its children. Parent stays at (currentX, currentY).
+		maxY = childY
 	}
-	
-	node.shape.SetX(node.children[0].shape.GetX())
+
+	return maxX, maxY
 }
 
 // Task layout

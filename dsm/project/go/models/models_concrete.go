@@ -7,8 +7,18 @@ type ProductShape struct {
 
 	isExpanded bool
 
+	//
+	LayoutDirection LayoutDirection
+
 	RectShape
 }
+
+type LayoutDirection int
+
+const (
+	Vertical LayoutDirection = iota
+	Horizontal
+)
 
 func (s *ProductShape) GetAbstractElement() AbstractType {
 	if s.Product == nil {

@@ -420,6 +420,8 @@ type ProductShape_WOP struct {
 
 	Name string
 
+	LayoutDirection LayoutDirection
+
 	X float64
 
 	Y float64
@@ -434,6 +436,7 @@ type ProductShape_WOP struct {
 func (from *ProductShape) CopyBasicFields(to *ProductShape) {
 	// insertion point
 	to.Name = from.Name
+	to.LayoutDirection = from.LayoutDirection
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width
