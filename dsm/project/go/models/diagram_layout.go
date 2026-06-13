@@ -7,21 +7,29 @@ import (
 // layoutDiagram performs a hierarchical vertical layout of all visible nodes in the diagram.
 // The parent node aligns horizontally with its FIRST child.
 func layoutDiagram(diagram *Diagram, stager *Stager) {
-	var margin float64 = 50
+	marginX := diagram.DefaultBoxWidth * 0.2
+	marginY := diagram.DefaultBoxHeigth * 0.5
 
-	var startX float64 = 50
-	startY := 50.0
+	if marginX == 0 {
+		marginX = 50
+	}
+	if marginY == 0 {
+		marginY = 50
+	}
+
+	var startX float64 = marginX
+	startY := marginY
 
 	rootLibrary := stager.GetRootLibrary()
 
 	if len(diagram.Product_Shapes) > 0 {
-		layoutProductShapes(diagram, rootLibrary, &startX, startY, margin)
+		layoutProductShapes(diagram, rootLibrary, &startX, startY, marginX, marginY)
 	}
 	if len(diagram.Task_Shapes) > 0 {
-		layoutTaskShapes(diagram, rootLibrary, &startX, startY, margin)
+		layoutTaskShapes(diagram, rootLibrary, &startX, startY, marginX, marginY)
 	}
 	if len(diagram.Resource_Shapes) > 0 {
-		layoutResourceShapes(diagram, rootLibrary, &startX, startY, margin)
+		layoutResourceShapes(diagram, rootLibrary, &startX, startY, marginX, marginY)
 	}
 }
 
@@ -31,7 +39,7 @@ type productNode struct {
 	children []*productNode
 }
 
-func layoutProductShapes(diagram *Diagram, rootLibrary *Library, nextX *float64, startY float64, margin float64) {
+func layoutProductShapes(diagram *Diagram, rootLibrary *Library, nextX *float64, startY float64, marginX float64, marginY float64) {
 	nodesByProduct := make(map[*Product]*productNode)
 	var rootNodes []*productNode
 
@@ -87,7 +95,7 @@ func layoutProductShapes(diagram *Diagram, rootLibrary *Library, nextX *float64,
 	})
 
 	for _, root := range rootNodes {
-		maxX, _ := layoutProductDFS(root, *nextX, startY, margin)
+		maxX, _ := layoutProductDFS(root, *nextX, startY, marginX, marginY)
 		*nextX = maxX
 	}
 	
@@ -115,7 +123,7 @@ func layoutProductShapes(diagram *Diagram, rootLibrary *Library, nextX *float64,
 	}
 }
 
-func layoutProductDFS(node *productNode, currentX float64, currentY float64, margin float64) (float64, float64) {
+func layoutProductDFS(node *productNode, currentX float64, currentY float64, marginX float64, marginY float64) (float64, float64) {
 	node.shape.SetX(currentX)
 	node.shape.SetY(currentY)
 
@@ -123,17 +131,17 @@ func layoutProductDFS(node *productNode, currentX float64, currentY float64, mar
 	h := node.shape.GetHeight()
 
 	if len(node.children) == 0 {
-		return currentX + w + margin, currentY + h + margin
+		return currentX + w + marginX, currentY + h + marginY
 	}
 
-	var maxX float64 = currentX + w + margin
-	var maxY float64 = currentY + h + margin
+	var maxX float64 = currentX + w + marginX
+	var maxY float64 = currentY + h + marginY
 
 	if node.shape.LayoutDirection == Vertical {
 		// Children are arranged horizontally.
 		childX := currentX
 		for _, child := range node.children {
-			childMaxX, childMaxY := layoutProductDFS(child, childX, currentY+h*2.0, margin)
+			childMaxX, childMaxY := layoutProductDFS(child, childX, currentY+h+marginY, marginX, marginY)
 			childX = childMaxX
 			
 			if childMaxX > maxX {
@@ -147,9 +155,9 @@ func layoutProductDFS(node *productNode, currentX float64, currentY float64, mar
 		maxX = childX
 	} else {
 		// Children are arranged vertically (indented tree)
-		childY := currentY + h + margin
+		childY := currentY + h + marginY
 		for _, child := range node.children {
-			childMaxX, childMaxY := layoutProductDFS(child, currentX+w/2.0+margin, childY, margin)
+			childMaxX, childMaxY := layoutProductDFS(child, currentX+w/2.0+marginX, childY, marginX, marginY)
 			childY = childMaxY
 
 			if childMaxX > maxX {
@@ -172,7 +180,7 @@ type taskNode struct {
 	children []*taskNode
 }
 
-func layoutTaskShapes(diagram *Diagram, rootLibrary *Library, nextX *float64, startY float64, margin float64) {
+func layoutTaskShapes(diagram *Diagram, rootLibrary *Library, nextX *float64, startY float64, marginX float64, marginY float64) {
 	nodesByTask := make(map[*Task]*taskNode)
 	var rootNodes []*taskNode
 
@@ -228,7 +236,7 @@ func layoutTaskShapes(diagram *Diagram, rootLibrary *Library, nextX *float64, st
 	})
 
 	for _, root := range rootNodes {
-		layoutTaskDFS(root, nextX, startY, margin)
+		layoutTaskDFS(root, nextX, startY, marginX, marginY)
 	}
 	
 	for _, link := range diagram.TaskComposition_Shapes {
@@ -236,19 +244,19 @@ func layoutTaskShapes(diagram *Diagram, rootLibrary *Library, nextX *float64, st
 	}
 }
 
-func layoutTaskDFS(node *taskNode, nextX *float64, currentY float64, margin float64) {
+func layoutTaskDFS(node *taskNode, nextX *float64, currentY float64, marginX float64, marginY float64) {
 	node.shape.SetY(currentY)
 	w := node.shape.GetWidth()
 	h := node.shape.GetHeight()
 
 	if len(node.children) == 0 {
 		node.shape.SetX(*nextX)
-		*nextX += w + margin
+		*nextX += w + marginX
 		return
 	}
 
 	for _, child := range node.children {
-		layoutTaskDFS(child, nextX, currentY+h*2.0, margin)
+		layoutTaskDFS(child, nextX, currentY+h+marginY, marginX, marginY)
 	}
 
 	node.shape.SetX(node.children[0].shape.GetX())
@@ -260,7 +268,7 @@ type resourceNode struct {
 	children []*resourceNode
 }
 
-func layoutResourceShapes(diagram *Diagram, rootLibrary *Library, nextX *float64, startY float64, margin float64) {
+func layoutResourceShapes(diagram *Diagram, rootLibrary *Library, nextX *float64, startY float64, marginX float64, marginY float64) {
 	nodesByResource := make(map[*Resource]*resourceNode)
 	var rootNodes []*resourceNode
 
@@ -316,7 +324,7 @@ func layoutResourceShapes(diagram *Diagram, rootLibrary *Library, nextX *float64
 	})
 
 	for _, root := range rootNodes {
-		layoutResourceDFS(root, nextX, startY, margin)
+		layoutResourceDFS(root, nextX, startY, marginX, marginY)
 	}
 	
 	for _, link := range diagram.ResourceComposition_Shapes {
@@ -324,19 +332,19 @@ func layoutResourceShapes(diagram *Diagram, rootLibrary *Library, nextX *float64
 	}
 }
 
-func layoutResourceDFS(node *resourceNode, nextX *float64, currentY float64, margin float64) {
+func layoutResourceDFS(node *resourceNode, nextX *float64, currentY float64, marginX float64, marginY float64) {
 	node.shape.SetY(currentY)
 	w := node.shape.GetWidth()
 	h := node.shape.GetHeight()
 
 	if len(node.children) == 0 {
 		node.shape.SetX(*nextX)
-		*nextX += w + margin
+		*nextX += w + marginX
 		return
 	}
 
 	for _, child := range node.children {
-		layoutResourceDFS(child, nextX, currentY+h*2.0, margin)
+		layoutResourceDFS(child, nextX, currentY+h+marginY, marginX, marginY)
 	}
 
 	node.shape.SetX(node.children[0].shape.GetX())
