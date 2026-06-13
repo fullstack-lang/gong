@@ -12,14 +12,16 @@ func layoutDiagram(diagram *Diagram, stager *Stager) {
 	var startX float64 = 50
 	startY := 50.0
 
+	rootLibrary := stager.GetRootLibrary()
+
 	if len(diagram.Product_Shapes) > 0 {
-		layoutProductShapes(diagram, &startX, startY, margin)
+		layoutProductShapes(diagram, rootLibrary, &startX, startY, margin)
 	}
 	if len(diagram.Task_Shapes) > 0 {
-		layoutTaskShapes(diagram, &startX, startY, margin)
+		layoutTaskShapes(diagram, rootLibrary, &startX, startY, margin)
 	}
 	if len(diagram.Resource_Shapes) > 0 {
-		layoutResourceShapes(diagram, &startX, startY, margin)
+		layoutResourceShapes(diagram, rootLibrary, &startX, startY, margin)
 	}
 }
 
@@ -29,7 +31,7 @@ type productNode struct {
 	children []*productNode
 }
 
-func layoutProductShapes(diagram *Diagram, nextX *float64, startY float64, margin float64) {
+func layoutProductShapes(diagram *Diagram, rootLibrary *Library, nextX *float64, startY float64, margin float64) {
 	nodesByProduct := make(map[*Product]*productNode)
 	var rootNodes []*productNode
 
@@ -43,8 +45,7 @@ func layoutProductShapes(diagram *Diagram, nextX *float64, startY float64, margi
 		isRoot := true
 
 		if product.parentProduct != nil {
-			if parentNode, exists := nodesByProduct[product.parentProduct]; exists {
-				parentNode.children = append(parentNode.children, node)
+			if _, exists := nodesByProduct[product.parentProduct]; exists {
 				isRoot = false
 			}
 		}
@@ -54,29 +55,43 @@ func layoutProductShapes(diagram *Diagram, nextX *float64, startY float64, margi
 		}
 	}
 
+	// Populate children respecting SubProducts order
+	for _, node := range nodesByProduct {
+		for _, subProduct := range node.shape.Product.SubProducts {
+			if childNode, exists := nodesByProduct[subProduct]; exists {
+				node.children = append(node.children, childNode)
+			}
+		}
+	}
+
+	rootProductIndex := make(map[*Product]int)
+	if rootLibrary != nil {
+		for i, sub := range rootLibrary.RootProducts {
+			rootProductIndex[sub] = i
+		}
+	}
+
 	sort.Slice(rootNodes, func(i, j int) bool {
+		idxI, okI := rootProductIndex[rootNodes[i].shape.Product]
+		idxJ, okJ := rootProductIndex[rootNodes[j].shape.Product]
+		if okI && okJ {
+			return idxI < idxJ
+		}
+		if okI {
+			return true
+		}
+		if okJ {
+			return false
+		}
 		return rootNodes[i].shape.Product.Name < rootNodes[j].shape.Product.Name
 	})
-	for _, root := range rootNodes {
-		sortProductChildren(root)
-	}
 
 	for _, root := range rootNodes {
 		layoutProductDFS(root, nextX, startY, margin)
 	}
 	
-	// Update composition link corner ratio to 1.5 to enforce orthogonal routing perfectly matching parent-child alignment
 	for _, link := range diagram.ProductComposition_Shapes {
 		link.SetCornerOffsetRatio(1.5)
-	}
-}
-
-func sortProductChildren(node *productNode) {
-	sort.Slice(node.children, func(i, j int) bool {
-		return node.children[i].shape.Product.Name < node.children[j].shape.Product.Name
-	})
-	for _, child := range node.children {
-		sortProductChildren(child)
 	}
 }
 
@@ -104,7 +119,7 @@ type taskNode struct {
 	children []*taskNode
 }
 
-func layoutTaskShapes(diagram *Diagram, nextX *float64, startY float64, margin float64) {
+func layoutTaskShapes(diagram *Diagram, rootLibrary *Library, nextX *float64, startY float64, margin float64) {
 	nodesByTask := make(map[*Task]*taskNode)
 	var rootNodes []*taskNode
 
@@ -118,8 +133,7 @@ func layoutTaskShapes(diagram *Diagram, nextX *float64, startY float64, margin f
 		isRoot := true
 
 		if task.parentTask != nil {
-			if parentNode, exists := nodesByTask[task.parentTask]; exists {
-				parentNode.children = append(parentNode.children, node)
+			if _, exists := nodesByTask[task.parentTask]; exists {
 				isRoot = false
 			}
 		}
@@ -129,12 +143,36 @@ func layoutTaskShapes(diagram *Diagram, nextX *float64, startY float64, margin f
 		}
 	}
 
+	// Populate children respecting SubTasks order
+	for _, node := range nodesByTask {
+		for _, subTask := range node.shape.Task.SubTasks {
+			if childNode, exists := nodesByTask[subTask]; exists {
+				node.children = append(node.children, childNode)
+			}
+		}
+	}
+
+	rootTaskIndex := make(map[*Task]int)
+	if rootLibrary != nil {
+		for i, sub := range rootLibrary.RootTasks {
+			rootTaskIndex[sub] = i
+		}
+	}
+
 	sort.Slice(rootNodes, func(i, j int) bool {
+		idxI, okI := rootTaskIndex[rootNodes[i].shape.Task]
+		idxJ, okJ := rootTaskIndex[rootNodes[j].shape.Task]
+		if okI && okJ {
+			return idxI < idxJ
+		}
+		if okI {
+			return true
+		}
+		if okJ {
+			return false
+		}
 		return rootNodes[i].shape.Task.Name < rootNodes[j].shape.Task.Name
 	})
-	for _, root := range rootNodes {
-		sortTaskChildren(root)
-	}
 
 	for _, root := range rootNodes {
 		layoutTaskDFS(root, nextX, startY, margin)
@@ -142,15 +180,6 @@ func layoutTaskShapes(diagram *Diagram, nextX *float64, startY float64, margin f
 	
 	for _, link := range diagram.TaskComposition_Shapes {
 		link.SetCornerOffsetRatio(1.5)
-	}
-}
-
-func sortTaskChildren(node *taskNode) {
-	sort.Slice(node.children, func(i, j int) bool {
-		return node.children[i].shape.Task.Name < node.children[j].shape.Task.Name
-	})
-	for _, child := range node.children {
-		sortTaskChildren(child)
 	}
 }
 
@@ -178,7 +207,7 @@ type resourceNode struct {
 	children []*resourceNode
 }
 
-func layoutResourceShapes(diagram *Diagram, nextX *float64, startY float64, margin float64) {
+func layoutResourceShapes(diagram *Diagram, rootLibrary *Library, nextX *float64, startY float64, margin float64) {
 	nodesByResource := make(map[*Resource]*resourceNode)
 	var rootNodes []*resourceNode
 
@@ -192,8 +221,7 @@ func layoutResourceShapes(diagram *Diagram, nextX *float64, startY float64, marg
 		isRoot := true
 
 		if resource.parentResource != nil {
-			if parentNode, exists := nodesByResource[resource.parentResource]; exists {
-				parentNode.children = append(parentNode.children, node)
+			if _, exists := nodesByResource[resource.parentResource]; exists {
 				isRoot = false
 			}
 		}
@@ -203,12 +231,36 @@ func layoutResourceShapes(diagram *Diagram, nextX *float64, startY float64, marg
 		}
 	}
 
+	// Populate children respecting SubResources order
+	for _, node := range nodesByResource {
+		for _, subResource := range node.shape.Resource.SubResources {
+			if childNode, exists := nodesByResource[subResource]; exists {
+				node.children = append(node.children, childNode)
+			}
+		}
+	}
+
+	rootResourceIndex := make(map[*Resource]int)
+	if rootLibrary != nil {
+		for i, sub := range rootLibrary.RootResources {
+			rootResourceIndex[sub] = i
+		}
+	}
+
 	sort.Slice(rootNodes, func(i, j int) bool {
+		idxI, okI := rootResourceIndex[rootNodes[i].shape.Resource]
+		idxJ, okJ := rootResourceIndex[rootNodes[j].shape.Resource]
+		if okI && okJ {
+			return idxI < idxJ
+		}
+		if okI {
+			return true
+		}
+		if okJ {
+			return false
+		}
 		return rootNodes[i].shape.Resource.Name < rootNodes[j].shape.Resource.Name
 	})
-	for _, root := range rootNodes {
-		sortResourceChildren(root)
-	}
 
 	for _, root := range rootNodes {
 		layoutResourceDFS(root, nextX, startY, margin)
@@ -216,15 +268,6 @@ func layoutResourceShapes(diagram *Diagram, nextX *float64, startY float64, marg
 	
 	for _, link := range diagram.ResourceComposition_Shapes {
 		link.SetCornerOffsetRatio(1.5)
-	}
-}
-
-func sortResourceChildren(node *resourceNode) {
-	sort.Slice(node.children, func(i, j int) bool {
-		return node.children[i].shape.Resource.Name < node.children[j].shape.Resource.Name
-	})
-	for _, child := range node.children {
-		sortResourceChildren(child)
 	}
 }
 
