@@ -3098,6 +3098,8 @@ func (productshapeFormCallback *ProductShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(productshape_.Name), formDiv)
 		case "Product":
 			FormDivSelectFieldToField(&(productshape_.Product), productshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(productshape_.LayoutDirection), formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(productshape_.X), formDiv)
 		case "Y":

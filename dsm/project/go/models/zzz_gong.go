@@ -7343,6 +7343,11 @@ func (productshape *ProductShape) GongGetFieldHeaders() (res []GongFieldHeader) 
 			TargetGongstructName: "Product",
 		},
 		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
 			Name:               "X",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -8800,6 +8805,9 @@ func (productshape *ProductShape) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = productshape.Product.Name
 			res.ids = productshape.Product.GongGetUUID(stage)
 		}
+	case "LayoutDirection":
+		enum := productshape.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "X":
 		res.valueString = fmt.Sprintf("%f", productshape.X)
 		res.valueFloat = productshape.X
@@ -10219,6 +10227,8 @@ func (productshape *ProductShape) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
+	case "LayoutDirection":
+		productshape.LayoutDirection.FromCodeString(value.GetValueString())
 	case "X":
 		productshape.X = value.GetValueFloat()
 	case "Y":

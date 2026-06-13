@@ -1097,6 +1097,8 @@ func (u *ProductShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.Name = GongExtractString(valueExpr)
 	case "Product":
 		GongUnmarshallPointer(&instance.Product, valueExpr, identifierMap)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
