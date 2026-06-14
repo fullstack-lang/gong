@@ -117,7 +117,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 180.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 50.000000
-	__Diagram__00000000_.Width = 1390.000000
+	__Diagram__00000000_.Width = 1530.000000
 	__Diagram__00000000_.Height = 760.000000
 	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsWBSNodeExpanded = false
@@ -498,7 +498,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000079_.Name = `P1.2.2.1.1-Default Diagram`
 	__ProductShape__00000079_.OverideLayoutDirection = false
 	__ProductShape__00000079_.LayoutDirection = models.Vertical
-	__ProductShape__00000079_.X = 650.000000
+	__ProductShape__00000079_.X = 790.000000
 	__ProductShape__00000079_.Y = 415.000000
 	__ProductShape__00000079_.Width = 180.000000
 	__ProductShape__00000079_.Height = 50.000000
@@ -507,7 +507,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000080_.Name = `B-Default Diagram`
 	__ProductShape__00000080_.OverideLayoutDirection = false
 	__ProductShape__00000080_.LayoutDirection = models.Vertical
-	__ProductShape__00000080_.X = 880.000000
+	__ProductShape__00000080_.X = 1020.000000
 	__ProductShape__00000080_.Y = 415.000000
 	__ProductShape__00000080_.Width = 180.000000
 	__ProductShape__00000080_.Height = 50.000000
@@ -543,7 +543,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000084_.Name = `P1.3-Default Diagram`
 	__ProductShape__00000084_.OverideLayoutDirection = false
 	__ProductShape__00000084_.LayoutDirection = models.Vertical
-	__ProductShape__00000084_.X = 1110.000000
+	__ProductShape__00000084_.X = 1250.000000
 	__ProductShape__00000084_.Y = 150.000000
 	__ProductShape__00000084_.Width = 180.000000
 	__ProductShape__00000084_.Height = 50.000000
@@ -552,7 +552,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000085_.Name = `P1.3.1-Default Diagram`
 	__ProductShape__00000085_.OverideLayoutDirection = false
 	__ProductShape__00000085_.LayoutDirection = models.Vertical
-	__ProductShape__00000085_.X = 1110.000000
+	__ProductShape__00000085_.X = 1250.000000
 	__ProductShape__00000085_.Y = 250.000000
 	__ProductShape__00000085_.Width = 180.000000
 	__ProductShape__00000085_.Height = 50.000000

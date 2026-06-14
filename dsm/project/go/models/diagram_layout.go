@@ -29,6 +29,7 @@ func layoutDiagram(diagram *Diagram, stager *Stager) {
 type productNode struct {
 	shape    *ProductShape
 	children []*productNode
+	parent   *productNode
 }
 
 func layoutProductShapes(diagram *Diagram, rootLibrary *Library, nextX *float64, startY float64, margin float64) {
@@ -60,6 +61,7 @@ func layoutProductShapes(diagram *Diagram, rootLibrary *Library, nextX *float64,
 		for _, subProduct := range node.shape.Product.SubProducts {
 			if childNode, exists := nodesByProduct[subProduct]; exists {
 				node.children = append(node.children, childNode)
+				childNode.parent = node
 			}
 		}
 	}
@@ -141,6 +143,22 @@ func layoutProductDFS(node *productNode, currentX float64, currentY float64, mar
 	if layoutDirection == Vertical {
 		// Children are arranged horizontally.
 		childX := currentX
+		
+		isParentHorizontal := false
+		if node.parent != nil {
+			parentLayout := node.parent.shape.Product.LayoutDirection
+			if node.parent.shape.OverideLayoutDirection {
+				parentLayout = node.parent.shape.LayoutDirection
+			}
+			if parentLayout == Horizontal {
+				isParentHorizontal = true
+			}
+		}
+
+		if isParentHorizontal {
+			childX = currentX + w/2.0 + margin
+		}
+
 		for _, child := range node.children {
 			childMaxX, childMaxY := layoutProductDFS(child, childX, currentY+h*2.0, margin)
 			childX = childMaxX
@@ -152,7 +170,9 @@ func layoutProductDFS(node *productNode, currentX float64, currentY float64, mar
 				maxY = childMaxY
 			}
 		}
-		node.shape.SetX(node.children[0].shape.GetX())
+		if !isParentHorizontal {
+			node.shape.SetX(node.children[0].shape.GetX())
+		}
 		maxX = childX
 	} else {
 		// Children are arranged vertically (indented tree)
