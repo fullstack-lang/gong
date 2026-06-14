@@ -69,6 +69,10 @@ type TreeDB struct {
 	// Declation for basic field treeDB.Name
 	Name_Data sql.NullString
 
+	// Declation for basic field treeDB.HaveSearch
+	// provide the sql storage for the boolan
+	HaveSearch_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	TreePointersEncoding
@@ -92,6 +96,8 @@ type TreeWOP struct {
 	// insertion for WOP basic fields
 
 	Name string `xlsx:"1"`
+
+	HaveSearch bool `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -99,6 +105,7 @@ var Tree_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"HaveSearch",
 }
 
 type BackRepoTreeStruct struct {
@@ -403,6 +410,9 @@ func (treeDB *TreeDB) CopyBasicFieldsFromTree(tree *models.Tree) {
 
 	treeDB.Name_Data.String = tree.Name
 	treeDB.Name_Data.Valid = true
+
+	treeDB.HaveSearch_Data.Bool = tree.HaveSearch
+	treeDB.HaveSearch_Data.Valid = true
 }
 
 // CopyBasicFieldsFromTree_WOP
@@ -411,6 +421,9 @@ func (treeDB *TreeDB) CopyBasicFieldsFromTree_WOP(tree *models.Tree_WOP) {
 
 	treeDB.Name_Data.String = tree.Name
 	treeDB.Name_Data.Valid = true
+
+	treeDB.HaveSearch_Data.Bool = tree.HaveSearch
+	treeDB.HaveSearch_Data.Valid = true
 }
 
 // CopyBasicFieldsFromTreeWOP
@@ -419,18 +432,23 @@ func (treeDB *TreeDB) CopyBasicFieldsFromTreeWOP(tree *TreeWOP) {
 
 	treeDB.Name_Data.String = tree.Name
 	treeDB.Name_Data.Valid = true
+
+	treeDB.HaveSearch_Data.Bool = tree.HaveSearch
+	treeDB.HaveSearch_Data.Valid = true
 }
 
 // CopyBasicFieldsToTree
 func (treeDB *TreeDB) CopyBasicFieldsToTree(tree *models.Tree) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	tree.Name = treeDB.Name_Data.String
+	tree.HaveSearch = treeDB.HaveSearch_Data.Bool
 }
 
 // CopyBasicFieldsToTree_WOP
 func (treeDB *TreeDB) CopyBasicFieldsToTree_WOP(tree *models.Tree_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	tree.Name = treeDB.Name_Data.String
+	tree.HaveSearch = treeDB.HaveSearch_Data.Bool
 }
 
 // CopyBasicFieldsToTreeWOP
@@ -438,6 +456,7 @@ func (treeDB *TreeDB) CopyBasicFieldsToTreeWOP(tree *TreeWOP) {
 	tree.ID = int(treeDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	tree.Name = treeDB.Name_Data.String
+	tree.HaveSearch = treeDB.HaveSearch_Data.Bool
 }
 
 // Backup generates a json file from a slice of all TreeDB instances in the backrepo

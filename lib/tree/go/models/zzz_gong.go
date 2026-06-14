@@ -2254,6 +2254,10 @@ func (tree *Tree) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Node",
 		},
+		{
+			Name:               "HaveSearch",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -2511,6 +2515,10 @@ func (tree *Tree) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "HaveSearch":
+		res.valueString = fmt.Sprintf("%t", tree.HaveSearch)
+		res.valueBool = tree.HaveSearch
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -2721,6 +2729,8 @@ func (tree *Tree) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
+	case "HaveSearch":
+		tree.HaveSearch = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

@@ -12,6 +12,7 @@ export class TreeAPI {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	HaveSearch: boolean = false
 
 	// insertion point for other decls
 

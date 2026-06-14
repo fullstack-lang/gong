@@ -76,6 +76,10 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
 
   @Input() Name: string = ""
 
+  searchString: string = '';
+  originalRootNodes: Node[] = [];
+  treeSingloton?: tree.Tree;
+
   // Reference to the input element for node editing
   @ViewChild('nodeNameInput') nodeNameInput?: ElementRef;
 
@@ -129,6 +133,7 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
         for (let instance of this.gongtreeFrontRepo.getFrontArray<tree.Tree>(tree.Tree.GONGSTRUCT_NAME)) {
           treeSingloton = instance
         }
+        this.treeSingloton = treeSingloton
 
 
         if (treeSingloton.RootNodes == undefined) {
@@ -149,7 +154,13 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
           }
         }
 
+        this.originalRootNodes = rootNodes
         this.dataSource.data = rootNodes
+
+        // if search string is not empty, filter the tree
+        if (this.searchString) {
+          this.onSearchChange()
+        }
 
         // expand nodes that were expanded before
         this.treeControl.dataNodes?.forEach(
@@ -196,6 +207,52 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
     visited.delete(nodeDB);
 
     return matTreeNode;
+  }
+
+  filterNodes(nodes: Node[], searchString: string): Node[] {
+    if (!searchString) return nodes;
+
+    const lowerSearch = searchString.toLowerCase();
+
+    return nodes.map(node => {
+      // Create a copy of the node
+      const nodeCopy = { ...node, children: [] as Node[] };
+
+      // Filter children recursively
+      if (node.children) {
+        nodeCopy.children = this.filterNodes(node.children, searchString);
+      }
+
+      // Keep this node if it matches the search OR if any of its children matched
+      const matchesSearch = nodeCopy.name.toLowerCase().includes(lowerSearch);
+      const hasMatchingChildren = nodeCopy.children && nodeCopy.children.length > 0;
+
+      if (matchesSearch || hasMatchingChildren) {
+        return nodeCopy;
+      }
+
+      return null;
+    }).filter(node => node !== null) as Node[];
+  }
+
+  onSearchChange() {
+    if (this.searchString) {
+      this.dataSource.data = this.filterNodes(this.originalRootNodes, this.searchString);
+      this.treeControl.expandAll();
+    } else {
+      this.dataSource.data = this.originalRootNodes;
+
+      // Expand nodes based on their original state
+      this.treeControl.dataNodes?.forEach(
+        node => {
+          if (node.gongNode.IsExpanded) {
+            this.treeControl.expand(node)
+          } else {
+            this.treeControl.collapse(node)
+          }
+        }
+      )
+    }
   }
 
   toggleNodeExpansion(node: FlatNode): void {
@@ -254,7 +311,42 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
     )
   }
 
+  expandPathToNode(nodes: Node[], targetNode: tree.Node, nodesToUpdate: Set<tree.Node>): boolean {
+    for (const node of nodes) {
+      if (node.gongNode === targetNode) {
+        if (!node.gongNode.IsExpanded) {
+          node.gongNode.IsExpanded = true;
+          nodesToUpdate.add(node.gongNode);
+        }
+        return true;
+      }
+      if (node.children && this.expandPathToNode(node.children, targetNode, nodesToUpdate)) {
+        if (!node.gongNode.IsExpanded) {
+          node.gongNode.IsExpanded = true;
+          nodesToUpdate.add(node.gongNode);
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+
   onNodeClick(node: FlatNode): void {
+    if (this.searchString) {
+      let nodesToUpdate = new Set<tree.Node>();
+      this.expandPathToNode(this.originalRootNodes, node.gongNode, nodesToUpdate);
+      this.searchString = '';
+      this.onSearchChange();
+
+      // for (let gongNode of nodesToUpdate) {
+      //   this.gongtreeNodeService.updateFront(gongNode, this.Name).subscribe(
+      //     () => {
+      //       // console.log("updated", gongNode.Name)
+      //     }
+      //   )
+      // }
+    }
+
     if (node.gongNode.IsNodeClickable) {
       this.gongtreeNodeService.updateFront(node.gongNode, this.Name).subscribe(
         gongtreeNode => {

@@ -866,6 +866,9 @@ func (tree *Tree) GongDiff(stage *Stage, treeOther *Tree) (diffs []string) {
 		ops := Diff(stage, tree, treeOther, "RootNodes", treeOther.RootNodes, tree.RootNodes)
 		diffs = append(diffs, ops)
 	}
+	if tree.HaveSearch != treeOther.HaveSearch {
+		diffs = append(diffs, tree.GongMarshallField(stage, "HaveSearch"))
+	}
 
 	return
 }
