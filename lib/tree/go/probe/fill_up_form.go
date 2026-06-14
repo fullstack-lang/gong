@@ -169,6 +169,8 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("RootNodes", instanceWithInferedType, &instanceWithInferedType.RootNodes, formGroup, probe)
+		BasicFieldtoForm("HaveSearch", instanceWithInferedType.HaveSearch, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

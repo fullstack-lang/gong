@@ -754,6 +754,8 @@ func (treeFormCallback *TreeFormCallback) OnSave() {
 			tree_.RootNodes = instanceSlice
 			treeFormCallback.probe.UpdateSliceOfPointersCallback(tree_, "RootNodes", &tree_.RootNodes)
 
+		case "HaveSearch":
+			FormDivBasicFieldToField(&(tree_.HaveSearch), formDiv)
 		}
 	}
 

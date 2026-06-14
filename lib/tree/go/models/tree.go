@@ -5,4 +5,6 @@ type Tree struct {
 	Name string
 
 	RootNodes []*Node
+
+	HaveSearch bool
 }
