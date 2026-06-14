@@ -78,7 +78,27 @@ func onUpdateElementInDiagram[
 								newCompositionShape.SetCornerOffsetRatio(1.5)
 							}
 						} else {
-							shape.SetX(parentShape.GetX() + float64(siblingsCount-1)*parentShape.GetWidth()*1.2)
+							var isGrandParentHorizontal bool
+							for _, compShape := range *compositionShapes {
+								if compShape.GetAbstractEndElement() == any(parentElement).(AbstractType) {
+									grandParentElement := compShape.GetAbstractStartElement()
+									if grandParentElement != nil {
+										if grandParentShape, ok := shapesMap[grandParentElement.(AT)]; ok {
+											if gpShape, ok := any(grandParentShape).(*ProductShape); ok {
+												if gpShape.LayoutDirection == Horizontal {
+													isGrandParentHorizontal = true
+												}
+											}
+										}
+									}
+								}
+							}
+
+							if isGrandParentHorizontal {
+								shape.SetX(parentShape.GetX() + parentShape.GetWidth()/2.0 + 50.0 + float64(siblingsCount-1)*parentShape.GetWidth()*1.2)
+							} else {
+								shape.SetX(parentShape.GetX() + float64(siblingsCount-1)*parentShape.GetWidth()*1.2)
+							}
 							shape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
 
 							if len(*compositionShapes) > 0 {
