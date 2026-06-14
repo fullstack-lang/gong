@@ -200,6 +200,8 @@ func _(stage *models.Stage) {
 	__Rect__00000000_.MouseX = 0.000000
 	__Rect__00000000_.MouseY = 0.000000
 	__Rect__00000000_.MouseEventKey = ""
+	__Rect__00000000_.URLPath = ``
+	__Rect__00000000_.URLTarget = ""
 
 	__Rect__00000001_.Name = `End`
 	__Rect__00000001_.X = 700.000000
@@ -239,6 +241,8 @@ func _(stage *models.Stage) {
 	__Rect__00000001_.MouseX = 0.000000
 	__Rect__00000001_.MouseY = 0.000000
 	__Rect__00000001_.MouseEventKey = ""
+	__Rect__00000001_.URLPath = ``
+	__Rect__00000001_.URLTarget = ""
 
 	__Rect__00000002_.Name = `Display When Start is Hovered`
 	__Rect__00000002_.X = 100.000000
@@ -278,6 +282,8 @@ func _(stage *models.Stage) {
 	__Rect__00000002_.MouseX = 0.000000
 	__Rect__00000002_.MouseY = 0.000000
 	__Rect__00000002_.MouseEventKey = ""
+	__Rect__00000002_.URLPath = ``
+	__Rect__00000002_.URLTarget = ""
 
 	__Rect__00000003_.Name = `Container for Alfred Barr Poster`
 	__Rect__00000003_.X = 100.000000
@@ -317,6 +323,8 @@ func _(stage *models.Stage) {
 	__Rect__00000003_.MouseX = 0.000000
 	__Rect__00000003_.MouseY = 0.000000
 	__Rect__00000003_.MouseEventKey = ""
+	__Rect__00000003_.URLPath = ``
+	__Rect__00000003_.URLTarget = ""
 
 	__RectAnchoredPath__00000000_.Name = `0. PathCenter`
 	__RectAnchoredPath__00000000_.Definition = `M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z`
@@ -807,6 +815,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__00000000_.StrokeDashArray = ``
 	__RectAnchoredText__00000000_.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__00000000_.Transform = ``
+	__RectAnchoredText__00000000_.URLPath = ``
+	__RectAnchoredText__00000000_.URLTarget = ""
 
 	__RectAnchoredText__00000001_.Name = `TopRight`
 	__RectAnchoredText__00000001_.Content = `TopRight`
@@ -830,6 +840,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__00000001_.StrokeDashArray = ``
 	__RectAnchoredText__00000001_.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__00000001_.Transform = ``
+	__RectAnchoredText__00000001_.URLPath = ``
+	__RectAnchoredText__00000001_.URLTarget = ""
 
 	__RectAnchoredText__00000002_.Name = `Test`
 	__RectAnchoredText__00000002_.Content = `Test`
@@ -853,6 +865,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__00000002_.StrokeDashArray = ``
 	__RectAnchoredText__00000002_.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__00000002_.Transform = ``
+	__RectAnchoredText__00000002_.URLPath = ``
+	__RectAnchoredText__00000002_.URLTarget = ""
 
 	__RectAnchoredText__00000003_.Name = `BottomLeft`
 	__RectAnchoredText__00000003_.Content = `BottomLeft`
@@ -876,6 +890,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__00000003_.StrokeDashArray = ``
 	__RectAnchoredText__00000003_.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__00000003_.Transform = ``
+	__RectAnchoredText__00000003_.URLPath = ``
+	__RectAnchoredText__00000003_.URLTarget = ""
 
 	__RectAnchoredText__00000004_.Name = `BottomLeftLeft`
 	__RectAnchoredText__00000004_.Content = `BottomLeftLeft`
@@ -899,6 +915,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__00000004_.StrokeDashArray = ``
 	__RectAnchoredText__00000004_.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__00000004_.Transform = ``
+	__RectAnchoredText__00000004_.URLPath = ``
+	__RectAnchoredText__00000004_.URLTarget = ""
 
 	__RectAnchoredText__00000005_.Name = `BottomBottomLeft`
 	__RectAnchoredText__00000005_.Content = `BottomBottomLeft`
@@ -922,6 +940,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__00000005_.StrokeDashArray = ``
 	__RectAnchoredText__00000005_.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__00000005_.Transform = ``
+	__RectAnchoredText__00000005_.URLPath = ``
+	__RectAnchoredText__00000005_.URLTarget = ""
 
 	__RectAnchoredText__00000006_.Name = `BottomRight`
 	__RectAnchoredText__00000006_.Content = `BottomRight`
@@ -945,6 +965,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__00000006_.StrokeDashArray = ``
 	__RectAnchoredText__00000006_.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__00000006_.Transform = ``
+	__RectAnchoredText__00000006_.URLPath = ``
+	__RectAnchoredText__00000006_.URLTarget = ""
 
 	__RectAnchoredText__00000007_.Name = `BottomInsideRight`
 	__RectAnchoredText__00000007_.Content = `BottomInsideRight`
@@ -968,6 +990,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__00000007_.StrokeDashArray = ``
 	__RectAnchoredText__00000007_.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__00000007_.Transform = ``
+	__RectAnchoredText__00000007_.URLPath = ``
+	__RectAnchoredText__00000007_.URLTarget = ""
 
 	__RectAnchoredText__00000008_.Name = `Left`
 	__RectAnchoredText__00000008_.Content = `Left`
@@ -991,6 +1015,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__00000008_.StrokeDashArray = ``
 	__RectAnchoredText__00000008_.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__00000008_.Transform = ``
+	__RectAnchoredText__00000008_.URLPath = ``
+	__RectAnchoredText__00000008_.URLTarget = ""
 
 	__RectAnchoredText__00000009_.Name = `Right`
 	__RectAnchoredText__00000009_.Content = `Right`
@@ -1014,6 +1040,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__00000009_.StrokeDashArray = ``
 	__RectAnchoredText__00000009_.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__00000009_.Transform = ``
+	__RectAnchoredText__00000009_.URLPath = ``
+	__RectAnchoredText__00000009_.URLTarget = ""
 
 	__RectAnchoredText__00000010_.Name = `Center`
 	__RectAnchoredText__00000010_.Content = `Center`
@@ -1037,6 +1065,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__00000010_.StrokeDashArray = ``
 	__RectAnchoredText__00000010_.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__00000010_.Transform = ``
+	__RectAnchoredText__00000010_.URLPath = ``
+	__RectAnchoredText__00000010_.URLTarget = ""
 
 	__RectAnchoredText__00000011_.Name = `Oriented`
 	__RectAnchoredText__00000011_.Content = `Oriented
@@ -1063,6 +1093,8 @@ Oriented line 3`
 	__RectAnchoredText__00000011_.StrokeDashArray = ``
 	__RectAnchoredText__00000011_.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__00000011_.Transform = ``
+	__RectAnchoredText__00000011_.URLPath = ``
+	__RectAnchoredText__00000011_.URLTarget = ""
 
 	__RectAnchoredText__00000012_.Name = `Top`
 	__RectAnchoredText__00000012_.Content = `Top`
@@ -1086,6 +1118,8 @@ Oriented line 3`
 	__RectAnchoredText__00000012_.StrokeDashArray = ``
 	__RectAnchoredText__00000012_.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredText__00000012_.Transform = ``
+	__RectAnchoredText__00000012_.URLPath = ``
+	__RectAnchoredText__00000012_.URLTarget = ""
 
 	__SVG__00000000_.Name = `simple`
 	__SVG__00000000_.DrawingState = ""
@@ -1111,8 +1145,12 @@ Oriented line 3`
 	__Link__00000000_.TextAtArrowStart = append(__Link__00000000_.TextAtArrowStart, __LinkAnchoredText__00000001_)
 	__Link__00000000_.TextAtArrowEnd = append(__Link__00000000_.TextAtArrowEnd, __LinkAnchoredText__00000000_)
 	__Link__00000000_.TextAtArrowEnd = append(__Link__00000000_.TextAtArrowEnd, __LinkAnchoredText__00000001_)
+	__Rect__00000000_.EnclosingRect = nil
+	__Rect__00000000_.AnchoredTo = nil
 	__Rect__00000000_.HoveringTrigger = append(__Rect__00000000_.HoveringTrigger, __Condition__00000000_)
 	__Rect__00000000_.RectAnchoredTexts = append(__Rect__00000000_.RectAnchoredTexts, __RectAnchoredText__00000011_)
+	__Rect__00000001_.EnclosingRect = nil
+	__Rect__00000001_.AnchoredTo = nil
 	__Rect__00000001_.RectAnchoredTexts = append(__Rect__00000001_.RectAnchoredTexts, __RectAnchoredText__00000000_)
 	__Rect__00000001_.RectAnchoredTexts = append(__Rect__00000001_.RectAnchoredTexts, __RectAnchoredText__00000001_)
 	__Rect__00000001_.RectAnchoredTexts = append(__Rect__00000001_.RectAnchoredTexts, __RectAnchoredText__00000002_)
@@ -1141,7 +1179,11 @@ Oriented line 3`
 	__Rect__00000001_.RectAnchoredPaths = append(__Rect__00000001_.RectAnchoredPaths, __RectAnchoredPath__00000001_)
 	__Rect__00000001_.RectAnchoredPaths = append(__Rect__00000001_.RectAnchoredPaths, __RectAnchoredPath__00000004_)
 	__Rect__00000001_.RectAnchoredPaths = append(__Rect__00000001_.RectAnchoredPaths, __RectAnchoredPath__00000010_)
+	__Rect__00000002_.EnclosingRect = nil
+	__Rect__00000002_.AnchoredTo = nil
 	__Rect__00000002_.DisplayConditions = append(__Rect__00000002_.DisplayConditions, __Condition__00000000_)
+	__Rect__00000003_.EnclosingRect = nil
+	__Rect__00000003_.AnchoredTo = nil
 	__Rect__00000003_.RectAnchoredPngImages = append(__Rect__00000003_.RectAnchoredPngImages, __RectAnchoredPngImage__00000000_)
 	__SVG__00000000_.Layers = append(__SVG__00000000_.Layers, __Layer__00000000_)
 	__SVG__00000000_.StartRect = nil
