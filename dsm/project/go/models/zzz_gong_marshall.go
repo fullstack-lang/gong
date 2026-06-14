@@ -662,6 +662,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(product.GongMarshallField(stage, "SubProducts"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "IsProducersNodeExpanded"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "IsConsumersNodeExpanded"))
+		initializerStatements.WriteString(product.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	productcompositionshapeOrdered := []*ProductCompositionShape{}
@@ -722,6 +723,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(productshape.GongMarshallField(stage, "Product"))
+		initializerStatements.WriteString(productshape.GongMarshallField(stage, "OverideLayoutDirection"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Y"))
@@ -2434,6 +2436,19 @@ func (product *Product) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsConsumersNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", product.IsConsumersNodeExpanded))
+	case "LayoutDirection":
+		if product.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+product.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
 
 	case "ReferencedProduct":
 		if product.ReferencedProduct != nil {
@@ -2546,6 +2561,11 @@ func (productshape *ProductShape) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(productshape.Name))
+	case "OverideLayoutDirection":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", productshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OverideLayoutDirection")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", productshape.OverideLayoutDirection))
 	case "LayoutDirection":
 		if productshape.LayoutDirection.ToCodeString() != "" {
 			res = NumberInitStatement
@@ -3636,6 +3656,7 @@ func (product *Product) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(product.GongMarshallField(stage, "SubProducts"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "IsProducersNodeExpanded"))
 		initializerStatements.WriteString(product.GongMarshallField(stage, "IsConsumersNodeExpanded"))
+		initializerStatements.WriteString(product.GongMarshallField(stage, "LayoutDirection"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3666,6 +3687,7 @@ func (productshape *ProductShape) GongMarshallAllFields(stage *Stage) (initRes s
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(productshape.GongMarshallField(stage, "Product"))
+		initializerStatements.WriteString(productshape.GongMarshallField(stage, "OverideLayoutDirection"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(productshape.GongMarshallField(stage, "Y"))

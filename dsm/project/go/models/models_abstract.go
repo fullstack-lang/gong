@@ -123,6 +123,10 @@ type Product struct {
 	// a parentProduct is computed at each UX look. It can be null if the
 	// product is a root product or an orphaned product
 	parentProduct *Product
+
+	// Directive for display in the concrete diagram
+	// can be overriden by the concrete ProductShape
+	LayoutDirection LayoutDirection
 }
 
 type Resource struct {
