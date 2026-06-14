@@ -436,6 +436,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(tree.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(tree.GongMarshallField(stage, "RootNodes"))
+		initializerStatements.WriteString(tree.GongMarshallField(stage, "HaveSearch"))
 	}
 
 	// insertion initialization of objects to stage
@@ -865,6 +866,11 @@ func (tree *Tree) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", tree.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(tree.Name))
+	case "HaveSearch":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", tree.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HaveSearch")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", tree.HaveSearch))
 
 	case "RootNodes":
 		var sb strings.Builder
@@ -971,6 +977,7 @@ func (tree *Tree) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(tree.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(tree.GongMarshallField(stage, "RootNodes"))
+		initializerStatements.WriteString(tree.GongMarshallField(stage, "HaveSearch"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
