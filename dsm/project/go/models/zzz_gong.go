@@ -7284,6 +7284,11 @@ func (product *Product) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsConsumersNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
 	}
 	return
 }
@@ -7341,6 +7346,10 @@ func (productshape *ProductShape) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "Product",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Product",
+		},
+		{
+			Name:               "OverideLayoutDirection",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "LayoutDirection",
@@ -8753,6 +8762,9 @@ func (product *Product) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", product.IsConsumersNodeExpanded)
 		res.valueBool = product.IsConsumersNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := product.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -8805,6 +8817,10 @@ func (productshape *ProductShape) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = productshape.Product.Name
 			res.ids = productshape.Product.GongGetUUID(stage)
 		}
+	case "OverideLayoutDirection":
+		res.valueString = fmt.Sprintf("%t", productshape.OverideLayoutDirection)
+		res.valueBool = productshape.OverideLayoutDirection
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "LayoutDirection":
 		enum := productshape.LayoutDirection
 		res.valueString = enum.ToCodeString()
@@ -10171,6 +10187,8 @@ func (product *Product) GongSetFieldValue(fieldName string, value GongFieldValue
 		product.IsProducersNodeExpanded = value.GetValueBool()
 	case "IsConsumersNodeExpanded":
 		product.IsConsumersNodeExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		product.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10227,6 +10245,8 @@ func (productshape *ProductShape) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
+	case "OverideLayoutDirection":
+		productshape.OverideLayoutDirection = value.GetValueBool()
 	case "LayoutDirection":
 		productshape.LayoutDirection.FromCodeString(value.GetValueString())
 	case "X":

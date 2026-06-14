@@ -2611,6 +2611,8 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(product_.IsProducersNodeExpanded), formDiv)
 		case "IsConsumersNodeExpanded":
 			FormDivBasicFieldToField(&(product_.IsConsumersNodeExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(product_.LayoutDirection), formDiv)
 		case "Diagram:ProductsWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -3098,6 +3100,8 @@ func (productshapeFormCallback *ProductShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(productshape_.Name), formDiv)
 		case "Product":
 			FormDivSelectFieldToField(&(productshape_.Product), productshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "OverideLayoutDirection":
+			FormDivBasicFieldToField(&(productshape_.OverideLayoutDirection), formDiv)
 		case "LayoutDirection":
 			FormDivEnumIntFieldToField(&(productshape_.LayoutDirection), formDiv)
 		case "X":

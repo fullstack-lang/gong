@@ -7,8 +7,10 @@ type ProductShape struct {
 
 	isExpanded bool
 
-	//
-	LayoutDirection LayoutDirection
+	// OverideLayoutDirection is true, if the LayoutDirection from
+	// the abstract Product is overided by the concrete ProductShape
+	OverideLayoutDirection bool
+	LayoutDirection        LayoutDirection
 
 	RectShape
 }

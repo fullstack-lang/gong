@@ -373,6 +373,8 @@ type Product_WOP struct {
 	IsProducersNodeExpanded bool
 
 	IsConsumersNodeExpanded bool
+
+	LayoutDirection LayoutDirection
 }
 
 func (from *Product) CopyBasicFields(to *Product) {
@@ -384,6 +386,7 @@ func (from *Product) CopyBasicFields(to *Product) {
 	to.Description = from.Description
 	to.IsProducersNodeExpanded = from.IsProducersNodeExpanded
 	to.IsConsumersNodeExpanded = from.IsConsumersNodeExpanded
+	to.LayoutDirection = from.LayoutDirection
 }
 
 type ProductCompositionShape_WOP struct {
@@ -420,6 +423,8 @@ type ProductShape_WOP struct {
 
 	Name string
 
+	OverideLayoutDirection bool
+
 	LayoutDirection LayoutDirection
 
 	X float64
@@ -436,6 +441,7 @@ type ProductShape_WOP struct {
 func (from *ProductShape) CopyBasicFields(to *ProductShape) {
 	// insertion point
 	to.Name = from.Name
+	to.OverideLayoutDirection = from.OverideLayoutDirection
 	to.LayoutDirection = from.LayoutDirection
 	to.X = from.X
 	to.Y = from.Y

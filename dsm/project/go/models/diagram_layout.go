@@ -103,7 +103,11 @@ func layoutProductShapes(diagram *Diagram, rootLibrary *Library, nextX *float64,
 		link.SetCornerOffsetRatio(1.5)
 		if link.Product != nil {
 			if parentNode, ok := parentByProduct[link.Product]; ok {
-				if parentNode.shape.LayoutDirection == Horizontal {
+				layoutDirection := parentNode.shape.Product.LayoutDirection
+				if parentNode.shape.OverideLayoutDirection {
+					layoutDirection = parentNode.shape.LayoutDirection
+				}
+				if layoutDirection == Horizontal {
 					link.StartOrientation = ORIENTATION_VERTICAL
 					link.EndOrientation = ORIENTATION_HORIZONTAL
 				} else {
@@ -129,7 +133,12 @@ func layoutProductDFS(node *productNode, currentX float64, currentY float64, mar
 	var maxX float64 = currentX + w + margin
 	var maxY float64 = currentY + h + margin
 
-	if node.shape.LayoutDirection == Vertical {
+	layoutDirection := node.shape.Product.LayoutDirection
+	if node.shape.OverideLayoutDirection {
+		layoutDirection = node.shape.LayoutDirection
+	}
+
+	if layoutDirection == Vertical {
 		// Children are arranged horizontally.
 		childX := currentX
 		for _, child := range node.children {
