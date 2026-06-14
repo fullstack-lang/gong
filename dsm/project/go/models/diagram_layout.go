@@ -147,10 +147,11 @@ func layoutProductDFS(node *productNode, currentX float64, currentY float64, mar
 		maxX = childX
 	} else {
 		// Children are arranged vertically (indented tree)
-		childY := currentY + h + margin
+		verticalMargin := 15.0
+		childY := currentY + h + verticalMargin
 		for _, child := range node.children {
 			childMaxX, childMaxY := layoutProductDFS(child, currentX+w/2.0+margin, childY, margin)
-			childY = childMaxY
+			childY = (childMaxY - margin) + verticalMargin
 
 			if childMaxX > maxX {
 				maxX = childMaxX
@@ -160,7 +161,7 @@ func layoutProductDFS(node *productNode, currentX float64, currentY float64, mar
 			}
 		}
 		// Do not align parent vertically with its children. Parent stays at (currentX, currentY).
-		maxY = childY
+		maxY = (childY - verticalMargin) + margin
 	}
 
 	return maxX, maxY
