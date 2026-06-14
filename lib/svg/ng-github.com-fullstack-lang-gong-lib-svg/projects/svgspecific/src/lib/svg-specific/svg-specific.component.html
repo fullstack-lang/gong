@@ -1,55 +1,58 @@
 <lib-text-width-calculator #textWidthCalculator></lib-text-width-calculator>
 
 @if (svg.IsControlBannerHidden == false) {
-  <div #controlsContainer 
-        (mouseenter)="manualDetect()"
-       style="display: flex; align-items: center; gap: 10px; margin-bottom: 0px; margin-top: -15px; flex-wrap: wrap; padding: 0px 5px;"> 
+  <div style="position: sticky; top: 0; background-color: white; z-index: 100; margin-top: -15px; padding-top: 15px; padding-bottom: 5px;">
     
-    <button mat-icon-button color="primary" 
-      (click)="generatesSVG(true)" 
-      matTooltip="Download diagram" 
-      matTooltipPosition="above">
-      <mat-icon>download</mat-icon>
-    </button>
+    <div #controlsContainer 
+          (mouseenter)="manualDetect()"
+         style="display: flex; align-items: center; gap: 10px; margin-bottom: 0px; flex-wrap: wrap; padding: 0px 5px;"> 
+      
+      <button mat-icon-button color="primary" 
+        (click)="generatesSVG(true)" 
+        matTooltip="Download diagram" 
+        matTooltipPosition="above">
+        <mat-icon>download</mat-icon>
+      </button>
 
-    <div style="width: 1px; height: 24px; background: #ccc;"></div>
+      <div style="width: 1px; height: 24px; background: #ccc;"></div>
 
-    <div style="display: flex; align-items: center; gap: 4px;">
-      <mat-icon style="font-size: 20px; width: 20px; height: 20px; color: gray;">zoom_in</mat-icon>
-      <mat-slider min="0.25" max="2" step="0.05" style="min-width: 80px;">
-        <input matSliderThumb [(ngModel)]="zoom" (input)="onTransformChange()" #zoomSlider>
-      </mat-slider>
-      <span style="font-size: 12px; min-width: 35px;">{{ zoomSlider.value | number:'1.2-2' }}x</span>
+      <div style="display: flex; align-items: center; gap: 4px;">
+        <mat-icon style="font-size: 20px; width: 20px; height: 20px; color: gray;">zoom_in</mat-icon>
+        <mat-slider min="0.25" max="2" step="0.05" style="min-width: 80px;">
+          <input matSliderThumb [(ngModel)]="zoom" (input)="onTransformChange()" #zoomSlider>
+        </mat-slider>
+        <span style="font-size: 12px; min-width: 35px;">{{ zoomSlider.value | number:'1.2-2' }}x</span>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 4px;">
+        <span style="font-weight: bold; font-size: 12px; color: gray;">X</span>
+        <mat-slider min="0" max="1000" step="1" style="min-width: 80px;">
+          <input matSliderThumb [(ngModel)]="shiftX" (input)="onTransformChange()" #shiftXSlider>
+        </mat-slider>
+        <span style="font-size: 12px; min-width: 30px;">{{ shiftXSlider.value }}</span>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 4px;">
+        <span style="font-weight: bold; font-size: 12px; color: gray;">Y</span>
+        <mat-slider min="0" max="1000" step="1" style="min-width: 80px;">
+          <input matSliderThumb [(ngModel)]="shiftY" (input)="onTransformChange()" #shiftYSlider>
+        </mat-slider>
+        <span style="font-size: 12px; min-width: 30px;">{{ shiftYSlider.value }}</span>
+      </div>
+
+      <div style="width: 1px; height: 24px; background: #ccc;"></div>
+
+      <button mat-icon-button 
+              (click)="generatesSVGInTheBack(true)" 
+              style="opacity: 0.8;" 
+              matTooltip="Backend generation (experimental)"
+              matTooltipPosition="above">
+        <mat-icon>cloud_sync</mat-icon>
+      </button>
     </div>
 
-    <div style="display: flex; align-items: center; gap: 4px;">
-      <span style="font-weight: bold; font-size: 12px; color: gray;">X</span>
-      <mat-slider min="0" max="1000" step="1" style="min-width: 80px;">
-        <input matSliderThumb [(ngModel)]="shiftX" (input)="onTransformChange()" #shiftXSlider>
-      </mat-slider>
-      <span style="font-size: 12px; min-width: 30px;">{{ shiftXSlider.value }}</span>
-    </div>
-
-    <div style="display: flex; align-items: center; gap: 4px;">
-      <span style="font-weight: bold; font-size: 12px; color: gray;">Y</span>
-      <mat-slider min="0" max="1000" step="1" style="min-width: 80px;">
-        <input matSliderThumb [(ngModel)]="shiftY" (input)="onTransformChange()" #shiftYSlider>
-      </mat-slider>
-      <span style="font-size: 12px; min-width: 30px;">{{ shiftYSlider.value }}</span>
-    </div>
-
-    <div style="width: 1px; height: 24px; background: #ccc;"></div>
-
-    <button mat-icon-button 
-            (click)="generatesSVGInTheBack(true)" 
-            style="opacity: 0.8;" 
-            matTooltip="Backend generation (experimental)"
-            matTooltipPosition="above">
-      <mat-icon>cloud_sync</mat-icon>
-    </button>
+    <mat-divider style="border-top-width: 1.5px; border-top-color: rgba(0, 0, 0, 0.5); margin-top: 5px;"></mat-divider>
   </div>
-
-  <mat-divider style="border-top-width: 1.5px; border-top-color: rgba(0, 0, 0, 0.5); margin-top: 5px;"></mat-divider>
 }
 
 <svg #svgContainer [attr.width]="svgWidth" [attr.height]="svgHeight" [class.unselectable]="State !== StateEnumType.WAITING_FOR_USER_INPUT && State !== StateEnumType.NOT_EDITABLE">
