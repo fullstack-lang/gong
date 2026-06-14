@@ -1,4 +1,16 @@
 <div class="vertical-paper">
+    @if (treeSingloton?.HaveSearch) {
+        <mat-form-field appearance="outline" style="width: 100%; margin-bottom: 10px;">
+            <mat-icon matPrefix>search</mat-icon>
+            <input matInput [(ngModel)]="searchString" (ngModelChange)="onSearchChange()" placeholder="Search...">
+            @if (searchString) {
+                <button matSuffix mat-icon-button aria-label="Clear" (click)="searchString=''; onSearchChange()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            }
+        </mat-form-field>
+    }
+
     <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
         <ng-template #nodeContent let-node>
             @if (node.gongNode.IsWithPreceedingIcon) {

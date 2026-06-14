@@ -150,11 +150,14 @@ type Tree_WOP struct {
 	// insertion point
 
 	Name string
+
+	HaveSearch bool
 }
 
 func (from *Tree) CopyBasicFields(to *Tree) {
 	// insertion point
 	to.Name = from.Name
+	to.HaveSearch = from.HaveSearch
 }
 
 // end of insertion point

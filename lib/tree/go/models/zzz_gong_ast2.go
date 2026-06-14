@@ -656,6 +656,8 @@ func (u *TreeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Name = GongExtractString(valueExpr)
 	case "RootNodes":
 		GongUnmarshallSliceOfPointers(&instance.RootNodes, valueExpr, identifierMap)
+	case "HaveSearch":
+		instance.HaveSearch = GongExtractBool(valueExpr)
 	}
 	return nil
 }

@@ -17,6 +17,7 @@ export class Tree {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	HaveSearch: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 	RootNodes: Array<Node> = []
@@ -33,6 +34,7 @@ export function CopyTreeToTreeAPI(tree: Tree, treeAPI: TreeAPI) {
 
 	// insertion point for basic fields copy operations
 	treeAPI.Name = tree.Name
+	treeAPI.HaveSearch = tree.HaveSearch
 
 	// insertion point for pointer fields encoding
 
@@ -56,6 +58,7 @@ export function CopyTreeAPIToTree(treeAPI: TreeAPI, tree: Tree, frontRepo: Front
 
 	// insertion point for basic fields copy operations
 	tree.Name = treeAPI.Name
+	tree.HaveSearch = treeAPI.HaveSearch
 
 	// insertion point for pointer fields encoding
 
