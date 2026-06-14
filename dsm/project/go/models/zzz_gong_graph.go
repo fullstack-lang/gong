@@ -4423,6 +4423,9 @@ func (product *Product) GongDiff(stage *Stage, productOther *Product) (diffs []s
 	if product.IsConsumersNodeExpanded != productOther.IsConsumersNodeExpanded {
 		diffs = append(diffs, product.GongMarshallField(stage, "IsConsumersNodeExpanded"))
 	}
+	if product.LayoutDirection != productOther.LayoutDirection {
+		diffs = append(diffs, product.GongMarshallField(stage, "LayoutDirection"))
+	}
 
 	return
 }
@@ -4476,6 +4479,9 @@ func (productshape *ProductShape) GongDiff(stage *Stage, productshapeOther *Prod
 		if productshape.Product != productshapeOther.Product {
 			diffs = append(diffs, productshape.GongMarshallField(stage, "Product"))
 		}
+	}
+	if productshape.OverideLayoutDirection != productshapeOther.OverideLayoutDirection {
+		diffs = append(diffs, productshape.GongMarshallField(stage, "OverideLayoutDirection"))
 	}
 	if productshape.LayoutDirection != productshapeOther.LayoutDirection {
 		diffs = append(diffs, productshape.GongMarshallField(stage, "LayoutDirection"))

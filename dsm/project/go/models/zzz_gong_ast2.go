@@ -1023,6 +1023,8 @@ func (u *ProductUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsProducersNodeExpanded = GongExtractBool(valueExpr)
 	case "IsConsumersNodeExpanded":
 		instance.IsConsumersNodeExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	}
 	return nil
 }
@@ -1097,6 +1099,8 @@ func (u *ProductShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.Name = GongExtractString(valueExpr)
 	case "Product":
 		GongUnmarshallPointer(&instance.Product, valueExpr, identifierMap)
+	case "OverideLayoutDirection":
+		instance.OverideLayoutDirection = GongExtractBool(valueExpr)
 	case "LayoutDirection":
 		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "X":
