@@ -86,7 +86,7 @@ func onUpdateElementInDiagram[
 								newCompositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
 								newCompositionShape.SetEndOrientation(ORIENTATION_VERTICAL)
 								ratio := (shape.GetY() - parentShape.GetY()) / parentShape.GetHeight()
-								newCompositionShape.SetCornerOffsetRatio((ratio - 1.0)/2.0 + 1.0)
+								newCompositionShape.SetCornerOffsetRatio((ratio-1.0)/2.0 + 1.0)
 							}
 						}
 					}
@@ -119,7 +119,7 @@ func onUpdateElementInDiagram[
 					*elementsWhoseNodeIsExpanded = slices.Delete(*elementsWhoseNodeIsExpanded, idx, idx+1)
 				}
 			}
-			stager.stage.Commit()
+			stager.stage.CommitWithSuspendedCallbacks()
 			return
 		}
 
@@ -135,7 +135,7 @@ func onUpdateElementInDiagram[
 			compositionShape := newConcreteAssociation(parentElement, element, compositionShapes)
 			if parentShape, ok := shapesMap[parentElement]; ok && shape != nil {
 				ratio := (shape.GetY() - parentShape.GetY()) / parentShape.GetHeight()
-				compositionShape.SetCornerOffsetRatio((ratio - 1.0)/2.0 + 1.0)
+				compositionShape.SetCornerOffsetRatio((ratio-1.0)/2.0 + 1.0)
 			}
 			compositionShape.StageVoid(stager.stage)
 		}
@@ -147,7 +147,7 @@ func onUpdateElementInDiagram[
 		}
 
 		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
-		stager.stage.Commit()
+		stager.stage.CommitWithSuspendedCallbacks()
 	}
 }
 

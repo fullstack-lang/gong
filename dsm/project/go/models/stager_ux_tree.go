@@ -10,7 +10,10 @@ func (stager *Stager) ux_tree() {
 	rootLibrary := stager.getRootLibrary()
 	_ = rootLibrary
 
-	treeInstance := &tree.Tree{Name: "Library Tree"}
+	treeInstance := &tree.Tree{
+		Name:       "Library Tree",
+		HaveSearch: true,
+	}
 
 	stager.probeForm.AddCommitNavigationNode(func(gni GongNodeIF) {
 		treeInstance.RootNodes = append(treeInstance.RootNodes, gni.(*tree.Node))
@@ -22,4 +25,3 @@ func (stager *Stager) ux_tree() {
 
 	stager.treeStage.Commit()
 }
-
