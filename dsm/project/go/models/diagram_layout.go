@@ -200,6 +200,7 @@ func layoutProductDFS(node *productNode, currentX float64, currentY float64, mar
 type taskNode struct {
 	shape    *TaskShape
 	children []*taskNode
+	parent   *taskNode
 }
 
 func layoutTaskShapes(diagram *Diagram, rootLibrary *Library, nextX *float64, startY float64, margin float64) {
@@ -231,6 +232,7 @@ func layoutTaskShapes(diagram *Diagram, rootLibrary *Library, nextX *float64, st
 		for _, subTask := range node.shape.Task.SubTasks {
 			if childNode, exists := nodesByTask[subTask]; exists {
 				node.children = append(node.children, childNode)
+				childNode.parent = node
 			}
 		}
 	}
@@ -258,36 +260,118 @@ func layoutTaskShapes(diagram *Diagram, rootLibrary *Library, nextX *float64, st
 	})
 
 	for _, root := range rootNodes {
-		layoutTaskDFS(root, nextX, startY, margin)
+		maxX, _ := layoutTaskDFS(root, *nextX, startY, margin)
+		*nextX = maxX
+	}
+
+	// Find the parent of each task based on SubTasks
+	parentByTask := make(map[*Task]*taskNode)
+	for _, node := range nodesByTask {
+		for _, subTask := range node.shape.Task.SubTasks {
+			parentByTask[subTask] = node
+		}
 	}
 
 	for _, link := range diagram.TaskComposition_Shapes {
 		link.SetCornerOffsetRatio(1.5)
+		if link.Task != nil {
+			if parentNode, ok := parentByTask[link.Task]; ok {
+				layoutDirection := parentNode.shape.Task.LayoutDirection
+				if parentNode.shape.OverideLayoutDirection {
+					layoutDirection = parentNode.shape.LayoutDirection
+				}
+				if layoutDirection == Horizontal {
+					link.StartOrientation = ORIENTATION_VERTICAL
+					link.EndOrientation = ORIENTATION_HORIZONTAL
+				} else {
+					link.StartOrientation = ORIENTATION_VERTICAL
+					link.EndOrientation = ORIENTATION_VERTICAL
+				}
+			}
+		}
 	}
 }
 
-func layoutTaskDFS(node *taskNode, nextX *float64, currentY float64, margin float64) {
+func layoutTaskDFS(node *taskNode, currentX float64, currentY float64, margin float64) (float64, float64) {
+	node.shape.SetX(currentX)
 	node.shape.SetY(currentY)
+
 	w := node.shape.GetWidth()
 	h := node.shape.GetHeight()
 
 	if len(node.children) == 0 {
-		node.shape.SetX(*nextX)
-		*nextX += w + margin
-		return
+		return currentX + w + margin, currentY + h + margin
 	}
 
-	for _, child := range node.children {
-		layoutTaskDFS(child, nextX, currentY+h*2.0, margin)
+	var maxX float64 = currentX + w + margin
+	var maxY float64 = currentY + h + margin
+
+	layoutDirection := node.shape.Task.LayoutDirection
+	if node.shape.OverideLayoutDirection {
+		layoutDirection = node.shape.LayoutDirection
 	}
 
-	node.shape.SetX(node.children[0].shape.GetX())
+	if layoutDirection == Vertical {
+		// Children are arranged horizontally.
+		childX := currentX
+		
+		isParentHorizontal := false
+		if node.parent != nil {
+			parentLayout := node.parent.shape.Task.LayoutDirection
+			if node.parent.shape.OverideLayoutDirection {
+				parentLayout = node.parent.shape.LayoutDirection
+			}
+			if parentLayout == Horizontal {
+				isParentHorizontal = true
+			}
+		}
+
+		if isParentHorizontal {
+			childX = currentX + w/2.0 + margin
+		}
+
+		for _, child := range node.children {
+			childMaxX, childMaxY := layoutTaskDFS(child, childX, currentY+h*2.0, margin)
+			childX = childMaxX
+
+			if childMaxX > maxX {
+				maxX = childMaxX
+			}
+			if childMaxY > maxY {
+				maxY = childMaxY
+			}
+		}
+		if !isParentHorizontal {
+			node.shape.SetX(node.children[0].shape.GetX())
+		}
+		maxX = childX
+	} else {
+		// Children are arranged vertically (indented tree)
+		verticalMargin := 15.0
+		childY := currentY + h + verticalMargin
+		for _, child := range node.children {
+			childMaxX, childMaxY := layoutTaskDFS(child, currentX+w/2.0+margin, childY, margin)
+			childY = (childMaxY - margin) + verticalMargin
+
+			if childMaxX > maxX {
+				maxX = childMaxX
+			}
+			if childMaxY > maxY {
+				maxY = childMaxY
+			}
+		}
+		// Do not align parent vertically with its children. Parent stays at (currentX, currentY).
+		maxY = (childY - verticalMargin) + margin
+	}
+
+	return maxX, maxY
 }
 
 // Resource layout
 type resourceNode struct {
 	shape    *ResourceShape
 	children []*resourceNode
+	parent   *resourceNode
 }
 
 func layoutResourceShapes(diagram *Diagram, rootLibrary *Library, nextX *float64, startY float64, margin float64) {
@@ -319,6 +403,7 @@ func layoutResourceShapes(diagram *Diagram, rootLibrary *Library, nextX *float64
 		for _, subResource := range node.shape.Resource.SubResources {
 			if childNode, exists := nodesByResource[subResource]; exists {
 				node.children = append(node.children, childNode)
+				childNode.parent = node
 			}
 		}
 	}
@@ -346,28 +431,109 @@ func layoutResourceShapes(diagram *Diagram, rootLibrary *Library, nextX *float64
 	})
 
 	for _, root := range rootNodes {
-		layoutResourceDFS(root, nextX, startY, margin)
+		maxX, _ := layoutResourceDFS(root, *nextX, startY, margin)
+		*nextX = maxX
+	}
+
+	// Find the parent of each resource based on SubResources
+	parentByResource := make(map[*Resource]*resourceNode)
+	for _, node := range nodesByResource {
+		for _, subResource := range node.shape.Resource.SubResources {
+			parentByResource[subResource] = node
+		}
 	}
 
 	for _, link := range diagram.ResourceComposition_Shapes {
 		link.SetCornerOffsetRatio(1.5)
+		if link.Resource != nil {
+			if parentNode, ok := parentByResource[link.Resource]; ok {
+				layoutDirection := parentNode.shape.Resource.LayoutDirection
+				if parentNode.shape.OverideLayoutDirection {
+					layoutDirection = parentNode.shape.LayoutDirection
+				}
+				if layoutDirection == Horizontal {
+					link.StartOrientation = ORIENTATION_VERTICAL
+					link.EndOrientation = ORIENTATION_HORIZONTAL
+				} else {
+					link.StartOrientation = ORIENTATION_VERTICAL
+					link.EndOrientation = ORIENTATION_VERTICAL
+				}
+			}
+		}
 	}
 }
 
-func layoutResourceDFS(node *resourceNode, nextX *float64, currentY float64, margin float64) {
+func layoutResourceDFS(node *resourceNode, currentX float64, currentY float64, margin float64) (float64, float64) {
+	node.shape.SetX(currentX)
 	node.shape.SetY(currentY)
+
 	w := node.shape.GetWidth()
 	h := node.shape.GetHeight()
 
 	if len(node.children) == 0 {
-		node.shape.SetX(*nextX)
-		*nextX += w + margin
-		return
+		return currentX + w + margin, currentY + h + margin
 	}
 
-	for _, child := range node.children {
-		layoutResourceDFS(child, nextX, currentY+h*2.0, margin)
+	var maxX float64 = currentX + w + margin
+	var maxY float64 = currentY + h + margin
+
+	layoutDirection := node.shape.Resource.LayoutDirection
+	if node.shape.OverideLayoutDirection {
+		layoutDirection = node.shape.LayoutDirection
 	}
 
-	node.shape.SetX(node.children[0].shape.GetX())
+	if layoutDirection == Vertical {
+		// Children are arranged horizontally.
+		childX := currentX
+		
+		isParentHorizontal := false
+		if node.parent != nil {
+			parentLayout := node.parent.shape.Resource.LayoutDirection
+			if node.parent.shape.OverideLayoutDirection {
+				parentLayout = node.parent.shape.LayoutDirection
+			}
+			if parentLayout == Horizontal {
+				isParentHorizontal = true
+			}
+		}
+
+		if isParentHorizontal {
+			childX = currentX + w/2.0 + margin
+		}
+
+		for _, child := range node.children {
+			childMaxX, childMaxY := layoutResourceDFS(child, childX, currentY+h*2.0, margin)
+			childX = childMaxX
+
+			if childMaxX > maxX {
+				maxX = childMaxX
+			}
+			if childMaxY > maxY {
+				maxY = childMaxY
+			}
+		}
+		if !isParentHorizontal {
+			node.shape.SetX(node.children[0].shape.GetX())
+		}
+		maxX = childX
+	} else {
+		// Children are arranged vertically (indented tree)
+		verticalMargin := 15.0
+		childY := currentY + h + verticalMargin
+		for _, child := range node.children {
+			childMaxX, childMaxY := layoutResourceDFS(child, currentX+w/2.0+margin, childY, margin)
+			childY = (childMaxY - margin) + verticalMargin
+
+			if childMaxX > maxX {
+				maxX = childMaxX
+			}
+			if childMaxY > maxY {
+				maxY = childMaxY
+			}
+		}
+		// Do not align parent vertically with its children. Parent stays at (currentX, currentY).
+		maxY = (childY - verticalMargin) + margin
+	}
+
+	return maxX, maxY
 }

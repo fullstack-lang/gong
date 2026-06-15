@@ -7418,6 +7418,11 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Resource",
 		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
 	}
 	return
 }
@@ -7475,6 +7480,15 @@ func (resourceshape *ResourceShape) GongGetFieldHeaders() (res []GongFieldHeader
 			Name:                 "Resource",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Resource",
+		},
+		{
+			Name:               "OverideLayoutDirection",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "X",
@@ -7605,6 +7619,11 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsOutputsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "IsWithCompletion",
@@ -7830,6 +7849,15 @@ func (taskshape *TaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsShowDate",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "OverideLayoutDirection",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "X",
@@ -8891,6 +8919,9 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "LayoutDirection":
+		enum := resource.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -8943,6 +8974,13 @@ func (resourceshape *ResourceShape) GongGetFieldValue(fieldName string, stage *S
 			res.valueString = resourceshape.Resource.Name
 			res.ids = resourceshape.Resource.GongGetUUID(stage)
 		}
+	case "OverideLayoutDirection":
+		res.valueString = fmt.Sprintf("%t", resourceshape.OverideLayoutDirection)
+		res.valueBool = resourceshape.OverideLayoutDirection
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := resourceshape.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "X":
 		res.valueString = fmt.Sprintf("%f", resourceshape.X)
 		res.valueFloat = resourceshape.X
@@ -9075,6 +9113,9 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", task.IsOutputsNodeExpanded)
 		res.valueBool = task.IsOutputsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := task.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "IsWithCompletion":
 		res.valueString = fmt.Sprintf("%t", task.IsWithCompletion)
 		res.valueBool = task.IsWithCompletion
@@ -9284,6 +9325,13 @@ func (taskshape *TaskShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", taskshape.IsShowDate)
 		res.valueBool = taskshape.IsShowDate
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "OverideLayoutDirection":
+		res.valueString = fmt.Sprintf("%t", taskshape.OverideLayoutDirection)
+		res.valueBool = taskshape.OverideLayoutDirection
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := taskshape.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "X":
 		res.valueString = fmt.Sprintf("%f", taskshape.X)
 		res.valueFloat = taskshape.X
@@ -10317,6 +10365,8 @@ func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldVal
 				}
 			}
 		}
+	case "LayoutDirection":
+		resource.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10373,6 +10423,10 @@ func (resourceshape *ResourceShape) GongSetFieldValue(fieldName string, value Go
 				}
 			}
 		}
+	case "OverideLayoutDirection":
+		resourceshape.OverideLayoutDirection = value.GetValueBool()
+	case "LayoutDirection":
+		resourceshape.LayoutDirection.FromCodeString(value.GetValueString())
 	case "X":
 		resourceshape.X = value.GetValueFloat()
 	case "Y":
@@ -10504,6 +10558,8 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		}
 	case "IsOutputsNodeExpanded":
 		task.IsOutputsNodeExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		task.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsWithCompletion":
 		task.IsWithCompletion = value.GetValueBool()
 	case "Completion":
@@ -10717,6 +10773,10 @@ func (taskshape *TaskShape) GongSetFieldValue(fieldName string, value GongFieldV
 		}
 	case "IsShowDate":
 		taskshape.IsShowDate = value.GetValueBool()
+	case "OverideLayoutDirection":
+		taskshape.OverideLayoutDirection = value.GetValueBool()
+	case "LayoutDirection":
+		taskshape.LayoutDirection.FromCodeString(value.GetValueString())
 	case "X":
 		taskshape.X = value.GetValueFloat()
 	case "Y":

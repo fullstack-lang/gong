@@ -3311,6 +3311,8 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 			resource_.SubResources = instanceSlice
 			resourceFormCallback.probe.UpdateSliceOfPointersCallback(resource_, "SubResources", &resource_.SubResources)
 
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(resource_.LayoutDirection), formDiv)
 		case "Diagram:ResourcesWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -3708,6 +3710,10 @@ func (resourceshapeFormCallback *ResourceShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(resourceshape_.Name), formDiv)
 		case "Resource":
 			FormDivSelectFieldToField(&(resourceshape_.Resource), resourceshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "OverideLayoutDirection":
+			FormDivBasicFieldToField(&(resourceshape_.OverideLayoutDirection), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(resourceshape_.LayoutDirection), formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(resourceshape_.X), formDiv)
 		case "Y":
@@ -4094,6 +4100,8 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 
 		case "IsOutputsNodeExpanded":
 			FormDivBasicFieldToField(&(task_.IsOutputsNodeExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(task_.LayoutDirection), formDiv)
 		case "IsWithCompletion":
 			FormDivBasicFieldToField(&(task_.IsWithCompletion), formDiv)
 		case "Completion":
@@ -5339,6 +5347,10 @@ func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(taskshape_.Task), taskshapeFormCallback.probe.stageOfInterest, formDiv)
 		case "IsShowDate":
 			FormDivBasicFieldToField(&(taskshape_.IsShowDate), formDiv)
+		case "OverideLayoutDirection":
+			FormDivBasicFieldToField(&(taskshape_.OverideLayoutDirection), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(taskshape_.LayoutDirection), formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(taskshape_.X), formDiv)
 		case "Y":

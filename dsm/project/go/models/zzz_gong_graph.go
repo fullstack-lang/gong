@@ -4573,6 +4573,9 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 		ops := Diff(stage, resource, resourceOther, "SubResources", resourceOther.SubResources, resource.SubResources)
 		diffs = append(diffs, ops)
 	}
+	if resource.LayoutDirection != resourceOther.LayoutDirection {
+		diffs = append(diffs, resource.GongMarshallField(stage, "LayoutDirection"))
+	}
 
 	return
 }
@@ -4626,6 +4629,12 @@ func (resourceshape *ResourceShape) GongDiff(stage *Stage, resourceshapeOther *R
 		if resourceshape.Resource != resourceshapeOther.Resource {
 			diffs = append(diffs, resourceshape.GongMarshallField(stage, "Resource"))
 		}
+	}
+	if resourceshape.OverideLayoutDirection != resourceshapeOther.OverideLayoutDirection {
+		diffs = append(diffs, resourceshape.GongMarshallField(stage, "OverideLayoutDirection"))
+	}
+	if resourceshape.LayoutDirection != resourceshapeOther.LayoutDirection {
+		diffs = append(diffs, resourceshape.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if resourceshape.X != resourceshapeOther.X {
 		diffs = append(diffs, resourceshape.GongMarshallField(stage, "X"))
@@ -4789,6 +4798,9 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	}
 	if task.IsOutputsNodeExpanded != taskOther.IsOutputsNodeExpanded {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsOutputsNodeExpanded"))
+	}
+	if task.LayoutDirection != taskOther.LayoutDirection {
+		diffs = append(diffs, task.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if task.IsWithCompletion != taskOther.IsWithCompletion {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsWithCompletion"))
@@ -5009,6 +5021,12 @@ func (taskshape *TaskShape) GongDiff(stage *Stage, taskshapeOther *TaskShape) (d
 	}
 	if taskshape.IsShowDate != taskshapeOther.IsShowDate {
 		diffs = append(diffs, taskshape.GongMarshallField(stage, "IsShowDate"))
+	}
+	if taskshape.OverideLayoutDirection != taskshapeOther.OverideLayoutDirection {
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "OverideLayoutDirection"))
+	}
+	if taskshape.LayoutDirection != taskshapeOther.LayoutDirection {
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if taskshape.X != taskshapeOther.X {
 		diffs = append(diffs, taskshape.GongMarshallField(stage, "X"))

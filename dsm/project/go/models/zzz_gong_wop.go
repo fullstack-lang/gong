@@ -462,6 +462,8 @@ type Resource_WOP struct {
 	IsImport bool
 
 	Description string
+
+	LayoutDirection LayoutDirection
 }
 
 func (from *Resource) CopyBasicFields(to *Resource) {
@@ -471,6 +473,7 @@ func (from *Resource) CopyBasicFields(to *Resource) {
 	to.IsExpanded = from.IsExpanded
 	to.IsImport = from.IsImport
 	to.Description = from.Description
+	to.LayoutDirection = from.LayoutDirection
 }
 
 type ResourceCompositionShape_WOP struct {
@@ -507,6 +510,10 @@ type ResourceShape_WOP struct {
 
 	Name string
 
+	OverideLayoutDirection bool
+
+	LayoutDirection LayoutDirection
+
 	X float64
 
 	Y float64
@@ -521,6 +528,8 @@ type ResourceShape_WOP struct {
 func (from *ResourceShape) CopyBasicFields(to *ResourceShape) {
 	// insertion point
 	to.Name = from.Name
+	to.OverideLayoutDirection = from.OverideLayoutDirection
+	to.LayoutDirection = from.LayoutDirection
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width
@@ -578,6 +587,8 @@ type Task_WOP struct {
 
 	IsOutputsNodeExpanded bool
 
+	LayoutDirection LayoutDirection
+
 	IsWithCompletion bool
 
 	Completion CompletionEnum
@@ -594,6 +605,7 @@ func (from *Task) CopyBasicFields(to *Task) {
 	to.Description = from.Description
 	to.IsInputsNodeExpanded = from.IsInputsNodeExpanded
 	to.IsOutputsNodeExpanded = from.IsOutputsNodeExpanded
+	to.LayoutDirection = from.LayoutDirection
 	to.IsWithCompletion = from.IsWithCompletion
 	to.Completion = from.Completion
 }
@@ -735,6 +747,10 @@ type TaskShape_WOP struct {
 
 	IsShowDate bool
 
+	OverideLayoutDirection bool
+
+	LayoutDirection LayoutDirection
+
 	X float64
 
 	Y float64
@@ -750,6 +766,8 @@ func (from *TaskShape) CopyBasicFields(to *TaskShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsShowDate = from.IsShowDate
+	to.OverideLayoutDirection = from.OverideLayoutDirection
+	to.LayoutDirection = from.LayoutDirection
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width

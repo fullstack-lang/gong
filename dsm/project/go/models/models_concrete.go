@@ -80,6 +80,11 @@ type TaskShape struct {
 
 	IsShowDate bool
 
+	// OverideLayoutDirection is true, if the LayoutDirection from
+	// the abstract Task is overided by the concrete TaskShape
+	OverideLayoutDirection bool
+	LayoutDirection        LayoutDirection
+
 	RectShape
 }
 
@@ -383,6 +388,11 @@ type ResourceShape struct {
 	Resource *Resource
 
 	isExpanded bool
+
+	// OverideLayoutDirection is true, if the LayoutDirection from
+	// the abstract Resource is overided by the concrete ResourceShape
+	OverideLayoutDirection bool
+	LayoutDirection        LayoutDirection
 
 	RectShape
 }
