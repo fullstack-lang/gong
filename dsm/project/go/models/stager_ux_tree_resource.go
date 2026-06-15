@@ -42,6 +42,93 @@ func (stager *Stager) treeResourceinDiagram(diagram *Diagram, resource *Resource
 		resourceNode.CheckboxToolTipText = "Add imported resource to diagram"
 	}
 
+	toggleAbstractLayoutButton := &tree.Button{
+		Name: "Toggle Abstract Layout Direction to " + func() string {
+			if resource.LayoutDirection == Vertical {
+				return "Horizontal"
+			} else {
+				return "Vertical"
+			}
+		}(),
+		HasToolTip:      true,
+		ToolTipPosition: tree.Above,
+		OnClick: func() {
+			if resource.LayoutDirection == Vertical {
+				resource.LayoutDirection = Horizontal
+			} else {
+				resource.LayoutDirection = Vertical
+			}
+			stager.stage.Commit()
+		},
+	}
+
+	if resource.LayoutDirection == Vertical {
+		toggleAbstractLayoutButton.Icon = string(buttons.BUTTON_swap_horiz)
+		toggleAbstractLayoutButton.ToolTipText = "Set layout to Horizontal"
+	} else {
+		toggleAbstractLayoutButton.Icon = string(buttons.BUTTON_swap_vert)
+		toggleAbstractLayoutButton.ToolTipText = "Set layout to Vertical"
+	}
+
+	if resourceNode.Menu == nil {
+		resourceNode.Menu = &tree.Menu{Name: "Menu"}
+	}
+	resourceNode.Menu.Buttons = append(resourceNode.Menu.Buttons, toggleAbstractLayoutButton)
+
+	if resourceShape, ok := diagram.map_Resource_ResourceShape[resource]; ok {
+		toggleLayoutButton := &tree.Button{
+			Name: "Toggle Concrete Layout Direction to " + func() string {
+				if resourceShape.LayoutDirection == Vertical {
+					return "Horizontal"
+				} else {
+					return "Vertical"
+				}
+			}(),
+			HasToolTip:      true,
+			ToolTipPosition: tree.Above,
+			OnClick: func() {
+				if resourceShape.LayoutDirection == Vertical {
+					resourceShape.LayoutDirection = Horizontal
+				} else {
+					resourceShape.LayoutDirection = Vertical
+				}
+				stager.stage.Commit()
+			},
+		}
+
+		if resourceShape.LayoutDirection == Vertical {
+			toggleLayoutButton.Icon = string(buttons.BUTTON_swap_horiz)
+			toggleLayoutButton.ToolTipText = "Set concrete layout to Horizontal"
+		} else {
+			toggleLayoutButton.Icon = string(buttons.BUTTON_swap_vert)
+			toggleLayoutButton.ToolTipText = "Set concrete layout to Vertical"
+		}
+
+		toggleOverrideButton := &tree.Button{
+			Name: "Toggle Override Layout Direction",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Above,
+			OnClick: func() {
+				resourceShape.OverideLayoutDirection = !resourceShape.OverideLayoutDirection
+				stager.stage.Commit()
+			},
+		}
+
+		if resourceShape.OverideLayoutDirection {
+			toggleOverrideButton.Icon = string(buttons.BUTTON_check_box)
+			toggleOverrideButton.ToolTipText = "Disable layout override"
+		} else {
+			toggleOverrideButton.Icon = string(buttons.BUTTON_check_box_outline_blank)
+			toggleOverrideButton.ToolTipText = "Enable layout override"
+		}
+
+		if resourceNode.Menu == nil {
+			resourceNode.Menu = &tree.Menu{Name: "Menu"}
+		}
+		resourceNode.Menu.Buttons = append(resourceNode.Menu.Buttons, toggleLayoutButton)
+		resourceNode.Menu.Buttons = append(resourceNode.Menu.Buttons, toggleOverrideButton)
+	}
+
 	conf := ItemShapeAndLinkButtonConfiguration[
 		Resource, *Resource, // AT, PAT (Added Element)
 		Resource, *Resource, // ParentAT, PParentAT (Parent Element)

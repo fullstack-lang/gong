@@ -763,6 +763,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "Description"))
 		pointersInitializesStatements.WriteString(resource.GongMarshallField(stage, "Tasks"))
 		pointersInitializesStatements.WriteString(resource.GongMarshallField(stage, "SubResources"))
+		initializerStatements.WriteString(resource.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	resourcecompositionshapeOrdered := []*ResourceCompositionShape{}
@@ -823,6 +824,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(resourceshape.GongMarshallField(stage, "Resource"))
+		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "OverideLayoutDirection"))
+		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Width"))
@@ -900,6 +903,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsInputsNodeExpanded"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Outputs"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsOutputsNodeExpanded"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsWithCompletion"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Completion"))
 	}
@@ -1092,6 +1096,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(taskshape.GongMarshallField(stage, "Task"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsShowDate"))
+		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "OverideLayoutDirection"))
+		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Width"))
@@ -2652,6 +2658,19 @@ func (resource *Resource) GongMarshallField(stage *Stage, fieldName string) (res
 		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(resource.Description))
+	case "LayoutDirection":
+		if resource.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+resource.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
 
 	case "ReferencedResource":
 		if resource.ReferencedResource != nil {
@@ -2774,6 +2793,24 @@ func (resourceshape *ResourceShape) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(resourceshape.Name))
+	case "OverideLayoutDirection":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OverideLayoutDirection")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", resourceshape.OverideLayoutDirection))
+	case "LayoutDirection":
+		if resourceshape.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+resourceshape.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", resourceshape.GongGetIdentifier(stage))
@@ -2954,6 +2991,19 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsOutputsNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsOutputsNodeExpanded))
+	case "LayoutDirection":
+		if task.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+task.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
 	case "IsWithCompletion":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
@@ -3371,6 +3421,24 @@ func (taskshape *TaskShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsShowDate")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", taskshape.IsShowDate))
+	case "OverideLayoutDirection":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OverideLayoutDirection")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", taskshape.OverideLayoutDirection))
+	case "LayoutDirection":
+		if taskshape.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+taskshape.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
@@ -3712,6 +3780,7 @@ func (resource *Resource) GongMarshallAllFields(stage *Stage) (initRes string, p
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "Description"))
 		pointersInitializesStatements.WriteString(resource.GongMarshallField(stage, "Tasks"))
 		pointersInitializesStatements.WriteString(resource.GongMarshallField(stage, "SubResources"))
+		initializerStatements.WriteString(resource.GongMarshallField(stage, "LayoutDirection"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3742,6 +3811,8 @@ func (resourceshape *ResourceShape) GongMarshallAllFields(stage *Stage) (initRes
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(resourceshape.GongMarshallField(stage, "Resource"))
+		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "OverideLayoutDirection"))
+		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(resourceshape.GongMarshallField(stage, "Width"))
@@ -3789,6 +3860,7 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsInputsNodeExpanded"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Outputs"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsOutputsNodeExpanded"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsWithCompletion"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Completion"))
 	}
@@ -3891,6 +3963,8 @@ func (taskshape *TaskShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(taskshape.GongMarshallField(stage, "Task"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "IsShowDate"))
+		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "OverideLayoutDirection"))
+		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(taskshape.GongMarshallField(stage, "Width"))

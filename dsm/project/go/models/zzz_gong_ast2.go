@@ -1156,6 +1156,8 @@ func (u *ResourceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		GongUnmarshallSliceOfPointers(&instance.Tasks, valueExpr, identifierMap)
 	case "SubResources":
 		GongUnmarshallSliceOfPointers(&instance.SubResources, valueExpr, identifierMap)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	}
 	return nil
 }
@@ -1230,6 +1232,10 @@ func (u *ResourceShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.Name = GongExtractString(valueExpr)
 	case "Resource":
 		GongUnmarshallPointer(&instance.Resource, valueExpr, identifierMap)
+	case "OverideLayoutDirection":
+		instance.OverideLayoutDirection = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
@@ -1350,6 +1356,8 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		GongUnmarshallSliceOfPointers(&instance.Outputs, valueExpr, identifierMap)
 	case "IsOutputsNodeExpanded":
 		instance.IsOutputsNodeExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "IsWithCompletion":
 		instance.IsWithCompletion = GongExtractBool(valueExpr)
 	case "Completion":
@@ -1596,6 +1604,10 @@ func (u *TaskShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		GongUnmarshallPointer(&instance.Task, valueExpr, identifierMap)
 	case "IsShowDate":
 		instance.IsShowDate = GongExtractBool(valueExpr)
+	case "OverideLayoutDirection":
+		instance.OverideLayoutDirection = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "X":
 		instance.X = GongExtractFloat(valueExpr)
 	case "Y":
