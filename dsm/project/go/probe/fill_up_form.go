@@ -25,6 +25,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsEditable_", instanceWithInferedType.IsEditable_, instanceWithInferedType, probe.formStage, formGroup,
@@ -161,6 +162,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("IsRootLibrary", instanceWithInferedType.IsRootLibrary, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("RootProducts", instanceWithInferedType, &instanceWithInferedType.RootProducts, formGroup, probe)
@@ -195,6 +197,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("Date", instanceWithInferedType.Date, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("DisplayVerticalBar", instanceWithInferedType.DisplayVerticalBar, instanceWithInferedType, probe.formStage, formGroup,
@@ -268,6 +271,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationSliceToForm("Products", instanceWithInferedType, &instanceWithInferedType.Products, formGroup, probe)
 		AssociationSliceToForm("Tasks", instanceWithInferedType, &instanceWithInferedType.Tasks, formGroup, probe)
 		AssociationSliceToForm("Resources", instanceWithInferedType, &instanceWithInferedType.Resources, formGroup, probe)
@@ -438,6 +442,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("IsImport", instanceWithInferedType.IsImport, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationFieldToForm("ReferencedProduct", instanceWithInferedType.ReferencedProduct, formGroup, probe)
@@ -448,7 +453,6 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsConsumersNodeExpanded", instanceWithInferedType.IsConsumersNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -596,6 +600,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("IsImport", instanceWithInferedType.IsImport, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationFieldToForm("ReferencedResource", instanceWithInferedType.ReferencedResource, formGroup, probe)
@@ -603,7 +608,6 @@ func FillUpForm(
 			true, false, 0, false, 0)
 		AssociationSliceToForm("Tasks", instanceWithInferedType, &instanceWithInferedType.Tasks, formGroup, probe)
 		AssociationSliceToForm("SubResources", instanceWithInferedType, &instanceWithInferedType.SubResources, formGroup, probe)
-		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -762,6 +766,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("IsImport", instanceWithInferedType.IsImport, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationFieldToForm("ReferencedTask", instanceWithInferedType.ReferencedTask, formGroup, probe)
@@ -778,7 +783,6 @@ func FillUpForm(
 		AssociationSliceToForm("Outputs", instanceWithInferedType, &instanceWithInferedType.Outputs, formGroup, probe)
 		BasicFieldtoForm("IsOutputsNodeExpanded", instanceWithInferedType.IsOutputsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("IsWithCompletion", instanceWithInferedType.IsWithCompletion, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		EnumTypeStringToForm("Completion", instanceWithInferedType.Completion, instanceWithInferedType, probe.formStage, formGroup)
@@ -916,6 +920,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationSliceToForm("Tasks", instanceWithInferedType, &instanceWithInferedType.Tasks, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",

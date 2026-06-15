@@ -10,15 +10,16 @@ import (
 //
 // Specifically, it performs the following checks and corrections:
 // 1. Hierarchy Trees: Ensures that Products, Resources, Tasks, and Libraries form valid forests (collections of trees).
-//    - It prevents any node from having multiple parents.
-//    - It prevents cyclic parent-child relationships.
+//   - It prevents any node from having multiple parents.
+//   - It prevents cyclic parent-child relationships.
+//
 // 2. Root Element Cleanup: Ensures that an element is either a root element or a sub-element, but not both.
-//    - If a Product, Resource, Task, or Library is found to be a sub-element of another node, it is removed
-//      from its library's Root list (e.g., RootProducts, RootTasks, etc.).
-// 3. Dependency DAG: Ensures that the relationships between Tasks and Products (via Inputs and Outputs)
-//    form a Directed Acyclic Graph.
-//    - It prevents circular dependencies (e.g., Task A outputs Product 1, which is input to Task B, which outputs
-//      Product 2, which is input to Task A).
+//   - If a Product, Resource, Task, or Library is found to be a sub-element of another node, it is removed
+//     from its library's Root list (e.g., RootProducts, RootTasks, etc.).
+//     3. Dependency DAG: Ensures that the relationships between Tasks and Products (via Inputs and Outputs)
+//     form a Directed Acyclic Graph.
+//   - It prevents circular dependencies (e.g., Task A outputs Product 1, which is input to Task B, which outputs
+//     Product 2, which is input to Task A).
 //
 // If any violations are found, they are automatically corrected (by breaking edges) and the stage is marked
 // as needing a commit. Notifications are also added to the stager's probe form if available.

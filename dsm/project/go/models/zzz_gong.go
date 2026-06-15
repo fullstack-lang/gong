@@ -6606,6 +6606,11 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -6922,6 +6927,11 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
 			Name:               "IsRootLibrary",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -6978,6 +6988,11 @@ func (milestone *Milestone) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "Date",
@@ -7046,6 +7061,11 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:                 "Products",
@@ -7259,6 +7279,11 @@ func (product *Product) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
 			Name:               "IsImport",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -7283,11 +7308,6 @@ func (product *Product) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsConsumersNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 	}
 	return
@@ -7396,6 +7416,11 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
 			Name:               "IsImport",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -7417,11 +7442,6 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "SubResources",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Resource",
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 	}
 	return
@@ -7577,6 +7597,11 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
 			Name:               "IsImport",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -7619,11 +7644,6 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsOutputsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "IsWithCompletion",
@@ -7694,6 +7714,11 @@ func (taskgroup *TaskGroup) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:                 "Tasks",
@@ -7949,6 +7974,9 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
 		res.valueBool = diagram.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := diagram.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
 		res.valueBool = diagram.IsChecked
@@ -8396,6 +8424,9 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", library.IsExpanded)
 		res.valueBool = library.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := library.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "IsRootLibrary":
 		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
 		res.valueBool = library.IsRootLibrary
@@ -8485,6 +8516,9 @@ func (milestone *Milestone) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", milestone.IsExpanded)
 		res.valueBool = milestone.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := milestone.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "Date":
 		res.valueString = milestone.Date.String()
 	case "DisplayVerticalBar":
@@ -8551,6 +8585,9 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", note.IsExpanded)
 		res.valueBool = note.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := note.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "Products":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range note.Products {
@@ -8760,6 +8797,9 @@ func (product *Product) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", product.IsExpanded)
 		res.valueBool = product.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := product.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "IsImport":
 		res.valueString = fmt.Sprintf("%t", product.IsImport)
 		res.valueBool = product.IsImport
@@ -8790,9 +8830,6 @@ func (product *Product) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", product.IsConsumersNodeExpanded)
 		res.valueBool = product.IsConsumersNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := product.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -8887,6 +8924,9 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = fmt.Sprintf("%t", resource.IsExpanded)
 		res.valueBool = resource.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := resource.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "IsImport":
 		res.valueString = fmt.Sprintf("%t", resource.IsImport)
 		res.valueBool = resource.IsImport
@@ -8919,9 +8959,6 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "LayoutDirection":
-		enum := resource.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -9059,6 +9096,9 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", task.IsExpanded)
 		res.valueBool = task.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := task.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "IsImport":
 		res.valueString = fmt.Sprintf("%t", task.IsImport)
 		res.valueBool = task.IsImport
@@ -9113,9 +9153,6 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", task.IsOutputsNodeExpanded)
 		res.valueBool = task.IsOutputsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := task.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "IsWithCompletion":
 		res.valueString = fmt.Sprintf("%t", task.IsWithCompletion)
 		res.valueBool = task.IsWithCompletion
@@ -9175,6 +9212,9 @@ func (taskgroup *TaskGroup) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", taskgroup.IsExpanded)
 		res.valueBool = taskgroup.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := taskgroup.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "Tasks":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range taskgroup.Tasks {
@@ -9371,6 +9411,8 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		diagram.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		diagram.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsChecked":
 		diagram.IsChecked = value.GetValueBool()
 	case "IsEditable_":
@@ -9800,6 +9842,8 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		library.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		library.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsRootLibrary":
 		library.IsRootLibrary = value.GetValueBool()
 	case "RootProducts":
@@ -9915,6 +9959,8 @@ func (milestone *Milestone) GongSetFieldValue(fieldName string, value GongFieldV
 		milestone.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		milestone.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		milestone.LayoutDirection.FromCodeString(value.GetValueString())
 	case "DisplayVerticalBar":
 		milestone.DisplayVerticalBar = value.GetValueBool()
 	case "TaskGroupsToDisplay":
@@ -9978,6 +10024,8 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		note.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		note.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		note.LayoutDirection.FromCodeString(value.GetValueString())
 	case "Products":
 		note.Products = make([]*Product, 0)
 		ids := strings.Split(value.ids, ";")
@@ -10202,6 +10250,8 @@ func (product *Product) GongSetFieldValue(fieldName string, value GongFieldValue
 		product.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		product.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		product.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsImport":
 		product.IsImport = value.GetValueBool()
 	case "ReferencedProduct":
@@ -10235,8 +10285,6 @@ func (product *Product) GongSetFieldValue(fieldName string, value GongFieldValue
 		product.IsProducersNodeExpanded = value.GetValueBool()
 	case "IsConsumersNodeExpanded":
 		product.IsConsumersNodeExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		product.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10322,6 +10370,8 @@ func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldVal
 		resource.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		resource.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		resource.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsImport":
 		resource.IsImport = value.GetValueBool()
 	case "ReferencedResource":
@@ -10365,8 +10415,6 @@ func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldVal
 				}
 			}
 		}
-	case "LayoutDirection":
-		resource.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10497,6 +10545,8 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		task.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		task.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		task.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsImport":
 		task.IsImport = value.GetValueBool()
 	case "ReferencedTask":
@@ -10558,8 +10608,6 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		}
 	case "IsOutputsNodeExpanded":
 		task.IsOutputsNodeExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		task.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsWithCompletion":
 		task.IsWithCompletion = value.GetValueBool()
 	case "Completion":
@@ -10613,6 +10661,8 @@ func (taskgroup *TaskGroup) GongSetFieldValue(fieldName string, value GongFieldV
 		taskgroup.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		taskgroup.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		taskgroup.LayoutDirection.FromCodeString(value.GetValueString())
 	case "Tasks":
 		taskgroup.Tasks = make([]*Task, 0)
 		ids := strings.Split(value.ids, ";")

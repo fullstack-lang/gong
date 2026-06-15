@@ -12,6 +12,9 @@ type AbstractType interface {
 	SetComputedPrefixInt([]int)
 	GetIsInRenameMode() bool
 	SetIsInRenameMode(bool)
+
+	GetLayoutDirection() LayoutDirection
+	SetLayoutDirection(LayoutDirection)
 }
 
 type AbstractTypeFields struct {
@@ -26,6 +29,17 @@ type AbstractTypeFields struct {
 	// When the full PBS is displayed, the computedWidth is the number of node
 	// aligned below. A leaf node has a computedWidth of 1
 	computedWidth int
+
+	// Directive for display in the concrete diagram
+	LayoutDirection LayoutDirection
+}
+
+func (r *AbstractTypeFields) GetLayoutDirection() LayoutDirection {
+	return r.LayoutDirection
+}
+
+func (r *AbstractTypeFields) SetLayoutDirection(d LayoutDirection) {
+	r.LayoutDirection = d
 }
 
 func (r *AbstractTypeFields) GetComputedWidth() int {

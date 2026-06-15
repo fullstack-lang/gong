@@ -46,10 +46,6 @@ type Task struct {
 	// task is a root task or an orphaned task
 	parentTask *Task
 
-	// Directive for display in the concrete diagram
-	// can be overriden by the concrete TaskShape
-	LayoutDirection LayoutDirection
-
 	// Completion Management
 	IsWithCompletion bool
 	Completion       CompletionEnum
@@ -127,10 +123,6 @@ type Product struct {
 	// a parentProduct is computed at each UX look. It can be null if the
 	// product is a root product or an orphaned product
 	parentProduct *Product
-
-	// Directive for display in the concrete diagram
-	// can be overriden by the concrete ProductShape
-	LayoutDirection LayoutDirection
 }
 
 type Resource struct {
@@ -154,10 +146,6 @@ type Resource struct {
 	// a parentResource is computed at each UX look. It can be null if the
 	// resource is a root resource or an orphaned resource
 	parentResource *Resource
-
-	// Directive for display in the concrete diagram
-	// can be overriden by the concrete ResourceShape
-	LayoutDirection LayoutDirection
 }
 
 type Milestone struct {
