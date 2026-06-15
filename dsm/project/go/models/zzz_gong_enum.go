@@ -272,6 +272,118 @@ func (orientationtype OrientationType) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for TextPositionEnum
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (textpositionenum TextPositionEnum) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch textpositionenum {
+	// insertion code per enum code
+	case TEXT_POSITION_TOP:
+		res = "POSITION_TOP"
+	case TEXT_POSITION_BOTTOM:
+		res = "POSITION_BOTTOM"
+	case TEXT_POSITION_LEFT:
+		res = "POSITION_LEFT"
+	case TEXT_POSITION_RIGHT:
+		res = "POSITION_RIGHT"
+	case TEXT_POSITION_CENTER:
+		res = "POSITION_CENTER"
+	}
+	return
+}
+
+func (textpositionenum *TextPositionEnum) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "POSITION_TOP":
+		*textpositionenum = TEXT_POSITION_TOP
+		return
+	case "POSITION_BOTTOM":
+		*textpositionenum = TEXT_POSITION_BOTTOM
+		return
+	case "POSITION_LEFT":
+		*textpositionenum = TEXT_POSITION_LEFT
+		return
+	case "POSITION_RIGHT":
+		*textpositionenum = TEXT_POSITION_RIGHT
+		return
+	case "POSITION_CENTER":
+		*textpositionenum = TEXT_POSITION_CENTER
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (textpositionenum *TextPositionEnum) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "TEXT_POSITION_TOP":
+		*textpositionenum = TEXT_POSITION_TOP
+	case "TEXT_POSITION_BOTTOM":
+		*textpositionenum = TEXT_POSITION_BOTTOM
+	case "TEXT_POSITION_LEFT":
+		*textpositionenum = TEXT_POSITION_LEFT
+	case "TEXT_POSITION_RIGHT":
+		*textpositionenum = TEXT_POSITION_RIGHT
+	case "TEXT_POSITION_CENTER":
+		*textpositionenum = TEXT_POSITION_CENTER
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (textpositionenum *TextPositionEnum) ToCodeString() (res string) {
+
+	switch *textpositionenum {
+	// insertion code per enum code
+	case TEXT_POSITION_TOP:
+		res = "TEXT_POSITION_TOP"
+	case TEXT_POSITION_BOTTOM:
+		res = "TEXT_POSITION_BOTTOM"
+	case TEXT_POSITION_LEFT:
+		res = "TEXT_POSITION_LEFT"
+	case TEXT_POSITION_RIGHT:
+		res = "TEXT_POSITION_RIGHT"
+	case TEXT_POSITION_CENTER:
+		res = "TEXT_POSITION_CENTER"
+	}
+	return
+}
+
+func (textpositionenum TextPositionEnum) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "TEXT_POSITION_TOP")
+	res = append(res, "TEXT_POSITION_BOTTOM")
+	res = append(res, "TEXT_POSITION_LEFT")
+	res = append(res, "TEXT_POSITION_RIGHT")
+	res = append(res, "TEXT_POSITION_CENTER")
+
+	return
+}
+
+func (textpositionenum TextPositionEnum) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "POSITION_TOP")
+	res = append(res, "POSITION_BOTTOM")
+	res = append(res, "POSITION_LEFT")
+	res = append(res, "POSITION_RIGHT")
+	res = append(res, "POSITION_CENTER")
+
+	return
+}
+
 // Utility function for TimeStepScaleEnum
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value

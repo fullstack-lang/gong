@@ -3707,6 +3707,12 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			task_.TaskGroupsToDisplay = instanceSlice
 			taskFormCallback.probe.UpdateSliceOfPointersCallback(task_, "TaskGroupsToDisplay", &task_.TaskGroupsToDisplay)
 
+		case "TextPosition":
+			FormDivEnumStringFieldToField(&(task_.TextPosition), formDiv)
+		case "XOffset":
+			FormDivBasicFieldToField(&(task_.XOffset), formDiv)
+		case "YOffset":
+			FormDivBasicFieldToField(&(task_.YOffset), formDiv)
 		case "Diagram:TasksWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

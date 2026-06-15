@@ -553,6 +553,12 @@ type Task_WOP struct {
 	Completion CompletionEnum
 
 	DisplayVerticalBar bool
+
+	TextPosition TextPositionEnum
+
+	XOffset float64
+
+	YOffset float64
 }
 
 func (from *Task) CopyBasicFields(to *Task) {
@@ -571,6 +577,9 @@ func (from *Task) CopyBasicFields(to *Task) {
 	to.IsWithCompletion = from.IsWithCompletion
 	to.Completion = from.Completion
 	to.DisplayVerticalBar = from.DisplayVerticalBar
+	to.TextPosition = from.TextPosition
+	to.XOffset = from.XOffset
+	to.YOffset = from.YOffset
 }
 
 type TaskCompositionShape_WOP struct {

@@ -712,6 +712,11 @@ func FillUpForm(
 		BasicFieldtoForm("DisplayVerticalBar", instanceWithInferedType.DisplayVerticalBar, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("TaskGroupsToDisplay", instanceWithInferedType, &instanceWithInferedType.TaskGroupsToDisplay, formGroup, probe)
+		EnumTypeStringToForm("TextPosition", instanceWithInferedType.TextPosition, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("XOffset", instanceWithInferedType.XOffset, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("YOffset", instanceWithInferedType.YOffset, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

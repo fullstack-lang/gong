@@ -629,6 +629,9 @@ func _(stage *models.Stage) {
 	__Task__00000000_.IsWithCompletion = false
 	__Task__00000000_.Completion = ""
 	__Task__00000000_.DisplayVerticalBar = false
+	__Task__00000000_.TextPosition = ""
+	__Task__00000000_.XOffset = 0.000000
+	__Task__00000000_.YOffset = 0.000000
 
 	__Task__00000001_.Name = `L1.W2`
 	__Task__00000001_.ComputedPrefix = `2`
@@ -644,6 +647,9 @@ func _(stage *models.Stage) {
 	__Task__00000001_.IsWithCompletion = false
 	__Task__00000001_.Completion = ""
 	__Task__00000001_.DisplayVerticalBar = false
+	__Task__00000001_.TextPosition = ""
+	__Task__00000001_.XOffset = 0.000000
+	__Task__00000001_.YOffset = 0.000000
 
 	__Task__00000002_.Name = `L2.W1`
 	__Task__00000002_.ComputedPrefix = `3`
@@ -659,6 +665,9 @@ func _(stage *models.Stage) {
 	__Task__00000002_.IsWithCompletion = false
 	__Task__00000002_.Completion = ""
 	__Task__00000002_.DisplayVerticalBar = false
+	__Task__00000002_.TextPosition = ""
+	__Task__00000002_.XOffset = 0.000000
+	__Task__00000002_.YOffset = 0.000000
 
 	__Task__00000003_.Name = `spring 26`
 	__Task__00000003_.ComputedPrefix = `1.2`
@@ -674,6 +683,9 @@ func _(stage *models.Stage) {
 	__Task__00000003_.IsWithCompletion = false
 	__Task__00000003_.Completion = ""
 	__Task__00000003_.DisplayVerticalBar = false
+	__Task__00000003_.TextPosition = ""
+	__Task__00000003_.XOffset = 0.000000
+	__Task__00000003_.YOffset = 0.000000
 
 	__Task__00000004_.Name = `summer 26`
 	__Task__00000004_.ComputedPrefix = `1.3`
@@ -689,6 +701,9 @@ func _(stage *models.Stage) {
 	__Task__00000004_.IsWithCompletion = false
 	__Task__00000004_.Completion = ""
 	__Task__00000004_.DisplayVerticalBar = false
+	__Task__00000004_.TextPosition = ""
+	__Task__00000004_.XOffset = 0.000000
+	__Task__00000004_.YOffset = 0.000000
 
 	__Task__00000005_.Name = `winter 26`
 	__Task__00000005_.ComputedPrefix = `1.1`
@@ -704,6 +719,9 @@ func _(stage *models.Stage) {
 	__Task__00000005_.IsWithCompletion = false
 	__Task__00000005_.Completion = ""
 	__Task__00000005_.DisplayVerticalBar = false
+	__Task__00000005_.TextPosition = ""
+	__Task__00000005_.XOffset = 0.000000
+	__Task__00000005_.YOffset = 0.000000
 
 	__Task__00000006_.Name = `winter 27`
 	__Task__00000006_.ComputedPrefix = `1.4`
@@ -719,6 +737,9 @@ func _(stage *models.Stage) {
 	__Task__00000006_.IsWithCompletion = false
 	__Task__00000006_.Completion = ""
 	__Task__00000006_.DisplayVerticalBar = false
+	__Task__00000006_.TextPosition = ""
+	__Task__00000006_.XOffset = 15.000000
+	__Task__00000006_.YOffset = 0.000000
 
 	__Task__00000007_.Name = `Seasons`
 	__Task__00000007_.ComputedPrefix = `1`
@@ -734,6 +755,9 @@ func _(stage *models.Stage) {
 	__Task__00000007_.IsWithCompletion = false
 	__Task__00000007_.Completion = ""
 	__Task__00000007_.DisplayVerticalBar = false
+	__Task__00000007_.TextPosition = ""
+	__Task__00000007_.XOffset = 0.000000
+	__Task__00000007_.YOffset = 0.000000
 
 	__Task__00000008_.Name = `Jan 26`
 	__Task__00000008_.ComputedPrefix = `1.1.1`
@@ -749,6 +773,9 @@ func _(stage *models.Stage) {
 	__Task__00000008_.IsWithCompletion = false
 	__Task__00000008_.Completion = ""
 	__Task__00000008_.DisplayVerticalBar = false
+	__Task__00000008_.TextPosition = ""
+	__Task__00000008_.XOffset = 0.000000
+	__Task__00000008_.YOffset = 0.000000
 
 	__Task__00000009_.Name = `Fev 2`
 	__Task__00000009_.ComputedPrefix = `1.1.2`
@@ -764,6 +791,9 @@ func _(stage *models.Stage) {
 	__Task__00000009_.IsWithCompletion = false
 	__Task__00000009_.Completion = ""
 	__Task__00000009_.DisplayVerticalBar = false
+	__Task__00000009_.TextPosition = ""
+	__Task__00000009_.XOffset = 0.000000
+	__Task__00000009_.YOffset = 0.000000
 
 	__Task__00000010_.Name = `Mar 3`
 	__Task__00000010_.ComputedPrefix = `1.1.3`
@@ -779,6 +809,9 @@ func _(stage *models.Stage) {
 	__Task__00000010_.IsWithCompletion = false
 	__Task__00000010_.Completion = ""
 	__Task__00000010_.DisplayVerticalBar = false
+	__Task__00000010_.TextPosition = ""
+	__Task__00000010_.XOffset = 0.000000
+	__Task__00000010_.YOffset = 0.000000
 
 	__Task__00000011_.Name = `New Year 2027`
 	__Task__00000011_.ComputedPrefix = `1.5`
@@ -794,6 +827,9 @@ func _(stage *models.Stage) {
 	__Task__00000011_.IsWithCompletion = false
 	__Task__00000011_.Completion = ""
 	__Task__00000011_.DisplayVerticalBar = false
+	__Task__00000011_.TextPosition = models.TEXT_POSITION_TOP
+	__Task__00000011_.XOffset = 20.000000
+	__Task__00000011_.YOffset = -17.000000
 
 	__TaskCompositionShape__00000011_.Name = `Seasons to spring 26`
 	__TaskCompositionShape__00000011_.StartRatio = 0.500000
@@ -1274,9 +1310,9 @@ func _(stage *models.Stage) {
 	__TaskGroup__00000004_.Tasks = append(__TaskGroup__00000004_.Tasks, __Task__00000005_)
 	__TaskGroup__00000004_.Tasks = append(__TaskGroup__00000004_.Tasks, __Task__00000003_)
 	__TaskGroup__00000004_.Tasks = append(__TaskGroup__00000004_.Tasks, __Task__00000004_)
-	__TaskGroup__00000004_.Tasks = append(__TaskGroup__00000004_.Tasks, __Task__00000011_)
 	__TaskGroup__00000005_.Tasks = append(__TaskGroup__00000005_.Tasks, __Task__00000006_)
 	__TaskGroup__00000005_.Tasks = append(__TaskGroup__00000005_.Tasks, __Task__00000008_)
+	__TaskGroup__00000005_.Tasks = append(__TaskGroup__00000005_.Tasks, __Task__00000011_)
 	__TaskGroupShape__00000003_.TaskGroup = __TaskGroup__00000004_
 	__TaskGroupShape__00000004_.TaskGroup = __TaskGroup__00000005_
 	__TaskGroupShape__00000005_.TaskGroup = __TaskGroup__00000004_

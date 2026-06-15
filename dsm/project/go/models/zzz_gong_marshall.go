@@ -845,6 +845,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Completion"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DisplayVerticalBar"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "TaskGroupsToDisplay"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "TextPosition"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "XOffset"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "YOffset"))
 	}
 
 	taskcompositionshapeOrdered := []*TaskCompositionShape{}
@@ -2862,6 +2865,29 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DisplayVerticalBar")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.DisplayVerticalBar))
+	case "TextPosition":
+		if task.TextPosition.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextPosition")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+task.TextPosition.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextPosition")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "XOffset":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XOffset")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.XOffset))
+	case "YOffset":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "YOffset")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", task.YOffset))
 
 	case "ReferencedTask":
 		if task.ReferencedTask != nil {
@@ -3695,6 +3721,9 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Completion"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "DisplayVerticalBar"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "TaskGroupsToDisplay"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "TextPosition"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "XOffset"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "YOffset"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -4459,6 +4459,15 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		ops := Diff(stage, task, taskOther, "TaskGroupsToDisplay", taskOther.TaskGroupsToDisplay, task.TaskGroupsToDisplay)
 		diffs = append(diffs, ops)
 	}
+	if task.TextPosition != taskOther.TextPosition {
+		diffs = append(diffs, task.GongMarshallField(stage, "TextPosition"))
+	}
+	if task.XOffset != taskOther.XOffset {
+		diffs = append(diffs, task.GongMarshallField(stage, "XOffset"))
+	}
+	if task.YOffset != taskOther.YOffset {
+		diffs = append(diffs, task.GongMarshallField(stage, "YOffset"))
+	}
 
 	return
 }

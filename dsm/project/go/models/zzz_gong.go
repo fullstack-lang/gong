@@ -7113,6 +7113,19 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "TaskGroup",
 		},
+		{
+			Name:                 "TextPosition",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "TextPositionEnum",
+		},
+		{
+			Name:               "XOffset",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "YOffset",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
 	}
 	return
 }
@@ -8534,6 +8547,17 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "TextPosition":
+		enum := task.TextPosition
+		res.valueString = enum.ToCodeString()
+	case "XOffset":
+		res.valueString = fmt.Sprintf("%f", task.XOffset)
+		res.valueFloat = task.XOffset
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "YOffset":
+		res.valueString = fmt.Sprintf("%f", task.YOffset)
+		res.valueFloat = task.YOffset
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -9895,6 +9919,12 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
+	case "TextPosition":
+		task.TextPosition.FromCodeString(value.GetValueString())
+	case "XOffset":
+		task.XOffset = value.GetValueFloat()
+	case "YOffset":
+		task.YOffset = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
