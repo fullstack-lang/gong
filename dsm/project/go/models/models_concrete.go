@@ -473,26 +473,3 @@ func (s *ResourceTaskShape) SetAbstractStartElement(abstractElement AbstractType
 }
 
 var _ AssociationConcreteType = (*ResourceTaskShape)(nil)
-
-// MilestoneShape
-type MilestoneShape struct {
-	Name      string
-	Milestone *Milestone
-
-	isExpanded bool
-
-	RectShape
-}
-
-func (s *MilestoneShape) GetAbstractElement() AbstractType {
-	if s.Milestone == nil {
-		return nil // Explicitly return interface nil
-	}
-	return s.Milestone
-}
-
-func (s *MilestoneShape) SetAbstractElement(abstractElement AbstractType) {
-	s.Milestone = abstractElement.(*Milestone)
-}
-
-var _ ConcreteType = (*MilestoneShape)(nil)

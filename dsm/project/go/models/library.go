@@ -22,7 +22,7 @@ type Library struct {
 	RootProducts   []*Product
 	RootTasks      []*Task
 	RootTaskGroups []*TaskGroup
-	RootMilestones []*Milestone
+
 	RootResources  []*Resource
 
 	Notes []*Note

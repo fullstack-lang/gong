@@ -40,8 +40,6 @@ type Diagram_WOP struct {
 
 	IsTaskGroupsNodeExpanded bool
 
-	IsMilestonesNodeExpanded bool
-
 	DateFormat string
 
 	IsNotesNodeExpanded bool
@@ -121,7 +119,6 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
 	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
 	to.IsTaskGroupsNodeExpanded = from.IsTaskGroupsNodeExpanded
-	to.IsMilestonesNodeExpanded = from.IsMilestonesNodeExpanded
 	to.DateFormat = from.DateFormat
 	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
@@ -182,58 +179,6 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.IsExpanded = from.IsExpanded
 	to.LayoutDirection = from.LayoutDirection
 	to.IsRootLibrary = from.IsRootLibrary
-}
-
-type Milestone_WOP struct {
-	// insertion point
-
-	Name string
-
-	ComputedPrefix string
-
-	IsExpanded bool
-
-	LayoutDirection LayoutDirection
-
-	Date time.Time
-
-	DisplayVerticalBar bool
-}
-
-func (from *Milestone) CopyBasicFields(to *Milestone) {
-	// insertion point
-	to.Name = from.Name
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
-	to.Date = from.Date
-	to.DisplayVerticalBar = from.DisplayVerticalBar
-}
-
-type MilestoneShape_WOP struct {
-	// insertion point
-
-	Name string
-
-	X float64
-
-	Y float64
-
-	Width float64
-
-	Height float64
-
-	IsHidden bool
-}
-
-func (from *MilestoneShape) CopyBasicFields(to *MilestoneShape) {
-	// insertion point
-	to.Name = from.Name
-	to.X = from.X
-	to.Y = from.Y
-	to.Width = from.Width
-	to.Height = from.Height
-	to.IsHidden = from.IsHidden
 }
 
 type Note_WOP struct {
@@ -595,6 +540,8 @@ type Task_WOP struct {
 
 	End time.Time
 
+	IsMilestone bool
+
 	Description string
 
 	IsInputsNodeExpanded bool
@@ -604,6 +551,8 @@ type Task_WOP struct {
 	IsWithCompletion bool
 
 	Completion CompletionEnum
+
+	DisplayVerticalBar bool
 }
 
 func (from *Task) CopyBasicFields(to *Task) {
@@ -615,11 +564,13 @@ func (from *Task) CopyBasicFields(to *Task) {
 	to.IsImport = from.IsImport
 	to.Start = from.Start
 	to.End = from.End
+	to.IsMilestone = from.IsMilestone
 	to.Description = from.Description
 	to.IsInputsNodeExpanded = from.IsInputsNodeExpanded
 	to.IsOutputsNodeExpanded = from.IsOutputsNodeExpanded
 	to.IsWithCompletion = from.IsWithCompletion
 	to.Completion = from.Completion
+	to.DisplayVerticalBar = from.DisplayVerticalBar
 }
 
 type TaskCompositionShape_WOP struct {

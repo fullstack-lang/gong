@@ -260,54 +260,7 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		}
 	}
 
-	milestonesNode := &tree.Node{
-		Name:            "Milestones",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      diagram.IsMilestonesNodeExpanded,
-		IsNodeClickable: true,
-	}
-	wbsNode.Children = append(wbsNode.Children, milestonesNode)
-	milestonesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsMilestonesNodeExpanded)
-	milestonesNode.OnClick = onNodeClicked(stager, diagram)
 
-	confMilestones := ItemAndShapeButtonConfiguration[
-		Milestone, *Milestone, // AT, PAT (Added Element)
-		Milestone, *Milestone, // ParentAT, PParentAT (Parent Element)
-		MilestoneShape, *MilestoneShape, // CT, PCT (Concrete Shape)
-	]{
-		ItemButtonConfiguration: ItemButtonConfiguration[
-			Milestone, *Milestone, // AT, PAT (Added Element)
-			Milestone, *Milestone, // ParentAT, PParentAT (Parent Element)
-		]{
-			parentNode:                         milestonesNode,
-			sliceForNewAddedItem:               &library.RootMilestones,
-			isParentNodeExpandedByAddOperation: true,
-			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-			parentNodeExpansionBooleanValue:    &diagram.IsMilestonesNodeExpanded,
-		},
-		receivingDiagram:      diagram,
-		sliceForNewAddedShape: &diagram.MilestoneShapes,
-	}
-	addCreateItemAndShapeButton(stager, confMilestones)
-
-	for _, milestone := range library.RootMilestones {
-		milestoneNodeConf := TreeNodeAndShapeConfigurationWithoutLink[
-			*Milestone, Milestone, // AT, AT_
-			*Library, Library, // ParentAT, ParentAT_
-			*MilestoneShape, MilestoneShape, // CT, CT_
-			*Diagram, // DiagramType
-		]{
-			diagram:                     diagram,
-			parentNode:                  milestonesNode,
-			element:                     milestone,
-			parentElement:               library,
-			elementsWhoseNodeIsExpanded: &diagram.MilestonesWhoseNodeIsExpanded,
-			shapes:                      &diagram.MilestoneShapes,
-			shapesMap:                   diagram.map_Milestone_MilestoneShape,
-		}
-		milestoneNode := addNodeToTreeWithoutLink(stager, milestoneNodeConf)
-		_ = milestoneNode
-	}
 
 	for _, task := range library.RootTasks {
 		stager.treeTask(diagram, task, wbsNode)
