@@ -58,7 +58,23 @@ type Task struct {
 
 	// a red diamond a text anchor will be displayed
 	TaskGroupsToDisplay []*TaskGroup
+
+	// Custom name positions
+	TextPosition TextPositionEnum
+	XOffset      float64
+	YOffset      float64
 }
+
+// TextPositionEnum
+type TextPositionEnum string
+
+const (
+	TEXT_POSITION_TOP    TextPositionEnum = "POSITION_TOP"
+	TEXT_POSITION_BOTTOM TextPositionEnum = "POSITION_BOTTOM"
+	TEXT_POSITION_LEFT   TextPositionEnum = "POSITION_LEFT"
+	TEXT_POSITION_RIGHT  TextPositionEnum = "POSITION_RIGHT"
+	TEXT_POSITION_CENTER TextPositionEnum = "POSITION_CENTER"
+)
 
 // CompletionEnum
 type CompletionEnum string
@@ -156,8 +172,6 @@ type Resource struct {
 	// resource is a root resource or an orphaned resource
 	parentResource *Resource
 }
-
-
 
 var (
 	_ AbstractType = (*Product)(nil)

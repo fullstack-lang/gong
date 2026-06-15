@@ -337,10 +337,30 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 					milestoneText := new(svg.RectAnchoredText).Stage(stager.svgStage)
 					milestoneText.Name = task.Name
 					milestoneText.Content = task.Name
-					milestoneText.X_Offset = XLeftText
-					milestoneText.Y_Offset = 0
-					milestoneText.RectAnchorType = svg.RECT_LEFT
-					milestoneText.TextAnchorType = svg.TEXT_ANCHOR_START
+					milestoneText.X_Offset = XLeftText + task.XOffset
+					milestoneText.Y_Offset = task.YOffset
+					
+					switch task.TextPosition {
+					case TEXT_POSITION_TOP:
+						milestoneText.RectAnchorType = svg.RECT_TOP
+						milestoneText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+					case TEXT_POSITION_BOTTOM:
+						milestoneText.RectAnchorType = svg.RECT_BOTTOM
+						milestoneText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+					case TEXT_POSITION_LEFT:
+						milestoneText.RectAnchorType = svg.RECT_LEFT
+						milestoneText.TextAnchorType = svg.TEXT_ANCHOR_END
+					case TEXT_POSITION_RIGHT:
+						milestoneText.RectAnchorType = svg.RECT_RIGHT
+						milestoneText.TextAnchorType = svg.TEXT_ANCHOR_START
+					case TEXT_POSITION_CENTER:
+						milestoneText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+						milestoneText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+					default:
+						milestoneText.RectAnchorType = svg.RECT_LEFT
+						milestoneText.TextAnchorType = svg.TEXT_ANCHOR_START
+					}
+
 					milestoneText.Color = "black"
 					milestoneText.FillOpacity = 1.0
 
@@ -351,10 +371,30 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 				barText := new(svg.RectAnchoredText).Stage(stager.svgStage)
 				barText.Name = task.Name
 				barText.Content = task.Name
-				barText.X_Offset = XLeftText
-				barText.Y_Offset = 0
-				barText.RectAnchorType = svg.RECT_LEFT
-				barText.TextAnchorType = svg.TEXT_ANCHOR_START
+				barText.X_Offset = XLeftText + task.XOffset
+				barText.Y_Offset = task.YOffset
+				
+				switch task.TextPosition {
+				case TEXT_POSITION_TOP:
+					barText.RectAnchorType = svg.RECT_TOP
+					barText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+				case TEXT_POSITION_BOTTOM:
+					barText.RectAnchorType = svg.RECT_BOTTOM
+					barText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+				case TEXT_POSITION_LEFT:
+					barText.RectAnchorType = svg.RECT_LEFT
+					barText.TextAnchorType = svg.TEXT_ANCHOR_END
+				case TEXT_POSITION_RIGHT:
+					barText.RectAnchorType = svg.RECT_RIGHT
+					barText.TextAnchorType = svg.TEXT_ANCHOR_START
+				case TEXT_POSITION_CENTER:
+					barText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+					barText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+				default:
+					barText.RectAnchorType = svg.RECT_LEFT
+					barText.TextAnchorType = svg.TEXT_ANCHOR_START
+				}
+
 				barText.Color = "black"
 				barText.FillOpacity = 1.0
 				rect4Bar.RectAnchoredTexts = append(rect4Bar.RectAnchoredTexts, barText)

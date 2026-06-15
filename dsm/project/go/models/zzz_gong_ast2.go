@@ -1280,6 +1280,12 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.DisplayVerticalBar = GongExtractBool(valueExpr)
 	case "TaskGroupsToDisplay":
 		GongUnmarshallSliceOfPointers(&instance.TaskGroupsToDisplay, valueExpr, identifierMap)
+	case "TextPosition":
+		GongUnmarshallEnum(&instance.TextPosition, valueExpr)
+	case "XOffset":
+		instance.XOffset = GongExtractFloat(valueExpr)
+	case "YOffset":
+		instance.YOffset = GongExtractFloat(valueExpr)
 	}
 	return nil
 }
