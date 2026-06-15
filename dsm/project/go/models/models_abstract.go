@@ -29,6 +29,8 @@ type Task struct {
 	Start time.Time
 	End   time.Time
 
+	IsMilestone bool
+
 	//gong:text width:300 height:300
 	Description string
 
@@ -49,6 +51,13 @@ type Task struct {
 	// Completion Management
 	IsWithCompletion bool
 	Completion       CompletionEnum
+
+	// DisplayVerticalBar indicates wether the task
+	// has a vertical vertical on the whole gantt when it is a milestone
+	DisplayVerticalBar bool
+
+	// a red diamond a text anchor will be displayed
+	TaskGroupsToDisplay []*TaskGroup
 }
 
 // CompletionEnum
@@ -148,21 +157,7 @@ type Resource struct {
 	parentResource *Resource
 }
 
-type Milestone struct {
-	Name string
 
-	LibraryAbstractFields
-	AbstractTypeFields
-
-	Date time.Time
-
-	// DisplayVerticalBar indicates wether the milestone
-	// has a vertical vertical on the whole gantt
-	DisplayVerticalBar bool
-
-	// a red diamond a text anchor will be displayed
-	TaskGroupsToDisplay []*TaskGroup
-}
 
 var (
 	_ AbstractType = (*Product)(nil)
@@ -171,5 +166,4 @@ var (
 	_ AbstractType = (*Note)(nil)
 	_ AbstractType = (*Resource)(nil)
 	_ AbstractType = (*TaskGroup)(nil)
-	_ AbstractType = (*Milestone)(nil)
 )

@@ -34,10 +34,6 @@ func _(stage *models.Stage) {
 	__Library__00000000_ := (&models.Library{Name: `Years diagram`}).Stage(stage)
 	__Library__00000001_ := (&models.Library{Name: `Montly diagram`}).Stage(stage)
 
-	__Milestone__00000000_ := (&models.Milestone{Name: `M1`}).Stage(stage)
-
-	__MilestoneShape__00000000_ := (&models.MilestoneShape{Name: `-Default Diagram`}).Stage(stage)
-
 	__Product__00000000_ := (&models.Product{Name: `P1`}).Stage(stage)
 	__Product__00000001_ := (&models.Product{Name: `P1.1`}).Stage(stage)
 	__Product__00000002_ := (&models.Product{Name: `P1.2`}).Stage(stage)
@@ -90,8 +86,8 @@ func _(stage *models.Stage) {
 	__Task__00000008_ := (&models.Task{Name: `Jan 26`}).Stage(stage)
 	__Task__00000009_ := (&models.Task{Name: `Fev 2`}).Stage(stage)
 	__Task__00000010_ := (&models.Task{Name: `Mar 3`}).Stage(stage)
+	__Task__00000011_ := (&models.Task{Name: `New Year 2027`}).Stage(stage)
 
-	__TaskCompositionShape__00000010_ := (&models.TaskCompositionShape{Name: `Seasons to winter 26`}).Stage(stage)
 	__TaskCompositionShape__00000011_ := (&models.TaskCompositionShape{Name: `Seasons to spring 26`}).Stage(stage)
 	__TaskCompositionShape__00000012_ := (&models.TaskCompositionShape{Name: `Seasons to summer 26`}).Stage(stage)
 	__TaskCompositionShape__00000013_ := (&models.TaskCompositionShape{Name: `Seasons to winter 27`}).Stage(stage)
@@ -102,6 +98,9 @@ func _(stage *models.Stage) {
 	__TaskCompositionShape__00000018_ := (&models.TaskCompositionShape{Name: `winter 26 to `}).Stage(stage)
 	__TaskCompositionShape__00000019_ := (&models.TaskCompositionShape{Name: `winter 26 to `}).Stage(stage)
 	__TaskCompositionShape__00000020_ := (&models.TaskCompositionShape{Name: `winter 26 to `}).Stage(stage)
+	__TaskCompositionShape__00000021_ := (&models.TaskCompositionShape{Name: `Seasons to `}).Stage(stage)
+	__TaskCompositionShape__00000029_ := (&models.TaskCompositionShape{Name: `Seasons to winter 26`}).Stage(stage)
+	__TaskCompositionShape__00000032_ := (&models.TaskCompositionShape{Name: `winter 26 to Jan 26`}).Stage(stage)
 
 	__TaskGroup__00000000_ := (&models.TaskGroup{Name: `L1`}).Stage(stage)
 	__TaskGroup__00000002_ := (&models.TaskGroup{Name: `L2`}).Stage(stage)
@@ -115,7 +114,6 @@ func _(stage *models.Stage) {
 	__TaskGroupShape__00000006_ := (&models.TaskGroupShape{Name: `-Default Diagram`}).Stage(stage)
 
 	__TaskShape__00000019_ := (&models.TaskShape{Name: `Seasons-Default Diagram`}).Stage(stage)
-	__TaskShape__00000020_ := (&models.TaskShape{Name: `winter 26-Default Diagram`}).Stage(stage)
 	__TaskShape__00000021_ := (&models.TaskShape{Name: `spring 26-Default Diagram`}).Stage(stage)
 	__TaskShape__00000022_ := (&models.TaskShape{Name: `summer 26-Default Diagram`}).Stage(stage)
 	__TaskShape__00000023_ := (&models.TaskShape{Name: `winter 27-Default Diagram`}).Stage(stage)
@@ -127,14 +125,17 @@ func _(stage *models.Stage) {
 	__TaskShape__00000029_ := (&models.TaskShape{Name: `-Default Diagram copy`}).Stage(stage)
 	__TaskShape__00000030_ := (&models.TaskShape{Name: `-Default Diagram copy`}).Stage(stage)
 	__TaskShape__00000031_ := (&models.TaskShape{Name: `-Default Diagram copy`}).Stage(stage)
+	__TaskShape__00000032_ := (&models.TaskShape{Name: `-Default Diagram`}).Stage(stage)
+	__TaskShape__00000042_ := (&models.TaskShape{Name: `winter 26-Default Diagram`}).Stage(stage)
+	__TaskShape__00000045_ := (&models.TaskShape{Name: `Jan 26-Default Diagram`}).Stage(stage)
 
 	// insertion point for initialization of values
 
 	__Diagram__00000000_.Name = `Default Diagram`
 	__Diagram__00000000_.ComputedPrefix = `1`
-	__Diagram__00000000_.IsExpanded = true
+	__Diagram__00000000_.IsExpanded = false
 	__Diagram__00000000_.LayoutDirection = models.Vertical
-	__Diagram__00000000_.IsChecked = true
+	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 180.000000
@@ -144,7 +145,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsWBSNodeExpanded = false
 	__Diagram__00000000_.IsTaskGroupsNodeExpanded = true
-	__Diagram__00000000_.IsMilestonesNodeExpanded = false
 	__Diagram__00000000_.DateFormat = `2006`
 	__Diagram__00000000_.IsNotesNodeExpanded = false
 	__Diagram__00000000_.IsResourcesNodeExpanded = false
@@ -179,19 +179,18 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000001_.Name = `Default Diagram`
 	__Diagram__00000001_.ComputedPrefix = `1`
-	__Diagram__00000001_.IsExpanded = false
+	__Diagram__00000001_.IsExpanded = true
 	__Diagram__00000001_.LayoutDirection = models.Vertical
-	__Diagram__00000001_.IsChecked = false
+	__Diagram__00000001_.IsChecked = true
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsShowPrefix = false
 	__Diagram__00000001_.DefaultBoxWidth = 250.000000
 	__Diagram__00000001_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000001_.Width = 1384.246143
-	__Diagram__00000001_.Height = 434.124452
+	__Diagram__00000001_.Width = 1684.246143
+	__Diagram__00000001_.Height = 574.124452
 	__Diagram__00000001_.IsPBSNodeExpanded = false
 	__Diagram__00000001_.IsWBSNodeExpanded = true
 	__Diagram__00000001_.IsTaskGroupsNodeExpanded = true
-	__Diagram__00000001_.IsMilestonesNodeExpanded = false
 	__Diagram__00000001_.DateFormat = ``
 	__Diagram__00000001_.IsNotesNodeExpanded = false
 	__Diagram__00000001_.IsResourcesNodeExpanded = false
@@ -226,7 +225,7 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000002_.Name = `Default Diagram copy`
 	__Diagram__00000002_.ComputedPrefix = `2`
-	__Diagram__00000002_.IsExpanded = true
+	__Diagram__00000002_.IsExpanded = false
 	__Diagram__00000002_.LayoutDirection = models.Vertical
 	__Diagram__00000002_.IsChecked = false
 	__Diagram__00000002_.IsEditable_ = true
@@ -238,7 +237,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000002_.IsPBSNodeExpanded = false
 	__Diagram__00000002_.IsWBSNodeExpanded = true
 	__Diagram__00000002_.IsTaskGroupsNodeExpanded = false
-	__Diagram__00000002_.IsMilestonesNodeExpanded = false
 	__Diagram__00000002_.DateFormat = ``
 	__Diagram__00000002_.IsNotesNodeExpanded = false
 	__Diagram__00000002_.IsResourcesNodeExpanded = false
@@ -286,20 +284,6 @@ func _(stage *models.Stage) {
 	__Library__00000001_.IsExpanded = true
 	__Library__00000001_.LayoutDirection = models.Vertical
 	__Library__00000001_.IsRootLibrary = false
-
-	__Milestone__00000000_.Name = `M1`
-	__Milestone__00000000_.ComputedPrefix = ``
-	__Milestone__00000000_.IsExpanded = false
-	__Milestone__00000000_.LayoutDirection = models.Vertical
-	__Milestone__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2015-01-01 00:00:00 +0000 UTC")
-	__Milestone__00000000_.DisplayVerticalBar = false
-
-	__MilestoneShape__00000000_.Name = `-Default Diagram`
-	__MilestoneShape__00000000_.X = 105.703445
-	__MilestoneShape__00000000_.Y = 160.791992
-	__MilestoneShape__00000000_.Width = 250.000000
-	__MilestoneShape__00000000_.Height = 70.000000
-	__MilestoneShape__00000000_.IsHidden = false
 
 	__Product__00000000_.Name = `P1`
 	__Product__00000000_.ComputedPrefix = `1`
@@ -638,11 +622,13 @@ func _(stage *models.Stage) {
 	__Task__00000000_.IsImport = false
 	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2000-01-01 00:00:00 +0000 UTC")
 	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2030-01-01 00:00:00 +0000 UTC")
+	__Task__00000000_.IsMilestone = false
 	__Task__00000000_.Description = ``
 	__Task__00000000_.IsInputsNodeExpanded = false
 	__Task__00000000_.IsOutputsNodeExpanded = false
 	__Task__00000000_.IsWithCompletion = false
 	__Task__00000000_.Completion = ""
+	__Task__00000000_.DisplayVerticalBar = false
 
 	__Task__00000001_.Name = `L1.W2`
 	__Task__00000001_.ComputedPrefix = `2`
@@ -651,11 +637,13 @@ func _(stage *models.Stage) {
 	__Task__00000001_.IsImport = false
 	__Task__00000001_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2020-01-01 00:00:00 +0000 UTC")
 	__Task__00000001_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2025-01-01 00:00:00 +0000 UTC")
+	__Task__00000001_.IsMilestone = false
 	__Task__00000001_.Description = ``
 	__Task__00000001_.IsInputsNodeExpanded = false
 	__Task__00000001_.IsOutputsNodeExpanded = false
 	__Task__00000001_.IsWithCompletion = false
 	__Task__00000001_.Completion = ""
+	__Task__00000001_.DisplayVerticalBar = false
 
 	__Task__00000002_.Name = `L2.W1`
 	__Task__00000002_.ComputedPrefix = `3`
@@ -664,11 +652,13 @@ func _(stage *models.Stage) {
 	__Task__00000002_.IsImport = false
 	__Task__00000002_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2021-01-01 00:00:00 +0000 UTC")
 	__Task__00000002_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-01-01 00:00:00 +0000 UTC")
+	__Task__00000002_.IsMilestone = false
 	__Task__00000002_.Description = ``
 	__Task__00000002_.IsInputsNodeExpanded = false
 	__Task__00000002_.IsOutputsNodeExpanded = false
 	__Task__00000002_.IsWithCompletion = false
 	__Task__00000002_.Completion = ""
+	__Task__00000002_.DisplayVerticalBar = false
 
 	__Task__00000003_.Name = `spring 26`
 	__Task__00000003_.ComputedPrefix = `1.2`
@@ -677,11 +667,13 @@ func _(stage *models.Stage) {
 	__Task__00000003_.IsImport = false
 	__Task__00000003_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-04-01 00:00:00 +0000 UTC")
 	__Task__00000003_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-07-01 00:00:00 +0000 UTC")
+	__Task__00000003_.IsMilestone = false
 	__Task__00000003_.Description = ``
 	__Task__00000003_.IsInputsNodeExpanded = false
 	__Task__00000003_.IsOutputsNodeExpanded = false
 	__Task__00000003_.IsWithCompletion = false
 	__Task__00000003_.Completion = ""
+	__Task__00000003_.DisplayVerticalBar = false
 
 	__Task__00000004_.Name = `summer 26`
 	__Task__00000004_.ComputedPrefix = `1.3`
@@ -690,11 +682,13 @@ func _(stage *models.Stage) {
 	__Task__00000004_.IsImport = false
 	__Task__00000004_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-07-01 00:00:00 +0000 UTC")
 	__Task__00000004_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-10-01 00:00:00 +0000 UTC")
+	__Task__00000004_.IsMilestone = false
 	__Task__00000004_.Description = ``
 	__Task__00000004_.IsInputsNodeExpanded = false
 	__Task__00000004_.IsOutputsNodeExpanded = false
 	__Task__00000004_.IsWithCompletion = false
 	__Task__00000004_.Completion = ""
+	__Task__00000004_.DisplayVerticalBar = false
 
 	__Task__00000005_.Name = `winter 26`
 	__Task__00000005_.ComputedPrefix = `1.1`
@@ -703,11 +697,13 @@ func _(stage *models.Stage) {
 	__Task__00000005_.IsImport = false
 	__Task__00000005_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-01-01 00:00:00 +0000 UTC")
 	__Task__00000005_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-04-01 00:00:00 +0000 UTC")
+	__Task__00000005_.IsMilestone = false
 	__Task__00000005_.Description = ``
 	__Task__00000005_.IsInputsNodeExpanded = false
 	__Task__00000005_.IsOutputsNodeExpanded = false
 	__Task__00000005_.IsWithCompletion = false
 	__Task__00000005_.Completion = ""
+	__Task__00000005_.DisplayVerticalBar = false
 
 	__Task__00000006_.Name = `winter 27`
 	__Task__00000006_.ComputedPrefix = `1.4`
@@ -716,11 +712,13 @@ func _(stage *models.Stage) {
 	__Task__00000006_.IsImport = false
 	__Task__00000006_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2027-01-01 00:00:00 +0000 UTC")
 	__Task__00000006_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2027-04-01 00:00:00 +0000 UTC")
+	__Task__00000006_.IsMilestone = false
 	__Task__00000006_.Description = ``
 	__Task__00000006_.IsInputsNodeExpanded = false
 	__Task__00000006_.IsOutputsNodeExpanded = false
 	__Task__00000006_.IsWithCompletion = false
 	__Task__00000006_.Completion = ""
+	__Task__00000006_.DisplayVerticalBar = false
 
 	__Task__00000007_.Name = `Seasons`
 	__Task__00000007_.ComputedPrefix = `1`
@@ -729,24 +727,28 @@ func _(stage *models.Stage) {
 	__Task__00000007_.IsImport = false
 	__Task__00000007_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000007_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000007_.IsMilestone = false
 	__Task__00000007_.Description = ``
 	__Task__00000007_.IsInputsNodeExpanded = false
 	__Task__00000007_.IsOutputsNodeExpanded = false
 	__Task__00000007_.IsWithCompletion = false
 	__Task__00000007_.Completion = ""
+	__Task__00000007_.DisplayVerticalBar = false
 
 	__Task__00000008_.Name = `Jan 26`
 	__Task__00000008_.ComputedPrefix = `1.1.1`
 	__Task__00000008_.IsExpanded = false
 	__Task__00000008_.LayoutDirection = models.Vertical
 	__Task__00000008_.IsImport = false
-	__Task__00000008_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Task__00000008_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000008_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-01-01 00:00:00 +0000 UTC")
+	__Task__00000008_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-02-01 00:00:00 +0000 UTC")
+	__Task__00000008_.IsMilestone = false
 	__Task__00000008_.Description = ``
 	__Task__00000008_.IsInputsNodeExpanded = false
 	__Task__00000008_.IsOutputsNodeExpanded = false
 	__Task__00000008_.IsWithCompletion = false
 	__Task__00000008_.Completion = ""
+	__Task__00000008_.DisplayVerticalBar = false
 
 	__Task__00000009_.Name = `Fev 2`
 	__Task__00000009_.ComputedPrefix = `1.1.2`
@@ -755,11 +757,13 @@ func _(stage *models.Stage) {
 	__Task__00000009_.IsImport = false
 	__Task__00000009_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000009_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000009_.IsMilestone = false
 	__Task__00000009_.Description = ``
 	__Task__00000009_.IsInputsNodeExpanded = false
 	__Task__00000009_.IsOutputsNodeExpanded = false
 	__Task__00000009_.IsWithCompletion = false
 	__Task__00000009_.Completion = ""
+	__Task__00000009_.DisplayVerticalBar = false
 
 	__Task__00000010_.Name = `Mar 3`
 	__Task__00000010_.ComputedPrefix = `1.1.3`
@@ -768,19 +772,28 @@ func _(stage *models.Stage) {
 	__Task__00000010_.IsImport = false
 	__Task__00000010_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000010_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Task__00000010_.IsMilestone = false
 	__Task__00000010_.Description = ``
 	__Task__00000010_.IsInputsNodeExpanded = false
 	__Task__00000010_.IsOutputsNodeExpanded = false
 	__Task__00000010_.IsWithCompletion = false
 	__Task__00000010_.Completion = ""
+	__Task__00000010_.DisplayVerticalBar = false
 
-	__TaskCompositionShape__00000010_.Name = `Seasons to winter 26`
-	__TaskCompositionShape__00000010_.StartRatio = 0.500000
-	__TaskCompositionShape__00000010_.EndRatio = 0.500000
-	__TaskCompositionShape__00000010_.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000010_.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000010_.CornerOffsetRatio = 1.680000
-	__TaskCompositionShape__00000010_.IsHidden = false
+	__Task__00000011_.Name = `New Year 2027`
+	__Task__00000011_.ComputedPrefix = `1.5`
+	__Task__00000011_.IsExpanded = false
+	__Task__00000011_.LayoutDirection = models.Vertical
+	__Task__00000011_.IsImport = false
+	__Task__00000011_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2027-01-01 00:00:00 +0000 UTC")
+	__Task__00000011_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2027-01-01 00:00:00 +0000 UTC")
+	__Task__00000011_.IsMilestone = true
+	__Task__00000011_.Description = ``
+	__Task__00000011_.IsInputsNodeExpanded = false
+	__Task__00000011_.IsOutputsNodeExpanded = false
+	__Task__00000011_.IsWithCompletion = false
+	__Task__00000011_.Completion = ""
+	__Task__00000011_.DisplayVerticalBar = false
 
 	__TaskCompositionShape__00000011_.Name = `Seasons to spring 26`
 	__TaskCompositionShape__00000011_.StartRatio = 0.500000
@@ -862,6 +875,30 @@ func _(stage *models.Stage) {
 	__TaskCompositionShape__00000020_.CornerOffsetRatio = 1.500000
 	__TaskCompositionShape__00000020_.IsHidden = false
 
+	__TaskCompositionShape__00000021_.Name = `Seasons to `
+	__TaskCompositionShape__00000021_.StartRatio = 0.500000
+	__TaskCompositionShape__00000021_.EndRatio = 0.500000
+	__TaskCompositionShape__00000021_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000021_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000021_.CornerOffsetRatio = 1.500000
+	__TaskCompositionShape__00000021_.IsHidden = false
+
+	__TaskCompositionShape__00000029_.Name = `Seasons to winter 26`
+	__TaskCompositionShape__00000029_.StartRatio = 0.500000
+	__TaskCompositionShape__00000029_.EndRatio = 0.500000
+	__TaskCompositionShape__00000029_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000029_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000029_.CornerOffsetRatio = 1.500000
+	__TaskCompositionShape__00000029_.IsHidden = false
+
+	__TaskCompositionShape__00000032_.Name = `winter 26 to Jan 26`
+	__TaskCompositionShape__00000032_.StartRatio = 0.500000
+	__TaskCompositionShape__00000032_.EndRatio = 0.500000
+	__TaskCompositionShape__00000032_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000032_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000032_.CornerOffsetRatio = 1.500000
+	__TaskCompositionShape__00000032_.IsHidden = false
+
 	__TaskGroup__00000000_.Name = `L1`
 	__TaskGroup__00000000_.ComputedPrefix = ``
 	__TaskGroup__00000000_.IsExpanded = false
@@ -924,16 +961,6 @@ func _(stage *models.Stage) {
 	__TaskShape__00000019_.Width = 250.000000
 	__TaskShape__00000019_.Height = 70.000000
 	__TaskShape__00000019_.IsHidden = false
-
-	__TaskShape__00000020_.Name = `winter 26-Default Diagram`
-	__TaskShape__00000020_.IsShowDate = true
-	__TaskShape__00000020_.OverideLayoutDirection = false
-	__TaskShape__00000020_.LayoutDirection = models.Vertical
-	__TaskShape__00000020_.X = 134.246143
-	__TaskShape__00000020_.Y = 264.124452
-	__TaskShape__00000020_.Width = 250.000000
-	__TaskShape__00000020_.Height = 70.000000
-	__TaskShape__00000020_.IsHidden = false
 
 	__TaskShape__00000021_.Name = `spring 26-Default Diagram`
 	__TaskShape__00000021_.IsShowDate = true
@@ -1045,6 +1072,36 @@ func _(stage *models.Stage) {
 	__TaskShape__00000031_.Height = 70.000000
 	__TaskShape__00000031_.IsHidden = false
 
+	__TaskShape__00000032_.Name = `-Default Diagram`
+	__TaskShape__00000032_.IsShowDate = false
+	__TaskShape__00000032_.OverideLayoutDirection = false
+	__TaskShape__00000032_.LayoutDirection = models.Vertical
+	__TaskShape__00000032_.X = 1334.246143
+	__TaskShape__00000032_.Y = 264.124452
+	__TaskShape__00000032_.Width = 250.000000
+	__TaskShape__00000032_.Height = 70.000000
+	__TaskShape__00000032_.IsHidden = false
+
+	__TaskShape__00000042_.Name = `winter 26-Default Diagram`
+	__TaskShape__00000042_.IsShowDate = false
+	__TaskShape__00000042_.OverideLayoutDirection = false
+	__TaskShape__00000042_.LayoutDirection = models.Vertical
+	__TaskShape__00000042_.X = 1334.246143
+	__TaskShape__00000042_.Y = 264.124452
+	__TaskShape__00000042_.Width = 250.000000
+	__TaskShape__00000042_.Height = 70.000000
+	__TaskShape__00000042_.IsHidden = false
+
+	__TaskShape__00000045_.Name = `Jan 26-Default Diagram`
+	__TaskShape__00000045_.IsShowDate = false
+	__TaskShape__00000045_.OverideLayoutDirection = false
+	__TaskShape__00000045_.LayoutDirection = models.Vertical
+	__TaskShape__00000045_.X = 1334.246143
+	__TaskShape__00000045_.Y = 404.124452
+	__TaskShape__00000045_.Width = 250.000000
+	__TaskShape__00000045_.Height = 70.000000
+	__TaskShape__00000045_.IsHidden = false
+
 	// insertion point for setup of pointers
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000073_)
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000074_)
@@ -1076,21 +1133,25 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000071_)
 	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000072_)
 	__Diagram__00000000_.ProductComposition_Shapes = append(__Diagram__00000000_.ProductComposition_Shapes, __ProductCompositionShape__00000073_)
-	__Diagram__00000000_.MilestoneShapes = append(__Diagram__00000000_.MilestoneShapes, __MilestoneShape__00000000_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000019_)
-	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000020_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000021_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000022_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000023_)
+	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000032_)
+	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000042_)
+	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000045_)
 	__Diagram__00000001_.TasksWhoseNodeIsExpanded = append(__Diagram__00000001_.TasksWhoseNodeIsExpanded, __Task__00000007_)
+	__Diagram__00000001_.TasksWhoseNodeIsExpanded = append(__Diagram__00000001_.TasksWhoseNodeIsExpanded, __Task__00000005_)
 	__Diagram__00000001_.TaskGroupShapes = append(__Diagram__00000001_.TaskGroupShapes, __TaskGroupShape__00000003_)
 	__Diagram__00000001_.TaskGroupShapes = append(__Diagram__00000001_.TaskGroupShapes, __TaskGroupShape__00000004_)
-	__Diagram__00000001_.TaskGroupsWhoseNodeIsExpanded = append(__Diagram__00000001_.TaskGroupsWhoseNodeIsExpanded, __TaskGroup__00000004_)
 	__Diagram__00000001_.TaskGroupsWhoseNodeIsExpanded = append(__Diagram__00000001_.TaskGroupsWhoseNodeIsExpanded, __TaskGroup__00000005_)
-	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000010_)
+	__Diagram__00000001_.TaskGroupsWhoseNodeIsExpanded = append(__Diagram__00000001_.TaskGroupsWhoseNodeIsExpanded, __TaskGroup__00000004_)
 	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000011_)
 	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000012_)
 	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000013_)
+	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000021_)
+	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000029_)
+	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000032_)
 	__Diagram__00000002_.Task_Shapes = append(__Diagram__00000002_.Task_Shapes, __TaskShape__00000024_)
 	__Diagram__00000002_.Task_Shapes = append(__Diagram__00000002_.Task_Shapes, __TaskShape__00000025_)
 	__Diagram__00000002_.Task_Shapes = append(__Diagram__00000002_.Task_Shapes, __TaskShape__00000026_)
@@ -1118,17 +1179,12 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000000_)
 	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000002_)
 	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000003_)
-	__Library__00000000_.RootMilestones = append(__Library__00000000_.RootMilestones, __Milestone__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
 	__Library__00000001_.RootTasks = append(__Library__00000001_.RootTasks, __Task__00000007_)
 	__Library__00000001_.RootTaskGroups = append(__Library__00000001_.RootTaskGroups, __TaskGroup__00000004_)
 	__Library__00000001_.RootTaskGroups = append(__Library__00000001_.RootTaskGroups, __TaskGroup__00000005_)
 	__Library__00000001_.Diagrams = append(__Library__00000001_.Diagrams, __Diagram__00000001_)
 	__Library__00000001_.Diagrams = append(__Library__00000001_.Diagrams, __Diagram__00000002_)
-	__Milestone__00000000_.TaskGroupsToDisplay = append(__Milestone__00000000_.TaskGroupsToDisplay, __TaskGroup__00000002_)
-	__Milestone__00000000_.TaskGroupsToDisplay = append(__Milestone__00000000_.TaskGroupsToDisplay, __TaskGroup__00000003_)
-	__Milestone__00000000_.TaskGroupsToDisplay = append(__Milestone__00000000_.TaskGroupsToDisplay, __TaskGroup__00000000_)
-	__MilestoneShape__00000000_.Milestone = __Milestone__00000000_
 	__Product__00000000_.ReferencedProduct = nil
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000001_)
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000002_)
@@ -1194,10 +1250,11 @@ func _(stage *models.Stage) {
 	__Task__00000007_.SubTasks = append(__Task__00000007_.SubTasks, __Task__00000003_)
 	__Task__00000007_.SubTasks = append(__Task__00000007_.SubTasks, __Task__00000004_)
 	__Task__00000007_.SubTasks = append(__Task__00000007_.SubTasks, __Task__00000006_)
+	__Task__00000007_.SubTasks = append(__Task__00000007_.SubTasks, __Task__00000011_)
 	__Task__00000008_.ReferencedTask = nil
 	__Task__00000009_.ReferencedTask = nil
 	__Task__00000010_.ReferencedTask = nil
-	__TaskCompositionShape__00000010_.Task = __Task__00000005_
+	__Task__00000011_.ReferencedTask = nil
 	__TaskCompositionShape__00000011_.Task = __Task__00000003_
 	__TaskCompositionShape__00000012_.Task = __Task__00000004_
 	__TaskCompositionShape__00000013_.Task = __Task__00000006_
@@ -1208,6 +1265,9 @@ func _(stage *models.Stage) {
 	__TaskCompositionShape__00000018_.Task = __Task__00000008_
 	__TaskCompositionShape__00000019_.Task = __Task__00000009_
 	__TaskCompositionShape__00000020_.Task = __Task__00000010_
+	__TaskCompositionShape__00000021_.Task = __Task__00000011_
+	__TaskCompositionShape__00000029_.Task = __Task__00000005_
+	__TaskCompositionShape__00000032_.Task = __Task__00000008_
 	__TaskGroup__00000000_.Tasks = append(__TaskGroup__00000000_.Tasks, __Task__00000001_)
 	__TaskGroup__00000000_.Tasks = append(__TaskGroup__00000000_.Tasks, __Task__00000000_)
 	__TaskGroup__00000002_.Tasks = append(__TaskGroup__00000002_.Tasks, __Task__00000002_)
@@ -1215,12 +1275,12 @@ func _(stage *models.Stage) {
 	__TaskGroup__00000004_.Tasks = append(__TaskGroup__00000004_.Tasks, __Task__00000003_)
 	__TaskGroup__00000004_.Tasks = append(__TaskGroup__00000004_.Tasks, __Task__00000004_)
 	__TaskGroup__00000005_.Tasks = append(__TaskGroup__00000005_.Tasks, __Task__00000006_)
+	__TaskGroup__00000005_.Tasks = append(__TaskGroup__00000005_.Tasks, __Task__00000008_)
 	__TaskGroupShape__00000003_.TaskGroup = __TaskGroup__00000004_
 	__TaskGroupShape__00000004_.TaskGroup = __TaskGroup__00000005_
 	__TaskGroupShape__00000005_.TaskGroup = __TaskGroup__00000004_
 	__TaskGroupShape__00000006_.TaskGroup = __TaskGroup__00000005_
 	__TaskShape__00000019_.Task = __Task__00000007_
-	__TaskShape__00000020_.Task = __Task__00000005_
 	__TaskShape__00000021_.Task = __Task__00000003_
 	__TaskShape__00000022_.Task = __Task__00000004_
 	__TaskShape__00000023_.Task = __Task__00000006_
@@ -1232,4 +1292,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000029_.Task = __Task__00000008_
 	__TaskShape__00000030_.Task = __Task__00000009_
 	__TaskShape__00000031_.Task = __Task__00000010_
+	__TaskShape__00000032_.Task = __Task__00000011_
+	__TaskShape__00000042_.Task = __Task__00000005_
+	__TaskShape__00000045_.Task = __Task__00000008_
 }

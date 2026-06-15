@@ -34,45 +34,6 @@ func (inst *Library) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 	return
 }
 
-func (inst *Milestone) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	case "Diagram":
-		switch reverseField.Fieldname {
-		case "MilestonesWhoseNodeIsExpanded":
-			if _diagram, ok := stage.Diagram_MilestonesWhoseNodeIsExpanded_reverseMap[inst]; ok {
-				res = _diagram.Name
-			}
-		}
-	case "Library":
-		switch reverseField.Fieldname {
-		case "RootMilestones":
-			if _library, ok := stage.Library_RootMilestones_reverseMap[inst]; ok {
-				res = _library.Name
-			}
-		}
-	}
-	return
-}
-
-func (inst *MilestoneShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	case "Diagram":
-		switch reverseField.Fieldname {
-		case "MilestoneShapes":
-			if _diagram, ok := stage.Diagram_MilestoneShapes_reverseMap[inst]; ok {
-				res = _diagram.Name
-			}
-		}
-	}
-	return
-}
-
 func (inst *Note) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -419,11 +380,11 @@ func (inst *TaskGroup) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 				res = _library.Name
 			}
 		}
-	case "Milestone":
+	case "Task":
 		switch reverseField.Fieldname {
 		case "TaskGroupsToDisplay":
-			if _milestone, ok := stage.Milestone_TaskGroupsToDisplay_reverseMap[inst]; ok {
-				res = _milestone.Name
+			if _task, ok := stage.Task_TaskGroupsToDisplay_reverseMap[inst]; ok {
+				res = _task.Name
 			}
 		}
 	}
@@ -518,39 +479,6 @@ func (inst *Library) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 		switch reverseField.Fieldname {
 		case "SubLibraries":
 			res = stage.Library_SubLibraries_reverseMap[inst]
-		}
-	}
-	return res
-}
-
-func (inst *Milestone) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	case "Diagram":
-		switch reverseField.Fieldname {
-		case "MilestonesWhoseNodeIsExpanded":
-			res = stage.Diagram_MilestonesWhoseNodeIsExpanded_reverseMap[inst]
-		}
-	case "Library":
-		switch reverseField.Fieldname {
-		case "RootMilestones":
-			res = stage.Library_RootMilestones_reverseMap[inst]
-		}
-	}
-	return res
-}
-
-func (inst *MilestoneShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	case "Diagram":
-		switch reverseField.Fieldname {
-		case "MilestoneShapes":
-			res = stage.Diagram_MilestoneShapes_reverseMap[inst]
 		}
 	}
 	return res
@@ -838,10 +766,10 @@ func (inst *TaskGroup) GongGetReverseFieldOwner(stage *Stage, reverseField *Reve
 		case "RootTaskGroups":
 			res = stage.Library_RootTaskGroups_reverseMap[inst]
 		}
-	case "Milestone":
+	case "Task":
 		switch reverseField.Fieldname {
 		case "TaskGroupsToDisplay":
-			res = stage.Milestone_TaskGroupsToDisplay_reverseMap[inst]
+			res = stage.Task_TaskGroupsToDisplay_reverseMap[inst]
 		}
 	}
 	return res

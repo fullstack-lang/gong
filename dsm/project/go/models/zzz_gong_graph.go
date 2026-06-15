@@ -13,12 +13,6 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
 
-	case *Milestone:
-		ok = stage.IsStagedMilestone(target)
-
-	case *MilestoneShape:
-		ok = stage.IsStagedMilestoneShape(target)
-
 	case *Note:
 		ok = stage.IsStagedNote(target)
 
@@ -91,12 +85,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
-
-	case *Milestone:
-		ok = stage.IsStagedMilestone(target)
-
-	case *MilestoneShape:
-		ok = stage.IsStagedMilestoneShape(target)
 
 	case *Note:
 		ok = stage.IsStagedNote(target)
@@ -172,20 +160,6 @@ func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
 func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
 
 	_, ok = stage.Librarys[library]
-
-	return
-}
-
-func (stage *Stage) IsStagedMilestone(milestone *Milestone) (ok bool) {
-
-	_, ok = stage.Milestones[milestone]
-
-	return
-}
-
-func (stage *Stage) IsStagedMilestoneShape(milestoneshape *MilestoneShape) (ok bool) {
-
-	_, ok = stage.MilestoneShapes[milestoneshape]
 
 	return
 }
@@ -337,12 +311,6 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Library:
 		stage.StageBranchLibrary(target)
 
-	case *Milestone:
-		stage.StageBranchMilestone(target)
-
-	case *MilestoneShape:
-		stage.StageBranchMilestoneShape(target)
-
 	case *Note:
 		stage.StageBranchNote(target)
 
@@ -445,12 +413,6 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	for _, _taskgroup := range diagram.TaskGroupsWhoseNodeIsExpanded {
 		StageBranch(stage, _taskgroup)
 	}
-	for _, _milestoneshape := range diagram.MilestoneShapes {
-		StageBranch(stage, _milestoneshape)
-	}
-	for _, _milestone := range diagram.MilestonesWhoseNodeIsExpanded {
-		StageBranch(stage, _milestone)
-	}
 	for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
 		StageBranch(stage, _taskcompositionshape)
 	}
@@ -514,9 +476,6 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _taskgroup := range library.RootTaskGroups {
 		StageBranch(stage, _taskgroup)
 	}
-	for _, _milestone := range library.RootMilestones {
-		StageBranch(stage, _milestone)
-	}
 	for _, _resource := range library.RootResources {
 		StageBranch(stage, _resource)
 	}
@@ -526,42 +485,6 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _diagram := range library.Diagrams {
 		StageBranch(stage, _diagram)
 	}
-
-}
-
-func (stage *Stage) StageBranchMilestone(milestone *Milestone) {
-
-	// check if instance is already staged
-	if IsStaged(stage, milestone) {
-		return
-	}
-
-	milestone.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _taskgroup := range milestone.TaskGroupsToDisplay {
-		StageBranch(stage, _taskgroup)
-	}
-
-}
-
-func (stage *Stage) StageBranchMilestoneShape(milestoneshape *MilestoneShape) {
-
-	// check if instance is already staged
-	if IsStaged(stage, milestoneshape) {
-		return
-	}
-
-	milestoneshape.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-	if milestoneshape.Milestone != nil {
-		StageBranch(stage, milestoneshape.Milestone)
-	}
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -832,6 +755,9 @@ func (stage *Stage) StageBranchTask(task *Task) {
 	for _, _product := range task.Outputs {
 		StageBranch(stage, _product)
 	}
+	for _, _taskgroup := range task.TaskGroupsToDisplay {
+		StageBranch(stage, _taskgroup)
+	}
 
 }
 
@@ -968,14 +894,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchLibrary(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *Milestone:
-		toT := CopyBranchMilestone(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
-	case *MilestoneShape:
-		toT := CopyBranchMilestoneShape(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
 	case *Note:
 		toT := CopyBranchNote(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -1101,12 +1019,6 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	for _, _taskgroup := range diagramFrom.TaskGroupsWhoseNodeIsExpanded {
 		diagramTo.TaskGroupsWhoseNodeIsExpanded = append(diagramTo.TaskGroupsWhoseNodeIsExpanded, CopyBranchTaskGroup(mapOrigCopy, _taskgroup))
 	}
-	for _, _milestoneshape := range diagramFrom.MilestoneShapes {
-		diagramTo.MilestoneShapes = append(diagramTo.MilestoneShapes, CopyBranchMilestoneShape(mapOrigCopy, _milestoneshape))
-	}
-	for _, _milestone := range diagramFrom.MilestonesWhoseNodeIsExpanded {
-		diagramTo.MilestonesWhoseNodeIsExpanded = append(diagramTo.MilestonesWhoseNodeIsExpanded, CopyBranchMilestone(mapOrigCopy, _milestone))
-	}
 	for _, _taskcompositionshape := range diagramFrom.TaskComposition_Shapes {
 		diagramTo.TaskComposition_Shapes = append(diagramTo.TaskComposition_Shapes, CopyBranchTaskCompositionShape(mapOrigCopy, _taskcompositionshape))
 	}
@@ -1174,9 +1086,6 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	for _, _taskgroup := range libraryFrom.RootTaskGroups {
 		libraryTo.RootTaskGroups = append(libraryTo.RootTaskGroups, CopyBranchTaskGroup(mapOrigCopy, _taskgroup))
 	}
-	for _, _milestone := range libraryFrom.RootMilestones {
-		libraryTo.RootMilestones = append(libraryTo.RootMilestones, CopyBranchMilestone(mapOrigCopy, _milestone))
-	}
 	for _, _resource := range libraryFrom.RootResources {
 		libraryTo.RootResources = append(libraryTo.RootResources, CopyBranchResource(mapOrigCopy, _resource))
 	}
@@ -1186,50 +1095,6 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	for _, _diagram := range libraryFrom.Diagrams {
 		libraryTo.Diagrams = append(libraryTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
 	}
-
-	return
-}
-
-func CopyBranchMilestone(mapOrigCopy map[any]any, milestoneFrom *Milestone) (milestoneTo *Milestone) {
-
-	// milestoneFrom has already been copied
-	if _milestoneTo, ok := mapOrigCopy[milestoneFrom]; ok {
-		milestoneTo = _milestoneTo.(*Milestone)
-		return
-	}
-
-	milestoneTo = new(Milestone)
-	mapOrigCopy[milestoneFrom] = milestoneTo
-	milestoneFrom.CopyBasicFields(milestoneTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _taskgroup := range milestoneFrom.TaskGroupsToDisplay {
-		milestoneTo.TaskGroupsToDisplay = append(milestoneTo.TaskGroupsToDisplay, CopyBranchTaskGroup(mapOrigCopy, _taskgroup))
-	}
-
-	return
-}
-
-func CopyBranchMilestoneShape(mapOrigCopy map[any]any, milestoneshapeFrom *MilestoneShape) (milestoneshapeTo *MilestoneShape) {
-
-	// milestoneshapeFrom has already been copied
-	if _milestoneshapeTo, ok := mapOrigCopy[milestoneshapeFrom]; ok {
-		milestoneshapeTo = _milestoneshapeTo.(*MilestoneShape)
-		return
-	}
-
-	milestoneshapeTo = new(MilestoneShape)
-	mapOrigCopy[milestoneshapeFrom] = milestoneshapeTo
-	milestoneshapeFrom.CopyBasicFields(milestoneshapeTo)
-
-	//insertion point for the staging of instances referenced by pointers
-	if milestoneshapeFrom.Milestone != nil {
-		milestoneshapeTo.Milestone = CopyBranchMilestone(mapOrigCopy, milestoneshapeFrom.Milestone)
-	}
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -1552,6 +1417,9 @@ func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 	for _, _product := range taskFrom.Outputs {
 		taskTo.Outputs = append(taskTo.Outputs, CopyBranchProduct(mapOrigCopy, _product))
 	}
+	for _, _taskgroup := range taskFrom.TaskGroupsToDisplay {
+		taskTo.TaskGroupsToDisplay = append(taskTo.TaskGroupsToDisplay, CopyBranchTaskGroup(mapOrigCopy, _taskgroup))
+	}
 
 	return
 }
@@ -1708,12 +1576,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Library:
 		stage.UnstageBranchLibrary(target)
 
-	case *Milestone:
-		stage.UnstageBranchMilestone(target)
-
-	case *MilestoneShape:
-		stage.UnstageBranchMilestoneShape(target)
-
 	case *Note:
 		stage.UnstageBranchNote(target)
 
@@ -1816,12 +1678,6 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	for _, _taskgroup := range diagram.TaskGroupsWhoseNodeIsExpanded {
 		UnstageBranch(stage, _taskgroup)
 	}
-	for _, _milestoneshape := range diagram.MilestoneShapes {
-		UnstageBranch(stage, _milestoneshape)
-	}
-	for _, _milestone := range diagram.MilestonesWhoseNodeIsExpanded {
-		UnstageBranch(stage, _milestone)
-	}
 	for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
 		UnstageBranch(stage, _taskcompositionshape)
 	}
@@ -1885,9 +1741,6 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _taskgroup := range library.RootTaskGroups {
 		UnstageBranch(stage, _taskgroup)
 	}
-	for _, _milestone := range library.RootMilestones {
-		UnstageBranch(stage, _milestone)
-	}
 	for _, _resource := range library.RootResources {
 		UnstageBranch(stage, _resource)
 	}
@@ -1897,42 +1750,6 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _diagram := range library.Diagrams {
 		UnstageBranch(stage, _diagram)
 	}
-
-}
-
-func (stage *Stage) UnstageBranchMilestone(milestone *Milestone) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, milestone) {
-		return
-	}
-
-	milestone.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _taskgroup := range milestone.TaskGroupsToDisplay {
-		UnstageBranch(stage, _taskgroup)
-	}
-
-}
-
-func (stage *Stage) UnstageBranchMilestoneShape(milestoneshape *MilestoneShape) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, milestoneshape) {
-		return
-	}
-
-	milestoneshape.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-	if milestoneshape.Milestone != nil {
-		UnstageBranch(stage, milestoneshape.Milestone)
-	}
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -2203,6 +2020,9 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 	for _, _product := range task.Outputs {
 		UnstageBranch(stage, _product)
 	}
+	for _, _taskgroup := range task.TaskGroupsToDisplay {
+		UnstageBranch(stage, _taskgroup)
+	}
 
 }
 
@@ -2360,14 +2180,6 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.TaskGroupsWhoseNodeIsExpanded {
 		reference.TaskGroupsWhoseNodeIsExpanded = append(reference.TaskGroupsWhoseNodeIsExpanded, stage.TaskGroups_reference[_b])
 	}
-	reference.MilestoneShapes = reference.MilestoneShapes[:0]
-	for _, _b := range instance.MilestoneShapes {
-		reference.MilestoneShapes = append(reference.MilestoneShapes, stage.MilestoneShapes_reference[_b])
-	}
-	reference.MilestonesWhoseNodeIsExpanded = reference.MilestonesWhoseNodeIsExpanded[:0]
-	for _, _b := range instance.MilestonesWhoseNodeIsExpanded {
-		reference.MilestonesWhoseNodeIsExpanded = append(reference.MilestonesWhoseNodeIsExpanded, stage.Milestones_reference[_b])
-	}
 	reference.TaskComposition_Shapes = reference.TaskComposition_Shapes[:0]
 	for _, _b := range instance.TaskComposition_Shapes {
 		reference.TaskComposition_Shapes = append(reference.TaskComposition_Shapes, stage.TaskCompositionShapes_reference[_b])
@@ -2437,10 +2249,6 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.RootTaskGroups {
 		reference.RootTaskGroups = append(reference.RootTaskGroups, stage.TaskGroups_reference[_b])
 	}
-	reference.RootMilestones = reference.RootMilestones[:0]
-	for _, _b := range instance.RootMilestones {
-		reference.RootMilestones = append(reference.RootMilestones, stage.Milestones_reference[_b])
-	}
 	reference.RootResources = reference.RootResources[:0]
 	for _, _b := range instance.RootResources {
 		reference.RootResources = append(reference.RootResources, stage.Resources_reference[_b])
@@ -2453,23 +2261,6 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.Diagrams {
 		reference.Diagrams = append(reference.Diagrams, stage.Diagrams_reference[_b])
 	}
-}
-
-func (reference *Milestone) GongReconstructPointersFromReferences(stage *Stage, instance *Milestone) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-	reference.TaskGroupsToDisplay = reference.TaskGroupsToDisplay[:0]
-	for _, _b := range instance.TaskGroupsToDisplay {
-		reference.TaskGroupsToDisplay = append(reference.TaskGroupsToDisplay, stage.TaskGroups_reference[_b])
-	}
-}
-
-func (reference *MilestoneShape) GongReconstructPointersFromReferences(stage *Stage, instance *MilestoneShape) {
-	// insertion point for pointers field
-	if instance.Milestone != nil {
-		reference.Milestone = stage.Milestones_reference[instance.Milestone]
-	}
-	// insertion point for slice of pointers field
 }
 
 func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) {
@@ -2619,6 +2410,10 @@ func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, insta
 	for _, _b := range instance.Outputs {
 		reference.Outputs = append(reference.Outputs, stage.Products_reference[_b])
 	}
+	reference.TaskGroupsToDisplay = reference.TaskGroupsToDisplay[:0]
+	for _, _b := range instance.TaskGroupsToDisplay {
+		reference.TaskGroupsToDisplay = append(reference.TaskGroupsToDisplay, stage.TaskGroups_reference[_b])
+	}
 }
 
 func (reference *TaskCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *TaskCompositionShape) {
@@ -2743,20 +2538,6 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.TaskGroupsWhoseNodeIsExpanded = _TaskGroupsWhoseNodeIsExpanded
-	var _MilestoneShapes []*MilestoneShape
-	for _, _reference := range reference.MilestoneShapes {
-		if _instance, ok := stage.MilestoneShapes_instance[_reference]; ok {
-			_MilestoneShapes = append(_MilestoneShapes, _instance)
-		}
-	}
-	reference.MilestoneShapes = _MilestoneShapes
-	var _MilestonesWhoseNodeIsExpanded []*Milestone
-	for _, _reference := range reference.MilestonesWhoseNodeIsExpanded {
-		if _instance, ok := stage.Milestones_instance[_reference]; ok {
-			_MilestonesWhoseNodeIsExpanded = append(_MilestonesWhoseNodeIsExpanded, _instance)
-		}
-	}
-	reference.MilestonesWhoseNodeIsExpanded = _MilestonesWhoseNodeIsExpanded
 	var _TaskComposition_Shapes []*TaskCompositionShape
 	for _, _reference := range reference.TaskComposition_Shapes {
 		if _instance, ok := stage.TaskCompositionShapes_instance[_reference]; ok {
@@ -2874,13 +2655,6 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.RootTaskGroups = _RootTaskGroups
-	var _RootMilestones []*Milestone
-	for _, _reference := range reference.RootMilestones {
-		if _instance, ok := stage.Milestones_instance[_reference]; ok {
-			_RootMilestones = append(_RootMilestones, _instance)
-		}
-	}
-	reference.RootMilestones = _RootMilestones
 	var _RootResources []*Resource
 	for _, _reference := range reference.RootResources {
 		if _instance, ok := stage.Resources_instance[_reference]; ok {
@@ -2902,29 +2676,6 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Diagrams = _Diagrams
-}
-
-func (reference *Milestone) GongReconstructPointersFromInstances(stage *Stage) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-	var _TaskGroupsToDisplay []*TaskGroup
-	for _, _reference := range reference.TaskGroupsToDisplay {
-		if _instance, ok := stage.TaskGroups_instance[_reference]; ok {
-			_TaskGroupsToDisplay = append(_TaskGroupsToDisplay, _instance)
-		}
-	}
-	reference.TaskGroupsToDisplay = _TaskGroupsToDisplay
-}
-
-func (reference *MilestoneShape) GongReconstructPointersFromInstances(stage *Stage) {
-	// insertion point for pointers field
-	if _reference := reference.Milestone; _reference != nil {
-		reference.Milestone = nil
-		if _instance, ok := stage.Milestones_instance[_reference]; ok {
-			reference.Milestone = _instance
-		}
-	}
-	// insertion point for slice of pointers fields
 }
 
 func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3149,6 +2900,13 @@ func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Outputs = _Outputs
+	var _TaskGroupsToDisplay []*TaskGroup
+	for _, _reference := range reference.TaskGroupsToDisplay {
+		if _instance, ok := stage.TaskGroups_instance[_reference]; ok {
+			_TaskGroupsToDisplay = append(_TaskGroupsToDisplay, _instance)
+		}
+	}
+	reference.TaskGroupsToDisplay = _TaskGroupsToDisplay
 }
 
 func (reference *TaskCompositionShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3464,51 +3222,6 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	}
 	if TaskGroupsWhoseNodeIsExpandedDifferent {
 		ops := Diff(stage, diagram, diagramOther, "TaskGroupsWhoseNodeIsExpanded", diagramOther.TaskGroupsWhoseNodeIsExpanded, diagram.TaskGroupsWhoseNodeIsExpanded)
-		diffs = append(diffs, ops)
-	}
-	if diagram.IsMilestonesNodeExpanded != diagramOther.IsMilestonesNodeExpanded {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsMilestonesNodeExpanded"))
-	}
-	MilestoneShapesDifferent := false
-	if len(diagram.MilestoneShapes) != len(diagramOther.MilestoneShapes) {
-		MilestoneShapesDifferent = true
-	} else {
-		for i := range diagram.MilestoneShapes {
-			if (diagram.MilestoneShapes[i] == nil) != (diagramOther.MilestoneShapes[i] == nil) {
-				MilestoneShapesDifferent = true
-				break
-			} else if diagram.MilestoneShapes[i] != nil && diagramOther.MilestoneShapes[i] != nil {
-				// this is a pointer comparaison
-				if diagram.MilestoneShapes[i] != diagramOther.MilestoneShapes[i] {
-					MilestoneShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if MilestoneShapesDifferent {
-		ops := Diff(stage, diagram, diagramOther, "MilestoneShapes", diagramOther.MilestoneShapes, diagram.MilestoneShapes)
-		diffs = append(diffs, ops)
-	}
-	MilestonesWhoseNodeIsExpandedDifferent := false
-	if len(diagram.MilestonesWhoseNodeIsExpanded) != len(diagramOther.MilestonesWhoseNodeIsExpanded) {
-		MilestonesWhoseNodeIsExpandedDifferent = true
-	} else {
-		for i := range diagram.MilestonesWhoseNodeIsExpanded {
-			if (diagram.MilestonesWhoseNodeIsExpanded[i] == nil) != (diagramOther.MilestonesWhoseNodeIsExpanded[i] == nil) {
-				MilestonesWhoseNodeIsExpandedDifferent = true
-				break
-			} else if diagram.MilestonesWhoseNodeIsExpanded[i] != nil && diagramOther.MilestonesWhoseNodeIsExpanded[i] != nil {
-				// this is a pointer comparaison
-				if diagram.MilestonesWhoseNodeIsExpanded[i] != diagramOther.MilestonesWhoseNodeIsExpanded[i] {
-					MilestonesWhoseNodeIsExpandedDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if MilestonesWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, diagram, diagramOther, "MilestonesWhoseNodeIsExpanded", diagramOther.MilestonesWhoseNodeIsExpanded, diagram.MilestonesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
 	if diagram.DateFormat != diagramOther.DateFormat {
@@ -3969,27 +3682,6 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		ops := Diff(stage, library, libraryOther, "RootTaskGroups", libraryOther.RootTaskGroups, library.RootTaskGroups)
 		diffs = append(diffs, ops)
 	}
-	RootMilestonesDifferent := false
-	if len(library.RootMilestones) != len(libraryOther.RootMilestones) {
-		RootMilestonesDifferent = true
-	} else {
-		for i := range library.RootMilestones {
-			if (library.RootMilestones[i] == nil) != (libraryOther.RootMilestones[i] == nil) {
-				RootMilestonesDifferent = true
-				break
-			} else if library.RootMilestones[i] != nil && libraryOther.RootMilestones[i] != nil {
-				// this is a pointer comparaison
-				if library.RootMilestones[i] != libraryOther.RootMilestones[i] {
-					RootMilestonesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RootMilestonesDifferent {
-		ops := Diff(stage, library, libraryOther, "RootMilestones", libraryOther.RootMilestones, library.RootMilestones)
-		diffs = append(diffs, ops)
-	}
 	RootResourcesDifferent := false
 	if len(library.RootResources) != len(libraryOther.RootResources) {
 		RootResourcesDifferent = true
@@ -4052,86 +3744,6 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if DiagramsDifferent {
 		ops := Diff(stage, library, libraryOther, "Diagrams", libraryOther.Diagrams, library.Diagrams)
 		diffs = append(diffs, ops)
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (milestone *Milestone) GongDiff(stage *Stage, milestoneOther *Milestone) (diffs []string) {
-	// insertion point for field diffs
-	if milestone.Name != milestoneOther.Name {
-		diffs = append(diffs, milestone.GongMarshallField(stage, "Name"))
-	}
-	if milestone.ComputedPrefix != milestoneOther.ComputedPrefix {
-		diffs = append(diffs, milestone.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if milestone.IsExpanded != milestoneOther.IsExpanded {
-		diffs = append(diffs, milestone.GongMarshallField(stage, "IsExpanded"))
-	}
-	if milestone.LayoutDirection != milestoneOther.LayoutDirection {
-		diffs = append(diffs, milestone.GongMarshallField(stage, "LayoutDirection"))
-	}
-	if milestone.Date != milestoneOther.Date {
-		diffs = append(diffs, milestone.GongMarshallField(stage, "Date"))
-	}
-	if milestone.DisplayVerticalBar != milestoneOther.DisplayVerticalBar {
-		diffs = append(diffs, milestone.GongMarshallField(stage, "DisplayVerticalBar"))
-	}
-	TaskGroupsToDisplayDifferent := false
-	if len(milestone.TaskGroupsToDisplay) != len(milestoneOther.TaskGroupsToDisplay) {
-		TaskGroupsToDisplayDifferent = true
-	} else {
-		for i := range milestone.TaskGroupsToDisplay {
-			if (milestone.TaskGroupsToDisplay[i] == nil) != (milestoneOther.TaskGroupsToDisplay[i] == nil) {
-				TaskGroupsToDisplayDifferent = true
-				break
-			} else if milestone.TaskGroupsToDisplay[i] != nil && milestoneOther.TaskGroupsToDisplay[i] != nil {
-				// this is a pointer comparaison
-				if milestone.TaskGroupsToDisplay[i] != milestoneOther.TaskGroupsToDisplay[i] {
-					TaskGroupsToDisplayDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if TaskGroupsToDisplayDifferent {
-		ops := Diff(stage, milestone, milestoneOther, "TaskGroupsToDisplay", milestoneOther.TaskGroupsToDisplay, milestone.TaskGroupsToDisplay)
-		diffs = append(diffs, ops)
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (milestoneshape *MilestoneShape) GongDiff(stage *Stage, milestoneshapeOther *MilestoneShape) (diffs []string) {
-	// insertion point for field diffs
-	if milestoneshape.Name != milestoneshapeOther.Name {
-		diffs = append(diffs, milestoneshape.GongMarshallField(stage, "Name"))
-	}
-	if (milestoneshape.Milestone == nil) != (milestoneshapeOther.Milestone == nil) {
-		diffs = append(diffs, milestoneshape.GongMarshallField(stage, "Milestone"))
-	} else if milestoneshape.Milestone != nil && milestoneshapeOther.Milestone != nil {
-		if milestoneshape.Milestone != milestoneshapeOther.Milestone {
-			diffs = append(diffs, milestoneshape.GongMarshallField(stage, "Milestone"))
-		}
-	}
-	if milestoneshape.X != milestoneshapeOther.X {
-		diffs = append(diffs, milestoneshape.GongMarshallField(stage, "X"))
-	}
-	if milestoneshape.Y != milestoneshapeOther.Y {
-		diffs = append(diffs, milestoneshape.GongMarshallField(stage, "Y"))
-	}
-	if milestoneshape.Width != milestoneshapeOther.Width {
-		diffs = append(diffs, milestoneshape.GongMarshallField(stage, "Width"))
-	}
-	if milestoneshape.Height != milestoneshapeOther.Height {
-		diffs = append(diffs, milestoneshape.GongMarshallField(stage, "Height"))
-	}
-	if milestoneshape.IsHidden != milestoneshapeOther.IsHidden {
-		diffs = append(diffs, milestoneshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return
@@ -4742,6 +4354,9 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	if task.End != taskOther.End {
 		diffs = append(diffs, task.GongMarshallField(stage, "End"))
 	}
+	if task.IsMilestone != taskOther.IsMilestone {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsMilestone"))
+	}
 	if task.Description != taskOther.Description {
 		diffs = append(diffs, task.GongMarshallField(stage, "Description"))
 	}
@@ -4819,6 +4434,30 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	}
 	if task.Completion != taskOther.Completion {
 		diffs = append(diffs, task.GongMarshallField(stage, "Completion"))
+	}
+	if task.DisplayVerticalBar != taskOther.DisplayVerticalBar {
+		diffs = append(diffs, task.GongMarshallField(stage, "DisplayVerticalBar"))
+	}
+	TaskGroupsToDisplayDifferent := false
+	if len(task.TaskGroupsToDisplay) != len(taskOther.TaskGroupsToDisplay) {
+		TaskGroupsToDisplayDifferent = true
+	} else {
+		for i := range task.TaskGroupsToDisplay {
+			if (task.TaskGroupsToDisplay[i] == nil) != (taskOther.TaskGroupsToDisplay[i] == nil) {
+				TaskGroupsToDisplayDifferent = true
+				break
+			} else if task.TaskGroupsToDisplay[i] != nil && taskOther.TaskGroupsToDisplay[i] != nil {
+				// this is a pointer comparaison
+				if task.TaskGroupsToDisplay[i] != taskOther.TaskGroupsToDisplay[i] {
+					TaskGroupsToDisplayDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TaskGroupsToDisplayDifferent {
+		ops := Diff(stage, task, taskOther, "TaskGroupsToDisplay", taskOther.TaskGroupsToDisplay, task.TaskGroupsToDisplay)
+		diffs = append(diffs, ops)
 	}
 
 	return

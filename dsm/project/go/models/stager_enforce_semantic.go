@@ -68,6 +68,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce task input output library consistency", stager.enforceTaskInputOutputLibraryConsistency},
 		{"Enforce duplicate remove", stager.enforceDuplicateRemove},
 		{"Enforce library has at least one diagram", stager.enforceLibraryHasAtLeastOneDiagram},
+		{"Enforce task milestone dates", stager.enforceTaskMilestoneDates},
 
 		// concrete semantic check
 
@@ -95,4 +96,17 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 	}
 
 	return needCommit
+}
+
+func (stager *Stager) enforceTaskMilestoneDates() (needCommit bool) {
+	for _, task := range GetGongstrucsSorted[*Task](stager.stage) {
+		if task.IsMilestone && task.End != task.Start {
+			task.End = task.Start
+			needCommit = true
+			if stager.probeForm != nil {
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted end date to start date since it is a milestone", task.Name))
+			}
+		}
+	}
+	return
 }

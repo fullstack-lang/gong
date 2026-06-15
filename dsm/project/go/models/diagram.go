@@ -44,11 +44,6 @@ type Diagram struct {
 	map_TaskGroup_TaskGroupShape  map[*TaskGroup]*TaskGroupShape
 	TaskGroupsWhoseNodeIsExpanded []*TaskGroup
 
-	IsMilestonesNodeExpanded      bool
-	MilestoneShapes               []*MilestoneShape
-	map_Milestone_MilestoneShape  map[*Milestone]*MilestoneShape
-	MilestonesWhoseNodeIsExpanded []*Milestone
-
 	// date format for task shapes. If "", use "2006-01-02"
 	// date format is go date format convention
 	DateFormat string

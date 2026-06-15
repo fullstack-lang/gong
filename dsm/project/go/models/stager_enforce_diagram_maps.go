@@ -58,23 +58,6 @@ func (stager *Stager) enforceDiagramMaps() {
 			}
 		}
 
-		diagram.map_Milestone_MilestoneShape = make(map[*Milestone]*MilestoneShape)
-		for _, shape := range diagram.MilestoneShapes {
-			if shape.Milestone != nil {
-				diagram.map_Milestone_MilestoneShape[shape.Milestone] = shape
-				diagrams := stager.map_Element_Diagrams[shape.Milestone]
-
-				if diagrams == nil {
-					diagrams = []DiagramIF{diagram}
-				}
-
-				if !slices.Contains(diagrams, DiagramIF(diagram)) {
-					diagrams = append(diagrams, diagram)
-				}
-				stager.map_Element_Diagrams[shape.Milestone] = diagrams
-			}
-		}
-
 		diagram.map_Task_TaskInputShape = make(map[taskProductKey]*TaskInputShape)
 		for _, shape := range diagram.TaskInputShapes {
 			if shape.Task != nil && shape.Product != nil {

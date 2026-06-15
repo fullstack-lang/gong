@@ -16,9 +16,7 @@ func (diagram *Diagram) GetNodes() (nodes []ConcreteType) {
 	for _, s := range diagram.TaskGroupShapes {
 		nodes = append(nodes, s)
 	}
-	for _, s := range diagram.MilestoneShapes {
-		nodes = append(nodes, s)
-	}
+
 	return
 }
 
@@ -34,8 +32,7 @@ func (diagram *Diagram) AddNode(node ConcreteType) {
 		diagram.Resource_Shapes = append(diagram.Resource_Shapes, n)
 	case *TaskGroupShape:
 		diagram.TaskGroupShapes = append(diagram.TaskGroupShapes, n)
-	case *MilestoneShape:
-		diagram.MilestoneShapes = append(diagram.MilestoneShapes, n)
+
 	}
 }
 

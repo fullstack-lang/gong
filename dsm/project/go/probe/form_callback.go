@@ -380,72 +380,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagram_.TaskGroupsWhoseNodeIsExpanded = instanceSlice
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TaskGroupsWhoseNodeIsExpanded", &diagram_.TaskGroupsWhoseNodeIsExpanded)
 
-		case "IsMilestonesNodeExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsMilestonesNodeExpanded), formDiv)
-		case "MilestoneShapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.MilestoneShape](diagramFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.MilestoneShape, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.MilestoneShape)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.MilestoneShape](diagramFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			diagram_.MilestoneShapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "MilestoneShapes", &diagram_.MilestoneShapes)
-
-		case "MilestonesWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Milestone](diagramFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Milestone, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Milestone)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					diagramFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Milestone](diagramFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			diagram_.MilestonesWhoseNodeIsExpanded = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "MilestonesWhoseNodeIsExpanded", &diagram_.MilestonesWhoseNodeIsExpanded)
-
 		case "DateFormat":
 			FormDivBasicFieldToField(&(diagram_.DateFormat), formDiv)
 		case "TaskComposition_Shapes":
@@ -1155,38 +1089,6 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			library_.RootTaskGroups = instanceSlice
 			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootTaskGroups", &library_.RootTaskGroups)
 
-		case "RootMilestones":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Milestone](libraryFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Milestone, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Milestone)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					libraryFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Milestone](libraryFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			library_.RootMilestones = instanceSlice
-			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootMilestones", &library_.RootMilestones)
-
 		case "RootResources":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Resource](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Resource, 0)
@@ -1358,351 +1260,6 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 	}
 
 	libraryFormCallback.probe.ux_tree()
-}
-func __gong__New__MilestoneFormCallback(
-	milestone *models.Milestone,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (milestoneFormCallback *MilestoneFormCallback) {
-	milestoneFormCallback = new(MilestoneFormCallback)
-	milestoneFormCallback.probe = probe
-	milestoneFormCallback.milestone = milestone
-	milestoneFormCallback.formGroup = formGroup
-
-	milestoneFormCallback.CreationMode = (milestone == nil)
-
-	return
-}
-
-type MilestoneFormCallback struct {
-	milestone *models.Milestone
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
-	milestoneFormCallback.probe.stageOfInterest.Lock()
-	defer milestoneFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("MilestoneFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	milestoneFormCallback.probe.formStage.Checkout()
-
-	if milestoneFormCallback.milestone == nil {
-		milestoneFormCallback.milestone = new(models.Milestone).Stage(milestoneFormCallback.probe.stageOfInterest)
-	}
-	milestone_ := milestoneFormCallback.milestone
-	_ = milestone_
-
-	for _, formDiv := range milestoneFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(milestone_.Name), formDiv)
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(milestone_.ComputedPrefix), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(milestone_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(milestone_.LayoutDirection), formDiv)
-		case "Date":
-			FormDivBasicFieldToField(&(milestone_.Date), formDiv)
-		case "DisplayVerticalBar":
-			FormDivBasicFieldToField(&(milestone_.DisplayVerticalBar), formDiv)
-		case "TaskGroupsToDisplay":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskGroup](milestoneFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.TaskGroup, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.TaskGroup)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					milestoneFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.TaskGroup](milestoneFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			milestone_.TaskGroupsToDisplay = instanceSlice
-			milestoneFormCallback.probe.UpdateSliceOfPointersCallback(milestone_, "TaskGroupsToDisplay", &milestone_.TaskGroupsToDisplay)
-
-		case "Diagram:MilestonesWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](milestoneFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Diagram instances and update their MilestonesWhoseNodeIsExpanded slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](milestoneFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(milestoneFormCallback.probe.stageOfInterest, _diagram)
-				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure milestone_ is in _diagram.MilestonesWhoseNodeIsExpanded
-					found := false
-					for _, _b := range _diagram.MilestonesWhoseNodeIsExpanded {
-						if _b == milestone_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_diagram.MilestonesWhoseNodeIsExpanded = append(_diagram.MilestonesWhoseNodeIsExpanded, milestone_)
-						milestoneFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "MilestonesWhoseNodeIsExpanded", &_diagram.MilestonesWhoseNodeIsExpanded)
-					}
-				} else {
-					// ensure milestone_ is NOT in _diagram.MilestonesWhoseNodeIsExpanded
-					idx := slices.Index(_diagram.MilestonesWhoseNodeIsExpanded, milestone_)
-					if idx != -1 {
-						_diagram.MilestonesWhoseNodeIsExpanded = slices.Delete(_diagram.MilestonesWhoseNodeIsExpanded, idx, idx+1)
-						milestoneFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "MilestonesWhoseNodeIsExpanded", &_diagram.MilestonesWhoseNodeIsExpanded)
-					}
-				}
-			}
-		case "Library:RootMilestones":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Library instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Library](milestoneFormCallback.probe.stageOfInterest)
-			targetLibraryIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetLibraryIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Library instances and update their RootMilestones slice
-			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](milestoneFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(milestoneFormCallback.probe.stageOfInterest, _library)
-				
-				// if Library is selected
-				if targetLibraryIDs[id] {
-					// ensure milestone_ is in _library.RootMilestones
-					found := false
-					for _, _b := range _library.RootMilestones {
-						if _b == milestone_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_library.RootMilestones = append(_library.RootMilestones, milestone_)
-						milestoneFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootMilestones", &_library.RootMilestones)
-					}
-				} else {
-					// ensure milestone_ is NOT in _library.RootMilestones
-					idx := slices.Index(_library.RootMilestones, milestone_)
-					if idx != -1 {
-						_library.RootMilestones = slices.Delete(_library.RootMilestones, idx, idx+1)
-						milestoneFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootMilestones", &_library.RootMilestones)
-					}
-				}
-			}
-		}
-	}
-
-	// manage the suppress operation
-	if milestoneFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		milestone_.Unstage(milestoneFormCallback.probe.stageOfInterest)
-	}
-
-	milestoneFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Milestone](
-		milestoneFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if milestoneFormCallback.CreationMode || milestoneFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		milestoneFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(milestoneFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__MilestoneFormCallback(
-			nil,
-			milestoneFormCallback.probe,
-			newFormGroup,
-		)
-		milestone := new(models.Milestone)
-		FillUpForm(milestone, newFormGroup, milestoneFormCallback.probe)
-		milestoneFormCallback.probe.formStage.Commit()
-	}
-
-	milestoneFormCallback.probe.ux_tree()
-}
-func __gong__New__MilestoneShapeFormCallback(
-	milestoneshape *models.MilestoneShape,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (milestoneshapeFormCallback *MilestoneShapeFormCallback) {
-	milestoneshapeFormCallback = new(MilestoneShapeFormCallback)
-	milestoneshapeFormCallback.probe = probe
-	milestoneshapeFormCallback.milestoneshape = milestoneshape
-	milestoneshapeFormCallback.formGroup = formGroup
-
-	milestoneshapeFormCallback.CreationMode = (milestoneshape == nil)
-
-	return
-}
-
-type MilestoneShapeFormCallback struct {
-	milestoneshape *models.MilestoneShape
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (milestoneshapeFormCallback *MilestoneShapeFormCallback) OnSave() {
-	milestoneshapeFormCallback.probe.stageOfInterest.Lock()
-	defer milestoneshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("MilestoneShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	milestoneshapeFormCallback.probe.formStage.Checkout()
-
-	if milestoneshapeFormCallback.milestoneshape == nil {
-		milestoneshapeFormCallback.milestoneshape = new(models.MilestoneShape).Stage(milestoneshapeFormCallback.probe.stageOfInterest)
-	}
-	milestoneshape_ := milestoneshapeFormCallback.milestoneshape
-	_ = milestoneshape_
-
-	for _, formDiv := range milestoneshapeFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(milestoneshape_.Name), formDiv)
-		case "Milestone":
-			FormDivSelectFieldToField(&(milestoneshape_.Milestone), milestoneshapeFormCallback.probe.stageOfInterest, formDiv)
-		case "X":
-			FormDivBasicFieldToField(&(milestoneshape_.X), formDiv)
-		case "Y":
-			FormDivBasicFieldToField(&(milestoneshape_.Y), formDiv)
-		case "Width":
-			FormDivBasicFieldToField(&(milestoneshape_.Width), formDiv)
-		case "Height":
-			FormDivBasicFieldToField(&(milestoneshape_.Height), formDiv)
-		case "IsHidden":
-			FormDivBasicFieldToField(&(milestoneshape_.IsHidden), formDiv)
-		case "Diagram:MilestoneShapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](milestoneshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Diagram instances and update their MilestoneShapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](milestoneshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(milestoneshapeFormCallback.probe.stageOfInterest, _diagram)
-				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure milestoneshape_ is in _diagram.MilestoneShapes
-					found := false
-					for _, _b := range _diagram.MilestoneShapes {
-						if _b == milestoneshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_diagram.MilestoneShapes = append(_diagram.MilestoneShapes, milestoneshape_)
-						milestoneshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "MilestoneShapes", &_diagram.MilestoneShapes)
-					}
-				} else {
-					// ensure milestoneshape_ is NOT in _diagram.MilestoneShapes
-					idx := slices.Index(_diagram.MilestoneShapes, milestoneshape_)
-					if idx != -1 {
-						_diagram.MilestoneShapes = slices.Delete(_diagram.MilestoneShapes, idx, idx+1)
-						milestoneshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "MilestoneShapes", &_diagram.MilestoneShapes)
-					}
-				}
-			}
-		}
-	}
-
-	// manage the suppress operation
-	if milestoneshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		milestoneshape_.Unstage(milestoneshapeFormCallback.probe.stageOfInterest)
-	}
-
-	milestoneshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.MilestoneShape](
-		milestoneshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if milestoneshapeFormCallback.CreationMode || milestoneshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		milestoneshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(milestoneshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__MilestoneShapeFormCallback(
-			nil,
-			milestoneshapeFormCallback.probe,
-			newFormGroup,
-		)
-		milestoneshape := new(models.MilestoneShape)
-		FillUpForm(milestoneshape, newFormGroup, milestoneshapeFormCallback.probe)
-		milestoneshapeFormCallback.probe.formStage.Commit()
-	}
-
-	milestoneshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__NoteFormCallback(
 	note *models.Note,
@@ -4008,6 +3565,8 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(task_.Start), formDiv)
 		case "End":
 			FormDivBasicFieldToField(&(task_.End), formDiv)
+		case "IsMilestone":
+			FormDivBasicFieldToField(&(task_.IsMilestone), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(task_.Description), formDiv)
 		case "SubTasks":
@@ -4114,6 +3673,40 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(task_.IsWithCompletion), formDiv)
 		case "Completion":
 			FormDivEnumStringFieldToField(&(task_.Completion), formDiv)
+		case "DisplayVerticalBar":
+			FormDivBasicFieldToField(&(task_.DisplayVerticalBar), formDiv)
+		case "TaskGroupsToDisplay":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskGroup](taskFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.TaskGroup, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.TaskGroup)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					taskFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.TaskGroup](taskFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			task_.TaskGroupsToDisplay = instanceSlice
+			taskFormCallback.probe.UpdateSliceOfPointersCallback(task_, "TaskGroupsToDisplay", &task_.TaskGroupsToDisplay)
+
 		case "Diagram:TasksWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -4817,48 +4410,48 @@ func (taskgroupFormCallback *TaskGroupFormCallback) OnSave() {
 					}
 				}
 			}
-		case "Milestone:TaskGroupsToDisplay":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Milestone instances
+		case "Task:TaskGroupsToDisplay":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Task instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Milestone instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Milestone](taskgroupFormCallback.probe.stageOfInterest)
-			targetMilestoneIDs := make(map[uint]bool)
+			// 2. Build a map of target Task instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](taskgroupFormCallback.probe.stageOfInterest)
+			targetTaskIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetMilestoneIDs[id] = true
+					targetTaskIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Milestone instances and update their TaskGroupsToDisplay slice
-			for _milestone := range *models.GetGongstructInstancesSetFromPointerType[*models.Milestone](taskgroupFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskgroupFormCallback.probe.stageOfInterest, _milestone)
+			// 3. Iterate over all Task instances and update their TaskGroupsToDisplay slice
+			for _task := range *models.GetGongstructInstancesSetFromPointerType[*models.Task](taskgroupFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(taskgroupFormCallback.probe.stageOfInterest, _task)
 				
-				// if Milestone is selected
-				if targetMilestoneIDs[id] {
-					// ensure taskgroup_ is in _milestone.TaskGroupsToDisplay
+				// if Task is selected
+				if targetTaskIDs[id] {
+					// ensure taskgroup_ is in _task.TaskGroupsToDisplay
 					found := false
-					for _, _b := range _milestone.TaskGroupsToDisplay {
+					for _, _b := range _task.TaskGroupsToDisplay {
 						if _b == taskgroup_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_milestone.TaskGroupsToDisplay = append(_milestone.TaskGroupsToDisplay, taskgroup_)
-						taskgroupFormCallback.probe.UpdateSliceOfPointersCallback(_milestone, "TaskGroupsToDisplay", &_milestone.TaskGroupsToDisplay)
+						_task.TaskGroupsToDisplay = append(_task.TaskGroupsToDisplay, taskgroup_)
+						taskgroupFormCallback.probe.UpdateSliceOfPointersCallback(_task, "TaskGroupsToDisplay", &_task.TaskGroupsToDisplay)
 					}
 				} else {
-					// ensure taskgroup_ is NOT in _milestone.TaskGroupsToDisplay
-					idx := slices.Index(_milestone.TaskGroupsToDisplay, taskgroup_)
+					// ensure taskgroup_ is NOT in _task.TaskGroupsToDisplay
+					idx := slices.Index(_task.TaskGroupsToDisplay, taskgroup_)
 					if idx != -1 {
-						_milestone.TaskGroupsToDisplay = slices.Delete(_milestone.TaskGroupsToDisplay, idx, idx+1)
-						taskgroupFormCallback.probe.UpdateSliceOfPointersCallback(_milestone, "TaskGroupsToDisplay", &_milestone.TaskGroupsToDisplay)
+						_task.TaskGroupsToDisplay = slices.Delete(_task.TaskGroupsToDisplay, idx, idx+1)
+						taskgroupFormCallback.probe.UpdateSliceOfPointersCallback(_task, "TaskGroupsToDisplay", &_task.TaskGroupsToDisplay)
 					}
 				}
 			}
