@@ -70,6 +70,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(diagram_.LayoutDirection), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(diagram_.IsChecked), formDiv)
 		case "IsEditable_":
@@ -1053,6 +1055,8 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(library_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(library_.LayoutDirection), formDiv)
 		case "IsRootLibrary":
 			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
 		case "RootProducts":
@@ -1406,6 +1410,8 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(milestone_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(milestone_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(milestone_.LayoutDirection), formDiv)
 		case "Date":
 			FormDivBasicFieldToField(&(milestone_.Date), formDiv)
 		case "DisplayVerticalBar":
@@ -1749,6 +1755,8 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(note_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(note_.LayoutDirection), formDiv)
 		case "Products":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](noteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
@@ -2569,6 +2577,8 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(product_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(product_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(product_.LayoutDirection), formDiv)
 		case "IsImport":
 			FormDivBasicFieldToField(&(product_.IsImport), formDiv)
 		case "ReferencedProduct":
@@ -2611,8 +2621,6 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(product_.IsProducersNodeExpanded), formDiv)
 		case "IsConsumersNodeExpanded":
 			FormDivBasicFieldToField(&(product_.IsConsumersNodeExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(product_.LayoutDirection), formDiv)
 		case "Diagram:ProductsWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -3241,6 +3249,8 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(resource_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(resource_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(resource_.LayoutDirection), formDiv)
 		case "IsImport":
 			FormDivBasicFieldToField(&(resource_.IsImport), formDiv)
 		case "ReferencedResource":
@@ -3311,8 +3321,6 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 			resource_.SubResources = instanceSlice
 			resourceFormCallback.probe.UpdateSliceOfPointersCallback(resource_, "SubResources", &resource_.SubResources)
 
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(resource_.LayoutDirection), formDiv)
 		case "Diagram:ResourcesWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -3990,6 +3998,8 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(task_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(task_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(task_.LayoutDirection), formDiv)
 		case "IsImport":
 			FormDivBasicFieldToField(&(task_.IsImport), formDiv)
 		case "ReferencedTask":
@@ -4100,8 +4110,6 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 
 		case "IsOutputsNodeExpanded":
 			FormDivBasicFieldToField(&(task_.IsOutputsNodeExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(task_.LayoutDirection), formDiv)
 		case "IsWithCompletion":
 			FormDivBasicFieldToField(&(task_.IsWithCompletion), formDiv)
 		case "Completion":
@@ -4685,6 +4693,8 @@ func (taskgroupFormCallback *TaskGroupFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(taskgroup_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(taskgroup_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(taskgroup_.LayoutDirection), formDiv)
 		case "Tasks":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](taskgroupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Task, 0)

@@ -60,39 +60,12 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 		taskNode.CheckboxToolTipText = "Add imported task to diagram"
 	}
 
-	toggleAbstractLayoutButton := &tree.Button{
-		Name: "Toggle Abstract Layout Direction to " + func() string {
-			if task.LayoutDirection == Vertical {
-				return "Horizontal"
-			} else {
-				return "Vertical"
-			}
-		}(),
-		HasToolTip:      true,
-		ToolTipPosition: tree.Above,
-
-		OnClick: func() {
-			if task.LayoutDirection == Vertical {
-				task.LayoutDirection = Horizontal
-			} else {
-				task.LayoutDirection = Vertical
-			}
-			stager.stage.Commit()
-		},
+	var taskShape *TaskShape
+	shape, ok := diagram.map_Task_TaskShape[task]
+	if ok {
+		taskShape = shape
 	}
-
-	if task.LayoutDirection == Vertical {
-		toggleAbstractLayoutButton.Icon = string(buttons.BUTTON_swap_horiz)
-		toggleAbstractLayoutButton.ToolTipText = "Set layout to Horizontal"
-	} else {
-		toggleAbstractLayoutButton.Icon = string(buttons.BUTTON_swap_vert)
-		toggleAbstractLayoutButton.ToolTipText = "Set layout to Vertical"
-	}
-
-	if taskNode.Menu == nil {
-		taskNode.Menu = &tree.Menu{Name: "Menu"}
-	}
-	taskNode.Menu.Buttons = append(taskNode.Menu.Buttons, toggleAbstractLayoutButton)
+	addLayoutButtons[*Task, *TaskShape](stager, taskNode, task, taskShape, ok)
 
 	conf := ItemShapeAndLinkButtonConfiguration[
 		Task, *Task, // AT, PAT (Added Element)
@@ -145,54 +118,6 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 		}
 		taskNode.Menu.Buttons = append(taskNode.Menu.Buttons, button)
 
-		toggleLayoutButton := &tree.Button{
-			Name: "Toggle Concrete Layout Direction to " + func() string {
-				if taskShape.LayoutDirection == Vertical {
-					return "Horizontal"
-				} else {
-					return "Vertical"
-				}
-			}(),
-			HasToolTip:      true,
-			ToolTipPosition: tree.Above,
-			OnClick: func() {
-				if taskShape.LayoutDirection == Vertical {
-					taskShape.LayoutDirection = Horizontal
-				} else {
-					taskShape.LayoutDirection = Vertical
-				}
-				stager.stage.Commit()
-			},
-		}
-
-		if taskShape.LayoutDirection == Vertical {
-			toggleLayoutButton.Icon = string(buttons.BUTTON_swap_horiz)
-			toggleLayoutButton.ToolTipText = "Set concrete layout to Horizontal"
-		} else {
-			toggleLayoutButton.Icon = string(buttons.BUTTON_swap_vert)
-			toggleLayoutButton.ToolTipText = "Set concrete layout to Vertical"
-		}
-
-		toggleOverrideButton := &tree.Button{
-			Name:            "Toggle Override Layout Direction",
-			HasToolTip:      true,
-			ToolTipPosition: tree.Above,
-			OnClick: func() {
-				taskShape.OverideLayoutDirection = !taskShape.OverideLayoutDirection
-				stager.stage.Commit()
-			},
-		}
-
-		if taskShape.OverideLayoutDirection {
-			toggleOverrideButton.Icon = string(buttons.BUTTON_check_box)
-			toggleOverrideButton.ToolTipText = "Disable layout override"
-		} else {
-			toggleOverrideButton.Icon = string(buttons.BUTTON_check_box_outline_blank)
-			toggleOverrideButton.ToolTipText = "Enable layout override"
-		}
-
-		taskNode.Menu.Buttons = append(taskNode.Menu.Buttons, toggleLayoutButton)
-		taskNode.Menu.Buttons = append(taskNode.Menu.Buttons, toggleOverrideButton)
 	}
 
 	for _, task := range task.SubTasks {

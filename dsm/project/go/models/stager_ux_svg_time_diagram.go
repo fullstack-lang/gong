@@ -141,7 +141,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 		}
 
 		tickText := new(svg.Text).Stage(stager.svgStage)
-		
+
 		var tickLabel string
 		switch timeStepScale {
 		case YEARS:
@@ -372,7 +372,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 			milestoneText.TextAnchorType = svg.TEXT_ANCHOR_START
 			milestoneText.Color = "black"
 			milestoneText.FillOpacity = 1.0
-			
+
 			dummyRect.RectAnchoredTexts = append(dummyRect.RectAnchoredTexts, milestoneText)
 		}
 	}
@@ -381,7 +381,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 	if diagram.DrawVerticalTimeLines {
 		for i := 0; i < len(ticksToDraw)-1; i++ {
 			tick := ticksToDraw[i]
-			
+
 			durationBetweenTickAndGanttStart := tick.Sub(diagram.ComputedStart)
 			durationBetweenTickAndGanttStartRelativeToGanttDuration :=
 				float64(durationBetweenTickAndGanttStart) / float64(diagram.ComputedDuration)

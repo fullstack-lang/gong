@@ -7,10 +7,7 @@ type ProductShape struct {
 
 	isExpanded bool
 
-	// OverideLayoutDirection is true, if the LayoutDirection from
-	// the abstract Product is overided by the concrete ProductShape
-	OverideLayoutDirection bool
-	LayoutDirection        LayoutDirection
+	ConcreteTypeFields
 
 	RectShape
 }
@@ -34,6 +31,7 @@ func (s *ProductShape) SetAbstractElement(abstractElement AbstractType) {
 }
 
 var _ ConcreteType = (*ProductShape)(nil)
+var _ LayoutConcreteType = (*ProductShape)(nil)
 
 // A ProductCompositionShape is the link between a product
 // and its parent product
@@ -80,10 +78,7 @@ type TaskShape struct {
 
 	IsShowDate bool
 
-	// OverideLayoutDirection is true, if the LayoutDirection from
-	// the abstract Task is overided by the concrete TaskShape
-	OverideLayoutDirection bool
-	LayoutDirection        LayoutDirection
+	ConcreteTypeFields
 
 	RectShape
 }
@@ -100,6 +95,7 @@ func (s *TaskShape) SetAbstractElement(abstractElement AbstractType) {
 }
 
 var _ ConcreteType = (*TaskShape)(nil)
+var _ LayoutConcreteType = (*TaskShape)(nil)
 
 // A TaskCompositionShape is the link between a task
 // and its parent task
@@ -389,10 +385,7 @@ type ResourceShape struct {
 
 	isExpanded bool
 
-	// OverideLayoutDirection is true, if the LayoutDirection from
-	// the abstract Resource is overided by the concrete ResourceShape
-	OverideLayoutDirection bool
-	LayoutDirection        LayoutDirection
+	ConcreteTypeFields
 
 	RectShape
 }
@@ -409,6 +402,7 @@ func (s *ResourceShape) SetAbstractElement(abstractElement AbstractType) {
 }
 
 var _ ConcreteType = (*ResourceShape)(nil)
+var _ LayoutConcreteType = (*ResourceShape)(nil)
 
 // A ResourceCompositionShape is the link between a Resource
 // and its parent Resource

@@ -340,7 +340,7 @@ func addCreateItemShapeAndLinkButton[
 						newCompositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
 						newCompositionShape.SetEndOrientation(ORIENTATION_VERTICAL)
 						ratio := (newShape.GetY() - parentShape.GetY()) / parentShape.GetHeight()
-						newCompositionShape.SetCornerOffsetRatio((ratio - 1.0)/2.0 + 1.0)
+						newCompositionShape.SetCornerOffsetRatio((ratio-1.0)/2.0 + 1.0)
 					}
 				}
 			}

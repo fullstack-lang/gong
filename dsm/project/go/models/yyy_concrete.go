@@ -176,12 +176,47 @@ type ConcreteType interface {
 	SetAbstractElement(AbstractType)
 }
 
+type LayoutConcreteType interface {
+	RectShapeInterface
+	ConcreteType
+	GetConcreteLayoutDirection() LayoutDirection
+	SetConcreteLayoutDirection(LayoutDirection)
+	GetOverideLayoutDirection() bool
+	SetOverideLayoutDirection(bool)
+}
+
+type ConcreteTypeFields struct {
+	OverideLayoutDirection bool
+	LayoutDirection        LayoutDirection
+}
+
+func (c *ConcreteTypeFields) GetConcreteLayoutDirection() LayoutDirection {
+	return c.LayoutDirection
+}
+
+func (c *ConcreteTypeFields) SetConcreteLayoutDirection(d LayoutDirection) {
+	c.LayoutDirection = d
+}
+
+func (c *ConcreteTypeFields) GetOverideLayoutDirection() bool {
+	return c.OverideLayoutDirection
+}
+
+func (c *ConcreteTypeFields) SetOverideLayoutDirection(b bool) {
+	c.OverideLayoutDirection = b
+}
+
 type AssociationConcreteType interface {
 	GongstructIF
 	GetAbstractStartElement() AbstractType
 	SetAbstractStartElement(AbstractType)
 	GetAbstractEndElement() AbstractType
 	SetAbstractEndElement(AbstractType)
+}
+
+type LayoutAssociationType interface {
+	LinkShapeInterface
+	AssociationConcreteType
 }
 
 type AssociationConcreteType2[SourceAT AbstractType, TargetAT AbstractType] interface {

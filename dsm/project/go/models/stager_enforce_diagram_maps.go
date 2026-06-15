@@ -75,7 +75,6 @@ func (stager *Stager) enforceDiagramMaps() {
 			}
 		}
 
-
 		diagram.map_Task_TaskInputShape = make(map[taskProductKey]*TaskInputShape)
 		for _, shape := range diagram.TaskInputShapes {
 			if shape.Task != nil && shape.Product != nil {
