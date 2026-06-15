@@ -4,7 +4,8 @@
   - [2.1. Prerequisite](#21-prerequisite)
   - [2.2. Generating \& running the code with the `gong` command](#22-generating--running-the-code-with-the-gong-command)
 - [3. Installing and compiling the gong repo](#3-installing-and-compiling-the-gong-repo)
-- [4. Status](#4-status)
+- [4. Portable Applications](#4-portable-applications)
+- [5. Status](#5-status)
 
 
 # 1. Why Gong ?
@@ -74,6 +75,21 @@ cd ../../..
 ./scripts/run_gong_conditionally.sh
 ```
 
-# 4. Status
+# 4. Portable Applications
+
+We provide portable, single-file HTML versions of some of our Domain Specific Modeling applications for each release.
+
+To use them:
+1. Click a link below to download the `.zip` file.
+2. Unzip the downloaded file.
+3. Double-click the extracted `.html` file to open the application in your web browser.
+
+**Downloads (Latest Release):**
+- [Process App](https://github.com/fullstack-lang/gong/releases/latest/download/process-app-portable.zip)
+- [Statemachines App](https://github.com/fullstack-lang/gong/releases/latest/download/statemachines-app-portable.zip)
+- [Barrgraph App](https://github.com/fullstack-lang/gong/releases/latest/download/barrgraph-app-portable.zip)
+- [Project App](https://github.com/fullstack-lang/gong/releases/latest/download/project-app-portable.zip)
+
+# 5. Status
 
 Gong is a work in progress.
