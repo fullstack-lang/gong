@@ -29,6 +29,38 @@ jobs:
           mkdir -p public-site/test/test4
           cp test/test4/test4-loader.html public-site/test/test4/
           
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+
+      - name: Install gong
+        run: go install ./go/cmd/gong
+
+      - name: Build process portable app
+        run: |
+          cd dsm/process/go/cmd/process
+          gong portable
+          cp process-app-portable.html ../../../../../public-site/
+          
+      - name: Build statemachines portable app
+        run: |
+          cd dsm/statemachines/go/cmd/statemachines
+          gong portable
+          cp statemachines-app-portable.html ../../../../../public-site/
+          
+      - name: Build barrgraph portable app
+        run: |
+          cd dsm/barrgraph/go/cmd/barrgraph
+          gong portable
+          cp barrgraph-app-portable.html ../../../../../public-site/
+          
+      - name: Build project portable app
+        run: |
+          cd dsm/project/go/cmd/project
+          gong portable
+          cp project-app-portable.html ../../../../../public-site/
+          
       - name: Setup Pages
         uses: actions/configure-pages@v5
         

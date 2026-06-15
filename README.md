@@ -77,18 +77,15 @@ cd ../../..
 
 # 4. Portable Applications
 
-We provide portable, single-file HTML versions of some of our Domain Specific Modeling applications for each release.
+We provide portable, single-file HTML versions of some of our Domain Specific Modeling applications. These are hosted on GitHub Pages so you can open them instantly in your browser.
 
-To use them:
-1. Click a link below to download the `.zip` file.
-2. Unzip the downloaded file.
-3. Double-click the extracted `.html` file to open the application in your web browser.
+To use them, simply click a link below:
 
-**Downloads (Latest Release):**
-- [Process App](https://github.com/fullstack-lang/gong/releases/latest/download/process-app-portable.zip)
-- [Statemachines App](https://github.com/fullstack-lang/gong/releases/latest/download/statemachines-app-portable.zip)
-- [Barrgraph App](https://github.com/fullstack-lang/gong/releases/latest/download/barrgraph-app-portable.zip)
-- [Project App](https://github.com/fullstack-lang/gong/releases/latest/download/project-app-portable.zip)
+**Live Applications:**
+- [Process App](https://fullstack-lang.github.io/gong/process-app-portable.html)
+- [Statemachines App](https://fullstack-lang.github.io/gong/statemachines-app-portable.html)
+- [Barrgraph App](https://fullstack-lang.github.io/gong/barrgraph-app-portable.html)
+- [Project App](https://fullstack-lang.github.io/gong/project-app-portable.html)
 
 # 5. Status
 
