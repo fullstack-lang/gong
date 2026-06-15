@@ -26,8 +26,7 @@ jobs:
       
       - name: Prepare minimal deployment directory
         run: |
-          mkdir -p public-site/test/test4
-          cp test/test4/test4-loader.html public-site/test/test4/
+          mkdir -p public-site
           
       - name: Set up Go
         uses: actions/setup-go@v5
