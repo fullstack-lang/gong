@@ -37,13 +37,13 @@ func (stager *Stager) treeProcesses(
 		sliceForNewAddedItem:               &process.DiagramProcesss,
 		isParentNodeExpandedByAddOperation: true,
 		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &process.isExpanded,
+		parentNodeExpansionBooleanValue:    &process.IsExpanded,
 	}
 	itemAdderCallback := addCreateItemButton(stager, confDiagramProcesss)
 	itemAdderCallback.OnBeforeCommit = func() {
 		newDiagram := itemAdderCallback.createdItem
 		newDiagram.IsEditable_ = true
-		newDiagram.isExpanded = true
+		newDiagram.IsExpanded = true
 		for diagram_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
 			diagram_.IsChecked = false
 		}

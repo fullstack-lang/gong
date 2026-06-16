@@ -35,13 +35,13 @@ func _(stage *models.Stage) {
 	__ControlFlow__00000001_ := (&models.ControlFlow{Name: `"Validate and Accept" to "Distribute ATS Messages"`}).Stage(stage)
 	__ControlFlow__00000002_ := (&models.ControlFlow{Name: `"Ingest Flight Data" to "Log Flight Movement"`}).Stage(stage)
 	__ControlFlow__00000003_ := (&models.ControlFlow{Name: `"" to "Submit Flight Plan"`}).Stage(stage)
-	__ControlFlow__00000004_ := (&models.ControlFlow{Name: `"Log Flight Movement" to ""`}).Stage(stage)
+	__ControlFlow__00000004_ := (&models.ControlFlow{Name: `"Log Flight Movement" to "End"`}).Stage(stage)
 
 	__ControlFlowShape__00000000_ := (&models.ControlFlowShape{Name: `"Submit Flight Plan" to "Manage Operational Changes"`}).Stage(stage)
 	__ControlFlowShape__00000001_ := (&models.ControlFlowShape{Name: `"Validate and Accept" to "Distribute ATS Messages"`}).Stage(stage)
 	__ControlFlowShape__00000002_ := (&models.ControlFlowShape{Name: `"Ingest Flight Data" to "Log Flight Movement"`}).Stage(stage)
 	__ControlFlowShape__00000003_ := (&models.ControlFlowShape{Name: `"" to "Submit Flight Plan"`}).Stage(stage)
-	__ControlFlowShape__00000004_ := (&models.ControlFlowShape{Name: `"Log Flight Movement" to ""`}).Stage(stage)
+	__ControlFlowShape__00000004_ := (&models.ControlFlowShape{Name: `"Log Flight Movement" to "End"`}).Stage(stage)
 
 	__Data__00000000_ := (&models.Data{Name: `FPL (incl. item 19)`}).Stage(stage)
 	__Data__00000001_ := (&models.Data{Name: `CHG`}).Stage(stage)
@@ -102,7 +102,7 @@ func _(stage *models.Stage) {
 	__Task__00000004_ := (&models.Task{Name: `Ingest Flight Data`}).Stage(stage)
 	__Task__00000005_ := (&models.Task{Name: `Log Flight Movement`}).Stage(stage)
 	__Task__00000006_ := (&models.Task{Name: ``}).Stage(stage)
-	__Task__00000007_ := (&models.Task{Name: ``}).Stage(stage)
+	__Task__00000007_ := (&models.Task{Name: `End`}).Stage(stage)
 
 	__TaskShape__00000000_ := (&models.TaskShape{Name: `Submit Flight Plan-DiagramProcess`}).Stage(stage)
 	__TaskShape__00000001_ := (&models.TaskShape{Name: `Manage Operational Changes-DiagramProcess`}).Stage(stage)
@@ -137,7 +137,7 @@ func _(stage *models.Stage) {
 	__ControlFlow__00000003_.Description = ``
 	__ControlFlow__00000003_.ComputedPrefix = ``
 
-	__ControlFlow__00000004_.Name = `"Log Flight Movement" to ""`
+	__ControlFlow__00000004_.Name = `"Log Flight Movement" to "End"`
 	__ControlFlow__00000004_.Description = ``
 	__ControlFlow__00000004_.ComputedPrefix = ``
 
@@ -173,7 +173,7 @@ func _(stage *models.Stage) {
 	__ControlFlowShape__00000003_.CornerOffsetRatio = 1.837715
 	__ControlFlowShape__00000003_.IsHidden = false
 
-	__ControlFlowShape__00000004_.Name = `"Log Flight Movement" to ""`
+	__ControlFlowShape__00000004_.Name = `"Log Flight Movement" to "End"`
 	__ControlFlowShape__00000004_.StartRatio = 0.552734
 	__ControlFlowShape__00000004_.EndRatio = 0.848395
 	__ControlFlowShape__00000004_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -494,7 +494,7 @@ func _(stage *models.Stage) {
 	__Task__00000006_.IsEndTask = false
 	__Task__00000006_.IsTaskNameNotProcessName = false
 
-	__Task__00000007_.Name = ``
+	__Task__00000007_.Name = `End`
 	__Task__00000007_.Description = ``
 	__Task__00000007_.ComputedPrefix = ``
 	__Task__00000007_.IsStartTask = false
@@ -650,6 +650,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.Participant_Shapes = append(__DiagramProcess__00000000_.Participant_Shapes, __ParticipantShape__00000002_)
 	__DiagramProcess__00000000_.ParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000000_.ParticipantWhoseNodeIsExpanded, __Participant__00000002_)
 	__DiagramProcess__00000000_.TasksWhoseNodeIsExpanded = append(__DiagramProcess__00000000_.TasksWhoseNodeIsExpanded, __Task__00000003_)
+	__DiagramProcess__00000000_.TasksWhoseNodeIsExpanded = append(__DiagramProcess__00000000_.TasksWhoseNodeIsExpanded, __Task__00000007_)
 	__DiagramProcess__00000000_.Task_Shapes = append(__DiagramProcess__00000000_.Task_Shapes, __TaskShape__00000000_)
 	__DiagramProcess__00000000_.Task_Shapes = append(__DiagramProcess__00000000_.Task_Shapes, __TaskShape__00000001_)
 	__DiagramProcess__00000000_.Task_Shapes = append(__DiagramProcess__00000000_.Task_Shapes, __TaskShape__00000002_)
@@ -725,6 +726,7 @@ func _(stage *models.Stage) {
 	__ParticipantShape__00000001_.Participant = __Participant__00000001_
 	__ParticipantShape__00000002_.Participant = __Participant__00000002_
 	__Process__00000000_.DiagramProcesss = append(__Process__00000000_.DiagramProcesss, __DiagramProcess__00000000_)
+	__Process__00000000_.DiagramProcessWhoseNodeIsExpanded = append(__Process__00000000_.DiagramProcessWhoseNodeIsExpanded, __DiagramProcess__00000000_)
 	__Process__00000000_.Participants = append(__Process__00000000_.Participants, __Participant__00000000_)
 	__Process__00000000_.Participants = append(__Process__00000000_.Participants, __Participant__00000001_)
 	__Process__00000000_.Participants = append(__Process__00000000_.Participants, __Participant__00000002_)

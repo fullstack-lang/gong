@@ -16,5 +16,6 @@ func onRemoveAssociationShape[
 		compositionShape.UnstageVoid(stager.stage)
 		idx := slices.Index(*shapes, compositionShape)
 		*shapes = slices.Delete(*shapes, idx, idx+1)
+		stager.stage.Commit()
 	}
 }

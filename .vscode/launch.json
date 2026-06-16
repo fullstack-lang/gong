@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         //
-        // "gongc" configurations
+        // "gong generate" configurations
         //
         {
             "name": "helloworld: gong generate /tmp/helloworld",

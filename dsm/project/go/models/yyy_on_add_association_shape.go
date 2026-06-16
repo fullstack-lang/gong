@@ -15,5 +15,6 @@ func onAddAssociationShape[
 ) func() {
 	return func() {
 		addAssociationShapeToDiagram(stager, start, end, shapes)
+		stager.stage.Commit()
 	}
 }

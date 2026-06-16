@@ -190,10 +190,7 @@ func addCreateItemButton[
 		HasToolTip:      true,
 		ToolTipPosition: tree.Right,
 	}
-	if conf.parentNode.Menu == nil {
-		conf.parentNode.Menu = &tree.Menu{Name: "Menu"}
-	}
-	conf.parentNode.Menu.Buttons = append(conf.parentNode.Menu.Buttons, addButton)
+	conf.parentNode.Buttons = append([]*tree.Button{addButton}, conf.parentNode.Buttons...)
 
 	addButton.OnClick = func() {
 		processAbstractItemAddition(stager, conf, callbacks)
@@ -240,10 +237,7 @@ func addCreateItemAndShapeButton[
 		HasToolTip:      true,
 		ToolTipPosition: tree.Right,
 	}
-	if conf.parentNode.Menu == nil {
-		conf.parentNode.Menu = &tree.Menu{Name: "Menu"}
-	}
-	conf.parentNode.Menu.Buttons = append(conf.parentNode.Menu.Buttons, addButton)
+	conf.parentNode.Buttons = append([]*tree.Button{addButton}, conf.parentNode.Buttons...)
 
 	addButton.OnClick = func() {
 		newAbstractElement := processAbstractItemAddition(stager, conf.ItemButtonConfiguration, callbacks)
@@ -278,6 +272,7 @@ func addCreateItemShapeAndLinkButton[
 		*CT
 		RectShapeInterface
 		ConcreteType
+		LayoutConcreteType
 	},
 	ACT Gongstruct,
 	PACT interface {
@@ -300,10 +295,7 @@ func addCreateItemShapeAndLinkButton[
 		HasToolTip:      true,
 		ToolTipPosition: tree.Right,
 	}
-	if conf.parentNode.Menu == nil {
-		conf.parentNode.Menu = &tree.Menu{Name: "Menu"}
-	}
-	conf.parentNode.Menu.Buttons = append(conf.parentNode.Menu.Buttons, addButton)
+	conf.parentNode.Buttons = append([]*tree.Button{addButton}, conf.parentNode.Buttons...)
 
 	addButton.OnClick = func() {
 		newAbstractElement := processAbstractItemAddition(stager, conf.ItemButtonConfiguration, callbacks)
@@ -323,8 +315,28 @@ func addCreateItemShapeAndLinkButton[
 			if parentShape != nil && conf.parentElement != nil && conf.sliceForNewCompositionShapes != nil {
 				addAssociationShapeToDiagram(stager, conf.parentElement, newAbstractElement, conf.sliceForNewCompositionShapes)
 
-				newShape.SetX(parentShape.GetX() + float64(len(*conf.sliceForNewAddedItem)-1)*parentShape.GetWidth()*1.2)
-				newShape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
+				if parentShape.GetConcreteLayoutDirection() == Horizontal {
+					newShape.SetX(parentShape.GetX() + parentShape.GetWidth()/2.0 + 50.0)
+					newShape.SetY(parentShape.GetY() + parentShape.GetHeight() + 50.0 + float64(len(*conf.sliceForNewAddedItem)-1)*parentShape.GetHeight()*1.2)
+
+					if len(*conf.sliceForNewCompositionShapes) > 0 {
+						newCompositionShape := (*conf.sliceForNewCompositionShapes)[len(*conf.sliceForNewCompositionShapes)-1]
+						newCompositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
+						newCompositionShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
+						newCompositionShape.SetCornerOffsetRatio(1.5)
+					}
+				} else {
+					newShape.SetX(parentShape.GetX() + float64(len(*conf.sliceForNewAddedItem)-1)*parentShape.GetWidth()*1.2)
+					newShape.SetY(parentShape.GetY() + parentShape.GetHeight()*2.0)
+
+					if len(*conf.sliceForNewCompositionShapes) > 0 {
+						newCompositionShape := (*conf.sliceForNewCompositionShapes)[len(*conf.sliceForNewCompositionShapes)-1]
+						newCompositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
+						newCompositionShape.SetEndOrientation(ORIENTATION_VERTICAL)
+						ratio := (newShape.GetY() - parentShape.GetY()) / parentShape.GetHeight()
+						newCompositionShape.SetCornerOffsetRatio((ratio-1.0)/2.0 + 1.0)
+					}
+				}
 			}
 		}
 

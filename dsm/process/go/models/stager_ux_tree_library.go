@@ -221,7 +221,7 @@ func (stager *Stager) OnUpdateDiagram(diagram *DiagramProcess) func(stage *tree.
 		}
 		if frontNode.IsExpanded != stagedNode.IsExpanded {
 			stagedNode.IsExpanded = frontNode.IsExpanded
-			diagram.isExpanded = frontNode.IsExpanded
+			diagram.IsExpanded = frontNode.IsExpanded
 			stager.stage.Commit()
 			return
 		}

@@ -6,14 +6,14 @@
             "request": "launch",
             "type": "msedge",
             "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/ng-github.com-fullstack-lang-gong-test-statemachines"
+            "webRoot": "${workspaceFolder}/ng-github.com-fullstack-lang-gong-dsm-statemachines"
         },
         {
             "name": "Launch Chrome",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/ng-github.com-fullstack-lang-gong-test-statemachines"
+            "webRoot": "${workspaceFolder}/ng-github.com-fullstack-lang-gong-dsm-statemachines"
         },
         {
             "name": "go server -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
