@@ -1,14 +1,25 @@
 
-- [1. Why Gong ?](#1-why-gong-)
-- [2. A "hello world" Domain Specific Modeling Environment (DSME) application](#2-a-hello-world-domain-specific-modeling-environment-dsm-application)
-  - [2.1. Prerequisite](#21-prerequisite)
-  - [2.2. Generating \& running the code with the `gong` command](#22-generating--running-the-code-with-the-gong-command)
-- [3. Installing and compiling the gong repo](#3-installing-and-compiling-the-gong-repo)
-- [4. Portable Applications](#4-portable-applications)
+- [1. Portable Applications](#1-portable-applications)
+- [2. Why Gong ?](#2-why-gong-)
+- [3. A "hello world" Domain Specific Modeling Environment (DSME) application](#3-a-hello-world-domain-specific-modeling-environment-dsm-application)
+  - [3.1. Prerequisite](#31-prerequisite)
+  - [3.2. Generating \& running the code with the `gong` command](#32-generating--running-the-code-with-the-gong-command)
+- [4. Installing and compiling the gong repo](#4-installing-and-compiling-the-gong-repo)
 - [5. Status](#5-status)
 
+# 1. Portable Applications
 
-# 1. Why Gong ?
+We provide portable, single-file HTML versions of some of our Domain Specific Modeling applications. These are hosted on GitHub Pages so you can open them instantly in your browser.
+
+To use them, simply click a link below:
+
+**Live Applications:**
+- [Process App](https://fullstack-lang.github.io/gong/process-app-portable.html)
+- [Statemachines App](https://fullstack-lang.github.io/gong/statemachines-app-portable.html)
+- [Barrgraph App](https://fullstack-lang.github.io/gong/barrgraph-app-portable.html)
+- [Project App](https://fullstack-lang.github.io/gong/project-app-portable.html)
+
+# 2. Why Gong ?
 
 Gong is a framework for lowering the effort for developping Domain Specific Modelling (DSM).
 
@@ -21,13 +32,13 @@ Gong allows you to grow your DSM from a General Purpose Programming Language (GP
 
 Developing a robust DSM remains a complex task that requires familiarity with standard metamodeling patterns. Gong aims to democratize the development part of this process.
 
-# 2. A "hello world" Domain Specific Modeling (DSM) application
+# 3. A "hello world" Domain Specific Modeling (DSM) application
 
-## 2.1. Prerequisite
+## 3.1. Prerequisite
 
 - go 1.25 (see https://go.dev/doc/install)
 
-## 2.2. Generating & running the code with the `gong` command
+## 3.2. Generating & running the code with the `gong` command
 
 In a terminal, execute the following commands:
 
@@ -65,7 +76,7 @@ Then, browse to [localhost:8080](http://localhost:8080) and add data manualy.
 
 ![helloworld.png](docs/images/helloworld.png)
 
-# 3. Installing and compiling the gong repo
+# 4. Installing and compiling the gong repo
 
 ```bash
 git clone https://github.com/fullstack-lang/gong
@@ -74,18 +85,6 @@ go install
 cd ../../..
 ./scripts/run_gong_conditionally.sh
 ```
-
-# 4. Portable Applications
-
-We provide portable, single-file HTML versions of some of our Domain Specific Modeling applications. These are hosted on GitHub Pages so you can open them instantly in your browser.
-
-To use them, simply click a link below:
-
-**Live Applications:**
-- [Process App](https://fullstack-lang.github.io/gong/process-app-portable.html)
-- [Statemachines App](https://fullstack-lang.github.io/gong/statemachines-app-portable.html)
-- [Barrgraph App](https://fullstack-lang.github.io/gong/barrgraph-app-portable.html)
-- [Project App](https://fullstack-lang.github.io/gong/project-app-portable.html)
 
 # 5. Status
 
