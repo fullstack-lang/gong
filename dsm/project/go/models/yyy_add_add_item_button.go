@@ -272,6 +272,7 @@ func addCreateItemShapeAndLinkButton[
 		*CT
 		RectShapeInterface
 		ConcreteType
+		LayoutConcreteType
 	},
 	ACT Gongstruct,
 	PACT interface {
@@ -314,14 +315,7 @@ func addCreateItemShapeAndLinkButton[
 			if parentShape != nil && conf.parentElement != nil && conf.sliceForNewCompositionShapes != nil {
 				addAssociationShapeToDiagram(stager, conf.parentElement, newAbstractElement, conf.sliceForNewCompositionShapes)
 
-				var isHorizontal bool
-				if pShape, ok := any(parentShape).(*ProductShape); ok {
-					if pShape.LayoutDirection == Horizontal {
-						isHorizontal = true
-					}
-				}
-
-				if isHorizontal {
+				if parentShape.GetConcreteLayoutDirection() == Horizontal {
 					newShape.SetX(parentShape.GetX() + parentShape.GetWidth()/2.0 + 50.0)
 					newShape.SetY(parentShape.GetY() + parentShape.GetHeight() + 50.0 + float64(len(*conf.sliceForNewAddedItem)-1)*parentShape.GetHeight()*1.2)
 

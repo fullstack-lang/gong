@@ -17,6 +17,13 @@ type AbstractType interface {
 	SetLayoutDirection(LayoutDirection)
 }
 
+type LayoutDirection int
+
+const (
+	Vertical LayoutDirection = iota
+	Horizontal
+)
+
 type AbstractTypeFields struct {
 	// ComputedPrefix is automaticaly computed by the semantic enforcing mechanism
 	ComputedPrefix string

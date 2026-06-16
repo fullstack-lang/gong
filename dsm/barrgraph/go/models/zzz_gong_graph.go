@@ -1525,6 +1525,12 @@ func (artefacttype *ArtefactType) GongDiff(stage *Stage, artefacttypeOther *Arte
 	if artefacttype.ComputedPrefix != artefacttypeOther.ComputedPrefix {
 		diffs = append(diffs, artefacttype.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if artefacttype.IsExpanded != artefacttypeOther.IsExpanded {
+		diffs = append(diffs, artefacttype.GongMarshallField(stage, "IsExpanded"))
+	}
+	if artefacttype.LayoutDirection != artefacttypeOther.LayoutDirection {
+		diffs = append(diffs, artefacttype.GongMarshallField(stage, "LayoutDirection"))
+	}
 
 	return
 }
@@ -1571,6 +1577,12 @@ func (artist *Artist) GongDiff(stage *Stage, artistOther *Artist) (diffs []strin
 	}
 	if artist.ComputedPrefix != artistOther.ComputedPrefix {
 		diffs = append(diffs, artist.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if artist.IsExpanded != artistOther.IsExpanded {
+		diffs = append(diffs, artist.GongMarshallField(stage, "IsExpanded"))
+	}
+	if artist.LayoutDirection != artistOther.LayoutDirection {
+		diffs = append(diffs, artist.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if artist.IsDead != artistOther.IsDead {
 		diffs = append(diffs, artist.GongMarshallField(stage, "IsDead"))
@@ -1693,6 +1705,12 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	}
 	if diagram.ComputedPrefix != diagramOther.ComputedPrefix {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if diagram.IsExpanded != diagramOther.IsExpanded {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsExpanded"))
+	}
+	if diagram.LayoutDirection != diagramOther.LayoutDirection {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if diagram.IsChecked != diagramOther.IsChecked {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsChecked"))
@@ -2047,6 +2065,12 @@ func (influence *Influence) GongDiff(stage *Stage, influenceOther *Influence) (d
 	if influence.ComputedPrefix != influenceOther.ComputedPrefix {
 		diffs = append(diffs, influence.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if influence.IsExpanded != influenceOther.IsExpanded {
+		diffs = append(diffs, influence.GongMarshallField(stage, "IsExpanded"))
+	}
+	if influence.LayoutDirection != influenceOther.LayoutDirection {
+		diffs = append(diffs, influence.GongMarshallField(stage, "LayoutDirection"))
+	}
 	if (influence.SourceMovement == nil) != (influenceOther.SourceMovement == nil) {
 		diffs = append(diffs, influence.GongMarshallField(stage, "SourceMovement"))
 	} else if influence.SourceMovement != nil && influenceOther.SourceMovement != nil {
@@ -2151,6 +2175,12 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.ComputedPrefix != libraryOther.ComputedPrefix {
 		diffs = append(diffs, library.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if library.IsExpanded != libraryOther.IsExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
+	}
+	if library.LayoutDirection != libraryOther.LayoutDirection {
+		diffs = append(diffs, library.GongMarshallField(stage, "LayoutDirection"))
+	}
 	if library.IsRootLibrary != libraryOther.IsRootLibrary {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
 	}
@@ -2221,6 +2251,12 @@ func (movement *Movement) GongDiff(stage *Stage, movementOther *Movement) (diffs
 	}
 	if movement.ComputedPrefix != movementOther.ComputedPrefix {
 		diffs = append(diffs, movement.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if movement.IsExpanded != movementOther.IsExpanded {
+		diffs = append(diffs, movement.GongMarshallField(stage, "IsExpanded"))
+	}
+	if movement.LayoutDirection != movementOther.LayoutDirection {
+		diffs = append(diffs, movement.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if movement.Date != movementOther.Date {
 		diffs = append(diffs, movement.GongMarshallField(stage, "Date"))

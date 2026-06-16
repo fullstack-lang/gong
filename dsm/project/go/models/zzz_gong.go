@@ -6639,6 +6639,15 @@ func (noteshape *NoteShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Note",
 		},
 		{
+			Name:               "OverideLayoutDirection",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
 			Name:               "X",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -8088,6 +8097,13 @@ func (noteshape *NoteShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 			res.valueString = noteshape.Note.Name
 			res.ids = noteshape.Note.GongGetUUID(stage)
 		}
+	case "OverideLayoutDirection":
+		res.valueString = fmt.Sprintf("%t", noteshape.OverideLayoutDirection)
+		res.valueBool = noteshape.OverideLayoutDirection
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := noteshape.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "X":
 		res.valueString = fmt.Sprintf("%f", noteshape.X)
 		res.valueFloat = noteshape.X
@@ -9469,6 +9485,10 @@ func (noteshape *NoteShape) GongSetFieldValue(fieldName string, value GongFieldV
 				}
 			}
 		}
+	case "OverideLayoutDirection":
+		noteshape.OverideLayoutDirection = value.GetValueBool()
+	case "LayoutDirection":
+		noteshape.LayoutDirection.FromCodeString(value.GetValueString())
 	case "X":
 		noteshape.X = value.GetValueFloat()
 	case "Y":

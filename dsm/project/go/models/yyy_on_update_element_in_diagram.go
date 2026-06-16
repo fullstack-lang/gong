@@ -61,8 +61,8 @@ func onUpdateElementInDiagram[
 						}
 
 						var isHorizontal bool
-						if pShape, ok := any(parentShape).(*ProductShape); ok {
-							if pShape.LayoutDirection == Horizontal {
+						if pShape, ok := any(parentShape).(LayoutConcreteType); ok {
+							if pShape.GetConcreteLayoutDirection() == Horizontal {
 								isHorizontal = true
 							}
 						}
@@ -84,8 +84,8 @@ func onUpdateElementInDiagram[
 									grandParentElement := compShape.GetAbstractStartElement()
 									if grandParentElement != nil {
 										if grandParentShape, ok := shapesMap[grandParentElement.(AT)]; ok {
-											if gpShape, ok := any(grandParentShape).(*ProductShape); ok {
-												if gpShape.LayoutDirection == Horizontal {
+											if gpShape, ok := any(grandParentShape).(LayoutConcreteType); ok {
+												if gpShape.GetConcreteLayoutDirection() == Horizontal {
 													isGrandParentHorizontal = true
 												}
 											}

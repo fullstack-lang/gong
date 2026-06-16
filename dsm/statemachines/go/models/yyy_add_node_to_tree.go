@@ -201,6 +201,88 @@ func createBaseNode[
 	}
 
 	// add a button to have the list of other diagrams where the element is present
+	if node.Menu == nil {
+		node.Menu = &tree.Menu{Name: "Menu"}
+	}
+
+	addAllChildrenButton := &tree.Button{
+		Name:            "Add item & all children to diagram",
+		Icon:            string(buttons.BUTTON_add_circle),
+		ToolTipText:     "Add element and all children to diagram",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+		OnClick: func() {
+			// Suspend callbacks to avoid multiple commits to the UI
+			tmp1 := stager.stage.OnInitCommitFromBackCallback
+			tmp2 := stager.stage.beforeCommitHooks
+			tmp3 := stager.stage.afterCommitHooks
+			stager.stage.OnInitCommitFromBackCallback = nil
+			stager.stage.beforeCommitHooks = nil
+			stager.stage.afterCommitHooks = nil
+
+			var toggleNodeAndChildren func(n *tree.Node, isChecked bool)
+			toggleNodeAndChildren = func(n *tree.Node, isChecked bool) {
+				if n.HasCheckboxButton && n.IsChecked != isChecked {
+					frontNode := *n
+					frontNode.IsChecked = isChecked
+					if n.OnUpdate != nil {
+						n.OnUpdate(stager.treeStage, n, &frontNode)
+					}
+				}
+				for _, child := range n.Children {
+					toggleNodeAndChildren(child, isChecked)
+				}
+			}
+			toggleNodeAndChildren(node, true)
+
+			// Restore callbacks and perform final commit
+			stager.stage.OnInitCommitFromBackCallback = tmp1
+			stager.stage.beforeCommitHooks = tmp2
+			stager.stage.afterCommitHooks = tmp3
+			stager.stage.Commit()
+		},
+	}
+
+	removeAllChildrenButton := &tree.Button{
+		Name:            "Remove item & all children from diagram",
+		Icon:            string(buttons.BUTTON_remove_circle),
+		ToolTipText:     "Remove element and all children from diagram",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+		OnClick: func() {
+			// Suspend callbacks to avoid multiple commits to the UI
+			tmp1 := stager.stage.OnInitCommitFromBackCallback
+			tmp2 := stager.stage.beforeCommitHooks
+			tmp3 := stager.stage.afterCommitHooks
+			stager.stage.OnInitCommitFromBackCallback = nil
+			stager.stage.beforeCommitHooks = nil
+			stager.stage.afterCommitHooks = nil
+
+			var toggleNodeAndChildren func(n *tree.Node, isChecked bool)
+			toggleNodeAndChildren = func(n *tree.Node, isChecked bool) {
+				if n.HasCheckboxButton && n.IsChecked != isChecked {
+					frontNode := *n
+					frontNode.IsChecked = isChecked
+					if n.OnUpdate != nil {
+						n.OnUpdate(stager.treeStage, n, &frontNode)
+					}
+				}
+				for _, child := range n.Children {
+					toggleNodeAndChildren(child, isChecked)
+				}
+			}
+			toggleNodeAndChildren(node, false)
+
+			// Restore callbacks and perform final commit
+			stager.stage.OnInitCommitFromBackCallback = tmp1
+			stager.stage.beforeCommitHooks = tmp2
+			stager.stage.afterCommitHooks = tmp3
+			stager.stage.Commit()
+		},
+	}
+
+	node.Menu.Buttons = append(node.Menu.Buttons, addAllChildrenButton, removeAllChildrenButton)
+
 	diagrams := stager.map_Element_Diagrams[any(element).(AbstractType)]
 	if len(diagrams) > 1 {
 		if diagram.GetDiagramListElement() == any(element).(AbstractType) {

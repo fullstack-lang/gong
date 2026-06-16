@@ -12,13 +12,6 @@ type ProductShape struct {
 	RectShape
 }
 
-type LayoutDirection int
-
-const (
-	Vertical LayoutDirection = iota
-	Horizontal
-)
-
 func (s *ProductShape) GetAbstractElement() AbstractType {
 	if s.Product == nil {
 		return nil
@@ -256,6 +249,7 @@ type NoteShape struct {
 	Note *Note
 
 	isExpanded bool
+	ConcreteTypeFields
 
 	RectShape
 }

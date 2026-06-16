@@ -2,6 +2,7 @@
 package models
 
 import (
+	"log"
 	"slices"
 
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
@@ -43,6 +44,7 @@ func onIsExpandedChangeSlice[T comparable](stager *Stager, element T, expandedSl
 func (stager *Stager) onIsExpandedChangeBool(isExpandedPtr *bool) func(isExpanded bool) {
 	return func(isExpanded bool) {
 		*isExpandedPtr = isExpanded
-		stager.stage.Commit()
+		log.Println("onIsExpandedChangeBool, New value", *isExpandedPtr)
+		stager.stage.CommitWithSuspendedCallbacks() // important otherwise, the front is overwelmed when there is a Search and Jump" node expansion
 	}
 }

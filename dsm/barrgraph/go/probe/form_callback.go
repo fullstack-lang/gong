@@ -68,6 +68,10 @@ func (artefacttypeFormCallback *ArtefactTypeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(artefacttype_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(artefacttype_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(artefacttype_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(artefacttype_.LayoutDirection), formDiv)
 		}
 	}
 
@@ -283,6 +287,10 @@ func (artistFormCallback *ArtistFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(artist_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(artist_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(artist_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(artist_.LayoutDirection), formDiv)
 		case "IsDead":
 			FormDivBasicFieldToField(&(artist_.IsDead), formDiv)
 		case "DateOfDeath":
@@ -729,6 +737,10 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(diagram_.LayoutDirection), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(diagram_.IsChecked), formDiv)
 		case "MovementShapes":
@@ -1107,6 +1119,10 @@ func (influenceFormCallback *InfluenceFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(influence_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(influence_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(influence_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(influence_.LayoutDirection), formDiv)
 		case "SourceMovement":
 			FormDivSelectFieldToField(&(influence_.SourceMovement), influenceFormCallback.probe.stageOfInterest, formDiv)
 		case "SourceArtefactType":
@@ -1362,6 +1378,10 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.Description), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(library_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(library_.LayoutDirection), formDiv)
 		case "IsRootLibrary":
 			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
 		case "SubLibraries":
@@ -1606,6 +1626,10 @@ func (movementFormCallback *MovementFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(movement_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(movement_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(movement_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(movement_.LayoutDirection), formDiv)
 		case "Date":
 			FormDivBasicFieldToField(&(movement_.Date), formDiv)
 		case "HideDate":

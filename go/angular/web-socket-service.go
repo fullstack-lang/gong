@@ -15,7 +15,7 @@ export class WebSocketService {
     return new Observable<any>(subscriber => {
 
       // Determine if we are running in the offline HTML file
-      const isOfflineMode = this.document.location.protocol === 'file:';
+      const isOfflineMode = this.document.location.protocol === 'file:' || window.document.getElementById('wasm-progress-container') !== null;
 
       const attemptConnection = (retries: number) => {
         // 1. WASM OFFLINE MODE (Check if Go is ready)

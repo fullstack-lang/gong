@@ -525,6 +525,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(noteshape.GongMarshallField(stage, "Note"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "OverideLayoutDirection"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Width"))
@@ -2105,6 +2107,24 @@ func (noteshape *NoteShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(noteshape.Name))
+	case "OverideLayoutDirection":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OverideLayoutDirection")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", noteshape.OverideLayoutDirection))
+	case "LayoutDirection":
+		if noteshape.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+noteshape.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
 	case "X":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
@@ -3536,6 +3556,8 @@ func (noteshape *NoteShape) GongMarshallAllFields(stage *Stage) (initRes string,
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Name"))
 		pointersInitializesStatements.WriteString(noteshape.GongMarshallField(stage, "Note"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "OverideLayoutDirection"))
+		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "X"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Y"))
 		initializerStatements.WriteString(noteshape.GongMarshallField(stage, "Width"))

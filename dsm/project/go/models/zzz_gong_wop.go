@@ -264,6 +264,10 @@ type NoteShape_WOP struct {
 
 	Name string
 
+	OverideLayoutDirection bool
+
+	LayoutDirection LayoutDirection
+
 	X float64
 
 	Y float64
@@ -278,6 +282,8 @@ type NoteShape_WOP struct {
 func (from *NoteShape) CopyBasicFields(to *NoteShape) {
 	// insertion point
 	to.Name = from.Name
+	to.OverideLayoutDirection = from.OverideLayoutDirection
+	to.LayoutDirection = from.LayoutDirection
 	to.X = from.X
 	to.Y = from.Y
 	to.Width = from.Width

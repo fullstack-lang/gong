@@ -224,7 +224,7 @@ export class FrontRepoService {
 
 			let socket: WebSocket | undefined
 
-			const isOfflineMode = window.location.protocol === 'file:'
+			const isOfflineMode = window.location.protocol === 'file:' || window.document.getElementById('wasm-progress-container') !== null
 
 			const processData = (dataString: string) => {
 				// console.log("{{PkgPathRoot}}; connectToWebSocket: processData called")

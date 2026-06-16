@@ -90,7 +90,7 @@ func (stager *Stager) ux_button() {
 			log.Println("Finished exporting file", tempFile.Name())
 
 			time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we delete the file.
-			stager.ux_load()
+			stager.load()
 		},
 	})
 

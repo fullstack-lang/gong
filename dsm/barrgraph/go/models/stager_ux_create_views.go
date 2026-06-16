@@ -2,7 +2,7 @@ package models
 
 import split "github.com/fullstack-lang/gong/lib/split/go/models"
 
-func (stager *Stager) ux_createViews() {
+func (stager *Stager) createViews() {
 	split.StageBranch(stager.splitStage, &split.View{
 		Name: "tree & diagram",
 

@@ -41,10 +41,10 @@
       "group": "build"
     },
     {
-      "label": "00 - go install gong-bundler",
+      "label": "00 - go install gong portable",
       "type": "shell",
       "options": {
-        "cwd": "lib/wasmregistry/gong-bundler"
+        "cwd": "lib/wasmregistry/gong portable"
       },
       "command": "go",
       "args": [
@@ -504,12 +504,12 @@
       ]
     },
     {
-      "label": "01 - gong generate statemachines --dsm & gong-bundler it",
+      "label": "01 - gong generate statemachines --dsm & gong portable it",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/dsm/statemachines"
       },
-      "command": "gong generate go/models --dsm --skipGoModCommands && gong-bundler go/cmd/statemachines",
+      "command": "gong generate go/models --dsm --skipGoModCommands && gong portable go/cmd/statemachines",
       "group": "build"
     },
     {
@@ -544,12 +544,12 @@
       ]
     },
     {
-      "label": "01 - gong generate process & gong-bundler it",
+      "label": "01 - gong generate process & gong portable it",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/dsm/process"
       },
-      "command": "gong generate go/models --skipGoModCommands && gong-bundler go/cmd/process",
+      "command": "gong generate go/models --skipGoModCommands && gong portable go/cmd/process",
       "group": "build"
     },
     {
@@ -596,12 +596,12 @@
       "group": "build"
     },
     {
-      "label": "01 - gong generate project & gong-bundler it",
+      "label": "01 - gong generate project & gong portable it",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/dsm/project"
       },
-      "command": "gong generate go/models --skipGoModCommands && gong-bundler go/cmd/project",
+      "command": "gong generate go/models --skipGoModCommands && gong portable go/cmd/project",
       "group": "build"
     },
     {
@@ -640,12 +640,12 @@
       "group": "build"
     },
     {
-      "label": "01 - gong generate barrgraph --dsm & gong-bundler it",
+      "label": "01 - gong generate barrgraph --dsm & gong portable it",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/dsm/barrgraph"
       },
-      "command": "gong generate go/models --dsm --skipGoModCommands && gong-bundler go/cmd/barrgraph",
+      "command": "gong generate go/models --dsm --skipGoModCommands && gong portable go/cmd/barrgraph",
       "group": "build"
     },
     {

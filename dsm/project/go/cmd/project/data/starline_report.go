@@ -421,7 +421,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__Diagram__00000001_.IsPBSNodeExpanded = true
 	__Diagram__00000001_.IsWBSNodeExpanded = false
 	__Diagram__00000001_.IsTaskGroupsNodeExpanded = false
-	__Diagram__00000001_.IsMilestonesNodeExpanded = false
+
 	__Diagram__00000001_.DateFormat = ``
 	__Diagram__00000001_.IsNotesNodeExpanded = false
 	__Diagram__00000001_.IsResourcesNodeExpanded = true
@@ -467,7 +467,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__Diagram__00000002_.IsPBSNodeExpanded = true
 	__Diagram__00000002_.IsWBSNodeExpanded = false
 	__Diagram__00000002_.IsTaskGroupsNodeExpanded = false
-	__Diagram__00000002_.IsMilestonesNodeExpanded = false
+
 	__Diagram__00000002_.DateFormat = ``
 	__Diagram__00000002_.IsNotesNodeExpanded = false
 	__Diagram__00000002_.IsResourcesNodeExpanded = false
@@ -513,7 +513,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__Diagram__00000003_.IsPBSNodeExpanded = true
 	__Diagram__00000003_.IsWBSNodeExpanded = false
 	__Diagram__00000003_.IsTaskGroupsNodeExpanded = false
-	__Diagram__00000003_.IsMilestonesNodeExpanded = false
+
 	__Diagram__00000003_.DateFormat = ``
 	__Diagram__00000003_.IsNotesNodeExpanded = false
 	__Diagram__00000003_.IsResourcesNodeExpanded = false
@@ -559,7 +559,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__Diagram__00000004_.IsPBSNodeExpanded = true
 	__Diagram__00000004_.IsWBSNodeExpanded = false
 	__Diagram__00000004_.IsTaskGroupsNodeExpanded = false
-	__Diagram__00000004_.IsMilestonesNodeExpanded = false
+
 	__Diagram__00000004_.DateFormat = ``
 	__Diagram__00000004_.IsNotesNodeExpanded = true
 	__Diagram__00000004_.IsResourcesNodeExpanded = true
@@ -605,7 +605,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__Diagram__00000005_.IsPBSNodeExpanded = true
 	__Diagram__00000005_.IsWBSNodeExpanded = false
 	__Diagram__00000005_.IsTaskGroupsNodeExpanded = false
-	__Diagram__00000005_.IsMilestonesNodeExpanded = false
+
 	__Diagram__00000005_.DateFormat = ``
 	__Diagram__00000005_.IsNotesNodeExpanded = true
 	__Diagram__00000005_.IsResourcesNodeExpanded = false
@@ -651,7 +651,7 @@ SM RCS Thruster Qualification did not cover the flight envelope for temperature 
 	__Diagram__00000006_.IsPBSNodeExpanded = true
 	__Diagram__00000006_.IsWBSNodeExpanded = false
 	__Diagram__00000006_.IsTaskGroupsNodeExpanded = false
-	__Diagram__00000006_.IsMilestonesNodeExpanded = false
+
 	__Diagram__00000006_.DateFormat = ``
 	__Diagram__00000006_.IsNotesNodeExpanded = true
 	__Diagram__00000006_.IsResourcesNodeExpanded = false

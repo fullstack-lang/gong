@@ -1858,6 +1858,10 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(noteshape_.Name), formDiv)
 		case "Note":
 			FormDivSelectFieldToField(&(noteshape_.Note), noteshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "OverideLayoutDirection":
+			FormDivBasicFieldToField(&(noteshape_.OverideLayoutDirection), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(noteshape_.LayoutDirection), formDiv)
 		case "X":
 			FormDivBasicFieldToField(&(noteshape_.X), formDiv)
 		case "Y":

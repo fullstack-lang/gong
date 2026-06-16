@@ -1,3 +1,4 @@
+// generated code (do not edit)
 package models
 
 import (
@@ -13,11 +14,10 @@ type FileToUploadProxy struct {
 	stager *Stager
 }
 
-func (stager *Stager) ux_load() {
-
+func (stager *Stager) load() {
 	stager.loadStage.Reset()
 
-	var fileToUpload = &load.FileToUpload{
+	fileToUpload := &load.FileToUpload{
 		Name: "Name of file",
 		FileToUploadProxy: &loadProxy{
 			stager: stager,
@@ -29,7 +29,7 @@ func (stager *Stager) ux_load() {
 	)
 
 	message := &load.Message{
-		Name: "Drop your <project>.go file here or ",
+		Name: "Drop your <library>.go file here or ",
 	}
 
 	message.Stage(stager.loadStage)
@@ -42,6 +42,7 @@ type loadProxy struct {
 }
 
 func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
+	fmt.Println("OnFileUpload: start")
 	proxy.stager.fileName = uploadedFile.GetName()
 
 	decodedBytes, err := base64.StdEncoding.DecodeString(uploadedFile.Base64EncodedContent)
@@ -51,10 +52,14 @@ func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
 
 	// if the user loads a second file, we don't want the previous file to be committed
 	proxy.stager.stage.OnInitCommitCallback = nil
+	proxy.stager.createViews()
 
 	proxy.stager.stage.Reset()
+	fmt.Println("OnFileUpload: after reset")
 	ParseAstFromBytes(proxy.stager.stage, decodedBytes)
+	fmt.Println("OnFileUpload: after parse")
 	proxy.stager.stage.Commit()
+	fmt.Println("OnFileUpload: after commit")
 
 	return nil
 }

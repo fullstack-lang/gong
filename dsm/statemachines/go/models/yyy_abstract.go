@@ -12,7 +12,17 @@ type AbstractType interface {
 	SetComputedPrefixInt([]int)
 	GetIsInRenameMode() bool
 	SetIsInRenameMode(bool)
+
+	GetLayoutDirection() LayoutDirection
+	SetLayoutDirection(LayoutDirection)
 }
+
+type LayoutDirection int
+
+const (
+	Vertical LayoutDirection = iota
+	Horizontal
+)
 
 type AbstractTypeFields struct {
 	// ComputedPrefix is automaticaly computed by the semantic enforcing mechanism
@@ -21,11 +31,22 @@ type AbstractTypeFields struct {
 
 	// nodes can be edited
 	isInRenameMode bool
-	isExpanded     bool // to be made private once in production (no need to persist)
+	IsExpanded     bool // to be made private once in production (no need to persist)
 
 	// When the full PBS is displayed, the computedWidth is the number of node
 	// aligned below. A leaf node has a computedWidth of 1
 	computedWidth int
+
+	// Directive for display in the concrete diagram
+	LayoutDirection LayoutDirection
+}
+
+func (r *AbstractTypeFields) GetLayoutDirection() LayoutDirection {
+	return r.LayoutDirection
+}
+
+func (r *AbstractTypeFields) SetLayoutDirection(d LayoutDirection) {
+	r.LayoutDirection = d
 }
 
 func (r *AbstractTypeFields) GetComputedWidth() int {
@@ -41,11 +62,11 @@ func (r *AbstractTypeFields) SetComputedPrefixInt(p []int) {
 }
 
 func (r *AbstractTypeFields) GetIsExpanded() bool {
-	return r.isExpanded
+	return r.IsExpanded
 }
 
 func (r *AbstractTypeFields) SetIsExpanded(isExpanded bool) {
-	r.isExpanded = isExpanded
+	r.IsExpanded = isExpanded
 }
 
 func (r *AbstractTypeFields) GetComputedPrefix() string {

@@ -104,6 +104,10 @@ type Library_WOP struct {
 
 	ComputedPrefix string
 
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
+
 	IsRootLibrary bool
 }
 
@@ -113,6 +117,8 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.NbPixPerCharacter = from.NbPixPerCharacter
 	to.LogoSVGFile = from.LogoSVGFile
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 	to.IsRootLibrary = from.IsRootLibrary
 }
 

@@ -72,7 +72,7 @@ func NewStager(
 	stager.loadStage = load_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.markdownStage = markdown_stack.NewStack(r, "", "", "", "", true, true).Stage
-	stager.ux_createViews()
+	stager.createViews()
 
 	beforeCommit := func(stage *Stage) {
 		stager.enforceSemantic()
@@ -81,7 +81,7 @@ func NewStager(
 		stager.ux_tree()
 		stager.ux_svg()
 		stager.ux_button()
-		stager.ux_load()
+		stager.load()
 		stager.ux_markdown()
 	}
 
