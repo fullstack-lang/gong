@@ -11,7 +11,7 @@ import (
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
-	"github.com/fullstack-lang/gong/pkg/docx/go/models"
+	"github.com/fullstack-lang/gong/lib/docx/go/models"
 )
 
 func (probe *Probe) ux_navigation_tree() {

@@ -6,8 +6,8 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/fullstack-lang/gong/pkg/docx/go/level1stack"
-	"github.com/fullstack-lang/gong/pkg/docx/go/models"
+	"github.com/fullstack-lang/gong/lib/docx/go/level1stack"
+	"github.com/fullstack-lang/gong/lib/docx/go/models"
 )
 
 var (

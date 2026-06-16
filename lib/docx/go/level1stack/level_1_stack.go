@@ -6,10 +6,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/fullstack-lang/gong/lib/split/go/models"
-	"github.com/fullstack-lang/gong/lib/split/go/probe"
+	"github.com/fullstack-lang/gong/lib/docx/go/models"
+	"github.com/fullstack-lang/gong/lib/docx/go/probe"
 
-	embeddedgo "github.com/fullstack-lang/gong/lib/split/go"
+	embeddedgo "github.com/fullstack-lang/gong/lib/docx/go"
 
 	"github.com/gin-gonic/gin"
 
@@ -41,7 +41,7 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
 		packageName = "main"
 	}
 
-	stage.MarshallFile(fmt.Sprintf("./%s", filename), "github.com/fullstack-lang/gong/lib/split/go/models", packageName)
+	stage.MarshallFile(fmt.Sprintf("./%s", filename), "github.com/fullstack-lang/gong/lib/docx/go/models", packageName)
 }
 
 type Level1Stack struct {
@@ -120,25 +120,22 @@ func NewLevel1StackDelta(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.AsSplit](stage)
-	models.SetOrchestratorOnAfterUpdate[models.AsSplitArea](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Button](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Cursor](stage)
-	models.SetOrchestratorOnAfterUpdate[models.FavIcon](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Form](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Load](stage)
-	models.SetOrchestratorOnAfterUpdate[models.LogoOnTheLeft](stage)
-	models.SetOrchestratorOnAfterUpdate[models.LogoOnTheRight](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Markdown](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Slider](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Split](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Svg](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Body](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Document](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Docx](stage)
+	models.SetOrchestratorOnAfterUpdate[models.File](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Node](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Paragraph](stage)
+	models.SetOrchestratorOnAfterUpdate[models.ParagraphProperties](stage)
+	models.SetOrchestratorOnAfterUpdate[models.ParagraphStyle](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Rune](stage)
+	models.SetOrchestratorOnAfterUpdate[models.RuneProperties](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Table](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Title](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Tone](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Tree](stage)
-	models.SetOrchestratorOnAfterUpdate[models.View](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Xlsx](stage)
+	models.SetOrchestratorOnAfterUpdate[models.TableColumn](stage)
+	models.SetOrchestratorOnAfterUpdate[models.TableProperties](stage)
+	models.SetOrchestratorOnAfterUpdate[models.TableRow](stage)
+	models.SetOrchestratorOnAfterUpdate[models.TableStyle](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Text](stage)
 
 	return
 }

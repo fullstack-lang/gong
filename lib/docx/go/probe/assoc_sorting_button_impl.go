@@ -8,7 +8,7 @@ import (
 	gongtable_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
 
-	"github.com/fullstack-lang/gong/pkg/docx/go/models"
+	"github.com/fullstack-lang/gong/lib/docx/go/models"
 )
 
 func NewOnSortingEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](

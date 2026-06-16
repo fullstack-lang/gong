@@ -8,7 +8,7 @@ import (
 
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
 
-	"github.com/fullstack-lang/gong/pkg/docx/go/models"
+	"github.com/fullstack-lang/gong/lib/docx/go/models"
 )
 
 // to avoid errors when time and slices packages are not used in the generated code

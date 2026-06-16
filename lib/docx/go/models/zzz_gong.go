@@ -14,7 +14,7 @@ import (
 	"sync"
 	"time"
 
-	docx_go "github.com/fullstack-lang/gong/pkg/docx/go"
+	docx_go "github.com/fullstack-lang/gong/lib/docx/go"
 )
 
 // can be used for
@@ -1293,7 +1293,7 @@ func (namedStruct *NamedStruct) GetName() string {
 }
 
 func (stage *Stage) GetType() string {
-	return "github.com/fullstack-lang/gong/pkg/docx/go/models"
+	return "github.com/fullstack-lang/gong/lib/docx/go/models"
 }
 
 func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {

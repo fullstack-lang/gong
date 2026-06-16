@@ -4,7 +4,7 @@ import (
 	"log"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
-	"github.com/fullstack-lang/gong/pkg/strutils"
+	"github.com/fullstack-lang/gong/lib/strutils"
 )
 
 func (stager *Stager) svg() {

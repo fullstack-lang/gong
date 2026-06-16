@@ -11,7 +11,7 @@ import (
 
 	"github.com/fullstack-lang/maticons/maticons"
 
-	"github.com/fullstack-lang/gong/pkg/docx/go/models"
+	"github.com/fullstack-lang/gong/lib/docx/go/models"
 )
 
 const TableName = "Table"

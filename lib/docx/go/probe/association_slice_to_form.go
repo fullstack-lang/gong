@@ -12,7 +12,7 @@ import (
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
 
-	"github.com/fullstack-lang/gong/pkg/docx/go/models"
+	"github.com/fullstack-lang/gong/lib/docx/go/models"
 )
 
 // EncodeIntSliceToString encodes a slice of integers into a JSON string.
