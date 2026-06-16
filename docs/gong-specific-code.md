@@ -8,13 +8,6 @@ Gong goal is that the developper facing complexity should be minimal (see [DHH's
 
 # 2. Gong basics
 
-There are different complexity levels for full stack development:
-
-- level 1 : pure go code that uses gong front-end angular libs (should fit most needs).
-- level 2 : go + angular code that combines gong libs and with *specific* angular code.
-
-This chapter presents level 1 basics.
-
 ## 2.1. The model
 
 The gong *element*s that forms a gong models are located in one package located in "go/models".
