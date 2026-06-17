@@ -712,6 +712,17 @@
             ]
         },
         {
+            "name": "project: go run issue1263.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
+            "args": [
+                "-embeddedDiagrams=false",
+                "data/issue1263.go",
+            ]
+        },
+        {
             "name": "project: go run stage.go",
             "type": "go",
             "request": "launch",

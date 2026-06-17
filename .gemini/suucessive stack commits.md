@@ -7,11 +7,14 @@ In the Gong framework, when an event happens (like an OnClick callback), develop
 ## The Problem
 Calling stager.stage.Commit() automatically triggers a regeneration process for related states (such as rebuilding the UI tree representation via stager_tree()).
 
-If you immediately call another stack update function, such as stager.ux_tree() or a second stager.stage.Commit(), the system will attempt to modify the database concurrently or out-of-sync with the first commit's background operations.
+At the commit, with a stack of heigth 4 like tree, the commit is captured by the orm and the commit number is sent to the stack controller websocket that multiplex flows from all tree stack instances. The controller will then copy the orm copy of the stage and send it to the front with the websocket.
 
-This leads to fatal database panics, such as: db.First Button Unkown entry <ID>
+If you immediately call another stack upda
 
 This crash happens because the first commit is already tearing down and rebuilding tree elements (like Button nodes), and the second update attempts to reference or mutate those elements while they are in an inconsistent state or no longer exist.
+
+This lack of robustness to successive commits is a bug but it is also a way to spot spurious calls to stage.Commit().
+
 
 ## Best Practice
 Use a single update trigger: Inside a callback, only use a single state commitment call like stager.stage.Commit().
