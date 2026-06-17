@@ -53,6 +53,12 @@ jobs:
           cd dsm/barrgraph/go/cmd/barrgraph
           gong portable
           cp barrgraph-app-portable.html ../../../../../public-site/
+
+      - name: Build capture portable app
+        run: |
+          cd dsm/capture/go/cmd/capture
+          gong portable
+          cp capture-app-portable.html ../../../../../public-site/
           
       - name: Build project portable app
         run: |

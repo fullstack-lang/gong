@@ -14,10 +14,11 @@ We provide portable, single-file HTML versions of some of our Domain Specific Mo
 To use them, simply click a link below:
 
 **Live Applications:**
-- [Process App](https://fullstack-lang.github.io/gong/process-app-portable.html)
-- [Statemachines App](https://fullstack-lang.github.io/gong/statemachines-app-portable.html)
-- [Barrgraph App](https://fullstack-lang.github.io/gong/barrgraph-app-portable.html)
-- [Project App](https://fullstack-lang.github.io/gong/project-app-portable.html)
+- [Capture](https://fullstack-lang.github.io/gong/capture-app-portable.html)
+- [Process](https://fullstack-lang.github.io/gong/process-app-portable.html)
+- [Statemachines](https://fullstack-lang.github.io/gong/statemachines-app-portable.html)
+- [Barrgraph](https://fullstack-lang.github.io/gong/barrgraph-app-portable.html)
+- [Project](https://fullstack-lang.github.io/gong/project-app-portable.html)
 
 # 2. Why Gong ?
 
