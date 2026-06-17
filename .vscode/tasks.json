@@ -490,6 +490,15 @@
       ]
     },
     {
+      "label": "01 - gong generate capture",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/dsm/capture"
+      },
+      "command": "gong generate go/models --skipGoModCommands",
+      "group": "build"
+    },
+    {
       "label": "01 - gong generate statemachines --dsm",
       "type": "shell",
       "options": {

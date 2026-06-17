@@ -21,8 +21,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
-var _ = slices.Index[[]int, int]
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -123,7 +125,7 @@ func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string
 			firstBrace := strings.Index(content, "func _(stage *models.Stage) {")
 			if firstBrace != -1 {
 				firstBrace += len("func _(stage *models.Stage) {")
-				content = content[:firstBrace] + "\n}"
+				content = content[:firstBrace] + "\n}\n"
 			}
 		}
 

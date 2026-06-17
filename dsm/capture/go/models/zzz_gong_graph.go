@@ -2348,25 +2348,21 @@ func (stage *Stage) UnstageBranchTool(tool *Tool) {
 }
 
 // insertion point for pointer reconstruction from references
-func (reference *AnalysisNeed) GongReconstructPointersFromReferences(stage *Stage, instance *AnalysisNeed) () {
+func (reference *AnalysisNeed) GongReconstructPointersFromReferences(stage *Stage, instance *AnalysisNeed) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
-func (reference *Concept) GongReconstructPointersFromReferences(stage *Stage, instance *Concept) () {
+func (reference *Concept) GongReconstructPointersFromReferences(stage *Stage, instance *Concept) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Tools = reference.Tools[:0]
 	for _, _b := range instance.Tools {
 		reference.Tools = append(reference.Tools, stage.Tools_reference[_b])
 	}
-
-	return
 }
 
-func (reference *Concern) GongReconstructPointersFromReferences(stage *Stage, instance *Concern) () {
+func (reference *Concern) GongReconstructPointersFromReferences(stage *Stage, instance *Concern) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.SubConcerns = reference.SubConcerns[:0]
@@ -2385,21 +2381,17 @@ func (reference *Concern) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.Requirements {
 		reference.Requirements = append(reference.Requirements, stage.Requirements_reference[_b])
 	}
-
-	return
 }
 
-func (reference *ConcernCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernCompositionShape) () {
+func (reference *ConcernCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernCompositionShape) {
 	// insertion point for pointers field
 	if instance.Concern != nil {
 		reference.Concern = stage.Concerns_reference[instance.Concern]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
-func (reference *ConcernInputShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernInputShape) () {
+func (reference *ConcernInputShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernInputShape) {
 	// insertion point for pointers field
 	if instance.Deliverable != nil {
 		reference.Deliverable = stage.Deliverables_reference[instance.Deliverable]
@@ -2408,11 +2400,9 @@ func (reference *ConcernInputShape) GongReconstructPointersFromReferences(stage 
 		reference.Concern = stage.Concerns_reference[instance.Concern]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
-func (reference *ConcernOutputShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernOutputShape) () {
+func (reference *ConcernOutputShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernOutputShape) {
 	// insertion point for pointers field
 	if instance.Task != nil {
 		reference.Task = stage.Concerns_reference[instance.Task]
@@ -2421,21 +2411,17 @@ func (reference *ConcernOutputShape) GongReconstructPointersFromReferences(stage
 		reference.Product = stage.Deliverables_reference[instance.Product]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
-func (reference *ConcernShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernShape) () {
+func (reference *ConcernShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernShape) {
 	// insertion point for pointers field
 	if instance.Concern != nil {
 		reference.Concern = stage.Concerns_reference[instance.Concern]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
-func (reference *Deliverable) GongReconstructPointersFromReferences(stage *Stage, instance *Deliverable) () {
+func (reference *Deliverable) GongReconstructPointersFromReferences(stage *Stage, instance *Deliverable) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.SubProducts = reference.SubProducts[:0]
@@ -2446,11 +2432,9 @@ func (reference *Deliverable) GongReconstructPointersFromReferences(stage *Stage
 	for _, _b := range instance.Concepts {
 		reference.Concepts = append(reference.Concepts, stage.Concepts_reference[_b])
 	}
-
-	return
 }
 
-func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) () {
+func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Product_Shapes = reference.Product_Shapes[:0]
@@ -2533,11 +2517,9 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.StakeholderConcernShapes {
 		reference.StakeholderConcernShapes = append(reference.StakeholderConcernShapes, stage.StakeholderConcernShapes_reference[_b])
 	}
-
-	return
 }
 
-func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) () {
+func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.RootDeliverables = reference.RootDeliverables[:0]
@@ -2568,11 +2550,9 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.SubLibraries {
 		reference.SubLibraries = append(reference.SubLibraries, stage.Librarys_reference[_b])
 	}
-
-	return
 }
 
-func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) () {
+func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Products = reference.Products[:0]
@@ -2587,11 +2567,9 @@ func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, insta
 	for _, _b := range instance.Resources {
 		reference.Resources = append(reference.Resources, stage.Stakeholders_reference[_b])
 	}
-
-	return
 }
 
-func (reference *NoteProductShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteProductShape) () {
+func (reference *NoteProductShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteProductShape) {
 	// insertion point for pointers field
 	if instance.Note != nil {
 		reference.Note = stage.Notes_reference[instance.Note]
@@ -2600,21 +2578,17 @@ func (reference *NoteProductShape) GongReconstructPointersFromReferences(stage *
 		reference.Product = stage.Deliverables_reference[instance.Product]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
-func (reference *NoteShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteShape) () {
+func (reference *NoteShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteShape) {
 	// insertion point for pointers field
 	if instance.Note != nil {
 		reference.Note = stage.Notes_reference[instance.Note]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
-func (reference *NoteStakeholderShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteStakeholderShape) () {
+func (reference *NoteStakeholderShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteStakeholderShape) {
 	// insertion point for pointers field
 	if instance.Note != nil {
 		reference.Note = stage.Notes_reference[instance.Note]
@@ -2623,11 +2597,9 @@ func (reference *NoteStakeholderShape) GongReconstructPointersFromReferences(sta
 		reference.Stakeholder = stage.Stakeholders_reference[instance.Stakeholder]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
-func (reference *NoteTaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteTaskShape) () {
+func (reference *NoteTaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteTaskShape) {
 	// insertion point for pointers field
 	if instance.Note != nil {
 		reference.Note = stage.Notes_reference[instance.Note]
@@ -2636,31 +2608,25 @@ func (reference *NoteTaskShape) GongReconstructPointersFromReferences(stage *Sta
 		reference.Task = stage.Concerns_reference[instance.Task]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
-func (reference *ProductCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProductCompositionShape) () {
+func (reference *ProductCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProductCompositionShape) {
 	// insertion point for pointers field
 	if instance.Product != nil {
 		reference.Product = stage.Deliverables_reference[instance.Product]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
-func (reference *ProductShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProductShape) () {
+func (reference *ProductShape) GongReconstructPointersFromReferences(stage *Stage, instance *ProductShape) {
 	// insertion point for pointers field
 	if instance.Product != nil {
 		reference.Product = stage.Deliverables_reference[instance.Product]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
-func (reference *Requirement) GongReconstructPointersFromReferences(stage *Stage, instance *Requirement) () {
+func (reference *Requirement) GongReconstructPointersFromReferences(stage *Stage, instance *Requirement) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.SupportLevels = reference.SupportLevels[:0]
@@ -2671,11 +2637,9 @@ func (reference *Requirement) GongReconstructPointersFromReferences(stage *Stage
 	for _, _b := range instance.Concepts {
 		reference.Concepts = append(reference.Concepts, stage.Concepts_reference[_b])
 	}
-
-	return
 }
 
-func (reference *Stakeholder) GongReconstructPointersFromReferences(stage *Stage, instance *Stakeholder) () {
+func (reference *Stakeholder) GongReconstructPointersFromReferences(stage *Stage, instance *Stakeholder) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 	reference.Concerns = reference.Concerns[:0]
@@ -2686,21 +2650,17 @@ func (reference *Stakeholder) GongReconstructPointersFromReferences(stage *Stage
 	for _, _b := range instance.SubStakeholders {
 		reference.SubStakeholders = append(reference.SubStakeholders, stage.Stakeholders_reference[_b])
 	}
-
-	return
 }
 
-func (reference *StakeholderCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *StakeholderCompositionShape) () {
+func (reference *StakeholderCompositionShape) GongReconstructPointersFromReferences(stage *Stage, instance *StakeholderCompositionShape) {
 	// insertion point for pointers field
 	if instance.Stakeholder != nil {
 		reference.Stakeholder = stage.Stakeholders_reference[instance.Stakeholder]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
-func (reference *StakeholderConcernShape) GongReconstructPointersFromReferences(stage *Stage, instance *StakeholderConcernShape) () {
+func (reference *StakeholderConcernShape) GongReconstructPointersFromReferences(stage *Stage, instance *StakeholderConcernShape) {
 	// insertion point for pointers field
 	if instance.Stakeholder != nil {
 		reference.Stakeholder = stage.Stakeholders_reference[instance.Stakeholder]
@@ -2709,46 +2669,36 @@ func (reference *StakeholderConcernShape) GongReconstructPointersFromReferences(
 		reference.Concern = stage.Concerns_reference[instance.Concern]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
-func (reference *StakeholderShape) GongReconstructPointersFromReferences(stage *Stage, instance *StakeholderShape) () {
+func (reference *StakeholderShape) GongReconstructPointersFromReferences(stage *Stage, instance *StakeholderShape) {
 	// insertion point for pointers field
 	if instance.Stakeholder != nil {
 		reference.Stakeholder = stage.Stakeholders_reference[instance.Stakeholder]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
-func (reference *SupportLevel) GongReconstructPointersFromReferences(stage *Stage, instance *SupportLevel) () {
+func (reference *SupportLevel) GongReconstructPointersFromReferences(stage *Stage, instance *SupportLevel) {
 	// insertion point for pointers field
 	if instance.Tool != nil {
 		reference.Tool = stage.Tools_reference[instance.Tool]
 	}
 	// insertion point for slice of pointers field
-
-	return
 }
 
-func (reference *Tool) GongReconstructPointersFromReferences(stage *Stage, instance *Tool) () {
+func (reference *Tool) GongReconstructPointersFromReferences(stage *Stage, instance *Tool) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-
-	return
 }
 
 // insertion point for pointer reconstruction from instances
-func (reference *AnalysisNeed) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *AnalysisNeed) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
-func (reference *Concept) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Concept) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Tools []*Tool
@@ -2758,11 +2708,9 @@ func (reference *Concept) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.Tools = _Tools
-
-	return
 }
 
-func (reference *Concern) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Concern) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _SubConcerns []*Concern
@@ -2793,11 +2741,9 @@ func (reference *Concern) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.Requirements = _Requirements
-
-	return
 }
 
-func (reference *ConcernCompositionShape) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *ConcernCompositionShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Concern; _reference != nil {
 		reference.Concern = nil
@@ -2806,11 +2752,9 @@ func (reference *ConcernCompositionShape) GongReconstructPointersFromInstances(s
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
-func (reference *ConcernInputShape) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *ConcernInputShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Deliverable; _reference != nil {
 		reference.Deliverable = nil
@@ -2825,11 +2769,9 @@ func (reference *ConcernInputShape) GongReconstructPointersFromInstances(stage *
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
-func (reference *ConcernOutputShape) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *ConcernOutputShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Task; _reference != nil {
 		reference.Task = nil
@@ -2844,11 +2786,9 @@ func (reference *ConcernOutputShape) GongReconstructPointersFromInstances(stage 
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
-func (reference *ConcernShape) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *ConcernShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Concern; _reference != nil {
 		reference.Concern = nil
@@ -2857,11 +2797,9 @@ func (reference *ConcernShape) GongReconstructPointersFromInstances(stage *Stage
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
-func (reference *Deliverable) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Deliverable) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _SubProducts []*Deliverable
@@ -2878,11 +2816,9 @@ func (reference *Deliverable) GongReconstructPointersFromInstances(stage *Stage)
 		}
 	}
 	reference.Concepts = _Concepts
-
-	return
 }
 
-func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Product_Shapes []*ProductShape
@@ -3025,11 +2961,9 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.StakeholderConcernShapes = _StakeholderConcernShapes
-
-	return
 }
 
-func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _RootDeliverables []*Deliverable
@@ -3081,11 +3015,9 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) () 
 		}
 	}
 	reference.SubLibraries = _SubLibraries
-
-	return
 }
 
-func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Products []*Deliverable
@@ -3109,11 +3041,9 @@ func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) () {
 		}
 	}
 	reference.Resources = _Resources
-
-	return
 }
 
-func (reference *NoteProductShape) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *NoteProductShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Note; _reference != nil {
 		reference.Note = nil
@@ -3128,11 +3058,9 @@ func (reference *NoteProductShape) GongReconstructPointersFromInstances(stage *S
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
-func (reference *NoteShape) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *NoteShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Note; _reference != nil {
 		reference.Note = nil
@@ -3141,11 +3069,9 @@ func (reference *NoteShape) GongReconstructPointersFromInstances(stage *Stage) (
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
-func (reference *NoteStakeholderShape) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *NoteStakeholderShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Note; _reference != nil {
 		reference.Note = nil
@@ -3160,11 +3086,9 @@ func (reference *NoteStakeholderShape) GongReconstructPointersFromInstances(stag
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
-func (reference *NoteTaskShape) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *NoteTaskShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Note; _reference != nil {
 		reference.Note = nil
@@ -3179,11 +3103,9 @@ func (reference *NoteTaskShape) GongReconstructPointersFromInstances(stage *Stag
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
-func (reference *ProductCompositionShape) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *ProductCompositionShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Product; _reference != nil {
 		reference.Product = nil
@@ -3192,11 +3114,9 @@ func (reference *ProductCompositionShape) GongReconstructPointersFromInstances(s
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
-func (reference *ProductShape) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *ProductShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Product; _reference != nil {
 		reference.Product = nil
@@ -3205,11 +3125,9 @@ func (reference *ProductShape) GongReconstructPointersFromInstances(stage *Stage
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
-func (reference *Requirement) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Requirement) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _SupportLevels []*SupportLevel
@@ -3226,11 +3144,9 @@ func (reference *Requirement) GongReconstructPointersFromInstances(stage *Stage)
 		}
 	}
 	reference.Concepts = _Concepts
-
-	return
 }
 
-func (reference *Stakeholder) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Stakeholder) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 	var _Concerns []*Concern
@@ -3247,11 +3163,9 @@ func (reference *Stakeholder) GongReconstructPointersFromInstances(stage *Stage)
 		}
 	}
 	reference.SubStakeholders = _SubStakeholders
-
-	return
 }
 
-func (reference *StakeholderCompositionShape) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *StakeholderCompositionShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Stakeholder; _reference != nil {
 		reference.Stakeholder = nil
@@ -3260,11 +3174,9 @@ func (reference *StakeholderCompositionShape) GongReconstructPointersFromInstanc
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
-func (reference *StakeholderConcernShape) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *StakeholderConcernShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Stakeholder; _reference != nil {
 		reference.Stakeholder = nil
@@ -3279,11 +3191,9 @@ func (reference *StakeholderConcernShape) GongReconstructPointersFromInstances(s
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
-func (reference *StakeholderShape) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *StakeholderShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Stakeholder; _reference != nil {
 		reference.Stakeholder = nil
@@ -3292,11 +3202,9 @@ func (reference *StakeholderShape) GongReconstructPointersFromInstances(stage *S
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
-func (reference *SupportLevel) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *SupportLevel) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	if _reference := reference.Tool; _reference != nil {
 		reference.Tool = nil
@@ -3305,15 +3213,11 @@ func (reference *SupportLevel) GongReconstructPointersFromInstances(stage *Stage
 		}
 	}
 	// insertion point for slice of pointers fields
-
-	return
 }
 
-func (reference *Tool) GongReconstructPointersFromInstances(stage *Stage) () {
+func (reference *Tool) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-
-	return
 }
 
 // insertion point for diff per struct

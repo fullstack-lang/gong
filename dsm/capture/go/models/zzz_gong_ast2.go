@@ -17,8 +17,10 @@ import (
 	"time"
 )
 
-var _time__dummyDeclaration2 time.Duration
-var _ = _time__dummyDeclaration2
+var (
+	_time__dummyDeclaration2 time.Duration
+	_                        = _time__dummyDeclaration2
+)
 
 // swagger:ignore
 type GONG__ExpressionType string
@@ -382,11 +384,13 @@ func GongUnmarshallSliceOfPointers[T PointerToGongstruct](
 			}
 		} else if funcName == "append" {
 			if len(call.Args) >= 2 {
-				if ident, ok := call.Args[len(call.Args)-1].(*ast.Ident); ok {
-					if val, ok := identifierMap[ident.Name]; ok {
-						*slice = append(*slice, val.(T))
-					} else {
-						log.Println("Ast2 append Unkown identifier", ident.Name)
+				for i := 1; i < len(call.Args); i++ {
+					if ident, ok := call.Args[i].(*ast.Ident); ok {
+						if val, ok := identifierMap[ident.Name]; ok {
+							*slice = append(*slice, val.(T))
+						} else {
+							log.Println("Ast2 append Unkown identifier", ident.Name)
+						}
 					}
 				}
 			}

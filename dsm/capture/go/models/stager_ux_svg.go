@@ -3,8 +3,8 @@ package models
 import (
 	"log"
 
+	"github.com/fullstack-lang/gong/lib/strutils"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
-	"github.com/fullstack-lang/gong/pkg/strutils"
 )
 
 func (stager *Stager) svg() {

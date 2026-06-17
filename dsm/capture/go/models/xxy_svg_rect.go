@@ -3,8 +3,8 @@ package models
 import (
 	"math/rand/v2"
 
+	"github.com/fullstack-lang/gong/lib/strutils"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
-	"github.com/fullstack-lang/gong/pkg/strutils"
 )
 
 func addShapeToDiagram[AT AbstractType, CT interface {
@@ -66,9 +66,8 @@ func svgRect[CT interface {
 		rect.CanMoveHorizontaly = true
 		rect.CanMoveVerticaly = true
 
-		rect.Impl = &svg.FunctionalSvgRectProxy{
-			OnUpdated: onUpdateRectElement(stager, abstractElement, shape),
-		}
+		rect.OnUpdate = onUpdateRectElement(stager, abstractElement, shape)
+
 		// for allowing later Stage() on the rect shape
 		shape.SetReceiver(shape)
 	}
@@ -194,27 +193,25 @@ func svgAssociationLink[AT AbstractType,
 		link.StrokeDashArray = "5 5"
 	}
 
-	link.Impl = &svg.FunctionalSvgLinkProxy{
-		OnUpdated: func(updatedLink *svg.Link) {
-			diff := shape.GetStartRatio() != updatedLink.StartRatio ||
-				shape.GetEndRatio() != updatedLink.EndRatio ||
-				shape.GetStartOrientation() != OrientationType(updatedLink.StartOrientation) ||
-				shape.GetEndOrientation() != OrientationType(updatedLink.EndOrientation) ||
-				shape.GetCornerOffsetRatio() != updatedLink.CornerOffsetRatio
+	link.OnUpdate = func(updatedLink *svg.Link) {
+		diff := shape.GetStartRatio() != updatedLink.StartRatio ||
+			shape.GetEndRatio() != updatedLink.EndRatio ||
+			shape.GetStartOrientation() != OrientationType(updatedLink.StartOrientation) ||
+			shape.GetEndOrientation() != OrientationType(updatedLink.EndOrientation) ||
+			shape.GetCornerOffsetRatio() != updatedLink.CornerOffsetRatio
 
-			shape.SetStartRatio(updatedLink.StartRatio)
-			shape.SetEndRatio(updatedLink.EndRatio)
-			shape.SetCornerOffsetRatio(updatedLink.CornerOffsetRatio)
-			shape.SetStartOrientation(OrientationType(updatedLink.StartOrientation))
-			shape.SetEndOrientation(OrientationType(updatedLink.EndOrientation))
+		shape.SetStartRatio(updatedLink.StartRatio)
+		shape.SetEndRatio(updatedLink.EndRatio)
+		shape.SetCornerOffsetRatio(updatedLink.CornerOffsetRatio)
+		shape.SetStartOrientation(OrientationType(updatedLink.StartOrientation))
+		shape.SetEndOrientation(OrientationType(updatedLink.EndOrientation))
 
-			if !diff {
-				stager.stage.CommitWithSuspendedCallbacks()
-				stager.probeForm.FillUpFormFromGongstruct(productOfInterest, GetPointerToGongstructName[AT]())
-			} else {
-				stager.stage.Commit()
-			}
-		},
+		if !diff {
+			stager.stage.CommitWithSuspendedCallbacks()
+			stager.probeForm.FillUpFormFromGongstruct(productOfInterest, GetPointerToGongstructName[AT]())
+		} else {
+			stager.stage.Commit()
+		}
 	}
 
 	layer.Links = append(layer.Links, link)

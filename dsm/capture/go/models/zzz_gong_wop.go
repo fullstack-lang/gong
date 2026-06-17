@@ -642,3 +642,4 @@ func (from *Tool) CopyBasicFields(to *Tool) {
 	to.Name = from.Name
 }
 
+// end of insertion point
