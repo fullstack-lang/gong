@@ -38,6 +38,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterConcernShapeCreateCallback != nil {
 			stage.OnAfterConcernShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *ControlPointShape:
+		if stage.OnAfterControlPointShapeCreateCallback != nil {
+			stage.OnAfterControlPointShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Deliverable:
 		if stage.OnAfterDeliverableCreateCallback != nil {
 			stage.OnAfterDeliverableCreateCallback.OnAfterCreate(stage, target)
@@ -167,6 +171,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*ConcernShape)
 		if stage.OnAfterConcernShapeUpdateCallback != nil {
 			stage.OnAfterConcernShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *ControlPointShape:
+		newTarget := any(new).(*ControlPointShape)
+		if stage.OnAfterControlPointShapeUpdateCallback != nil {
+			stage.OnAfterControlPointShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Deliverable:
 		newTarget := any(new).(*Deliverable)
@@ -313,6 +322,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*ConcernShape)
 			stage.OnAfterConcernShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *ControlPointShape:
+		if stage.OnAfterControlPointShapeDeleteCallback != nil {
+			staged := any(staged).(*ControlPointShape)
+			stage.OnAfterControlPointShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Deliverable:
 		if stage.OnAfterDeliverableDeleteCallback != nil {
 			staged := any(staged).(*Deliverable)
@@ -450,6 +464,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterConcernShapeReadCallback != nil {
 			stage.OnAfterConcernShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *ControlPointShape:
+		if stage.OnAfterControlPointShapeReadCallback != nil {
+			stage.OnAfterControlPointShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *Deliverable:
 		if stage.OnAfterDeliverableReadCallback != nil {
 			stage.OnAfterDeliverableReadCallback.OnAfterRead(stage, target)
@@ -553,6 +571,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterConcernOutputShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ConcernOutputShape])
 	case *ConcernShape:
 		stage.OnAfterConcernShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ConcernShape])
+	case *ControlPointShape:
+		stage.OnAfterControlPointShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ControlPointShape])
 	case *Deliverable:
 		stage.OnAfterDeliverableUpdateCallback = any(callback).(OnAfterUpdateInterface[Deliverable])
 	case *DeliverableCompositionShape:
@@ -614,6 +634,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterConcernOutputShapeCreateCallback = any(callback).(OnAfterCreateInterface[ConcernOutputShape])
 	case *ConcernShape:
 		stage.OnAfterConcernShapeCreateCallback = any(callback).(OnAfterCreateInterface[ConcernShape])
+	case *ControlPointShape:
+		stage.OnAfterControlPointShapeCreateCallback = any(callback).(OnAfterCreateInterface[ControlPointShape])
 	case *Deliverable:
 		stage.OnAfterDeliverableCreateCallback = any(callback).(OnAfterCreateInterface[Deliverable])
 	case *DeliverableCompositionShape:
@@ -675,6 +697,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterConcernOutputShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ConcernOutputShape])
 	case *ConcernShape:
 		stage.OnAfterConcernShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ConcernShape])
+	case *ControlPointShape:
+		stage.OnAfterControlPointShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ControlPointShape])
 	case *Deliverable:
 		stage.OnAfterDeliverableDeleteCallback = any(callback).(OnAfterDeleteInterface[Deliverable])
 	case *DeliverableCompositionShape:
@@ -736,6 +760,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterConcernOutputShapeReadCallback = any(callback).(OnAfterReadInterface[ConcernOutputShape])
 	case *ConcernShape:
 		stage.OnAfterConcernShapeReadCallback = any(callback).(OnAfterReadInterface[ConcernShape])
+	case *ControlPointShape:
+		stage.OnAfterControlPointShapeReadCallback = any(callback).(OnAfterReadInterface[ControlPointShape])
 	case *Deliverable:
 		stage.OnAfterDeliverableReadCallback = any(callback).(OnAfterReadInterface[Deliverable])
 	case *DeliverableCompositionShape:

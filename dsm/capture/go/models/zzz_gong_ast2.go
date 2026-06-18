@@ -650,6 +650,8 @@ func (u *ConcernCompositionShapeUnmarshaller) UnmarshallField(stage *Stage, i Go
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "ControlPointShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -695,6 +697,8 @@ func (u *ConcernInputShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstru
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "ControlPointShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -740,6 +744,8 @@ func (u *ConcernOutputShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstr
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "ControlPointShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -783,6 +789,41 @@ func (u *ConcernShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type ControlPointShapeUnmarshaller struct{}
+
+func (u *ControlPointShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ControlPointShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ControlPointShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ControlPointShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "X_Relative":
+		instance.X_Relative = GongExtractFloat(valueExpr)
+	case "Y_Relative":
+		instance.Y_Relative = GongExtractFloat(valueExpr)
+	case "IsStartShapeTheClosestShape":
+		instance.IsStartShapeTheClosestShape = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -871,6 +912,8 @@ func (u *DeliverableCompositionShapeUnmarshaller) UnmarshallField(stage *Stage, 
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "ControlPointShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -916,6 +959,8 @@ func (u *DeliverableConceptShapeUnmarshaller) UnmarshallField(stage *Stage, i Go
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "ControlPointShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1219,6 +1264,8 @@ func (u *NoteDeliverableShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "ControlPointShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1307,6 +1354,8 @@ func (u *NoteStakeholderShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "ControlPointShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1352,6 +1401,8 @@ func (u *NoteTaskShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "ControlPointShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1520,6 +1571,8 @@ func (u *StakeholderCompositionShapeUnmarshaller) UnmarshallField(stage *Stage, 
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "ControlPointShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1565,6 +1618,8 @@ func (u *StakeholderConcernShapeUnmarshaller) UnmarshallField(stage *Stage, i Go
 		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "ControlPointShapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlPointShapes, valueExpr, identifierMap)
 	}
 	return nil
 }

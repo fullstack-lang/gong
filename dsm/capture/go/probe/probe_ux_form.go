@@ -63,6 +63,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.concernshape, probe)
 			}
+		case *ControlPointShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ControlPointShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.controlpointshape, probe)
+			}
 		case *DeliverableFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Deliverable", true)
@@ -303,6 +309,19 @@ func FillUpFormFromGongstructName(
 		concernshape := new(models.ConcernShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(concernshape, formGroup, probe)
+	case "ControlPointShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ControlPointShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ControlPointShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		controlpointshape := new(models.ControlPointShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(controlpointshape, formGroup, probe)
 	case "Deliverable":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

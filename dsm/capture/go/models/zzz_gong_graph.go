@@ -31,6 +31,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *ConcernShape:
 		ok = stage.IsStagedConcernShape(target)
 
+	case *ControlPointShape:
+		ok = stage.IsStagedControlPointShape(target)
+
 	case *Deliverable:
 		ok = stage.IsStagedDeliverable(target)
 
@@ -121,6 +124,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *ConcernShape:
 		ok = stage.IsStagedConcernShape(target)
+
+	case *ControlPointShape:
+		ok = stage.IsStagedControlPointShape(target)
 
 	case *Deliverable:
 		ok = stage.IsStagedDeliverable(target)
@@ -238,6 +244,13 @@ func (stage *Stage) IsStagedConcernOutputShape(concernoutputshape *ConcernOutput
 func (stage *Stage) IsStagedConcernShape(concernshape *ConcernShape) (ok bool) {
 
 	_, ok = stage.ConcernShapes[concernshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedControlPointShape(controlpointshape *ControlPointShape) (ok bool) {
+
+	_, ok = stage.ControlPointShapes[controlpointshape]
 
 	return
 }
@@ -407,6 +420,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *ConcernShape:
 		stage.StageBranchConcernShape(target)
 
+	case *ControlPointShape:
+		stage.StageBranchControlPointShape(target)
+
 	case *Deliverable:
 		stage.StageBranchDeliverable(target)
 
@@ -563,6 +579,9 @@ func (stage *Stage) StageBranchConcernCompositionShape(concerncompositionshape *
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range concerncompositionshape.ControlPointShapes {
+		StageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -584,6 +603,9 @@ func (stage *Stage) StageBranchConcernInputShape(concerninputshape *ConcernInput
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range concerninputshape.ControlPointShapes {
+		StageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -605,6 +627,9 @@ func (stage *Stage) StageBranchConcernOutputShape(concernoutputshape *ConcernOut
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range concernoutputshape.ControlPointShapes {
+		StageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -621,6 +646,21 @@ func (stage *Stage) StageBranchConcernShape(concernshape *ConcernShape) {
 	if concernshape.Concern != nil {
 		StageBranch(stage, concernshape.Concern)
 	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchControlPointShape(controlpointshape *ControlPointShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, controlpointshape) {
+		return
+	}
+
+	controlpointshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -662,6 +702,9 @@ func (stage *Stage) StageBranchDeliverableCompositionShape(deliverablecompositio
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range deliverablecompositionshape.ControlPointShapes {
+		StageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -683,6 +726,9 @@ func (stage *Stage) StageBranchDeliverableConceptShape(deliverableconceptshape *
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range deliverableconceptshape.ControlPointShapes {
+		StageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -887,6 +933,9 @@ func (stage *Stage) StageBranchNoteDeliverableShape(notedeliverableshape *NoteDe
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range notedeliverableshape.ControlPointShapes {
+		StageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -926,6 +975,9 @@ func (stage *Stage) StageBranchNoteStakeholderShape(notestakeholdershape *NoteSt
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range notestakeholdershape.ControlPointShapes {
+		StageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -947,6 +999,9 @@ func (stage *Stage) StageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range notetaskshape.ControlPointShapes {
+		StageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -1025,6 +1080,9 @@ func (stage *Stage) StageBranchStakeholderCompositionShape(stakeholdercompositio
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range stakeholdercompositionshape.ControlPointShapes {
+		StageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -1046,6 +1104,9 @@ func (stage *Stage) StageBranchStakeholderConcernShape(stakeholderconcernshape *
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range stakeholderconcernshape.ControlPointShapes {
+		StageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -1141,6 +1202,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *ConcernShape:
 		toT := CopyBranchConcernShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ControlPointShape:
+		toT := CopyBranchControlPointShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Deliverable:
@@ -1338,6 +1403,9 @@ func CopyBranchConcernCompositionShape(mapOrigCopy map[any]any, concerncompositi
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range concerncompositionshapeFrom.ControlPointShapes {
+		concerncompositionshapeTo.ControlPointShapes = append(concerncompositionshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+	}
 
 	return
 }
@@ -1363,6 +1431,9 @@ func CopyBranchConcernInputShape(mapOrigCopy map[any]any, concerninputshapeFrom 
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range concerninputshapeFrom.ControlPointShapes {
+		concerninputshapeTo.ControlPointShapes = append(concerninputshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+	}
 
 	return
 }
@@ -1388,6 +1459,9 @@ func CopyBranchConcernOutputShape(mapOrigCopy map[any]any, concernoutputshapeFro
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range concernoutputshapeFrom.ControlPointShapes {
+		concernoutputshapeTo.ControlPointShapes = append(concernoutputshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+	}
 
 	return
 }
@@ -1408,6 +1482,25 @@ func CopyBranchConcernShape(mapOrigCopy map[any]any, concernshapeFrom *ConcernSh
 	if concernshapeFrom.Concern != nil {
 		concernshapeTo.Concern = CopyBranchConcern(mapOrigCopy, concernshapeFrom.Concern)
 	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchControlPointShape(mapOrigCopy map[any]any, controlpointshapeFrom *ControlPointShape) (controlpointshapeTo *ControlPointShape) {
+
+	// controlpointshapeFrom has already been copied
+	if _controlpointshapeTo, ok := mapOrigCopy[controlpointshapeFrom]; ok {
+		controlpointshapeTo = _controlpointshapeTo.(*ControlPointShape)
+		return
+	}
+
+	controlpointshapeTo = new(ControlPointShape)
+	mapOrigCopy[controlpointshapeFrom] = controlpointshapeTo
+	controlpointshapeFrom.CopyBasicFields(controlpointshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1457,6 +1550,9 @@ func CopyBranchDeliverableCompositionShape(mapOrigCopy map[any]any, deliverablec
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range deliverablecompositionshapeFrom.ControlPointShapes {
+		deliverablecompositionshapeTo.ControlPointShapes = append(deliverablecompositionshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+	}
 
 	return
 }
@@ -1482,6 +1578,9 @@ func CopyBranchDeliverableConceptShape(mapOrigCopy map[any]any, deliverableconce
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range deliverableconceptshapeFrom.ControlPointShapes {
+		deliverableconceptshapeTo.ControlPointShapes = append(deliverableconceptshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+	}
 
 	return
 }
@@ -1706,6 +1805,9 @@ func CopyBranchNoteDeliverableShape(mapOrigCopy map[any]any, notedeliverableshap
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range notedeliverableshapeFrom.ControlPointShapes {
+		notedeliverableshapeTo.ControlPointShapes = append(notedeliverableshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+	}
 
 	return
 }
@@ -1753,6 +1855,9 @@ func CopyBranchNoteStakeholderShape(mapOrigCopy map[any]any, notestakeholdershap
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range notestakeholdershapeFrom.ControlPointShapes {
+		notestakeholdershapeTo.ControlPointShapes = append(notestakeholdershapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+	}
 
 	return
 }
@@ -1778,6 +1883,9 @@ func CopyBranchNoteTaskShape(mapOrigCopy map[any]any, notetaskshapeFrom *NoteTas
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range notetaskshapeFrom.ControlPointShapes {
+		notetaskshapeTo.ControlPointShapes = append(notetaskshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+	}
 
 	return
 }
@@ -1872,6 +1980,9 @@ func CopyBranchStakeholderCompositionShape(mapOrigCopy map[any]any, stakeholderc
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range stakeholdercompositionshapeFrom.ControlPointShapes {
+		stakeholdercompositionshapeTo.ControlPointShapes = append(stakeholdercompositionshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+	}
 
 	return
 }
@@ -1897,6 +2008,9 @@ func CopyBranchStakeholderConcernShape(mapOrigCopy map[any]any, stakeholderconce
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range stakeholderconcernshapeFrom.ControlPointShapes {
+		stakeholderconcernshapeTo.ControlPointShapes = append(stakeholderconcernshapeTo.ControlPointShapes, CopyBranchControlPointShape(mapOrigCopy, _controlpointshape))
+	}
 
 	return
 }
@@ -1995,6 +2109,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *ConcernShape:
 		stage.UnstageBranchConcernShape(target)
+
+	case *ControlPointShape:
+		stage.UnstageBranchControlPointShape(target)
 
 	case *Deliverable:
 		stage.UnstageBranchDeliverable(target)
@@ -2152,6 +2269,9 @@ func (stage *Stage) UnstageBranchConcernCompositionShape(concerncompositionshape
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range concerncompositionshape.ControlPointShapes {
+		UnstageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -2173,6 +2293,9 @@ func (stage *Stage) UnstageBranchConcernInputShape(concerninputshape *ConcernInp
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range concerninputshape.ControlPointShapes {
+		UnstageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -2194,6 +2317,9 @@ func (stage *Stage) UnstageBranchConcernOutputShape(concernoutputshape *ConcernO
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range concernoutputshape.ControlPointShapes {
+		UnstageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -2210,6 +2336,21 @@ func (stage *Stage) UnstageBranchConcernShape(concernshape *ConcernShape) {
 	if concernshape.Concern != nil {
 		UnstageBranch(stage, concernshape.Concern)
 	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchControlPointShape(controlpointshape *ControlPointShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, controlpointshape) {
+		return
+	}
+
+	controlpointshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -2251,6 +2392,9 @@ func (stage *Stage) UnstageBranchDeliverableCompositionShape(deliverablecomposit
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range deliverablecompositionshape.ControlPointShapes {
+		UnstageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -2272,6 +2416,9 @@ func (stage *Stage) UnstageBranchDeliverableConceptShape(deliverableconceptshape
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range deliverableconceptshape.ControlPointShapes {
+		UnstageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -2476,6 +2623,9 @@ func (stage *Stage) UnstageBranchNoteDeliverableShape(notedeliverableshape *Note
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range notedeliverableshape.ControlPointShapes {
+		UnstageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -2515,6 +2665,9 @@ func (stage *Stage) UnstageBranchNoteStakeholderShape(notestakeholdershape *Note
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range notestakeholdershape.ControlPointShapes {
+		UnstageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -2536,6 +2689,9 @@ func (stage *Stage) UnstageBranchNoteTaskShape(notetaskshape *NoteTaskShape) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range notetaskshape.ControlPointShapes {
+		UnstageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -2614,6 +2770,9 @@ func (stage *Stage) UnstageBranchStakeholderCompositionShape(stakeholdercomposit
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range stakeholdercompositionshape.ControlPointShapes {
+		UnstageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -2635,6 +2794,9 @@ func (stage *Stage) UnstageBranchStakeholderConcernShape(stakeholderconcernshape
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _controlpointshape := range stakeholderconcernshape.ControlPointShapes {
+		UnstageBranch(stage, _controlpointshape)
+	}
 
 }
 
@@ -2739,6 +2901,10 @@ func (reference *ConcernCompositionShape) GongReconstructPointersFromReferences(
 		reference.Concern = stage.Concerns_reference[instance.Concern]
 	}
 	// insertion point for slice of pointers field
+	reference.ControlPointShapes = reference.ControlPointShapes[:0]
+	for _, _b := range instance.ControlPointShapes {
+		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
+	}
 }
 
 func (reference *ConcernInputShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernInputShape) {
@@ -2750,6 +2916,10 @@ func (reference *ConcernInputShape) GongReconstructPointersFromReferences(stage 
 		reference.Concern = stage.Concerns_reference[instance.Concern]
 	}
 	// insertion point for slice of pointers field
+	reference.ControlPointShapes = reference.ControlPointShapes[:0]
+	for _, _b := range instance.ControlPointShapes {
+		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
+	}
 }
 
 func (reference *ConcernOutputShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernOutputShape) {
@@ -2761,6 +2931,10 @@ func (reference *ConcernOutputShape) GongReconstructPointersFromReferences(stage
 		reference.Deliverable = stage.Deliverables_reference[instance.Deliverable]
 	}
 	// insertion point for slice of pointers field
+	reference.ControlPointShapes = reference.ControlPointShapes[:0]
+	for _, _b := range instance.ControlPointShapes {
+		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
+	}
 }
 
 func (reference *ConcernShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernShape) {
@@ -2768,6 +2942,11 @@ func (reference *ConcernShape) GongReconstructPointersFromReferences(stage *Stag
 	if instance.Concern != nil {
 		reference.Concern = stage.Concerns_reference[instance.Concern]
 	}
+	// insertion point for slice of pointers field
+}
+
+func (reference *ControlPointShape) GongReconstructPointersFromReferences(stage *Stage, instance *ControlPointShape) {
+	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
 
@@ -2790,6 +2969,10 @@ func (reference *DeliverableCompositionShape) GongReconstructPointersFromReferen
 		reference.Deliverable = stage.Deliverables_reference[instance.Deliverable]
 	}
 	// insertion point for slice of pointers field
+	reference.ControlPointShapes = reference.ControlPointShapes[:0]
+	for _, _b := range instance.ControlPointShapes {
+		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
+	}
 }
 
 func (reference *DeliverableConceptShape) GongReconstructPointersFromReferences(stage *Stage, instance *DeliverableConceptShape) {
@@ -2801,6 +2984,10 @@ func (reference *DeliverableConceptShape) GongReconstructPointersFromReferences(
 		reference.Concept = stage.Concepts_reference[instance.Concept]
 	}
 	// insertion point for slice of pointers field
+	reference.ControlPointShapes = reference.ControlPointShapes[:0]
+	for _, _b := range instance.ControlPointShapes {
+		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
+	}
 }
 
 func (reference *DeliverableShape) GongReconstructPointersFromReferences(stage *Stage, instance *DeliverableShape) {
@@ -2995,6 +3182,10 @@ func (reference *NoteDeliverableShape) GongReconstructPointersFromReferences(sta
 		reference.Deliverable = stage.Deliverables_reference[instance.Deliverable]
 	}
 	// insertion point for slice of pointers field
+	reference.ControlPointShapes = reference.ControlPointShapes[:0]
+	for _, _b := range instance.ControlPointShapes {
+		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
+	}
 }
 
 func (reference *NoteShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteShape) {
@@ -3014,6 +3205,10 @@ func (reference *NoteStakeholderShape) GongReconstructPointersFromReferences(sta
 		reference.Stakeholder = stage.Stakeholders_reference[instance.Stakeholder]
 	}
 	// insertion point for slice of pointers field
+	reference.ControlPointShapes = reference.ControlPointShapes[:0]
+	for _, _b := range instance.ControlPointShapes {
+		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
+	}
 }
 
 func (reference *NoteTaskShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteTaskShape) {
@@ -3025,6 +3220,10 @@ func (reference *NoteTaskShape) GongReconstructPointersFromReferences(stage *Sta
 		reference.Task = stage.Concerns_reference[instance.Task]
 	}
 	// insertion point for slice of pointers field
+	reference.ControlPointShapes = reference.ControlPointShapes[:0]
+	for _, _b := range instance.ControlPointShapes {
+		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
+	}
 }
 
 func (reference *Requirement) GongReconstructPointersFromReferences(stage *Stage, instance *Requirement) {
@@ -3067,6 +3266,10 @@ func (reference *StakeholderCompositionShape) GongReconstructPointersFromReferen
 		reference.Stakeholder = stage.Stakeholders_reference[instance.Stakeholder]
 	}
 	// insertion point for slice of pointers field
+	reference.ControlPointShapes = reference.ControlPointShapes[:0]
+	for _, _b := range instance.ControlPointShapes {
+		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
+	}
 }
 
 func (reference *StakeholderConcernShape) GongReconstructPointersFromReferences(stage *Stage, instance *StakeholderConcernShape) {
@@ -3078,6 +3281,10 @@ func (reference *StakeholderConcernShape) GongReconstructPointersFromReferences(
 		reference.Concern = stage.Concerns_reference[instance.Concern]
 	}
 	// insertion point for slice of pointers field
+	reference.ControlPointShapes = reference.ControlPointShapes[:0]
+	for _, _b := range instance.ControlPointShapes {
+		reference.ControlPointShapes = append(reference.ControlPointShapes, stage.ControlPointShapes_reference[_b])
+	}
 }
 
 func (reference *StakeholderShape) GongReconstructPointersFromReferences(stage *Stage, instance *StakeholderShape) {
@@ -3172,6 +3379,13 @@ func (reference *ConcernCompositionShape) GongReconstructPointersFromInstances(s
 		}
 	}
 	// insertion point for slice of pointers fields
+	var _ControlPointShapes []*ControlPointShape
+	for _, _reference := range reference.ControlPointShapes {
+		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
+			_ControlPointShapes = append(_ControlPointShapes, _instance)
+		}
+	}
+	reference.ControlPointShapes = _ControlPointShapes
 }
 
 func (reference *ConcernInputShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3189,6 +3403,13 @@ func (reference *ConcernInputShape) GongReconstructPointersFromInstances(stage *
 		}
 	}
 	// insertion point for slice of pointers fields
+	var _ControlPointShapes []*ControlPointShape
+	for _, _reference := range reference.ControlPointShapes {
+		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
+			_ControlPointShapes = append(_ControlPointShapes, _instance)
+		}
+	}
+	reference.ControlPointShapes = _ControlPointShapes
 }
 
 func (reference *ConcernOutputShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3206,6 +3427,13 @@ func (reference *ConcernOutputShape) GongReconstructPointersFromInstances(stage 
 		}
 	}
 	// insertion point for slice of pointers fields
+	var _ControlPointShapes []*ControlPointShape
+	for _, _reference := range reference.ControlPointShapes {
+		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
+			_ControlPointShapes = append(_ControlPointShapes, _instance)
+		}
+	}
+	reference.ControlPointShapes = _ControlPointShapes
 }
 
 func (reference *ConcernShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3216,6 +3444,11 @@ func (reference *ConcernShape) GongReconstructPointersFromInstances(stage *Stage
 			reference.Concern = _instance
 		}
 	}
+	// insertion point for slice of pointers fields
+}
+
+func (reference *ControlPointShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
 
@@ -3247,6 +3480,13 @@ func (reference *DeliverableCompositionShape) GongReconstructPointersFromInstanc
 		}
 	}
 	// insertion point for slice of pointers fields
+	var _ControlPointShapes []*ControlPointShape
+	for _, _reference := range reference.ControlPointShapes {
+		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
+			_ControlPointShapes = append(_ControlPointShapes, _instance)
+		}
+	}
+	reference.ControlPointShapes = _ControlPointShapes
 }
 
 func (reference *DeliverableConceptShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3264,6 +3504,13 @@ func (reference *DeliverableConceptShape) GongReconstructPointersFromInstances(s
 		}
 	}
 	// insertion point for slice of pointers fields
+	var _ControlPointShapes []*ControlPointShape
+	for _, _reference := range reference.ControlPointShapes {
+		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
+			_ControlPointShapes = append(_ControlPointShapes, _instance)
+		}
+	}
+	reference.ControlPointShapes = _ControlPointShapes
 }
 
 func (reference *DeliverableShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3587,6 +3834,13 @@ func (reference *NoteDeliverableShape) GongReconstructPointersFromInstances(stag
 		}
 	}
 	// insertion point for slice of pointers fields
+	var _ControlPointShapes []*ControlPointShape
+	for _, _reference := range reference.ControlPointShapes {
+		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
+			_ControlPointShapes = append(_ControlPointShapes, _instance)
+		}
+	}
+	reference.ControlPointShapes = _ControlPointShapes
 }
 
 func (reference *NoteShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3615,6 +3869,13 @@ func (reference *NoteStakeholderShape) GongReconstructPointersFromInstances(stag
 		}
 	}
 	// insertion point for slice of pointers fields
+	var _ControlPointShapes []*ControlPointShape
+	for _, _reference := range reference.ControlPointShapes {
+		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
+			_ControlPointShapes = append(_ControlPointShapes, _instance)
+		}
+	}
+	reference.ControlPointShapes = _ControlPointShapes
 }
 
 func (reference *NoteTaskShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3632,6 +3893,13 @@ func (reference *NoteTaskShape) GongReconstructPointersFromInstances(stage *Stag
 		}
 	}
 	// insertion point for slice of pointers fields
+	var _ControlPointShapes []*ControlPointShape
+	for _, _reference := range reference.ControlPointShapes {
+		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
+			_ControlPointShapes = append(_ControlPointShapes, _instance)
+		}
+	}
+	reference.ControlPointShapes = _ControlPointShapes
 }
 
 func (reference *Requirement) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3692,6 +3960,13 @@ func (reference *StakeholderCompositionShape) GongReconstructPointersFromInstanc
 		}
 	}
 	// insertion point for slice of pointers fields
+	var _ControlPointShapes []*ControlPointShape
+	for _, _reference := range reference.ControlPointShapes {
+		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
+			_ControlPointShapes = append(_ControlPointShapes, _instance)
+		}
+	}
+	reference.ControlPointShapes = _ControlPointShapes
 }
 
 func (reference *StakeholderConcernShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3709,6 +3984,13 @@ func (reference *StakeholderConcernShape) GongReconstructPointersFromInstances(s
 		}
 	}
 	// insertion point for slice of pointers fields
+	var _ControlPointShapes []*ControlPointShape
+	for _, _reference := range reference.ControlPointShapes {
+		if _instance, ok := stage.ControlPointShapes_instance[_reference]; ok {
+			_ControlPointShapes = append(_ControlPointShapes, _instance)
+		}
+	}
+	reference.ControlPointShapes = _ControlPointShapes
 }
 
 func (reference *StakeholderShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3993,6 +4275,27 @@ func (concerncompositionshape *ConcernCompositionShape) GongDiff(stage *Stage, c
 	if concerncompositionshape.IsHidden != concerncompositionshapeOther.IsHidden {
 		diffs = append(diffs, concerncompositionshape.GongMarshallField(stage, "IsHidden"))
 	}
+	ControlPointShapesDifferent := false
+	if len(concerncompositionshape.ControlPointShapes) != len(concerncompositionshapeOther.ControlPointShapes) {
+		ControlPointShapesDifferent = true
+	} else {
+		for i := range concerncompositionshape.ControlPointShapes {
+			if (concerncompositionshape.ControlPointShapes[i] == nil) != (concerncompositionshapeOther.ControlPointShapes[i] == nil) {
+				ControlPointShapesDifferent = true
+				break
+			} else if concerncompositionshape.ControlPointShapes[i] != nil && concerncompositionshapeOther.ControlPointShapes[i] != nil {
+				// this is a pointer comparaison
+				if concerncompositionshape.ControlPointShapes[i] != concerncompositionshapeOther.ControlPointShapes[i] {
+					ControlPointShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ControlPointShapesDifferent {
+		ops := Diff(stage, concerncompositionshape, concerncompositionshapeOther, "ControlPointShapes", concerncompositionshapeOther.ControlPointShapes, concerncompositionshape.ControlPointShapes)
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -4035,6 +4338,27 @@ func (concerninputshape *ConcernInputShape) GongDiff(stage *Stage, concerninputs
 	}
 	if concerninputshape.IsHidden != concerninputshapeOther.IsHidden {
 		diffs = append(diffs, concerninputshape.GongMarshallField(stage, "IsHidden"))
+	}
+	ControlPointShapesDifferent := false
+	if len(concerninputshape.ControlPointShapes) != len(concerninputshapeOther.ControlPointShapes) {
+		ControlPointShapesDifferent = true
+	} else {
+		for i := range concerninputshape.ControlPointShapes {
+			if (concerninputshape.ControlPointShapes[i] == nil) != (concerninputshapeOther.ControlPointShapes[i] == nil) {
+				ControlPointShapesDifferent = true
+				break
+			} else if concerninputshape.ControlPointShapes[i] != nil && concerninputshapeOther.ControlPointShapes[i] != nil {
+				// this is a pointer comparaison
+				if concerninputshape.ControlPointShapes[i] != concerninputshapeOther.ControlPointShapes[i] {
+					ControlPointShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ControlPointShapesDifferent {
+		ops := Diff(stage, concerninputshape, concerninputshapeOther, "ControlPointShapes", concerninputshapeOther.ControlPointShapes, concerninputshape.ControlPointShapes)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -4079,6 +4403,27 @@ func (concernoutputshape *ConcernOutputShape) GongDiff(stage *Stage, concernoutp
 	if concernoutputshape.IsHidden != concernoutputshapeOther.IsHidden {
 		diffs = append(diffs, concernoutputshape.GongMarshallField(stage, "IsHidden"))
 	}
+	ControlPointShapesDifferent := false
+	if len(concernoutputshape.ControlPointShapes) != len(concernoutputshapeOther.ControlPointShapes) {
+		ControlPointShapesDifferent = true
+	} else {
+		for i := range concernoutputshape.ControlPointShapes {
+			if (concernoutputshape.ControlPointShapes[i] == nil) != (concernoutputshapeOther.ControlPointShapes[i] == nil) {
+				ControlPointShapesDifferent = true
+				break
+			} else if concernoutputshape.ControlPointShapes[i] != nil && concernoutputshapeOther.ControlPointShapes[i] != nil {
+				// this is a pointer comparaison
+				if concernoutputshape.ControlPointShapes[i] != concernoutputshapeOther.ControlPointShapes[i] {
+					ControlPointShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ControlPointShapesDifferent {
+		ops := Diff(stage, concernoutputshape, concernoutputshapeOther, "ControlPointShapes", concernoutputshapeOther.ControlPointShapes, concernoutputshape.ControlPointShapes)
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -4114,6 +4459,26 @@ func (concernshape *ConcernShape) GongDiff(stage *Stage, concernshapeOther *Conc
 	}
 	if concernshape.IsHidden != concernshapeOther.IsHidden {
 		diffs = append(diffs, concernshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (controlpointshape *ControlPointShape) GongDiff(stage *Stage, controlpointshapeOther *ControlPointShape) (diffs []string) {
+	// insertion point for field diffs
+	if controlpointshape.Name != controlpointshapeOther.Name {
+		diffs = append(diffs, controlpointshape.GongMarshallField(stage, "Name"))
+	}
+	if controlpointshape.X_Relative != controlpointshapeOther.X_Relative {
+		diffs = append(diffs, controlpointshape.GongMarshallField(stage, "X_Relative"))
+	}
+	if controlpointshape.Y_Relative != controlpointshapeOther.Y_Relative {
+		diffs = append(diffs, controlpointshape.GongMarshallField(stage, "Y_Relative"))
+	}
+	if controlpointshape.IsStartShapeTheClosestShape != controlpointshapeOther.IsStartShapeTheClosestShape {
+		diffs = append(diffs, controlpointshape.GongMarshallField(stage, "IsStartShapeTheClosestShape"))
 	}
 
 	return
@@ -4222,6 +4587,27 @@ func (deliverablecompositionshape *DeliverableCompositionShape) GongDiff(stage *
 	if deliverablecompositionshape.IsHidden != deliverablecompositionshapeOther.IsHidden {
 		diffs = append(diffs, deliverablecompositionshape.GongMarshallField(stage, "IsHidden"))
 	}
+	ControlPointShapesDifferent := false
+	if len(deliverablecompositionshape.ControlPointShapes) != len(deliverablecompositionshapeOther.ControlPointShapes) {
+		ControlPointShapesDifferent = true
+	} else {
+		for i := range deliverablecompositionshape.ControlPointShapes {
+			if (deliverablecompositionshape.ControlPointShapes[i] == nil) != (deliverablecompositionshapeOther.ControlPointShapes[i] == nil) {
+				ControlPointShapesDifferent = true
+				break
+			} else if deliverablecompositionshape.ControlPointShapes[i] != nil && deliverablecompositionshapeOther.ControlPointShapes[i] != nil {
+				// this is a pointer comparaison
+				if deliverablecompositionshape.ControlPointShapes[i] != deliverablecompositionshapeOther.ControlPointShapes[i] {
+					ControlPointShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ControlPointShapesDifferent {
+		ops := Diff(stage, deliverablecompositionshape, deliverablecompositionshapeOther, "ControlPointShapes", deliverablecompositionshapeOther.ControlPointShapes, deliverablecompositionshape.ControlPointShapes)
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -4264,6 +4650,27 @@ func (deliverableconceptshape *DeliverableConceptShape) GongDiff(stage *Stage, d
 	}
 	if deliverableconceptshape.IsHidden != deliverableconceptshapeOther.IsHidden {
 		diffs = append(diffs, deliverableconceptshape.GongMarshallField(stage, "IsHidden"))
+	}
+	ControlPointShapesDifferent := false
+	if len(deliverableconceptshape.ControlPointShapes) != len(deliverableconceptshapeOther.ControlPointShapes) {
+		ControlPointShapesDifferent = true
+	} else {
+		for i := range deliverableconceptshape.ControlPointShapes {
+			if (deliverableconceptshape.ControlPointShapes[i] == nil) != (deliverableconceptshapeOther.ControlPointShapes[i] == nil) {
+				ControlPointShapesDifferent = true
+				break
+			} else if deliverableconceptshape.ControlPointShapes[i] != nil && deliverableconceptshapeOther.ControlPointShapes[i] != nil {
+				// this is a pointer comparaison
+				if deliverableconceptshape.ControlPointShapes[i] != deliverableconceptshapeOther.ControlPointShapes[i] {
+					ControlPointShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ControlPointShapesDifferent {
+		ops := Diff(stage, deliverableconceptshape, deliverableconceptshapeOther, "ControlPointShapes", deliverableconceptshapeOther.ControlPointShapes, deliverableconceptshape.ControlPointShapes)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -5289,6 +5696,27 @@ func (notedeliverableshape *NoteDeliverableShape) GongDiff(stage *Stage, notedel
 	if notedeliverableshape.IsHidden != notedeliverableshapeOther.IsHidden {
 		diffs = append(diffs, notedeliverableshape.GongMarshallField(stage, "IsHidden"))
 	}
+	ControlPointShapesDifferent := false
+	if len(notedeliverableshape.ControlPointShapes) != len(notedeliverableshapeOther.ControlPointShapes) {
+		ControlPointShapesDifferent = true
+	} else {
+		for i := range notedeliverableshape.ControlPointShapes {
+			if (notedeliverableshape.ControlPointShapes[i] == nil) != (notedeliverableshapeOther.ControlPointShapes[i] == nil) {
+				ControlPointShapesDifferent = true
+				break
+			} else if notedeliverableshape.ControlPointShapes[i] != nil && notedeliverableshapeOther.ControlPointShapes[i] != nil {
+				// this is a pointer comparaison
+				if notedeliverableshape.ControlPointShapes[i] != notedeliverableshapeOther.ControlPointShapes[i] {
+					ControlPointShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ControlPointShapesDifferent {
+		ops := Diff(stage, notedeliverableshape, notedeliverableshapeOther, "ControlPointShapes", notedeliverableshapeOther.ControlPointShapes, notedeliverableshape.ControlPointShapes)
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -5368,6 +5796,27 @@ func (notestakeholdershape *NoteStakeholderShape) GongDiff(stage *Stage, notesta
 	if notestakeholdershape.IsHidden != notestakeholdershapeOther.IsHidden {
 		diffs = append(diffs, notestakeholdershape.GongMarshallField(stage, "IsHidden"))
 	}
+	ControlPointShapesDifferent := false
+	if len(notestakeholdershape.ControlPointShapes) != len(notestakeholdershapeOther.ControlPointShapes) {
+		ControlPointShapesDifferent = true
+	} else {
+		for i := range notestakeholdershape.ControlPointShapes {
+			if (notestakeholdershape.ControlPointShapes[i] == nil) != (notestakeholdershapeOther.ControlPointShapes[i] == nil) {
+				ControlPointShapesDifferent = true
+				break
+			} else if notestakeholdershape.ControlPointShapes[i] != nil && notestakeholdershapeOther.ControlPointShapes[i] != nil {
+				// this is a pointer comparaison
+				if notestakeholdershape.ControlPointShapes[i] != notestakeholdershapeOther.ControlPointShapes[i] {
+					ControlPointShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ControlPointShapesDifferent {
+		ops := Diff(stage, notestakeholdershape, notestakeholdershapeOther, "ControlPointShapes", notestakeholdershapeOther.ControlPointShapes, notestakeholdershape.ControlPointShapes)
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -5410,6 +5859,27 @@ func (notetaskshape *NoteTaskShape) GongDiff(stage *Stage, notetaskshapeOther *N
 	}
 	if notetaskshape.IsHidden != notetaskshapeOther.IsHidden {
 		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "IsHidden"))
+	}
+	ControlPointShapesDifferent := false
+	if len(notetaskshape.ControlPointShapes) != len(notetaskshapeOther.ControlPointShapes) {
+		ControlPointShapesDifferent = true
+	} else {
+		for i := range notetaskshape.ControlPointShapes {
+			if (notetaskshape.ControlPointShapes[i] == nil) != (notetaskshapeOther.ControlPointShapes[i] == nil) {
+				ControlPointShapesDifferent = true
+				break
+			} else if notetaskshape.ControlPointShapes[i] != nil && notetaskshapeOther.ControlPointShapes[i] != nil {
+				// this is a pointer comparaison
+				if notetaskshape.ControlPointShapes[i] != notetaskshapeOther.ControlPointShapes[i] {
+					ControlPointShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ControlPointShapesDifferent {
+		ops := Diff(stage, notetaskshape, notetaskshapeOther, "ControlPointShapes", notetaskshapeOther.ControlPointShapes, notetaskshape.ControlPointShapes)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -5613,6 +6083,27 @@ func (stakeholdercompositionshape *StakeholderCompositionShape) GongDiff(stage *
 	if stakeholdercompositionshape.IsHidden != stakeholdercompositionshapeOther.IsHidden {
 		diffs = append(diffs, stakeholdercompositionshape.GongMarshallField(stage, "IsHidden"))
 	}
+	ControlPointShapesDifferent := false
+	if len(stakeholdercompositionshape.ControlPointShapes) != len(stakeholdercompositionshapeOther.ControlPointShapes) {
+		ControlPointShapesDifferent = true
+	} else {
+		for i := range stakeholdercompositionshape.ControlPointShapes {
+			if (stakeholdercompositionshape.ControlPointShapes[i] == nil) != (stakeholdercompositionshapeOther.ControlPointShapes[i] == nil) {
+				ControlPointShapesDifferent = true
+				break
+			} else if stakeholdercompositionshape.ControlPointShapes[i] != nil && stakeholdercompositionshapeOther.ControlPointShapes[i] != nil {
+				// this is a pointer comparaison
+				if stakeholdercompositionshape.ControlPointShapes[i] != stakeholdercompositionshapeOther.ControlPointShapes[i] {
+					ControlPointShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ControlPointShapesDifferent {
+		ops := Diff(stage, stakeholdercompositionshape, stakeholdercompositionshapeOther, "ControlPointShapes", stakeholdercompositionshapeOther.ControlPointShapes, stakeholdercompositionshape.ControlPointShapes)
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -5655,6 +6146,27 @@ func (stakeholderconcernshape *StakeholderConcernShape) GongDiff(stage *Stage, s
 	}
 	if stakeholderconcernshape.IsHidden != stakeholderconcernshapeOther.IsHidden {
 		diffs = append(diffs, stakeholderconcernshape.GongMarshallField(stage, "IsHidden"))
+	}
+	ControlPointShapesDifferent := false
+	if len(stakeholderconcernshape.ControlPointShapes) != len(stakeholderconcernshapeOther.ControlPointShapes) {
+		ControlPointShapesDifferent = true
+	} else {
+		for i := range stakeholderconcernshape.ControlPointShapes {
+			if (stakeholderconcernshape.ControlPointShapes[i] == nil) != (stakeholderconcernshapeOther.ControlPointShapes[i] == nil) {
+				ControlPointShapesDifferent = true
+				break
+			} else if stakeholderconcernshape.ControlPointShapes[i] != nil && stakeholderconcernshapeOther.ControlPointShapes[i] != nil {
+				// this is a pointer comparaison
+				if stakeholderconcernshape.ControlPointShapes[i] != stakeholderconcernshapeOther.ControlPointShapes[i] {
+					ControlPointShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ControlPointShapesDifferent {
+		ops := Diff(stage, stakeholderconcernshape, stakeholderconcernshapeOther, "ControlPointShapes", stakeholderconcernshapeOther.ControlPointShapes, stakeholderconcernshape.ControlPointShapes)
+		diffs = append(diffs, ops)
 	}
 
 	return

@@ -69,6 +69,13 @@ func _(stage *models.Stage) {
 	__ConcernShape__00000003_ := (&models.ConcernShape{Name: `-Default Diagram`}).Stage(stage)
 	__ConcernShape__00000004_ := (&models.ConcernShape{Name: `-Default Diagram`}).Stage(stage)
 
+	__ControlPointShape__00000000_ := (&models.ControlPointShape{Name: `Control Point Shape in Problem or Opportunity Statement to Opportunity 0`}).Stage(stage)
+	__ControlPointShape__00000001_ := (&models.ControlPointShape{Name: `Control Point Shape in Problem or Opportunity Statement to Problem 0`}).Stage(stage)
+	__ControlPointShape__00000002_ := (&models.ControlPointShape{Name: `Control Point Shape in Mission Analyst to Define Problem or Opportunity Space 0`}).Stage(stage)
+	__ControlPointShape__00000003_ := (&models.ControlPointShape{Name: `Control Point Shape in Lead System Engineer to Map Stakeholders 0`}).Stage(stage)
+	__ControlPointShape__00000004_ := (&models.ControlPointShape{Name: `Control Point Shape in Enterprise Architect to Characterize Solution Space 0`}).Stage(stage)
+	__ControlPointShape__00000005_ := (&models.ControlPointShape{Name: `Control Point Shape in Problem or Opportunity Statement to Opportunity 0`}).Stage(stage)
+
 	__Deliverable__00000000_ := (&models.Deliverable{Name: `Gap Analysis`}).Stage(stage)
 	__Deliverable__00000001_ := (&models.Deliverable{Name: `OpsCon`}).Stage(stage)
 	__Deliverable__00000002_ := (&models.Deliverable{Name: `Mission Requirements`}).Stage(stage)
@@ -199,16 +206,16 @@ func _(stage *models.Stage) {
 
 	__ConceptShape__00000003_.Name = `-Default Diagram`
 	__ConceptShape__00000003_.IsExpanded = false
-	__ConceptShape__00000003_.X = 1250.000000
-	__ConceptShape__00000003_.Y = 250.000000
+	__ConceptShape__00000003_.X = 1248.000000
+	__ConceptShape__00000003_.Y = 231.000000
 	__ConceptShape__00000003_.Width = 250.000000
 	__ConceptShape__00000003_.Height = 70.000000
 	__ConceptShape__00000003_.IsHidden = false
 
 	__ConceptShape__00000004_.Name = `-Default Diagram`
 	__ConceptShape__00000004_.IsExpanded = false
-	__ConceptShape__00000004_.X = 1250.000000
-	__ConceptShape__00000004_.Y = 310.000000
+	__ConceptShape__00000004_.X = 1248.000000
+	__ConceptShape__00000004_.Y = 314.000000
 	__ConceptShape__00000004_.Width = 250.000000
 	__ConceptShape__00000004_.Height = 70.000000
 	__ConceptShape__00000004_.IsHidden = false
@@ -216,7 +223,7 @@ func _(stage *models.Stage) {
 	__ConceptShape__00000005_.Name = `-Default Diagram`
 	__ConceptShape__00000005_.IsExpanded = false
 	__ConceptShape__00000005_.X = 1250.000000
-	__ConceptShape__00000005_.Y = 390.000000
+	__ConceptShape__00000005_.Y = 401.000000
 	__ConceptShape__00000005_.Width = 250.000000
 	__ConceptShape__00000005_.Height = 70.000000
 	__ConceptShape__00000005_.IsHidden = false
@@ -408,6 +415,36 @@ func _(stage *models.Stage) {
 	__ConcernShape__00000004_.Width = 250.000000
 	__ConcernShape__00000004_.Height = 70.000000
 	__ConcernShape__00000004_.IsHidden = false
+
+	__ControlPointShape__00000000_.Name = `Control Point Shape in Problem or Opportunity Statement to Opportunity 0`
+	__ControlPointShape__00000000_.X_Relative = 0.061833
+	__ControlPointShape__00000000_.Y_Relative = 0.647617
+	__ControlPointShape__00000000_.IsStartShapeTheClosestShape = false
+
+	__ControlPointShape__00000001_.Name = `Control Point Shape in Problem or Opportunity Statement to Problem 0`
+	__ControlPointShape__00000001_.X_Relative = -0.306167
+	__ControlPointShape__00000001_.Y_Relative = 0.776189
+	__ControlPointShape__00000001_.IsStartShapeTheClosestShape = false
+
+	__ControlPointShape__00000002_.Name = `Control Point Shape in Mission Analyst to Define Problem or Opportunity Space 0`
+	__ControlPointShape__00000002_.X_Relative = 0.141833
+	__ControlPointShape__00000002_.Y_Relative = 0.361905
+	__ControlPointShape__00000002_.IsStartShapeTheClosestShape = false
+
+	__ControlPointShape__00000003_.Name = `Control Point Shape in Lead System Engineer to Map Stakeholders 0`
+	__ControlPointShape__00000003_.X_Relative = 0.049833
+	__ControlPointShape__00000003_.Y_Relative = 0.747616
+	__ControlPointShape__00000003_.IsStartShapeTheClosestShape = false
+
+	__ControlPointShape__00000004_.Name = `Control Point Shape in Enterprise Architect to Characterize Solution Space 0`
+	__ControlPointShape__00000004_.X_Relative = 0.073833
+	__ControlPointShape__00000004_.Y_Relative = 0.461904
+	__ControlPointShape__00000004_.IsStartShapeTheClosestShape = false
+
+	__ControlPointShape__00000005_.Name = `Control Point Shape in Problem or Opportunity Statement to Opportunity 0`
+	__ControlPointShape__00000005_.X_Relative = 0.085833
+	__ControlPointShape__00000005_.Y_Relative = 0.719046
+	__ControlPointShape__00000005_.IsStartShapeTheClosestShape = false
 
 	__Deliverable__00000000_.Name = `Gap Analysis`
 	__Deliverable__00000000_.ComputedPrefix = `1`
@@ -610,8 +647,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 7300.000000
-	__Diagram__00000000_.Height = 7300.000000
+	__Diagram__00000000_.Width = 11800.000000
+	__Diagram__00000000_.Height = 11800.000000
 	__Diagram__00000000_.IsRequirementsNodeExpanded = false
 	__Diagram__00000000_.IsConceptsNodeExpanded = false
 	__Diagram__00000000_.IsPBSNodeExpanded = true
@@ -622,7 +659,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.Name = ``
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.ComputedPrefix = ``
-	__Library__00000000_.IsExpanded = false
+	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 
@@ -824,6 +861,7 @@ func _(stage *models.Stage) {
 	__DeliverableConceptShape__00000004_.Concept = __Concept__00000005_
 	__DeliverableConceptShape__00000005_.Deliverable = __Deliverable__00000004_
 	__DeliverableConceptShape__00000005_.Concept = __Concept__00000006_
+	__DeliverableConceptShape__00000005_.ControlPointShapes = append(__DeliverableConceptShape__00000005_.ControlPointShapes, __ControlPointShape__00000005_)
 	__DeliverableConceptShape__00000006_.Deliverable = __Deliverable__00000003_
 	__DeliverableConceptShape__00000006_.Concept = __Concept__00000004_
 	__DeliverableConceptShape__00000007_.Deliverable = __Deliverable__00000005_
@@ -931,14 +969,17 @@ func _(stage *models.Stage) {
 	__StakeholderConcernShape__00000000_.Concern = __Concern__00000000_
 	__StakeholderConcernShape__00000001_.Stakeholder = __Stakeholder__00000000_
 	__StakeholderConcernShape__00000001_.Concern = __Concern__00000002_
+	__StakeholderConcernShape__00000001_.ControlPointShapes = append(__StakeholderConcernShape__00000001_.ControlPointShapes, __ControlPointShape__00000002_)
 	__StakeholderConcernShape__00000002_.Stakeholder = __Stakeholder__00000004_
 	__StakeholderConcernShape__00000002_.Concern = __Concern__00000002_
 	__StakeholderConcernShape__00000003_.Stakeholder = __Stakeholder__00000001_
 	__StakeholderConcernShape__00000003_.Concern = __Concern__00000001_
 	__StakeholderConcernShape__00000004_.Stakeholder = __Stakeholder__00000001_
 	__StakeholderConcernShape__00000004_.Concern = __Concern__00000003_
+	__StakeholderConcernShape__00000004_.ControlPointShapes = append(__StakeholderConcernShape__00000004_.ControlPointShapes, __ControlPointShape__00000004_)
 	__StakeholderConcernShape__00000005_.Stakeholder = __Stakeholder__00000002_
 	__StakeholderConcernShape__00000005_.Concern = __Concern__00000001_
+	__StakeholderConcernShape__00000005_.ControlPointShapes = append(__StakeholderConcernShape__00000005_.ControlPointShapes, __ControlPointShape__00000003_)
 	__StakeholderConcernShape__00000006_.Stakeholder = __Stakeholder__00000002_
 	__StakeholderConcernShape__00000006_.Concern = __Concern__00000003_
 	__StakeholderConcernShape__00000007_.Stakeholder = __Stakeholder__00000003_

@@ -40,6 +40,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.ConcernOutputShape](probe)
 	case "ConcernShape":
 		updateProbeTable[*models.ConcernShape](probe)
+	case "ControlPointShape":
+		updateProbeTable[*models.ControlPointShape](probe)
 	case "Deliverable":
 		updateProbeTable[*models.Deliverable](probe)
 	case "DeliverableCompositionShape":

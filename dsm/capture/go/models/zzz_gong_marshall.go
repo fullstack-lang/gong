@@ -433,6 +433,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(concerncompositionshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(concerncompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(concerncompositionshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(concerncompositionshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 
 	concerninputshapeOrdered := []*ConcernInputShape{}
@@ -467,6 +468,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(concerninputshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(concerninputshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(concerninputshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(concerninputshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 
 	concernoutputshapeOrdered := []*ConcernOutputShape{}
@@ -501,6 +503,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(concernoutputshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(concernoutputshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(concernoutputshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(concernoutputshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 
 	concernshapeOrdered := []*ConcernShape{}
@@ -534,6 +537,35 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(concernshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(concernshape.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(concernshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	controlpointshapeOrdered := []*ControlPointShape{}
+	for controlpointshape := range stage.ControlPointShapes {
+		controlpointshapeOrdered = append(controlpointshapeOrdered, controlpointshape)
+	}
+	sort.Slice(controlpointshapeOrdered[:], func(i, j int) bool {
+		controlpointshapei := controlpointshapeOrdered[i]
+		controlpointshapej := controlpointshapeOrdered[j]
+		controlpointshapei_order, oki := stage.ControlPointShape_stagedOrder[controlpointshapei]
+		controlpointshapej_order, okj := stage.ControlPointShape_stagedOrder[controlpointshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return controlpointshapei_order < controlpointshapej_order
+	})
+	if len(controlpointshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, controlpointshape := range controlpointshapeOrdered {
+
+		identifiersDecl.WriteString(controlpointshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "X_Relative"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "Y_Relative"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "IsStartShapeTheClosestShape"))
 	}
 
 	deliverableOrdered := []*Deliverable{}
@@ -601,6 +633,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(deliverablecompositionshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(deliverablecompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(deliverablecompositionshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(deliverablecompositionshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 
 	deliverableconceptshapeOrdered := []*DeliverableConceptShape{}
@@ -635,6 +668,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(deliverableconceptshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(deliverableconceptshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(deliverableconceptshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(deliverableconceptshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 
 	deliverableshapeOrdered := []*DeliverableShape{}
@@ -844,6 +878,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(notedeliverableshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(notedeliverableshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(notedeliverableshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(notedeliverableshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 
 	noteshapeOrdered := []*NoteShape{}
@@ -911,6 +946,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(notestakeholdershape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(notestakeholdershape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(notestakeholdershape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(notestakeholdershape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 
 	notetaskshapeOrdered := []*NoteTaskShape{}
@@ -945,6 +981,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(notetaskshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(notetaskshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(notetaskshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(notetaskshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 
 	requirementOrdered := []*Requirement{}
@@ -1075,6 +1112,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(stakeholdercompositionshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(stakeholdercompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(stakeholdercompositionshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(stakeholdercompositionshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 
 	stakeholderconcernshapeOrdered := []*StakeholderConcernShape{}
@@ -1109,6 +1147,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(stakeholderconcernshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(stakeholderconcernshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(stakeholderconcernshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(stakeholderconcernshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 
 	stakeholdershapeOrdered := []*StakeholderShape{}
@@ -1256,6 +1295,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, concernshape := range concernshapeOrdered {
 		_ = concernshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, controlpointshape := range controlpointshapeOrdered {
+		_ = controlpointshape
 		var setPointerField string
 		_ = setPointerField
 
@@ -1809,6 +1856,16 @@ func (concerncompositionshape *ConcernCompositionShape) GongMarshallField(stage 
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Concern")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "ControlPointShapes":
+		var sb strings.Builder
+		for _, _controlpointshape := range concerncompositionshape.ControlPointShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", concerncompositionshape.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlPointShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlpointshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ConcernCompositionShape", fieldName)
 	}
@@ -1896,6 +1953,16 @@ func (concerninputshape *ConcernInputShape) GongMarshallField(stage *Stage, fiel
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Concern")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "ControlPointShapes":
+		var sb strings.Builder
+		for _, _controlpointshape := range concerninputshape.ControlPointShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", concerninputshape.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlPointShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlpointshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ConcernInputShape", fieldName)
 	}
@@ -1983,6 +2050,16 @@ func (concernoutputshape *ConcernOutputShape) GongMarshallField(stage *Stage, fi
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Deliverable")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "ControlPointShapes":
+		var sb strings.Builder
+		for _, _controlpointshape := range concernoutputshape.ControlPointShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", concernoutputshape.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlPointShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlpointshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ConcernOutputShape", fieldName)
 	}
@@ -2043,6 +2120,36 @@ func (concernshape *ConcernShape) GongMarshallField(stage *Stage, fieldName stri
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct ConcernShape", fieldName)
+	}
+	return
+}
+
+func (controlpointshape *ControlPointShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", controlpointshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(controlpointshape.Name))
+	case "X_Relative":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", controlpointshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X_Relative")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", controlpointshape.X_Relative))
+	case "Y_Relative":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", controlpointshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y_Relative")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", controlpointshape.Y_Relative))
+	case "IsStartShapeTheClosestShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", controlpointshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsStartShapeTheClosestShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", controlpointshape.IsStartShapeTheClosestShape))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ControlPointShape", fieldName)
 	}
 	return
 }
@@ -2188,6 +2295,16 @@ func (deliverablecompositionshape *DeliverableCompositionShape) GongMarshallFiel
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Deliverable")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "ControlPointShapes":
+		var sb strings.Builder
+		for _, _controlpointshape := range deliverablecompositionshape.ControlPointShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", deliverablecompositionshape.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlPointShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlpointshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DeliverableCompositionShape", fieldName)
 	}
@@ -2275,6 +2392,16 @@ func (deliverableconceptshape *DeliverableConceptShape) GongMarshallField(stage 
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Concept")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "ControlPointShapes":
+		var sb strings.Builder
+		for _, _controlpointshape := range deliverableconceptshape.ControlPointShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", deliverableconceptshape.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlPointShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlpointshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DeliverableConceptShape", fieldName)
 	}
@@ -3009,6 +3136,16 @@ func (notedeliverableshape *NoteDeliverableShape) GongMarshallField(stage *Stage
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Deliverable")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "ControlPointShapes":
+		var sb strings.Builder
+		for _, _controlpointshape := range notedeliverableshape.ControlPointShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", notedeliverableshape.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlPointShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlpointshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct NoteDeliverableShape", fieldName)
 	}
@@ -3154,6 +3291,16 @@ func (notestakeholdershape *NoteStakeholderShape) GongMarshallField(stage *Stage
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stakeholder")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "ControlPointShapes":
+		var sb strings.Builder
+		for _, _controlpointshape := range notestakeholdershape.ControlPointShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", notestakeholdershape.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlPointShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlpointshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct NoteStakeholderShape", fieldName)
 	}
@@ -3241,6 +3388,16 @@ func (notetaskshape *NoteTaskShape) GongMarshallField(stage *Stage, fieldName st
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "ControlPointShapes":
+		var sb strings.Builder
+		for _, _controlpointshape := range notetaskshape.ControlPointShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlPointShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlpointshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct NoteTaskShape", fieldName)
 	}
@@ -3499,6 +3656,16 @@ func (stakeholdercompositionshape *StakeholderCompositionShape) GongMarshallFiel
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stakeholder")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "ControlPointShapes":
+		var sb strings.Builder
+		for _, _controlpointshape := range stakeholdercompositionshape.ControlPointShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", stakeholdercompositionshape.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlPointShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlpointshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StakeholderCompositionShape", fieldName)
 	}
@@ -3586,6 +3753,16 @@ func (stakeholderconcernshape *StakeholderConcernShape) GongMarshallField(stage 
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Concern")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "ControlPointShapes":
+		var sb strings.Builder
+		for _, _controlpointshape := range stakeholderconcernshape.ControlPointShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", stakeholderconcernshape.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlPointShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlpointshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StakeholderConcernShape", fieldName)
 	}
@@ -3779,6 +3956,7 @@ func (concerncompositionshape *ConcernCompositionShape) GongMarshallAllFields(st
 		initializerStatements.WriteString(concerncompositionshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(concerncompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(concerncompositionshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(concerncompositionshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3798,6 +3976,7 @@ func (concerninputshape *ConcernInputShape) GongMarshallAllFields(stage *Stage) 
 		initializerStatements.WriteString(concerninputshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(concerninputshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(concerninputshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(concerninputshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3817,6 +3996,7 @@ func (concernoutputshape *ConcernOutputShape) GongMarshallAllFields(stage *Stage
 		initializerStatements.WriteString(concernoutputshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(concernoutputshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(concernoutputshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(concernoutputshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3835,6 +4015,20 @@ func (concernshape *ConcernShape) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(concernshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(concernshape.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(concernshape.GongMarshallField(stage, "IsHidden"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (controlpointshape *ControlPointShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "X_Relative"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "Y_Relative"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "IsStartShapeTheClosestShape"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3872,6 +4066,7 @@ func (deliverablecompositionshape *DeliverableCompositionShape) GongMarshallAllF
 		initializerStatements.WriteString(deliverablecompositionshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(deliverablecompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(deliverablecompositionshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(deliverablecompositionshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3891,6 +4086,7 @@ func (deliverableconceptshape *DeliverableConceptShape) GongMarshallAllFields(st
 		initializerStatements.WriteString(deliverableconceptshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(deliverableconceptshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(deliverableconceptshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(deliverableconceptshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -4025,6 +4221,7 @@ func (notedeliverableshape *NoteDeliverableShape) GongMarshallAllFields(stage *S
 		initializerStatements.WriteString(notedeliverableshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(notedeliverableshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(notedeliverableshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(notedeliverableshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -4062,6 +4259,7 @@ func (notestakeholdershape *NoteStakeholderShape) GongMarshallAllFields(stage *S
 		initializerStatements.WriteString(notestakeholdershape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(notestakeholdershape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(notestakeholdershape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(notestakeholdershape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -4081,6 +4279,7 @@ func (notetaskshape *NoteTaskShape) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(notetaskshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(notetaskshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(notetaskshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(notetaskshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -4151,6 +4350,7 @@ func (stakeholdercompositionshape *StakeholderCompositionShape) GongMarshallAllF
 		initializerStatements.WriteString(stakeholdercompositionshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(stakeholdercompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(stakeholdercompositionshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(stakeholdercompositionshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -4170,6 +4370,7 @@ func (stakeholderconcernshape *StakeholderConcernShape) GongMarshallAllFields(st
 		initializerStatements.WriteString(stakeholderconcernshape.GongMarshallField(stage, "EndOrientation"))
 		initializerStatements.WriteString(stakeholderconcernshape.GongMarshallField(stage, "CornerOffsetRatio"))
 		initializerStatements.WriteString(stakeholderconcernshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(stakeholderconcernshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -293,6 +293,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationSliceToForm("ControlPointShapes", instanceWithInferedType, &instanceWithInferedType.ControlPointShapes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -326,6 +327,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationSliceToForm("ControlPointShapes", instanceWithInferedType, &instanceWithInferedType.ControlPointShapes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -359,6 +361,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationSliceToForm("ControlPointShapes", instanceWithInferedType, &instanceWithInferedType.ControlPointShapes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -407,6 +410,132 @@ func FillUpForm(
 				probe,
 				func(owner *models.Diagram) []*models.ConcernShape {
 					return owner.Concern_Shapes
+				})
+		}
+
+	case *models.ControlPointShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("X_Relative", instanceWithInferedType.X_Relative, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Y_Relative", instanceWithInferedType.Y_Relative, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsStartShapeTheClosestShape", instanceWithInferedType.IsStartShapeTheClosestShape, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.ConcernCompositionShape, *models.ControlPointShape](
+				"ConcernCompositionShape",
+				"ControlPointShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.ConcernCompositionShape) []*models.ControlPointShape {
+					return owner.ControlPointShapes
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.ConcernInputShape, *models.ControlPointShape](
+				"ConcernInputShape",
+				"ControlPointShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.ConcernInputShape) []*models.ControlPointShape {
+					return owner.ControlPointShapes
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.ConcernOutputShape, *models.ControlPointShape](
+				"ConcernOutputShape",
+				"ControlPointShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.ConcernOutputShape) []*models.ControlPointShape {
+					return owner.ControlPointShapes
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.DeliverableCompositionShape, *models.ControlPointShape](
+				"DeliverableCompositionShape",
+				"ControlPointShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.DeliverableCompositionShape) []*models.ControlPointShape {
+					return owner.ControlPointShapes
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.DeliverableConceptShape, *models.ControlPointShape](
+				"DeliverableConceptShape",
+				"ControlPointShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.DeliverableConceptShape) []*models.ControlPointShape {
+					return owner.ControlPointShapes
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.NoteDeliverableShape, *models.ControlPointShape](
+				"NoteDeliverableShape",
+				"ControlPointShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.NoteDeliverableShape) []*models.ControlPointShape {
+					return owner.ControlPointShapes
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.NoteStakeholderShape, *models.ControlPointShape](
+				"NoteStakeholderShape",
+				"ControlPointShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.NoteStakeholderShape) []*models.ControlPointShape {
+					return owner.ControlPointShapes
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.NoteTaskShape, *models.ControlPointShape](
+				"NoteTaskShape",
+				"ControlPointShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.NoteTaskShape) []*models.ControlPointShape {
+					return owner.ControlPointShapes
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.StakeholderCompositionShape, *models.ControlPointShape](
+				"StakeholderCompositionShape",
+				"ControlPointShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.StakeholderCompositionShape) []*models.ControlPointShape {
+					return owner.ControlPointShapes
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.StakeholderConcernShape, *models.ControlPointShape](
+				"StakeholderConcernShape",
+				"ControlPointShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.StakeholderConcernShape) []*models.ControlPointShape {
+					return owner.ControlPointShapes
 				})
 		}
 
@@ -525,6 +654,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationSliceToForm("ControlPointShapes", instanceWithInferedType, &instanceWithInferedType.ControlPointShapes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -558,6 +688,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationSliceToForm("ControlPointShapes", instanceWithInferedType, &instanceWithInferedType.ControlPointShapes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -784,6 +915,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationSliceToForm("ControlPointShapes", instanceWithInferedType, &instanceWithInferedType.ControlPointShapes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -851,6 +983,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationSliceToForm("ControlPointShapes", instanceWithInferedType, &instanceWithInferedType.ControlPointShapes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -884,6 +1017,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationSliceToForm("ControlPointShapes", instanceWithInferedType, &instanceWithInferedType.ControlPointShapes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -1065,6 +1199,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationSliceToForm("ControlPointShapes", instanceWithInferedType, &instanceWithInferedType.ControlPointShapes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -1098,6 +1233,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationSliceToForm("ControlPointShapes", instanceWithInferedType, &instanceWithInferedType.ControlPointShapes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

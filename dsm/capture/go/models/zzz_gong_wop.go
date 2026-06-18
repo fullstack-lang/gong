@@ -235,6 +235,26 @@ func (from *ConcernShape) CopyBasicFields(to *ConcernShape) {
 	to.IsHidden = from.IsHidden
 }
 
+type ControlPointShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	X_Relative float64
+
+	Y_Relative float64
+
+	IsStartShapeTheClosestShape bool
+}
+
+func (from *ControlPointShape) CopyBasicFields(to *ControlPointShape) {
+	// insertion point
+	to.Name = from.Name
+	to.X_Relative = from.X_Relative
+	to.Y_Relative = from.Y_Relative
+	to.IsStartShapeTheClosestShape = from.IsStartShapeTheClosestShape
+}
+
 type Deliverable_WOP struct {
 	// insertion point
 

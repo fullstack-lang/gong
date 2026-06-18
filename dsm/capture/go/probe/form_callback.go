@@ -1318,6 +1318,38 @@ func (concerncompositionshapeFormCallback *ConcernCompositionShapeFormCallback) 
 			FormDivBasicFieldToField(&(concerncompositionshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(concerncompositionshape_.IsHidden), formDiv)
+		case "ControlPointShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPointShape](concerncompositionshapeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ControlPointShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ControlPointShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					concerncompositionshapeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ControlPointShape](concerncompositionshapeFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			concerncompositionshape_.ControlPointShapes = instanceSlice
+			concerncompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(concerncompositionshape_, "ControlPointShapes", &concerncompositionshape_.ControlPointShapes)
+
 		case "Diagram:ConcernComposition_Shapes":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -1457,6 +1489,38 @@ func (concerninputshapeFormCallback *ConcernInputShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(concerninputshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(concerninputshape_.IsHidden), formDiv)
+		case "ControlPointShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPointShape](concerninputshapeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ControlPointShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ControlPointShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					concerninputshapeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ControlPointShape](concerninputshapeFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			concerninputshape_.ControlPointShapes = instanceSlice
+			concerninputshapeFormCallback.probe.UpdateSliceOfPointersCallback(concerninputshape_, "ControlPointShapes", &concerninputshape_.ControlPointShapes)
+
 		case "Diagram:ConcernInputShapes":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -1596,6 +1660,38 @@ func (concernoutputshapeFormCallback *ConcernOutputShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(concernoutputshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(concernoutputshape_.IsHidden), formDiv)
+		case "ControlPointShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPointShape](concernoutputshapeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ControlPointShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ControlPointShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					concernoutputshapeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ControlPointShape](concernoutputshapeFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			concernoutputshape_.ControlPointShapes = instanceSlice
+			concernoutputshapeFormCallback.probe.UpdateSliceOfPointersCallback(concernoutputshape_, "ControlPointShapes", &concernoutputshape_.ControlPointShapes)
+
 		case "Diagram:ConcernOutputShapes":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -1808,6 +1904,540 @@ func (concernshapeFormCallback *ConcernShapeFormCallback) OnSave() {
 	}
 
 	concernshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__ControlPointShapeFormCallback(
+	controlpointshape *models.ControlPointShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (controlpointshapeFormCallback *ControlPointShapeFormCallback) {
+	controlpointshapeFormCallback = new(ControlPointShapeFormCallback)
+	controlpointshapeFormCallback.probe = probe
+	controlpointshapeFormCallback.controlpointshape = controlpointshape
+	controlpointshapeFormCallback.formGroup = formGroup
+
+	controlpointshapeFormCallback.CreationMode = (controlpointshape == nil)
+
+	return
+}
+
+type ControlPointShapeFormCallback struct {
+	controlpointshape *models.ControlPointShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (controlpointshapeFormCallback *ControlPointShapeFormCallback) OnSave() {
+	controlpointshapeFormCallback.probe.stageOfInterest.Lock()
+	defer controlpointshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ControlPointShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	controlpointshapeFormCallback.probe.formStage.Checkout()
+
+	if controlpointshapeFormCallback.controlpointshape == nil {
+		controlpointshapeFormCallback.controlpointshape = new(models.ControlPointShape).Stage(controlpointshapeFormCallback.probe.stageOfInterest)
+	}
+	controlpointshape_ := controlpointshapeFormCallback.controlpointshape
+	_ = controlpointshape_
+
+	for _, formDiv := range controlpointshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(controlpointshape_.Name), formDiv)
+		case "X_Relative":
+			FormDivBasicFieldToField(&(controlpointshape_.X_Relative), formDiv)
+		case "Y_Relative":
+			FormDivBasicFieldToField(&(controlpointshape_.Y_Relative), formDiv)
+		case "IsStartShapeTheClosestShape":
+			FormDivBasicFieldToField(&(controlpointshape_.IsStartShapeTheClosestShape), formDiv)
+		case "ConcernCompositionShape:ControlPointShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the ConcernCompositionShape instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target ConcernCompositionShape instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.ConcernCompositionShape](controlpointshapeFormCallback.probe.stageOfInterest)
+			targetConcernCompositionShapeIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetConcernCompositionShapeIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all ConcernCompositionShape instances and update their ControlPointShapes slice
+			for _concerncompositionshape := range *models.GetGongstructInstancesSetFromPointerType[*models.ConcernCompositionShape](controlpointshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(controlpointshapeFormCallback.probe.stageOfInterest, _concerncompositionshape)
+				
+				// if ConcernCompositionShape is selected
+				if targetConcernCompositionShapeIDs[id] {
+					// ensure controlpointshape_ is in _concerncompositionshape.ControlPointShapes
+					found := false
+					for _, _b := range _concerncompositionshape.ControlPointShapes {
+						if _b == controlpointshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_concerncompositionshape.ControlPointShapes = append(_concerncompositionshape.ControlPointShapes, controlpointshape_)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_concerncompositionshape, "ControlPointShapes", &_concerncompositionshape.ControlPointShapes)
+					}
+				} else {
+					// ensure controlpointshape_ is NOT in _concerncompositionshape.ControlPointShapes
+					idx := slices.Index(_concerncompositionshape.ControlPointShapes, controlpointshape_)
+					if idx != -1 {
+						_concerncompositionshape.ControlPointShapes = slices.Delete(_concerncompositionshape.ControlPointShapes, idx, idx+1)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_concerncompositionshape, "ControlPointShapes", &_concerncompositionshape.ControlPointShapes)
+					}
+				}
+			}
+		case "ConcernInputShape:ControlPointShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the ConcernInputShape instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target ConcernInputShape instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.ConcernInputShape](controlpointshapeFormCallback.probe.stageOfInterest)
+			targetConcernInputShapeIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetConcernInputShapeIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all ConcernInputShape instances and update their ControlPointShapes slice
+			for _concerninputshape := range *models.GetGongstructInstancesSetFromPointerType[*models.ConcernInputShape](controlpointshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(controlpointshapeFormCallback.probe.stageOfInterest, _concerninputshape)
+				
+				// if ConcernInputShape is selected
+				if targetConcernInputShapeIDs[id] {
+					// ensure controlpointshape_ is in _concerninputshape.ControlPointShapes
+					found := false
+					for _, _b := range _concerninputshape.ControlPointShapes {
+						if _b == controlpointshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_concerninputshape.ControlPointShapes = append(_concerninputshape.ControlPointShapes, controlpointshape_)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_concerninputshape, "ControlPointShapes", &_concerninputshape.ControlPointShapes)
+					}
+				} else {
+					// ensure controlpointshape_ is NOT in _concerninputshape.ControlPointShapes
+					idx := slices.Index(_concerninputshape.ControlPointShapes, controlpointshape_)
+					if idx != -1 {
+						_concerninputshape.ControlPointShapes = slices.Delete(_concerninputshape.ControlPointShapes, idx, idx+1)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_concerninputshape, "ControlPointShapes", &_concerninputshape.ControlPointShapes)
+					}
+				}
+			}
+		case "ConcernOutputShape:ControlPointShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the ConcernOutputShape instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target ConcernOutputShape instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.ConcernOutputShape](controlpointshapeFormCallback.probe.stageOfInterest)
+			targetConcernOutputShapeIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetConcernOutputShapeIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all ConcernOutputShape instances and update their ControlPointShapes slice
+			for _concernoutputshape := range *models.GetGongstructInstancesSetFromPointerType[*models.ConcernOutputShape](controlpointshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(controlpointshapeFormCallback.probe.stageOfInterest, _concernoutputshape)
+				
+				// if ConcernOutputShape is selected
+				if targetConcernOutputShapeIDs[id] {
+					// ensure controlpointshape_ is in _concernoutputshape.ControlPointShapes
+					found := false
+					for _, _b := range _concernoutputshape.ControlPointShapes {
+						if _b == controlpointshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_concernoutputshape.ControlPointShapes = append(_concernoutputshape.ControlPointShapes, controlpointshape_)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_concernoutputshape, "ControlPointShapes", &_concernoutputshape.ControlPointShapes)
+					}
+				} else {
+					// ensure controlpointshape_ is NOT in _concernoutputshape.ControlPointShapes
+					idx := slices.Index(_concernoutputshape.ControlPointShapes, controlpointshape_)
+					if idx != -1 {
+						_concernoutputshape.ControlPointShapes = slices.Delete(_concernoutputshape.ControlPointShapes, idx, idx+1)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_concernoutputshape, "ControlPointShapes", &_concernoutputshape.ControlPointShapes)
+					}
+				}
+			}
+		case "DeliverableCompositionShape:ControlPointShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DeliverableCompositionShape instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target DeliverableCompositionShape instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DeliverableCompositionShape](controlpointshapeFormCallback.probe.stageOfInterest)
+			targetDeliverableCompositionShapeIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDeliverableCompositionShapeIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all DeliverableCompositionShape instances and update their ControlPointShapes slice
+			for _deliverablecompositionshape := range *models.GetGongstructInstancesSetFromPointerType[*models.DeliverableCompositionShape](controlpointshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(controlpointshapeFormCallback.probe.stageOfInterest, _deliverablecompositionshape)
+				
+				// if DeliverableCompositionShape is selected
+				if targetDeliverableCompositionShapeIDs[id] {
+					// ensure controlpointshape_ is in _deliverablecompositionshape.ControlPointShapes
+					found := false
+					for _, _b := range _deliverablecompositionshape.ControlPointShapes {
+						if _b == controlpointshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_deliverablecompositionshape.ControlPointShapes = append(_deliverablecompositionshape.ControlPointShapes, controlpointshape_)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_deliverablecompositionshape, "ControlPointShapes", &_deliverablecompositionshape.ControlPointShapes)
+					}
+				} else {
+					// ensure controlpointshape_ is NOT in _deliverablecompositionshape.ControlPointShapes
+					idx := slices.Index(_deliverablecompositionshape.ControlPointShapes, controlpointshape_)
+					if idx != -1 {
+						_deliverablecompositionshape.ControlPointShapes = slices.Delete(_deliverablecompositionshape.ControlPointShapes, idx, idx+1)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_deliverablecompositionshape, "ControlPointShapes", &_deliverablecompositionshape.ControlPointShapes)
+					}
+				}
+			}
+		case "DeliverableConceptShape:ControlPointShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DeliverableConceptShape instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target DeliverableConceptShape instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DeliverableConceptShape](controlpointshapeFormCallback.probe.stageOfInterest)
+			targetDeliverableConceptShapeIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDeliverableConceptShapeIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all DeliverableConceptShape instances and update their ControlPointShapes slice
+			for _deliverableconceptshape := range *models.GetGongstructInstancesSetFromPointerType[*models.DeliverableConceptShape](controlpointshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(controlpointshapeFormCallback.probe.stageOfInterest, _deliverableconceptshape)
+				
+				// if DeliverableConceptShape is selected
+				if targetDeliverableConceptShapeIDs[id] {
+					// ensure controlpointshape_ is in _deliverableconceptshape.ControlPointShapes
+					found := false
+					for _, _b := range _deliverableconceptshape.ControlPointShapes {
+						if _b == controlpointshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_deliverableconceptshape.ControlPointShapes = append(_deliverableconceptshape.ControlPointShapes, controlpointshape_)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_deliverableconceptshape, "ControlPointShapes", &_deliverableconceptshape.ControlPointShapes)
+					}
+				} else {
+					// ensure controlpointshape_ is NOT in _deliverableconceptshape.ControlPointShapes
+					idx := slices.Index(_deliverableconceptshape.ControlPointShapes, controlpointshape_)
+					if idx != -1 {
+						_deliverableconceptshape.ControlPointShapes = slices.Delete(_deliverableconceptshape.ControlPointShapes, idx, idx+1)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_deliverableconceptshape, "ControlPointShapes", &_deliverableconceptshape.ControlPointShapes)
+					}
+				}
+			}
+		case "NoteDeliverableShape:ControlPointShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the NoteDeliverableShape instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target NoteDeliverableShape instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.NoteDeliverableShape](controlpointshapeFormCallback.probe.stageOfInterest)
+			targetNoteDeliverableShapeIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetNoteDeliverableShapeIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all NoteDeliverableShape instances and update their ControlPointShapes slice
+			for _notedeliverableshape := range *models.GetGongstructInstancesSetFromPointerType[*models.NoteDeliverableShape](controlpointshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(controlpointshapeFormCallback.probe.stageOfInterest, _notedeliverableshape)
+				
+				// if NoteDeliverableShape is selected
+				if targetNoteDeliverableShapeIDs[id] {
+					// ensure controlpointshape_ is in _notedeliverableshape.ControlPointShapes
+					found := false
+					for _, _b := range _notedeliverableshape.ControlPointShapes {
+						if _b == controlpointshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_notedeliverableshape.ControlPointShapes = append(_notedeliverableshape.ControlPointShapes, controlpointshape_)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_notedeliverableshape, "ControlPointShapes", &_notedeliverableshape.ControlPointShapes)
+					}
+				} else {
+					// ensure controlpointshape_ is NOT in _notedeliverableshape.ControlPointShapes
+					idx := slices.Index(_notedeliverableshape.ControlPointShapes, controlpointshape_)
+					if idx != -1 {
+						_notedeliverableshape.ControlPointShapes = slices.Delete(_notedeliverableshape.ControlPointShapes, idx, idx+1)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_notedeliverableshape, "ControlPointShapes", &_notedeliverableshape.ControlPointShapes)
+					}
+				}
+			}
+		case "NoteStakeholderShape:ControlPointShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the NoteStakeholderShape instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target NoteStakeholderShape instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.NoteStakeholderShape](controlpointshapeFormCallback.probe.stageOfInterest)
+			targetNoteStakeholderShapeIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetNoteStakeholderShapeIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all NoteStakeholderShape instances and update their ControlPointShapes slice
+			for _notestakeholdershape := range *models.GetGongstructInstancesSetFromPointerType[*models.NoteStakeholderShape](controlpointshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(controlpointshapeFormCallback.probe.stageOfInterest, _notestakeholdershape)
+				
+				// if NoteStakeholderShape is selected
+				if targetNoteStakeholderShapeIDs[id] {
+					// ensure controlpointshape_ is in _notestakeholdershape.ControlPointShapes
+					found := false
+					for _, _b := range _notestakeholdershape.ControlPointShapes {
+						if _b == controlpointshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_notestakeholdershape.ControlPointShapes = append(_notestakeholdershape.ControlPointShapes, controlpointshape_)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_notestakeholdershape, "ControlPointShapes", &_notestakeholdershape.ControlPointShapes)
+					}
+				} else {
+					// ensure controlpointshape_ is NOT in _notestakeholdershape.ControlPointShapes
+					idx := slices.Index(_notestakeholdershape.ControlPointShapes, controlpointshape_)
+					if idx != -1 {
+						_notestakeholdershape.ControlPointShapes = slices.Delete(_notestakeholdershape.ControlPointShapes, idx, idx+1)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_notestakeholdershape, "ControlPointShapes", &_notestakeholdershape.ControlPointShapes)
+					}
+				}
+			}
+		case "NoteTaskShape:ControlPointShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the NoteTaskShape instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target NoteTaskShape instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.NoteTaskShape](controlpointshapeFormCallback.probe.stageOfInterest)
+			targetNoteTaskShapeIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetNoteTaskShapeIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all NoteTaskShape instances and update their ControlPointShapes slice
+			for _notetaskshape := range *models.GetGongstructInstancesSetFromPointerType[*models.NoteTaskShape](controlpointshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(controlpointshapeFormCallback.probe.stageOfInterest, _notetaskshape)
+				
+				// if NoteTaskShape is selected
+				if targetNoteTaskShapeIDs[id] {
+					// ensure controlpointshape_ is in _notetaskshape.ControlPointShapes
+					found := false
+					for _, _b := range _notetaskshape.ControlPointShapes {
+						if _b == controlpointshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_notetaskshape.ControlPointShapes = append(_notetaskshape.ControlPointShapes, controlpointshape_)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_notetaskshape, "ControlPointShapes", &_notetaskshape.ControlPointShapes)
+					}
+				} else {
+					// ensure controlpointshape_ is NOT in _notetaskshape.ControlPointShapes
+					idx := slices.Index(_notetaskshape.ControlPointShapes, controlpointshape_)
+					if idx != -1 {
+						_notetaskshape.ControlPointShapes = slices.Delete(_notetaskshape.ControlPointShapes, idx, idx+1)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_notetaskshape, "ControlPointShapes", &_notetaskshape.ControlPointShapes)
+					}
+				}
+			}
+		case "StakeholderCompositionShape:ControlPointShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the StakeholderCompositionShape instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target StakeholderCompositionShape instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.StakeholderCompositionShape](controlpointshapeFormCallback.probe.stageOfInterest)
+			targetStakeholderCompositionShapeIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetStakeholderCompositionShapeIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all StakeholderCompositionShape instances and update their ControlPointShapes slice
+			for _stakeholdercompositionshape := range *models.GetGongstructInstancesSetFromPointerType[*models.StakeholderCompositionShape](controlpointshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(controlpointshapeFormCallback.probe.stageOfInterest, _stakeholdercompositionshape)
+				
+				// if StakeholderCompositionShape is selected
+				if targetStakeholderCompositionShapeIDs[id] {
+					// ensure controlpointshape_ is in _stakeholdercompositionshape.ControlPointShapes
+					found := false
+					for _, _b := range _stakeholdercompositionshape.ControlPointShapes {
+						if _b == controlpointshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_stakeholdercompositionshape.ControlPointShapes = append(_stakeholdercompositionshape.ControlPointShapes, controlpointshape_)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_stakeholdercompositionshape, "ControlPointShapes", &_stakeholdercompositionshape.ControlPointShapes)
+					}
+				} else {
+					// ensure controlpointshape_ is NOT in _stakeholdercompositionshape.ControlPointShapes
+					idx := slices.Index(_stakeholdercompositionshape.ControlPointShapes, controlpointshape_)
+					if idx != -1 {
+						_stakeholdercompositionshape.ControlPointShapes = slices.Delete(_stakeholdercompositionshape.ControlPointShapes, idx, idx+1)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_stakeholdercompositionshape, "ControlPointShapes", &_stakeholdercompositionshape.ControlPointShapes)
+					}
+				}
+			}
+		case "StakeholderConcernShape:ControlPointShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the StakeholderConcernShape instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target StakeholderConcernShape instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.StakeholderConcernShape](controlpointshapeFormCallback.probe.stageOfInterest)
+			targetStakeholderConcernShapeIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetStakeholderConcernShapeIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all StakeholderConcernShape instances and update their ControlPointShapes slice
+			for _stakeholderconcernshape := range *models.GetGongstructInstancesSetFromPointerType[*models.StakeholderConcernShape](controlpointshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(controlpointshapeFormCallback.probe.stageOfInterest, _stakeholderconcernshape)
+				
+				// if StakeholderConcernShape is selected
+				if targetStakeholderConcernShapeIDs[id] {
+					// ensure controlpointshape_ is in _stakeholderconcernshape.ControlPointShapes
+					found := false
+					for _, _b := range _stakeholderconcernshape.ControlPointShapes {
+						if _b == controlpointshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_stakeholderconcernshape.ControlPointShapes = append(_stakeholderconcernshape.ControlPointShapes, controlpointshape_)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_stakeholderconcernshape, "ControlPointShapes", &_stakeholderconcernshape.ControlPointShapes)
+					}
+				} else {
+					// ensure controlpointshape_ is NOT in _stakeholderconcernshape.ControlPointShapes
+					idx := slices.Index(_stakeholderconcernshape.ControlPointShapes, controlpointshape_)
+					if idx != -1 {
+						_stakeholderconcernshape.ControlPointShapes = slices.Delete(_stakeholderconcernshape.ControlPointShapes, idx, idx+1)
+						controlpointshapeFormCallback.probe.UpdateSliceOfPointersCallback(_stakeholderconcernshape, "ControlPointShapes", &_stakeholderconcernshape.ControlPointShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if controlpointshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		controlpointshape_.Unstage(controlpointshapeFormCallback.probe.stageOfInterest)
+	}
+
+	controlpointshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ControlPointShape](
+		controlpointshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if controlpointshapeFormCallback.CreationMode || controlpointshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		controlpointshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(controlpointshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ControlPointShapeFormCallback(
+			nil,
+			controlpointshapeFormCallback.probe,
+			newFormGroup,
+		)
+		controlpointshape := new(models.ControlPointShape)
+		FillUpForm(controlpointshape, newFormGroup, controlpointshapeFormCallback.probe)
+		controlpointshapeFormCallback.probe.formStage.Commit()
+	}
+
+	controlpointshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__DeliverableFormCallback(
 	deliverable *models.Deliverable,
@@ -2339,6 +2969,38 @@ func (deliverablecompositionshapeFormCallback *DeliverableCompositionShapeFormCa
 			FormDivBasicFieldToField(&(deliverablecompositionshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(deliverablecompositionshape_.IsHidden), formDiv)
+		case "ControlPointShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPointShape](deliverablecompositionshapeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ControlPointShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ControlPointShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					deliverablecompositionshapeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ControlPointShape](deliverablecompositionshapeFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			deliverablecompositionshape_.ControlPointShapes = instanceSlice
+			deliverablecompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(deliverablecompositionshape_, "ControlPointShapes", &deliverablecompositionshape_.ControlPointShapes)
+
 		case "Diagram:DeliverableComposition_Shapes":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -2478,6 +3140,38 @@ func (deliverableconceptshapeFormCallback *DeliverableConceptShapeFormCallback) 
 			FormDivBasicFieldToField(&(deliverableconceptshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(deliverableconceptshape_.IsHidden), formDiv)
+		case "ControlPointShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPointShape](deliverableconceptshapeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ControlPointShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ControlPointShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					deliverableconceptshapeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ControlPointShape](deliverableconceptshapeFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			deliverableconceptshape_.ControlPointShapes = instanceSlice
+			deliverableconceptshapeFormCallback.probe.UpdateSliceOfPointersCallback(deliverableconceptshape_, "ControlPointShapes", &deliverableconceptshape_.ControlPointShapes)
+
 		case "Diagram:DeliverableConceptShapes":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -4496,6 +5190,38 @@ func (notedeliverableshapeFormCallback *NoteDeliverableShapeFormCallback) OnSave
 			FormDivBasicFieldToField(&(notedeliverableshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(notedeliverableshape_.IsHidden), formDiv)
+		case "ControlPointShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPointShape](notedeliverableshapeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ControlPointShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ControlPointShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					notedeliverableshapeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ControlPointShape](notedeliverableshapeFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			notedeliverableshape_.ControlPointShapes = instanceSlice
+			notedeliverableshapeFormCallback.probe.UpdateSliceOfPointersCallback(notedeliverableshape_, "ControlPointShapes", &notedeliverableshape_.ControlPointShapes)
+
 		case "Diagram:NoteDeliverableShapes":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -4772,6 +5498,38 @@ func (notestakeholdershapeFormCallback *NoteStakeholderShapeFormCallback) OnSave
 			FormDivBasicFieldToField(&(notestakeholdershape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(notestakeholdershape_.IsHidden), formDiv)
+		case "ControlPointShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPointShape](notestakeholdershapeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ControlPointShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ControlPointShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					notestakeholdershapeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ControlPointShape](notestakeholdershapeFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			notestakeholdershape_.ControlPointShapes = instanceSlice
+			notestakeholdershapeFormCallback.probe.UpdateSliceOfPointersCallback(notestakeholdershape_, "ControlPointShapes", &notestakeholdershape_.ControlPointShapes)
+
 		case "Diagram:NoteResourceShapes":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -4911,6 +5669,38 @@ func (notetaskshapeFormCallback *NoteTaskShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(notetaskshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(notetaskshape_.IsHidden), formDiv)
+		case "ControlPointShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPointShape](notetaskshapeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ControlPointShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ControlPointShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					notetaskshapeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ControlPointShape](notetaskshapeFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			notetaskshape_.ControlPointShapes = instanceSlice
+			notetaskshapeFormCallback.probe.UpdateSliceOfPointersCallback(notetaskshape_, "ControlPointShapes", &notetaskshape_.ControlPointShapes)
+
 		case "Diagram:NoteTaskShapes":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -5800,6 +6590,38 @@ func (stakeholdercompositionshapeFormCallback *StakeholderCompositionShapeFormCa
 			FormDivBasicFieldToField(&(stakeholdercompositionshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(stakeholdercompositionshape_.IsHidden), formDiv)
+		case "ControlPointShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPointShape](stakeholdercompositionshapeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ControlPointShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ControlPointShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					stakeholdercompositionshapeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ControlPointShape](stakeholdercompositionshapeFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			stakeholdercompositionshape_.ControlPointShapes = instanceSlice
+			stakeholdercompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(stakeholdercompositionshape_, "ControlPointShapes", &stakeholdercompositionshape_.ControlPointShapes)
+
 		case "Diagram:ResourceComposition_Shapes":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -5939,6 +6761,38 @@ func (stakeholderconcernshapeFormCallback *StakeholderConcernShapeFormCallback) 
 			FormDivBasicFieldToField(&(stakeholderconcernshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(stakeholderconcernshape_.IsHidden), formDiv)
+		case "ControlPointShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPointShape](stakeholderconcernshapeFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ControlPointShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ControlPointShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					stakeholderconcernshapeFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ControlPointShape](stakeholderconcernshapeFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			stakeholderconcernshape_.ControlPointShapes = instanceSlice
+			stakeholderconcernshapeFormCallback.probe.UpdateSliceOfPointersCallback(stakeholderconcernshape_, "ControlPointShapes", &stakeholderconcernshape_.ControlPointShapes)
+
 		case "Diagram:StakeholderConcernShapes":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

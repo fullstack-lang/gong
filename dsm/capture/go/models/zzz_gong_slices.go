@@ -69,14 +69,38 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct ConcernCompositionShape
 	// insertion point per field
+	stage.ConcernCompositionShape_ControlPointShapes_reverseMap = make(map[*ControlPointShape]*ConcernCompositionShape)
+	for concerncompositionshape := range stage.ConcernCompositionShapes {
+		_ = concerncompositionshape
+		for _, _controlpointshape := range concerncompositionshape.ControlPointShapes {
+			stage.ConcernCompositionShape_ControlPointShapes_reverseMap[_controlpointshape] = concerncompositionshape
+		}
+	}
 
 	// Compute reverse map for named struct ConcernInputShape
 	// insertion point per field
+	stage.ConcernInputShape_ControlPointShapes_reverseMap = make(map[*ControlPointShape]*ConcernInputShape)
+	for concerninputshape := range stage.ConcernInputShapes {
+		_ = concerninputshape
+		for _, _controlpointshape := range concerninputshape.ControlPointShapes {
+			stage.ConcernInputShape_ControlPointShapes_reverseMap[_controlpointshape] = concerninputshape
+		}
+	}
 
 	// Compute reverse map for named struct ConcernOutputShape
 	// insertion point per field
+	stage.ConcernOutputShape_ControlPointShapes_reverseMap = make(map[*ControlPointShape]*ConcernOutputShape)
+	for concernoutputshape := range stage.ConcernOutputShapes {
+		_ = concernoutputshape
+		for _, _controlpointshape := range concernoutputshape.ControlPointShapes {
+			stage.ConcernOutputShape_ControlPointShapes_reverseMap[_controlpointshape] = concernoutputshape
+		}
+	}
 
 	// Compute reverse map for named struct ConcernShape
+	// insertion point per field
+
+	// Compute reverse map for named struct ControlPointShape
 	// insertion point per field
 
 	// Compute reverse map for named struct Deliverable
@@ -98,9 +122,23 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct DeliverableCompositionShape
 	// insertion point per field
+	stage.DeliverableCompositionShape_ControlPointShapes_reverseMap = make(map[*ControlPointShape]*DeliverableCompositionShape)
+	for deliverablecompositionshape := range stage.DeliverableCompositionShapes {
+		_ = deliverablecompositionshape
+		for _, _controlpointshape := range deliverablecompositionshape.ControlPointShapes {
+			stage.DeliverableCompositionShape_ControlPointShapes_reverseMap[_controlpointshape] = deliverablecompositionshape
+		}
+	}
 
 	// Compute reverse map for named struct DeliverableConceptShape
 	// insertion point per field
+	stage.DeliverableConceptShape_ControlPointShapes_reverseMap = make(map[*ControlPointShape]*DeliverableConceptShape)
+	for deliverableconceptshape := range stage.DeliverableConceptShapes {
+		_ = deliverableconceptshape
+		for _, _controlpointshape := range deliverableconceptshape.ControlPointShapes {
+			stage.DeliverableConceptShape_ControlPointShapes_reverseMap[_controlpointshape] = deliverableconceptshape
+		}
+	}
 
 	// Compute reverse map for named struct DeliverableShape
 	// insertion point per field
@@ -396,15 +434,36 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct NoteDeliverableShape
 	// insertion point per field
+	stage.NoteDeliverableShape_ControlPointShapes_reverseMap = make(map[*ControlPointShape]*NoteDeliverableShape)
+	for notedeliverableshape := range stage.NoteDeliverableShapes {
+		_ = notedeliverableshape
+		for _, _controlpointshape := range notedeliverableshape.ControlPointShapes {
+			stage.NoteDeliverableShape_ControlPointShapes_reverseMap[_controlpointshape] = notedeliverableshape
+		}
+	}
 
 	// Compute reverse map for named struct NoteShape
 	// insertion point per field
 
 	// Compute reverse map for named struct NoteStakeholderShape
 	// insertion point per field
+	stage.NoteStakeholderShape_ControlPointShapes_reverseMap = make(map[*ControlPointShape]*NoteStakeholderShape)
+	for notestakeholdershape := range stage.NoteStakeholderShapes {
+		_ = notestakeholdershape
+		for _, _controlpointshape := range notestakeholdershape.ControlPointShapes {
+			stage.NoteStakeholderShape_ControlPointShapes_reverseMap[_controlpointshape] = notestakeholdershape
+		}
+	}
 
 	// Compute reverse map for named struct NoteTaskShape
 	// insertion point per field
+	stage.NoteTaskShape_ControlPointShapes_reverseMap = make(map[*ControlPointShape]*NoteTaskShape)
+	for notetaskshape := range stage.NoteTaskShapes {
+		_ = notetaskshape
+		for _, _controlpointshape := range notetaskshape.ControlPointShapes {
+			stage.NoteTaskShape_ControlPointShapes_reverseMap[_controlpointshape] = notetaskshape
+		}
+	}
 
 	// Compute reverse map for named struct Requirement
 	// insertion point per field
@@ -445,9 +504,23 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct StakeholderCompositionShape
 	// insertion point per field
+	stage.StakeholderCompositionShape_ControlPointShapes_reverseMap = make(map[*ControlPointShape]*StakeholderCompositionShape)
+	for stakeholdercompositionshape := range stage.StakeholderCompositionShapes {
+		_ = stakeholdercompositionshape
+		for _, _controlpointshape := range stakeholdercompositionshape.ControlPointShapes {
+			stage.StakeholderCompositionShape_ControlPointShapes_reverseMap[_controlpointshape] = stakeholdercompositionshape
+		}
+	}
 
 	// Compute reverse map for named struct StakeholderConcernShape
 	// insertion point per field
+	stage.StakeholderConcernShape_ControlPointShapes_reverseMap = make(map[*ControlPointShape]*StakeholderConcernShape)
+	for stakeholderconcernshape := range stage.StakeholderConcernShapes {
+		_ = stakeholderconcernshape
+		for _, _controlpointshape := range stakeholderconcernshape.ControlPointShapes {
+			stage.StakeholderConcernShape_ControlPointShapes_reverseMap[_controlpointshape] = stakeholderconcernshape
+		}
+	}
 
 	// Compute reverse map for named struct StakeholderShape
 	// insertion point per field
@@ -492,6 +565,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.ConcernShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ControlPointShapes {
 		res = append(res, instance)
 	}
 
@@ -620,6 +697,12 @@ func (concernoutputshape *ConcernOutputShape) GongCopy() GongstructIF {
 func (concernshape *ConcernShape) GongCopy() GongstructIF {
 	newInstance := new(ConcernShape)
 	concernshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (controlpointshape *ControlPointShape) GongCopy() GongstructIF {
+	newInstance := new(ControlPointShape)
+	controlpointshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -815,6 +898,16 @@ func (concernshape *ConcernShape) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(concernshape), uint64(GetOrderPointerGongstruct(stage, concernshape)))
+	return
+}
+
+func (controlpointshape *ControlPointShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(controlpointshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(controlpointshape), uint64(GetOrderPointerGongstruct(stage, controlpointshape)))
 	return
 }
 
@@ -1466,6 +1559,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(concernshapes_newInstances)
 	lenDeletedInstances += len(concernshapes_deletedInstances)
+	var controlpointshapes_newInstances []*ControlPointShape
+	var controlpointshapes_deletedInstances []*ControlPointShape
+
+	// parse all staged instances and check if they have a reference
+	for controlpointshape := range stage.ControlPointShapes {
+		if ref, ok := stage.ControlPointShapes_reference[controlpointshape]; !ok {
+			controlpointshapes_newInstances = append(controlpointshapes_newInstances, controlpointshape)
+			newInstancesSlice = append(newInstancesSlice, controlpointshape.GongMarshallIdentifier(stage))
+			if stage.ControlPointShapes_referenceOrder == nil {
+				stage.ControlPointShapes_referenceOrder = make(map[*ControlPointShape]uint)
+			}
+			stage.ControlPointShapes_referenceOrder[controlpointshape] = stage.ControlPointShape_stagedOrder[controlpointshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, controlpointshape.GongMarshallUnstaging(stage))
+			// delete(stage.ControlPointShapes_referenceOrder, controlpointshape)
+			fieldInitializers, pointersInitializations := controlpointshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.ControlPointShape_stagedOrder[ref] = stage.ControlPointShape_stagedOrder[controlpointshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := controlpointshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, controlpointshape)
+			// delete(stage.ControlPointShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if controlpointshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", controlpointshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.ControlPointShapes_reference {
+		instance := stage.ControlPointShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.ControlPointShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			controlpointshapes_deletedInstances = append(controlpointshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(controlpointshapes_newInstances)
+	lenDeletedInstances += len(controlpointshapes_deletedInstances)
 	var deliverables_newInstances []*Deliverable
 	var deliverables_deletedInstances []*Deliverable
 
@@ -2626,6 +2774,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.ConcernShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.ControlPointShapes_reference = make(map[*ControlPointShape]*ControlPointShape)
+	stage.ControlPointShapes_referenceOrder = make(map[*ControlPointShape]uint) // diff Unstage needs the reference order
+	stage.ControlPointShapes_instance = make(map[*ControlPointShape]*ControlPointShape)
+	for instance := range stage.ControlPointShapes {
+		_copy := instance.GongCopy().(*ControlPointShape)
+		stage.ControlPointShapes_reference[instance] = _copy
+		stage.ControlPointShapes_instance[_copy] = instance
+		stage.ControlPointShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Deliverables_reference = make(map[*Deliverable]*Deliverable)
 	stage.Deliverables_referenceOrder = make(map[*Deliverable]uint) // diff Unstage needs the reference order
 	stage.Deliverables_instance = make(map[*Deliverable]*Deliverable)
@@ -2857,6 +3015,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.ControlPointShapes {
+		reference := stage.ControlPointShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.Deliverables {
 		reference := stage.Deliverables_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -3054,6 +3217,18 @@ func (concernshape *ConcernShape) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type ConcernShape was not staged and does not have a reference order", concernshape)
+		return 0
+	}
+}
+
+func (controlpointshape *ControlPointShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ControlPointShape_stagedOrder[controlpointshape]; ok {
+		return order
+	}
+	if order, ok := stage.ControlPointShapes_referenceOrder[controlpointshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type ControlPointShape was not staged and does not have a reference order", controlpointshape)
 		return 0
 	}
 }
@@ -3363,6 +3538,15 @@ func (concernshape *ConcernShape) GongGetReferenceIdentifier(stage *Stage) strin
 	return fmt.Sprintf("__%s__%08d_", concernshape.GongGetGongstructName(), concernshape.GongGetOrder(stage))
 }
 
+func (controlpointshape *ControlPointShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", controlpointshape.GongGetGongstructName(), controlpointshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (controlpointshape *ControlPointShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", controlpointshape.GongGetGongstructName(), controlpointshape.GongGetOrder(stage))
+}
+
 func (deliverable *Deliverable) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", deliverable.GongGetGongstructName(), deliverable.GongGetOrder(stage))
 }
@@ -3601,6 +3785,14 @@ func (concernshape *ConcernShape) GongMarshallIdentifier(stage *Stage) (decl str
 	return
 }
 
+func (controlpointshape *ControlPointShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", controlpointshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ControlPointShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(controlpointshape.Name))
+	return
+}
+
 func (deliverable *Deliverable) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", deliverable.GongGetIdentifier(stage))
@@ -3799,6 +3991,12 @@ func (concernoutputshape *ConcernOutputShape) GongMarshallUnstaging(stage *Stage
 func (concernshape *ConcernShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", concernshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (controlpointshape *ControlPointShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", controlpointshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

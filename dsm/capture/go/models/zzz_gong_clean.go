@@ -77,6 +77,7 @@ func (concern *Concern) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by ConcernCompositionShape
 func (concerncompositionshape *ConcernCompositionShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &concerncompositionshape.ControlPointShapes) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &concerncompositionshape.Concern) || modified
 	return
@@ -85,6 +86,7 @@ func (concerncompositionshape *ConcernCompositionShape) GongClean(stage *Stage) 
 // Clean garbage collect unstaged instances that are referenced by ConcernInputShape
 func (concerninputshape *ConcernInputShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &concerninputshape.ControlPointShapes) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &concerninputshape.Deliverable) || modified
 	modified = GongCleanPointer(stage, &concerninputshape.Concern) || modified
@@ -94,6 +96,7 @@ func (concerninputshape *ConcernInputShape) GongClean(stage *Stage) (modified bo
 // Clean garbage collect unstaged instances that are referenced by ConcernOutputShape
 func (concernoutputshape *ConcernOutputShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &concernoutputshape.ControlPointShapes) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &concernoutputshape.Task) || modified
 	modified = GongCleanPointer(stage, &concernoutputshape.Deliverable) || modified
@@ -105,6 +108,13 @@ func (concernshape *ConcernShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = GongCleanPointer(stage, &concernshape.Concern) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ControlPointShape
+func (controlpointshape *ControlPointShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
 	return
 }
 
@@ -120,6 +130,7 @@ func (deliverable *Deliverable) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by DeliverableCompositionShape
 func (deliverablecompositionshape *DeliverableCompositionShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &deliverablecompositionshape.ControlPointShapes) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &deliverablecompositionshape.Deliverable) || modified
 	return
@@ -128,6 +139,7 @@ func (deliverablecompositionshape *DeliverableCompositionShape) GongClean(stage 
 // Clean garbage collect unstaged instances that are referenced by DeliverableConceptShape
 func (deliverableconceptshape *DeliverableConceptShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &deliverableconceptshape.ControlPointShapes) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &deliverableconceptshape.Deliverable) || modified
 	modified = GongCleanPointer(stage, &deliverableconceptshape.Concept) || modified
@@ -206,6 +218,7 @@ func (note *Note) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by NoteDeliverableShape
 func (notedeliverableshape *NoteDeliverableShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &notedeliverableshape.ControlPointShapes) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &notedeliverableshape.Note) || modified
 	modified = GongCleanPointer(stage, &notedeliverableshape.Deliverable) || modified
@@ -223,6 +236,7 @@ func (noteshape *NoteShape) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by NoteStakeholderShape
 func (notestakeholdershape *NoteStakeholderShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &notestakeholdershape.ControlPointShapes) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &notestakeholdershape.Note) || modified
 	modified = GongCleanPointer(stage, &notestakeholdershape.Stakeholder) || modified
@@ -232,6 +246,7 @@ func (notestakeholdershape *NoteStakeholderShape) GongClean(stage *Stage) (modif
 // Clean garbage collect unstaged instances that are referenced by NoteTaskShape
 func (notetaskshape *NoteTaskShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &notetaskshape.ControlPointShapes) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &notetaskshape.Note) || modified
 	modified = GongCleanPointer(stage, &notetaskshape.Task) || modified
@@ -267,6 +282,7 @@ func (stakeholder *Stakeholder) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by StakeholderCompositionShape
 func (stakeholdercompositionshape *StakeholderCompositionShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &stakeholdercompositionshape.ControlPointShapes) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &stakeholdercompositionshape.Stakeholder) || modified
 	return
@@ -275,6 +291,7 @@ func (stakeholdercompositionshape *StakeholderCompositionShape) GongClean(stage 
 // Clean garbage collect unstaged instances that are referenced by StakeholderConcernShape
 func (stakeholderconcernshape *StakeholderConcernShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &stakeholderconcernshape.ControlPointShapes) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &stakeholderconcernshape.Stakeholder) || modified
 	modified = GongCleanPointer(stage, &stakeholderconcernshape.Concern) || modified

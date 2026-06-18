@@ -199,6 +199,85 @@ func (inst *ConcernShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 	return
 }
 
+func (inst *ControlPointShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "ConcernCompositionShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			if _concerncompositionshape, ok := stage.ConcernCompositionShape_ControlPointShapes_reverseMap[inst]; ok {
+				res = _concerncompositionshape.Name
+			}
+		}
+	case "ConcernInputShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			if _concerninputshape, ok := stage.ConcernInputShape_ControlPointShapes_reverseMap[inst]; ok {
+				res = _concerninputshape.Name
+			}
+		}
+	case "ConcernOutputShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			if _concernoutputshape, ok := stage.ConcernOutputShape_ControlPointShapes_reverseMap[inst]; ok {
+				res = _concernoutputshape.Name
+			}
+		}
+	case "DeliverableCompositionShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			if _deliverablecompositionshape, ok := stage.DeliverableCompositionShape_ControlPointShapes_reverseMap[inst]; ok {
+				res = _deliverablecompositionshape.Name
+			}
+		}
+	case "DeliverableConceptShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			if _deliverableconceptshape, ok := stage.DeliverableConceptShape_ControlPointShapes_reverseMap[inst]; ok {
+				res = _deliverableconceptshape.Name
+			}
+		}
+	case "NoteDeliverableShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			if _notedeliverableshape, ok := stage.NoteDeliverableShape_ControlPointShapes_reverseMap[inst]; ok {
+				res = _notedeliverableshape.Name
+			}
+		}
+	case "NoteStakeholderShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			if _notestakeholdershape, ok := stage.NoteStakeholderShape_ControlPointShapes_reverseMap[inst]; ok {
+				res = _notestakeholdershape.Name
+			}
+		}
+	case "NoteTaskShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			if _notetaskshape, ok := stage.NoteTaskShape_ControlPointShapes_reverseMap[inst]; ok {
+				res = _notetaskshape.Name
+			}
+		}
+	case "StakeholderCompositionShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			if _stakeholdercompositionshape, ok := stage.StakeholderCompositionShape_ControlPointShapes_reverseMap[inst]; ok {
+				res = _stakeholdercompositionshape.Name
+			}
+		}
+	case "StakeholderConcernShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			if _stakeholderconcernshape, ok := stage.StakeholderConcernShape_ControlPointShapes_reverseMap[inst]; ok {
+				res = _stakeholderconcernshape.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *Deliverable) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -734,6 +813,65 @@ func (inst *ConcernShape) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 		switch reverseField.Fieldname {
 		case "Concern_Shapes":
 			res = stage.Diagram_Concern_Shapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *ControlPointShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "ConcernCompositionShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			res = stage.ConcernCompositionShape_ControlPointShapes_reverseMap[inst]
+		}
+	case "ConcernInputShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			res = stage.ConcernInputShape_ControlPointShapes_reverseMap[inst]
+		}
+	case "ConcernOutputShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			res = stage.ConcernOutputShape_ControlPointShapes_reverseMap[inst]
+		}
+	case "DeliverableCompositionShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			res = stage.DeliverableCompositionShape_ControlPointShapes_reverseMap[inst]
+		}
+	case "DeliverableConceptShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			res = stage.DeliverableConceptShape_ControlPointShapes_reverseMap[inst]
+		}
+	case "NoteDeliverableShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			res = stage.NoteDeliverableShape_ControlPointShapes_reverseMap[inst]
+		}
+	case "NoteStakeholderShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			res = stage.NoteStakeholderShape_ControlPointShapes_reverseMap[inst]
+		}
+	case "NoteTaskShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			res = stage.NoteTaskShape_ControlPointShapes_reverseMap[inst]
+		}
+	case "StakeholderCompositionShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			res = stage.StakeholderCompositionShape_ControlPointShapes_reverseMap[inst]
+		}
+	case "StakeholderConcernShape":
+		switch reverseField.Fieldname {
+		case "ControlPointShapes":
+			res = stage.StakeholderConcernShape_ControlPointShapes_reverseMap[inst]
 		}
 	}
 	return res

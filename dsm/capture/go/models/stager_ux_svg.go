@@ -82,6 +82,23 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	layer := (&svg.Layer{Name: "Layer 1"})
 	stager.svgObject.Layers = append(stager.svgObject.Layers, layer)
 
+	backgroundRect := &svg.Rect{
+		Name:   diagram.Name + " background",
+		X:      0.0,
+		Y:      0.0,
+		Width:  diagram.Width,
+		Height: diagram.Height,
+		Presentation: svg.Presentation{
+			Color:       "transparent",
+			FillOpacity: 0.0,
+		},
+		OnUpdate: func(frontRect *svg.Rect) {
+			diagram.IsEditable_ = !diagram.IsEditable_
+			stager.stage.Commit()
+		},
+	}
+	layer.Rects = append(layer.Rects, backgroundRect)
+
 	for _, deliverableShape := range diagram.Deliverable_Shapes {
 		if deliverableShape.IsHidden {
 			continue
@@ -155,7 +172,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			continue
 		}
 
-		svgAssociationLink(
+		link := svgAssociationLink(
 			stager,
 			startRect, endRect,
 			deliverableCompositionShape,
@@ -163,6 +180,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			parentDeliverable,
 			layer,
 			false)
+		configureLinkWithControlPoints(stager, link, &deliverableCompositionShape.ControlPointShapes, startRect.Name)
 	}
 
 	for _, concernShape := range diagram.Concern_Shapes {
@@ -302,13 +320,14 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			continue
 		}
 
-		svgAssociationLink(
+		link := svgAssociationLink(
 			stager,
 			startRect, endRect,
 			concernCompositionShape,
 			parentTask,
 			layer,
 			false)
+		configureLinkWithControlPoints(stager, link, &concernCompositionShape.ControlPointShapes, startRect.Name)
 	}
 
 	for _, taskInputShape := range diagram.ConcernInputShapes {
@@ -340,9 +359,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.Stroke = "#555555"
 		link.StrokeWidth = 1.5
 		link.HasEndArrow = true
-		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
-		link.StartAnchorType = svg.ANCHOR_CENTER
-		link.EndAnchorType = svg.ANCHOR_CENTER
+		configureLinkWithControlPoints(stager, link, &taskInputShape.ControlPointShapes, startRect.Name)
 	}
 
 	for _, taskOutputShape := range diagram.ConcernOutputShapes {
@@ -374,9 +391,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.Stroke = "#555555"
 		link.StrokeWidth = 1.5
 		link.HasEndArrow = true
-		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
-		link.StartAnchorType = svg.ANCHOR_CENTER
-		link.EndAnchorType = svg.ANCHOR_CENTER
+		configureLinkWithControlPoints(stager, link, &taskOutputShape.ControlPointShapes, startRect.Name)
 	}
 
 	for _, noteShape := range diagram.Note_Shapes {
@@ -458,10 +473,8 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			layer,
 			true,
 		)
-		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
-		link.StartAnchorType = svg.ANCHOR_CENTER
-		link.EndAnchorType = svg.ANCHOR_CENTER
 		link.HasEndArrow = false
+		configureLinkWithControlPoints(stager, link, &noteDeliverableShape.ControlPointShapes, startRect.Name)
 	}
 
 	for _, noteTaskShape := range diagram.NoteTaskShapes {
@@ -482,10 +495,8 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			layer,
 			true,
 		)
-		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
-		link.StartAnchorType = svg.ANCHOR_CENTER
-		link.EndAnchorType = svg.ANCHOR_CENTER
 		link.HasEndArrow = false
+		configureLinkWithControlPoints(stager, link, &noteTaskShape.ControlPointShapes, startRect.Name)
 	}
 
 	for _, s := range diagram.Stakeholder_Shapes {
@@ -578,10 +589,8 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			layer,
 			true,
 		)
-		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
-		link.StartAnchorType = svg.ANCHOR_CENTER
-		link.EndAnchorType = svg.ANCHOR_CENTER
 		link.HasEndArrow = false
+		configureLinkWithControlPoints(stager, link, &noteResourceShape.ControlPointShapes, startRect.Name)
 	}
 
 	for _, resourceCompositionShape := range diagram.ResourceComposition_Shapes {
@@ -598,7 +607,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		if startRect == nil || endRect == nil {
 			continue
 		}
-		svgAssociationLink(
+		link := svgAssociationLink(
 			stager,
 			startRect, endRect,
 			resourceCompositionShape,
@@ -606,6 +615,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			layer,
 			false,
 		)
+		configureLinkWithControlPoints(stager, link, &resourceCompositionShape.ControlPointShapes, startRect.Name)
 	}
 
 	for _, resourceTaskShape := range diagram.StakeholderConcernShapes {
@@ -633,9 +643,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.Stroke = "#555555"
 		link.StrokeWidth = 1.5
 		link.HasEndArrow = true
-		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
-		link.StartAnchorType = svg.ANCHOR_CENTER
-		link.EndAnchorType = svg.ANCHOR_CENTER
+		configureLinkWithControlPoints(stager, link, &resourceTaskShape.ControlPointShapes, startRect.Name)
 	}
 
 	for _, reqShape := range diagram.Requirement_Shapes {
@@ -777,9 +785,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			layer,
 			true,
 		)
-		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
-		link.StartAnchorType = svg.ANCHOR_CENTER
-		link.EndAnchorType = svg.ANCHOR_CENTER
+		configureLinkWithControlPoints(stager, link, &deliverableConceptShape.ControlPointShapes, startRect.Name)
 	}
 
 	svg.StageBranch(svgStage, stager.svgObject)
@@ -796,4 +802,43 @@ func applyStyleToRectAnchoredText(title *svg.RectAnchoredText) {
 	title.FillOpacity = 1
 
 	title.FontSize = "12px"
+}
+
+func configureLinkWithControlPoints(
+	stager *Stager,
+	link *svg.Link,
+	controlPointShapes *[]*ControlPointShape,
+	startRectName string,
+) {
+	link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+	link.StartAnchorType = svg.ANCHOR_CENTER
+	link.EndAnchorType = svg.ANCHOR_CENTER
+	link.StartArrowOffset = 15.0
+	link.EndArrowOffset = 15.0
+
+	for _, controlPointShape := range *controlPointShapes {
+		closestRect := link.Start
+		if !controlPointShape.IsStartShapeTheClosestShape {
+			closestRect = link.End
+		}
+
+		link.ControlPoints = append(link.ControlPoints, &svg.ControlPoint{
+			Name:        controlPointShape.Name,
+			X_Relative:  controlPointShape.X_Relative,
+			Y_Relative:  controlPointShape.Y_Relative,
+			ClosestRect: closestRect,
+			Impl: &ControlPointShapeProxy{
+				stager:             stager,
+				controlPointShapes: controlPointShapes,
+				controlPointShape:  controlPointShape,
+				sourceName:         startRectName,
+			},
+		})
+	}
+	link.Impl = &LinkShapeProxy{
+		stager:             stager,
+		controlPointShapes: controlPointShapes,
+		linkName:           link.Name,
+		sourceName:         startRectName,
+	}
 }

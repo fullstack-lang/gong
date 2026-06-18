@@ -1,5 +1,119 @@
 package models
 
+import (
+	"fmt"
+	"math"
+	"slices"
+
+	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
+)
+
+type ControlPointShape struct {
+	Name string
+
+	X_Relative, Y_Relative      float64
+	IsStartShapeTheClosestShape bool
+}
+
+type ControlPointShapeProxy struct {
+	stager             *Stager
+	controlPointShapes *[]*ControlPointShape
+	controlPointShape  *ControlPointShape
+	sourceName         string
+}
+
+func (p *ControlPointShapeProxy) ControlPointUpdated(controlPoint *svg.ControlPoint) {
+	if areClose(p.controlPointShape.X_Relative, controlPoint.X_Relative,
+		p.controlPointShape.Y_Relative, controlPoint.Y_Relative, threshold) {
+		idx := slices.Index(*p.controlPointShapes, p.controlPointShape)
+		if idx != -1 {
+			*p.controlPointShapes = slices.Delete(*p.controlPointShapes, idx, idx+1)
+		}
+	} else {
+		p.controlPointShape.X_Relative = controlPoint.X_Relative
+		p.controlPointShape.Y_Relative = controlPoint.Y_Relative
+
+		if controlPoint.ClosestRect.GetName() != p.sourceName {
+			p.controlPointShape.IsStartShapeTheClosestShape = false
+		} else {
+			p.controlPointShape.IsStartShapeTheClosestShape = true
+		}
+	}
+
+	p.stager.stage.Commit()
+}
+
+type LinkShapeProxy struct {
+	controlPointShapes *[]*ControlPointShape
+	stager             *Stager
+	linkName           string
+	sourceName         string
+}
+
+func (p *LinkShapeProxy) LinkUpdated(updatedLink *svg.Link) {
+	point := &svg.Point{
+		X: updatedLink.MouseX,
+		Y: updatedLink.MouseY,
+	}
+	controlPoint := PointToControlPoint(point, updatedLink)
+	startRect := true
+	if controlPoint.ClosestRect == updatedLink.End {
+		startRect = false
+	}
+	controlPoint.Name = "Control Point Shape in " + p.linkName + " " + fmt.Sprintf("%d", len(*p.controlPointShapes))
+
+	controlPointShape := (&ControlPointShape{
+		Name:                        controlPoint.Name,
+		X_Relative:                  controlPoint.X_Relative,
+		Y_Relative:                  controlPoint.Y_Relative,
+		IsStartShapeTheClosestShape: startRect,
+	}).Stage(p.stager.stage)
+	*p.controlPointShapes = append(*p.controlPointShapes, controlPointShape)
+
+	p.stager.stage.Commit()
+}
+
+const threshold = 0.05
+
+func areClose(x1, x2, y1, y2, threshold float64) bool {
+	xDistance := math.Abs(x1 - x2)
+	yDistance := math.Abs(y1 - y2)
+	return xDistance < threshold && yDistance < threshold
+}
+
+func PointToControlPoint(point *svg.Point, link *svg.Link) svg.ControlPoint {
+	distToStart := calculateDistance(point.X, point.Y, link.Start.X, link.Start.Y)
+	distToEnd := calculateDistance(point.X, point.Y, link.End.X, link.End.Y)
+
+	var closestRect *svg.Rect
+	if distToStart > distToEnd {
+		closestRect = link.End
+	} else {
+		closestRect = link.Start
+	}
+
+	xRel := (point.X - closestRect.X) / (closestRect.Width + 0.0001)
+	yRel := (point.Y - closestRect.Y) / (closestRect.Height + 0.0001)
+
+	return svg.ControlPoint{
+		X_Relative:  xRel,
+		Y_Relative:  yRel,
+		ClosestRect: closestRect,
+	}
+}
+
+func ControlPointToPoint(controlPoint *svg.ControlPoint) *svg.Point {
+	x := controlPoint.ClosestRect.X + controlPoint.X_Relative*controlPoint.ClosestRect.Width
+	y := controlPoint.ClosestRect.Y + controlPoint.Y_Relative*controlPoint.ClosestRect.Height
+
+	return &svg.Point{X: x, Y: y}
+}
+
+func calculateDistance(x1, y1, x2, y2 float64) float64 {
+	return math.Sqrt(math.Pow(x2-x1, 2) + math.Pow(y2-y1, 2))
+}
+
+
 // DeliverableShape
 type DeliverableShape struct {
 	Name    string
@@ -31,6 +145,7 @@ type DeliverableCompositionShape struct {
 	Deliverable *Deliverable
 
 	LinkShape
+	ControlPointShapes []*ControlPointShape
 }
 
 func (s *DeliverableCompositionShape) GetAbstractEndElement() AbstractType {
@@ -90,6 +205,7 @@ type ConcernCompositionShape struct {
 	Concern *Concern
 
 	LinkShape
+	ControlPointShapes []*ControlPointShape
 }
 
 func (s *ConcernCompositionShape) GetAbstractEndElement() AbstractType {
@@ -152,6 +268,7 @@ type ConcernInputShape struct {
 	Concern *Concern
 
 	LinkShape
+	ControlPointShapes []*ControlPointShape
 }
 
 func (s *ConcernInputShape) SetAbstractStartElement(abstractElement AbstractType) {
@@ -186,6 +303,7 @@ type ConcernOutputShape struct {
 	Deliverable *Deliverable
 
 	LinkShape
+	ControlPointShapes []*ControlPointShape
 }
 
 func (s *ConcernOutputShape) SetAbstractStartElement(abstractElement AbstractType) {
@@ -242,6 +360,7 @@ type NoteDeliverableShape struct {
 	Deliverable *Deliverable
 
 	LinkShape
+	ControlPointShapes []*ControlPointShape
 }
 
 // GetAbstractEndElement implements [AssociationConcreteType].
@@ -280,6 +399,7 @@ type NoteTaskShape struct {
 	Task *Concern
 
 	LinkShape
+	ControlPointShapes []*ControlPointShape
 }
 
 func (s *NoteTaskShape) GetAbstractEndElement() AbstractType {
@@ -314,6 +434,7 @@ type NoteStakeholderShape struct {
 	Stakeholder *Stakeholder
 
 	LinkShape
+	ControlPointShapes []*ControlPointShape
 }
 
 func (s *NoteStakeholderShape) GetAbstractEndElement() AbstractType {
@@ -371,6 +492,7 @@ type StakeholderCompositionShape struct {
 	Stakeholder *Stakeholder
 
 	LinkShape
+	ControlPointShapes []*ControlPointShape
 }
 
 func (s *StakeholderCompositionShape) GetAbstractEndElement() AbstractType {
@@ -407,6 +529,7 @@ type StakeholderConcernShape struct {
 	Concern *Concern
 
 	LinkShape
+	ControlPointShapes []*ControlPointShape
 }
 
 func (s *StakeholderConcernShape) GetAbstractEndElement() AbstractType {
@@ -491,6 +614,7 @@ type DeliverableConceptShape struct {
 	Concept     *Concept
 
 	LinkShape
+	ControlPointShapes []*ControlPointShape
 }
 
 func (s *DeliverableConceptShape) GetAbstractEndElement() AbstractType {

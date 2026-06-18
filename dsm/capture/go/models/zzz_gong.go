@@ -206,6 +206,8 @@ type Stage struct {
 	ConcernCompositionShapes_referenceOrder map[*ConcernCompositionShape]uint
 
 	// insertion point for slice of pointers maps
+	ConcernCompositionShape_ControlPointShapes_reverseMap map[*ControlPointShape]*ConcernCompositionShape
+
 	OnAfterConcernCompositionShapeCreateCallback OnAfterCreateInterface[ConcernCompositionShape]
 	OnAfterConcernCompositionShapeUpdateCallback OnAfterUpdateInterface[ConcernCompositionShape]
 	OnAfterConcernCompositionShapeDeleteCallback OnAfterDeleteInterface[ConcernCompositionShape]
@@ -221,6 +223,8 @@ type Stage struct {
 	ConcernInputShapes_referenceOrder map[*ConcernInputShape]uint
 
 	// insertion point for slice of pointers maps
+	ConcernInputShape_ControlPointShapes_reverseMap map[*ControlPointShape]*ConcernInputShape
+
 	OnAfterConcernInputShapeCreateCallback OnAfterCreateInterface[ConcernInputShape]
 	OnAfterConcernInputShapeUpdateCallback OnAfterUpdateInterface[ConcernInputShape]
 	OnAfterConcernInputShapeDeleteCallback OnAfterDeleteInterface[ConcernInputShape]
@@ -236,6 +240,8 @@ type Stage struct {
 	ConcernOutputShapes_referenceOrder map[*ConcernOutputShape]uint
 
 	// insertion point for slice of pointers maps
+	ConcernOutputShape_ControlPointShapes_reverseMap map[*ControlPointShape]*ConcernOutputShape
+
 	OnAfterConcernOutputShapeCreateCallback OnAfterCreateInterface[ConcernOutputShape]
 	OnAfterConcernOutputShapeUpdateCallback OnAfterUpdateInterface[ConcernOutputShape]
 	OnAfterConcernOutputShapeDeleteCallback OnAfterDeleteInterface[ConcernOutputShape]
@@ -255,6 +261,21 @@ type Stage struct {
 	OnAfterConcernShapeUpdateCallback OnAfterUpdateInterface[ConcernShape]
 	OnAfterConcernShapeDeleteCallback OnAfterDeleteInterface[ConcernShape]
 	OnAfterConcernShapeReadCallback   OnAfterReadInterface[ConcernShape]
+
+	ControlPointShapes                map[*ControlPointShape]struct{}
+	ControlPointShapes_instance       map[*ControlPointShape]*ControlPointShape
+	ControlPointShapes_mapString      map[string]*ControlPointShape
+	ControlPointShapeOrder            uint
+	ControlPointShape_stagedOrder     map[*ControlPointShape]uint
+	ControlPointShape_orderStaged     map[uint]*ControlPointShape
+	ControlPointShapes_reference      map[*ControlPointShape]*ControlPointShape
+	ControlPointShapes_referenceOrder map[*ControlPointShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterControlPointShapeCreateCallback OnAfterCreateInterface[ControlPointShape]
+	OnAfterControlPointShapeUpdateCallback OnAfterUpdateInterface[ControlPointShape]
+	OnAfterControlPointShapeDeleteCallback OnAfterDeleteInterface[ControlPointShape]
+	OnAfterControlPointShapeReadCallback   OnAfterReadInterface[ControlPointShape]
 
 	Deliverables                map[*Deliverable]struct{}
 	Deliverables_instance       map[*Deliverable]*Deliverable
@@ -285,6 +306,8 @@ type Stage struct {
 	DeliverableCompositionShapes_referenceOrder map[*DeliverableCompositionShape]uint
 
 	// insertion point for slice of pointers maps
+	DeliverableCompositionShape_ControlPointShapes_reverseMap map[*ControlPointShape]*DeliverableCompositionShape
+
 	OnAfterDeliverableCompositionShapeCreateCallback OnAfterCreateInterface[DeliverableCompositionShape]
 	OnAfterDeliverableCompositionShapeUpdateCallback OnAfterUpdateInterface[DeliverableCompositionShape]
 	OnAfterDeliverableCompositionShapeDeleteCallback OnAfterDeleteInterface[DeliverableCompositionShape]
@@ -300,6 +323,8 @@ type Stage struct {
 	DeliverableConceptShapes_referenceOrder map[*DeliverableConceptShape]uint
 
 	// insertion point for slice of pointers maps
+	DeliverableConceptShape_ControlPointShapes_reverseMap map[*ControlPointShape]*DeliverableConceptShape
+
 	OnAfterDeliverableConceptShapeCreateCallback OnAfterCreateInterface[DeliverableConceptShape]
 	OnAfterDeliverableConceptShapeUpdateCallback OnAfterUpdateInterface[DeliverableConceptShape]
 	OnAfterDeliverableConceptShapeDeleteCallback OnAfterDeleteInterface[DeliverableConceptShape]
@@ -455,6 +480,8 @@ type Stage struct {
 	NoteDeliverableShapes_referenceOrder map[*NoteDeliverableShape]uint
 
 	// insertion point for slice of pointers maps
+	NoteDeliverableShape_ControlPointShapes_reverseMap map[*ControlPointShape]*NoteDeliverableShape
+
 	OnAfterNoteDeliverableShapeCreateCallback OnAfterCreateInterface[NoteDeliverableShape]
 	OnAfterNoteDeliverableShapeUpdateCallback OnAfterUpdateInterface[NoteDeliverableShape]
 	OnAfterNoteDeliverableShapeDeleteCallback OnAfterDeleteInterface[NoteDeliverableShape]
@@ -485,6 +512,8 @@ type Stage struct {
 	NoteStakeholderShapes_referenceOrder map[*NoteStakeholderShape]uint
 
 	// insertion point for slice of pointers maps
+	NoteStakeholderShape_ControlPointShapes_reverseMap map[*ControlPointShape]*NoteStakeholderShape
+
 	OnAfterNoteStakeholderShapeCreateCallback OnAfterCreateInterface[NoteStakeholderShape]
 	OnAfterNoteStakeholderShapeUpdateCallback OnAfterUpdateInterface[NoteStakeholderShape]
 	OnAfterNoteStakeholderShapeDeleteCallback OnAfterDeleteInterface[NoteStakeholderShape]
@@ -500,6 +529,8 @@ type Stage struct {
 	NoteTaskShapes_referenceOrder map[*NoteTaskShape]uint
 
 	// insertion point for slice of pointers maps
+	NoteTaskShape_ControlPointShapes_reverseMap map[*ControlPointShape]*NoteTaskShape
+
 	OnAfterNoteTaskShapeCreateCallback OnAfterCreateInterface[NoteTaskShape]
 	OnAfterNoteTaskShapeUpdateCallback OnAfterUpdateInterface[NoteTaskShape]
 	OnAfterNoteTaskShapeDeleteCallback OnAfterDeleteInterface[NoteTaskShape]
@@ -568,6 +599,8 @@ type Stage struct {
 	StakeholderCompositionShapes_referenceOrder map[*StakeholderCompositionShape]uint
 
 	// insertion point for slice of pointers maps
+	StakeholderCompositionShape_ControlPointShapes_reverseMap map[*ControlPointShape]*StakeholderCompositionShape
+
 	OnAfterStakeholderCompositionShapeCreateCallback OnAfterCreateInterface[StakeholderCompositionShape]
 	OnAfterStakeholderCompositionShapeUpdateCallback OnAfterUpdateInterface[StakeholderCompositionShape]
 	OnAfterStakeholderCompositionShapeDeleteCallback OnAfterDeleteInterface[StakeholderCompositionShape]
@@ -583,6 +616,8 @@ type Stage struct {
 	StakeholderConcernShapes_referenceOrder map[*StakeholderConcernShape]uint
 
 	// insertion point for slice of pointers maps
+	StakeholderConcernShape_ControlPointShapes_reverseMap map[*ControlPointShape]*StakeholderConcernShape
+
 	OnAfterStakeholderConcernShapeCreateCallback OnAfterCreateInterface[StakeholderConcernShape]
 	OnAfterStakeholderConcernShapeUpdateCallback OnAfterUpdateInterface[StakeholderConcernShape]
 	OnAfterStakeholderConcernShapeDeleteCallback OnAfterDeleteInterface[StakeholderConcernShape]
@@ -901,6 +936,10 @@ func (stage *Stage) Squash() {
 	stage.ConcernShapes_instance = make(map[*ConcernShape]*ConcernShape)
 	stage.ConcernShapes_referenceOrder = make(map[*ConcernShape]uint)
 
+	stage.ControlPointShapes_reference = make(map[*ControlPointShape]*ControlPointShape)
+	stage.ControlPointShapes_instance = make(map[*ControlPointShape]*ControlPointShape)
+	stage.ControlPointShapes_referenceOrder = make(map[*ControlPointShape]uint)
+
 	stage.Deliverables_reference = make(map[*Deliverable]*Deliverable)
 	stage.Deliverables_instance = make(map[*Deliverable]*Deliverable)
 	stage.Deliverables_referenceOrder = make(map[*Deliverable]uint)
@@ -1114,6 +1153,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.ConcernShapeOrder = maxConcernShapeOrder + 1
 	} else {
 		stage.ConcernShapeOrder = 0
+	}
+
+	var maxControlPointShapeOrder uint
+	var foundControlPointShape bool
+	for _, order := range stage.ControlPointShape_stagedOrder {
+		if !foundControlPointShape || order > maxControlPointShapeOrder {
+			maxControlPointShapeOrder = order
+			foundControlPointShape = true
+		}
+	}
+	if foundControlPointShape {
+		stage.ControlPointShapeOrder = maxControlPointShapeOrder + 1
+	} else {
+		stage.ControlPointShapeOrder = 0
 	}
 
 	var maxDeliverableOrder uint
@@ -1555,6 +1608,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *ControlPointShape:
+		tmp := GetStructInstancesByOrder(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ControlPointShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Deliverable:
 		tmp := GetStructInstancesByOrder(stage.Deliverables, stage.Deliverable_stagedOrder)
 
@@ -1866,6 +1933,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.ConcernOutputShapes, stage.ConcernOutputShape_stagedOrder)
 	case "ConcernShape":
 		res = GetNamedStructInstances(stage.ConcernShapes, stage.ConcernShape_stagedOrder)
+	case "ControlPointShape":
+		res = GetNamedStructInstances(stage.ControlPointShapes, stage.ControlPointShape_stagedOrder)
 	case "Deliverable":
 		res = GetNamedStructInstances(stage.Deliverables, stage.Deliverable_stagedOrder)
 	case "DeliverableCompositionShape":
@@ -1989,6 +2058,8 @@ type BackRepoInterface interface {
 	CheckoutConcernOutputShape(concernoutputshape *ConcernOutputShape)
 	CommitConcernShape(concernshape *ConcernShape)
 	CheckoutConcernShape(concernshape *ConcernShape)
+	CommitControlPointShape(controlpointshape *ControlPointShape)
+	CheckoutControlPointShape(controlpointshape *ControlPointShape)
 	CommitDeliverable(deliverable *Deliverable)
 	CheckoutDeliverable(deliverable *Deliverable)
 	CommitDeliverableCompositionShape(deliverablecompositionshape *DeliverableCompositionShape)
@@ -2056,6 +2127,9 @@ func NewStage(name string) (stage *Stage) {
 
 		ConcernShapes:           make(map[*ConcernShape]struct{}),
 		ConcernShapes_mapString: make(map[string]*ConcernShape),
+
+		ControlPointShapes:           make(map[*ControlPointShape]struct{}),
+		ControlPointShapes_mapString: make(map[string]*ControlPointShape),
 
 		Deliverables:           make(map[*Deliverable]struct{}),
 		Deliverables_mapString: make(map[string]*Deliverable),
@@ -2156,6 +2230,10 @@ func NewStage(name string) (stage *Stage) {
 		ConcernShape_orderStaged: make(map[uint]*ConcernShape),
 		ConcernShapes_reference:  make(map[*ConcernShape]*ConcernShape),
 
+		ControlPointShape_stagedOrder: make(map[*ControlPointShape]uint),
+		ControlPointShape_orderStaged: make(map[uint]*ControlPointShape),
+		ControlPointShapes_reference:  make(map[*ControlPointShape]*ControlPointShape),
+
 		Deliverable_stagedOrder: make(map[*Deliverable]uint),
 		Deliverable_orderStaged: make(map[uint]*Deliverable),
 		Deliverables_reference:  make(map[*Deliverable]*Deliverable),
@@ -2250,6 +2328,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"ConcernShape": &ConcernShapeUnmarshaller{},
 
+			"ControlPointShape": &ControlPointShapeUnmarshaller{},
+
 			"Deliverable": &DeliverableUnmarshaller{},
 
 			"DeliverableCompositionShape": &DeliverableCompositionShapeUnmarshaller{},
@@ -2300,6 +2380,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "ConcernInputShape"},
 			{name: "ConcernOutputShape"},
 			{name: "ConcernShape"},
+			{name: "ControlPointShape"},
 			{name: "Deliverable"},
 			{name: "DeliverableCompositionShape"},
 			{name: "DeliverableConceptShape"},
@@ -2346,6 +2427,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.ConcernOutputShape_stagedOrder[instance]
 	case *ConcernShape:
 		return stage.ConcernShape_stagedOrder[instance]
+	case *ControlPointShape:
+		return stage.ControlPointShape_stagedOrder[instance]
 	case *Deliverable:
 		return stage.Deliverable_stagedOrder[instance]
 	case *DeliverableCompositionShape:
@@ -2409,6 +2492,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.ConcernOutputShape_orderStaged[order]).(Type)
 	case *ConcernShape:
 		return any(stage.ConcernShape_orderStaged[order]).(Type)
+	case *ControlPointShape:
+		return any(stage.ControlPointShape_orderStaged[order]).(Type)
 	case *Deliverable:
 		return any(stage.Deliverable_orderStaged[order]).(Type)
 	case *DeliverableCompositionShape:
@@ -2471,6 +2556,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.ConcernOutputShape_stagedOrder[instance]
 	case *ConcernShape:
 		return stage.ConcernShape_stagedOrder[instance]
+	case *ControlPointShape:
+		return stage.ControlPointShape_stagedOrder[instance]
 	case *Deliverable:
 		return stage.Deliverable_stagedOrder[instance]
 	case *DeliverableCompositionShape:
@@ -2582,6 +2669,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["ConcernInputShape"] = len(stage.ConcernInputShapes)
 	stage.Map_GongStructName_InstancesNb["ConcernOutputShape"] = len(stage.ConcernOutputShapes)
 	stage.Map_GongStructName_InstancesNb["ConcernShape"] = len(stage.ConcernShapes)
+	stage.Map_GongStructName_InstancesNb["ControlPointShape"] = len(stage.ControlPointShapes)
 	stage.Map_GongStructName_InstancesNb["Deliverable"] = len(stage.Deliverables)
 	stage.Map_GongStructName_InstancesNb["DeliverableCompositionShape"] = len(stage.DeliverableCompositionShapes)
 	stage.Map_GongStructName_InstancesNb["DeliverableConceptShape"] = len(stage.DeliverableConceptShapes)
@@ -3343,6 +3431,94 @@ func (concernshape *ConcernShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (concernshape *ConcernShape) SetName(name string) {
 	concernshape.Name = name
+}
+
+// Stage puts controlpointshape to the model stage
+func (controlpointshape *ControlPointShape) Stage(stage *Stage) *ControlPointShape {
+	if _, ok := stage.ControlPointShapes[controlpointshape]; !ok {
+		stage.ControlPointShapes[controlpointshape] = struct{}{}
+		stage.ControlPointShape_stagedOrder[controlpointshape] = stage.ControlPointShapeOrder
+		stage.ControlPointShape_orderStaged[stage.ControlPointShapeOrder] = controlpointshape
+		stage.ControlPointShapeOrder++
+	}
+	stage.ControlPointShapes_mapString[controlpointshape.Name] = controlpointshape
+
+	return controlpointshape
+}
+
+// StagePreserveOrder puts controlpointshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ControlPointShapeOrder
+// - update stage.ControlPointShapeOrder accordingly
+func (controlpointshape *ControlPointShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ControlPointShapes[controlpointshape]; !ok {
+		stage.ControlPointShapes[controlpointshape] = struct{}{}
+
+		if order > stage.ControlPointShapeOrder {
+			stage.ControlPointShapeOrder = order
+		}
+		stage.ControlPointShape_stagedOrder[controlpointshape] = order
+		stage.ControlPointShape_orderStaged[order] = controlpointshape
+		stage.ControlPointShapeOrder++
+	}
+	stage.ControlPointShapes_mapString[controlpointshape.Name] = controlpointshape
+}
+
+// Unstage removes controlpointshape off the model stage
+func (controlpointshape *ControlPointShape) Unstage(stage *Stage) *ControlPointShape {
+	delete(stage.ControlPointShapes, controlpointshape)
+	// issue1150
+	// delete(stage.ControlPointShape_stagedOrder, controlpointshape)
+	delete(stage.ControlPointShapes_mapString, controlpointshape.Name)
+
+	return controlpointshape
+}
+
+// UnstageVoid removes controlpointshape off the model stage
+func (controlpointshape *ControlPointShape) UnstageVoid(stage *Stage) {
+	delete(stage.ControlPointShapes, controlpointshape)
+	// issue1150
+	// delete(stage.ControlPointShape_stagedOrder, controlpointshape)
+	delete(stage.ControlPointShapes_mapString, controlpointshape.Name)
+}
+
+// commit controlpointshape to the back repo (if it is already staged)
+func (controlpointshape *ControlPointShape) Commit(stage *Stage) *ControlPointShape {
+	if _, ok := stage.ControlPointShapes[controlpointshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitControlPointShape(controlpointshape)
+		}
+	}
+	return controlpointshape
+}
+
+func (controlpointshape *ControlPointShape) CommitVoid(stage *Stage) {
+	controlpointshape.Commit(stage)
+}
+
+func (controlpointshape *ControlPointShape) StageVoid(stage *Stage) {
+	controlpointshape.Stage(stage)
+}
+
+// Checkout controlpointshape to the back repo (if it is already staged)
+func (controlpointshape *ControlPointShape) Checkout(stage *Stage) *ControlPointShape {
+	if _, ok := stage.ControlPointShapes[controlpointshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutControlPointShape(controlpointshape)
+		}
+	}
+	return controlpointshape
+}
+
+// for satisfaction of GongStruct interface
+func (controlpointshape *ControlPointShape) GetName() (res string) {
+	return controlpointshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (controlpointshape *ControlPointShape) SetName(name string) {
+	controlpointshape.Name = name
 }
 
 // Stage puts deliverable to the model stage
@@ -5027,6 +5203,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMConcernInputShape(ConcernInputShape *ConcernInputShape)
 	CreateORMConcernOutputShape(ConcernOutputShape *ConcernOutputShape)
 	CreateORMConcernShape(ConcernShape *ConcernShape)
+	CreateORMControlPointShape(ControlPointShape *ControlPointShape)
 	CreateORMDeliverable(Deliverable *Deliverable)
 	CreateORMDeliverableCompositionShape(DeliverableCompositionShape *DeliverableCompositionShape)
 	CreateORMDeliverableConceptShape(DeliverableConceptShape *DeliverableConceptShape)
@@ -5057,6 +5234,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMConcernInputShape(ConcernInputShape *ConcernInputShape)
 	DeleteORMConcernOutputShape(ConcernOutputShape *ConcernOutputShape)
 	DeleteORMConcernShape(ConcernShape *ConcernShape)
+	DeleteORMControlPointShape(ControlPointShape *ControlPointShape)
 	DeleteORMDeliverable(Deliverable *Deliverable)
 	DeleteORMDeliverableCompositionShape(DeliverableCompositionShape *DeliverableCompositionShape)
 	DeleteORMDeliverableConceptShape(DeliverableConceptShape *DeliverableConceptShape)
@@ -5118,6 +5296,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.ConcernShapes_mapString = make(map[string]*ConcernShape)
 	stage.ConcernShape_stagedOrder = make(map[*ConcernShape]uint)
 	stage.ConcernShapeOrder = 0
+
+	stage.ControlPointShapes = make(map[*ControlPointShape]struct{})
+	stage.ControlPointShapes_mapString = make(map[string]*ControlPointShape)
+	stage.ControlPointShape_stagedOrder = make(map[*ControlPointShape]uint)
+	stage.ControlPointShapeOrder = 0
 
 	stage.Deliverables = make(map[*Deliverable]struct{})
 	stage.Deliverables_mapString = make(map[string]*Deliverable)
@@ -5247,6 +5430,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.ConcernShapes = nil
 	stage.ConcernShapes_mapString = nil
 
+	stage.ControlPointShapes = nil
+	stage.ControlPointShapes_mapString = nil
+
 	stage.Deliverables = nil
 	stage.Deliverables_mapString = nil
 
@@ -5338,6 +5524,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for concernshape := range stage.ConcernShapes {
 		concernshape.Unstage(stage)
+	}
+
+	for controlpointshape := range stage.ControlPointShapes {
+		controlpointshape.Unstage(stage)
 	}
 
 	for deliverable := range stage.Deliverables {
@@ -5508,6 +5698,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.ConcernOutputShapes).(*Type)
 	case map[*ConcernShape]any:
 		return any(&stage.ConcernShapes).(*Type)
+	case map[*ControlPointShape]any:
+		return any(&stage.ControlPointShapes).(*Type)
 	case map[*Deliverable]any:
 		return any(&stage.Deliverables).(*Type)
 	case map[*DeliverableCompositionShape]any:
@@ -5574,6 +5766,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.ConcernOutputShapes_mapString).(map[string]Type)
 	case *ConcernShape:
 		return any(stage.ConcernShapes_mapString).(map[string]Type)
+	case *ControlPointShape:
+		return any(stage.ControlPointShapes_mapString).(map[string]Type)
 	case *Deliverable:
 		return any(stage.Deliverables_mapString).(map[string]Type)
 	case *DeliverableCompositionShape:
@@ -5640,6 +5834,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.ConcernOutputShapes).(*map[*Type]struct{})
 	case ConcernShape:
 		return any(&stage.ConcernShapes).(*map[*Type]struct{})
+	case ControlPointShape:
+		return any(&stage.ControlPointShapes).(*map[*Type]struct{})
 	case Deliverable:
 		return any(&stage.Deliverables).(*map[*Type]struct{})
 	case DeliverableCompositionShape:
@@ -5706,6 +5902,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.ConcernOutputShapes).(*map[Type]struct{})
 	case *ConcernShape:
 		return any(&stage.ConcernShapes).(*map[Type]struct{})
+	case *ControlPointShape:
+		return any(&stage.ControlPointShapes).(*map[Type]struct{})
 	case *Deliverable:
 		return any(&stage.Deliverables).(*map[Type]struct{})
 	case *DeliverableCompositionShape:
@@ -5772,6 +5970,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.ConcernOutputShapes_mapString).(*map[string]*Type)
 	case ConcernShape:
 		return any(&stage.ConcernShapes_mapString).(*map[string]*Type)
+	case ControlPointShape:
+		return any(&stage.ControlPointShapes_mapString).(*map[string]*Type)
 	case Deliverable:
 		return any(&stage.Deliverables_mapString).(*map[string]*Type)
 	case DeliverableCompositionShape:
@@ -5857,6 +6057,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Concern with the name of the field
 			Concern: &Concern{Name: "Concern"},
+			// field is initialized with an instance of ControlPointShape with the name of the field
+			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case ConcernInputShape:
 		return any(&ConcernInputShape{
@@ -5865,6 +6067,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Deliverable: &Deliverable{Name: "Deliverable"},
 			// field is initialized with an instance of Concern with the name of the field
 			Concern: &Concern{Name: "Concern"},
+			// field is initialized with an instance of ControlPointShape with the name of the field
+			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case ConcernOutputShape:
 		return any(&ConcernOutputShape{
@@ -5873,12 +6077,18 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Task: &Concern{Name: "Task"},
 			// field is initialized with an instance of Deliverable with the name of the field
 			Deliverable: &Deliverable{Name: "Deliverable"},
+			// field is initialized with an instance of ControlPointShape with the name of the field
+			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case ConcernShape:
 		return any(&ConcernShape{
 			// Initialisation of associations
 			// field is initialized with an instance of Concern with the name of the field
 			Concern: &Concern{Name: "Concern"},
+		}).(*Type)
+	case ControlPointShape:
+		return any(&ControlPointShape{
+			// Initialisation of associations
 		}).(*Type)
 	case Deliverable:
 		return any(&Deliverable{
@@ -5893,6 +6103,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Deliverable with the name of the field
 			Deliverable: &Deliverable{Name: "Deliverable"},
+			// field is initialized with an instance of ControlPointShape with the name of the field
+			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case DeliverableConceptShape:
 		return any(&DeliverableConceptShape{
@@ -5901,6 +6113,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Deliverable: &Deliverable{Name: "Deliverable"},
 			// field is initialized with an instance of Concept with the name of the field
 			Concept: &Concept{Name: "Concept"},
+			// field is initialized with an instance of ControlPointShape with the name of the field
+			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case DeliverableShape:
 		return any(&DeliverableShape{
@@ -6007,6 +6221,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Note: &Note{Name: "Note"},
 			// field is initialized with an instance of Deliverable with the name of the field
 			Deliverable: &Deliverable{Name: "Deliverable"},
+			// field is initialized with an instance of ControlPointShape with the name of the field
+			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case NoteShape:
 		return any(&NoteShape{
@@ -6021,6 +6237,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Note: &Note{Name: "Note"},
 			// field is initialized with an instance of Stakeholder with the name of the field
 			Stakeholder: &Stakeholder{Name: "Stakeholder"},
+			// field is initialized with an instance of ControlPointShape with the name of the field
+			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case NoteTaskShape:
 		return any(&NoteTaskShape{
@@ -6029,6 +6247,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Note: &Note{Name: "Note"},
 			// field is initialized with an instance of Concern with the name of the field
 			Task: &Concern{Name: "Task"},
+			// field is initialized with an instance of ControlPointShape with the name of the field
+			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case Requirement:
 		return any(&Requirement{
@@ -6057,6 +6277,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Stakeholder with the name of the field
 			Stakeholder: &Stakeholder{Name: "Stakeholder"},
+			// field is initialized with an instance of ControlPointShape with the name of the field
+			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case StakeholderConcernShape:
 		return any(&StakeholderConcernShape{
@@ -6065,6 +6287,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Stakeholder: &Stakeholder{Name: "Stakeholder"},
 			// field is initialized with an instance of Concern with the name of the field
 			Concern: &Concern{Name: "Concern"},
+			// field is initialized with an instance of ControlPointShape with the name of the field
+			ControlPointShapes: []*ControlPointShape{{Name: "ControlPointShapes"}},
 		}).(*Type)
 	case StakeholderShape:
 		return any(&StakeholderShape{
@@ -6257,6 +6481,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ControlPointShape
+	case ControlPointShape:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Deliverable
 	case Deliverable:
@@ -6721,19 +6950,48 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case ConcernCompositionShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "ControlPointShapes":
+			res := make(map[*ControlPointShape][]*ConcernCompositionShape)
+			for concerncompositionshape := range stage.ConcernCompositionShapes {
+				for _, controlpointshape_ := range concerncompositionshape.ControlPointShapes {
+					res[controlpointshape_] = append(res[controlpointshape_], concerncompositionshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of ConcernInputShape
 	case ConcernInputShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "ControlPointShapes":
+			res := make(map[*ControlPointShape][]*ConcernInputShape)
+			for concerninputshape := range stage.ConcernInputShapes {
+				for _, controlpointshape_ := range concerninputshape.ControlPointShapes {
+					res[controlpointshape_] = append(res[controlpointshape_], concerninputshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of ConcernOutputShape
 	case ConcernOutputShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "ControlPointShapes":
+			res := make(map[*ControlPointShape][]*ConcernOutputShape)
+			for concernoutputshape := range stage.ConcernOutputShapes {
+				for _, controlpointshape_ := range concernoutputshape.ControlPointShapes {
+					res[controlpointshape_] = append(res[controlpointshape_], concernoutputshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of ConcernShape
 	case ConcernShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ControlPointShape
+	case ControlPointShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -6762,11 +7020,27 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case DeliverableCompositionShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "ControlPointShapes":
+			res := make(map[*ControlPointShape][]*DeliverableCompositionShape)
+			for deliverablecompositionshape := range stage.DeliverableCompositionShapes {
+				for _, controlpointshape_ := range deliverablecompositionshape.ControlPointShapes {
+					res[controlpointshape_] = append(res[controlpointshape_], deliverablecompositionshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of DeliverableConceptShape
 	case DeliverableConceptShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "ControlPointShapes":
+			res := make(map[*ControlPointShape][]*DeliverableConceptShape)
+			for deliverableconceptshape := range stage.DeliverableConceptShapes {
+				for _, controlpointshape_ := range deliverableconceptshape.ControlPointShapes {
+					res[controlpointshape_] = append(res[controlpointshape_], deliverableconceptshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of DeliverableShape
 	case DeliverableShape:
@@ -7112,6 +7386,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case NoteDeliverableShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "ControlPointShapes":
+			res := make(map[*ControlPointShape][]*NoteDeliverableShape)
+			for notedeliverableshape := range stage.NoteDeliverableShapes {
+				for _, controlpointshape_ := range notedeliverableshape.ControlPointShapes {
+					res[controlpointshape_] = append(res[controlpointshape_], notedeliverableshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of NoteShape
 	case NoteShape:
@@ -7122,11 +7404,27 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case NoteStakeholderShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "ControlPointShapes":
+			res := make(map[*ControlPointShape][]*NoteStakeholderShape)
+			for notestakeholdershape := range stage.NoteStakeholderShapes {
+				for _, controlpointshape_ := range notestakeholdershape.ControlPointShapes {
+					res[controlpointshape_] = append(res[controlpointshape_], notestakeholdershape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of NoteTaskShape
 	case NoteTaskShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "ControlPointShapes":
+			res := make(map[*ControlPointShape][]*NoteTaskShape)
+			for notetaskshape := range stage.NoteTaskShapes {
+				for _, controlpointshape_ := range notetaskshape.ControlPointShapes {
+					res[controlpointshape_] = append(res[controlpointshape_], notetaskshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Requirement
 	case Requirement:
@@ -7179,11 +7477,27 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case StakeholderCompositionShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "ControlPointShapes":
+			res := make(map[*ControlPointShape][]*StakeholderCompositionShape)
+			for stakeholdercompositionshape := range stage.StakeholderCompositionShapes {
+				for _, controlpointshape_ := range stakeholdercompositionshape.ControlPointShapes {
+					res[controlpointshape_] = append(res[controlpointshape_], stakeholdercompositionshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of StakeholderConcernShape
 	case StakeholderConcernShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "ControlPointShapes":
+			res := make(map[*ControlPointShape][]*StakeholderConcernShape)
+			for stakeholderconcernshape := range stage.StakeholderConcernShapes {
+				for _, controlpointshape_ := range stakeholderconcernshape.ControlPointShapes {
+					res[controlpointshape_] = append(res[controlpointshape_], stakeholderconcernshape)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of StakeholderShape
 	case StakeholderShape:
@@ -7227,6 +7541,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "ConcernOutputShape"
 	case *ConcernShape:
 		res = "ConcernShape"
+	case *ControlPointShape:
+		res = "ControlPointShape"
 	case *Deliverable:
 		res = "Deliverable"
 	case *DeliverableCompositionShape:
@@ -7365,6 +7681,39 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Diagram"
 		rf.Fieldname = "Concern_Shapes"
+		res = append(res, rf)
+	case *ControlPointShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "ConcernCompositionShape"
+		rf.Fieldname = "ControlPointShapes"
+		res = append(res, rf)
+		rf.GongstructName = "ConcernInputShape"
+		rf.Fieldname = "ControlPointShapes"
+		res = append(res, rf)
+		rf.GongstructName = "ConcernOutputShape"
+		rf.Fieldname = "ControlPointShapes"
+		res = append(res, rf)
+		rf.GongstructName = "DeliverableCompositionShape"
+		rf.Fieldname = "ControlPointShapes"
+		res = append(res, rf)
+		rf.GongstructName = "DeliverableConceptShape"
+		rf.Fieldname = "ControlPointShapes"
+		res = append(res, rf)
+		rf.GongstructName = "NoteDeliverableShape"
+		rf.Fieldname = "ControlPointShapes"
+		res = append(res, rf)
+		rf.GongstructName = "NoteStakeholderShape"
+		rf.Fieldname = "ControlPointShapes"
+		res = append(res, rf)
+		rf.GongstructName = "NoteTaskShape"
+		rf.Fieldname = "ControlPointShapes"
+		res = append(res, rf)
+		rf.GongstructName = "StakeholderCompositionShape"
+		rf.Fieldname = "ControlPointShapes"
+		res = append(res, rf)
+		rf.GongstructName = "StakeholderConcernShape"
+		rf.Fieldname = "ControlPointShapes"
 		res = append(res, rf)
 	case *Deliverable:
 		var rf ReverseField
@@ -7726,6 +8075,11 @@ func (concerncompositionshape *ConcernCompositionShape) GongGetFieldHeaders() (r
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:                 "ControlPointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPointShape",
+		},
 	}
 	return
 }
@@ -7772,6 +8126,11 @@ func (concerninputshape *ConcernInputShape) GongGetFieldHeaders() (res []GongFie
 		{
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ControlPointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPointShape",
 		},
 	}
 	return
@@ -7820,6 +8179,11 @@ func (concernoutputshape *ConcernOutputShape) GongGetFieldHeaders() (res []GongF
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:                 "ControlPointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPointShape",
+		},
 	}
 	return
 }
@@ -7858,6 +8222,29 @@ func (concernshape *ConcernShape) GongGetFieldHeaders() (res []GongFieldHeader) 
 		},
 		{
 			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (controlpointshape *ControlPointShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "X_Relative",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y_Relative",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsStartShapeTheClosestShape",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
@@ -7948,6 +8335,11 @@ func (deliverablecompositionshape *DeliverableCompositionShape) GongGetFieldHead
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:                 "ControlPointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPointShape",
+		},
 	}
 	return
 }
@@ -7994,6 +8386,11 @@ func (deliverableconceptshape *DeliverableConceptShape) GongGetFieldHeaders() (r
 		{
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ControlPointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPointShape",
 		},
 	}
 	return
@@ -8414,6 +8811,11 @@ func (notedeliverableshape *NoteDeliverableShape) GongGetFieldHeaders() (res []G
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:                 "ControlPointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPointShape",
+		},
 	}
 	return
 }
@@ -8501,6 +8903,11 @@ func (notestakeholdershape *NoteStakeholderShape) GongGetFieldHeaders() (res []G
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:                 "ControlPointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPointShape",
+		},
 	}
 	return
 }
@@ -8547,6 +8954,11 @@ func (notetaskshape *NoteTaskShape) GongGetFieldHeaders() (res []GongFieldHeader
 		{
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ControlPointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPointShape",
 		},
 	}
 	return
@@ -8706,6 +9118,11 @@ func (stakeholdercompositionshape *StakeholderCompositionShape) GongGetFieldHead
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:                 "ControlPointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPointShape",
+		},
 	}
 	return
 }
@@ -8752,6 +9169,11 @@ func (stakeholderconcernshape *StakeholderConcernShape) GongGetFieldHeaders() (r
 		{
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ControlPointShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPointShape",
 		},
 	}
 	return
@@ -9077,6 +9499,16 @@ func (concerncompositionshape *ConcernCompositionShape) GongGetFieldValue(fieldN
 		res.valueString = fmt.Sprintf("%t", concerncompositionshape.IsHidden)
 		res.valueBool = concerncompositionshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ControlPointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range concerncompositionshape.ControlPointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -9120,6 +9552,16 @@ func (concerninputshape *ConcernInputShape) GongGetFieldValue(fieldName string, 
 		res.valueString = fmt.Sprintf("%t", concerninputshape.IsHidden)
 		res.valueBool = concerninputshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ControlPointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range concerninputshape.ControlPointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -9163,6 +9605,16 @@ func (concernoutputshape *ConcernOutputShape) GongGetFieldValue(fieldName string
 		res.valueString = fmt.Sprintf("%t", concernoutputshape.IsHidden)
 		res.valueBool = concernoutputshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ControlPointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range concernoutputshape.ControlPointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -9201,6 +9653,27 @@ func (concernshape *ConcernShape) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsHidden":
 		res.valueString = fmt.Sprintf("%t", concernshape.IsHidden)
 		res.valueBool = concernshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (controlpointshape *ControlPointShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = controlpointshape.Name
+	case "X_Relative":
+		res.valueString = fmt.Sprintf("%f", controlpointshape.X_Relative)
+		res.valueFloat = controlpointshape.X_Relative
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y_Relative":
+		res.valueString = fmt.Sprintf("%f", controlpointshape.Y_Relative)
+		res.valueFloat = controlpointshape.Y_Relative
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsStartShapeTheClosestShape":
+		res.valueString = fmt.Sprintf("%t", controlpointshape.IsStartShapeTheClosestShape)
+		res.valueBool = controlpointshape.IsStartShapeTheClosestShape
 		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
@@ -9287,6 +9760,16 @@ func (deliverablecompositionshape *DeliverableCompositionShape) GongGetFieldValu
 		res.valueString = fmt.Sprintf("%t", deliverablecompositionshape.IsHidden)
 		res.valueBool = deliverablecompositionshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ControlPointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range deliverablecompositionshape.ControlPointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -9330,6 +9813,16 @@ func (deliverableconceptshape *DeliverableConceptShape) GongGetFieldValue(fieldN
 		res.valueString = fmt.Sprintf("%t", deliverableconceptshape.IsHidden)
 		res.valueBool = deliverableconceptshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ControlPointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range deliverableconceptshape.ControlPointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -9926,6 +10419,16 @@ func (notedeliverableshape *NoteDeliverableShape) GongGetFieldValue(fieldName st
 		res.valueString = fmt.Sprintf("%t", notedeliverableshape.IsHidden)
 		res.valueBool = notedeliverableshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ControlPointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range notedeliverableshape.ControlPointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -10008,6 +10511,16 @@ func (notestakeholdershape *NoteStakeholderShape) GongGetFieldValue(fieldName st
 		res.valueString = fmt.Sprintf("%t", notestakeholdershape.IsHidden)
 		res.valueBool = notestakeholdershape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ControlPointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range notestakeholdershape.ControlPointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -10051,6 +10564,16 @@ func (notetaskshape *NoteTaskShape) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%t", notetaskshape.IsHidden)
 		res.valueBool = notetaskshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ControlPointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range notetaskshape.ControlPointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -10207,6 +10730,16 @@ func (stakeholdercompositionshape *StakeholderCompositionShape) GongGetFieldValu
 		res.valueString = fmt.Sprintf("%t", stakeholdercompositionshape.IsHidden)
 		res.valueBool = stakeholdercompositionshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ControlPointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range stakeholdercompositionshape.ControlPointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -10250,6 +10783,16 @@ func (stakeholderconcernshape *StakeholderConcernShape) GongGetFieldValue(fieldN
 		res.valueString = fmt.Sprintf("%t", stakeholderconcernshape.IsHidden)
 		res.valueBool = stakeholderconcernshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ControlPointShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range stakeholderconcernshape.ControlPointShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -10520,6 +11063,20 @@ func (concerncompositionshape *ConcernCompositionShape) GongSetFieldValue(fieldN
 		concerncompositionshape.CornerOffsetRatio = value.GetValueFloat()
 	case "IsHidden":
 		concerncompositionshape.IsHidden = value.GetValueBool()
+	case "ControlPointShapes":
+		concerncompositionshape.ControlPointShapes = make([]*ControlPointShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ControlPointShapes {
+					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
+						concerncompositionshape.ControlPointShapes = append(concerncompositionshape.ControlPointShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10565,6 +11122,20 @@ func (concerninputshape *ConcernInputShape) GongSetFieldValue(fieldName string, 
 		concerninputshape.CornerOffsetRatio = value.GetValueFloat()
 	case "IsHidden":
 		concerninputshape.IsHidden = value.GetValueBool()
+	case "ControlPointShapes":
+		concerninputshape.ControlPointShapes = make([]*ControlPointShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ControlPointShapes {
+					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
+						concerninputshape.ControlPointShapes = append(concerninputshape.ControlPointShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10610,6 +11181,20 @@ func (concernoutputshape *ConcernOutputShape) GongSetFieldValue(fieldName string
 		concernoutputshape.CornerOffsetRatio = value.GetValueFloat()
 	case "IsHidden":
 		concernoutputshape.IsHidden = value.GetValueBool()
+	case "ControlPointShapes":
+		concernoutputshape.ControlPointShapes = make([]*ControlPointShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ControlPointShapes {
+					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
+						concernoutputshape.ControlPointShapes = append(concernoutputshape.ControlPointShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10644,6 +11229,23 @@ func (concernshape *ConcernShape) GongSetFieldValue(fieldName string, value Gong
 		concernshape.Height = value.GetValueFloat()
 	case "IsHidden":
 		concernshape.IsHidden = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (controlpointshape *ControlPointShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		controlpointshape.Name = value.GetValueString()
+	case "X_Relative":
+		controlpointshape.X_Relative = value.GetValueFloat()
+	case "Y_Relative":
+		controlpointshape.Y_Relative = value.GetValueFloat()
+	case "IsStartShapeTheClosestShape":
+		controlpointshape.IsStartShapeTheClosestShape = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10729,6 +11331,20 @@ func (deliverablecompositionshape *DeliverableCompositionShape) GongSetFieldValu
 		deliverablecompositionshape.CornerOffsetRatio = value.GetValueFloat()
 	case "IsHidden":
 		deliverablecompositionshape.IsHidden = value.GetValueBool()
+	case "ControlPointShapes":
+		deliverablecompositionshape.ControlPointShapes = make([]*ControlPointShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ControlPointShapes {
+					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
+						deliverablecompositionshape.ControlPointShapes = append(deliverablecompositionshape.ControlPointShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10774,6 +11390,20 @@ func (deliverableconceptshape *DeliverableConceptShape) GongSetFieldValue(fieldN
 		deliverableconceptshape.CornerOffsetRatio = value.GetValueFloat()
 	case "IsHidden":
 		deliverableconceptshape.IsHidden = value.GetValueBool()
+	case "ControlPointShapes":
+		deliverableconceptshape.ControlPointShapes = make([]*ControlPointShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ControlPointShapes {
+					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
+						deliverableconceptshape.ControlPointShapes = append(deliverableconceptshape.ControlPointShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11494,6 +12124,20 @@ func (notedeliverableshape *NoteDeliverableShape) GongSetFieldValue(fieldName st
 		notedeliverableshape.CornerOffsetRatio = value.GetValueFloat()
 	case "IsHidden":
 		notedeliverableshape.IsHidden = value.GetValueBool()
+	case "ControlPointShapes":
+		notedeliverableshape.ControlPointShapes = make([]*ControlPointShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ControlPointShapes {
+					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
+						notedeliverableshape.ControlPointShapes = append(notedeliverableshape.ControlPointShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11573,6 +12217,20 @@ func (notestakeholdershape *NoteStakeholderShape) GongSetFieldValue(fieldName st
 		notestakeholdershape.CornerOffsetRatio = value.GetValueFloat()
 	case "IsHidden":
 		notestakeholdershape.IsHidden = value.GetValueBool()
+	case "ControlPointShapes":
+		notestakeholdershape.ControlPointShapes = make([]*ControlPointShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ControlPointShapes {
+					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
+						notestakeholdershape.ControlPointShapes = append(notestakeholdershape.ControlPointShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11618,6 +12276,20 @@ func (notetaskshape *NoteTaskShape) GongSetFieldValue(fieldName string, value Go
 		notetaskshape.CornerOffsetRatio = value.GetValueFloat()
 	case "IsHidden":
 		notetaskshape.IsHidden = value.GetValueBool()
+	case "ControlPointShapes":
+		notetaskshape.ControlPointShapes = make([]*ControlPointShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ControlPointShapes {
+					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
+						notetaskshape.ControlPointShapes = append(notetaskshape.ControlPointShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11780,6 +12452,20 @@ func (stakeholdercompositionshape *StakeholderCompositionShape) GongSetFieldValu
 		stakeholdercompositionshape.CornerOffsetRatio = value.GetValueFloat()
 	case "IsHidden":
 		stakeholdercompositionshape.IsHidden = value.GetValueBool()
+	case "ControlPointShapes":
+		stakeholdercompositionshape.ControlPointShapes = make([]*ControlPointShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ControlPointShapes {
+					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
+						stakeholdercompositionshape.ControlPointShapes = append(stakeholdercompositionshape.ControlPointShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11825,6 +12511,20 @@ func (stakeholderconcernshape *StakeholderConcernShape) GongSetFieldValue(fieldN
 		stakeholderconcernshape.CornerOffsetRatio = value.GetValueFloat()
 	case "IsHidden":
 		stakeholderconcernshape.IsHidden = value.GetValueBool()
+	case "ControlPointShapes":
+		stakeholderconcernshape.ControlPointShapes = make([]*ControlPointShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ControlPointShapes {
+					if stage.ControlPointShape_stagedOrder[__instance__] == uint(id) {
+						stakeholderconcernshape.ControlPointShapes = append(stakeholderconcernshape.ControlPointShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11933,6 +12633,10 @@ func (concernoutputshape *ConcernOutputShape) GongGetGongstructName() string {
 
 func (concernshape *ConcernShape) GongGetGongstructName() string {
 	return "ConcernShape"
+}
+
+func (controlpointshape *ControlPointShape) GongGetGongstructName() string {
+	return "ControlPointShape"
 }
 
 func (deliverable *Deliverable) GongGetGongstructName() string {
@@ -12056,6 +12760,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.ConcernShapes_mapString = make(map[string]*ConcernShape)
 	for concernshape := range stage.ConcernShapes {
 		stage.ConcernShapes_mapString[concernshape.Name] = concernshape
+	}
+
+	stage.ControlPointShapes_mapString = make(map[string]*ControlPointShape)
+	for controlpointshape := range stage.ControlPointShapes {
+		stage.ControlPointShapes_mapString[controlpointshape.Name] = controlpointshape
 	}
 
 	stage.Deliverables_mapString = make(map[string]*Deliverable)
