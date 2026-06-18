@@ -33,11 +33,20 @@ type Concept_WOP struct {
 	// insertion point
 
 	Name string
+
+	ComputedPrefix string
+
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
 }
 
 func (from *Concept) CopyBasicFields(to *Concept) {
 	// insertion point
 	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 }
 
 type Concern_WOP struct {
@@ -251,6 +260,10 @@ type Diagram_WOP struct {
 
 	Height float64
 
+	IsRequirementsNodeExpanded bool
+
+	IsConceptsNodeExpanded bool
+
 	IsPBSNodeExpanded bool
 
 	IsConcernsNodeExpanded bool
@@ -273,6 +286,8 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.DefaultBoxHeigth = from.DefaultBoxHeigth
 	to.Width = from.Width
 	to.Height = from.Height
+	to.IsRequirementsNodeExpanded = from.IsRequirementsNodeExpanded
+	to.IsConceptsNodeExpanded = from.IsConceptsNodeExpanded
 	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
 	to.IsConcernsNodeExpanded = from.IsConcernsNodeExpanded
 	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
@@ -503,11 +518,20 @@ type Requirement_WOP struct {
 	// insertion point
 
 	Name string
+
+	ComputedPrefix string
+
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
 }
 
 func (from *Requirement) CopyBasicFields(to *Requirement) {
 	// insertion point
 	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 }
 
 type Stakeholder_WOP struct {

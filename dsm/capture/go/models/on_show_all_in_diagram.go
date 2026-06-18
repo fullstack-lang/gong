@@ -1,14 +1,12 @@
 package models
 
 import (
-	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
 // onShowAllInDiagram resets the diagram, creates and add all all possible concrete instances to the diagram,
 // and organize them in a pseudo pert diagram
-func onShowAllInDiagram(stager *Stager, diagram *Diagram) func(
-	stage *tree.Stage, updatedButton *tree.Button) {
-	return func(_ *tree.Stage, _ *tree.Button) {
+func onShowAllInDiagram(stager *Stager, diagram *Diagram) func() {
+	return func() {
 		// 1. Reset the diagram: remove all shapes from the stage to start fresh
 		diagram.Product_Shapes = []*ProductShape{}
 		diagram.Concern_Shapes = []*ConcernShape{}

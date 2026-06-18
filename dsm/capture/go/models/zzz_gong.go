@@ -270,6 +270,8 @@ type Stage struct {
 	Diagrams_referenceOrder map[*Diagram]uint
 
 	// insertion point for slice of pointers maps
+	Diagram_ConcernsWhoseRequirementsNodeIsExpanded_reverseMap map[*Concern]*Diagram
+
 	Diagram_Product_Shapes_reverseMap map[*ProductShape]*Diagram
 
 	Diagram_ProductsWhoseNodeIsExpanded_reverseMap map[*Deliverable]*Diagram
@@ -330,6 +332,10 @@ type Stage struct {
 	Library_RootConcerns_reverseMap map[*Concern]*Library
 
 	Library_RootStakeholders_reverseMap map[*Stakeholder]*Library
+
+	Library_RootRequirements_reverseMap map[*Requirement]*Library
+
+	Library_RootConcepts_reverseMap map[*Concept]*Library
 
 	Library_AnalysisNeeds_reverseMap map[*AnalysisNeed]*Library
 
@@ -5325,6 +5331,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Diagram:
 		return any(&Diagram{
 			// Initialisation of associations
+			// field is initialized with an instance of Concern with the name of the field
+			ConcernsWhoseRequirementsNodeIsExpanded: []*Concern{{Name: "ConcernsWhoseRequirementsNodeIsExpanded"}},
 			// field is initialized with an instance of ProductShape with the name of the field
 			Product_Shapes: []*ProductShape{{Name: "Product_Shapes"}},
 			// field is initialized with an instance of Deliverable with the name of the field
@@ -5375,6 +5383,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RootConcerns: []*Concern{{Name: "RootConcerns"}},
 			// field is initialized with an instance of Stakeholder with the name of the field
 			RootStakeholders: []*Stakeholder{{Name: "RootStakeholders"}},
+			// field is initialized with an instance of Requirement with the name of the field
+			RootRequirements: []*Requirement{{Name: "RootRequirements"}},
+			// field is initialized with an instance of Concept with the name of the field
+			RootConcepts: []*Concept{{Name: "RootConcepts"}},
 			// field is initialized with an instance of AnalysisNeed with the name of the field
 			AnalysisNeeds: []*AnalysisNeed{{Name: "AnalysisNeeds"}},
 			// field is initialized with an instance of Note with the name of the field
@@ -6074,6 +6086,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Diagram:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "ConcernsWhoseRequirementsNodeIsExpanded":
+			res := make(map[*Concern][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, concern_ := range diagram.ConcernsWhoseRequirementsNodeIsExpanded {
+					res[concern_] = append(res[concern_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Product_Shapes":
 			res := make(map[*ProductShape][]*Diagram)
 			for diagram := range stage.Diagrams {
@@ -6260,6 +6280,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for library := range stage.Librarys {
 				for _, stakeholder_ := range library.RootStakeholders {
 					res[stakeholder_] = append(res[stakeholder_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RootRequirements":
+			res := make(map[*Requirement][]*Library)
+			for library := range stage.Librarys {
+				for _, requirement_ := range library.RootRequirements {
+					res[requirement_] = append(res[requirement_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RootConcepts":
+			res := make(map[*Concept][]*Library)
+			for library := range stage.Librarys {
+				for _, concept_ := range library.RootConcepts {
+					res[concept_] = append(res[concept_], library)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -6510,6 +6546,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Deliverable"
 		rf.Fieldname = "Concepts"
 		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "RootConcepts"
+		res = append(res, rf)
 		rf.GongstructName = "Requirement"
 		rf.Fieldname = "Concepts"
 		res = append(res, rf)
@@ -6518,6 +6557,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Concern"
 		rf.Fieldname = "SubConcerns"
+		res = append(res, rf)
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "ConcernsWhoseRequirementsNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Diagram"
 		rf.Fieldname = "ConcernsWhoseNodeIsExpanded"
@@ -6648,6 +6690,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Concern"
 		rf.Fieldname = "Requirements"
 		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "RootRequirements"
+		res = append(res, rf)
 	case *Stakeholder:
 		var rf ReverseField
 		_ = rf
@@ -6728,6 +6773,19 @@ func (concept *Concept) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:                 "Tools",
@@ -7083,6 +7141,19 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:                 "ConcernsWhoseRequirementsNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Concern",
+		},
+		{
+			Name:               "IsRequirementsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsConceptsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "Product_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "ProductShape",
@@ -7240,6 +7311,16 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "RootStakeholders",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Stakeholder",
+		},
+		{
+			Name:                 "RootRequirements",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Requirement",
+		},
+		{
+			Name:                 "RootConcepts",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Concept",
 		},
 		{
 			Name:                 "AnalysisNeeds",
@@ -7579,6 +7660,19 @@ func (requirement *Requirement) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
 			Name:                 "SupportLevels",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "SupportLevel",
@@ -7868,6 +7962,15 @@ func (concept *Concept) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = concept.Name
+	case "ComputedPrefix":
+		res.valueString = concept.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", concept.IsExpanded)
+		res.valueBool = concept.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := concept.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "Tools":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range concept.Tools {
@@ -8214,6 +8317,24 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%f", diagram.Height)
 		res.valueFloat = diagram.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ConcernsWhoseRequirementsNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ConcernsWhoseRequirementsNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsRequirementsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsRequirementsNodeExpanded)
+		res.valueBool = diagram.IsRequirementsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsConceptsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsConceptsNodeExpanded)
+		res.valueBool = diagram.IsConceptsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Product_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.Product_Shapes {
@@ -8475,6 +8596,26 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "RootStakeholders":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.RootStakeholders {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RootRequirements":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootRequirements {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RootConcepts":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootConcepts {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8827,6 +8968,15 @@ func (requirement *Requirement) GongGetFieldValue(fieldName string, stage *Stage
 	// string value of fields
 	case "Name":
 		res.valueString = requirement.Name
+	case "ComputedPrefix":
+		res.valueString = requirement.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", requirement.IsExpanded)
+		res.valueBool = requirement.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := requirement.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "SupportLevels":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range requirement.SupportLevels {
@@ -9064,6 +9214,12 @@ func (concept *Concept) GongSetFieldValue(fieldName string, value GongFieldValue
 	// insertion point for per field code
 	case "Name":
 		concept.Name = value.GetValueString()
+	case "ComputedPrefix":
+		concept.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		concept.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		concept.LayoutDirection.FromCodeString(value.GetValueString())
 	case "Tools":
 		concept.Tools = make([]*Tool, 0)
 		ids := strings.Split(value.ids, ";")
@@ -9405,6 +9561,24 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.Width = value.GetValueFloat()
 	case "Height":
 		diagram.Height = value.GetValueFloat()
+	case "ConcernsWhoseRequirementsNodeIsExpanded":
+		diagram.ConcernsWhoseRequirementsNodeIsExpanded = make([]*Concern, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Concerns {
+					if stage.Concern_stagedOrder[__instance__] == uint(id) {
+						diagram.ConcernsWhoseRequirementsNodeIsExpanded = append(diagram.ConcernsWhoseRequirementsNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsRequirementsNodeExpanded":
+		diagram.IsRequirementsNodeExpanded = value.GetValueBool()
+	case "IsConceptsNodeExpanded":
+		diagram.IsConceptsNodeExpanded = value.GetValueBool()
 	case "Product_Shapes":
 		diagram.Product_Shapes = make([]*ProductShape, 0)
 		ids := strings.Split(value.ids, ";")
@@ -9749,6 +9923,34 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				for __instance__ := range stage.Stakeholders {
 					if stage.Stakeholder_stagedOrder[__instance__] == uint(id) {
 						library.RootStakeholders = append(library.RootStakeholders, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "RootRequirements":
+		library.RootRequirements = make([]*Requirement, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Requirements {
+					if stage.Requirement_stagedOrder[__instance__] == uint(id) {
+						library.RootRequirements = append(library.RootRequirements, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "RootConcepts":
+		library.RootConcepts = make([]*Concept, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Concepts {
+					if stage.Concept_stagedOrder[__instance__] == uint(id) {
+						library.RootConcepts = append(library.RootConcepts, __instance__)
 						break
 					}
 				}
@@ -10119,6 +10321,12 @@ func (requirement *Requirement) GongSetFieldValue(fieldName string, value GongFi
 	// insertion point for per field code
 	case "Name":
 		requirement.Name = value.GetValueString()
+	case "ComputedPrefix":
+		requirement.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		requirement.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		requirement.LayoutDirection.FromCodeString(value.GetValueString())
 	case "SupportLevels":
 		requirement.SupportLevels = make([]*SupportLevel, 0)
 		ids := strings.Split(value.ids, ";")

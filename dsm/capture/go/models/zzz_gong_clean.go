@@ -112,6 +112,7 @@ func (deliverable *Deliverable) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Diagram
 func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &diagram.ConcernsWhoseRequirementsNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.Product_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagram.ProductsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.ProductComposition_Shapes) || modified
@@ -142,6 +143,8 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &library.RootDeliverables) || modified
 	modified = GongCleanSlice(stage, &library.RootConcerns) || modified
 	modified = GongCleanSlice(stage, &library.RootStakeholders) || modified
+	modified = GongCleanSlice(stage, &library.RootRequirements) || modified
+	modified = GongCleanSlice(stage, &library.RootConcepts) || modified
 	modified = GongCleanSlice(stage, &library.AnalysisNeeds) || modified
 	modified = GongCleanSlice(stage, &library.Notes) || modified
 	modified = GongCleanSlice(stage, &library.Diagrams) || modified

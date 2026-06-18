@@ -343,3 +343,4 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 		}
 	}
 }
+

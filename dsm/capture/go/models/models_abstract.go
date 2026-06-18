@@ -15,6 +15,8 @@ type Library struct {
 	RootDeliverables []*Deliverable
 	RootConcerns     []*Concern
 	RootStakeholders []*Stakeholder
+	RootRequirements []*Requirement
+	RootConcepts     []*Concept
 	AnalysisNeeds    []*AnalysisNeed
 
 	Notes []*Note
@@ -46,6 +48,11 @@ type Diagram struct {
 
 	Width  float64
 	Height float64
+
+	ConcernsWhoseRequirementsNodeIsExpanded []*Concern
+
+	IsRequirementsNodeExpanded bool
+	IsConceptsNodeExpanded     bool
 
 	Product_Shapes              []*ProductShape
 	map_Product_ProductShape    map[*Deliverable]*ProductShape
@@ -260,6 +267,10 @@ type Stakeholder struct {
 
 type Requirement struct {
 	Name          string
+
+	LibraryAbstractFields
+	AbstractTypeFields
+
 	SupportLevels []*SupportLevel
 	Concepts      []*Concept
 }
@@ -271,6 +282,10 @@ type SupportLevel struct {
 
 type Concept struct {
 	Name  string
+
+	LibraryAbstractFields
+	AbstractTypeFields
+
 	Tools []*Tool
 }
 

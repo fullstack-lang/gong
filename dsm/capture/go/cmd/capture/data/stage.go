@@ -27,6 +27,8 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
+	__Concept__00000000_ := (&models.Concept{Name: `C1`}).Stage(stage)
+
 	__Concern__00000000_ := (&models.Concern{Name: `Edit M0 & generates deliverables`}).Stage(stage)
 	__Concern__00000001_ := (&models.Concern{Name: `Consumes SE deliverables`}).Stage(stage)
 	__Concern__00000002_ := (&models.Concern{Name: `Edit M1 & develop tools to generate deliverables`}).Stage(stage)
@@ -53,15 +55,21 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
 
-	__Note__00000000_ := (&models.Note{Name: `M0 is based on M1`}).Stage(stage)
+	__Note__00000000_ := (&models.Note{Name: `With SysML V2, the M1 editor is supposed to edit SysML v2 files for the defintion of the M1. The pain point with SysML v2 is:
+- the high complexity required  for mastering SysML v2 syntax
+- the lack of standard for the graphical views.`}).Stage(stage)
 
 	__NoteProductShape__00000000_ := (&models.NoteProductShape{Name: `M0 is based on M1 to Tools to edit M0`}).Stage(stage)
 
 	__NoteShape__00000000_ := (&models.NoteShape{Name: `-Default Diagram`}).Stage(stage)
 
+	__NoteTaskShape__00000002_ := (&models.NoteTaskShape{Name: `M0 is based on M1 to Edit M1 & develop tools to generate deliverables`}).Stage(stage)
+
 	__ProductShape__00000000_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
 	__ProductShape__00000002_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
 	__ProductShape__00000003_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
+
+	__Requirement__00000000_ := (&models.Requirement{Name: `R1`}).Stage(stage)
 
 	__Stakeholder__00000000_ := (&models.Stakeholder{Name: `M0 editor`}).Stage(stage)
 	__Stakeholder__00000001_ := (&models.Stakeholder{Name: `M1 editor`}).Stage(stage)
@@ -79,6 +87,11 @@ func _(stage *models.Stage) {
 	__StakeholderShape__00000003_ := (&models.StakeholderShape{Name: `-Default Diagram`}).Stage(stage)
 
 	// insertion point for initialization of values
+
+	__Concept__00000000_.Name = `C1`
+	__Concept__00000000_.ComputedPrefix = ``
+	__Concept__00000000_.IsExpanded = false
+	__Concept__00000000_.LayoutDirection = models.Vertical
 
 	__Concern__00000000_.Name = `Edit M0 & generates deliverables`
 	__Concern__00000000_.IDAirbus = ``
@@ -241,11 +254,13 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 10500.000000
-	__Diagram__00000000_.Height = 10500.000000
+	__Diagram__00000000_.Width = 13600.000000
+	__Diagram__00000000_.Height = 13600.000000
+	__Diagram__00000000_.IsRequirementsNodeExpanded = true
+	__Diagram__00000000_.IsConceptsNodeExpanded = true
 	__Diagram__00000000_.IsPBSNodeExpanded = false
 	__Diagram__00000000_.IsConcernsNodeExpanded = false
-	__Diagram__00000000_.IsNotesNodeExpanded = false
+	__Diagram__00000000_.IsNotesNodeExpanded = true
 	__Diagram__00000000_.IsStakeholdersNodeExpanded = false
 
 	__Library__00000000_.Name = ``
@@ -255,7 +270,9 @@ func _(stage *models.Stage) {
 	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 
-	__Note__00000000_.Name = `M0 is based on M1`
+	__Note__00000000_.Name = `With SysML V2, the M1 editor is supposed to edit SysML v2 files for the defintion of the M1. The pain point with SysML v2 is:
+- the high complexity required  for mastering SysML v2 syntax
+- the lack of standard for the graphical views.`
 	__Note__00000000_.ComputedPrefix = `1`
 	__Note__00000000_.IsExpanded = false
 	__Note__00000000_.LayoutDirection = models.Vertical
@@ -270,11 +287,19 @@ func _(stage *models.Stage) {
 
 	__NoteShape__00000000_.Name = `-Default Diagram`
 	__NoteShape__00000000_.IsExpanded = false
-	__NoteShape__00000000_.X = 59.586218
-	__NoteShape__00000000_.Y = 444.916605
-	__NoteShape__00000000_.Width = 250.000000
-	__NoteShape__00000000_.Height = 70.000000
+	__NoteShape__00000000_.X = 821.586218
+	__NoteShape__00000000_.Y = 287.916605
+	__NoteShape__00000000_.Width = 398.000000
+	__NoteShape__00000000_.Height = 222.000000
 	__NoteShape__00000000_.IsHidden = false
+
+	__NoteTaskShape__00000002_.Name = `M0 is based on M1 to Edit M1 & develop tools to generate deliverables`
+	__NoteTaskShape__00000002_.StartRatio = 0.500000
+	__NoteTaskShape__00000002_.EndRatio = 0.500000
+	__NoteTaskShape__00000002_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteTaskShape__00000002_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteTaskShape__00000002_.CornerOffsetRatio = 1.680000
+	__NoteTaskShape__00000002_.IsHidden = false
 
 	__ProductShape__00000000_.Name = `-Default Diagram`
 	__ProductShape__00000000_.IsExpanded = false
@@ -299,6 +324,11 @@ func _(stage *models.Stage) {
 	__ProductShape__00000003_.Width = 250.000000
 	__ProductShape__00000003_.Height = 70.000000
 	__ProductShape__00000003_.IsHidden = false
+
+	__Requirement__00000000_.Name = `R1`
+	__Requirement__00000000_.ComputedPrefix = ``
+	__Requirement__00000000_.IsExpanded = false
+	__Requirement__00000000_.LayoutDirection = models.Vertical
 
 	__Stakeholder__00000000_.Name = `M0 editor`
 	__Stakeholder__00000000_.IDAirbus = ``
@@ -430,6 +460,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ConcernOutputShapes = append(__Diagram__00000000_.ConcernOutputShapes, __ConcernOutputShape__00000002_)
 	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000000_)
 	__Diagram__00000000_.NoteProductShapes = append(__Diagram__00000000_.NoteProductShapes, __NoteProductShape__00000000_)
+	__Diagram__00000000_.NoteTaskShapes = append(__Diagram__00000000_.NoteTaskShapes, __NoteTaskShape__00000002_)
 	__Diagram__00000000_.Stakeholder_Shapes = append(__Diagram__00000000_.Stakeholder_Shapes, __StakeholderShape__00000000_)
 	__Diagram__00000000_.Stakeholder_Shapes = append(__Diagram__00000000_.Stakeholder_Shapes, __StakeholderShape__00000001_)
 	__Diagram__00000000_.Stakeholder_Shapes = append(__Diagram__00000000_.Stakeholder_Shapes, __StakeholderShape__00000002_)
@@ -450,12 +481,17 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootStakeholders = append(__Library__00000000_.RootStakeholders, __Stakeholder__00000001_)
 	__Library__00000000_.RootStakeholders = append(__Library__00000000_.RootStakeholders, __Stakeholder__00000002_)
 	__Library__00000000_.RootStakeholders = append(__Library__00000000_.RootStakeholders, __Stakeholder__00000003_)
+	__Library__00000000_.RootRequirements = append(__Library__00000000_.RootRequirements, __Requirement__00000000_)
+	__Library__00000000_.RootConcepts = append(__Library__00000000_.RootConcepts, __Concept__00000000_)
 	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
 	__Note__00000000_.Products = append(__Note__00000000_.Products, __Deliverable__00000002_)
+	__Note__00000000_.Tasks = append(__Note__00000000_.Tasks, __Concern__00000002_)
 	__NoteProductShape__00000000_.Note = __Note__00000000_
 	__NoteProductShape__00000000_.Product = __Deliverable__00000002_
 	__NoteShape__00000000_.Note = __Note__00000000_
+	__NoteTaskShape__00000002_.Note = __Note__00000000_
+	__NoteTaskShape__00000002_.Task = __Concern__00000002_
 	__ProductShape__00000000_.Product = __Deliverable__00000000_
 	__ProductShape__00000002_.Product = __Deliverable__00000002_
 	__ProductShape__00000003_.Product = __Deliverable__00000003_

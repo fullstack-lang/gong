@@ -593,6 +593,9 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _concern := range diagram.ConcernsWhoseRequirementsNodeIsExpanded {
+		StageBranch(stage, _concern)
+	}
 	for _, _productshape := range diagram.Product_Shapes {
 		StageBranch(stage, _productshape)
 	}
@@ -676,6 +679,12 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	}
 	for _, _stakeholder := range library.RootStakeholders {
 		StageBranch(stage, _stakeholder)
+	}
+	for _, _requirement := range library.RootRequirements {
+		StageBranch(stage, _requirement)
+	}
+	for _, _concept := range library.RootConcepts {
+		StageBranch(stage, _concept)
 	}
 	for _, _analysisneed := range library.AnalysisNeeds {
 		StageBranch(stage, _analysisneed)
@@ -1285,6 +1294,9 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _concern := range diagramFrom.ConcernsWhoseRequirementsNodeIsExpanded {
+		diagramTo.ConcernsWhoseRequirementsNodeIsExpanded = append(diagramTo.ConcernsWhoseRequirementsNodeIsExpanded, CopyBranchConcern(mapOrigCopy, _concern))
+	}
 	for _, _productshape := range diagramFrom.Product_Shapes {
 		diagramTo.Product_Shapes = append(diagramTo.Product_Shapes, CopyBranchProductShape(mapOrigCopy, _productshape))
 	}
@@ -1372,6 +1384,12 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	}
 	for _, _stakeholder := range libraryFrom.RootStakeholders {
 		libraryTo.RootStakeholders = append(libraryTo.RootStakeholders, CopyBranchStakeholder(mapOrigCopy, _stakeholder))
+	}
+	for _, _requirement := range libraryFrom.RootRequirements {
+		libraryTo.RootRequirements = append(libraryTo.RootRequirements, CopyBranchRequirement(mapOrigCopy, _requirement))
+	}
+	for _, _concept := range libraryFrom.RootConcepts {
+		libraryTo.RootConcepts = append(libraryTo.RootConcepts, CopyBranchConcept(mapOrigCopy, _concept))
 	}
 	for _, _analysisneed := range libraryFrom.AnalysisNeeds {
 		libraryTo.AnalysisNeeds = append(libraryTo.AnalysisNeeds, CopyBranchAnalysisNeed(mapOrigCopy, _analysisneed))
@@ -1975,6 +1993,9 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _concern := range diagram.ConcernsWhoseRequirementsNodeIsExpanded {
+		UnstageBranch(stage, _concern)
+	}
 	for _, _productshape := range diagram.Product_Shapes {
 		UnstageBranch(stage, _productshape)
 	}
@@ -2058,6 +2079,12 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	}
 	for _, _stakeholder := range library.RootStakeholders {
 		UnstageBranch(stage, _stakeholder)
+	}
+	for _, _requirement := range library.RootRequirements {
+		UnstageBranch(stage, _requirement)
+	}
+	for _, _concept := range library.RootConcepts {
+		UnstageBranch(stage, _concept)
 	}
 	for _, _analysisneed := range library.AnalysisNeeds {
 		UnstageBranch(stage, _analysisneed)
@@ -2437,6 +2464,10 @@ func (reference *Deliverable) GongReconstructPointersFromReferences(stage *Stage
 func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
+	reference.ConcernsWhoseRequirementsNodeIsExpanded = reference.ConcernsWhoseRequirementsNodeIsExpanded[:0]
+	for _, _b := range instance.ConcernsWhoseRequirementsNodeIsExpanded {
+		reference.ConcernsWhoseRequirementsNodeIsExpanded = append(reference.ConcernsWhoseRequirementsNodeIsExpanded, stage.Concerns_reference[_b])
+	}
 	reference.Product_Shapes = reference.Product_Shapes[:0]
 	for _, _b := range instance.Product_Shapes {
 		reference.Product_Shapes = append(reference.Product_Shapes, stage.ProductShapes_reference[_b])
@@ -2533,6 +2564,14 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	reference.RootStakeholders = reference.RootStakeholders[:0]
 	for _, _b := range instance.RootStakeholders {
 		reference.RootStakeholders = append(reference.RootStakeholders, stage.Stakeholders_reference[_b])
+	}
+	reference.RootRequirements = reference.RootRequirements[:0]
+	for _, _b := range instance.RootRequirements {
+		reference.RootRequirements = append(reference.RootRequirements, stage.Requirements_reference[_b])
+	}
+	reference.RootConcepts = reference.RootConcepts[:0]
+	for _, _b := range instance.RootConcepts {
+		reference.RootConcepts = append(reference.RootConcepts, stage.Concepts_reference[_b])
 	}
 	reference.AnalysisNeeds = reference.AnalysisNeeds[:0]
 	for _, _b := range instance.AnalysisNeeds {
@@ -2821,6 +2860,13 @@ func (reference *Deliverable) GongReconstructPointersFromInstances(stage *Stage)
 func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
+	var _ConcernsWhoseRequirementsNodeIsExpanded []*Concern
+	for _, _reference := range reference.ConcernsWhoseRequirementsNodeIsExpanded {
+		if _instance, ok := stage.Concerns_instance[_reference]; ok {
+			_ConcernsWhoseRequirementsNodeIsExpanded = append(_ConcernsWhoseRequirementsNodeIsExpanded, _instance)
+		}
+	}
+	reference.ConcernsWhoseRequirementsNodeIsExpanded = _ConcernsWhoseRequirementsNodeIsExpanded
 	var _Product_Shapes []*ProductShape
 	for _, _reference := range reference.Product_Shapes {
 		if _instance, ok := stage.ProductShapes_instance[_reference]; ok {
@@ -2987,6 +3033,20 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.RootStakeholders = _RootStakeholders
+	var _RootRequirements []*Requirement
+	for _, _reference := range reference.RootRequirements {
+		if _instance, ok := stage.Requirements_instance[_reference]; ok {
+			_RootRequirements = append(_RootRequirements, _instance)
+		}
+	}
+	reference.RootRequirements = _RootRequirements
+	var _RootConcepts []*Concept
+	for _, _reference := range reference.RootConcepts {
+		if _instance, ok := stage.Concepts_instance[_reference]; ok {
+			_RootConcepts = append(_RootConcepts, _instance)
+		}
+	}
+	reference.RootConcepts = _RootConcepts
 	var _AnalysisNeeds []*AnalysisNeed
 	for _, _reference := range reference.AnalysisNeeds {
 		if _instance, ok := stage.AnalysisNeeds_instance[_reference]; ok {
@@ -3247,6 +3307,15 @@ func (concept *Concept) GongDiff(stage *Stage, conceptOther *Concept) (diffs []s
 	// insertion point for field diffs
 	if concept.Name != conceptOther.Name {
 		diffs = append(diffs, concept.GongMarshallField(stage, "Name"))
+	}
+	if concept.ComputedPrefix != conceptOther.ComputedPrefix {
+		diffs = append(diffs, concept.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if concept.IsExpanded != conceptOther.IsExpanded {
+		diffs = append(diffs, concept.GongMarshallField(stage, "IsExpanded"))
+	}
+	if concept.LayoutDirection != conceptOther.LayoutDirection {
+		diffs = append(diffs, concept.GongMarshallField(stage, "LayoutDirection"))
 	}
 	ToolsDifferent := false
 	if len(concept.Tools) != len(conceptOther.Tools) {
@@ -3663,6 +3732,33 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	}
 	if diagram.Height != diagramOther.Height {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "Height"))
+	}
+	ConcernsWhoseRequirementsNodeIsExpandedDifferent := false
+	if len(diagram.ConcernsWhoseRequirementsNodeIsExpanded) != len(diagramOther.ConcernsWhoseRequirementsNodeIsExpanded) {
+		ConcernsWhoseRequirementsNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagram.ConcernsWhoseRequirementsNodeIsExpanded {
+			if (diagram.ConcernsWhoseRequirementsNodeIsExpanded[i] == nil) != (diagramOther.ConcernsWhoseRequirementsNodeIsExpanded[i] == nil) {
+				ConcernsWhoseRequirementsNodeIsExpandedDifferent = true
+				break
+			} else if diagram.ConcernsWhoseRequirementsNodeIsExpanded[i] != nil && diagramOther.ConcernsWhoseRequirementsNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagram.ConcernsWhoseRequirementsNodeIsExpanded[i] != diagramOther.ConcernsWhoseRequirementsNodeIsExpanded[i] {
+					ConcernsWhoseRequirementsNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ConcernsWhoseRequirementsNodeIsExpandedDifferent {
+		ops := Diff(stage, diagram, diagramOther, "ConcernsWhoseRequirementsNodeIsExpanded", diagramOther.ConcernsWhoseRequirementsNodeIsExpanded, diagram.ConcernsWhoseRequirementsNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	if diagram.IsRequirementsNodeExpanded != diagramOther.IsRequirementsNodeExpanded {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsRequirementsNodeExpanded"))
+	}
+	if diagram.IsConceptsNodeExpanded != diagramOther.IsConceptsNodeExpanded {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsConceptsNodeExpanded"))
 	}
 	Product_ShapesDifferent := false
 	if len(diagram.Product_Shapes) != len(diagramOther.Product_Shapes) {
@@ -4182,6 +4278,48 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		ops := Diff(stage, library, libraryOther, "RootStakeholders", libraryOther.RootStakeholders, library.RootStakeholders)
 		diffs = append(diffs, ops)
 	}
+	RootRequirementsDifferent := false
+	if len(library.RootRequirements) != len(libraryOther.RootRequirements) {
+		RootRequirementsDifferent = true
+	} else {
+		for i := range library.RootRequirements {
+			if (library.RootRequirements[i] == nil) != (libraryOther.RootRequirements[i] == nil) {
+				RootRequirementsDifferent = true
+				break
+			} else if library.RootRequirements[i] != nil && libraryOther.RootRequirements[i] != nil {
+				// this is a pointer comparaison
+				if library.RootRequirements[i] != libraryOther.RootRequirements[i] {
+					RootRequirementsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootRequirementsDifferent {
+		ops := Diff(stage, library, libraryOther, "RootRequirements", libraryOther.RootRequirements, library.RootRequirements)
+		diffs = append(diffs, ops)
+	}
+	RootConceptsDifferent := false
+	if len(library.RootConcepts) != len(libraryOther.RootConcepts) {
+		RootConceptsDifferent = true
+	} else {
+		for i := range library.RootConcepts {
+			if (library.RootConcepts[i] == nil) != (libraryOther.RootConcepts[i] == nil) {
+				RootConceptsDifferent = true
+				break
+			} else if library.RootConcepts[i] != nil && libraryOther.RootConcepts[i] != nil {
+				// this is a pointer comparaison
+				if library.RootConcepts[i] != libraryOther.RootConcepts[i] {
+					RootConceptsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootConceptsDifferent {
+		ops := Diff(stage, library, libraryOther, "RootConcepts", libraryOther.RootConcepts, library.RootConcepts)
+		diffs = append(diffs, ops)
+	}
 	AnalysisNeedsDifferent := false
 	if len(library.AnalysisNeeds) != len(libraryOther.AnalysisNeeds) {
 		AnalysisNeedsDifferent = true
@@ -4599,6 +4737,15 @@ func (requirement *Requirement) GongDiff(stage *Stage, requirementOther *Require
 	// insertion point for field diffs
 	if requirement.Name != requirementOther.Name {
 		diffs = append(diffs, requirement.GongMarshallField(stage, "Name"))
+	}
+	if requirement.ComputedPrefix != requirementOther.ComputedPrefix {
+		diffs = append(diffs, requirement.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if requirement.IsExpanded != requirementOther.IsExpanded {
+		diffs = append(diffs, requirement.GongMarshallField(stage, "IsExpanded"))
+	}
+	if requirement.LayoutDirection != requirementOther.LayoutDirection {
+		diffs = append(diffs, requirement.GongMarshallField(stage, "LayoutDirection"))
 	}
 	SupportLevelsDifferent := false
 	if len(requirement.SupportLevels) != len(requirementOther.SupportLevels) {

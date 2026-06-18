@@ -499,6 +499,12 @@ func (u *ConceptUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "Tools":
 		GongUnmarshallSliceOfPointers(&instance.Tools, valueExpr, identifierMap)
 	}
@@ -828,6 +834,12 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":
 		instance.Height = GongExtractFloat(valueExpr)
+	case "ConcernsWhoseRequirementsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ConcernsWhoseRequirementsNodeIsExpanded, valueExpr, identifierMap)
+	case "IsRequirementsNodeExpanded":
+		instance.IsRequirementsNodeExpanded = GongExtractBool(valueExpr)
+	case "IsConceptsNodeExpanded":
+		instance.IsConceptsNodeExpanded = GongExtractBool(valueExpr)
 	case "Product_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.Product_Shapes, valueExpr, identifierMap)
 	case "ProductsWhoseNodeIsExpanded":
@@ -919,6 +931,10 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.RootConcerns, valueExpr, identifierMap)
 	case "RootStakeholders":
 		GongUnmarshallSliceOfPointers(&instance.RootStakeholders, valueExpr, identifierMap)
+	case "RootRequirements":
+		GongUnmarshallSliceOfPointers(&instance.RootRequirements, valueExpr, identifierMap)
+	case "RootConcepts":
+		GongUnmarshallSliceOfPointers(&instance.RootConcepts, valueExpr, identifierMap)
 	case "AnalysisNeeds":
 		GongUnmarshallSliceOfPointers(&instance.AnalysisNeeds, valueExpr, identifierMap)
 	case "Notes":
@@ -1263,6 +1279,12 @@ func (u *RequirementUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "SupportLevels":
 		GongUnmarshallSliceOfPointers(&instance.SupportLevels, valueExpr, identifierMap)
 	case "Concepts":

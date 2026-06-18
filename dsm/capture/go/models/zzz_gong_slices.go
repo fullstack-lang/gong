@@ -95,6 +95,13 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Diagram
 	// insertion point per field
+	stage.Diagram_ConcernsWhoseRequirementsNodeIsExpanded_reverseMap = make(map[*Concern]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _concern := range diagram.ConcernsWhoseRequirementsNodeIsExpanded {
+			stage.Diagram_ConcernsWhoseRequirementsNodeIsExpanded_reverseMap[_concern] = diagram
+		}
+	}
 	stage.Diagram_Product_Shapes_reverseMap = make(map[*ProductShape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
@@ -257,6 +264,20 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = library
 		for _, _stakeholder := range library.RootStakeholders {
 			stage.Library_RootStakeholders_reverseMap[_stakeholder] = library
+		}
+	}
+	stage.Library_RootRequirements_reverseMap = make(map[*Requirement]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _requirement := range library.RootRequirements {
+			stage.Library_RootRequirements_reverseMap[_requirement] = library
+		}
+	}
+	stage.Library_RootConcepts_reverseMap = make(map[*Concept]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _concept := range library.RootConcepts {
+			stage.Library_RootConcepts_reverseMap[_concept] = library
 		}
 	}
 	stage.Library_AnalysisNeeds_reverseMap = make(map[*AnalysisNeed]*Library)

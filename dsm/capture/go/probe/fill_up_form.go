@@ -47,6 +47,11 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationSliceToForm("Tools", instanceWithInferedType, &instanceWithInferedType.Tools, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -62,6 +67,17 @@ func FillUpForm(
 				probe,
 				func(owner *models.Deliverable) []*models.Concept {
 					return owner.Concepts
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.Library, *models.Concept](
+				"Library",
+				"RootConcepts",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.Concept {
+					return owner.RootConcepts
 				})
 		}
 		{
@@ -115,6 +131,17 @@ func FillUpForm(
 				probe,
 				func(owner *models.Concern) []*models.Concern {
 					return owner.SubConcerns
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.Diagram, *models.Concern](
+				"Diagram",
+				"ConcernsWhoseRequirementsNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.Concern {
+					return owner.ConcernsWhoseRequirementsNodeIsExpanded
 				})
 		}
 		{
@@ -439,6 +466,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationSliceToForm("ConcernsWhoseRequirementsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ConcernsWhoseRequirementsNodeIsExpanded, formGroup, probe)
+		BasicFieldtoForm("IsRequirementsNodeExpanded", instanceWithInferedType.IsRequirementsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsConceptsNodeExpanded", instanceWithInferedType.IsConceptsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		AssociationSliceToForm("Product_Shapes", instanceWithInferedType, &instanceWithInferedType.Product_Shapes, formGroup, probe)
 		AssociationSliceToForm("ProductsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ProductsWhoseNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsPBSNodeExpanded", instanceWithInferedType.IsPBSNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
@@ -498,6 +530,8 @@ func FillUpForm(
 		AssociationSliceToForm("RootDeliverables", instanceWithInferedType, &instanceWithInferedType.RootDeliverables, formGroup, probe)
 		AssociationSliceToForm("RootConcerns", instanceWithInferedType, &instanceWithInferedType.RootConcerns, formGroup, probe)
 		AssociationSliceToForm("RootStakeholders", instanceWithInferedType, &instanceWithInferedType.RootStakeholders, formGroup, probe)
+		AssociationSliceToForm("RootRequirements", instanceWithInferedType, &instanceWithInferedType.RootRequirements, formGroup, probe)
+		AssociationSliceToForm("RootConcepts", instanceWithInferedType, &instanceWithInferedType.RootConcepts, formGroup, probe)
 		AssociationSliceToForm("AnalysisNeeds", instanceWithInferedType, &instanceWithInferedType.AnalysisNeeds, formGroup, probe)
 		AssociationSliceToForm("Notes", instanceWithInferedType, &instanceWithInferedType.Notes, formGroup, probe)
 		AssociationSliceToForm("Diagrams", instanceWithInferedType, &instanceWithInferedType.Diagrams, formGroup, probe)
@@ -764,6 +798,11 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationSliceToForm("SupportLevels", instanceWithInferedType, &instanceWithInferedType.SupportLevels, formGroup, probe)
 		AssociationSliceToForm("Concepts", instanceWithInferedType, &instanceWithInferedType.Concepts, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
@@ -780,6 +819,17 @@ func FillUpForm(
 				probe,
 				func(owner *models.Concern) []*models.Requirement {
 					return owner.Requirements
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.Library, *models.Requirement](
+				"Library",
+				"RootRequirements",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.Requirement {
+					return owner.RootRequirements
 				})
 		}
 

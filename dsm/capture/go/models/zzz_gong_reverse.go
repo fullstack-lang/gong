@@ -30,6 +30,13 @@ func (inst *Concept) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 				res = _deliverable.Name
 			}
 		}
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootConcepts":
+			if _library, ok := stage.Library_RootConcepts_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		}
 	case "Requirement":
 		switch reverseField.Fieldname {
 		case "Concepts":
@@ -55,6 +62,10 @@ func (inst *Concern) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 		}
 	case "Diagram":
 		switch reverseField.Fieldname {
+		case "ConcernsWhoseRequirementsNodeIsExpanded":
+			if _diagram, ok := stage.Diagram_ConcernsWhoseRequirementsNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
 		case "ConcernsWhoseNodeIsExpanded":
 			if _diagram, ok := stage.Diagram_ConcernsWhoseNodeIsExpanded_reverseMap[inst]; ok {
 				res = _diagram.Name
@@ -372,6 +383,13 @@ func (inst *Requirement) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 				res = _concern.Name
 			}
 		}
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootRequirements":
+			if _library, ok := stage.Library_RootRequirements_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		}
 	}
 	return
 }
@@ -518,6 +536,11 @@ func (inst *Concept) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 		case "Concepts":
 			res = stage.Deliverable_Concepts_reverseMap[inst]
 		}
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootConcepts":
+			res = stage.Library_RootConcepts_reverseMap[inst]
+		}
 	case "Requirement":
 		switch reverseField.Fieldname {
 		case "Concepts":
@@ -539,6 +562,8 @@ func (inst *Concern) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 		}
 	case "Diagram":
 		switch reverseField.Fieldname {
+		case "ConcernsWhoseRequirementsNodeIsExpanded":
+			res = stage.Diagram_ConcernsWhoseRequirementsNodeIsExpanded_reverseMap[inst]
 		case "ConcernsWhoseNodeIsExpanded":
 			res = stage.Diagram_ConcernsWhoseNodeIsExpanded_reverseMap[inst]
 		case "ConcernsWhoseInputNodeIsExpanded":
@@ -799,6 +824,11 @@ func (inst *Requirement) GongGetReverseFieldOwner(stage *Stage, reverseField *Re
 		switch reverseField.Fieldname {
 		case "Requirements":
 			res = stage.Concern_Requirements_reverseMap[inst]
+		}
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootRequirements":
+			res = stage.Library_RootRequirements_reverseMap[inst]
 		}
 	}
 	return res

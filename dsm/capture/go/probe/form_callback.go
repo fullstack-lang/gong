@@ -195,6 +195,12 @@ func (conceptFormCallback *ConceptFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(concept_.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(concept_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(concept_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(concept_.LayoutDirection), formDiv)
 		case "Tools":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Tool](conceptFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Tool, 0)
@@ -269,6 +275,51 @@ func (conceptFormCallback *ConceptFormCallback) OnSave() {
 					if idx != -1 {
 						_deliverable.Concepts = slices.Delete(_deliverable.Concepts, idx, idx+1)
 						conceptFormCallback.probe.UpdateSliceOfPointersCallback(_deliverable, "Concepts", &_deliverable.Concepts)
+					}
+				}
+			}
+		case "Library:RootConcepts":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Library instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](conceptFormCallback.probe.stageOfInterest)
+			targetLibraryIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetLibraryIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Library instances and update their RootConcepts slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](conceptFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(conceptFormCallback.probe.stageOfInterest, _library)
+				
+				// if Library is selected
+				if targetLibraryIDs[id] {
+					// ensure concept_ is in _library.RootConcepts
+					found := false
+					for _, _b := range _library.RootConcepts {
+						if _b == concept_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_library.RootConcepts = append(_library.RootConcepts, concept_)
+						conceptFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootConcepts", &_library.RootConcepts)
+					}
+				} else {
+					// ensure concept_ is NOT in _library.RootConcepts
+					idx := slices.Index(_library.RootConcepts, concept_)
+					if idx != -1 {
+						_library.RootConcepts = slices.Delete(_library.RootConcepts, idx, idx+1)
+						conceptFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootConcepts", &_library.RootConcepts)
 					}
 				}
 			}
@@ -585,6 +636,51 @@ func (concernFormCallback *ConcernFormCallback) OnSave() {
 					if idx != -1 {
 						_concern.SubConcerns = slices.Delete(_concern.SubConcerns, idx, idx+1)
 						concernFormCallback.probe.UpdateSliceOfPointersCallback(_concern, "SubConcerns", &_concern.SubConcerns)
+					}
+				}
+			}
+		case "Diagram:ConcernsWhoseRequirementsNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Diagram instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](concernFormCallback.probe.stageOfInterest)
+			targetDiagramIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Diagram instances and update their ConcernsWhoseRequirementsNodeIsExpanded slice
+			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](concernFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(concernFormCallback.probe.stageOfInterest, _diagram)
+				
+				// if Diagram is selected
+				if targetDiagramIDs[id] {
+					// ensure concern_ is in _diagram.ConcernsWhoseRequirementsNodeIsExpanded
+					found := false
+					for _, _b := range _diagram.ConcernsWhoseRequirementsNodeIsExpanded {
+						if _b == concern_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagram.ConcernsWhoseRequirementsNodeIsExpanded = append(_diagram.ConcernsWhoseRequirementsNodeIsExpanded, concern_)
+						concernFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ConcernsWhoseRequirementsNodeIsExpanded", &_diagram.ConcernsWhoseRequirementsNodeIsExpanded)
+					}
+				} else {
+					// ensure concern_ is NOT in _diagram.ConcernsWhoseRequirementsNodeIsExpanded
+					idx := slices.Index(_diagram.ConcernsWhoseRequirementsNodeIsExpanded, concern_)
+					if idx != -1 {
+						_diagram.ConcernsWhoseRequirementsNodeIsExpanded = slices.Delete(_diagram.ConcernsWhoseRequirementsNodeIsExpanded, idx, idx+1)
+						concernFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ConcernsWhoseRequirementsNodeIsExpanded", &_diagram.ConcernsWhoseRequirementsNodeIsExpanded)
 					}
 				}
 			}
@@ -1977,6 +2073,42 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.Width), formDiv)
 		case "Height":
 			FormDivBasicFieldToField(&(diagram_.Height), formDiv)
+		case "ConcernsWhoseRequirementsNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Concern](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Concern, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Concern)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Concern](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagram_.ConcernsWhoseRequirementsNodeIsExpanded = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ConcernsWhoseRequirementsNodeIsExpanded", &diagram_.ConcernsWhoseRequirementsNodeIsExpanded)
+
+		case "IsRequirementsNodeExpanded":
+			FormDivBasicFieldToField(&(diagram_.IsRequirementsNodeExpanded), formDiv)
+		case "IsConceptsNodeExpanded":
+			FormDivBasicFieldToField(&(diagram_.IsConceptsNodeExpanded), formDiv)
 		case "Product_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ProductShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ProductShape, 0)
@@ -2851,6 +2983,70 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			}
 			library_.RootStakeholders = instanceSlice
 			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootStakeholders", &library_.RootStakeholders)
+
+		case "RootRequirements":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Requirement](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Requirement, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Requirement)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Requirement](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.RootRequirements = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootRequirements", &library_.RootRequirements)
+
+		case "RootConcepts":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Concept](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Concept, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Concept)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Concept](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.RootConcepts = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootConcepts", &library_.RootConcepts)
 
 		case "AnalysisNeeds":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AnalysisNeed](libraryFormCallback.probe.stageOfInterest)
@@ -4203,6 +4399,12 @@ func (requirementFormCallback *RequirementFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(requirement_.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(requirement_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(requirement_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(requirement_.LayoutDirection), formDiv)
 		case "SupportLevels":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SupportLevel](requirementFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.SupportLevel, 0)
@@ -4309,6 +4511,51 @@ func (requirementFormCallback *RequirementFormCallback) OnSave() {
 					if idx != -1 {
 						_concern.Requirements = slices.Delete(_concern.Requirements, idx, idx+1)
 						requirementFormCallback.probe.UpdateSliceOfPointersCallback(_concern, "Requirements", &_concern.Requirements)
+					}
+				}
+			}
+		case "Library:RootRequirements":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Library instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](requirementFormCallback.probe.stageOfInterest)
+			targetLibraryIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetLibraryIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Library instances and update their RootRequirements slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](requirementFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(requirementFormCallback.probe.stageOfInterest, _library)
+				
+				// if Library is selected
+				if targetLibraryIDs[id] {
+					// ensure requirement_ is in _library.RootRequirements
+					found := false
+					for _, _b := range _library.RootRequirements {
+						if _b == requirement_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_library.RootRequirements = append(_library.RootRequirements, requirement_)
+						requirementFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootRequirements", &_library.RootRequirements)
+					}
+				} else {
+					// ensure requirement_ is NOT in _library.RootRequirements
+					idx := slices.Index(_library.RootRequirements, requirement_)
+					if idx != -1 {
+						_library.RootRequirements = slices.Delete(_library.RootRequirements, idx, idx+1)
+						requirementFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootRequirements", &_library.RootRequirements)
 					}
 				}
 			}
