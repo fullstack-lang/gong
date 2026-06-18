@@ -493,6 +493,16 @@
             ]
         },
         {
+            "name": "capture: go server 15288.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
+            "args": [
+                "15288.go",
+            ]
+        },
+        {
             "name": "barrgraph: go run aviva stool",
             "type": "go",
             "request": "launch",

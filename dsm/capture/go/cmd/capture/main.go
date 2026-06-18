@@ -33,7 +33,7 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	if len(flag.Args()) > 0 {
+	if flag.NArg() > 0 {
 		argument := os.Args[1]
 		marshallOnCommit = &argument
 		unmarshallFromCode = &argument
