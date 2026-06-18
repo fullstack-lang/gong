@@ -97,3 +97,7 @@ lib/docx/go/cmd/docx/docx
 test3/go/cmd/test3/test3
 lib/doc/go/cmd/doc2/doc2
 dsm/scenario/go/cmd/scenario/scenario
+
+# Ignore all .vscode directories except the root one
+.vscode/
+!/.vscode/
