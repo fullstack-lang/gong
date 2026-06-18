@@ -1,19 +1,5 @@
+# 1. Try it in your browser
 
-- [1. Portable Applications](#1-portable-applications)
-- [2. Why Gong ?](#2-why-gong-)
-- [3. A "hello world" Domain Specific Modeling Environment (DSME) application](#3-a-hello-world-domain-specific-modeling-environment-dsm-application)
-  - [3.1. Prerequisite](#31-prerequisite)
-  - [3.2. Generating \& running the code with the `gong` command](#32-generating--running-the-code-with-the-gong-command)
-- [4. Installing and compiling the gong repo](#4-installing-and-compiling-the-gong-repo)
-- [5. Status](#5-status)
-
-# 1. Portable Applications
-
-We provide portable, single-file HTML versions of some of our Domain Specific Modeling applications. These are hosted on GitHub Pages so you can open them instantly in your browser.
-
-To use them, simply click a link below:
-
-**Live Applications:**
 - [Capture](https://fullstack-lang.github.io/gong/capture-app-portable.html)
 - [Process](https://fullstack-lang.github.io/gong/process-app-portable.html)
 - [Statemachines](https://fullstack-lang.github.io/gong/statemachines-app-portable.html)
