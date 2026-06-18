@@ -41,6 +41,12 @@ jobs:
           cd dsm/process/go/cmd/process
           gong portable
           cp process-app-portable.html ../../../../../public-site/
+
+      - name: Build reqif portable app
+        run: |
+          cd dsm/reqif/go/cmd/reqif
+          gong portable
+          cp reqif-app-portable.html ../../../../../public-site/
           
       - name: Build statemachines portable app
         run: |
