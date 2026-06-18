@@ -93,6 +93,19 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			deliverableShape,
 			layer)
 		rect.RX = 3
+		rect.Color = "#F3E5F5"
+		rect.FillOpacity = 1.0
+		rect.Stroke = "#CE93D8"
+		rect.StrokeWidth = 1.5
+
+		if len(rect.RectAnchoredTexts) > 0 {
+			title := rect.RectAnchoredTexts[0]
+			title.Color = "#333333"
+			title.FontWeight = "500"
+			title.FontSize = "16px"
+			title.FontFamily = "sans-serif"
+		}
+
 		diagram.map_Deliverable_Rect[deliverableShape.Deliverable] = rect
 		diagram.map_SvgRect_DeliverableShape[rect] = deliverableShape
 	}
@@ -136,6 +149,21 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			diagram,
 			concernShape,
 			layer)
+
+		rect.RX = 3
+		rect.Color = "#E8F5E9"
+		rect.FillOpacity = 1.0
+		rect.Stroke = "#81C784"
+		rect.StrokeWidth = 1.5
+
+		if len(rect.RectAnchoredTexts) > 0 {
+			title := rect.RectAnchoredTexts[0]
+			title.Color = "#333333"
+			title.FontWeight = "500"
+			title.FontSize = "16px"
+			title.FontFamily = "sans-serif"
+		}
+
 		diagram.map_Task_Rect[concernShape.Concern] = rect
 		diagram.map_SvgRect_ConcernShape[rect] = concernShape
 
@@ -301,6 +329,19 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			noteShape,
 			layer)
 		rect.RX = 6
+		rect.Color = "#FFF9C4"
+		rect.FillOpacity = 1.0
+		rect.Stroke = "#FBC02D"
+		rect.StrokeWidth = 1.0
+
+		if len(rect.RectAnchoredTexts) > 0 {
+			title := rect.RectAnchoredTexts[0]
+			title.Color = "#333333"
+			title.FontWeight = "500"
+			title.FontSize = "14px"
+			title.FontFamily = "sans-serif"
+		}
+
 		diagram.map_Note_Rect[note] = rect
 		diagram.map_SvgRect_NoteShape[rect] = noteShape
 
@@ -378,6 +419,21 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			diagram,
 			s,
 			layer)
+
+		rect.RX = 3
+		rect.Color = "#E3F2FD"
+		rect.FillOpacity = 1.0
+		rect.Stroke = "#90CAF9"
+		rect.StrokeWidth = 1.5
+
+		if len(rect.RectAnchoredTexts) > 0 {
+			title := rect.RectAnchoredTexts[0]
+			title.Color = "#333333"
+			title.FontWeight = "500"
+			title.FontSize = "16px"
+			title.FontFamily = "sans-serif"
+		}
+
 		diagram.map_Stakeholder_Rect[s.Stakeholder] = rect
 		diagram.map_SvgRect_StakeholderShape[rect] = s
 		{
@@ -510,6 +566,19 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			reqShape,
 			layer)
 		rect.RX = 0 // Sharp corners for Requirements
+		rect.Color = "#F5F5F5"
+		rect.FillOpacity = 1.0
+		rect.Stroke = "#E0E0E0"
+		rect.StrokeWidth = 1.5
+
+		if len(rect.RectAnchoredTexts) > 0 {
+			title := rect.RectAnchoredTexts[0]
+			title.Color = "#333333"
+			title.FontWeight = "500"
+			title.FontSize = "16px"
+			title.FontFamily = "sans-serif"
+		}
+
 		diagram.map_Requirement_Rect[reqShape.Requirement] = rect
 		diagram.map_SvgRect_RequirementShape[rect] = reqShape
 
@@ -555,6 +624,19 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			layer)
 		rect.RX = 15 // Very rounded corners for Concepts
 		rect.StrokeDashArray = "5, 5" // Dashed outline for concepts
+		rect.Color = "#FFF3E0"
+		rect.FillOpacity = 1.0
+		rect.Stroke = "#FFB74D"
+		rect.StrokeWidth = 1.5
+
+		if len(rect.RectAnchoredTexts) > 0 {
+			title := rect.RectAnchoredTexts[0]
+			title.Color = "#333333"
+			title.FontWeight = "500"
+			title.FontSize = "16px"
+			title.FontFamily = "sans-serif"
+		}
+
 		diagram.map_Concept_Rect[conceptShape.Concept] = rect
 		diagram.map_SvgRect_ConceptShape[rect] = conceptShape
 
