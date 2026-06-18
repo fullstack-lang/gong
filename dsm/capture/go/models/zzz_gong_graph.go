@@ -619,8 +619,8 @@ func (stage *Stage) StageBranchConcernOutputShape(concernoutputshape *ConcernOut
 	concernoutputshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if concernoutputshape.Task != nil {
-		StageBranch(stage, concernoutputshape.Task)
+	if concernoutputshape.Concern != nil {
+		StageBranch(stage, concernoutputshape.Concern)
 	}
 	if concernoutputshape.Deliverable != nil {
 		StageBranch(stage, concernoutputshape.Deliverable)
@@ -1451,8 +1451,8 @@ func CopyBranchConcernOutputShape(mapOrigCopy map[any]any, concernoutputshapeFro
 	concernoutputshapeFrom.CopyBasicFields(concernoutputshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if concernoutputshapeFrom.Task != nil {
-		concernoutputshapeTo.Task = CopyBranchConcern(mapOrigCopy, concernoutputshapeFrom.Task)
+	if concernoutputshapeFrom.Concern != nil {
+		concernoutputshapeTo.Concern = CopyBranchConcern(mapOrigCopy, concernoutputshapeFrom.Concern)
 	}
 	if concernoutputshapeFrom.Deliverable != nil {
 		concernoutputshapeTo.Deliverable = CopyBranchDeliverable(mapOrigCopy, concernoutputshapeFrom.Deliverable)
@@ -2309,8 +2309,8 @@ func (stage *Stage) UnstageBranchConcernOutputShape(concernoutputshape *ConcernO
 	concernoutputshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if concernoutputshape.Task != nil {
-		UnstageBranch(stage, concernoutputshape.Task)
+	if concernoutputshape.Concern != nil {
+		UnstageBranch(stage, concernoutputshape.Concern)
 	}
 	if concernoutputshape.Deliverable != nil {
 		UnstageBranch(stage, concernoutputshape.Deliverable)
@@ -2924,8 +2924,8 @@ func (reference *ConcernInputShape) GongReconstructPointersFromReferences(stage 
 
 func (reference *ConcernOutputShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConcernOutputShape) {
 	// insertion point for pointers field
-	if instance.Task != nil {
-		reference.Task = stage.Concerns_reference[instance.Task]
+	if instance.Concern != nil {
+		reference.Concern = stage.Concerns_reference[instance.Concern]
 	}
 	if instance.Deliverable != nil {
 		reference.Deliverable = stage.Deliverables_reference[instance.Deliverable]
@@ -3414,10 +3414,10 @@ func (reference *ConcernInputShape) GongReconstructPointersFromInstances(stage *
 
 func (reference *ConcernOutputShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Task; _reference != nil {
-		reference.Task = nil
+	if _reference := reference.Concern; _reference != nil {
+		reference.Concern = nil
 		if _instance, ok := stage.Concerns_instance[_reference]; ok {
-			reference.Task = _instance
+			reference.Concern = _instance
 		}
 	}
 	if _reference := reference.Deliverable; _reference != nil {
@@ -4371,11 +4371,11 @@ func (concernoutputshape *ConcernOutputShape) GongDiff(stage *Stage, concernoutp
 	if concernoutputshape.Name != concernoutputshapeOther.Name {
 		diffs = append(diffs, concernoutputshape.GongMarshallField(stage, "Name"))
 	}
-	if (concernoutputshape.Task == nil) != (concernoutputshapeOther.Task == nil) {
-		diffs = append(diffs, concernoutputshape.GongMarshallField(stage, "Task"))
-	} else if concernoutputshape.Task != nil && concernoutputshapeOther.Task != nil {
-		if concernoutputshape.Task != concernoutputshapeOther.Task {
-			diffs = append(diffs, concernoutputshape.GongMarshallField(stage, "Task"))
+	if (concernoutputshape.Concern == nil) != (concernoutputshapeOther.Concern == nil) {
+		diffs = append(diffs, concernoutputshape.GongMarshallField(stage, "Concern"))
+	} else if concernoutputshape.Concern != nil && concernoutputshapeOther.Concern != nil {
+		if concernoutputshape.Concern != concernoutputshapeOther.Concern {
+			diffs = append(diffs, concernoutputshape.GongMarshallField(stage, "Concern"))
 		}
 	}
 	if (concernoutputshape.Deliverable == nil) != (concernoutputshapeOther.Deliverable == nil) {

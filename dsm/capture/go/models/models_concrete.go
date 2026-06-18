@@ -113,10 +113,9 @@ func calculateDistance(x1, y1, x2, y2 float64) float64 {
 	return math.Sqrt(math.Pow(x2-x1, 2) + math.Pow(y2-y1, 2))
 }
 
-
 // DeliverableShape
 type DeliverableShape struct {
-	Name    string
+	Name        string
 	Deliverable *Deliverable
 
 	IsExpanded bool
@@ -236,12 +235,12 @@ var _ AssociationConcreteType = (*ConcernCompositionShape)(nil)
 
 // A concernDeliverableKey allows mapping of [ConcernInputShape] within a diagram
 type concernDeliverableKey struct {
-	Concern *Concern
+	Concern     *Concern
 	Deliverable *Deliverable
 }
 
 type noteDeliverableKey struct {
-	Note    *Note
+	Note        *Note
 	Deliverable *Deliverable
 }
 
@@ -298,7 +297,7 @@ var _ AssociationConcreteType = (*ConcernInputShape)(nil)
 type ConcernOutputShape struct {
 	Name string
 
-	Task *Concern
+	Concern *Concern
 
 	Deliverable *Deliverable
 
@@ -307,7 +306,7 @@ type ConcernOutputShape struct {
 }
 
 func (s *ConcernOutputShape) SetAbstractStartElement(abstractElement AbstractType) {
-	s.Task = abstractElement.(*Concern)
+	s.Concern = abstractElement.(*Concern)
 }
 
 func (s *ConcernOutputShape) GetAbstractEndElement() AbstractType {
@@ -322,10 +321,10 @@ func (s *ConcernOutputShape) SetAbstractEndElement(abstractElement AbstractType)
 }
 
 func (s *ConcernOutputShape) GetAbstractStartElement() AbstractType {
-	if s.Task == nil {
+	if s.Concern == nil {
 		return nil
 	}
-	return s.Task
+	return s.Concern
 }
 
 var _ AssociationConcreteType = (*ConcernOutputShape)(nil)
@@ -356,7 +355,7 @@ var _ ConcreteType = (*NoteShape)(nil)
 type NoteDeliverableShape struct {
 	Name string
 
-	Note    *Note
+	Note        *Note
 	Deliverable *Deliverable
 
 	LinkShape

@@ -557,11 +557,11 @@ func _(stage *models.Stage) {
 	__ConcernInputShape__00000001_.Concern = __Concern__00000000_
 	__ConcernInputShape__00000002_.Deliverable = __Deliverable__00000003_
 	__ConcernInputShape__00000002_.Concern = __Concern__00000002_
-	__ConcernOutputShape__00000000_.Task = __Concern__00000000_
+	__ConcernOutputShape__00000000_.Concern = __Concern__00000000_
 	__ConcernOutputShape__00000000_.Deliverable = __Deliverable__00000000_
-	__ConcernOutputShape__00000001_.Task = __Concern__00000002_
+	__ConcernOutputShape__00000001_.Concern = __Concern__00000002_
 	__ConcernOutputShape__00000001_.Deliverable = __Deliverable__00000002_
-	__ConcernOutputShape__00000002_.Task = __Concern__00000003_
+	__ConcernOutputShape__00000002_.Concern = __Concern__00000003_
 	__ConcernOutputShape__00000002_.Deliverable = __Deliverable__00000003_
 	__ConcernShape__00000000_.Concern = __Concern__00000000_
 	__ConcernShape__00000001_.Concern = __Concern__00000001_

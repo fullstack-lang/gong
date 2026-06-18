@@ -728,8 +728,8 @@ func (u *ConcernOutputShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongstr
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Task":
-		GongUnmarshallPointer(&instance.Task, valueExpr, identifierMap)
+	case "Concern":
+		GongUnmarshallPointer(&instance.Concern, valueExpr, identifierMap)
 	case "Deliverable":
 		GongUnmarshallPointer(&instance.Deliverable, valueExpr, identifierMap)
 	case "StartRatio":

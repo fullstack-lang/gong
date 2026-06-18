@@ -6074,7 +6074,7 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&ConcernOutputShape{
 			// Initialisation of associations
 			// field is initialized with an instance of Concern with the name of the field
-			Task: &Concern{Name: "Task"},
+			Concern: &Concern{Name: "Concern"},
 			// field is initialized with an instance of Deliverable with the name of the field
 			Deliverable: &Deliverable{Name: "Deliverable"},
 			// field is initialized with an instance of ControlPointShape with the name of the field
@@ -6425,11 +6425,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case ConcernOutputShape:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Task":
+		case "Concern":
 			res := make(map[*Concern][]*ConcernOutputShape)
 			for concernoutputshape := range stage.ConcernOutputShapes {
-				if concernoutputshape.Task != nil {
-					concern_ := concernoutputshape.Task
+				if concernoutputshape.Concern != nil {
+					concern_ := concernoutputshape.Concern
 					var concernoutputshapes []*ConcernOutputShape
 					_, ok := res[concern_]
 					if ok {
@@ -8144,7 +8144,7 @@ func (concernoutputshape *ConcernOutputShape) GongGetFieldHeaders() (res []GongF
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Task",
+			Name:                 "Concern",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Concern",
 		},
@@ -9571,11 +9571,11 @@ func (concernoutputshape *ConcernOutputShape) GongGetFieldValue(fieldName string
 	// string value of fields
 	case "Name":
 		res.valueString = concernoutputshape.Name
-	case "Task":
+	case "Concern":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if concernoutputshape.Task != nil {
-			res.valueString = concernoutputshape.Task.Name
-			res.ids = concernoutputshape.Task.GongGetUUID(stage)
+		if concernoutputshape.Concern != nil {
+			res.valueString = concernoutputshape.Concern.Name
+			res.ids = concernoutputshape.Concern.GongGetUUID(stage)
 		}
 	case "Deliverable":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -11147,13 +11147,13 @@ func (concernoutputshape *ConcernOutputShape) GongSetFieldValue(fieldName string
 	// insertion point for per field code
 	case "Name":
 		concernoutputshape.Name = value.GetValueString()
-	case "Task":
+	case "Concern":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			concernoutputshape.Task = nil
+			concernoutputshape.Concern = nil
 			for __instance__ := range stage.Concerns {
 				if stage.Concern_stagedOrder[__instance__] == uint(id) {
-					concernoutputshape.Task = __instance__
+					concernoutputshape.Concern = __instance__
 					break
 				}
 			}

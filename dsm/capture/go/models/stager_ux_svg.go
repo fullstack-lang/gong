@@ -130,11 +130,11 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 
 		// Material 'description' document icon path
 		deliverableLogo.Definition = "M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
-		
+
 		distanceFromBorder := 5.0
 		iconWidth := 20.0
 		padding := 10.0
-		
+
 		deliverableLogo.X_Offset = distanceFromBorder
 		deliverableLogo.Y_Offset = distanceFromBorder
 		deliverableLogo.RectAnchorType = svg.RECT_TOP_LEFT
@@ -366,7 +366,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		if taskOutputShape.GetIsHidden() {
 			continue
 		}
-		task := taskOutputShape.Task
+		task := taskOutputShape.Concern
 		deliverable := taskOutputShape.Deliverable
 
 		if task == nil || deliverable == nil {
@@ -444,7 +444,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		penLogo.Y_Offset = distanceFromBorder
 		penLogo.RectAnchorType = svg.RECT_TOP_LEFT
 		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, penLogo)
-		
+
 		if len(rect.RectAnchoredTexts) > 0 {
 			title := rect.RectAnchoredTexts[0]
 			if rect.Width > (distanceFromBorder + iconWidth + padding) {
@@ -685,10 +685,10 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 
 		// Material 'assignment' icon path
 		reqLogo.Definition = "M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"
-		
+
 		distanceFromBorder := 5.0
 		iconWidth := 20.0
-		
+
 		reqLogo.X_Offset = distanceFromBorder
 		reqLogo.Y_Offset = distanceFromBorder
 		reqLogo.RectAnchorType = svg.RECT_TOP_LEFT
@@ -714,7 +714,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			diagram,
 			conceptShape,
 			layer)
-		rect.RX = 15 // Very rounded corners for Concepts
+		rect.RX = 15                  // Very rounded corners for Concepts
 		rect.StrokeDashArray = "5, 5" // Dashed outline for concepts
 		rect.Color = "#FFF3E0"
 		rect.FillOpacity = 1.0
@@ -744,10 +744,10 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 
 		// Material 'lightbulb' outline icon path
 		conceptLogo.Definition = "M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"
-		
+
 		distanceFromBorder := 5.0
 		iconWidth := 20.0
-		
+
 		conceptLogo.X_Offset = distanceFromBorder
 		conceptLogo.Y_Offset = distanceFromBorder
 		conceptLogo.RectAnchorType = svg.RECT_TOP_LEFT

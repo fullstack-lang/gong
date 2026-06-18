@@ -62,8 +62,8 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 	}
 
 	for _, shape := range GetGongstrucsSorted[*ConcernOutputShape](stage) {
-		if shape.Task != nil && shape.Deliverable != nil {
-			if !validTaskOutputs[concernDeliverableKey{Concern: shape.Task, Deliverable: shape.Deliverable}] {
+		if shape.Concern != nil && shape.Deliverable != nil {
+			if !validTaskOutputs[concernDeliverableKey{Concern: shape.Concern, Deliverable: shape.Deliverable}] {
 				shape.UnstageVoid(stage)
 				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid TaskOutputShape %s", shape.GetName()))
 				needCommit = true

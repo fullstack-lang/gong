@@ -1644,8 +1644,8 @@ func (concernoutputshapeFormCallback *ConcernOutputShapeFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(concernoutputshape_.Name), formDiv)
-		case "Task":
-			FormDivSelectFieldToField(&(concernoutputshape_.Task), concernoutputshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "Concern":
+			FormDivSelectFieldToField(&(concernoutputshape_.Concern), concernoutputshapeFormCallback.probe.stageOfInterest, formDiv)
 		case "Deliverable":
 			FormDivSelectFieldToField(&(concernoutputshape_.Deliverable), concernoutputshapeFormCallback.probe.stageOfInterest, formDiv)
 		case "StartRatio":

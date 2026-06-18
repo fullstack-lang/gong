@@ -98,7 +98,7 @@ func (concernoutputshape *ConcernOutputShape) GongClean(stage *Stage) (modified 
 	// insertion point per field
 	modified = GongCleanSlice(stage, &concernoutputshape.ControlPointShapes) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &concernoutputshape.Task) || modified
+	modified = GongCleanPointer(stage, &concernoutputshape.Concern) || modified
 	modified = GongCleanPointer(stage, &concernoutputshape.Deliverable) || modified
 	return
 }

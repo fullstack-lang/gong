@@ -349,7 +349,7 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationFieldToForm("Task", instanceWithInferedType.Task, formGroup, probe)
+		AssociationFieldToForm("Concern", instanceWithInferedType.Concern, formGroup, probe)
 		AssociationFieldToForm("Deliverable", instanceWithInferedType.Deliverable, formGroup, probe)
 		BasicFieldtoForm("StartRatio", instanceWithInferedType.StartRatio, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)

@@ -495,7 +495,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(concernoutputshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(concernoutputshape.GongMarshallField(stage, "Task"))
+		pointersInitializesStatements.WriteString(concernoutputshape.GongMarshallField(stage, "Concern"))
 		pointersInitializesStatements.WriteString(concernoutputshape.GongMarshallField(stage, "Deliverable"))
 		initializerStatements.WriteString(concernoutputshape.GongMarshallField(stage, "StartRatio"))
 		initializerStatements.WriteString(concernoutputshape.GongMarshallField(stage, "EndRatio"))
@@ -2024,17 +2024,17 @@ func (concernoutputshape *ConcernOutputShape) GongMarshallField(stage *Stage, fi
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", concernoutputshape.IsHidden))
 
-	case "Task":
-		if concernoutputshape.Task != nil {
+	case "Concern":
+		if concernoutputshape.Concern != nil {
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", concernoutputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", concernoutputshape.Task.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Concern")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", concernoutputshape.Concern.GongGetIdentifier(stage))
 		} else {
 			// in case of nil pointer, we need to unstage the previous value
 			res = PointerFieldInitStatement
 			res = strings.ReplaceAll(res, "{{Identifier}}", concernoutputshape.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Task")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Concern")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
 	case "Deliverable":
@@ -3988,7 +3988,7 @@ func (concernoutputshape *ConcernOutputShape) GongMarshallAllFields(stage *Stage
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(concernoutputshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(concernoutputshape.GongMarshallField(stage, "Task"))
+		pointersInitializesStatements.WriteString(concernoutputshape.GongMarshallField(stage, "Concern"))
 		pointersInitializesStatements.WriteString(concernoutputshape.GongMarshallField(stage, "Deliverable"))
 		initializerStatements.WriteString(concernoutputshape.GongMarshallField(stage, "StartRatio"))
 		initializerStatements.WriteString(concernoutputshape.GongMarshallField(stage, "EndRatio"))

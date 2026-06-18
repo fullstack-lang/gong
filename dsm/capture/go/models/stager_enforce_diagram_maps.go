@@ -51,8 +51,8 @@ func (stager *Stager) enforceDiagramMaps() {
 
 		diagram.map_Concern_ConcernOutputShape = make(map[concernDeliverableKey]*ConcernOutputShape)
 		for _, shape := range diagram.ConcernOutputShapes {
-			if shape.Task != nil && shape.Deliverable != nil {
-				diagram.map_Concern_ConcernOutputShape[concernDeliverableKey{Concern: shape.Task, Deliverable: shape.Deliverable}] = shape
+			if shape.Concern != nil && shape.Deliverable != nil {
+				diagram.map_Concern_ConcernOutputShape[concernDeliverableKey{Concern: shape.Concern, Deliverable: shape.Deliverable}] = shape
 			}
 		}
 
