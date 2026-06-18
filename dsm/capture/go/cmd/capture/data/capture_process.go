@@ -368,8 +368,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 18600.000000
-	__Diagram__00000000_.Height = 18600.000000
+	__Diagram__00000000_.Width = 18700.000000
+	__Diagram__00000000_.Height = 18700.000000
 	__Diagram__00000000_.IsRequirementsNodeExpanded = true
 	__Diagram__00000000_.IsConceptsNodeExpanded = true
 	__Diagram__00000000_.IsPBSNodeExpanded = true
@@ -478,7 +478,7 @@ func _(stage *models.Stage) {
 	__StakeholderShape__00000000_.Name = `-Default Diagram`
 	__StakeholderShape__00000000_.IsExpanded = false
 	__StakeholderShape__00000000_.X = 67.788415
-	__StakeholderShape__00000000_.Y = 600.758204
+	__StakeholderShape__00000000_.Y = 596.758204
 	__StakeholderShape__00000000_.Width = 250.000000
 	__StakeholderShape__00000000_.Height = 70.000000
 	__StakeholderShape__00000000_.IsHidden = false
