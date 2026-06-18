@@ -53,6 +53,8 @@ func _(stage *models.Stage) {
 	__Deliverable__00000002_ := (&models.Deliverable{Name: `Tools to edit M0 & generates deliverables`}).Stage(stage)
 	__Deliverable__00000003_ := (&models.Deliverable{Name: `Requirements for SE deliverables + concepts`}).Stage(stage)
 
+	__DeliverableConceptShape__00000001_ := (&models.DeliverableConceptShape{Name: `SE Deliverables to C1`}).Stage(stage)
+
 	__Diagram__00000000_ := (&models.Diagram{Name: `Default Diagram`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
@@ -257,6 +259,14 @@ func _(stage *models.Stage) {
 	__Deliverable__00000003_.IsProducersNodeExpanded = false
 	__Deliverable__00000003_.IsConsumersNodeExpanded = false
 
+	__DeliverableConceptShape__00000001_.Name = `SE Deliverables to C1`
+	__DeliverableConceptShape__00000001_.StartRatio = 0.500000
+	__DeliverableConceptShape__00000001_.EndRatio = 0.500000
+	__DeliverableConceptShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
+	__DeliverableConceptShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
+	__DeliverableConceptShape__00000001_.CornerOffsetRatio = 1.680000
+	__DeliverableConceptShape__00000001_.IsHidden = false
+
 	__Diagram__00000000_.Name = `Default Diagram`
 	__Diagram__00000000_.ComputedPrefix = `1`
 	__Diagram__00000000_.IsExpanded = true
@@ -266,11 +276,11 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 13900.000000
-	__Diagram__00000000_.Height = 13900.000000
+	__Diagram__00000000_.Width = 14800.000000
+	__Diagram__00000000_.Height = 14800.000000
 	__Diagram__00000000_.IsRequirementsNodeExpanded = true
 	__Diagram__00000000_.IsConceptsNodeExpanded = true
-	__Diagram__00000000_.IsPBSNodeExpanded = false
+	__Diagram__00000000_.IsPBSNodeExpanded = true
 	__Diagram__00000000_.IsConcernsNodeExpanded = false
 	__Diagram__00000000_.IsNotesNodeExpanded = true
 	__Diagram__00000000_.IsStakeholdersNodeExpanded = false
@@ -466,9 +476,14 @@ func _(stage *models.Stage) {
 	__ConcernShape__00000001_.Concern = __Concern__00000001_
 	__ConcernShape__00000002_.Concern = __Concern__00000002_
 	__ConcernShape__00000003_.Concern = __Concern__00000003_
+	__Deliverable__00000000_.Concepts = append(__Deliverable__00000000_.Concepts, __Concept__00000000_)
+	__Deliverable__00000000_.Concepts = append(__Deliverable__00000000_.Concepts, __Concept__00000000_)
+	__DeliverableConceptShape__00000001_.Deliverable = __Deliverable__00000000_
+	__DeliverableConceptShape__00000001_.Concept = __Concept__00000000_
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000000_)
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000002_)
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000003_)
+	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Deliverable__00000000_)
 	__Diagram__00000000_.Concern_Shapes = append(__Diagram__00000000_.Concern_Shapes, __ConcernShape__00000000_)
 	__Diagram__00000000_.Concern_Shapes = append(__Diagram__00000000_.Concern_Shapes, __ConcernShape__00000001_)
 	__Diagram__00000000_.Concern_Shapes = append(__Diagram__00000000_.Concern_Shapes, __ConcernShape__00000002_)
@@ -493,6 +508,9 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.StakeholderConcernShapes = append(__Diagram__00000000_.StakeholderConcernShapes, __StakeholderConcernShape__00000006_)
 	__Diagram__00000000_.Requirement_Shapes = append(__Diagram__00000000_.Requirement_Shapes, __RequirementShape__00000000_)
 	__Diagram__00000000_.Concept_Shapes = append(__Diagram__00000000_.Concept_Shapes, __ConceptShape__00000000_)
+	__Diagram__00000000_.ConceptsWhoseNodeIsExpanded = append(__Diagram__00000000_.ConceptsWhoseNodeIsExpanded, __Concept__00000000_)
+	__Diagram__00000000_.ConceptsWhoseDeliverablesNodeIsExpanded = append(__Diagram__00000000_.ConceptsWhoseDeliverablesNodeIsExpanded, __Concept__00000000_)
+	__Diagram__00000000_.DeliverableConceptShapes = append(__Diagram__00000000_.DeliverableConceptShapes, __DeliverableConceptShape__00000001_)
 	__Library__00000000_.RootDeliverables = append(__Library__00000000_.RootDeliverables, __Deliverable__00000000_)
 	__Library__00000000_.RootDeliverables = append(__Library__00000000_.RootDeliverables, __Deliverable__00000002_)
 	__Library__00000000_.RootDeliverables = append(__Library__00000000_.RootDeliverables, __Deliverable__00000003_)

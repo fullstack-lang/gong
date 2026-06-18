@@ -478,3 +478,41 @@ func (s *ConceptShape) SetAbstractElement(abstractElement AbstractType) {
 }
 
 var _ ConcreteType = (*ConceptShape)(nil)
+
+type deliverableConceptKey struct {
+	Deliverable *Deliverable
+	Concept     *Concept
+}
+
+type DeliverableConceptShape struct {
+	Name string
+
+	Deliverable *Deliverable
+	Concept     *Concept
+
+	LinkShape
+}
+
+func (s *DeliverableConceptShape) GetAbstractEndElement() AbstractType {
+	if s.Concept == nil {
+		return nil
+	}
+	return s.Concept
+}
+
+func (s *DeliverableConceptShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.Concept = abstractElement.(*Concept)
+}
+
+func (s *DeliverableConceptShape) GetAbstractStartElement() AbstractType {
+	if s.Deliverable == nil {
+		return nil
+	}
+	return s.Deliverable
+}
+
+func (s *DeliverableConceptShape) SetAbstractStartElement(abstractElement AbstractType) {
+	s.Deliverable = abstractElement.(*Deliverable)
+}
+
+var _ AssociationConcreteType = (*DeliverableConceptShape)(nil)

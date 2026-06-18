@@ -832,6 +832,51 @@ func (u *DeliverableUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 	return nil
 }
 
+type DeliverableConceptShapeUnmarshaller struct{}
+
+func (u *DeliverableConceptShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(DeliverableConceptShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *DeliverableConceptShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*DeliverableConceptShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Deliverable":
+		GongUnmarshallPointer(&instance.Deliverable, valueExpr, identifierMap)
+	case "Concept":
+		GongUnmarshallPointer(&instance.Concept, valueExpr, identifierMap)
+	case "StartRatio":
+		instance.StartRatio = GongExtractFloat(valueExpr)
+	case "EndRatio":
+		instance.EndRatio = GongExtractFloat(valueExpr)
+	case "StartOrientation":
+		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
+	case "EndOrientation":
+		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
+	case "CornerOffsetRatio":
+		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
 type DiagramUnmarshaller struct{}
 
 func (u *DiagramUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -887,6 +932,8 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.Product_Shapes, valueExpr, identifierMap)
 	case "ProductsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.ProductsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "ProductsWhoseConceptsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ProductsWhoseConceptsNodeIsExpanded, valueExpr, identifierMap)
 	case "IsPBSNodeExpanded":
 		instance.IsPBSNodeExpanded = GongExtractBool(valueExpr)
 	case "ProductComposition_Shapes":
@@ -939,6 +986,10 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.Concept_Shapes, valueExpr, identifierMap)
 	case "ConceptsWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.ConceptsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "ConceptsWhoseDeliverablesNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ConceptsWhoseDeliverablesNodeIsExpanded, valueExpr, identifierMap)
+	case "DeliverableConceptShapes":
+		GongUnmarshallSliceOfPointers(&instance.DeliverableConceptShapes, valueExpr, identifierMap)
 	}
 	return nil
 }

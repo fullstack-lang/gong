@@ -275,6 +275,21 @@ type Stage struct {
 	OnAfterDeliverableDeleteCallback OnAfterDeleteInterface[Deliverable]
 	OnAfterDeliverableReadCallback   OnAfterReadInterface[Deliverable]
 
+	DeliverableConceptShapes                map[*DeliverableConceptShape]struct{}
+	DeliverableConceptShapes_instance       map[*DeliverableConceptShape]*DeliverableConceptShape
+	DeliverableConceptShapes_mapString      map[string]*DeliverableConceptShape
+	DeliverableConceptShapeOrder            uint
+	DeliverableConceptShape_stagedOrder     map[*DeliverableConceptShape]uint
+	DeliverableConceptShape_orderStaged     map[uint]*DeliverableConceptShape
+	DeliverableConceptShapes_reference      map[*DeliverableConceptShape]*DeliverableConceptShape
+	DeliverableConceptShapes_referenceOrder map[*DeliverableConceptShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterDeliverableConceptShapeCreateCallback OnAfterCreateInterface[DeliverableConceptShape]
+	OnAfterDeliverableConceptShapeUpdateCallback OnAfterUpdateInterface[DeliverableConceptShape]
+	OnAfterDeliverableConceptShapeDeleteCallback OnAfterDeleteInterface[DeliverableConceptShape]
+	OnAfterDeliverableConceptShapeReadCallback   OnAfterReadInterface[DeliverableConceptShape]
+
 	Diagrams                map[*Diagram]struct{}
 	Diagrams_instance       map[*Diagram]*Diagram
 	Diagrams_mapString      map[string]*Diagram
@@ -290,6 +305,8 @@ type Stage struct {
 	Diagram_Product_Shapes_reverseMap map[*ProductShape]*Diagram
 
 	Diagram_ProductsWhoseNodeIsExpanded_reverseMap map[*Deliverable]*Diagram
+
+	Diagram_ProductsWhoseConceptsNodeIsExpanded_reverseMap map[*Deliverable]*Diagram
 
 	Diagram_ProductComposition_Shapes_reverseMap map[*ProductCompositionShape]*Diagram
 
@@ -334,6 +351,10 @@ type Stage struct {
 	Diagram_Concept_Shapes_reverseMap map[*ConceptShape]*Diagram
 
 	Diagram_ConceptsWhoseNodeIsExpanded_reverseMap map[*Concept]*Diagram
+
+	Diagram_ConceptsWhoseDeliverablesNodeIsExpanded_reverseMap map[*Concept]*Diagram
+
+	Diagram_DeliverableConceptShapes_reverseMap map[*DeliverableConceptShape]*Diagram
 
 	OnAfterDiagramCreateCallback OnAfterCreateInterface[Diagram]
 	OnAfterDiagramUpdateCallback OnAfterUpdateInterface[Diagram]
@@ -884,6 +905,10 @@ func (stage *Stage) Squash() {
 	stage.Deliverables_instance = make(map[*Deliverable]*Deliverable)
 	stage.Deliverables_referenceOrder = make(map[*Deliverable]uint)
 
+	stage.DeliverableConceptShapes_reference = make(map[*DeliverableConceptShape]*DeliverableConceptShape)
+	stage.DeliverableConceptShapes_instance = make(map[*DeliverableConceptShape]*DeliverableConceptShape)
+	stage.DeliverableConceptShapes_referenceOrder = make(map[*DeliverableConceptShape]uint)
+
 	stage.Diagrams_reference = make(map[*Diagram]*Diagram)
 	stage.Diagrams_instance = make(map[*Diagram]*Diagram)
 	stage.Diagrams_referenceOrder = make(map[*Diagram]uint)
@@ -1103,6 +1128,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.DeliverableOrder = maxDeliverableOrder + 1
 	} else {
 		stage.DeliverableOrder = 0
+	}
+
+	var maxDeliverableConceptShapeOrder uint
+	var foundDeliverableConceptShape bool
+	for _, order := range stage.DeliverableConceptShape_stagedOrder {
+		if !foundDeliverableConceptShape || order > maxDeliverableConceptShapeOrder {
+			maxDeliverableConceptShapeOrder = order
+			foundDeliverableConceptShape = true
+		}
+	}
+	if foundDeliverableConceptShape {
+		stage.DeliverableConceptShapeOrder = maxDeliverableConceptShapeOrder + 1
+	} else {
+		stage.DeliverableConceptShapeOrder = 0
 	}
 
 	var maxDiagramOrder uint
@@ -1530,6 +1569,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *DeliverableConceptShape:
+		tmp := GetStructInstancesByOrder(stage.DeliverableConceptShapes, stage.DeliverableConceptShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *DeliverableConceptShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Diagram:
 		tmp := GetStructInstancesByOrder(stage.Diagrams, stage.Diagram_stagedOrder)
 
@@ -1815,6 +1868,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.ConcernShapes, stage.ConcernShape_stagedOrder)
 	case "Deliverable":
 		res = GetNamedStructInstances(stage.Deliverables, stage.Deliverable_stagedOrder)
+	case "DeliverableConceptShape":
+		res = GetNamedStructInstances(stage.DeliverableConceptShapes, stage.DeliverableConceptShape_stagedOrder)
 	case "Diagram":
 		res = GetNamedStructInstances(stage.Diagrams, stage.Diagram_stagedOrder)
 	case "Library":
@@ -1936,6 +1991,8 @@ type BackRepoInterface interface {
 	CheckoutConcernShape(concernshape *ConcernShape)
 	CommitDeliverable(deliverable *Deliverable)
 	CheckoutDeliverable(deliverable *Deliverable)
+	CommitDeliverableConceptShape(deliverableconceptshape *DeliverableConceptShape)
+	CheckoutDeliverableConceptShape(deliverableconceptshape *DeliverableConceptShape)
 	CommitDiagram(diagram *Diagram)
 	CheckoutDiagram(diagram *Diagram)
 	CommitLibrary(library *Library)
@@ -2002,6 +2059,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Deliverables:           make(map[*Deliverable]struct{}),
 		Deliverables_mapString: make(map[string]*Deliverable),
+
+		DeliverableConceptShapes:           make(map[*DeliverableConceptShape]struct{}),
+		DeliverableConceptShapes_mapString: make(map[string]*DeliverableConceptShape),
 
 		Diagrams:           make(map[*Diagram]struct{}),
 		Diagrams_mapString: make(map[string]*Diagram),
@@ -2100,6 +2160,10 @@ func NewStage(name string) (stage *Stage) {
 		Deliverable_orderStaged: make(map[uint]*Deliverable),
 		Deliverables_reference:  make(map[*Deliverable]*Deliverable),
 
+		DeliverableConceptShape_stagedOrder: make(map[*DeliverableConceptShape]uint),
+		DeliverableConceptShape_orderStaged: make(map[uint]*DeliverableConceptShape),
+		DeliverableConceptShapes_reference:  make(map[*DeliverableConceptShape]*DeliverableConceptShape),
+
 		Diagram_stagedOrder: make(map[*Diagram]uint),
 		Diagram_orderStaged: make(map[uint]*Diagram),
 		Diagrams_reference:  make(map[*Diagram]*Diagram),
@@ -2188,6 +2252,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"Deliverable": &DeliverableUnmarshaller{},
 
+			"DeliverableConceptShape": &DeliverableConceptShapeUnmarshaller{},
+
 			"Diagram": &DiagramUnmarshaller{},
 
 			"Library": &LibraryUnmarshaller{},
@@ -2235,6 +2301,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "ConcernOutputShape"},
 			{name: "ConcernShape"},
 			{name: "Deliverable"},
+			{name: "DeliverableConceptShape"},
 			{name: "Diagram"},
 			{name: "Library"},
 			{name: "Note"},
@@ -2281,6 +2348,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.ConcernShape_stagedOrder[instance]
 	case *Deliverable:
 		return stage.Deliverable_stagedOrder[instance]
+	case *DeliverableConceptShape:
+		return stage.DeliverableConceptShape_stagedOrder[instance]
 	case *Diagram:
 		return stage.Diagram_stagedOrder[instance]
 	case *Library:
@@ -2342,6 +2411,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.ConcernShape_orderStaged[order]).(Type)
 	case *Deliverable:
 		return any(stage.Deliverable_orderStaged[order]).(Type)
+	case *DeliverableConceptShape:
+		return any(stage.DeliverableConceptShape_orderStaged[order]).(Type)
 	case *Diagram:
 		return any(stage.Diagram_orderStaged[order]).(Type)
 	case *Library:
@@ -2402,6 +2473,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.ConcernShape_stagedOrder[instance]
 	case *Deliverable:
 		return stage.Deliverable_stagedOrder[instance]
+	case *DeliverableConceptShape:
+		return stage.DeliverableConceptShape_stagedOrder[instance]
 	case *Diagram:
 		return stage.Diagram_stagedOrder[instance]
 	case *Library:
@@ -2510,6 +2583,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["ConcernOutputShape"] = len(stage.ConcernOutputShapes)
 	stage.Map_GongStructName_InstancesNb["ConcernShape"] = len(stage.ConcernShapes)
 	stage.Map_GongStructName_InstancesNb["Deliverable"] = len(stage.Deliverables)
+	stage.Map_GongStructName_InstancesNb["DeliverableConceptShape"] = len(stage.DeliverableConceptShapes)
 	stage.Map_GongStructName_InstancesNb["Diagram"] = len(stage.Diagrams)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Note"] = len(stage.Notes)
@@ -3357,6 +3431,94 @@ func (deliverable *Deliverable) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (deliverable *Deliverable) SetName(name string) {
 	deliverable.Name = name
+}
+
+// Stage puts deliverableconceptshape to the model stage
+func (deliverableconceptshape *DeliverableConceptShape) Stage(stage *Stage) *DeliverableConceptShape {
+	if _, ok := stage.DeliverableConceptShapes[deliverableconceptshape]; !ok {
+		stage.DeliverableConceptShapes[deliverableconceptshape] = struct{}{}
+		stage.DeliverableConceptShape_stagedOrder[deliverableconceptshape] = stage.DeliverableConceptShapeOrder
+		stage.DeliverableConceptShape_orderStaged[stage.DeliverableConceptShapeOrder] = deliverableconceptshape
+		stage.DeliverableConceptShapeOrder++
+	}
+	stage.DeliverableConceptShapes_mapString[deliverableconceptshape.Name] = deliverableconceptshape
+
+	return deliverableconceptshape
+}
+
+// StagePreserveOrder puts deliverableconceptshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DeliverableConceptShapeOrder
+// - update stage.DeliverableConceptShapeOrder accordingly
+func (deliverableconceptshape *DeliverableConceptShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.DeliverableConceptShapes[deliverableconceptshape]; !ok {
+		stage.DeliverableConceptShapes[deliverableconceptshape] = struct{}{}
+
+		if order > stage.DeliverableConceptShapeOrder {
+			stage.DeliverableConceptShapeOrder = order
+		}
+		stage.DeliverableConceptShape_stagedOrder[deliverableconceptshape] = order
+		stage.DeliverableConceptShape_orderStaged[order] = deliverableconceptshape
+		stage.DeliverableConceptShapeOrder++
+	}
+	stage.DeliverableConceptShapes_mapString[deliverableconceptshape.Name] = deliverableconceptshape
+}
+
+// Unstage removes deliverableconceptshape off the model stage
+func (deliverableconceptshape *DeliverableConceptShape) Unstage(stage *Stage) *DeliverableConceptShape {
+	delete(stage.DeliverableConceptShapes, deliverableconceptshape)
+	// issue1150
+	// delete(stage.DeliverableConceptShape_stagedOrder, deliverableconceptshape)
+	delete(stage.DeliverableConceptShapes_mapString, deliverableconceptshape.Name)
+
+	return deliverableconceptshape
+}
+
+// UnstageVoid removes deliverableconceptshape off the model stage
+func (deliverableconceptshape *DeliverableConceptShape) UnstageVoid(stage *Stage) {
+	delete(stage.DeliverableConceptShapes, deliverableconceptshape)
+	// issue1150
+	// delete(stage.DeliverableConceptShape_stagedOrder, deliverableconceptshape)
+	delete(stage.DeliverableConceptShapes_mapString, deliverableconceptshape.Name)
+}
+
+// commit deliverableconceptshape to the back repo (if it is already staged)
+func (deliverableconceptshape *DeliverableConceptShape) Commit(stage *Stage) *DeliverableConceptShape {
+	if _, ok := stage.DeliverableConceptShapes[deliverableconceptshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitDeliverableConceptShape(deliverableconceptshape)
+		}
+	}
+	return deliverableconceptshape
+}
+
+func (deliverableconceptshape *DeliverableConceptShape) CommitVoid(stage *Stage) {
+	deliverableconceptshape.Commit(stage)
+}
+
+func (deliverableconceptshape *DeliverableConceptShape) StageVoid(stage *Stage) {
+	deliverableconceptshape.Stage(stage)
+}
+
+// Checkout deliverableconceptshape to the back repo (if it is already staged)
+func (deliverableconceptshape *DeliverableConceptShape) Checkout(stage *Stage) *DeliverableConceptShape {
+	if _, ok := stage.DeliverableConceptShapes[deliverableconceptshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutDeliverableConceptShape(deliverableconceptshape)
+		}
+	}
+	return deliverableconceptshape
+}
+
+// for satisfaction of GongStruct interface
+func (deliverableconceptshape *DeliverableConceptShape) GetName() (res string) {
+	return deliverableconceptshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (deliverableconceptshape *DeliverableConceptShape) SetName(name string) {
+	deliverableconceptshape.Name = name
 }
 
 // Stage puts diagram to the model stage
@@ -4866,6 +5028,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMConcernOutputShape(ConcernOutputShape *ConcernOutputShape)
 	CreateORMConcernShape(ConcernShape *ConcernShape)
 	CreateORMDeliverable(Deliverable *Deliverable)
+	CreateORMDeliverableConceptShape(DeliverableConceptShape *DeliverableConceptShape)
 	CreateORMDiagram(Diagram *Diagram)
 	CreateORMLibrary(Library *Library)
 	CreateORMNote(Note *Note)
@@ -4895,6 +5058,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMConcernOutputShape(ConcernOutputShape *ConcernOutputShape)
 	DeleteORMConcernShape(ConcernShape *ConcernShape)
 	DeleteORMDeliverable(Deliverable *Deliverable)
+	DeleteORMDeliverableConceptShape(DeliverableConceptShape *DeliverableConceptShape)
 	DeleteORMDiagram(Diagram *Diagram)
 	DeleteORMLibrary(Library *Library)
 	DeleteORMNote(Note *Note)
@@ -4959,6 +5123,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Deliverables_mapString = make(map[string]*Deliverable)
 	stage.Deliverable_stagedOrder = make(map[*Deliverable]uint)
 	stage.DeliverableOrder = 0
+
+	stage.DeliverableConceptShapes = make(map[*DeliverableConceptShape]struct{})
+	stage.DeliverableConceptShapes_mapString = make(map[string]*DeliverableConceptShape)
+	stage.DeliverableConceptShape_stagedOrder = make(map[*DeliverableConceptShape]uint)
+	stage.DeliverableConceptShapeOrder = 0
 
 	stage.Diagrams = make(map[*Diagram]struct{})
 	stage.Diagrams_mapString = make(map[string]*Diagram)
@@ -5081,6 +5250,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Deliverables = nil
 	stage.Deliverables_mapString = nil
 
+	stage.DeliverableConceptShapes = nil
+	stage.DeliverableConceptShapes_mapString = nil
+
 	stage.Diagrams = nil
 	stage.Diagrams_mapString = nil
 
@@ -5170,6 +5342,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for deliverable := range stage.Deliverables {
 		deliverable.Unstage(stage)
+	}
+
+	for deliverableconceptshape := range stage.DeliverableConceptShapes {
+		deliverableconceptshape.Unstage(stage)
 	}
 
 	for diagram := range stage.Diagrams {
@@ -5334,6 +5510,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.ConcernShapes).(*Type)
 	case map[*Deliverable]any:
 		return any(&stage.Deliverables).(*Type)
+	case map[*DeliverableConceptShape]any:
+		return any(&stage.DeliverableConceptShapes).(*Type)
 	case map[*Diagram]any:
 		return any(&stage.Diagrams).(*Type)
 	case map[*Library]any:
@@ -5398,6 +5576,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.ConcernShapes_mapString).(map[string]Type)
 	case *Deliverable:
 		return any(stage.Deliverables_mapString).(map[string]Type)
+	case *DeliverableConceptShape:
+		return any(stage.DeliverableConceptShapes_mapString).(map[string]Type)
 	case *Diagram:
 		return any(stage.Diagrams_mapString).(map[string]Type)
 	case *Library:
@@ -5462,6 +5642,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.ConcernShapes).(*map[*Type]struct{})
 	case Deliverable:
 		return any(&stage.Deliverables).(*map[*Type]struct{})
+	case DeliverableConceptShape:
+		return any(&stage.DeliverableConceptShapes).(*map[*Type]struct{})
 	case Diagram:
 		return any(&stage.Diagrams).(*map[*Type]struct{})
 	case Library:
@@ -5526,6 +5708,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.ConcernShapes).(*map[Type]struct{})
 	case *Deliverable:
 		return any(&stage.Deliverables).(*map[Type]struct{})
+	case *DeliverableConceptShape:
+		return any(&stage.DeliverableConceptShapes).(*map[Type]struct{})
 	case *Diagram:
 		return any(&stage.Diagrams).(*map[Type]struct{})
 	case *Library:
@@ -5590,6 +5774,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.ConcernShapes_mapString).(*map[string]*Type)
 	case Deliverable:
 		return any(&stage.Deliverables_mapString).(*map[string]*Type)
+	case DeliverableConceptShape:
+		return any(&stage.DeliverableConceptShapes_mapString).(*map[string]*Type)
 	case Diagram:
 		return any(&stage.Diagrams_mapString).(*map[string]*Type)
 	case Library:
@@ -5702,6 +5888,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Concept with the name of the field
 			Concepts: []*Concept{{Name: "Concepts"}},
 		}).(*Type)
+	case DeliverableConceptShape:
+		return any(&DeliverableConceptShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Deliverable with the name of the field
+			Deliverable: &Deliverable{Name: "Deliverable"},
+			// field is initialized with an instance of Concept with the name of the field
+			Concept: &Concept{Name: "Concept"},
+		}).(*Type)
 	case Diagram:
 		return any(&Diagram{
 			// Initialisation of associations
@@ -5711,6 +5905,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Product_Shapes: []*ProductShape{{Name: "Product_Shapes"}},
 			// field is initialized with an instance of Deliverable with the name of the field
 			ProductsWhoseNodeIsExpanded: []*Deliverable{{Name: "ProductsWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Deliverable with the name of the field
+			ProductsWhoseConceptsNodeIsExpanded: []*Deliverable{{Name: "ProductsWhoseConceptsNodeIsExpanded"}},
 			// field is initialized with an instance of ProductCompositionShape with the name of the field
 			ProductComposition_Shapes: []*ProductCompositionShape{{Name: "ProductComposition_Shapes"}},
 			// field is initialized with an instance of ConcernShape with the name of the field
@@ -5755,6 +5951,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Concept_Shapes: []*ConceptShape{{Name: "Concept_Shapes"}},
 			// field is initialized with an instance of Concept with the name of the field
 			ConceptsWhoseNodeIsExpanded: []*Concept{{Name: "ConceptsWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Concept with the name of the field
+			ConceptsWhoseDeliverablesNodeIsExpanded: []*Concept{{Name: "ConceptsWhoseDeliverablesNodeIsExpanded"}},
+			// field is initialized with an instance of DeliverableConceptShape with the name of the field
+			DeliverableConceptShapes: []*DeliverableConceptShape{{Name: "DeliverableConceptShapes"}},
 		}).(*Type)
 	case Library:
 		return any(&Library{
@@ -6062,6 +6262,45 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Deliverable:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of DeliverableConceptShape
+	case DeliverableConceptShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Deliverable":
+			res := make(map[*Deliverable][]*DeliverableConceptShape)
+			for deliverableconceptshape := range stage.DeliverableConceptShapes {
+				if deliverableconceptshape.Deliverable != nil {
+					deliverable_ := deliverableconceptshape.Deliverable
+					var deliverableconceptshapes []*DeliverableConceptShape
+					_, ok := res[deliverable_]
+					if ok {
+						deliverableconceptshapes = res[deliverable_]
+					} else {
+						deliverableconceptshapes = make([]*DeliverableConceptShape, 0)
+					}
+					deliverableconceptshapes = append(deliverableconceptshapes, deliverableconceptshape)
+					res[deliverable_] = deliverableconceptshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Concept":
+			res := make(map[*Concept][]*DeliverableConceptShape)
+			for deliverableconceptshape := range stage.DeliverableConceptShapes {
+				if deliverableconceptshape.Concept != nil {
+					concept_ := deliverableconceptshape.Concept
+					var deliverableconceptshapes []*DeliverableConceptShape
+					_, ok := res[concept_]
+					if ok {
+						deliverableconceptshapes = res[concept_]
+					} else {
+						deliverableconceptshapes = make([]*DeliverableConceptShape, 0)
+					}
+					deliverableconceptshapes = append(deliverableconceptshapes, deliverableconceptshape)
+					res[concept_] = deliverableconceptshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Diagram
 	case Diagram:
@@ -6519,6 +6758,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of DeliverableConceptShape
+	case DeliverableConceptShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Diagram
 	case Diagram:
 		switch fieldname {
@@ -6543,6 +6787,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			res := make(map[*Deliverable][]*Diagram)
 			for diagram := range stage.Diagrams {
 				for _, deliverable_ := range diagram.ProductsWhoseNodeIsExpanded {
+					res[deliverable_] = append(res[deliverable_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ProductsWhoseConceptsNodeIsExpanded":
+			res := make(map[*Deliverable][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, deliverable_ := range diagram.ProductsWhoseConceptsNodeIsExpanded {
 					res[deliverable_] = append(res[deliverable_], diagram)
 				}
 			}
@@ -6720,6 +6972,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for diagram := range stage.Diagrams {
 				for _, concept_ := range diagram.ConceptsWhoseNodeIsExpanded {
 					res[concept_] = append(res[concept_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ConceptsWhoseDeliverablesNodeIsExpanded":
+			res := make(map[*Concept][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, concept_ := range diagram.ConceptsWhoseDeliverablesNodeIsExpanded {
+					res[concept_] = append(res[concept_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DeliverableConceptShapes":
+			res := make(map[*DeliverableConceptShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, deliverableconceptshape_ := range diagram.DeliverableConceptShapes {
+					res[deliverableconceptshape_] = append(res[deliverableconceptshape_], diagram)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -6961,6 +7229,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "ConcernShape"
 	case *Deliverable:
 		res = "Deliverable"
+	case *DeliverableConceptShape:
+		res = "DeliverableConceptShape"
 	case *Diagram:
 		res = "Diagram"
 	case *Library:
@@ -7026,6 +7296,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "Diagram"
 		rf.Fieldname = "ConceptsWhoseNodeIsExpanded"
+		res = append(res, rf)
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "ConceptsWhoseDeliverablesNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Library"
 		rf.Fieldname = "RootConcepts"
@@ -7108,11 +7381,20 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Diagram"
 		rf.Fieldname = "ProductsWhoseNodeIsExpanded"
 		res = append(res, rf)
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "ProductsWhoseConceptsNodeIsExpanded"
+		res = append(res, rf)
 		rf.GongstructName = "Library"
 		rf.Fieldname = "RootDeliverables"
 		res = append(res, rf)
 		rf.GongstructName = "Note"
 		rf.Fieldname = "Products"
+		res = append(res, rf)
+	case *DeliverableConceptShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "DeliverableConceptShapes"
 		res = append(res, rf)
 	case *Diagram:
 		var rf ReverseField
@@ -7628,6 +7910,53 @@ func (deliverable *Deliverable) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
+func (deliverableconceptshape *DeliverableConceptShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Deliverable",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Deliverable",
+		},
+		{
+			Name:                 "Concept",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Concept",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "StartOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:                 "EndOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:               "CornerOffsetRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
 func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -7696,6 +8025,11 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:                 "ProductsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Deliverable",
+		},
+		{
+			Name:                 "ProductsWhoseConceptsNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Deliverable",
 		},
@@ -7824,6 +8158,16 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "ConceptsWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Concept",
+		},
+		{
+			Name:                 "ConceptsWhoseDeliverablesNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Concept",
+		},
+		{
+			Name:                 "DeliverableConceptShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "DeliverableConceptShape",
 		},
 	}
 	return
@@ -8910,6 +9254,49 @@ func (deliverable *Deliverable) GongGetFieldValue(fieldName string, stage *Stage
 	return
 }
 
+func (deliverableconceptshape *DeliverableConceptShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = deliverableconceptshape.Name
+	case "Deliverable":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if deliverableconceptshape.Deliverable != nil {
+			res.valueString = deliverableconceptshape.Deliverable.Name
+			res.ids = deliverableconceptshape.Deliverable.GongGetUUID(stage)
+		}
+	case "Concept":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if deliverableconceptshape.Concept != nil {
+			res.valueString = deliverableconceptshape.Concept.Name
+			res.ids = deliverableconceptshape.Concept.GongGetUUID(stage)
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", deliverableconceptshape.StartRatio)
+		res.valueFloat = deliverableconceptshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", deliverableconceptshape.EndRatio)
+		res.valueFloat = deliverableconceptshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := deliverableconceptshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := deliverableconceptshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", deliverableconceptshape.CornerOffsetRatio)
+		res.valueFloat = deliverableconceptshape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", deliverableconceptshape.IsHidden)
+		res.valueBool = deliverableconceptshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
 func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -8983,6 +9370,16 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "ProductsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.ProductsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ProductsWhoseConceptsNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ProductsWhoseConceptsNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -9219,6 +9616,26 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "ConceptsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.ConceptsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ConceptsWhoseDeliverablesNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ConceptsWhoseDeliverablesNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "DeliverableConceptShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.DeliverableConceptShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -10284,6 +10701,51 @@ func (deliverable *Deliverable) GongSetFieldValue(fieldName string, value GongFi
 	return nil
 }
 
+func (deliverableconceptshape *DeliverableConceptShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		deliverableconceptshape.Name = value.GetValueString()
+	case "Deliverable":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			deliverableconceptshape.Deliverable = nil
+			for __instance__ := range stage.Deliverables {
+				if stage.Deliverable_stagedOrder[__instance__] == uint(id) {
+					deliverableconceptshape.Deliverable = __instance__
+					break
+				}
+			}
+		}
+	case "Concept":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			deliverableconceptshape.Concept = nil
+			for __instance__ := range stage.Concepts {
+				if stage.Concept_stagedOrder[__instance__] == uint(id) {
+					deliverableconceptshape.Concept = __instance__
+					break
+				}
+			}
+		}
+	case "StartRatio":
+		deliverableconceptshape.StartRatio = value.GetValueFloat()
+	case "EndRatio":
+		deliverableconceptshape.EndRatio = value.GetValueFloat()
+	case "StartOrientation":
+		deliverableconceptshape.StartOrientation.FromCodeString(value.GetValueString())
+	case "EndOrientation":
+		deliverableconceptshape.EndOrientation.FromCodeString(value.GetValueString())
+	case "CornerOffsetRatio":
+		deliverableconceptshape.CornerOffsetRatio = value.GetValueFloat()
+	case "IsHidden":
+		deliverableconceptshape.IsHidden = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -10350,6 +10812,20 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				for __instance__ := range stage.Deliverables {
 					if stage.Deliverable_stagedOrder[__instance__] == uint(id) {
 						diagram.ProductsWhoseNodeIsExpanded = append(diagram.ProductsWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "ProductsWhoseConceptsNodeIsExpanded":
+		diagram.ProductsWhoseConceptsNodeIsExpanded = make([]*Deliverable, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Deliverables {
+					if stage.Deliverable_stagedOrder[__instance__] == uint(id) {
+						diagram.ProductsWhoseConceptsNodeIsExpanded = append(diagram.ProductsWhoseConceptsNodeIsExpanded, __instance__)
 						break
 					}
 				}
@@ -10666,6 +11142,34 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				for __instance__ := range stage.Concepts {
 					if stage.Concept_stagedOrder[__instance__] == uint(id) {
 						diagram.ConceptsWhoseNodeIsExpanded = append(diagram.ConceptsWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "ConceptsWhoseDeliverablesNodeIsExpanded":
+		diagram.ConceptsWhoseDeliverablesNodeIsExpanded = make([]*Concept, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Concepts {
+					if stage.Concept_stagedOrder[__instance__] == uint(id) {
+						diagram.ConceptsWhoseDeliverablesNodeIsExpanded = append(diagram.ConceptsWhoseDeliverablesNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "DeliverableConceptShapes":
+		diagram.DeliverableConceptShapes = make([]*DeliverableConceptShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.DeliverableConceptShapes {
+					if stage.DeliverableConceptShape_stagedOrder[__instance__] == uint(id) {
+						diagram.DeliverableConceptShapes = append(diagram.DeliverableConceptShapes, __instance__)
 						break
 					}
 				}
@@ -11435,6 +11939,10 @@ func (deliverable *Deliverable) GongGetGongstructName() string {
 	return "Deliverable"
 }
 
+func (deliverableconceptshape *DeliverableConceptShape) GongGetGongstructName() string {
+	return "DeliverableConceptShape"
+}
+
 func (diagram *Diagram) GongGetGongstructName() string {
 	return "Diagram"
 }
@@ -11553,6 +12061,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Deliverables_mapString = make(map[string]*Deliverable)
 	for deliverable := range stage.Deliverables {
 		stage.Deliverables_mapString[deliverable.Name] = deliverable
+	}
+
+	stage.DeliverableConceptShapes_mapString = make(map[string]*DeliverableConceptShape)
+	for deliverableconceptshape := range stage.DeliverableConceptShapes {
+		stage.DeliverableConceptShapes_mapString[deliverableconceptshape.Name] = deliverableconceptshape
 	}
 
 	stage.Diagrams_mapString = make(map[string]*Diagram)

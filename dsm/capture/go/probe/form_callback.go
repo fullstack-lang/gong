@@ -323,6 +323,51 @@ func (conceptFormCallback *ConceptFormCallback) OnSave() {
 					}
 				}
 			}
+		case "Diagram:ConceptsWhoseDeliverablesNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Diagram instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](conceptFormCallback.probe.stageOfInterest)
+			targetDiagramIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Diagram instances and update their ConceptsWhoseDeliverablesNodeIsExpanded slice
+			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](conceptFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(conceptFormCallback.probe.stageOfInterest, _diagram)
+				
+				// if Diagram is selected
+				if targetDiagramIDs[id] {
+					// ensure concept_ is in _diagram.ConceptsWhoseDeliverablesNodeIsExpanded
+					found := false
+					for _, _b := range _diagram.ConceptsWhoseDeliverablesNodeIsExpanded {
+						if _b == concept_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagram.ConceptsWhoseDeliverablesNodeIsExpanded = append(_diagram.ConceptsWhoseDeliverablesNodeIsExpanded, concept_)
+						conceptFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ConceptsWhoseDeliverablesNodeIsExpanded", &_diagram.ConceptsWhoseDeliverablesNodeIsExpanded)
+					}
+				} else {
+					// ensure concept_ is NOT in _diagram.ConceptsWhoseDeliverablesNodeIsExpanded
+					idx := slices.Index(_diagram.ConceptsWhoseDeliverablesNodeIsExpanded, concept_)
+					if idx != -1 {
+						_diagram.ConceptsWhoseDeliverablesNodeIsExpanded = slices.Delete(_diagram.ConceptsWhoseDeliverablesNodeIsExpanded, idx, idx+1)
+						conceptFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ConceptsWhoseDeliverablesNodeIsExpanded", &_diagram.ConceptsWhoseDeliverablesNodeIsExpanded)
+					}
+				}
+			}
 		case "Library:RootConcepts":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -2067,6 +2112,51 @@ func (deliverableFormCallback *DeliverableFormCallback) OnSave() {
 					}
 				}
 			}
+		case "Diagram:ProductsWhoseConceptsNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Diagram instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](deliverableFormCallback.probe.stageOfInterest)
+			targetDiagramIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Diagram instances and update their ProductsWhoseConceptsNodeIsExpanded slice
+			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](deliverableFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(deliverableFormCallback.probe.stageOfInterest, _diagram)
+				
+				// if Diagram is selected
+				if targetDiagramIDs[id] {
+					// ensure deliverable_ is in _diagram.ProductsWhoseConceptsNodeIsExpanded
+					found := false
+					for _, _b := range _diagram.ProductsWhoseConceptsNodeIsExpanded {
+						if _b == deliverable_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagram.ProductsWhoseConceptsNodeIsExpanded = append(_diagram.ProductsWhoseConceptsNodeIsExpanded, deliverable_)
+						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ProductsWhoseConceptsNodeIsExpanded", &_diagram.ProductsWhoseConceptsNodeIsExpanded)
+					}
+				} else {
+					// ensure deliverable_ is NOT in _diagram.ProductsWhoseConceptsNodeIsExpanded
+					idx := slices.Index(_diagram.ProductsWhoseConceptsNodeIsExpanded, deliverable_)
+					if idx != -1 {
+						_diagram.ProductsWhoseConceptsNodeIsExpanded = slices.Delete(_diagram.ProductsWhoseConceptsNodeIsExpanded, idx, idx+1)
+						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ProductsWhoseConceptsNodeIsExpanded", &_diagram.ProductsWhoseConceptsNodeIsExpanded)
+					}
+				}
+			}
 		case "Library:RootDeliverables":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -2187,6 +2277,145 @@ func (deliverableFormCallback *DeliverableFormCallback) OnSave() {
 	}
 
 	deliverableFormCallback.probe.ux_tree()
+}
+func __gong__New__DeliverableConceptShapeFormCallback(
+	deliverableconceptshape *models.DeliverableConceptShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (deliverableconceptshapeFormCallback *DeliverableConceptShapeFormCallback) {
+	deliverableconceptshapeFormCallback = new(DeliverableConceptShapeFormCallback)
+	deliverableconceptshapeFormCallback.probe = probe
+	deliverableconceptshapeFormCallback.deliverableconceptshape = deliverableconceptshape
+	deliverableconceptshapeFormCallback.formGroup = formGroup
+
+	deliverableconceptshapeFormCallback.CreationMode = (deliverableconceptshape == nil)
+
+	return
+}
+
+type DeliverableConceptShapeFormCallback struct {
+	deliverableconceptshape *models.DeliverableConceptShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (deliverableconceptshapeFormCallback *DeliverableConceptShapeFormCallback) OnSave() {
+	deliverableconceptshapeFormCallback.probe.stageOfInterest.Lock()
+	defer deliverableconceptshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("DeliverableConceptShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	deliverableconceptshapeFormCallback.probe.formStage.Checkout()
+
+	if deliverableconceptshapeFormCallback.deliverableconceptshape == nil {
+		deliverableconceptshapeFormCallback.deliverableconceptshape = new(models.DeliverableConceptShape).Stage(deliverableconceptshapeFormCallback.probe.stageOfInterest)
+	}
+	deliverableconceptshape_ := deliverableconceptshapeFormCallback.deliverableconceptshape
+	_ = deliverableconceptshape_
+
+	for _, formDiv := range deliverableconceptshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(deliverableconceptshape_.Name), formDiv)
+		case "Deliverable":
+			FormDivSelectFieldToField(&(deliverableconceptshape_.Deliverable), deliverableconceptshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "Concept":
+			FormDivSelectFieldToField(&(deliverableconceptshape_.Concept), deliverableconceptshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "StartRatio":
+			FormDivBasicFieldToField(&(deliverableconceptshape_.StartRatio), formDiv)
+		case "EndRatio":
+			FormDivBasicFieldToField(&(deliverableconceptshape_.EndRatio), formDiv)
+		case "StartOrientation":
+			FormDivEnumStringFieldToField(&(deliverableconceptshape_.StartOrientation), formDiv)
+		case "EndOrientation":
+			FormDivEnumStringFieldToField(&(deliverableconceptshape_.EndOrientation), formDiv)
+		case "CornerOffsetRatio":
+			FormDivBasicFieldToField(&(deliverableconceptshape_.CornerOffsetRatio), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(deliverableconceptshape_.IsHidden), formDiv)
+		case "Diagram:DeliverableConceptShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Diagram instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](deliverableconceptshapeFormCallback.probe.stageOfInterest)
+			targetDiagramIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Diagram instances and update their DeliverableConceptShapes slice
+			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](deliverableconceptshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(deliverableconceptshapeFormCallback.probe.stageOfInterest, _diagram)
+				
+				// if Diagram is selected
+				if targetDiagramIDs[id] {
+					// ensure deliverableconceptshape_ is in _diagram.DeliverableConceptShapes
+					found := false
+					for _, _b := range _diagram.DeliverableConceptShapes {
+						if _b == deliverableconceptshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagram.DeliverableConceptShapes = append(_diagram.DeliverableConceptShapes, deliverableconceptshape_)
+						deliverableconceptshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "DeliverableConceptShapes", &_diagram.DeliverableConceptShapes)
+					}
+				} else {
+					// ensure deliverableconceptshape_ is NOT in _diagram.DeliverableConceptShapes
+					idx := slices.Index(_diagram.DeliverableConceptShapes, deliverableconceptshape_)
+					if idx != -1 {
+						_diagram.DeliverableConceptShapes = slices.Delete(_diagram.DeliverableConceptShapes, idx, idx+1)
+						deliverableconceptshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "DeliverableConceptShapes", &_diagram.DeliverableConceptShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if deliverableconceptshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		deliverableconceptshape_.Unstage(deliverableconceptshapeFormCallback.probe.stageOfInterest)
+	}
+
+	deliverableconceptshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.DeliverableConceptShape](
+		deliverableconceptshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if deliverableconceptshapeFormCallback.CreationMode || deliverableconceptshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		deliverableconceptshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(deliverableconceptshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__DeliverableConceptShapeFormCallback(
+			nil,
+			deliverableconceptshapeFormCallback.probe,
+			newFormGroup,
+		)
+		deliverableconceptshape := new(models.DeliverableConceptShape)
+		FillUpForm(deliverableconceptshape, newFormGroup, deliverableconceptshapeFormCallback.probe)
+		deliverableconceptshapeFormCallback.probe.formStage.Commit()
+	}
+
+	deliverableconceptshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__DiagramFormCallback(
 	diagram *models.Diagram,
@@ -2354,6 +2583,38 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 			diagram_.ProductsWhoseNodeIsExpanded = instanceSlice
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ProductsWhoseNodeIsExpanded", &diagram_.ProductsWhoseNodeIsExpanded)
+
+		case "ProductsWhoseConceptsNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Deliverable](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Deliverable, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Deliverable)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Deliverable](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagram_.ProductsWhoseConceptsNodeIsExpanded = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ProductsWhoseConceptsNodeIsExpanded", &diagram_.ProductsWhoseConceptsNodeIsExpanded)
 
 		case "IsPBSNodeExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsPBSNodeExpanded), formDiv)
@@ -3066,6 +3327,70 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 			diagram_.ConceptsWhoseNodeIsExpanded = instanceSlice
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ConceptsWhoseNodeIsExpanded", &diagram_.ConceptsWhoseNodeIsExpanded)
+
+		case "ConceptsWhoseDeliverablesNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Concept](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Concept, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Concept)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Concept](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagram_.ConceptsWhoseDeliverablesNodeIsExpanded = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ConceptsWhoseDeliverablesNodeIsExpanded", &diagram_.ConceptsWhoseDeliverablesNodeIsExpanded)
+
+		case "DeliverableConceptShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DeliverableConceptShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.DeliverableConceptShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.DeliverableConceptShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.DeliverableConceptShape](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagram_.DeliverableConceptShapes = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "DeliverableConceptShapes", &diagram_.DeliverableConceptShapes)
 
 		case "Library:Diagrams":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances

@@ -264,6 +264,35 @@ func (from *Deliverable) CopyBasicFields(to *Deliverable) {
 	to.IsConsumersNodeExpanded = from.IsConsumersNodeExpanded
 }
 
+type DeliverableConceptShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+
+	IsHidden bool
+}
+
+func (from *DeliverableConceptShape) CopyBasicFields(to *DeliverableConceptShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
+}
+
 type Diagram_WOP struct {
 	// insertion point
 

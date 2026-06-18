@@ -37,6 +37,8 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 
 		ASSOCATIONN_TYPE_RESOURCE_COMPOSITION associationType = "ResourceComposition"
 		ASSOCIATION_TYPE_RESOURCE_TASK        associationType = "ResourceTask"
+
+		ASSOCIATION_TYPE_DELIVERABLE_CONCEPT  associationType = "DeliverableConcept"
 	)
 
 	var assocType associationType
@@ -107,6 +109,13 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			assocType = ASSOCIATION_TYPE_RESOURCE_TASK
 			sourceAbstratctElement = resourceShape.Stakeholder
 			targetAbstractElement = taskShape.Concern
+		}
+	}
+	if productShape, ok := diagram.map_SvgRect_ProductShape[startRect]; ok {
+		if conceptShape, ok := diagram.map_SvgRect_ConceptShape[endRect]; ok {
+			assocType = ASSOCIATION_TYPE_DELIVERABLE_CONCEPT
+			sourceAbstratctElement = productShape.Product
+			targetAbstractElement = conceptShape.Concept
 		}
 	}
 
@@ -210,6 +219,13 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 
 		resource.Concerns = append(resource.Concerns, task)
 		addAssociationShapeToDiagram(stager, resource, task, &diagram.StakeholderConcernShapes)
+
+	case ASSOCIATION_TYPE_DELIVERABLE_CONCEPT:
+		deliverable := sourceAbstratctElement.(*Deliverable)
+		concept := targetAbstractElement.(*Concept)
+
+		deliverable.Concepts = append(deliverable.Concepts, concept)
+		addAssociationShapeToDiagram(stager, deliverable, concept, &diagram.DeliverableConceptShapes)
 	}
 
 	if assocType == "" {

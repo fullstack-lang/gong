@@ -96,6 +96,9 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct DeliverableConceptShape
+	// insertion point per field
+
 	// Compute reverse map for named struct Diagram
 	// insertion point per field
 	stage.Diagram_ConcernsWhoseRequirementsNodeIsExpanded_reverseMap = make(map[*Concern]*Diagram)
@@ -117,6 +120,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = diagram
 		for _, _deliverable := range diagram.ProductsWhoseNodeIsExpanded {
 			stage.Diagram_ProductsWhoseNodeIsExpanded_reverseMap[_deliverable] = diagram
+		}
+	}
+	stage.Diagram_ProductsWhoseConceptsNodeIsExpanded_reverseMap = make(map[*Deliverable]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _deliverable := range diagram.ProductsWhoseConceptsNodeIsExpanded {
+			stage.Diagram_ProductsWhoseConceptsNodeIsExpanded_reverseMap[_deliverable] = diagram
 		}
 	}
 	stage.Diagram_ProductComposition_Shapes_reverseMap = make(map[*ProductCompositionShape]*Diagram)
@@ -271,6 +281,20 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = diagram
 		for _, _concept := range diagram.ConceptsWhoseNodeIsExpanded {
 			stage.Diagram_ConceptsWhoseNodeIsExpanded_reverseMap[_concept] = diagram
+		}
+	}
+	stage.Diagram_ConceptsWhoseDeliverablesNodeIsExpanded_reverseMap = make(map[*Concept]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _concept := range diagram.ConceptsWhoseDeliverablesNodeIsExpanded {
+			stage.Diagram_ConceptsWhoseDeliverablesNodeIsExpanded_reverseMap[_concept] = diagram
+		}
+	}
+	stage.Diagram_DeliverableConceptShapes_reverseMap = make(map[*DeliverableConceptShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _deliverableconceptshape := range diagram.DeliverableConceptShapes {
+			stage.Diagram_DeliverableConceptShapes_reverseMap[_deliverableconceptshape] = diagram
 		}
 	}
 
@@ -475,6 +499,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.DeliverableConceptShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Diagrams {
 		res = append(res, instance)
 	}
@@ -598,6 +626,12 @@ func (concernshape *ConcernShape) GongCopy() GongstructIF {
 func (deliverable *Deliverable) GongCopy() GongstructIF {
 	newInstance := new(Deliverable)
 	deliverable.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (deliverableconceptshape *DeliverableConceptShape) GongCopy() GongstructIF {
+	newInstance := new(DeliverableConceptShape)
+	deliverableconceptshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -791,6 +825,16 @@ func (deliverable *Deliverable) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(deliverable), uint64(GetOrderPointerGongstruct(stage, deliverable)))
+	return
+}
+
+func (deliverableconceptshape *DeliverableConceptShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(deliverableconceptshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(deliverableconceptshape), uint64(GetOrderPointerGongstruct(stage, deliverableconceptshape)))
 	return
 }
 
@@ -1477,6 +1521,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(deliverables_newInstances)
 	lenDeletedInstances += len(deliverables_deletedInstances)
+	var deliverableconceptshapes_newInstances []*DeliverableConceptShape
+	var deliverableconceptshapes_deletedInstances []*DeliverableConceptShape
+
+	// parse all staged instances and check if they have a reference
+	for deliverableconceptshape := range stage.DeliverableConceptShapes {
+		if ref, ok := stage.DeliverableConceptShapes_reference[deliverableconceptshape]; !ok {
+			deliverableconceptshapes_newInstances = append(deliverableconceptshapes_newInstances, deliverableconceptshape)
+			newInstancesSlice = append(newInstancesSlice, deliverableconceptshape.GongMarshallIdentifier(stage))
+			if stage.DeliverableConceptShapes_referenceOrder == nil {
+				stage.DeliverableConceptShapes_referenceOrder = make(map[*DeliverableConceptShape]uint)
+			}
+			stage.DeliverableConceptShapes_referenceOrder[deliverableconceptshape] = stage.DeliverableConceptShape_stagedOrder[deliverableconceptshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, deliverableconceptshape.GongMarshallUnstaging(stage))
+			// delete(stage.DeliverableConceptShapes_referenceOrder, deliverableconceptshape)
+			fieldInitializers, pointersInitializations := deliverableconceptshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.DeliverableConceptShape_stagedOrder[ref] = stage.DeliverableConceptShape_stagedOrder[deliverableconceptshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := deliverableconceptshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, deliverableconceptshape)
+			// delete(stage.DeliverableConceptShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if deliverableconceptshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", deliverableconceptshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.DeliverableConceptShapes_reference {
+		instance := stage.DeliverableConceptShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.DeliverableConceptShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			deliverableconceptshapes_deletedInstances = append(deliverableconceptshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(deliverableconceptshapes_newInstances)
+	lenDeletedInstances += len(deliverableconceptshapes_deletedInstances)
 	var diagrams_newInstances []*Diagram
 	var diagrams_deletedInstances []*Diagram
 
@@ -2537,6 +2636,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Deliverables_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.DeliverableConceptShapes_reference = make(map[*DeliverableConceptShape]*DeliverableConceptShape)
+	stage.DeliverableConceptShapes_referenceOrder = make(map[*DeliverableConceptShape]uint) // diff Unstage needs the reference order
+	stage.DeliverableConceptShapes_instance = make(map[*DeliverableConceptShape]*DeliverableConceptShape)
+	for instance := range stage.DeliverableConceptShapes {
+		_copy := instance.GongCopy().(*DeliverableConceptShape)
+		stage.DeliverableConceptShapes_reference[instance] = _copy
+		stage.DeliverableConceptShapes_instance[_copy] = instance
+		stage.DeliverableConceptShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Diagrams_reference = make(map[*Diagram]*Diagram)
 	stage.Diagrams_referenceOrder = make(map[*Diagram]uint) // diff Unstage needs the reference order
 	stage.Diagrams_instance = make(map[*Diagram]*Diagram)
@@ -2753,6 +2862,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.DeliverableConceptShapes {
+		reference := stage.DeliverableConceptShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.Diagrams {
 		reference := stage.Diagrams_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -2952,6 +3066,18 @@ func (deliverable *Deliverable) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Deliverable was not staged and does not have a reference order", deliverable)
+		return 0
+	}
+}
+
+func (deliverableconceptshape *DeliverableConceptShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.DeliverableConceptShape_stagedOrder[deliverableconceptshape]; ok {
+		return order
+	}
+	if order, ok := stage.DeliverableConceptShapes_referenceOrder[deliverableconceptshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type DeliverableConceptShape was not staged and does not have a reference order", deliverableconceptshape)
 		return 0
 	}
 }
@@ -3246,6 +3372,15 @@ func (deliverable *Deliverable) GongGetReferenceIdentifier(stage *Stage) string 
 	return fmt.Sprintf("__%s__%08d_", deliverable.GongGetGongstructName(), deliverable.GongGetOrder(stage))
 }
 
+func (deliverableconceptshape *DeliverableConceptShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", deliverableconceptshape.GongGetGongstructName(), deliverableconceptshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (deliverableconceptshape *DeliverableConceptShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", deliverableconceptshape.GongGetGongstructName(), deliverableconceptshape.GongGetOrder(stage))
+}
+
 func (diagram *Diagram) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetOrder(stage))
 }
@@ -3474,6 +3609,14 @@ func (deliverable *Deliverable) GongMarshallIdentifier(stage *Stage) (decl strin
 	return
 }
 
+func (deliverableconceptshape *DeliverableConceptShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", deliverableconceptshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DeliverableConceptShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(deliverableconceptshape.Name))
+	return
+}
+
 func (diagram *Diagram) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetIdentifier(stage))
@@ -3662,6 +3805,12 @@ func (concernshape *ConcernShape) GongMarshallUnstaging(stage *Stage) (decl stri
 func (deliverable *Deliverable) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", deliverable.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (deliverableconceptshape *DeliverableConceptShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", deliverableconceptshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

@@ -162,5 +162,12 @@ func (stager *Stager) enforceDiagramMaps() {
 				stager.map_Element_Diagrams[shape.Concept] = diagrams
 			}
 		}
+
+		diagram.map_DeliverableConceptKey_DeliverableConceptShape = make(map[deliverableConceptKey]*DeliverableConceptShape)
+		for _, shape := range diagram.DeliverableConceptShapes {
+			if shape.Deliverable != nil && shape.Concept != nil {
+				diagram.map_DeliverableConceptKey_DeliverableConceptShape[deliverableConceptKey{Deliverable: shape.Deliverable, Concept: shape.Concept}] = shape
+			}
+		}
 	}
 }

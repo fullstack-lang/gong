@@ -588,6 +588,33 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		}
 	}
 
+	for _, deliverableConceptShape := range diagram.DeliverableConceptShapes {
+		if deliverableConceptShape.GetIsHidden() {
+			continue
+		}
+		deliverable := deliverableConceptShape.Deliverable
+		concept := deliverableConceptShape.Concept
+		if deliverable == nil || concept == nil {
+			log.Panic("There should be a deliverable and a concept")
+		}
+		startRect := diagram.map_Product_Rect[deliverable]
+		endRect := diagram.map_Concept_Rect[concept]
+		if startRect == nil || endRect == nil {
+			continue
+		}
+		link := svgAssociationLink(
+			stager,
+			startRect, endRect,
+			deliverableConceptShape,
+			deliverable,
+			layer,
+			true,
+		)
+		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+		link.StartAnchorType = svg.ANCHOR_CENTER
+		link.EndAnchorType = svg.ANCHOR_CENTER
+	}
+
 	svg.StageBranch(svgStage, stager.svgObject)
 	stager.svgStage.Commit()
 

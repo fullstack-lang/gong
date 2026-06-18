@@ -42,6 +42,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDeliverableCreateCallback != nil {
 			stage.OnAfterDeliverableCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *DeliverableConceptShape:
+		if stage.OnAfterDeliverableConceptShapeCreateCallback != nil {
+			stage.OnAfterDeliverableConceptShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Diagram:
 		if stage.OnAfterDiagramCreateCallback != nil {
 			stage.OnAfterDiagramCreateCallback.OnAfterCreate(stage, target)
@@ -168,6 +172,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Deliverable)
 		if stage.OnAfterDeliverableUpdateCallback != nil {
 			stage.OnAfterDeliverableUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *DeliverableConceptShape:
+		newTarget := any(new).(*DeliverableConceptShape)
+		if stage.OnAfterDeliverableConceptShapeUpdateCallback != nil {
+			stage.OnAfterDeliverableConceptShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Diagram:
 		newTarget := any(new).(*Diagram)
@@ -309,6 +318,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Deliverable)
 			stage.OnAfterDeliverableDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *DeliverableConceptShape:
+		if stage.OnAfterDeliverableConceptShapeDeleteCallback != nil {
+			staged := any(staged).(*DeliverableConceptShape)
+			stage.OnAfterDeliverableConceptShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Diagram:
 		if stage.OnAfterDiagramDeleteCallback != nil {
 			staged := any(staged).(*Diagram)
@@ -440,6 +454,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDeliverableReadCallback != nil {
 			stage.OnAfterDeliverableReadCallback.OnAfterRead(stage, target)
 		}
+	case *DeliverableConceptShape:
+		if stage.OnAfterDeliverableConceptShapeReadCallback != nil {
+			stage.OnAfterDeliverableConceptShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *Diagram:
 		if stage.OnAfterDiagramReadCallback != nil {
 			stage.OnAfterDiagramReadCallback.OnAfterRead(stage, target)
@@ -537,6 +555,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterConcernShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ConcernShape])
 	case *Deliverable:
 		stage.OnAfterDeliverableUpdateCallback = any(callback).(OnAfterUpdateInterface[Deliverable])
+	case *DeliverableConceptShape:
+		stage.OnAfterDeliverableConceptShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DeliverableConceptShape])
 	case *Diagram:
 		stage.OnAfterDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Diagram])
 	case *Library:
@@ -596,6 +616,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterConcernShapeCreateCallback = any(callback).(OnAfterCreateInterface[ConcernShape])
 	case *Deliverable:
 		stage.OnAfterDeliverableCreateCallback = any(callback).(OnAfterCreateInterface[Deliverable])
+	case *DeliverableConceptShape:
+		stage.OnAfterDeliverableConceptShapeCreateCallback = any(callback).(OnAfterCreateInterface[DeliverableConceptShape])
 	case *Diagram:
 		stage.OnAfterDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Diagram])
 	case *Library:
@@ -655,6 +677,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterConcernShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ConcernShape])
 	case *Deliverable:
 		stage.OnAfterDeliverableDeleteCallback = any(callback).(OnAfterDeleteInterface[Deliverable])
+	case *DeliverableConceptShape:
+		stage.OnAfterDeliverableConceptShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DeliverableConceptShape])
 	case *Diagram:
 		stage.OnAfterDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Diagram])
 	case *Library:
@@ -714,6 +738,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterConcernShapeReadCallback = any(callback).(OnAfterReadInterface[ConcernShape])
 	case *Deliverable:
 		stage.OnAfterDeliverableReadCallback = any(callback).(OnAfterReadInterface[Deliverable])
+	case *DeliverableConceptShape:
+		stage.OnAfterDeliverableConceptShapeReadCallback = any(callback).(OnAfterReadInterface[DeliverableConceptShape])
 	case *Diagram:
 		stage.OnAfterDiagramReadCallback = any(callback).(OnAfterReadInterface[Diagram])
 	case *Library:

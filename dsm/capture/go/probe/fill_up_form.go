@@ -81,6 +81,17 @@ func FillUpForm(
 				})
 		}
 		{
+			AssociationReverseSliceToForm[*models.Diagram, *models.Concept](
+				"Diagram",
+				"ConceptsWhoseDeliverablesNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.Concept {
+					return owner.ConceptsWhoseDeliverablesNodeIsExpanded
+				})
+		}
+		{
 			AssociationReverseSliceToForm[*models.Library, *models.Concept](
 				"Library",
 				"RootConcepts",
@@ -466,6 +477,17 @@ func FillUpForm(
 				})
 		}
 		{
+			AssociationReverseSliceToForm[*models.Diagram, *models.Deliverable](
+				"Diagram",
+				"ProductsWhoseConceptsNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.Deliverable {
+					return owner.ProductsWhoseConceptsNodeIsExpanded
+				})
+		}
+		{
 			AssociationReverseSliceToForm[*models.Library, *models.Deliverable](
 				"Library",
 				"RootDeliverables",
@@ -485,6 +507,39 @@ func FillUpForm(
 				probe,
 				func(owner *models.Note) []*models.Deliverable {
 					return owner.Products
+				})
+		}
+
+	case *models.DeliverableConceptShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationFieldToForm("Deliverable", instanceWithInferedType.Deliverable, formGroup, probe)
+		AssociationFieldToForm("Concept", instanceWithInferedType.Concept, formGroup, probe)
+		BasicFieldtoForm("StartRatio", instanceWithInferedType.StartRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("EndRatio", instanceWithInferedType.EndRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeStringToForm("StartOrientation", instanceWithInferedType.StartOrientation, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("EndOrientation", instanceWithInferedType.EndOrientation, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("CornerOffsetRatio", instanceWithInferedType.CornerOffsetRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.Diagram, *models.DeliverableConceptShape](
+				"Diagram",
+				"DeliverableConceptShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Diagram) []*models.DeliverableConceptShape {
+					return owner.DeliverableConceptShapes
 				})
 		}
 
@@ -518,6 +573,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		AssociationSliceToForm("Product_Shapes", instanceWithInferedType, &instanceWithInferedType.Product_Shapes, formGroup, probe)
 		AssociationSliceToForm("ProductsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ProductsWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("ProductsWhoseConceptsNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ProductsWhoseConceptsNodeIsExpanded, formGroup, probe)
 		BasicFieldtoForm("IsPBSNodeExpanded", instanceWithInferedType.IsPBSNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("ProductComposition_Shapes", instanceWithInferedType, &instanceWithInferedType.ProductComposition_Shapes, formGroup, probe)
@@ -548,6 +604,8 @@ func FillUpForm(
 		AssociationSliceToForm("RequirementsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.RequirementsWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("Concept_Shapes", instanceWithInferedType, &instanceWithInferedType.Concept_Shapes, formGroup, probe)
 		AssociationSliceToForm("ConceptsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ConceptsWhoseNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("ConceptsWhoseDeliverablesNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ConceptsWhoseDeliverablesNodeIsExpanded, formGroup, probe)
+		AssociationSliceToForm("DeliverableConceptShapes", instanceWithInferedType, &instanceWithInferedType.DeliverableConceptShapes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
