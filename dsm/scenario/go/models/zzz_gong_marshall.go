@@ -1,0 +1,4024 @@
+// generated code - do not edit
+package models
+
+import (
+	"fmt"
+	"log"
+	"os"
+	"sort"
+	"strings"
+)
+
+const marshallRes = `package {{PackageName}}
+
+import (
+	"slices"
+	"time"
+
+	"{{ModelsPackageName}}"
+	// injection point for ident package import declaration{{ImportPackageDeclaration}}
+)
+
+// generated in order to avoid error in the package import
+// if there are no elements in the stage to marshall
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
+
+// _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
+
+// When parsed, those maps will help with the renaming process
+var _ map[string]any = map[string]any{
+	// injection point for docLink to identifiers{{EntriesDocLinkStringDocLinkIdentifier}}
+}
+
+// function will stage objects
+func _(stage *models.Stage) {
+
+	// insertion point for declaration of instances to stage{{Identifiers}}
+
+	// insertion point for initialization of values{{ValueInitializers}}
+
+	// insertion point for setup of pointers{{PointersInitializers}}
+}`
+
+const GongIdentifiersDecls = `
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: {{GeneratedFieldNameValue}}}).Stage(stage)`
+
+const GongUnstageStmt = `
+	{{Identifier}}.Unstage(stage)`
+
+// previous version does not hanldle embedded structs (https://github.com/golang/go/issues/9859)
+// simpler version but the name of the instance cannot be human read before the fields initialization
+const IdentifiersDeclsWithoutNameInit = `
+	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
+
+const StringInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
+
+const MetaFieldStructInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
+
+const StringEnumInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
+
+const NumberInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
+
+const PointerFieldInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
+
+const SliceOfPointersFieldInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = append({{Identifier}}.{{GeneratedFieldName}}, {{GeneratedFieldNameValue}})`
+
+const TimeInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
+
+// ToRawStringLiteral formats a string into safe Go source code,
+// using backticks to preserve newlines and readability.
+func ToRawStringLiteral(s string) string {
+	// Step 1: Replace every backtick with a closing backtick,
+	// a double-quoted backtick, and an opening backtick.
+	escaped := strings.ReplaceAll(s, "`", "` + \"`\" + `")
+
+	// Step 2: Wrap the entire resulting string in backticks.
+	result := "`" + escaped + "`"
+
+	// Step 3: Clean up any empty raw strings (``) at the boundaries
+	// just in case your original string started or ended with a backtick.
+	result = strings.ReplaceAll(result, "`` + ", "")
+	result = strings.ReplaceAll(result, " + ``", "")
+
+	return result
+}
+
+// MarshallFile marshall the stage content into a file as an instanciation into a stage
+// according to the marshalling policy of the stage.
+//
+// In GongMarshallingAppendCommit mode, it will append the last commit to the file.
+// In other modes, it will rewrite the entire file.
+func (stage *Stage) MarshallFile(filename, modelsPackageName, packageName string) {
+
+	if stage.GetGongMarshallingMode() == GongMarshallingAppendCommit {
+		contentBytes, err := os.ReadFile(filename)
+
+		// if the file does not exist, marshall the full stage
+		if os.IsNotExist(err) {
+			file, createErr := os.Create(filename)
+			if createErr != nil {
+				log.Fatal(createErr.Error())
+			}
+			defer file.Close()
+			stage.Marshall(file, modelsPackageName, packageName)
+			return
+		}
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+
+		content := string(contentBytes)
+
+		if stage.isSquashing {
+			// we squash: we want to clear the current function body
+			// and let the append logic write the squashed commit
+			firstBrace := strings.Index(content, "func _(stage *models.Stage) {")
+			if firstBrace != -1 {
+				firstBrace += len("func _(stage *models.Stage) {")
+				content = content[:firstBrace] + "\n}\n"
+			}
+		}
+
+		if stage.isApplyingBackwardCommit {
+			// we are going backward, we need to remove the last forward commit from the file
+
+			// because commitsBehind has been incremented before the call to this function
+			// the index of the commit to remove is len(forwardCommits) - commitsBehind
+			commitIndexToRemove := len(stage.forwardCommits) - stage.GetCommitsBehind()
+
+			if commitIndexToRemove < 0 || commitIndexToRemove >= len(stage.forwardCommits) {
+				return // Should not happen if history is consistent
+			}
+
+			commitToRemove := stage.forwardCommits[commitIndexToRemove]
+
+			lastIndex := strings.LastIndex(content, commitToRemove+"\n")
+			if lastIndex != -1 {
+				newContent := content[:lastIndex] + content[lastIndex+len(commitToRemove)+1:]
+				err = os.WriteFile(filename, []byte(newContent), 0644)
+				if err != nil {
+					log.Fatal(err.Error())
+				}
+			} else {
+				lastIndex = strings.LastIndex(content, commitToRemove)
+				if lastIndex != -1 {
+					newContent := content[:lastIndex] + content[lastIndex+len(commitToRemove):]
+					err = os.WriteFile(filename, []byte(newContent), 0644)
+					if err != nil {
+						log.Fatal(err.Error())
+					}
+				} else {
+					// The commit block was not found. This typically happens for the initial
+					// commit which is formatted differently (the lines after func _(stage *models.Stage) {).
+					// We rewrite the entire file with the current (rewound) stage state to safely remove it.
+					file, createErr := os.Create(filename)
+					if createErr != nil {
+						log.Fatal(createErr.Error())
+					}
+					defer file.Close()
+					stage.Marshall(file, modelsPackageName, packageName)
+				}
+			}
+			return // we are done for the backward case
+		}
+
+		if stage.isApplyingForwardCommit {
+			// bypass the modified check
+		} else if !stage.modified {
+			return
+		}
+
+		forwardCommits := stage.GetForwardCommits()
+		if len(forwardCommits) == 0 {
+			return // nothing to do
+		}
+
+		activeCommits := len(forwardCommits) - stage.GetCommitsBehind()
+		if activeCommits <= 0 {
+			return
+		}
+		forwardCommit := forwardCommits[activeCommits-1]
+
+		// append before the ending brace of the func
+		lastBrace := strings.LastIndex(content, "}")
+		if lastBrace == -1 {
+			// if no brace, something is wrong with the file, so we rewrite it
+			file, createErr := os.Create(filename)
+			if createErr != nil {
+				log.Fatal(createErr.Error())
+			}
+			defer file.Close()
+			stage.Marshall(file, modelsPackageName, packageName)
+			return
+		}
+
+		contentBeforeBrace := content[:lastBrace]
+		trimmedContentBeforeBrace := strings.TrimSpace(contentBeforeBrace)
+		emptyBody := stage.isSquashing ||
+			strings.HasSuffix(trimmedContentBeforeBrace, "func _(stage *models.Stage) {") ||
+			strings.HasSuffix(trimmedContentBeforeBrace, "// insertion point for setup of pointers")
+
+		// check if the file ends with stage.Commit() before the brace
+		if !emptyBody && !strings.HasSuffix(trimmedContentBeforeBrace, "stage.Commit()") {
+			contentBeforeBrace = contentBeforeBrace + "\n\tstage.Commit()\n"
+		}
+
+		// insert the commit statements before the last brace
+		newContent := contentBeforeBrace + forwardCommit + "\n" + content[lastBrace:]
+
+		err = os.WriteFile(filename, []byte(newContent), 0644)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+
+	} else {
+		file, err := os.Create(filename)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		defer file.Close()
+
+		stage.Marshall(file, modelsPackageName, packageName)
+	}
+}
+
+// Marshall marshall the stage content into the file as an instanciation into a stage
+func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName string) {
+
+	name := file.Name()
+
+	if !strings.HasSuffix(name, ".go") {
+		log.Println(name + " is not a go filename")
+	}
+
+	log.Printf("Marshalling %s", name)
+
+	res, err := stage.MarshallToString(modelsPackageName, packageName)
+	if err != nil {
+		log.Fatalln("Error marshalling to string:", err)
+	}
+
+	fmt.Fprintln(file, res)
+}
+
+// MarshallToString marshall the stage content into a string
+func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res string, err error) {
+
+	res = marshallRes
+	res = strings.ReplaceAll(res, "{{PackageName}}", packageName)
+	res = strings.ReplaceAll(res, "{{ModelsPackageName}}", modelsPackageName)
+
+	// map of identifiers
+	// var StageMapDstructIds map[*Dstruct]string
+	var identifiersDecl strings.Builder
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+
+	decl := ""
+	_ = decl
+	setValueField := ""
+	_ = setValueField
+
+	// insertion initialization of objects to stage
+	actorstateOrdered := []*ActorState{}
+	for actorstate := range stage.ActorStates {
+		actorstateOrdered = append(actorstateOrdered, actorstate)
+	}
+	sort.Slice(actorstateOrdered[:], func(i, j int) bool {
+		actorstatei := actorstateOrdered[i]
+		actorstatej := actorstateOrdered[j]
+		actorstatei_order, oki := stage.ActorState_stagedOrder[actorstatei]
+		actorstatej_order, okj := stage.ActorState_stagedOrder[actorstatej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return actorstatei_order < actorstatej_order
+	})
+	if len(actorstateOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, actorstate := range actorstateOrdered {
+
+		identifiersDecl.WriteString(actorstate.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(actorstate.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(actorstate.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(actorstate.GongMarshallField(stage, "IsWithProbaility"))
+		initializerStatements.WriteString(actorstate.GongMarshallField(stage, "Probability"))
+		initializerStatements.WriteString(actorstate.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(actorstate.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(actorstate.GongMarshallField(stage, "LayoutDirection"))
+	}
+
+	actorstateshapeOrdered := []*ActorStateShape{}
+	for actorstateshape := range stage.ActorStateShapes {
+		actorstateshapeOrdered = append(actorstateshapeOrdered, actorstateshape)
+	}
+	sort.Slice(actorstateshapeOrdered[:], func(i, j int) bool {
+		actorstateshapei := actorstateshapeOrdered[i]
+		actorstateshapej := actorstateshapeOrdered[j]
+		actorstateshapei_order, oki := stage.ActorStateShape_stagedOrder[actorstateshapei]
+		actorstateshapej_order, okj := stage.ActorStateShape_stagedOrder[actorstateshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return actorstateshapei_order < actorstateshapej_order
+	})
+	if len(actorstateshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, actorstateshape := range actorstateshapeOrdered {
+
+		identifiersDecl.WriteString(actorstateshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(actorstateshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(actorstateshape.GongMarshallField(stage, "ActorState"))
+		initializerStatements.WriteString(actorstateshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(actorstateshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(actorstateshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(actorstateshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(actorstateshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	actorstatetransitionOrdered := []*ActorStateTransition{}
+	for actorstatetransition := range stage.ActorStateTransitions {
+		actorstatetransitionOrdered = append(actorstatetransitionOrdered, actorstatetransition)
+	}
+	sort.Slice(actorstatetransitionOrdered[:], func(i, j int) bool {
+		actorstatetransitioni := actorstatetransitionOrdered[i]
+		actorstatetransitionj := actorstatetransitionOrdered[j]
+		actorstatetransitioni_order, oki := stage.ActorStateTransition_stagedOrder[actorstatetransitioni]
+		actorstatetransitionj_order, okj := stage.ActorStateTransition_stagedOrder[actorstatetransitionj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return actorstatetransitioni_order < actorstatetransitionj_order
+	})
+	if len(actorstatetransitionOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, actorstatetransition := range actorstatetransitionOrdered {
+
+		identifiersDecl.WriteString(actorstatetransition.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(actorstatetransition.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(actorstatetransition.GongMarshallField(stage, "StartState"))
+		pointersInitializesStatements.WriteString(actorstatetransition.GongMarshallField(stage, "EndState"))
+		pointersInitializesStatements.WriteString(actorstatetransition.GongMarshallField(stage, "Justifications"))
+		initializerStatements.WriteString(actorstatetransition.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(actorstatetransition.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(actorstatetransition.GongMarshallField(stage, "LayoutDirection"))
+	}
+
+	actorstatetransitionshapeOrdered := []*ActorStateTransitionShape{}
+	for actorstatetransitionshape := range stage.ActorStateTransitionShapes {
+		actorstatetransitionshapeOrdered = append(actorstatetransitionshapeOrdered, actorstatetransitionshape)
+	}
+	sort.Slice(actorstatetransitionshapeOrdered[:], func(i, j int) bool {
+		actorstatetransitionshapei := actorstatetransitionshapeOrdered[i]
+		actorstatetransitionshapej := actorstatetransitionshapeOrdered[j]
+		actorstatetransitionshapei_order, oki := stage.ActorStateTransitionShape_stagedOrder[actorstatetransitionshapei]
+		actorstatetransitionshapej_order, okj := stage.ActorStateTransitionShape_stagedOrder[actorstatetransitionshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return actorstatetransitionshapei_order < actorstatetransitionshapej_order
+	})
+	if len(actorstatetransitionshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, actorstatetransitionshape := range actorstatetransitionshapeOrdered {
+
+		identifiersDecl.WriteString(actorstatetransitionshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "ActorStateTransition"))
+		pointersInitializesStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "Start"))
+		pointersInitializesStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "ControlPointShapes"))
+	}
+
+	analysisOrdered := []*Analysis{}
+	for analysis := range stage.Analysiss {
+		analysisOrdered = append(analysisOrdered, analysis)
+	}
+	sort.Slice(analysisOrdered[:], func(i, j int) bool {
+		analysisi := analysisOrdered[i]
+		analysisj := analysisOrdered[j]
+		analysisi_order, oki := stage.Analysis_stagedOrder[analysisi]
+		analysisj_order, okj := stage.Analysis_stagedOrder[analysisj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return analysisi_order < analysisj_order
+	})
+	if len(analysisOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, analysis := range analysisOrdered {
+
+		identifiersDecl.WriteString(analysis.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "Description"))
+		pointersInitializesStatements.WriteString(analysis.GongMarshallField(stage, "Scenarios"))
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "IsScenariosNodeExpanded"))
+		pointersInitializesStatements.WriteString(analysis.GongMarshallField(stage, "GroupUse"))
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "IsGroupUseNodeExpanded"))
+		pointersInitializesStatements.WriteString(analysis.GongMarshallField(stage, "GeoObjectUse"))
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "IsGeoObjectUseNodeExpanded"))
+		pointersInitializesStatements.WriteString(analysis.GongMarshallField(stage, "MapUse"))
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "IsMapUseNodeExpanded"))
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "LayoutDirection"))
+	}
+
+	controlpointshapeOrdered := []*ControlPointShape{}
+	for controlpointshape := range stage.ControlPointShapes {
+		controlpointshapeOrdered = append(controlpointshapeOrdered, controlpointshape)
+	}
+	sort.Slice(controlpointshapeOrdered[:], func(i, j int) bool {
+		controlpointshapei := controlpointshapeOrdered[i]
+		controlpointshapej := controlpointshapeOrdered[j]
+		controlpointshapei_order, oki := stage.ControlPointShape_stagedOrder[controlpointshapei]
+		controlpointshapej_order, okj := stage.ControlPointShape_stagedOrder[controlpointshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return controlpointshapei_order < controlpointshapej_order
+	})
+	if len(controlpointshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, controlpointshape := range controlpointshapeOrdered {
+
+		identifiersDecl.WriteString(controlpointshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "X_Relative"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "Y_Relative"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "IsStartShapeTheClosestShape"))
+	}
+
+	diagramOrdered := []*Diagram{}
+	for diagram := range stage.Diagrams {
+		diagramOrdered = append(diagramOrdered, diagram)
+	}
+	sort.Slice(diagramOrdered[:], func(i, j int) bool {
+		diagrami := diagramOrdered[i]
+		diagramj := diagramOrdered[j]
+		diagrami_order, oki := stage.Diagram_stagedOrder[diagrami]
+		diagramj_order, okj := stage.Diagram_stagedOrder[diagramj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return diagrami_order < diagramj_order
+	})
+	if len(diagramOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, diagram := range diagramOrdered {
+
+		identifiersDecl.WriteString(diagram.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "LayoutDirection"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsShowPrefix"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Description"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "EvolutionDirectionShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "EvolutionDirectionsWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEvolutionDirectionsNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ActorStateShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ActorStatesWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsActorStatesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ParameterShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ParametersWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsParametersNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ScenarioParameterShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ParametersAggregatesWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsParametersAggregatesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ActorStateTransitionShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ActorStateTransitionsWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsActorStateTransitionsNodeExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "AxisOrign_X"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "AxisOrign_Y"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "VerticalAxis_Top_Y"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "VerticalAxis_Bottom_Y"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "VerticalAxis_StrokeWidth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "HorizontalAxis_Right_X"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Start"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "NumberOfYearsBetweenTicks"))
+	}
+
+	documentOrdered := []*Document{}
+	for document := range stage.Documents {
+		documentOrdered = append(documentOrdered, document)
+	}
+	sort.Slice(documentOrdered[:], func(i, j int) bool {
+		documenti := documentOrdered[i]
+		documentj := documentOrdered[j]
+		documenti_order, oki := stage.Document_stagedOrder[documenti]
+		documentj_order, okj := stage.Document_stagedOrder[documentj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return documenti_order < documentj_order
+	})
+	if len(documentOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, document := range documentOrdered {
+
+		identifiersDecl.WriteString(document.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(document.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(document.GongMarshallField(stage, "GeoObjectUse"))
+		initializerStatements.WriteString(document.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(document.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(document.GongMarshallField(stage, "LayoutDirection"))
+	}
+
+	documentuseOrdered := []*DocumentUse{}
+	for documentuse := range stage.DocumentUses {
+		documentuseOrdered = append(documentuseOrdered, documentuse)
+	}
+	sort.Slice(documentuseOrdered[:], func(i, j int) bool {
+		documentusei := documentuseOrdered[i]
+		documentusej := documentuseOrdered[j]
+		documentusei_order, oki := stage.DocumentUse_stagedOrder[documentusei]
+		documentusej_order, okj := stage.DocumentUse_stagedOrder[documentusej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return documentusei_order < documentusej_order
+	})
+	if len(documentuseOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, documentuse := range documentuseOrdered {
+
+		identifiersDecl.WriteString(documentuse.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(documentuse.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(documentuse.GongMarshallField(stage, "Document"))
+	}
+
+	evolutiondirectionOrdered := []*EvolutionDirection{}
+	for evolutiondirection := range stage.EvolutionDirections {
+		evolutiondirectionOrdered = append(evolutiondirectionOrdered, evolutiondirection)
+	}
+	sort.Slice(evolutiondirectionOrdered[:], func(i, j int) bool {
+		evolutiondirectioni := evolutiondirectionOrdered[i]
+		evolutiondirectionj := evolutiondirectionOrdered[j]
+		evolutiondirectioni_order, oki := stage.EvolutionDirection_stagedOrder[evolutiondirectioni]
+		evolutiondirectionj_order, okj := stage.EvolutionDirection_stagedOrder[evolutiondirectionj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return evolutiondirectioni_order < evolutiondirectionj_order
+	})
+	if len(evolutiondirectionOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, evolutiondirection := range evolutiondirectionOrdered {
+
+		identifiersDecl.WriteString(evolutiondirection.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(evolutiondirection.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(evolutiondirection.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(evolutiondirection.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(evolutiondirection.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(evolutiondirection.GongMarshallField(stage, "LayoutDirection"))
+	}
+
+	evolutiondirectionshapeOrdered := []*EvolutionDirectionShape{}
+	for evolutiondirectionshape := range stage.EvolutionDirectionShapes {
+		evolutiondirectionshapeOrdered = append(evolutiondirectionshapeOrdered, evolutiondirectionshape)
+	}
+	sort.Slice(evolutiondirectionshapeOrdered[:], func(i, j int) bool {
+		evolutiondirectionshapei := evolutiondirectionshapeOrdered[i]
+		evolutiondirectionshapej := evolutiondirectionshapeOrdered[j]
+		evolutiondirectionshapei_order, oki := stage.EvolutionDirectionShape_stagedOrder[evolutiondirectionshapei]
+		evolutiondirectionshapej_order, okj := stage.EvolutionDirectionShape_stagedOrder[evolutiondirectionshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return evolutiondirectionshapei_order < evolutiondirectionshapej_order
+	})
+	if len(evolutiondirectionshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, evolutiondirectionshape := range evolutiondirectionshapeOrdered {
+
+		identifiersDecl.WriteString(evolutiondirectionshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(evolutiondirectionshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(evolutiondirectionshape.GongMarshallField(stage, "EvolutionDirection"))
+		initializerStatements.WriteString(evolutiondirectionshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(evolutiondirectionshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(evolutiondirectionshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(evolutiondirectionshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(evolutiondirectionshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	fooOrdered := []*Foo{}
+	for foo := range stage.Foos {
+		fooOrdered = append(fooOrdered, foo)
+	}
+	sort.Slice(fooOrdered[:], func(i, j int) bool {
+		fooi := fooOrdered[i]
+		fooj := fooOrdered[j]
+		fooi_order, oki := stage.Foo_stagedOrder[fooi]
+		fooj_order, okj := stage.Foo_stagedOrder[fooj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return fooi_order < fooj_order
+	})
+	if len(fooOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, foo := range fooOrdered {
+
+		identifiersDecl.WriteString(foo.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(foo.GongMarshallField(stage, "Name"))
+	}
+
+	geoobjectOrdered := []*GeoObject{}
+	for geoobject := range stage.GeoObjects {
+		geoobjectOrdered = append(geoobjectOrdered, geoobject)
+	}
+	sort.Slice(geoobjectOrdered[:], func(i, j int) bool {
+		geoobjecti := geoobjectOrdered[i]
+		geoobjectj := geoobjectOrdered[j]
+		geoobjecti_order, oki := stage.GeoObject_stagedOrder[geoobjecti]
+		geoobjectj_order, okj := stage.GeoObject_stagedOrder[geoobjectj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return geoobjecti_order < geoobjectj_order
+	})
+	if len(geoobjectOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, geoobject := range geoobjectOrdered {
+
+		identifiersDecl.WriteString(geoobject.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(geoobject.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(geoobject.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(geoobject.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(geoobject.GongMarshallField(stage, "LayoutDirection"))
+	}
+
+	geoobjectuseOrdered := []*GeoObjectUse{}
+	for geoobjectuse := range stage.GeoObjectUses {
+		geoobjectuseOrdered = append(geoobjectuseOrdered, geoobjectuse)
+	}
+	sort.Slice(geoobjectuseOrdered[:], func(i, j int) bool {
+		geoobjectusei := geoobjectuseOrdered[i]
+		geoobjectusej := geoobjectuseOrdered[j]
+		geoobjectusei_order, oki := stage.GeoObjectUse_stagedOrder[geoobjectusei]
+		geoobjectusej_order, okj := stage.GeoObjectUse_stagedOrder[geoobjectusej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return geoobjectusei_order < geoobjectusej_order
+	})
+	if len(geoobjectuseOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, geoobjectuse := range geoobjectuseOrdered {
+
+		identifiersDecl.WriteString(geoobjectuse.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(geoobjectuse.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(geoobjectuse.GongMarshallField(stage, "GeoObject"))
+	}
+
+	groupOrdered := []*Group{}
+	for group := range stage.Groups {
+		groupOrdered = append(groupOrdered, group)
+	}
+	sort.Slice(groupOrdered[:], func(i, j int) bool {
+		groupi := groupOrdered[i]
+		groupj := groupOrdered[j]
+		groupi_order, oki := stage.Group_stagedOrder[groupi]
+		groupj_order, okj := stage.Group_stagedOrder[groupj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return groupi_order < groupj_order
+	})
+	if len(groupOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, group := range groupOrdered {
+
+		identifiersDecl.WriteString(group.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(group.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(group.GongMarshallField(stage, "UserUse"))
+		initializerStatements.WriteString(group.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(group.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(group.GongMarshallField(stage, "LayoutDirection"))
+	}
+
+	groupuseOrdered := []*GroupUse{}
+	for groupuse := range stage.GroupUses {
+		groupuseOrdered = append(groupuseOrdered, groupuse)
+	}
+	sort.Slice(groupuseOrdered[:], func(i, j int) bool {
+		groupusei := groupuseOrdered[i]
+		groupusej := groupuseOrdered[j]
+		groupusei_order, oki := stage.GroupUse_stagedOrder[groupusei]
+		groupusej_order, okj := stage.GroupUse_stagedOrder[groupusej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return groupusei_order < groupusej_order
+	})
+	if len(groupuseOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, groupuse := range groupuseOrdered {
+
+		identifiersDecl.WriteString(groupuse.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(groupuse.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(groupuse.GongMarshallField(stage, "Group"))
+	}
+
+	libraryOrdered := []*Library{}
+	for library := range stage.Librarys {
+		libraryOrdered = append(libraryOrdered, library)
+	}
+	sort.Slice(libraryOrdered[:], func(i, j int) bool {
+		libraryi := libraryOrdered[i]
+		libraryj := libraryOrdered[j]
+		libraryi_order, oki := stage.Library_stagedOrder[libraryi]
+		libraryj_order, okj := stage.Library_stagedOrder[libraryj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return libraryi_order < libraryj_order
+	})
+	if len(libraryOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, library := range libraryOrdered {
+
+		identifiersDecl.WriteString(library.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(library.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "LayoutDirection"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Analyses"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsAnalysesNodeExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibrariesWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "NbPixPerCharacter"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "LogoSVGFile"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))
+	}
+
+	mapobjectOrdered := []*MapObject{}
+	for mapobject := range stage.MapObjects {
+		mapobjectOrdered = append(mapobjectOrdered, mapobject)
+	}
+	sort.Slice(mapobjectOrdered[:], func(i, j int) bool {
+		mapobjecti := mapobjectOrdered[i]
+		mapobjectj := mapobjectOrdered[j]
+		mapobjecti_order, oki := stage.MapObject_stagedOrder[mapobjecti]
+		mapobjectj_order, okj := stage.MapObject_stagedOrder[mapobjectj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return mapobjecti_order < mapobjectj_order
+	})
+	if len(mapobjectOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, mapobject := range mapobjectOrdered {
+
+		identifiersDecl.WriteString(mapobject.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(mapobject.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(mapobject.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(mapobject.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(mapobject.GongMarshallField(stage, "LayoutDirection"))
+	}
+
+	mapobjectuseOrdered := []*MapObjectUse{}
+	for mapobjectuse := range stage.MapObjectUses {
+		mapobjectuseOrdered = append(mapobjectuseOrdered, mapobjectuse)
+	}
+	sort.Slice(mapobjectuseOrdered[:], func(i, j int) bool {
+		mapobjectusei := mapobjectuseOrdered[i]
+		mapobjectusej := mapobjectuseOrdered[j]
+		mapobjectusei_order, oki := stage.MapObjectUse_stagedOrder[mapobjectusei]
+		mapobjectusej_order, okj := stage.MapObjectUse_stagedOrder[mapobjectusej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return mapobjectusei_order < mapobjectusej_order
+	})
+	if len(mapobjectuseOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, mapobjectuse := range mapobjectuseOrdered {
+
+		identifiersDecl.WriteString(mapobjectuse.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(mapobjectuse.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(mapobjectuse.GongMarshallField(stage, "Map"))
+	}
+
+	parameterOrdered := []*Parameter{}
+	for parameter := range stage.Parameters {
+		parameterOrdered = append(parameterOrdered, parameter)
+	}
+	sort.Slice(parameterOrdered[:], func(i, j int) bool {
+		parameteri := parameterOrdered[i]
+		parameterj := parameterOrdered[j]
+		parameteri_order, oki := stage.Parameter_stagedOrder[parameteri]
+		parameterj_order, okj := stage.Parameter_stagedOrder[parameterj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return parameteri_order < parameterj_order
+	})
+	if len(parameterOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, parameter := range parameterOrdered {
+
+		identifiersDecl.WriteString(parameter.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "IsResponse"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "Start"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "Force"))
+		pointersInitializesStatements.WriteString(parameter.GongMarshallField(stage, "GroupUse"))
+		pointersInitializesStatements.WriteString(parameter.GongMarshallField(stage, "DocumentUse"))
+		pointersInitializesStatements.WriteString(parameter.GongMarshallField(stage, "GeoObjectUse"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "Tag"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "LayoutDirection"))
+	}
+
+	parametercategoryOrdered := []*ParameterCategory{}
+	for parametercategory := range stage.ParameterCategorys {
+		parametercategoryOrdered = append(parametercategoryOrdered, parametercategory)
+	}
+	sort.Slice(parametercategoryOrdered[:], func(i, j int) bool {
+		parametercategoryi := parametercategoryOrdered[i]
+		parametercategoryj := parametercategoryOrdered[j]
+		parametercategoryi_order, oki := stage.ParameterCategory_stagedOrder[parametercategoryi]
+		parametercategoryj_order, okj := stage.ParameterCategory_stagedOrder[parametercategoryj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return parametercategoryi_order < parametercategoryj_order
+	})
+	if len(parametercategoryOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, parametercategory := range parametercategoryOrdered {
+
+		identifiersDecl.WriteString(parametercategory.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(parametercategory.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(parametercategory.GongMarshallField(stage, "ParameterUse"))
+		initializerStatements.WriteString(parametercategory.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(parametercategory.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(parametercategory.GongMarshallField(stage, "LayoutDirection"))
+	}
+
+	parametercategoryuseOrdered := []*ParameterCategoryUse{}
+	for parametercategoryuse := range stage.ParameterCategoryUses {
+		parametercategoryuseOrdered = append(parametercategoryuseOrdered, parametercategoryuse)
+	}
+	sort.Slice(parametercategoryuseOrdered[:], func(i, j int) bool {
+		parametercategoryusei := parametercategoryuseOrdered[i]
+		parametercategoryusej := parametercategoryuseOrdered[j]
+		parametercategoryusei_order, oki := stage.ParameterCategoryUse_stagedOrder[parametercategoryusei]
+		parametercategoryusej_order, okj := stage.ParameterCategoryUse_stagedOrder[parametercategoryusej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return parametercategoryusei_order < parametercategoryusej_order
+	})
+	if len(parametercategoryuseOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, parametercategoryuse := range parametercategoryuseOrdered {
+
+		identifiersDecl.WriteString(parametercategoryuse.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(parametercategoryuse.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(parametercategoryuse.GongMarshallField(stage, "ParameterCategory"))
+	}
+
+	parametershapeOrdered := []*ParameterShape{}
+	for parametershape := range stage.ParameterShapes {
+		parametershapeOrdered = append(parametershapeOrdered, parametershape)
+	}
+	sort.Slice(parametershapeOrdered[:], func(i, j int) bool {
+		parametershapei := parametershapeOrdered[i]
+		parametershapej := parametershapeOrdered[j]
+		parametershapei_order, oki := stage.ParameterShape_stagedOrder[parametershapei]
+		parametershapej_order, okj := stage.ParameterShape_stagedOrder[parametershapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return parametershapei_order < parametershapej_order
+	})
+	if len(parametershapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, parametershape := range parametershapeOrdered {
+
+		identifiersDecl.WriteString(parametershape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(parametershape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(parametershape.GongMarshallField(stage, "Parameter"))
+		initializerStatements.WriteString(parametershape.GongMarshallField(stage, "Direction"))
+		initializerStatements.WriteString(parametershape.GongMarshallField(stage, "ShapeIsComputedFromModel"))
+		initializerStatements.WriteString(parametershape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(parametershape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(parametershape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(parametershape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(parametershape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	parametersaggregateOrdered := []*ParametersAggregate{}
+	for parametersaggregate := range stage.ParametersAggregates {
+		parametersaggregateOrdered = append(parametersaggregateOrdered, parametersaggregate)
+	}
+	sort.Slice(parametersaggregateOrdered[:], func(i, j int) bool {
+		parametersaggregatei := parametersaggregateOrdered[i]
+		parametersaggregatej := parametersaggregateOrdered[j]
+		parametersaggregatei_order, oki := stage.ParametersAggregate_stagedOrder[parametersaggregatei]
+		parametersaggregatej_order, okj := stage.ParametersAggregate_stagedOrder[parametersaggregatej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return parametersaggregatei_order < parametersaggregatej_order
+	})
+	if len(parametersaggregateOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, parametersaggregate := range parametersaggregateOrdered {
+
+		identifiersDecl.WriteString(parametersaggregate.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(parametersaggregate.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(parametersaggregate.GongMarshallField(stage, "Tag"))
+		initializerStatements.WriteString(parametersaggregate.GongMarshallField(stage, "Description"))
+		pointersInitializesStatements.WriteString(parametersaggregate.GongMarshallField(stage, "Parameters"))
+		initializerStatements.WriteString(parametersaggregate.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(parametersaggregate.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(parametersaggregate.GongMarshallField(stage, "LayoutDirection"))
+	}
+
+	parametersaggregateshapeOrdered := []*ParametersAggregateShape{}
+	for parametersaggregateshape := range stage.ParametersAggregateShapes {
+		parametersaggregateshapeOrdered = append(parametersaggregateshapeOrdered, parametersaggregateshape)
+	}
+	sort.Slice(parametersaggregateshapeOrdered[:], func(i, j int) bool {
+		parametersaggregateshapei := parametersaggregateshapeOrdered[i]
+		parametersaggregateshapej := parametersaggregateshapeOrdered[j]
+		parametersaggregateshapei_order, oki := stage.ParametersAggregateShape_stagedOrder[parametersaggregateshapei]
+		parametersaggregateshapej_order, okj := stage.ParametersAggregateShape_stagedOrder[parametersaggregateshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return parametersaggregateshapei_order < parametersaggregateshapej_order
+	})
+	if len(parametersaggregateshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, parametersaggregateshape := range parametersaggregateshapeOrdered {
+
+		identifiersDecl.WriteString(parametersaggregateshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(parametersaggregateshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(parametersaggregateshape.GongMarshallField(stage, "ScenarioParameter"))
+		initializerStatements.WriteString(parametersaggregateshape.GongMarshallField(stage, "Direction"))
+		initializerStatements.WriteString(parametersaggregateshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(parametersaggregateshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(parametersaggregateshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(parametersaggregateshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(parametersaggregateshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	positionOrdered := []*Position{}
+	for position := range stage.Positions {
+		positionOrdered = append(positionOrdered, position)
+	}
+	sort.Slice(positionOrdered[:], func(i, j int) bool {
+		positioni := positionOrdered[i]
+		positionj := positionOrdered[j]
+		positioni_order, oki := stage.Position_stagedOrder[positioni]
+		positionj_order, okj := stage.Position_stagedOrder[positionj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return positioni_order < positionj_order
+	})
+	if len(positionOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, position := range positionOrdered {
+
+		identifiersDecl.WriteString(position.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(position.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(position.GongMarshallField(stage, "Date"))
+		initializerStatements.WriteString(position.GongMarshallField(stage, "Ordinate"))
+		initializerStatements.WriteString(position.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(position.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(position.GongMarshallField(stage, "LayoutDirection"))
+	}
+
+	repositoryOrdered := []*Repository{}
+	for repository := range stage.Repositorys {
+		repositoryOrdered = append(repositoryOrdered, repository)
+	}
+	sort.Slice(repositoryOrdered[:], func(i, j int) bool {
+		repositoryi := repositoryOrdered[i]
+		repositoryj := repositoryOrdered[j]
+		repositoryi_order, oki := stage.Repository_stagedOrder[repositoryi]
+		repositoryj_order, okj := stage.Repository_stagedOrder[repositoryj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return repositoryi_order < repositoryj_order
+	})
+	if len(repositoryOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, repository := range repositoryOrdered {
+
+		identifiersDecl.WriteString(repository.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(repository.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(repository.GongMarshallField(stage, "ParameterUse"))
+		pointersInitializesStatements.WriteString(repository.GongMarshallField(stage, "GroupUse"))
+		initializerStatements.WriteString(repository.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(repository.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(repository.GongMarshallField(stage, "LayoutDirection"))
+	}
+
+	scenarioOrdered := []*Scenario{}
+	for scenario := range stage.Scenarios {
+		scenarioOrdered = append(scenarioOrdered, scenario)
+	}
+	sort.Slice(scenarioOrdered[:], func(i, j int) bool {
+		scenarioi := scenarioOrdered[i]
+		scenarioj := scenarioOrdered[j]
+		scenarioi_order, oki := stage.Scenario_stagedOrder[scenarioi]
+		scenarioj_order, okj := stage.Scenario_stagedOrder[scenarioj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return scenarioi_order < scenarioj_order
+	})
+	if len(scenarioOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, scenario := range scenarioOrdered {
+
+		identifiersDecl.WriteString(scenario.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "Description"))
+		pointersInitializesStatements.WriteString(scenario.GongMarshallField(stage, "Diagrams"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "IsDiagramsNodeExpanded"))
+		pointersInitializesStatements.WriteString(scenario.GongMarshallField(stage, "ActorStates"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "IsActorStatesNodeExpanded"))
+		pointersInitializesStatements.WriteString(scenario.GongMarshallField(stage, "ActorStateTransitions"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "IsActorStateTransitionsNodeExpanded"))
+		pointersInitializesStatements.WriteString(scenario.GongMarshallField(stage, "EvolutionDirections"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "IsEvolutionDirectionsNodeExpanded"))
+		pointersInitializesStatements.WriteString(scenario.GongMarshallField(stage, "Parameters"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "IsParametersNodeExpanded"))
+		pointersInitializesStatements.WriteString(scenario.GongMarshallField(stage, "ParametersAggretates"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "IsParametersAggretatesNodeExpanded"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "LayoutDirection"))
+	}
+
+	userOrdered := []*User{}
+	for user := range stage.Users {
+		userOrdered = append(userOrdered, user)
+	}
+	sort.Slice(userOrdered[:], func(i, j int) bool {
+		useri := userOrdered[i]
+		userj := userOrdered[j]
+		useri_order, oki := stage.User_stagedOrder[useri]
+		userj_order, okj := stage.User_stagedOrder[userj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return useri_order < userj_order
+	})
+	if len(userOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, user := range userOrdered {
+
+		identifiersDecl.WriteString(user.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(user.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(user.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(user.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(user.GongMarshallField(stage, "LayoutDirection"))
+	}
+
+	useruseOrdered := []*UserUse{}
+	for useruse := range stage.UserUses {
+		useruseOrdered = append(useruseOrdered, useruse)
+	}
+	sort.Slice(useruseOrdered[:], func(i, j int) bool {
+		userusei := useruseOrdered[i]
+		userusej := useruseOrdered[j]
+		userusei_order, oki := stage.UserUse_stagedOrder[userusei]
+		userusej_order, okj := stage.UserUse_stagedOrder[userusej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return userusei_order < userusej_order
+	})
+	if len(useruseOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, useruse := range useruseOrdered {
+
+		identifiersDecl.WriteString(useruse.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(useruse.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(useruse.GongMarshallField(stage, "User"))
+	}
+
+	workspaceOrdered := []*Workspace{}
+	for workspace := range stage.Workspaces {
+		workspaceOrdered = append(workspaceOrdered, workspace)
+	}
+	sort.Slice(workspaceOrdered[:], func(i, j int) bool {
+		workspacei := workspaceOrdered[i]
+		workspacej := workspaceOrdered[j]
+		workspacei_order, oki := stage.Workspace_stagedOrder[workspacei]
+		workspacej_order, okj := stage.Workspace_stagedOrder[workspacej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return workspacei_order < workspacej_order
+	})
+	if len(workspaceOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, workspace := range workspaceOrdered {
+
+		identifiersDecl.WriteString(workspace.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(workspace.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(workspace.GongMarshallField(stage, "SelectedDiagram"))
+		pointersInitializesStatements.WriteString(workspace.GongMarshallField(stage, "Default_EvolutionDirectionShape"))
+		pointersInitializesStatements.WriteString(workspace.GongMarshallField(stage, "Default_ParameterShape"))
+		pointersInitializesStatements.WriteString(workspace.GongMarshallField(stage, "Default_ScenarioParameterShape"))
+		pointersInitializesStatements.WriteString(workspace.GongMarshallField(stage, "Default_ActorStateShape"))
+		pointersInitializesStatements.WriteString(workspace.GongMarshallField(stage, "Default_ActorStateTransitionShape"))
+		initializerStatements.WriteString(workspace.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(workspace.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(workspace.GongMarshallField(stage, "LayoutDirection"))
+	}
+
+	// insertion initialization of objects to stage
+	for _, actorstate := range actorstateOrdered {
+		_ = actorstate
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, actorstateshape := range actorstateshapeOrdered {
+		_ = actorstateshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, actorstatetransition := range actorstatetransitionOrdered {
+		_ = actorstatetransition
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, actorstatetransitionshape := range actorstatetransitionshapeOrdered {
+		_ = actorstatetransitionshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, analysis := range analysisOrdered {
+		_ = analysis
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, controlpointshape := range controlpointshapeOrdered {
+		_ = controlpointshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, diagram := range diagramOrdered {
+		_ = diagram
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, document := range documentOrdered {
+		_ = document
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, documentuse := range documentuseOrdered {
+		_ = documentuse
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, evolutiondirection := range evolutiondirectionOrdered {
+		_ = evolutiondirection
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, evolutiondirectionshape := range evolutiondirectionshapeOrdered {
+		_ = evolutiondirectionshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, foo := range fooOrdered {
+		_ = foo
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, geoobject := range geoobjectOrdered {
+		_ = geoobject
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, geoobjectuse := range geoobjectuseOrdered {
+		_ = geoobjectuse
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, group := range groupOrdered {
+		_ = group
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, groupuse := range groupuseOrdered {
+		_ = groupuse
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, library := range libraryOrdered {
+		_ = library
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, mapobject := range mapobjectOrdered {
+		_ = mapobject
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, mapobjectuse := range mapobjectuseOrdered {
+		_ = mapobjectuse
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, parameter := range parameterOrdered {
+		_ = parameter
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, parametercategory := range parametercategoryOrdered {
+		_ = parametercategory
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, parametercategoryuse := range parametercategoryuseOrdered {
+		_ = parametercategoryuse
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, parametershape := range parametershapeOrdered {
+		_ = parametershape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, parametersaggregate := range parametersaggregateOrdered {
+		_ = parametersaggregate
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, parametersaggregateshape := range parametersaggregateshapeOrdered {
+		_ = parametersaggregateshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, position := range positionOrdered {
+		_ = position
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, repository := range repositoryOrdered {
+		_ = repository
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, scenario := range scenarioOrdered {
+		_ = scenario
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, user := range userOrdered {
+		_ = user
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, useruse := range useruseOrdered {
+		_ = useruse
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, workspace := range workspaceOrdered {
+		_ = workspace
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl.String())
+	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements.String())
+	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements.String())
+
+	if stage.MetaPackageImportAlias != "" {
+		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}",
+			fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+
+		res = strings.ReplaceAll(res, "{{ImportPackageDummyDeclaration}}",
+			fmt.Sprintf("\nvar _ %s.Stage",
+				stage.MetaPackageImportAlias))
+
+		var entries strings.Builder
+
+		// regenerate the map of doc link renaming
+		// the key and value are set to the value because
+		// if it has been renamed, this is the new value that matters
+		valuesOrdered := make([]GONG__Identifier, 0)
+		for _, value := range stage.Map_DocLink_Renaming {
+			valuesOrdered = append(valuesOrdered, value)
+		}
+		sort.Slice(valuesOrdered[:], func(i, j int) bool {
+			return valuesOrdered[i].Ident < valuesOrdered[j].Ident
+		})
+		for _, value := range valuesOrdered {
+
+			// get the number of points in the value to find if it is a field
+			// or a struct
+
+			switch value.Type {
+			case GONG__ENUM_CAST_INT:
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident))
+			case GONG__ENUM_CAST_STRING:
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident))
+			case GONG__FIELD_VALUE:
+				// substitute the second point with "{})."
+				joker := "__substitute_for_first_point__"
+				valueIdentifier := strings.Replace(value.Ident, ".", joker, 1)
+				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
+				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier))
+			case GONG__IDENTIFIER_CONST:
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident))
+			case GONG__STRUCT_INSTANCE:
+				entries.WriteString(fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident))
+			}
+		}
+
+		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries.String())
+	}
+	return
+}
+
+// insertion point for marshall field methods
+func (actorstate *ActorState) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstate.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(actorstate.Name))
+	case "Description":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstate.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(actorstate.Description))
+	case "IsWithProbaility":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstate.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithProbaility")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", actorstate.IsWithProbaility))
+	case "Probability":
+		if actorstate.Probability.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstate.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Probability")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+actorstate.Probability.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstate.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Probability")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstate.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(actorstate.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstate.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", actorstate.IsExpanded))
+	case "LayoutDirection":
+		if actorstate.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstate.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+actorstate.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstate.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ActorState", fieldName)
+	}
+	return
+}
+
+func (actorstateshape *ActorStateShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstateshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(actorstateshape.Name))
+	case "X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstateshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", actorstateshape.X))
+	case "Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstateshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", actorstateshape.Y))
+	case "Width":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstateshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", actorstateshape.Width))
+	case "Height":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstateshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", actorstateshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstateshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", actorstateshape.IsHidden))
+
+	case "ActorState":
+		if actorstateshape.ActorState != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstateshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ActorState")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", actorstateshape.ActorState.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstateshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ActorState")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ActorStateShape", fieldName)
+	}
+	return
+}
+
+func (actorstatetransition *ActorStateTransition) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransition.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(actorstatetransition.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransition.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(actorstatetransition.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransition.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", actorstatetransition.IsExpanded))
+	case "LayoutDirection":
+		if actorstatetransition.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransition.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+actorstatetransition.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransition.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	case "StartState":
+		if actorstatetransition.StartState != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransition.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartState")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", actorstatetransition.StartState.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransition.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartState")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "EndState":
+		if actorstatetransition.EndState != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransition.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndState")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", actorstatetransition.EndState.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransition.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndState")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Justifications":
+		var sb strings.Builder
+		for _, _parameter := range actorstatetransition.Justifications {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", actorstatetransition.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Justifications")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _parameter.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ActorStateTransition", fieldName)
+	}
+	return
+}
+
+func (actorstatetransitionshape *ActorStateTransitionShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransitionshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(actorstatetransitionshape.Name))
+	case "X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransitionshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", actorstatetransitionshape.X))
+	case "Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransitionshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", actorstatetransitionshape.Y))
+	case "Width":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransitionshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", actorstatetransitionshape.Width))
+	case "Height":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransitionshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", actorstatetransitionshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransitionshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", actorstatetransitionshape.IsHidden))
+
+	case "ActorStateTransition":
+		if actorstatetransitionshape.ActorStateTransition != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransitionshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ActorStateTransition")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", actorstatetransitionshape.ActorStateTransition.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransitionshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ActorStateTransition")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Start":
+		if actorstatetransitionshape.Start != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransitionshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Start")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", actorstatetransitionshape.Start.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransitionshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Start")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "End":
+		if actorstatetransitionshape.End != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransitionshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", actorstatetransitionshape.End.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", actorstatetransitionshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "ControlPointShapes":
+		var sb strings.Builder
+		for _, _controlpointshape := range actorstatetransitionshape.ControlPointShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", actorstatetransitionshape.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ControlPointShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _controlpointshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ActorStateTransitionShape", fieldName)
+	}
+	return
+}
+
+func (analysis *Analysis) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", analysis.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(analysis.Name))
+	case "Description":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", analysis.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(analysis.Description))
+	case "IsScenariosNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", analysis.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsScenariosNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", analysis.IsScenariosNodeExpanded))
+	case "IsGroupUseNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", analysis.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsGroupUseNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", analysis.IsGroupUseNodeExpanded))
+	case "IsGeoObjectUseNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", analysis.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsGeoObjectUseNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", analysis.IsGeoObjectUseNodeExpanded))
+	case "IsMapUseNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", analysis.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsMapUseNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", analysis.IsMapUseNodeExpanded))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", analysis.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(analysis.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", analysis.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", analysis.IsExpanded))
+	case "LayoutDirection":
+		if analysis.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", analysis.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+analysis.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", analysis.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	case "Scenarios":
+		var sb strings.Builder
+		for _, _scenario := range analysis.Scenarios {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", analysis.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Scenarios")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _scenario.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "GroupUse":
+		var sb strings.Builder
+		for _, _groupuse := range analysis.GroupUse {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", analysis.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "GroupUse")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _groupuse.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "GeoObjectUse":
+		var sb strings.Builder
+		for _, _geoobjectuse := range analysis.GeoObjectUse {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", analysis.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "GeoObjectUse")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _geoobjectuse.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "MapUse":
+		var sb strings.Builder
+		for _, _mapobjectuse := range analysis.MapUse {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", analysis.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "MapUse")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _mapobjectuse.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Analysis", fieldName)
+	}
+	return
+}
+
+func (controlpointshape *ControlPointShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", controlpointshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(controlpointshape.Name))
+	case "X_Relative":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", controlpointshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X_Relative")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", controlpointshape.X_Relative))
+	case "Y_Relative":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", controlpointshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y_Relative")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", controlpointshape.Y_Relative))
+	case "IsStartShapeTheClosestShape":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", controlpointshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsStartShapeTheClosestShape")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", controlpointshape.IsStartShapeTheClosestShape))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ControlPointShape", fieldName)
+	}
+	return
+}
+
+func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsExpanded))
+	case "LayoutDirection":
+		if diagram.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+diagram.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+	case "IsChecked":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsChecked")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsChecked))
+	case "IsShowPrefix":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsShowPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsShowPrefix))
+	case "Description":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagram.Description))
+	case "IsEvolutionDirectionsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEvolutionDirectionsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsEvolutionDirectionsNodeExpanded))
+	case "IsActorStatesNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsActorStatesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsActorStatesNodeExpanded))
+	case "IsParametersNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsParametersNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsParametersNodeExpanded))
+	case "IsParametersAggregatesNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsParametersAggregatesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsParametersAggregatesNodeExpanded))
+	case "IsActorStateTransitionsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsActorStateTransitionsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsActorStateTransitionsNodeExpanded))
+	case "AxisOrign_X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AxisOrign_X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.AxisOrign_X))
+	case "AxisOrign_Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AxisOrign_Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.AxisOrign_Y))
+	case "VerticalAxis_Top_Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "VerticalAxis_Top_Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.VerticalAxis_Top_Y))
+	case "VerticalAxis_Bottom_Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "VerticalAxis_Bottom_Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.VerticalAxis_Bottom_Y))
+	case "VerticalAxis_StrokeWidth":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "VerticalAxis_StrokeWidth")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.VerticalAxis_StrokeWidth))
+	case "HorizontalAxis_Right_X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HorizontalAxis_Right_X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.HorizontalAxis_Right_X))
+	case "Start":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Start")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.Start.String())
+	case "End":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagram.End.String())
+	case "NumberOfYearsBetweenTicks":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NumberOfYearsBetweenTicks")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", diagram.NumberOfYearsBetweenTicks))
+
+	case "EvolutionDirectionShapes":
+		var sb strings.Builder
+		for _, _evolutiondirectionshape := range diagram.EvolutionDirectionShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "EvolutionDirectionShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _evolutiondirectionshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "EvolutionDirectionsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _evolutiondirection := range diagram.EvolutionDirectionsWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "EvolutionDirectionsWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _evolutiondirection.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ActorStateShapes":
+		var sb strings.Builder
+		for _, _actorstateshape := range diagram.ActorStateShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ActorStateShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _actorstateshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ActorStatesWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _actorstate := range diagram.ActorStatesWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ActorStatesWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _actorstate.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ParameterShapes":
+		var sb strings.Builder
+		for _, _parametershape := range diagram.ParameterShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ParameterShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _parametershape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ParametersWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _parameter := range diagram.ParametersWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ParametersWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _parameter.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ScenarioParameterShapes":
+		var sb strings.Builder
+		for _, _parametersaggregateshape := range diagram.ScenarioParameterShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ScenarioParameterShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _parametersaggregateshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ParametersAggregatesWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _parametersaggregate := range diagram.ParametersAggregatesWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ParametersAggregatesWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _parametersaggregate.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ActorStateTransitionShapes":
+		var sb strings.Builder
+		for _, _actorstatetransitionshape := range diagram.ActorStateTransitionShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ActorStateTransitionShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _actorstatetransitionshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ActorStateTransitionsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _actorstatetransition := range diagram.ActorStateTransitionsWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ActorStateTransitionsWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _actorstatetransition.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Diagram", fieldName)
+	}
+	return
+}
+
+func (document *Document) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", document.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(document.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", document.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(document.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", document.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", document.IsExpanded))
+	case "LayoutDirection":
+		if document.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", document.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+document.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", document.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	case "GeoObjectUse":
+		var sb strings.Builder
+		for _, _geoobjectuse := range document.GeoObjectUse {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", document.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "GeoObjectUse")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _geoobjectuse.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Document", fieldName)
+	}
+	return
+}
+
+func (documentuse *DocumentUse) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", documentuse.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(documentuse.Name))
+
+	case "Document":
+		if documentuse.Document != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", documentuse.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Document")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", documentuse.Document.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", documentuse.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Document")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct DocumentUse", fieldName)
+	}
+	return
+}
+
+func (evolutiondirection *EvolutionDirection) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", evolutiondirection.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(evolutiondirection.Name))
+	case "Description":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", evolutiondirection.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(evolutiondirection.Description))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", evolutiondirection.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(evolutiondirection.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", evolutiondirection.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", evolutiondirection.IsExpanded))
+	case "LayoutDirection":
+		if evolutiondirection.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", evolutiondirection.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+evolutiondirection.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", evolutiondirection.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct EvolutionDirection", fieldName)
+	}
+	return
+}
+
+func (evolutiondirectionshape *EvolutionDirectionShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", evolutiondirectionshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(evolutiondirectionshape.Name))
+	case "X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", evolutiondirectionshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", evolutiondirectionshape.X))
+	case "Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", evolutiondirectionshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", evolutiondirectionshape.Y))
+	case "Width":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", evolutiondirectionshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", evolutiondirectionshape.Width))
+	case "Height":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", evolutiondirectionshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", evolutiondirectionshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", evolutiondirectionshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", evolutiondirectionshape.IsHidden))
+
+	case "EvolutionDirection":
+		if evolutiondirectionshape.EvolutionDirection != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", evolutiondirectionshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EvolutionDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", evolutiondirectionshape.EvolutionDirection.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", evolutiondirectionshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EvolutionDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct EvolutionDirectionShape", fieldName)
+	}
+	return
+}
+
+func (foo *Foo) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", foo.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(foo.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Foo", fieldName)
+	}
+	return
+}
+
+func (geoobject *GeoObject) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", geoobject.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(geoobject.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", geoobject.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(geoobject.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", geoobject.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", geoobject.IsExpanded))
+	case "LayoutDirection":
+		if geoobject.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", geoobject.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+geoobject.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", geoobject.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct GeoObject", fieldName)
+	}
+	return
+}
+
+func (geoobjectuse *GeoObjectUse) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", geoobjectuse.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(geoobjectuse.Name))
+
+	case "GeoObject":
+		if geoobjectuse.GeoObject != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", geoobjectuse.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GeoObject")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", geoobjectuse.GeoObject.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", geoobjectuse.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GeoObject")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct GeoObjectUse", fieldName)
+	}
+	return
+}
+
+func (group *Group) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", group.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", group.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(group.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", group.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", group.IsExpanded))
+	case "LayoutDirection":
+		if group.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", group.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+group.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", group.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	case "UserUse":
+		var sb strings.Builder
+		for _, _useruse := range group.UserUse {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", group.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "UserUse")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _useruse.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Group", fieldName)
+	}
+	return
+}
+
+func (groupuse *GroupUse) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", groupuse.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(groupuse.Name))
+
+	case "Group":
+		if groupuse.Group != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", groupuse.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", groupuse.Group.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", groupuse.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct GroupUse", fieldName)
+	}
+	return
+}
+
+func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.Name))
+	case "Description":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.Description))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsExpanded))
+	case "LayoutDirection":
+		if library.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+library.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+	case "IsRootLibrary":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsRootLibrary")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsRootLibrary))
+	case "IsAnalysesNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsAnalysesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsAnalysesNodeExpanded))
+	case "IsSubLibrariesNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsSubLibrariesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsSubLibrariesNodeExpanded))
+	case "NbPixPerCharacter":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NbPixPerCharacter")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", library.NbPixPerCharacter))
+	case "LogoSVGFile":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LogoSVGFile")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(library.LogoSVGFile))
+	case "IsExpandedTmp":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpandedTmp")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsExpandedTmp))
+
+	case "Analyses":
+		var sb strings.Builder
+		for _, _analysis := range library.Analyses {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Analyses")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _analysis.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "SubLibraries":
+		var sb strings.Builder
+		for _, _library := range library.SubLibraries {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubLibraries")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _library.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "SubLibrariesWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SubLibrariesWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _library.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Library", fieldName)
+	}
+	return
+}
+
+func (mapobject *MapObject) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", mapobject.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(mapobject.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", mapobject.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(mapobject.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", mapobject.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", mapobject.IsExpanded))
+	case "LayoutDirection":
+		if mapobject.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", mapobject.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+mapobject.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", mapobject.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct MapObject", fieldName)
+	}
+	return
+}
+
+func (mapobjectuse *MapObjectUse) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", mapobjectuse.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(mapobjectuse.Name))
+
+	case "Map":
+		if mapobjectuse.Map != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", mapobjectuse.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Map")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", mapobjectuse.Map.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", mapobjectuse.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Map")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct MapObjectUse", fieldName)
+	}
+	return
+}
+
+func (parameter *Parameter) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parameter.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parameter.Name))
+	case "Description":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parameter.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parameter.Description))
+	case "IsResponse":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parameter.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsResponse")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", parameter.IsResponse))
+	case "Start":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parameter.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Start")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", parameter.Start.String())
+	case "End":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parameter.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", parameter.End.String())
+	case "Force":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parameter.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Force")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", parameter.Force))
+	case "Tag":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parameter.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Tag")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parameter.Tag))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parameter.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parameter.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parameter.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", parameter.IsExpanded))
+	case "LayoutDirection":
+		if parameter.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", parameter.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+parameter.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", parameter.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	case "GroupUse":
+		var sb strings.Builder
+		for _, _groupuse := range parameter.GroupUse {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", parameter.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "GroupUse")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _groupuse.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "DocumentUse":
+		var sb strings.Builder
+		for _, _documentuse := range parameter.DocumentUse {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", parameter.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "DocumentUse")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _documentuse.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "GeoObjectUse":
+		var sb strings.Builder
+		for _, _geoobjectuse := range parameter.GeoObjectUse {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", parameter.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "GeoObjectUse")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _geoobjectuse.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Parameter", fieldName)
+	}
+	return
+}
+
+func (parametercategory *ParameterCategory) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametercategory.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parametercategory.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametercategory.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parametercategory.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametercategory.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", parametercategory.IsExpanded))
+	case "LayoutDirection":
+		if parametercategory.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", parametercategory.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+parametercategory.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", parametercategory.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	case "ParameterUse":
+		var sb strings.Builder
+		for _, _parametershape := range parametercategory.ParameterUse {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", parametercategory.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ParameterUse")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _parametershape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ParameterCategory", fieldName)
+	}
+	return
+}
+
+func (parametercategoryuse *ParameterCategoryUse) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametercategoryuse.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parametercategoryuse.Name))
+
+	case "ParameterCategory":
+		if parametercategoryuse.ParameterCategory != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", parametercategoryuse.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ParameterCategory")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", parametercategoryuse.ParameterCategory.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", parametercategoryuse.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ParameterCategory")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ParameterCategoryUse", fieldName)
+	}
+	return
+}
+
+func (parametershape *ParameterShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametershape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parametershape.Name))
+	case "Direction":
+		if parametershape.Direction.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", parametershape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Direction")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+parametershape.Direction.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", parametershape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Direction")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "ShapeIsComputedFromModel":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametershape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShapeIsComputedFromModel")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", parametershape.ShapeIsComputedFromModel))
+	case "X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametershape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", parametershape.X))
+	case "Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametershape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", parametershape.Y))
+	case "Width":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametershape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", parametershape.Width))
+	case "Height":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametershape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", parametershape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametershape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", parametershape.IsHidden))
+
+	case "Parameter":
+		if parametershape.Parameter != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", parametershape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Parameter")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", parametershape.Parameter.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", parametershape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Parameter")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ParameterShape", fieldName)
+	}
+	return
+}
+
+func (parametersaggregate *ParametersAggregate) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregate.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parametersaggregate.Name))
+	case "Tag":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregate.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Tag")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parametersaggregate.Tag))
+	case "Description":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregate.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parametersaggregate.Description))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregate.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parametersaggregate.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregate.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", parametersaggregate.IsExpanded))
+	case "LayoutDirection":
+		if parametersaggregate.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregate.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+parametersaggregate.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregate.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	case "Parameters":
+		var sb strings.Builder
+		for _, _parameter := range parametersaggregate.Parameters {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", parametersaggregate.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Parameters")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _parameter.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ParametersAggregate", fieldName)
+	}
+	return
+}
+
+func (parametersaggregateshape *ParametersAggregateShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregateshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(parametersaggregateshape.Name))
+	case "Direction":
+		if parametersaggregateshape.Direction.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregateshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Direction")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+parametersaggregateshape.Direction.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregateshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Direction")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregateshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", parametersaggregateshape.X))
+	case "Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregateshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", parametersaggregateshape.Y))
+	case "Width":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregateshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", parametersaggregateshape.Width))
+	case "Height":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregateshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", parametersaggregateshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregateshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", parametersaggregateshape.IsHidden))
+
+	case "ScenarioParameter":
+		if parametersaggregateshape.ScenarioParameter != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregateshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ScenarioParameter")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", parametersaggregateshape.ScenarioParameter.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", parametersaggregateshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ScenarioParameter")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ParametersAggregateShape", fieldName)
+	}
+	return
+}
+
+func (position *Position) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", position.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(position.Name))
+	case "Date":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", position.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Date")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", position.Date.String())
+	case "Ordinate":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", position.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Ordinate")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", position.Ordinate))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", position.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(position.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", position.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", position.IsExpanded))
+	case "LayoutDirection":
+		if position.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", position.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+position.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", position.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Position", fieldName)
+	}
+	return
+}
+
+func (repository *Repository) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", repository.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(repository.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", repository.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(repository.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", repository.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", repository.IsExpanded))
+	case "LayoutDirection":
+		if repository.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", repository.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+repository.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", repository.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	case "ParameterUse":
+		var sb strings.Builder
+		for _, _parametershape := range repository.ParameterUse {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", repository.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ParameterUse")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _parametershape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "GroupUse":
+		var sb strings.Builder
+		for _, _groupuse := range repository.GroupUse {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", repository.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "GroupUse")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _groupuse.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Repository", fieldName)
+	}
+	return
+}
+
+func (scenario *Scenario) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(scenario.Name))
+	case "Description":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(scenario.Description))
+	case "IsDiagramsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDiagramsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", scenario.IsDiagramsNodeExpanded))
+	case "IsActorStatesNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsActorStatesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", scenario.IsActorStatesNodeExpanded))
+	case "IsActorStateTransitionsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsActorStateTransitionsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", scenario.IsActorStateTransitionsNodeExpanded))
+	case "IsEvolutionDirectionsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEvolutionDirectionsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", scenario.IsEvolutionDirectionsNodeExpanded))
+	case "IsParametersNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsParametersNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", scenario.IsParametersNodeExpanded))
+	case "IsParametersAggretatesNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsParametersAggretatesNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", scenario.IsParametersAggretatesNodeExpanded))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(scenario.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", scenario.IsExpanded))
+	case "LayoutDirection":
+		if scenario.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+scenario.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	case "Diagrams":
+		var sb strings.Builder
+		for _, _diagram := range scenario.Diagrams {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Diagrams")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagram.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ActorStates":
+		var sb strings.Builder
+		for _, _actorstate := range scenario.ActorStates {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ActorStates")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _actorstate.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ActorStateTransitions":
+		var sb strings.Builder
+		for _, _actorstatetransition := range scenario.ActorStateTransitions {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ActorStateTransitions")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _actorstatetransition.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "EvolutionDirections":
+		var sb strings.Builder
+		for _, _evolutiondirection := range scenario.EvolutionDirections {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "EvolutionDirections")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _evolutiondirection.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "Parameters":
+		var sb strings.Builder
+		for _, _parameter := range scenario.Parameters {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Parameters")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _parameter.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ParametersAggretates":
+		var sb strings.Builder
+		for _, _parametersaggregate := range scenario.ParametersAggretates {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", scenario.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ParametersAggretates")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _parametersaggregate.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Scenario", fieldName)
+	}
+	return
+}
+
+func (user *User) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", user.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(user.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", user.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(user.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", user.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", user.IsExpanded))
+	case "LayoutDirection":
+		if user.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", user.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+user.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", user.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct User", fieldName)
+	}
+	return
+}
+
+func (useruse *UserUse) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", useruse.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(useruse.Name))
+
+	case "User":
+		if useruse.User != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", useruse.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "User")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", useruse.User.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", useruse.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "User")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct UserUse", fieldName)
+	}
+	return
+}
+
+func (workspace *Workspace) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(workspace.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(workspace.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", workspace.IsExpanded))
+	case "LayoutDirection":
+		if workspace.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+workspace.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	case "SelectedDiagram":
+		if workspace.SelectedDiagram != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SelectedDiagram")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", workspace.SelectedDiagram.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SelectedDiagram")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Default_EvolutionDirectionShape":
+		if workspace.Default_EvolutionDirectionShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_EvolutionDirectionShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", workspace.Default_EvolutionDirectionShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_EvolutionDirectionShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Default_ParameterShape":
+		if workspace.Default_ParameterShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_ParameterShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", workspace.Default_ParameterShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_ParameterShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Default_ScenarioParameterShape":
+		if workspace.Default_ScenarioParameterShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_ScenarioParameterShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", workspace.Default_ScenarioParameterShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_ScenarioParameterShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Default_ActorStateShape":
+		if workspace.Default_ActorStateShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_ActorStateShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", workspace.Default_ActorStateShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_ActorStateShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Default_ActorStateTransitionShape":
+		if workspace.Default_ActorStateTransitionShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_ActorStateTransitionShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", workspace.Default_ActorStateTransitionShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", workspace.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Default_ActorStateTransitionShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Workspace", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (actorstate *ActorState) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(actorstate.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(actorstate.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(actorstate.GongMarshallField(stage, "IsWithProbaility"))
+		initializerStatements.WriteString(actorstate.GongMarshallField(stage, "Probability"))
+		initializerStatements.WriteString(actorstate.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(actorstate.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(actorstate.GongMarshallField(stage, "LayoutDirection"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (actorstateshape *ActorStateShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(actorstateshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(actorstateshape.GongMarshallField(stage, "ActorState"))
+		initializerStatements.WriteString(actorstateshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(actorstateshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(actorstateshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(actorstateshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(actorstateshape.GongMarshallField(stage, "IsHidden"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (actorstatetransition *ActorStateTransition) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(actorstatetransition.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(actorstatetransition.GongMarshallField(stage, "StartState"))
+		pointersInitializesStatements.WriteString(actorstatetransition.GongMarshallField(stage, "EndState"))
+		pointersInitializesStatements.WriteString(actorstatetransition.GongMarshallField(stage, "Justifications"))
+		initializerStatements.WriteString(actorstatetransition.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(actorstatetransition.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(actorstatetransition.GongMarshallField(stage, "LayoutDirection"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (actorstatetransitionshape *ActorStateTransitionShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "ActorStateTransition"))
+		pointersInitializesStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "Start"))
+		pointersInitializesStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "IsHidden"))
+		pointersInitializesStatements.WriteString(actorstatetransitionshape.GongMarshallField(stage, "ControlPointShapes"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (analysis *Analysis) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "Description"))
+		pointersInitializesStatements.WriteString(analysis.GongMarshallField(stage, "Scenarios"))
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "IsScenariosNodeExpanded"))
+		pointersInitializesStatements.WriteString(analysis.GongMarshallField(stage, "GroupUse"))
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "IsGroupUseNodeExpanded"))
+		pointersInitializesStatements.WriteString(analysis.GongMarshallField(stage, "GeoObjectUse"))
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "IsGeoObjectUseNodeExpanded"))
+		pointersInitializesStatements.WriteString(analysis.GongMarshallField(stage, "MapUse"))
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "IsMapUseNodeExpanded"))
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(analysis.GongMarshallField(stage, "LayoutDirection"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (controlpointshape *ControlPointShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "X_Relative"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "Y_Relative"))
+		initializerStatements.WriteString(controlpointshape.GongMarshallField(stage, "IsStartShapeTheClosestShape"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "LayoutDirection"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsChecked"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsShowPrefix"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Description"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "EvolutionDirectionShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "EvolutionDirectionsWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsEvolutionDirectionsNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ActorStateShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ActorStatesWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsActorStatesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ParameterShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ParametersWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsParametersNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ScenarioParameterShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ParametersAggregatesWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsParametersAggregatesNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ActorStateTransitionShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ActorStateTransitionsWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsActorStateTransitionsNodeExpanded"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "AxisOrign_X"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "AxisOrign_Y"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "VerticalAxis_Top_Y"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "VerticalAxis_Bottom_Y"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "VerticalAxis_StrokeWidth"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "HorizontalAxis_Right_X"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "Start"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "NumberOfYearsBetweenTicks"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (document *Document) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(document.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(document.GongMarshallField(stage, "GeoObjectUse"))
+		initializerStatements.WriteString(document.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(document.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(document.GongMarshallField(stage, "LayoutDirection"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (documentuse *DocumentUse) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(documentuse.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(documentuse.GongMarshallField(stage, "Document"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (evolutiondirection *EvolutionDirection) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(evolutiondirection.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(evolutiondirection.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(evolutiondirection.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(evolutiondirection.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(evolutiondirection.GongMarshallField(stage, "LayoutDirection"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (evolutiondirectionshape *EvolutionDirectionShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(evolutiondirectionshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(evolutiondirectionshape.GongMarshallField(stage, "EvolutionDirection"))
+		initializerStatements.WriteString(evolutiondirectionshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(evolutiondirectionshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(evolutiondirectionshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(evolutiondirectionshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(evolutiondirectionshape.GongMarshallField(stage, "IsHidden"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (foo *Foo) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(foo.GongMarshallField(stage, "Name"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (geoobject *GeoObject) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(geoobject.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(geoobject.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(geoobject.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(geoobject.GongMarshallField(stage, "LayoutDirection"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (geoobjectuse *GeoObjectUse) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(geoobjectuse.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(geoobjectuse.GongMarshallField(stage, "GeoObject"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (group *Group) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(group.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(group.GongMarshallField(stage, "UserUse"))
+		initializerStatements.WriteString(group.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(group.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(group.GongMarshallField(stage, "LayoutDirection"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (groupuse *GroupUse) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(groupuse.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(groupuse.GongMarshallField(stage, "Group"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(library.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "LayoutDirection"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Analyses"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsAnalysesNodeExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibrariesWhoseNodeIsExpanded"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "NbPixPerCharacter"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "LogoSVGFile"))
+		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpandedTmp"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (mapobject *MapObject) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(mapobject.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(mapobject.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(mapobject.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(mapobject.GongMarshallField(stage, "LayoutDirection"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (mapobjectuse *MapObjectUse) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(mapobjectuse.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(mapobjectuse.GongMarshallField(stage, "Map"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (parameter *Parameter) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "Description"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "IsResponse"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "Start"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "Force"))
+		pointersInitializesStatements.WriteString(parameter.GongMarshallField(stage, "GroupUse"))
+		pointersInitializesStatements.WriteString(parameter.GongMarshallField(stage, "DocumentUse"))
+		pointersInitializesStatements.WriteString(parameter.GongMarshallField(stage, "GeoObjectUse"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "Tag"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(parameter.GongMarshallField(stage, "LayoutDirection"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (parametercategory *ParameterCategory) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(parametercategory.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(parametercategory.GongMarshallField(stage, "ParameterUse"))
+		initializerStatements.WriteString(parametercategory.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(parametercategory.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(parametercategory.GongMarshallField(stage, "LayoutDirection"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (parametercategoryuse *ParameterCategoryUse) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(parametercategoryuse.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(parametercategoryuse.GongMarshallField(stage, "ParameterCategory"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (parametershape *ParameterShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(parametershape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(parametershape.GongMarshallField(stage, "Parameter"))
+		initializerStatements.WriteString(parametershape.GongMarshallField(stage, "Direction"))
+		initializerStatements.WriteString(parametershape.GongMarshallField(stage, "ShapeIsComputedFromModel"))
+		initializerStatements.WriteString(parametershape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(parametershape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(parametershape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(parametershape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(parametershape.GongMarshallField(stage, "IsHidden"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (parametersaggregate *ParametersAggregate) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(parametersaggregate.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(parametersaggregate.GongMarshallField(stage, "Tag"))
+		initializerStatements.WriteString(parametersaggregate.GongMarshallField(stage, "Description"))
+		pointersInitializesStatements.WriteString(parametersaggregate.GongMarshallField(stage, "Parameters"))
+		initializerStatements.WriteString(parametersaggregate.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(parametersaggregate.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(parametersaggregate.GongMarshallField(stage, "LayoutDirection"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (parametersaggregateshape *ParametersAggregateShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(parametersaggregateshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(parametersaggregateshape.GongMarshallField(stage, "ScenarioParameter"))
+		initializerStatements.WriteString(parametersaggregateshape.GongMarshallField(stage, "Direction"))
+		initializerStatements.WriteString(parametersaggregateshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(parametersaggregateshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(parametersaggregateshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(parametersaggregateshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(parametersaggregateshape.GongMarshallField(stage, "IsHidden"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (position *Position) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(position.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(position.GongMarshallField(stage, "Date"))
+		initializerStatements.WriteString(position.GongMarshallField(stage, "Ordinate"))
+		initializerStatements.WriteString(position.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(position.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(position.GongMarshallField(stage, "LayoutDirection"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (repository *Repository) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(repository.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(repository.GongMarshallField(stage, "ParameterUse"))
+		pointersInitializesStatements.WriteString(repository.GongMarshallField(stage, "GroupUse"))
+		initializerStatements.WriteString(repository.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(repository.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(repository.GongMarshallField(stage, "LayoutDirection"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (scenario *Scenario) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "Description"))
+		pointersInitializesStatements.WriteString(scenario.GongMarshallField(stage, "Diagrams"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "IsDiagramsNodeExpanded"))
+		pointersInitializesStatements.WriteString(scenario.GongMarshallField(stage, "ActorStates"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "IsActorStatesNodeExpanded"))
+		pointersInitializesStatements.WriteString(scenario.GongMarshallField(stage, "ActorStateTransitions"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "IsActorStateTransitionsNodeExpanded"))
+		pointersInitializesStatements.WriteString(scenario.GongMarshallField(stage, "EvolutionDirections"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "IsEvolutionDirectionsNodeExpanded"))
+		pointersInitializesStatements.WriteString(scenario.GongMarshallField(stage, "Parameters"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "IsParametersNodeExpanded"))
+		pointersInitializesStatements.WriteString(scenario.GongMarshallField(stage, "ParametersAggretates"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "IsParametersAggretatesNodeExpanded"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(scenario.GongMarshallField(stage, "LayoutDirection"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (user *User) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(user.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(user.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(user.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(user.GongMarshallField(stage, "LayoutDirection"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (useruse *UserUse) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(useruse.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(useruse.GongMarshallField(stage, "User"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (workspace *Workspace) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(workspace.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(workspace.GongMarshallField(stage, "SelectedDiagram"))
+		pointersInitializesStatements.WriteString(workspace.GongMarshallField(stage, "Default_EvolutionDirectionShape"))
+		pointersInitializesStatements.WriteString(workspace.GongMarshallField(stage, "Default_ParameterShape"))
+		pointersInitializesStatements.WriteString(workspace.GongMarshallField(stage, "Default_ScenarioParameterShape"))
+		pointersInitializesStatements.WriteString(workspace.GongMarshallField(stage, "Default_ActorStateShape"))
+		pointersInitializesStatements.WriteString(workspace.GongMarshallField(stage, "Default_ActorStateTransitionShape"))
+		initializerStatements.WriteString(workspace.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(workspace.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(workspace.GongMarshallField(stage, "LayoutDirection"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}

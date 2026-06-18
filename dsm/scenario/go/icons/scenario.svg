@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="24"
+   viewBox="0 -960 960 960"
+   width="24"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="scenario.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="42.5"
+     inkscape:cx="12.011765"
+     inkscape:cy="12.011765"
+     inkscape:window-width="1792"
+     inkscape:window-height="1120"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1" />
+  <path
+     d="m 763,-197 -43,-43 q 47,-47 73.5,-108 26.5,-61 26.5,-132 0,-71 -26.5,-132 Q 767,-673 720,-720 l 43,-43 q 54,54 85.5,127 31.5,73 31.5,156 0,83 -31.5,156 -31.5,73 -85.5,127 z"
+     id="path6" />
+  <path
+     d="m 678,-282 -42,-42 q 30,-30 47,-70 17,-40 17,-86 0,-46 -17,-86 -17,-40 -47,-70 l 42,-42 q 38,38 60,89 22,51 22,109 0,58 -22,109 -22,51 -60,89 z"
+     id="path5" />
+  <path
+     d="m 440,-200 v -60 h 80 v 60 z"
+     id="path4" />
+  <path
+     d="m 440,-300 q 0,-23 -15.5,-45.5 Q 409,-368 390,-392.5 371,-417 355.5,-443.5 340,-470 340,-500 q 0,-58 41,-99 41,-41 99,-41 58,0 99,41 41,41 41,99 0,30 -15.5,56.5 -15.5,26.5 -34.5,51 -19,24.5 -34.5,47 Q 520,-323 520,-300 Z"
+     id="path3" />
+  <path
+     d="m 282,-282 q -38,-38 -60,-89 -22,-51 -22,-109 0,-58 22,-109 22,-51 60,-89 l 42,42 q -30,30 -47,70 -17,40 -17,86 0,46 17,86 17,40 47,70 z"
+     id="path2" />
+  <path
+     d="M 197,-197 Q 143,-251 111.5,-324 80,-397 80,-480 q 0,-83 31.5,-156 31.5,-73 85.5,-127 l 43,43 q -47,47 -73.5,108 -26.5,61 -26.5,132 0,71 26.5,132 26.5,61 73.5,108 z"
+     id="path1" />
+</svg>

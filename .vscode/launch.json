@@ -816,6 +816,17 @@
             ]
         },
         {
+            "name": "scenario: go run stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/scenario/go/cmd/scenario",
+            "args": [
+                "data/stage.go",
+                "-embeddedDiagrams=false",
+            ]
+        },
+        {
             "name": "statemachines: go run -unmarshallFromCode=data/massive_probe_edit.go -marshallOnCommit=data/massive_probe_edit.go",
             "type": "go",
             "request": "launch",

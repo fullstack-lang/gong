@@ -358,12 +358,12 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
-	__Library__00000000_.IsProcessesNodeExpanded = false
+	__Library__00000000_.IsProcessesNodeExpanded = true
 	__Library__00000000_.IsDataFlowsNodeExpanded = false
 	__Library__00000000_.IsDatasNodeExpanded = false
 	__Library__00000000_.IsResourcesNodeExpanded = false
 	__Library__00000000_.IsNotesNodeExpanded = false
-	__Library__00000000_.IsExpandedTmp = false
+	__Library__00000000_.IsExpandedTmp = true
 
 	__Participant__00000000_.Name = `Flight Plan Originator`
 	__Participant__00000000_.IsProcessResource = false

@@ -508,6 +508,24 @@
       "group": "build"
     },
     {
+      "label": "01 - gong generate scenario --dsm",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/dsm/scenario"
+      },
+      "command": "gong generate go/models --dsm --skipGoModCommands",
+      "group": "build"
+    },
+    {
+      "label": "01 - gong portable scenario",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/dsm/scenario"
+      },
+      "command": "gong portable go/cmd/scenario",
+      "group": "build"
+    },
+    {
       "label": "01 - gong generate statemachines --dsm",
       "type": "shell",
       "options": {
