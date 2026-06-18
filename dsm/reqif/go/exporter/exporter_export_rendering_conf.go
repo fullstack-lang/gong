@@ -3,8 +3,6 @@ package exporter
 import (
 	"encoding/base64"
 	"log"
-	"os"
-	"path/filepath"
 	"strings"
 	"time"
 
@@ -37,30 +35,12 @@ func (exporter *Exporter) ExportRenderingConf(stager *models.Stager) {
 	models.StageAllOfTypeToAnotherStage[*models.ATTRIBUTE_DEFINITION_STRING_Rendering](stage, stageForRenderingConf)
 	models.StageAllOfTypeToAnotherStage[*models.ATTRIBUTE_DEFINITION_XHTML_Rendering](stage, stageForRenderingConf)
 
-	fileName := filepath.Base(fileToDownload.Name)
-
-	tempFile, err := os.CreateTemp("", fileName)
+	contentStr, err := stageForRenderingConf.MarshallToString("github.com/fullstack-lang/gong/dsm/reqif/go/models", "main")
 	if err != nil {
-		log.Fatalf("Failed to create temporary file: %v", err)
+		log.Fatalf("Failed to marshall to string: %v", err)
 	}
 
-	// 2. Defer the removal of the file to ensure it's cleaned up.
-	defer os.Remove(tempFile.Name())
-
-	// 3. Marshall the data into the temporary file.
-	stageForRenderingConf.Marshall(tempFile, "github.com/fullstack-lang/gong/dsm/reqif/go/models", "main")
-
-	// 4. Read the content back from the file.
-	// os.ReadFile needs a file path, so we use the name.
-	// First, ensure the file is closed so all data is flushed to disk.
-	if err := tempFile.Close(); err != nil {
-		log.Fatalf("Failed to close temp file: %v", err)
-	}
-
-	content, err := os.ReadFile(tempFile.Name())
-	if err != nil {
-		log.Fatalf("Failed to read back temp file: %v", err)
-	}
+	content := []byte(contentStr)
 
 	// 5. The content is now a string in memory, and the file will be deleted.
 	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString(content)
@@ -70,6 +50,6 @@ func (exporter *Exporter) ExportRenderingConf(stager *models.Stager) {
 	time.Sleep(1 * time.Second)
 	stager.UpdateAndCommitLoadReqifStage()
 
-	log.Println("Finished exporting the rendering configuration file", tempFile.Name())
+	log.Println("Finished exporting the rendering configuration file", fileToDownload.Name)
 
 }

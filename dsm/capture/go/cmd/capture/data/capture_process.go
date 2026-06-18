@@ -40,7 +40,7 @@ func _(stage *models.Stage) {
 	__Concern__00000000_ := (&models.Concern{Name: `Edit M0 & generates deliverables`}).Stage(stage)
 	__Concern__00000001_ := (&models.Concern{Name: `Consumes SE deliverables`}).Stage(stage)
 	__Concern__00000002_ := (&models.Concern{Name: `Edit M1 & develop tools to generate deliverables`}).Stage(stage)
-	__Concern__00000003_ := (&models.Concern{Name: `Capture stakeholder map, concerns and SE deliverables`}).Stage(stage)
+	__Concern__00000003_ := (&models.Concern{Name: `Edit SEMP`}).Stage(stage)
 
 	__ConcernInputShape__00000000_ := (&models.ConcernInputShape{Name: `Consumes views to Views of the architecture`}).Stage(stage)
 	__ConcernInputShape__00000001_ := (&models.ConcernInputShape{Name: `Edit M0 to Tools to edit M0 based on M1`}).Stage(stage)
@@ -57,7 +57,7 @@ func _(stage *models.Stage) {
 
 	__Deliverable__00000000_ := (&models.Deliverable{Name: `SE Deliverables`}).Stage(stage)
 	__Deliverable__00000002_ := (&models.Deliverable{Name: `Tools to edit M0 & generates deliverables`}).Stage(stage)
-	__Deliverable__00000003_ := (&models.Deliverable{Name: `Requirements for SE deliverables + concepts`}).Stage(stage)
+	__Deliverable__00000003_ := (&models.Deliverable{Name: `System Engineering Management Plan`}).Stage(stage)
 
 	__DeliverableConceptShape__00000004_ := (&models.DeliverableConceptShape{Name: `Requirements for SE deliverables + concepts to C1`}).Stage(stage)
 	__DeliverableConceptShape__00000005_ := (&models.DeliverableConceptShape{Name: `Requirements for SE deliverables + concepts to Deliverable`}).Stage(stage)
@@ -75,12 +75,16 @@ func _(stage *models.Stage) {
 	__Note__00000000_ := (&models.Note{Name: `With SysML V2, the M1 editor is supposed to edit SysML v2 files for the defintion of the M1. The pain point with SysML v2 is:
 - the high complexity required  for mastering SysML v2 syntax
 - the lack of standard for the graphical views.`}).Stage(stage)
+	__Note__00000001_ := (&models.Note{Name: `System Engineering Management Plan`}).Stage(stage)
 
 	__NoteDeliverableShape__00000000_ := (&models.NoteDeliverableShape{Name: `M0 is based on M1 to Tools to edit M0`}).Stage(stage)
+	__NoteDeliverableShape__00000001_ := (&models.NoteDeliverableShape{Name: `System Engineering Management Plan to SEMP`}).Stage(stage)
 
 	__NoteShape__00000000_ := (&models.NoteShape{Name: `-Default Diagram`}).Stage(stage)
+	__NoteShape__00000001_ := (&models.NoteShape{Name: `-Default Diagram`}).Stage(stage)
 
 	__NoteTaskShape__00000002_ := (&models.NoteTaskShape{Name: `M0 is based on M1 to Edit M1 & develop tools to generate deliverables`}).Stage(stage)
+	__NoteTaskShape__00000003_ := (&models.NoteTaskShape{Name: `System Engineering Management Plan to Edit SEMP`}).Stage(stage)
 
 	__Stakeholder__00000000_ := (&models.Stakeholder{Name: `M0 editor`}).Stage(stage)
 	__Stakeholder__00000001_ := (&models.Stakeholder{Name: `M1 editor`}).Stage(stage)
@@ -187,7 +191,7 @@ func _(stage *models.Stage) {
 	__Concern__00000002_.IsWithCompletion = false
 	__Concern__00000002_.Completion = ""
 
-	__Concern__00000003_.Name = `Capture stakeholder map, concerns and SE deliverables`
+	__Concern__00000003_.Name = `Edit SEMP`
 	__Concern__00000003_.IDAirbus = ``
 	__Concern__00000003_.Priority = ""
 	__Concern__00000003_.ComputedPrefix = `4`
@@ -295,7 +299,7 @@ func _(stage *models.Stage) {
 	__Deliverable__00000002_.IsProducersNodeExpanded = false
 	__Deliverable__00000002_.IsConsumersNodeExpanded = false
 
-	__Deliverable__00000003_.Name = `Requirements for SE deliverables + concepts`
+	__Deliverable__00000003_.Name = `System Engineering Management Plan`
 	__Deliverable__00000003_.ComputedPrefix = `3`
 	__Deliverable__00000003_.IsExpanded = false
 	__Deliverable__00000003_.LayoutDirection = models.Vertical
@@ -353,23 +357,23 @@ func _(stage *models.Stage) {
 
 	__DeliverableShape__00000003_.Name = `-Default Diagram`
 	__DeliverableShape__00000003_.IsExpanded = false
-	__DeliverableShape__00000003_.X = 497.919156
-	__DeliverableShape__00000003_.Y = 164.854495
+	__DeliverableShape__00000003_.X = 492.919156
+	__DeliverableShape__00000003_.Y = 168.854495
 	__DeliverableShape__00000003_.Width = 250.000000
 	__DeliverableShape__00000003_.Height = 70.000000
 	__DeliverableShape__00000003_.IsHidden = false
 
 	__Diagram__00000000_.Name = `Default Diagram`
 	__Diagram__00000000_.ComputedPrefix = `1`
-	__Diagram__00000000_.IsExpanded = false
+	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.LayoutDirection = models.Vertical
 	__Diagram__00000000_.IsChecked = true
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 18700.000000
-	__Diagram__00000000_.Height = 18700.000000
+	__Diagram__00000000_.Width = 21900.000000
+	__Diagram__00000000_.Height = 21900.000000
 	__Diagram__00000000_.IsRequirementsNodeExpanded = true
 	__Diagram__00000000_.IsConceptsNodeExpanded = true
 	__Diagram__00000000_.IsPBSNodeExpanded = true
@@ -391,6 +395,11 @@ func _(stage *models.Stage) {
 	__Note__00000000_.IsExpanded = false
 	__Note__00000000_.LayoutDirection = models.Vertical
 
+	__Note__00000001_.Name = `System Engineering Management Plan`
+	__Note__00000001_.ComputedPrefix = `2`
+	__Note__00000001_.IsExpanded = false
+	__Note__00000001_.LayoutDirection = models.Vertical
+
 	__NoteDeliverableShape__00000000_.Name = `M0 is based on M1 to Tools to edit M0`
 	__NoteDeliverableShape__00000000_.StartRatio = 0.500000
 	__NoteDeliverableShape__00000000_.EndRatio = 0.500000
@@ -399,13 +408,29 @@ func _(stage *models.Stage) {
 	__NoteDeliverableShape__00000000_.CornerOffsetRatio = 1.680000
 	__NoteDeliverableShape__00000000_.IsHidden = false
 
+	__NoteDeliverableShape__00000001_.Name = `System Engineering Management Plan to SEMP`
+	__NoteDeliverableShape__00000001_.StartRatio = 0.500000
+	__NoteDeliverableShape__00000001_.EndRatio = 0.500000
+	__NoteDeliverableShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteDeliverableShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteDeliverableShape__00000001_.CornerOffsetRatio = 1.680000
+	__NoteDeliverableShape__00000001_.IsHidden = false
+
 	__NoteShape__00000000_.Name = `-Default Diagram`
 	__NoteShape__00000000_.IsExpanded = false
-	__NoteShape__00000000_.X = 817.586218
-	__NoteShape__00000000_.Y = 454.916605
-	__NoteShape__00000000_.Width = 398.000000
+	__NoteShape__00000000_.X = 818.586218
+	__NoteShape__00000000_.Y = 408.916605
+	__NoteShape__00000000_.Width = 466.000000
 	__NoteShape__00000000_.Height = 222.000000
 	__NoteShape__00000000_.IsHidden = false
+
+	__NoteShape__00000001_.Name = `-Default Diagram`
+	__NoteShape__00000001_.IsExpanded = false
+	__NoteShape__00000001_.X = 74.858056
+	__NoteShape__00000001_.Y = 173.233449
+	__NoteShape__00000001_.Width = 250.000000
+	__NoteShape__00000001_.Height = 70.000000
+	__NoteShape__00000001_.IsHidden = true
 
 	__NoteTaskShape__00000002_.Name = `M0 is based on M1 to Edit M1 & develop tools to generate deliverables`
 	__NoteTaskShape__00000002_.StartRatio = 0.500000
@@ -414,6 +439,14 @@ func _(stage *models.Stage) {
 	__NoteTaskShape__00000002_.EndOrientation = models.ORIENTATION_VERTICAL
 	__NoteTaskShape__00000002_.CornerOffsetRatio = 1.680000
 	__NoteTaskShape__00000002_.IsHidden = false
+
+	__NoteTaskShape__00000003_.Name = `System Engineering Management Plan to Edit SEMP`
+	__NoteTaskShape__00000003_.StartRatio = 0.500000
+	__NoteTaskShape__00000003_.EndRatio = 0.500000
+	__NoteTaskShape__00000003_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteTaskShape__00000003_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteTaskShape__00000003_.CornerOffsetRatio = 1.680000
+	__NoteTaskShape__00000003_.IsHidden = false
 
 	__Stakeholder__00000000_.Name = `M0 editor`
 	__Stakeholder__00000000_.IDAirbus = ``
@@ -564,8 +597,11 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ConcernOutputShapes = append(__Diagram__00000000_.ConcernOutputShapes, __ConcernOutputShape__00000001_)
 	__Diagram__00000000_.ConcernOutputShapes = append(__Diagram__00000000_.ConcernOutputShapes, __ConcernOutputShape__00000002_)
 	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000000_)
+	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000001_)
 	__Diagram__00000000_.NoteDeliverableShapes = append(__Diagram__00000000_.NoteDeliverableShapes, __NoteDeliverableShape__00000000_)
+	__Diagram__00000000_.NoteDeliverableShapes = append(__Diagram__00000000_.NoteDeliverableShapes, __NoteDeliverableShape__00000001_)
 	__Diagram__00000000_.NoteTaskShapes = append(__Diagram__00000000_.NoteTaskShapes, __NoteTaskShape__00000002_)
+	__Diagram__00000000_.NoteTaskShapes = append(__Diagram__00000000_.NoteTaskShapes, __NoteTaskShape__00000003_)
 	__Diagram__00000000_.Stakeholder_Shapes = append(__Diagram__00000000_.Stakeholder_Shapes, __StakeholderShape__00000000_)
 	__Diagram__00000000_.Stakeholder_Shapes = append(__Diagram__00000000_.Stakeholder_Shapes, __StakeholderShape__00000001_)
 	__Diagram__00000000_.Stakeholder_Shapes = append(__Diagram__00000000_.Stakeholder_Shapes, __StakeholderShape__00000002_)
@@ -601,14 +637,22 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootConcepts = append(__Library__00000000_.RootConcepts, __Concept__00000002_)
 	__Library__00000000_.RootConcepts = append(__Library__00000000_.RootConcepts, __Concept__00000003_)
 	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000000_)
+	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000001_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
 	__Note__00000000_.Deliverables = append(__Note__00000000_.Deliverables, __Deliverable__00000002_)
 	__Note__00000000_.Tasks = append(__Note__00000000_.Tasks, __Concern__00000002_)
+	__Note__00000001_.Deliverables = append(__Note__00000001_.Deliverables, __Deliverable__00000003_)
+	__Note__00000001_.Tasks = append(__Note__00000001_.Tasks, __Concern__00000003_)
 	__NoteDeliverableShape__00000000_.Note = __Note__00000000_
 	__NoteDeliverableShape__00000000_.Deliverable = __Deliverable__00000002_
+	__NoteDeliverableShape__00000001_.Note = __Note__00000001_
+	__NoteDeliverableShape__00000001_.Deliverable = __Deliverable__00000003_
 	__NoteShape__00000000_.Note = __Note__00000000_
+	__NoteShape__00000001_.Note = __Note__00000001_
 	__NoteTaskShape__00000002_.Note = __Note__00000000_
 	__NoteTaskShape__00000002_.Task = __Concern__00000002_
+	__NoteTaskShape__00000003_.Note = __Note__00000001_
+	__NoteTaskShape__00000003_.Task = __Concern__00000003_
 	__Stakeholder__00000000_.Concerns = append(__Stakeholder__00000000_.Concerns, __Concern__00000000_)
 	__Stakeholder__00000001_.Concerns = append(__Stakeholder__00000001_.Concerns, __Concern__00000002_)
 	__Stakeholder__00000002_.Concerns = append(__Stakeholder__00000002_.Concerns, __Concern__00000001_)
