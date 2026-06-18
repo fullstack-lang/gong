@@ -511,6 +511,49 @@ func (u *ConceptUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	return nil
 }
 
+type ConceptShapeUnmarshaller struct{}
+
+func (u *ConceptShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ConceptShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ConceptShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ConceptShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Concept":
+		GongUnmarshallPointer(&instance.Concept, valueExpr, identifierMap)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
 type ConcernUnmarshaller struct{}
 
 func (u *ConcernUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -888,6 +931,14 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallSliceOfPointers(&instance.ResourceComposition_Shapes, valueExpr, identifierMap)
 	case "StakeholderConcernShapes":
 		GongUnmarshallSliceOfPointers(&instance.StakeholderConcernShapes, valueExpr, identifierMap)
+	case "Requirement_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.Requirement_Shapes, valueExpr, identifierMap)
+	case "RequirementsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.RequirementsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "Concept_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.Concept_Shapes, valueExpr, identifierMap)
+	case "ConceptsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ConceptsWhoseNodeIsExpanded, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1289,6 +1340,49 @@ func (u *RequirementUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		GongUnmarshallSliceOfPointers(&instance.SupportLevels, valueExpr, identifierMap)
 	case "Concepts":
 		GongUnmarshallSliceOfPointers(&instance.Concepts, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type RequirementShapeUnmarshaller struct{}
+
+func (u *RequirementShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(RequirementShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *RequirementShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*RequirementShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Requirement":
+		GongUnmarshallPointer(&instance.Requirement, valueExpr, identifierMap)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }

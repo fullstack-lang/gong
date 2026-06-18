@@ -49,6 +49,35 @@ func (from *Concept) CopyBasicFields(to *Concept) {
 	to.LayoutDirection = from.LayoutDirection
 }
 
+type ConceptShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+}
+
+func (from *ConceptShape) CopyBasicFields(to *ConceptShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
+}
+
 type Concern_WOP struct {
 	// insertion point
 
@@ -532,6 +561,35 @@ func (from *Requirement) CopyBasicFields(to *Requirement) {
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.LayoutDirection = from.LayoutDirection
+}
+
+type RequirementShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+}
+
+func (from *RequirementShape) CopyBasicFields(to *RequirementShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
 }
 
 type Stakeholder_WOP struct {

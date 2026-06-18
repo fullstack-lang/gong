@@ -28,6 +28,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.AnalysisNeed](probe)
 	case "Concept":
 		updateProbeTable[*models.Concept](probe)
+	case "ConceptShape":
+		updateProbeTable[*models.ConceptShape](probe)
 	case "Concern":
 		updateProbeTable[*models.Concern](probe)
 	case "ConcernCompositionShape":
@@ -60,6 +62,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.ProductShape](probe)
 	case "Requirement":
 		updateProbeTable[*models.Requirement](probe)
+	case "RequirementShape":
+		updateProbeTable[*models.RequirementShape](probe)
 	case "Stakeholder":
 		updateProbeTable[*models.Stakeholder](probe)
 	case "StakeholderCompositionShape":

@@ -33,6 +33,9 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct ConceptShape
+	// insertion point per field
+
 	// Compute reverse map for named struct Concern
 	// insertion point per field
 	stage.Concern_SubConcerns_reverseMap = make(map[*Concern]*Concern)
@@ -242,6 +245,34 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_StakeholderConcernShapes_reverseMap[_stakeholderconcernshape] = diagram
 		}
 	}
+	stage.Diagram_Requirement_Shapes_reverseMap = make(map[*RequirementShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _requirementshape := range diagram.Requirement_Shapes {
+			stage.Diagram_Requirement_Shapes_reverseMap[_requirementshape] = diagram
+		}
+	}
+	stage.Diagram_RequirementsWhoseNodeIsExpanded_reverseMap = make(map[*Requirement]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _requirement := range diagram.RequirementsWhoseNodeIsExpanded {
+			stage.Diagram_RequirementsWhoseNodeIsExpanded_reverseMap[_requirement] = diagram
+		}
+	}
+	stage.Diagram_Concept_Shapes_reverseMap = make(map[*ConceptShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _conceptshape := range diagram.Concept_Shapes {
+			stage.Diagram_Concept_Shapes_reverseMap[_conceptshape] = diagram
+		}
+	}
+	stage.Diagram_ConceptsWhoseNodeIsExpanded_reverseMap = make(map[*Concept]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _concept := range diagram.ConceptsWhoseNodeIsExpanded {
+			stage.Diagram_ConceptsWhoseNodeIsExpanded_reverseMap[_concept] = diagram
+		}
+	}
 
 	// Compute reverse map for named struct Library
 	// insertion point per field
@@ -368,6 +399,9 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct RequirementShape
+	// insertion point per field
+
 	// Compute reverse map for named struct Stakeholder
 	// insertion point per field
 	stage.Stakeholder_Concerns_reverseMap = make(map[*Concern]*Stakeholder)
@@ -410,6 +444,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.Concepts {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ConceptShapes {
 		res = append(res, instance)
 	}
 
@@ -477,6 +515,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.RequirementShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Stakeholders {
 		res = append(res, instance)
 	}
@@ -514,6 +556,12 @@ func (analysisneed *AnalysisNeed) GongCopy() GongstructIF {
 func (concept *Concept) GongCopy() GongstructIF {
 	newInstance := new(Concept)
 	concept.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (conceptshape *ConceptShape) GongCopy() GongstructIF {
+	newInstance := new(ConceptShape)
+	conceptshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -613,6 +661,12 @@ func (requirement *Requirement) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (requirementshape *RequirementShape) GongCopy() GongstructIF {
+	newInstance := new(RequirementShape)
+	requirementshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (stakeholder *Stakeholder) GongCopy() GongstructIF {
 	newInstance := new(Stakeholder)
 	stakeholder.CopyBasicFields(newInstance)
@@ -667,6 +721,16 @@ func (concept *Concept) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(concept), uint64(GetOrderPointerGongstruct(stage, concept)))
+	return
+}
+
+func (conceptshape *ConceptShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(conceptshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(conceptshape), uint64(GetOrderPointerGongstruct(stage, conceptshape)))
 	return
 }
 
@@ -827,6 +891,16 @@ func (requirement *Requirement) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(requirement), uint64(GetOrderPointerGongstruct(stage, requirement)))
+	return
+}
+
+func (requirementshape *RequirementShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(requirementshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(requirementshape), uint64(GetOrderPointerGongstruct(stage, requirementshape)))
 	return
 }
 
@@ -1018,6 +1092,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(concepts_newInstances)
 	lenDeletedInstances += len(concepts_deletedInstances)
+	var conceptshapes_newInstances []*ConceptShape
+	var conceptshapes_deletedInstances []*ConceptShape
+
+	// parse all staged instances and check if they have a reference
+	for conceptshape := range stage.ConceptShapes {
+		if ref, ok := stage.ConceptShapes_reference[conceptshape]; !ok {
+			conceptshapes_newInstances = append(conceptshapes_newInstances, conceptshape)
+			newInstancesSlice = append(newInstancesSlice, conceptshape.GongMarshallIdentifier(stage))
+			if stage.ConceptShapes_referenceOrder == nil {
+				stage.ConceptShapes_referenceOrder = make(map[*ConceptShape]uint)
+			}
+			stage.ConceptShapes_referenceOrder[conceptshape] = stage.ConceptShape_stagedOrder[conceptshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, conceptshape.GongMarshallUnstaging(stage))
+			// delete(stage.ConceptShapes_referenceOrder, conceptshape)
+			fieldInitializers, pointersInitializations := conceptshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.ConceptShape_stagedOrder[ref] = stage.ConceptShape_stagedOrder[conceptshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := conceptshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, conceptshape)
+			// delete(stage.ConceptShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if conceptshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", conceptshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.ConceptShapes_reference {
+		instance := stage.ConceptShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.ConceptShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			conceptshapes_deletedInstances = append(conceptshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(conceptshapes_newInstances)
+	lenDeletedInstances += len(conceptshapes_deletedInstances)
 	var concerns_newInstances []*Concern
 	var concerns_deletedInstances []*Concern
 
@@ -1898,6 +2027,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(requirements_newInstances)
 	lenDeletedInstances += len(requirements_deletedInstances)
+	var requirementshapes_newInstances []*RequirementShape
+	var requirementshapes_deletedInstances []*RequirementShape
+
+	// parse all staged instances and check if they have a reference
+	for requirementshape := range stage.RequirementShapes {
+		if ref, ok := stage.RequirementShapes_reference[requirementshape]; !ok {
+			requirementshapes_newInstances = append(requirementshapes_newInstances, requirementshape)
+			newInstancesSlice = append(newInstancesSlice, requirementshape.GongMarshallIdentifier(stage))
+			if stage.RequirementShapes_referenceOrder == nil {
+				stage.RequirementShapes_referenceOrder = make(map[*RequirementShape]uint)
+			}
+			stage.RequirementShapes_referenceOrder[requirementshape] = stage.RequirementShape_stagedOrder[requirementshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, requirementshape.GongMarshallUnstaging(stage))
+			// delete(stage.RequirementShapes_referenceOrder, requirementshape)
+			fieldInitializers, pointersInitializations := requirementshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.RequirementShape_stagedOrder[ref] = stage.RequirementShape_stagedOrder[requirementshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := requirementshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, requirementshape)
+			// delete(stage.RequirementShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if requirementshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", requirementshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.RequirementShapes_reference {
+		instance := stage.RequirementShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.RequirementShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			requirementshapes_deletedInstances = append(requirementshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(requirementshapes_newInstances)
+	lenDeletedInstances += len(requirementshapes_deletedInstances)
 	var stakeholders_newInstances []*Stakeholder
 	var stakeholders_deletedInstances []*Stakeholder
 
@@ -2283,6 +2467,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Concepts_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.ConceptShapes_reference = make(map[*ConceptShape]*ConceptShape)
+	stage.ConceptShapes_referenceOrder = make(map[*ConceptShape]uint) // diff Unstage needs the reference order
+	stage.ConceptShapes_instance = make(map[*ConceptShape]*ConceptShape)
+	for instance := range stage.ConceptShapes {
+		_copy := instance.GongCopy().(*ConceptShape)
+		stage.ConceptShapes_reference[instance] = _copy
+		stage.ConceptShapes_instance[_copy] = instance
+		stage.ConceptShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Concerns_reference = make(map[*Concern]*Concern)
 	stage.Concerns_referenceOrder = make(map[*Concern]uint) // diff Unstage needs the reference order
 	stage.Concerns_instance = make(map[*Concern]*Concern)
@@ -2443,6 +2637,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Requirements_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.RequirementShapes_reference = make(map[*RequirementShape]*RequirementShape)
+	stage.RequirementShapes_referenceOrder = make(map[*RequirementShape]uint) // diff Unstage needs the reference order
+	stage.RequirementShapes_instance = make(map[*RequirementShape]*RequirementShape)
+	for instance := range stage.RequirementShapes {
+		_copy := instance.GongCopy().(*RequirementShape)
+		stage.RequirementShapes_reference[instance] = _copy
+		stage.RequirementShapes_instance[_copy] = instance
+		stage.RequirementShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Stakeholders_reference = make(map[*Stakeholder]*Stakeholder)
 	stage.Stakeholders_referenceOrder = make(map[*Stakeholder]uint) // diff Unstage needs the reference order
 	stage.Stakeholders_instance = make(map[*Stakeholder]*Stakeholder)
@@ -2511,6 +2715,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.Concepts {
 		reference := stage.Concepts_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.ConceptShapes {
+		reference := stage.ConceptShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -2594,6 +2803,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.RequirementShapes {
+		reference := stage.RequirementShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.Stakeholders {
 		reference := stage.Stakeholders_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -2654,6 +2868,18 @@ func (concept *Concept) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Concept was not staged and does not have a reference order", concept)
+		return 0
+	}
+}
+
+func (conceptshape *ConceptShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.ConceptShape_stagedOrder[conceptshape]; ok {
+		return order
+	}
+	if order, ok := stage.ConceptShapes_referenceOrder[conceptshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type ConceptShape was not staged and does not have a reference order", conceptshape)
 		return 0
 	}
 }
@@ -2850,6 +3076,18 @@ func (requirement *Requirement) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (requirementshape *RequirementShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.RequirementShape_stagedOrder[requirementshape]; ok {
+		return order
+	}
+	if order, ok := stage.RequirementShapes_referenceOrder[requirementshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type RequirementShape was not staged and does not have a reference order", requirementshape)
+		return 0
+	}
+}
+
 func (stakeholder *Stakeholder) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Stakeholder_stagedOrder[stakeholder]; ok {
 		return order
@@ -2943,6 +3181,15 @@ func (concept *Concept) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (concept *Concept) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", concept.GongGetGongstructName(), concept.GongGetOrder(stage))
+}
+
+func (conceptshape *ConceptShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", conceptshape.GongGetGongstructName(), conceptshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (conceptshape *ConceptShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", conceptshape.GongGetGongstructName(), conceptshape.GongGetOrder(stage))
 }
 
 func (concern *Concern) GongGetIdentifier(stage *Stage) string {
@@ -3089,6 +3336,15 @@ func (requirement *Requirement) GongGetReferenceIdentifier(stage *Stage) string 
 	return fmt.Sprintf("__%s__%08d_", requirement.GongGetGongstructName(), requirement.GongGetOrder(stage))
 }
 
+func (requirementshape *RequirementShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", requirementshape.GongGetGongstructName(), requirementshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (requirementshape *RequirementShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", requirementshape.GongGetGongstructName(), requirementshape.GongGetOrder(stage))
+}
+
 func (stakeholder *Stakeholder) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", stakeholder.GongGetGongstructName(), stakeholder.GongGetOrder(stage))
 }
@@ -3159,6 +3415,14 @@ func (concept *Concept) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", concept.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Concept")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(concept.Name))
+	return
+}
+
+func (conceptshape *ConceptShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", conceptshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ConceptShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(conceptshape.Name))
 	return
 }
 
@@ -3290,6 +3554,14 @@ func (requirement *Requirement) GongMarshallIdentifier(stage *Stage) (decl strin
 	return
 }
 
+func (requirementshape *RequirementShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", requirementshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "RequirementShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(requirementshape.Name))
+	return
+}
+
 func (stakeholder *Stakeholder) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", stakeholder.GongGetIdentifier(stage))
@@ -3348,6 +3620,12 @@ func (analysisneed *AnalysisNeed) GongMarshallUnstaging(stage *Stage) (decl stri
 func (concept *Concept) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", concept.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (conceptshape *ConceptShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", conceptshape.GongGetReferenceIdentifier(stage))
 	return
 }
 
@@ -3444,6 +3722,12 @@ func (productshape *ProductShape) GongMarshallUnstaging(stage *Stage) (decl stri
 func (requirement *Requirement) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", requirement.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (requirementshape *RequirementShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", requirementshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

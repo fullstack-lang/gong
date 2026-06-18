@@ -27,6 +27,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.concept, probe)
 			}
+		case *ConceptShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ConceptShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.conceptshape, probe)
+			}
 		case *ConcernFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Concern", true)
@@ -123,6 +129,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.requirement, probe)
 			}
+		case *RequirementShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "RequirementShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.requirementshape, probe)
+			}
 		case *StakeholderFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Stakeholder", true)
@@ -207,6 +219,19 @@ func FillUpFormFromGongstructName(
 		concept := new(models.Concept)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(concept, formGroup, probe)
+	case "ConceptShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ConceptShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ConceptShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		conceptshape := new(models.ConceptShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(conceptshape, formGroup, probe)
 	case "Concern":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -415,6 +440,19 @@ func FillUpFormFromGongstructName(
 		requirement := new(models.Requirement)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(requirement, formGroup, probe)
+	case "RequirementShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "RequirementShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__RequirementShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		requirementshape := new(models.RequirementShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(requirementshape, formGroup, probe)
 	case "Stakeholder":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

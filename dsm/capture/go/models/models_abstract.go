@@ -105,15 +105,27 @@ type Diagram struct {
 	StakeholderConcernShapes                          []*StakeholderConcernShape
 	map_StakeholderConcernKey_StakeholderConcernShape map[stakeholderConcernKey]*StakeholderConcernShape
 
+	Requirement_Shapes               []*RequirementShape
+	map_Requirement_RequirementShape map[*Requirement]*RequirementShape
+	RequirementsWhoseNodeIsExpanded  []*Requirement
+
+	Concept_Shapes              []*ConceptShape
+	map_Concept_ConceptShape    map[*Concept]*ConceptShape
+	ConceptsWhoseNodeIsExpanded []*Concept
+
 	map_Product_Rect     map[*Deliverable]*svg.Rect
 	map_Task_Rect        map[*Concern]*svg.Rect
 	map_Note_Rect        map[*Note]*svg.Rect
 	map_Stakeholder_Rect map[*Stakeholder]*svg.Rect
+	map_Requirement_Rect map[*Requirement]*svg.Rect
+	map_Concept_Rect     map[*Concept]*svg.Rect
 
 	map_SvgRect_ProductShape     map[*svg.Rect]*ProductShape
 	map_SvgRect_ConcernShape     map[*svg.Rect]*ConcernShape
 	map_SvgRect_NoteShape        map[*svg.Rect]*NoteShape
 	map_SvgRect_StakeholderShape map[*svg.Rect]*StakeholderShape
+	map_SvgRect_RequirementShape map[*svg.Rect]*RequirementShape
+	map_SvgRect_ConceptShape     map[*svg.Rect]*ConceptShape
 
 	elementWhoseDiagramListIsDisplayed AbstractType
 }
@@ -311,6 +323,8 @@ var (
 	_ AbstractType = (*Concern)(nil)
 	_ AbstractType = (*Note)(nil)
 	_ AbstractType = (*Stakeholder)(nil)
+	_ AbstractType = (*Requirement)(nil)
+	_ AbstractType = (*Concept)(nil)
 	_ AbstractType = (*AnalysisNeed)(nil)
 )
 

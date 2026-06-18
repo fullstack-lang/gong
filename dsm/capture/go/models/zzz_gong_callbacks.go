@@ -14,6 +14,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterConceptCreateCallback != nil {
 			stage.OnAfterConceptCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *ConceptShape:
+		if stage.OnAfterConceptShapeCreateCallback != nil {
+			stage.OnAfterConceptShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Concern:
 		if stage.OnAfterConcernCreateCallback != nil {
 			stage.OnAfterConcernCreateCallback.OnAfterCreate(stage, target)
@@ -78,6 +82,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterRequirementCreateCallback != nil {
 			stage.OnAfterRequirementCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *RequirementShape:
+		if stage.OnAfterRequirementShapeCreateCallback != nil {
+			stage.OnAfterRequirementShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Stakeholder:
 		if stage.OnAfterStakeholderCreateCallback != nil {
 			stage.OnAfterStakeholderCreateCallback.OnAfterCreate(stage, target)
@@ -125,6 +133,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Concept)
 		if stage.OnAfterConceptUpdateCallback != nil {
 			stage.OnAfterConceptUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *ConceptShape:
+		newTarget := any(new).(*ConceptShape)
+		if stage.OnAfterConceptShapeUpdateCallback != nil {
+			stage.OnAfterConceptShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Concern:
 		newTarget := any(new).(*Concern)
@@ -206,6 +219,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterRequirementUpdateCallback != nil {
 			stage.OnAfterRequirementUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *RequirementShape:
+		newTarget := any(new).(*RequirementShape)
+		if stage.OnAfterRequirementShapeUpdateCallback != nil {
+			stage.OnAfterRequirementShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Stakeholder:
 		newTarget := any(new).(*Stakeholder)
 		if stage.OnAfterStakeholderUpdateCallback != nil {
@@ -255,6 +273,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 		if stage.OnAfterConceptDeleteCallback != nil {
 			staged := any(staged).(*Concept)
 			stage.OnAfterConceptDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *ConceptShape:
+		if stage.OnAfterConceptShapeDeleteCallback != nil {
+			staged := any(staged).(*ConceptShape)
+			stage.OnAfterConceptShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Concern:
 		if stage.OnAfterConcernDeleteCallback != nil {
@@ -336,6 +359,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Requirement)
 			stage.OnAfterRequirementDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *RequirementShape:
+		if stage.OnAfterRequirementShapeDeleteCallback != nil {
+			staged := any(staged).(*RequirementShape)
+			stage.OnAfterRequirementShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Stakeholder:
 		if stage.OnAfterStakeholderDeleteCallback != nil {
 			staged := any(staged).(*Stakeholder)
@@ -383,6 +411,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Concept:
 		if stage.OnAfterConceptReadCallback != nil {
 			stage.OnAfterConceptReadCallback.OnAfterRead(stage, target)
+		}
+	case *ConceptShape:
+		if stage.OnAfterConceptShapeReadCallback != nil {
+			stage.OnAfterConceptShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *Concern:
 		if stage.OnAfterConcernReadCallback != nil {
@@ -448,6 +480,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterRequirementReadCallback != nil {
 			stage.OnAfterRequirementReadCallback.OnAfterRead(stage, target)
 		}
+	case *RequirementShape:
+		if stage.OnAfterRequirementShapeReadCallback != nil {
+			stage.OnAfterRequirementShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *Stakeholder:
 		if stage.OnAfterStakeholderReadCallback != nil {
 			stage.OnAfterStakeholderReadCallback.OnAfterRead(stage, target)
@@ -487,6 +523,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterAnalysisNeedUpdateCallback = any(callback).(OnAfterUpdateInterface[AnalysisNeed])
 	case *Concept:
 		stage.OnAfterConceptUpdateCallback = any(callback).(OnAfterUpdateInterface[Concept])
+	case *ConceptShape:
+		stage.OnAfterConceptShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ConceptShape])
 	case *Concern:
 		stage.OnAfterConcernUpdateCallback = any(callback).(OnAfterUpdateInterface[Concern])
 	case *ConcernCompositionShape:
@@ -519,6 +557,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterProductShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ProductShape])
 	case *Requirement:
 		stage.OnAfterRequirementUpdateCallback = any(callback).(OnAfterUpdateInterface[Requirement])
+	case *RequirementShape:
+		stage.OnAfterRequirementShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[RequirementShape])
 	case *Stakeholder:
 		stage.OnAfterStakeholderUpdateCallback = any(callback).(OnAfterUpdateInterface[Stakeholder])
 	case *StakeholderCompositionShape:
@@ -542,6 +582,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterAnalysisNeedCreateCallback = any(callback).(OnAfterCreateInterface[AnalysisNeed])
 	case *Concept:
 		stage.OnAfterConceptCreateCallback = any(callback).(OnAfterCreateInterface[Concept])
+	case *ConceptShape:
+		stage.OnAfterConceptShapeCreateCallback = any(callback).(OnAfterCreateInterface[ConceptShape])
 	case *Concern:
 		stage.OnAfterConcernCreateCallback = any(callback).(OnAfterCreateInterface[Concern])
 	case *ConcernCompositionShape:
@@ -574,6 +616,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterProductShapeCreateCallback = any(callback).(OnAfterCreateInterface[ProductShape])
 	case *Requirement:
 		stage.OnAfterRequirementCreateCallback = any(callback).(OnAfterCreateInterface[Requirement])
+	case *RequirementShape:
+		stage.OnAfterRequirementShapeCreateCallback = any(callback).(OnAfterCreateInterface[RequirementShape])
 	case *Stakeholder:
 		stage.OnAfterStakeholderCreateCallback = any(callback).(OnAfterCreateInterface[Stakeholder])
 	case *StakeholderCompositionShape:
@@ -597,6 +641,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterAnalysisNeedDeleteCallback = any(callback).(OnAfterDeleteInterface[AnalysisNeed])
 	case *Concept:
 		stage.OnAfterConceptDeleteCallback = any(callback).(OnAfterDeleteInterface[Concept])
+	case *ConceptShape:
+		stage.OnAfterConceptShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ConceptShape])
 	case *Concern:
 		stage.OnAfterConcernDeleteCallback = any(callback).(OnAfterDeleteInterface[Concern])
 	case *ConcernCompositionShape:
@@ -629,6 +675,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterProductShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ProductShape])
 	case *Requirement:
 		stage.OnAfterRequirementDeleteCallback = any(callback).(OnAfterDeleteInterface[Requirement])
+	case *RequirementShape:
+		stage.OnAfterRequirementShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[RequirementShape])
 	case *Stakeholder:
 		stage.OnAfterStakeholderDeleteCallback = any(callback).(OnAfterDeleteInterface[Stakeholder])
 	case *StakeholderCompositionShape:
@@ -652,6 +700,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterAnalysisNeedReadCallback = any(callback).(OnAfterReadInterface[AnalysisNeed])
 	case *Concept:
 		stage.OnAfterConceptReadCallback = any(callback).(OnAfterReadInterface[Concept])
+	case *ConceptShape:
+		stage.OnAfterConceptShapeReadCallback = any(callback).(OnAfterReadInterface[ConceptShape])
 	case *Concern:
 		stage.OnAfterConcernReadCallback = any(callback).(OnAfterReadInterface[Concern])
 	case *ConcernCompositionShape:
@@ -684,6 +734,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterProductShapeReadCallback = any(callback).(OnAfterReadInterface[ProductShape])
 	case *Requirement:
 		stage.OnAfterRequirementReadCallback = any(callback).(OnAfterReadInterface[Requirement])
+	case *RequirementShape:
+		stage.OnAfterRequirementShapeReadCallback = any(callback).(OnAfterReadInterface[RequirementShape])
 	case *Stakeholder:
 		stage.OnAfterStakeholderReadCallback = any(callback).(OnAfterReadInterface[Stakeholder])
 	case *StakeholderCompositionShape:

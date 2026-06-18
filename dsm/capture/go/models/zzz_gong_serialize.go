@@ -26,6 +26,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		// insertion point
 		SerializeExcelizePointerToGongstruct2[*AnalysisNeed](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Concept](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*ConceptShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Concern](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ConcernCompositionShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ConcernInputShape](stage, f, addIDs)
@@ -42,6 +43,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*ProductCompositionShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ProductShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Requirement](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*RequirementShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Stakeholder](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*StakeholderCompositionShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*StakeholderConcernShape](stage, f, addIDs)

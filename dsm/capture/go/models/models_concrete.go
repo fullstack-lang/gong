@@ -432,3 +432,49 @@ func (s *StakeholderConcernShape) SetAbstractStartElement(abstractElement Abstra
 }
 
 var _ AssociationConcreteType = (*StakeholderConcernShape)(nil)
+
+// RequirementShape
+type RequirementShape struct {
+	Name        string
+	Requirement *Requirement
+
+	IsExpanded bool
+
+	RectShape
+}
+
+func (s *RequirementShape) GetAbstractElement() AbstractType {
+	if s.Requirement == nil {
+		return nil
+	}
+	return s.Requirement
+}
+
+func (s *RequirementShape) SetAbstractElement(abstractElement AbstractType) {
+	s.Requirement = abstractElement.(*Requirement)
+}
+
+var _ ConcreteType = (*RequirementShape)(nil)
+
+// ConceptShape
+type ConceptShape struct {
+	Name    string
+	Concept *Concept
+
+	IsExpanded bool
+
+	RectShape
+}
+
+func (s *ConceptShape) GetAbstractElement() AbstractType {
+	if s.Concept == nil {
+		return nil
+	}
+	return s.Concept
+}
+
+func (s *ConceptShape) SetAbstractElement(abstractElement AbstractType) {
+	s.Concept = abstractElement.(*Concept)
+}
+
+var _ ConcreteType = (*ConceptShape)(nil)

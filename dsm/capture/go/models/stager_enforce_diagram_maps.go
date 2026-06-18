@@ -128,5 +128,39 @@ func (stager *Stager) enforceDiagramMaps() {
 				diagram.map_StakeholderConcernKey_StakeholderConcernShape[stakeholderConcernKey{Stakeholder: shape.Stakeholder, Concern: shape.Concern}] = shape
 			}
 		}
+
+		diagram.map_Requirement_RequirementShape = make(map[*Requirement]*RequirementShape)
+		for _, shape := range diagram.Requirement_Shapes {
+			if shape.Requirement != nil {
+				diagram.map_Requirement_RequirementShape[shape.Requirement] = shape
+				var diagrams = stager.map_Element_Diagrams[shape.Requirement]
+
+				if diagrams == nil {
+					diagrams = []*Diagram{diagram}
+				}
+
+				if !slices.Contains(diagrams, diagram) {
+					diagrams = append(diagrams, diagram)
+				}
+				stager.map_Element_Diagrams[shape.Requirement] = diagrams
+			}
+		}
+
+		diagram.map_Concept_ConceptShape = make(map[*Concept]*ConceptShape)
+		for _, shape := range diagram.Concept_Shapes {
+			if shape.Concept != nil {
+				diagram.map_Concept_ConceptShape[shape.Concept] = shape
+				var diagrams = stager.map_Element_Diagrams[shape.Concept]
+
+				if diagrams == nil {
+					diagrams = []*Diagram{diagram}
+				}
+
+				if !slices.Contains(diagrams, diagram) {
+					diagrams = append(diagrams, diagram)
+				}
+				stager.map_Element_Diagrams[shape.Concept] = diagrams
+			}
+		}
 	}
 }

@@ -336,17 +336,25 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		diagramNode.Children = append(diagramNode.Children, requirementsNode)
 		requirementsNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsRequirementsNodeExpanded)
 
-		confRootRequirements := ItemButtonConfiguration[
+		confRootRequirements := ItemAndShapeButtonConfiguration[
 			Requirement, *Requirement,
 			Library, *Library,
+			RequirementShape, *RequirementShape,
 		]{
-			parentNode:                         requirementsNode,
-			sliceForNewAddedItem:               &library.RootRequirements,
-			isParentNodeExpandedByAddOperation: true,
-			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-			parentNodeExpansionBooleanValue:    &diagram.IsRequirementsNodeExpanded,
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Requirement, *Requirement,
+				Library, *Library,
+			]{
+				parentNode:                         requirementsNode,
+				sliceForNewAddedItem:               &library.RootRequirements,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsRequirementsNodeExpanded,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Requirement_Shapes,
 		}
-		addCreateItemButton(stager, confRootRequirements)
+		addCreateItemAndShapeButton(stager, confRootRequirements)
 
 		for _, req := range library.RootRequirements {
 			stager.treeRequirementBSinDiagram(diagram, req, requirementsNode)
@@ -361,17 +369,25 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		diagramNode.Children = append(diagramNode.Children, conceptsNode)
 		conceptsNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsConceptsNodeExpanded)
 
-		confRootConcepts := ItemButtonConfiguration[
+		confRootConcepts := ItemAndShapeButtonConfiguration[
 			Concept, *Concept,
 			Library, *Library,
+			ConceptShape, *ConceptShape,
 		]{
-			parentNode:                         conceptsNode,
-			sliceForNewAddedItem:               &library.RootConcepts,
-			isParentNodeExpandedByAddOperation: true,
-			parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-			parentNodeExpansionBooleanValue:    &diagram.IsConceptsNodeExpanded,
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Concept, *Concept,
+				Library, *Library,
+			]{
+				parentNode:                         conceptsNode,
+				sliceForNewAddedItem:               &library.RootConcepts,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsConceptsNodeExpanded,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Concept_Shapes,
 		}
-		addCreateItemButton(stager, confRootConcepts)
+		addCreateItemAndShapeButton(stager, confRootConcepts)
 
 		for _, concept := range library.RootConcepts {
 			stager.treeConceptBSinDiagram(diagram, concept, conceptsNode)

@@ -29,6 +29,8 @@ func _(stage *models.Stage) {
 
 	__Concept__00000000_ := (&models.Concept{Name: `C1`}).Stage(stage)
 
+	__ConceptShape__00000000_ := (&models.ConceptShape{Name: `C1-Default Diagram`}).Stage(stage)
+
 	__Concern__00000000_ := (&models.Concern{Name: `Edit M0 & generates deliverables`}).Stage(stage)
 	__Concern__00000001_ := (&models.Concern{Name: `Consumes SE deliverables`}).Stage(stage)
 	__Concern__00000002_ := (&models.Concern{Name: `Edit M1 & develop tools to generate deliverables`}).Stage(stage)
@@ -71,6 +73,8 @@ func _(stage *models.Stage) {
 
 	__Requirement__00000000_ := (&models.Requirement{Name: `R1`}).Stage(stage)
 
+	__RequirementShape__00000000_ := (&models.RequirementShape{Name: `R1-Default Diagram`}).Stage(stage)
+
 	__Stakeholder__00000000_ := (&models.Stakeholder{Name: `M0 editor`}).Stage(stage)
 	__Stakeholder__00000001_ := (&models.Stakeholder{Name: `M1 editor`}).Stage(stage)
 	__Stakeholder__00000002_ := (&models.Stakeholder{Name: `Stakeholder`}).Stage(stage)
@@ -92,6 +96,14 @@ func _(stage *models.Stage) {
 	__Concept__00000000_.ComputedPrefix = ``
 	__Concept__00000000_.IsExpanded = false
 	__Concept__00000000_.LayoutDirection = models.Vertical
+
+	__ConceptShape__00000000_.Name = `C1-Default Diagram`
+	__ConceptShape__00000000_.IsExpanded = false
+	__ConceptShape__00000000_.X = 879.146635
+	__ConceptShape__00000000_.Y = 629.050761
+	__ConceptShape__00000000_.Width = 250.000000
+	__ConceptShape__00000000_.Height = 70.000000
+	__ConceptShape__00000000_.IsHidden = false
 
 	__Concern__00000000_.Name = `Edit M0 & generates deliverables`
 	__Concern__00000000_.IDAirbus = ``
@@ -254,8 +266,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 13600.000000
-	__Diagram__00000000_.Height = 13600.000000
+	__Diagram__00000000_.Width = 13900.000000
+	__Diagram__00000000_.Height = 13900.000000
 	__Diagram__00000000_.IsRequirementsNodeExpanded = true
 	__Diagram__00000000_.IsConceptsNodeExpanded = true
 	__Diagram__00000000_.IsPBSNodeExpanded = false
@@ -329,6 +341,14 @@ func _(stage *models.Stage) {
 	__Requirement__00000000_.ComputedPrefix = ``
 	__Requirement__00000000_.IsExpanded = false
 	__Requirement__00000000_.LayoutDirection = models.Vertical
+
+	__RequirementShape__00000000_.Name = `R1-Default Diagram`
+	__RequirementShape__00000000_.IsExpanded = false
+	__RequirementShape__00000000_.X = 868.311542
+	__RequirementShape__00000000_.Y = 767.444900
+	__RequirementShape__00000000_.Width = 250.000000
+	__RequirementShape__00000000_.Height = 70.000000
+	__RequirementShape__00000000_.IsHidden = false
 
 	__Stakeholder__00000000_.Name = `M0 editor`
 	__Stakeholder__00000000_.IDAirbus = ``
@@ -423,6 +443,7 @@ func _(stage *models.Stage) {
 	__StakeholderShape__00000003_.IsHidden = false
 
 	// insertion point for setup of pointers
+	__ConceptShape__00000000_.Concept = __Concept__00000000_
 	__Concern__00000000_.Inputs = append(__Concern__00000000_.Inputs, __Deliverable__00000002_)
 	__Concern__00000000_.Outputs = append(__Concern__00000000_.Outputs, __Deliverable__00000000_)
 	__Concern__00000001_.Inputs = append(__Concern__00000001_.Inputs, __Deliverable__00000000_)
@@ -470,6 +491,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.StakeholderConcernShapes = append(__Diagram__00000000_.StakeholderConcernShapes, __StakeholderConcernShape__00000003_)
 	__Diagram__00000000_.StakeholderConcernShapes = append(__Diagram__00000000_.StakeholderConcernShapes, __StakeholderConcernShape__00000005_)
 	__Diagram__00000000_.StakeholderConcernShapes = append(__Diagram__00000000_.StakeholderConcernShapes, __StakeholderConcernShape__00000006_)
+	__Diagram__00000000_.Requirement_Shapes = append(__Diagram__00000000_.Requirement_Shapes, __RequirementShape__00000000_)
+	__Diagram__00000000_.Concept_Shapes = append(__Diagram__00000000_.Concept_Shapes, __ConceptShape__00000000_)
 	__Library__00000000_.RootDeliverables = append(__Library__00000000_.RootDeliverables, __Deliverable__00000000_)
 	__Library__00000000_.RootDeliverables = append(__Library__00000000_.RootDeliverables, __Deliverable__00000002_)
 	__Library__00000000_.RootDeliverables = append(__Library__00000000_.RootDeliverables, __Deliverable__00000003_)
@@ -495,6 +518,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000000_.Product = __Deliverable__00000000_
 	__ProductShape__00000002_.Product = __Deliverable__00000002_
 	__ProductShape__00000003_.Product = __Deliverable__00000003_
+	__RequirementShape__00000000_.Requirement = __Requirement__00000000_
 	__Stakeholder__00000000_.Concerns = append(__Stakeholder__00000000_.Concerns, __Concern__00000000_)
 	__Stakeholder__00000001_.Concerns = append(__Stakeholder__00000001_.Concerns, __Concern__00000002_)
 	__Stakeholder__00000002_.Concerns = append(__Stakeholder__00000002_.Concerns, __Concern__00000001_)

@@ -278,6 +278,51 @@ func (conceptFormCallback *ConceptFormCallback) OnSave() {
 					}
 				}
 			}
+		case "Diagram:ConceptsWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Diagram instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](conceptFormCallback.probe.stageOfInterest)
+			targetDiagramIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Diagram instances and update their ConceptsWhoseNodeIsExpanded slice
+			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](conceptFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(conceptFormCallback.probe.stageOfInterest, _diagram)
+				
+				// if Diagram is selected
+				if targetDiagramIDs[id] {
+					// ensure concept_ is in _diagram.ConceptsWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _diagram.ConceptsWhoseNodeIsExpanded {
+						if _b == concept_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagram.ConceptsWhoseNodeIsExpanded = append(_diagram.ConceptsWhoseNodeIsExpanded, concept_)
+						conceptFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ConceptsWhoseNodeIsExpanded", &_diagram.ConceptsWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure concept_ is NOT in _diagram.ConceptsWhoseNodeIsExpanded
+					idx := slices.Index(_diagram.ConceptsWhoseNodeIsExpanded, concept_)
+					if idx != -1 {
+						_diagram.ConceptsWhoseNodeIsExpanded = slices.Delete(_diagram.ConceptsWhoseNodeIsExpanded, idx, idx+1)
+						conceptFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ConceptsWhoseNodeIsExpanded", &_diagram.ConceptsWhoseNodeIsExpanded)
+					}
+				}
+			}
 		case "Library:RootConcepts":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -398,6 +443,143 @@ func (conceptFormCallback *ConceptFormCallback) OnSave() {
 	}
 
 	conceptFormCallback.probe.ux_tree()
+}
+func __gong__New__ConceptShapeFormCallback(
+	conceptshape *models.ConceptShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (conceptshapeFormCallback *ConceptShapeFormCallback) {
+	conceptshapeFormCallback = new(ConceptShapeFormCallback)
+	conceptshapeFormCallback.probe = probe
+	conceptshapeFormCallback.conceptshape = conceptshape
+	conceptshapeFormCallback.formGroup = formGroup
+
+	conceptshapeFormCallback.CreationMode = (conceptshape == nil)
+
+	return
+}
+
+type ConceptShapeFormCallback struct {
+	conceptshape *models.ConceptShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (conceptshapeFormCallback *ConceptShapeFormCallback) OnSave() {
+	conceptshapeFormCallback.probe.stageOfInterest.Lock()
+	defer conceptshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ConceptShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	conceptshapeFormCallback.probe.formStage.Checkout()
+
+	if conceptshapeFormCallback.conceptshape == nil {
+		conceptshapeFormCallback.conceptshape = new(models.ConceptShape).Stage(conceptshapeFormCallback.probe.stageOfInterest)
+	}
+	conceptshape_ := conceptshapeFormCallback.conceptshape
+	_ = conceptshape_
+
+	for _, formDiv := range conceptshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(conceptshape_.Name), formDiv)
+		case "Concept":
+			FormDivSelectFieldToField(&(conceptshape_.Concept), conceptshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(conceptshape_.IsExpanded), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(conceptshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(conceptshape_.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(conceptshape_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(conceptshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(conceptshape_.IsHidden), formDiv)
+		case "Diagram:Concept_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Diagram instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](conceptshapeFormCallback.probe.stageOfInterest)
+			targetDiagramIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Diagram instances and update their Concept_Shapes slice
+			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](conceptshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(conceptshapeFormCallback.probe.stageOfInterest, _diagram)
+				
+				// if Diagram is selected
+				if targetDiagramIDs[id] {
+					// ensure conceptshape_ is in _diagram.Concept_Shapes
+					found := false
+					for _, _b := range _diagram.Concept_Shapes {
+						if _b == conceptshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagram.Concept_Shapes = append(_diagram.Concept_Shapes, conceptshape_)
+						conceptshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "Concept_Shapes", &_diagram.Concept_Shapes)
+					}
+				} else {
+					// ensure conceptshape_ is NOT in _diagram.Concept_Shapes
+					idx := slices.Index(_diagram.Concept_Shapes, conceptshape_)
+					if idx != -1 {
+						_diagram.Concept_Shapes = slices.Delete(_diagram.Concept_Shapes, idx, idx+1)
+						conceptshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "Concept_Shapes", &_diagram.Concept_Shapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if conceptshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		conceptshape_.Unstage(conceptshapeFormCallback.probe.stageOfInterest)
+	}
+
+	conceptshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ConceptShape](
+		conceptshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if conceptshapeFormCallback.CreationMode || conceptshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		conceptshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(conceptshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ConceptShapeFormCallback(
+			nil,
+			conceptshapeFormCallback.probe,
+			newFormGroup,
+		)
+		conceptshape := new(models.ConceptShape)
+		FillUpForm(conceptshape, newFormGroup, conceptshapeFormCallback.probe)
+		conceptshapeFormCallback.probe.formStage.Commit()
+	}
+
+	conceptshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__ConcernFormCallback(
 	concern *models.Concern,
@@ -2757,6 +2939,134 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagram_.StakeholderConcernShapes = instanceSlice
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "StakeholderConcernShapes", &diagram_.StakeholderConcernShapes)
 
+		case "Requirement_Shapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.RequirementShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.RequirementShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.RequirementShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.RequirementShape](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagram_.Requirement_Shapes = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "Requirement_Shapes", &diagram_.Requirement_Shapes)
+
+		case "RequirementsWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Requirement](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Requirement, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Requirement)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Requirement](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagram_.RequirementsWhoseNodeIsExpanded = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "RequirementsWhoseNodeIsExpanded", &diagram_.RequirementsWhoseNodeIsExpanded)
+
+		case "Concept_Shapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ConceptShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ConceptShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ConceptShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ConceptShape](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagram_.Concept_Shapes = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "Concept_Shapes", &diagram_.Concept_Shapes)
+
+		case "ConceptsWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Concept](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Concept, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Concept)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Concept](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagram_.ConceptsWhoseNodeIsExpanded = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ConceptsWhoseNodeIsExpanded", &diagram_.ConceptsWhoseNodeIsExpanded)
+
 		case "Library:Diagrams":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -4514,6 +4824,51 @@ func (requirementFormCallback *RequirementFormCallback) OnSave() {
 					}
 				}
 			}
+		case "Diagram:RequirementsWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Diagram instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](requirementFormCallback.probe.stageOfInterest)
+			targetDiagramIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Diagram instances and update their RequirementsWhoseNodeIsExpanded slice
+			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](requirementFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(requirementFormCallback.probe.stageOfInterest, _diagram)
+				
+				// if Diagram is selected
+				if targetDiagramIDs[id] {
+					// ensure requirement_ is in _diagram.RequirementsWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _diagram.RequirementsWhoseNodeIsExpanded {
+						if _b == requirement_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagram.RequirementsWhoseNodeIsExpanded = append(_diagram.RequirementsWhoseNodeIsExpanded, requirement_)
+						requirementFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "RequirementsWhoseNodeIsExpanded", &_diagram.RequirementsWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure requirement_ is NOT in _diagram.RequirementsWhoseNodeIsExpanded
+					idx := slices.Index(_diagram.RequirementsWhoseNodeIsExpanded, requirement_)
+					if idx != -1 {
+						_diagram.RequirementsWhoseNodeIsExpanded = slices.Delete(_diagram.RequirementsWhoseNodeIsExpanded, idx, idx+1)
+						requirementFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "RequirementsWhoseNodeIsExpanded", &_diagram.RequirementsWhoseNodeIsExpanded)
+					}
+				}
+			}
 		case "Library:RootRequirements":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -4589,6 +4944,143 @@ func (requirementFormCallback *RequirementFormCallback) OnSave() {
 	}
 
 	requirementFormCallback.probe.ux_tree()
+}
+func __gong__New__RequirementShapeFormCallback(
+	requirementshape *models.RequirementShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (requirementshapeFormCallback *RequirementShapeFormCallback) {
+	requirementshapeFormCallback = new(RequirementShapeFormCallback)
+	requirementshapeFormCallback.probe = probe
+	requirementshapeFormCallback.requirementshape = requirementshape
+	requirementshapeFormCallback.formGroup = formGroup
+
+	requirementshapeFormCallback.CreationMode = (requirementshape == nil)
+
+	return
+}
+
+type RequirementShapeFormCallback struct {
+	requirementshape *models.RequirementShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (requirementshapeFormCallback *RequirementShapeFormCallback) OnSave() {
+	requirementshapeFormCallback.probe.stageOfInterest.Lock()
+	defer requirementshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("RequirementShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	requirementshapeFormCallback.probe.formStage.Checkout()
+
+	if requirementshapeFormCallback.requirementshape == nil {
+		requirementshapeFormCallback.requirementshape = new(models.RequirementShape).Stage(requirementshapeFormCallback.probe.stageOfInterest)
+	}
+	requirementshape_ := requirementshapeFormCallback.requirementshape
+	_ = requirementshape_
+
+	for _, formDiv := range requirementshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(requirementshape_.Name), formDiv)
+		case "Requirement":
+			FormDivSelectFieldToField(&(requirementshape_.Requirement), requirementshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(requirementshape_.IsExpanded), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(requirementshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(requirementshape_.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(requirementshape_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(requirementshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(requirementshape_.IsHidden), formDiv)
+		case "Diagram:Requirement_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Diagram instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](requirementshapeFormCallback.probe.stageOfInterest)
+			targetDiagramIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Diagram instances and update their Requirement_Shapes slice
+			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](requirementshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(requirementshapeFormCallback.probe.stageOfInterest, _diagram)
+				
+				// if Diagram is selected
+				if targetDiagramIDs[id] {
+					// ensure requirementshape_ is in _diagram.Requirement_Shapes
+					found := false
+					for _, _b := range _diagram.Requirement_Shapes {
+						if _b == requirementshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagram.Requirement_Shapes = append(_diagram.Requirement_Shapes, requirementshape_)
+						requirementshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "Requirement_Shapes", &_diagram.Requirement_Shapes)
+					}
+				} else {
+					// ensure requirementshape_ is NOT in _diagram.Requirement_Shapes
+					idx := slices.Index(_diagram.Requirement_Shapes, requirementshape_)
+					if idx != -1 {
+						_diagram.Requirement_Shapes = slices.Delete(_diagram.Requirement_Shapes, idx, idx+1)
+						requirementshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "Requirement_Shapes", &_diagram.Requirement_Shapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if requirementshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		requirementshape_.Unstage(requirementshapeFormCallback.probe.stageOfInterest)
+	}
+
+	requirementshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.RequirementShape](
+		requirementshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if requirementshapeFormCallback.CreationMode || requirementshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		requirementshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(requirementshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__RequirementShapeFormCallback(
+			nil,
+			requirementshapeFormCallback.probe,
+			newFormGroup,
+		)
+		requirementshape := new(models.RequirementShape)
+		FillUpForm(requirementshape, newFormGroup, requirementshapeFormCallback.probe)
+		requirementshapeFormCallback.probe.formStage.Commit()
+	}
+
+	requirementshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__StakeholderFormCallback(
 	stakeholder *models.Stakeholder,

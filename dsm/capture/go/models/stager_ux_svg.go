@@ -58,11 +58,15 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	diagram.map_Task_Rect = make(map[*Concern]*svg.Rect)
 	diagram.map_Note_Rect = make(map[*Note]*svg.Rect)
 	diagram.map_Stakeholder_Rect = make(map[*Stakeholder]*svg.Rect)
+	diagram.map_Requirement_Rect = make(map[*Requirement]*svg.Rect)
+	diagram.map_Concept_Rect = make(map[*Concept]*svg.Rect)
 
 	diagram.map_SvgRect_ProductShape = make(map[*svg.Rect]*ProductShape)
 	diagram.map_SvgRect_ConcernShape = make(map[*svg.Rect]*ConcernShape)
 	diagram.map_SvgRect_NoteShape = make(map[*svg.Rect]*NoteShape)
 	diagram.map_SvgRect_StakeholderShape = make(map[*svg.Rect]*StakeholderShape)
+	diagram.map_SvgRect_RequirementShape = make(map[*svg.Rect]*RequirementShape)
+	diagram.map_SvgRect_ConceptShape = make(map[*svg.Rect]*ConceptShape)
 
 	// // to implement association between abstract elements by mouse drag
 	// svgImpl := &svgProxy{
@@ -493,6 +497,95 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
 		link.StartAnchorType = svg.ANCHOR_CENTER
 		link.EndAnchorType = svg.ANCHOR_CENTER
+	}
+
+	for _, reqShape := range diagram.Requirement_Shapes {
+		if reqShape.IsHidden {
+			continue
+		}
+
+		rect := svgRect(
+			stager,
+			diagram,
+			reqShape,
+			layer)
+		rect.RX = 0 // Sharp corners for Requirements
+		diagram.map_Requirement_Rect[reqShape.Requirement] = rect
+		diagram.map_SvgRect_RequirementShape[rect] = reqShape
+
+		reqLogo := new(svg.RectAnchoredPath)
+		reqLogo.Name = "Assignment"
+		reqLogo.Stroke = svg.Black.ToString()
+		reqLogo.StrokeWidth = 1
+		reqLogo.StrokeOpacity = 1
+		reqLogo.Color = svg.Black.ToString()
+		reqLogo.FillOpacity = 0.2
+		reqLogo.ScalePropotionnally = true
+		reqLogo.AppliedScaling = 1.0
+
+		// Material 'assignment' icon path
+		reqLogo.Definition = "M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"
+		
+		distanceFromBorder := 5.0
+		iconWidth := 20.0
+		
+		reqLogo.X_Offset = distanceFromBorder
+		reqLogo.Y_Offset = distanceFromBorder
+		reqLogo.RectAnchorType = svg.RECT_TOP_LEFT
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, reqLogo)
+
+		if len(rect.RectAnchoredTexts) > 0 {
+			title := rect.RectAnchoredTexts[0]
+			if rect.Width > (distanceFromBorder + iconWidth) {
+				title.Content = strutils.WrapStringPreservingNewlines(title.Content, int((rect.Width-(distanceFromBorder+iconWidth))/root.NbPixPerCharacter))
+			}
+			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
+		}
+	}
+
+	for _, conceptShape := range diagram.Concept_Shapes {
+		if conceptShape.IsHidden {
+			continue
+		}
+
+		rect := svgRect(
+			stager,
+			diagram,
+			conceptShape,
+			layer)
+		rect.RX = 15 // Very rounded corners for Concepts
+		rect.StrokeDashArray = "5, 5" // Dashed outline for concepts
+		diagram.map_Concept_Rect[conceptShape.Concept] = rect
+		diagram.map_SvgRect_ConceptShape[rect] = conceptShape
+
+		conceptLogo := new(svg.RectAnchoredPath)
+		conceptLogo.Name = "Lightbulb"
+		conceptLogo.Stroke = svg.Black.ToString()
+		conceptLogo.StrokeWidth = 1
+		conceptLogo.StrokeOpacity = 1
+		conceptLogo.Color = svg.Black.ToString()
+		conceptLogo.FillOpacity = 0.2
+		conceptLogo.ScalePropotionnally = true
+		conceptLogo.AppliedScaling = 1.0
+
+		// Material 'lightbulb' outline icon path
+		conceptLogo.Definition = "M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"
+		
+		distanceFromBorder := 5.0
+		iconWidth := 20.0
+		
+		conceptLogo.X_Offset = distanceFromBorder
+		conceptLogo.Y_Offset = distanceFromBorder
+		conceptLogo.RectAnchorType = svg.RECT_TOP_LEFT
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, conceptLogo)
+
+		if len(rect.RectAnchoredTexts) > 0 {
+			title := rect.RectAnchoredTexts[0]
+			if rect.Width > (distanceFromBorder + iconWidth) {
+				title.Content = strutils.WrapStringPreservingNewlines(title.Content, int((rect.Width-(distanceFromBorder+iconWidth))/root.NbPixPerCharacter))
+			}
+			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
+		}
 	}
 
 	svg.StageBranch(svgStage, stager.svgObject)

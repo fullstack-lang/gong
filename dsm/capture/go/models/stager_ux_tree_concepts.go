@@ -5,18 +5,19 @@ import (
 )
 
 func (stager *Stager) treeConceptBSinDiagram(diagram *Diagram, concept *Concept, parentNode *tree.Node) {
-	conceptNode := &tree.Node{
-		Name:            concept.Name,
-		IsNodeClickable: true,
-		IsInEditMode:    concept.GetIsInRenameMode(),
+	confNode := TreeNodeAndShapeConfigurationWithoutLink[
+		*Concept, Concept,
+		*Concept, Concept, // Parent is not used
+		*ConceptShape, ConceptShape,
+		*Diagram,
+	]{
+		diagram:                     diagram,
+		parentNode:                  parentNode,
+		element:                     concept,
+		parentElement:               nil,
+		elementsWhoseNodeIsExpanded: &diagram.ConceptsWhoseNodeIsExpanded,
+		shapes:                      &diagram.Concept_Shapes,
+		shapesMap:                   diagram.map_Concept_ConceptShape,
 	}
-	parentNode.Children = append(parentNode.Children, conceptNode)
-
-	conceptNode.OnNameChange = func(newName string) {
-		concept.SetName(newName)
-		concept.SetIsInRenameMode(false)
-		stager.stage.Commit()
-	}
-
-	addRenameButton(concept, conceptNode, stager)
+	_ = addNodeToTreeWithoutLink(stager, confNode)
 }

@@ -122,6 +122,7 @@ func NewLevel1StackDelta(
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.AnalysisNeed](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Concept](stage)
+	models.SetOrchestratorOnAfterUpdate[models.ConceptShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Concern](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ConcernCompositionShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ConcernInputShape](stage)
@@ -138,6 +139,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.ProductCompositionShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ProductShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Requirement](stage)
+	models.SetOrchestratorOnAfterUpdate[models.RequirementShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Stakeholder](stage)
 	models.SetOrchestratorOnAfterUpdate[models.StakeholderCompositionShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.StakeholderConcernShape](stage)

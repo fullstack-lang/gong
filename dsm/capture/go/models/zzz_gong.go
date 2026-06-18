@@ -158,6 +158,21 @@ type Stage struct {
 	OnAfterConceptDeleteCallback OnAfterDeleteInterface[Concept]
 	OnAfterConceptReadCallback   OnAfterReadInterface[Concept]
 
+	ConceptShapes                map[*ConceptShape]struct{}
+	ConceptShapes_instance       map[*ConceptShape]*ConceptShape
+	ConceptShapes_mapString      map[string]*ConceptShape
+	ConceptShapeOrder            uint
+	ConceptShape_stagedOrder     map[*ConceptShape]uint
+	ConceptShape_orderStaged     map[uint]*ConceptShape
+	ConceptShapes_reference      map[*ConceptShape]*ConceptShape
+	ConceptShapes_referenceOrder map[*ConceptShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterConceptShapeCreateCallback OnAfterCreateInterface[ConceptShape]
+	OnAfterConceptShapeUpdateCallback OnAfterUpdateInterface[ConceptShape]
+	OnAfterConceptShapeDeleteCallback OnAfterDeleteInterface[ConceptShape]
+	OnAfterConceptShapeReadCallback   OnAfterReadInterface[ConceptShape]
+
 	Concerns                map[*Concern]struct{}
 	Concerns_instance       map[*Concern]*Concern
 	Concerns_mapString      map[string]*Concern
@@ -311,6 +326,14 @@ type Stage struct {
 	Diagram_ResourceComposition_Shapes_reverseMap map[*StakeholderCompositionShape]*Diagram
 
 	Diagram_StakeholderConcernShapes_reverseMap map[*StakeholderConcernShape]*Diagram
+
+	Diagram_Requirement_Shapes_reverseMap map[*RequirementShape]*Diagram
+
+	Diagram_RequirementsWhoseNodeIsExpanded_reverseMap map[*Requirement]*Diagram
+
+	Diagram_Concept_Shapes_reverseMap map[*ConceptShape]*Diagram
+
+	Diagram_ConceptsWhoseNodeIsExpanded_reverseMap map[*Concept]*Diagram
 
 	OnAfterDiagramCreateCallback OnAfterCreateInterface[Diagram]
 	OnAfterDiagramUpdateCallback OnAfterUpdateInterface[Diagram]
@@ -479,6 +502,21 @@ type Stage struct {
 	OnAfterRequirementUpdateCallback OnAfterUpdateInterface[Requirement]
 	OnAfterRequirementDeleteCallback OnAfterDeleteInterface[Requirement]
 	OnAfterRequirementReadCallback   OnAfterReadInterface[Requirement]
+
+	RequirementShapes                map[*RequirementShape]struct{}
+	RequirementShapes_instance       map[*RequirementShape]*RequirementShape
+	RequirementShapes_mapString      map[string]*RequirementShape
+	RequirementShapeOrder            uint
+	RequirementShape_stagedOrder     map[*RequirementShape]uint
+	RequirementShape_orderStaged     map[uint]*RequirementShape
+	RequirementShapes_reference      map[*RequirementShape]*RequirementShape
+	RequirementShapes_referenceOrder map[*RequirementShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterRequirementShapeCreateCallback OnAfterCreateInterface[RequirementShape]
+	OnAfterRequirementShapeUpdateCallback OnAfterUpdateInterface[RequirementShape]
+	OnAfterRequirementShapeDeleteCallback OnAfterDeleteInterface[RequirementShape]
+	OnAfterRequirementShapeReadCallback   OnAfterReadInterface[RequirementShape]
 
 	Stakeholders                map[*Stakeholder]struct{}
 	Stakeholders_instance       map[*Stakeholder]*Stakeholder
@@ -818,6 +856,10 @@ func (stage *Stage) Squash() {
 	stage.Concepts_instance = make(map[*Concept]*Concept)
 	stage.Concepts_referenceOrder = make(map[*Concept]uint)
 
+	stage.ConceptShapes_reference = make(map[*ConceptShape]*ConceptShape)
+	stage.ConceptShapes_instance = make(map[*ConceptShape]*ConceptShape)
+	stage.ConceptShapes_referenceOrder = make(map[*ConceptShape]uint)
+
 	stage.Concerns_reference = make(map[*Concern]*Concern)
 	stage.Concerns_instance = make(map[*Concern]*Concern)
 	stage.Concerns_referenceOrder = make(map[*Concern]uint)
@@ -881,6 +923,10 @@ func (stage *Stage) Squash() {
 	stage.Requirements_reference = make(map[*Requirement]*Requirement)
 	stage.Requirements_instance = make(map[*Requirement]*Requirement)
 	stage.Requirements_referenceOrder = make(map[*Requirement]uint)
+
+	stage.RequirementShapes_reference = make(map[*RequirementShape]*RequirementShape)
+	stage.RequirementShapes_instance = make(map[*RequirementShape]*RequirementShape)
+	stage.RequirementShapes_referenceOrder = make(map[*RequirementShape]uint)
 
 	stage.Stakeholders_reference = make(map[*Stakeholder]*Stakeholder)
 	stage.Stakeholders_instance = make(map[*Stakeholder]*Stakeholder)
@@ -959,6 +1005,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.ConceptOrder = maxConceptOrder + 1
 	} else {
 		stage.ConceptOrder = 0
+	}
+
+	var maxConceptShapeOrder uint
+	var foundConceptShape bool
+	for _, order := range stage.ConceptShape_stagedOrder {
+		if !foundConceptShape || order > maxConceptShapeOrder {
+			maxConceptShapeOrder = order
+			foundConceptShape = true
+		}
+	}
+	if foundConceptShape {
+		stage.ConceptShapeOrder = maxConceptShapeOrder + 1
+	} else {
+		stage.ConceptShapeOrder = 0
 	}
 
 	var maxConcernOrder uint
@@ -1185,6 +1245,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.RequirementOrder = 0
 	}
 
+	var maxRequirementShapeOrder uint
+	var foundRequirementShape bool
+	for _, order := range stage.RequirementShape_stagedOrder {
+		if !foundRequirementShape || order > maxRequirementShapeOrder {
+			maxRequirementShapeOrder = order
+			foundRequirementShape = true
+		}
+	}
+	if foundRequirementShape {
+		stage.RequirementShapeOrder = maxRequirementShapeOrder + 1
+	} else {
+		stage.RequirementShapeOrder = 0
+	}
+
 	var maxStakeholderOrder uint
 	var foundStakeholder bool
 	for _, order := range stage.Stakeholder_stagedOrder {
@@ -1355,6 +1429,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *Concept implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *ConceptShape:
+		tmp := GetStructInstancesByOrder(stage.ConceptShapes, stage.ConceptShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ConceptShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -1582,6 +1670,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *RequirementShape:
+		tmp := GetStructInstancesByOrder(stage.RequirementShapes, stage.RequirementShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *RequirementShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Stakeholder:
 		tmp := GetStructInstancesByOrder(stage.Stakeholders, stage.Stakeholder_stagedOrder)
 
@@ -1699,6 +1801,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.AnalysisNeeds, stage.AnalysisNeed_stagedOrder)
 	case "Concept":
 		res = GetNamedStructInstances(stage.Concepts, stage.Concept_stagedOrder)
+	case "ConceptShape":
+		res = GetNamedStructInstances(stage.ConceptShapes, stage.ConceptShape_stagedOrder)
 	case "Concern":
 		res = GetNamedStructInstances(stage.Concerns, stage.Concern_stagedOrder)
 	case "ConcernCompositionShape":
@@ -1731,6 +1835,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.ProductShapes, stage.ProductShape_stagedOrder)
 	case "Requirement":
 		res = GetNamedStructInstances(stage.Requirements, stage.Requirement_stagedOrder)
+	case "RequirementShape":
+		res = GetNamedStructInstances(stage.RequirementShapes, stage.RequirementShape_stagedOrder)
 	case "Stakeholder":
 		res = GetNamedStructInstances(stage.Stakeholders, stage.Stakeholder_stagedOrder)
 	case "StakeholderCompositionShape":
@@ -1816,6 +1922,8 @@ type BackRepoInterface interface {
 	CheckoutAnalysisNeed(analysisneed *AnalysisNeed)
 	CommitConcept(concept *Concept)
 	CheckoutConcept(concept *Concept)
+	CommitConceptShape(conceptshape *ConceptShape)
+	CheckoutConceptShape(conceptshape *ConceptShape)
 	CommitConcern(concern *Concern)
 	CheckoutConcern(concern *Concern)
 	CommitConcernCompositionShape(concerncompositionshape *ConcernCompositionShape)
@@ -1848,6 +1956,8 @@ type BackRepoInterface interface {
 	CheckoutProductShape(productshape *ProductShape)
 	CommitRequirement(requirement *Requirement)
 	CheckoutRequirement(requirement *Requirement)
+	CommitRequirementShape(requirementshape *RequirementShape)
+	CheckoutRequirementShape(requirementshape *RequirementShape)
 	CommitStakeholder(stakeholder *Stakeholder)
 	CheckoutStakeholder(stakeholder *Stakeholder)
 	CommitStakeholderCompositionShape(stakeholdercompositionshape *StakeholderCompositionShape)
@@ -1871,6 +1981,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Concepts:           make(map[*Concept]struct{}),
 		Concepts_mapString: make(map[string]*Concept),
+
+		ConceptShapes:           make(map[*ConceptShape]struct{}),
+		ConceptShapes_mapString: make(map[string]*ConceptShape),
 
 		Concerns:           make(map[*Concern]struct{}),
 		Concerns_mapString: make(map[string]*Concern),
@@ -1920,6 +2033,9 @@ func NewStage(name string) (stage *Stage) {
 		Requirements:           make(map[*Requirement]struct{}),
 		Requirements_mapString: make(map[string]*Requirement),
 
+		RequirementShapes:           make(map[*RequirementShape]struct{}),
+		RequirementShapes_mapString: make(map[string]*RequirementShape),
+
 		Stakeholders:           make(map[*Stakeholder]struct{}),
 		Stakeholders_mapString: make(map[string]*Stakeholder),
 
@@ -1955,6 +2071,10 @@ func NewStage(name string) (stage *Stage) {
 		Concept_stagedOrder: make(map[*Concept]uint),
 		Concept_orderStaged: make(map[uint]*Concept),
 		Concepts_reference:  make(map[*Concept]*Concept),
+
+		ConceptShape_stagedOrder: make(map[*ConceptShape]uint),
+		ConceptShape_orderStaged: make(map[uint]*ConceptShape),
+		ConceptShapes_reference:  make(map[*ConceptShape]*ConceptShape),
 
 		Concern_stagedOrder: make(map[*Concern]uint),
 		Concern_orderStaged: make(map[uint]*Concern),
@@ -2020,6 +2140,10 @@ func NewStage(name string) (stage *Stage) {
 		Requirement_orderStaged: make(map[uint]*Requirement),
 		Requirements_reference:  make(map[*Requirement]*Requirement),
 
+		RequirementShape_stagedOrder: make(map[*RequirementShape]uint),
+		RequirementShape_orderStaged: make(map[uint]*RequirementShape),
+		RequirementShapes_reference:  make(map[*RequirementShape]*RequirementShape),
+
 		Stakeholder_stagedOrder: make(map[*Stakeholder]uint),
 		Stakeholder_orderStaged: make(map[uint]*Stakeholder),
 		Stakeholders_reference:  make(map[*Stakeholder]*Stakeholder),
@@ -2049,6 +2173,8 @@ func NewStage(name string) (stage *Stage) {
 			"AnalysisNeed": &AnalysisNeedUnmarshaller{},
 
 			"Concept": &ConceptUnmarshaller{},
+
+			"ConceptShape": &ConceptShapeUnmarshaller{},
 
 			"Concern": &ConcernUnmarshaller{},
 
@@ -2082,6 +2208,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"Requirement": &RequirementUnmarshaller{},
 
+			"RequirementShape": &RequirementShapeUnmarshaller{},
+
 			"Stakeholder": &StakeholderUnmarshaller{},
 
 			"StakeholderCompositionShape": &StakeholderCompositionShapeUnmarshaller{},
@@ -2100,6 +2228,7 @@ func NewStage(name string) (stage *Stage) {
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "AnalysisNeed"},
 			{name: "Concept"},
+			{name: "ConceptShape"},
 			{name: "Concern"},
 			{name: "ConcernCompositionShape"},
 			{name: "ConcernInputShape"},
@@ -2116,6 +2245,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "ProductCompositionShape"},
 			{name: "ProductShape"},
 			{name: "Requirement"},
+			{name: "RequirementShape"},
 			{name: "Stakeholder"},
 			{name: "StakeholderCompositionShape"},
 			{name: "StakeholderConcernShape"},
@@ -2137,6 +2267,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.AnalysisNeed_stagedOrder[instance]
 	case *Concept:
 		return stage.Concept_stagedOrder[instance]
+	case *ConceptShape:
+		return stage.ConceptShape_stagedOrder[instance]
 	case *Concern:
 		return stage.Concern_stagedOrder[instance]
 	case *ConcernCompositionShape:
@@ -2169,6 +2301,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.ProductShape_stagedOrder[instance]
 	case *Requirement:
 		return stage.Requirement_stagedOrder[instance]
+	case *RequirementShape:
+		return stage.RequirementShape_stagedOrder[instance]
 	case *Stakeholder:
 		return stage.Stakeholder_stagedOrder[instance]
 	case *StakeholderCompositionShape:
@@ -2194,6 +2328,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.AnalysisNeed_orderStaged[order]).(Type)
 	case *Concept:
 		return any(stage.Concept_orderStaged[order]).(Type)
+	case *ConceptShape:
+		return any(stage.ConceptShape_orderStaged[order]).(Type)
 	case *Concern:
 		return any(stage.Concern_orderStaged[order]).(Type)
 	case *ConcernCompositionShape:
@@ -2226,6 +2362,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.ProductShape_orderStaged[order]).(Type)
 	case *Requirement:
 		return any(stage.Requirement_orderStaged[order]).(Type)
+	case *RequirementShape:
+		return any(stage.RequirementShape_orderStaged[order]).(Type)
 	case *Stakeholder:
 		return any(stage.Stakeholder_orderStaged[order]).(Type)
 	case *StakeholderCompositionShape:
@@ -2250,6 +2388,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.AnalysisNeed_stagedOrder[instance]
 	case *Concept:
 		return stage.Concept_stagedOrder[instance]
+	case *ConceptShape:
+		return stage.ConceptShape_stagedOrder[instance]
 	case *Concern:
 		return stage.Concern_stagedOrder[instance]
 	case *ConcernCompositionShape:
@@ -2282,6 +2422,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.ProductShape_stagedOrder[instance]
 	case *Requirement:
 		return stage.Requirement_stagedOrder[instance]
+	case *RequirementShape:
+		return stage.RequirementShape_stagedOrder[instance]
 	case *Stakeholder:
 		return stage.Stakeholder_stagedOrder[instance]
 	case *StakeholderCompositionShape:
@@ -2361,6 +2503,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["AnalysisNeed"] = len(stage.AnalysisNeeds)
 	stage.Map_GongStructName_InstancesNb["Concept"] = len(stage.Concepts)
+	stage.Map_GongStructName_InstancesNb["ConceptShape"] = len(stage.ConceptShapes)
 	stage.Map_GongStructName_InstancesNb["Concern"] = len(stage.Concerns)
 	stage.Map_GongStructName_InstancesNb["ConcernCompositionShape"] = len(stage.ConcernCompositionShapes)
 	stage.Map_GongStructName_InstancesNb["ConcernInputShape"] = len(stage.ConcernInputShapes)
@@ -2377,6 +2520,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["ProductCompositionShape"] = len(stage.ProductCompositionShapes)
 	stage.Map_GongStructName_InstancesNb["ProductShape"] = len(stage.ProductShapes)
 	stage.Map_GongStructName_InstancesNb["Requirement"] = len(stage.Requirements)
+	stage.Map_GongStructName_InstancesNb["RequirementShape"] = len(stage.RequirementShapes)
 	stage.Map_GongStructName_InstancesNb["Stakeholder"] = len(stage.Stakeholders)
 	stage.Map_GongStructName_InstancesNb["StakeholderCompositionShape"] = len(stage.StakeholderCompositionShapes)
 	stage.Map_GongStructName_InstancesNb["StakeholderConcernShape"] = len(stage.StakeholderConcernShapes)
@@ -2597,6 +2741,94 @@ func (concept *Concept) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (concept *Concept) SetName(name string) {
 	concept.Name = name
+}
+
+// Stage puts conceptshape to the model stage
+func (conceptshape *ConceptShape) Stage(stage *Stage) *ConceptShape {
+	if _, ok := stage.ConceptShapes[conceptshape]; !ok {
+		stage.ConceptShapes[conceptshape] = struct{}{}
+		stage.ConceptShape_stagedOrder[conceptshape] = stage.ConceptShapeOrder
+		stage.ConceptShape_orderStaged[stage.ConceptShapeOrder] = conceptshape
+		stage.ConceptShapeOrder++
+	}
+	stage.ConceptShapes_mapString[conceptshape.Name] = conceptshape
+
+	return conceptshape
+}
+
+// StagePreserveOrder puts conceptshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ConceptShapeOrder
+// - update stage.ConceptShapeOrder accordingly
+func (conceptshape *ConceptShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ConceptShapes[conceptshape]; !ok {
+		stage.ConceptShapes[conceptshape] = struct{}{}
+
+		if order > stage.ConceptShapeOrder {
+			stage.ConceptShapeOrder = order
+		}
+		stage.ConceptShape_stagedOrder[conceptshape] = order
+		stage.ConceptShape_orderStaged[order] = conceptshape
+		stage.ConceptShapeOrder++
+	}
+	stage.ConceptShapes_mapString[conceptshape.Name] = conceptshape
+}
+
+// Unstage removes conceptshape off the model stage
+func (conceptshape *ConceptShape) Unstage(stage *Stage) *ConceptShape {
+	delete(stage.ConceptShapes, conceptshape)
+	// issue1150
+	// delete(stage.ConceptShape_stagedOrder, conceptshape)
+	delete(stage.ConceptShapes_mapString, conceptshape.Name)
+
+	return conceptshape
+}
+
+// UnstageVoid removes conceptshape off the model stage
+func (conceptshape *ConceptShape) UnstageVoid(stage *Stage) {
+	delete(stage.ConceptShapes, conceptshape)
+	// issue1150
+	// delete(stage.ConceptShape_stagedOrder, conceptshape)
+	delete(stage.ConceptShapes_mapString, conceptshape.Name)
+}
+
+// commit conceptshape to the back repo (if it is already staged)
+func (conceptshape *ConceptShape) Commit(stage *Stage) *ConceptShape {
+	if _, ok := stage.ConceptShapes[conceptshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitConceptShape(conceptshape)
+		}
+	}
+	return conceptshape
+}
+
+func (conceptshape *ConceptShape) CommitVoid(stage *Stage) {
+	conceptshape.Commit(stage)
+}
+
+func (conceptshape *ConceptShape) StageVoid(stage *Stage) {
+	conceptshape.Stage(stage)
+}
+
+// Checkout conceptshape to the back repo (if it is already staged)
+func (conceptshape *ConceptShape) Checkout(stage *Stage) *ConceptShape {
+	if _, ok := stage.ConceptShapes[conceptshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutConceptShape(conceptshape)
+		}
+	}
+	return conceptshape
+}
+
+// for satisfaction of GongStruct interface
+func (conceptshape *ConceptShape) GetName() (res string) {
+	return conceptshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (conceptshape *ConceptShape) SetName(name string) {
+	conceptshape.Name = name
 }
 
 // Stage puts concern to the model stage
@@ -4007,6 +4239,94 @@ func (requirement *Requirement) SetName(name string) {
 	requirement.Name = name
 }
 
+// Stage puts requirementshape to the model stage
+func (requirementshape *RequirementShape) Stage(stage *Stage) *RequirementShape {
+	if _, ok := stage.RequirementShapes[requirementshape]; !ok {
+		stage.RequirementShapes[requirementshape] = struct{}{}
+		stage.RequirementShape_stagedOrder[requirementshape] = stage.RequirementShapeOrder
+		stage.RequirementShape_orderStaged[stage.RequirementShapeOrder] = requirementshape
+		stage.RequirementShapeOrder++
+	}
+	stage.RequirementShapes_mapString[requirementshape.Name] = requirementshape
+
+	return requirementshape
+}
+
+// StagePreserveOrder puts requirementshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.RequirementShapeOrder
+// - update stage.RequirementShapeOrder accordingly
+func (requirementshape *RequirementShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.RequirementShapes[requirementshape]; !ok {
+		stage.RequirementShapes[requirementshape] = struct{}{}
+
+		if order > stage.RequirementShapeOrder {
+			stage.RequirementShapeOrder = order
+		}
+		stage.RequirementShape_stagedOrder[requirementshape] = order
+		stage.RequirementShape_orderStaged[order] = requirementshape
+		stage.RequirementShapeOrder++
+	}
+	stage.RequirementShapes_mapString[requirementshape.Name] = requirementshape
+}
+
+// Unstage removes requirementshape off the model stage
+func (requirementshape *RequirementShape) Unstage(stage *Stage) *RequirementShape {
+	delete(stage.RequirementShapes, requirementshape)
+	// issue1150
+	// delete(stage.RequirementShape_stagedOrder, requirementshape)
+	delete(stage.RequirementShapes_mapString, requirementshape.Name)
+
+	return requirementshape
+}
+
+// UnstageVoid removes requirementshape off the model stage
+func (requirementshape *RequirementShape) UnstageVoid(stage *Stage) {
+	delete(stage.RequirementShapes, requirementshape)
+	// issue1150
+	// delete(stage.RequirementShape_stagedOrder, requirementshape)
+	delete(stage.RequirementShapes_mapString, requirementshape.Name)
+}
+
+// commit requirementshape to the back repo (if it is already staged)
+func (requirementshape *RequirementShape) Commit(stage *Stage) *RequirementShape {
+	if _, ok := stage.RequirementShapes[requirementshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitRequirementShape(requirementshape)
+		}
+	}
+	return requirementshape
+}
+
+func (requirementshape *RequirementShape) CommitVoid(stage *Stage) {
+	requirementshape.Commit(stage)
+}
+
+func (requirementshape *RequirementShape) StageVoid(stage *Stage) {
+	requirementshape.Stage(stage)
+}
+
+// Checkout requirementshape to the back repo (if it is already staged)
+func (requirementshape *RequirementShape) Checkout(stage *Stage) *RequirementShape {
+	if _, ok := stage.RequirementShapes[requirementshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutRequirementShape(requirementshape)
+		}
+	}
+	return requirementshape
+}
+
+// for satisfaction of GongStruct interface
+func (requirementshape *RequirementShape) GetName() (res string) {
+	return requirementshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (requirementshape *RequirementShape) SetName(name string) {
+	requirementshape.Name = name
+}
+
 // Stage puts stakeholder to the model stage
 func (stakeholder *Stakeholder) Stage(stage *Stage) *Stakeholder {
 	if _, ok := stage.Stakeholders[stakeholder]; !ok {
@@ -4539,6 +4859,7 @@ func (tool *Tool) SetName(name string) {
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAnalysisNeed(AnalysisNeed *AnalysisNeed)
 	CreateORMConcept(Concept *Concept)
+	CreateORMConceptShape(ConceptShape *ConceptShape)
 	CreateORMConcern(Concern *Concern)
 	CreateORMConcernCompositionShape(ConcernCompositionShape *ConcernCompositionShape)
 	CreateORMConcernInputShape(ConcernInputShape *ConcernInputShape)
@@ -4555,6 +4876,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMProductCompositionShape(ProductCompositionShape *ProductCompositionShape)
 	CreateORMProductShape(ProductShape *ProductShape)
 	CreateORMRequirement(Requirement *Requirement)
+	CreateORMRequirementShape(RequirementShape *RequirementShape)
 	CreateORMStakeholder(Stakeholder *Stakeholder)
 	CreateORMStakeholderCompositionShape(StakeholderCompositionShape *StakeholderCompositionShape)
 	CreateORMStakeholderConcernShape(StakeholderConcernShape *StakeholderConcernShape)
@@ -4566,6 +4888,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMAnalysisNeed(AnalysisNeed *AnalysisNeed)
 	DeleteORMConcept(Concept *Concept)
+	DeleteORMConceptShape(ConceptShape *ConceptShape)
 	DeleteORMConcern(Concern *Concern)
 	DeleteORMConcernCompositionShape(ConcernCompositionShape *ConcernCompositionShape)
 	DeleteORMConcernInputShape(ConcernInputShape *ConcernInputShape)
@@ -4582,6 +4905,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMProductCompositionShape(ProductCompositionShape *ProductCompositionShape)
 	DeleteORMProductShape(ProductShape *ProductShape)
 	DeleteORMRequirement(Requirement *Requirement)
+	DeleteORMRequirementShape(RequirementShape *RequirementShape)
 	DeleteORMStakeholder(Stakeholder *Stakeholder)
 	DeleteORMStakeholderCompositionShape(StakeholderCompositionShape *StakeholderCompositionShape)
 	DeleteORMStakeholderConcernShape(StakeholderConcernShape *StakeholderConcernShape)
@@ -4600,6 +4924,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Concepts_mapString = make(map[string]*Concept)
 	stage.Concept_stagedOrder = make(map[*Concept]uint)
 	stage.ConceptOrder = 0
+
+	stage.ConceptShapes = make(map[*ConceptShape]struct{})
+	stage.ConceptShapes_mapString = make(map[string]*ConceptShape)
+	stage.ConceptShape_stagedOrder = make(map[*ConceptShape]uint)
+	stage.ConceptShapeOrder = 0
 
 	stage.Concerns = make(map[*Concern]struct{})
 	stage.Concerns_mapString = make(map[string]*Concern)
@@ -4681,6 +5010,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Requirement_stagedOrder = make(map[*Requirement]uint)
 	stage.RequirementOrder = 0
 
+	stage.RequirementShapes = make(map[*RequirementShape]struct{})
+	stage.RequirementShapes_mapString = make(map[string]*RequirementShape)
+	stage.RequirementShape_stagedOrder = make(map[*RequirementShape]uint)
+	stage.RequirementShapeOrder = 0
+
 	stage.Stakeholders = make(map[*Stakeholder]struct{})
 	stage.Stakeholders_mapString = make(map[string]*Stakeholder)
 	stage.Stakeholder_stagedOrder = make(map[*Stakeholder]uint)
@@ -4725,6 +5059,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.Concepts = nil
 	stage.Concepts_mapString = nil
+
+	stage.ConceptShapes = nil
+	stage.ConceptShapes_mapString = nil
 
 	stage.Concerns = nil
 	stage.Concerns_mapString = nil
@@ -4774,6 +5111,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Requirements = nil
 	stage.Requirements_mapString = nil
 
+	stage.RequirementShapes = nil
+	stage.RequirementShapes_mapString = nil
+
 	stage.Stakeholders = nil
 	stage.Stakeholders_mapString = nil
 
@@ -4802,6 +5142,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for concept := range stage.Concepts {
 		concept.Unstage(stage)
+	}
+
+	for conceptshape := range stage.ConceptShapes {
+		conceptshape.Unstage(stage)
 	}
 
 	for concern := range stage.Concerns {
@@ -4866,6 +5210,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for requirement := range stage.Requirements {
 		requirement.Unstage(stage)
+	}
+
+	for requirementshape := range stage.RequirementShapes {
+		requirementshape.Unstage(stage)
 	}
 
 	for stakeholder := range stage.Stakeholders {
@@ -4972,6 +5320,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.AnalysisNeeds).(*Type)
 	case map[*Concept]any:
 		return any(&stage.Concepts).(*Type)
+	case map[*ConceptShape]any:
+		return any(&stage.ConceptShapes).(*Type)
 	case map[*Concern]any:
 		return any(&stage.Concerns).(*Type)
 	case map[*ConcernCompositionShape]any:
@@ -5004,6 +5354,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.ProductShapes).(*Type)
 	case map[*Requirement]any:
 		return any(&stage.Requirements).(*Type)
+	case map[*RequirementShape]any:
+		return any(&stage.RequirementShapes).(*Type)
 	case map[*Stakeholder]any:
 		return any(&stage.Stakeholders).(*Type)
 	case map[*StakeholderCompositionShape]any:
@@ -5032,6 +5384,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.AnalysisNeeds_mapString).(map[string]Type)
 	case *Concept:
 		return any(stage.Concepts_mapString).(map[string]Type)
+	case *ConceptShape:
+		return any(stage.ConceptShapes_mapString).(map[string]Type)
 	case *Concern:
 		return any(stage.Concerns_mapString).(map[string]Type)
 	case *ConcernCompositionShape:
@@ -5064,6 +5418,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.ProductShapes_mapString).(map[string]Type)
 	case *Requirement:
 		return any(stage.Requirements_mapString).(map[string]Type)
+	case *RequirementShape:
+		return any(stage.RequirementShapes_mapString).(map[string]Type)
 	case *Stakeholder:
 		return any(stage.Stakeholders_mapString).(map[string]Type)
 	case *StakeholderCompositionShape:
@@ -5092,6 +5448,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.AnalysisNeeds).(*map[*Type]struct{})
 	case Concept:
 		return any(&stage.Concepts).(*map[*Type]struct{})
+	case ConceptShape:
+		return any(&stage.ConceptShapes).(*map[*Type]struct{})
 	case Concern:
 		return any(&stage.Concerns).(*map[*Type]struct{})
 	case ConcernCompositionShape:
@@ -5124,6 +5482,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.ProductShapes).(*map[*Type]struct{})
 	case Requirement:
 		return any(&stage.Requirements).(*map[*Type]struct{})
+	case RequirementShape:
+		return any(&stage.RequirementShapes).(*map[*Type]struct{})
 	case Stakeholder:
 		return any(&stage.Stakeholders).(*map[*Type]struct{})
 	case StakeholderCompositionShape:
@@ -5152,6 +5512,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.AnalysisNeeds).(*map[Type]struct{})
 	case *Concept:
 		return any(&stage.Concepts).(*map[Type]struct{})
+	case *ConceptShape:
+		return any(&stage.ConceptShapes).(*map[Type]struct{})
 	case *Concern:
 		return any(&stage.Concerns).(*map[Type]struct{})
 	case *ConcernCompositionShape:
@@ -5184,6 +5546,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.ProductShapes).(*map[Type]struct{})
 	case *Requirement:
 		return any(&stage.Requirements).(*map[Type]struct{})
+	case *RequirementShape:
+		return any(&stage.RequirementShapes).(*map[Type]struct{})
 	case *Stakeholder:
 		return any(&stage.Stakeholders).(*map[Type]struct{})
 	case *StakeholderCompositionShape:
@@ -5212,6 +5576,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.AnalysisNeeds_mapString).(*map[string]*Type)
 	case Concept:
 		return any(&stage.Concepts_mapString).(*map[string]*Type)
+	case ConceptShape:
+		return any(&stage.ConceptShapes_mapString).(*map[string]*Type)
 	case Concern:
 		return any(&stage.Concerns_mapString).(*map[string]*Type)
 	case ConcernCompositionShape:
@@ -5244,6 +5610,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.ProductShapes_mapString).(*map[string]*Type)
 	case Requirement:
 		return any(&stage.Requirements_mapString).(*map[string]*Type)
+	case RequirementShape:
+		return any(&stage.RequirementShapes_mapString).(*map[string]*Type)
 	case Stakeholder:
 		return any(&stage.Stakeholders_mapString).(*map[string]*Type)
 	case StakeholderCompositionShape:
@@ -5279,6 +5647,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Tool with the name of the field
 			Tools: []*Tool{{Name: "Tools"}},
+		}).(*Type)
+	case ConceptShape:
+		return any(&ConceptShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Concept with the name of the field
+			Concept: &Concept{Name: "Concept"},
 		}).(*Type)
 	case Concern:
 		return any(&Concern{
@@ -5373,6 +5747,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			ResourceComposition_Shapes: []*StakeholderCompositionShape{{Name: "ResourceComposition_Shapes"}},
 			// field is initialized with an instance of StakeholderConcernShape with the name of the field
 			StakeholderConcernShapes: []*StakeholderConcernShape{{Name: "StakeholderConcernShapes"}},
+			// field is initialized with an instance of RequirementShape with the name of the field
+			Requirement_Shapes: []*RequirementShape{{Name: "Requirement_Shapes"}},
+			// field is initialized with an instance of Requirement with the name of the field
+			RequirementsWhoseNodeIsExpanded: []*Requirement{{Name: "RequirementsWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of ConceptShape with the name of the field
+			Concept_Shapes: []*ConceptShape{{Name: "Concept_Shapes"}},
+			// field is initialized with an instance of Concept with the name of the field
+			ConceptsWhoseNodeIsExpanded: []*Concept{{Name: "ConceptsWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case Library:
 		return any(&Library{
@@ -5456,6 +5838,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Concept with the name of the field
 			Concepts: []*Concept{{Name: "Concepts"}},
 		}).(*Type)
+	case RequirementShape:
+		return any(&RequirementShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Requirement with the name of the field
+			Requirement: &Requirement{Name: "Requirement"},
+		}).(*Type)
 	case Stakeholder:
 		return any(&Stakeholder{
 			// Initialisation of associations
@@ -5520,6 +5908,28 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Concept:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ConceptShape
+	case ConceptShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Concept":
+			res := make(map[*Concept][]*ConceptShape)
+			for conceptshape := range stage.ConceptShapes {
+				if conceptshape.Concept != nil {
+					concept_ := conceptshape.Concept
+					var conceptshapes []*ConceptShape
+					_, ok := res[concept_]
+					if ok {
+						conceptshapes = res[concept_]
+					} else {
+						conceptshapes = make([]*ConceptShape, 0)
+					}
+					conceptshapes = append(conceptshapes, conceptshape)
+					res[concept_] = conceptshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Concern
 	case Concern:
@@ -5856,6 +6266,28 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of RequirementShape
+	case RequirementShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Requirement":
+			res := make(map[*Requirement][]*RequirementShape)
+			for requirementshape := range stage.RequirementShapes {
+				if requirementshape.Requirement != nil {
+					requirement_ := requirementshape.Requirement
+					var requirementshapes []*RequirementShape
+					_, ok := res[requirement_]
+					if ok {
+						requirementshapes = res[requirement_]
+					} else {
+						requirementshapes = make([]*RequirementShape, 0)
+					}
+					requirementshapes = append(requirementshapes, requirementshape)
+					res[requirement_] = requirementshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of Stakeholder
 	case Stakeholder:
 		switch fieldname {
@@ -6003,6 +6435,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ConceptShape
+	case ConceptShape:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Concern
 	case Concern:
@@ -6254,6 +6691,38 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Requirement_Shapes":
+			res := make(map[*RequirementShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, requirementshape_ := range diagram.Requirement_Shapes {
+					res[requirementshape_] = append(res[requirementshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RequirementsWhoseNodeIsExpanded":
+			res := make(map[*Requirement][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, requirement_ := range diagram.RequirementsWhoseNodeIsExpanded {
+					res[requirement_] = append(res[requirement_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Concept_Shapes":
+			res := make(map[*ConceptShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, conceptshape_ := range diagram.Concept_Shapes {
+					res[conceptshape_] = append(res[conceptshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ConceptsWhoseNodeIsExpanded":
+			res := make(map[*Concept][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, concept_ := range diagram.ConceptsWhoseNodeIsExpanded {
+					res[concept_] = append(res[concept_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Library
 	case Library:
@@ -6412,6 +6881,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of RequirementShape
+	case RequirementShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Stakeholder
 	case Stakeholder:
 		switch fieldname {
@@ -6473,6 +6947,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "AnalysisNeed"
 	case *Concept:
 		res = "Concept"
+	case *ConceptShape:
+		res = "ConceptShape"
 	case *Concern:
 		res = "Concern"
 	case *ConcernCompositionShape:
@@ -6505,6 +6981,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "ProductShape"
 	case *Requirement:
 		res = "Requirement"
+	case *RequirementShape:
+		res = "RequirementShape"
 	case *Stakeholder:
 		res = "Stakeholder"
 	case *StakeholderCompositionShape:
@@ -6546,11 +7024,20 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Deliverable"
 		rf.Fieldname = "Concepts"
 		res = append(res, rf)
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "ConceptsWhoseNodeIsExpanded"
+		res = append(res, rf)
 		rf.GongstructName = "Library"
 		rf.Fieldname = "RootConcepts"
 		res = append(res, rf)
 		rf.GongstructName = "Requirement"
 		rf.Fieldname = "Concepts"
+		res = append(res, rf)
+	case *ConceptShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "Concept_Shapes"
 		res = append(res, rf)
 	case *Concern:
 		var rf ReverseField
@@ -6690,8 +7177,17 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Concern"
 		rf.Fieldname = "Requirements"
 		res = append(res, rf)
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "RequirementsWhoseNodeIsExpanded"
+		res = append(res, rf)
 		rf.GongstructName = "Library"
 		rf.Fieldname = "RootRequirements"
+		res = append(res, rf)
+	case *RequirementShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "Requirement_Shapes"
 		res = append(res, rf)
 	case *Stakeholder:
 		var rf ReverseField
@@ -6791,6 +7287,46 @@ func (concept *Concept) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Tools",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Tool",
+		},
+	}
+	return
+}
+
+func (conceptshape *ConceptShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Concept",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Concept",
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -7269,6 +7805,26 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "StakeholderConcernShape",
 		},
+		{
+			Name:                 "Requirement_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "RequirementShape",
+		},
+		{
+			Name:                 "RequirementsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Requirement",
+		},
+		{
+			Name:                 "Concept_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ConceptShape",
+		},
+		{
+			Name:                 "ConceptsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Concept",
+		},
 	}
 	return
 }
@@ -7686,6 +8242,46 @@ func (requirement *Requirement) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
+func (requirementshape *RequirementShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Requirement",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Requirement",
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
 func (stakeholder *Stakeholder) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -7981,6 +8577,45 @@ func (concept *Concept) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	}
+	return
+}
+
+func (conceptshape *ConceptShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = conceptshape.Name
+	case "Concept":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if conceptshape.Concept != nil {
+			res.valueString = conceptshape.Concept.Name
+			res.ids = conceptshape.Concept.GongGetUUID(stage)
+		}
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", conceptshape.IsExpanded)
+		res.valueBool = conceptshape.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "X":
+		res.valueString = fmt.Sprintf("%f", conceptshape.X)
+		res.valueFloat = conceptshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", conceptshape.Y)
+		res.valueFloat = conceptshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", conceptshape.Width)
+		res.valueFloat = conceptshape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", conceptshape.Height)
+		res.valueFloat = conceptshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", conceptshape.IsHidden)
+		res.valueBool = conceptshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -8551,6 +9186,46 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "Requirement_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.Requirement_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "RequirementsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.RequirementsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Concept_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.Concept_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ConceptsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ConceptsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -9001,6 +9676,45 @@ func (requirement *Requirement) GongGetFieldValue(fieldName string, stage *Stage
 	return
 }
 
+func (requirementshape *RequirementShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = requirementshape.Name
+	case "Requirement":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if requirementshape.Requirement != nil {
+			res.valueString = requirementshape.Requirement.Name
+			res.ids = requirementshape.Requirement.GongGetUUID(stage)
+		}
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", requirementshape.IsExpanded)
+		res.valueBool = requirementshape.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "X":
+		res.valueString = fmt.Sprintf("%f", requirementshape.X)
+		res.valueFloat = requirementshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", requirementshape.Y)
+		res.valueFloat = requirementshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", requirementshape.Width)
+		res.valueFloat = requirementshape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", requirementshape.Height)
+		res.valueFloat = requirementshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", requirementshape.IsHidden)
+		res.valueBool = requirementshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
 func (stakeholder *Stakeholder) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -9234,6 +9948,40 @@ func (concept *Concept) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (conceptshape *ConceptShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		conceptshape.Name = value.GetValueString()
+	case "Concept":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			conceptshape.Concept = nil
+			for __instance__ := range stage.Concepts {
+				if stage.Concept_stagedOrder[__instance__] == uint(id) {
+					conceptshape.Concept = __instance__
+					break
+				}
+			}
+		}
+	case "IsExpanded":
+		conceptshape.IsExpanded = value.GetValueBool()
+	case "X":
+		conceptshape.X = value.GetValueFloat()
+	case "Y":
+		conceptshape.Y = value.GetValueFloat()
+	case "Width":
+		conceptshape.Width = value.GetValueFloat()
+	case "Height":
+		conceptshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		conceptshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -9867,6 +10615,62 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "Requirement_Shapes":
+		diagram.Requirement_Shapes = make([]*RequirementShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.RequirementShapes {
+					if stage.RequirementShape_stagedOrder[__instance__] == uint(id) {
+						diagram.Requirement_Shapes = append(diagram.Requirement_Shapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "RequirementsWhoseNodeIsExpanded":
+		diagram.RequirementsWhoseNodeIsExpanded = make([]*Requirement, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Requirements {
+					if stage.Requirement_stagedOrder[__instance__] == uint(id) {
+						diagram.RequirementsWhoseNodeIsExpanded = append(diagram.RequirementsWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Concept_Shapes":
+		diagram.Concept_Shapes = make([]*ConceptShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ConceptShapes {
+					if stage.ConceptShape_stagedOrder[__instance__] == uint(id) {
+						diagram.Concept_Shapes = append(diagram.Concept_Shapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "ConceptsWhoseNodeIsExpanded":
+		diagram.ConceptsWhoseNodeIsExpanded = make([]*Concept, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Concepts {
+					if stage.Concept_stagedOrder[__instance__] == uint(id) {
+						diagram.ConceptsWhoseNodeIsExpanded = append(diagram.ConceptsWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10361,6 +11165,40 @@ func (requirement *Requirement) GongSetFieldValue(fieldName string, value GongFi
 	return nil
 }
 
+func (requirementshape *RequirementShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		requirementshape.Name = value.GetValueString()
+	case "Requirement":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			requirementshape.Requirement = nil
+			for __instance__ := range stage.Requirements {
+				if stage.Requirement_stagedOrder[__instance__] == uint(id) {
+					requirementshape.Requirement = __instance__
+					break
+				}
+			}
+		}
+	case "IsExpanded":
+		requirementshape.IsExpanded = value.GetValueBool()
+	case "X":
+		requirementshape.X = value.GetValueFloat()
+	case "Y":
+		requirementshape.Y = value.GetValueFloat()
+	case "Width":
+		requirementshape.Width = value.GetValueFloat()
+	case "Height":
+		requirementshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		requirementshape.IsHidden = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (stakeholder *Stakeholder) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -10569,6 +11407,10 @@ func (concept *Concept) GongGetGongstructName() string {
 	return "Concept"
 }
 
+func (conceptshape *ConceptShape) GongGetGongstructName() string {
+	return "ConceptShape"
+}
+
 func (concern *Concern) GongGetGongstructName() string {
 	return "Concern"
 }
@@ -10633,6 +11475,10 @@ func (requirement *Requirement) GongGetGongstructName() string {
 	return "Requirement"
 }
 
+func (requirementshape *RequirementShape) GongGetGongstructName() string {
+	return "RequirementShape"
+}
+
 func (stakeholder *Stakeholder) GongGetGongstructName() string {
 	return "Stakeholder"
 }
@@ -10672,6 +11518,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Concepts_mapString = make(map[string]*Concept)
 	for concept := range stage.Concepts {
 		stage.Concepts_mapString[concept.Name] = concept
+	}
+
+	stage.ConceptShapes_mapString = make(map[string]*ConceptShape)
+	for conceptshape := range stage.ConceptShapes {
+		stage.ConceptShapes_mapString[conceptshape.Name] = conceptshape
 	}
 
 	stage.Concerns_mapString = make(map[string]*Concern)
@@ -10752,6 +11603,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Requirements_mapString = make(map[string]*Requirement)
 	for requirement := range stage.Requirements {
 		stage.Requirements_mapString[requirement.Name] = requirement
+	}
+
+	stage.RequirementShapes_mapString = make(map[string]*RequirementShape)
+	for requirementshape := range stage.RequirementShapes {
+		stage.RequirementShapes_mapString[requirementshape.Name] = requirementshape
 	}
 
 	stage.Stakeholders_mapString = make(map[string]*Stakeholder)

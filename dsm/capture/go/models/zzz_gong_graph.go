@@ -13,6 +13,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Concept:
 		ok = stage.IsStagedConcept(target)
 
+	case *ConceptShape:
+		ok = stage.IsStagedConceptShape(target)
+
 	case *Concern:
 		ok = stage.IsStagedConcern(target)
 
@@ -60,6 +63,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	case *Requirement:
 		ok = stage.IsStagedRequirement(target)
+
+	case *RequirementShape:
+		ok = stage.IsStagedRequirementShape(target)
 
 	case *Stakeholder:
 		ok = stage.IsStagedStakeholder(target)
@@ -95,6 +101,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Concept:
 		ok = stage.IsStagedConcept(target)
 
+	case *ConceptShape:
+		ok = stage.IsStagedConceptShape(target)
+
 	case *Concern:
 		ok = stage.IsStagedConcern(target)
 
@@ -142,6 +151,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Requirement:
 		ok = stage.IsStagedRequirement(target)
+
+	case *RequirementShape:
+		ok = stage.IsStagedRequirementShape(target)
 
 	case *Stakeholder:
 		ok = stage.IsStagedStakeholder(target)
@@ -178,6 +190,13 @@ func (stage *Stage) IsStagedAnalysisNeed(analysisneed *AnalysisNeed) (ok bool) {
 func (stage *Stage) IsStagedConcept(concept *Concept) (ok bool) {
 
 	_, ok = stage.Concepts[concept]
+
+	return
+}
+
+func (stage *Stage) IsStagedConceptShape(conceptshape *ConceptShape) (ok bool) {
+
+	_, ok = stage.ConceptShapes[conceptshape]
 
 	return
 }
@@ -294,6 +313,13 @@ func (stage *Stage) IsStagedRequirement(requirement *Requirement) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedRequirementShape(requirementshape *RequirementShape) (ok bool) {
+
+	_, ok = stage.RequirementShapes[requirementshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedStakeholder(stakeholder *Stakeholder) (ok bool) {
 
 	_, ok = stage.Stakeholders[stakeholder]
@@ -350,6 +376,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Concept:
 		stage.StageBranchConcept(target)
 
+	case *ConceptShape:
+		stage.StageBranchConceptShape(target)
+
 	case *Concern:
 		stage.StageBranchConcern(target)
 
@@ -397,6 +426,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Requirement:
 		stage.StageBranchRequirement(target)
+
+	case *RequirementShape:
+		stage.StageBranchRequirementShape(target)
 
 	case *Stakeholder:
 		stage.StageBranchStakeholder(target)
@@ -452,6 +484,24 @@ func (stage *Stage) StageBranchConcept(concept *Concept) {
 	for _, _tool := range concept.Tools {
 		StageBranch(stage, _tool)
 	}
+
+}
+
+func (stage *Stage) StageBranchConceptShape(conceptshape *ConceptShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, conceptshape) {
+		return
+	}
+
+	conceptshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if conceptshape.Concept != nil {
+		StageBranch(stage, conceptshape.Concept)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -655,6 +705,18 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	}
 	for _, _stakeholderconcernshape := range diagram.StakeholderConcernShapes {
 		StageBranch(stage, _stakeholderconcernshape)
+	}
+	for _, _requirementshape := range diagram.Requirement_Shapes {
+		StageBranch(stage, _requirementshape)
+	}
+	for _, _requirement := range diagram.RequirementsWhoseNodeIsExpanded {
+		StageBranch(stage, _requirement)
+	}
+	for _, _conceptshape := range diagram.Concept_Shapes {
+		StageBranch(stage, _conceptshape)
+	}
+	for _, _concept := range diagram.ConceptsWhoseNodeIsExpanded {
+		StageBranch(stage, _concept)
 	}
 
 }
@@ -863,6 +925,24 @@ func (stage *Stage) StageBranchRequirement(requirement *Requirement) {
 
 }
 
+func (stage *Stage) StageBranchRequirementShape(requirementshape *RequirementShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, requirementshape) {
+		return
+	}
+
+	requirementshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if requirementshape.Requirement != nil {
+		StageBranch(stage, requirementshape.Requirement)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchStakeholder(stakeholder *Stakeholder) {
 
 	// check if instance is already staged
@@ -993,6 +1073,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchConcept(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *ConceptShape:
+		toT := CopyBranchConceptShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Concern:
 		toT := CopyBranchConcern(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -1055,6 +1139,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Requirement:
 		toT := CopyBranchRequirement(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *RequirementShape:
+		toT := CopyBranchRequirementShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Stakeholder:
@@ -1125,6 +1213,28 @@ func CopyBranchConcept(mapOrigCopy map[any]any, conceptFrom *Concept) (conceptTo
 	for _, _tool := range conceptFrom.Tools {
 		conceptTo.Tools = append(conceptTo.Tools, CopyBranchTool(mapOrigCopy, _tool))
 	}
+
+	return
+}
+
+func CopyBranchConceptShape(mapOrigCopy map[any]any, conceptshapeFrom *ConceptShape) (conceptshapeTo *ConceptShape) {
+
+	// conceptshapeFrom has already been copied
+	if _conceptshapeTo, ok := mapOrigCopy[conceptshapeFrom]; ok {
+		conceptshapeTo = _conceptshapeTo.(*ConceptShape)
+		return
+	}
+
+	conceptshapeTo = new(ConceptShape)
+	mapOrigCopy[conceptshapeFrom] = conceptshapeTo
+	conceptshapeFrom.CopyBasicFields(conceptshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if conceptshapeFrom.Concept != nil {
+		conceptshapeTo.Concept = CopyBranchConcept(mapOrigCopy, conceptshapeFrom.Concept)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -1356,6 +1466,18 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	}
 	for _, _stakeholderconcernshape := range diagramFrom.StakeholderConcernShapes {
 		diagramTo.StakeholderConcernShapes = append(diagramTo.StakeholderConcernShapes, CopyBranchStakeholderConcernShape(mapOrigCopy, _stakeholderconcernshape))
+	}
+	for _, _requirementshape := range diagramFrom.Requirement_Shapes {
+		diagramTo.Requirement_Shapes = append(diagramTo.Requirement_Shapes, CopyBranchRequirementShape(mapOrigCopy, _requirementshape))
+	}
+	for _, _requirement := range diagramFrom.RequirementsWhoseNodeIsExpanded {
+		diagramTo.RequirementsWhoseNodeIsExpanded = append(diagramTo.RequirementsWhoseNodeIsExpanded, CopyBranchRequirement(mapOrigCopy, _requirement))
+	}
+	for _, _conceptshape := range diagramFrom.Concept_Shapes {
+		diagramTo.Concept_Shapes = append(diagramTo.Concept_Shapes, CopyBranchConceptShape(mapOrigCopy, _conceptshape))
+	}
+	for _, _concept := range diagramFrom.ConceptsWhoseNodeIsExpanded {
+		diagramTo.ConceptsWhoseNodeIsExpanded = append(diagramTo.ConceptsWhoseNodeIsExpanded, CopyBranchConcept(mapOrigCopy, _concept))
 	}
 
 	return
@@ -1601,6 +1723,28 @@ func CopyBranchRequirement(mapOrigCopy map[any]any, requirementFrom *Requirement
 	return
 }
 
+func CopyBranchRequirementShape(mapOrigCopy map[any]any, requirementshapeFrom *RequirementShape) (requirementshapeTo *RequirementShape) {
+
+	// requirementshapeFrom has already been copied
+	if _requirementshapeTo, ok := mapOrigCopy[requirementshapeFrom]; ok {
+		requirementshapeTo = _requirementshapeTo.(*RequirementShape)
+		return
+	}
+
+	requirementshapeTo = new(RequirementShape)
+	mapOrigCopy[requirementshapeFrom] = requirementshapeTo
+	requirementshapeFrom.CopyBasicFields(requirementshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if requirementshapeFrom.Requirement != nil {
+		requirementshapeTo.Requirement = CopyBranchRequirement(mapOrigCopy, requirementshapeFrom.Requirement)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchStakeholder(mapOrigCopy map[any]any, stakeholderFrom *Stakeholder) (stakeholderTo *Stakeholder) {
 
 	// stakeholderFrom has already been copied
@@ -1750,6 +1894,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Concept:
 		stage.UnstageBranchConcept(target)
 
+	case *ConceptShape:
+		stage.UnstageBranchConceptShape(target)
+
 	case *Concern:
 		stage.UnstageBranchConcern(target)
 
@@ -1797,6 +1944,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Requirement:
 		stage.UnstageBranchRequirement(target)
+
+	case *RequirementShape:
+		stage.UnstageBranchRequirementShape(target)
 
 	case *Stakeholder:
 		stage.UnstageBranchStakeholder(target)
@@ -1852,6 +2002,24 @@ func (stage *Stage) UnstageBranchConcept(concept *Concept) {
 	for _, _tool := range concept.Tools {
 		UnstageBranch(stage, _tool)
 	}
+
+}
+
+func (stage *Stage) UnstageBranchConceptShape(conceptshape *ConceptShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, conceptshape) {
+		return
+	}
+
+	conceptshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if conceptshape.Concept != nil {
+		UnstageBranch(stage, conceptshape.Concept)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -2055,6 +2223,18 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	}
 	for _, _stakeholderconcernshape := range diagram.StakeholderConcernShapes {
 		UnstageBranch(stage, _stakeholderconcernshape)
+	}
+	for _, _requirementshape := range diagram.Requirement_Shapes {
+		UnstageBranch(stage, _requirementshape)
+	}
+	for _, _requirement := range diagram.RequirementsWhoseNodeIsExpanded {
+		UnstageBranch(stage, _requirement)
+	}
+	for _, _conceptshape := range diagram.Concept_Shapes {
+		UnstageBranch(stage, _conceptshape)
+	}
+	for _, _concept := range diagram.ConceptsWhoseNodeIsExpanded {
+		UnstageBranch(stage, _concept)
 	}
 
 }
@@ -2263,6 +2443,24 @@ func (stage *Stage) UnstageBranchRequirement(requirement *Requirement) {
 
 }
 
+func (stage *Stage) UnstageBranchRequirementShape(requirementshape *RequirementShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, requirementshape) {
+		return
+	}
+
+	requirementshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if requirementshape.Requirement != nil {
+		UnstageBranch(stage, requirementshape.Requirement)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchStakeholder(stakeholder *Stakeholder) {
 
 	// check if instance is already staged
@@ -2387,6 +2585,14 @@ func (reference *Concept) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.Tools {
 		reference.Tools = append(reference.Tools, stage.Tools_reference[_b])
 	}
+}
+
+func (reference *ConceptShape) GongReconstructPointersFromReferences(stage *Stage, instance *ConceptShape) {
+	// insertion point for pointers field
+	if instance.Concept != nil {
+		reference.Concept = stage.Concepts_reference[instance.Concept]
+	}
+	// insertion point for slice of pointers field
 }
 
 func (reference *Concern) GongReconstructPointersFromReferences(stage *Stage, instance *Concern) {
@@ -2548,6 +2754,22 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.StakeholderConcernShapes {
 		reference.StakeholderConcernShapes = append(reference.StakeholderConcernShapes, stage.StakeholderConcernShapes_reference[_b])
 	}
+	reference.Requirement_Shapes = reference.Requirement_Shapes[:0]
+	for _, _b := range instance.Requirement_Shapes {
+		reference.Requirement_Shapes = append(reference.Requirement_Shapes, stage.RequirementShapes_reference[_b])
+	}
+	reference.RequirementsWhoseNodeIsExpanded = reference.RequirementsWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.RequirementsWhoseNodeIsExpanded {
+		reference.RequirementsWhoseNodeIsExpanded = append(reference.RequirementsWhoseNodeIsExpanded, stage.Requirements_reference[_b])
+	}
+	reference.Concept_Shapes = reference.Concept_Shapes[:0]
+	for _, _b := range instance.Concept_Shapes {
+		reference.Concept_Shapes = append(reference.Concept_Shapes, stage.ConceptShapes_reference[_b])
+	}
+	reference.ConceptsWhoseNodeIsExpanded = reference.ConceptsWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.ConceptsWhoseNodeIsExpanded {
+		reference.ConceptsWhoseNodeIsExpanded = append(reference.ConceptsWhoseNodeIsExpanded, stage.Concepts_reference[_b])
+	}
 }
 
 func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) {
@@ -2678,6 +2900,14 @@ func (reference *Requirement) GongReconstructPointersFromReferences(stage *Stage
 	}
 }
 
+func (reference *RequirementShape) GongReconstructPointersFromReferences(stage *Stage, instance *RequirementShape) {
+	// insertion point for pointers field
+	if instance.Requirement != nil {
+		reference.Requirement = stage.Requirements_reference[instance.Requirement]
+	}
+	// insertion point for slice of pointers field
+}
+
 func (reference *Stakeholder) GongReconstructPointersFromReferences(stage *Stage, instance *Stakeholder) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -2747,6 +2977,17 @@ func (reference *Concept) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Tools = _Tools
+}
+
+func (reference *ConceptShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.Concept; _reference != nil {
+		reference.Concept = nil
+		if _instance, ok := stage.Concepts_instance[_reference]; ok {
+			reference.Concept = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
 }
 
 func (reference *Concern) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3007,6 +3248,34 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.StakeholderConcernShapes = _StakeholderConcernShapes
+	var _Requirement_Shapes []*RequirementShape
+	for _, _reference := range reference.Requirement_Shapes {
+		if _instance, ok := stage.RequirementShapes_instance[_reference]; ok {
+			_Requirement_Shapes = append(_Requirement_Shapes, _instance)
+		}
+	}
+	reference.Requirement_Shapes = _Requirement_Shapes
+	var _RequirementsWhoseNodeIsExpanded []*Requirement
+	for _, _reference := range reference.RequirementsWhoseNodeIsExpanded {
+		if _instance, ok := stage.Requirements_instance[_reference]; ok {
+			_RequirementsWhoseNodeIsExpanded = append(_RequirementsWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.RequirementsWhoseNodeIsExpanded = _RequirementsWhoseNodeIsExpanded
+	var _Concept_Shapes []*ConceptShape
+	for _, _reference := range reference.Concept_Shapes {
+		if _instance, ok := stage.ConceptShapes_instance[_reference]; ok {
+			_Concept_Shapes = append(_Concept_Shapes, _instance)
+		}
+	}
+	reference.Concept_Shapes = _Concept_Shapes
+	var _ConceptsWhoseNodeIsExpanded []*Concept
+	for _, _reference := range reference.ConceptsWhoseNodeIsExpanded {
+		if _instance, ok := stage.Concepts_instance[_reference]; ok {
+			_ConceptsWhoseNodeIsExpanded = append(_ConceptsWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.ConceptsWhoseNodeIsExpanded = _ConceptsWhoseNodeIsExpanded
 }
 
 func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3206,6 +3475,17 @@ func (reference *Requirement) GongReconstructPointersFromInstances(stage *Stage)
 	reference.Concepts = _Concepts
 }
 
+func (reference *RequirementShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.Requirement; _reference != nil {
+		reference.Requirement = nil
+		if _instance, ok := stage.Requirements_instance[_reference]; ok {
+			reference.Requirement = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+}
+
 func (reference *Stakeholder) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -3337,6 +3617,42 @@ func (concept *Concept) GongDiff(stage *Stage, conceptOther *Concept) (diffs []s
 	if ToolsDifferent {
 		ops := Diff(stage, concept, conceptOther, "Tools", conceptOther.Tools, concept.Tools)
 		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (conceptshape *ConceptShape) GongDiff(stage *Stage, conceptshapeOther *ConceptShape) (diffs []string) {
+	// insertion point for field diffs
+	if conceptshape.Name != conceptshapeOther.Name {
+		diffs = append(diffs, conceptshape.GongMarshallField(stage, "Name"))
+	}
+	if (conceptshape.Concept == nil) != (conceptshapeOther.Concept == nil) {
+		diffs = append(diffs, conceptshape.GongMarshallField(stage, "Concept"))
+	} else if conceptshape.Concept != nil && conceptshapeOther.Concept != nil {
+		if conceptshape.Concept != conceptshapeOther.Concept {
+			diffs = append(diffs, conceptshape.GongMarshallField(stage, "Concept"))
+		}
+	}
+	if conceptshape.IsExpanded != conceptshapeOther.IsExpanded {
+		diffs = append(diffs, conceptshape.GongMarshallField(stage, "IsExpanded"))
+	}
+	if conceptshape.X != conceptshapeOther.X {
+		diffs = append(diffs, conceptshape.GongMarshallField(stage, "X"))
+	}
+	if conceptshape.Y != conceptshapeOther.Y {
+		diffs = append(diffs, conceptshape.GongMarshallField(stage, "Y"))
+	}
+	if conceptshape.Width != conceptshapeOther.Width {
+		diffs = append(diffs, conceptshape.GongMarshallField(stage, "Width"))
+	}
+	if conceptshape.Height != conceptshapeOther.Height {
+		diffs = append(diffs, conceptshape.GongMarshallField(stage, "Height"))
+	}
+	if conceptshape.IsHidden != conceptshapeOther.IsHidden {
+		diffs = append(diffs, conceptshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return
@@ -4192,6 +4508,90 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		ops := Diff(stage, diagram, diagramOther, "StakeholderConcernShapes", diagramOther.StakeholderConcernShapes, diagram.StakeholderConcernShapes)
 		diffs = append(diffs, ops)
 	}
+	Requirement_ShapesDifferent := false
+	if len(diagram.Requirement_Shapes) != len(diagramOther.Requirement_Shapes) {
+		Requirement_ShapesDifferent = true
+	} else {
+		for i := range diagram.Requirement_Shapes {
+			if (diagram.Requirement_Shapes[i] == nil) != (diagramOther.Requirement_Shapes[i] == nil) {
+				Requirement_ShapesDifferent = true
+				break
+			} else if diagram.Requirement_Shapes[i] != nil && diagramOther.Requirement_Shapes[i] != nil {
+				// this is a pointer comparaison
+				if diagram.Requirement_Shapes[i] != diagramOther.Requirement_Shapes[i] {
+					Requirement_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if Requirement_ShapesDifferent {
+		ops := Diff(stage, diagram, diagramOther, "Requirement_Shapes", diagramOther.Requirement_Shapes, diagram.Requirement_Shapes)
+		diffs = append(diffs, ops)
+	}
+	RequirementsWhoseNodeIsExpandedDifferent := false
+	if len(diagram.RequirementsWhoseNodeIsExpanded) != len(diagramOther.RequirementsWhoseNodeIsExpanded) {
+		RequirementsWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagram.RequirementsWhoseNodeIsExpanded {
+			if (diagram.RequirementsWhoseNodeIsExpanded[i] == nil) != (diagramOther.RequirementsWhoseNodeIsExpanded[i] == nil) {
+				RequirementsWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagram.RequirementsWhoseNodeIsExpanded[i] != nil && diagramOther.RequirementsWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagram.RequirementsWhoseNodeIsExpanded[i] != diagramOther.RequirementsWhoseNodeIsExpanded[i] {
+					RequirementsWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RequirementsWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, diagram, diagramOther, "RequirementsWhoseNodeIsExpanded", diagramOther.RequirementsWhoseNodeIsExpanded, diagram.RequirementsWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	Concept_ShapesDifferent := false
+	if len(diagram.Concept_Shapes) != len(diagramOther.Concept_Shapes) {
+		Concept_ShapesDifferent = true
+	} else {
+		for i := range diagram.Concept_Shapes {
+			if (diagram.Concept_Shapes[i] == nil) != (diagramOther.Concept_Shapes[i] == nil) {
+				Concept_ShapesDifferent = true
+				break
+			} else if diagram.Concept_Shapes[i] != nil && diagramOther.Concept_Shapes[i] != nil {
+				// this is a pointer comparaison
+				if diagram.Concept_Shapes[i] != diagramOther.Concept_Shapes[i] {
+					Concept_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if Concept_ShapesDifferent {
+		ops := Diff(stage, diagram, diagramOther, "Concept_Shapes", diagramOther.Concept_Shapes, diagram.Concept_Shapes)
+		diffs = append(diffs, ops)
+	}
+	ConceptsWhoseNodeIsExpandedDifferent := false
+	if len(diagram.ConceptsWhoseNodeIsExpanded) != len(diagramOther.ConceptsWhoseNodeIsExpanded) {
+		ConceptsWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagram.ConceptsWhoseNodeIsExpanded {
+			if (diagram.ConceptsWhoseNodeIsExpanded[i] == nil) != (diagramOther.ConceptsWhoseNodeIsExpanded[i] == nil) {
+				ConceptsWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagram.ConceptsWhoseNodeIsExpanded[i] != nil && diagramOther.ConceptsWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagram.ConceptsWhoseNodeIsExpanded[i] != diagramOther.ConceptsWhoseNodeIsExpanded[i] {
+					ConceptsWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ConceptsWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, diagram, diagramOther, "ConceptsWhoseNodeIsExpanded", diagramOther.ConceptsWhoseNodeIsExpanded, diagram.ConceptsWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -4788,6 +5188,42 @@ func (requirement *Requirement) GongDiff(stage *Stage, requirementOther *Require
 	if ConceptsDifferent {
 		ops := Diff(stage, requirement, requirementOther, "Concepts", requirementOther.Concepts, requirement.Concepts)
 		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (requirementshape *RequirementShape) GongDiff(stage *Stage, requirementshapeOther *RequirementShape) (diffs []string) {
+	// insertion point for field diffs
+	if requirementshape.Name != requirementshapeOther.Name {
+		diffs = append(diffs, requirementshape.GongMarshallField(stage, "Name"))
+	}
+	if (requirementshape.Requirement == nil) != (requirementshapeOther.Requirement == nil) {
+		diffs = append(diffs, requirementshape.GongMarshallField(stage, "Requirement"))
+	} else if requirementshape.Requirement != nil && requirementshapeOther.Requirement != nil {
+		if requirementshape.Requirement != requirementshapeOther.Requirement {
+			diffs = append(diffs, requirementshape.GongMarshallField(stage, "Requirement"))
+		}
+	}
+	if requirementshape.IsExpanded != requirementshapeOther.IsExpanded {
+		diffs = append(diffs, requirementshape.GongMarshallField(stage, "IsExpanded"))
+	}
+	if requirementshape.X != requirementshapeOther.X {
+		diffs = append(diffs, requirementshape.GongMarshallField(stage, "X"))
+	}
+	if requirementshape.Y != requirementshapeOther.Y {
+		diffs = append(diffs, requirementshape.GongMarshallField(stage, "Y"))
+	}
+	if requirementshape.Width != requirementshapeOther.Width {
+		diffs = append(diffs, requirementshape.GongMarshallField(stage, "Width"))
+	}
+	if requirementshape.Height != requirementshapeOther.Height {
+		diffs = append(diffs, requirementshape.GongMarshallField(stage, "Height"))
+	}
+	if requirementshape.IsHidden != requirementshapeOther.IsHidden {
+		diffs = append(diffs, requirementshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return

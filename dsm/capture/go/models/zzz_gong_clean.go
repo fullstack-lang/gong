@@ -55,6 +55,14 @@ func (concept *Concept) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by ConceptShape
+func (conceptshape *ConceptShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &conceptshape.Concept) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Concern
 func (concern *Concern) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -133,6 +141,10 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagram.ResourcesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.ResourceComposition_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagram.StakeholderConcernShapes) || modified
+	modified = GongCleanSlice(stage, &diagram.Requirement_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.RequirementsWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagram.Concept_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.ConceptsWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	return
 }
@@ -220,6 +232,14 @@ func (requirement *Requirement) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &requirement.SupportLevels) || modified
 	modified = GongCleanSlice(stage, &requirement.Concepts) || modified
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by RequirementShape
+func (requirementshape *RequirementShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &requirementshape.Requirement) || modified
 	return
 }
 

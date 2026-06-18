@@ -329,6 +329,39 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(concept.GongMarshallField(stage, "Tools"))
 	}
 
+	conceptshapeOrdered := []*ConceptShape{}
+	for conceptshape := range stage.ConceptShapes {
+		conceptshapeOrdered = append(conceptshapeOrdered, conceptshape)
+	}
+	sort.Slice(conceptshapeOrdered[:], func(i, j int) bool {
+		conceptshapei := conceptshapeOrdered[i]
+		conceptshapej := conceptshapeOrdered[j]
+		conceptshapei_order, oki := stage.ConceptShape_stagedOrder[conceptshapei]
+		conceptshapej_order, okj := stage.ConceptShape_stagedOrder[conceptshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return conceptshapei_order < conceptshapej_order
+	})
+	if len(conceptshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, conceptshape := range conceptshapeOrdered {
+
+		identifiersDecl.WriteString(conceptshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(conceptshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(conceptshape.GongMarshallField(stage, "Concept"))
+		initializerStatements.WriteString(conceptshape.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(conceptshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(conceptshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(conceptshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(conceptshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(conceptshape.GongMarshallField(stage, "IsHidden"))
+	}
+
 	concernOrdered := []*Concern{}
 	for concern := range stage.Concerns {
 		concernOrdered = append(concernOrdered, concern)
@@ -598,6 +631,10 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsStakeholdersNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourceComposition_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "StakeholderConcernShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Requirement_Shapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "RequirementsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Concept_Shapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ConceptsWhoseNodeIsExpanded"))
 	}
 
 	libraryOrdered := []*Library{}
@@ -904,6 +941,39 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(requirement.GongMarshallField(stage, "Concepts"))
 	}
 
+	requirementshapeOrdered := []*RequirementShape{}
+	for requirementshape := range stage.RequirementShapes {
+		requirementshapeOrdered = append(requirementshapeOrdered, requirementshape)
+	}
+	sort.Slice(requirementshapeOrdered[:], func(i, j int) bool {
+		requirementshapei := requirementshapeOrdered[i]
+		requirementshapej := requirementshapeOrdered[j]
+		requirementshapei_order, oki := stage.RequirementShape_stagedOrder[requirementshapei]
+		requirementshapej_order, okj := stage.RequirementShape_stagedOrder[requirementshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return requirementshapei_order < requirementshapej_order
+	})
+	if len(requirementshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, requirementshape := range requirementshapeOrdered {
+
+		identifiersDecl.WriteString(requirementshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(requirementshape.GongMarshallField(stage, "Requirement"))
+		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "IsHidden"))
+	}
+
 	stakeholderOrdered := []*Stakeholder{}
 	for stakeholder := range stage.Stakeholders {
 		stakeholderOrdered = append(stakeholderOrdered, stakeholder)
@@ -1107,6 +1177,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for pointers initialization
 	}
 
+	for _, conceptshape := range conceptshapeOrdered {
+		_ = conceptshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, concern := range concernOrdered {
 		_ = concern
 		var setPointerField string
@@ -1229,6 +1307,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, requirement := range requirementOrdered {
 		_ = requirement
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, requirementshape := range requirementshapeOrdered {
+		_ = requirementshape
 		var setPointerField string
 		_ = setPointerField
 
@@ -1419,6 +1505,64 @@ func (concept *Concept) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Concept", fieldName)
+	}
+	return
+}
+
+func (conceptshape *ConceptShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", conceptshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(conceptshape.Name))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", conceptshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", conceptshape.IsExpanded))
+	case "X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", conceptshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", conceptshape.X))
+	case "Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", conceptshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", conceptshape.Y))
+	case "Width":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", conceptshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", conceptshape.Width))
+	case "Height":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", conceptshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", conceptshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", conceptshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", conceptshape.IsHidden))
+
+	case "Concept":
+		if conceptshape.Concept != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", conceptshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Concept")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", conceptshape.Concept.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", conceptshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Concept")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ConceptShape", fieldName)
 	}
 	return
 }
@@ -2238,6 +2382,46 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "Requirement_Shapes":
+		var sb strings.Builder
+		for _, _requirementshape := range diagram.Requirement_Shapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Requirement_Shapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _requirementshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "RequirementsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _requirement := range diagram.RequirementsWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RequirementsWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _requirement.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "Concept_Shapes":
+		var sb strings.Builder
+		for _, _conceptshape := range diagram.Concept_Shapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Concept_Shapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _conceptshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "ConceptsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _concept := range diagram.ConceptsWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "ConceptsWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _concept.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Diagram", fieldName)
 	}
@@ -2959,6 +3143,64 @@ func (requirement *Requirement) GongMarshallField(stage *Stage, fieldName string
 	return
 }
 
+func (requirementshape *RequirementShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", requirementshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(requirementshape.Name))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", requirementshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", requirementshape.IsExpanded))
+	case "X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", requirementshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", requirementshape.X))
+	case "Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", requirementshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", requirementshape.Y))
+	case "Width":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", requirementshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", requirementshape.Width))
+	case "Height":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", requirementshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", requirementshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", requirementshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", requirementshape.IsHidden))
+
+	case "Requirement":
+		if requirementshape.Requirement != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", requirementshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Requirement")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", requirementshape.Requirement.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", requirementshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Requirement")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct RequirementShape", fieldName)
+	}
+	return
+}
+
 func (stakeholder *Stakeholder) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -3319,6 +3561,24 @@ func (concept *Concept) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 	ptrRes = pointersInitializesStatements.String()
 	return
 }
+func (conceptshape *ConceptShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(conceptshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(conceptshape.GongMarshallField(stage, "Concept"))
+		initializerStatements.WriteString(conceptshape.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(conceptshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(conceptshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(conceptshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(conceptshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(conceptshape.GongMarshallField(stage, "IsHidden"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (concern *Concern) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -3480,6 +3740,10 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsStakeholdersNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ResourceComposition_Shapes"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "StakeholderConcernShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Requirement_Shapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "RequirementsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Concept_Shapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ConceptsWhoseNodeIsExpanded"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3649,6 +3913,24 @@ func (requirement *Requirement) GongMarshallAllFields(stage *Stage) (initRes str
 		initializerStatements.WriteString(requirement.GongMarshallField(stage, "LayoutDirection"))
 		pointersInitializesStatements.WriteString(requirement.GongMarshallField(stage, "SupportLevels"))
 		pointersInitializesStatements.WriteString(requirement.GongMarshallField(stage, "Concepts"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (requirementshape *RequirementShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(requirementshape.GongMarshallField(stage, "Requirement"))
+		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(requirementshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
