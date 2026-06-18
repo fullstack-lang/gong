@@ -765,6 +765,17 @@
             ]
         },
         {
+            "name": "reqif: `",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/dsm/reqif/go/cmd/reqif",
+            "buildFlags": "-v",
+            "args": [
+                "-embeddedDiagrams=false",
+            ]
+        },
+        {
             "name": "reqif: drone.reqif`",
             "type": "go",
             "request": "launch",
