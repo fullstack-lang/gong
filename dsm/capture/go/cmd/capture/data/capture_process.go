@@ -220,11 +220,11 @@ func _(stage *models.Stage) {
 	__ConcernInputShape__00000001_.IsHidden = false
 
 	__ConcernInputShape__00000002_.Name = `Edit M1 & develop tools to edit M0 to Needed views`
-	__ConcernInputShape__00000002_.StartRatio = 0.500000
+	__ConcernInputShape__00000002_.StartRatio = 0.224448
 	__ConcernInputShape__00000002_.EndRatio = 0.500000
 	__ConcernInputShape__00000002_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ConcernInputShape__00000002_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ConcernInputShape__00000002_.CornerOffsetRatio = 1.680000
+	__ConcernInputShape__00000002_.CornerOffsetRatio = 1.335412
 	__ConcernInputShape__00000002_.IsHidden = false
 
 	__ConcernOutputShape__00000000_.Name = `Edit views to Views of the architecture`
@@ -244,11 +244,11 @@ func _(stage *models.Stage) {
 	__ConcernOutputShape__00000001_.IsHidden = false
 
 	__ConcernOutputShape__00000002_.Name = `Edit SEMP that defines needed views (M0) for stakeholders to Needed views`
-	__ConcernOutputShape__00000002_.StartRatio = 0.500000
+	__ConcernOutputShape__00000002_.StartRatio = 0.387436
 	__ConcernOutputShape__00000002_.EndRatio = 0.500000
 	__ConcernOutputShape__00000002_.StartOrientation = models.ORIENTATION_VERTICAL
 	__ConcernOutputShape__00000002_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ConcernOutputShape__00000002_.CornerOffsetRatio = 1.680000
+	__ConcernOutputShape__00000002_.CornerOffsetRatio = 1.397049
 	__ConcernOutputShape__00000002_.IsHidden = false
 
 	__ConcernShape__00000000_.Name = `-Default Diagram`
@@ -269,7 +269,7 @@ func _(stage *models.Stage) {
 
 	__ConcernShape__00000002_.Name = `-Default Diagram`
 	__ConcernShape__00000002_.IsExpanded = false
-	__ConcernShape__00000002_.X = 495.507589
+	__ConcernShape__00000002_.X = 489.507589
 	__ConcernShape__00000002_.Y = 298.618265
 	__ConcernShape__00000002_.Width = 250.000000
 	__ConcernShape__00000002_.Height = 70.000000
@@ -357,8 +357,8 @@ func _(stage *models.Stage) {
 
 	__DeliverableShape__00000003_.Name = `-Default Diagram`
 	__DeliverableShape__00000003_.IsExpanded = false
-	__DeliverableShape__00000003_.X = 492.919156
-	__DeliverableShape__00000003_.Y = 168.854495
+	__DeliverableShape__00000003_.X = 489.919156
+	__DeliverableShape__00000003_.Y = 171.854495
 	__DeliverableShape__00000003_.Width = 250.000000
 	__DeliverableShape__00000003_.Height = 70.000000
 	__DeliverableShape__00000003_.IsHidden = false
@@ -372,8 +372,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 21900.000000
-	__Diagram__00000000_.Height = 21900.000000
+	__Diagram__00000000_.Width = 22400.000000
+	__Diagram__00000000_.Height = 22400.000000
 	__Diagram__00000000_.IsRequirementsNodeExpanded = true
 	__Diagram__00000000_.IsConceptsNodeExpanded = true
 	__Diagram__00000000_.IsPBSNodeExpanded = true
@@ -518,7 +518,7 @@ func _(stage *models.Stage) {
 
 	__StakeholderShape__00000001_.Name = `-Default Diagram`
 	__StakeholderShape__00000001_.IsExpanded = false
-	__StakeholderShape__00000001_.X = 72.967288
+	__StakeholderShape__00000001_.X = 62.967288
 	__StakeholderShape__00000001_.Y = 296.167318
 	__StakeholderShape__00000001_.Width = 250.000000
 	__StakeholderShape__00000001_.Height = 70.000000

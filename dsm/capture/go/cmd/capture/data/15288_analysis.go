@@ -126,8 +126,8 @@ func _(stage *models.Stage) {
 
 	__ConcernShape__00000000_.Name = `-Default Diagram`
 	__ConcernShape__00000000_.IsExpanded = false
-	__ConcernShape__00000000_.X = 440.510422
-	__ConcernShape__00000000_.Y = 72.981540
+	__ConcernShape__00000000_.X = 437.510422
+	__ConcernShape__00000000_.Y = 106.981540
 	__ConcernShape__00000000_.Width = 250.000000
 	__ConcernShape__00000000_.Height = 70.000000
 	__ConcernShape__00000000_.IsHidden = false
@@ -182,24 +182,24 @@ func _(stage *models.Stage) {
 
 	__DeliverableShape__00000001_.Name = `-Default Diagram`
 	__DeliverableShape__00000001_.IsExpanded = false
-	__DeliverableShape__00000001_.X = 848.660473
-	__DeliverableShape__00000001_.Y = 158.400659
+	__DeliverableShape__00000001_.X = 841.660473
+	__DeliverableShape__00000001_.Y = 93.400659
 	__DeliverableShape__00000001_.Width = 250.000000
 	__DeliverableShape__00000001_.Height = 70.000000
 	__DeliverableShape__00000001_.IsHidden = false
 
 	__DeliverableShape__00000003_.Name = `-Default Diagram`
 	__DeliverableShape__00000003_.IsExpanded = false
-	__DeliverableShape__00000003_.X = 846.482364
-	__DeliverableShape__00000003_.Y = 246.415749
+	__DeliverableShape__00000003_.X = 837.482364
+	__DeliverableShape__00000003_.Y = 177.415764
 	__DeliverableShape__00000003_.Width = 250.000000
 	__DeliverableShape__00000003_.Height = 70.000000
 	__DeliverableShape__00000003_.IsHidden = false
 
 	__DeliverableShape__00000004_.Name = `-Default Diagram`
 	__DeliverableShape__00000004_.IsExpanded = false
-	__DeliverableShape__00000004_.X = 844.884923
-	__DeliverableShape__00000004_.Y = 65.722315
+	__DeliverableShape__00000004_.X = 842.884923
+	__DeliverableShape__00000004_.Y = 6.722315
 	__DeliverableShape__00000004_.Width = 250.000000
 	__DeliverableShape__00000004_.Height = 70.000000
 	__DeliverableShape__00000004_.IsHidden = false
@@ -213,8 +213,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 7017.436266
-	__Diagram__00000000_.Height = 7000.000000
+	__Diagram__00000000_.Width = 7117.436266
+	__Diagram__00000000_.Height = 7100.000000
 	__Diagram__00000000_.IsRequirementsNodeExpanded = false
 	__Diagram__00000000_.IsConceptsNodeExpanded = false
 	__Diagram__00000000_.IsPBSNodeExpanded = true
@@ -283,24 +283,24 @@ func _(stage *models.Stage) {
 
 	__StakeholderShape__00000000_.Name = `-Default Diagram`
 	__StakeholderShape__00000000_.IsExpanded = false
-	__StakeholderShape__00000000_.X = 46.436266
-	__StakeholderShape__00000000_.Y = 69.775834
+	__StakeholderShape__00000000_.X = 43.436266
+	__StakeholderShape__00000000_.Y = 105.775834
 	__StakeholderShape__00000000_.Width = 250.000000
 	__StakeholderShape__00000000_.Height = 70.000000
 	__StakeholderShape__00000000_.IsHidden = false
 
 	__StakeholderShape__00000001_.Name = `-Default Diagram`
 	__StakeholderShape__00000001_.IsExpanded = false
-	__StakeholderShape__00000001_.X = 40.483897
-	__StakeholderShape__00000001_.Y = 291.208105
+	__StakeholderShape__00000001_.X = 39.483897
+	__StakeholderShape__00000001_.Y = 296.208105
 	__StakeholderShape__00000001_.Width = 250.000000
 	__StakeholderShape__00000001_.Height = 70.000000
 	__StakeholderShape__00000001_.IsHidden = false
 
 	__StakeholderShape__00000003_.Name = `-Default Diagram`
 	__StakeholderShape__00000003_.IsExpanded = false
-	__StakeholderShape__00000003_.X = 38.609526
-	__StakeholderShape__00000003_.Y = 381.285939
+	__StakeholderShape__00000003_.X = 41.609526
+	__StakeholderShape__00000003_.Y = 392.285939
 	__StakeholderShape__00000003_.Width = 250.000000
 	__StakeholderShape__00000003_.Height = 70.000000
 	__StakeholderShape__00000003_.IsHidden = false

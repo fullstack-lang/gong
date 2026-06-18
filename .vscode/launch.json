@@ -493,13 +493,13 @@
             ]
         },
         {
-            "name": "capture: go server 15288.go",
+            "name": "capture: go server 15288_analysis.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
             "args": [
-                "15288.go",
+                "data/15288_analysis.go",
             ]
         },
         {

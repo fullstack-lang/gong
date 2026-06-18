@@ -340,6 +340,9 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.Stroke = "#555555"
 		link.StrokeWidth = 1.5
 		link.HasEndArrow = true
+		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+		link.StartAnchorType = svg.ANCHOR_CENTER
+		link.EndAnchorType = svg.ANCHOR_CENTER
 	}
 
 	for _, taskOutputShape := range diagram.ConcernOutputShapes {
@@ -371,6 +374,9 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link.Stroke = "#555555"
 		link.StrokeWidth = 1.5
 		link.HasEndArrow = true
+		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+		link.StartAnchorType = svg.ANCHOR_CENTER
+		link.EndAnchorType = svg.ANCHOR_CENTER
 	}
 
 	for _, noteShape := range diagram.Note_Shapes {
