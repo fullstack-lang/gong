@@ -68,51 +68,51 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 	}
 
 	if len(concern.Inputs) > 0 {
-		inputProductsNode := &tree.Node{
+		inputDeliverablesNode := &tree.Node{
 			Name:                 fmt.Sprintf("In (%d)", len(concern.Inputs)),
 			IsExpanded:           slices.Index(diagram.ConcernsWhoseInputNodeIsExpanded, concern) != -1,
 			IsNodeClickable:      true,
 			IsWithPreceedingIcon: true,
 			PreceedingIcon:       string(buttons.BUTTON_input),
 		}
-		concernNode.Children = append(concernNode.Children, inputProductsNode)
+		concernNode.Children = append(concernNode.Children, inputDeliverablesNode)
 
-		inputProductsNode.OnUpdate = onUpdateExpandableNode(stager, concern, &diagram.ConcernsWhoseInputNodeIsExpanded)
+		inputDeliverablesNode.OnUpdate = onUpdateExpandableNode(stager, concern, &diagram.ConcernsWhoseInputNodeIsExpanded)
 
-		for _, product := range concern.Inputs {
-			inputProductNode := &tree.Node{
-				Name:                    product.GetName(),
+		for _, deliverable := range concern.Inputs {
+			inputDeliverableNode := &tree.Node{
+				Name:                    deliverable.GetName(),
 				IsExpanded:              true,
 				IsNodeClickable:         true,
 				CheckboxHasToolTip:      true,
 				CheckboxToolTipPosition: tree.Right,
 			}
-			inputProductsNode.Children = append(inputProductsNode.Children, inputProductNode)
+			inputDeliverablesNode.Children = append(inputDeliverablesNode.Children, inputDeliverableNode)
 
-			// if input task is present in diagram as well as the input product
+			// if input task is present in diagram as well as the input deliverable
 			// display the show/hide input relation button
-			if _, ok := diagram.map_Product_ProductShape[product]; ok {
+			if _, ok := diagram.map_Deliverable_DeliverableShape[deliverable]; ok {
 				if _, ok := diagram.map_Concern_ConcernShape[concern]; ok {
 
-					inputProductNode.HasCheckboxButton = true
+					inputDeliverableNode.HasCheckboxButton = true
 
-					taskProductKey := concernProductKey{
+					taskDeliverableKey := concernDeliverableKey{
 						Concern: concern,
-						Product: product,
+						Deliverable: deliverable,
 					}
-					taskInputShape, ok := diagram.map_Concern_TaskInputShape[taskProductKey]
-					inputProductNode.IsChecked = ok
+					taskInputShape, ok := diagram.map_Concern_TaskInputShape[taskDeliverableKey]
+					inputDeliverableNode.IsChecked = ok
 
 					if ok {
-						inputProductNode.CheckboxToolTipText = "Uncheck to remove shape from diagram"
+						inputDeliverableNode.CheckboxToolTipText = "Uncheck to remove shape from diagram"
 					} else {
-						inputProductNode.CheckboxToolTipText = "Check to shape to diagram"
+						inputDeliverableNode.CheckboxToolTipText = "Check to shape to diagram"
 					}
 
-					inputProductNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					inputDeliverableNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 						if frontNode.IsChecked && !stagedNode.IsChecked {
 							stagedNode.IsChecked = true
-							addAssociationShapeToDiagram(stager, concern, product, &diagram.ConcernInputShapes)
+							addAssociationShapeToDiagram(stager, concern, deliverable, &diagram.ConcernInputShapes)
 							stager.stage.Commit()
 						}
 						if !frontNode.IsChecked && stagedNode.IsChecked {
@@ -122,7 +122,7 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 						}
 					}
 
-					inputProductNode.Buttons = []*tree.Button{
+					inputDeliverableNode.Buttons = []*tree.Button{
 						{
 							Name: diagram.GetName(),
 							Icon: string(buttons.BUTTON_visibility_off),
@@ -138,12 +138,12 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 					}
 					if ok {
 						if taskInputShape.GetIsHidden() {
-							inputProductNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
-							// inputProductNode.Buttons[0].SVGIcon = svgIconLinkVisibilityOn
-							inputProductNode.Buttons[0].ToolTipText = "Show link on diagram"
+							inputDeliverableNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+							// inputDeliverableNode.Buttons[0].SVGIcon = svgIconLinkVisibilityOn
+							inputDeliverableNode.Buttons[0].ToolTipText = "Show link on diagram"
 						}
 					} else {
-						inputProductNode.Buttons[0].IsDisabled = true
+						inputDeliverableNode.Buttons[0].IsDisabled = true
 					}
 				}
 			}
@@ -151,51 +151,51 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 
 	}
 	if len(concern.Outputs) > 0 {
-		outputProductsNode := &tree.Node{
+		outputDeliverablesNode := &tree.Node{
 			Name:                 fmt.Sprintf("Out (%d)", len(concern.Outputs)),
 			IsExpanded:           slices.Index(diagram.ConcernssWhoseOutputNodeIsExpanded, concern) != -1,
 			IsNodeClickable:      true,
 			IsWithPreceedingIcon: true,
 			PreceedingIcon:       string(buttons.BUTTON_output),
 		}
-		concernNode.Children = append(concernNode.Children, outputProductsNode)
+		concernNode.Children = append(concernNode.Children, outputDeliverablesNode)
 
-		outputProductsNode.OnUpdate = onUpdateExpandableNode(stager, concern, &diagram.ConcernssWhoseOutputNodeIsExpanded)
+		outputDeliverablesNode.OnUpdate = onUpdateExpandableNode(stager, concern, &diagram.ConcernssWhoseOutputNodeIsExpanded)
 
-		for _, product := range concern.Outputs {
-			outputProductNode := &tree.Node{
-				Name:                    product.GetName(),
+		for _, deliverable := range concern.Outputs {
+			outputDeliverableNode := &tree.Node{
+				Name:                    deliverable.GetName(),
 				IsExpanded:              true,
 				IsNodeClickable:         true,
 				CheckboxHasToolTip:      true,
 				CheckboxToolTipPosition: tree.Right,
 			}
-			outputProductsNode.Children = append(outputProductsNode.Children, outputProductNode)
+			outputDeliverablesNode.Children = append(outputDeliverablesNode.Children, outputDeliverableNode)
 
-			// if output task is present in diagram as well as the output product
+			// if output task is present in diagram as well as the output deliverable
 			// display the show/hide output relation button
-			if _, ok := diagram.map_Product_ProductShape[product]; ok {
+			if _, ok := diagram.map_Deliverable_DeliverableShape[deliverable]; ok {
 				if _, ok := diagram.map_Concern_ConcernShape[concern]; ok {
 
-					outputProductNode.HasCheckboxButton = true
+					outputDeliverableNode.HasCheckboxButton = true
 
-					taskProductKey := concernProductKey{
+					taskDeliverableKey := concernDeliverableKey{
 						Concern: concern,
-						Product: product,
+						Deliverable: deliverable,
 					}
-					taskOutputShape, ok := diagram.map_Concern_ConcernOutputShape[taskProductKey]
-					outputProductNode.IsChecked = ok
+					taskOutputShape, ok := diagram.map_Concern_ConcernOutputShape[taskDeliverableKey]
+					outputDeliverableNode.IsChecked = ok
 
 					if ok {
-						outputProductNode.CheckboxToolTipText = "Uncheck to remove shape from diagram"
+						outputDeliverableNode.CheckboxToolTipText = "Uncheck to remove shape from diagram"
 					} else {
-						outputProductNode.CheckboxToolTipText = "Check to shape to diagram"
+						outputDeliverableNode.CheckboxToolTipText = "Check to shape to diagram"
 					}
 
-					outputProductNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					outputDeliverableNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 						if frontNode.IsChecked && !stagedNode.IsChecked {
 							stagedNode.IsChecked = true
-							addAssociationShapeToDiagram(stager, concern, product, &diagram.ConcernOutputShapes)
+							addAssociationShapeToDiagram(stager, concern, deliverable, &diagram.ConcernOutputShapes)
 							stager.stage.Commit()
 						}
 						if !frontNode.IsChecked && stagedNode.IsChecked {
@@ -205,7 +205,7 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 						}
 					}
 
-					outputProductNode.Buttons = []*tree.Button{
+					outputDeliverableNode.Buttons = []*tree.Button{
 						{
 							Name:            diagram.GetName(),
 							Icon:            string(buttons.BUTTON_visibility_off),
@@ -220,11 +220,11 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 					}
 					if ok {
 						if taskOutputShape.GetIsHidden() {
-							outputProductNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
-							outputProductNode.Buttons[0].ToolTipText = "Show link on diagram"
+							outputDeliverableNode.Buttons[0].Icon = string(buttons.BUTTON_visibility)
+							outputDeliverableNode.Buttons[0].ToolTipText = "Show link on diagram"
 						}
 					} else {
-						outputProductNode.Buttons[0].IsDisabled = true
+						outputDeliverableNode.Buttons[0].IsDisabled = true
 					}
 				}
 			}
@@ -333,7 +333,7 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 			// if ok {
 			// 	if stakeholderShape.GetIsHidden() {
 			// 		n.Buttons[0].Icon = string(buttons.BUTTON_visibility)
-			// 		// inputProductNode.Buttons[0].SVGIcon = svgIconLinkVisibilityOn
+			// 		// inputDeliverableNode.Buttons[0].SVGIcon = svgIconLinkVisibilityOn
 			// 		n.Buttons[0].ToolTipText = "Show link on diagram"
 			// 	}
 			// } else {

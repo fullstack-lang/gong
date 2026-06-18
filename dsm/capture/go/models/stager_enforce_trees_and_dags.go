@@ -7,22 +7,22 @@ import (
 )
 
 func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
-	products := GetGongstrucsSorted[*Deliverable](stager.stage)
+	deliverables := GetGongstrucsSorted[*Deliverable](stager.stage)
 
-	// 1. Hierarchy Tree for Product
+	// 1. Hierarchy Tree for Deliverable
 	needCommit = EnforceTree(
 		stager,
-		products,
-		func(p *Deliverable) []*Deliverable { return p.SubProducts },
+		deliverables,
+		func(p *Deliverable) []*Deliverable { return p.SubDeliverables },
 		func(parent, child *Deliverable) {
-			for j, sub := range parent.SubProducts {
+			for j, sub := range parent.SubDeliverables {
 				if sub == child {
-					parent.SubProducts = slices.Delete(parent.SubProducts, j, j+1)
+					parent.SubDeliverables = slices.Delete(parent.SubDeliverables, j, j+1)
 					break
 				}
 			}
 		},
-		func(p *Deliverable) string { return "Product " + p.Name },
+		func(p *Deliverable) string { return "Deliverable " + p.Name },
 	) || needCommit
 
 	// 2. Hierarchy Tree for Resource
@@ -101,29 +101,29 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 		stager.GetRootLibrary().SubLibraries = filteredRootLibraries
 	}
 
-	// 5. Dependency DAG for Tasks and Products (Inputs/Outputs)
-	// Build a map of Product -> Tasks that consume it (InputProducts)
-	// This allows us to traverse the "Product -> Task" edge efficiently
-	productConsumers := make(map[*Deliverable][]*Concern)
+	// 5. Dependency DAG for Tasks and Deliverables (Inputs/Outputs)
+	// Build a map of Deliverable -> Tasks that consume it (InputDeliverables)
+	// This allows us to traverse the "Deliverable -> Task" edge efficiently
+	deliverableConsumers := make(map[*Deliverable][]*Concern)
 	for _, task := range tasks {
 		for _, inputProd := range task.Inputs {
-			productConsumers[inputProd] = append(productConsumers[inputProd], task)
+			deliverableConsumers[inputProd] = append(deliverableConsumers[inputProd], task)
 		}
 	}
 
 	// Define a wrapper node for the mixed graph because EnforceDAG expects a single type T
 	type DAGNode struct {
-		Product *Deliverable
+		Deliverable *Deliverable
 		Task    *Concern
 	}
 
 	// Create the list of all nodes in the graph
-	allNodes := make([]DAGNode, 0, len(tasks)+len(products))
+	allNodes := make([]DAGNode, 0, len(tasks)+len(deliverables))
 	for _, t := range tasks {
 		allNodes = append(allNodes, DAGNode{Task: t})
 	}
-	for _, p := range products {
-		allNodes = append(allNodes, DAGNode{Product: p})
+	for _, p := range deliverables {
+		allNodes = append(allNodes, DAGNode{Deliverable: p})
 	}
 
 	// Call the generic EnforceDAG on the dependency graph
@@ -135,13 +135,13 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 			children := []DAGNode{}
 
 			if n.Task != nil {
-				// Edge: Task -> OutputProducts
+				// Edge: Task -> OutputDeliverables
 				for _, outProd := range n.Task.Outputs {
-					children = append(children, DAGNode{Product: outProd})
+					children = append(children, DAGNode{Deliverable: outProd})
 				}
-			} else if n.Product != nil {
-				// Edge: Product -> Consuming Tasks (InputProducts)
-				if consumers, ok := productConsumers[n.Product]; ok {
+			} else if n.Deliverable != nil {
+				// Edge: Deliverable -> Consuming Tasks (InputDeliverables)
+				if consumers, ok := deliverableConsumers[n.Deliverable]; ok {
 					for _, consumerTask := range consumers {
 						children = append(children, DAGNode{Task: consumerTask})
 					}
@@ -151,20 +151,20 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 		},
 		// removeChild: Breaks the cycle by removing the specific edge
 		func(parent, child DAGNode) {
-			if parent.Task != nil && child.Product != nil {
-				// Break Task -> OutputProduct
+			if parent.Task != nil && child.Deliverable != nil {
+				// Break Task -> OutputDeliverable
 				p := parent.Task
-				c := child.Product
+				c := child.Deliverable
 				for j, out := range p.Outputs {
 					if out == c {
 						p.Outputs = slices.Delete(p.Outputs, j, j+1)
 						break
 					}
 				}
-			} else if parent.Product != nil && child.Task != nil {
-				// Break Product -> Task (InputProduct)
-				// Note: The pointer is stored in the Task (Child), so we remove the Product (Parent) from there
-				p := parent.Product
+			} else if parent.Deliverable != nil && child.Task != nil {
+				// Break Deliverable -> Task (InputDeliverable)
+				// Note: The pointer is stored in the Task (Child), so we remove the Deliverable (Parent) from there
+				p := parent.Deliverable
 				c := child.Task
 				for j, inp := range c.Inputs {
 					if inp == p {
@@ -177,8 +177,8 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 		func(n DAGNode) string {
 			if n.Task != nil {
 				return "Task " + n.Task.Name
-			} else if n.Product != nil {
-				return "Product " + n.Product.Name
+			} else if n.Deliverable != nil {
+				return "Deliverable " + n.Deliverable.Name
 			}
 			return ""
 		},

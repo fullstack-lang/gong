@@ -7,39 +7,39 @@ import (
 
 func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	// 1. collect all shapes that are attached to a diagram
-	reachableProductShapes := make(map[*ProductShape]struct{})
-	reachableProductCompositionShapes := make(map[*ProductCompositionShape]struct{})
+	reachableDeliverableShapes := make(map[*DeliverableShape]struct{})
+	reachableDeliverableCompositionShapes := make(map[*DeliverableCompositionShape]struct{})
 	reachableTaskShapes := make(map[*ConcernShape]struct{})
 	reachableTaskCompositionShapes := make(map[*ConcernCompositionShape]struct{})
 	reachableTaskInputShapes := make(map[*ConcernInputShape]struct{})
 	reachableTaskOutputShapes := make(map[*ConcernOutputShape]struct{})
 	reachableNoteShapes := make(map[*NoteShape]struct{})
-	reachableNoteProductShapes := make(map[*NoteProductShape]struct{})
+	reachableNoteDeliverableShapes := make(map[*NoteDeliverableShape]struct{})
 	reachableNoteTaskShapes := make(map[*NoteTaskShape]struct{})
 	reachableNoteResourceShapes := make(map[*NoteStakeholderShape]struct{})
 
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
-		collectShapes(diagram.Product_Shapes, reachableProductShapes)
-		collectShapes(diagram.ProductComposition_Shapes, reachableProductCompositionShapes)
+		collectShapes(diagram.Deliverable_Shapes, reachableDeliverableShapes)
+		collectShapes(diagram.DeliverableComposition_Shapes, reachableDeliverableCompositionShapes)
 		collectShapes(diagram.Concern_Shapes, reachableTaskShapes)
 		collectShapes(diagram.ConcernComposition_Shapes, reachableTaskCompositionShapes)
 		collectShapes(diagram.ConcernInputShapes, reachableTaskInputShapes)
 		collectShapes(diagram.ConcernOutputShapes, reachableTaskOutputShapes)
 		collectShapes(diagram.Note_Shapes, reachableNoteShapes)
-		collectShapes(diagram.NoteProductShapes, reachableNoteProductShapes)
+		collectShapes(diagram.NoteDeliverableShapes, reachableNoteDeliverableShapes)
 		collectShapes(diagram.NoteTaskShapes, reachableNoteTaskShapes)
 		collectShapes(diagram.NoteResourceShapes, reachableNoteResourceShapes)
 	}
 
 	// 2. unstage shapes that are not attached to a diagram
-	needCommit = unstageUnreachableOrphans(stager, reachableProductShapes) || needCommit
-	needCommit = unstageUnreachableOrphans(stager, reachableProductCompositionShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableDeliverableShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableDeliverableCompositionShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableTaskShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableTaskCompositionShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableTaskInputShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableTaskOutputShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableNoteShapes) || needCommit
-	needCommit = unstageUnreachableOrphans(stager, reachableNoteProductShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableNoteDeliverableShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableNoteTaskShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableNoteResourceShapes) || needCommit
 

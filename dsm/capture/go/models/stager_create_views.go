@@ -195,7 +195,7 @@ func (stager *Stager) createViews() {
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name:            "Tree Product Probe",
+		Name:            "Tree Deliverable Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{

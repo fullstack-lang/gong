@@ -306,7 +306,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		confRootDeliverables := ItemAndShapeButtonConfiguration[
 			Deliverable, *Deliverable,
 			Library, *Library,
-			ProductShape, *ProductShape,
+			DeliverableShape, *DeliverableShape,
 		]{
 			ItemButtonConfiguration: ItemButtonConfiguration[
 				Deliverable, *Deliverable,
@@ -319,7 +319,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 				parentNodeExpansionBooleanValue:    &diagram.IsPBSNodeExpanded,
 			},
 			receivingDiagram:      diagram,
-			sliceForNewAddedShape: &diagram.Product_Shapes,
+			sliceForNewAddedShape: &diagram.Deliverable_Shapes,
 		}
 		addCreateItemAndShapeButton(stager, confRootDeliverables)
 
@@ -440,39 +440,39 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 				}
 				noteNode := addNodeToTreeWithoutLink(stager, confNode)
 
-				// allow display of associations note to products
-				for _, product := range note.Products {
-					nodeProduct := &tree.Node{
-						Name:            product.Name,
+				// allow display of associations note to deliverables
+				for _, deliverable := range note.Deliverables {
+					nodeDeliverable := &tree.Node{
+						Name:            deliverable.Name,
 						IsNodeClickable: true,
 					}
-					noteNode.Children = append(noteNode.Children, nodeProduct)
+					noteNode.Children = append(noteNode.Children, nodeDeliverable)
 
 					showHideRelationButton := &tree.Button{
-						Name: GetGongstructNameFromPointer(product) + "- showHideRelationButton" + note.Name + " - " + product.Name,
+						Name: GetGongstructNameFromPointer(deliverable) + "- showHideRelationButton" + note.Name + " - " + deliverable.Name,
 
 						HasToolTip:      true,
 						ToolTipPosition: tree.Right,
 					}
-					nodeProduct.Buttons = append(nodeProduct.Buttons, showHideRelationButton)
+					nodeDeliverable.Buttons = append(nodeDeliverable.Buttons, showHideRelationButton)
 
-					if _, ok := diagram.map_Product_ProductShape[product]; ok {
+					if _, ok := diagram.map_Deliverable_DeliverableShape[deliverable]; ok {
 						if _, ok := diagram.map_Note_NoteShape[note]; ok {
 
-							noteProductShape, ok := diagram.map_Note_NoteProductShape[noteProductKey{Note: note, Product: product}]
-							nodeProduct.IsChecked = ok
+							noteDeliverableShape, ok := diagram.map_Note_NoteDeliverableShape[noteDeliverableKey{Note: note, Deliverable: deliverable}]
+							nodeDeliverable.IsChecked = ok
 
 							if ok {
 								showHideRelationButton.Icon = string(buttons.BUTTON_visibility_off)
 								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
-									"\" to product \"" + product.Name + "\""
-								// what to do when the product node is clicked
-								showHideRelationButton.OnClick = func() { onRemoveAssociationShape(stager, noteProductShape, &diagram.NoteProductShapes)() }
+									"\" to deliverable \"" + deliverable.Name + "\""
+								// what to do when the deliverable node is clicked
+								showHideRelationButton.OnClick = func() { onRemoveAssociationShape(stager, noteDeliverableShape, &diagram.NoteDeliverableShapes)() }
 							} else {
 								showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
 								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
-									"\" to product \"" + product.Name + "\""
-								showHideRelationButton.OnClick = func() { onAddAssociationShape(stager, note, product, &diagram.NoteProductShapes)() }
+									"\" to deliverable \"" + deliverable.Name + "\""
+								showHideRelationButton.OnClick = func() { onAddAssociationShape(stager, note, deliverable, &diagram.NoteDeliverableShapes)() }
 							}
 						}
 					}
@@ -499,7 +499,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 								showHideRelationButton.Icon = string(buttons.BUTTON_visibility_off)
 								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
 									"\" to task \"" + task.Name + "\""
-								// what to do when the product node is clicked
+								// what to do when the deliverable node is clicked
 								showHideRelationButton.OnClick = func() { onRemoveAssociationShape(stager, noteTaskShape, &diagram.NoteTaskShapes)() }
 							} else {
 								showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
@@ -531,7 +531,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 								showHideRelationButton.Icon = string(buttons.BUTTON_visibility_off)
 								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
 									"\" to resource \"" + resource.Name + "\""
-								// what to do when the product node is clicked
+								// what to do when the deliverable node is clicked
 								showHideRelationButton.OnClick = func() { onRemoveAssociationShape(stager, noteResourceShape, &diagram.NoteResourceShapes)() }
 							} else {
 								showHideRelationButton.Icon = string(buttons.BUTTON_visibility)

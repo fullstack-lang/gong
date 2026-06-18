@@ -81,11 +81,11 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Deliverable
 	// insertion point per field
-	stage.Deliverable_SubProducts_reverseMap = make(map[*Deliverable]*Deliverable)
+	stage.Deliverable_SubDeliverables_reverseMap = make(map[*Deliverable]*Deliverable)
 	for deliverable := range stage.Deliverables {
 		_ = deliverable
-		for _, _deliverable := range deliverable.SubProducts {
-			stage.Deliverable_SubProducts_reverseMap[_deliverable] = deliverable
+		for _, _deliverable := range deliverable.SubDeliverables {
+			stage.Deliverable_SubDeliverables_reverseMap[_deliverable] = deliverable
 		}
 	}
 	stage.Deliverable_Concepts_reverseMap = make(map[*Concept]*Deliverable)
@@ -96,7 +96,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct DeliverableCompositionShape
+	// insertion point per field
+
 	// Compute reverse map for named struct DeliverableConceptShape
+	// insertion point per field
+
+	// Compute reverse map for named struct DeliverableShape
 	// insertion point per field
 
 	// Compute reverse map for named struct Diagram
@@ -108,32 +114,32 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_ConcernsWhoseRequirementsNodeIsExpanded_reverseMap[_concern] = diagram
 		}
 	}
-	stage.Diagram_Product_Shapes_reverseMap = make(map[*ProductShape]*Diagram)
+	stage.Diagram_Deliverable_Shapes_reverseMap = make(map[*DeliverableShape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
-		for _, _productshape := range diagram.Product_Shapes {
-			stage.Diagram_Product_Shapes_reverseMap[_productshape] = diagram
+		for _, _deliverableshape := range diagram.Deliverable_Shapes {
+			stage.Diagram_Deliverable_Shapes_reverseMap[_deliverableshape] = diagram
 		}
 	}
-	stage.Diagram_ProductsWhoseNodeIsExpanded_reverseMap = make(map[*Deliverable]*Diagram)
+	stage.Diagram_DeliverablesWhoseNodeIsExpanded_reverseMap = make(map[*Deliverable]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
-		for _, _deliverable := range diagram.ProductsWhoseNodeIsExpanded {
-			stage.Diagram_ProductsWhoseNodeIsExpanded_reverseMap[_deliverable] = diagram
+		for _, _deliverable := range diagram.DeliverablesWhoseNodeIsExpanded {
+			stage.Diagram_DeliverablesWhoseNodeIsExpanded_reverseMap[_deliverable] = diagram
 		}
 	}
-	stage.Diagram_ProductsWhoseConceptsNodeIsExpanded_reverseMap = make(map[*Deliverable]*Diagram)
+	stage.Diagram_DeliverablesWhoseConceptsNodeIsExpanded_reverseMap = make(map[*Deliverable]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
-		for _, _deliverable := range diagram.ProductsWhoseConceptsNodeIsExpanded {
-			stage.Diagram_ProductsWhoseConceptsNodeIsExpanded_reverseMap[_deliverable] = diagram
+		for _, _deliverable := range diagram.DeliverablesWhoseConceptsNodeIsExpanded {
+			stage.Diagram_DeliverablesWhoseConceptsNodeIsExpanded_reverseMap[_deliverable] = diagram
 		}
 	}
-	stage.Diagram_ProductComposition_Shapes_reverseMap = make(map[*ProductCompositionShape]*Diagram)
+	stage.Diagram_DeliverableComposition_Shapes_reverseMap = make(map[*DeliverableCompositionShape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
-		for _, _productcompositionshape := range diagram.ProductComposition_Shapes {
-			stage.Diagram_ProductComposition_Shapes_reverseMap[_productcompositionshape] = diagram
+		for _, _deliverablecompositionshape := range diagram.DeliverableComposition_Shapes {
+			stage.Diagram_DeliverableComposition_Shapes_reverseMap[_deliverablecompositionshape] = diagram
 		}
 	}
 	stage.Diagram_Concern_Shapes_reverseMap = make(map[*ConcernShape]*Diagram)
@@ -206,11 +212,11 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_NotesWhoseNodeIsExpanded_reverseMap[_note] = diagram
 		}
 	}
-	stage.Diagram_NoteProductShapes_reverseMap = make(map[*NoteProductShape]*Diagram)
+	stage.Diagram_NoteDeliverableShapes_reverseMap = make(map[*NoteDeliverableShape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
-		for _, _noteproductshape := range diagram.NoteProductShapes {
-			stage.Diagram_NoteProductShapes_reverseMap[_noteproductshape] = diagram
+		for _, _notedeliverableshape := range diagram.NoteDeliverableShapes {
+			stage.Diagram_NoteDeliverableShapes_reverseMap[_notedeliverableshape] = diagram
 		}
 	}
 	stage.Diagram_NoteTaskShapes_reverseMap = make(map[*NoteTaskShape]*Diagram)
@@ -366,11 +372,11 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Note
 	// insertion point per field
-	stage.Note_Products_reverseMap = make(map[*Deliverable]*Note)
+	stage.Note_Deliverables_reverseMap = make(map[*Deliverable]*Note)
 	for note := range stage.Notes {
 		_ = note
-		for _, _deliverable := range note.Products {
-			stage.Note_Products_reverseMap[_deliverable] = note
+		for _, _deliverable := range note.Deliverables {
+			stage.Note_Deliverables_reverseMap[_deliverable] = note
 		}
 	}
 	stage.Note_Tasks_reverseMap = make(map[*Concern]*Note)
@@ -388,7 +394,7 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct NoteProductShape
+	// Compute reverse map for named struct NoteDeliverableShape
 	// insertion point per field
 
 	// Compute reverse map for named struct NoteShape
@@ -398,12 +404,6 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per field
 
 	// Compute reverse map for named struct NoteTaskShape
-	// insertion point per field
-
-	// Compute reverse map for named struct ProductCompositionShape
-	// insertion point per field
-
-	// Compute reverse map for named struct ProductShape
 	// insertion point per field
 
 	// Compute reverse map for named struct Requirement
@@ -499,7 +499,15 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.DeliverableCompositionShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.DeliverableConceptShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.DeliverableShapes {
 		res = append(res, instance)
 	}
 
@@ -515,7 +523,7 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.NoteProductShapes {
+	for instance := range stage.NoteDeliverableShapes {
 		res = append(res, instance)
 	}
 
@@ -528,14 +536,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.NoteTaskShapes {
-		res = append(res, instance)
-	}
-
-	for instance := range stage.ProductCompositionShapes {
-		res = append(res, instance)
-	}
-
-	for instance := range stage.ProductShapes {
 		res = append(res, instance)
 	}
 
@@ -629,9 +629,21 @@ func (deliverable *Deliverable) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (deliverablecompositionshape *DeliverableCompositionShape) GongCopy() GongstructIF {
+	newInstance := new(DeliverableCompositionShape)
+	deliverablecompositionshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 func (deliverableconceptshape *DeliverableConceptShape) GongCopy() GongstructIF {
 	newInstance := new(DeliverableConceptShape)
 	deliverableconceptshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (deliverableshape *DeliverableShape) GongCopy() GongstructIF {
+	newInstance := new(DeliverableShape)
+	deliverableshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -653,9 +665,9 @@ func (note *Note) GongCopy() GongstructIF {
 	return newInstance
 }
 
-func (noteproductshape *NoteProductShape) GongCopy() GongstructIF {
-	newInstance := new(NoteProductShape)
-	noteproductshape.CopyBasicFields(newInstance)
+func (notedeliverableshape *NoteDeliverableShape) GongCopy() GongstructIF {
+	newInstance := new(NoteDeliverableShape)
+	notedeliverableshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -674,18 +686,6 @@ func (notestakeholdershape *NoteStakeholderShape) GongCopy() GongstructIF {
 func (notetaskshape *NoteTaskShape) GongCopy() GongstructIF {
 	newInstance := new(NoteTaskShape)
 	notetaskshape.CopyBasicFields(newInstance)
-	return newInstance
-}
-
-func (productcompositionshape *ProductCompositionShape) GongCopy() GongstructIF {
-	newInstance := new(ProductCompositionShape)
-	productcompositionshape.CopyBasicFields(newInstance)
-	return newInstance
-}
-
-func (productshape *ProductShape) GongCopy() GongstructIF {
-	newInstance := new(ProductShape)
-	productshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -828,6 +828,16 @@ func (deliverable *Deliverable) GongGetUUID(stage *Stage) (uuid string) {
 	return
 }
 
+func (deliverablecompositionshape *DeliverableCompositionShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(deliverablecompositionshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(deliverablecompositionshape), uint64(GetOrderPointerGongstruct(stage, deliverablecompositionshape)))
+	return
+}
+
 func (deliverableconceptshape *DeliverableConceptShape) GongGetUUID(stage *Stage) (uuid string) {
 
 	if __gong__, ok := any(deliverableconceptshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
@@ -835,6 +845,16 @@ func (deliverableconceptshape *DeliverableConceptShape) GongGetUUID(stage *Stage
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(deliverableconceptshape), uint64(GetOrderPointerGongstruct(stage, deliverableconceptshape)))
+	return
+}
+
+func (deliverableshape *DeliverableShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(deliverableshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(deliverableshape), uint64(GetOrderPointerGongstruct(stage, deliverableshape)))
 	return
 }
 
@@ -868,13 +888,13 @@ func (note *Note) GongGetUUID(stage *Stage) (uuid string) {
 	return
 }
 
-func (noteproductshape *NoteProductShape) GongGetUUID(stage *Stage) (uuid string) {
+func (notedeliverableshape *NoteDeliverableShape) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(noteproductshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+	if __gong__, ok := any(notedeliverableshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(noteproductshape), uint64(GetOrderPointerGongstruct(stage, noteproductshape)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(notedeliverableshape), uint64(GetOrderPointerGongstruct(stage, notedeliverableshape)))
 	return
 }
 
@@ -905,26 +925,6 @@ func (notetaskshape *NoteTaskShape) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(notetaskshape), uint64(GetOrderPointerGongstruct(stage, notetaskshape)))
-	return
-}
-
-func (productcompositionshape *ProductCompositionShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(productcompositionshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(productcompositionshape), uint64(GetOrderPointerGongstruct(stage, productcompositionshape)))
-	return
-}
-
-func (productshape *ProductShape) GongGetUUID(stage *Stage) (uuid string) {
-
-	if __gong__, ok := any(productshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
-		return __gong__.GongGetUUIDCustom(stage)
-	}
-
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(productshape), uint64(GetOrderPointerGongstruct(stage, productshape)))
 	return
 }
 
@@ -1521,6 +1521,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(deliverables_newInstances)
 	lenDeletedInstances += len(deliverables_deletedInstances)
+	var deliverablecompositionshapes_newInstances []*DeliverableCompositionShape
+	var deliverablecompositionshapes_deletedInstances []*DeliverableCompositionShape
+
+	// parse all staged instances and check if they have a reference
+	for deliverablecompositionshape := range stage.DeliverableCompositionShapes {
+		if ref, ok := stage.DeliverableCompositionShapes_reference[deliverablecompositionshape]; !ok {
+			deliverablecompositionshapes_newInstances = append(deliverablecompositionshapes_newInstances, deliverablecompositionshape)
+			newInstancesSlice = append(newInstancesSlice, deliverablecompositionshape.GongMarshallIdentifier(stage))
+			if stage.DeliverableCompositionShapes_referenceOrder == nil {
+				stage.DeliverableCompositionShapes_referenceOrder = make(map[*DeliverableCompositionShape]uint)
+			}
+			stage.DeliverableCompositionShapes_referenceOrder[deliverablecompositionshape] = stage.DeliverableCompositionShape_stagedOrder[deliverablecompositionshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, deliverablecompositionshape.GongMarshallUnstaging(stage))
+			// delete(stage.DeliverableCompositionShapes_referenceOrder, deliverablecompositionshape)
+			fieldInitializers, pointersInitializations := deliverablecompositionshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.DeliverableCompositionShape_stagedOrder[ref] = stage.DeliverableCompositionShape_stagedOrder[deliverablecompositionshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := deliverablecompositionshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, deliverablecompositionshape)
+			// delete(stage.DeliverableCompositionShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if deliverablecompositionshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", deliverablecompositionshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.DeliverableCompositionShapes_reference {
+		instance := stage.DeliverableCompositionShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.DeliverableCompositionShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			deliverablecompositionshapes_deletedInstances = append(deliverablecompositionshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(deliverablecompositionshapes_newInstances)
+	lenDeletedInstances += len(deliverablecompositionshapes_deletedInstances)
 	var deliverableconceptshapes_newInstances []*DeliverableConceptShape
 	var deliverableconceptshapes_deletedInstances []*DeliverableConceptShape
 
@@ -1576,6 +1631,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(deliverableconceptshapes_newInstances)
 	lenDeletedInstances += len(deliverableconceptshapes_deletedInstances)
+	var deliverableshapes_newInstances []*DeliverableShape
+	var deliverableshapes_deletedInstances []*DeliverableShape
+
+	// parse all staged instances and check if they have a reference
+	for deliverableshape := range stage.DeliverableShapes {
+		if ref, ok := stage.DeliverableShapes_reference[deliverableshape]; !ok {
+			deliverableshapes_newInstances = append(deliverableshapes_newInstances, deliverableshape)
+			newInstancesSlice = append(newInstancesSlice, deliverableshape.GongMarshallIdentifier(stage))
+			if stage.DeliverableShapes_referenceOrder == nil {
+				stage.DeliverableShapes_referenceOrder = make(map[*DeliverableShape]uint)
+			}
+			stage.DeliverableShapes_referenceOrder[deliverableshape] = stage.DeliverableShape_stagedOrder[deliverableshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, deliverableshape.GongMarshallUnstaging(stage))
+			// delete(stage.DeliverableShapes_referenceOrder, deliverableshape)
+			fieldInitializers, pointersInitializations := deliverableshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.DeliverableShape_stagedOrder[ref] = stage.DeliverableShape_stagedOrder[deliverableshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := deliverableshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, deliverableshape)
+			// delete(stage.DeliverableShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if deliverableshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", deliverableshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.DeliverableShapes_reference {
+		instance := stage.DeliverableShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.DeliverableShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			deliverableshapes_deletedInstances = append(deliverableshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(deliverableshapes_newInstances)
+	lenDeletedInstances += len(deliverableshapes_deletedInstances)
 	var diagrams_newInstances []*Diagram
 	var diagrams_deletedInstances []*Diagram
 
@@ -1741,32 +1851,32 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(notes_newInstances)
 	lenDeletedInstances += len(notes_deletedInstances)
-	var noteproductshapes_newInstances []*NoteProductShape
-	var noteproductshapes_deletedInstances []*NoteProductShape
+	var notedeliverableshapes_newInstances []*NoteDeliverableShape
+	var notedeliverableshapes_deletedInstances []*NoteDeliverableShape
 
 	// parse all staged instances and check if they have a reference
-	for noteproductshape := range stage.NoteProductShapes {
-		if ref, ok := stage.NoteProductShapes_reference[noteproductshape]; !ok {
-			noteproductshapes_newInstances = append(noteproductshapes_newInstances, noteproductshape)
-			newInstancesSlice = append(newInstancesSlice, noteproductshape.GongMarshallIdentifier(stage))
-			if stage.NoteProductShapes_referenceOrder == nil {
-				stage.NoteProductShapes_referenceOrder = make(map[*NoteProductShape]uint)
+	for notedeliverableshape := range stage.NoteDeliverableShapes {
+		if ref, ok := stage.NoteDeliverableShapes_reference[notedeliverableshape]; !ok {
+			notedeliverableshapes_newInstances = append(notedeliverableshapes_newInstances, notedeliverableshape)
+			newInstancesSlice = append(newInstancesSlice, notedeliverableshape.GongMarshallIdentifier(stage))
+			if stage.NoteDeliverableShapes_referenceOrder == nil {
+				stage.NoteDeliverableShapes_referenceOrder = make(map[*NoteDeliverableShape]uint)
 			}
-			stage.NoteProductShapes_referenceOrder[noteproductshape] = stage.NoteProductShape_stagedOrder[noteproductshape]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, noteproductshape.GongMarshallUnstaging(stage))
-			// delete(stage.NoteProductShapes_referenceOrder, noteproductshape)
-			fieldInitializers, pointersInitializations := noteproductshape.GongMarshallAllFields(stage)
+			stage.NoteDeliverableShapes_referenceOrder[notedeliverableshape] = stage.NoteDeliverableShape_stagedOrder[notedeliverableshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, notedeliverableshape.GongMarshallUnstaging(stage))
+			// delete(stage.NoteDeliverableShapes_referenceOrder, notedeliverableshape)
+			fieldInitializers, pointersInitializations := notedeliverableshape.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.NoteProductShape_stagedOrder[ref] = stage.NoteProductShape_stagedOrder[noteproductshape]
+			stage.NoteDeliverableShape_stagedOrder[ref] = stage.NoteDeliverableShape_stagedOrder[notedeliverableshape]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := noteproductshape.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, noteproductshape)
-			// delete(stage.NoteProductShape_stagedOrder, ref)
+			diffs := notedeliverableshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, notedeliverableshape)
+			// delete(stage.NoteDeliverableShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				if noteproductshape.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", noteproductshape.GetName())
+				if notedeliverableshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", notedeliverableshape.GetName())
 				} else {
 					fieldsEdit += "\n\t//"
 				}
@@ -1783,10 +1893,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.NoteProductShapes_reference {
-		instance := stage.NoteProductShapes_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.NoteProductShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			noteproductshapes_deletedInstances = append(noteproductshapes_deletedInstances, ref)
+	for _, ref := range stage.NoteDeliverableShapes_reference {
+		instance := stage.NoteDeliverableShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.NoteDeliverableShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			notedeliverableshapes_deletedInstances = append(notedeliverableshapes_deletedInstances, ref)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -1794,8 +1904,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		}
 	}
 
-	lenNewInstances += len(noteproductshapes_newInstances)
-	lenDeletedInstances += len(noteproductshapes_deletedInstances)
+	lenNewInstances += len(notedeliverableshapes_newInstances)
+	lenDeletedInstances += len(notedeliverableshapes_deletedInstances)
 	var noteshapes_newInstances []*NoteShape
 	var noteshapes_deletedInstances []*NoteShape
 
@@ -1961,116 +2071,6 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(notetaskshapes_newInstances)
 	lenDeletedInstances += len(notetaskshapes_deletedInstances)
-	var productcompositionshapes_newInstances []*ProductCompositionShape
-	var productcompositionshapes_deletedInstances []*ProductCompositionShape
-
-	// parse all staged instances and check if they have a reference
-	for productcompositionshape := range stage.ProductCompositionShapes {
-		if ref, ok := stage.ProductCompositionShapes_reference[productcompositionshape]; !ok {
-			productcompositionshapes_newInstances = append(productcompositionshapes_newInstances, productcompositionshape)
-			newInstancesSlice = append(newInstancesSlice, productcompositionshape.GongMarshallIdentifier(stage))
-			if stage.ProductCompositionShapes_referenceOrder == nil {
-				stage.ProductCompositionShapes_referenceOrder = make(map[*ProductCompositionShape]uint)
-			}
-			stage.ProductCompositionShapes_referenceOrder[productcompositionshape] = stage.ProductCompositionShape_stagedOrder[productcompositionshape]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, productcompositionshape.GongMarshallUnstaging(stage))
-			// delete(stage.ProductCompositionShapes_referenceOrder, productcompositionshape)
-			fieldInitializers, pointersInitializations := productcompositionshape.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ProductCompositionShape_stagedOrder[ref] = stage.ProductCompositionShape_stagedOrder[productcompositionshape]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := productcompositionshape.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, productcompositionshape)
-			// delete(stage.ProductCompositionShape_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if productcompositionshape.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", productcompositionshape.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ProductCompositionShapes_reference {
-		instance := stage.ProductCompositionShapes_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ProductCompositionShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			productcompositionshapes_deletedInstances = append(productcompositionshapes_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(productcompositionshapes_newInstances)
-	lenDeletedInstances += len(productcompositionshapes_deletedInstances)
-	var productshapes_newInstances []*ProductShape
-	var productshapes_deletedInstances []*ProductShape
-
-	// parse all staged instances and check if they have a reference
-	for productshape := range stage.ProductShapes {
-		if ref, ok := stage.ProductShapes_reference[productshape]; !ok {
-			productshapes_newInstances = append(productshapes_newInstances, productshape)
-			newInstancesSlice = append(newInstancesSlice, productshape.GongMarshallIdentifier(stage))
-			if stage.ProductShapes_referenceOrder == nil {
-				stage.ProductShapes_referenceOrder = make(map[*ProductShape]uint)
-			}
-			stage.ProductShapes_referenceOrder[productshape] = stage.ProductShape_stagedOrder[productshape]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, productshape.GongMarshallUnstaging(stage))
-			// delete(stage.ProductShapes_referenceOrder, productshape)
-			fieldInitializers, pointersInitializations := productshape.GongMarshallAllFields(stage)
-			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
-		} else {
-			stage.ProductShape_stagedOrder[ref] = stage.ProductShape_stagedOrder[productshape]
-			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := productshape.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, productshape)
-			// delete(stage.ProductShape_stagedOrder, ref)
-			if len(diffs) > 0 {
-				var fieldsEdit string
-				if productshape.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", productshape.GetName())
-				} else {
-					fieldsEdit += "\n\t//"
-				}
-				for _, diff := range diffs {
-					fieldsEdit += diff
-				}
-				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
-				for _, reverseDiff := range reverseDiffs {
-					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
-				}
-				lenModifiedInstances++
-			}
-		}
-	}
-
-	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.ProductShapes_reference {
-		instance := stage.ProductShapes_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.ProductShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			productshapes_deletedInstances = append(productshapes_deletedInstances, ref)
-			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
-			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
-			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
-			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
-		}
-	}
-
-	lenNewInstances += len(productshapes_newInstances)
-	lenDeletedInstances += len(productshapes_deletedInstances)
 	var requirements_newInstances []*Requirement
 	var requirements_deletedInstances []*Requirement
 
@@ -2636,6 +2636,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Deliverables_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.DeliverableCompositionShapes_reference = make(map[*DeliverableCompositionShape]*DeliverableCompositionShape)
+	stage.DeliverableCompositionShapes_referenceOrder = make(map[*DeliverableCompositionShape]uint) // diff Unstage needs the reference order
+	stage.DeliverableCompositionShapes_instance = make(map[*DeliverableCompositionShape]*DeliverableCompositionShape)
+	for instance := range stage.DeliverableCompositionShapes {
+		_copy := instance.GongCopy().(*DeliverableCompositionShape)
+		stage.DeliverableCompositionShapes_reference[instance] = _copy
+		stage.DeliverableCompositionShapes_instance[_copy] = instance
+		stage.DeliverableCompositionShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.DeliverableConceptShapes_reference = make(map[*DeliverableConceptShape]*DeliverableConceptShape)
 	stage.DeliverableConceptShapes_referenceOrder = make(map[*DeliverableConceptShape]uint) // diff Unstage needs the reference order
 	stage.DeliverableConceptShapes_instance = make(map[*DeliverableConceptShape]*DeliverableConceptShape)
@@ -2644,6 +2654,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.DeliverableConceptShapes_reference[instance] = _copy
 		stage.DeliverableConceptShapes_instance[_copy] = instance
 		stage.DeliverableConceptShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.DeliverableShapes_reference = make(map[*DeliverableShape]*DeliverableShape)
+	stage.DeliverableShapes_referenceOrder = make(map[*DeliverableShape]uint) // diff Unstage needs the reference order
+	stage.DeliverableShapes_instance = make(map[*DeliverableShape]*DeliverableShape)
+	for instance := range stage.DeliverableShapes {
+		_copy := instance.GongCopy().(*DeliverableShape)
+		stage.DeliverableShapes_reference[instance] = _copy
+		stage.DeliverableShapes_instance[_copy] = instance
+		stage.DeliverableShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Diagrams_reference = make(map[*Diagram]*Diagram)
@@ -2676,14 +2696,14 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Notes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
-	stage.NoteProductShapes_reference = make(map[*NoteProductShape]*NoteProductShape)
-	stage.NoteProductShapes_referenceOrder = make(map[*NoteProductShape]uint) // diff Unstage needs the reference order
-	stage.NoteProductShapes_instance = make(map[*NoteProductShape]*NoteProductShape)
-	for instance := range stage.NoteProductShapes {
-		_copy := instance.GongCopy().(*NoteProductShape)
-		stage.NoteProductShapes_reference[instance] = _copy
-		stage.NoteProductShapes_instance[_copy] = instance
-		stage.NoteProductShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	stage.NoteDeliverableShapes_reference = make(map[*NoteDeliverableShape]*NoteDeliverableShape)
+	stage.NoteDeliverableShapes_referenceOrder = make(map[*NoteDeliverableShape]uint) // diff Unstage needs the reference order
+	stage.NoteDeliverableShapes_instance = make(map[*NoteDeliverableShape]*NoteDeliverableShape)
+	for instance := range stage.NoteDeliverableShapes {
+		_copy := instance.GongCopy().(*NoteDeliverableShape)
+		stage.NoteDeliverableShapes_reference[instance] = _copy
+		stage.NoteDeliverableShapes_instance[_copy] = instance
+		stage.NoteDeliverableShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.NoteShapes_reference = make(map[*NoteShape]*NoteShape)
@@ -2714,26 +2734,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.NoteTaskShapes_reference[instance] = _copy
 		stage.NoteTaskShapes_instance[_copy] = instance
 		stage.NoteTaskShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
-	stage.ProductCompositionShapes_reference = make(map[*ProductCompositionShape]*ProductCompositionShape)
-	stage.ProductCompositionShapes_referenceOrder = make(map[*ProductCompositionShape]uint) // diff Unstage needs the reference order
-	stage.ProductCompositionShapes_instance = make(map[*ProductCompositionShape]*ProductCompositionShape)
-	for instance := range stage.ProductCompositionShapes {
-		_copy := instance.GongCopy().(*ProductCompositionShape)
-		stage.ProductCompositionShapes_reference[instance] = _copy
-		stage.ProductCompositionShapes_instance[_copy] = instance
-		stage.ProductCompositionShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
-	}
-
-	stage.ProductShapes_reference = make(map[*ProductShape]*ProductShape)
-	stage.ProductShapes_referenceOrder = make(map[*ProductShape]uint) // diff Unstage needs the reference order
-	stage.ProductShapes_instance = make(map[*ProductShape]*ProductShape)
-	for instance := range stage.ProductShapes {
-		_copy := instance.GongCopy().(*ProductShape)
-		stage.ProductShapes_reference[instance] = _copy
-		stage.ProductShapes_instance[_copy] = instance
-		stage.ProductShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Requirements_reference = make(map[*Requirement]*Requirement)
@@ -2862,8 +2862,18 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.DeliverableCompositionShapes {
+		reference := stage.DeliverableCompositionShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.DeliverableConceptShapes {
 		reference := stage.DeliverableConceptShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.DeliverableShapes {
+		reference := stage.DeliverableShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -2882,8 +2892,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
-	for instance := range stage.NoteProductShapes {
-		reference := stage.NoteProductShapes_reference[instance]
+	for instance := range stage.NoteDeliverableShapes {
+		reference := stage.NoteDeliverableShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -2899,16 +2909,6 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.NoteTaskShapes {
 		reference := stage.NoteTaskShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
-	for instance := range stage.ProductCompositionShapes {
-		reference := stage.ProductCompositionShapes_reference[instance]
-		reference.GongReconstructPointersFromReferences(stage, instance)
-	}
-
-	for instance := range stage.ProductShapes {
-		reference := stage.ProductShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -3070,6 +3070,18 @@ func (deliverable *Deliverable) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (deliverablecompositionshape *DeliverableCompositionShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.DeliverableCompositionShape_stagedOrder[deliverablecompositionshape]; ok {
+		return order
+	}
+	if order, ok := stage.DeliverableCompositionShapes_referenceOrder[deliverablecompositionshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type DeliverableCompositionShape was not staged and does not have a reference order", deliverablecompositionshape)
+		return 0
+	}
+}
+
 func (deliverableconceptshape *DeliverableConceptShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.DeliverableConceptShape_stagedOrder[deliverableconceptshape]; ok {
 		return order
@@ -3078,6 +3090,18 @@ func (deliverableconceptshape *DeliverableConceptShape) GongGetOrder(stage *Stag
 		return order
 	} else {
 		log.Printf("instance %p of type DeliverableConceptShape was not staged and does not have a reference order", deliverableconceptshape)
+		return 0
+	}
+}
+
+func (deliverableshape *DeliverableShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.DeliverableShape_stagedOrder[deliverableshape]; ok {
+		return order
+	}
+	if order, ok := stage.DeliverableShapes_referenceOrder[deliverableshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type DeliverableShape was not staged and does not have a reference order", deliverableshape)
 		return 0
 	}
 }
@@ -3118,14 +3142,14 @@ func (note *Note) GongGetOrder(stage *Stage) uint {
 	}
 }
 
-func (noteproductshape *NoteProductShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.NoteProductShape_stagedOrder[noteproductshape]; ok {
+func (notedeliverableshape *NoteDeliverableShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.NoteDeliverableShape_stagedOrder[notedeliverableshape]; ok {
 		return order
 	}
-	if order, ok := stage.NoteProductShapes_referenceOrder[noteproductshape]; ok {
+	if order, ok := stage.NoteDeliverableShapes_referenceOrder[notedeliverableshape]; ok {
 		return order
 	} else {
-		log.Printf("instance %p of type NoteProductShape was not staged and does not have a reference order", noteproductshape)
+		log.Printf("instance %p of type NoteDeliverableShape was not staged and does not have a reference order", notedeliverableshape)
 		return 0
 	}
 }
@@ -3162,30 +3186,6 @@ func (notetaskshape *NoteTaskShape) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type NoteTaskShape was not staged and does not have a reference order", notetaskshape)
-		return 0
-	}
-}
-
-func (productcompositionshape *ProductCompositionShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.ProductCompositionShape_stagedOrder[productcompositionshape]; ok {
-		return order
-	}
-	if order, ok := stage.ProductCompositionShapes_referenceOrder[productcompositionshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type ProductCompositionShape was not staged and does not have a reference order", productcompositionshape)
-		return 0
-	}
-}
-
-func (productshape *ProductShape) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.ProductShape_stagedOrder[productshape]; ok {
-		return order
-	}
-	if order, ok := stage.ProductShapes_referenceOrder[productshape]; ok {
-		return order
-	} else {
-		log.Printf("instance %p of type ProductShape was not staged and does not have a reference order", productshape)
 		return 0
 	}
 }
@@ -3372,6 +3372,15 @@ func (deliverable *Deliverable) GongGetReferenceIdentifier(stage *Stage) string 
 	return fmt.Sprintf("__%s__%08d_", deliverable.GongGetGongstructName(), deliverable.GongGetOrder(stage))
 }
 
+func (deliverablecompositionshape *DeliverableCompositionShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", deliverablecompositionshape.GongGetGongstructName(), deliverablecompositionshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (deliverablecompositionshape *DeliverableCompositionShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", deliverablecompositionshape.GongGetGongstructName(), deliverablecompositionshape.GongGetOrder(stage))
+}
+
 func (deliverableconceptshape *DeliverableConceptShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", deliverableconceptshape.GongGetGongstructName(), deliverableconceptshape.GongGetOrder(stage))
 }
@@ -3379,6 +3388,15 @@ func (deliverableconceptshape *DeliverableConceptShape) GongGetIdentifier(stage 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (deliverableconceptshape *DeliverableConceptShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", deliverableconceptshape.GongGetGongstructName(), deliverableconceptshape.GongGetOrder(stage))
+}
+
+func (deliverableshape *DeliverableShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", deliverableshape.GongGetGongstructName(), deliverableshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (deliverableshape *DeliverableShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", deliverableshape.GongGetGongstructName(), deliverableshape.GongGetOrder(stage))
 }
 
 func (diagram *Diagram) GongGetIdentifier(stage *Stage) string {
@@ -3408,13 +3426,13 @@ func (note *Note) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", note.GongGetGongstructName(), note.GongGetOrder(stage))
 }
 
-func (noteproductshape *NoteProductShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", noteproductshape.GongGetGongstructName(), noteproductshape.GongGetOrder(stage))
+func (notedeliverableshape *NoteDeliverableShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", notedeliverableshape.GongGetGongstructName(), notedeliverableshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (noteproductshape *NoteProductShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", noteproductshape.GongGetGongstructName(), noteproductshape.GongGetOrder(stage))
+func (notedeliverableshape *NoteDeliverableShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", notedeliverableshape.GongGetGongstructName(), notedeliverableshape.GongGetOrder(stage))
 }
 
 func (noteshape *NoteShape) GongGetIdentifier(stage *Stage) string {
@@ -3442,24 +3460,6 @@ func (notetaskshape *NoteTaskShape) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (notetaskshape *NoteTaskShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", notetaskshape.GongGetGongstructName(), notetaskshape.GongGetOrder(stage))
-}
-
-func (productcompositionshape *ProductCompositionShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", productcompositionshape.GongGetGongstructName(), productcompositionshape.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (productcompositionshape *ProductCompositionShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", productcompositionshape.GongGetGongstructName(), productcompositionshape.GongGetOrder(stage))
-}
-
-func (productshape *ProductShape) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", productshape.GongGetGongstructName(), productshape.GongGetOrder(stage))
-}
-
-// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (productshape *ProductShape) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", productshape.GongGetGongstructName(), productshape.GongGetOrder(stage))
 }
 
 func (requirement *Requirement) GongGetIdentifier(stage *Stage) string {
@@ -3609,11 +3609,27 @@ func (deliverable *Deliverable) GongMarshallIdentifier(stage *Stage) (decl strin
 	return
 }
 
+func (deliverablecompositionshape *DeliverableCompositionShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", deliverablecompositionshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DeliverableCompositionShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(deliverablecompositionshape.Name))
+	return
+}
+
 func (deliverableconceptshape *DeliverableConceptShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", deliverableconceptshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DeliverableConceptShape")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(deliverableconceptshape.Name))
+	return
+}
+
+func (deliverableshape *DeliverableShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", deliverableshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DeliverableShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(deliverableshape.Name))
 	return
 }
 
@@ -3641,11 +3657,11 @@ func (note *Note) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
-func (noteproductshape *NoteProductShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+func (notedeliverableshape *NoteDeliverableShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteProductShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(noteproductshape.Name))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", notedeliverableshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteDeliverableShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notedeliverableshape.Name))
 	return
 }
 
@@ -3670,22 +3686,6 @@ func (notetaskshape *NoteTaskShape) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteTaskShape")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notetaskshape.Name))
-	return
-}
-
-func (productcompositionshape *ProductCompositionShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", productcompositionshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ProductCompositionShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(productcompositionshape.Name))
-	return
-}
-
-func (productshape *ProductShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", productshape.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ProductShape")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(productshape.Name))
 	return
 }
 
@@ -3808,9 +3808,21 @@ func (deliverable *Deliverable) GongMarshallUnstaging(stage *Stage) (decl string
 	return
 }
 
+func (deliverablecompositionshape *DeliverableCompositionShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", deliverablecompositionshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
 func (deliverableconceptshape *DeliverableConceptShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", deliverableconceptshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (deliverableshape *DeliverableShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", deliverableshape.GongGetReferenceIdentifier(stage))
 	return
 }
 
@@ -3832,9 +3844,9 @@ func (note *Note) GongMarshallUnstaging(stage *Stage) (decl string) {
 	return
 }
 
-func (noteproductshape *NoteProductShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+func (notedeliverableshape *NoteDeliverableShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteproductshape.GongGetReferenceIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", notedeliverableshape.GongGetReferenceIdentifier(stage))
 	return
 }
 
@@ -3853,18 +3865,6 @@ func (notestakeholdershape *NoteStakeholderShape) GongMarshallUnstaging(stage *S
 func (notetaskshape *NoteTaskShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", notetaskshape.GongGetReferenceIdentifier(stage))
-	return
-}
-
-func (productcompositionshape *ProductCompositionShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", productcompositionshape.GongGetReferenceIdentifier(stage))
-	return
-}
-
-func (productshape *ProductShape) GongMarshallUnstaging(stage *Stage) (decl string) {
-	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", productshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

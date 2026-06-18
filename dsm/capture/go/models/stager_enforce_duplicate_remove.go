@@ -10,8 +10,8 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 	needCommit = removeDuplicatesSlice(stager, &stager.GetRootLibrary().SubLibraries) || needCommit
 
 	for diagram := range *GetGongstructInstancesSetFromPointerType[*Diagram](stage) {
-		needCommit = removeDuplicatesSlice(stager, &diagram.Product_Shapes) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &diagram.ProductComposition_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.Deliverable_Shapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.DeliverableComposition_Shapes) || needCommit
 
 		needCommit = removeDuplicatesSlice(stager, &diagram.Requirement_Shapes) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &diagram.Concept_Shapes) || needCommit
@@ -23,7 +23,7 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 		needCommit = removeDuplicatesSlice(stager, &diagram.ConcernOutputShapes) || needCommit
 
 		needCommit = removeDuplicatesSlice(stager, &diagram.Note_Shapes) || needCommit
-		needCommit = removeDuplicatesSlice(stager, &diagram.NoteProductShapes) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &diagram.NoteDeliverableShapes) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &diagram.NoteTaskShapes) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &diagram.NoteResourceShapes) || needCommit
 
@@ -40,7 +40,7 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 	}
 
 	for deliverable := range *GetGongstructInstancesSetFromPointerType[*Deliverable](stage) {
-		needCommit = removeDuplicatesSlice(stager, &deliverable.SubProducts) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &deliverable.SubDeliverables) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &deliverable.Concepts) || needCommit
 	}
 
@@ -51,7 +51,7 @@ func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
 	}
 
 	for note := range *GetGongstructInstancesSetFromPointerType[*Note](stage) {
-		needCommit = removeDuplicatesSlice(stager, &note.Products) || needCommit
+		needCommit = removeDuplicatesSlice(stager, &note.Deliverables) || needCommit
 		needCommit = removeDuplicatesSlice(stager, &note.Tasks) || needCommit
 	}
 

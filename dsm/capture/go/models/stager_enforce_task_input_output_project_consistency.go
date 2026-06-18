@@ -1,19 +1,19 @@
 package models
 
 // enforceTaskInputOutputLibraryConsistency ensures that the input and output
-// products of a task belong to the same library as the task itself.
+// deliverables of a task belong to the same library as the task itself.
 func (stager *Stager) enforceTaskInputOutputLibraryConsistency() (needCommit bool) {
 	stage := stager.stage
 
 	taskToLibrary := make(map[*Concern]*Library)
-	productToLibrary := make(map[*Deliverable]*Library)
+	deliverableToLibrary := make(map[*Deliverable]*Library)
 
 	for library := range *GetGongstructInstancesSetFromPointerType[*Library](stage) {
 		for _, task := range library.RootConcerns {
 			mapTaskToLibrary(task, library, taskToLibrary)
 		}
-		for _, product := range library.RootDeliverables {
-			mapProductToLibrary(product, library, productToLibrary)
+		for _, deliverable := range library.RootDeliverables {
+			mapDeliverableToLibrary(deliverable, library, deliverableToLibrary)
 		}
 	}
 
@@ -28,7 +28,7 @@ func (stager *Stager) enforceTaskInputOutputLibraryConsistency() (needCommit boo
 		// filter in place
 		n := 0
 		for _, input := range task.Inputs {
-			if productToLibrary[input] == library {
+			if deliverableToLibrary[input] == library {
 				task.Inputs[n] = input
 				n++
 			} else {
@@ -40,7 +40,7 @@ func (stager *Stager) enforceTaskInputOutputLibraryConsistency() (needCommit boo
 		// check outputs
 		n = 0
 		for _, output := range task.Outputs {
-			if productToLibrary[output] == library {
+			if deliverableToLibrary[output] == library {
 				task.Outputs[n] = output
 				n++
 			} else {
@@ -60,9 +60,9 @@ func mapTaskToLibrary(task *Concern, library *Library, taskToLibrary map[*Concer
 	}
 }
 
-func mapProductToLibrary(product *Deliverable, library *Library, productToLibrary map[*Deliverable]*Library) {
-	productToLibrary[product] = library
-	for _, subProduct := range product.SubProducts {
-		mapProductToLibrary(subProduct, library, productToLibrary)
+func mapDeliverableToLibrary(deliverable *Deliverable, library *Library, deliverableToLibrary map[*Deliverable]*Library) {
+	deliverableToLibrary[deliverable] = library
+	for _, subDeliverable := range deliverable.SubDeliverables {
+		mapDeliverableToLibrary(subDeliverable, library, deliverableToLibrary)
 	}
 }

@@ -1,20 +1,20 @@
 package models
 
-// enforceParentAssociation computes the parent field for Product, Task, and Resource
+// enforceParentAssociation computes the parent field for Deliverable, Task, and Resource
 // based on their respective sub-elements.
 // It first clears existing parent relationships, then rebuilds them
 // by iterating through the composition lists in the stage.
 func (stager *Stager) enforceParentAssociation() {
 	stage := stager.stage
 
-	// 1. Reset and compute for Products
-	for _, product := range GetGongstrucsSorted[*Deliverable](stage) {
-		product.parentProduct = nil
+	// 1. Reset and compute for Deliverables
+	for _, deliverable := range GetGongstrucsSorted[*Deliverable](stage) {
+		deliverable.parentDeliverable = nil
 	}
-	for _, product := range GetGongstrucsSorted[*Deliverable](stage) {
-		for _, subProduct := range product.SubProducts {
-			if subProduct != nil {
-				subProduct.parentProduct = product
+	for _, deliverable := range GetGongstrucsSorted[*Deliverable](stage) {
+		for _, subDeliverable := range deliverable.SubDeliverables {
+			if subDeliverable != nil {
+				subDeliverable.parentDeliverable = deliverable
 			}
 		}
 	}

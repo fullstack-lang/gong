@@ -34,7 +34,7 @@ type Note struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
-	Products  []*Deliverable
+	Deliverables  []*Deliverable
 	Tasks     []*Concern
 	Resources []*Stakeholder
 }
@@ -100,11 +100,11 @@ const (
 
 // GONGDOC(NoteSemantic): Note on the models semantic
 //
-// [models.Product] and [models.Task] are in Product Breakdown Structure (PBS)
+// [models.Deliverable] and [models.Task] are in Deliverable Breakdown Structure (PBS)
 // and Work Breakdown Structure (WBS)
 // PBS/WBS have 2 invariants that are enforced at each UX loop:
 // - They are Trees
-// - A [models.Product]/[models.Task] belongs to at most one PBS/WBS.
+// - A [models.Deliverable]/[models.Task] belongs to at most one PBS/WBS.
 // Those invariants allow prefix and parent to be computed at each UX loop
 const NoteSemantic = ""
 
@@ -117,7 +117,7 @@ type Deliverable struct {
 	//gong:text width:300 height:300
 	Description string
 
-	SubProducts []*Deliverable
+	SubDeliverables []*Deliverable
 
 	// producers are computed from [models.Task.Outputs]
 	// this is a computed field, therefore, not exported
@@ -129,11 +129,11 @@ type Deliverable struct {
 	consumers               []*Concern
 	IsConsumersNodeExpanded bool
 
-	// parentProduct is a computed field
-	// since a Product belongs to at most one WBS,
-	// a parentProduct is computed at each UX look. It can be null if the
-	// product is a root product or an orphaned product
-	parentProduct *Deliverable
+	// parentDeliverable is a computed field
+	// since a Deliverable belongs to at most one WBS,
+	// a parentDeliverable is computed at each UX look. It can be null if the
+	// deliverable is a root deliverable or an orphaned deliverable
+	parentDeliverable *Deliverable
 
 	Concepts []*Concept
 }

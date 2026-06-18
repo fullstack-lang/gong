@@ -7,12 +7,12 @@ func (stager *Stager) enforceDiagramMaps() {
 
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
 
-		// computes all products presents in the diagram
-		diagram.map_Product_ProductShape = make(map[*Deliverable]*ProductShape)
-		for _, shape := range diagram.Product_Shapes {
-			if shape.Product != nil {
-				diagram.map_Product_ProductShape[shape.Product] = shape
-				var diagrams = stager.map_Element_Diagrams[shape.Product]
+		// computes all deliverables presents in the diagram
+		diagram.map_Deliverable_DeliverableShape = make(map[*Deliverable]*DeliverableShape)
+		for _, shape := range diagram.Deliverable_Shapes {
+			if shape.Deliverable != nil {
+				diagram.map_Deliverable_DeliverableShape[shape.Deliverable] = shape
+				var diagrams = stager.map_Element_Diagrams[shape.Deliverable]
 
 				if diagrams == nil {
 					diagrams = []*Diagram{diagram}
@@ -21,7 +21,7 @@ func (stager *Stager) enforceDiagramMaps() {
 				if !slices.Contains(diagrams, diagram) {
 					diagrams = append(diagrams, diagram)
 				}
-				stager.map_Element_Diagrams[shape.Product] = diagrams
+				stager.map_Element_Diagrams[shape.Deliverable] = diagrams
 			}
 		}
 
@@ -42,24 +42,24 @@ func (stager *Stager) enforceDiagramMaps() {
 			}
 		}
 
-		diagram.map_Concern_TaskInputShape = make(map[concernProductKey]*ConcernInputShape)
+		diagram.map_Concern_TaskInputShape = make(map[concernDeliverableKey]*ConcernInputShape)
 		for _, shape := range diagram.ConcernInputShapes {
 			if shape.Concern != nil && shape.Deliverable != nil {
-				diagram.map_Concern_TaskInputShape[concernProductKey{Concern: shape.Concern, Product: shape.Deliverable}] = shape
+				diagram.map_Concern_TaskInputShape[concernDeliverableKey{Concern: shape.Concern, Deliverable: shape.Deliverable}] = shape
 			}
 		}
 
-		diagram.map_Concern_ConcernOutputShape = make(map[concernProductKey]*ConcernOutputShape)
+		diagram.map_Concern_ConcernOutputShape = make(map[concernDeliverableKey]*ConcernOutputShape)
 		for _, shape := range diagram.ConcernOutputShapes {
-			if shape.Task != nil && shape.Product != nil {
-				diagram.map_Concern_ConcernOutputShape[concernProductKey{Concern: shape.Task, Product: shape.Product}] = shape
+			if shape.Task != nil && shape.Deliverable != nil {
+				diagram.map_Concern_ConcernOutputShape[concernDeliverableKey{Concern: shape.Task, Deliverable: shape.Deliverable}] = shape
 			}
 		}
 
-		diagram.map_Product_ProductCompositionShape = make(map[*Deliverable]*ProductCompositionShape)
-		for _, shape := range diagram.ProductComposition_Shapes {
-			if shape.Product != nil {
-				diagram.map_Product_ProductCompositionShape[shape.Product] = shape
+		diagram.map_Deliverable_DeliverableCompositionShape = make(map[*Deliverable]*DeliverableCompositionShape)
+		for _, shape := range diagram.DeliverableComposition_Shapes {
+			if shape.Deliverable != nil {
+				diagram.map_Deliverable_DeliverableCompositionShape[shape.Deliverable] = shape
 			}
 		}
 
@@ -77,10 +77,10 @@ func (stager *Stager) enforceDiagramMaps() {
 			}
 		}
 
-		diagram.map_Note_NoteProductShape = make(map[noteProductKey]*NoteProductShape)
-		for _, shape := range diagram.NoteProductShapes {
+		diagram.map_Note_NoteDeliverableShape = make(map[noteDeliverableKey]*NoteDeliverableShape)
+		for _, shape := range diagram.NoteDeliverableShapes {
 			if shape.Note != nil {
-				diagram.map_Note_NoteProductShape[noteProductKey{Note: shape.Note, Product: shape.Product}] = shape
+				diagram.map_Note_NoteDeliverableShape[noteDeliverableKey{Note: shape.Note, Deliverable: shape.Deliverable}] = shape
 			}
 		}
 

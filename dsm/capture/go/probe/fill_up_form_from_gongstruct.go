@@ -127,12 +127,36 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.DeliverableCompositionShape:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "DeliverableCompositionShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DeliverableCompositionShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.DeliverableConceptShape:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
 			Label: "DeliverableConceptShape Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__DeliverableConceptShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.DeliverableShape:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "DeliverableShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DeliverableShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
@@ -175,12 +199,12 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.NoteProductShape:
+	case *models.NoteDeliverableShape:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "NoteProductShape Form",
+			Label: "NoteDeliverableShape Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__NoteProductShapeFormCallback(
+		formGroup.OnSave = __gong__New__NoteDeliverableShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
@@ -217,30 +241,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			Label: "NoteTaskShape Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__NoteTaskShapeFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.ProductCompositionShape:
-		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: "ProductCompositionShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ProductCompositionShapeFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.ProductShape:
-		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: "ProductShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ProductShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

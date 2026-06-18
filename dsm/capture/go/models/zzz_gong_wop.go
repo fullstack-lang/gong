@@ -264,6 +264,35 @@ func (from *Deliverable) CopyBasicFields(to *Deliverable) {
 	to.IsConsumersNodeExpanded = from.IsConsumersNodeExpanded
 }
 
+type DeliverableCompositionShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+
+	IsHidden bool
+}
+
+func (from *DeliverableCompositionShape) CopyBasicFields(to *DeliverableCompositionShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
+}
+
 type DeliverableConceptShape_WOP struct {
 	// insertion point
 
@@ -290,6 +319,35 @@ func (from *DeliverableConceptShape) CopyBasicFields(to *DeliverableConceptShape
 	to.StartOrientation = from.StartOrientation
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
+}
+
+type DeliverableShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+}
+
+func (from *DeliverableShape) CopyBasicFields(to *DeliverableShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
 	to.IsHidden = from.IsHidden
 }
 
@@ -398,7 +456,7 @@ func (from *Note) CopyBasicFields(to *Note) {
 	to.LayoutDirection = from.LayoutDirection
 }
 
-type NoteProductShape_WOP struct {
+type NoteDeliverableShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -416,7 +474,7 @@ type NoteProductShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *NoteProductShape) CopyBasicFields(to *NoteProductShape) {
+func (from *NoteDeliverableShape) CopyBasicFields(to *NoteDeliverableShape) {
 	// insertion point
 	to.Name = from.Name
 	to.StartRatio = from.StartRatio
@@ -511,64 +569,6 @@ func (from *NoteTaskShape) CopyBasicFields(to *NoteTaskShape) {
 	to.StartOrientation = from.StartOrientation
 	to.EndOrientation = from.EndOrientation
 	to.CornerOffsetRatio = from.CornerOffsetRatio
-	to.IsHidden = from.IsHidden
-}
-
-type ProductCompositionShape_WOP struct {
-	// insertion point
-
-	Name string
-
-	StartRatio float64
-
-	EndRatio float64
-
-	StartOrientation OrientationType
-
-	EndOrientation OrientationType
-
-	CornerOffsetRatio float64
-
-	IsHidden bool
-}
-
-func (from *ProductCompositionShape) CopyBasicFields(to *ProductCompositionShape) {
-	// insertion point
-	to.Name = from.Name
-	to.StartRatio = from.StartRatio
-	to.EndRatio = from.EndRatio
-	to.StartOrientation = from.StartOrientation
-	to.EndOrientation = from.EndOrientation
-	to.CornerOffsetRatio = from.CornerOffsetRatio
-	to.IsHidden = from.IsHidden
-}
-
-type ProductShape_WOP struct {
-	// insertion point
-
-	Name string
-
-	IsExpanded bool
-
-	X float64
-
-	Y float64
-
-	Width float64
-
-	Height float64
-
-	IsHidden bool
-}
-
-func (from *ProductShape) CopyBasicFields(to *ProductShape) {
-	// insertion point
-	to.Name = from.Name
-	to.IsExpanded = from.IsExpanded
-	to.X = from.X
-	to.Y = from.Y
-	to.Width = from.Width
-	to.Height = from.Height
 	to.IsHidden = from.IsHidden
 }
 

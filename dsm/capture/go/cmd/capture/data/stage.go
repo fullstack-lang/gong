@@ -63,15 +63,15 @@ func _(stage *models.Stage) {
 - the high complexity required  for mastering SysML v2 syntax
 - the lack of standard for the graphical views.`}).Stage(stage)
 
-	__NoteProductShape__00000000_ := (&models.NoteProductShape{Name: `M0 is based on M1 to Tools to edit M0`}).Stage(stage)
+	__NoteDeliverableShape__00000000_ := (&models.NoteDeliverableShape{Name: `M0 is based on M1 to Tools to edit M0`}).Stage(stage)
 
 	__NoteShape__00000000_ := (&models.NoteShape{Name: `-Default Diagram`}).Stage(stage)
 
 	__NoteTaskShape__00000002_ := (&models.NoteTaskShape{Name: `M0 is based on M1 to Edit M1 & develop tools to generate deliverables`}).Stage(stage)
 
-	__ProductShape__00000000_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
-	__ProductShape__00000002_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
-	__ProductShape__00000003_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
+	__DeliverableShape__00000000_ := (&models.DeliverableShape{Name: `-Default Diagram`}).Stage(stage)
+	__DeliverableShape__00000002_ := (&models.DeliverableShape{Name: `-Default Diagram`}).Stage(stage)
+	__DeliverableShape__00000003_ := (&models.DeliverableShape{Name: `-Default Diagram`}).Stage(stage)
 
 	__Requirement__00000000_ := (&models.Requirement{Name: `R1`}).Stage(stage)
 
@@ -299,13 +299,13 @@ func _(stage *models.Stage) {
 	__Note__00000000_.IsExpanded = false
 	__Note__00000000_.LayoutDirection = models.Vertical
 
-	__NoteProductShape__00000000_.Name = `M0 is based on M1 to Tools to edit M0`
-	__NoteProductShape__00000000_.StartRatio = 0.500000
-	__NoteProductShape__00000000_.EndRatio = 0.500000
-	__NoteProductShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
-	__NoteProductShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
-	__NoteProductShape__00000000_.CornerOffsetRatio = 1.680000
-	__NoteProductShape__00000000_.IsHidden = false
+	__NoteDeliverableShape__00000000_.Name = `M0 is based on M1 to Tools to edit M0`
+	__NoteDeliverableShape__00000000_.StartRatio = 0.500000
+	__NoteDeliverableShape__00000000_.EndRatio = 0.500000
+	__NoteDeliverableShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteDeliverableShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteDeliverableShape__00000000_.CornerOffsetRatio = 1.680000
+	__NoteDeliverableShape__00000000_.IsHidden = false
 
 	__NoteShape__00000000_.Name = `-Default Diagram`
 	__NoteShape__00000000_.IsExpanded = false
@@ -323,29 +323,29 @@ func _(stage *models.Stage) {
 	__NoteTaskShape__00000002_.CornerOffsetRatio = 1.680000
 	__NoteTaskShape__00000002_.IsHidden = false
 
-	__ProductShape__00000000_.Name = `-Default Diagram`
-	__ProductShape__00000000_.IsExpanded = false
-	__ProductShape__00000000_.X = 490.705042
-	__ProductShape__00000000_.Y = 745.311484
-	__ProductShape__00000000_.Width = 250.000000
-	__ProductShape__00000000_.Height = 70.000000
-	__ProductShape__00000000_.IsHidden = false
+	__DeliverableShape__00000000_.Name = `-Default Diagram`
+	__DeliverableShape__00000000_.IsExpanded = false
+	__DeliverableShape__00000000_.X = 490.705042
+	__DeliverableShape__00000000_.Y = 745.311484
+	__DeliverableShape__00000000_.Width = 250.000000
+	__DeliverableShape__00000000_.Height = 70.000000
+	__DeliverableShape__00000000_.IsHidden = false
 
-	__ProductShape__00000002_.Name = `-Default Diagram`
-	__ProductShape__00000002_.IsExpanded = false
-	__ProductShape__00000002_.X = 489.953677
-	__ProductShape__00000002_.Y = 444.394466
-	__ProductShape__00000002_.Width = 250.000000
-	__ProductShape__00000002_.Height = 70.000000
-	__ProductShape__00000002_.IsHidden = false
+	__DeliverableShape__00000002_.Name = `-Default Diagram`
+	__DeliverableShape__00000002_.IsExpanded = false
+	__DeliverableShape__00000002_.X = 489.953677
+	__DeliverableShape__00000002_.Y = 444.394466
+	__DeliverableShape__00000002_.Width = 250.000000
+	__DeliverableShape__00000002_.Height = 70.000000
+	__DeliverableShape__00000002_.IsHidden = false
 
-	__ProductShape__00000003_.Name = `-Default Diagram`
-	__ProductShape__00000003_.IsExpanded = false
-	__ProductShape__00000003_.X = 497.919156
-	__ProductShape__00000003_.Y = 164.854495
-	__ProductShape__00000003_.Width = 250.000000
-	__ProductShape__00000003_.Height = 70.000000
-	__ProductShape__00000003_.IsHidden = false
+	__DeliverableShape__00000003_.Name = `-Default Diagram`
+	__DeliverableShape__00000003_.IsExpanded = false
+	__DeliverableShape__00000003_.X = 497.919156
+	__DeliverableShape__00000003_.Y = 164.854495
+	__DeliverableShape__00000003_.Width = 250.000000
+	__DeliverableShape__00000003_.Height = 70.000000
+	__DeliverableShape__00000003_.IsHidden = false
 
 	__Requirement__00000000_.Name = `R1`
 	__Requirement__00000000_.ComputedPrefix = ``
@@ -467,11 +467,11 @@ func _(stage *models.Stage) {
 	__ConcernInputShape__00000002_.Deliverable = __Deliverable__00000003_
 	__ConcernInputShape__00000002_.Concern = __Concern__00000002_
 	__ConcernOutputShape__00000000_.Task = __Concern__00000000_
-	__ConcernOutputShape__00000000_.Product = __Deliverable__00000000_
+	__ConcernOutputShape__00000000_.Deliverable = __Deliverable__00000000_
 	__ConcernOutputShape__00000001_.Task = __Concern__00000002_
-	__ConcernOutputShape__00000001_.Product = __Deliverable__00000002_
+	__ConcernOutputShape__00000001_.Deliverable = __Deliverable__00000002_
 	__ConcernOutputShape__00000002_.Task = __Concern__00000003_
-	__ConcernOutputShape__00000002_.Product = __Deliverable__00000003_
+	__ConcernOutputShape__00000002_.Deliverable = __Deliverable__00000003_
 	__ConcernShape__00000000_.Concern = __Concern__00000000_
 	__ConcernShape__00000001_.Concern = __Concern__00000001_
 	__ConcernShape__00000002_.Concern = __Concern__00000002_
@@ -479,10 +479,10 @@ func _(stage *models.Stage) {
 	__Deliverable__00000000_.Concepts = append(__Deliverable__00000000_.Concepts, __Concept__00000000_)
 	__DeliverableConceptShape__00000001_.Deliverable = __Deliverable__00000000_
 	__DeliverableConceptShape__00000001_.Concept = __Concept__00000000_
-	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000000_)
-	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000002_)
-	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000003_)
-	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Deliverable__00000000_)
+	__Diagram__00000000_.Deliverable_Shapes = append(__Diagram__00000000_.Deliverable_Shapes, __DeliverableShape__00000000_)
+	__Diagram__00000000_.Deliverable_Shapes = append(__Diagram__00000000_.Deliverable_Shapes, __DeliverableShape__00000002_)
+	__Diagram__00000000_.Deliverable_Shapes = append(__Diagram__00000000_.Deliverable_Shapes, __DeliverableShape__00000003_)
+	__Diagram__00000000_.DeliverablesWhoseNodeIsExpanded = append(__Diagram__00000000_.DeliverablesWhoseNodeIsExpanded, __Deliverable__00000000_)
 	__Diagram__00000000_.Concern_Shapes = append(__Diagram__00000000_.Concern_Shapes, __ConcernShape__00000000_)
 	__Diagram__00000000_.Concern_Shapes = append(__Diagram__00000000_.Concern_Shapes, __ConcernShape__00000001_)
 	__Diagram__00000000_.Concern_Shapes = append(__Diagram__00000000_.Concern_Shapes, __ConcernShape__00000002_)
@@ -494,7 +494,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ConcernOutputShapes = append(__Diagram__00000000_.ConcernOutputShapes, __ConcernOutputShape__00000001_)
 	__Diagram__00000000_.ConcernOutputShapes = append(__Diagram__00000000_.ConcernOutputShapes, __ConcernOutputShape__00000002_)
 	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000000_)
-	__Diagram__00000000_.NoteProductShapes = append(__Diagram__00000000_.NoteProductShapes, __NoteProductShape__00000000_)
+	__Diagram__00000000_.NoteDeliverableShapes = append(__Diagram__00000000_.NoteDeliverableShapes, __NoteDeliverableShape__00000000_)
 	__Diagram__00000000_.NoteTaskShapes = append(__Diagram__00000000_.NoteTaskShapes, __NoteTaskShape__00000002_)
 	__Diagram__00000000_.Stakeholder_Shapes = append(__Diagram__00000000_.Stakeholder_Shapes, __StakeholderShape__00000000_)
 	__Diagram__00000000_.Stakeholder_Shapes = append(__Diagram__00000000_.Stakeholder_Shapes, __StakeholderShape__00000001_)
@@ -525,16 +525,16 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootConcepts = append(__Library__00000000_.RootConcepts, __Concept__00000000_)
 	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
-	__Note__00000000_.Products = append(__Note__00000000_.Products, __Deliverable__00000002_)
+	__Note__00000000_.Deliverables = append(__Note__00000000_.Deliverables, __Deliverable__00000002_)
 	__Note__00000000_.Tasks = append(__Note__00000000_.Tasks, __Concern__00000002_)
-	__NoteProductShape__00000000_.Note = __Note__00000000_
-	__NoteProductShape__00000000_.Product = __Deliverable__00000002_
+	__NoteDeliverableShape__00000000_.Note = __Note__00000000_
+	__NoteDeliverableShape__00000000_.Deliverable = __Deliverable__00000002_
 	__NoteShape__00000000_.Note = __Note__00000000_
 	__NoteTaskShape__00000002_.Note = __Note__00000000_
 	__NoteTaskShape__00000002_.Task = __Concern__00000002_
-	__ProductShape__00000000_.Product = __Deliverable__00000000_
-	__ProductShape__00000002_.Product = __Deliverable__00000002_
-	__ProductShape__00000003_.Product = __Deliverable__00000003_
+	__DeliverableShape__00000000_.Deliverable = __Deliverable__00000000_
+	__DeliverableShape__00000002_.Deliverable = __Deliverable__00000002_
+	__DeliverableShape__00000003_.Deliverable = __Deliverable__00000003_
 	__RequirementShape__00000000_.Requirement = __Requirement__00000000_
 	__Stakeholder__00000000_.Concerns = append(__Stakeholder__00000000_.Concerns, __Concern__00000000_)
 	__Stakeholder__00000001_.Concerns = append(__Stakeholder__00000001_.Concerns, __Concern__00000002_)

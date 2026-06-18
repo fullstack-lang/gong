@@ -6,7 +6,7 @@ func (stager *Stager) enforceDiagramSize() (needCommit bool) {
 		// parse all concrete shapes in the diagram that are not links
 		//  to compute the size of the diagram
 		// the size of the diagram is the max of the position of the shapes + their size
-		for _, shape := range diagram.Product_Shapes {
+		for _, shape := range diagram.Deliverable_Shapes {
 			if shape.X+shape.Width > diagram.Width {
 				diagram.Width = shape.X + shape.Width
 				needCommit = true

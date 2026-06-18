@@ -11,8 +11,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
-var _ = slices.Index[[]int, int]
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration
 var _ ref_models.Stage
@@ -82,7 +84,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.ShowMultiplicity = true
 	__Classdiagram__00000000_.ShowLinkNames = true
 	__Classdiagram__00000000_.IsInRenameMode = false
-	__Classdiagram__00000000_.IsExpanded = true
+	__Classdiagram__00000000_.IsExpanded = false
 	__Classdiagram__00000000_.NodeGongStructsIsExpanded = false
 	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,true]`
 	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
@@ -97,7 +99,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000001_.ShowMultiplicity = true
 	__Classdiagram__00000001_.ShowLinkNames = true
 	__Classdiagram__00000001_.IsInRenameMode = false
-	__Classdiagram__00000001_.IsExpanded = true
+	__Classdiagram__00000001_.IsExpanded = false
 	__Classdiagram__00000001_.NodeGongStructsIsExpanded = true
 	__Classdiagram__00000001_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true]`
 	__Classdiagram__00000001_.NodeGongEnumsIsExpanded = false
@@ -671,7 +673,7 @@ func _(stage *models.Stage) {
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000000_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000001_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000002_)
-	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000001_
+	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000002_
 	__GongStructShape__00000002_.LinkShapes = append(__GongStructShape__00000002_.LinkShapes, __LinkShape__00000000_)
 	__GongStructShape__00000002_.LinkShapes = append(__GongStructShape__00000002_.LinkShapes, __LinkShape__00000001_)
 	__GongStructShape__00000002_.LinkShapes = append(__GongStructShape__00000002_.LinkShapes, __LinkShape__00000002_)

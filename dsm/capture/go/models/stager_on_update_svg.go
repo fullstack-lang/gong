@@ -25,13 +25,13 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 
 	type associationType string
 	const (
-		ASSOCIATION_TYPE_PRODUCT_COMPOSITION associationType = "ProductComposition"
+		ASSOCIATION_TYPE_DELIVERABLE_COMPOSITION associationType = "DeliverableComposition"
 
 		ASSOCIATION_TYPE_TASK_COMPOSITION associationType = "TaskComposition"
 		ASSOCIATION_TYPE_TASK_INPUT       associationType = "TaskInput"
 		ASSOCIATION_TYPE_TASK_OUTPUT      associationType = "TaskOutput"
 
-		ASSOCIAITON_TYPE_NOTE_PRODUCT  associationType = "NoteProduct"
+		ASSOCIAITON_TYPE_NOTE_DELIVERABLE  associationType = "NoteDeliverable"
 		ASSOCIAITON_TYPE_NOTE_TASK     associationType = "NoteTask"
 		ASSOCIAITON_TYPE_NOTE_RESOURCE associationType = "NoteResource"
 
@@ -47,11 +47,11 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 	endRect := frontSVG.EndRect
 
 	// determine the association type from the source and target rects
-	if productShape, ok := diagram.map_SvgRect_ProductShape[startRect]; ok {
-		if subProductShape, ok := diagram.map_SvgRect_ProductShape[endRect]; ok {
-			assocType = ASSOCIATION_TYPE_PRODUCT_COMPOSITION
-			sourceAbstratctElement = productShape.Product
-			targetAbstractElement = subProductShape.Product
+	if deliverableShape, ok := diagram.map_SvgRect_DeliverableShape[startRect]; ok {
+		if subDeliverableShape, ok := diagram.map_SvgRect_DeliverableShape[endRect]; ok {
+			assocType = ASSOCIATION_TYPE_DELIVERABLE_COMPOSITION
+			sourceAbstratctElement = deliverableShape.Deliverable
+			targetAbstractElement = subDeliverableShape.Deliverable
 		}
 	}
 	if taskShape, ok := diagram.map_SvgRect_ConcernShape[startRect]; ok {
@@ -62,24 +62,24 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		}
 	}
 	if taskShape, ok := diagram.map_SvgRect_ConcernShape[startRect]; ok {
-		if productShape, ok := diagram.map_SvgRect_ProductShape[endRect]; ok {
+		if deliverableShape, ok := diagram.map_SvgRect_DeliverableShape[endRect]; ok {
 			assocType = ASSOCIATION_TYPE_TASK_OUTPUT
 			sourceAbstratctElement = taskShape.Concern
-			targetAbstractElement = productShape.Product
+			targetAbstractElement = deliverableShape.Deliverable
 		}
 	}
-	if productShape, ok := diagram.map_SvgRect_ProductShape[startRect]; ok {
+	if deliverableShape, ok := diagram.map_SvgRect_DeliverableShape[startRect]; ok {
 		if taskShape, ok := diagram.map_SvgRect_ConcernShape[endRect]; ok {
 			assocType = ASSOCIATION_TYPE_TASK_INPUT
-			sourceAbstratctElement = productShape.Product
+			sourceAbstratctElement = deliverableShape.Deliverable
 			targetAbstractElement = taskShape.Concern
 		}
 	}
 	if noteShape, ok := diagram.map_SvgRect_NoteShape[startRect]; ok {
-		if productShape, ok := diagram.map_SvgRect_ProductShape[endRect]; ok {
-			assocType = ASSOCIAITON_TYPE_NOTE_PRODUCT
+		if deliverableShape, ok := diagram.map_SvgRect_DeliverableShape[endRect]; ok {
+			assocType = ASSOCIAITON_TYPE_NOTE_DELIVERABLE
 			sourceAbstratctElement = noteShape.Note
-			targetAbstractElement = productShape.Product
+			targetAbstractElement = deliverableShape.Deliverable
 		}
 	}
 	if noteShape, ok := diagram.map_SvgRect_NoteShape[startRect]; ok {
@@ -111,34 +111,34 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 			targetAbstractElement = taskShape.Concern
 		}
 	}
-	if productShape, ok := diagram.map_SvgRect_ProductShape[startRect]; ok {
+	if deliverableShape, ok := diagram.map_SvgRect_DeliverableShape[startRect]; ok {
 		if conceptShape, ok := diagram.map_SvgRect_ConceptShape[endRect]; ok {
 			assocType = ASSOCIATION_TYPE_DELIVERABLE_CONCEPT
-			sourceAbstratctElement = productShape.Product
+			sourceAbstratctElement = deliverableShape.Deliverable
 			targetAbstractElement = conceptShape.Concept
 		}
 	}
 
 	// create the association according to the association type
 	switch assocType {
-	case ASSOCIATION_TYPE_PRODUCT_COMPOSITION:
-		subProduct := targetAbstractElement.(*Deliverable)
-		parentProduct := sourceAbstratctElement.(*Deliverable)
+	case ASSOCIATION_TYPE_DELIVERABLE_COMPOSITION:
+		subDeliverable := targetAbstractElement.(*Deliverable)
+		parentDeliverable := sourceAbstratctElement.(*Deliverable)
 
-		if subProduct.parentProduct != nil {
-			oldParent := subProduct.parentProduct
-			if idx := slices.Index(oldParent.SubProducts, subProduct); idx != -1 {
-				oldParent.SubProducts = slices.Delete(oldParent.SubProducts, idx, idx+1)
+		if subDeliverable.parentDeliverable != nil {
+			oldParent := subDeliverable.parentDeliverable
+			if idx := slices.Index(oldParent.SubDeliverables, subDeliverable); idx != -1 {
+				oldParent.SubDeliverables = slices.Delete(oldParent.SubDeliverables, idx, idx+1)
 			}
 		} else {
-			if idx := slices.Index(subProduct.GetOwningLibrary().RootDeliverables, subProduct); idx != -1 {
-				subProduct.GetOwningLibrary().RootDeliverables = slices.Delete(subProduct.GetOwningLibrary().RootDeliverables, idx, idx+1)
+			if idx := slices.Index(subDeliverable.GetOwningLibrary().RootDeliverables, subDeliverable); idx != -1 {
+				subDeliverable.GetOwningLibrary().RootDeliverables = slices.Delete(subDeliverable.GetOwningLibrary().RootDeliverables, idx, idx+1)
 			}
 		}
 
-		parentProduct.SubProducts = append(parentProduct.SubProducts, subProduct)
-		subProduct.parentProduct = parentProduct
-		addAssociationShapeToDiagram(stager, parentProduct, subProduct, &diagram.ProductComposition_Shapes)
+		parentDeliverable.SubDeliverables = append(parentDeliverable.SubDeliverables, subDeliverable)
+		subDeliverable.parentDeliverable = parentDeliverable
+		addAssociationShapeToDiagram(stager, parentDeliverable, subDeliverable, &diagram.DeliverableComposition_Shapes)
 
 	case ASSOCIATION_TYPE_TASK_COMPOSITION:
 		subTask := targetAbstractElement.(*Concern)
@@ -160,25 +160,25 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		addAssociationShapeToDiagram(stager, parentTask, subTask, &diagram.ConcernComposition_Shapes)
 
 	case ASSOCIATION_TYPE_TASK_INPUT:
-		product := sourceAbstratctElement.(*Deliverable)
+		deliverable := sourceAbstratctElement.(*Deliverable)
 		task := targetAbstractElement.(*Concern)
 
-		task.Inputs = append(task.Inputs, product)
-		addAssociationShapeToDiagram(stager, task, product, &diagram.ConcernInputShapes)
+		task.Inputs = append(task.Inputs, deliverable)
+		addAssociationShapeToDiagram(stager, task, deliverable, &diagram.ConcernInputShapes)
 
 	case ASSOCIATION_TYPE_TASK_OUTPUT:
 		task := sourceAbstratctElement.(*Concern)
-		product := targetAbstractElement.(*Deliverable)
+		deliverable := targetAbstractElement.(*Deliverable)
 
-		task.Outputs = append(task.Outputs, product)
-		addAssociationShapeToDiagram(stager, task, product, &diagram.ConcernOutputShapes)
+		task.Outputs = append(task.Outputs, deliverable)
+		addAssociationShapeToDiagram(stager, task, deliverable, &diagram.ConcernOutputShapes)
 
-	case ASSOCIAITON_TYPE_NOTE_PRODUCT:
+	case ASSOCIAITON_TYPE_NOTE_DELIVERABLE:
 		note := sourceAbstratctElement.(*Note)
-		product := targetAbstractElement.(*Deliverable)
+		deliverable := targetAbstractElement.(*Deliverable)
 
-		note.Products = append(note.Products, product)
-		addAssociationShapeToDiagram(stager, note, product, &diagram.NoteProductShapes)
+		note.Deliverables = append(note.Deliverables, deliverable)
+		addAssociationShapeToDiagram(stager, note, deliverable, &diagram.NoteDeliverableShapes)
 
 	case ASSOCIAITON_TYPE_NOTE_TASK:
 		note := sourceAbstratctElement.(*Note)

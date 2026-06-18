@@ -96,7 +96,7 @@ func (concernoutputshape *ConcernOutputShape) GongClean(stage *Stage) (modified 
 	// insertion point per field
 	// insertion point per field
 	modified = GongCleanPointer(stage, &concernoutputshape.Task) || modified
-	modified = GongCleanPointer(stage, &concernoutputshape.Product) || modified
+	modified = GongCleanPointer(stage, &concernoutputshape.Deliverable) || modified
 	return
 }
 
@@ -111,9 +111,17 @@ func (concernshape *ConcernShape) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Deliverable
 func (deliverable *Deliverable) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &deliverable.SubProducts) || modified
+	modified = GongCleanSlice(stage, &deliverable.SubDeliverables) || modified
 	modified = GongCleanSlice(stage, &deliverable.Concepts) || modified
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by DeliverableCompositionShape
+func (deliverablecompositionshape *DeliverableCompositionShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &deliverablecompositionshape.Deliverable) || modified
 	return
 }
 
@@ -126,14 +134,22 @@ func (deliverableconceptshape *DeliverableConceptShape) GongClean(stage *Stage) 
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by DeliverableShape
+func (deliverableshape *DeliverableShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &deliverableshape.Deliverable) || modified
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Diagram
 func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &diagram.ConcernsWhoseRequirementsNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.Product_Shapes) || modified
-	modified = GongCleanSlice(stage, &diagram.ProductsWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.ProductsWhoseConceptsNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.ProductComposition_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.Deliverable_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.DeliverablesWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagram.DeliverablesWhoseConceptsNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &diagram.DeliverableComposition_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagram.Concern_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagram.ConcernsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.ConcernsWhoseInputNodeIsExpanded) || modified
@@ -144,7 +160,7 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagram.ConcernOutputShapes) || modified
 	modified = GongCleanSlice(stage, &diagram.Note_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagram.NotesWhoseNodeIsExpanded) || modified
-	modified = GongCleanSlice(stage, &diagram.NoteProductShapes) || modified
+	modified = GongCleanSlice(stage, &diagram.NoteDeliverableShapes) || modified
 	modified = GongCleanSlice(stage, &diagram.NoteTaskShapes) || modified
 	modified = GongCleanSlice(stage, &diagram.NoteResourceShapes) || modified
 	modified = GongCleanSlice(stage, &diagram.Stakeholder_Shapes) || modified
@@ -180,19 +196,19 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Note
 func (note *Note) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &note.Products) || modified
+	modified = GongCleanSlice(stage, &note.Deliverables) || modified
 	modified = GongCleanSlice(stage, &note.Tasks) || modified
 	modified = GongCleanSlice(stage, &note.Resources) || modified
 	// insertion point per field
 	return
 }
 
-// Clean garbage collect unstaged instances that are referenced by NoteProductShape
-func (noteproductshape *NoteProductShape) GongClean(stage *Stage) (modified bool) {
+// Clean garbage collect unstaged instances that are referenced by NoteDeliverableShape
+func (notedeliverableshape *NoteDeliverableShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &noteproductshape.Note) || modified
-	modified = GongCleanPointer(stage, &noteproductshape.Product) || modified
+	modified = GongCleanPointer(stage, &notedeliverableshape.Note) || modified
+	modified = GongCleanPointer(stage, &notedeliverableshape.Deliverable) || modified
 	return
 }
 
@@ -219,22 +235,6 @@ func (notetaskshape *NoteTaskShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanPointer(stage, &notetaskshape.Note) || modified
 	modified = GongCleanPointer(stage, &notetaskshape.Task) || modified
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by ProductCompositionShape
-func (productcompositionshape *ProductCompositionShape) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	modified = GongCleanPointer(stage, &productcompositionshape.Product) || modified
-	return
-}
-
-// Clean garbage collect unstaged instances that are referenced by ProductShape
-func (productshape *ProductShape) GongClean(stage *Stage) (modified bool) {
-	// insertion point per field
-	// insertion point per field
-	modified = GongCleanPointer(stage, &productshape.Product) || modified
 	return
 }
 

@@ -217,19 +217,19 @@ func (inst *Deliverable) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 		}
 	case "Deliverable":
 		switch reverseField.Fieldname {
-		case "SubProducts":
-			if _deliverable, ok := stage.Deliverable_SubProducts_reverseMap[inst]; ok {
+		case "SubDeliverables":
+			if _deliverable, ok := stage.Deliverable_SubDeliverables_reverseMap[inst]; ok {
 				res = _deliverable.Name
 			}
 		}
 	case "Diagram":
 		switch reverseField.Fieldname {
-		case "ProductsWhoseNodeIsExpanded":
-			if _diagram, ok := stage.Diagram_ProductsWhoseNodeIsExpanded_reverseMap[inst]; ok {
+		case "DeliverablesWhoseNodeIsExpanded":
+			if _diagram, ok := stage.Diagram_DeliverablesWhoseNodeIsExpanded_reverseMap[inst]; ok {
 				res = _diagram.Name
 			}
-		case "ProductsWhoseConceptsNodeIsExpanded":
-			if _diagram, ok := stage.Diagram_ProductsWhoseConceptsNodeIsExpanded_reverseMap[inst]; ok {
+		case "DeliverablesWhoseConceptsNodeIsExpanded":
+			if _diagram, ok := stage.Diagram_DeliverablesWhoseConceptsNodeIsExpanded_reverseMap[inst]; ok {
 				res = _diagram.Name
 			}
 		}
@@ -242,9 +242,25 @@ func (inst *Deliverable) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 		}
 	case "Note":
 		switch reverseField.Fieldname {
-		case "Products":
-			if _note, ok := stage.Note_Products_reverseMap[inst]; ok {
+		case "Deliverables":
+			if _note, ok := stage.Note_Deliverables_reverseMap[inst]; ok {
 				res = _note.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *DeliverableCompositionShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "DeliverableComposition_Shapes":
+			if _diagram, ok := stage.Diagram_DeliverableComposition_Shapes_reverseMap[inst]; ok {
+				res = _diagram.Name
 			}
 		}
 	}
@@ -260,6 +276,22 @@ func (inst *DeliverableConceptShape) GongGetReverseFieldOwnerName(stage *Stage, 
 		switch reverseField.Fieldname {
 		case "DeliverableConceptShapes":
 			if _diagram, ok := stage.Diagram_DeliverableConceptShapes_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *DeliverableShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "Deliverable_Shapes":
+			if _diagram, ok := stage.Diagram_Deliverable_Shapes_reverseMap[inst]; ok {
 				res = _diagram.Name
 			}
 		}
@@ -322,15 +354,15 @@ func (inst *Note) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	return
 }
 
-func (inst *NoteProductShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+func (inst *NoteDeliverableShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
 	case "Diagram":
 		switch reverseField.Fieldname {
-		case "NoteProductShapes":
-			if _diagram, ok := stage.Diagram_NoteProductShapes_reverseMap[inst]; ok {
+		case "NoteDeliverableShapes":
+			if _diagram, ok := stage.Diagram_NoteDeliverableShapes_reverseMap[inst]; ok {
 				res = _diagram.Name
 			}
 		}
@@ -379,38 +411,6 @@ func (inst *NoteTaskShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 		switch reverseField.Fieldname {
 		case "NoteTaskShapes":
 			if _diagram, ok := stage.Diagram_NoteTaskShapes_reverseMap[inst]; ok {
-				res = _diagram.Name
-			}
-		}
-	}
-	return
-}
-
-func (inst *ProductCompositionShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	case "Diagram":
-		switch reverseField.Fieldname {
-		case "ProductComposition_Shapes":
-			if _diagram, ok := stage.Diagram_ProductComposition_Shapes_reverseMap[inst]; ok {
-				res = _diagram.Name
-			}
-		}
-	}
-	return
-}
-
-func (inst *ProductShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-	case "Diagram":
-		switch reverseField.Fieldname {
-		case "Product_Shapes":
-			if _diagram, ok := stage.Diagram_Product_Shapes_reverseMap[inst]; ok {
 				res = _diagram.Name
 			}
 		}
@@ -753,15 +753,15 @@ func (inst *Deliverable) GongGetReverseFieldOwner(stage *Stage, reverseField *Re
 		}
 	case "Deliverable":
 		switch reverseField.Fieldname {
-		case "SubProducts":
-			res = stage.Deliverable_SubProducts_reverseMap[inst]
+		case "SubDeliverables":
+			res = stage.Deliverable_SubDeliverables_reverseMap[inst]
 		}
 	case "Diagram":
 		switch reverseField.Fieldname {
-		case "ProductsWhoseNodeIsExpanded":
-			res = stage.Diagram_ProductsWhoseNodeIsExpanded_reverseMap[inst]
-		case "ProductsWhoseConceptsNodeIsExpanded":
-			res = stage.Diagram_ProductsWhoseConceptsNodeIsExpanded_reverseMap[inst]
+		case "DeliverablesWhoseNodeIsExpanded":
+			res = stage.Diagram_DeliverablesWhoseNodeIsExpanded_reverseMap[inst]
+		case "DeliverablesWhoseConceptsNodeIsExpanded":
+			res = stage.Diagram_DeliverablesWhoseConceptsNodeIsExpanded_reverseMap[inst]
 		}
 	case "Library":
 		switch reverseField.Fieldname {
@@ -770,8 +770,22 @@ func (inst *Deliverable) GongGetReverseFieldOwner(stage *Stage, reverseField *Re
 		}
 	case "Note":
 		switch reverseField.Fieldname {
-		case "Products":
-			res = stage.Note_Products_reverseMap[inst]
+		case "Deliverables":
+			res = stage.Note_Deliverables_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *DeliverableCompositionShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "DeliverableComposition_Shapes":
+			res = stage.Diagram_DeliverableComposition_Shapes_reverseMap[inst]
 		}
 	}
 	return res
@@ -786,6 +800,20 @@ func (inst *DeliverableConceptShape) GongGetReverseFieldOwner(stage *Stage, reve
 		switch reverseField.Fieldname {
 		case "DeliverableConceptShapes":
 			res = stage.Diagram_DeliverableConceptShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *DeliverableShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "Deliverable_Shapes":
+			res = stage.Diagram_Deliverable_Shapes_reverseMap[inst]
 		}
 	}
 	return res
@@ -838,15 +866,15 @@ func (inst *Note) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 	return res
 }
 
-func (inst *NoteProductShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+func (inst *NoteDeliverableShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
 	case "Diagram":
 		switch reverseField.Fieldname {
-		case "NoteProductShapes":
-			res = stage.Diagram_NoteProductShapes_reverseMap[inst]
+		case "NoteDeliverableShapes":
+			res = stage.Diagram_NoteDeliverableShapes_reverseMap[inst]
 		}
 	}
 	return res
@@ -889,34 +917,6 @@ func (inst *NoteTaskShape) GongGetReverseFieldOwner(stage *Stage, reverseField *
 		switch reverseField.Fieldname {
 		case "NoteTaskShapes":
 			res = stage.Diagram_NoteTaskShapes_reverseMap[inst]
-		}
-	}
-	return res
-}
-
-func (inst *ProductCompositionShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	case "Diagram":
-		switch reverseField.Fieldname {
-		case "ProductComposition_Shapes":
-			res = stage.Diagram_ProductComposition_Shapes_reverseMap[inst]
-		}
-	}
-	return res
-}
-
-func (inst *ProductShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-	case "Diagram":
-		switch reverseField.Fieldname {
-		case "Product_Shapes":
-			res = stage.Diagram_Product_Shapes_reverseMap[inst]
 		}
 	}
 	return res

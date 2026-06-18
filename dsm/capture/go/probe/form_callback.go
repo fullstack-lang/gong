@@ -1582,8 +1582,8 @@ func (concernoutputshapeFormCallback *ConcernOutputShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(concernoutputshape_.Name), formDiv)
 		case "Task":
 			FormDivSelectFieldToField(&(concernoutputshape_.Task), concernoutputshapeFormCallback.probe.stageOfInterest, formDiv)
-		case "Product":
-			FormDivSelectFieldToField(&(concernoutputshape_.Product), concernoutputshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "Deliverable":
+			FormDivSelectFieldToField(&(concernoutputshape_.Deliverable), concernoutputshapeFormCallback.probe.stageOfInterest, formDiv)
 		case "StartRatio":
 			FormDivBasicFieldToField(&(concernoutputshape_.StartRatio), formDiv)
 		case "EndRatio":
@@ -1864,7 +1864,7 @@ func (deliverableFormCallback *DeliverableFormCallback) OnSave() {
 			FormDivEnumIntFieldToField(&(deliverable_.LayoutDirection), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(deliverable_.Description), formDiv)
-		case "SubProducts":
+		case "SubDeliverables":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Deliverable](deliverableFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Deliverable, 0)
 
@@ -1893,8 +1893,8 @@ func (deliverableFormCallback *DeliverableFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			deliverable_.SubProducts = instanceSlice
-			deliverableFormCallback.probe.UpdateSliceOfPointersCallback(deliverable_, "SubProducts", &deliverable_.SubProducts)
+			deliverable_.SubDeliverables = instanceSlice
+			deliverableFormCallback.probe.UpdateSliceOfPointersCallback(deliverable_, "SubDeliverables", &deliverable_.SubDeliverables)
 
 		case "IsProducersNodeExpanded":
 			FormDivBasicFieldToField(&(deliverable_.IsProducersNodeExpanded), formDiv)
@@ -2022,7 +2022,7 @@ func (deliverableFormCallback *DeliverableFormCallback) OnSave() {
 					}
 				}
 			}
-		case "Deliverable:SubProducts":
+		case "Deliverable:SubDeliverables":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Deliverable instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2040,34 +2040,34 @@ func (deliverableFormCallback *DeliverableFormCallback) OnSave() {
 				}
 			}
 
-			// 3. Iterate over all Deliverable instances and update their SubProducts slice
+			// 3. Iterate over all Deliverable instances and update their SubDeliverables slice
 			for _deliverable := range *models.GetGongstructInstancesSetFromPointerType[*models.Deliverable](deliverableFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(deliverableFormCallback.probe.stageOfInterest, _deliverable)
 				
 				// if Deliverable is selected
 				if targetDeliverableIDs[id] {
-					// ensure deliverable_ is in _deliverable.SubProducts
+					// ensure deliverable_ is in _deliverable.SubDeliverables
 					found := false
-					for _, _b := range _deliverable.SubProducts {
+					for _, _b := range _deliverable.SubDeliverables {
 						if _b == deliverable_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_deliverable.SubProducts = append(_deliverable.SubProducts, deliverable_)
-						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_deliverable, "SubProducts", &_deliverable.SubProducts)
+						_deliverable.SubDeliverables = append(_deliverable.SubDeliverables, deliverable_)
+						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_deliverable, "SubDeliverables", &_deliverable.SubDeliverables)
 					}
 				} else {
-					// ensure deliverable_ is NOT in _deliverable.SubProducts
-					idx := slices.Index(_deliverable.SubProducts, deliverable_)
+					// ensure deliverable_ is NOT in _deliverable.SubDeliverables
+					idx := slices.Index(_deliverable.SubDeliverables, deliverable_)
 					if idx != -1 {
-						_deliverable.SubProducts = slices.Delete(_deliverable.SubProducts, idx, idx+1)
-						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_deliverable, "SubProducts", &_deliverable.SubProducts)
+						_deliverable.SubDeliverables = slices.Delete(_deliverable.SubDeliverables, idx, idx+1)
+						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_deliverable, "SubDeliverables", &_deliverable.SubDeliverables)
 					}
 				}
 			}
-		case "Diagram:ProductsWhoseNodeIsExpanded":
+		case "Diagram:DeliverablesWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2085,34 +2085,34 @@ func (deliverableFormCallback *DeliverableFormCallback) OnSave() {
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their ProductsWhoseNodeIsExpanded slice
+			// 3. Iterate over all Diagram instances and update their DeliverablesWhoseNodeIsExpanded slice
 			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](deliverableFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(deliverableFormCallback.probe.stageOfInterest, _diagram)
 				
 				// if Diagram is selected
 				if targetDiagramIDs[id] {
-					// ensure deliverable_ is in _diagram.ProductsWhoseNodeIsExpanded
+					// ensure deliverable_ is in _diagram.DeliverablesWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _diagram.ProductsWhoseNodeIsExpanded {
+					for _, _b := range _diagram.DeliverablesWhoseNodeIsExpanded {
 						if _b == deliverable_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.ProductsWhoseNodeIsExpanded = append(_diagram.ProductsWhoseNodeIsExpanded, deliverable_)
-						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ProductsWhoseNodeIsExpanded", &_diagram.ProductsWhoseNodeIsExpanded)
+						_diagram.DeliverablesWhoseNodeIsExpanded = append(_diagram.DeliverablesWhoseNodeIsExpanded, deliverable_)
+						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "DeliverablesWhoseNodeIsExpanded", &_diagram.DeliverablesWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure deliverable_ is NOT in _diagram.ProductsWhoseNodeIsExpanded
-					idx := slices.Index(_diagram.ProductsWhoseNodeIsExpanded, deliverable_)
+					// ensure deliverable_ is NOT in _diagram.DeliverablesWhoseNodeIsExpanded
+					idx := slices.Index(_diagram.DeliverablesWhoseNodeIsExpanded, deliverable_)
 					if idx != -1 {
-						_diagram.ProductsWhoseNodeIsExpanded = slices.Delete(_diagram.ProductsWhoseNodeIsExpanded, idx, idx+1)
-						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ProductsWhoseNodeIsExpanded", &_diagram.ProductsWhoseNodeIsExpanded)
+						_diagram.DeliverablesWhoseNodeIsExpanded = slices.Delete(_diagram.DeliverablesWhoseNodeIsExpanded, idx, idx+1)
+						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "DeliverablesWhoseNodeIsExpanded", &_diagram.DeliverablesWhoseNodeIsExpanded)
 					}
 				}
 			}
-		case "Diagram:ProductsWhoseConceptsNodeIsExpanded":
+		case "Diagram:DeliverablesWhoseConceptsNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2130,30 +2130,30 @@ func (deliverableFormCallback *DeliverableFormCallback) OnSave() {
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their ProductsWhoseConceptsNodeIsExpanded slice
+			// 3. Iterate over all Diagram instances and update their DeliverablesWhoseConceptsNodeIsExpanded slice
 			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](deliverableFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(deliverableFormCallback.probe.stageOfInterest, _diagram)
 				
 				// if Diagram is selected
 				if targetDiagramIDs[id] {
-					// ensure deliverable_ is in _diagram.ProductsWhoseConceptsNodeIsExpanded
+					// ensure deliverable_ is in _diagram.DeliverablesWhoseConceptsNodeIsExpanded
 					found := false
-					for _, _b := range _diagram.ProductsWhoseConceptsNodeIsExpanded {
+					for _, _b := range _diagram.DeliverablesWhoseConceptsNodeIsExpanded {
 						if _b == deliverable_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.ProductsWhoseConceptsNodeIsExpanded = append(_diagram.ProductsWhoseConceptsNodeIsExpanded, deliverable_)
-						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ProductsWhoseConceptsNodeIsExpanded", &_diagram.ProductsWhoseConceptsNodeIsExpanded)
+						_diagram.DeliverablesWhoseConceptsNodeIsExpanded = append(_diagram.DeliverablesWhoseConceptsNodeIsExpanded, deliverable_)
+						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "DeliverablesWhoseConceptsNodeIsExpanded", &_diagram.DeliverablesWhoseConceptsNodeIsExpanded)
 					}
 				} else {
-					// ensure deliverable_ is NOT in _diagram.ProductsWhoseConceptsNodeIsExpanded
-					idx := slices.Index(_diagram.ProductsWhoseConceptsNodeIsExpanded, deliverable_)
+					// ensure deliverable_ is NOT in _diagram.DeliverablesWhoseConceptsNodeIsExpanded
+					idx := slices.Index(_diagram.DeliverablesWhoseConceptsNodeIsExpanded, deliverable_)
 					if idx != -1 {
-						_diagram.ProductsWhoseConceptsNodeIsExpanded = slices.Delete(_diagram.ProductsWhoseConceptsNodeIsExpanded, idx, idx+1)
-						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ProductsWhoseConceptsNodeIsExpanded", &_diagram.ProductsWhoseConceptsNodeIsExpanded)
+						_diagram.DeliverablesWhoseConceptsNodeIsExpanded = slices.Delete(_diagram.DeliverablesWhoseConceptsNodeIsExpanded, idx, idx+1)
+						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "DeliverablesWhoseConceptsNodeIsExpanded", &_diagram.DeliverablesWhoseConceptsNodeIsExpanded)
 					}
 				}
 			}
@@ -2202,7 +2202,7 @@ func (deliverableFormCallback *DeliverableFormCallback) OnSave() {
 					}
 				}
 			}
-		case "Note:Products":
+		case "Note:Deliverables":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Note instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -2220,30 +2220,30 @@ func (deliverableFormCallback *DeliverableFormCallback) OnSave() {
 				}
 			}
 
-			// 3. Iterate over all Note instances and update their Products slice
+			// 3. Iterate over all Note instances and update their Deliverables slice
 			for _note := range *models.GetGongstructInstancesSetFromPointerType[*models.Note](deliverableFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(deliverableFormCallback.probe.stageOfInterest, _note)
 				
 				// if Note is selected
 				if targetNoteIDs[id] {
-					// ensure deliverable_ is in _note.Products
+					// ensure deliverable_ is in _note.Deliverables
 					found := false
-					for _, _b := range _note.Products {
+					for _, _b := range _note.Deliverables {
 						if _b == deliverable_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_note.Products = append(_note.Products, deliverable_)
-						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_note, "Products", &_note.Products)
+						_note.Deliverables = append(_note.Deliverables, deliverable_)
+						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_note, "Deliverables", &_note.Deliverables)
 					}
 				} else {
-					// ensure deliverable_ is NOT in _note.Products
-					idx := slices.Index(_note.Products, deliverable_)
+					// ensure deliverable_ is NOT in _note.Deliverables
+					idx := slices.Index(_note.Deliverables, deliverable_)
 					if idx != -1 {
-						_note.Products = slices.Delete(_note.Products, idx, idx+1)
-						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_note, "Products", &_note.Products)
+						_note.Deliverables = slices.Delete(_note.Deliverables, idx, idx+1)
+						deliverableFormCallback.probe.UpdateSliceOfPointersCallback(_note, "Deliverables", &_note.Deliverables)
 					}
 				}
 			}
@@ -2277,6 +2277,143 @@ func (deliverableFormCallback *DeliverableFormCallback) OnSave() {
 	}
 
 	deliverableFormCallback.probe.ux_tree()
+}
+func __gong__New__DeliverableCompositionShapeFormCallback(
+	deliverablecompositionshape *models.DeliverableCompositionShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (deliverablecompositionshapeFormCallback *DeliverableCompositionShapeFormCallback) {
+	deliverablecompositionshapeFormCallback = new(DeliverableCompositionShapeFormCallback)
+	deliverablecompositionshapeFormCallback.probe = probe
+	deliverablecompositionshapeFormCallback.deliverablecompositionshape = deliverablecompositionshape
+	deliverablecompositionshapeFormCallback.formGroup = formGroup
+
+	deliverablecompositionshapeFormCallback.CreationMode = (deliverablecompositionshape == nil)
+
+	return
+}
+
+type DeliverableCompositionShapeFormCallback struct {
+	deliverablecompositionshape *models.DeliverableCompositionShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (deliverablecompositionshapeFormCallback *DeliverableCompositionShapeFormCallback) OnSave() {
+	deliverablecompositionshapeFormCallback.probe.stageOfInterest.Lock()
+	defer deliverablecompositionshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("DeliverableCompositionShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	deliverablecompositionshapeFormCallback.probe.formStage.Checkout()
+
+	if deliverablecompositionshapeFormCallback.deliverablecompositionshape == nil {
+		deliverablecompositionshapeFormCallback.deliverablecompositionshape = new(models.DeliverableCompositionShape).Stage(deliverablecompositionshapeFormCallback.probe.stageOfInterest)
+	}
+	deliverablecompositionshape_ := deliverablecompositionshapeFormCallback.deliverablecompositionshape
+	_ = deliverablecompositionshape_
+
+	for _, formDiv := range deliverablecompositionshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(deliverablecompositionshape_.Name), formDiv)
+		case "Deliverable":
+			FormDivSelectFieldToField(&(deliverablecompositionshape_.Deliverable), deliverablecompositionshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "StartRatio":
+			FormDivBasicFieldToField(&(deliverablecompositionshape_.StartRatio), formDiv)
+		case "EndRatio":
+			FormDivBasicFieldToField(&(deliverablecompositionshape_.EndRatio), formDiv)
+		case "StartOrientation":
+			FormDivEnumStringFieldToField(&(deliverablecompositionshape_.StartOrientation), formDiv)
+		case "EndOrientation":
+			FormDivEnumStringFieldToField(&(deliverablecompositionshape_.EndOrientation), formDiv)
+		case "CornerOffsetRatio":
+			FormDivBasicFieldToField(&(deliverablecompositionshape_.CornerOffsetRatio), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(deliverablecompositionshape_.IsHidden), formDiv)
+		case "Diagram:DeliverableComposition_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Diagram instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](deliverablecompositionshapeFormCallback.probe.stageOfInterest)
+			targetDiagramIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Diagram instances and update their DeliverableComposition_Shapes slice
+			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](deliverablecompositionshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(deliverablecompositionshapeFormCallback.probe.stageOfInterest, _diagram)
+				
+				// if Diagram is selected
+				if targetDiagramIDs[id] {
+					// ensure deliverablecompositionshape_ is in _diagram.DeliverableComposition_Shapes
+					found := false
+					for _, _b := range _diagram.DeliverableComposition_Shapes {
+						if _b == deliverablecompositionshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagram.DeliverableComposition_Shapes = append(_diagram.DeliverableComposition_Shapes, deliverablecompositionshape_)
+						deliverablecompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "DeliverableComposition_Shapes", &_diagram.DeliverableComposition_Shapes)
+					}
+				} else {
+					// ensure deliverablecompositionshape_ is NOT in _diagram.DeliverableComposition_Shapes
+					idx := slices.Index(_diagram.DeliverableComposition_Shapes, deliverablecompositionshape_)
+					if idx != -1 {
+						_diagram.DeliverableComposition_Shapes = slices.Delete(_diagram.DeliverableComposition_Shapes, idx, idx+1)
+						deliverablecompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "DeliverableComposition_Shapes", &_diagram.DeliverableComposition_Shapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if deliverablecompositionshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		deliverablecompositionshape_.Unstage(deliverablecompositionshapeFormCallback.probe.stageOfInterest)
+	}
+
+	deliverablecompositionshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.DeliverableCompositionShape](
+		deliverablecompositionshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if deliverablecompositionshapeFormCallback.CreationMode || deliverablecompositionshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		deliverablecompositionshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(deliverablecompositionshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__DeliverableCompositionShapeFormCallback(
+			nil,
+			deliverablecompositionshapeFormCallback.probe,
+			newFormGroup,
+		)
+		deliverablecompositionshape := new(models.DeliverableCompositionShape)
+		FillUpForm(deliverablecompositionshape, newFormGroup, deliverablecompositionshapeFormCallback.probe)
+		deliverablecompositionshapeFormCallback.probe.formStage.Commit()
+	}
+
+	deliverablecompositionshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__DeliverableConceptShapeFormCallback(
 	deliverableconceptshape *models.DeliverableConceptShape,
@@ -2417,6 +2554,143 @@ func (deliverableconceptshapeFormCallback *DeliverableConceptShapeFormCallback) 
 
 	deliverableconceptshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__DeliverableShapeFormCallback(
+	deliverableshape *models.DeliverableShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (deliverableshapeFormCallback *DeliverableShapeFormCallback) {
+	deliverableshapeFormCallback = new(DeliverableShapeFormCallback)
+	deliverableshapeFormCallback.probe = probe
+	deliverableshapeFormCallback.deliverableshape = deliverableshape
+	deliverableshapeFormCallback.formGroup = formGroup
+
+	deliverableshapeFormCallback.CreationMode = (deliverableshape == nil)
+
+	return
+}
+
+type DeliverableShapeFormCallback struct {
+	deliverableshape *models.DeliverableShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (deliverableshapeFormCallback *DeliverableShapeFormCallback) OnSave() {
+	deliverableshapeFormCallback.probe.stageOfInterest.Lock()
+	defer deliverableshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("DeliverableShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	deliverableshapeFormCallback.probe.formStage.Checkout()
+
+	if deliverableshapeFormCallback.deliverableshape == nil {
+		deliverableshapeFormCallback.deliverableshape = new(models.DeliverableShape).Stage(deliverableshapeFormCallback.probe.stageOfInterest)
+	}
+	deliverableshape_ := deliverableshapeFormCallback.deliverableshape
+	_ = deliverableshape_
+
+	for _, formDiv := range deliverableshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(deliverableshape_.Name), formDiv)
+		case "Deliverable":
+			FormDivSelectFieldToField(&(deliverableshape_.Deliverable), deliverableshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(deliverableshape_.IsExpanded), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(deliverableshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(deliverableshape_.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(deliverableshape_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(deliverableshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(deliverableshape_.IsHidden), formDiv)
+		case "Diagram:Deliverable_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Diagram instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](deliverableshapeFormCallback.probe.stageOfInterest)
+			targetDiagramIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Diagram instances and update their Deliverable_Shapes slice
+			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](deliverableshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(deliverableshapeFormCallback.probe.stageOfInterest, _diagram)
+				
+				// if Diagram is selected
+				if targetDiagramIDs[id] {
+					// ensure deliverableshape_ is in _diagram.Deliverable_Shapes
+					found := false
+					for _, _b := range _diagram.Deliverable_Shapes {
+						if _b == deliverableshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagram.Deliverable_Shapes = append(_diagram.Deliverable_Shapes, deliverableshape_)
+						deliverableshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "Deliverable_Shapes", &_diagram.Deliverable_Shapes)
+					}
+				} else {
+					// ensure deliverableshape_ is NOT in _diagram.Deliverable_Shapes
+					idx := slices.Index(_diagram.Deliverable_Shapes, deliverableshape_)
+					if idx != -1 {
+						_diagram.Deliverable_Shapes = slices.Delete(_diagram.Deliverable_Shapes, idx, idx+1)
+						deliverableshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "Deliverable_Shapes", &_diagram.Deliverable_Shapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if deliverableshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		deliverableshape_.Unstage(deliverableshapeFormCallback.probe.stageOfInterest)
+	}
+
+	deliverableshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.DeliverableShape](
+		deliverableshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if deliverableshapeFormCallback.CreationMode || deliverableshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		deliverableshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(deliverableshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__DeliverableShapeFormCallback(
+			nil,
+			deliverableshapeFormCallback.probe,
+			newFormGroup,
+		)
+		deliverableshape := new(models.DeliverableShape)
+		FillUpForm(deliverableshape, newFormGroup, deliverableshapeFormCallback.probe)
+		deliverableshapeFormCallback.probe.formStage.Commit()
+	}
+
+	deliverableshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__DiagramFormCallback(
 	diagram *models.Diagram,
 	probe *Probe,
@@ -2520,12 +2794,12 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.IsRequirementsNodeExpanded), formDiv)
 		case "IsConceptsNodeExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsConceptsNodeExpanded), formDiv)
-		case "Product_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ProductShape](diagramFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.ProductShape, 0)
+		case "Deliverable_Shapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DeliverableShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.DeliverableShape, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.ProductShape)
+			map_id_instances := make(map[uint]*models.DeliverableShape)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
@@ -2540,7 +2814,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.ProductShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.DeliverableShape](diagramFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -2549,10 +2823,10 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.Product_Shapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "Product_Shapes", &diagram_.Product_Shapes)
+			diagram_.Deliverable_Shapes = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "Deliverable_Shapes", &diagram_.Deliverable_Shapes)
 
-		case "ProductsWhoseNodeIsExpanded":
+		case "DeliverablesWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Deliverable](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Deliverable, 0)
 
@@ -2581,10 +2855,10 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.ProductsWhoseNodeIsExpanded = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ProductsWhoseNodeIsExpanded", &diagram_.ProductsWhoseNodeIsExpanded)
+			diagram_.DeliverablesWhoseNodeIsExpanded = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "DeliverablesWhoseNodeIsExpanded", &diagram_.DeliverablesWhoseNodeIsExpanded)
 
-		case "ProductsWhoseConceptsNodeIsExpanded":
+		case "DeliverablesWhoseConceptsNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Deliverable](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Deliverable, 0)
 
@@ -2613,17 +2887,17 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.ProductsWhoseConceptsNodeIsExpanded = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ProductsWhoseConceptsNodeIsExpanded", &diagram_.ProductsWhoseConceptsNodeIsExpanded)
+			diagram_.DeliverablesWhoseConceptsNodeIsExpanded = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "DeliverablesWhoseConceptsNodeIsExpanded", &diagram_.DeliverablesWhoseConceptsNodeIsExpanded)
 
 		case "IsPBSNodeExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsPBSNodeExpanded), formDiv)
-		case "ProductComposition_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ProductCompositionShape](diagramFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.ProductCompositionShape, 0)
+		case "DeliverableComposition_Shapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DeliverableCompositionShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.DeliverableCompositionShape, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.ProductCompositionShape)
+			map_id_instances := make(map[uint]*models.DeliverableCompositionShape)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
@@ -2638,7 +2912,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.ProductCompositionShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.DeliverableCompositionShape](diagramFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -2647,8 +2921,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.ProductComposition_Shapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ProductComposition_Shapes", &diagram_.ProductComposition_Shapes)
+			diagram_.DeliverableComposition_Shapes = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "DeliverableComposition_Shapes", &diagram_.DeliverableComposition_Shapes)
 
 		case "IsConcernsNodeExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsConcernsNodeExpanded), formDiv)
@@ -2974,12 +3248,12 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 		case "IsNotesNodeExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsNotesNodeExpanded), formDiv)
-		case "NoteProductShapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteProductShape](diagramFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.NoteProductShape, 0)
+		case "NoteDeliverableShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteDeliverableShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.NoteDeliverableShape, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.NoteProductShape)
+			map_id_instances := make(map[uint]*models.NoteDeliverableShape)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
@@ -2994,7 +3268,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.NoteProductShape](diagramFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.NoteDeliverableShape](diagramFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -3003,8 +3277,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagram_.NoteProductShapes = instanceSlice
-			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "NoteProductShapes", &diagram_.NoteProductShapes)
+			diagram_.NoteDeliverableShapes = instanceSlice
+			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "NoteDeliverableShapes", &diagram_.NoteDeliverableShapes)
 
 		case "NoteTaskShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteTaskShape](diagramFormCallback.probe.stageOfInterest)
@@ -3942,7 +4216,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(note_.IsExpanded), formDiv)
 		case "LayoutDirection":
 			FormDivEnumIntFieldToField(&(note_.LayoutDirection), formDiv)
-		case "Products":
+		case "Deliverables":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Deliverable](noteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Deliverable, 0)
 
@@ -3971,8 +4245,8 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			note_.Products = instanceSlice
-			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Products", &note_.Products)
+			note_.Deliverables = instanceSlice
+			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Deliverables", &note_.Deliverables)
 
 		case "Tasks":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Concern](noteFormCallback.probe.stageOfInterest)
@@ -4159,23 +4433,23 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 
 	noteFormCallback.probe.ux_tree()
 }
-func __gong__New__NoteProductShapeFormCallback(
-	noteproductshape *models.NoteProductShape,
+func __gong__New__NoteDeliverableShapeFormCallback(
+	notedeliverableshape *models.NoteDeliverableShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (noteproductshapeFormCallback *NoteProductShapeFormCallback) {
-	noteproductshapeFormCallback = new(NoteProductShapeFormCallback)
-	noteproductshapeFormCallback.probe = probe
-	noteproductshapeFormCallback.noteproductshape = noteproductshape
-	noteproductshapeFormCallback.formGroup = formGroup
+) (notedeliverableshapeFormCallback *NoteDeliverableShapeFormCallback) {
+	notedeliverableshapeFormCallback = new(NoteDeliverableShapeFormCallback)
+	notedeliverableshapeFormCallback.probe = probe
+	notedeliverableshapeFormCallback.notedeliverableshape = notedeliverableshape
+	notedeliverableshapeFormCallback.formGroup = formGroup
 
-	noteproductshapeFormCallback.CreationMode = (noteproductshape == nil)
+	notedeliverableshapeFormCallback.CreationMode = (notedeliverableshape == nil)
 
 	return
 }
 
-type NoteProductShapeFormCallback struct {
-	noteproductshape *models.NoteProductShape
+type NoteDeliverableShapeFormCallback struct {
+	notedeliverableshape *models.NoteDeliverableShape
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -4185,44 +4459,44 @@ type NoteProductShapeFormCallback struct {
 	formGroup *form.FormGroup
 }
 
-func (noteproductshapeFormCallback *NoteProductShapeFormCallback) OnSave() {
-	noteproductshapeFormCallback.probe.stageOfInterest.Lock()
-	defer noteproductshapeFormCallback.probe.stageOfInterest.Unlock()
+func (notedeliverableshapeFormCallback *NoteDeliverableShapeFormCallback) OnSave() {
+	notedeliverableshapeFormCallback.probe.stageOfInterest.Lock()
+	defer notedeliverableshapeFormCallback.probe.stageOfInterest.Unlock()
 
-	// log.Println("NoteProductShapeFormCallback, OnSave")
+	// log.Println("NoteDeliverableShapeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	noteproductshapeFormCallback.probe.formStage.Checkout()
+	notedeliverableshapeFormCallback.probe.formStage.Checkout()
 
-	if noteproductshapeFormCallback.noteproductshape == nil {
-		noteproductshapeFormCallback.noteproductshape = new(models.NoteProductShape).Stage(noteproductshapeFormCallback.probe.stageOfInterest)
+	if notedeliverableshapeFormCallback.notedeliverableshape == nil {
+		notedeliverableshapeFormCallback.notedeliverableshape = new(models.NoteDeliverableShape).Stage(notedeliverableshapeFormCallback.probe.stageOfInterest)
 	}
-	noteproductshape_ := noteproductshapeFormCallback.noteproductshape
-	_ = noteproductshape_
+	notedeliverableshape_ := notedeliverableshapeFormCallback.notedeliverableshape
+	_ = notedeliverableshape_
 
-	for _, formDiv := range noteproductshapeFormCallback.formGroup.FormDivs {
+	for _, formDiv := range notedeliverableshapeFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(noteproductshape_.Name), formDiv)
+			FormDivBasicFieldToField(&(notedeliverableshape_.Name), formDiv)
 		case "Note":
-			FormDivSelectFieldToField(&(noteproductshape_.Note), noteproductshapeFormCallback.probe.stageOfInterest, formDiv)
-		case "Product":
-			FormDivSelectFieldToField(&(noteproductshape_.Product), noteproductshapeFormCallback.probe.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(notedeliverableshape_.Note), notedeliverableshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "Deliverable":
+			FormDivSelectFieldToField(&(notedeliverableshape_.Deliverable), notedeliverableshapeFormCallback.probe.stageOfInterest, formDiv)
 		case "StartRatio":
-			FormDivBasicFieldToField(&(noteproductshape_.StartRatio), formDiv)
+			FormDivBasicFieldToField(&(notedeliverableshape_.StartRatio), formDiv)
 		case "EndRatio":
-			FormDivBasicFieldToField(&(noteproductshape_.EndRatio), formDiv)
+			FormDivBasicFieldToField(&(notedeliverableshape_.EndRatio), formDiv)
 		case "StartOrientation":
-			FormDivEnumStringFieldToField(&(noteproductshape_.StartOrientation), formDiv)
+			FormDivEnumStringFieldToField(&(notedeliverableshape_.StartOrientation), formDiv)
 		case "EndOrientation":
-			FormDivEnumStringFieldToField(&(noteproductshape_.EndOrientation), formDiv)
+			FormDivEnumStringFieldToField(&(notedeliverableshape_.EndOrientation), formDiv)
 		case "CornerOffsetRatio":
-			FormDivBasicFieldToField(&(noteproductshape_.CornerOffsetRatio), formDiv)
+			FormDivBasicFieldToField(&(notedeliverableshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
-			FormDivBasicFieldToField(&(noteproductshape_.IsHidden), formDiv)
-		case "Diagram:NoteProductShapes":
+			FormDivBasicFieldToField(&(notedeliverableshape_.IsHidden), formDiv)
+		case "Diagram:NoteDeliverableShapes":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4230,7 +4504,7 @@ func (noteproductshapeFormCallback *NoteProductShapeFormCallback) OnSave() {
 			}
 
 			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](noteproductshapeFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](notedeliverableshapeFormCallback.probe.stageOfInterest)
 			targetDiagramIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -4240,30 +4514,30 @@ func (noteproductshapeFormCallback *NoteProductShapeFormCallback) OnSave() {
 				}
 			}
 
-			// 3. Iterate over all Diagram instances and update their NoteProductShapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](noteproductshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(noteproductshapeFormCallback.probe.stageOfInterest, _diagram)
+			// 3. Iterate over all Diagram instances and update their NoteDeliverableShapes slice
+			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](notedeliverableshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(notedeliverableshapeFormCallback.probe.stageOfInterest, _diagram)
 				
 				// if Diagram is selected
 				if targetDiagramIDs[id] {
-					// ensure noteproductshape_ is in _diagram.NoteProductShapes
+					// ensure notedeliverableshape_ is in _diagram.NoteDeliverableShapes
 					found := false
-					for _, _b := range _diagram.NoteProductShapes {
-						if _b == noteproductshape_ {
+					for _, _b := range _diagram.NoteDeliverableShapes {
+						if _b == notedeliverableshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagram.NoteProductShapes = append(_diagram.NoteProductShapes, noteproductshape_)
-						noteproductshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "NoteProductShapes", &_diagram.NoteProductShapes)
+						_diagram.NoteDeliverableShapes = append(_diagram.NoteDeliverableShapes, notedeliverableshape_)
+						notedeliverableshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "NoteDeliverableShapes", &_diagram.NoteDeliverableShapes)
 					}
 				} else {
-					// ensure noteproductshape_ is NOT in _diagram.NoteProductShapes
-					idx := slices.Index(_diagram.NoteProductShapes, noteproductshape_)
+					// ensure notedeliverableshape_ is NOT in _diagram.NoteDeliverableShapes
+					idx := slices.Index(_diagram.NoteDeliverableShapes, notedeliverableshape_)
 					if idx != -1 {
-						_diagram.NoteProductShapes = slices.Delete(_diagram.NoteProductShapes, idx, idx+1)
-						noteproductshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "NoteProductShapes", &_diagram.NoteProductShapes)
+						_diagram.NoteDeliverableShapes = slices.Delete(_diagram.NoteDeliverableShapes, idx, idx+1)
+						notedeliverableshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "NoteDeliverableShapes", &_diagram.NoteDeliverableShapes)
 					}
 				}
 			}
@@ -4271,32 +4545,32 @@ func (noteproductshapeFormCallback *NoteProductShapeFormCallback) OnSave() {
 	}
 
 	// manage the suppress operation
-	if noteproductshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		noteproductshape_.Unstage(noteproductshapeFormCallback.probe.stageOfInterest)
+	if notedeliverableshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		notedeliverableshape_.Unstage(notedeliverableshapeFormCallback.probe.stageOfInterest)
 	}
 
-	noteproductshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.NoteProductShape](
-		noteproductshapeFormCallback.probe,
+	notedeliverableshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.NoteDeliverableShape](
+		notedeliverableshapeFormCallback.probe,
 	)
 
 	// display a new form by reset the form stage
-	if noteproductshapeFormCallback.CreationMode || noteproductshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		noteproductshapeFormCallback.probe.formStage.Reset()
+	if notedeliverableshapeFormCallback.CreationMode || notedeliverableshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		notedeliverableshapeFormCallback.probe.formStage.Reset()
 		newFormGroup := (&form.FormGroup{
 			Name: FormName,
-		}).Stage(noteproductshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__NoteProductShapeFormCallback(
+		}).Stage(notedeliverableshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__NoteDeliverableShapeFormCallback(
 			nil,
-			noteproductshapeFormCallback.probe,
+			notedeliverableshapeFormCallback.probe,
 			newFormGroup,
 		)
-		noteproductshape := new(models.NoteProductShape)
-		FillUpForm(noteproductshape, newFormGroup, noteproductshapeFormCallback.probe)
-		noteproductshapeFormCallback.probe.formStage.Commit()
+		notedeliverableshape := new(models.NoteDeliverableShape)
+		FillUpForm(notedeliverableshape, newFormGroup, notedeliverableshapeFormCallback.probe)
+		notedeliverableshapeFormCallback.probe.formStage.Commit()
 	}
 
-	noteproductshapeFormCallback.probe.ux_tree()
+	notedeliverableshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__NoteShapeFormCallback(
 	noteshape *models.NoteShape,
@@ -4712,280 +4986,6 @@ func (notetaskshapeFormCallback *NoteTaskShapeFormCallback) OnSave() {
 	}
 
 	notetaskshapeFormCallback.probe.ux_tree()
-}
-func __gong__New__ProductCompositionShapeFormCallback(
-	productcompositionshape *models.ProductCompositionShape,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (productcompositionshapeFormCallback *ProductCompositionShapeFormCallback) {
-	productcompositionshapeFormCallback = new(ProductCompositionShapeFormCallback)
-	productcompositionshapeFormCallback.probe = probe
-	productcompositionshapeFormCallback.productcompositionshape = productcompositionshape
-	productcompositionshapeFormCallback.formGroup = formGroup
-
-	productcompositionshapeFormCallback.CreationMode = (productcompositionshape == nil)
-
-	return
-}
-
-type ProductCompositionShapeFormCallback struct {
-	productcompositionshape *models.ProductCompositionShape
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (productcompositionshapeFormCallback *ProductCompositionShapeFormCallback) OnSave() {
-	productcompositionshapeFormCallback.probe.stageOfInterest.Lock()
-	defer productcompositionshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("ProductCompositionShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	productcompositionshapeFormCallback.probe.formStage.Checkout()
-
-	if productcompositionshapeFormCallback.productcompositionshape == nil {
-		productcompositionshapeFormCallback.productcompositionshape = new(models.ProductCompositionShape).Stage(productcompositionshapeFormCallback.probe.stageOfInterest)
-	}
-	productcompositionshape_ := productcompositionshapeFormCallback.productcompositionshape
-	_ = productcompositionshape_
-
-	for _, formDiv := range productcompositionshapeFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(productcompositionshape_.Name), formDiv)
-		case "Product":
-			FormDivSelectFieldToField(&(productcompositionshape_.Product), productcompositionshapeFormCallback.probe.stageOfInterest, formDiv)
-		case "StartRatio":
-			FormDivBasicFieldToField(&(productcompositionshape_.StartRatio), formDiv)
-		case "EndRatio":
-			FormDivBasicFieldToField(&(productcompositionshape_.EndRatio), formDiv)
-		case "StartOrientation":
-			FormDivEnumStringFieldToField(&(productcompositionshape_.StartOrientation), formDiv)
-		case "EndOrientation":
-			FormDivEnumStringFieldToField(&(productcompositionshape_.EndOrientation), formDiv)
-		case "CornerOffsetRatio":
-			FormDivBasicFieldToField(&(productcompositionshape_.CornerOffsetRatio), formDiv)
-		case "IsHidden":
-			FormDivBasicFieldToField(&(productcompositionshape_.IsHidden), formDiv)
-		case "Diagram:ProductComposition_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](productcompositionshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Diagram instances and update their ProductComposition_Shapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](productcompositionshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(productcompositionshapeFormCallback.probe.stageOfInterest, _diagram)
-				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure productcompositionshape_ is in _diagram.ProductComposition_Shapes
-					found := false
-					for _, _b := range _diagram.ProductComposition_Shapes {
-						if _b == productcompositionshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_diagram.ProductComposition_Shapes = append(_diagram.ProductComposition_Shapes, productcompositionshape_)
-						productcompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ProductComposition_Shapes", &_diagram.ProductComposition_Shapes)
-					}
-				} else {
-					// ensure productcompositionshape_ is NOT in _diagram.ProductComposition_Shapes
-					idx := slices.Index(_diagram.ProductComposition_Shapes, productcompositionshape_)
-					if idx != -1 {
-						_diagram.ProductComposition_Shapes = slices.Delete(_diagram.ProductComposition_Shapes, idx, idx+1)
-						productcompositionshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "ProductComposition_Shapes", &_diagram.ProductComposition_Shapes)
-					}
-				}
-			}
-		}
-	}
-
-	// manage the suppress operation
-	if productcompositionshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		productcompositionshape_.Unstage(productcompositionshapeFormCallback.probe.stageOfInterest)
-	}
-
-	productcompositionshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.ProductCompositionShape](
-		productcompositionshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if productcompositionshapeFormCallback.CreationMode || productcompositionshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		productcompositionshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(productcompositionshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ProductCompositionShapeFormCallback(
-			nil,
-			productcompositionshapeFormCallback.probe,
-			newFormGroup,
-		)
-		productcompositionshape := new(models.ProductCompositionShape)
-		FillUpForm(productcompositionshape, newFormGroup, productcompositionshapeFormCallback.probe)
-		productcompositionshapeFormCallback.probe.formStage.Commit()
-	}
-
-	productcompositionshapeFormCallback.probe.ux_tree()
-}
-func __gong__New__ProductShapeFormCallback(
-	productshape *models.ProductShape,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (productshapeFormCallback *ProductShapeFormCallback) {
-	productshapeFormCallback = new(ProductShapeFormCallback)
-	productshapeFormCallback.probe = probe
-	productshapeFormCallback.productshape = productshape
-	productshapeFormCallback.formGroup = formGroup
-
-	productshapeFormCallback.CreationMode = (productshape == nil)
-
-	return
-}
-
-type ProductShapeFormCallback struct {
-	productshape *models.ProductShape
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (productshapeFormCallback *ProductShapeFormCallback) OnSave() {
-	productshapeFormCallback.probe.stageOfInterest.Lock()
-	defer productshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("ProductShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	productshapeFormCallback.probe.formStage.Checkout()
-
-	if productshapeFormCallback.productshape == nil {
-		productshapeFormCallback.productshape = new(models.ProductShape).Stage(productshapeFormCallback.probe.stageOfInterest)
-	}
-	productshape_ := productshapeFormCallback.productshape
-	_ = productshape_
-
-	for _, formDiv := range productshapeFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(productshape_.Name), formDiv)
-		case "Product":
-			FormDivSelectFieldToField(&(productshape_.Product), productshapeFormCallback.probe.stageOfInterest, formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(productshape_.IsExpanded), formDiv)
-		case "X":
-			FormDivBasicFieldToField(&(productshape_.X), formDiv)
-		case "Y":
-			FormDivBasicFieldToField(&(productshape_.Y), formDiv)
-		case "Width":
-			FormDivBasicFieldToField(&(productshape_.Width), formDiv)
-		case "Height":
-			FormDivBasicFieldToField(&(productshape_.Height), formDiv)
-		case "IsHidden":
-			FormDivBasicFieldToField(&(productshape_.IsHidden), formDiv)
-		case "Diagram:Product_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Diagram instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](productshapeFormCallback.probe.stageOfInterest)
-			targetDiagramIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Diagram instances and update their Product_Shapes slice
-			for _diagram := range *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](productshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(productshapeFormCallback.probe.stageOfInterest, _diagram)
-				
-				// if Diagram is selected
-				if targetDiagramIDs[id] {
-					// ensure productshape_ is in _diagram.Product_Shapes
-					found := false
-					for _, _b := range _diagram.Product_Shapes {
-						if _b == productshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_diagram.Product_Shapes = append(_diagram.Product_Shapes, productshape_)
-						productshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "Product_Shapes", &_diagram.Product_Shapes)
-					}
-				} else {
-					// ensure productshape_ is NOT in _diagram.Product_Shapes
-					idx := slices.Index(_diagram.Product_Shapes, productshape_)
-					if idx != -1 {
-						_diagram.Product_Shapes = slices.Delete(_diagram.Product_Shapes, idx, idx+1)
-						productshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagram, "Product_Shapes", &_diagram.Product_Shapes)
-					}
-				}
-			}
-		}
-	}
-
-	// manage the suppress operation
-	if productshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		productshape_.Unstage(productshapeFormCallback.probe.stageOfInterest)
-	}
-
-	productshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.ProductShape](
-		productshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if productshapeFormCallback.CreationMode || productshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		productshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(productshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ProductShapeFormCallback(
-			nil,
-			productshapeFormCallback.probe,
-			newFormGroup,
-		)
-		productshape := new(models.ProductShape)
-		FillUpForm(productshape, newFormGroup, productshapeFormCallback.probe)
-		productshapeFormCallback.probe.formStage.Commit()
-	}
-
-	productshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__RequirementFormCallback(
 	requirement *models.Requirement,

@@ -8,20 +8,20 @@ import (
 func onShowAllInDiagram(stager *Stager, diagram *Diagram) func() {
 	return func() {
 		// 1. Reset the diagram: remove all shapes from the stage to start fresh
-		diagram.Product_Shapes = []*ProductShape{}
+		diagram.Deliverable_Shapes = []*DeliverableShape{}
 		diagram.Concern_Shapes = []*ConcernShape{}
 		diagram.Note_Shapes = []*NoteShape{}
 
-		// 2. Compute the rank of each node (Product or Task)
+		// 2. Compute the rank of each node (Deliverable or Task)
 		// The rank is determined by the longest path from a root node.
 		// Rank 0 = Root. Rank N = Dependencies have Max(Rank) = N-1.
 		map_Node_Rank := make(map[any]int)
 
 		project := stager.stage.Library_Diagrams_reverseMap[diagram]
 
-		// collect all Products and Tasks that are reachable from the Project
-		products := collectProjectElements(project.RootDeliverables, func(p *Deliverable) []*Deliverable {
-			return p.SubProducts
+		// collect all Deliverables and Tasks that are reachable from the Project
+		deliverables := collectProjectElements(project.RootDeliverables, func(p *Deliverable) []*Deliverable {
+			return p.SubDeliverables
 		})
 
 		tasks := collectProjectElements(project.RootConcerns, func(t *Concern) []*Concern {
@@ -31,18 +31,18 @@ func onShowAllInDiagram(stager *Stager, diagram *Diagram) func() {
 		// Relax edges to propagate ranks.
 		// We loop enough times to cover the maximum possible path length (number of nodes).
 		// Edges considered:
-		// - Product -> SubProduct
+		// - Deliverable -> SubDeliverable
 		// - Task -> SubTask
-		// - Task -> Output (Product)
-		// - Product -> Input (Task)
-		nbNodes := len(products) + len(tasks)
+		// - Task -> Output (Deliverable)
+		// - Deliverable -> Input (Task)
+		nbNodes := len(deliverables) + len(tasks)
 		for i := 0; i < nbNodes; i++ {
 
-			// Product Composition: Parent Rank < Child Rank
-			for _, product := range products {
-				for _, subProduct := range product.SubProducts {
-					if map_Node_Rank[subProduct] <= map_Node_Rank[product] {
-						map_Node_Rank[subProduct] = map_Node_Rank[product] + 1
+			// Deliverable Composition: Parent Rank < Child Rank
+			for _, deliverable := range deliverables {
+				for _, subDeliverable := range deliverable.SubDeliverables {
+					if map_Node_Rank[subDeliverable] <= map_Node_Rank[deliverable] {
+						map_Node_Rank[subDeliverable] = map_Node_Rank[deliverable] + 1
 					}
 				}
 			}
@@ -56,7 +56,7 @@ func onShowAllInDiagram(stager *Stager, diagram *Diagram) func() {
 				}
 			}
 
-			// Task Output: Task Rank < Output Product Rank
+			// Task Output: Task Rank < Output Deliverable Rank
 			for _, task := range tasks {
 				for _, output := range task.Outputs {
 					if map_Node_Rank[output] <= map_Node_Rank[task] {
@@ -65,7 +65,7 @@ func onShowAllInDiagram(stager *Stager, diagram *Diagram) func() {
 				}
 			}
 
-			// Task Input: Input Product Rank < Task Rank
+			// Task Input: Input Deliverable Rank < Task Rank
 			for _, task := range tasks {
 				for _, input := range task.Inputs {
 					if map_Node_Rank[task] <= map_Node_Rank[input] {
@@ -86,9 +86,9 @@ func onShowAllInDiagram(stager *Stager, diagram *Diagram) func() {
 		// Helper to keep track of vertical stacking within a rank column
 		rankCounters := make(map[int]int)
 
-		// Create Product Shapes
-		for _, product := range products {
-			rank := map_Node_Rank[product]
+		// Create Deliverable Shapes
+		for _, deliverable := range deliverables {
+			rank := map_Node_Rank[deliverable]
 			index := rankCounters[rank]
 			rankCounters[rank]++
 
@@ -96,13 +96,13 @@ func onShowAllInDiagram(stager *Stager, diagram *Diagram) func() {
 			y := OFFSET_Y + float64(index)*Y_STEP
 
 			// Note: We do not Stage the shape here, StageBranch will handle it later
-			shape := &ProductShape{Name: product.Name}
-			shape.Product = product
+			shape := &DeliverableShape{Name: deliverable.Name}
+			shape.Deliverable = deliverable
 			shape.X = x
 			shape.Y = y
 			shape.Width = 200
 			shape.Height = 60
-			diagram.Product_Shapes = append(diagram.Product_Shapes, shape)
+			diagram.Deliverable_Shapes = append(diagram.Deliverable_Shapes, shape)
 		}
 
 		// Create Task Shapes
@@ -125,11 +125,11 @@ func onShowAllInDiagram(stager *Stager, diagram *Diagram) func() {
 		}
 
 		// 4. Create Link Shapes using newConcreteAssociation
-		// Product Composition
-		for _, product := range products {
-			for _, subProduct := range product.SubProducts {
+		// Deliverable Composition
+		for _, deliverable := range deliverables {
+			for _, subDeliverable := range deliverable.SubDeliverables {
 				newConcreteAssociation(
-					product, subProduct, &diagram.ProductComposition_Shapes)
+					deliverable, subDeliverable, &diagram.DeliverableComposition_Shapes)
 			}
 		}
 
@@ -141,14 +141,14 @@ func onShowAllInDiagram(stager *Stager, diagram *Diagram) func() {
 			}
 		}
 
-		// Task Inputs (Product -> Task) and Outputs (Task -> Product)
+		// Task Inputs (Deliverable -> Task) and Outputs (Task -> Deliverable)
 		for _, task := range tasks {
-			// Task Inputs: Task is the concrete start, Product is the concrete end
+			// Task Inputs: Task is the concrete start, Deliverable is the concrete end
 			for _, input := range task.Inputs {
 				newConcreteAssociation(
 					task, input, &diagram.ConcernInputShapes)
 			}
-			// Task Outputs: Task is the concrete start, Product is the concrete end
+			// Task Outputs: Task is the concrete start, Deliverable is the concrete end
 			for _, output := range task.Outputs {
 				newConcreteAssociation(
 					task, output, &diagram.ConcernOutputShapes)

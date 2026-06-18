@@ -13,11 +13,11 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 			}
 			return roots
 		},
-		func(product *Deliverable) {
-			product.GetOwningLibrary().RootDeliverables = append(product.GetOwningLibrary().RootDeliverables, product)
+		func(deliverable *Deliverable) {
+			deliverable.GetOwningLibrary().RootDeliverables = append(deliverable.GetOwningLibrary().RootDeliverables, deliverable)
 		},
-		func(product *Deliverable) []*Deliverable {
-			return product.SubProducts
+		func(deliverable *Deliverable) []*Deliverable {
+			return deliverable.SubDeliverables
 		},
 	)
 

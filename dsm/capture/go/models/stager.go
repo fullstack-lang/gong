@@ -39,7 +39,7 @@ type Stager struct {
 	fileName    string // fileName is used to store the name of the file to load or save
 	buttonStage *button.Stage
 
-	productToLibrary map[*Deliverable]*Library
+	deliverableToLibrary map[*Deliverable]*Library
 	taskToLibrary    map[*Concern]*Library
 	// reverse map
 	map_Concern_Stakeholder map[*Concern][]*Stakeholder

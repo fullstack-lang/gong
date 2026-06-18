@@ -5,12 +5,12 @@ import "time"
 func (stager *Stager) enforceRelationDuplicates() (needCommit bool) {
 	// Iterate through all diagrams in the stage
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
-		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ProductComposition_Shapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.DeliverableComposition_Shapes)
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ConcernComposition_Shapes)
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ConcernInputShapes)
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.ConcernOutputShapes)
 
-		needCommit = needCommit || removeDuplicateRelation(stager, diagram.NoteProductShapes)
+		needCommit = needCommit || removeDuplicateRelation(stager, diagram.NoteDeliverableShapes)
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.NoteTaskShapes)
 		needCommit = needCommit || removeDuplicateRelation(stager, diagram.NoteResourceShapes)
 

@@ -37,7 +37,7 @@ func (stager *Stager) svg() {
 }
 
 // generateSvgObject creates and returns a new svg.SVG object representing the given diagram.
-// It maps all visible domain shapes (Products, Tasks, Notes, Resources) and their associations
+// It maps all visible domain shapes (Deliverables, Tasks, Notes, Resources) and their associations
 // to SVG elements (Rects, Links, Paths) on a single layer. It also populates the diagram's
 // internal maps to link abstract elements with their visual SVG counterparts.
 func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
@@ -54,14 +54,14 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	stager.svgObject.OverrideHeight = true
 	stager.svgObject.OverriddenHeight = diagram.Height
 
-	diagram.map_Product_Rect = make(map[*Deliverable]*svg.Rect)
+	diagram.map_Deliverable_Rect = make(map[*Deliverable]*svg.Rect)
 	diagram.map_Task_Rect = make(map[*Concern]*svg.Rect)
 	diagram.map_Note_Rect = make(map[*Note]*svg.Rect)
 	diagram.map_Stakeholder_Rect = make(map[*Stakeholder]*svg.Rect)
 	diagram.map_Requirement_Rect = make(map[*Requirement]*svg.Rect)
 	diagram.map_Concept_Rect = make(map[*Concept]*svg.Rect)
 
-	diagram.map_SvgRect_ProductShape = make(map[*svg.Rect]*ProductShape)
+	diagram.map_SvgRect_DeliverableShape = make(map[*svg.Rect]*DeliverableShape)
 	diagram.map_SvgRect_ConcernShape = make(map[*svg.Rect]*ConcernShape)
 	diagram.map_SvgRect_NoteShape = make(map[*svg.Rect]*NoteShape)
 	diagram.map_SvgRect_StakeholderShape = make(map[*svg.Rect]*StakeholderShape)
@@ -82,35 +82,35 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	layer := (&svg.Layer{Name: "Layer 1"})
 	stager.svgObject.Layers = append(stager.svgObject.Layers, layer)
 
-	for _, productShape := range diagram.Product_Shapes {
-		if productShape.IsHidden {
+	for _, deliverableShape := range diagram.Deliverable_Shapes {
+		if deliverableShape.IsHidden {
 			continue
 		}
 
 		rect := svgRect(
 			stager,
 			diagram,
-			productShape,
+			deliverableShape,
 			layer)
 		rect.RX = 3
-		diagram.map_Product_Rect[productShape.Product] = rect
-		diagram.map_SvgRect_ProductShape[rect] = productShape
+		diagram.map_Deliverable_Rect[deliverableShape.Deliverable] = rect
+		diagram.map_SvgRect_DeliverableShape[rect] = deliverableShape
 	}
 
-	for _, productCompositionShape := range diagram.ProductComposition_Shapes {
-		if productCompositionShape.GetIsHidden() {
+	for _, deliverableCompositionShape := range diagram.DeliverableComposition_Shapes {
+		if deliverableCompositionShape.GetIsHidden() {
 			continue
 		}
-		_ = productCompositionShape
-		subProduct := productCompositionShape.Product
-		parentProduct := subProduct.parentProduct
+		_ = deliverableCompositionShape
+		subDeliverable := deliverableCompositionShape.Deliverable
+		parentDeliverable := subDeliverable.parentDeliverable
 
-		if subProduct == nil || parentProduct == nil {
-			log.Panic("There should be a subProduct and a parentProduct")
+		if subDeliverable == nil || parentDeliverable == nil {
+			log.Panic("There should be a subDeliverable and a parentDeliverable")
 		}
 
-		startRect := diagram.map_Product_Rect[parentProduct]
-		endRect := diagram.map_Product_Rect[subProduct]
+		startRect := diagram.map_Deliverable_Rect[parentDeliverable]
+		endRect := diagram.map_Deliverable_Rect[subDeliverable]
 
 		if startRect == nil || endRect == nil {
 			continue
@@ -119,9 +119,9 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		svgAssociationLink(
 			stager,
 			startRect, endRect,
-			productCompositionShape,
-			// when one clicks on the link, this is the form of the parent product
-			parentProduct,
+			deliverableCompositionShape,
+			// when one clicks on the link, this is the form of the parent deliverable
+			parentDeliverable,
 			layer,
 			false)
 	}
@@ -232,13 +232,13 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			continue
 		}
 		concern := taskInputShape.Concern
-		product := taskInputShape.Deliverable
+		deliverable := taskInputShape.Deliverable
 
-		if concern == nil || product == nil {
-			log.Panic("There should be a task and a product")
+		if concern == nil || deliverable == nil {
+			log.Panic("There should be a task and a deliverable")
 		}
 
-		startRect := diagram.map_Product_Rect[product]
+		startRect := diagram.map_Deliverable_Rect[deliverable]
 		endRect := diagram.map_Task_Rect[concern]
 
 		if startRect == nil || endRect == nil {
@@ -260,14 +260,14 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 			continue
 		}
 		task := taskOutputShape.Task
-		product := taskOutputShape.Product
+		deliverable := taskOutputShape.Deliverable
 
-		if task == nil || product == nil {
-			log.Panic("There should be a task and a product")
+		if task == nil || deliverable == nil {
+			log.Panic("There should be a task and a deliverable")
 		}
 
 		startRect := diagram.map_Task_Rect[task]
-		endRect := diagram.map_Product_Rect[product]
+		endRect := diagram.map_Deliverable_Rect[deliverable]
 
 		if startRect == nil || endRect == nil {
 			continue
@@ -319,12 +319,12 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		_ = rect
 	}
 
-	for _, noteProductShape := range diagram.NoteProductShapes {
-		note := noteProductShape.Note
-		product := noteProductShape.Product
+	for _, noteDeliverableShape := range diagram.NoteDeliverableShapes {
+		note := noteDeliverableShape.Note
+		deliverable := noteDeliverableShape.Deliverable
 
 		startRect := diagram.map_Note_Rect[note]
-		endRect := diagram.map_Product_Rect[product]
+		endRect := diagram.map_Deliverable_Rect[deliverable]
 
 		if startRect == nil || endRect == nil {
 			continue
@@ -333,7 +333,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		link := svgAssociationLink(
 			stager,
 			startRect, endRect,
-			noteProductShape,
+			noteDeliverableShape,
 			note,
 			layer,
 			true,
@@ -597,7 +597,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		if deliverable == nil || concept == nil {
 			log.Panic("There should be a deliverable and a concept")
 		}
-		startRect := diagram.map_Product_Rect[deliverable]
+		startRect := diagram.map_Deliverable_Rect[deliverable]
 		endRect := diagram.map_Concept_Rect[concept]
 		if startRect == nil || endRect == nil {
 			continue

@@ -12,14 +12,14 @@ func onCopyDiagram(stager *Stager, diagram *Diagram) func() {
 		library := stager.stage.Library_Diagrams_reverseMap[diagram]
 		Append(&library.Diagrams, newDiagram)
 
-		for _, s := range diagram.Product_Shapes {
-			newShape := s.GongCopy().(*ProductShape)
-			newDiagram.Product_Shapes = append(newDiagram.Product_Shapes, newShape)
+		for _, s := range diagram.Deliverable_Shapes {
+			newShape := s.GongCopy().(*DeliverableShape)
+			newDiagram.Deliverable_Shapes = append(newDiagram.Deliverable_Shapes, newShape)
 		}
 
-		for _, s := range diagram.ProductComposition_Shapes {
-			newShape := s.GongCopy().(*ProductCompositionShape)
-			newDiagram.ProductComposition_Shapes = append(newDiagram.ProductComposition_Shapes, newShape)
+		for _, s := range diagram.DeliverableComposition_Shapes {
+			newShape := s.GongCopy().(*DeliverableCompositionShape)
+			newDiagram.DeliverableComposition_Shapes = append(newDiagram.DeliverableComposition_Shapes, newShape)
 		}
 
 		for _, s := range diagram.Concern_Shapes {
@@ -47,9 +47,9 @@ func onCopyDiagram(stager *Stager, diagram *Diagram) func() {
 			newDiagram.Note_Shapes = append(newDiagram.Note_Shapes, newShape)
 		}
 
-		for _, s := range diagram.NoteProductShapes {
-			newShape := s.GongCopy().(*NoteProductShape)
-			newDiagram.NoteProductShapes = append(newDiagram.NoteProductShapes, newShape)
+		for _, s := range diagram.NoteDeliverableShapes {
+			newShape := s.GongCopy().(*NoteDeliverableShape)
+			newDiagram.NoteDeliverableShapes = append(newDiagram.NoteDeliverableShapes, newShape)
 		}
 
 		for _, s := range diagram.NoteTaskShapes {

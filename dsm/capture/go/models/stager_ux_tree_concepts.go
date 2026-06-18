@@ -27,9 +27,9 @@ func (stager *Stager) treeConceptBSinDiagram(diagram *Diagram, concept *Concept,
 	conceptNode := addNodeToTreeWithoutLink(stager, confNode)
 
 	var deliverables []*Deliverable
-	for product := range *GetGongstructInstancesSet[Deliverable](stager.stage) {
-		if slices.Contains(product.Concepts, concept) {
-			deliverables = append(deliverables, product)
+	for deliverable := range *GetGongstructInstancesSet[Deliverable](stager.stage) {
+		if slices.Contains(deliverable.Concepts, concept) {
+			deliverables = append(deliverables, deliverable)
 		}
 	}
 
@@ -59,7 +59,7 @@ func (stager *Stager) treeConceptBSinDiagram(diagram *Diagram, concept *Concept,
 			}
 			deliverablesNode.Children = append(deliverablesNode.Children, deliverableNode)
 
-			if _, ok := diagram.map_Product_ProductShape[deliverable]; ok {
+			if _, ok := diagram.map_Deliverable_DeliverableShape[deliverable]; ok {
 				if _, ok := diagram.map_Concept_ConceptShape[concept]; ok {
 
 					deliverableNode.HasCheckboxButton = true

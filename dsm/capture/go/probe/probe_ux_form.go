@@ -69,11 +69,23 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.deliverable, probe)
 			}
+		case *DeliverableCompositionShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "DeliverableCompositionShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.deliverablecompositionshape, probe)
+			}
 		case *DeliverableConceptShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "DeliverableConceptShape", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.deliverableconceptshape, probe)
+			}
+		case *DeliverableShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "DeliverableShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.deliverableshape, probe)
 			}
 		case *DiagramFormCallback:
 			if onSave.CreationMode {
@@ -93,11 +105,11 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.note, probe)
 			}
-		case *NoteProductShapeFormCallback:
+		case *NoteDeliverableShapeFormCallback:
 			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "NoteProductShape", true)
+				FillUpFormFromGongstructName(probe, "NoteDeliverableShape", true)
 			} else {
-				FillUpFormFromGongstruct(onSave.noteproductshape, probe)
+				FillUpFormFromGongstruct(onSave.notedeliverableshape, probe)
 			}
 		case *NoteShapeFormCallback:
 			if onSave.CreationMode {
@@ -116,18 +128,6 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "NoteTaskShape", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.notetaskshape, probe)
-			}
-		case *ProductCompositionShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "ProductCompositionShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.productcompositionshape, probe)
-			}
-		case *ProductShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "ProductShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.productshape, probe)
 			}
 		case *RequirementFormCallback:
 			if onSave.CreationMode {
@@ -316,6 +316,19 @@ func FillUpFormFromGongstructName(
 		deliverable := new(models.Deliverable)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(deliverable, formGroup, probe)
+	case "DeliverableCompositionShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "DeliverableCompositionShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DeliverableCompositionShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		deliverablecompositionshape := new(models.DeliverableCompositionShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(deliverablecompositionshape, formGroup, probe)
 	case "DeliverableConceptShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -329,6 +342,19 @@ func FillUpFormFromGongstructName(
 		deliverableconceptshape := new(models.DeliverableConceptShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(deliverableconceptshape, formGroup, probe)
+	case "DeliverableShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "DeliverableShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DeliverableShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		deliverableshape := new(models.DeliverableShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(deliverableshape, formGroup, probe)
 	case "Diagram":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -368,19 +394,19 @@ func FillUpFormFromGongstructName(
 		note := new(models.Note)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(note, formGroup, probe)
-	case "NoteProductShape":
+	case "NoteDeliverableShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
-			Label: prefix + "NoteProductShape Form",
+			Label: prefix + "NoteDeliverableShape Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__NoteProductShapeFormCallback(
+		formGroup.OnSave = __gong__New__NoteDeliverableShapeFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		noteproductshape := new(models.NoteProductShape)
+		notedeliverableshape := new(models.NoteDeliverableShape)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(noteproductshape, formGroup, probe)
+		FillUpForm(notedeliverableshape, formGroup, probe)
 	case "NoteShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -420,32 +446,6 @@ func FillUpFormFromGongstructName(
 		notetaskshape := new(models.NoteTaskShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(notetaskshape, formGroup, probe)
-	case "ProductCompositionShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "ProductCompositionShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ProductCompositionShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		productcompositionshape := new(models.ProductCompositionShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(productcompositionshape, formGroup, probe)
-	case "ProductShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "ProductShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ProductShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		productshape := new(models.ProductShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(productshape, formGroup, probe)
 	case "Requirement":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

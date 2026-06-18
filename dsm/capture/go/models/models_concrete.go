@@ -1,63 +1,63 @@
 package models
 
-// ProductShape
-type ProductShape struct {
+// DeliverableShape
+type DeliverableShape struct {
 	Name    string
-	Product *Deliverable
+	Deliverable *Deliverable
 
 	IsExpanded bool
 
 	RectShape
 }
 
-func (s *ProductShape) GetAbstractElement() AbstractType {
-	if s.Product == nil {
+func (s *DeliverableShape) GetAbstractElement() AbstractType {
+	if s.Deliverable == nil {
 		return nil
 	}
-	return s.Product
+	return s.Deliverable
 }
 
-func (s *ProductShape) SetAbstractElement(abstractElement AbstractType) {
-	s.Product = abstractElement.(*Deliverable)
+func (s *DeliverableShape) SetAbstractElement(abstractElement AbstractType) {
+	s.Deliverable = abstractElement.(*Deliverable)
 }
 
-var _ ConcreteType = (*ProductShape)(nil)
+var _ ConcreteType = (*DeliverableShape)(nil)
 
-// A ProductCompositionShape is the link between a product
-// and its parent product
-type ProductCompositionShape struct {
+// A DeliverableCompositionShape is the link between a deliverable
+// and its parent deliverable
+type DeliverableCompositionShape struct {
 	Name string
 
-	Product *Deliverable
+	Deliverable *Deliverable
 
 	LinkShape
 }
 
-func (s *ProductCompositionShape) GetAbstractEndElement() AbstractType {
-	if s.Product == nil {
+func (s *DeliverableCompositionShape) GetAbstractEndElement() AbstractType {
+	if s.Deliverable == nil {
 		return nil
 	}
-	return s.Product
+	return s.Deliverable
 }
 
-func (s *ProductCompositionShape) SetAbstractEndElement(abstractElement AbstractType) {
-	s.Product = abstractElement.(*Deliverable)
+func (s *DeliverableCompositionShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.Deliverable = abstractElement.(*Deliverable)
 }
 
-func (s *ProductCompositionShape) GetAbstractStartElement() AbstractType {
-	if s.Product == nil || s.Product.parentProduct == nil {
+func (s *DeliverableCompositionShape) GetAbstractStartElement() AbstractType {
+	if s.Deliverable == nil || s.Deliverable.parentDeliverable == nil {
 		return nil
 	}
-	return s.Product.parentProduct
+	return s.Deliverable.parentDeliverable
 }
 
-func (s *ProductCompositionShape) SetAbstractStartElement(abstractElement AbstractType) {
+func (s *DeliverableCompositionShape) SetAbstractStartElement(abstractElement AbstractType) {
 	// the parent element shall not be set by the concrete element, because it is computed
 	// elsewhere
-	// s.Product.parentProduct = abstractElement.(*Product)
+	// s.Deliverable.parentDeliverable = abstractElement.(*Deliverable)
 }
 
-var _ AssociationConcreteType = (*ProductCompositionShape)(nil)
+var _ AssociationConcreteType = (*DeliverableCompositionShape)(nil)
 
 // ConcernShape is for both Task
 type ConcernShape struct {
@@ -118,15 +118,15 @@ func (s *ConcernCompositionShape) SetAbstractStartElement(abstractElement Abstra
 
 var _ AssociationConcreteType = (*ConcernCompositionShape)(nil)
 
-// A concernProductKey allows mapping of [ConcernInputShape] within a diagram
-type concernProductKey struct {
+// A concernDeliverableKey allows mapping of [ConcernInputShape] within a diagram
+type concernDeliverableKey struct {
 	Concern *Concern
-	Product *Deliverable
+	Deliverable *Deliverable
 }
 
-type noteProductKey struct {
+type noteDeliverableKey struct {
 	Note    *Note
-	Product *Deliverable
+	Deliverable *Deliverable
 }
 
 type noteTaskKey struct {
@@ -147,7 +147,7 @@ type stakeholderConcernKey struct {
 type ConcernInputShape struct {
 	Name string
 
-	Deliverable *Deliverable // input product
+	Deliverable *Deliverable // input deliverable
 
 	Concern *Concern
 
@@ -183,7 +183,7 @@ type ConcernOutputShape struct {
 
 	Task *Concern
 
-	Product *Deliverable
+	Deliverable *Deliverable
 
 	LinkShape
 }
@@ -193,14 +193,14 @@ func (s *ConcernOutputShape) SetAbstractStartElement(abstractElement AbstractTyp
 }
 
 func (s *ConcernOutputShape) GetAbstractEndElement() AbstractType {
-	if s.Product == nil {
+	if s.Deliverable == nil {
 		return nil
 	}
-	return s.Product
+	return s.Deliverable
 }
 
 func (s *ConcernOutputShape) SetAbstractEndElement(abstractElement AbstractType) {
-	s.Product = abstractElement.(*Deliverable)
+	s.Deliverable = abstractElement.(*Deliverable)
 }
 
 func (s *ConcernOutputShape) GetAbstractStartElement() AbstractType {
@@ -235,42 +235,42 @@ func (s *NoteShape) SetAbstractElement(abstractElement AbstractType) {
 
 var _ ConcreteType = (*NoteShape)(nil)
 
-type NoteProductShape struct {
+type NoteDeliverableShape struct {
 	Name string
 
 	Note    *Note
-	Product *Deliverable
+	Deliverable *Deliverable
 
 	LinkShape
 }
 
 // GetAbstractEndElement implements [AssociationConcreteType].
-func (noteproductshape *NoteProductShape) GetAbstractEndElement() AbstractType {
-	if noteproductshape.Product == nil {
+func (notedeliverableshape *NoteDeliverableShape) GetAbstractEndElement() AbstractType {
+	if notedeliverableshape.Deliverable == nil {
 		return nil
 	}
-	return noteproductshape.Product
+	return notedeliverableshape.Deliverable
 }
 
 // GetAbstractStartElement implements [AssociationConcreteType].
-func (noteproductshape *NoteProductShape) GetAbstractStartElement() AbstractType {
-	if noteproductshape.Note == nil {
+func (notedeliverableshape *NoteDeliverableShape) GetAbstractStartElement() AbstractType {
+	if notedeliverableshape.Note == nil {
 		return nil
 	}
-	return noteproductshape.Note
+	return notedeliverableshape.Note
 }
 
 // SetAbstractEndElement implements [AssociationConcreteType].
-func (noteproductshape *NoteProductShape) SetAbstractEndElement(product AbstractType) {
-	noteproductshape.Product = product.(*Deliverable)
+func (notedeliverableshape *NoteDeliverableShape) SetAbstractEndElement(deliverable AbstractType) {
+	notedeliverableshape.Deliverable = deliverable.(*Deliverable)
 }
 
 // SetAbstractStartElement implements [AssociationConcreteType].
-func (noteproductshape *NoteProductShape) SetAbstractStartElement(note AbstractType) {
-	noteproductshape.Note = note.(*Note)
+func (notedeliverableshape *NoteDeliverableShape) SetAbstractStartElement(note AbstractType) {
+	notedeliverableshape.Note = note.(*Note)
 }
 
-var _ AssociationConcreteType = (*NoteProductShape)(nil)
+var _ AssociationConcreteType = (*NoteDeliverableShape)(nil)
 
 type NoteTaskShape struct {
 	Name string
@@ -397,7 +397,7 @@ func (s *StakeholderCompositionShape) SetAbstractStartElement(abstractElement Ab
 	// s.Resource.parentResource = abstractElement.(*Resource)
 }
 
-var _ AssociationConcreteType = (*ProductCompositionShape)(nil)
+var _ AssociationConcreteType = (*DeliverableCompositionShape)(nil)
 
 type StakeholderConcernShape struct {
 	Name string

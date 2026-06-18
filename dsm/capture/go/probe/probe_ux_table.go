@@ -42,26 +42,26 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.ConcernShape](probe)
 	case "Deliverable":
 		updateProbeTable[*models.Deliverable](probe)
+	case "DeliverableCompositionShape":
+		updateProbeTable[*models.DeliverableCompositionShape](probe)
 	case "DeliverableConceptShape":
 		updateProbeTable[*models.DeliverableConceptShape](probe)
+	case "DeliverableShape":
+		updateProbeTable[*models.DeliverableShape](probe)
 	case "Diagram":
 		updateProbeTable[*models.Diagram](probe)
 	case "Library":
 		updateProbeTable[*models.Library](probe)
 	case "Note":
 		updateProbeTable[*models.Note](probe)
-	case "NoteProductShape":
-		updateProbeTable[*models.NoteProductShape](probe)
+	case "NoteDeliverableShape":
+		updateProbeTable[*models.NoteDeliverableShape](probe)
 	case "NoteShape":
 		updateProbeTable[*models.NoteShape](probe)
 	case "NoteStakeholderShape":
 		updateProbeTable[*models.NoteStakeholderShape](probe)
 	case "NoteTaskShape":
 		updateProbeTable[*models.NoteTaskShape](probe)
-	case "ProductCompositionShape":
-		updateProbeTable[*models.ProductCompositionShape](probe)
-	case "ProductShape":
-		updateProbeTable[*models.ProductShape](probe)
 	case "Requirement":
 		updateProbeTable[*models.Requirement](probe)
 	case "RequirementShape":

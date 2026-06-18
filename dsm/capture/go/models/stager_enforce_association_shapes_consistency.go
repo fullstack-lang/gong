@@ -6,28 +6,28 @@ import (
 )
 
 // enforceAssociationShapeConsistency check that all associations shapes, like TaskOutputShape
-// are matched with a an abstract relation (Task-->Product)
+// are matched with a an abstract relation (Task-->Deliverable)
 func (stager *Stager) enforceAssociationShapeConsistency() bool {
 	var needCommit bool
 	stage := stager.stage
 
-	validTaskInputs := make(map[concernProductKey]bool)
-	validTaskOutputs := make(map[concernProductKey]bool)
+	validTaskInputs := make(map[concernDeliverableKey]bool)
+	validTaskOutputs := make(map[concernDeliverableKey]bool)
 	for _, task := range GetGongstrucsSorted[*Concern](stage) {
 		for _, prod := range task.Inputs {
-			validTaskInputs[concernProductKey{Concern: task, Product: prod}] = true
+			validTaskInputs[concernDeliverableKey{Concern: task, Deliverable: prod}] = true
 		}
 		for _, prod := range task.Outputs {
-			validTaskOutputs[concernProductKey{Concern: task, Product: prod}] = true
+			validTaskOutputs[concernDeliverableKey{Concern: task, Deliverable: prod}] = true
 		}
 	}
 
-	validNoteProducts := make(map[noteProductKey]bool)
+	validNoteDeliverables := make(map[noteDeliverableKey]bool)
 	validNoteTasks := make(map[noteTaskKey]bool)
 	validNoteResources := make(map[noteResourceKey]bool)
 	for _, note := range GetGongstrucsSorted[*Note](stage) {
-		for _, prod := range note.Products {
-			validNoteProducts[noteProductKey{Note: note, Product: prod}] = true
+		for _, prod := range note.Deliverables {
+			validNoteDeliverables[noteDeliverableKey{Note: note, Deliverable: prod}] = true
 		}
 		for _, task := range note.Tasks {
 			validNoteTasks[noteTaskKey{Note: note, Task: task}] = true
@@ -46,7 +46,7 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 
 	for _, shape := range GetGongstrucsSorted[*ConcernInputShape](stage) {
 		if shape.Concern != nil && shape.Deliverable != nil {
-			if !validTaskInputs[concernProductKey{Concern: shape.Concern, Product: shape.Deliverable}] {
+			if !validTaskInputs[concernDeliverableKey{Concern: shape.Concern, Deliverable: shape.Deliverable}] {
 				shape.UnstageVoid(stage)
 				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid TaskInputShape %s", shape.GetName()))
 				needCommit = true
@@ -55,8 +55,8 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 	}
 
 	for _, shape := range GetGongstrucsSorted[*ConcernOutputShape](stage) {
-		if shape.Task != nil && shape.Product != nil {
-			if !validTaskOutputs[concernProductKey{Concern: shape.Task, Product: shape.Product}] {
+		if shape.Task != nil && shape.Deliverable != nil {
+			if !validTaskOutputs[concernDeliverableKey{Concern: shape.Task, Deliverable: shape.Deliverable}] {
 				shape.UnstageVoid(stage)
 				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid TaskOutputShape %s", shape.GetName()))
 				needCommit = true
@@ -64,11 +64,11 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*NoteProductShape](stage) {
-		if shape.Note != nil && shape.Product != nil {
-			if !validNoteProducts[noteProductKey{Note: shape.Note, Product: shape.Product}] {
+	for _, shape := range GetGongstrucsSorted[*NoteDeliverableShape](stage) {
+		if shape.Note != nil && shape.Deliverable != nil {
+			if !validNoteDeliverables[noteDeliverableKey{Note: shape.Note, Deliverable: shape.Deliverable}] {
 				shape.UnstageVoid(stage)
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid NoteProductShape %s", shape.GetName()))
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid NoteDeliverableShape %s", shape.GetName()))
 				needCommit = true
 			}
 		}

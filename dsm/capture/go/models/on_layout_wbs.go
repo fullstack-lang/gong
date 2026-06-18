@@ -8,7 +8,7 @@ import (
 func onLayoutWBS(stager *Stager, diagram *Diagram) func() {
 	return func() {
 		// 1. Reset the diagram: remove all shapes from the stage to start fresh
-		diagram.Product_Shapes = []*ProductShape{}
+		diagram.Deliverable_Shapes = []*DeliverableShape{}
 		diagram.Concern_Shapes = []*ConcernShape{}
 		diagram.Note_Shapes = []*NoteShape{}
 

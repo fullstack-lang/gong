@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-// enforceComputedPrefix checks that for every [models.Product] and [models.Task] present
-// in a DAG attached to the root, the [models.Product.ComputedPrefix]
+// enforceComputedPrefix checks that for every [models.Deliverable] and [models.Task] present
+// in a DAG attached to the root, the [models.Deliverable.ComputedPrefix]
 // and [models.Task.ComputedPrefix] are unique
 // and follows a hierarchichal numbering form
 //
@@ -14,7 +14,7 @@ import (
 func (stager *Stager) enforceComputedPrefix() (needCommit bool) {
 
 	for library := range *GetGongstructInstancesSetFromPointerType[*Library](stager.stage) {
-		needCommit = numberNodes(stager, library.RootDeliverables, "", []int{}, func(p *Deliverable) []*Deliverable { return p.SubProducts }, make(map[*Deliverable]bool)) || needCommit
+		needCommit = numberNodes(stager, library.RootDeliverables, "", []int{}, func(p *Deliverable) []*Deliverable { return p.SubDeliverables }, make(map[*Deliverable]bool)) || needCommit
 		needCommit = numberNodes(stager, library.RootConcerns, "", []int{}, func(t *Concern) []*Concern { return t.SubConcerns }, make(map[*Concern]bool)) || needCommit
 		needCommit = numberNodes(stager, library.Notes, "", []int{}, func(n *Note) []*Note { return nil }, make(map[*Note]bool)) || needCommit
 		needCommit = numberNodes(stager, library.RootStakeholders, "", []int{}, func(r *Stakeholder) []*Stakeholder { return r.SubStakeholders }, make(map[*Stakeholder]bool)) || needCommit

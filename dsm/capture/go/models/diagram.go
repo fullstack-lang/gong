@@ -24,14 +24,14 @@ type Diagram struct {
 	IsRequirementsNodeExpanded bool
 	IsConceptsNodeExpanded     bool
 
-	Product_Shapes                  []*ProductShape
-	map_Product_ProductShape        map[*Deliverable]*ProductShape
-	ProductsWhoseNodeIsExpanded     []*Deliverable // to be made private once in production (no need to persist)
-	ProductsWhoseConceptsNodeIsExpanded []*Deliverable
+	Deliverable_Shapes                  []*DeliverableShape
+	map_Deliverable_DeliverableShape        map[*Deliverable]*DeliverableShape
+	DeliverablesWhoseNodeIsExpanded     []*Deliverable // to be made private once in production (no need to persist)
+	DeliverablesWhoseConceptsNodeIsExpanded []*Deliverable
 	IsPBSNodeExpanded               bool
 
-	ProductComposition_Shapes           []*ProductCompositionShape
-	map_Product_ProductCompositionShape map[*Deliverable]*ProductCompositionShape
+	DeliverableComposition_Shapes           []*DeliverableCompositionShape
+	map_Deliverable_DeliverableCompositionShape map[*Deliverable]*DeliverableCompositionShape
 
 	IsConcernsNodeExpanded bool
 
@@ -46,18 +46,18 @@ type Diagram struct {
 	map_Concern_ConcernCompositionShape map[*Concern]*ConcernCompositionShape
 
 	ConcernInputShapes         []*ConcernInputShape
-	map_Concern_TaskInputShape map[concernProductKey]*ConcernInputShape
+	map_Concern_TaskInputShape map[concernDeliverableKey]*ConcernInputShape
 
 	ConcernOutputShapes            []*ConcernOutputShape
-	map_Concern_ConcernOutputShape map[concernProductKey]*ConcernOutputShape
+	map_Concern_ConcernOutputShape map[concernDeliverableKey]*ConcernOutputShape
 
 	Note_Shapes              []*NoteShape
 	map_Note_NoteShape       map[*Note]*NoteShape
 	NotesWhoseNodeIsExpanded []*Note
 	IsNotesNodeExpanded      bool
 
-	NoteProductShapes         []*NoteProductShape
-	map_Note_NoteProductShape map[noteProductKey]*NoteProductShape
+	NoteDeliverableShapes         []*NoteDeliverableShape
+	map_Note_NoteDeliverableShape map[noteDeliverableKey]*NoteDeliverableShape
 
 	NoteTaskShapes         []*NoteTaskShape
 	map_Note_NoteTaskShape map[noteTaskKey]*NoteTaskShape
@@ -88,14 +88,14 @@ type Diagram struct {
 	DeliverableConceptShapes                          []*DeliverableConceptShape
 	map_DeliverableConceptKey_DeliverableConceptShape map[deliverableConceptKey]*DeliverableConceptShape
 
-	map_Product_Rect     map[*Deliverable]*svg.Rect
+	map_Deliverable_Rect     map[*Deliverable]*svg.Rect
 	map_Task_Rect        map[*Concern]*svg.Rect
 	map_Note_Rect        map[*Note]*svg.Rect
 	map_Stakeholder_Rect map[*Stakeholder]*svg.Rect
 	map_Requirement_Rect map[*Requirement]*svg.Rect
 	map_Concept_Rect     map[*Concept]*svg.Rect
 
-	map_SvgRect_ProductShape     map[*svg.Rect]*ProductShape
+	map_SvgRect_DeliverableShape     map[*svg.Rect]*DeliverableShape
 	map_SvgRect_ConcernShape     map[*svg.Rect]*ConcernShape
 	map_SvgRect_NoteShape        map[*svg.Rect]*NoteShape
 	map_SvgRect_StakeholderShape map[*svg.Rect]*StakeholderShape

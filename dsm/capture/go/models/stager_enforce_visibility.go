@@ -10,18 +10,18 @@ func (stager *Stager) enforceVisibility() (needCommit bool) {
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
 		visibleElements := make(map[AbstractType]struct{})
 
-		collectVisibleElements(diagram.Product_Shapes, visibleElements)
+		collectVisibleElements(diagram.Deliverable_Shapes, visibleElements)
 		collectVisibleElements(diagram.Concern_Shapes, visibleElements)
 		collectVisibleElements(diagram.Note_Shapes, visibleElements)
 		collectVisibleElements(diagram.Stakeholder_Shapes, visibleElements)
 
-		needCommit = removeInvisibleShapes(stager, &diagram.ProductComposition_Shapes, visibleElements) || needCommit
+		needCommit = removeInvisibleShapes(stager, &diagram.DeliverableComposition_Shapes, visibleElements) || needCommit
 
 		needCommit = removeInvisibleShapes(stager, &diagram.ConcernComposition_Shapes, visibleElements) || needCommit
 		needCommit = removeInvisibleShapes(stager, &diagram.ConcernInputShapes, visibleElements) || needCommit
 		needCommit = removeInvisibleShapes(stager, &diagram.ConcernOutputShapes, visibleElements) || needCommit
 
-		needCommit = removeInvisibleShapes(stager, &diagram.NoteProductShapes, visibleElements) || needCommit
+		needCommit = removeInvisibleShapes(stager, &diagram.NoteDeliverableShapes, visibleElements) || needCommit
 		needCommit = removeInvisibleShapes(stager, &diagram.NoteTaskShapes, visibleElements) || needCommit
 		needCommit = removeInvisibleShapes(stager, &diagram.NoteResourceShapes, visibleElements) || needCommit
 
