@@ -22,6 +22,13 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 		}
 	}
 
+	validDeliverableConcepts := make(map[deliverableConceptKey]bool)
+	for _, deliverable := range GetGongstrucsSorted[*Deliverable](stage) {
+		for _, concept := range deliverable.Concepts {
+			validDeliverableConcepts[deliverableConceptKey{Deliverable: deliverable, Concept: concept}] = true
+		}
+	}
+
 	validNoteDeliverables := make(map[noteDeliverableKey]bool)
 	validNoteTasks := make(map[noteTaskKey]bool)
 	validNoteResources := make(map[noteResourceKey]bool)
@@ -99,6 +106,16 @@ func (stager *Stager) enforceAssociationShapeConsistency() bool {
 			if !validResourceTasks[stakeholderConcernKey{Stakeholder: shape.Stakeholder, Concern: shape.Concern}] {
 				shape.UnstageVoid(stage)
 				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid ResourceTaskShape %s", shape.GetName()))
+				needCommit = true
+			}
+		}
+	}
+
+	for _, shape := range GetGongstrucsSorted[*DeliverableConceptShape](stage) {
+		if shape.Deliverable != nil && shape.Concept != nil {
+			if !validDeliverableConcepts[deliverableConceptKey{Deliverable: shape.Deliverable, Concept: shape.Concept}] {
+				shape.UnstageVoid(stage)
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged invalid DeliverableConceptShape %s", shape.GetName()))
 				needCommit = true
 			}
 		}
