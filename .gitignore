@@ -91,3 +91,4 @@ test/test4-portable-app.html
 .DS_Store
 dsm/project/project
 dsm/capture/go/cmd/capture/capture
+/gong
