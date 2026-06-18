@@ -381,7 +381,7 @@ func _(stage *models.Stage) {
 	__ConcernShape__00000000_.Name = `-Default Diagram`
 	__ConcernShape__00000000_.IsExpanded = false
 	__ConcernShape__00000000_.X = 446.000000
-	__ConcernShape__00000000_.Y = 200.000000
+	__ConcernShape__00000000_.Y = 201.000000
 	__ConcernShape__00000000_.Width = 250.000000
 	__ConcernShape__00000000_.Height = 70.000000
 	__ConcernShape__00000000_.IsHidden = false
@@ -389,7 +389,7 @@ func _(stage *models.Stage) {
 	__ConcernShape__00000001_.Name = `-Default Diagram`
 	__ConcernShape__00000001_.IsExpanded = false
 	__ConcernShape__00000001_.X = 446.000000
-	__ConcernShape__00000001_.Y = 350.000000
+	__ConcernShape__00000001_.Y = 351.000000
 	__ConcernShape__00000001_.Width = 250.000000
 	__ConcernShape__00000001_.Height = 70.000000
 	__ConcernShape__00000001_.IsHidden = false
@@ -659,8 +659,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 13800.000000
-	__Diagram__00000000_.Height = 13800.000000
+	__Diagram__00000000_.Width = 14400.000000
+	__Diagram__00000000_.Height = 14400.000000
 	__Diagram__00000000_.IsRequirementsNodeExpanded = false
 	__Diagram__00000000_.IsConceptsNodeExpanded = false
 	__Diagram__00000000_.IsPBSNodeExpanded = true

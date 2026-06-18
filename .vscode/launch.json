@@ -474,35 +474,6 @@
         // "dsm" configurations
         //
         {
-            "name": "capture: go server",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
-            "args": []
-        },
-        {
-            "name": "capture: go server capture_process.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
-            "args": [
-                "-unmarshallFromCode=data/capture_process.go",
-                "-marshallOnCommit=data/capture_process"
-            ]
-        },
-        {
-            "name": "capture: go server 15288_analysis.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
-            "args": [
-                "data/15288_analysis.go",
-            ]
-        },
-        {
             "name": "barrgraph: go run aviva stool",
             "type": "go",
             "request": "launch",
@@ -581,6 +552,35 @@
             "args": [
                 "generate",
                 "--skipGoModCommands"
+            ]
+        },
+        {
+            "name": "capture: go server",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
+            "args": []
+        },
+        {
+            "name": "capture: go server capture_process.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
+            "args": [
+                "-unmarshallFromCode=data/capture_process.go",
+                "-marshallOnCommit=data/capture_process"
+            ]
+        },
+        {
+            "name": "capture: go server 15288_analysis.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
+            "args": [
+                "data/15288_analysis.go",
             ]
         },
         {
