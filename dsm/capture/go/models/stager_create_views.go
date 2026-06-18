@@ -2,7 +2,7 @@ package models
 
 import split "github.com/fullstack-lang/gong/lib/split/go/models"
 
-func (stager *Stager) createViews(stage *Stage) {
+func (stager *Stager) createViews() {
 	split.StageBranch(stager.splitStage, &split.View{
 		Name:           "Edit PBS/WBS",
 		Direction:      split.Horizontal,
@@ -102,7 +102,7 @@ func (stager *Stager) createViews(stage *Stage) {
 			{
 				Size: 38,
 				Split: &split.Split{
-					StackName: stage.GetProbeSplitStageName(),
+					StackName: stager.stage.GetProbeSplitStageName(),
 				},
 			},
 		},
@@ -159,7 +159,7 @@ func (stager *Stager) createViews(stage *Stage) {
 			{
 				Size: 65,
 				Split: &split.Split{
-					StackName: stage.GetProbeSplitStageName(),
+					StackName: stager.stage.GetProbeSplitStageName(),
 				},
 			},
 		},

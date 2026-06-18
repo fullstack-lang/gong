@@ -13,20 +13,55 @@ import (
 func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern, parentNode *tree.Node) {
 	stage := stager.stage
 
-	concernNode := addNodeToTree(
-		stager,
-		diagram,
-		parentNode,
-		concern,
-		concern.parentConcern,
-		&diagram.ConcernsWhoseNodeIsExpanded,
-		&diagram.Concern_Shapes,
-		diagram.map_Concern_ConcernShape,
-		diagram.map_Concern_ConcernCompositionShape,
-		&diagram.ConcernComposition_Shapes,
-	)
+	confNode := TreeNodeShapeAndLinkConfiguration[
+		*Concern, Concern,
+		*ConcernShape, ConcernShape,
+		*ConcernCompositionShape, ConcernCompositionShape,
+		*Diagram,
+	]{
+		TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
+			*Concern, Concern,
+			*ConcernShape, ConcernShape,
+			*Diagram,
+		]{
+			TreeNodeConfiguration: TreeNodeConfiguration[
+				*Concern, Concern,
+				*Diagram,
+			]{
+				diagram:                     diagram,
+				parentNode:                  parentNode,
+				element:                     concern,
+				parentElement:               concern.parentConcern,
+				elementsWhoseNodeIsExpanded: &diagram.ConcernsWhoseNodeIsExpanded,
+			},
+			shapes:    &diagram.Concern_Shapes,
+			shapesMap: diagram.map_Concern_ConcernShape,
+		},
+		map_Element_CompositionShape: diagram.map_Concern_ConcernCompositionShape,
+		compositionShapes:            &diagram.ConcernComposition_Shapes,
+	}
+	concernNode := addNodeToTree(stager, confNode)
 
-	addAddItemButton(stager, &diagram.ConcernsWhoseNodeIsExpanded, concern, nil, concernNode, &concern.SubConcerns, diagram, &diagram.Concern_Shapes, &diagram.ConcernComposition_Shapes)
+	confSubConcerns := ItemAndShapeButtonConfiguration[
+		Concern, *Concern,
+		Concern, *Concern,
+		ConcernShape, *ConcernShape,
+	]{
+		ItemButtonConfiguration: ItemButtonConfiguration[
+			Concern, *Concern,
+			Concern, *Concern,
+		]{
+			parentNode:                         concernNode,
+			sliceForNewAddedItem:               &concern.SubConcerns,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeBySlice,
+			parentNodeExpansionSliceEncoding:   &diagram.ConcernsWhoseNodeIsExpanded,
+			parentElement:                      concern,
+		},
+		receivingDiagram:      diagram,
+		sliceForNewAddedShape: &diagram.Concern_Shapes,
+	}
+	addCreateItemAndShapeButton(stager, confSubConcerns)
 
 	for _, task := range concern.SubConcerns {
 		stager.treeConcernBSinDiagram(diagram, task, concernNode)
@@ -238,7 +273,7 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 			n.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 				if frontNode.IsChecked && !stagedNode.IsChecked {
 					stagedNode.IsChecked = true
-					addShapeToDiagram(stakeholder, diagram, &diagram.Stakeholder_Shapes, stager.stage)
+					newShapeToDiagram(stakeholder, diagram, &diagram.Stakeholder_Shapes, stager.stage)
 					addAssociationShapeToDiagram(stager, stakeholder, concern, &diagram.StakeholderConcernShapes)
 					stager.stage.Commit()
 				}

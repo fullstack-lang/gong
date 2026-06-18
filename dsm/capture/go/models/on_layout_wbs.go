@@ -24,7 +24,7 @@ func onLayoutWBS(stager *Stager, diagram *Diagram) func(
 		var layout func(p *Concern, startX float64, level int) float64
 		layout = func(task *Concern, startX float64, level int) float64 {
 			// Create Shape
-			shape := addShapeToDiagram(task, diagram, &diagram.Concern_Shapes, stager.stage)
+			shape := newShapeToDiagram(task, diagram, &diagram.Concern_Shapes, stager.stage)
 			x := (startX + float64(task.GetComputedWidth()-1)/2.0) * diagram.DefaultBoxWidth * 1.5
 			y := float64(level) * diagram.DefaultBoxHeigth * 2.0
 			shape.X = x + leftOffset

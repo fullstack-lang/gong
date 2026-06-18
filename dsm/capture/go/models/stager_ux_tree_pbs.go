@@ -5,20 +5,55 @@ import (
 )
 
 func (stager *Stager) treeDeliverableRecusriveInDiagram(diagram *Diagram, product *Deliverable, parentNode *tree.Node) {
-	productNode := addNodeToTree(
-		stager,
-		diagram,
-		parentNode,
-		product,
-		product.parentProduct,
-		&diagram.ProductsWhoseNodeIsExpanded,
-		&diagram.Product_Shapes,
-		diagram.map_Product_ProductShape,
-		diagram.map_Product_ProductCompositionShape,
-		&diagram.ProductComposition_Shapes,
-	)
+	confNode := TreeNodeShapeAndLinkConfiguration[
+		*Deliverable, Deliverable,
+		*ProductShape, ProductShape,
+		*ProductCompositionShape, ProductCompositionShape,
+		*Diagram,
+	]{
+		TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
+			*Deliverable, Deliverable,
+			*ProductShape, ProductShape,
+			*Diagram,
+		]{
+			TreeNodeConfiguration: TreeNodeConfiguration[
+				*Deliverable, Deliverable,
+				*Diagram,
+			]{
+				diagram:                     diagram,
+				parentNode:                  parentNode,
+				element:                     product,
+				parentElement:               product.parentProduct,
+				elementsWhoseNodeIsExpanded: &diagram.ProductsWhoseNodeIsExpanded,
+			},
+			shapes:    &diagram.Product_Shapes,
+			shapesMap: diagram.map_Product_ProductShape,
+		},
+		map_Element_CompositionShape: diagram.map_Product_ProductCompositionShape,
+		compositionShapes:            &diagram.ProductComposition_Shapes,
+	}
+	productNode := addNodeToTree(stager, confNode)
 
-	addAddItemButton(stager, &diagram.ProductsWhoseNodeIsExpanded, product, nil, productNode, &product.SubProducts, diagram, &diagram.Product_Shapes, &diagram.ProductComposition_Shapes)
+	confSubProducts := ItemAndShapeButtonConfiguration[
+		Deliverable, *Deliverable,
+		Deliverable, *Deliverable,
+		ProductShape, *ProductShape,
+	]{
+		ItemButtonConfiguration: ItemButtonConfiguration[
+			Deliverable, *Deliverable,
+			Deliverable, *Deliverable,
+		]{
+			parentNode:                         productNode,
+			sliceForNewAddedItem:               &product.SubProducts,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeBySlice,
+			parentNodeExpansionSliceEncoding:   &diagram.ProductsWhoseNodeIsExpanded,
+			parentElement:                      product,
+		},
+		receivingDiagram:      diagram,
+		sliceForNewAddedShape: &diagram.Product_Shapes,
+	}
+	addCreateItemAndShapeButton(stager, confSubProducts)
 
 	for _, product := range product.SubProducts {
 		stager.treeDeliverableRecusriveInDiagram(diagram, product, productNode)

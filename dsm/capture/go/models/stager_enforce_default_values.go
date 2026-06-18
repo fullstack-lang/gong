@@ -12,7 +12,7 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 		defaultBoxHeigth = 70.0
 	)
 
-	root := stager.rootLibrary
+	root := stager.GetRootLibrary()
 	if root.NbPixPerCharacter == 0 {
 		root.NbPixPerCharacter = 8
 		needCommit = true

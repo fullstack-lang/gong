@@ -490,12 +490,12 @@
       ]
     },
     {
-      "label": "01 - gong generate capture",
+      "label": "01 - gong generate capture --dsm",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/dsm/capture"
       },
-      "command": "gong generate go/models --skipGoModCommands",
+      "command": "gong generate go/models --dsm --skipGoModCommands",
       "group": "build"
     },
     {

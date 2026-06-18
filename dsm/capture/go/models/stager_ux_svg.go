@@ -41,7 +41,7 @@ func (stager *Stager) svg() {
 // to SVG elements (Rects, Links, Paths) on a single layer. It also populates the diagram's
 // internal maps to link abstract elements with their visual SVG counterparts.
 func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
-	root := stager.rootLibrary
+	root := stager.GetRootLibrary()
 
 	svgStage := stager.svgStage
 
@@ -499,4 +499,14 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	stager.svgStage.Commit()
 
 	return stager.svgObject
+}
+
+func applyStyleToRectAnchoredText(title *svg.RectAnchoredText) {
+	title.Stroke = svg.Black.ToString()
+	title.StrokeWidth = 1
+	title.StrokeOpacity = 1
+	title.Color = svg.Black.ToString()
+	title.FillOpacity = 1
+
+	title.FontSize = "12px"
 }

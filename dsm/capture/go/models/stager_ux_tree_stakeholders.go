@@ -8,20 +8,55 @@ import (
 )
 
 func (stager *Stager) treeStakeholderBSinDiagram(diagram *Diagram, stakeholder *Stakeholder, parentNode *tree.Node) {
-	resourceNode := addNodeToTree(
-		stager,
-		diagram,
-		parentNode,
-		stakeholder,
-		stakeholder.parentStakeholder,
-		&diagram.ResourcesWhoseNodeIsExpanded,
-		&diagram.Stakeholder_Shapes,
-		diagram.map_Stakeholder_StakeholderShape,
-		diagram.map_Resource_ResourceCompositionShape,
-		&diagram.ResourceComposition_Shapes,
-	)
+	confNode := TreeNodeShapeAndLinkConfiguration[
+		*Stakeholder, Stakeholder,
+		*StakeholderShape, StakeholderShape,
+		*StakeholderCompositionShape, StakeholderCompositionShape,
+		*Diagram,
+	]{
+		TreeNodeAndShapeConfiguration: TreeNodeAndShapeConfiguration[
+			*Stakeholder, Stakeholder,
+			*StakeholderShape, StakeholderShape,
+			*Diagram,
+		]{
+			TreeNodeConfiguration: TreeNodeConfiguration[
+				*Stakeholder, Stakeholder,
+				*Diagram,
+			]{
+				diagram:                     diagram,
+				parentNode:                  parentNode,
+				element:                     stakeholder,
+				parentElement:               stakeholder.parentStakeholder,
+				elementsWhoseNodeIsExpanded: &diagram.ResourcesWhoseNodeIsExpanded,
+			},
+			shapes:    &diagram.Stakeholder_Shapes,
+			shapesMap: diagram.map_Stakeholder_StakeholderShape,
+		},
+		map_Element_CompositionShape: diagram.map_Resource_ResourceCompositionShape,
+		compositionShapes:            &diagram.ResourceComposition_Shapes,
+	}
+	resourceNode := addNodeToTree(stager, confNode)
 
-	addAddItemButton(stager, &diagram.ResourcesWhoseNodeIsExpanded, stakeholder, nil, resourceNode, &stakeholder.SubStakeholders, diagram, &diagram.Stakeholder_Shapes, &diagram.ResourceComposition_Shapes)
+	confSubStakeholders := ItemAndShapeButtonConfiguration[
+		Stakeholder, *Stakeholder,
+		Stakeholder, *Stakeholder,
+		StakeholderShape, *StakeholderShape,
+	]{
+		ItemButtonConfiguration: ItemButtonConfiguration[
+			Stakeholder, *Stakeholder,
+			Stakeholder, *Stakeholder,
+		]{
+			parentNode:                         resourceNode,
+			sliceForNewAddedItem:               &stakeholder.SubStakeholders,
+			isParentNodeExpandedByAddOperation: true,
+			parentNodeExpansionType:            parentNodeExpansionTypeBySlice,
+			parentNodeExpansionSliceEncoding:   &diagram.ResourcesWhoseNodeIsExpanded,
+			parentElement:                      stakeholder,
+		},
+		receivingDiagram:      diagram,
+		sliceForNewAddedShape: &diagram.Stakeholder_Shapes,
+	}
+	addCreateItemAndShapeButton(stager, confSubStakeholders)
 
 	for _, subResource := range stakeholder.SubStakeholders {
 		stager.treeStakeholderBSinDiagram(diagram, subResource, resourceNode)
@@ -83,7 +118,7 @@ func (stager *Stager) treeStakeholderBSinDiagram(diagram *Diagram, stakeholder *
 							ToolTipText:     "Hide link from diagram",
 							HasToolTip:      true,
 							ToolTipPosition: tree.Right,
-							OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+							OnClick: func() {
 								resourceTaskShape.SetIsHidden(!resourceTaskShape.GetIsHidden())
 								stager.stage.Commit()
 							},

@@ -8,7 +8,7 @@ import (
 
 func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stage := stager.stage
-	needCommit = stager.enforceThereIsADefaultLibrary() || needCommit
+
 
 	// computes fields that are not persisted
 	stager.enforceProducersConsumers()
@@ -97,20 +97,4 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 	return needCommit
 }
 
-func (stager *Stager) enforceThereIsADefaultLibrary() (needCommit bool) {
-	stage := stager.stage
-	libraries := GetStructInstancesByOrderAuto[*Library](stage)
-	if len(libraries) == 0 {
-		stager.rootLibrary = (&Library{Name: ""}).Stage(stage)
-		if stager.probeForm != nil {
-			stager.probeForm.AddNotification(time.Now(),
-				"Created root library")
-		}
-		needCommit = true
-	}
-	if stager.rootLibrary == nil {
-		stager.rootLibrary = libraries[0] // The first library is the root library
-	}
 
-	return
-}

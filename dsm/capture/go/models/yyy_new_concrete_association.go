@@ -1,3 +1,4 @@
+// generated code (do not edit)
 package models
 
 func newConcreteAssociation[
@@ -15,17 +16,6 @@ func newConcreteAssociation[
 	compositionShape.SetAbstractEndElement(end)
 	compositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
 	compositionShape.SetEndOrientation(ORIENTATION_VERTICAL)
-
-	if taskInputShape, ok := any(compositionShape).(*ConcernInputShape); ok {
-		taskInputShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
-		taskInputShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
-		taskInputShape.CornerOffsetRatio = 0.2
-	}
-	if taskOutputShape, ok := any(compositionShape).(*ConcernOutputShape); ok {
-		taskOutputShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
-		taskOutputShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
-		taskOutputShape.CornerOffsetRatio = 0.2
-	}
 
 	compositionShape.SetCornerOffsetRatio(1.68)
 	compositionShape.SetStartRatio(0.5)

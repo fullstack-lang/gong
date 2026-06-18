@@ -68,10 +68,10 @@ func (analysisneedFormCallback *AnalysisNeedFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(analysisneed_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(analysisneed_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(analysisneed_.IsInRenameMode), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(analysisneed_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(analysisneed_.LayoutDirection), formDiv)
 		case "Library:AnalysisNeeds":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -401,10 +401,10 @@ func (concernFormCallback *ConcernFormCallback) OnSave() {
 			FormDivEnumStringFieldToField(&(concern_.Priority), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(concern_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(concern_.IsInRenameMode), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(concern_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(concern_.LayoutDirection), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(concern_.Description), formDiv)
 		case "SubConcerns":
@@ -1535,10 +1535,10 @@ func (deliverableFormCallback *DeliverableFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(deliverable_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(deliverable_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(deliverable_.IsInRenameMode), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(deliverable_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(deliverable_.LayoutDirection), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(deliverable_.Description), formDiv)
 		case "SubProducts":
@@ -1959,10 +1959,10 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(diagram_.IsInRenameMode), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(diagram_.LayoutDirection), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(diagram_.IsChecked), formDiv)
 		case "IsEditable_":
@@ -2748,12 +2748,14 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(library_.Name), formDiv)
+		case "IsRootLibrary":
+			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(library_.IsInRenameMode), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(library_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(library_.LayoutDirection), formDiv)
 		case "RootDeliverables":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Deliverable](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Deliverable, 0)
@@ -3105,10 +3107,10 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(note_.Name), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(note_.IsInRenameMode), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(note_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(note_.LayoutDirection), formDiv)
 		case "Products":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Deliverable](noteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Deliverable, 0)
@@ -4392,10 +4394,10 @@ func (stakeholderFormCallback *StakeholderFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stakeholder_.IDAirbus), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(stakeholder_.ComputedPrefix), formDiv)
-		case "IsInRenameMode":
-			FormDivBasicFieldToField(&(stakeholder_.IsInRenameMode), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(stakeholder_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(stakeholder_.LayoutDirection), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(stakeholder_.Description), formDiv)
 		case "Concerns":

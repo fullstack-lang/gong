@@ -23,10 +23,9 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsInRenameMode", instanceWithInferedType.IsInRenameMode, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -86,10 +85,9 @@ func FillUpForm(
 		EnumTypeStringToForm("Priority", instanceWithInferedType.Priority, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsInRenameMode", instanceWithInferedType.IsInRenameMode, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
 			true, false, 0, false, 0)
 		AssociationSliceToForm("SubConcerns", instanceWithInferedType, &instanceWithInferedType.SubConcerns, formGroup, probe)
@@ -335,10 +333,9 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsInRenameMode", instanceWithInferedType.IsInRenameMode, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
 			true, false, 0, false, 0)
 		AssociationSliceToForm("SubProducts", instanceWithInferedType, &instanceWithInferedType.SubProducts, formGroup, probe)
@@ -425,10 +422,9 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsInRenameMode", instanceWithInferedType.IsInRenameMode, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsEditable_", instanceWithInferedType.IsEditable_, instanceWithInferedType, probe.formStage, formGroup,
@@ -492,12 +488,13 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsRootLibrary", instanceWithInferedType.IsRootLibrary, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsInRenameMode", instanceWithInferedType.IsInRenameMode, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationSliceToForm("RootDeliverables", instanceWithInferedType, &instanceWithInferedType.RootDeliverables, formGroup, probe)
 		AssociationSliceToForm("RootConcerns", instanceWithInferedType, &instanceWithInferedType.RootConcerns, formGroup, probe)
 		AssociationSliceToForm("RootStakeholders", instanceWithInferedType, &instanceWithInferedType.RootStakeholders, formGroup, probe)
@@ -530,10 +527,9 @@ func FillUpForm(
 			true, false, 0, false, 0)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsInRenameMode", instanceWithInferedType.IsInRenameMode, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationSliceToForm("Products", instanceWithInferedType, &instanceWithInferedType.Products, formGroup, probe)
 		AssociationSliceToForm("Tasks", instanceWithInferedType, &instanceWithInferedType.Tasks, formGroup, probe)
 		AssociationSliceToForm("Resources", instanceWithInferedType, &instanceWithInferedType.Resources, formGroup, probe)
@@ -795,10 +791,9 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsInRenameMode", instanceWithInferedType.IsInRenameMode, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
 			true, false, 0, false, 0)
 		AssociationSliceToForm("Concerns", instanceWithInferedType, &instanceWithInferedType.Concerns, formGroup, probe)

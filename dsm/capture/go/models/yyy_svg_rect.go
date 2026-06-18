@@ -1,19 +1,20 @@
+// generated code (do not edit)
 package models
 
 import (
 	"math/rand/v2"
 
-	"github.com/fullstack-lang/gong/lib/strutils"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
+	"github.com/fullstack-lang/gong/lib/strutils"
 )
 
-func addShapeToDiagram[AT AbstractType, CT interface {
+func newShapeToDiagram[AT AbstractType, CT interface {
 	*S
 	RectShapeInterface
 	ConcreteType
 }, S Gongstruct](
 	abstractElement AT,
-	diagram *Diagram,
+	diagram DiagramIF,
 	shapes *[]CT,
 	stage *Stage,
 ) CT {
@@ -21,8 +22,8 @@ func addShapeToDiagram[AT AbstractType, CT interface {
 	shape.StageVoid(stage)
 	shape.SetAbstractElement(abstractElement)
 	shape.SetName(abstractElement.GetName() + "-" + diagram.GetName())
-	shape.SetHeight(diagram.DefaultBoxHeigth)
-	shape.SetWidth(diagram.DefaultBoxWidth)
+	shape.SetHeight(diagram.GetDefaultBoxHeigth())
+	shape.SetWidth(diagram.GetDefaultBoxWidth())
 	shape.SetX(100 + rand.Float64()*100.0)
 	shape.SetY(100 + rand.Float64()*100.0)
 	*shapes = append(*shapes, shape)
@@ -36,11 +37,11 @@ func svgRect[CT interface {
 	ConcreteType
 }, CT_ Gongstruct](
 	stager *Stager,
-	diagram *Diagram, // might be ni
+	diagram DiagramIF, // might be ni
 	shape CT,
 	layer *svg.Layer,
 ) *svg.Rect {
-	root := stager.rootLibrary
+	root := stager.GetRootLibrary()
 
 	abstractElement := shape.GetAbstractElement()
 
@@ -66,8 +67,7 @@ func svgRect[CT interface {
 		rect.CanMoveHorizontaly = true
 		rect.CanMoveVerticaly = true
 
-		rect.OnUpdate = onUpdateRectElement(stager, abstractElement, shape)
-
+		rect.OnUpdate = onUpdateRectElement(stager, abstractElement, shape, true)
 		// for allowing later Stage() on the rect shape
 		shape.SetReceiver(shape)
 	}
@@ -77,7 +77,7 @@ func svgRect[CT interface {
 		title.Name = abstractElement.GetName()
 
 		content := shape.GetAbstractElement().GetName()
-		if diagram.ShowPrefix {
+		if diagram.GetIsShowPrefix() {
 			content = abstractElement.GetComputedPrefix() + " " + content
 		}
 
@@ -85,27 +85,23 @@ func svgRect[CT interface {
 			content = strutils.WrapStringPreservingNewlines(content, int(rect.Width/root.NbPixPerCharacter))
 		}
 		title.Content = content
-		title.RectAnchorType = svg.RECT_TOP
-		title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		title.Stroke = svg.Black.ToString()
+		title.StrokeWidth = 1
+		title.StrokeOpacity = 1
+		title.Color = svg.Black.ToString()
+		title.FillOpacity = 1
+
+		title.FontSize = "16px"
 		title.X_Offset = 0
-		title.Y_Offset = 30
-		applyStyleToRectAnchoredText(title)
+		title.Y_Offset = 0
+		title.RectAnchorType = svg.RECT_CENTER_MIDDLE
+		title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
 
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 	}
 
 	layer.Rects = append(layer.Rects, rect)
 	return rect
-}
-
-func applyStyleToRectAnchoredText(text *svg.RectAnchoredText) {
-
-	text.Stroke = svg.Black.ToString()
-	text.StrokeWidth = 1
-	text.StrokeOpacity = 1
-	text.Color = svg.Black.ToString()
-	text.FillOpacity = 1
-	text.FontSize = "16px"
 }
 
 func onUpdateRectElement[CT interface {
@@ -116,6 +112,7 @@ func onUpdateRectElement[CT interface {
 	stager *Stager,
 	abstractElement AbstractType,
 	rectShape CT,
+	suspendCallbacksOnPositionDiff bool,
 ) func(frontRect *svg.Rect) {
 	return func(updatedRect *svg.Rect) {
 		diffSize := rectShape.GetWidth() != updatedRect.Width ||
@@ -133,14 +130,20 @@ func onUpdateRectElement[CT interface {
 			stager.stage.CommitWithSuspendedCallbacks()
 			stager.probeForm.FillUpFormFromGongstruct(abstractElement, GetPointerToGongstructName[AbstractType]())
 			// update the tree because it contains the undo/redo calls
-			stager.tree()
+			stager.ux_tree()
 		}
 
 		if diffPosition {
-			// Issue #7, this will allow multiple rect to be moved together
-			stager.stage.CommitWithSuspendedCallbacks()
-			// update the tree because it contains the undo/redo calls
-			stager.tree()
+			if suspendCallbacksOnPositionDiff {
+				// Issue #7, this will allow multiple rect to be moved together
+				stager.stage.CommitWithSuspendedCallbacks()
+				// update the tree because it contains the undo/redo calls
+				stager.ux_tree()
+			} else {
+				// if the position is different, no need to generates
+				// the SVG updates with the semantic rules updates.
+				stager.stage.CommitWithSuspendedCallbacks()
+			}
 		}
 
 		if diffSize {
@@ -209,6 +212,76 @@ func svgAssociationLink[AT AbstractType,
 		if !diff {
 			stager.stage.CommitWithSuspendedCallbacks()
 			stager.probeForm.FillUpFormFromGongstruct(productOfInterest, GetPointerToGongstructName[AT]())
+		} else {
+			stager.stage.Commit()
+		}
+	}
+
+	layer.Links = append(layer.Links, link)
+
+	return
+}
+
+func svgAssociationLinkAsCT[AT AbstractType,
+	ACT interface {
+		*ACT_
+		LinkShapeInterface
+		AssociationConcreteType
+		ConcreteType
+	},
+	ACT_ Gongstruct](
+	stager *Stager,
+	startRect *svg.Rect,
+	endRect *svg.Rect,
+	shape ACT,
+	layer *svg.Layer,
+	isDashed bool,
+) (link *svg.Link) {
+	if startRect == nil || endRect == nil {
+		return
+	}
+
+	link = new(svg.Link)
+
+	link.Name = startRect.Name + " to " + endRect.Name
+	link.Stroke = svg.Black.ToString()
+	link.StrokeWidth = 1.5
+	link.StrokeOpacity = 1
+
+	link.Type = svg.LINK_TYPE_FLOATING_ORTHOGONAL
+
+	link.Start = startRect
+	link.StartOrientation = svg.OrientationType(shape.GetStartOrientation())
+	link.StartRatio = shape.GetStartRatio()
+
+	link.End = endRect
+	link.EndOrientation = svg.OrientationType(shape.GetEndOrientation())
+	link.EndRatio = shape.GetEndRatio()
+	link.HasEndArrow = true
+	link.EndArrowSize = 10
+
+	link.CornerOffsetRatio = shape.GetCornerOffsetRatio()
+	link.CornerRadius = 5
+	if isDashed {
+		link.StrokeDashArray = "5 5"
+	}
+
+	link.OnUpdate = func(updatedLink *svg.Link) {
+		diff := shape.GetStartRatio() != updatedLink.StartRatio ||
+			shape.GetEndRatio() != updatedLink.EndRatio ||
+			shape.GetStartOrientation() != OrientationType(updatedLink.StartOrientation) ||
+			shape.GetEndOrientation() != OrientationType(updatedLink.EndOrientation) ||
+			shape.GetCornerOffsetRatio() != updatedLink.CornerOffsetRatio
+
+		shape.SetStartRatio(updatedLink.StartRatio)
+		shape.SetEndRatio(updatedLink.EndRatio)
+		shape.SetCornerOffsetRatio(updatedLink.CornerOffsetRatio)
+		shape.SetStartOrientation(OrientationType(updatedLink.StartOrientation))
+		shape.SetEndOrientation(OrientationType(updatedLink.EndOrientation))
+
+		if !diff {
+			stager.stage.CommitWithSuspendedCallbacks()
+			stager.probeForm.FillUpFormFromGongstruct(shape.GetAbstractElement().(AT), GetPointerToGongstructName[AT]())
 		} else {
 			stager.stage.Commit()
 		}

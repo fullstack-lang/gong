@@ -466,10 +466,10 @@ func (u *AnalysisNeedUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	}
 	return nil
 }
@@ -536,10 +536,10 @@ func (u *ConcernUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallEnum(&instance.Priority, valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
 	case "SubConcerns":
@@ -765,10 +765,10 @@ func (u *DeliverableUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
 	case "SubProducts":
@@ -810,10 +810,10 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "IsEditable_":
@@ -905,12 +905,14 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "IsRootLibrary":
+		instance.IsRootLibrary = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "RootDeliverables":
 		GongUnmarshallSliceOfPointers(&instance.RootDeliverables, valueExpr, identifierMap)
 	case "RootConcerns":
@@ -958,10 +960,10 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Name = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "Products":
 		GongUnmarshallSliceOfPointers(&instance.Products, valueExpr, identifierMap)
 	case "Tasks":
@@ -1298,10 +1300,10 @@ func (u *StakeholderUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.IDAirbus = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsInRenameMode":
-		instance.IsInRenameMode = GongExtractBool(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
 	case "Concerns":

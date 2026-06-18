@@ -6710,12 +6710,13 @@ func (analysisneed *AnalysisNeed) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsInRenameMode",
+			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 	}
 	return
@@ -6758,12 +6759,13 @@ func (concern *Concern) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsInRenameMode",
+			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "Description",
@@ -6998,12 +7000,13 @@ func (deliverable *Deliverable) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsInRenameMode",
+			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "Description",
@@ -7043,12 +7046,13 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsInRenameMode",
+			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "IsChecked",
@@ -7206,16 +7210,21 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsRootLibrary",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsInRenameMode",
+			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:                 "RootDeliverables",
@@ -7272,12 +7281,13 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsInRenameMode",
+			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:                 "Products",
@@ -7598,12 +7608,13 @@ func (stakeholder *Stakeholder) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsInRenameMode",
+			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "Description",
@@ -7841,14 +7852,13 @@ func (analysisneed *AnalysisNeed) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = analysisneed.Name
 	case "ComputedPrefix":
 		res.valueString = analysisneed.ComputedPrefix
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", analysisneed.IsInRenameMode)
-		res.valueBool = analysisneed.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", analysisneed.IsExpanded)
 		res.valueBool = analysisneed.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := analysisneed.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -7884,14 +7894,13 @@ func (concern *Concern) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = enum.ToCodeString()
 	case "ComputedPrefix":
 		res.valueString = concern.ComputedPrefix
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", concern.IsInRenameMode)
-		res.valueBool = concern.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", concern.IsExpanded)
 		res.valueBool = concern.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := concern.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "Description":
 		res.valueString = concern.Description
 	case "SubConcerns":
@@ -8122,14 +8131,13 @@ func (deliverable *Deliverable) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = deliverable.Name
 	case "ComputedPrefix":
 		res.valueString = deliverable.ComputedPrefix
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", deliverable.IsInRenameMode)
-		res.valueBool = deliverable.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", deliverable.IsExpanded)
 		res.valueBool = deliverable.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := deliverable.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "Description":
 		res.valueString = deliverable.Description
 	case "SubProducts":
@@ -8171,14 +8179,13 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = diagram.Name
 	case "ComputedPrefix":
 		res.valueString = diagram.ComputedPrefix
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", diagram.IsInRenameMode)
-		res.valueBool = diagram.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
 		res.valueBool = diagram.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := diagram.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
 		res.valueBool = diagram.IsChecked
@@ -8432,16 +8439,19 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = library.Name
+	case "IsRootLibrary":
+		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
+		res.valueBool = library.IsRootLibrary
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ComputedPrefix":
 		res.valueString = library.ComputedPrefix
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", library.IsInRenameMode)
-		res.valueBool = library.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", library.IsExpanded)
 		res.valueBool = library.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := library.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "RootDeliverables":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.RootDeliverables {
@@ -8527,14 +8537,13 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = note.Name
 	case "ComputedPrefix":
 		res.valueString = note.ComputedPrefix
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", note.IsInRenameMode)
-		res.valueBool = note.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", note.IsExpanded)
 		res.valueBool = note.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := note.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "Products":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range note.Products {
@@ -8851,14 +8860,13 @@ func (stakeholder *Stakeholder) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = stakeholder.IDAirbus
 	case "ComputedPrefix":
 		res.valueString = stakeholder.ComputedPrefix
-	case "IsInRenameMode":
-		res.valueString = fmt.Sprintf("%t", stakeholder.IsInRenameMode)
-		res.valueBool = stakeholder.IsInRenameMode
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", stakeholder.IsExpanded)
 		res.valueBool = stakeholder.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := stakeholder.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "Description":
 		res.valueString = stakeholder.Description
 	case "Concerns":
@@ -9041,10 +9049,10 @@ func (analysisneed *AnalysisNeed) GongSetFieldValue(fieldName string, value Gong
 		analysisneed.Name = value.GetValueString()
 	case "ComputedPrefix":
 		analysisneed.ComputedPrefix = value.GetValueString()
-	case "IsInRenameMode":
-		analysisneed.IsInRenameMode = value.GetValueBool()
 	case "IsExpanded":
 		analysisneed.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		analysisneed.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -9087,10 +9095,10 @@ func (concern *Concern) GongSetFieldValue(fieldName string, value GongFieldValue
 		concern.Priority.FromCodeString(value.GetValueString())
 	case "ComputedPrefix":
 		concern.ComputedPrefix = value.GetValueString()
-	case "IsInRenameMode":
-		concern.IsInRenameMode = value.GetValueBool()
 	case "IsExpanded":
 		concern.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		concern.LayoutDirection.FromCodeString(value.GetValueString())
 	case "Description":
 		concern.Description = value.GetValueString()
 	case "SubConcerns":
@@ -9328,10 +9336,10 @@ func (deliverable *Deliverable) GongSetFieldValue(fieldName string, value GongFi
 		deliverable.Name = value.GetValueString()
 	case "ComputedPrefix":
 		deliverable.ComputedPrefix = value.GetValueString()
-	case "IsInRenameMode":
-		deliverable.IsInRenameMode = value.GetValueBool()
 	case "IsExpanded":
 		deliverable.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		deliverable.LayoutDirection.FromCodeString(value.GetValueString())
 	case "Description":
 		deliverable.Description = value.GetValueString()
 	case "SubProducts":
@@ -9379,10 +9387,10 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.Name = value.GetValueString()
 	case "ComputedPrefix":
 		diagram.ComputedPrefix = value.GetValueString()
-	case "IsInRenameMode":
-		diagram.IsInRenameMode = value.GetValueBool()
 	case "IsExpanded":
 		diagram.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		diagram.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsChecked":
 		diagram.IsChecked = value.GetValueBool()
 	case "IsEditable_":
@@ -9696,12 +9704,14 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 	// insertion point for per field code
 	case "Name":
 		library.Name = value.GetValueString()
+	case "IsRootLibrary":
+		library.IsRootLibrary = value.GetValueBool()
 	case "ComputedPrefix":
 		library.ComputedPrefix = value.GetValueString()
-	case "IsInRenameMode":
-		library.IsInRenameMode = value.GetValueBool()
 	case "IsExpanded":
 		library.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		library.LayoutDirection.FromCodeString(value.GetValueString())
 	case "RootDeliverables":
 		library.RootDeliverables = make([]*Deliverable, 0)
 		ids := strings.Split(value.ids, ";")
@@ -9815,10 +9825,10 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		note.Name = value.GetValueString()
 	case "ComputedPrefix":
 		note.ComputedPrefix = value.GetValueString()
-	case "IsInRenameMode":
-		note.IsInRenameMode = value.GetValueBool()
 	case "IsExpanded":
 		note.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		note.LayoutDirection.FromCodeString(value.GetValueString())
 	case "Products":
 		note.Products = make([]*Deliverable, 0)
 		ids := strings.Split(value.ids, ";")
@@ -10152,10 +10162,10 @@ func (stakeholder *Stakeholder) GongSetFieldValue(fieldName string, value GongFi
 		stakeholder.IDAirbus = value.GetValueString()
 	case "ComputedPrefix":
 		stakeholder.ComputedPrefix = value.GetValueString()
-	case "IsInRenameMode":
-		stakeholder.IsInRenameMode = value.GetValueBool()
 	case "IsExpanded":
 		stakeholder.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		stakeholder.LayoutDirection.FromCodeString(value.GetValueString())
 	case "Description":
 		stakeholder.Description = value.GetValueString()
 	case "Concerns":

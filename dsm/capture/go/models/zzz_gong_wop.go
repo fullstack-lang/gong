@@ -16,17 +16,17 @@ type AnalysisNeed_WOP struct {
 
 	ComputedPrefix string
 
-	IsInRenameMode bool
-
 	IsExpanded bool
+
+	LayoutDirection LayoutDirection
 }
 
 func (from *AnalysisNeed) CopyBasicFields(to *AnalysisNeed) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
 	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 }
 
 type Concept_WOP struct {
@@ -51,9 +51,9 @@ type Concern_WOP struct {
 
 	ComputedPrefix string
 
-	IsInRenameMode bool
-
 	IsExpanded bool
+
+	LayoutDirection LayoutDirection
 
 	Description string
 
@@ -72,8 +72,8 @@ func (from *Concern) CopyBasicFields(to *Concern) {
 	to.IDAirbus = from.IDAirbus
 	to.Priority = from.Priority
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
 	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 	to.Description = from.Description
 	to.IsInputsNodeExpanded = from.IsInputsNodeExpanded
 	to.IsOutputsNodeExpanded = from.IsOutputsNodeExpanded
@@ -204,9 +204,9 @@ type Deliverable_WOP struct {
 
 	ComputedPrefix string
 
-	IsInRenameMode bool
-
 	IsExpanded bool
+
+	LayoutDirection LayoutDirection
 
 	Description string
 
@@ -219,8 +219,8 @@ func (from *Deliverable) CopyBasicFields(to *Deliverable) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
 	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 	to.Description = from.Description
 	to.IsProducersNodeExpanded = from.IsProducersNodeExpanded
 	to.IsConsumersNodeExpanded = from.IsConsumersNodeExpanded
@@ -233,9 +233,9 @@ type Diagram_WOP struct {
 
 	ComputedPrefix string
 
-	IsInRenameMode bool
-
 	IsExpanded bool
+
+	LayoutDirection LayoutDirection
 
 	IsChecked bool
 
@@ -264,8 +264,8 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
 	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
 	to.ShowPrefix = from.ShowPrefix
@@ -284,11 +284,13 @@ type Library_WOP struct {
 
 	Name string
 
+	IsRootLibrary bool
+
 	ComputedPrefix string
 
-	IsInRenameMode bool
-
 	IsExpanded bool
+
+	LayoutDirection LayoutDirection
 
 	NbPixPerCharacter float64
 }
@@ -296,9 +298,10 @@ type Library_WOP struct {
 func (from *Library) CopyBasicFields(to *Library) {
 	// insertion point
 	to.Name = from.Name
+	to.IsRootLibrary = from.IsRootLibrary
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
 	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 	to.NbPixPerCharacter = from.NbPixPerCharacter
 }
 
@@ -309,17 +312,17 @@ type Note_WOP struct {
 
 	ComputedPrefix string
 
-	IsInRenameMode bool
-
 	IsExpanded bool
+
+	LayoutDirection LayoutDirection
 }
 
 func (from *Note) CopyBasicFields(to *Note) {
 	// insertion point
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
 	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 }
 
 type NoteProductShape_WOP struct {
@@ -516,9 +519,9 @@ type Stakeholder_WOP struct {
 
 	ComputedPrefix string
 
-	IsInRenameMode bool
-
 	IsExpanded bool
+
+	LayoutDirection LayoutDirection
 
 	Description string
 }
@@ -528,8 +531,8 @@ func (from *Stakeholder) CopyBasicFields(to *Stakeholder) {
 	to.Name = from.Name
 	to.IDAirbus = from.IDAirbus
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInRenameMode = from.IsInRenameMode
 	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 	to.Description = from.Description
 }
 

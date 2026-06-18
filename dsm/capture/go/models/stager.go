@@ -30,7 +30,7 @@ type Stager struct {
 	splitStage *split.Stage
 	probeForm  ProbeIF
 
-	rootLibrary *Library
+
 
 	treeStage   *tree.Stage
 	svgStage    *svg.Stage
@@ -72,15 +72,16 @@ func NewStager(
 	stager.loadStage = load_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 
-	stager.createViews(stage)
+	stager.createViews()
 
 	// Setup your before commit sequence
 
 	beforeCommit := func(stage *Stage) {
+		stager.enforceThereIsARootLibrary()
 		stager.enforceSemantic()
 	}
 	afterCommit := func(stage *Stage) {
-		stager.tree()
+		stager.ux_tree()
 		stager.svg()
 		stager.button()
 		stager.load()

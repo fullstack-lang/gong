@@ -7,6 +7,8 @@ import (
 type Library struct {
 	Name string
 
+	IsRootLibrary bool
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
@@ -26,22 +28,7 @@ type Library struct {
 	NbPixPerCharacter float64 // stored at the root Library only
 }
 
-type LibraryAbstractFields struct {
-	owningLibrary *Library
-}
 
-type LibraryOwnedType interface {
-	GetOwningLibrary() *Library
-	SetOwningLibrary(library *Library)
-}
-
-func (r *LibraryAbstractFields) GetOwningLibrary() *Library {
-	return r.owningLibrary
-}
-
-func (r *LibraryAbstractFields) SetOwningLibrary(library *Library) {
-	r.owningLibrary = library
-}
 
 type Diagram struct {
 	Name string
@@ -127,6 +114,15 @@ type Diagram struct {
 func (d *Diagram) IsEditable() bool {
 	return d.IsEditable_
 }
+
+func (d *Diagram) GetIsChecked() bool { return d.IsChecked }
+func (d *Diagram) SetIsChecked(b bool) { d.IsChecked = b }
+func (d *Diagram) GetIsShowPrefix() bool { return d.ShowPrefix }
+func (d *Diagram) SetIsShowPrefix(b bool) { d.ShowPrefix = b }
+func (d *Diagram) GetDefaultBoxWidth() float64 { return d.DefaultBoxWidth }
+func (d *Diagram) GetDefaultBoxHeigth() float64 { return d.DefaultBoxHeigth }
+func (d *Diagram) GetDiagramListElement() AbstractType { return d.elementWhoseDiagramListIsDisplayed }
+func (d *Diagram) SetDiagramListElement(a AbstractType) { d.elementWhoseDiagramListIsDisplayed = a }
 
 // Note brings information to a diagram
 type Note struct {

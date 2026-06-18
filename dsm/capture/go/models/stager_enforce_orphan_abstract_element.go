@@ -1,8 +1,6 @@
 package models
 
 import (
-	"fmt"
-	"time"
 )
 
 func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
@@ -94,14 +92,14 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 	needCommit = needCommit || reattachToLibraryRoots(
 		stager,
 		func() []*Library {
-			return stager.rootLibrary.SubLibraries
+			return stager.GetRootLibrary().SubLibraries
 		},
 		func(library *Library) {
 			// attach to root, only if it is not the root library
 			// (which is the only one without an owning library)
-			if library != stager.rootLibrary {
-				stager.rootLibrary.SubLibraries = append(stager.rootLibrary.SubLibraries, library)
-				library.SetOwningLibrary(stager.rootLibrary)
+			if library != stager.GetRootLibrary() {
+				stager.GetRootLibrary().SubLibraries = append(stager.GetRootLibrary().SubLibraries, library)
+				library.SetOwningLibrary(stager.GetRootLibrary())
 			}
 		},
 		func(library *Library) []*Library {
@@ -112,51 +110,4 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 	return
 }
 
-func reattachToLibraryRoots[T interface {
-	AbstractType
-	LibraryOwnedType
-	comparable
-}](
-	stager *Stager,
-	getRoots func() []T,
-	attachDirectlyToLibraryRoot func(T),
-	getChildren func(T) []T,
-) (needCommit bool) {
-	// 1. Find all reachable nodes
-	reachable := make(map[T]struct{})
-	var collectReachable func(node T)
-	collectReachable = func(node T) {
-		var zero T
-		if node == zero {
-			return
-		}
-		if _, ok := reachable[node]; ok {
-			return // already visited
-		}
-		reachable[node] = struct{}{}
 
-		for _, child := range getChildren(node) {
-			collectReachable(child)
-		}
-	}
-
-	for _, root := range getRoots() {
-		collectReachable(root)
-	}
-
-	// 2. Find all nodes and delete them
-	for _, object := range GetGongstrucsSorted[T](stager.stage) {
-		if _, ok := reachable[object]; !ok {
-			if object != any(stager.rootLibrary) {
-				object.UnstageVoid(stager.stage)
-				needCommit = true
-				stager.probeForm.AddNotification(time.Now(),
-					fmt.Sprintf("Orphan \"%s\" of type \"%s\" was deleted",
-						object.GetName(), object.GongGetGongstructName()),
-				)
-			}
-		}
-	}
-
-	return
-}

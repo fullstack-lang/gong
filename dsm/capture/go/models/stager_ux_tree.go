@@ -6,10 +6,10 @@ import (
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 )
 
-func (stager *Stager) tree() {
+func (stager *Stager) ux_tree() {
 	stager.treeStage.Reset()
 
-	rootLibrary := stager.rootLibrary
+	rootLibrary := stager.GetRootLibrary()
 	_ = rootLibrary
 
 	treeInstance := &tree.Tree{Name: "Library Tree"}
@@ -30,11 +30,11 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		Name:            library.Name,
 		IsExpanded:      library.IsExpanded,
 		IsNodeClickable: true,
-		IsInEditMode:    library.IsInRenameMode,
+		IsInEditMode:    library.GetIsInRenameMode(),
 	}
 	*parentNodes = append(*parentNodes, libraryNode)
 
-	if library != stager.rootLibrary {
+	if library != stager.GetRootLibrary() {
 		if !library.GetIsInRenameMode() {
 			libraryNode.Buttons = append(libraryNode.Buttons,
 				&tree.Button{
@@ -66,8 +66,29 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 
 	libraryNode.OnUpdate = stager.OnUpdateLibrary(library)
 
-	addAddItemButton(stager, nil, nil, &library.IsExpanded, libraryNode, &library.SubLibraries, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
-	addAddItemButton(stager, nil, nil, &library.IsExpanded, libraryNode, &library.Diagrams, nil, &[]*ProductShape{}, &[]*ProductCompositionShape{})
+	confSubLibraries := ItemButtonConfiguration[
+		Library, *Library,
+		Library, *Library,
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.SubLibraries,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpanded,
+	}
+	addCreateItemButton(stager, confSubLibraries)
+
+	confDiagrams := ItemButtonConfiguration[
+		Diagram, *Diagram,
+		Library, *Library,
+	]{
+		parentNode:                         libraryNode,
+		sliceForNewAddedItem:               &library.Diagrams,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &library.IsExpanded,
+	}
+	addCreateItemButton(stager, confDiagrams)
 
 	for _, diagram := range library.Diagrams {
 		diagramNode := &tree.Node{
@@ -77,7 +98,7 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			HasCheckboxButton: true,
 			IsChecked:         diagram.IsChecked,
 
-			IsInEditMode: diagram.IsInRenameMode,
+			IsInEditMode: diagram.GetIsInRenameMode(),
 		}
 		libraryNode.Children = append(libraryNode.Children, diagramNode)
 
@@ -189,7 +210,25 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		diagramNode.Children = append(diagramNode.Children, wbsNode)
 		wbsNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsConcernsNodeExpanded)
 
-		addAddItemButton(stager, nil, nil, &diagram.IsConcernsNodeExpanded, wbsNode, &library.RootConcerns, diagram, &diagram.Concern_Shapes, &diagram.ConcernComposition_Shapes)
+		confRootConcerns := ItemAndShapeButtonConfiguration[
+			Concern, *Concern,
+			Library, *Library,
+			ConcernShape, *ConcernShape,
+		]{
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Concern, *Concern,
+				Library, *Library,
+			]{
+				parentNode:                         wbsNode,
+				sliceForNewAddedItem:               &library.RootConcerns,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsConcernsNodeExpanded,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Concern_Shapes,
+		}
+		addCreateItemAndShapeButton(stager, confRootConcerns)
 
 		diagram.map_Concern_ConcernCompositionShape = make(map[*Concern]*ConcernCompositionShape)
 		for _, shape := range diagram.ConcernComposition_Shapes {
@@ -207,7 +246,25 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		diagramNode.Children = append(diagramNode.Children, stakeholderNode)
 		stakeholderNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsStakeholdersNodeExpanded)
 
-		addAddItemButton(stager, nil, nil, &diagram.IsStakeholdersNodeExpanded, stakeholderNode, &library.RootStakeholders, diagram, &diagram.Stakeholder_Shapes, &diagram.StakeholderConcernShapes)
+		confRootStakeholders := ItemAndShapeButtonConfiguration[
+			Stakeholder, *Stakeholder,
+			Library, *Library,
+			StakeholderShape, *StakeholderShape,
+		]{
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Stakeholder, *Stakeholder,
+				Library, *Library,
+			]{
+				parentNode:                         stakeholderNode,
+				sliceForNewAddedItem:               &library.RootStakeholders,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsStakeholdersNodeExpanded,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Stakeholder_Shapes,
+		}
+		addCreateItemAndShapeButton(stager, confRootStakeholders)
 
 		for _, x := range library.RootStakeholders {
 			stager.treeStakeholderBSinDiagram(diagram, x, stakeholderNode)
@@ -226,7 +283,25 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 		diagramNode.Children = append(diagramNode.Children, delivarablesNode)
 		delivarablesNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsPBSNodeExpanded)
 
-		addAddItemButton(stager, nil, nil, &diagram.IsPBSNodeExpanded, delivarablesNode, &library.RootDeliverables, diagram, &diagram.Product_Shapes, &diagram.ProductComposition_Shapes)
+		confRootDeliverables := ItemAndShapeButtonConfiguration[
+			Deliverable, *Deliverable,
+			Library, *Library,
+			ProductShape, *ProductShape,
+		]{
+			ItemButtonConfiguration: ItemButtonConfiguration[
+				Deliverable, *Deliverable,
+				Library, *Library,
+			]{
+				parentNode:                         delivarablesNode,
+				sliceForNewAddedItem:               &library.RootDeliverables,
+				isParentNodeExpandedByAddOperation: true,
+				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+				parentNodeExpansionBooleanValue:    &diagram.IsPBSNodeExpanded,
+			},
+			receivingDiagram:      diagram,
+			sliceForNewAddedShape: &diagram.Product_Shapes,
+		}
+		addCreateItemAndShapeButton(stager, confRootDeliverables)
 
 		for _, x := range library.RootDeliverables {
 			stager.treeDeliverableRecusriveInDiagram(diagram, x, delivarablesNode)
@@ -242,24 +317,42 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			diagramNode.Children = append(diagramNode.Children, notesNode)
 			notesNode.OnUpdate = stager.OnUpdateExpansion(&diagram.IsNotesNodeExpanded)
 
-			addAddItemButton(stager, nil, nil, &diagram.IsNotesNodeExpanded, notesNode, &library.Notes, diagram, &diagram.Note_Shapes, &diagram.NoteProductShapes)
+			confNotes := ItemAndShapeButtonConfiguration[
+				Note, *Note,
+				Library, *Library,
+				NoteShape, *NoteShape,
+			]{
+				ItemButtonConfiguration: ItemButtonConfiguration[
+					Note, *Note,
+					Library, *Library,
+				]{
+					parentNode:                         notesNode,
+					sliceForNewAddedItem:               &library.Notes,
+					isParentNodeExpandedByAddOperation: true,
+					parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+					parentNodeExpansionBooleanValue:    &diagram.IsNotesNodeExpanded,
+				},
+				receivingDiagram:      diagram,
+				sliceForNewAddedShape: &diagram.Note_Shapes,
+			}
+			addCreateItemAndShapeButton(stager, confNotes)
 
 			for _, note := range library.Notes {
-				var dummyMap map[*Note]*NoteProductShape
-				var dummySlice *[]*NoteProductShape
-
-				noteNode := addNodeToTree(
-					stager,
-					diagram,
-					notesNode,
-					note,
-					(*Note)(nil),
-					&diagram.NotesWhoseNodeIsExpanded,
-					&diagram.Note_Shapes,
-					diagram.map_Note_NoteShape,
-					dummyMap,
-					dummySlice,
-				)
+				confNode := TreeNodeAndShapeConfigurationWithoutLink[
+					*Note, Note,
+					*Note, Note, // Parent is not used
+					*NoteShape, NoteShape,
+					*Diagram,
+				]{
+					diagram:                     diagram,
+					parentNode:                  notesNode,
+					element:                     note,
+					parentElement:               nil,
+					elementsWhoseNodeIsExpanded: &diagram.NotesWhoseNodeIsExpanded,
+					shapes:                      &diagram.Note_Shapes,
+					shapesMap:                   diagram.map_Note_NoteShape,
+				}
+				noteNode := addNodeToTreeWithoutLink(stager, confNode)
 
 				// allow display of associations note to products
 				for _, product := range note.Products {
@@ -288,12 +381,12 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
 									"\" to product \"" + product.Name + "\""
 								// what to do when the product node is clicked
-								showHideRelationButton.OnUpdate = onRemoveAssociationShape(stager, noteProductShape, &diagram.NoteProductShapes)
+								showHideRelationButton.OnClick = func() { onRemoveAssociationShape(stager, noteProductShape, &diagram.NoteProductShapes)() }
 							} else {
 								showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
 								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
 									"\" to product \"" + product.Name + "\""
-								showHideRelationButton.OnUpdate = onAddAssociationShape(stager, note, product, &diagram.NoteProductShapes)
+								showHideRelationButton.OnClick = func() { onAddAssociationShape(stager, note, product, &diagram.NoteProductShapes)() }
 							}
 						}
 					}
@@ -321,12 +414,12 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
 									"\" to task \"" + task.Name + "\""
 								// what to do when the product node is clicked
-								showHideRelationButton.OnUpdate = onRemoveAssociationShape(stager, noteTaskShape, &diagram.NoteTaskShapes)
+								showHideRelationButton.OnClick = func() { onRemoveAssociationShape(stager, noteTaskShape, &diagram.NoteTaskShapes)() }
 							} else {
 								showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
 								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
 									"\" to task \"" + task.Name + "\""
-								showHideRelationButton.OnUpdate = onAddAssociationShape(stager, note, task, &diagram.NoteTaskShapes)
+								showHideRelationButton.OnClick = func() { onAddAssociationShape(stager, note, task, &diagram.NoteTaskShapes)() }
 							}
 						}
 					}
@@ -353,12 +446,12 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
 									"\" to resource \"" + resource.Name + "\""
 								// what to do when the product node is clicked
-								showHideRelationButton.OnUpdate = onRemoveAssociationShape(stager, noteResourceShape, &diagram.NoteResourceShapes)
+								showHideRelationButton.OnClick = func() { onRemoveAssociationShape(stager, noteResourceShape, &diagram.NoteResourceShapes)() }
 							} else {
 								showHideRelationButton.Icon = string(buttons.BUTTON_visibility)
 								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
 									"\" to resource \"" + resource.Name + "\""
-								showHideRelationButton.OnUpdate = onAddAssociationShape(stager, note, resource, &diagram.NoteResourceShapes)
+								showHideRelationButton.OnClick = func() { onAddAssociationShape(stager, note, resource, &diagram.NoteResourceShapes)() }
 							}
 						}
 					}
@@ -384,7 +477,7 @@ func (stager *Stager) OnUpdateLibrary(library *Library) func(stage *tree.Stage, 
 		}
 		if frontNode.Name != stagedNode.Name {
 			library.Name = frontNode.Name
-			library.IsInRenameMode = false
+			library.SetIsInRenameMode(false)
 			stager.stage.Commit()
 			return
 		}
@@ -432,7 +525,7 @@ func (stager *Stager) OnUpdateDiagram(diagram *Diagram) func(stage *tree.Stage, 
 		}
 		if frontNode.Name != stagedNode.Name {
 			diagram.Name = frontNode.Name
-			diagram.IsInRenameMode = false
+			diagram.SetIsInRenameMode(false)
 			stager.stage.Commit()
 			return
 		}

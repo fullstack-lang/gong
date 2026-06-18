@@ -30,7 +30,7 @@ func onLayoutPBS(stager *Stager, diagram *Diagram) func(
 		var layout func(p *Deliverable, startX float64, level int) float64
 		layout = func(product *Deliverable, startX float64, level int) float64 {
 			// Create Shape
-			shape := addShapeToDiagram(product, diagram, &diagram.Product_Shapes, stager.stage)
+			shape := newShapeToDiagram(product, diagram, &diagram.Product_Shapes, stager.stage)
 			x := (startX + float64(product.GetComputedWidth()-1)/2.0) * diagram.DefaultBoxWidth * 1.5
 			y := float64(level) * diagram.DefaultBoxHeigth * 2.0
 			shape.X = x + leftOffset

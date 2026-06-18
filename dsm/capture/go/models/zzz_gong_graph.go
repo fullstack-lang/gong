@@ -3231,11 +3231,11 @@ func (analysisneed *AnalysisNeed) GongDiff(stage *Stage, analysisneedOther *Anal
 	if analysisneed.ComputedPrefix != analysisneedOther.ComputedPrefix {
 		diffs = append(diffs, analysisneed.GongMarshallField(stage, "ComputedPrefix"))
 	}
-	if analysisneed.IsInRenameMode != analysisneedOther.IsInRenameMode {
-		diffs = append(diffs, analysisneed.GongMarshallField(stage, "IsInRenameMode"))
-	}
 	if analysisneed.IsExpanded != analysisneedOther.IsExpanded {
 		diffs = append(diffs, analysisneed.GongMarshallField(stage, "IsExpanded"))
+	}
+	if analysisneed.LayoutDirection != analysisneedOther.LayoutDirection {
+		diffs = append(diffs, analysisneed.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	return
@@ -3289,11 +3289,11 @@ func (concern *Concern) GongDiff(stage *Stage, concernOther *Concern) (diffs []s
 	if concern.ComputedPrefix != concernOther.ComputedPrefix {
 		diffs = append(diffs, concern.GongMarshallField(stage, "ComputedPrefix"))
 	}
-	if concern.IsInRenameMode != concernOther.IsInRenameMode {
-		diffs = append(diffs, concern.GongMarshallField(stage, "IsInRenameMode"))
-	}
 	if concern.IsExpanded != concernOther.IsExpanded {
 		diffs = append(diffs, concern.GongMarshallField(stage, "IsExpanded"))
+	}
+	if concern.LayoutDirection != concernOther.LayoutDirection {
+		diffs = append(diffs, concern.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if concern.Description != concernOther.Description {
 		diffs = append(diffs, concern.GongMarshallField(stage, "Description"))
@@ -3566,11 +3566,11 @@ func (deliverable *Deliverable) GongDiff(stage *Stage, deliverableOther *Deliver
 	if deliverable.ComputedPrefix != deliverableOther.ComputedPrefix {
 		diffs = append(diffs, deliverable.GongMarshallField(stage, "ComputedPrefix"))
 	}
-	if deliverable.IsInRenameMode != deliverableOther.IsInRenameMode {
-		diffs = append(diffs, deliverable.GongMarshallField(stage, "IsInRenameMode"))
-	}
 	if deliverable.IsExpanded != deliverableOther.IsExpanded {
 		diffs = append(diffs, deliverable.GongMarshallField(stage, "IsExpanded"))
+	}
+	if deliverable.LayoutDirection != deliverableOther.LayoutDirection {
+		diffs = append(diffs, deliverable.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if deliverable.Description != deliverableOther.Description {
 		diffs = append(diffs, deliverable.GongMarshallField(stage, "Description"))
@@ -3637,11 +3637,11 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.ComputedPrefix != diagramOther.ComputedPrefix {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedPrefix"))
 	}
-	if diagram.IsInRenameMode != diagramOther.IsInRenameMode {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsInRenameMode"))
-	}
 	if diagram.IsExpanded != diagramOther.IsExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsExpanded"))
+	}
+	if diagram.LayoutDirection != diagramOther.LayoutDirection {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if diagram.IsChecked != diagramOther.IsChecked {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsChecked"))
@@ -4107,14 +4107,17 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.Name != libraryOther.Name {
 		diffs = append(diffs, library.GongMarshallField(stage, "Name"))
 	}
+	if library.IsRootLibrary != libraryOther.IsRootLibrary {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
+	}
 	if library.ComputedPrefix != libraryOther.ComputedPrefix {
 		diffs = append(diffs, library.GongMarshallField(stage, "ComputedPrefix"))
 	}
-	if library.IsInRenameMode != libraryOther.IsInRenameMode {
-		diffs = append(diffs, library.GongMarshallField(stage, "IsInRenameMode"))
-	}
 	if library.IsExpanded != libraryOther.IsExpanded {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
+	}
+	if library.LayoutDirection != libraryOther.LayoutDirection {
+		diffs = append(diffs, library.GongMarshallField(stage, "LayoutDirection"))
 	}
 	RootDeliverablesDifferent := false
 	if len(library.RootDeliverables) != len(libraryOther.RootDeliverables) {
@@ -4280,11 +4283,11 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	if note.ComputedPrefix != noteOther.ComputedPrefix {
 		diffs = append(diffs, note.GongMarshallField(stage, "ComputedPrefix"))
 	}
-	if note.IsInRenameMode != noteOther.IsInRenameMode {
-		diffs = append(diffs, note.GongMarshallField(stage, "IsInRenameMode"))
-	}
 	if note.IsExpanded != noteOther.IsExpanded {
 		diffs = append(diffs, note.GongMarshallField(stage, "IsExpanded"))
+	}
+	if note.LayoutDirection != noteOther.LayoutDirection {
+		diffs = append(diffs, note.GongMarshallField(stage, "LayoutDirection"))
 	}
 	ProductsDifferent := false
 	if len(note.Products) != len(noteOther.Products) {
@@ -4656,11 +4659,11 @@ func (stakeholder *Stakeholder) GongDiff(stage *Stage, stakeholderOther *Stakeho
 	if stakeholder.ComputedPrefix != stakeholderOther.ComputedPrefix {
 		diffs = append(diffs, stakeholder.GongMarshallField(stage, "ComputedPrefix"))
 	}
-	if stakeholder.IsInRenameMode != stakeholderOther.IsInRenameMode {
-		diffs = append(diffs, stakeholder.GongMarshallField(stage, "IsInRenameMode"))
-	}
 	if stakeholder.IsExpanded != stakeholderOther.IsExpanded {
 		diffs = append(diffs, stakeholder.GongMarshallField(stage, "IsExpanded"))
+	}
+	if stakeholder.LayoutDirection != stakeholderOther.LayoutDirection {
+		diffs = append(diffs, stakeholder.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if stakeholder.Description != stakeholderOther.Description {
 		diffs = append(diffs, stakeholder.GongMarshallField(stage, "Description"))

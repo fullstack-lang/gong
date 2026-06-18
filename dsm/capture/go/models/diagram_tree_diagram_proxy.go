@@ -48,7 +48,7 @@ func (p *Diagram_Tree_DiagramProxy) OnAfterUpdate(stage *tree.Stage, staged *tre
 
 	if front.Name != staged.Name {
 		p.diagram.Name = front.Name
-		p.diagram.IsInRenameMode = false
+		p.diagram.SetIsInRenameMode(false)
 
 		p.stager.stage.Commit()
 		return

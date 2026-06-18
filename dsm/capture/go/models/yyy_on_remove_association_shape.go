@@ -1,9 +1,8 @@
+// generated code (do not edit)
 package models
 
 import (
 	"slices"
-
-	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
 func onRemoveAssociationShape[
@@ -12,11 +11,11 @@ func onRemoveAssociationShape[
 		LinkShapeInterface
 		AssociationConcreteType
 	},
-	ACT_ Gongstruct](stager *Stager, compositionShape ACT, shapes *[]ACT) func(
-	stage *tree.Stage, updatedButton *tree.Button) {
-	return func(_ *tree.Stage, _ *tree.Button) {
+	ACT_ Gongstruct](stager *Stager, compositionShape ACT, shapes *[]ACT) func() {
+	return func() {
 		compositionShape.UnstageVoid(stager.stage)
 		idx := slices.Index(*shapes, compositionShape)
 		*shapes = slices.Delete(*shapes, idx, idx+1)
+		stager.stage.Commit()
 	}
 }
