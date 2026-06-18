@@ -92,3 +92,7 @@ test/test4-portable-app.html
 dsm/project/project
 dsm/capture/go/cmd/capture/capture
 /gong
+dsm/project/project
+lib/docx/go/cmd/docx/docx
+test3/go/cmd/test3/test3
+lib/doc/go/cmd/doc2/doc2
