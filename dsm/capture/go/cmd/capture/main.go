@@ -3,6 +3,7 @@
 package main
 
 import (
+	"embed"
 	"flag"
 	"log"
 	"os"
@@ -21,6 +22,9 @@ var (
 	port = flag.Int("port", 8080, "port server")
 )
 
+//go:embed data/*
+var dataFS embed.FS
+
 func main() {
 
 	log.SetPrefix("capture: ")
@@ -36,6 +40,8 @@ func main() {
 	}
 
 	// setup
+	// - set embedded data to models
+	models.DataFS = &dataFS
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
 	stack := level1stack.NewLevel1Stack("capture", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams)

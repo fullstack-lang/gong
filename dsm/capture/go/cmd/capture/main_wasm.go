@@ -3,12 +3,16 @@
 package main
 
 import (
+	"embed"
 	"log"
 
 	"github.com/fullstack-lang/gong/dsm/capture/go/level1stack"
 	"github.com/fullstack-lang/gong/dsm/capture/go/models"
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 )
+
+//go:embed data/*
+var dataFS embed.FS
 
 func main() {
 	log.SetOutput(&wasmregistry.ConsoleWriter{})
@@ -22,6 +26,8 @@ func main() {
 	embeddedDiagrams := true
 
 	// setup
+	// - set embedded data to models
+	models.DataFS = &dataFS
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
 	stack := level1stack.NewLevel1StackDelta("capture", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams, true)

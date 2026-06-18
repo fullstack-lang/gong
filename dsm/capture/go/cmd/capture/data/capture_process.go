@@ -361,15 +361,15 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000000_.Name = `Default Diagram`
 	__Diagram__00000000_.ComputedPrefix = `1`
-	__Diagram__00000000_.IsExpanded = true
+	__Diagram__00000000_.IsExpanded = false
 	__Diagram__00000000_.LayoutDirection = models.Vertical
 	__Diagram__00000000_.IsChecked = true
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 18500.000000
-	__Diagram__00000000_.Height = 18500.000000
+	__Diagram__00000000_.Width = 18600.000000
+	__Diagram__00000000_.Height = 18600.000000
 	__Diagram__00000000_.IsRequirementsNodeExpanded = true
 	__Diagram__00000000_.IsConceptsNodeExpanded = true
 	__Diagram__00000000_.IsPBSNodeExpanded = true

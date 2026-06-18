@@ -474,14 +474,22 @@
         // "dsm" configurations
         //
         {
-            "name": "capture: go server stage.go",
+            "name": "capture: go server",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
+            "args": []
+        },
+        {
+            "name": "capture: go server capture_process.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
+                "-unmarshallFromCode=data/capture_process.go",
+                "-marshallOnCommit=data/capture_process"
             ]
         },
         {
