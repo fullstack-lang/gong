@@ -48,6 +48,8 @@ func _(stage *models.Stage) {
 
 	__Artist__00000000_.Name = `Isamo Noguchi`
 	__Artist__00000000_.ComputedPrefix = ``
+	__Artist__00000000_.IsExpanded = false
+	__Artist__00000000_.LayoutDirection = models.Vertical
 	__Artist__00000000_.IsDead = true
 	__Artist__00000000_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1984-01-01 00:00:00 +0000 UTC")
 
@@ -70,6 +72,8 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000000_.Name = `  AVIVA    STOOL  BACKGROUND`
 	__Diagram__00000000_.ComputedPrefix = ``
+	__Diagram__00000000_.IsExpanded = false
+	__Diagram__00000000_.LayoutDirection = models.Vertical
 	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000000_.IsEditable = false
 	__Diagram__00000000_.IsNodeExpanded = true
@@ -158,6 +162,8 @@ func _(stage *models.Stage) {
 
 	__Movement__00000000_.Name = `biomorphism`
 	__Movement__00000000_.ComputedPrefix = ``
+	__Movement__00000000_.IsExpanded = false
+	__Movement__00000000_.LayoutDirection = models.Vertical
 	__Movement__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Movement__00000000_.HideDate = false
 	__Movement__00000000_.HasTaxonomicFilter = false
@@ -170,6 +176,8 @@ func _(stage *models.Stage) {
 
 	__Movement__00000001_.Name = `computer design`
 	__Movement__00000001_.ComputedPrefix = ``
+	__Movement__00000001_.IsExpanded = false
+	__Movement__00000001_.LayoutDirection = models.Vertical
 	__Movement__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Movement__00000001_.HideDate = false
 	__Movement__00000001_.HasTaxonomicFilter = false
@@ -181,15 +189,15 @@ func _(stage *models.Stage) {
 	__Movement__00000001_.AdditionnalName = ``
 
 	__MovementShape__00000007_.Name = ``
-	__MovementShape__00000007_.X = 427.000000
-	__MovementShape__00000007_.Y = 46.000000
+	__MovementShape__00000007_.X = 474.000000
+	__MovementShape__00000007_.Y = 353.999985
 	__MovementShape__00000007_.Width = 138.000000
 	__MovementShape__00000007_.Height = 35.000000
 	__MovementShape__00000007_.IsHidden = false
 
 	__MovementShape__00000008_.Name = ``
-	__MovementShape__00000008_.X = 414.000000
-	__MovementShape__00000008_.Y = 290.999985
+	__MovementShape__00000008_.X = 248.999939
+	__MovementShape__00000008_.Y = 235.999985
 	__MovementShape__00000008_.Width = 160.000000
 	__MovementShape__00000008_.Height = 40.000000
 	__MovementShape__00000008_.IsHidden = false

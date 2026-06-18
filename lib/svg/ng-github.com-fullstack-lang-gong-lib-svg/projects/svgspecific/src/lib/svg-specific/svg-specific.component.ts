@@ -1090,6 +1090,14 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
     console.log(getFunctionName(), "state at entry", this.State)
 
     if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && !event.altKey) {
+
+      // if the user shift-clicks on a rect that cannot move, they want to start a multi-selection
+      // on the background rather than dragging this un-draggable rect
+      if (event.shiftKey && !rect.CanMoveHorizontaly && !rect.CanMoveVerticaly) {
+        this.backgroundOnMouseDown(event)
+        return
+      }
+
       this.State = StateEnumType.RECTS_DRAGGING
       this.RectAtMouseDown = structuredClone(rect)
       this.draggedRect = rect

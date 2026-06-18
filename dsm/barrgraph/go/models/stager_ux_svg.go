@@ -291,7 +291,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 				stager.stage.probeIF.FillUpFormFromGongstruct(movementShape.Movement,
 					GetGongstructNameFromPointer(movementShape.Movement))
 			} else {
-				stager.stage.Commit()
+				stager.stage.CommitWithSuspendedCallbacks()
 			}
 		}
 
@@ -373,7 +373,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 				stager.stage.probeIF.FillUpFormFromGongstruct(artefactTypeShape.ArtefactType,
 					GetGongstructNameFromPointer(artefactTypeShape.ArtefactType))
 			} else {
-				stager.stage.Commit()
+				stager.stage.CommitWithSuspendedCallbacks()
 			}
 		}
 
@@ -529,7 +529,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 				stager.stage.probeIF.FillUpFormFromGongstruct(artistShape.Artist,
 					GetGongstructNameFromPointer(artistShape.Artist))
 			} else {
-				stager.stage.Commit()
+				stager.stage.CommitWithSuspendedCallbacks()
 			}
 		}
 

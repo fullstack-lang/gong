@@ -503,7 +503,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000000_.Name = `Submit Flight Plan-DiagramProcess`
 	__TaskShape__00000000_.IsExpanded = false
-	__TaskShape__00000000_.X = 89.000000
+	__TaskShape__00000000_.X = 90.000000
 	__TaskShape__00000000_.Y = 277.795175
 	__TaskShape__00000000_.Width = 240.333333
 	__TaskShape__00000000_.Height = 48.000000
@@ -511,7 +511,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000001_.Name = `Manage Operational Changes-DiagramProcess`
 	__TaskShape__00000001_.IsExpanded = false
-	__TaskShape__00000001_.X = 90.000000
+	__TaskShape__00000001_.X = 91.000000
 	__TaskShape__00000001_.Y = 377.907212
 	__TaskShape__00000001_.Width = 240.333333
 	__TaskShape__00000001_.Height = 70.000000
@@ -551,7 +551,7 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000006_.Name = `-DiagramProcess`
 	__TaskShape__00000006_.IsExpanded = false
-	__TaskShape__00000006_.X = 117.000000
+	__TaskShape__00000006_.X = 118.000000
 	__TaskShape__00000006_.Y = 210.251563
 	__TaskShape__00000006_.Width = 83.000000
 	__TaskShape__00000006_.Height = 20.000000

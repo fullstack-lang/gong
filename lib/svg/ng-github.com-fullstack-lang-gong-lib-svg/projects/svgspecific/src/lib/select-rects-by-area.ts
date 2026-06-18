@@ -23,6 +23,9 @@ export function selectRectsByArea(svgSpecificComponent: SvgSpecificComponent) {
 
     for (let layer of svgSpecificComponent.gongsvgFrontRepo?.getFrontArray<svg.Layer>(svg.Layer.GONGSTRUCT_NAME)!) {
         for (let rect of layer.Rects) {
+            if (!rect.CanMoveHorizontaly && !rect.CanMoveVerticaly) {
+                continue
+            }
             switch (selectAreaConfig.SweepDirection) {
                 case SweepDirection.LEFT_TO_RIGHT:
                     if (rect.X > selectAreaConfig.TopLeft[0] &&
