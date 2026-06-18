@@ -276,8 +276,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 14800.000000
-	__Diagram__00000000_.Height = 14800.000000
+	__Diagram__00000000_.Width = 15000.000000
+	__Diagram__00000000_.Height = 15000.000000
 	__Diagram__00000000_.IsRequirementsNodeExpanded = true
 	__Diagram__00000000_.IsConceptsNodeExpanded = true
 	__Diagram__00000000_.IsPBSNodeExpanded = true
@@ -476,7 +476,6 @@ func _(stage *models.Stage) {
 	__ConcernShape__00000001_.Concern = __Concern__00000001_
 	__ConcernShape__00000002_.Concern = __Concern__00000002_
 	__ConcernShape__00000003_.Concern = __Concern__00000003_
-	__Deliverable__00000000_.Concepts = append(__Deliverable__00000000_.Concepts, __Concept__00000000_)
 	__Deliverable__00000000_.Concepts = append(__Deliverable__00000000_.Concepts, __Concept__00000000_)
 	__DeliverableConceptShape__00000001_.Deliverable = __Deliverable__00000000_
 	__DeliverableConceptShape__00000001_.Concept = __Concept__00000000_

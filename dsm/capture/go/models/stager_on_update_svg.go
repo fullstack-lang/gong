@@ -38,7 +38,7 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		ASSOCATIONN_TYPE_RESOURCE_COMPOSITION associationType = "ResourceComposition"
 		ASSOCIATION_TYPE_RESOURCE_TASK        associationType = "ResourceTask"
 
-		ASSOCIATION_TYPE_DELIVERABLE_CONCEPT  associationType = "DeliverableConcept"
+		ASSOCIATION_TYPE_DELIVERABLE_CONCEPT associationType = "DeliverableConcept"
 	)
 
 	var assocType associationType
