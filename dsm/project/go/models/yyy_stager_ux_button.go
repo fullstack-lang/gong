@@ -6,11 +6,12 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"time"
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
-	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
+	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 )
 
 func (stager *Stager) button() {
@@ -51,7 +52,14 @@ func (stager *Stager) button() {
 				stager.fileName = "library.go"
 			}
 
-			fileToDownload.Name = time.Now().Format("20060102 1504 ") + stager.fileName
+			// 1. Compile the regex to match "YYYYMMDD HHMM " at the start of the string
+			prefixRegex := regexp.MustCompile(`^\d{8} \d{4} `)
+
+			// 2. Remove the matched prefix if it exists, leaving just the base file name
+			cleanFileName := prefixRegex.ReplaceAllString(stager.fileName, "")
+
+			// 3. Prepend the fresh timestamp
+			fileToDownload.Name = time.Now().Format("20060102 1504 ") + cleanFileName
 
 			fileName := filepath.Base(fileToDownload.Name)
 
