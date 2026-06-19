@@ -341,6 +341,23 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_DeliverableConceptShapes_reverseMap[_deliverableconceptshape] = diagram
 		}
 	}
+	stage.Diagram_Diagram_Shapes_reverseMap = make(map[*DiagramShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _diagramshape := range diagram.Diagram_Shapes {
+			stage.Diagram_Diagram_Shapes_reverseMap[_diagramshape] = diagram
+		}
+	}
+	stage.Diagram_DiagramsWhoseNodeIsExpanded_reverseMap = make(map[*Diagram]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _diagram := range diagram.DiagramsWhoseNodeIsExpanded {
+			stage.Diagram_DiagramsWhoseNodeIsExpanded_reverseMap[_diagram] = diagram
+		}
+	}
+
+	// Compute reverse map for named struct DiagramShape
+	// insertion point per field
 
 	// Compute reverse map for named struct Library
 	// insertion point per field
@@ -592,6 +609,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.DiagramShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Librarys {
 		res = append(res, instance)
 	}
@@ -733,6 +754,12 @@ func (deliverableshape *DeliverableShape) GongCopy() GongstructIF {
 func (diagram *Diagram) GongCopy() GongstructIF {
 	newInstance := new(Diagram)
 	diagram.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (diagramshape *DiagramShape) GongCopy() GongstructIF {
+	newInstance := new(DiagramShape)
+	diagramshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -958,6 +985,16 @@ func (diagram *Diagram) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(diagram), uint64(GetOrderPointerGongstruct(stage, diagram)))
+	return
+}
+
+func (diagramshape *DiagramShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(diagramshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(diagramshape), uint64(GetOrderPointerGongstruct(stage, diagramshape)))
 	return
 }
 
@@ -1889,6 +1926,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(diagrams_newInstances)
 	lenDeletedInstances += len(diagrams_deletedInstances)
+	var diagramshapes_newInstances []*DiagramShape
+	var diagramshapes_deletedInstances []*DiagramShape
+
+	// parse all staged instances and check if they have a reference
+	for diagramshape := range stage.DiagramShapes {
+		if ref, ok := stage.DiagramShapes_reference[diagramshape]; !ok {
+			diagramshapes_newInstances = append(diagramshapes_newInstances, diagramshape)
+			newInstancesSlice = append(newInstancesSlice, diagramshape.GongMarshallIdentifier(stage))
+			if stage.DiagramShapes_referenceOrder == nil {
+				stage.DiagramShapes_referenceOrder = make(map[*DiagramShape]uint)
+			}
+			stage.DiagramShapes_referenceOrder[diagramshape] = stage.DiagramShape_stagedOrder[diagramshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, diagramshape.GongMarshallUnstaging(stage))
+			// delete(stage.DiagramShapes_referenceOrder, diagramshape)
+			fieldInitializers, pointersInitializations := diagramshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.DiagramShape_stagedOrder[ref] = stage.DiagramShape_stagedOrder[diagramshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := diagramshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, diagramshape)
+			// delete(stage.DiagramShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if diagramshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", diagramshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.DiagramShapes_reference {
+		instance := stage.DiagramShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.DiagramShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			diagramshapes_deletedInstances = append(diagramshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(diagramshapes_newInstances)
+	lenDeletedInstances += len(diagramshapes_deletedInstances)
 	var librarys_newInstances []*Library
 	var librarys_deletedInstances []*Library
 
@@ -2834,6 +2926,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Diagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.DiagramShapes_reference = make(map[*DiagramShape]*DiagramShape)
+	stage.DiagramShapes_referenceOrder = make(map[*DiagramShape]uint) // diff Unstage needs the reference order
+	stage.DiagramShapes_instance = make(map[*DiagramShape]*DiagramShape)
+	for instance := range stage.DiagramShapes {
+		_copy := instance.GongCopy().(*DiagramShape)
+		stage.DiagramShapes_reference[instance] = _copy
+		stage.DiagramShapes_instance[_copy] = instance
+		stage.DiagramShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Librarys_reference = make(map[*Library]*Library)
 	stage.Librarys_referenceOrder = make(map[*Library]uint) // diff Unstage needs the reference order
 	stage.Librarys_instance = make(map[*Library]*Library)
@@ -3042,6 +3144,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.Diagrams {
 		reference := stage.Diagrams_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.DiagramShapes {
+		reference := stage.DiagramShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -3289,6 +3396,18 @@ func (diagram *Diagram) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type Diagram was not staged and does not have a reference order", diagram)
+		return 0
+	}
+}
+
+func (diagramshape *DiagramShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.DiagramShape_stagedOrder[diagramshape]; ok {
+		return order
+	}
+	if order, ok := stage.DiagramShapes_referenceOrder[diagramshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type DiagramShape was not staged and does not have a reference order", diagramshape)
 		return 0
 	}
 }
@@ -3592,6 +3711,15 @@ func (diagram *Diagram) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetOrder(stage))
 }
 
+func (diagramshape *DiagramShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", diagramshape.GongGetGongstructName(), diagramshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (diagramshape *DiagramShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", diagramshape.GongGetGongstructName(), diagramshape.GongGetOrder(stage))
+}
+
 func (library *Library) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", library.GongGetGongstructName(), library.GongGetOrder(stage))
 }
@@ -3833,6 +3961,14 @@ func (diagram *Diagram) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (diagramshape *DiagramShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DiagramShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramshape.Name))
+	return
+}
+
 func (library *Library) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetIdentifier(stage))
@@ -4027,6 +4163,12 @@ func (deliverableshape *DeliverableShape) GongMarshallUnstaging(stage *Stage) (d
 func (diagram *Diagram) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (diagramshape *DiagramShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagramshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

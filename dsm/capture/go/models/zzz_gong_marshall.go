@@ -772,6 +772,42 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ConceptsWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ConceptsWhoseDeliverablesNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "DeliverableConceptShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Diagram_Shapes"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsDiagramsNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "DiagramsWhoseNodeIsExpanded"))
+	}
+
+	diagramshapeOrdered := []*DiagramShape{}
+	for diagramshape := range stage.DiagramShapes {
+		diagramshapeOrdered = append(diagramshapeOrdered, diagramshape)
+	}
+	sort.Slice(diagramshapeOrdered[:], func(i, j int) bool {
+		diagramshapei := diagramshapeOrdered[i]
+		diagramshapej := diagramshapeOrdered[j]
+		diagramshapei_order, oki := stage.DiagramShape_stagedOrder[diagramshapei]
+		diagramshapej_order, okj := stage.DiagramShape_stagedOrder[diagramshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return diagramshapei_order < diagramshapej_order
+	})
+	if len(diagramshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, diagramshape := range diagramshapeOrdered {
+
+		identifiersDecl.WriteString(diagramshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(diagramshape.GongMarshallField(stage, "Diagram"))
+		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	libraryOrdered := []*Library{}
@@ -1343,6 +1379,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, diagram := range diagramOrdered {
 		_ = diagram
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, diagramshape := range diagramshapeOrdered {
+		_ = diagramshape
 		var setPointerField string
 		_ = setPointerField
 
@@ -2562,6 +2606,11 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsStakeholdersNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsStakeholdersNodeExpanded))
+	case "IsDiagramsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDiagramsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsDiagramsNodeExpanded))
 
 	case "ConcernsWhoseRequirementsNodeIsExpanded":
 		var sb strings.Builder
@@ -2843,8 +2892,86 @@ func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "Diagram_Shapes":
+		var sb strings.Builder
+		for _, _diagramshape := range diagram.Diagram_Shapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Diagram_Shapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagramshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "DiagramsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _diagram := range diagram.DiagramsWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "DiagramsWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagram.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Diagram", fieldName)
+	}
+	return
+}
+
+func (diagramshape *DiagramShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagramshape.Name))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramshape.IsExpanded))
+	case "X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramshape.X))
+	case "Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramshape.Y))
+	case "Width":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramshape.Width))
+	case "Height":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagramshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramshape.IsHidden))
+
+	case "Diagram":
+		if diagramshape.Diagram != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", diagramshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Diagram")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", diagramshape.Diagram.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", diagramshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Diagram")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct DiagramShape", fieldName)
 	}
 	return
 }
@@ -4160,6 +4287,27 @@ func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ConceptsWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "ConceptsWhoseDeliverablesNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "DeliverableConceptShapes"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "Diagram_Shapes"))
+		initializerStatements.WriteString(diagram.GongMarshallField(stage, "IsDiagramsNodeExpanded"))
+		pointersInitializesStatements.WriteString(diagram.GongMarshallField(stage, "DiagramsWhoseNodeIsExpanded"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (diagramshape *DiagramShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(diagramshape.GongMarshallField(stage, "Diagram"))
+		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(diagramshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -49,6 +49,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Diagram:
 		ok = stage.IsStagedDiagram(target)
 
+	case *DiagramShape:
+		ok = stage.IsStagedDiagramShape(target)
+
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
 
@@ -142,6 +145,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Diagram:
 		ok = stage.IsStagedDiagram(target)
+
+	case *DiagramShape:
+		ok = stage.IsStagedDiagramShape(target)
 
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
@@ -286,6 +292,13 @@ func (stage *Stage) IsStagedDeliverableShape(deliverableshape *DeliverableShape)
 func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
 
 	_, ok = stage.Diagrams[diagram]
+
+	return
+}
+
+func (stage *Stage) IsStagedDiagramShape(diagramshape *DiagramShape) (ok bool) {
+
+	_, ok = stage.DiagramShapes[diagramshape]
 
 	return
 }
@@ -437,6 +450,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Diagram:
 		stage.StageBranchDiagram(target)
+
+	case *DiagramShape:
+		stage.StageBranchDiagramShape(target)
 
 	case *Library:
 		stage.StageBranchLibrary(target)
@@ -846,6 +862,30 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	for _, _deliverableconceptshape := range diagram.DeliverableConceptShapes {
 		StageBranch(stage, _deliverableconceptshape)
 	}
+	for _, _diagramshape := range diagram.Diagram_Shapes {
+		StageBranch(stage, _diagramshape)
+	}
+	for _, _diagram := range diagram.DiagramsWhoseNodeIsExpanded {
+		StageBranch(stage, _diagram)
+	}
+
+}
+
+func (stage *Stage) StageBranchDiagramShape(diagramshape *DiagramShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, diagramshape) {
+		return
+	}
+
+	diagramshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if diagramshape.Diagram != nil {
+		StageBranch(stage, diagramshape.Diagram)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -1226,6 +1266,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Diagram:
 		toT := CopyBranchDiagram(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *DiagramShape:
+		toT := CopyBranchDiagramShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Library:
@@ -1706,6 +1750,34 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	for _, _deliverableconceptshape := range diagramFrom.DeliverableConceptShapes {
 		diagramTo.DeliverableConceptShapes = append(diagramTo.DeliverableConceptShapes, CopyBranchDeliverableConceptShape(mapOrigCopy, _deliverableconceptshape))
 	}
+	for _, _diagramshape := range diagramFrom.Diagram_Shapes {
+		diagramTo.Diagram_Shapes = append(diagramTo.Diagram_Shapes, CopyBranchDiagramShape(mapOrigCopy, _diagramshape))
+	}
+	for _, _diagram := range diagramFrom.DiagramsWhoseNodeIsExpanded {
+		diagramTo.DiagramsWhoseNodeIsExpanded = append(diagramTo.DiagramsWhoseNodeIsExpanded, CopyBranchDiagram(mapOrigCopy, _diagram))
+	}
+
+	return
+}
+
+func CopyBranchDiagramShape(mapOrigCopy map[any]any, diagramshapeFrom *DiagramShape) (diagramshapeTo *DiagramShape) {
+
+	// diagramshapeFrom has already been copied
+	if _diagramshapeTo, ok := mapOrigCopy[diagramshapeFrom]; ok {
+		diagramshapeTo = _diagramshapeTo.(*DiagramShape)
+		return
+	}
+
+	diagramshapeTo = new(DiagramShape)
+	mapOrigCopy[diagramshapeFrom] = diagramshapeTo
+	diagramshapeFrom.CopyBasicFields(diagramshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if diagramshapeFrom.Diagram != nil {
+		diagramshapeTo.Diagram = CopyBranchDiagram(mapOrigCopy, diagramshapeFrom.Diagram)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -2128,6 +2200,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Diagram:
 		stage.UnstageBranchDiagram(target)
 
+	case *DiagramShape:
+		stage.UnstageBranchDiagramShape(target)
+
 	case *Library:
 		stage.UnstageBranchLibrary(target)
 
@@ -2536,6 +2611,30 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	for _, _deliverableconceptshape := range diagram.DeliverableConceptShapes {
 		UnstageBranch(stage, _deliverableconceptshape)
 	}
+	for _, _diagramshape := range diagram.Diagram_Shapes {
+		UnstageBranch(stage, _diagramshape)
+	}
+	for _, _diagram := range diagram.DiagramsWhoseNodeIsExpanded {
+		UnstageBranch(stage, _diagram)
+	}
+
+}
+
+func (stage *Stage) UnstageBranchDiagramShape(diagramshape *DiagramShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, diagramshape) {
+		return
+	}
+
+	diagramshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if diagramshape.Diagram != nil {
+		UnstageBranch(stage, diagramshape.Diagram)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -3113,6 +3212,22 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.DeliverableConceptShapes {
 		reference.DeliverableConceptShapes = append(reference.DeliverableConceptShapes, stage.DeliverableConceptShapes_reference[_b])
 	}
+	reference.Diagram_Shapes = reference.Diagram_Shapes[:0]
+	for _, _b := range instance.Diagram_Shapes {
+		reference.Diagram_Shapes = append(reference.Diagram_Shapes, stage.DiagramShapes_reference[_b])
+	}
+	reference.DiagramsWhoseNodeIsExpanded = reference.DiagramsWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.DiagramsWhoseNodeIsExpanded {
+		reference.DiagramsWhoseNodeIsExpanded = append(reference.DiagramsWhoseNodeIsExpanded, stage.Diagrams_reference[_b])
+	}
+}
+
+func (reference *DiagramShape) GongReconstructPointersFromReferences(stage *Stage, instance *DiagramShape) {
+	// insertion point for pointers field
+	if instance.Diagram != nil {
+		reference.Diagram = stage.Diagrams_reference[instance.Diagram]
+	}
+	// insertion point for slice of pointers field
 }
 
 func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) {
@@ -3723,6 +3838,31 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.DeliverableConceptShapes = _DeliverableConceptShapes
+	var _Diagram_Shapes []*DiagramShape
+	for _, _reference := range reference.Diagram_Shapes {
+		if _instance, ok := stage.DiagramShapes_instance[_reference]; ok {
+			_Diagram_Shapes = append(_Diagram_Shapes, _instance)
+		}
+	}
+	reference.Diagram_Shapes = _Diagram_Shapes
+	var _DiagramsWhoseNodeIsExpanded []*Diagram
+	for _, _reference := range reference.DiagramsWhoseNodeIsExpanded {
+		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
+			_DiagramsWhoseNodeIsExpanded = append(_DiagramsWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.DiagramsWhoseNodeIsExpanded = _DiagramsWhoseNodeIsExpanded
+}
+
+func (reference *DiagramShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.Diagram; _reference != nil {
+		reference.Diagram = nil
+		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
+			reference.Diagram = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
 }
 
 func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
@@ -5354,6 +5494,87 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if DeliverableConceptShapesDifferent {
 		ops := Diff(stage, diagram, diagramOther, "DeliverableConceptShapes", diagramOther.DeliverableConceptShapes, diagram.DeliverableConceptShapes)
 		diffs = append(diffs, ops)
+	}
+	Diagram_ShapesDifferent := false
+	if len(diagram.Diagram_Shapes) != len(diagramOther.Diagram_Shapes) {
+		Diagram_ShapesDifferent = true
+	} else {
+		for i := range diagram.Diagram_Shapes {
+			if (diagram.Diagram_Shapes[i] == nil) != (diagramOther.Diagram_Shapes[i] == nil) {
+				Diagram_ShapesDifferent = true
+				break
+			} else if diagram.Diagram_Shapes[i] != nil && diagramOther.Diagram_Shapes[i] != nil {
+				// this is a pointer comparaison
+				if diagram.Diagram_Shapes[i] != diagramOther.Diagram_Shapes[i] {
+					Diagram_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if Diagram_ShapesDifferent {
+		ops := Diff(stage, diagram, diagramOther, "Diagram_Shapes", diagramOther.Diagram_Shapes, diagram.Diagram_Shapes)
+		diffs = append(diffs, ops)
+	}
+	if diagram.IsDiagramsNodeExpanded != diagramOther.IsDiagramsNodeExpanded {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsDiagramsNodeExpanded"))
+	}
+	DiagramsWhoseNodeIsExpandedDifferent := false
+	if len(diagram.DiagramsWhoseNodeIsExpanded) != len(diagramOther.DiagramsWhoseNodeIsExpanded) {
+		DiagramsWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagram.DiagramsWhoseNodeIsExpanded {
+			if (diagram.DiagramsWhoseNodeIsExpanded[i] == nil) != (diagramOther.DiagramsWhoseNodeIsExpanded[i] == nil) {
+				DiagramsWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagram.DiagramsWhoseNodeIsExpanded[i] != nil && diagramOther.DiagramsWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagram.DiagramsWhoseNodeIsExpanded[i] != diagramOther.DiagramsWhoseNodeIsExpanded[i] {
+					DiagramsWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DiagramsWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, diagram, diagramOther, "DiagramsWhoseNodeIsExpanded", diagramOther.DiagramsWhoseNodeIsExpanded, diagram.DiagramsWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (diagramshape *DiagramShape) GongDiff(stage *Stage, diagramshapeOther *DiagramShape) (diffs []string) {
+	// insertion point for field diffs
+	if diagramshape.Name != diagramshapeOther.Name {
+		diffs = append(diffs, diagramshape.GongMarshallField(stage, "Name"))
+	}
+	if (diagramshape.Diagram == nil) != (diagramshapeOther.Diagram == nil) {
+		diffs = append(diffs, diagramshape.GongMarshallField(stage, "Diagram"))
+	} else if diagramshape.Diagram != nil && diagramshapeOther.Diagram != nil {
+		if diagramshape.Diagram != diagramshapeOther.Diagram {
+			diffs = append(diffs, diagramshape.GongMarshallField(stage, "Diagram"))
+		}
+	}
+	if diagramshape.IsExpanded != diagramshapeOther.IsExpanded {
+		diffs = append(diffs, diagramshape.GongMarshallField(stage, "IsExpanded"))
+	}
+	if diagramshape.X != diagramshapeOther.X {
+		diffs = append(diffs, diagramshape.GongMarshallField(stage, "X"))
+	}
+	if diagramshape.Y != diagramshapeOther.Y {
+		diffs = append(diffs, diagramshape.GongMarshallField(stage, "Y"))
+	}
+	if diagramshape.Width != diagramshapeOther.Width {
+		diffs = append(diffs, diagramshape.GongMarshallField(stage, "Width"))
+	}
+	if diagramshape.Height != diagramshapeOther.Height {
+		diffs = append(diffs, diagramshape.GongMarshallField(stage, "Height"))
+	}
+	if diagramshape.IsHidden != diagramshapeOther.IsHidden {
+		diffs = append(diffs, diagramshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return

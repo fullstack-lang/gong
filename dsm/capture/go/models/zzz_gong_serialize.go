@@ -38,6 +38,7 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*DeliverableConceptShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*DeliverableShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Diagram](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*DiagramShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Library](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Note](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*NoteDeliverableShape](stage, f, addIDs)

@@ -99,6 +99,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.diagram, probe)
 			}
+		case *DiagramShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "DiagramShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.diagramshape, probe)
+			}
 		case *LibraryFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Library", true)
@@ -387,6 +393,19 @@ func FillUpFormFromGongstructName(
 		diagram := new(models.Diagram)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(diagram, formGroup, probe)
+	case "DiagramShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "DiagramShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DiagramShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		diagramshape := new(models.DiagramShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(diagramshape, formGroup, probe)
 	case "Library":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

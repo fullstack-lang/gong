@@ -101,6 +101,13 @@ type Diagram struct {
 	map_SvgRect_StakeholderShape map[*svg.Rect]*StakeholderShape
 	map_SvgRect_RequirementShape map[*svg.Rect]*RequirementShape
 	map_SvgRect_ConceptShape     map[*svg.Rect]*ConceptShape
+	map_SvgRect_DiagramShape     map[*svg.Rect]*DiagramShape
+
+	Diagram_Shapes           []*DiagramShape
+	map_Diagram_DiagramShape map[*Diagram]*DiagramShape
+	map_Diagram_Rect         map[*Diagram]*svg.Rect
+	IsDiagramsNodeExpanded   bool
+	DiagramsWhoseNodeIsExpanded []*Diagram
 
 	elementWhoseDiagramListIsDisplayed AbstractType
 }

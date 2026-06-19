@@ -60,6 +60,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	diagram.map_Stakeholder_Rect = make(map[*Stakeholder]*svg.Rect)
 	diagram.map_Requirement_Rect = make(map[*Requirement]*svg.Rect)
 	diagram.map_Concept_Rect = make(map[*Concept]*svg.Rect)
+	diagram.map_Diagram_Rect = make(map[*Diagram]*svg.Rect)
 
 	diagram.map_SvgRect_DeliverableShape = make(map[*svg.Rect]*DeliverableShape)
 	diagram.map_SvgRect_ConcernShape = make(map[*svg.Rect]*ConcernShape)
@@ -67,6 +68,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	diagram.map_SvgRect_StakeholderShape = make(map[*svg.Rect]*StakeholderShape)
 	diagram.map_SvgRect_RequirementShape = make(map[*svg.Rect]*RequirementShape)
 	diagram.map_SvgRect_ConceptShape = make(map[*svg.Rect]*ConceptShape)
+	diagram.map_SvgRect_DiagramShape = make(map[*svg.Rect]*DiagramShape)
 
 	// // to implement association between abstract elements by mouse drag
 	// svgImpl := &svgProxy{
@@ -693,6 +695,94 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		reqLogo.Y_Offset = distanceFromBorder
 		reqLogo.RectAnchorType = svg.RECT_TOP_LEFT
 		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, reqLogo)
+
+		if len(rect.RectAnchoredTexts) > 0 {
+			padding := 10.0
+			title := rect.RectAnchoredTexts[0]
+			if rect.Width > (distanceFromBorder + iconWidth + padding) {
+				title.Content = strutils.WrapStringPreservingNewlines(title.Content, int((rect.Width-(distanceFromBorder+iconWidth+padding))/root.NbPixPerCharacter))
+			}
+			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
+		}
+	}
+
+	for _, diagramShape := range diagram.Diagram_Shapes {
+		if diagramShape.IsHidden {
+			continue
+		}
+
+		rect := svgRect(
+			stager,
+			diagram,
+			diagramShape,
+			layer)
+		rect.RX = 5
+		rect.Color = "#E1F5FE"
+		rect.FillOpacity = 1.0
+		rect.Stroke = "#81D4FA"
+		rect.StrokeWidth = 1.5
+
+		if len(rect.RectAnchoredTexts) > 0 {
+			title := rect.RectAnchoredTexts[0]
+			title.Color = "#333333"
+			title.FontWeight = "500"
+			title.FontSize = "16px"
+			title.FontFamily = "sans-serif"
+		}
+
+		diagram.map_Diagram_Rect[diagramShape.Diagram] = rect
+		diagram.map_SvgRect_DiagramShape[rect] = diagramShape
+
+		rect.OnUpdate = func(updatedRect *svg.Rect) {
+			diffSize := diagramShape.GetWidth() != updatedRect.Width ||
+				diagramShape.GetHeight() != updatedRect.Height
+
+			diffPosition := diagramShape.GetX() != updatedRect.X ||
+				diagramShape.GetY() != updatedRect.Y
+
+			diagramShape.SetX(updatedRect.X)
+			diagramShape.SetY(updatedRect.Y)
+			diagramShape.SetWidth(updatedRect.Width)
+			diagramShape.SetHeight(updatedRect.Height)
+
+			if !diffSize && !diffPosition {
+				for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+					diagram_.IsChecked = false
+				}
+				diagramShape.Diagram.IsChecked = true
+				stager.stage.Commit()
+				return
+			}
+
+			if diffPosition {
+				stager.stage.CommitWithSuspendedCallbacks()
+				stager.ux_tree()
+			}
+			if diffSize {
+				stager.stage.Commit()
+			}
+		}
+
+		diagramLogo := new(svg.RectAnchoredPath)
+		diagramLogo.Name = "Folder"
+		diagramLogo.Stroke = svg.Black.ToString()
+		diagramLogo.StrokeWidth = 1
+		diagramLogo.StrokeOpacity = 1
+		diagramLogo.Color = svg.Black.ToString()
+		diagramLogo.FillOpacity = 0.2
+		diagramLogo.ScalePropotionnally = true
+		diagramLogo.AppliedScaling = 1.0
+
+		// Material 'folder' outline icon path
+		diagramLogo.Definition = "M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"
+
+		distanceFromBorder := 5.0
+		iconWidth := 20.0
+
+		diagramLogo.X_Offset = distanceFromBorder
+		diagramLogo.Y_Offset = distanceFromBorder
+		diagramLogo.RectAnchorType = svg.RECT_TOP_LEFT
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, diagramLogo)
 
 		if len(rect.RectAnchoredTexts) > 0 {
 			padding := 10.0

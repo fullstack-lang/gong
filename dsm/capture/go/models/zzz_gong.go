@@ -411,10 +411,29 @@ type Stage struct {
 
 	Diagram_DeliverableConceptShapes_reverseMap map[*DeliverableConceptShape]*Diagram
 
+	Diagram_Diagram_Shapes_reverseMap map[*DiagramShape]*Diagram
+
+	Diagram_DiagramsWhoseNodeIsExpanded_reverseMap map[*Diagram]*Diagram
+
 	OnAfterDiagramCreateCallback OnAfterCreateInterface[Diagram]
 	OnAfterDiagramUpdateCallback OnAfterUpdateInterface[Diagram]
 	OnAfterDiagramDeleteCallback OnAfterDeleteInterface[Diagram]
 	OnAfterDiagramReadCallback   OnAfterReadInterface[Diagram]
+
+	DiagramShapes                map[*DiagramShape]struct{}
+	DiagramShapes_instance       map[*DiagramShape]*DiagramShape
+	DiagramShapes_mapString      map[string]*DiagramShape
+	DiagramShapeOrder            uint
+	DiagramShape_stagedOrder     map[*DiagramShape]uint
+	DiagramShape_orderStaged     map[uint]*DiagramShape
+	DiagramShapes_reference      map[*DiagramShape]*DiagramShape
+	DiagramShapes_referenceOrder map[*DiagramShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterDiagramShapeCreateCallback OnAfterCreateInterface[DiagramShape]
+	OnAfterDiagramShapeUpdateCallback OnAfterUpdateInterface[DiagramShape]
+	OnAfterDiagramShapeDeleteCallback OnAfterDeleteInterface[DiagramShape]
+	OnAfterDiagramShapeReadCallback   OnAfterReadInterface[DiagramShape]
 
 	Librarys                map[*Library]struct{}
 	Librarys_instance       map[*Library]*Library
@@ -960,6 +979,10 @@ func (stage *Stage) Squash() {
 	stage.Diagrams_instance = make(map[*Diagram]*Diagram)
 	stage.Diagrams_referenceOrder = make(map[*Diagram]uint)
 
+	stage.DiagramShapes_reference = make(map[*DiagramShape]*DiagramShape)
+	stage.DiagramShapes_instance = make(map[*DiagramShape]*DiagramShape)
+	stage.DiagramShapes_referenceOrder = make(map[*DiagramShape]uint)
+
 	stage.Librarys_reference = make(map[*Library]*Library)
 	stage.Librarys_instance = make(map[*Library]*Library)
 	stage.Librarys_referenceOrder = make(map[*Library]uint)
@@ -1237,6 +1260,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.DiagramOrder = maxDiagramOrder + 1
 	} else {
 		stage.DiagramOrder = 0
+	}
+
+	var maxDiagramShapeOrder uint
+	var foundDiagramShape bool
+	for _, order := range stage.DiagramShape_stagedOrder {
+		if !foundDiagramShape || order > maxDiagramShapeOrder {
+			maxDiagramShapeOrder = order
+			foundDiagramShape = true
+		}
+	}
+	if foundDiagramShape {
+		stage.DiagramShapeOrder = maxDiagramShapeOrder + 1
+	} else {
+		stage.DiagramShapeOrder = 0
 	}
 
 	var maxLibraryOrder uint
@@ -1692,6 +1729,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *DiagramShape:
+		tmp := GetStructInstancesByOrder(stage.DiagramShapes, stage.DiagramShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *DiagramShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Library:
 		tmp := GetStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
 
@@ -1945,6 +1996,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.DeliverableShapes, stage.DeliverableShape_stagedOrder)
 	case "Diagram":
 		res = GetNamedStructInstances(stage.Diagrams, stage.Diagram_stagedOrder)
+	case "DiagramShape":
+		res = GetNamedStructInstances(stage.DiagramShapes, stage.DiagramShape_stagedOrder)
 	case "Library":
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
 	case "Note":
@@ -2070,6 +2123,8 @@ type BackRepoInterface interface {
 	CheckoutDeliverableShape(deliverableshape *DeliverableShape)
 	CommitDiagram(diagram *Diagram)
 	CheckoutDiagram(diagram *Diagram)
+	CommitDiagramShape(diagramshape *DiagramShape)
+	CheckoutDiagramShape(diagramshape *DiagramShape)
 	CommitLibrary(library *Library)
 	CheckoutLibrary(library *Library)
 	CommitNote(note *Note)
@@ -2145,6 +2200,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Diagrams:           make(map[*Diagram]struct{}),
 		Diagrams_mapString: make(map[string]*Diagram),
+
+		DiagramShapes:           make(map[*DiagramShape]struct{}),
+		DiagramShapes_mapString: make(map[string]*DiagramShape),
 
 		Librarys:           make(map[*Library]struct{}),
 		Librarys_mapString: make(map[string]*Library),
@@ -2254,6 +2312,10 @@ func NewStage(name string) (stage *Stage) {
 		Diagram_orderStaged: make(map[uint]*Diagram),
 		Diagrams_reference:  make(map[*Diagram]*Diagram),
 
+		DiagramShape_stagedOrder: make(map[*DiagramShape]uint),
+		DiagramShape_orderStaged: make(map[uint]*DiagramShape),
+		DiagramShapes_reference:  make(map[*DiagramShape]*DiagramShape),
+
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
 		Librarys_reference:  make(map[*Library]*Library),
@@ -2340,6 +2402,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"Diagram": &DiagramUnmarshaller{},
 
+			"DiagramShape": &DiagramShapeUnmarshaller{},
+
 			"Library": &LibraryUnmarshaller{},
 
 			"Note": &NoteUnmarshaller{},
@@ -2386,6 +2450,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "DeliverableConceptShape"},
 			{name: "DeliverableShape"},
 			{name: "Diagram"},
+			{name: "DiagramShape"},
 			{name: "Library"},
 			{name: "Note"},
 			{name: "NoteDeliverableShape"},
@@ -2439,6 +2504,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.DeliverableShape_stagedOrder[instance]
 	case *Diagram:
 		return stage.Diagram_stagedOrder[instance]
+	case *DiagramShape:
+		return stage.DiagramShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *Note:
@@ -2504,6 +2571,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.DeliverableShape_orderStaged[order]).(Type)
 	case *Diagram:
 		return any(stage.Diagram_orderStaged[order]).(Type)
+	case *DiagramShape:
+		return any(stage.DiagramShape_orderStaged[order]).(Type)
 	case *Library:
 		return any(stage.Library_orderStaged[order]).(Type)
 	case *Note:
@@ -2568,6 +2637,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.DeliverableShape_stagedOrder[instance]
 	case *Diagram:
 		return stage.Diagram_stagedOrder[instance]
+	case *DiagramShape:
+		return stage.DiagramShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *Note:
@@ -2675,6 +2746,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["DeliverableConceptShape"] = len(stage.DeliverableConceptShapes)
 	stage.Map_GongStructName_InstancesNb["DeliverableShape"] = len(stage.DeliverableShapes)
 	stage.Map_GongStructName_InstancesNb["Diagram"] = len(stage.Diagrams)
+	stage.Map_GongStructName_InstancesNb["DiagramShape"] = len(stage.DiagramShapes)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Note"] = len(stage.Notes)
 	stage.Map_GongStructName_InstancesNb["NoteDeliverableShape"] = len(stage.NoteDeliverableShapes)
@@ -3961,6 +4033,94 @@ func (diagram *Diagram) SetName(name string) {
 	diagram.Name = name
 }
 
+// Stage puts diagramshape to the model stage
+func (diagramshape *DiagramShape) Stage(stage *Stage) *DiagramShape {
+	if _, ok := stage.DiagramShapes[diagramshape]; !ok {
+		stage.DiagramShapes[diagramshape] = struct{}{}
+		stage.DiagramShape_stagedOrder[diagramshape] = stage.DiagramShapeOrder
+		stage.DiagramShape_orderStaged[stage.DiagramShapeOrder] = diagramshape
+		stage.DiagramShapeOrder++
+	}
+	stage.DiagramShapes_mapString[diagramshape.Name] = diagramshape
+
+	return diagramshape
+}
+
+// StagePreserveOrder puts diagramshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DiagramShapeOrder
+// - update stage.DiagramShapeOrder accordingly
+func (diagramshape *DiagramShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.DiagramShapes[diagramshape]; !ok {
+		stage.DiagramShapes[diagramshape] = struct{}{}
+
+		if order > stage.DiagramShapeOrder {
+			stage.DiagramShapeOrder = order
+		}
+		stage.DiagramShape_stagedOrder[diagramshape] = order
+		stage.DiagramShape_orderStaged[order] = diagramshape
+		stage.DiagramShapeOrder++
+	}
+	stage.DiagramShapes_mapString[diagramshape.Name] = diagramshape
+}
+
+// Unstage removes diagramshape off the model stage
+func (diagramshape *DiagramShape) Unstage(stage *Stage) *DiagramShape {
+	delete(stage.DiagramShapes, diagramshape)
+	// issue1150
+	// delete(stage.DiagramShape_stagedOrder, diagramshape)
+	delete(stage.DiagramShapes_mapString, diagramshape.Name)
+
+	return diagramshape
+}
+
+// UnstageVoid removes diagramshape off the model stage
+func (diagramshape *DiagramShape) UnstageVoid(stage *Stage) {
+	delete(stage.DiagramShapes, diagramshape)
+	// issue1150
+	// delete(stage.DiagramShape_stagedOrder, diagramshape)
+	delete(stage.DiagramShapes_mapString, diagramshape.Name)
+}
+
+// commit diagramshape to the back repo (if it is already staged)
+func (diagramshape *DiagramShape) Commit(stage *Stage) *DiagramShape {
+	if _, ok := stage.DiagramShapes[diagramshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitDiagramShape(diagramshape)
+		}
+	}
+	return diagramshape
+}
+
+func (diagramshape *DiagramShape) CommitVoid(stage *Stage) {
+	diagramshape.Commit(stage)
+}
+
+func (diagramshape *DiagramShape) StageVoid(stage *Stage) {
+	diagramshape.Stage(stage)
+}
+
+// Checkout diagramshape to the back repo (if it is already staged)
+func (diagramshape *DiagramShape) Checkout(stage *Stage) *DiagramShape {
+	if _, ok := stage.DiagramShapes[diagramshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutDiagramShape(diagramshape)
+		}
+	}
+	return diagramshape
+}
+
+// for satisfaction of GongStruct interface
+func (diagramshape *DiagramShape) GetName() (res string) {
+	return diagramshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (diagramshape *DiagramShape) SetName(name string) {
+	diagramshape.Name = name
+}
+
 // Stage puts library to the model stage
 func (library *Library) Stage(stage *Stage) *Library {
 	if _, ok := stage.Librarys[library]; !ok {
@@ -5209,6 +5369,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMDeliverableConceptShape(DeliverableConceptShape *DeliverableConceptShape)
 	CreateORMDeliverableShape(DeliverableShape *DeliverableShape)
 	CreateORMDiagram(Diagram *Diagram)
+	CreateORMDiagramShape(DiagramShape *DiagramShape)
 	CreateORMLibrary(Library *Library)
 	CreateORMNote(Note *Note)
 	CreateORMNoteDeliverableShape(NoteDeliverableShape *NoteDeliverableShape)
@@ -5240,6 +5401,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMDeliverableConceptShape(DeliverableConceptShape *DeliverableConceptShape)
 	DeleteORMDeliverableShape(DeliverableShape *DeliverableShape)
 	DeleteORMDiagram(Diagram *Diagram)
+	DeleteORMDiagramShape(DiagramShape *DiagramShape)
 	DeleteORMLibrary(Library *Library)
 	DeleteORMNote(Note *Note)
 	DeleteORMNoteDeliverableShape(NoteDeliverableShape *NoteDeliverableShape)
@@ -5326,6 +5488,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Diagrams_mapString = make(map[string]*Diagram)
 	stage.Diagram_stagedOrder = make(map[*Diagram]uint)
 	stage.DiagramOrder = 0
+
+	stage.DiagramShapes = make(map[*DiagramShape]struct{})
+	stage.DiagramShapes_mapString = make(map[string]*DiagramShape)
+	stage.DiagramShape_stagedOrder = make(map[*DiagramShape]uint)
+	stage.DiagramShapeOrder = 0
 
 	stage.Librarys = make(map[*Library]struct{})
 	stage.Librarys_mapString = make(map[string]*Library)
@@ -5448,6 +5615,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Diagrams = nil
 	stage.Diagrams_mapString = nil
 
+	stage.DiagramShapes = nil
+	stage.DiagramShapes_mapString = nil
+
 	stage.Librarys = nil
 	stage.Librarys_mapString = nil
 
@@ -5548,6 +5718,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for diagram := range stage.Diagrams {
 		diagram.Unstage(stage)
+	}
+
+	for diagramshape := range stage.DiagramShapes {
+		diagramshape.Unstage(stage)
 	}
 
 	for library := range stage.Librarys {
@@ -5710,6 +5884,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.DeliverableShapes).(*Type)
 	case map[*Diagram]any:
 		return any(&stage.Diagrams).(*Type)
+	case map[*DiagramShape]any:
+		return any(&stage.DiagramShapes).(*Type)
 	case map[*Library]any:
 		return any(&stage.Librarys).(*Type)
 	case map[*Note]any:
@@ -5778,6 +5954,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.DeliverableShapes_mapString).(map[string]Type)
 	case *Diagram:
 		return any(stage.Diagrams_mapString).(map[string]Type)
+	case *DiagramShape:
+		return any(stage.DiagramShapes_mapString).(map[string]Type)
 	case *Library:
 		return any(stage.Librarys_mapString).(map[string]Type)
 	case *Note:
@@ -5846,6 +6024,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.DeliverableShapes).(*map[*Type]struct{})
 	case Diagram:
 		return any(&stage.Diagrams).(*map[*Type]struct{})
+	case DiagramShape:
+		return any(&stage.DiagramShapes).(*map[*Type]struct{})
 	case Library:
 		return any(&stage.Librarys).(*map[*Type]struct{})
 	case Note:
@@ -5914,6 +6094,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.DeliverableShapes).(*map[Type]struct{})
 	case *Diagram:
 		return any(&stage.Diagrams).(*map[Type]struct{})
+	case *DiagramShape:
+		return any(&stage.DiagramShapes).(*map[Type]struct{})
 	case *Library:
 		return any(&stage.Librarys).(*map[Type]struct{})
 	case *Note:
@@ -5982,6 +6164,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.DeliverableShapes_mapString).(*map[string]*Type)
 	case Diagram:
 		return any(&stage.Diagrams_mapString).(*map[string]*Type)
+	case DiagramShape:
+		return any(&stage.DiagramShapes_mapString).(*map[string]*Type)
 	case Library:
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
 	case Note:
@@ -6181,6 +6365,16 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			ConceptsWhoseDeliverablesNodeIsExpanded: []*Concept{{Name: "ConceptsWhoseDeliverablesNodeIsExpanded"}},
 			// field is initialized with an instance of DeliverableConceptShape with the name of the field
 			DeliverableConceptShapes: []*DeliverableConceptShape{{Name: "DeliverableConceptShapes"}},
+			// field is initialized with an instance of DiagramShape with the name of the field
+			Diagram_Shapes: []*DiagramShape{{Name: "Diagram_Shapes"}},
+			// field is initialized with an instance of Diagram with the name of the field
+			DiagramsWhoseNodeIsExpanded: []*Diagram{{Name: "DiagramsWhoseNodeIsExpanded"}},
+		}).(*Type)
+	case DiagramShape:
+		return any(&DiagramShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Diagram with the name of the field
+			Diagram: &Diagram{Name: "Diagram"},
 		}).(*Type)
 	case Library:
 		return any(&Library{
@@ -6579,6 +6773,28 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Diagram:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of DiagramShape
+	case DiagramShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Diagram":
+			res := make(map[*Diagram][]*DiagramShape)
+			for diagramshape := range stage.DiagramShapes {
+				if diagramshape.Diagram != nil {
+					diagram_ := diagramshape.Diagram
+					var diagramshapes []*DiagramShape
+					_, ok := res[diagram_]
+					if ok {
+						diagramshapes = res[diagram_]
+					} else {
+						diagramshapes = make([]*DiagramShape, 0)
+					}
+					diagramshapes = append(diagramshapes, diagramshape)
+					res[diagram_] = diagramshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Library
 	case Library:
@@ -7275,6 +7491,27 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Diagram_Shapes":
+			res := make(map[*DiagramShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, diagramshape_ := range diagram.Diagram_Shapes {
+					res[diagramshape_] = append(res[diagramshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DiagramsWhoseNodeIsExpanded":
+			res := make(map[*Diagram][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, diagram_ := range diagram.DiagramsWhoseNodeIsExpanded {
+					res[diagram_] = append(res[diagram_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of DiagramShape
+	case DiagramShape:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Library
 	case Library:
@@ -7553,6 +7790,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "DeliverableShape"
 	case *Diagram:
 		res = "Diagram"
+	case *DiagramShape:
+		res = "DiagramShape"
 	case *Library:
 		res = "Library"
 	case *Note:
@@ -7760,8 +7999,17 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Diagram:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "DiagramsWhoseNodeIsExpanded"
+		res = append(res, rf)
 		rf.GongstructName = "Library"
 		rf.Fieldname = "Diagrams"
+		res = append(res, rf)
+	case *DiagramShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "Diagram_Shapes"
 		res = append(res, rf)
 	case *Library:
 		var rf ReverseField
@@ -8647,6 +8895,60 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "DeliverableConceptShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "DeliverableConceptShape",
+		},
+		{
+			Name:                 "Diagram_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "DiagramShape",
+		},
+		{
+			Name:               "IsDiagramsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "DiagramsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Diagram",
+		},
+	}
+	return
+}
+
+func (diagramshape *DiagramShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Diagram",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Diagram",
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -10212,6 +10514,69 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "Diagram_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.Diagram_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsDiagramsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsDiagramsNodeExpanded)
+		res.valueBool = diagram.IsDiagramsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "DiagramsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.DiagramsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (diagramshape *DiagramShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = diagramshape.Name
+	case "Diagram":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if diagramshape.Diagram != nil {
+			res.valueString = diagramshape.Diagram.Name
+			res.ids = diagramshape.Diagram.GongGetUUID(stage)
+		}
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", diagramshape.IsExpanded)
+		res.valueBool = diagramshape.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "X":
+		res.valueString = fmt.Sprintf("%f", diagramshape.X)
+		res.valueFloat = diagramshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", diagramshape.Y)
+		res.valueFloat = diagramshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", diagramshape.Width)
+		res.valueFloat = diagramshape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", diagramshape.Height)
+		res.valueFloat = diagramshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", diagramshape.IsHidden)
+		res.valueBool = diagramshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -11873,6 +12238,70 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "Diagram_Shapes":
+		diagram.Diagram_Shapes = make([]*DiagramShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.DiagramShapes {
+					if stage.DiagramShape_stagedOrder[__instance__] == uint(id) {
+						diagram.Diagram_Shapes = append(diagram.Diagram_Shapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsDiagramsNodeExpanded":
+		diagram.IsDiagramsNodeExpanded = value.GetValueBool()
+	case "DiagramsWhoseNodeIsExpanded":
+		diagram.DiagramsWhoseNodeIsExpanded = make([]*Diagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Diagrams {
+					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
+						diagram.DiagramsWhoseNodeIsExpanded = append(diagram.DiagramsWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (diagramshape *DiagramShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		diagramshape.Name = value.GetValueString()
+	case "Diagram":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			diagramshape.Diagram = nil
+			for __instance__ := range stage.Diagrams {
+				if stage.Diagram_stagedOrder[__instance__] == uint(id) {
+					diagramshape.Diagram = __instance__
+					break
+				}
+			}
+		}
+	case "IsExpanded":
+		diagramshape.IsExpanded = value.GetValueBool()
+	case "X":
+		diagramshape.X = value.GetValueFloat()
+	case "Y":
+		diagramshape.Y = value.GetValueFloat()
+	case "Width":
+		diagramshape.Width = value.GetValueFloat()
+	case "Height":
+		diagramshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		diagramshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -12659,6 +13088,10 @@ func (diagram *Diagram) GongGetGongstructName() string {
 	return "Diagram"
 }
 
+func (diagramshape *DiagramShape) GongGetGongstructName() string {
+	return "DiagramShape"
+}
+
 func (library *Library) GongGetGongstructName() string {
 	return "Library"
 }
@@ -12790,6 +13223,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Diagrams_mapString = make(map[string]*Diagram)
 	for diagram := range stage.Diagrams {
 		stage.Diagrams_mapString[diagram.Name] = diagram
+	}
+
+	stage.DiagramShapes_mapString = make(map[string]*DiagramShape)
+	for diagramshape := range stage.DiagramShapes {
+		stage.DiagramShapes_mapString[diagramshape.Name] = diagramshape
 	}
 
 	stage.Librarys_mapString = make(map[string]*Library)

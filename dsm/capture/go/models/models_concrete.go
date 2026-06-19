@@ -601,6 +601,29 @@ func (s *ConceptShape) SetAbstractElement(abstractElement AbstractType) {
 
 var _ ConcreteType = (*ConceptShape)(nil)
 
+// DiagramShape
+type DiagramShape struct {
+	Name    string
+	Diagram *Diagram
+
+	IsExpanded bool
+
+	RectShape
+}
+
+func (s *DiagramShape) GetAbstractElement() AbstractType {
+	if s.Diagram == nil {
+		return nil
+	}
+	return s.Diagram
+}
+
+func (s *DiagramShape) SetAbstractElement(abstractElement AbstractType) {
+	s.Diagram = abstractElement.(*Diagram)
+}
+
+var _ ConcreteType = (*DiagramShape)(nil)
+
 type deliverableConceptKey struct {
 	Deliverable *Deliverable
 	Concept     *Concept

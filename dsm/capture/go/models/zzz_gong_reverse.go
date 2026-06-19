@@ -383,11 +383,34 @@ func (inst *Diagram) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "DiagramsWhoseNodeIsExpanded":
+			if _diagram, ok := stage.Diagram_DiagramsWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _diagram.Name
+			}
+		}
 	case "Library":
 		switch reverseField.Fieldname {
 		case "Diagrams":
 			if _library, ok := stage.Library_Diagrams_reverseMap[inst]; ok {
 				res = _library.Name
+			}
+		}
+	}
+	return
+}
+
+func (inst *DiagramShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "Diagram_Shapes":
+			if _diagram, ok := stage.Diagram_Diagram_Shapes_reverseMap[inst]; ok {
+				res = _diagram.Name
 			}
 		}
 	}
@@ -962,10 +985,29 @@ func (inst *Diagram) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "DiagramsWhoseNodeIsExpanded":
+			res = stage.Diagram_DiagramsWhoseNodeIsExpanded_reverseMap[inst]
+		}
 	case "Library":
 		switch reverseField.Fieldname {
 		case "Diagrams":
 			res = stage.Library_Diagrams_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *DiagramShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Diagram":
+		switch reverseField.Fieldname {
+		case "Diagram_Shapes":
+			res = stage.Diagram_Diagram_Shapes_reverseMap[inst]
 		}
 	}
 	return res

@@ -221,6 +221,19 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 			diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
 		}
 
+		diagramsCategoryNode := &tree.Node{
+			Name:            "Diagrams",
+			FontStyle:       tree.ITALIC,
+			IsExpanded:      diagram.IsDiagramsNodeExpanded,
+			IsNodeClickable: true,
+		}
+		diagramNode.Children = append(diagramNode.Children, diagramsCategoryNode)
+		diagramsCategoryNode.OnIsExpandedChange = stager.OnUpdateExpansion(&diagram.IsDiagramsNodeExpanded)
+		
+		if diagram.IsDiagramsNodeExpanded {
+			stager.treeDiagramBSinDiagram(diagram, stager.GetRootLibrary(), diagramsCategoryNode)
+		}
+
 		wbsNode := &tree.Node{
 			Name:            "Concerns",
 			FontStyle:       tree.ITALIC,

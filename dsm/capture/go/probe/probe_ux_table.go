@@ -52,6 +52,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.DeliverableShape](probe)
 	case "Diagram":
 		updateProbeTable[*models.Diagram](probe)
+	case "DiagramShape":
+		updateProbeTable[*models.DiagramShape](probe)
 	case "Library":
 		updateProbeTable[*models.Library](probe)
 	case "Note":

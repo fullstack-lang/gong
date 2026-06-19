@@ -185,7 +185,17 @@ func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &diagram.ConceptsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.ConceptsWhoseDeliverablesNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.DeliverableConceptShapes) || modified
+	modified = GongCleanSlice(stage, &diagram.Diagram_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.DiagramsWhoseNodeIsExpanded) || modified
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by DiagramShape
+func (diagramshape *DiagramShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &diagramshape.Diagram) || modified
 	return
 }
 

@@ -62,6 +62,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDiagramCreateCallback != nil {
 			stage.OnAfterDiagramCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *DiagramShape:
+		if stage.OnAfterDiagramShapeCreateCallback != nil {
+			stage.OnAfterDiagramShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Library:
 		if stage.OnAfterLibraryCreateCallback != nil {
 			stage.OnAfterLibraryCreateCallback.OnAfterCreate(stage, target)
@@ -201,6 +205,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Diagram)
 		if stage.OnAfterDiagramUpdateCallback != nil {
 			stage.OnAfterDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *DiagramShape:
+		newTarget := any(new).(*DiagramShape)
+		if stage.OnAfterDiagramShapeUpdateCallback != nil {
+			stage.OnAfterDiagramShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Library:
 		newTarget := any(new).(*Library)
@@ -352,6 +361,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Diagram)
 			stage.OnAfterDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *DiagramShape:
+		if stage.OnAfterDiagramShapeDeleteCallback != nil {
+			staged := any(staged).(*DiagramShape)
+			stage.OnAfterDiagramShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Library:
 		if stage.OnAfterLibraryDeleteCallback != nil {
 			staged := any(staged).(*Library)
@@ -488,6 +502,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDiagramReadCallback != nil {
 			stage.OnAfterDiagramReadCallback.OnAfterRead(stage, target)
 		}
+	case *DiagramShape:
+		if stage.OnAfterDiagramShapeReadCallback != nil {
+			stage.OnAfterDiagramShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *Library:
 		if stage.OnAfterLibraryReadCallback != nil {
 			stage.OnAfterLibraryReadCallback.OnAfterRead(stage, target)
@@ -583,6 +601,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterDeliverableShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DeliverableShape])
 	case *Diagram:
 		stage.OnAfterDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Diagram])
+	case *DiagramShape:
+		stage.OnAfterDiagramShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramShape])
 	case *Library:
 		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *Note:
@@ -646,6 +666,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterDeliverableShapeCreateCallback = any(callback).(OnAfterCreateInterface[DeliverableShape])
 	case *Diagram:
 		stage.OnAfterDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Diagram])
+	case *DiagramShape:
+		stage.OnAfterDiagramShapeCreateCallback = any(callback).(OnAfterCreateInterface[DiagramShape])
 	case *Library:
 		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *Note:
@@ -709,6 +731,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterDeliverableShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DeliverableShape])
 	case *Diagram:
 		stage.OnAfterDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Diagram])
+	case *DiagramShape:
+		stage.OnAfterDiagramShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramShape])
 	case *Library:
 		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *Note:
@@ -772,6 +796,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterDeliverableShapeReadCallback = any(callback).(OnAfterReadInterface[DeliverableShape])
 	case *Diagram:
 		stage.OnAfterDiagramReadCallback = any(callback).(OnAfterReadInterface[Diagram])
+	case *DiagramShape:
+		stage.OnAfterDiagramShapeReadCallback = any(callback).(OnAfterReadInterface[DiagramShape])
 	case *Library:
 		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *Note:

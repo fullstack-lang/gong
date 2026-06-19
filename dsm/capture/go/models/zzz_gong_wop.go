@@ -407,6 +407,8 @@ type Diagram_WOP struct {
 	IsNotesNodeExpanded bool
 
 	IsStakeholdersNodeExpanded bool
+
+	IsDiagramsNodeExpanded bool
 }
 
 func (from *Diagram) CopyBasicFields(to *Diagram) {
@@ -428,6 +430,36 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsConcernsNodeExpanded = from.IsConcernsNodeExpanded
 	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 	to.IsStakeholdersNodeExpanded = from.IsStakeholdersNodeExpanded
+	to.IsDiagramsNodeExpanded = from.IsDiagramsNodeExpanded
+}
+
+type DiagramShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+}
+
+func (from *DiagramShape) CopyBasicFields(to *DiagramShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
 }
 
 type Library_WOP struct {
