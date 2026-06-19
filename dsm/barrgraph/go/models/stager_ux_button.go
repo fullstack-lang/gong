@@ -55,7 +55,7 @@ func (stager *Stager) ux_button() {
 				stager.fileName = "library.go"
 			}
 
-			fileToDownload.Name = stager.fileName
+			fileToDownload.Name = time.Now().Format("20060102 1504 ") + stager.fileName
 
 			fileName := filepath.Base(fileToDownload.Name)
 
@@ -282,7 +282,7 @@ func (stager *Stager) ux_button() {
 			fileToDownload := new(load.FileToDownload).Stage(stager.loadStage)
 			fileToDownload.Base64EncodedContent = zipData
 
-			fileToDownload.Name = "site.zip"
+			fileToDownload.Name = time.Now().Format("20060102 1504 ") + "site.zip"
 
 			stager.loadStage.Commit()
 		},

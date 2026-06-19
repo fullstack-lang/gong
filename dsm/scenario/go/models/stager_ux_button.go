@@ -52,7 +52,7 @@ func (stager *Stager) button() {
 				stager.fileName = "library.go"
 			}
 
-			fileToDownload.Name = stager.fileName
+			fileToDownload.Name = time.Now().Format("20060102 1504 ") + stager.fileName
 
 			fileName := filepath.Base(fileToDownload.Name)
 
