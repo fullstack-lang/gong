@@ -80,7 +80,7 @@ func NewStager(
 	afterCommit := func(stage *Stage) {
 		stager.ux_tree()
 		stager.ux_svg()
-		stager.ux_button()
+		stager.button()
 		stager.load()
 		stager.ux_markdown()
 	}

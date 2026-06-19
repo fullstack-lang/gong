@@ -1,3 +1,4 @@
+// generated code (do not edit)
 package models
 
 import (
@@ -8,9 +9,7 @@ import (
 	"time"
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
-
 	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
-
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
 )
 
@@ -57,7 +56,7 @@ func (stager *Stager) button() {
 			fileName := filepath.Base(fileToDownload.Name)
 
 			// Use MarshallToString for pure in-memory export (WASM compatible)
-			res, err := stage.MarshallToString("github.com/fullstack-lang/gong/dsm/scenario/go/models", "main")
+			res, err := stage.MarshallToString(stage.MetaPackageImportPath, "main")
 			if err != nil {
 				log.Println("Error marshalling to string:", err)
 				return
@@ -85,15 +84,12 @@ func (stager *Stager) button() {
 		},
 	})
 
-	// Commented out since exportWebsite is not implemented in weber yet
-	/*
-		group1.Buttons = append(group1.Buttons, &button.Button{
-			Name:    "Export website",
-			Icon:    string(buttons.BUTTON_web),
-			Label:   "Export website",
-			OnClick: stager.exportWebsite,
-		})
-	*/
+	group1.Buttons = append(group1.Buttons, &button.Button{
+		Name:    "Export website",
+		Icon:    string(buttons.BUTTON_web),
+		Label:   "Export website",
+		OnClick: stager.exportWebsite,
+	})
 
 	button.StageBranch(buttonStage, layout)
 

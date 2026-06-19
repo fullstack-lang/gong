@@ -39,6 +39,10 @@ type ControlFlow_WOP struct {
 	Description string
 
 	ComputedPrefix string
+
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
 }
 
 func (from *ControlFlow) CopyBasicFields(to *ControlFlow) {
@@ -46,6 +50,8 @@ func (from *ControlFlow) CopyBasicFields(to *ControlFlow) {
 	to.Name = from.Name
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 }
 
 type ControlFlowShape_WOP struct {
@@ -88,6 +94,10 @@ type Data_WOP struct {
 
 	ComputedPrefix string
 
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
+
 	SVG_Path string
 
 	InverseAppliedScaling float64
@@ -99,6 +109,8 @@ func (from *Data) CopyBasicFields(to *Data) {
 	to.Acronym = from.Acronym
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 	to.SVG_Path = from.SVG_Path
 	to.InverseAppliedScaling = from.InverseAppliedScaling
 }
@@ -112,6 +124,10 @@ type DataFlow_WOP struct {
 
 	ComputedPrefix string
 
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
+
 	Type DataFlowType
 
 	IsDatasNodeExpanded bool
@@ -122,6 +138,8 @@ func (from *DataFlow) CopyBasicFields(to *DataFlow) {
 	to.Name = from.Name
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 	to.Type = from.Type
 	to.IsDatasNodeExpanded = from.IsDatasNodeExpanded
 }
@@ -175,6 +193,10 @@ type DiagramProcess_WOP struct {
 
 	ComputedPrefix string
 
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
+
 	IsChecked bool
 
 	IsEditable_ bool
@@ -203,6 +225,8 @@ func (from *DiagramProcess) CopyBasicFields(to *DiagramProcess) {
 	to.Name = from.Name
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
 	to.IsShowPrefix = from.IsShowPrefix
@@ -257,6 +281,10 @@ type Library_WOP struct {
 
 	ComputedPrefix string
 
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
+
 	IsRootLibrary bool
 
 	IsSubLibrariesNodeExpanded bool
@@ -283,6 +311,8 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.Name = from.Name
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 	to.IsRootLibrary = from.IsRootLibrary
 	to.IsSubLibrariesNodeExpanded = from.IsSubLibrariesNodeExpanded
 	to.NbPixPerCharacter = from.NbPixPerCharacter
@@ -304,6 +334,10 @@ type Note_WOP struct {
 
 	ComputedPrefix string
 
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
+
 	IsTasksNodeExpanded bool
 }
 
@@ -312,6 +346,8 @@ func (from *Note) CopyBasicFields(to *Note) {
 	to.Name = from.Name
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 	to.IsTasksNodeExpanded = from.IsTasksNodeExpanded
 }
 
@@ -385,6 +421,10 @@ type Participant_WOP struct {
 
 	ComputedPrefix string
 
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
+
 	IsTasksNodeExpanded bool
 
 	IsControlFlowsNodeExpanded bool
@@ -400,6 +440,8 @@ func (from *Participant) CopyBasicFields(to *Participant) {
 	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
 	to.IsProcessesNodeExpanded = from.IsProcessesNodeExpanded
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 	to.IsTasksNodeExpanded = from.IsTasksNodeExpanded
 	to.IsControlFlowsNodeExpanded = from.IsControlFlowsNodeExpanded
 	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
@@ -446,6 +488,10 @@ type Process_WOP struct {
 
 	ComputedPrefix string
 
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
+
 	SVG_Path string
 
 	InverseAppliedScaling float64
@@ -460,6 +506,8 @@ func (from *Process) CopyBasicFields(to *Process) {
 	to.Name = from.Name
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 	to.SVG_Path = from.SVG_Path
 	to.InverseAppliedScaling = from.InverseAppliedScaling
 	to.IsSubProcessNodeExpanded = from.IsSubProcessNodeExpanded
@@ -506,6 +554,10 @@ type Resource_WOP struct {
 
 	ComputedPrefix string
 
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
+
 	SVG_Path string
 
 	InverseAppliedScaling float64
@@ -517,6 +569,8 @@ func (from *Resource) CopyBasicFields(to *Resource) {
 	to.Acronym = from.Acronym
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 	to.SVG_Path = from.SVG_Path
 	to.InverseAppliedScaling = from.InverseAppliedScaling
 }
@@ -530,6 +584,10 @@ type Task_WOP struct {
 
 	ComputedPrefix string
 
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
+
 	IsStartTask bool
 
 	IsEndTask bool
@@ -542,6 +600,8 @@ func (from *Task) CopyBasicFields(to *Task) {
 	to.Name = from.Name
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 	to.IsStartTask = from.IsStartTask
 	to.IsEndTask = from.IsEndTask
 	to.IsTaskNameNotProcessName = from.IsTaskNameNotProcessName

@@ -1,3 +1,4 @@
+// generated code (do not edit)
 package models
 
 import (
@@ -8,9 +9,7 @@ import (
 	"time"
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
-
 	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
-
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
 )
 
@@ -56,14 +55,14 @@ func (stager *Stager) button() {
 
 			fileName := filepath.Base(fileToDownload.Name)
 
-			// 2. Use MarshallToString for pure in-memory export (WASM compatible)
-			res, err := stage.MarshallToString("github.com/fullstack-lang/gong/dsm/process/go/models", "main")
+			// Use MarshallToString for pure in-memory export (WASM compatible)
+			res, err := stage.MarshallToString(stage.MetaPackageImportPath, "main")
 			if err != nil {
 				log.Println("Error marshalling to string:", err)
 				return
 			}
 
-			// 3. The content is now a string in memory.
+			// The content is now a string in memory.
 			fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(res))
 
 			stager.loadStage.Commit()

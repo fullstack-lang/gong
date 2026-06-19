@@ -92,6 +92,85 @@ func (dataflowtype DataFlowType) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for LayoutDirection
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (layoutdirection LayoutDirection) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch layoutdirection {
+	// insertion code per enum code
+	case Vertical:
+		res = 0
+	case Horizontal:
+		res = 1
+	}
+	return
+}
+
+func (layoutdirection *LayoutDirection) FromInt(input int) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*layoutdirection = Vertical
+		return
+	case 1:
+		*layoutdirection = Horizontal
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (layoutdirection *LayoutDirection) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "Vertical":
+		*layoutdirection = Vertical
+	case "Horizontal":
+		*layoutdirection = Horizontal
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (layoutdirection *LayoutDirection) ToCodeString() (res string) {
+
+	switch *layoutdirection {
+	// insertion code per enum code
+	case Vertical:
+		res = "Vertical"
+	case Horizontal:
+		res = "Horizontal"
+	}
+	return
+}
+
+func (layoutdirection LayoutDirection) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "Vertical")
+	res = append(res, "Horizontal")
+
+	return
+}
+
+func (layoutdirection LayoutDirection) CodeValues() (res []int) {
+
+	res = make([]int, 0)
+
+	// insertion code per enum code
+	res = append(res, 0)
+	res = append(res, 1)
+
+	return
+}
+
 // Utility function for OrientationType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -184,13 +263,13 @@ type PointerToGongstructEnumStringField interface {
 }
 
 type GongstructEnumIntField interface {
-	int
+	int | LayoutDirection
 	Codes() []string
 	CodeValues() []int
 }
 
 type PointerToGongstructEnumIntField interface {
-	//insertion point for pointers to enum int types
+	//insertion point for pointers to enum int types | *LayoutDirection
 	FromCodeString(input string) (err error)
 }
 

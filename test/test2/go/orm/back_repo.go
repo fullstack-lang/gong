@@ -234,6 +234,11 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 	backRepo.stage.Commit()
 }
 
+// SubscribeToCommitNb is a function that is called by the front to be notified of new commits
+// It returns a channel that will be closed when the connection is closed
+//
+// The channel is used to propagate the commit number to the front
+// This commit number is used by the front to validate the tree after commit.
 func (backRepoStruct *BackRepoStruct) SubscribeToCommitNb(ctx context.Context) <-chan int {
 	ch := make(chan int)
 

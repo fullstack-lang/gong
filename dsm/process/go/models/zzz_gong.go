@@ -6407,6 +6407,15 @@ func (controlflow *ControlFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
 			Name:                 "Start",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Task",
@@ -6482,6 +6491,15 @@ func (data *Data) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
 			Name:               "SVG_Path",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -6512,6 +6530,15 @@ func (dataflow *DataFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:                 "Type",
@@ -6623,6 +6650,15 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "IsChecked",
@@ -6852,6 +6888,15 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
 			Name:               "IsRootLibrary",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -6974,6 +7019,15 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "IsTasksNodeExpanded",
@@ -7109,6 +7163,15 @@ func (participant *Participant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
 			Name:               "IsTasksNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -7212,6 +7275,15 @@ func (process *Process) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "SVG_Path",
@@ -7333,6 +7405,15 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
 			Name:               "SVG_Path",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -7358,6 +7439,15 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "IsStartTask",
@@ -7526,6 +7616,13 @@ func (controlflow *ControlFlow) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = controlflow.Description
 	case "ComputedPrefix":
 		res.valueString = controlflow.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", controlflow.IsExpanded)
+		res.valueBool = controlflow.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := controlflow.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "Start":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if controlflow.Start != nil {
@@ -7590,6 +7687,13 @@ func (data *Data) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = data.Description
 	case "ComputedPrefix":
 		res.valueString = data.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", data.IsExpanded)
+		res.valueBool = data.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := data.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "SVG_Path":
 		res.valueString = data.SVG_Path
 	case "InverseAppliedScaling":
@@ -7619,6 +7723,13 @@ func (dataflow *DataFlow) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = dataflow.Description
 	case "ComputedPrefix":
 		res.valueString = dataflow.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", dataflow.IsExpanded)
+		res.valueBool = dataflow.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := dataflow.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "Type":
 		enum := dataflow.Type
 		res.valueString = enum.ToCodeString()
@@ -7721,6 +7832,13 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 		res.valueString = diagramprocess.Description
 	case "ComputedPrefix":
 		res.valueString = diagramprocess.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", diagramprocess.IsExpanded)
+		res.valueBool = diagramprocess.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := diagramprocess.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", diagramprocess.IsChecked)
 		res.valueBool = diagramprocess.IsChecked
@@ -8061,6 +8179,13 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = library.Description
 	case "ComputedPrefix":
 		res.valueString = library.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsExpanded)
+		res.valueBool = library.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := library.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "IsRootLibrary":
 		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
 		res.valueBool = library.IsRootLibrary
@@ -8242,6 +8367,13 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = note.Description
 	case "ComputedPrefix":
 		res.valueString = note.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", note.IsExpanded)
+		res.valueBool = note.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := note.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "IsTasksNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", note.IsTasksNodeExpanded)
 		res.valueBool = note.IsTasksNodeExpanded
@@ -8379,6 +8511,13 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ComputedPrefix":
 		res.valueString = participant.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", participant.IsExpanded)
+		res.valueBool = participant.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := participant.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "IsTasksNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", participant.IsTasksNodeExpanded)
 		res.valueBool = participant.IsTasksNodeExpanded
@@ -8507,6 +8646,13 @@ func (process *Process) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = process.Description
 	case "ComputedPrefix":
 		res.valueString = process.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", process.IsExpanded)
+		res.valueBool = process.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := process.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "SVG_Path":
 		res.valueString = process.SVG_Path
 	case "InverseAppliedScaling":
@@ -8655,6 +8801,13 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = resource.Description
 	case "ComputedPrefix":
 		res.valueString = resource.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", resource.IsExpanded)
+		res.valueBool = resource.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := resource.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "SVG_Path":
 		res.valueString = resource.SVG_Path
 	case "InverseAppliedScaling":
@@ -8674,6 +8827,13 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = task.Description
 	case "ComputedPrefix":
 		res.valueString = task.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", task.IsExpanded)
+		res.valueBool = task.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := task.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "IsStartTask":
 		res.valueString = fmt.Sprintf("%t", task.IsStartTask)
 		res.valueBool = task.IsStartTask
@@ -8816,6 +8976,10 @@ func (controlflow *ControlFlow) GongSetFieldValue(fieldName string, value GongFi
 		controlflow.Description = value.GetValueString()
 	case "ComputedPrefix":
 		controlflow.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		controlflow.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		controlflow.LayoutDirection.FromCodeString(value.GetValueString())
 	case "Start":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -8889,6 +9053,10 @@ func (data *Data) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		data.Description = value.GetValueString()
 	case "ComputedPrefix":
 		data.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		data.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		data.LayoutDirection.FromCodeString(value.GetValueString())
 	case "SVG_Path":
 		data.SVG_Path = value.GetValueString()
 	case "InverseAppliedScaling":
@@ -8922,6 +9090,10 @@ func (dataflow *DataFlow) GongSetFieldValue(fieldName string, value GongFieldVal
 		dataflow.Description = value.GetValueString()
 	case "ComputedPrefix":
 		dataflow.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		dataflow.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		dataflow.LayoutDirection.FromCodeString(value.GetValueString())
 	case "Type":
 		dataflow.Type.FromCodeString(value.GetValueString())
 	case "StartTask":
@@ -9052,6 +9224,10 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 		diagramprocess.Description = value.GetValueString()
 	case "ComputedPrefix":
 		diagramprocess.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		diagramprocess.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		diagramprocess.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsChecked":
 		diagramprocess.IsChecked = value.GetValueBool()
 	case "IsEditable_":
@@ -9461,6 +9637,10 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.Description = value.GetValueString()
 	case "ComputedPrefix":
 		library.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		library.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		library.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsRootLibrary":
 		library.IsRootLibrary = value.GetValueBool()
 	case "SubLibraries":
@@ -9678,6 +9858,10 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		note.Description = value.GetValueString()
 	case "ComputedPrefix":
 		note.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		note.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		note.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsTasksNodeExpanded":
 		note.IsTasksNodeExpanded = value.GetValueBool()
 	case "Tasks":
@@ -9820,6 +10004,10 @@ func (participant *Participant) GongSetFieldValue(fieldName string, value GongFi
 		participant.IsProcessesNodeExpanded = value.GetValueBool()
 	case "ComputedPrefix":
 		participant.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		participant.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		participant.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsTasksNodeExpanded":
 		participant.IsTasksNodeExpanded = value.GetValueBool()
 	case "Tasks":
@@ -9961,6 +10149,10 @@ func (process *Process) GongSetFieldValue(fieldName string, value GongFieldValue
 		process.Description = value.GetValueString()
 	case "ComputedPrefix":
 		process.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		process.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		process.LayoutDirection.FromCodeString(value.GetValueString())
 	case "SVG_Path":
 		process.SVG_Path = value.GetValueString()
 	case "InverseAppliedScaling":
@@ -10132,6 +10324,10 @@ func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldVal
 		resource.Description = value.GetValueString()
 	case "ComputedPrefix":
 		resource.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		resource.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		resource.LayoutDirection.FromCodeString(value.GetValueString())
 	case "SVG_Path":
 		resource.SVG_Path = value.GetValueString()
 	case "InverseAppliedScaling":
@@ -10151,6 +10347,10 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		task.Description = value.GetValueString()
 	case "ComputedPrefix":
 		task.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		task.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		task.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsStartTask":
 		task.IsStartTask = value.GetValueBool()
 	case "IsEndTask":

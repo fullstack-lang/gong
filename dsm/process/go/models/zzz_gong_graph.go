@@ -3354,6 +3354,12 @@ func (controlflow *ControlFlow) GongDiff(stage *Stage, controlflowOther *Control
 	if controlflow.ComputedPrefix != controlflowOther.ComputedPrefix {
 		diffs = append(diffs, controlflow.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if controlflow.IsExpanded != controlflowOther.IsExpanded {
+		diffs = append(diffs, controlflow.GongMarshallField(stage, "IsExpanded"))
+	}
+	if controlflow.LayoutDirection != controlflowOther.LayoutDirection {
+		diffs = append(diffs, controlflow.GongMarshallField(stage, "LayoutDirection"))
+	}
 	if (controlflow.Start == nil) != (controlflowOther.Start == nil) {
 		diffs = append(diffs, controlflow.GongMarshallField(stage, "Start"))
 	} else if controlflow.Start != nil && controlflowOther.Start != nil {
@@ -3424,6 +3430,12 @@ func (data *Data) GongDiff(stage *Stage, dataOther *Data) (diffs []string) {
 	if data.ComputedPrefix != dataOther.ComputedPrefix {
 		diffs = append(diffs, data.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if data.IsExpanded != dataOther.IsExpanded {
+		diffs = append(diffs, data.GongMarshallField(stage, "IsExpanded"))
+	}
+	if data.LayoutDirection != dataOther.LayoutDirection {
+		diffs = append(diffs, data.GongMarshallField(stage, "LayoutDirection"))
+	}
 	if data.SVG_Path != dataOther.SVG_Path {
 		diffs = append(diffs, data.GongMarshallField(stage, "SVG_Path"))
 	}
@@ -3467,6 +3479,12 @@ func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs
 	}
 	if dataflow.ComputedPrefix != dataflowOther.ComputedPrefix {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if dataflow.IsExpanded != dataflowOther.IsExpanded {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "IsExpanded"))
+	}
+	if dataflow.LayoutDirection != dataflowOther.LayoutDirection {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if dataflow.Type != dataflowOther.Type {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "Type"))
@@ -3579,6 +3597,12 @@ func (diagramprocess *DiagramProcess) GongDiff(stage *Stage, diagramprocessOther
 	}
 	if diagramprocess.ComputedPrefix != diagramprocessOther.ComputedPrefix {
 		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if diagramprocess.IsExpanded != diagramprocessOther.IsExpanded {
+		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "IsExpanded"))
+	}
+	if diagramprocess.LayoutDirection != diagramprocessOther.LayoutDirection {
+		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if diagramprocess.IsChecked != diagramprocessOther.IsChecked {
 		diffs = append(diffs, diagramprocess.GongMarshallField(stage, "IsChecked"))
@@ -4173,6 +4197,12 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.ComputedPrefix != libraryOther.ComputedPrefix {
 		diffs = append(diffs, library.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if library.IsExpanded != libraryOther.IsExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
+	}
+	if library.LayoutDirection != libraryOther.LayoutDirection {
+		diffs = append(diffs, library.GongMarshallField(stage, "LayoutDirection"))
+	}
 	if library.IsRootLibrary != libraryOther.IsRootLibrary {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
 	}
@@ -4493,6 +4523,12 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	if note.ComputedPrefix != noteOther.ComputedPrefix {
 		diffs = append(diffs, note.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if note.IsExpanded != noteOther.IsExpanded {
+		diffs = append(diffs, note.GongMarshallField(stage, "IsExpanded"))
+	}
+	if note.LayoutDirection != noteOther.LayoutDirection {
+		diffs = append(diffs, note.GongMarshallField(stage, "LayoutDirection"))
+	}
 	if note.IsTasksNodeExpanded != noteOther.IsTasksNodeExpanded {
 		diffs = append(diffs, note.GongMarshallField(stage, "IsTasksNodeExpanded"))
 	}
@@ -4660,6 +4696,12 @@ func (participant *Participant) GongDiff(stage *Stage, participantOther *Partici
 	}
 	if participant.ComputedPrefix != participantOther.ComputedPrefix {
 		diffs = append(diffs, participant.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if participant.IsExpanded != participantOther.IsExpanded {
+		diffs = append(diffs, participant.GongMarshallField(stage, "IsExpanded"))
+	}
+	if participant.LayoutDirection != participantOther.LayoutDirection {
+		diffs = append(diffs, participant.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if participant.IsTasksNodeExpanded != participantOther.IsTasksNodeExpanded {
 		diffs = append(diffs, participant.GongMarshallField(stage, "IsTasksNodeExpanded"))
@@ -4851,6 +4893,12 @@ func (process *Process) GongDiff(stage *Stage, processOther *Process) (diffs []s
 	}
 	if process.ComputedPrefix != processOther.ComputedPrefix {
 		diffs = append(diffs, process.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if process.IsExpanded != processOther.IsExpanded {
+		diffs = append(diffs, process.GongMarshallField(stage, "IsExpanded"))
+	}
+	if process.LayoutDirection != processOther.LayoutDirection {
+		diffs = append(diffs, process.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if process.SVG_Path != processOther.SVG_Path {
 		diffs = append(diffs, process.GongMarshallField(stage, "SVG_Path"))
@@ -5088,6 +5136,12 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 	if resource.ComputedPrefix != resourceOther.ComputedPrefix {
 		diffs = append(diffs, resource.GongMarshallField(stage, "ComputedPrefix"))
 	}
+	if resource.IsExpanded != resourceOther.IsExpanded {
+		diffs = append(diffs, resource.GongMarshallField(stage, "IsExpanded"))
+	}
+	if resource.LayoutDirection != resourceOther.LayoutDirection {
+		diffs = append(diffs, resource.GongMarshallField(stage, "LayoutDirection"))
+	}
 	if resource.SVG_Path != resourceOther.SVG_Path {
 		diffs = append(diffs, resource.GongMarshallField(stage, "SVG_Path"))
 	}
@@ -5110,6 +5164,12 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	}
 	if task.ComputedPrefix != taskOther.ComputedPrefix {
 		diffs = append(diffs, task.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if task.IsExpanded != taskOther.IsExpanded {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsExpanded"))
+	}
+	if task.LayoutDirection != taskOther.LayoutDirection {
+		diffs = append(diffs, task.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if task.IsStartTask != taskOther.IsStartTask {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsStartTask"))

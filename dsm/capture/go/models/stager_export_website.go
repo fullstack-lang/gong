@@ -11,7 +11,7 @@ import (
 	ssg "github.com/fullstack-lang/gong/lib/ssg/go/models"
 )
 
-func (stager *Stager) ssg() {
+func (stager *Stager) exportWebsite() {
 	stager.ssgStage.Reset()
 
 	content := ssg.Content{
