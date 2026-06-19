@@ -297,12 +297,13 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 					line.Y1 = YTopMargin
 					line.Y2 = yTimeLine
 					line.Stroke = "black"
+					line.StrokeOpacity = 1
 					line.StrokeWidth = 0.5
 					line.StrokeDashArray = "2 2"
 				}
 
 				diamondWidth := 18.0
-				
+
 				// if no specific task group is assigned to display the diamond, we just put it on its own lane
 				taskGroupsToDisplay := task.TaskGroupsToDisplay
 				if len(taskGroupsToDisplay) == 0 {
@@ -339,7 +340,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 					milestoneText.Content = task.Name
 					milestoneText.X_Offset = XLeftText + task.XOffset
 					milestoneText.Y_Offset = task.YOffset
-					
+
 					switch task.TextPosition {
 					case TEXT_POSITION_TOP:
 						milestoneText.RectAnchorType = svg.RECT_TOP
@@ -373,7 +374,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 				barText.Content = task.Name
 				barText.X_Offset = XLeftText + task.XOffset
 				barText.Y_Offset = task.YOffset
-				
+
 				switch task.TextPosition {
 				case TEXT_POSITION_TOP:
 					barText.RectAnchorType = svg.RECT_TOP
@@ -403,8 +404,6 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 
 		currentY = currentY + LaneHeight
 	}
-
-
 
 	// Draw the vertical grid lines as thin Rects so they overlay the lanes perfectly
 	if diagram.DrawVerticalTimeLines {
