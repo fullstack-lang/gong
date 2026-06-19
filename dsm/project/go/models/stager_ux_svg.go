@@ -71,7 +71,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	svgObject.Layers = append(svgObject.Layers, layer)
 
 	if diagram.IsTimeDiagram {
-		stager.generateTimeDiagram(diagram, layer, svgObject)
+		stager.generateTimeDiagram(diagram, svgObject)
 	}
 
 	for _, productShape := range diagram.Product_Shapes {

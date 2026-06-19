@@ -818,15 +818,15 @@ func _(stage *models.Stage) {
 	__Task__00000011_.IsExpanded = false
 	__Task__00000011_.LayoutDirection = models.Vertical
 	__Task__00000011_.IsImport = false
-	__Task__00000011_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2027-01-01 00:00:00 +0000 UTC")
-	__Task__00000011_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2027-01-01 00:00:00 +0000 UTC")
+	__Task__00000011_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-12-24 00:00:00 +0000 UTC")
+	__Task__00000011_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-12-24 00:00:00 +0000 UTC")
 	__Task__00000011_.IsMilestone = true
 	__Task__00000011_.Description = ``
 	__Task__00000011_.IsInputsNodeExpanded = false
 	__Task__00000011_.IsOutputsNodeExpanded = false
 	__Task__00000011_.IsWithCompletion = false
 	__Task__00000011_.Completion = ""
-	__Task__00000011_.DisplayVerticalBar = false
+	__Task__00000011_.DisplayVerticalBar = true
 	__Task__00000011_.TextPosition = models.TEXT_POSITION_TOP
 	__Task__00000011_.XOffset = 20.000000
 	__Task__00000011_.YOffset = -17.000000
@@ -1291,6 +1291,8 @@ func _(stage *models.Stage) {
 	__Task__00000009_.ReferencedTask = nil
 	__Task__00000010_.ReferencedTask = nil
 	__Task__00000011_.ReferencedTask = nil
+	__Task__00000011_.TaskGroupsToDisplay = append(__Task__00000011_.TaskGroupsToDisplay, __TaskGroup__00000004_)
+	__Task__00000011_.TaskGroupsToDisplay = append(__Task__00000011_.TaskGroupsToDisplay, __TaskGroup__00000005_)
 	__TaskCompositionShape__00000011_.Task = __Task__00000003_
 	__TaskCompositionShape__00000012_.Task = __Task__00000004_
 	__TaskCompositionShape__00000013_.Task = __Task__00000006_

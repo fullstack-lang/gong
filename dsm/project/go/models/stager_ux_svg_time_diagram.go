@@ -7,7 +7,12 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
-func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, svgObject *svg.SVG) {
+func (stager *Stager) generateTimeDiagram(diagram *Diagram, svgObject *svg.SVG) {
+
+	layer := svgObject.Layers[0]
+
+	verticalLinesLayer := (&svg.Layer{Name: "Vertical Line Layers"}).Stage(stager.svgStage)
+	svgObject.Layers = append(svgObject.Layers, verticalLinesLayer)
 
 	// If no duration, return early to prevent division by zero
 	if diagram.ComputedDuration == 0 {
@@ -291,7 +296,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, layer *svg.Layer, sv
 				if task.DisplayVerticalBar {
 					line := new(svg.Line).Stage(stager.svgStage)
 					line.Name = task.Name
-					layer.Lines = append(layer.Lines, line)
+					verticalLinesLayer.Lines = append(verticalLinesLayer.Lines, line)
 					line.X1 = lineX
 					line.X2 = line.X1
 					line.Y1 = YTopMargin
