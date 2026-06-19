@@ -3,8 +3,8 @@ package models
 import (
 	"log"
 
-	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/strutils"
+	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
 func (stager *Stager) svg() {
@@ -167,7 +167,12 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 				dateFormat = diagram.DateFormat
 			}
 
-			dateText.Content = taskShape.Task.Start.Format(dateFormat) + " - " + taskShape.Task.End.Format(dateFormat)
+			dateText.Content = taskShape.Task.Start.Format(dateFormat)
+
+			if !taskShape.Task.IsMilestone {
+				dateText.Content += " - " + taskShape.Task.End.Format(dateFormat)
+			}
+
 			dateText.Stroke = svg.Black.ToString()
 			dateText.StrokeWidth = 1
 			dateText.StrokeOpacity = 1
