@@ -35,8 +35,8 @@ func (stager *Stager) treeParts(
 
 	stage := stager.stage
 
-	// find the shape (if any)
-	shape, ok := diagramStructure.map_Part_PartShape[part]
+	// find the partShape (if any)
+	partShape, ok := diagramStructure.map_Part_PartShape[part]
 	node := &tree.Node{
 		Name:                    part.Name,
 		IsExpanded:              slices.Contains(diagramStructure.PartWhoseNodeIsExpanded, part),
@@ -56,7 +56,7 @@ func (stager *Stager) treeParts(
 	parentNode.Children = append(parentNode.Children, node)
 	addRenameButton(part, node, stager)
 
-	if shape, ok := diagramStructure.map_Part_PartShape[part]; ok {
+	if partShape, ok = diagramStructure.map_Part_PartShape[part]; ok {
 		node.IsChecked = true
 		visibilityButton := &tree.Button{
 			Name:            diagramStructure.GetName(),
@@ -65,11 +65,11 @@ func (stager *Stager) treeParts(
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 			OnClick: func() {
-				shape.SetIsHidden(!shape.GetIsHidden())
+				partShape.SetIsHidden(!partShape.GetIsHidden())
 				stage.Commit()
 			},
 		}
-		if shape.GetIsHidden() {
+		if partShape.GetIsHidden() {
 			visibilityButton.Icon = string(buttons.BUTTON_visibility)
 			visibilityButton.ToolTipText = "Show on diagram"
 		}
@@ -80,19 +80,19 @@ func (stager *Stager) treeParts(
 	node.OnIsExpandedChange = onIsExpandedChangeSlice(stager, part, &diagramStructure.PartWhoseNodeIsExpanded)
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
-			if shape != nil {
+			if partShape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
-			shape = newShapeToDiagram(part, diagramStructure, &diagramStructure.Part_Shapes, stage)
+			partShape = newShapeToDiagram(part, diagramStructure, &diagramStructure.Part_Shapes, stage)
 
 			stage.Commit()
 			return
 		} else {
-			if shape == nil {
+			if partShape == nil {
 				log.Panic("remove a non existing shape to product")
 			}
-			shape.UnstageVoid(stage)
-			idx := slices.Index(diagramStructure.Part_Shapes, shape)
+			partShape.UnstageVoid(stage)
+			idx := slices.Index(diagramStructure.Part_Shapes, partShape)
 			diagramStructure.Part_Shapes = slices.Delete(diagramStructure.Part_Shapes, idx, idx+1)
 			stage.Commit()
 			return
@@ -111,7 +111,7 @@ func (stager *Stager) treeParts(
 	portsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&part.IsPortsNodeExpanded)
 
 	for _, port := range part.Ports {
-		stager.treePort(diagramStructure, part, port, portsNode, &diagramStructure.PortsWhoseNodeIsExpanded)
+		stager.treePort(diagramStructure, part, partShape, port, portsNode, &diagramStructure.PortsWhoseNodeIsExpanded)
 	}
 
 	// loook forward to https://github.com/golang/go/issues/61731
