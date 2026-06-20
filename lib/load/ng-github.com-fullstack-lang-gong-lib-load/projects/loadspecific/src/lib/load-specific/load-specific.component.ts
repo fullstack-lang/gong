@@ -3,10 +3,11 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import * as load from '../../../../load/src/public-api';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'lib-load-specific',
-  imports: [],
+  imports: [MatIconModule],
   templateUrl: './load-specific.component.html',
   styleUrl: './load-specific.component.css'
 })

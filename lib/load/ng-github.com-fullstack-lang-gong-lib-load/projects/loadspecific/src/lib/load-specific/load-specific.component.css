@@ -1,64 +1,73 @@
 .file-upload-container {
   width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
 .drop-zone {
-  border: 2px dashed #d1d5db;
+  border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 8px;
-  padding: 24px 16px;
+  padding: 32px 16px;
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s ease;
-  background-color: #f9fafb;
+  transition: all 0.2s ease;
+  background-color: rgba(0, 0, 0, 0.02);
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 120px;
 }
 
 .drop-zone:hover {
-  border-color: #3b82f6;
-  background-color: #eff6ff;
+  background-color: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.24);
 }
 
 .drop-zone.drag-over {
-  border-color: #3b82f6;
-  background-color: #dbeafe;
-  transform: scale(1.02);
+  border-color: #3f51b5;
+  background-color: rgba(63, 81, 181, 0.08);
 }
 
 .drop-zone.uploading {
-  border-color: #10b981;
-  background-color: #f0fdf4;
+  border-color: rgba(0, 0, 0, 0.12);
+  background-color: rgba(0, 0, 0, 0.04);
   cursor: not-allowed;
 }
 
 .drop-zone-content {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  flex-wrap: wrap;
 }
 
 .upload-icon {
-  font-size: 24px;
-  opacity: 0.6;
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+  color: rgba(0, 0, 0, 0.38);
 }
 
 .upload-text {
   font-size: 14px;
-  color: #6b7280;
+  color: rgba(0, 0, 0, 0.6);
   margin: 0;
-  font-weight: 500;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
 }
 
 .click-text {
-  color: #3b82f6;
+  color: #3f51b5;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.click-text:hover {
   text-decoration: underline;
-  font-weight: 600;
 }
 
 .file-input {
