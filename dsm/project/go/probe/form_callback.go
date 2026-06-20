@@ -3569,6 +3569,44 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(task_.Start), formDiv)
 		case "End":
 			FormDivBasicFieldToField(&(task_.End), formDiv)
+		case "Duration":
+			FormDivBasicFieldToField(&(task_.Duration), formDiv)
+		case "IsEndDateComputedFromDuration":
+			FormDivBasicFieldToField(&(task_.IsEndDateComputedFromDuration), formDiv)
+		case "Predecessors":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](taskFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Task, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Task)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					taskFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](taskFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			task_.Predecessors = instanceSlice
+			taskFormCallback.probe.UpdateSliceOfPointersCallback(task_, "Predecessors", &task_.Predecessors)
+
+		case "IsStartDateComputedFromPredecessors":
+			FormDivBasicFieldToField(&(task_.IsStartDateComputedFromPredecessors), formDiv)
 		case "IsMilestone":
 			FormDivBasicFieldToField(&(task_.IsMilestone), formDiv)
 		case "Description":
@@ -3984,6 +4022,51 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 					if idx != -1 {
 						_resource.Tasks = slices.Delete(_resource.Tasks, idx, idx+1)
 						taskFormCallback.probe.UpdateSliceOfPointersCallback(_resource, "Tasks", &_resource.Tasks)
+					}
+				}
+			}
+		case "Task:Predecessors":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Task instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Task instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](taskFormCallback.probe.stageOfInterest)
+			targetTaskIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetTaskIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Task instances and update their Predecessors slice
+			for _task := range *models.GetGongstructInstancesSetFromPointerType[*models.Task](taskFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _task)
+				
+				// if Task is selected
+				if targetTaskIDs[id] {
+					// ensure task_ is in _task.Predecessors
+					found := false
+					for _, _b := range _task.Predecessors {
+						if _b == task_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_task.Predecessors = append(_task.Predecessors, task_)
+						taskFormCallback.probe.UpdateSliceOfPointersCallback(_task, "Predecessors", &_task.Predecessors)
+					}
+				} else {
+					// ensure task_ is NOT in _task.Predecessors
+					idx := slices.Index(_task.Predecessors, task_)
+					if idx != -1 {
+						_task.Predecessors = slices.Delete(_task.Predecessors, idx, idx+1)
+						taskFormCallback.probe.UpdateSliceOfPointersCallback(_task, "Predecessors", &_task.Predecessors)
 					}
 				}
 			}

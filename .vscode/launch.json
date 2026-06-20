@@ -740,6 +740,17 @@
             ]
         },
         {
+            "name": "project: go run issue1340.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
+            "args": [
+                "-embeddedDiagrams=false",
+                "data/issue1340.go",
+            ]
+        },
+        {
             "name": "project: go run issue1263.go",
             "type": "go",
             "request": "launch",

@@ -69,6 +69,8 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce duplicate remove", stager.enforceDuplicateRemove},
 		{"Enforce library has at least one diagram", stager.enforceLibraryHasAtLeastOneDiagram},
 		{"Enforce task milestone dates", stager.enforceTaskMilestoneDates},
+		{"Enforce task duration dates", stager.enforceTaskDurationDates},
+		{"Enforce task predecessor dates", stager.enforceTaskPredecessorDates},
 
 		// concrete semantic check
 
@@ -79,6 +81,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce shapes abstract consistency", stager.enforceShapesAbstractConsistency},
 		{"Enforce diagram size", stager.enforceDiagramSize},
 		{"Enforce association shape consistency", stager.enforceAssociationShapeConsistency},
+		{"Enforce shape names", stager.enforceShapeNames},
 		{"Enforce diagram dates", stager.enforceDiagramDates},
 
 		// to be performed at the end
@@ -110,3 +113,41 @@ func (stager *Stager) enforceTaskMilestoneDates() (needCommit bool) {
 	}
 	return
 }
+
+func (stager *Stager) enforceTaskDurationDates() (needCommit bool) {
+	for _, task := range GetGongstrucsSorted[*Task](stager.stage) {
+		if task.IsEndDateComputedFromDuration {
+			expectedEnd := task.Start.Add(task.Duration)
+			if !task.End.Equal(expectedEnd) {
+				task.End = expectedEnd
+				needCommit = true
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted end date from duration", task.Name))
+				}
+			}
+		}
+	}
+	return
+}
+
+func (stager *Stager) enforceTaskPredecessorDates() (needCommit bool) {
+	for _, task := range GetGongstrucsSorted[*Task](stager.stage) {
+		if task.IsStartDateComputedFromPredecessors && len(task.Predecessors) > 0 {
+			var maxEnd time.Time
+			for i, predecessor := range task.Predecessors {
+				if i == 0 || predecessor.End.After(maxEnd) {
+					maxEnd = predecessor.End
+				}
+			}
+			if !task.Start.Equal(maxEnd) {
+				task.Start = maxEnd
+				needCommit = true
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s: shifted start date from predecessors", task.Name))
+				}
+			}
+		}
+	}
+	return
+}
+

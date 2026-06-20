@@ -329,6 +329,10 @@ func (inst *Task) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 		}
 	case "Task":
 		switch reverseField.Fieldname {
+		case "Predecessors":
+			if _task, ok := stage.Task_Predecessors_reverseMap[inst]; ok {
+				res = _task.Name
+			}
 		case "SubTasks":
 			if _task, ok := stage.Task_SubTasks_reverseMap[inst]; ok {
 				res = _task.Name
@@ -725,6 +729,8 @@ func (inst *Task) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 		}
 	case "Task":
 		switch reverseField.Fieldname {
+		case "Predecessors":
+			res = stage.Task_Predecessors_reverseMap[inst]
 		case "SubTasks":
 			res = stage.Task_SubTasks_reverseMap[inst]
 		}

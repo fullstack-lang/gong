@@ -1262,6 +1262,14 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 				}
 			}
 		}
+	case "Duration":
+		instance.Duration = time.Duration(GongExtractInt(valueExpr))
+	case "IsEndDateComputedFromDuration":
+		instance.IsEndDateComputedFromDuration = GongExtractBool(valueExpr)
+	case "Predecessors":
+		GongUnmarshallSliceOfPointers(&instance.Predecessors, valueExpr, identifierMap)
+	case "IsStartDateComputedFromPredecessors":
+		instance.IsStartDateComputedFromPredecessors = GongExtractBool(valueExpr)
 	case "IsMilestone":
 		instance.IsMilestone = GongExtractBool(valueExpr)
 	case "Description":

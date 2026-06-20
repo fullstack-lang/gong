@@ -836,6 +836,10 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "ReferencedTask"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Start"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "Duration"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsEndDateComputedFromDuration"))
+		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Predecessors"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsStartDateComputedFromPredecessors"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsMilestone"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Description"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "SubTasks"))
@@ -2842,6 +2846,21 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", task.End.String())
+	case "Duration":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Duration")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", task.Duration))
+	case "IsEndDateComputedFromDuration":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEndDateComputedFromDuration")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsEndDateComputedFromDuration))
+	case "IsStartDateComputedFromPredecessors":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsStartDateComputedFromPredecessors")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsStartDateComputedFromPredecessors))
 	case "IsMilestone":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
@@ -2922,6 +2941,16 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ReferencedTask")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "Predecessors":
+		var sb strings.Builder
+		for _, _task := range task.Predecessors {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", task.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Predecessors")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _task.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "SubTasks":
 		var sb strings.Builder
 		for _, _task := range task.SubTasks {
@@ -3732,6 +3761,10 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "ReferencedTask"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Start"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "End"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "Duration"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsEndDateComputedFromDuration"))
+		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "Predecessors"))
+		initializerStatements.WriteString(task.GongMarshallField(stage, "IsStartDateComputedFromPredecessors"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "IsMilestone"))
 		initializerStatements.WriteString(task.GongMarshallField(stage, "Description"))
 		pointersInitializesStatements.WriteString(task.GongMarshallField(stage, "SubTasks"))

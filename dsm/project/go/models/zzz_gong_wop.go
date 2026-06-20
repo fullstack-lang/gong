@@ -546,6 +546,12 @@ type Task_WOP struct {
 
 	End time.Time
 
+	Duration time.Duration
+
+	IsEndDateComputedFromDuration bool
+
+	IsStartDateComputedFromPredecessors bool
+
 	IsMilestone bool
 
 	Description string
@@ -576,6 +582,9 @@ func (from *Task) CopyBasicFields(to *Task) {
 	to.IsImport = from.IsImport
 	to.Start = from.Start
 	to.End = from.End
+	to.Duration = from.Duration
+	to.IsEndDateComputedFromDuration = from.IsEndDateComputedFromDuration
+	to.IsStartDateComputedFromPredecessors = from.IsStartDateComputedFromPredecessors
 	to.IsMilestone = from.IsMilestone
 	to.Description = from.Description
 	to.IsInputsNodeExpanded = from.IsInputsNodeExpanded

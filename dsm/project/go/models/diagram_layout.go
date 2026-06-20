@@ -227,7 +227,7 @@ func layoutDiagram(diagram *Diagram, stager *Stager) {
 		productLinks = append(productLinks, link)
 	}
 
-	layoutGenericShapes[*Product, *ProductShape, *ProductCompositionShape](
+	layoutGenericShapes(
 		productShapes,
 		rootProducts,
 		func(p *Product) []*Product { return p.SubProducts },
@@ -248,7 +248,7 @@ func layoutDiagram(diagram *Diagram, stager *Stager) {
 		taskLinks = append(taskLinks, link)
 	}
 
-	layoutGenericShapes[*Task, *TaskShape, *TaskCompositionShape](
+	layoutGenericShapes(
 		taskShapes,
 		rootTasks,
 		func(t *Task) []*Task { return t.SubTasks },
@@ -269,7 +269,7 @@ func layoutDiagram(diagram *Diagram, stager *Stager) {
 		resourceLinks = append(resourceLinks, link)
 	}
 
-	layoutGenericShapes[*Resource, *ResourceShape, *ResourceCompositionShape](
+	layoutGenericShapes(
 		resourceShapes,
 		rootResources,
 		func(r *Resource) []*Resource { return r.SubResources },

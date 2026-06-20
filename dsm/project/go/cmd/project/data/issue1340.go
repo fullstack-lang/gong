@@ -34,22 +34,6 @@ func _(stage *models.Stage) {
 	__Library__00000000_ := (&models.Library{Name: `Years diagram`}).Stage(stage)
 	__Library__00000001_ := (&models.Library{Name: `Montly diagram`}).Stage(stage)
 
-	__Product__00000000_ := (&models.Product{Name: `P1`}).Stage(stage)
-	__Product__00000001_ := (&models.Product{Name: `P1.1`}).Stage(stage)
-	__Product__00000002_ := (&models.Product{Name: `P1.2`}).Stage(stage)
-	__Product__00000003_ := (&models.Product{Name: `P1.3`}).Stage(stage)
-	__Product__00000004_ := (&models.Product{Name: `P1.3.1`}).Stage(stage)
-	__Product__00000006_ := (&models.Product{Name: `P1.2.2`}).Stage(stage)
-	__Product__00000007_ := (&models.Product{Name: `P1.2.2.1`}).Stage(stage)
-	__Product__00000008_ := (&models.Product{Name: `P1.2.2.2 AAAA AAAA AAAA AAAAA`}).Stage(stage)
-	__Product__00000009_ := (&models.Product{Name: `P1.2.2.3`}).Stage(stage)
-	__Product__00000010_ := (&models.Product{Name: `P1.2.2.4`}).Stage(stage)
-	__Product__00000011_ := (&models.Product{Name: `P1.2.2.1.1`}).Stage(stage)
-	__Product__00000012_ := (&models.Product{Name: `B`}).Stage(stage)
-
-	__Task__00000000_ := (&models.Task{Name: `L1.W1`}).Stage(stage)
-	__Task__00000001_ := (&models.Task{Name: `L1.W2`}).Stage(stage)
-	__Task__00000002_ := (&models.Task{Name: `L2.W1`}).Stage(stage)
 	__Task__00000003_ := (&models.Task{Name: `spring 26`}).Stage(stage)
 	__Task__00000004_ := (&models.Task{Name: `summer 26`}).Stage(stage)
 	__Task__00000005_ := (&models.Task{Name: `winter 26`}).Stage(stage)
@@ -64,14 +48,8 @@ func _(stage *models.Stage) {
 	__TaskCompositionShape__00000012_ := (&models.TaskCompositionShape{Name: `Time Diagram-Seasons-summer 26`}).Stage(stage)
 	__TaskCompositionShape__00000013_ := (&models.TaskCompositionShape{Name: `Time Diagram-Seasons-winter 27`}).Stage(stage)
 	__TaskCompositionShape__00000021_ := (&models.TaskCompositionShape{Name: `Time Diagram-Seasons-New Year 2027`}).Stage(stage)
-	__TaskCompositionShape__00000029_ := (&models.TaskCompositionShape{Name: `Time Diagram-Seasons-winter 26`}).Stage(stage)
-	__TaskCompositionShape__00000041_ := (&models.TaskCompositionShape{Name: `Time Diagram-winter 26-Jan 26`}).Stage(stage)
-	__TaskCompositionShape__00000043_ := (&models.TaskCompositionShape{Name: `Time Diagram-winter 26-Mar 26`}).Stage(stage)
-	__TaskCompositionShape__00000044_ := (&models.TaskCompositionShape{Name: `Time Diagram-winter 26-Feb 26`}).Stage(stage)
+	__TaskCompositionShape__00000045_ := (&models.TaskCompositionShape{Name: `Time Diagram-Seasons-winter 26`}).Stage(stage)
 
-	__TaskGroup__00000000_ := (&models.TaskGroup{Name: `L1`}).Stage(stage)
-	__TaskGroup__00000002_ := (&models.TaskGroup{Name: `L2`}).Stage(stage)
-	__TaskGroup__00000003_ := (&models.TaskGroup{Name: `L3`}).Stage(stage)
 	__TaskGroup__00000004_ := (&models.TaskGroup{Name: `year 2026`}).Stage(stage)
 	__TaskGroup__00000005_ := (&models.TaskGroup{Name: `year 2027`}).Stage(stage)
 
@@ -85,10 +63,10 @@ func _(stage *models.Stage) {
 	__TaskShape__00000022_ := (&models.TaskShape{Name: `Time Diagram-summer 26`}).Stage(stage)
 	__TaskShape__00000023_ := (&models.TaskShape{Name: `Time Diagram-winter 27`}).Stage(stage)
 	__TaskShape__00000032_ := (&models.TaskShape{Name: `Time Diagram-New Year 2027`}).Stage(stage)
-	__TaskShape__00000042_ := (&models.TaskShape{Name: `Time Diagram-winter 26`}).Stage(stage)
 	__TaskShape__00000054_ := (&models.TaskShape{Name: `Time Diagram-Jan 26`}).Stage(stage)
 	__TaskShape__00000056_ := (&models.TaskShape{Name: `Time Diagram-Mar 26`}).Stage(stage)
 	__TaskShape__00000057_ := (&models.TaskShape{Name: `Time Diagram-Feb 26`}).Stage(stage)
+	__TaskShape__00000058_ := (&models.TaskShape{Name: `Time Diagram-winter 26`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -103,8 +81,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.DefaultBoxHeigth = 50.000000
 	__Diagram__00000000_.Width = 1100.000000
 	__Diagram__00000000_.Height = 155.000000
-	__Diagram__00000000_.IsPBSNodeExpanded = false
-	__Diagram__00000000_.IsWBSNodeExpanded = false
+	__Diagram__00000000_.IsPBSNodeExpanded = true
+	__Diagram__00000000_.IsWBSNodeExpanded = true
 	__Diagram__00000000_.IsTaskGroupsNodeExpanded = true
 	__Diagram__00000000_.DateFormat = `2006`
 	__Diagram__00000000_.IsNotesNodeExpanded = false
@@ -245,177 +223,6 @@ func _(stage *models.Stage) {
 	__Library__00000001_.IsExpanded = true
 	__Library__00000001_.LayoutDirection = models.Vertical
 	__Library__00000001_.IsRootLibrary = false
-
-	__Product__00000000_.Name = `P1`
-	__Product__00000000_.ComputedPrefix = `1`
-	__Product__00000000_.IsExpanded = false
-	__Product__00000000_.LayoutDirection = models.Horizontal
-	__Product__00000000_.IsImport = false
-	__Product__00000000_.Description = ``
-	__Product__00000000_.IsProducersNodeExpanded = false
-	__Product__00000000_.IsConsumersNodeExpanded = false
-
-	__Product__00000001_.Name = `P1.1`
-	__Product__00000001_.ComputedPrefix = `1.1`
-	__Product__00000001_.IsExpanded = false
-	__Product__00000001_.LayoutDirection = models.Vertical
-	__Product__00000001_.IsImport = false
-	__Product__00000001_.Description = ``
-	__Product__00000001_.IsProducersNodeExpanded = false
-	__Product__00000001_.IsConsumersNodeExpanded = false
-
-	__Product__00000002_.Name = `P1.2`
-	__Product__00000002_.ComputedPrefix = `1.2`
-	__Product__00000002_.IsExpanded = false
-	__Product__00000002_.LayoutDirection = models.Vertical
-	__Product__00000002_.IsImport = false
-	__Product__00000002_.Description = ``
-	__Product__00000002_.IsProducersNodeExpanded = false
-	__Product__00000002_.IsConsumersNodeExpanded = false
-
-	__Product__00000003_.Name = `P1.3`
-	__Product__00000003_.ComputedPrefix = `1.3`
-	__Product__00000003_.IsExpanded = false
-	__Product__00000003_.LayoutDirection = models.Vertical
-	__Product__00000003_.IsImport = false
-	__Product__00000003_.Description = ``
-	__Product__00000003_.IsProducersNodeExpanded = false
-	__Product__00000003_.IsConsumersNodeExpanded = false
-
-	__Product__00000004_.Name = `P1.3.1`
-	__Product__00000004_.ComputedPrefix = `1.3.1`
-	__Product__00000004_.IsExpanded = false
-	__Product__00000004_.LayoutDirection = models.Vertical
-	__Product__00000004_.IsImport = false
-	__Product__00000004_.Description = ``
-	__Product__00000004_.IsProducersNodeExpanded = false
-	__Product__00000004_.IsConsumersNodeExpanded = false
-
-	__Product__00000006_.Name = `P1.2.2`
-	__Product__00000006_.ComputedPrefix = `1.2.1`
-	__Product__00000006_.IsExpanded = false
-	__Product__00000006_.LayoutDirection = models.Horizontal
-	__Product__00000006_.IsImport = false
-	__Product__00000006_.Description = ``
-	__Product__00000006_.IsProducersNodeExpanded = false
-	__Product__00000006_.IsConsumersNodeExpanded = false
-
-	__Product__00000007_.Name = `P1.2.2.1`
-	__Product__00000007_.ComputedPrefix = `1.2.1.1`
-	__Product__00000007_.IsExpanded = false
-	__Product__00000007_.LayoutDirection = models.Vertical
-	__Product__00000007_.IsImport = false
-	__Product__00000007_.Description = ``
-	__Product__00000007_.IsProducersNodeExpanded = false
-	__Product__00000007_.IsConsumersNodeExpanded = false
-
-	__Product__00000008_.Name = `P1.2.2.2 AAAA AAAA AAAA AAAAA`
-	__Product__00000008_.ComputedPrefix = `1.2.1.2`
-	__Product__00000008_.IsExpanded = false
-	__Product__00000008_.LayoutDirection = models.Vertical
-	__Product__00000008_.IsImport = false
-	__Product__00000008_.Description = ``
-	__Product__00000008_.IsProducersNodeExpanded = false
-	__Product__00000008_.IsConsumersNodeExpanded = false
-
-	__Product__00000009_.Name = `P1.2.2.3`
-	__Product__00000009_.ComputedPrefix = `1.2.1.3`
-	__Product__00000009_.IsExpanded = false
-	__Product__00000009_.LayoutDirection = models.Vertical
-	__Product__00000009_.IsImport = false
-	__Product__00000009_.Description = ``
-	__Product__00000009_.IsProducersNodeExpanded = false
-	__Product__00000009_.IsConsumersNodeExpanded = false
-
-	__Product__00000010_.Name = `P1.2.2.4`
-	__Product__00000010_.ComputedPrefix = `1.2.1.4`
-	__Product__00000010_.IsExpanded = false
-	__Product__00000010_.LayoutDirection = models.Vertical
-	__Product__00000010_.IsImport = false
-	__Product__00000010_.Description = ``
-	__Product__00000010_.IsProducersNodeExpanded = false
-	__Product__00000010_.IsConsumersNodeExpanded = false
-
-	__Product__00000011_.Name = `P1.2.2.1.1`
-	__Product__00000011_.ComputedPrefix = `1.2.1.1.1`
-	__Product__00000011_.IsExpanded = false
-	__Product__00000011_.LayoutDirection = models.Vertical
-	__Product__00000011_.IsImport = false
-	__Product__00000011_.Description = ``
-	__Product__00000011_.IsProducersNodeExpanded = false
-	__Product__00000011_.IsConsumersNodeExpanded = false
-
-	__Product__00000012_.Name = `B`
-	__Product__00000012_.ComputedPrefix = `1.2.1.1.2`
-	__Product__00000012_.IsExpanded = false
-	__Product__00000012_.LayoutDirection = models.Vertical
-	__Product__00000012_.IsImport = false
-	__Product__00000012_.Description = ``
-	__Product__00000012_.IsProducersNodeExpanded = false
-	__Product__00000012_.IsConsumersNodeExpanded = false
-
-	__Task__00000000_.Name = `L1.W1`
-	__Task__00000000_.ComputedPrefix = `1`
-	__Task__00000000_.IsExpanded = false
-	__Task__00000000_.LayoutDirection = models.Vertical
-	__Task__00000000_.IsImport = false
-	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2000-01-01 00:00:00 +0000 UTC")
-	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2030-01-01 00:00:00 +0000 UTC")
-	__Task__00000000_.Duration = 0
-	__Task__00000000_.IsEndDateComputedFromDuration = false
-	__Task__00000000_.IsStartDateComputedFromPredecessors = false
-	__Task__00000000_.IsMilestone = false
-	__Task__00000000_.Description = ``
-	__Task__00000000_.IsInputsNodeExpanded = false
-	__Task__00000000_.IsOutputsNodeExpanded = false
-	__Task__00000000_.IsWithCompletion = false
-	__Task__00000000_.Completion = ""
-	__Task__00000000_.DisplayVerticalBar = false
-	__Task__00000000_.TextPosition = ""
-	__Task__00000000_.XOffset = 0.000000
-	__Task__00000000_.YOffset = 0.000000
-
-	__Task__00000001_.Name = `L1.W2`
-	__Task__00000001_.ComputedPrefix = `2`
-	__Task__00000001_.IsExpanded = false
-	__Task__00000001_.LayoutDirection = models.Vertical
-	__Task__00000001_.IsImport = false
-	__Task__00000001_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2020-01-01 00:00:00 +0000 UTC")
-	__Task__00000001_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2025-01-01 00:00:00 +0000 UTC")
-	__Task__00000001_.Duration = 0
-	__Task__00000001_.IsEndDateComputedFromDuration = false
-	__Task__00000001_.IsStartDateComputedFromPredecessors = false
-	__Task__00000001_.IsMilestone = false
-	__Task__00000001_.Description = ``
-	__Task__00000001_.IsInputsNodeExpanded = false
-	__Task__00000001_.IsOutputsNodeExpanded = false
-	__Task__00000001_.IsWithCompletion = false
-	__Task__00000001_.Completion = ""
-	__Task__00000001_.DisplayVerticalBar = false
-	__Task__00000001_.TextPosition = ""
-	__Task__00000001_.XOffset = 0.000000
-	__Task__00000001_.YOffset = 0.000000
-
-	__Task__00000002_.Name = `L2.W1`
-	__Task__00000002_.ComputedPrefix = `3`
-	__Task__00000002_.IsExpanded = false
-	__Task__00000002_.LayoutDirection = models.Vertical
-	__Task__00000002_.IsImport = false
-	__Task__00000002_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2021-01-01 00:00:00 +0000 UTC")
-	__Task__00000002_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-01-01 00:00:00 +0000 UTC")
-	__Task__00000002_.Duration = 0
-	__Task__00000002_.IsEndDateComputedFromDuration = false
-	__Task__00000002_.IsStartDateComputedFromPredecessors = false
-	__Task__00000002_.IsMilestone = false
-	__Task__00000002_.Description = ``
-	__Task__00000002_.IsInputsNodeExpanded = false
-	__Task__00000002_.IsOutputsNodeExpanded = false
-	__Task__00000002_.IsWithCompletion = false
-	__Task__00000002_.Completion = ""
-	__Task__00000002_.DisplayVerticalBar = false
-	__Task__00000002_.TextPosition = ""
-	__Task__00000002_.XOffset = 0.000000
-	__Task__00000002_.YOffset = 0.000000
 
 	__Task__00000003_.Name = `spring 26`
 	__Task__00000003_.ComputedPrefix = `1.2`
@@ -638,52 +445,13 @@ func _(stage *models.Stage) {
 	__TaskCompositionShape__00000021_.CornerOffsetRatio = 1.500000
 	__TaskCompositionShape__00000021_.IsHidden = false
 
-	__TaskCompositionShape__00000029_.Name = `Time Diagram-Seasons-winter 26`
-	__TaskCompositionShape__00000029_.StartRatio = 0.500000
-	__TaskCompositionShape__00000029_.EndRatio = 0.500000
-	__TaskCompositionShape__00000029_.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000029_.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000029_.CornerOffsetRatio = 1.500000
-	__TaskCompositionShape__00000029_.IsHidden = false
-
-	__TaskCompositionShape__00000041_.Name = `Time Diagram-winter 26-Jan 26`
-	__TaskCompositionShape__00000041_.StartRatio = 0.500000
-	__TaskCompositionShape__00000041_.EndRatio = 0.500000
-	__TaskCompositionShape__00000041_.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000041_.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000041_.CornerOffsetRatio = 1.500000
-	__TaskCompositionShape__00000041_.IsHidden = false
-
-	__TaskCompositionShape__00000043_.Name = `Time Diagram-winter 26-Mar 26`
-	__TaskCompositionShape__00000043_.StartRatio = 0.500000
-	__TaskCompositionShape__00000043_.EndRatio = 0.500000
-	__TaskCompositionShape__00000043_.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000043_.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000043_.CornerOffsetRatio = 1.500000
-	__TaskCompositionShape__00000043_.IsHidden = false
-
-	__TaskCompositionShape__00000044_.Name = `Time Diagram-winter 26-Feb 26`
-	__TaskCompositionShape__00000044_.StartRatio = 0.500000
-	__TaskCompositionShape__00000044_.EndRatio = 0.500000
-	__TaskCompositionShape__00000044_.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000044_.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000044_.CornerOffsetRatio = 1.500000
-	__TaskCompositionShape__00000044_.IsHidden = false
-
-	__TaskGroup__00000000_.Name = `L1`
-	__TaskGroup__00000000_.ComputedPrefix = ``
-	__TaskGroup__00000000_.IsExpanded = false
-	__TaskGroup__00000000_.LayoutDirection = models.Vertical
-
-	__TaskGroup__00000002_.Name = `L2`
-	__TaskGroup__00000002_.ComputedPrefix = ``
-	__TaskGroup__00000002_.IsExpanded = false
-	__TaskGroup__00000002_.LayoutDirection = models.Vertical
-
-	__TaskGroup__00000003_.Name = `L3`
-	__TaskGroup__00000003_.ComputedPrefix = ``
-	__TaskGroup__00000003_.IsExpanded = false
-	__TaskGroup__00000003_.LayoutDirection = models.Vertical
+	__TaskCompositionShape__00000045_.Name = `Time Diagram-Seasons-winter 26`
+	__TaskCompositionShape__00000045_.StartRatio = 0.500000
+	__TaskCompositionShape__00000045_.EndRatio = 0.500000
+	__TaskCompositionShape__00000045_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000045_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000045_.CornerOffsetRatio = 1.500000
+	__TaskCompositionShape__00000045_.IsHidden = false
 
 	__TaskGroup__00000004_.Name = `year 2026`
 	__TaskGroup__00000004_.ComputedPrefix = ``
@@ -773,16 +541,6 @@ func _(stage *models.Stage) {
 	__TaskShape__00000032_.Height = 70.000000
 	__TaskShape__00000032_.IsHidden = false
 
-	__TaskShape__00000042_.Name = `Time Diagram-winter 26`
-	__TaskShape__00000042_.IsShowDate = false
-	__TaskShape__00000042_.OverideLayoutDirection = false
-	__TaskShape__00000042_.LayoutDirection = models.Vertical
-	__TaskShape__00000042_.X = 1334.246143
-	__TaskShape__00000042_.Y = 264.124452
-	__TaskShape__00000042_.Width = 250.000000
-	__TaskShape__00000042_.Height = 70.000000
-	__TaskShape__00000042_.IsHidden = false
-
 	__TaskShape__00000054_.Name = `Time Diagram-Jan 26`
 	__TaskShape__00000054_.IsShowDate = false
 	__TaskShape__00000054_.OverideLayoutDirection = false
@@ -813,77 +571,47 @@ func _(stage *models.Stage) {
 	__TaskShape__00000057_.Height = 70.000000
 	__TaskShape__00000057_.IsHidden = false
 
+	__TaskShape__00000058_.Name = `Time Diagram-winter 26`
+	__TaskShape__00000058_.IsShowDate = false
+	__TaskShape__00000058_.OverideLayoutDirection = false
+	__TaskShape__00000058_.LayoutDirection = models.Vertical
+	__TaskShape__00000058_.X = 1334.246143
+	__TaskShape__00000058_.Y = 264.124452
+	__TaskShape__00000058_.Width = 250.000000
+	__TaskShape__00000058_.Height = 70.000000
+	__TaskShape__00000058_.IsHidden = false
+
 	// insertion point for setup of pointers
-	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Product__00000000_)
-	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Product__00000003_)
-	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Product__00000002_)
-	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Product__00000006_)
-	__Diagram__00000000_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_.ProductsWhoseNodeIsExpanded, __Product__00000007_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000019_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000021_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000022_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000023_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000032_)
-	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000042_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000054_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000056_)
 	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000057_)
-	__Diagram__00000001_.TasksWhoseNodeIsExpanded = append(__Diagram__00000001_.TasksWhoseNodeIsExpanded, __Task__00000005_)
+	__Diagram__00000001_.Task_Shapes = append(__Diagram__00000001_.Task_Shapes, __TaskShape__00000058_)
+	__Diagram__00000001_.TasksWhoseNodeIsExpanded = append(__Diagram__00000001_.TasksWhoseNodeIsExpanded, __Task__00000007_)
 	__Diagram__00000001_.TaskGroupShapes = append(__Diagram__00000001_.TaskGroupShapes, __TaskGroupShape__00000003_)
 	__Diagram__00000001_.TaskGroupShapes = append(__Diagram__00000001_.TaskGroupShapes, __TaskGroupShape__00000007_)
 	__Diagram__00000001_.TaskGroupsWhoseNodeIsExpanded = append(__Diagram__00000001_.TaskGroupsWhoseNodeIsExpanded, __TaskGroup__00000004_)
+	__Diagram__00000001_.TaskGroupsWhoseNodeIsExpanded = append(__Diagram__00000001_.TaskGroupsWhoseNodeIsExpanded, __TaskGroup__00000005_)
 	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000011_)
 	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000012_)
 	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000013_)
 	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000021_)
-	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000029_)
-	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000041_)
-	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000043_)
-	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000044_)
+	__Diagram__00000001_.TaskComposition_Shapes = append(__Diagram__00000001_.TaskComposition_Shapes, __TaskCompositionShape__00000045_)
 	__Diagram__00000002_.TasksWhoseNodeIsExpanded = append(__Diagram__00000002_.TasksWhoseNodeIsExpanded, __Task__00000007_)
 	__Diagram__00000002_.TasksWhoseNodeIsExpanded = append(__Diagram__00000002_.TasksWhoseNodeIsExpanded, __Task__00000005_)
 	__Diagram__00000002_.TaskGroupShapes = append(__Diagram__00000002_.TaskGroupShapes, __TaskGroupShape__00000005_)
 	__Diagram__00000002_.TaskGroupShapes = append(__Diagram__00000002_.TaskGroupShapes, __TaskGroupShape__00000006_)
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000001_)
-	__Library__00000000_.RootProducts = append(__Library__00000000_.RootProducts, __Product__00000000_)
-	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000000_)
-	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000001_)
-	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000002_)
-	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000000_)
-	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000002_)
-	__Library__00000000_.RootTaskGroups = append(__Library__00000000_.RootTaskGroups, __TaskGroup__00000003_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
 	__Library__00000001_.RootTasks = append(__Library__00000001_.RootTasks, __Task__00000007_)
 	__Library__00000001_.RootTaskGroups = append(__Library__00000001_.RootTaskGroups, __TaskGroup__00000004_)
 	__Library__00000001_.RootTaskGroups = append(__Library__00000001_.RootTaskGroups, __TaskGroup__00000005_)
 	__Library__00000001_.Diagrams = append(__Library__00000001_.Diagrams, __Diagram__00000001_)
 	__Library__00000001_.Diagrams = append(__Library__00000001_.Diagrams, __Diagram__00000002_)
-	__Product__00000000_.ReferencedProduct = nil
-	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000001_)
-	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000002_)
-	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000003_)
-	__Product__00000001_.ReferencedProduct = nil
-	__Product__00000002_.ReferencedProduct = nil
-	__Product__00000002_.SubProducts = append(__Product__00000002_.SubProducts, __Product__00000006_)
-	__Product__00000003_.ReferencedProduct = nil
-	__Product__00000003_.SubProducts = append(__Product__00000003_.SubProducts, __Product__00000004_)
-	__Product__00000004_.ReferencedProduct = nil
-	__Product__00000006_.ReferencedProduct = nil
-	__Product__00000006_.SubProducts = append(__Product__00000006_.SubProducts, __Product__00000007_)
-	__Product__00000006_.SubProducts = append(__Product__00000006_.SubProducts, __Product__00000008_)
-	__Product__00000006_.SubProducts = append(__Product__00000006_.SubProducts, __Product__00000009_)
-	__Product__00000006_.SubProducts = append(__Product__00000006_.SubProducts, __Product__00000010_)
-	__Product__00000007_.ReferencedProduct = nil
-	__Product__00000007_.SubProducts = append(__Product__00000007_.SubProducts, __Product__00000011_)
-	__Product__00000007_.SubProducts = append(__Product__00000007_.SubProducts, __Product__00000012_)
-	__Product__00000008_.ReferencedProduct = nil
-	__Product__00000009_.ReferencedProduct = nil
-	__Product__00000010_.ReferencedProduct = nil
-	__Product__00000011_.ReferencedProduct = nil
-	__Product__00000012_.ReferencedProduct = nil
-	__Task__00000000_.ReferencedTask = nil
-	__Task__00000001_.ReferencedTask = nil
-	__Task__00000002_.ReferencedTask = nil
 	__Task__00000003_.ReferencedTask = nil
 	__Task__00000004_.ReferencedTask = nil
 	__Task__00000005_.ReferencedTask = nil
@@ -907,16 +635,11 @@ func _(stage *models.Stage) {
 	__TaskCompositionShape__00000012_.Task = __Task__00000004_
 	__TaskCompositionShape__00000013_.Task = __Task__00000006_
 	__TaskCompositionShape__00000021_.Task = __Task__00000011_
-	__TaskCompositionShape__00000029_.Task = __Task__00000005_
-	__TaskCompositionShape__00000041_.Task = __Task__00000008_
-	__TaskCompositionShape__00000043_.Task = __Task__00000010_
-	__TaskCompositionShape__00000044_.Task = __Task__00000009_
-	__TaskGroup__00000000_.Tasks = append(__TaskGroup__00000000_.Tasks, __Task__00000001_)
-	__TaskGroup__00000000_.Tasks = append(__TaskGroup__00000000_.Tasks, __Task__00000000_)
-	__TaskGroup__00000002_.Tasks = append(__TaskGroup__00000002_.Tasks, __Task__00000002_)
+	__TaskCompositionShape__00000045_.Task = __Task__00000005_
 	__TaskGroup__00000004_.Tasks = append(__TaskGroup__00000004_.Tasks, __Task__00000005_)
 	__TaskGroup__00000004_.Tasks = append(__TaskGroup__00000004_.Tasks, __Task__00000003_)
 	__TaskGroup__00000004_.Tasks = append(__TaskGroup__00000004_.Tasks, __Task__00000004_)
+	__TaskGroup__00000004_.Tasks = append(__TaskGroup__00000004_.Tasks, __Task__00000008_)
 	__TaskGroup__00000005_.Tasks = append(__TaskGroup__00000005_.Tasks, __Task__00000006_)
 	__TaskGroup__00000005_.Tasks = append(__TaskGroup__00000005_.Tasks, __Task__00000008_)
 	__TaskGroup__00000005_.Tasks = append(__TaskGroup__00000005_.Tasks, __Task__00000011_)
@@ -929,8 +652,8 @@ func _(stage *models.Stage) {
 	__TaskShape__00000022_.Task = __Task__00000004_
 	__TaskShape__00000023_.Task = __Task__00000006_
 	__TaskShape__00000032_.Task = __Task__00000011_
-	__TaskShape__00000042_.Task = __Task__00000005_
 	__TaskShape__00000054_.Task = __Task__00000008_
 	__TaskShape__00000056_.Task = __Task__00000010_
 	__TaskShape__00000057_.Task = __Task__00000009_
+	__TaskShape__00000058_.Task = __Task__00000005_
 }

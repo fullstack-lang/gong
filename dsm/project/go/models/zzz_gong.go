@@ -414,6 +414,8 @@ type Stage struct {
 	Tasks_referenceOrder map[*Task]uint
 
 	// insertion point for slice of pointers maps
+	Task_Predecessors_reverseMap map[*Task]*Task
+
 	Task_SubTasks_reverseMap map[*Task]*Task
 
 	Task_Inputs_reverseMap map[*Product]*Task
@@ -4880,6 +4882,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Task with the name of the field
 			ReferencedTask: &Task{Name: "ReferencedTask"},
 			// field is initialized with an instance of Task with the name of the field
+			Predecessors: []*Task{{Name: "Predecessors"}},
+			// field is initialized with an instance of Task with the name of the field
 			SubTasks: []*Task{{Name: "SubTasks"}},
 			// field is initialized with an instance of Product with the name of the field
 			Inputs: []*Product{{Name: "Inputs"}},
@@ -5802,6 +5806,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Task:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Predecessors":
+			res := make(map[*Task][]*Task)
+			for task := range stage.Tasks {
+				for _, task_ := range task.Predecessors {
+					res[task_] = append(res[task_], task)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "SubTasks":
 			res := make(map[*Task][]*Task)
 			for task := range stage.Tasks {
@@ -6074,6 +6086,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "Resource"
 		rf.Fieldname = "Tasks"
+		res = append(res, rf)
+		rf.GongstructName = "Task"
+		rf.Fieldname = "Predecessors"
 		res = append(res, rf)
 		rf.GongstructName = "Task"
 		rf.Fieldname = "SubTasks"
@@ -7072,6 +7087,23 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "End",
 			GongFieldValueType: GongFieldValueTypeDate,
+		},
+		{
+			Name:               "Duration",
+			GongFieldValueType: GongFieldValueTypeIntDuration,
+		},
+		{
+			Name:               "IsEndDateComputedFromDuration",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Predecessors",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Task",
+		},
+		{
+			Name:               "IsStartDateComputedFromPredecessors",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsMilestone",
@@ -8498,6 +8530,65 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = task.Start.String()
 	case "End":
 		res.valueString = task.End.String()
+	case "Duration":
+		if math.Abs(task.Duration.Hours()) >= 24 {
+			days := __Gong__Abs(int(int(task.Duration.Hours()) / 24))
+			months := int(days / 31)
+			days = days - months*31
+
+			remainingHours := int(task.Duration.Hours()) % 24
+			remainingMinutes := int(task.Duration.Minutes()) % 60
+			remainingSeconds := int(task.Duration.Seconds()) % 60
+
+			if task.Duration.Hours() < 0 {
+				res.valueString = "- "
+			}
+
+			if months > 0 {
+				if months > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d months", months)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d month", months)
+				}
+			}
+			if days > 0 {
+				if months != 0 {
+					res.valueString = res.valueString + ", "
+				}
+				if days > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d days", days)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d day", days)
+				}
+
+			}
+			if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
+				if days != 0 || (days == 0 && months != 0) {
+					res.valueString = res.valueString + ", "
+				}
+				res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
+			}
+		} else {
+			res.valueString = fmt.Sprintf("%s\n", task.Duration.String())
+		}
+	case "IsEndDateComputedFromDuration":
+		res.valueString = fmt.Sprintf("%t", task.IsEndDateComputedFromDuration)
+		res.valueBool = task.IsEndDateComputedFromDuration
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Predecessors":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range task.Predecessors {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsStartDateComputedFromPredecessors":
+		res.valueString = fmt.Sprintf("%t", task.IsStartDateComputedFromPredecessors)
+		res.valueBool = task.IsStartDateComputedFromPredecessors
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsMilestone":
 		res.valueString = fmt.Sprintf("%t", task.IsMilestone)
 		res.valueBool = task.IsMilestone
@@ -9869,6 +9960,24 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
+	case "IsEndDateComputedFromDuration":
+		task.IsEndDateComputedFromDuration = value.GetValueBool()
+	case "Predecessors":
+		task.Predecessors = make([]*Task, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Tasks {
+					if stage.Task_stagedOrder[__instance__] == uint(id) {
+						task.Predecessors = append(task.Predecessors, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsStartDateComputedFromPredecessors":
+		task.IsStartDateComputedFromPredecessors = value.GetValueBool()
 	case "IsMilestone":
 		task.IsMilestone = value.GetValueBool()
 	case "Description":

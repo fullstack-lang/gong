@@ -47,7 +47,7 @@ func (stager *Stager) treeResourceinDiagram(diagram *Diagram, resource *Resource
 	if ok {
 		resourceShape = shape
 	}
-	addLayoutButtons[*Resource, *ResourceShape](stager, resourceNode, resource, resourceShape, ok)
+	addLayoutButtons(stager, resourceNode, resource, resourceShape, ok)
 
 	conf := ItemShapeAndLinkButtonConfiguration[
 		Resource, *Resource, // AT, PAT (Added Element)

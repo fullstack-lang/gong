@@ -65,7 +65,7 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 	if ok {
 		taskShape = shape
 	}
-	addLayoutButtons[*Task, *TaskShape](stager, taskNode, task, taskShape, ok)
+	addLayoutButtons(stager, taskNode, task, taskShape, ok)
 
 	conf := ItemShapeAndLinkButtonConfiguration[
 		Task, *Task, // AT, PAT (Added Element)

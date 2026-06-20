@@ -10,6 +10,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	reachableProductShapes := make(map[*ProductShape]struct{})
 	reachableProductCompositionShapes := make(map[*ProductCompositionShape]struct{})
 	reachableTaskShapes := make(map[*TaskShape]struct{})
+	reachableTaskGroupShapes := make(map[*TaskGroupShape]struct{})
 	reachableTaskCompositionShapes := make(map[*TaskCompositionShape]struct{})
 	reachableTaskInputShapes := make(map[*TaskInputShape]struct{})
 	reachableTaskOutputShapes := make(map[*TaskOutputShape]struct{})
@@ -22,6 +23,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 		collectShapes(diagram.Product_Shapes, reachableProductShapes)
 		collectShapes(diagram.ProductComposition_Shapes, reachableProductCompositionShapes)
 		collectShapes(diagram.Task_Shapes, reachableTaskShapes)
+		collectShapes(diagram.TaskGroupShapes, reachableTaskGroupShapes)
 		collectShapes(diagram.TaskComposition_Shapes, reachableTaskCompositionShapes)
 		collectShapes(diagram.TaskInputShapes, reachableTaskInputShapes)
 		collectShapes(diagram.TaskOutputShapes, reachableTaskOutputShapes)
@@ -35,6 +37,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	needCommit = unstageUnreachableOrphans(stager, reachableProductShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableProductCompositionShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableTaskShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableTaskGroupShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableTaskCompositionShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableTaskInputShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableTaskOutputShapes) || needCommit
@@ -42,6 +45,11 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	needCommit = unstageUnreachableOrphans(stager, reachableNoteProductShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableNoteTaskShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableNoteResourceShapes) || needCommit
+
+	if needCommit {
+		// some slice of pointers might be not clean
+		stager.stage.Clean()
+	}
 
 	return
 }

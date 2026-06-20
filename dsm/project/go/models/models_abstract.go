@@ -29,6 +29,12 @@ type Task struct {
 	Start time.Time
 	End   time.Time
 
+	Duration                      time.Duration
+	IsEndDateComputedFromDuration bool
+
+	Predecessors                        []*Task
+	IsStartDateComputedFromPredecessors bool
+
 	IsMilestone bool
 
 	//gong:text width:300 height:300

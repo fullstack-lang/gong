@@ -746,6 +746,9 @@ func (stage *Stage) StageBranchTask(task *Task) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _task := range task.Predecessors {
+		StageBranch(stage, _task)
+	}
 	for _, _task := range task.SubTasks {
 		StageBranch(stage, _task)
 	}
@@ -1408,6 +1411,9 @@ func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _task := range taskFrom.Predecessors {
+		taskTo.Predecessors = append(taskTo.Predecessors, CopyBranchTask(mapOrigCopy, _task))
+	}
 	for _, _task := range taskFrom.SubTasks {
 		taskTo.SubTasks = append(taskTo.SubTasks, CopyBranchTask(mapOrigCopy, _task))
 	}
@@ -2011,6 +2017,9 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _task := range task.Predecessors {
+		UnstageBranch(stage, _task)
+	}
 	for _, _task := range task.SubTasks {
 		UnstageBranch(stage, _task)
 	}
@@ -2398,6 +2407,10 @@ func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, insta
 		reference.ReferencedTask = stage.Tasks_reference[instance.ReferencedTask]
 	}
 	// insertion point for slice of pointers field
+	reference.Predecessors = reference.Predecessors[:0]
+	for _, _b := range instance.Predecessors {
+		reference.Predecessors = append(reference.Predecessors, stage.Tasks_reference[_b])
+	}
 	reference.SubTasks = reference.SubTasks[:0]
 	for _, _b := range instance.SubTasks {
 		reference.SubTasks = append(reference.SubTasks, stage.Tasks_reference[_b])
@@ -2879,6 +2892,13 @@ func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
+	var _Predecessors []*Task
+	for _, _reference := range reference.Predecessors {
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			_Predecessors = append(_Predecessors, _instance)
+		}
+	}
+	reference.Predecessors = _Predecessors
 	var _SubTasks []*Task
 	for _, _reference := range reference.SubTasks {
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
@@ -4359,6 +4379,36 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	}
 	if task.End != taskOther.End {
 		diffs = append(diffs, task.GongMarshallField(stage, "End"))
+	}
+	if task.Duration != taskOther.Duration {
+		diffs = append(diffs, task.GongMarshallField(stage, "Duration"))
+	}
+	if task.IsEndDateComputedFromDuration != taskOther.IsEndDateComputedFromDuration {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsEndDateComputedFromDuration"))
+	}
+	PredecessorsDifferent := false
+	if len(task.Predecessors) != len(taskOther.Predecessors) {
+		PredecessorsDifferent = true
+	} else {
+		for i := range task.Predecessors {
+			if (task.Predecessors[i] == nil) != (taskOther.Predecessors[i] == nil) {
+				PredecessorsDifferent = true
+				break
+			} else if task.Predecessors[i] != nil && taskOther.Predecessors[i] != nil {
+				// this is a pointer comparaison
+				if task.Predecessors[i] != taskOther.Predecessors[i] {
+					PredecessorsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PredecessorsDifferent {
+		ops := Diff(stage, task, taskOther, "Predecessors", taskOther.Predecessors, task.Predecessors)
+		diffs = append(diffs, ops)
+	}
+	if task.IsStartDateComputedFromPredecessors != taskOther.IsStartDateComputedFromPredecessors {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsStartDateComputedFromPredecessors"))
 	}
 	if task.IsMilestone != taskOther.IsMilestone {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsMilestone"))

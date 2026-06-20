@@ -1,11 +1,18 @@
 package models
 
-import "time"
+import (
+	"log"
+	"time"
+)
 
-func (diagram *Diagram) ComputeStartAndEndDate() {
+func (diagram *Diagram) computeStartAndEndDate() {
 	firstTask := true
 	for _, taskGroupShape := range diagram.TaskGroupShapes {
 		taskGroup := taskGroupShape.TaskGroup
+		if taskGroup == nil {
+			log.Panic("TaskGroupShape has a no TaskGroup", taskGroupShape.Name)
+			continue
+		}
 		for _, task := range taskGroup.Tasks {
 			_, ok := diagram.map_Task_TaskShape[task]
 			if !ok {

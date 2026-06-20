@@ -302,6 +302,13 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Task
 	// insertion point per field
+	stage.Task_Predecessors_reverseMap = make(map[*Task]*Task)
+	for task := range stage.Tasks {
+		_ = task
+		for _, _task := range task.Predecessors {
+			stage.Task_Predecessors_reverseMap[_task] = task
+		}
+	}
 	stage.Task_SubTasks_reverseMap = make(map[*Task]*Task)
 	for task := range stage.Tasks {
 		_ = task

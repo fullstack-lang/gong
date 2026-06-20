@@ -41,7 +41,7 @@ func (stager *Stager) treeProduct(diagram *Diagram, product *Product, parentNode
 
 	productShape, ok := diagram.map_Product_ProductShape[product]
 
-	addLayoutButtons[*Product, *ProductShape](stager, productNode, product, productShape, ok)
+	addLayoutButtons(stager, productNode, product, productShape, ok)
 
 	conf := ItemShapeAndLinkButtonConfiguration[
 		Product, *Product, // AT, PAT (Added Element)

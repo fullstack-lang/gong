@@ -698,6 +698,13 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("End", instanceWithInferedType.End, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("Duration", instanceWithInferedType.Duration, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsEndDateComputedFromDuration", instanceWithInferedType.IsEndDateComputedFromDuration, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationSliceToForm("Predecessors", instanceWithInferedType, &instanceWithInferedType.Predecessors, formGroup, probe)
+		BasicFieldtoForm("IsStartDateComputedFromPredecessors", instanceWithInferedType.IsStartDateComputedFromPredecessors, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsMilestone", instanceWithInferedType.IsMilestone, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
@@ -789,6 +796,17 @@ func FillUpForm(
 				probe,
 				func(owner *models.Resource) []*models.Task {
 					return owner.Tasks
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.Task, *models.Task](
+				"Task",
+				"Predecessors",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Task) []*models.Task {
+					return owner.Predecessors
 				})
 		}
 		{
