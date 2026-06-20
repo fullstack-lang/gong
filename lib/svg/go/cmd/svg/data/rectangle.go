@@ -1669,6 +1669,7 @@ line 3`
 	__Rect__00000003_.EnclosingRect = nil
 	__Rect__00000003_.AnchoredTo = nil
 	__Rect__00000003_.RectAnchoredTexts = append(__Rect__00000003_.RectAnchoredTexts, __RectAnchoredText__00000004_)
+	__Rect__00000004_.Peers = append(__Rect__00000004_.Peers, __Rect__00000008_)
 	__Rect__00000004_.EnclosingRect = nil
 	__Rect__00000004_.AnchoredTo = nil
 	__Rect__00000004_.RectAnchoredTexts = append(__Rect__00000004_.RectAnchoredTexts, __RectAnchoredText__00000005_)
