@@ -98,14 +98,11 @@ func (stager *Stager) treeStakeholderBSinDiagram(diagram *Diagram, stakeholder *
 						n.CheckboxToolTipText = "Check to add shape to diagram"
 					}
 
-					n.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-						if frontNode.IsChecked && !stagedNode.IsChecked {
-							stagedNode.IsChecked = true
+					n.OnIsCheckedChanged = func(isChecked bool) {
+						if isChecked {
 							addAssociationShapeToDiagram(stager, stakeholder, concern, &diagram.StakeholderConcernShapes)
 							stager.stage.Commit()
-						}
-						if !frontNode.IsChecked && stagedNode.IsChecked {
-							stagedNode.IsChecked = false
+						} else {
 							resourceTaskShape.UnstageVoid(stager.stage)
 							stager.stage.Commit()
 						}

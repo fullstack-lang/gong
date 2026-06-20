@@ -8,7 +8,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func onUpdateElementInDiagram[
+func setCallbacksElementInDiagram[
 	AT interface {
 		*AT_
 		AbstractType
@@ -27,6 +27,7 @@ func onUpdateElementInDiagram[
 	},
 	ACT_ Gongstruct](
 	stager *Stager,
+	node *tree.Node,
 	diagram DiagramIF,
 	element AT,
 	parentElement AT,
@@ -35,13 +36,10 @@ func onUpdateElementInDiagram[
 	shapesMap map[AT]CT,
 	compositionShape ACT,
 	compositionShapes *[]ACT,
-) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-		// find the shape (if any)
+) {
+	node.OnIsCheckedChanged = func(isChecked bool) {
 		shape := shapesMap[element]
-
-		if frontNode.IsChecked && !stagedNode.IsChecked {
-			stagedNode.IsChecked = frontNode.IsChecked
+		if isChecked {
 			if shape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
@@ -112,12 +110,8 @@ func onUpdateElementInDiagram[
 					}
 				}
 			}
-
 			stager.stage.Commit()
-			return
-		}
-		if !frontNode.IsChecked && stagedNode.IsChecked {
-			stagedNode.IsChecked = frontNode.IsChecked
+		} else {
 			if shape == nil {
 				log.Panic("remove a non existing shape to product")
 			}
@@ -125,54 +119,54 @@ func onUpdateElementInDiagram[
 			idx := slices.Index(*shapes, shape)
 			*shapes = slices.Delete(*shapes, idx, idx+1)
 			stager.stage.Commit()
-			return
 		}
+	}
 
-		if frontNode.IsExpanded != stagedNode.IsExpanded {
-			stagedNode.IsExpanded = frontNode.IsExpanded
-			if frontNode.IsExpanded {
-				if slices.Index(*elementsWhoseNodeIsExpanded, element) == -1 {
-					*elementsWhoseNodeIsExpanded = append(*elementsWhoseNodeIsExpanded, element)
-				}
-			} else {
-				if idx := slices.Index(*elementsWhoseNodeIsExpanded, element); idx != -1 {
-					*elementsWhoseNodeIsExpanded = slices.Delete(*elementsWhoseNodeIsExpanded, idx, idx+1)
-				}
+	node.OnIsExpandedChange = func(isExpanded bool) {
+		if isExpanded {
+			if slices.Index(*elementsWhoseNodeIsExpanded, element) == -1 {
+				*elementsWhoseNodeIsExpanded = append(*elementsWhoseNodeIsExpanded, element)
 			}
-			stager.stage.CommitWithSuspendedCallbacks()
-			return
+		} else {
+			if idx := slices.Index(*elementsWhoseNodeIsExpanded, element); idx != -1 {
+				*elementsWhoseNodeIsExpanded = slices.Delete(*elementsWhoseNodeIsExpanded, idx, idx+1)
+			}
 		}
+		stager.stage.CommitWithSuspendedCallbacks()
+	}
 
-		if frontNode.Name != stagedNode.Name {
-			element.SetName(frontNode.Name)
-			element.SetIsInRenameMode(false)
-			stager.stage.Commit()
-			stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
-			return
-		}
+	node.OnNameChange = func(newName string) {
+		element.SetName(newName)
+		element.SetIsInRenameMode(false)
+		stager.stage.Commit()
+		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
+	}
 
-		if frontNode.IsSecondCheckboxChecked && !stagedNode.IsSecondCheckboxChecked {
+	node.OnIsSecondCheckboxCheckedChanged = func(isChecked bool) {
+		if isChecked {
 			compositionShape := newConcreteAssociation(parentElement, element, compositionShapes)
-			if parentShape, ok := shapesMap[parentElement]; ok && shape != nil {
+			if parentShape, ok := shapesMap[parentElement]; ok && shapesMap[element] != nil {
+				shape := shapesMap[element]
 				ratio := (shape.GetY() - parentShape.GetY()) / parentShape.GetHeight()
 				compositionShape.SetCornerOffsetRatio((ratio-1.0)/2.0 + 1.0)
 			}
 			compositionShape.StageVoid(stager.stage)
-		}
-		if !frontNode.IsSecondCheckboxChecked && stagedNode.IsSecondCheckboxChecked {
+		} else {
 			compositionShape.UnstageVoid(stager.stage)
 			idx := slices.Index(*compositionShapes, compositionShape)
 			*compositionShapes = slices.Delete(*compositionShapes, idx, idx+1)
 			stager.stage.Commit()
 		}
+	}
 
+	node.OnClick = func(frontNode *tree.Node) {
 		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
 		stager.stage.CommitWithSuspendedCallbacks()
 	}
 }
 
-// onUpdateElementInDiagramWithoutLink handles the update event for an element in the diagram without a link
-func onUpdateElementInDiagramWithoutLink[
+// setCallbacksElementInDiagramWithoutLink handles the update event for an element in the diagram without a link
+func setCallbacksElementInDiagramWithoutLink[
 	AT interface {
 		*AT_
 		AbstractType
@@ -190,30 +184,24 @@ func onUpdateElementInDiagramWithoutLink[
 	},
 	CT_ Gongstruct](
 	stager *Stager,
+	node *tree.Node,
 	diagram DiagramIF,
 	element AT,
 	parentElement ParentAT,
 	elementsWhoseNodeIsExpanded *[]AT,
 	shapes *[]CT,
 	shapesMap map[AT]CT,
-) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-		// find the shape (if any)
+) {
+	node.OnIsCheckedChanged = func(isChecked bool) {
 		shape := shapesMap[element]
-
-		if frontNode.IsChecked && !stagedNode.IsChecked {
-			stagedNode.IsChecked = frontNode.IsChecked
+		if isChecked {
 			if shape != nil {
 				log.Panic("adding a shape to an already existing shape")
 			}
 			shape = newShapeToDiagram(element, diagram, shapes, stager.stage)
 			shapesMap[element] = shape
-
 			stager.stage.Commit()
-			return
-		}
-		if !frontNode.IsChecked && stagedNode.IsChecked {
-			stagedNode.IsChecked = frontNode.IsChecked
+		} else {
 			if shape == nil {
 				log.Panic("remove a non existing shape to diagram")
 			}
@@ -221,32 +209,30 @@ func onUpdateElementInDiagramWithoutLink[
 			idx := slices.Index(*shapes, shape)
 			*shapes = slices.Delete(*shapes, idx, idx+1)
 			stager.stage.Commit()
-			return
 		}
+	}
 
-		if frontNode.IsExpanded != stagedNode.IsExpanded {
-			stagedNode.IsExpanded = frontNode.IsExpanded
-			if frontNode.IsExpanded {
-				if slices.Index(*elementsWhoseNodeIsExpanded, element) == -1 {
-					*elementsWhoseNodeIsExpanded = append(*elementsWhoseNodeIsExpanded, element)
-				}
-			} else {
-				if idx := slices.Index(*elementsWhoseNodeIsExpanded, element); idx != -1 {
-					*elementsWhoseNodeIsExpanded = slices.Delete(*elementsWhoseNodeIsExpanded, idx, idx+1)
-				}
+	node.OnIsExpandedChange = func(isExpanded bool) {
+		if isExpanded {
+			if slices.Index(*elementsWhoseNodeIsExpanded, element) == -1 {
+				*elementsWhoseNodeIsExpanded = append(*elementsWhoseNodeIsExpanded, element)
 			}
-			stager.stage.Commit()
-			return
+		} else {
+			if idx := slices.Index(*elementsWhoseNodeIsExpanded, element); idx != -1 {
+				*elementsWhoseNodeIsExpanded = slices.Delete(*elementsWhoseNodeIsExpanded, idx, idx+1)
+			}
 		}
+		stager.stage.Commit()
+	}
 
-		if frontNode.Name != stagedNode.Name {
-			element.SetName(frontNode.Name)
-			element.SetIsInRenameMode(false)
-			stager.stage.Commit()
-			stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
-			return
-		}
+	node.OnNameChange = func(newName string) {
+		element.SetName(newName)
+		element.SetIsInRenameMode(false)
+		stager.stage.Commit()
+		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
+	}
 
+	node.OnClick = func(frontNode *tree.Node) {
 		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
 		stager.stage.Commit()
 	}

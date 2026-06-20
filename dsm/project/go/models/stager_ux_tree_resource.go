@@ -118,14 +118,11 @@ func (stager *Stager) treeResourceinDiagram(diagram *Diagram, resource *Resource
 						taskNode.CheckboxToolTipText = "Check to add shape to diagram"
 					}
 
-					taskNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-						if frontNode.IsChecked && !stagedNode.IsChecked {
-							stagedNode.IsChecked = true
+					taskNode.OnIsCheckedChanged = func(isChecked bool) {
+						if isChecked {
 							addAssociationShapeToDiagram(stager, resource, task, &diagram.ResourceTaskShapes)
 							stager.stage.Commit()
-						}
-						if !frontNode.IsChecked && stagedNode.IsChecked {
-							stagedNode.IsChecked = false
+						} else {
 							resourceTaskShape.UnstageVoid(stager.stage)
 							stager.stage.Commit()
 						}

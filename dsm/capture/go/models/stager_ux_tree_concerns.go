@@ -77,7 +77,7 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 		}
 		concernNode.Children = append(concernNode.Children, inputDeliverablesNode)
 
-		inputDeliverablesNode.OnUpdate = onUpdateExpandableNode(stager, concern, &diagram.ConcernsWhoseInputNodeIsExpanded)
+		setCallbacksExpandableNode(stager, inputDeliverablesNode, concern, &diagram.ConcernsWhoseInputNodeIsExpanded)
 
 		for _, deliverable := range concern.Inputs {
 			inputDeliverableNode := &tree.Node{
@@ -109,14 +109,11 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 						inputDeliverableNode.CheckboxToolTipText = "Check to shape to diagram"
 					}
 
-					inputDeliverableNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-						if frontNode.IsChecked && !stagedNode.IsChecked {
-							stagedNode.IsChecked = true
+					inputDeliverableNode.OnIsCheckedChanged = func(isChecked bool) {
+						if isChecked {
 							addAssociationShapeToDiagram(stager, concern, deliverable, &diagram.ConcernInputShapes)
 							stager.stage.Commit()
-						}
-						if !frontNode.IsChecked && stagedNode.IsChecked {
-							stagedNode.IsChecked = false
+						} else {
 							taskInputShape.UnstageVoid(stager.stage)
 							stager.stage.Commit()
 						}
@@ -130,7 +127,7 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 							ToolTipText:     "Hide link from diagram",
 							HasToolTip:      true,
 							ToolTipPosition: tree.Right,
-							OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+							OnClick: func() {
 								taskInputShape.SetIsHidden(!taskInputShape.GetIsHidden())
 								stage.Commit()
 							},
@@ -160,7 +157,7 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 		}
 		concernNode.Children = append(concernNode.Children, outputDeliverablesNode)
 
-		outputDeliverablesNode.OnUpdate = onUpdateExpandableNode(stager, concern, &diagram.ConcernssWhoseOutputNodeIsExpanded)
+		setCallbacksExpandableNode(stager, outputDeliverablesNode, concern, &diagram.ConcernssWhoseOutputNodeIsExpanded)
 
 		for _, deliverable := range concern.Outputs {
 			outputDeliverableNode := &tree.Node{
@@ -192,14 +189,11 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 						outputDeliverableNode.CheckboxToolTipText = "Check to shape to diagram"
 					}
 
-					outputDeliverableNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-						if frontNode.IsChecked && !stagedNode.IsChecked {
-							stagedNode.IsChecked = true
+					outputDeliverableNode.OnIsCheckedChanged = func(isChecked bool) {
+						if isChecked {
 							addAssociationShapeToDiagram(stager, concern, deliverable, &diagram.ConcernOutputShapes)
 							stager.stage.Commit()
-						}
-						if !frontNode.IsChecked && stagedNode.IsChecked {
-							stagedNode.IsChecked = false
+						} else {
 							taskOutputShape.UnstageVoid(stager.stage)
 							stager.stage.Commit()
 						}
@@ -212,7 +206,7 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 							ToolTipText:     "Hide link from diagram",
 							HasToolTip:      true,
 							ToolTipPosition: tree.Right,
-							OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+							OnClick: func() {
 								taskOutputShape.SetIsHidden(!taskOutputShape.GetIsHidden())
 								stage.Commit()
 							},
@@ -246,7 +240,7 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 		}
 		concernNode.Children = append(concernNode.Children, stakeholdersNode)
 
-		stakeholdersNode.OnUpdate = onUpdateExpandableNode(stager, concern, &diagram.ConcernsWhoseStakeholderNodeIsExpanded)
+		setCallbacksExpandableNode(stager, stakeholdersNode, concern, &diagram.ConcernsWhoseStakeholderNodeIsExpanded)
 
 		for _, stakeholder := range stakeholders {
 			n := &tree.Node{
@@ -270,15 +264,12 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 				n.CheckboxToolTipText = "Check to add shape to diagram"
 			}
 
-			n.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-				if frontNode.IsChecked && !stagedNode.IsChecked {
-					stagedNode.IsChecked = true
+			n.OnIsCheckedChanged = func(isChecked bool) {
+				if isChecked {
 					newShapeToDiagram(stakeholder, diagram, &diagram.Stakeholder_Shapes, stager.stage)
 					addAssociationShapeToDiagram(stager, stakeholder, concern, &diagram.StakeholderConcernShapes)
 					stager.stage.Commit()
-				}
-				if !frontNode.IsChecked && stagedNode.IsChecked {
-					stagedNode.IsChecked = false
+				} else {
 					stakeholderShape.UnstageVoid(stager.stage)
 					stager.stage.Commit()
 				}
@@ -299,14 +290,11 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 						n.CheckboxToolTipText = "Check to add shape to diagram"
 					}
 
-					n.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-						if frontNode.IsSecondCheckboxChecked && !stagedNode.IsSecondCheckboxChecked {
-							// stagedNode.IsSecondCheckboxChecked = true
+					n.OnIsSecondCheckboxCheckedChanged = func(isChecked bool) {
+						if isChecked {
 							addAssociationShapeToDiagram(stager, stakeholder, concern, &diagram.StakeholderConcernShapes)
 							stager.stage.Commit()
-						}
-						if !frontNode.IsSecondCheckboxChecked && stagedNode.IsSecondCheckboxChecked {
-							// stagedNode.IsSecondCheckboxChecked = false
+						} else {
 							associationShape.UnstageVoid(stager.stage)
 							stager.stage.Commit()
 						}

@@ -134,7 +134,7 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 		}
 		taskNode.Children = append(taskNode.Children, inputProductsNode)
 
-		inputProductsNode.OnUpdate = onUpdateExpandableNode(stager, task, &diagram.TasksWhoseInputNodeIsExpanded)
+		setCallbacksExpandableNode(stager, inputProductsNode, task, &diagram.TasksWhoseInputNodeIsExpanded)
 
 		for _, product := range task.Inputs {
 			inputProductNode := &tree.Node{
@@ -166,14 +166,11 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 						inputProductNode.CheckboxToolTipText = "Check to shape to diagram"
 					}
 
-					inputProductNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-						if frontNode.IsChecked && !stagedNode.IsChecked {
-							stagedNode.IsChecked = true
+					inputProductNode.OnIsCheckedChanged = func(isChecked bool) {
+						if isChecked {
 							addAssociationShapeToDiagram(stager, task, product, &diagram.TaskInputShapes)
 							stager.stage.Commit()
-						}
-						if !frontNode.IsChecked && stagedNode.IsChecked {
-							stagedNode.IsChecked = false
+						} else {
 							taskInputShape.UnstageVoid(stager.stage)
 							stager.stage.Commit()
 						}
@@ -217,7 +214,7 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 		}
 		taskNode.Children = append(taskNode.Children, outputProductsNode)
 
-		outputProductsNode.OnUpdate = onUpdateExpandableNode(stager, task, &diagram.TasksWhoseOutputNodeIsExpanded)
+		setCallbacksExpandableNode(stager, outputProductsNode, task, &diagram.TasksWhoseOutputNodeIsExpanded)
 
 		for _, product := range task.Outputs {
 			outputProductNode := &tree.Node{
@@ -249,14 +246,11 @@ func (stager *Stager) treeTask(diagram *Diagram, task *Task, parentNode *tree.No
 						outputProductNode.CheckboxToolTipText = "Check to shape to diagram"
 					}
 
-					outputProductNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-						if frontNode.IsChecked && !stagedNode.IsChecked {
-							stagedNode.IsChecked = true
+					outputProductNode.OnIsCheckedChanged = func(isChecked bool) {
+						if isChecked {
 							addAssociationShapeToDiagram(stager, task, product, &diagram.TaskOutputShapes)
 							stager.stage.Commit()
-						}
-						if !frontNode.IsChecked && stagedNode.IsChecked {
-							stagedNode.IsChecked = false
+						} else {
 							taskOutputShape.UnstageVoid(stager.stage)
 							stager.stage.Commit()
 						}

@@ -41,6 +41,9 @@ func _(stage *models.Stage) {
 	__Concern__00000001_ := (&models.Concern{Name: `Consumes SE deliverables`}).Stage(stage)
 	__Concern__00000002_ := (&models.Concern{Name: `Edit M1 & develop tools to generate deliverables`}).Stage(stage)
 	__Concern__00000003_ := (&models.Concern{Name: `Edit SEMP`}).Stage(stage)
+	__Concern__00000004_ := (&models.Concern{Name: `Tailor 15288 processes to project needs`}).Stage(stage)
+
+	__ConcernCompositionShape__00000000_ := (&models.ConcernCompositionShape{Name: `Edit SEMP to Tailor 15288 process to project`}).Stage(stage)
 
 	__ConcernInputShape__00000000_ := (&models.ConcernInputShape{Name: `Consumes views to Views of the architecture`}).Stage(stage)
 	__ConcernInputShape__00000001_ := (&models.ConcernInputShape{Name: `Edit M0 to Tools to edit M0 based on M1`}).Stage(stage)
@@ -54,6 +57,7 @@ func _(stage *models.Stage) {
 	__ConcernShape__00000001_ := (&models.ConcernShape{Name: `-Default Diagram`}).Stage(stage)
 	__ConcernShape__00000002_ := (&models.ConcernShape{Name: `-Default Diagram`}).Stage(stage)
 	__ConcernShape__00000003_ := (&models.ConcernShape{Name: `-Default Diagram`}).Stage(stage)
+	__ConcernShape__00000004_ := (&models.ConcernShape{Name: `-Default Diagram`}).Stage(stage)
 
 	__Deliverable__00000000_ := (&models.Deliverable{Name: `SE Deliverables`}).Stage(stage)
 	__Deliverable__00000002_ := (&models.Deliverable{Name: `Tools to edit M0 & generates deliverables`}).Stage(stage)
@@ -125,32 +129,32 @@ func _(stage *models.Stage) {
 
 	__ConceptShape__00000000_.Name = `C1-Default Diagram`
 	__ConceptShape__00000000_.IsExpanded = false
-	__ConceptShape__00000000_.X = 908.146635
-	__ConceptShape__00000000_.Y = 300.050745
+	__ConceptShape__00000000_.X = 913.146635
+	__ConceptShape__00000000_.Y = 456.050745
 	__ConceptShape__00000000_.Width = 250.000000
 	__ConceptShape__00000000_.Height = 70.000000
 	__ConceptShape__00000000_.IsHidden = false
 
 	__ConceptShape__00000001_.Name = `-Default Diagram`
 	__ConceptShape__00000001_.IsExpanded = false
-	__ConceptShape__00000001_.X = 908.268579
-	__ConceptShape__00000001_.Y = 205.344947
+	__ConceptShape__00000001_.X = 913.268579
+	__ConceptShape__00000001_.Y = 361.344947
 	__ConceptShape__00000001_.Width = 250.000000
 	__ConceptShape__00000001_.Height = 70.000000
 	__ConceptShape__00000001_.IsHidden = false
 
 	__ConceptShape__00000002_.Name = `-Default Diagram`
 	__ConceptShape__00000002_.IsExpanded = false
-	__ConceptShape__00000002_.X = 908.674336
-	__ConceptShape__00000002_.Y = 25.778790
+	__ConceptShape__00000002_.X = 913.674336
+	__ConceptShape__00000002_.Y = 181.778790
 	__ConceptShape__00000002_.Width = 250.000000
 	__ConceptShape__00000002_.Height = 70.000000
 	__ConceptShape__00000002_.IsHidden = false
 
 	__ConceptShape__00000003_.Name = `-Default Diagram`
 	__ConceptShape__00000003_.IsExpanded = false
-	__ConceptShape__00000003_.X = 911.783111
-	__ConceptShape__00000003_.Y = 117.790156
+	__ConceptShape__00000003_.X = 916.783111
+	__ConceptShape__00000003_.Y = 273.790156
 	__ConceptShape__00000003_.Width = 250.000000
 	__ConceptShape__00000003_.Height = 70.000000
 	__ConceptShape__00000003_.IsHidden = false
@@ -203,6 +207,26 @@ func _(stage *models.Stage) {
 	__Concern__00000003_.IsWithCompletion = false
 	__Concern__00000003_.Completion = ""
 
+	__Concern__00000004_.Name = `Tailor 15288 processes to project needs`
+	__Concern__00000004_.IDAirbus = ``
+	__Concern__00000004_.Priority = ""
+	__Concern__00000004_.ComputedPrefix = `4.1`
+	__Concern__00000004_.IsExpanded = false
+	__Concern__00000004_.LayoutDirection = models.Vertical
+	__Concern__00000004_.Description = ``
+	__Concern__00000004_.IsInputsNodeExpanded = false
+	__Concern__00000004_.IsOutputsNodeExpanded = false
+	__Concern__00000004_.IsWithCompletion = false
+	__Concern__00000004_.Completion = ""
+
+	__ConcernCompositionShape__00000000_.Name = `Edit SEMP to Tailor 15288 process to project`
+	__ConcernCompositionShape__00000000_.StartRatio = 0.500000
+	__ConcernCompositionShape__00000000_.EndRatio = 0.500000
+	__ConcernCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ConcernCompositionShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ConcernCompositionShape__00000000_.CornerOffsetRatio = 1.272847
+	__ConcernCompositionShape__00000000_.IsHidden = false
+
 	__ConcernInputShape__00000000_.Name = `Consumes views to Views of the architecture`
 	__ConcernInputShape__00000000_.StartRatio = 0.500000
 	__ConcernInputShape__00000000_.EndRatio = 0.500000
@@ -253,35 +277,43 @@ func _(stage *models.Stage) {
 
 	__ConcernShape__00000000_.Name = `-Default Diagram`
 	__ConcernShape__00000000_.IsExpanded = false
-	__ConcernShape__00000000_.X = 489.172253
-	__ConcernShape__00000000_.Y = 600.542541
+	__ConcernShape__00000000_.X = 494.172253
+	__ConcernShape__00000000_.Y = 756.542541
 	__ConcernShape__00000000_.Width = 250.000000
 	__ConcernShape__00000000_.Height = 70.000000
 	__ConcernShape__00000000_.IsHidden = false
 
 	__ConcernShape__00000001_.Name = `-Default Diagram`
 	__ConcernShape__00000001_.IsExpanded = false
-	__ConcernShape__00000001_.X = 491.626829
-	__ConcernShape__00000001_.Y = 899.843004
+	__ConcernShape__00000001_.X = 496.626829
+	__ConcernShape__00000001_.Y = 1055.843004
 	__ConcernShape__00000001_.Width = 250.000000
 	__ConcernShape__00000001_.Height = 70.000000
 	__ConcernShape__00000001_.IsHidden = false
 
 	__ConcernShape__00000002_.Name = `-Default Diagram`
 	__ConcernShape__00000002_.IsExpanded = false
-	__ConcernShape__00000002_.X = 489.507589
-	__ConcernShape__00000002_.Y = 298.618265
+	__ConcernShape__00000002_.X = 494.507589
+	__ConcernShape__00000002_.Y = 454.618265
 	__ConcernShape__00000002_.Width = 250.000000
 	__ConcernShape__00000002_.Height = 70.000000
 	__ConcernShape__00000002_.IsHidden = false
 
 	__ConcernShape__00000003_.Name = `-Default Diagram`
 	__ConcernShape__00000003_.IsExpanded = false
-	__ConcernShape__00000003_.X = 492.172173
-	__ConcernShape__00000003_.Y = 46.539908
+	__ConcernShape__00000003_.X = 496.172173
+	__ConcernShape__00000003_.Y = 68.539908
 	__ConcernShape__00000003_.Width = 250.000000
 	__ConcernShape__00000003_.Height = 70.000000
 	__ConcernShape__00000003_.IsHidden = false
+
+	__ConcernShape__00000004_.Name = `-Default Diagram`
+	__ConcernShape__00000004_.IsExpanded = false
+	__ConcernShape__00000004_.X = 909.776619
+	__ConcernShape__00000004_.Y = 67.738513
+	__ConcernShape__00000004_.Width = 250.000000
+	__ConcernShape__00000004_.Height = 70.000000
+	__ConcernShape__00000004_.IsHidden = false
 
 	__Deliverable__00000000_.Name = `SE Deliverables`
 	__Deliverable__00000000_.ComputedPrefix = `1`
@@ -341,24 +373,24 @@ func _(stage *models.Stage) {
 
 	__DeliverableShape__00000000_.Name = `-Default Diagram`
 	__DeliverableShape__00000000_.IsExpanded = false
-	__DeliverableShape__00000000_.X = 490.705042
-	__DeliverableShape__00000000_.Y = 745.311484
+	__DeliverableShape__00000000_.X = 495.705042
+	__DeliverableShape__00000000_.Y = 901.311484
 	__DeliverableShape__00000000_.Width = 250.000000
 	__DeliverableShape__00000000_.Height = 70.000000
 	__DeliverableShape__00000000_.IsHidden = false
 
 	__DeliverableShape__00000002_.Name = `-Default Diagram`
 	__DeliverableShape__00000002_.IsExpanded = false
-	__DeliverableShape__00000002_.X = 489.953677
-	__DeliverableShape__00000002_.Y = 444.394466
+	__DeliverableShape__00000002_.X = 494.953677
+	__DeliverableShape__00000002_.Y = 600.394466
 	__DeliverableShape__00000002_.Width = 250.000000
 	__DeliverableShape__00000002_.Height = 70.000000
 	__DeliverableShape__00000002_.IsHidden = false
 
 	__DeliverableShape__00000003_.Name = `-Default Diagram`
 	__DeliverableShape__00000003_.IsExpanded = false
-	__DeliverableShape__00000003_.X = 489.919156
-	__DeliverableShape__00000003_.Y = 171.854495
+	__DeliverableShape__00000003_.X = 494.919156
+	__DeliverableShape__00000003_.Y = 327.854495
 	__DeliverableShape__00000003_.Width = 250.000000
 	__DeliverableShape__00000003_.Height = 70.000000
 	__DeliverableShape__00000003_.IsHidden = false
@@ -372,14 +404,15 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 22400.000000
-	__Diagram__00000000_.Height = 22400.000000
+	__Diagram__00000000_.Width = 24300.000000
+	__Diagram__00000000_.Height = 24300.000000
 	__Diagram__00000000_.IsRequirementsNodeExpanded = true
 	__Diagram__00000000_.IsConceptsNodeExpanded = true
-	__Diagram__00000000_.IsPBSNodeExpanded = true
+	__Diagram__00000000_.IsPBSNodeExpanded = false
 	__Diagram__00000000_.IsConcernsNodeExpanded = false
 	__Diagram__00000000_.IsNotesNodeExpanded = true
 	__Diagram__00000000_.IsStakeholdersNodeExpanded = false
+	__Diagram__00000000_.IsDiagramsNodeExpanded = false
 
 	__Library__00000000_.Name = ``
 	__Library__00000000_.IsRootLibrary = true
@@ -418,8 +451,8 @@ func _(stage *models.Stage) {
 
 	__NoteShape__00000000_.Name = `-Default Diagram`
 	__NoteShape__00000000_.IsExpanded = false
-	__NoteShape__00000000_.X = 818.586218
-	__NoteShape__00000000_.Y = 408.916605
+	__NoteShape__00000000_.X = 823.586218
+	__NoteShape__00000000_.Y = 564.916605
 	__NoteShape__00000000_.Width = 466.000000
 	__NoteShape__00000000_.Height = 222.000000
 	__NoteShape__00000000_.IsHidden = false
@@ -510,32 +543,32 @@ func _(stage *models.Stage) {
 
 	__StakeholderShape__00000000_.Name = `-Default Diagram`
 	__StakeholderShape__00000000_.IsExpanded = false
-	__StakeholderShape__00000000_.X = 67.788415
-	__StakeholderShape__00000000_.Y = 596.758204
+	__StakeholderShape__00000000_.X = 72.788415
+	__StakeholderShape__00000000_.Y = 752.758204
 	__StakeholderShape__00000000_.Width = 250.000000
 	__StakeholderShape__00000000_.Height = 70.000000
 	__StakeholderShape__00000000_.IsHidden = false
 
 	__StakeholderShape__00000001_.Name = `-Default Diagram`
 	__StakeholderShape__00000001_.IsExpanded = false
-	__StakeholderShape__00000001_.X = 62.967288
-	__StakeholderShape__00000001_.Y = 296.167318
+	__StakeholderShape__00000001_.X = 67.967288
+	__StakeholderShape__00000001_.Y = 452.167318
 	__StakeholderShape__00000001_.Width = 250.000000
 	__StakeholderShape__00000001_.Height = 70.000000
 	__StakeholderShape__00000001_.IsHidden = false
 
 	__StakeholderShape__00000002_.Name = `-Default Diagram`
 	__StakeholderShape__00000002_.IsExpanded = false
-	__StakeholderShape__00000002_.X = 67.305489
-	__StakeholderShape__00000002_.Y = 895.366676
+	__StakeholderShape__00000002_.X = 72.305489
+	__StakeholderShape__00000002_.Y = 1051.366676
 	__StakeholderShape__00000002_.Width = 250.000000
 	__StakeholderShape__00000002_.Height = 70.000000
 	__StakeholderShape__00000002_.IsHidden = false
 
 	__StakeholderShape__00000003_.Name = `-Default Diagram`
 	__StakeholderShape__00000003_.IsExpanded = false
-	__StakeholderShape__00000003_.X = 68.482242
-	__StakeholderShape__00000003_.Y = 44.830683
+	__StakeholderShape__00000003_.X = 72.482242
+	__StakeholderShape__00000003_.Y = 66.830683
 	__StakeholderShape__00000003_.Width = 250.000000
 	__StakeholderShape__00000003_.Height = 70.000000
 	__StakeholderShape__00000003_.IsHidden = false
@@ -550,7 +583,9 @@ func _(stage *models.Stage) {
 	__Concern__00000001_.Inputs = append(__Concern__00000001_.Inputs, __Deliverable__00000000_)
 	__Concern__00000002_.Inputs = append(__Concern__00000002_.Inputs, __Deliverable__00000003_)
 	__Concern__00000002_.Outputs = append(__Concern__00000002_.Outputs, __Deliverable__00000002_)
+	__Concern__00000003_.SubConcerns = append(__Concern__00000003_.SubConcerns, __Concern__00000004_)
 	__Concern__00000003_.Outputs = append(__Concern__00000003_.Outputs, __Deliverable__00000003_)
+	__ConcernCompositionShape__00000000_.Concern = __Concern__00000004_
 	__ConcernInputShape__00000000_.Deliverable = __Deliverable__00000000_
 	__ConcernInputShape__00000000_.Concern = __Concern__00000001_
 	__ConcernInputShape__00000001_.Deliverable = __Deliverable__00000002_
@@ -567,6 +602,7 @@ func _(stage *models.Stage) {
 	__ConcernShape__00000001_.Concern = __Concern__00000001_
 	__ConcernShape__00000002_.Concern = __Concern__00000002_
 	__ConcernShape__00000003_.Concern = __Concern__00000003_
+	__ConcernShape__00000004_.Concern = __Concern__00000004_
 	__Deliverable__00000003_.Concepts = append(__Deliverable__00000003_.Concepts, __Concept__00000000_)
 	__Deliverable__00000003_.Concepts = append(__Deliverable__00000003_.Concepts, __Concept__00000001_)
 	__Deliverable__00000003_.Concepts = append(__Deliverable__00000003_.Concepts, __Concept__00000002_)
@@ -590,6 +626,9 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Concern_Shapes = append(__Diagram__00000000_.Concern_Shapes, __ConcernShape__00000001_)
 	__Diagram__00000000_.Concern_Shapes = append(__Diagram__00000000_.Concern_Shapes, __ConcernShape__00000002_)
 	__Diagram__00000000_.Concern_Shapes = append(__Diagram__00000000_.Concern_Shapes, __ConcernShape__00000003_)
+	__Diagram__00000000_.Concern_Shapes = append(__Diagram__00000000_.Concern_Shapes, __ConcernShape__00000004_)
+	__Diagram__00000000_.ConcernsWhoseNodeIsExpanded = append(__Diagram__00000000_.ConcernsWhoseNodeIsExpanded, __Concern__00000003_)
+	__Diagram__00000000_.ConcernComposition_Shapes = append(__Diagram__00000000_.ConcernComposition_Shapes, __ConcernCompositionShape__00000000_)
 	__Diagram__00000000_.ConcernInputShapes = append(__Diagram__00000000_.ConcernInputShapes, __ConcernInputShape__00000000_)
 	__Diagram__00000000_.ConcernInputShapes = append(__Diagram__00000000_.ConcernInputShapes, __ConcernInputShape__00000001_)
 	__Diagram__00000000_.ConcernInputShapes = append(__Diagram__00000000_.ConcernInputShapes, __ConcernInputShape__00000002_)

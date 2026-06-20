@@ -40,14 +40,11 @@ func (stager *Stager) treeDiagramBSinDiagram(currentDiagram *Diagram, library *L
 			n.CheckboxToolTipText = "Check to add DiagramShape to diagram"
 		}
 
-		n.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-			if frontNode.IsChecked && !stagedNode.IsChecked {
-				stagedNode.IsChecked = true
+		n.OnIsCheckedChanged = func(isChecked bool) {
+			if isChecked {
 				newShapeToDiagram(targetDiagram, currentDiagram, &currentDiagram.Diagram_Shapes, stager.stage)
 				stager.stage.Commit()
-			}
-			if !frontNode.IsChecked && stagedNode.IsChecked {
-				stagedNode.IsChecked = false
+			} else {
 				diagramShape.UnstageVoid(stager.stage)
 				// Remove it from currentDiagram.Diagram_Shapes
 				for i, ds := range currentDiagram.Diagram_Shapes {

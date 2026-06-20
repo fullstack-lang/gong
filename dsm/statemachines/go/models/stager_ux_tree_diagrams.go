@@ -29,7 +29,7 @@ func (stager *Stager) ux_tree() {
 		Name:            "State Machines",
 		FontStyle:       tree.ITALIC,
 		IsNodeClickable: true,
-		OnUpdate: func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+		OnClick: func(frontNode *tree.Node) {
 			stager.probeForm.FillUpFormFromGongstruct(stager.architecture, "Architecture")
 
 			stager.stage.Commit()
@@ -61,14 +61,12 @@ func (stager *Stager) ux_tree() {
 			Name:            stateMachine.Name,
 			IsExpanded:      stateMachine.IsNodeExpanded,
 			IsNodeClickable: true,
-			OnUpdate: func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
-				if frontNode.IsExpanded != stagedNode.IsExpanded {
-					stateMachine.IsNodeExpanded = !stateMachine.IsNodeExpanded
-					stager.stage.Commit()
-					return
-				}
+			OnIsExpandedChange: func(isExpanded bool) {
+				stateMachine.IsNodeExpanded = isExpanded
+				stager.stage.Commit()
+			},
+			OnClick: func(frontNode *tree.Node) {
 				stager.probeForm.FillUpFormFromGongstruct(stateMachine, stateMachine.GongGetGongstructName())
-
 				stager.stage.Commit()
 			},
 		}
@@ -337,10 +335,8 @@ func (stager *Stager) ux_tree() {
 					}
 				}
 
-				diagramStateNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-					if frontNode.IsChecked && !stagedNode.IsChecked {
-						stagedNode.IsChecked = frontNode.IsChecked
-
+				diagramStateNode.OnIsCheckedChanged = func(isChecked bool) {
+					if isChecked {
 						// add the State_Shape
 						if stateShape != nil {
 							log.Fatalln("adding a shape to an already state shape")
@@ -348,11 +344,7 @@ func (stager *Stager) ux_tree() {
 
 						newStateShapeToDiagram(state, diagram).Stage(stager.stage)
 						stager.stage.Commit()
-						return
-					}
-					if !frontNode.IsChecked && stagedNode.IsChecked {
-						stagedNode.IsChecked = frontNode.IsChecked
-
+					} else {
 						// one need to remove the State_Shape
 						if stateShape == nil {
 							log.Fatalln("remove a non existing shape to state")
@@ -363,31 +355,29 @@ func (stager *Stager) ux_tree() {
 						diagram.State_Shapes = slices.Delete(diagram.State_Shapes, idx, idx+1)
 
 						stager.stage.Commit()
-						return
 					}
+				}
 
-					if frontNode.Name != stagedNode.Name {
-						state.Name = frontNode.Name
-						state.isInRenameMode = false
-						stager.stage.Commit()
-						return
-					}
+				diagramStateNode.OnNameChange = func(newName string) {
+					state.Name = newName
+					state.isInRenameMode = false
+					stager.stage.Commit()
+				}
 
-					if frontNode.IsExpanded != stagedNode.IsExpanded {
-						stagedNode.IsExpanded = frontNode.IsExpanded
-						if frontNode.IsExpanded {
-							if slices.Index(diagram.StatesWhoseNodeIsExpanded, state) == -1 {
-								diagram.StatesWhoseNodeIsExpanded = append(diagram.StatesWhoseNodeIsExpanded, state)
-							}
-						} else {
-							if idx := slices.Index(diagram.StatesWhoseNodeIsExpanded, state); idx != -1 {
-								diagram.StatesWhoseNodeIsExpanded = slices.Delete(diagram.StatesWhoseNodeIsExpanded, idx, idx+1)
-							}
+				diagramStateNode.OnIsExpandedChange = func(isExpanded bool) {
+					if isExpanded {
+						if slices.Index(diagram.StatesWhoseNodeIsExpanded, state) == -1 {
+							diagram.StatesWhoseNodeIsExpanded = append(diagram.StatesWhoseNodeIsExpanded, state)
 						}
-						stager.stage.Commit()
-						return
+					} else {
+						if idx := slices.Index(diagram.StatesWhoseNodeIsExpanded, state); idx != -1 {
+							diagram.StatesWhoseNodeIsExpanded = slices.Delete(diagram.StatesWhoseNodeIsExpanded, idx, idx+1)
+						}
 					}
+					stager.stage.Commit()
+				}
 
+				diagramStateNode.OnClick = func(frontNode *tree.Node) {
 					stager.probeForm.FillUpFormFromGongstruct(state, "State")
 				}
 

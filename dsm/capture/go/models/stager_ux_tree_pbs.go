@@ -73,7 +73,7 @@ func (stager *Stager) treeDeliverableRecusriveInDiagram(diagram *Diagram, delive
 		}
 		deliverableNode.Children = append(deliverableNode.Children, conceptsNode)
 
-		conceptsNode.OnUpdate = onUpdateExpandableNode(stager, deliverable, &diagram.DeliverablesWhoseConceptsNodeIsExpanded)
+		setCallbacksExpandableNode(stager, conceptsNode, deliverable, &diagram.DeliverablesWhoseConceptsNodeIsExpanded)
 
 		for _, concept := range deliverable.Concepts {
 			conceptNode := &tree.Node{
@@ -103,14 +103,11 @@ func (stager *Stager) treeDeliverableRecusriveInDiagram(diagram *Diagram, delive
 						conceptNode.CheckboxToolTipText = "Check to add shape to diagram"
 					}
 
-					conceptNode.OnUpdate = func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-						if frontNode.IsChecked && !stagedNode.IsChecked {
-							stagedNode.IsChecked = true
+					conceptNode.OnIsCheckedChanged = func(isChecked bool) {
+						if isChecked {
 							addAssociationShapeToDiagram(stager, deliverable, concept, &diagram.DeliverableConceptShapes)
 							stager.stage.Commit()
-						}
-						if !frontNode.IsChecked && stagedNode.IsChecked {
-							stagedNode.IsChecked = false
+						} else {
 							associationShape.UnstageVoid(stager.stage)
 							stager.stage.Commit()
 						}
@@ -123,7 +120,7 @@ func (stager *Stager) treeDeliverableRecusriveInDiagram(diagram *Diagram, delive
 							ToolTipText:     "Hide link from diagram",
 							HasToolTip:      true,
 							ToolTipPosition: tree.Right,
-							OnUpdate: func(_ *tree.Stage, _ *tree.Button) {
+							OnClick: func() {
 								associationShape.SetIsHidden(!associationShape.GetIsHidden())
 								stager.stage.Commit()
 							},

@@ -72,18 +72,15 @@ func (stager *Stager) treeSimulation() {
 			nodeObject.HasCheckboxButton = true
 			nodeObject.IsChecked = object.IsSelected
 			nodeObject.IsExpanded = true
-			nodeObject.OnUpdate = func(_ *tree.Stage, stagedNode, frontNode *tree.Node) {
-				if frontNode.IsChecked && !stagedNode.IsChecked {
+			nodeObject.OnIsCheckedChanged = func(isChecked bool) {
+				if isChecked {
 					for object_ := range *GetGongstructInstancesSet[Object](stager.stage) {
 						object_.IsSelected = false
 					}
 					object.IsSelected = true
-					stagedNode.IsChecked = frontNode.IsChecked
 					stager.stage.Commit()
-				}
-				if !frontNode.IsChecked && stagedNode.IsChecked {
+				} else {
 					object.IsSelected = false
-					stagedNode.IsChecked = frontNode.IsChecked
 
 					for object_ := range *GetGongstructInstancesSet[Object](stager.stage) {
 						object_.IsSelected = false

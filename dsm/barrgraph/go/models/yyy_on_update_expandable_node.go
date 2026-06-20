@@ -7,7 +7,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func onUpdateExpandableNode[
+func setCallbacksExpandableNode[
 	AT interface {
 		*AT_
 		AbstractType
@@ -15,24 +15,24 @@ func onUpdateExpandableNode[
 	AT_ Gongstruct,
 ](
 	stager *Stager,
+	node *tree.Node,
 	element AT,
 	elementsWhoseNodeIsExpanded *[]AT,
-) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-		if frontNode.IsExpanded != stagedNode.IsExpanded {
-			stagedNode.IsExpanded = frontNode.IsExpanded
-			if frontNode.IsExpanded {
-				if slices.Index(*elementsWhoseNodeIsExpanded, element) == -1 {
-					*elementsWhoseNodeIsExpanded = append(*elementsWhoseNodeIsExpanded, element)
-				}
-			} else {
-				if idx := slices.Index(*elementsWhoseNodeIsExpanded, element); idx != -1 {
-					*elementsWhoseNodeIsExpanded = slices.Delete(*elementsWhoseNodeIsExpanded, idx, idx+1)
-				}
+) {
+	node.OnIsExpandedChange = func(isExpanded bool) {
+		if isExpanded {
+			if slices.Index(*elementsWhoseNodeIsExpanded, element) == -1 {
+				*elementsWhoseNodeIsExpanded = append(*elementsWhoseNodeIsExpanded, element)
 			}
-			return
+		} else {
+			if idx := slices.Index(*elementsWhoseNodeIsExpanded, element); idx != -1 {
+				*elementsWhoseNodeIsExpanded = slices.Delete(*elementsWhoseNodeIsExpanded, idx, idx+1)
+			}
 		}
+		stager.stage.Commit()
+	}
 
+	node.OnClick = func(frontNode *tree.Node) {
 		stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
 		stager.stage.Commit()
 	}

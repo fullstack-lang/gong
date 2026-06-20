@@ -225,8 +225,8 @@ func createBaseNode[
 				if n.HasCheckboxButton && n.IsChecked != isChecked {
 					frontNode := *n
 					frontNode.IsChecked = isChecked
-					if n.OnUpdate != nil {
-						n.OnUpdate(stager.treeStage, n, &frontNode)
+					if n.OnIsCheckedChanged != nil {
+						n.OnIsCheckedChanged(isChecked)
 					}
 				}
 				for _, child := range n.Children {
@@ -263,8 +263,8 @@ func createBaseNode[
 				if n.HasCheckboxButton && n.IsChecked != isChecked {
 					frontNode := *n
 					frontNode.IsChecked = isChecked
-					if n.OnUpdate != nil {
-						n.OnUpdate(stager.treeStage, n, &frontNode)
+					if n.OnIsCheckedChanged != nil {
+						n.OnIsCheckedChanged(isChecked)
 					}
 				}
 				for _, child := range n.Children {
@@ -313,7 +313,7 @@ func createBaseNode[
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
 					IsNodeClickable: true,
-					OnUpdate: func(_ *tree.Stage, _, _ *tree.Node) {
+					OnClick: func(frontNode *tree.Node) {
 						for diagram_ := range *GetGongstructInstancesSetFromPointerType[DiagramType](stager.stage) {
 							diagram_.SetIsChecked(false)
 						}
@@ -402,7 +402,9 @@ func addNodeToTree[
 				OnClick: func() {
 					frontNode := *node
 					frontNode.IsSecondCheckboxChecked = false
-					node.OnUpdate(stager.treeStage, node, &frontNode)
+					if node.OnIsSecondCheckboxCheckedChanged != nil {
+						node.OnIsSecondCheckboxCheckedChanged(frontNode.IsSecondCheckboxChecked)
+					}
 				},
 			}
 		} else {
@@ -415,7 +417,9 @@ func addNodeToTree[
 				OnClick: func() {
 					frontNode := *node
 					frontNode.IsSecondCheckboxChecked = true
-					node.OnUpdate(stager.treeStage, node, &frontNode)
+					if node.OnIsSecondCheckboxCheckedChanged != nil {
+						node.OnIsSecondCheckboxCheckedChanged(frontNode.IsSecondCheckboxChecked)
+					}
 				},
 			}
 		}
@@ -457,8 +461,9 @@ func addNodeToTree[
 	//
 
 	// what to do when the node is clicked
-	node.OnUpdate = onUpdateElementInDiagram(
+	setCallbacksElementInDiagram(
 		stager,
+		node,
 		conf.diagram,
 		conf.element,
 		conf.parentElement,
@@ -507,8 +512,9 @@ func addNodeToTreeWithoutLink[
 	)
 
 	// what to do when the node is clicked
-	node.OnUpdate = onUpdateElementInDiagramWithoutLink(
+	setCallbacksElementInDiagramWithoutLink(
 		stager,
+		node,
 		conf.diagram,
 		conf.element,
 		conf.parentElement,
