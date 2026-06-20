@@ -9,12 +9,13 @@ func (stager *Stager) ux_tree() {
 
 	treeInstance := &tree.Tree{Name: "Library Tree"}
 
-	for library := range *GetGongstructInstancesSetFromPointerType[*Library](stager.stage) {
-		if library.IsRootLibrary {
-			stager.treeLibrary(library, &treeInstance.RootNodes)
-		}
-	}
-	
+	stager.probeForm.AddCommitNavigationNode(func(gni GongNodeIF) {
+		treeInstance.RootNodes = append(treeInstance.RootNodes, gni.(*tree.Node))
+	})
+
+	stager.treeLibrary(stager.getRootLibrary(), &treeInstance.RootNodes)
+
 	tree.StageBranch(stager.treeStage, treeInstance)
+
 	stager.treeStage.Commit()
 }

@@ -7,17 +7,38 @@ import (
 
 func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	// 1. collect all shapes that are attached to a diagram
-	reachablePartShapes := make(map[*PartShape]struct{})
-	reachableLinkAssociationShapes := make(map[*LinkAssociationShape]struct{})
+	reachableProcessShapes := make(map[*ProcessShape]struct{})
+	reachableParticipantShapes := make(map[*ParticipantShape]struct{})
+	reachableExternalParticipantShapes := make(map[*ExternalParticipantShape]struct{})
+	reachableTaskShapes := make(map[*TaskShape]struct{})
+	reachableControlFlowShapes := make(map[*ControlFlowShape]struct{})
+	reachableDataFlowShapes := make(map[*DataFlowShape]struct{})
+	reachableDataShapes := make(map[*DataShape]struct{})
+	reachableNoteShapes := make(map[*NoteShape]struct{})
+	reachableNoteTaskShapes := make(map[*NoteTaskShape]struct{})
 
-	for _, diagram := range GetGongstrucsSorted[*DiagramStructure](stager.stage) {
-		collectShapes(diagram.Part_Shapes, reachablePartShapes)
-		collectShapes(diagram.Link_Shapes, reachableLinkAssociationShapes)
+	for _, diagram := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
+		collectShapes(diagram.Process_Shapes, reachableProcessShapes)
+		collectShapes(diagram.Participant_Shapes, reachableParticipantShapes)
+		collectShapes(diagram.ExternalParticipant_Shapes, reachableExternalParticipantShapes)
+		collectShapes(diagram.Task_Shapes, reachableTaskShapes)
+		collectShapes(diagram.ControlFlow_Shapes, reachableControlFlowShapes)
+		collectShapes(diagram.DataFlow_Shapes, reachableDataFlowShapes)
+		collectShapes(diagram.Data_Shapes, reachableDataShapes)
+		collectShapes(diagram.Note_Shapes, reachableNoteShapes)
+		collectShapes(diagram.NoteTaskShapes, reachableNoteTaskShapes)
 	}
 
 	// 2. unstage shapes that are not attached to a diagram
-	needCommit = unstageUnreachableOrphans(stager, reachablePartShapes) || needCommit
-	needCommit = unstageUnreachableOrphans(stager, reachableLinkAssociationShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableProcessShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableParticipantShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableExternalParticipantShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableTaskShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableControlFlowShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableDataFlowShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableDataShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableNoteShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableNoteTaskShapes) || needCommit
 
 	return
 }
@@ -33,10 +54,8 @@ func unstageUnreachableOrphans[T PointerToGongstruct](stager *Stager, reachable 
 		if _, ok := reachable[object]; !ok {
 			object.UnstageVoid(stager.stage)
 			needCommit = true
-			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaging orphan shape object \"%s\" of type \"%s\"",
-					object.GetName(), object.GongGetGongstructName()))
-			}
+			stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaging orphan shape object \"%s\" of type \"%s\"",
+				object.GetName(), object.GongGetGongstructName()))
 		}
 	}
 	return

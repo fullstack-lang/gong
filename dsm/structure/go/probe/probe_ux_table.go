@@ -24,22 +24,48 @@ func (probe *Probe) ux_table() {
 	}
 	switch tableName {
 	// insertion point
-	case "DiagramStructure":
-		updateProbeTable[*models.DiagramStructure](probe)
+	case "AllocatedProcessShape":
+		updateProbeTable[*models.AllocatedProcessShape](probe)
+	case "AllocatedResourceShape":
+		updateProbeTable[*models.AllocatedResourceShape](probe)
+	case "ControlFlow":
+		updateProbeTable[*models.ControlFlow](probe)
+	case "ControlFlowShape":
+		updateProbeTable[*models.ControlFlowShape](probe)
+	case "Data":
+		updateProbeTable[*models.Data](probe)
+	case "DataFlow":
+		updateProbeTable[*models.DataFlow](probe)
+	case "DataFlowShape":
+		updateProbeTable[*models.DataFlowShape](probe)
+	case "DataShape":
+		updateProbeTable[*models.DataShape](probe)
+	case "DiagramProcess":
+		updateProbeTable[*models.DiagramProcess](probe)
+	case "ExternalParticipantShape":
+		updateProbeTable[*models.ExternalParticipantShape](probe)
 	case "Library":
 		updateProbeTable[*models.Library](probe)
-	case "Link":
-		updateProbeTable[*models.Link](probe)
-	case "LinkAssociationShape":
-		updateProbeTable[*models.LinkAssociationShape](probe)
-	case "Part":
-		updateProbeTable[*models.Part](probe)
-	case "PartShape":
-		updateProbeTable[*models.PartShape](probe)
-	case "System":
-		updateProbeTable[*models.System](probe)
-	case "SystemShape":
-		updateProbeTable[*models.SystemShape](probe)
+	case "Note":
+		updateProbeTable[*models.Note](probe)
+	case "NoteShape":
+		updateProbeTable[*models.NoteShape](probe)
+	case "NoteTaskShape":
+		updateProbeTable[*models.NoteTaskShape](probe)
+	case "Participant":
+		updateProbeTable[*models.Participant](probe)
+	case "ParticipantShape":
+		updateProbeTable[*models.ParticipantShape](probe)
+	case "Process":
+		updateProbeTable[*models.Process](probe)
+	case "ProcessShape":
+		updateProbeTable[*models.ProcessShape](probe)
+	case "Resource":
+		updateProbeTable[*models.Resource](probe)
+	case "Task":
+		updateProbeTable[*models.Task](probe)
+	case "TaskShape":
+		updateProbeTable[*models.TaskShape](probe)
 	}
 }
 

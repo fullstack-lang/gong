@@ -439,10 +439,10 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 }
 
 // insertion point per named struct
-type DiagramStructureUnmarshaller struct{}
+type AllocatedProcessShapeUnmarshaller struct{}
 
-func (u *DiagramStructureUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(DiagramStructure)
+func (u *AllocatedProcessShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(AllocatedProcessShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -457,13 +457,335 @@ func (u *DiagramStructureUnmarshaller) Initialize(stage *Stage, identifier strin
 	return instance, nil
 }
 
-func (u *DiagramStructureUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*DiagramStructure)
+func (u *AllocatedProcessShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*AllocatedProcessShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Participant":
+		GongUnmarshallPointer(&instance.Participant, valueExpr, identifierMap)
+	case "Process":
+		GongUnmarshallPointer(&instance.Process, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type AllocatedResourceShapeUnmarshaller struct{}
+
+func (u *AllocatedResourceShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(AllocatedResourceShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *AllocatedResourceShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*AllocatedResourceShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Participant":
+		GongUnmarshallPointer(&instance.Participant, valueExpr, identifierMap)
+	case "Resource":
+		GongUnmarshallPointer(&instance.Resource, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type ControlFlowUnmarshaller struct{}
+
+func (u *ControlFlowUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ControlFlow)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ControlFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ControlFlow)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "Start":
+		GongUnmarshallPointer(&instance.Start, valueExpr, identifierMap)
+	case "End":
+		GongUnmarshallPointer(&instance.End, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type ControlFlowShapeUnmarshaller struct{}
+
+func (u *ControlFlowShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ControlFlowShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ControlFlowShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ControlFlowShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "ControlFlow":
+		GongUnmarshallPointer(&instance.ControlFlow, valueExpr, identifierMap)
+	case "StartRatio":
+		instance.StartRatio = GongExtractFloat(valueExpr)
+	case "EndRatio":
+		instance.EndRatio = GongExtractFloat(valueExpr)
+	case "StartOrientation":
+		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
+	case "EndOrientation":
+		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
+	case "CornerOffsetRatio":
+		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type DataUnmarshaller struct{}
+
+func (u *DataUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Data)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *DataUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Data)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Acronym":
+		instance.Acronym = GongExtractString(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "SVG_Path":
+		instance.SVG_Path = GongExtractString(valueExpr)
+	case "InverseAppliedScaling":
+		instance.InverseAppliedScaling = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type DataFlowUnmarshaller struct{}
+
+func (u *DataFlowUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(DataFlow)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *DataFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*DataFlow)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Datas":
+		GongUnmarshallSliceOfPointers(&instance.Datas, valueExpr, identifierMap)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "Type":
+		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "StartTask":
+		GongUnmarshallPointer(&instance.StartTask, valueExpr, identifierMap)
+	case "EndTask":
+		GongUnmarshallPointer(&instance.EndTask, valueExpr, identifierMap)
+	case "StartExternalParticipant":
+		GongUnmarshallPointer(&instance.StartExternalParticipant, valueExpr, identifierMap)
+	case "EndExternalParticipant":
+		GongUnmarshallPointer(&instance.EndExternalParticipant, valueExpr, identifierMap)
+	case "IsDatasNodeExpanded":
+		instance.IsDatasNodeExpanded = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type DataFlowShapeUnmarshaller struct{}
+
+func (u *DataFlowShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(DataFlowShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *DataFlowShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*DataFlowShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "DataFlow":
+		GongUnmarshallPointer(&instance.DataFlow, valueExpr, identifierMap)
+	case "StartRatio":
+		instance.StartRatio = GongExtractFloat(valueExpr)
+	case "EndRatio":
+		instance.EndRatio = GongExtractFloat(valueExpr)
+	case "StartOrientation":
+		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
+	case "EndOrientation":
+		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
+	case "CornerOffsetRatio":
+		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type DataShapeUnmarshaller struct{}
+
+func (u *DataShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(DataShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *DataShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*DataShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Data":
+		GongUnmarshallPointer(&instance.Data, valueExpr, identifierMap)
+	case "DataFlow":
+		GongUnmarshallPointer(&instance.DataFlow, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type DiagramProcessUnmarshaller struct{}
+
+func (u *DiagramProcessUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(DiagramProcess)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *DiagramProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*DiagramProcess)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
@@ -476,28 +798,115 @@ func (u *DiagramStructureUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.IsEditable_ = GongExtractBool(valueExpr)
 	case "IsShowPrefix":
 		instance.IsShowPrefix = GongExtractBool(valueExpr)
-	case "Width":
-		instance.Width = GongExtractFloat(valueExpr)
-	case "Height":
-		instance.Height = GongExtractFloat(valueExpr)
 	case "DefaultBoxWidth":
 		instance.DefaultBoxWidth = GongExtractFloat(valueExpr)
 	case "DefaultBoxHeigth":
 		instance.DefaultBoxHeigth = GongExtractFloat(valueExpr)
-	case "System_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.System_Shapes, valueExpr, identifierMap)
-	case "Part_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.Part_Shapes, valueExpr, identifierMap)
-	case "IsPartsNodeExpanded":
-		instance.IsPartsNodeExpanded = GongExtractBool(valueExpr)
-	case "PartsWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.PartsWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "Link_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.Link_Shapes, valueExpr, identifierMap)
-	case "IsLinksNodeExpanded":
-		instance.IsLinksNodeExpanded = GongExtractBool(valueExpr)
-	case "LinksWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.LinksWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	case "Process_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.Process_Shapes, valueExpr, identifierMap)
+	case "IsProcesssNodeExpanded":
+		instance.IsProcesssNodeExpanded = GongExtractBool(valueExpr)
+	case "ProcesssWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ProcesssWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "Participant_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.Participant_Shapes, valueExpr, identifierMap)
+	case "IsParticipantsNodeExpanded":
+		instance.IsParticipantsNodeExpanded = GongExtractBool(valueExpr)
+	case "ParticipantWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ParticipantWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "ExternalParticipant_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.ExternalParticipant_Shapes, valueExpr, identifierMap)
+	case "IsExternalParticipantsNodeExpanded":
+		instance.IsExternalParticipantsNodeExpanded = GongExtractBool(valueExpr)
+	case "ExternalParticipantWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ExternalParticipantWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, valueExpr, identifierMap)
+	case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, valueExpr, identifierMap)
+	case "TasksWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.TasksWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "Task_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.Task_Shapes, valueExpr, identifierMap)
+	case "ControlFlowsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ControlFlowsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "ControlFlow_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.ControlFlow_Shapes, valueExpr, identifierMap)
+	case "DataFlowsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.DataFlowsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "DataFlow_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.DataFlow_Shapes, valueExpr, identifierMap)
+	case "DatasWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.DatasWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "Data_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.Data_Shapes, valueExpr, identifierMap)
+	case "DataFlowsWhoseDataNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.DataFlowsWhoseDataNodeIsExpanded, valueExpr, identifierMap)
+	case "AllocatedResourcesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.AllocatedResourcesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "AllocatedResourceShapes":
+		GongUnmarshallSliceOfPointers(&instance.AllocatedResourceShapes, valueExpr, identifierMap)
+	case "AllocatedProcessesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.AllocatedProcessesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "AllocatedProcessShapes":
+		GongUnmarshallSliceOfPointers(&instance.AllocatedProcessShapes, valueExpr, identifierMap)
+	case "Note_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.Note_Shapes, valueExpr, identifierMap)
+	case "NotesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.NotesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsNotesNodeExpanded":
+		instance.IsNotesNodeExpanded = GongExtractBool(valueExpr)
+	case "NoteTaskShapes":
+		GongUnmarshallSliceOfPointers(&instance.NoteTaskShapes, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type ExternalParticipantShapeUnmarshaller struct{}
+
+func (u *ExternalParticipantShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ExternalParticipantShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ExternalParticipantShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ExternalParticipantShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Participant":
+		GongUnmarshallPointer(&instance.Participant, valueExpr, identifierMap)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	case "TailHeigth":
+		instance.TailHeigth = GongExtractFloat(valueExpr)
 	}
 	return nil
 }
@@ -527,6 +936,16 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "IsRootLibrary":
+		instance.IsRootLibrary = GongExtractBool(valueExpr)
 	case "SubLibraries":
 		GongUnmarshallSliceOfPointers(&instance.SubLibraries, valueExpr, identifierMap)
 	case "IsSubLibrariesNodeExpanded":
@@ -537,28 +956,48 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.NbPixPerCharacter = GongExtractFloat(valueExpr)
 	case "LogoSVGFile":
 		instance.LogoSVGFile = GongExtractString(valueExpr)
-	case "ComputedPrefix":
-		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
-	case "IsRootLibrary":
-		instance.IsRootLibrary = GongExtractBool(valueExpr)
-	case "RootSystems":
-		GongUnmarshallSliceOfPointers(&instance.RootSystems, valueExpr, identifierMap)
-	case "IsSystemsNodeExpanded":
-		instance.IsSystemsNodeExpanded = GongExtractBool(valueExpr)
-	case "SystemsWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.SystemsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "RootProcesses":
+		GongUnmarshallSliceOfPointers(&instance.RootProcesses, valueExpr, identifierMap)
+	case "IsProcessesNodeExpanded":
+		instance.IsProcessesNodeExpanded = GongExtractBool(valueExpr)
+	case "ProcesssWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ProcesssWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "RootDataFlows":
+		GongUnmarshallSliceOfPointers(&instance.RootDataFlows, valueExpr, identifierMap)
+	case "IsDataFlowsNodeExpanded":
+		instance.IsDataFlowsNodeExpanded = GongExtractBool(valueExpr)
+	case "DataFlowsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.DataFlowsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "RootDatas":
+		GongUnmarshallSliceOfPointers(&instance.RootDatas, valueExpr, identifierMap)
+	case "IsDatasNodeExpanded":
+		instance.IsDatasNodeExpanded = GongExtractBool(valueExpr)
+	case "DatasWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.DatasWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "RootResources":
+		GongUnmarshallSliceOfPointers(&instance.RootResources, valueExpr, identifierMap)
+	case "IsResourcesNodeExpanded":
+		instance.IsResourcesNodeExpanded = GongExtractBool(valueExpr)
+	case "ResourcesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ResourcesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "ParticipantsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ParticipantsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "RootNotes":
+		GongUnmarshallSliceOfPointers(&instance.RootNotes, valueExpr, identifierMap)
+	case "IsNotesNodeExpanded":
+		instance.IsNotesNodeExpanded = GongExtractBool(valueExpr)
+	case "NotesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.NotesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsExpandedTmp":
+		instance.IsExpandedTmp = GongExtractBool(valueExpr)
 	}
 	return nil
 }
 
-type LinkUnmarshaller struct{}
+type NoteUnmarshaller struct{}
 
-func (u *LinkUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Link)
+func (u *NoteUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Note)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -573,31 +1012,33 @@ func (u *LinkUnmarshaller) Initialize(stage *Stage, identifier string, instanceN
 	return instance, nil
 }
 
-func (u *LinkUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*Link)
+func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Note)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "LayoutDirection":
 		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
-	case "Source":
-		GongUnmarshallPointer(&instance.Source, valueExpr, identifierMap)
-	case "Target":
-		GongUnmarshallPointer(&instance.Target, valueExpr, identifierMap)
+	case "IsTasksNodeExpanded":
+		instance.IsTasksNodeExpanded = GongExtractBool(valueExpr)
+	case "Tasks":
+		GongUnmarshallSliceOfPointers(&instance.Tasks, valueExpr, identifierMap)
 	}
 	return nil
 }
 
-type LinkAssociationShapeUnmarshaller struct{}
+type NoteShapeUnmarshaller struct{}
 
-func (u *LinkAssociationShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(LinkAssociationShape)
+func (u *NoteShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(NoteShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -612,15 +1053,58 @@ func (u *LinkAssociationShapeUnmarshaller) Initialize(stage *Stage, identifier s
 	return instance, nil
 }
 
-func (u *LinkAssociationShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*LinkAssociationShape)
+func (u *NoteShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*NoteShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Link":
-		GongUnmarshallPointer(&instance.Link, valueExpr, identifierMap)
+	case "Note":
+		GongUnmarshallPointer(&instance.Note, valueExpr, identifierMap)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type NoteTaskShapeUnmarshaller struct{}
+
+func (u *NoteTaskShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(NoteTaskShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *NoteTaskShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*NoteTaskShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Note":
+		GongUnmarshallPointer(&instance.Note, valueExpr, identifierMap)
+	case "Task":
+		GongUnmarshallPointer(&instance.Task, valueExpr, identifierMap)
 	case "StartRatio":
 		instance.StartRatio = GongExtractFloat(valueExpr)
 	case "EndRatio":
@@ -637,10 +1121,10 @@ func (u *LinkAssociationShapeUnmarshaller) UnmarshallField(stage *Stage, i Gongs
 	return nil
 }
 
-type PartUnmarshaller struct{}
+type ParticipantUnmarshaller struct{}
 
-func (u *PartUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Part)
+func (u *ParticipantUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Participant)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -655,27 +1139,57 @@ func (u *PartUnmarshaller) Initialize(stage *Stage, identifier string, instanceN
 	return instance, nil
 }
 
-func (u *PartUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*Part)
+func (u *ParticipantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Participant)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "IsProcessResource":
+		instance.IsProcessResource = GongExtractBool(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
+	case "Resources":
+		GongUnmarshallSliceOfPointers(&instance.Resources, valueExpr, identifierMap)
+	case "IsResourcesNodeExpanded":
+		instance.IsResourcesNodeExpanded = GongExtractBool(valueExpr)
+	case "Processes":
+		GongUnmarshallSliceOfPointers(&instance.Processes, valueExpr, identifierMap)
+	case "IsProcessesNodeExpanded":
+		instance.IsProcessesNodeExpanded = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "LayoutDirection":
 		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "IsTasksNodeExpanded":
+		instance.IsTasksNodeExpanded = GongExtractBool(valueExpr)
+	case "Tasks":
+		GongUnmarshallSliceOfPointers(&instance.Tasks, valueExpr, identifierMap)
+	case "IsControlFlowsNodeExpanded":
+		instance.IsControlFlowsNodeExpanded = GongExtractBool(valueExpr)
+	case "ControlFlows":
+		GongUnmarshallSliceOfPointers(&instance.ControlFlows, valueExpr, identifierMap)
+	case "TaskWhoseOutControlFlowsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.TaskWhoseOutControlFlowsNodeIsExpanded, valueExpr, identifierMap)
+	case "TaskWhoseInControlFlowsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.TaskWhoseInControlFlowsNodeIsExpanded, valueExpr, identifierMap)
+	case "IsDataFlowsNodeExpanded":
+		instance.IsDataFlowsNodeExpanded = GongExtractBool(valueExpr)
+	case "TaskWhoseOutDataFlowsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.TaskWhoseOutDataFlowsNodeIsExpanded, valueExpr, identifierMap)
+	case "TaskWhoseInDataFlowsNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.TaskWhoseInDataFlowsNodeIsExpanded, valueExpr, identifierMap)
 	}
 	return nil
 }
 
-type PartShapeUnmarshaller struct{}
+type ParticipantShapeUnmarshaller struct{}
 
-func (u *PartShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(PartShape)
+func (u *ParticipantShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ParticipantShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -690,15 +1204,15 @@ func (u *PartShapeUnmarshaller) Initialize(stage *Stage, identifier string, inst
 	return instance, nil
 }
 
-func (u *PartShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*PartShape)
+func (u *ParticipantShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ParticipantShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Part":
-		GongUnmarshallPointer(&instance.Part, valueExpr, identifierMap)
+	case "Participant":
+		GongUnmarshallPointer(&instance.Participant, valueExpr, identifierMap)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "X":
@@ -713,18 +1227,14 @@ func (u *PartShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.IsHidden = GongExtractBool(valueExpr)
 	case "WidthWeight":
 		instance.WidthWeight = GongExtractFloat(valueExpr)
-	case "OverideLayoutDirection":
-		instance.OverideLayoutDirection = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	}
 	return nil
 }
 
-type SystemUnmarshaller struct{}
+type ProcessUnmarshaller struct{}
 
-func (u *SystemUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(System)
+func (u *ProcessUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Process)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -739,51 +1249,53 @@ func (u *SystemUnmarshaller) Initialize(stage *Stage, identifier string, instanc
 	return instance, nil
 }
 
-func (u *SystemUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*System)
+func (u *ProcessUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Process)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "LayoutDirection":
 		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
-	case "Parts":
-		GongUnmarshallSliceOfPointers(&instance.Parts, valueExpr, identifierMap)
-	case "IsPartsNodeExpanded":
-		instance.IsPartsNodeExpanded = GongExtractBool(valueExpr)
-	case "PartsWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.PartsWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "SubSystems":
-		GongUnmarshallSliceOfPointers(&instance.SubSystems, valueExpr, identifierMap)
-	case "IsSubSystemsNodeExpanded":
-		instance.IsSubSystemsNodeExpanded = GongExtractBool(valueExpr)
-	case "SubSystemsWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.SubSystemsWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "Links":
-		GongUnmarshallSliceOfPointers(&instance.Links, valueExpr, identifierMap)
-	case "IsLinksNodeExpanded":
-		instance.IsLinksNodeExpanded = GongExtractBool(valueExpr)
-	case "LinksWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.LinksWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "DiagramStructures":
-		GongUnmarshallSliceOfPointers(&instance.DiagramStructures, valueExpr, identifierMap)
-	case "IsDiagramStructuresNodeExpanded":
-		instance.IsDiagramStructuresNodeExpanded = GongExtractBool(valueExpr)
-	case "DiagramStructuresWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.DiagramStructuresWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "SVG_Path":
+		instance.SVG_Path = GongExtractString(valueExpr)
+	case "InverseAppliedScaling":
+		instance.InverseAppliedScaling = GongExtractFloat(valueExpr)
+	case "DiagramProcesss":
+		GongUnmarshallSliceOfPointers(&instance.DiagramProcesss, valueExpr, identifierMap)
+	case "DiagramProcessWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.DiagramProcessWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsSubProcessNodeExpanded":
+		instance.IsSubProcessNodeExpanded = GongExtractBool(valueExpr)
+	case "SubProcesses":
+		GongUnmarshallSliceOfPointers(&instance.SubProcesses, valueExpr, identifierMap)
+	case "Participants":
+		GongUnmarshallSliceOfPointers(&instance.Participants, valueExpr, identifierMap)
+	case "ParticipantWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ParticipantWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "DataFlows":
+		GongUnmarshallSliceOfPointers(&instance.DataFlows, valueExpr, identifierMap)
+	case "IsDataFlowsNodeExpanded":
+		instance.IsDataFlowsNodeExpanded = GongExtractBool(valueExpr)
+	case "ExternalParticipants":
+		GongUnmarshallSliceOfPointers(&instance.ExternalParticipants, valueExpr, identifierMap)
+	case "ExternalParticipantWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ExternalParticipantWhoseNodeIsExpanded, valueExpr, identifierMap)
 	}
 	return nil
 }
 
-type SystemShapeUnmarshaller struct{}
+type ProcessShapeUnmarshaller struct{}
 
-func (u *SystemShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(SystemShape)
+func (u *ProcessShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(ProcessShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -798,15 +1310,15 @@ func (u *SystemShapeUnmarshaller) Initialize(stage *Stage, identifier string, in
 	return instance, nil
 }
 
-func (u *SystemShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*SystemShape)
+func (u *ProcessShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*ProcessShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "System":
-		GongUnmarshallPointer(&instance.System, valueExpr, identifierMap)
+	case "Process":
+		GongUnmarshallPointer(&instance.Process, valueExpr, identifierMap)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "X":
@@ -819,10 +1331,137 @@ func (u *SystemShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
-	case "OverideLayoutDirection":
-		instance.OverideLayoutDirection = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type ResourceUnmarshaller struct{}
+
+func (u *ResourceUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Resource)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ResourceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Resource)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Acronym":
+		instance.Acronym = GongExtractString(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "LayoutDirection":
 		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "SVG_Path":
+		instance.SVG_Path = GongExtractString(valueExpr)
+	case "InverseAppliedScaling":
+		instance.InverseAppliedScaling = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
+type TaskUnmarshaller struct{}
+
+func (u *TaskUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Task)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Task)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "IsStartTask":
+		instance.IsStartTask = GongExtractBool(valueExpr)
+	case "IsEndTask":
+		instance.IsEndTask = GongExtractBool(valueExpr)
+	case "Type":
+		GongUnmarshallPointer(&instance.Type, valueExpr, identifierMap)
+	case "IsTaskNameNotProcessName":
+		instance.IsTaskNameNotProcessName = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type TaskShapeUnmarshaller struct{}
+
+func (u *TaskShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(TaskShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *TaskShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*TaskShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Task":
+		GongUnmarshallPointer(&instance.Task, valueExpr, identifierMap)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
