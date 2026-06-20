@@ -261,20 +261,20 @@ func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *
 		layer.Rects = append(layer.Rects, diamond)
 		diamond.Name = task.Name
 
-		// diamond.OnUpdate = func(updatedRect *svg.Rect) {
-		// 	// We don't save size or position changes because time diagrams are driven by dates
-		// 	// but we want to allow clicking to open the probe form
-		// 	diffSize := diamond.Width != updatedRect.Width || diamond.Height != updatedRect.Height
-		// 	diffPosition := diamond.X != updatedRect.X || diamond.Y != updatedRect.Y
+		diamond.OnUpdate = func(updatedRect *svg.Rect) {
+			// We don't save size or position changes because time diagrams are driven by dates
+			// but we want to allow clicking to open the probe form
+			diffSize := diamond.Width != updatedRect.Width || diamond.Height != updatedRect.Height
+			diffPosition := diamond.X != updatedRect.X || diamond.Y != updatedRect.Y
 
-		// 	if !diffSize && !diffPosition {
-		// 		stager.stage.CommitWithSuspendedCallbacks()
-		// 		stager.probeForm.FillUpFormFromGongstruct(task, "Task")
-		// 		stager.ux_tree()
-		// 	} else {
-		// 		stager.stage.CommitWithSuspendedCallbacks() // just revert UI to backend state
-		// 	}
-		// }
+			if !diffSize && !diffPosition {
+				stager.stage.CommitWithSuspendedCallbacks()
+				stager.probeForm.FillUpFormFromGongstruct(task, "Task")
+				stager.ux_tree()
+			} else {
+				stager.stage.CommitWithSuspendedCallbacks() // just revert UI to backend state
+			}
+		}
 
 		diamond.X = lineX - diamondWidth/2.0
 		diamond.Y = mapTaskGroup_TextY[taskGroupToDisplay] - diagram.TextHeight/2.0 - diamondWidth/2.0
