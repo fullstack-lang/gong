@@ -130,6 +130,10 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 
 	for _, partShape := range diagramStructure.Part_Shapes {
 
+		if partShape.IsHidden {
+			continue
+		}
+
 		rect := new(svg.Rect)
 		layer.Rects = append(layer.Rects, rect)
 		diagramStructure.map_SvgRect_Part[rect] = partShape.Part
@@ -301,6 +305,14 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 
 	diagramStructure.map_Port_Rect = make(map[*Port]*svg.Rect)
 	for _, portShape := range diagramStructure.Port_Shapes {
+
+		part := portShape.Port.owningPart
+		partShape := diagramStructure.map_Part_PartShape[part]
+		partRect := diagramStructure.map_Part_Rect[part]
+		if partShape.IsHidden {
+			continue
+		}
+
 		if portShape.IsHidden {
 			continue
 		}
@@ -308,12 +320,6 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 		port := portShape.Port
 		parts := rm[port]
 		if len(parts) == 0 {
-			continue
-		}
-
-		part := parts[0]
-		partRect := diagramStructure.map_Part_Rect[part]
-		if partRect == nil {
 			continue
 		}
 
