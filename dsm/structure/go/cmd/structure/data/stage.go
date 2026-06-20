@@ -34,8 +34,12 @@ func _(stage *models.Stage) {
 	__Part__00000000_ := (&models.Part{Name: `P1`}).Stage(stage)
 	__Part__00000001_ := (&models.Part{Name: `P2`}).Stage(stage)
 
-	__PartShape__00000003_ := (&models.PartShape{Name: `P1-DiagramStructure`}).Stage(stage)
-	__PartShape__00000005_ := (&models.PartShape{Name: `P2-DiagramStructure`}).Stage(stage)
+	__PartShape__00000007_ := (&models.PartShape{Name: `P2-DiagramStructure`}).Stage(stage)
+	__PartShape__00000008_ := (&models.PartShape{Name: `P1-DiagramStructure`}).Stage(stage)
+
+	__Port__00000000_ := (&models.Port{Name: `Port 1`}).Stage(stage)
+
+	__PortShape__00000000_ := (&models.PortShape{Name: `-DiagramStructure`}).Stage(stage)
 
 	__System__00000000_ := (&models.System{Name: `System 1`}).Stage(stage)
 
@@ -53,8 +57,8 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.IsShowPrefix = false
 	__DiagramStructure__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramStructure__00000000_.DefaultBoxHeigth = 70.000000
-	__DiagramStructure__00000000_.Width = 1615.999939
-	__DiagramStructure__00000000_.Height = 1332.000000
+	__DiagramStructure__00000000_.Width = 1618.999939
+	__DiagramStructure__00000000_.Height = 1327.000000
 	__DiagramStructure__00000000_.IsSystemsNodeExpanded = false
 	__DiagramStructure__00000000_.IsPartsNodeExpanded = true
 	__DiagramStructure__00000000_.IsExternalPartsNodeExpanded = false
@@ -81,7 +85,7 @@ func _(stage *models.Stage) {
 	__Part__00000000_.ComputedPrefix = ``
 	__Part__00000000_.IsExpanded = false
 	__Part__00000000_.LayoutDirection = models.Vertical
-	__Part__00000000_.IsPortsNodeExpanded = false
+	__Part__00000000_.IsPortsNodeExpanded = true
 	__Part__00000000_.IsControlFlowsNodeExpanded = false
 	__Part__00000000_.IsDataFlowsNodeExpanded = false
 
@@ -94,21 +98,38 @@ func _(stage *models.Stage) {
 	__Part__00000001_.IsControlFlowsNodeExpanded = false
 	__Part__00000001_.IsDataFlowsNodeExpanded = false
 
-	__PartShape__00000003_.Name = `P1-DiagramStructure`
-	__PartShape__00000003_.IsExpanded = false
-	__PartShape__00000003_.X = 717.000000
-	__PartShape__00000003_.Y = 276.999985
-	__PartShape__00000003_.Width = 250.000000
-	__PartShape__00000003_.Height = 203.000000
-	__PartShape__00000003_.IsHidden = false
+	__PartShape__00000007_.Name = `P2-DiagramStructure`
+	__PartShape__00000007_.IsExpanded = false
+	__PartShape__00000007_.X = 779.000000
+	__PartShape__00000007_.Y = 279.999985
+	__PartShape__00000007_.Width = 411.000000
+	__PartShape__00000007_.Height = 282.000000
+	__PartShape__00000007_.IsHidden = false
 
-	__PartShape__00000005_.Name = `P2-DiagramStructure`
-	__PartShape__00000005_.IsExpanded = false
-	__PartShape__00000005_.X = 190.921831
-	__PartShape__00000005_.Y = 351.288735
-	__PartShape__00000005_.Width = 250.000000
-	__PartShape__00000005_.Height = 153.999985
-	__PartShape__00000005_.IsHidden = false
+	__PartShape__00000008_.Name = `P1-DiagramStructure`
+	__PartShape__00000008_.IsExpanded = false
+	__PartShape__00000008_.X = 140.999939
+	__PartShape__00000008_.Y = 318.999985
+	__PartShape__00000008_.Width = 415.000000
+	__PartShape__00000008_.Height = 387.000000
+	__PartShape__00000008_.IsHidden = false
+
+	__Port__00000000_.Name = `Port 1`
+	__Port__00000000_.Description = ``
+	__Port__00000000_.ComputedPrefix = ``
+	__Port__00000000_.IsExpanded = false
+	__Port__00000000_.LayoutDirection = models.Vertical
+	__Port__00000000_.IsStartPort = false
+	__Port__00000000_.IsEndPort = false
+	__Port__00000000_.IsPortNameNotSystemName = false
+
+	__PortShape__00000000_.Name = `-DiagramStructure`
+	__PortShape__00000000_.IsExpanded = false
+	__PortShape__00000000_.X = 124.335645
+	__PortShape__00000000_.Y = 151.893588
+	__PortShape__00000000_.Width = 250.000000
+	__PortShape__00000000_.Height = 70.000000
+	__PortShape__00000000_.IsHidden = false
 
 	__System__00000000_.Name = `System 1`
 	__System__00000000_.Description = ``
@@ -122,21 +143,25 @@ func _(stage *models.Stage) {
 
 	__SystemShape__00000000_.Name = `SystemShape`
 	__SystemShape__00000000_.IsExpanded = false
-	__SystemShape__00000000_.X = 53.000000
-	__SystemShape__00000000_.Y = 32.000000
-	__SystemShape__00000000_.Width = 1262.999939
-	__SystemShape__00000000_.Height = 1000.000000
+	__SystemShape__00000000_.X = 60.000000
+	__SystemShape__00000000_.Y = 42.000000
+	__SystemShape__00000000_.Width = 1258.999939
+	__SystemShape__00000000_.Height = 985.000000
 	__SystemShape__00000000_.IsHidden = false
 
 	// insertion point for setup of pointers
 	__DiagramStructure__00000000_.System_Shapes = append(__DiagramStructure__00000000_.System_Shapes, __SystemShape__00000000_)
-	__DiagramStructure__00000000_.Part_Shapes = append(__DiagramStructure__00000000_.Part_Shapes, __PartShape__00000003_)
-	__DiagramStructure__00000000_.Part_Shapes = append(__DiagramStructure__00000000_.Part_Shapes, __PartShape__00000005_)
+	__DiagramStructure__00000000_.Part_Shapes = append(__DiagramStructure__00000000_.Part_Shapes, __PartShape__00000007_)
+	__DiagramStructure__00000000_.Part_Shapes = append(__DiagramStructure__00000000_.Part_Shapes, __PartShape__00000008_)
 	__DiagramStructure__00000000_.PartWhoseNodeIsExpanded = append(__DiagramStructure__00000000_.PartWhoseNodeIsExpanded, __Part__00000000_)
+	__DiagramStructure__00000000_.Port_Shapes = append(__DiagramStructure__00000000_.Port_Shapes, __PortShape__00000000_)
 	__Library__00000000_.RootSystemes = append(__Library__00000000_.RootSystemes, __System__00000000_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000000_)
-	__PartShape__00000003_.Part = __Part__00000000_
-	__PartShape__00000005_.Part = __Part__00000001_
+	__Part__00000000_.Ports = append(__Part__00000000_.Ports, __Port__00000000_)
+	__PartShape__00000007_.Part = __Part__00000001_
+	__PartShape__00000008_.Part = __Part__00000000_
+	__Port__00000000_.Type = nil
+	__PortShape__00000000_.Port = __Port__00000000_
 	__System__00000000_.DiagramStructures = append(__System__00000000_.DiagramStructures, __DiagramStructure__00000000_)
 	__System__00000000_.DiagramStructureWhoseNodeIsExpanded = append(__System__00000000_.DiagramStructureWhoseNodeIsExpanded, __DiagramStructure__00000000_)
 	__System__00000000_.Parts = append(__System__00000000_.Parts, __Part__00000000_)
