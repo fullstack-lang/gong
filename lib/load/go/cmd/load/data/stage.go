@@ -10,8 +10,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
-var _ = slices.Index[[]int, int]
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -23,20 +25,14 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-09-27 03:09:25.711821 CEST"
-	const __write__utc_time__ = "2025-09-27 01:09:25.711821 UTC"
+	// insertion point for declaration of instances to stage
 
-	const __commitId__ = "0000000007"
+	__FileToUpload__00000000_ := (&models.FileToUpload{Name: `erze.txt`}).Stage(stage)
 
-	// Declaration of instances to stage
+	// insertion point for initialization of values
 
-	__FileToUpload__000000_erze_txt := (&models.FileToUpload{}).Stage(stage)
+	__FileToUpload__00000000_.Name = `erze.txt`
+	__FileToUpload__00000000_.Base64EncodedContent = `ZXJ6`
 
-	// Setup of values
-
-	__FileToUpload__000000_erze_txt.Name = `erze.txt`
-	__FileToUpload__000000_erze_txt.Base64EncodedContent = `ZXJ6`
-
-	// Setup of pointers
-	// setup of FileToUpload instances pointers
+	// insertion point for setup of pointers
 }

@@ -263,24 +263,7 @@ func NewProbe(
 	})
 	probe.splitStage.Commit()
 
-	fileToUpload := &load.FileToUpload{
-		Name: "Name of file",
-		FileToUploadProxy: &loadProxy{
-			probe: probe,
-		},
-	}
-
-	load.StageBranch(probe.loadStage,
-		fileToUpload,
-	)
-
-	message := &load.Message{
-		Name: "Drop your stage.go file here or ",
-	}
-
-	message.Stage(probe.loadStage)
-
-	probe.loadStage.Commit()
+	probe.initLoadStage()
 
 	probe.ux_tree()
 
@@ -321,6 +304,29 @@ func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
 	fmt.Println("OnFileUpload: after commit")
 
 	return nil
+}
+
+func (probe *Probe) initLoadStage() {
+	probe.loadStage.Reset()
+
+	fileToUpload := &load.FileToUpload{
+		Name: "Name of file",
+		FileToUploadProxy: &loadProxy{
+			probe: probe,
+		},
+	}
+
+	load.StageBranch(probe.loadStage,
+		fileToUpload,
+	)
+
+	message := &load.Message{
+		Name: "Drop your stage.go file here or ",
+	}
+
+	message.Stage(probe.loadStage)
+
+	probe.loadStage.Commit()
 }
 
 func (probe *Probe) Refresh() {
@@ -395,6 +401,9 @@ func (probe *Probe) DownloadNotificationsCSV() {
 
 	load.StageBranch(probe.loadStage, fileToDownload)
 	probe.loadStage.Commit()
+
+	time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we reset the stage.
+	probe.initLoadStage()
 }
 
 func (probe *Probe) ExportStageExcel() {
@@ -423,6 +432,9 @@ func (probe *Probe) ExportStageExcel() {
 
 	load.StageBranch(probe.loadStage, fileToDownload)
 	probe.loadStage.Commit()
+
+	time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we reset the stage.
+	probe.initLoadStage()
 }
 
 func (probe *Probe) ExportStage() {
@@ -450,5 +462,8 @@ func (probe *Probe) ExportStage() {
 
 	load.StageBranch(probe.loadStage, fileToDownload)
 	probe.loadStage.Commit()
+
+	time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we reset the stage.
+	probe.initLoadStage()
 }
 `
