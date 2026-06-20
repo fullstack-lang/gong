@@ -19,12 +19,120 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 
 	switch instancesTyped := any(instance).(type) {
 	// insertion point
-	case *models.DiagramStructure:
+	case *models.AllocatedProcessShape:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "DiagramStructure Form",
+			Label: "AllocatedProcessShape Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__DiagramStructureFormCallback(
+		formGroup.OnSave = __gong__New__AllocatedProcessShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.AllocatedResourceShape:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "AllocatedResourceShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__AllocatedResourceShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.ControlFlow:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "ControlFlow Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ControlFlowFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.ControlFlowShape:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "ControlFlowShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ControlFlowShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Data:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "Data Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DataFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.DataFlow:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "DataFlow Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DataFlowFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.DataFlowShape:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "DataFlowShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DataFlowShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.DataShape:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "DataShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DataShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.DiagramProcess:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "DiagramProcess Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__DiagramProcessFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.ExternalParticipantShape:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "ExternalParticipantShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ExternalParticipantShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
@@ -43,72 +151,120 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.Link:
+	case *models.Note:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "Link Form",
+			Label: "Note Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__LinkFormCallback(
+		formGroup.OnSave = __gong__New__NoteFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.LinkAssociationShape:
+	case *models.NoteShape:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "LinkAssociationShape Form",
+			Label: "NoteShape Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__LinkAssociationShapeFormCallback(
+		formGroup.OnSave = __gong__New__NoteShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.Part:
+	case *models.NoteTaskShape:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "Part Form",
+			Label: "NoteTaskShape Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__PartFormCallback(
+		formGroup.OnSave = __gong__New__NoteTaskShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.PartShape:
+	case *models.Participant:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "PartShape Form",
+			Label: "Participant Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__PartShapeFormCallback(
+		formGroup.OnSave = __gong__New__ParticipantFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.System:
+	case *models.ParticipantShape:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "System Form",
+			Label: "ParticipantShape Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__SystemFormCallback(
+		formGroup.OnSave = __gong__New__ParticipantShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.SystemShape:
+	case *models.Process:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "SystemShape Form",
+			Label: "Process Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__SystemShapeFormCallback(
+		formGroup.OnSave = __gong__New__ProcessFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.ProcessShape:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "ProcessShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ProcessShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Resource:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "Resource Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ResourceFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.Task:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "Task Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TaskFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.TaskShape:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "TaskShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TaskShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

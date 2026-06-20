@@ -10,6 +10,13 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stage := stager.stage
 	needCommit = stager.enforceThereIsARootLibrary() || needCommit
 
+	// computes fields that are not persisted
+	stager.enforceOwningLibraryAndObjects()
+	stager.enforceStagerMaps()
+	stager.computeTaskFields()
+	stager.computeParticipantFields()
+	stager.computeDataFlowShapeFields()
+
 	pass := 0
 	for {
 		if pass > 10 {
@@ -30,10 +37,15 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		}
 	}
 
+	// computes fields that are not persisted
+	stager.enforceOwningLibraryAndObjects()
+	stager.enforceStagerMaps()
+	stager.computeTaskFields()
+	stager.computeParticipantFields()
+	stager.computeDataFlowShapeFields()
+
 	if needCommit {
-		if stager.probeForm != nil {
-			stager.probeForm.CommitNotificationTable()
-		}
+		stager.probeForm.CommitNotificationTable()
 		stage.CommitWithSuspendedCallbacks()
 	}
 
@@ -45,19 +57,33 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		name string
 		fn   func() bool
 	}{
+		// abstract semantic check
+		{"Assign Probe Callback", stager.assignProbeCallback},
+
 		// VERY important because the probe only unstages objects
 		// this is the Clean that delete them from slices and pointers that reference
 		// them. If the checkout is not performed, the stage might be dirty
 		// with slices of pointer or pointer to unstaged instance
 		{"Clean stage", func() bool { return stage.Clean() }},
-		
-		// Semantic checks
-		{"Enforce at least one diagram per system", stager.enforceAtLeastOneDiagramPerSystem},
+		{"Enforce default values", stager.enforceDefaultValues},
+		{"Enforce orphans abstract element", stager.enforceOrphansAbstractElement},
+		{"Enforce task participant consistency", stager.enforceTaskParticipantConsistency},
+		{"Enforce task semantic rules", stager.enforceTaskSemanticRules},
+		{"Enforce participant semantic rules", stager.enforceParticipantSemanticRules},
+		{"Enforce control flow semantic rules", stager.enforceControlFlowRules},
+		{"Enforce data flow semantic rules", stager.enforceDataFlowRules},
+
+		// concrete semantic check
+		{"Enforce at least one diagram per process", stager.enforceAtLeastOneDiagramPerProcess},
+		{"Enforce a process diagram has its owning process", stager.enforceAProcessDiagramHasItsOwningProcess},
+		{"Enforce node shape duplicates", stager.enforceNodeShapeDuplicates},
+		{"Enforce relation duplicates", stager.enforceRelationDuplicates},
 		{"Enforce shape orphans", stager.enforceShapeOrphans},
+		{"Enforce control flow shapes rules", stager.enforceControlFlowShapesRules},
+		{"Enforce data flow shapes rules", stager.enforceDataFlowShapesRules},
+		{"Enforce participant shape semantic", stager.enforceParticipantShapeSemantic},
+		{"Enforce task shape within participant", stager.enforceTaskShapeWithinParticipant},
 		{"Enforce shapes abstract consistency", stager.enforceShapesAbstractConsistency},
-		{"Enforce diagram maps and duplicates", stager.enforceDiagramMaps},
-		{"Enforce structure diagram has owning system", stager.enforceAStructureDiagramHasItsOwningSystem},
-		{"Enforce shape names", stager.enforceShapeNames},
 		{"Enforce diagram size", stager.enforceDiagramSize},
 	}
 
