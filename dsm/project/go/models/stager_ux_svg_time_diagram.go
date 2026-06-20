@@ -122,7 +122,7 @@ func (stager *Stager) generateTimeDiagram(diagram *Diagram, svgObject *svg.SVG) 
 
 			if task.IsMilestone {
 				// milestone rendering
-				stager.displayMilestone(diagram, task, verticalLinesLayer, yTimeLine, taskGroup, layer, mapTaskGroup_TextY)
+				stager.displayMilestone(diagram, task, taskShape, verticalLinesLayer, yTimeLine, taskGroup, layer, mapTaskGroup_TextY)
 			} else {
 				// bar text using RectAnchoredText to ensure it renders on top of the bar
 				stager.displayTaskTitle(task, diagram, rect4Bar)
@@ -226,7 +226,7 @@ func (stager *Stager) displayTaskTitle(task *Task, diagram *Diagram, rect4Bar *s
 	rect4Bar.RectAnchoredTexts = append(rect4Bar.RectAnchoredTexts, barText)
 }
 
-func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, verticalLinesLayer *svg.Layer, yTimeLine float64, taskGroup *TaskGroup, layer *svg.Layer, mapTaskGroup_TextY map[*TaskGroup]float64) {
+func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *TaskShape, verticalLinesLayer *svg.Layer, yTimeLine float64, taskGroup *TaskGroup, layer *svg.Layer, mapTaskGroup_TextY map[*TaskGroup]float64) {
 	durationBetweenMilestoneAndGanttStart := task.Start.Sub(diagram.ComputedStart)
 	durationBetweenMilestoneAndGanttStartRelativeToGanttDuration :=
 		float64(durationBetweenMilestoneAndGanttStart) / float64(diagram.ComputedDuration)
@@ -256,8 +256,26 @@ func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, verticalLin
 
 	for _, taskGroupToDisplay := range taskGroupsToDisplay {
 		diamond := new(svg.Rect)
+		diagram.map_SvgRect_TaskShape[diamond] = taskShape
+
 		layer.Rects = append(layer.Rects, diamond)
 		diamond.Name = task.Name
+
+		// diamond.OnUpdate = func(updatedRect *svg.Rect) {
+		// 	// We don't save size or position changes because time diagrams are driven by dates
+		// 	// but we want to allow clicking to open the probe form
+		// 	diffSize := diamond.Width != updatedRect.Width || diamond.Height != updatedRect.Height
+		// 	diffPosition := diamond.X != updatedRect.X || diamond.Y != updatedRect.Y
+
+		// 	if !diffSize && !diffPosition {
+		// 		stager.stage.CommitWithSuspendedCallbacks()
+		// 		stager.probeForm.FillUpFormFromGongstruct(task, "Task")
+		// 		stager.ux_tree()
+		// 	} else {
+		// 		stager.stage.CommitWithSuspendedCallbacks() // just revert UI to backend state
+		// 	}
+		// }
+
 		diamond.X = lineX - diamondWidth/2.0
 		diamond.Y = mapTaskGroup_TextY[taskGroupToDisplay] - diagram.TextHeight/2.0 - diamondWidth/2.0
 		diamond.Width = diamondWidth
