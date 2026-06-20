@@ -2,33 +2,10 @@
     "version": "0.2.0",
     "configurations": [
         //
-        // "gong generate" configurations
+        // "go" configurations
         //
         {
-            "name": "helloworld: gong generate /tmp/helloworld",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "/tmp/helloworld/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--stack-height=4"
-            ]
-        },
-        {
-            "name": "helloworld: gong generate /tmp/helloworld --stack-height=0",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "/tmp/helloworld/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate"
-            ]
-        },
-        {
-            "name": "gong: gong generate gong -skipGoModCommands --stack-height=0",
+            "name": "go - gong: gong generate gong -skipGoModCommands --stack-height=0",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -39,19 +16,1075 @@
                 "--skipGoModCommands"
             ]
         },
+        //
+        // "dsm" configurations
+        //
         {
-            "name": "phyllotaxymusic: gong generate phyllotaxymusic --stack-height=0",
+            "name": "dsm - barrgraph: go run aviva stool",
             "type": "go",
             "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../../thomaspeugeot/phyllotaxymusic/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
             "args": [
-                "generate"
+                "-unmarshallFromCode",
+                "data/aviva stool.go",
+                "-marshallOnCommit",
+                "data/aviva stool.go"
             ]
         },
         {
-            "name": "test: gong generate test -skipGoModCommands -skipNg with rm main.go",
+            "name": "dsm - barrgraph: go run barrgraph",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
+            "args": []
+        },
+        {
+            "name": "dsm - barrgraph: go run cubism and abstract art",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
+            "args": [
+                "-unmarshallFromCode=data/cubism and abstract art.go",
+                "-marshallOnCommit=data/cubism and abstract art.go"
+            ]
+        },
+        {
+            "name": "dsm - barrgraph: go run netherland golden century",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
+            "args": [
+                "-unmarshallFromCode=data/netherland golden century.go",
+                "-marshallOnCommit=data/netherland golden century.go"
+            ]
+        },
+        {
+            "name": "dsm - barrgraph: go run modern design",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
+            "args": [
+                "-unmarshallFromCode",
+                "data/modern design.go",
+                "-marshallOnCommit",
+                "data/modern design.go"
+            ]
+        },
+        {
+            "name": "dsm - barrgraph: go run renaissance",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
+            "args": [
+                "-unmarshallFromCode",
+                "data/renaissance.go",
+                "-marshallOnCommit",
+                "data/renaissance.go"
+            ]
+        },
+        {
+            "name": "dsm - barrgraph: gong generate --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/dsm/barrgraph/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "name": "dsm - capture: go server",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
+            "args": []
+        },
+        {
+            "name": "dsm - capture: go server capture_process.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
+            "args": [
+                "-unmarshallFromCode=data/capture_process.go",
+                "-marshallOnCommit=data/capture_process"
+            ]
+        },
+        {
+            "name": "dsm - capture: go server 15288.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
+            "args": [
+                "data/15288.go"
+            ]
+        },
+        {
+            "name": "dsm - capture: go server 15288_analysis.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
+            "args": [
+                "data/15288_analysis.go"
+            ]
+        },
+        {
+            "name": "dsm - process: gong generate --dsm",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/dsm/process/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--dsm"
+            ]
+        },
+        {
+            "name": "dsm - process: go run stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/stage.go",
+                "-embeddedDiagrams=false"
+            ]
+        },
+        {
+            "name": "dsm - process: go run icao4444.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/icao4444.go",
+                "-embeddedDiagrams=false"
+            ]
+        },
+        {
+            "name": "dsm - process: go run rqs_spl_v1.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/rqs_spl_v1.go",
+                "-embeddedDiagrams=false"
+            ]
+        },
+        {
+            "name": "dsm - process: go run rqs_spl_v2.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/rqs_spl_v2.go",
+                "-embeddedDiagrams=false"
+            ]
+        },
+        {
+            "name": "dsm - process: go run ifps_ops.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/ifps_ops.go",
+                "-embeddedDiagrams=false"
+            ]
+        },
+        {
+            "name": "dsm - process: go run simple.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/simple.go",
+                "-embeddedDiagrams=false"
+            ]
+        },
+        {
+            "name": "dsm - process: go run foo.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/foo.go",
+                "-embeddedDiagrams=false"
+            ]
+        },
+        {
+            "name": "dsm - process: go run 144.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/144.go",
+                "-embeddedDiagrams=false"
+            ]
+        },
+        {
+            "name": "dsm - process : merge",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process/merge/main.go",
+            "cwd": "${workspaceFolder}/dsm/process/go/cmd/process/merge",
+            "args": [
+                "../data/icao444.go",
+                "../data/rqs_spl_v1.go",
+                "../data/rqs_spl_v2.go"
+            ]
+        },
+        {
+            "name": "dsm - project: go run",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
+            "args": [
+                "-embeddedDiagrams=false"
+            ]
+        },
+        {
+            "name": "dsm - project: go run simple.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
+            "args": [
+                "-embeddedDiagrams=false",
+                "data/simple.go"
+            ]
+        },
+        {
+            "name": "dsm - project: go run issue1121.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
+            "args": [
+                "-embeddedDiagrams=false",
+                "data/issue1121.go"
+            ]
+        },
+        {
+            "name": "dsm - project: go run issue1337.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
+            "args": [
+                "-embeddedDiagrams=false",
+                "data/issue1337.go"
+            ]
+        },
+        {
+            "name": "dsm - project: go run issue1263.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
+            "args": [
+                "-embeddedDiagrams=false",
+                "data/issue1263.go"
+            ]
+        },
+        {
+            "name": "dsm - project: go run stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
+            "args": [
+                "data/stage.go",
+                "-embeddedDiagrams=false"
+            ]
+        },
+        {
+            "name": "dsm - project: go run starlinereport",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
+            "args": [
+                "data/starline_report.go",
+                "-embeddedDiagrams=false"
+            ]
+        },
+        {
+            "name": "dsm - project: gong generate --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/dsm/project/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "name": "dsm - reqif: `",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/dsm/reqif/go/cmd/reqif",
+            "buildFlags": "-v",
+            "args": [
+                "-embeddedDiagrams=false"
+            ]
+        },
+        {
+            "name": "dsm - reqif: drone.reqif`",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/dsm/reqif/go/cmd/reqif",
+            "buildFlags": "-v",
+            "args": [
+                "-embeddedDiagrams=false",
+                "-pathToReqifFile",
+                "samples/ReqIF for Wheeled Tennis Ball Drone.reqif",
+                "-pathToRenderingConf",
+                "samples/reqif samples_ReqIF for Wheeled Tennis Ball Drone-renderingConf.go1"
+            ]
+        },
+        {
+            "name": "dsm - reqif: drone.reqifz`",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/dsm/reqif/go/cmd/reqif",
+            "buildFlags": "-v",
+            "args": [
+                "-embeddedDiagrams=false",
+                "-pathToReqifFile",
+                "samples/ReqIF for Wheeled Tennis Ball Drone.reqifz",
+                "-pathToRenderingConf",
+                "samples/reqif samples_ReqIF for Wheeled Tennis Ball Drone-renderingConf.go1"
+            ]
+        },
+        {
+            "name": "dsm - scenario: go run stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/scenario/go/cmd/scenario",
+            "args": [
+                "data/stage.go",
+                "-embeddedDiagrams=false"
+            ]
+        },
+        {
+            "name": "dsm - statemachines: go run -unmarshallFromCode=data/massive_probe_edit.go -marshallOnCommit=data/massive_probe_edit.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/statemachines/go/cmd/statemachines",
+            "args": [
+                "-unmarshallFromCode=data/massive_probe_edit.go",
+                "-marshallOnCommit=data/massive_probe_edit.go"
+            ]
+        },
+        {
+            "name": "dsm - statemachines: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/statemachines/go/cmd/statemachines",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage.go"
+            ]
+        },
+        {
+            "name": "dsm - statemachines: go run -unmarshallFromCode=data/uxloop.go -marshallOnCommit=data/uxloop.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/statemachines/go/cmd/statemachines",
+            "args": [
+                "-unmarshallFromCode=data/uxloop.go",
+                "-marshallOnCommit=data/uxloop.go"
+            ]
+        },
+        {
+            "name": "dsm - statemachines: gong generate statemachines --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/dsm/statemachines/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "name": "dsm - structure: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/structure/go/cmd/structure",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage.go"
+            ]
+        },
+        {
+            "name": "dsm - xsd: books generate models.go from books.xsd",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/books",
+            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd2gong",
+            "args": [
+                "generate",
+                "./books.xsd",
+                "-v",
+                "-o",
+                "./go/models/models.go"
+            ]
+        },
+        {
+            "name": "dsm - xsd: books gong generate test on books --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/books/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "name": "dsm - xsd: books reads books.xml",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/books/go/cmd/books",
+            "program": "${workspaceFolder}/dsm/xsd/tests/books/go/cmd/books",
+            "args": [
+                "../../../books.xml"
+            ]
+        },
+        {
+            "name": "dsm - xsd: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage.go"
+            ]
+        },
+        {
+            "name": "dsm - xsd: musicxml generate models.go from musicxml.xsd",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/musicxml",
+            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd2gong",
+            "args": [
+                "generate",
+                "./musicxml.xsd",
+                "-v",
+                "-o",
+                "./go/models/models.go"
+            ]
+        },
+        {
+            "name": "dsm - xsd: musicxml gong generate test on musicxml --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/musicxml/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "name": "dsm - xsd: reqif generate models.go from dtc-11-04-05.xsd",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/reqif",
+            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd2gong",
+            "args": [
+                "generate",
+                "./dtc-11-04-05.xsd",
+                "-v",
+                "-o",
+                "./go/models/models.go"
+            ]
+        },
+        {
+            "name": "dsm - xsd: reqif gong generate reqif on reqif --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/dsm/xsd/tests/reqif/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        //
+        // "lib" configurations
+        //
+        {
+            "name": "lib - button: go run button",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/button/go/cmd/button",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage"
+            ]
+        },
+        {
+            "name": "lib - cursor: go run cursor",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/cursor/go/cmd/cursor",
+            "args": []
+        },
+        {
+            "name": "lib - cursor: gong generate cursor --skipGoModCommands --skipNpmWorkspaces --skipGoModCommands",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/lib/cursor/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--skipNpmWorkspaces",
+                "--skipGoModCommands",
+                "--stack-height=4"
+            ]
+        },
+        {
+            "name": "lib - doc: Launch Chrome (doc) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/doc/ng-github.com-fullstack-lang-gong-lib-doc",
+            "sourceMaps": true
+        },
+        {
+            "name": "lib - doc: go run -embeddedDiagrams=true",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/doc/go/cmd/doc",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage",
+                "-embeddedDiagrams=true"
+            ]
+        },
+        {
+            "name": "lib - doc: go run doc",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/doc/go/cmd/doc",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage"
+            ]
+        },
+        {
+            "name": "lib - doc: gong generate doc --skipGoModCommands --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/lib/doc/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "name": "lib - docx: go run docx",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/pkg/docx/go/cmd/docx",
+            "args": [
+                "samples/test.docx"
+            ]
+        },
+        {
+            "name": "lib - docx: gong generate docx -skipGoModCommands -skipNg",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/lib/docx/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--skipNg",
+                "--stack-height=4"
+            ]
+        },
+        {
+            "name": "lib - form: Launch Chrome (form) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/form/ng-github.com-fullstack-lang-gong-lib-form",
+            "sourceMaps": true
+        },
+        {
+            "name": "lib - form: go run form",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/form/go/cmd/form",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage",
+                "-embeddedDiagrams=true"
+            ]
+        },
+        {
+            "name": "lib - form: gong generate form -skipGoModCommands --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/lib/form/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipNpmWorkspaces",
+                "--skipGoModCommands",
+                "--stack-height=4"
+            ]
+        },
+        {
+            "name": "lib - gantt: go run gantt",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/gantt/go/cmd/gantt",
+            "args": [
+                "-unmarshallFromCode=data/gantt1.go",
+                "-marshallOnCommit=data/gantt1"
+            ]
+        },
+        {
+            "name": "lib - load: Launch Chrome (load) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/load/ng-github.com-fullstack-lang-gong-lib-load",
+            "sourceMaps": true
+        },
+        {
+            "name": "lib - load: go run load",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/load/go/cmd/load",
+            "args": [
+                "-unmarshallFromCode=data/load.go",
+                "-marshallOnCommit=data/load"
+            ]
+        },
+        {
+            "name": "lib - markdown: Launch Chrome (markdown) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/markdown/ng-github.com-fullstack-lang-gong-lib-markdown",
+            "sourceMaps": true
+        },
+        {
+            "name": "lib - markdown: go run markdown",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/markdown/go/cmd/markdown",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage.go"
+            ]
+        },
+        {
+            "name": "lib - markdown: barrgraph",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/markdown/go/cmd/markdown",
+            "args": [
+                "-unmarshallFromCode=data/barrgraph.go",
+                "-marshallOnCommit=data/barrgraph.go"
+            ]
+        },
+        {
+            "name": "lib - probe: go run probe",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/probe/go/cmd/probe",
+            "args": [
+                "-unmarshallFromCode=data/probe.go",
+                "-marshallOnCommit=data/probe"
+            ]
+        },
+        {
+            "name": "lib - sim: go run sim",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/sim/go/cmd/sim",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage"
+            ]
+        },
+        {
+            "name": "lib - slider: go run slider",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/slider/go/cmd/slider",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage"
+            ]
+        },
+        {
+            "name": "lib - slider: gong generate slider -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/lib/slider/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--skipNpmInstall",
+                "--skipNpmWorkspaces",
+                "--stack-height=4"
+            ]
+        },
+        {
+            "name": "lib - split: Launch Chrome (split) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/split/ng-github.com-fullstack-lang-gong-lib-split",
+            "sourceMaps": true
+        },
+        {
+            "name": "lib - split: Launch Edge (split) on 4200",
+            "request": "launch",
+            "type": "msedge",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/split/ng-github.com-fullstack-lang-gong-lib-split",
+            "sourceMaps": true
+        },
+        {
+            "name": "lib - split: go run issue564",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/split/go/cmd/split",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage_out",
+                "-issue564"
+            ],
+            "buildFlags": "-race"
+        },
+        {
+            "name": "lib - split: go run split",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/split/go/cmd/split",
+            "args": [
+                "-unmarshallFromCode=data/stage2.go",
+                "-marshallOnCommit=data/stage2"
+            ]
+        },
+        {
+            "name": "lib - split: gong generate split -skipGoModCommands --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/lib/split/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "name": "lib - ssg: go run ssg",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/ssg/go/cmd/ssg",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage"
+            ]
+        },
+        {
+            "name": "lib - svg: Launch Chrome (svg) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/svg/ng-github.com-fullstack-lang-gong-lib-svg",
+            "sourceMaps": true
+        },
+        {
+            "name": "lib - svg: Launch Edge (svg) on 4200",
+            "request": "launch",
+            "type": "msedge",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/svg/ng-github.com-fullstack-lang-gong-lib-svg",
+            "sourceMaps": true
+        },
+        {
+            "name": "lib - svg: go run -unmarshallFromCode=bezier.go -marshallOnCommit=bezier.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
+            "args": [
+                "-unmarshallFromCode=data/bezier.go",
+                "-marshallOnCommit=data/bezier.go"
+            ]
+        },
+        {
+            "name": "lib - svg: go run -unmarshallFromCode=issue1216.go -marshallOnCommit=issue1216.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
+            "args": [
+                "-unmarshallFromCode=data/issue1216.go",
+                "-marshallOnCommit=data/issue1216.go"
+            ]
+        },
+        {
+            "name": "lib - svg: go run -unmarshallFromCode=path.go -marshallOnCommit=path.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
+            "args": [
+                "-unmarshallFromCode=data/path.go",
+                "-marshallOnCommit=data/path.go"
+            ]
+        },
+        {
+            "name": "lib - svg: go run -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
+            "args": [
+                "-unmarshallFromCode=data/rectangle.go",
+                "-marshallOnCommit=data/rectangle.go"
+            ]
+        },
+        {
+            "name": "lib - svg: go run -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle_out",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
+            "args": [
+                "-unmarshallFromCode=data/rectangle.go",
+                "-marshallOnCommit=data/rectangle_out"
+            ]
+        },
+        {
+            "name": "lib - svg: go run -unmarshallFromCode=simple.go -marshallOnCommit=simple.go -port 8090",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
+            "args": [
+                "-unmarshallFromCode=data/simple.go",
+                "-marshallOnCommit=data/simple.go",
+                "-port",
+                "8090"
+            ]
+        },
+        {
+            "name": "lib - svg: go run -unmarshallFromCode=simple.go -marshallOnCommit=simple.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
+            "args": [
+                "-unmarshallFromCode=data/simple.go",
+                "-marshallOnCommit=data/simple.go"
+            ]
+        },
+        {
+            "name": "lib - svg: go run -unmarshallFromCode=issue1326.go -marshallOnCommit=issue1326.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
+            "args": [
+                "-unmarshallFromCode=data/issue1326.go",
+                "-marshallOnCommit=data/issue1326.go"
+            ]
+        },
+        {
+            "name": "lib - svg: go run svg",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage_out"
+            ]
+        },
+        {
+            "name": "lib - svg: gong generate svg -skipGoModCommands -skipNg",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/lib/svg/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--skipNg",
+                "--stack-height=4"
+            ]
+        },
+        {
+            "name": "lib - svg: gong generate svg -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/lib/svg/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--skipNpmInstall",
+                "--skipNpmWorkspaces",
+                "--stack-height=4"
+            ]
+        },
+        {
+            "name": "lib - table: Launch Chrome (markdown) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/markdown/ng-github.com-fullstack-lang-gong-lib-markdown",
+            "sourceMaps": true
+        },
+        {
+            "name": "lib - table: Launch Chrome (table) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/table/ng-github.com-fullstack-lang-gong-lib-table",
+            "sourceMaps": true
+        },
+        {
+            "name": "lib - table: go run table",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/table/go/cmd/table",
+            "args": []
+        },
+        {
+            "name": "lib - tone: Launch Chrome (tone) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/tone/ng-github.com-fullstack-lang-gong-lib-tone",
+            "sourceMaps": true
+        },
+        {
+            "name": "lib - tone: go run tone",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/tone/go/cmd/tone",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=stage"
+            ]
+        },
+        {
+            "name": "lib - tree: Launch Chrome (tree) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/tree/ng-github.com-fullstack-lang-gong-lib-tree",
+            "sourceMaps": true
+        },
+        {
+            "name": "lib - tree: go run tree",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/tree/go/cmd/tree",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage"
+            ]
+        },
+        {
+            "name": "lib - xlsx: go run xlsx",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/xlsx/go/cmd/xlsx",
+            "args": [
+                "data/samplefile.xlsx",
+                "data/samplefile2.xlsx"
+            ]
+        },
+        //
+        // "test" configurations
+        //
+        {
+            "name": "test - gong generate test -skipGoModCommands -skipNg with rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -66,7 +1099,7 @@
             ]
         },
         {
-            "name": "test: gong generate test -skipGoModCommands -skipNg without rm main.go",
+            "name": "test - gong generate test -skipGoModCommands -skipNg without rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -80,7 +1113,7 @@
             ]
         },
         {
-            "name": "test: gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug -debouncedMarshall w/o rm main.go",
+            "name": "test - gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug -debouncedMarshall w/o rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -97,7 +1130,7 @@
             ]
         },
         {
-            "name": "test: gong generate test -skipGoModCommands -skipNpmInstall  with rm main.go",
+            "name": "test - gong generate test -skipGoModCommands -skipNpmInstall  with rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -112,7 +1145,7 @@
             ]
         },
         {
-            "name": "test: gong generate test -skipGoModCommands -skipNpmInstall -skipNg with rm main.go",
+            "name": "test - gong generate test -skipGoModCommands -skipNpmInstall -skipNg with rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -128,7 +1161,7 @@
             ]
         },
         {
-            "name": "test: gong generate test -skipGoModCommands -skipNpmInstall -skipNg with rm main.go, from test",
+            "name": "test - gong generate test -skipGoModCommands -skipNpmInstall -skipNg with rm main.go, from test",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -145,7 +1178,7 @@
             ]
         },
         {
-            "name": "test: gong generate test -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
+            "name": "test - gong generate test -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -161,7 +1194,7 @@
             ]
         },
         {
-            "name": "test: gong generate test -skipGoModCommands -skipNpmInstall without rm main.go",
+            "name": "test - gong generate test -skipGoModCommands -skipNpmInstall without rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -175,7 +1208,7 @@
             ]
         },
         {
-            "name": "test: gong generate test -skipGoModCommands -skipNpmWorkspaces",
+            "name": "test - gong generate test -skipGoModCommands -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -190,7 +1223,7 @@
             ]
         },
         {
-            "name": "test: gong generate test -skipNg -skipGoModCommands -skipNpmWorkspaces",
+            "name": "test - gong generate test -skipNg -skipGoModCommands -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -206,7 +1239,7 @@
             ]
         },
         {
-            "name": "test: gong generate test -skipNpmInstall -skipGoModCommands -skipNg",
+            "name": "test - gong generate test -skipNpmInstall -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -222,7 +1255,7 @@
             ]
         },
         {
-            "name": "test2: gong generate test2 -skipGoModCommands -skipNg",
+            "name": "test - test2: gong generate test2 -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -236,7 +1269,7 @@
             ]
         },
         {
-            "name": "test2: gong generate test2 -skipGoModCommands -skipNpmInstall",
+            "name": "test - test2: gong generate test2 -skipGoModCommands -skipNpmInstall",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -250,7 +1283,7 @@
             ]
         },
         {
-            "name": "test2: gong generate test2 -skipGoModCommands -skipNpmInstall -skipNg",
+            "name": "test - test2: gong generate test2 -skipGoModCommands -skipNpmInstall -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -264,11 +1297,8 @@
                 "--stack-height=4"
             ]
         },
-        //
-        // "go run" configurations
-        //
         {
-            "name": "test: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
+            "name": "test - go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -279,7 +1309,7 @@
             ]
         },
         {
-            "name": "test: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=stage -logFile=app.log",
+            "name": "test - go run -unmarshallFromCode=data/stage.go -marshallOnCommit=stage -logFile=app.log",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -291,7 +1321,7 @@
             ]
         },
         {
-            "name": "test: gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug w/o rm main.go",
+            "name": "test - gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug w/o rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -307,7 +1337,7 @@
             ]
         },
         {
-            "name": "test: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
+            "name": "test - go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -318,7 +1348,7 @@
             ]
         },
         {
-            "name": "test: go run -port=8082 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out ",
+            "name": "test - go run -port=8082 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -330,7 +1360,7 @@
             ]
         },
         {
-            "name": "test: go run -marshallOnCommit=stage",
+            "name": "test - go run -marshallOnCommit=stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -340,7 +1370,7 @@
             ]
         },
         {
-            "name": "test: go run debug TestStageCount",
+            "name": "test - go run debug TestStageCount",
             "type": "go",
             "request": "launch",
             "mode": "test",
@@ -351,7 +1381,7 @@
             ]
         },
         {
-            "name": "test2: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
+            "name": "test - test2: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -362,7 +1392,7 @@
             ]
         },
         {
-            "name": "test2: go run -unmarshallFromCode=data/stage2.go -marshallOnCommit=stage2",
+            "name": "test - test2: go run -unmarshallFromCode=data/stage2.go -marshallOnCommit=stage2",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -373,7 +1403,7 @@
             ]
         },
         {
-            "name": "test2: go run -unmarshallFromCode=data/stage2.go",
+            "name": "test - test2: go run -unmarshallFromCode=data/stage2.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -383,7 +1413,7 @@
             ]
         },
         {
-            "name": "test2: go run -testPackageHierarchy",
+            "name": "test - test2: go run -testPackageHierarchy",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -393,7 +1423,7 @@
             ]
         },
         {
-            "name": "test3: gong generate test3",
+            "name": "test - test3: gong generate test3",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -401,11 +1431,11 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "--skipGoModCommands",
+                "--skipGoModCommands"
             ]
         },
         {
-            "name": "test3: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
+            "name": "test - test3: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -416,7 +1446,7 @@
             ]
         },
         {
-            "name": "test3: go run -unmarshallFromCode=data/issue1061.go -marshallOnCommit=data/issue1061_out.go",
+            "name": "test - test3: go run -unmarshallFromCode=data/issue1061.go -marshallOnCommit=data/issue1061_out.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -427,7 +1457,7 @@
             ]
         },
         {
-            "name": "test3: go run -unmarshallFromCode=data/issue1128.go -marshallOnCommit=data/issue1128.go",
+            "name": "test - test3: go run -unmarshallFromCode=data/issue1128.go -marshallOnCommit=data/issue1128.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -438,7 +1468,7 @@
             ]
         },
         {
-            "name": "test3: go run -unmarshallFromCode=data/stage-large.go -marshallOnCommit=data/stage-large.go",
+            "name": "test - test3: go run -unmarshallFromCode=data/stage-large.go -marshallOnCommit=data/stage-large.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -449,7 +1479,7 @@
             ]
         },
         {
-            "name": "test3: debug commits navigation - issue 1148",
+            "name": "test - test3: debug commits navigation - issue 1148",
             "type": "go",
             "request": "launch",
             "mode": "test",
@@ -460,7 +1490,7 @@
             ]
         },
         {
-            "name": "test3: debug basic commits navigation",
+            "name": "test - test3: debug basic commits navigation",
             "type": "go",
             "request": "launch",
             "mode": "test",
@@ -470,1088 +1500,61 @@
                 "^TestBasicCommitNavigation$"
             ]
         },
-        //
-        // "dsm" configurations
-        //
         {
-            "name": "barrgraph: go run aviva stool",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
-            "args": [
-                "-unmarshallFromCode",
-                "data/aviva stool.go",
-                "-marshallOnCommit",
-                "data/aviva stool.go"
-            ]
-        },
-        {
-            "name": "barrgraph: go run barrgraph",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
-            "args": []
-        },
-        {
-            "name": "barrgraph: go run cubism and abstract art",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
-            "args": [
-                "-unmarshallFromCode=data/cubism and abstract art.go",
-                "-marshallOnCommit=data/cubism and abstract art.go"
-            ]
-        },
-        {
-            "name": "barrgraph: go run netherland golden century",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
-            "args": [
-                "-unmarshallFromCode=data/netherland golden century.go",
-                "-marshallOnCommit=data/netherland golden century.go"
-            ]
-        },
-        {
-            "name": "barrgraph: go run modern design",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
-            "args": [
-                "-unmarshallFromCode",
-                "data/modern design.go",
-                "-marshallOnCommit",
-                "data/modern design.go"
-            ]
-        },
-        {
-            "name": "barrgraph: go run renaissance",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
-            "args": [
-                "-unmarshallFromCode",
-                "data/renaissance.go",
-                "-marshallOnCommit",
-                "data/renaissance.go"
-            ]
-        },
-        {
-            "name": "barrgraph: gong generate --stack-height=0",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "cwd": "${workspaceFolder}/dsm/barrgraph/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands"
-            ]
-        },
-        {
-            "name": "capture: go server",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
-            "args": []
-        },
-        {
-            "name": "capture: go server capture_process.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
-            "args": [
-                "-unmarshallFromCode=data/capture_process.go",
-                "-marshallOnCommit=data/capture_process"
-            ]
-        },
-        {
-            "name": "capture: go server 15288.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
-            "args": [
-                "data/15288.go",
-            ]
-        },
-        {
-            "name": "capture: go server 15288_analysis.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
-            "args": [
-                "data/15288_analysis.go",
-            ]
-        },
-        {
-            "name": "process: gong generate --dsm",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "cwd": "${workspaceFolder}/dsm/process/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands",
-                "--dsm",
-            ]
-        },
-        {
-            "name": "process: go run stage.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
-            "args": [
-                "data/stage.go",
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
-            "name": "process: go run icao4444.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
-            "args": [
-                "data/icao4444.go",
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
-            "name": "process: go run rqs_spl_v1.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
-            "args": [
-                "data/rqs_spl_v1.go",
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
-            "name": "process: go run rqs_spl_v2.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
-            "args": [
-                "data/rqs_spl_v2.go",
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
-            "name": "process: go run ifps_ops.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
-            "args": [
-                "data/ifps_ops.go",
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
-            "name": "process: go run simple.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
-            "args": [
-                "data/simple.go",
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
-            "name": "process: go run foo.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
-            "args": [
-                "data/foo.go",
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
-            "name": "process: go run 144.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
-            "args": [
-                "data/144.go",
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
-            "name": "process : merge",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/process/go/cmd/process/merge/main.go",
-            "cwd": "${workspaceFolder}/dsm/process/go/cmd/process/merge",
-            "args": [
-                "../data/icao444.go",
-                "../data/rqs_spl_v1.go",
-                "../data/rqs_spl_v2.go"
-            ]
-        },
-        {
-            "name": "project: go run",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
-            "args": [
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
-            "name": "project: go run simple.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
-            "args": [
-                "-embeddedDiagrams=false",
-                "data/simple.go",
-            ]
-        },
-        {
-            "name": "project: go run issue1121.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
-            "args": [
-                "-embeddedDiagrams=false",
-                "data/issue1121.go",
-            ]
-        },
-        {
-            "name": "project: go run issue1337.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
-            "args": [
-                "-embeddedDiagrams=false",
-                "data/issue1337.go",
-            ]
-        },
-        {
-            "name": "project: go run issue1263.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
-            "args": [
-                "-embeddedDiagrams=false",
-                "data/issue1263.go",
-            ]
-        },
-        {
-            "name": "project: go run stage.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
-            "args": [
-                "data/stage.go",
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
-            "name": "project: go run starlinereport",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
-            "args": [
-                "data/starline_report.go",
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
-            "name": "project: gong generate --stack-height=0",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "cwd": "${workspaceFolder}/dsm/project/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands"
-            ]
-        },
-        {
-            "name": "reqif: `",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "program": "${workspaceFolder}/dsm/reqif/go/cmd/reqif",
-            "buildFlags": "-v",
-            "args": [
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
-            "name": "reqif: drone.reqif`",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "program": "${workspaceFolder}/dsm/reqif/go/cmd/reqif",
-            "buildFlags": "-v",
-            "args": [
-                "-embeddedDiagrams=false",
-                "-pathToReqifFile",
-                "samples/ReqIF for Wheeled Tennis Ball Drone.reqif",
-                "-pathToRenderingConf",
-                "samples/reqif samples_ReqIF for Wheeled Tennis Ball Drone-renderingConf.go1",
-            ]
-        },
-        {
-            "name": "reqif: drone.reqifz`",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "program": "${workspaceFolder}/dsm/reqif/go/cmd/reqif",
-            "buildFlags": "-v",
-            "args": [
-                "-embeddedDiagrams=false",
-                "-pathToReqifFile",
-                "samples/ReqIF for Wheeled Tennis Ball Drone.reqifz",
-                "-pathToRenderingConf",
-                "samples/reqif samples_ReqIF for Wheeled Tennis Ball Drone-renderingConf.go1",
-            ]
-        },
-        {
-            "name": "scenario: go run stage.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/scenario/go/cmd/scenario",
-            "args": [
-                "data/stage.go",
-                "-embeddedDiagrams=false",
-            ]
-        },
-        {
-            "name": "statemachines: go run -unmarshallFromCode=data/massive_probe_edit.go -marshallOnCommit=data/massive_probe_edit.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/statemachines/go/cmd/statemachines",
-            "args": [
-                "-unmarshallFromCode=data/massive_probe_edit.go",
-                "-marshallOnCommit=data/massive_probe_edit.go"
-            ]
-        },
-        {
-            "name": "statemachines: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/statemachines/go/cmd/statemachines",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage.go"
-            ]
-        },
-        {
-            "name": "statemachines: go run -unmarshallFromCode=data/uxloop.go -marshallOnCommit=data/uxloop.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/statemachines/go/cmd/statemachines",
-            "args": [
-                "-unmarshallFromCode=data/uxloop.go",
-                "-marshallOnCommit=data/uxloop.go"
-            ]
-        },
-        {
-            "name": "statemachines: gong generate statemachines --stack-height=0",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "cwd": "${workspaceFolder}/dsm/statemachines/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands"
-            ]
-        },
-        {
-            "name": "structure: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/structure/go/cmd/structure",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage.go"
-            ]
-        },
-        {
-            "name": "xsd: books generate models.go from books.xsd",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/dsm/xsd/tests/books",
-            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd2gong",
-            "args": [
-                "generate",
-                "./books.xsd",
-                "-v",
-                "-o",
-                "./go/models/models.go"
-            ]
-        },
-        {
-            "name": "xsd: books gong generate test on books --stack-height=0",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "cwd": "${workspaceFolder}/dsm/xsd/tests/books/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands"
-            ]
-        },
-        {
-            "name": "xsd: books reads books.xml",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "cwd": "${workspaceFolder}/dsm/xsd/tests/books/go/cmd/books",
-            "program": "${workspaceFolder}/dsm/xsd/tests/books/go/cmd/books",
-            "args": [
-                "../../../books.xml"
-            ]
-        },
-        {
-            "name": "xsd: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage.go"
-            ]
-        },
-        {
-            "name": "xsd: musicxml generate models.go from musicxml.xsd",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/dsm/xsd/tests/musicxml",
-            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd2gong",
-            "args": [
-                "generate",
-                "./musicxml.xsd",
-                "-v",
-                "-o",
-                "./go/models/models.go"
-            ]
-        },
-        {
-            "name": "xsd: musicxml gong generate test on musicxml --stack-height=0",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "cwd": "${workspaceFolder}/dsm/xsd/tests/musicxml/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands"
-            ]
-        },
-        {
-            "name": "xsd: reqif generate models.go from dtc-11-04-05.xsd",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/dsm/xsd/tests/reqif",
-            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd2gong",
-            "args": [
-                "generate",
-                "./dtc-11-04-05.xsd",
-                "-v",
-                "-o",
-                "./go/models/models.go"
-            ]
-        },
-        {
-            "name": "xsd: reqif gong generate reqif on reqif --stack-height=0",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "cwd": "${workspaceFolder}/dsm/xsd/tests/reqif/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands"
-            ]
-        },
-        //
-        // "lib & pkg" configurations
-        //
-        {
-            "name": "button: go run button",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/button/go/cmd/button",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
-            ]
-        },
-        {
-            "name": "cursor: go run cursor",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/cursor/go/cmd/cursor",
-            "args": []
-        },
-        {
-            "name": "cursor: gong generate cursor --skipGoModCommands --skipNpmWorkspaces --skipGoModCommands",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/lib/cursor/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands",
-                "--skipNpmWorkspaces",
-                "--skipGoModCommands",
-                "--stack-height=4"
-            ]
-        },
-        {
-            "name": "doc: Launch Chrome (doc) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/doc/ng-github.com-fullstack-lang-gong-lib-doc",
-            "sourceMaps": true,
-        },
-        {
-            "name": "doc: go run -embeddedDiagrams=true",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/doc/go/cmd/doc",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage",
-                "-embeddedDiagrams=true"
-            ]
-        },
-        {
-            "name": "doc: go run doc",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/doc/go/cmd/doc",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
-            ]
-        },
-        {
-            "name": "doc: gong generate doc --skipGoModCommands --stack-height=0",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/lib/doc/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands"
-            ]
-        },
-        {
-            "name": "docx: go run docx",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/pkg/docx/go/cmd/docx",
-            "args": [
-                "samples/test.docx",
-            ]
-        },
-        {
-            "name": "docx: gong generate docx -skipGoModCommands -skipNg",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/lib/docx/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands",
-                "--skipNg",
-                "--stack-height=4"
-            ]
-        },
-        {
-            "name": "form: Launch Chrome (form) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/form/ng-github.com-fullstack-lang-gong-lib-form",
-            "sourceMaps": true,
-        },
-        {
-            "name": "form: go run form",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/form/go/cmd/form",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage",
-                "-embeddedDiagrams=true"
-            ]
-        },
-        {
-            "name": "form: gong generate form -skipGoModCommands --stack-height=0",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/lib/form/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipNpmWorkspaces",
-                "--skipGoModCommands",
-                "--stack-height=4"
-            ]
-        },
-        {
-            "name": "gantt: go run gantt",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/gantt/go/cmd/gantt",
-            "args": [
-                "-unmarshallFromCode=data/gantt1.go",
-                "-marshallOnCommit=data/gantt1"
-            ]
-        },
-        {
-            "name": "load: Launch Chrome (load) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/load/ng-github.com-fullstack-lang-gong-lib-load",
-            "sourceMaps": true,
-        },
-        {
-            "name": "load: go run load",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/load/go/cmd/load",
-            "args": [
-                "-unmarshallFromCode=data/load.go",
-                "-marshallOnCommit=data/load"
-            ]
-        },
-        {
-            "name": "markdown: Launch Chrome (markdown) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/markdown/ng-github.com-fullstack-lang-gong-lib-markdown",
-            "sourceMaps": true,
-        },
-        {
-            "name": "markdown: go run markdown",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/markdown/go/cmd/markdown",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage.go"
-            ]
-        },
-        {
-            "name": "markdown: barrgraph",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/markdown/go/cmd/markdown",
-            "args": [
-                "-unmarshallFromCode=data/barrgraph.go",
-                "-marshallOnCommit=data/barrgraph.go"
-            ]
-        },
-        {
-            "name": "probe: go run probe",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/probe/go/cmd/probe",
-            "args": [
-                "-unmarshallFromCode=data/probe.go",
-                "-marshallOnCommit=data/probe"
-            ]
-        },
-        {
-            "name": "sim: go run sim",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/sim/go/cmd/sim",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
-            ]
-        },
-        {
-            "name": "slider: go run slider",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/slider/go/cmd/slider",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
-            ]
-        },
-        {
-            "name": "slider: gong generate slider -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/lib/slider/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands",
-                "--skipNpmInstall",
-                "--skipNpmWorkspaces",
-                "--stack-height=4"
-            ]
-        },
-        {
-            "name": "split: Launch Chrome (split) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/split/ng-github.com-fullstack-lang-gong-lib-split",
-            "sourceMaps": true,
-        },
-        {
-            "name": "split: Launch Edge (split) on 4200",
-            "request": "launch",
-            "type": "msedge",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/split/ng-github.com-fullstack-lang-gong-lib-split",
-            "sourceMaps": true,
-        },
-        {
-            "name": "split: go run issue564",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/split/go/cmd/split",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage_out",
-                "-issue564"
-            ],
-            "buildFlags": "-race"
-        },
-        {
-            "name": "split: go run split",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/split/go/cmd/split",
-            "args": [
-                "-unmarshallFromCode=data/stage2.go",
-                "-marshallOnCommit=data/stage2"
-            ]
-        },
-        {
-            "name": "split: gong generate split -skipGoModCommands --stack-height=0",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/lib/split/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands"
-            ]
-        },
-        {
-            "name": "ssg: go run ssg",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/ssg/go/cmd/ssg",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
-            ]
-        },
-        {
-            "name": "svg: Launch Chrome (svg) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/svg/ng-github.com-fullstack-lang-gong-lib-svg",
-            "sourceMaps": true,
-        },
-        {
-            "name": "svg: Launch Edge (svg) on 4200",
-            "request": "launch",
-            "type": "msedge",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/svg/ng-github.com-fullstack-lang-gong-lib-svg",
-            "sourceMaps": true,
-        },
-        {
-            "name": "svg: go run -unmarshallFromCode=bezier.go -marshallOnCommit=bezier.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
-            "args": [
-                "-unmarshallFromCode=data/bezier.go",
-                "-marshallOnCommit=data/bezier.go"
-            ]
-        },
-        {
-            "name": "svg: go run -unmarshallFromCode=issue1216.go -marshallOnCommit=issue1216.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
-            "args": [
-                "-unmarshallFromCode=data/issue1216.go",
-                "-marshallOnCommit=data/issue1216.go"
-            ]
-        },
-        {
-            "name": "svg: go run -unmarshallFromCode=path.go -marshallOnCommit=path.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
-            "args": [
-                "-unmarshallFromCode=data/path.go",
-                "-marshallOnCommit=data/path.go"
-            ]
-        },
-        {
-            "name": "svg: go run -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
-            "args": [
-                "-unmarshallFromCode=data/rectangle.go",
-                "-marshallOnCommit=data/rectangle.go"
-            ]
-        },
-        {
-            "name": "svg: go run -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle_out",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
-            "args": [
-                "-unmarshallFromCode=data/rectangle.go",
-                "-marshallOnCommit=data/rectangle_out"
-            ]
-        },
-        {
-            "name": "svg: go run -unmarshallFromCode=simple.go -marshallOnCommit=simple.go -port 8090",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
-            "args": [
-                "-unmarshallFromCode=data/simple.go",
-                "-marshallOnCommit=data/simple.go",
-                "-port",
-                "8090"
-            ]
-        },
-        {
-            "name": "svg: go run -unmarshallFromCode=simple.go -marshallOnCommit=simple.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
-            "args": [
-                "-unmarshallFromCode=data/simple.go",
-                "-marshallOnCommit=data/simple.go"
-            ]
-        },
-        {
-            "name": "svg: go run -unmarshallFromCode=issue1326.go -marshallOnCommit=issue1326.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
-            "args": [
-                "-unmarshallFromCode=data/issue1326.go",
-                "-marshallOnCommit=data/issue1326.go"
-            ]
-        },
-        {
-            "name": "svg: go run svg",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage_out"
-            ]
-        },
-        {
-            "name": "svg: gong generate svg -skipGoModCommands -skipNg",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/lib/svg/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands",
-                "--skipNg",
-                "--stack-height=4"
-            ]
-        },
-        {
-            "name": "svg: gong generate svg -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/lib/svg/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands",
-                "--skipNpmInstall",
-                "--skipNpmWorkspaces",
-                "--stack-height=4"
-            ]
-        },
-        {
-            "name": "table: Launch Chrome (markdown) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/markdown/ng-github.com-fullstack-lang-gong-lib-markdown",
-            "sourceMaps": true,
-        },
-        {
-            "name": "table: Launch Chrome (table) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/table/ng-github.com-fullstack-lang-gong-lib-table",
-            "sourceMaps": true,
-        },
-        {
-            "name": "table: go run table",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/table/go/cmd/table",
-            "args": []
-        },
-        {
-            "name": "tone: Launch Chrome (tone) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/tone/ng-github.com-fullstack-lang-gong-lib-tone",
-            "sourceMaps": true,
-        },
-        {
-            "name": "tone: go run tone",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/tone/go/cmd/tone",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=stage"
-            ]
-        },
-        {
-            "name": "tree: Launch Chrome (tree) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/tree/ng-github.com-fullstack-lang-gong-lib-tree",
-            "sourceMaps": true,
-        },
-        {
-            "name": "tree: go run tree",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/tree/go/cmd/tree",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
-            ]
-        },
-        {
-            "name": "xlsx: go run xlsx",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/xlsx/go/cmd/xlsx",
-            "args": [
-                "data/samplefile.xlsx",
-                "data/samplefile2.xlsx"
-            ]
-        },
-        //
-        // "test" configurations
-        //
-        {
-            "name": "test: Launch Chrome (test) on 4200",
+            "name": "test - Launch Chrome (test) on 4200",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}/test/test/ng-github.com-fullstack-lang-gong-test-test",
-            "sourceMaps": true,
+            "sourceMaps": true
         },
         {
-            "name": "test4: Launch Chrome (test4) on 4200",
+            "name": "test - test4: Launch Chrome (test4) on 4200",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}/test/test4/ng-github.com-fullstack-lang-gong-test-test4",
-            "sourceMaps": true,
+            "sourceMaps": true
+        },
+        //
+        // "external" configurations
+        //
+        {
+            "name": "external - phyllotaxymusic: gong generate phyllotaxymusic --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../../thomaspeugeot/phyllotaxymusic/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate"
+            ]
+        },
+        //
+        // "tmp" configurations
+        //
+        {
+            "name": "tmp - helloworld: gong generate /tmp/helloworld",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "/tmp/helloworld/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--stack-height=4"
+            ]
+        },
+        {
+            "name": "tmp - helloworld: gong generate /tmp/helloworld --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "/tmp/helloworld/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate"
+            ]
         }
     ]
 }
