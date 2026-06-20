@@ -39,7 +39,7 @@ func _(stage *models.Stage) {
 
 	__Port__00000000_ := (&models.Port{Name: `Port 1`}).Stage(stage)
 
-	__PortShape__00000006_ := (&models.PortShape{Name: `Port 1-DiagramStructure`}).Stage(stage)
+	__PortShape__00000007_ := (&models.PortShape{Name: `Port 1-DiagramStructure`}).Stage(stage)
 
 	__System__00000000_ := (&models.System{Name: `System 1`}).Stage(stage)
 
@@ -123,13 +123,13 @@ func _(stage *models.Stage) {
 	__Port__00000000_.IsEndPort = false
 	__Port__00000000_.IsPortNameNotSystemName = false
 
-	__PortShape__00000006_.Name = `Port 1-DiagramStructure`
-	__PortShape__00000006_.IsExpanded = false
-	__PortShape__00000006_.X = 184.649754
-	__PortShape__00000006_.Y = 264.707596
-	__PortShape__00000006_.Width = 80.000000
-	__PortShape__00000006_.Height = 80.000000
-	__PortShape__00000006_.IsHidden = false
+	__PortShape__00000007_.Name = `Port 1-DiagramStructure`
+	__PortShape__00000007_.IsExpanded = false
+	__PortShape__00000007_.X = 185.649754
+	__PortShape__00000007_.Y = 435.207589
+	__PortShape__00000007_.Width = 40.000000
+	__PortShape__00000007_.Height = 40.000000
+	__PortShape__00000007_.IsHidden = false
 
 	__System__00000000_.Name = `System 1`
 	__System__00000000_.Description = ``
@@ -154,14 +154,14 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.Part_Shapes = append(__DiagramStructure__00000000_.Part_Shapes, __PartShape__00000007_)
 	__DiagramStructure__00000000_.Part_Shapes = append(__DiagramStructure__00000000_.Part_Shapes, __PartShape__00000010_)
 	__DiagramStructure__00000000_.PartWhoseNodeIsExpanded = append(__DiagramStructure__00000000_.PartWhoseNodeIsExpanded, __Part__00000000_)
-	__DiagramStructure__00000000_.Port_Shapes = append(__DiagramStructure__00000000_.Port_Shapes, __PortShape__00000006_)
+	__DiagramStructure__00000000_.Port_Shapes = append(__DiagramStructure__00000000_.Port_Shapes, __PortShape__00000007_)
 	__Library__00000000_.RootSystemes = append(__Library__00000000_.RootSystemes, __System__00000000_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000000_)
 	__Part__00000000_.Ports = append(__Part__00000000_.Ports, __Port__00000000_)
 	__PartShape__00000007_.Part = __Part__00000001_
 	__PartShape__00000010_.Part = __Part__00000000_
 	__Port__00000000_.Type = nil
-	__PortShape__00000006_.Port = __Port__00000000_
+	__PortShape__00000007_.Port = __Port__00000000_
 	__System__00000000_.DiagramStructures = append(__System__00000000_.DiagramStructures, __DiagramStructure__00000000_)
 	__System__00000000_.DiagramStructureWhoseNodeIsExpanded = append(__System__00000000_.DiagramStructureWhoseNodeIsExpanded, __DiagramStructure__00000000_)
 	__System__00000000_.Parts = append(__System__00000000_.Parts, __Part__00000000_)
