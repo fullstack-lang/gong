@@ -12,32 +12,60 @@ func (stager *Stager) svg() {
 	// reset the stage
 	svgStage.Reset()
 
-	diagram := stager.diagram
+	var diagram *DiagramStructure
+	{
+		for diagram_ := range *GetGongstructInstancesSet[DiagramStructure](stager.stage) {
+			if diagram_.IsChecked {
+				diagram = diagram_
+			}
+		}
+	}
+
 	if diagram == nil {
 		svgStage.Commit()
 		return
 	}
 
-	// Create an SVG object
-	svgObject := new(svg.SVG).Stage(svgStage)
+	svgObject := stager.generateSvgObject(diagram)
+
+	svg.StageBranch(svgStage, svgObject)
+
+	svgStage.Commit()
+}
+
+func (stager *Stager) generateSvgObject(diagram *DiagramStructure) *svg.SVG {
+	svgObject := (&svg.SVG{Name: "SVG"})
+	stager.diagram = diagram
+
+	svgObject.OverrideWidth = true
+	svgObject.OverriddenWidth = diagram.Width
+	svgObject.OverrideHeight = true
+	svgObject.OverriddenHeight = diagram.Height
+
 	svgObject.Name = diagram.Name
 	svgObject.IsEditable = diagram.IsEditable()
 
-	layer := new(svg.Layer).Stage(svgStage)
-	layer.Name = "Default"
+	layer := (&svg.Layer{Name: "Default"})
 	svgObject.Layers = append(svgObject.Layers, layer)
 
-	// maps to track rects and links
+	stager.drawPartShapes(diagram, layer)
+	stager.drawLinkShapes(diagram, layer)
+
+	return svgObject
+}
+
+func (stager *Stager) drawPartShapes(diagram *DiagramStructure, layer *svg.Layer) {
 	diagram.map_Part_Rect = make(map[*Part]*svg.Rect)
 	diagram.map_SvgRect_PartShape = make(map[*svg.Rect]*PartShape)
 
-	// Draw Parts
 	for _, partShape := range diagram.Part_Shapes {
 		if partShape.IsHidden {
 			continue
 		}
 
-		rect := new(svg.Rect).Stage(svgStage)
+		rect := new(svg.Rect)
+		layer.Rects = append(layer.Rects, rect)
+
 		rect.Name = partShape.Name
 		rect.X = partShape.X
 		rect.Y = partShape.Y
@@ -62,16 +90,33 @@ func (stager *Stager) svg() {
 		rect.CanHaveRightHandle = true
 		rect.CanHaveTopHandle = true
 		rect.CanHaveBottomHandle = true
-		
-		layer.Rects = append(layer.Rects, rect)
+
+		rect.OnSelect = func() {
+			if partShape.Part != nil {
+				stager.probeForm.FillUpFormFromGongstruct(partShape.Part, GetPointerToGongstructName[*Part]())
+			}
+		}
+		rect.OnMove = func(x, y float64) {
+			partShape.SetX(x)
+			partShape.SetY(y)
+			stager.stage.CommitWithSuspendedCallbacks()
+		}
+		rect.OnResize = func(x, y, width, height float64) {
+			partShape.SetX(x)
+			partShape.SetY(y)
+			partShape.SetWidth(width)
+			partShape.SetHeight(height)
+			stager.stage.Commit()
+		}
 
 		if partShape.Part != nil {
 			diagram.map_Part_Rect[partShape.Part] = rect
 			diagram.map_SvgRect_PartShape[rect] = partShape
 		}
 	}
+}
 
-	// Draw Links
+func (stager *Stager) drawLinkShapes(diagram *DiagramStructure, layer *svg.Layer) {
 	for _, linkShape := range diagram.Link_Shapes {
 		if linkShape.IsHidden {
 			continue
@@ -84,7 +129,9 @@ func (stager *Stager) svg() {
 		targetRect, ok2 := diagram.map_Part_Rect[linkShape.Link.Target]
 
 		if ok1 && ok2 {
-			svgLink := new(svg.Link).Stage(svgStage)
+			svgLink := new(svg.Link)
+			layer.Links = append(layer.Links, svgLink)
+
 			svgLink.Name = fmt.Sprintf("Link from %s to %s", linkShape.Link.Source.Name, linkShape.Link.Target.Name)
 			
 			svgLink.Start = sourceRect
@@ -101,6 +148,10 @@ func (stager *Stager) svg() {
 			if svgLink.EndRatio == 0 {
 				svgLink.EndRatio = 0.5
 			}
+			svgLink.CornerOffsetRatio = linkShape.CornerOffsetRatio
+			if svgLink.CornerOffsetRatio == 0 {
+				svgLink.CornerOffsetRatio = 1.0
+			}
 
 			svgLink.Color = "black"
 			svgLink.StrokeWidth = 2
@@ -109,17 +160,15 @@ func (stager *Stager) svg() {
 			svgLink.EndArrowSize = 10
 
 			// Text for the link
-			text := new(svg.LinkAnchoredText).Stage(svgStage)
+			text := new(svg.LinkAnchoredText)
 			text.Name = linkShape.Link.Name
 			text.Content = linkShape.Link.Name
 			text.X_Offset = 10
 			text.Y_Offset = -10
 			text.Color = "black"
+			
 			svgLink.TextAtArrowEnd = append(svgLink.TextAtArrowEnd, text)
-
-			layer.Links = append(layer.Links, svgLink)
 		}
 	}
-
-	svgStage.Commit()
 }
+
