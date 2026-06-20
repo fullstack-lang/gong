@@ -16,6 +16,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stager.computePortFields()
 	stager.computePartFields()
 	stager.computeDataFlowShapeFields()
+	stager.computePortShapeFields()
 
 	pass := 0
 	for {
@@ -43,6 +44,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stager.computePortFields()
 	stager.computePartFields()
 	stager.computeDataFlowShapeFields()
+	stager.computePortShapeFields()
 
 	if needCommit {
 		stager.probeForm.CommitNotificationTable()

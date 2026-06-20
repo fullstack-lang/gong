@@ -323,48 +323,47 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 			continue
 		}
 
-		rect := svgRect(
+		portRect := svgRect(
 			stager,
 			diagramStructure,
 			portShape,
 			layer)
-		diagramStructure.map_SvgRect_PortShape[rect] = portShape
+		diagramStructure.map_SvgRect_PortShape[portRect] = portShape
 
-		rect.URLPath = "../../../References/Ports/" + port.GetReferencePath() + "/index.html"
-		rect.URLTarget = svg.LINK_TARGET_BLANK
+		portRect.URLPath = "../../../References/Ports/" + port.GetReferencePath() + "/index.html"
+		portRect.URLTarget = svg.LINK_TARGET_BLANK
 
-		rect.RectAnchoredTexts[0].URLPath = rect.URLPath
-		rect.RectAnchoredTexts[0].URLTarget = svg.LINK_TARGET_BLANK
+		portRect.RectAnchoredTexts[0].URLPath = portRect.URLPath
+		portRect.RectAnchoredTexts[0].URLTarget = svg.LINK_TARGET_BLANK
 
 		// make the port be anchored to the border of the part shape
-		rect.AnchoredTo = partRect
+		portRect.AnchoredTo = partRect
 
 		// we range over the non hidden parts and have the port shape appended as peer
-		for _, pShape := range diagramStructure.Part_Shapes {
-			if pShape.IsHidden {
+		for _, _partShape := range diagramStructure.Part_Shapes {
+			if _partShape.IsHidden {
 				continue
 			}
-			partRect := diagramStructure.map_Part_Rect[pShape.Part]
+			partRect := diagramStructure.map_Part_Rect[_partShape.Part]
 			if partRect == nil {
 				continue
 			}
-			partRect.Peers = append(partRect.Peers, rect)
+			partRect.Peers = append(partRect.Peers, portRect)
 		}
 
+		portRect.Color = "#E3F2FD"
+		portRect.FillOpacity = 1.0
+		portRect.Stroke = "#90CAF9"
+		portRect.StrokeWidth = 1.5
+		portRect.RX = 5.0
 
-		rect.Color = "#E3F2FD"
-		rect.FillOpacity = 1.0
-		rect.Stroke = "#90CAF9"
-		rect.StrokeWidth = 1.5
-		rect.RX = 5.0
-
-		if len(rect.RectAnchoredTexts) > 0 {
-			rect.RectAnchoredTexts[0].FontFamily = "sans-serif"
-			rect.RectAnchoredTexts[0].Color = "#333333"
+		if len(portRect.RectAnchoredTexts) > 0 {
+			portRect.RectAnchoredTexts[0].FontFamily = "sans-serif"
+			portRect.RectAnchoredTexts[0].Color = "#333333"
 		}
 
 		// pick up the title of the rect
-		stateTitleText := rect.RectAnchoredTexts[0]
+		stateTitleText := portRect.RectAnchoredTexts[0]
 		smallRadius := 10.0
 		if port.IsStartPort {
 			stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
@@ -383,24 +382,24 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 			circle.FillOpacity = 1.0
 
 			// force size
-			rect.CanHaveBottomHandle = false
-			rect.CanHaveTopHandle = false
+			portRect.CanHaveBottomHandle = false
+			portRect.CanHaveTopHandle = false
 
 			// we allow resizing for the sake of the text width
-			if rect.Width < 2*smallRadius {
-				rect.Width = 2 * smallRadius
+			if portRect.Width < 2*smallRadius {
+				portRect.Width = 2 * smallRadius
 			}
-			rect.Height = 2 * smallRadius
+			portRect.Height = 2 * smallRadius
 
 			circle.Definition = fmt.Sprintf("M %f 0 A %f %f 0 0 1 %f %f A %f %f 0 0 1 %f 0 Z",
 				smallRadius, smallRadius, smallRadius, smallRadius, 2*smallRadius, smallRadius, smallRadius, smallRadius)
 			circle.X_Offset = -smallRadius
 			circle.Y_Offset = -smallRadius
 			circle.RectAnchorType = svg.RECT_RIGHT
-			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, circle)
+			portRect.RectAnchoredPaths = append(portRect.RectAnchoredPaths, circle)
 
-			rect.StrokeOpacity = 0.0
-			rect.FillOpacity = 0.0
+			portRect.StrokeOpacity = 0.0
+			portRect.FillOpacity = 0.0
 		}
 
 		bigRadius := 18.0
@@ -412,12 +411,12 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 			stateTitleText.X_Offset = 0
 			stateTitleText.Y_Offset = 0
 
-			rect.CanHaveBottomHandle = false
-			rect.CanHaveTopHandle = false
-			if rect.Width < 2*bigRadius {
-				rect.Width = 2 * bigRadius
+			portRect.CanHaveBottomHandle = false
+			portRect.CanHaveTopHandle = false
+			if portRect.Width < 2*bigRadius {
+				portRect.Width = 2 * bigRadius
 			}
-			rect.Height = 2 * bigRadius
+			portRect.Height = 2 * bigRadius
 
 			{
 				circle := new(svg.RectAnchoredPath)
@@ -431,7 +430,7 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 				circle.X_Offset = -2 * bigRadius
 				circle.Y_Offset = -bigRadius
 				circle.RectAnchorType = svg.RECT_RIGHT
-				rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, circle)
+				portRect.RectAnchoredPaths = append(portRect.RectAnchoredPaths, circle)
 			}
 
 			{
@@ -448,14 +447,14 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 				circle.X_Offset = -smallRadius - bigRadius
 				circle.Y_Offset = -smallRadius
 				circle.RectAnchorType = svg.RECT_RIGHT
-				rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, circle)
+				portRect.RectAnchoredPaths = append(portRect.RectAnchoredPaths, circle)
 			}
 
-			rect.StrokeOpacity = 0.0
-			rect.FillOpacity = 0.0
+			portRect.StrokeOpacity = 0.0
+			portRect.FillOpacity = 0.0
 
 		}
-		diagramStructure.map_Port_Rect[portShape.Port] = rect
+		diagramStructure.map_Port_Rect[portShape.Port] = portRect
 	}
 }
 

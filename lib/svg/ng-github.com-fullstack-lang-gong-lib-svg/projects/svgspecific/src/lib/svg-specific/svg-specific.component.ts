@@ -722,8 +722,8 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private constrainRect(rect: svg.Rect, originalX?: number, originalY?: number) {
-    if (rect.AnchoredTo) {
+  private constrainRect(rect: svg.Rect, originalX?: number, originalY?: number, ignoreAnchor: boolean = false) {
+    if (rect.AnchoredTo && !ignoreAnchor) {
       let anchor = rect.AnchoredTo;
       let cx = rect.X + rect.Width / 2;
       let cy = rect.Y + rect.Height / 2;
@@ -922,14 +922,15 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
         if (r.CanMoveHorizontaly) testRect.X = orig.X + deltaX;
         if (r.CanMoveVerticaly) testRect.Y = orig.Y + deltaY;
 
-        this.constrainRect(testRect as svg.Rect, orig.X, orig.Y);
+        let ignoreAnchor = r.AnchoredTo != undefined && movingRects.has(r.AnchoredTo);
+        this.constrainRect(testRect as svg.Rect, orig.X, orig.Y, ignoreAnchor);
 
         let dx = testRect.X - orig.X;
         let dy = testRect.Y - orig.Y;
 
         // Keep the most restrictive delta (closest to 0) to ensure the group stays rigid
         // For AnchoredTo, the snap MUST take precedence, as it can introduce orthogonal movement
-        if (r.AnchoredTo) {
+        if (r.AnchoredTo && !ignoreAnchor) {
           allowedDeltaX = dx;
           allowedDeltaY = dy;
         } else {
