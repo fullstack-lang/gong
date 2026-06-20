@@ -416,7 +416,7 @@ func (probe *Probe) ExportStageExcel() {
 	fileToDownload := new(load.FileToDownload)
 
 	if probe.fileName == "" {
-		probe.fileName = probe.stageOfInterest.GetName() + ".go"
+		probe.fileName = "table:" + probe.stageOfInterest.GetName() + ".go"
 	}
 
 	prefixRegex := regexp.MustCompile("^\\d{8} \\d{4} ")
@@ -447,7 +447,7 @@ func (probe *Probe) ExportStage() {
 	fileToDownload := new(load.FileToDownload)
 
 	if probe.fileName == "" {
-		probe.fileName = probe.stageOfInterest.GetName() + ".go"
+		probe.fileName = "table:" + probe.stageOfInterest.GetName() + ".go"
 	}
 
 	prefixRegex := regexp.MustCompile("^\\d{8} \\d{4} ")
