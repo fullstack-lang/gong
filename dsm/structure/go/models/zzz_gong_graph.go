@@ -767,12 +767,6 @@ func (stage *Stage) StageBranchPart(part *Part) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _resource := range part.Resources {
-		StageBranch(stage, _resource)
-	}
-	for _, _system := range part.Systemes {
-		StageBranch(stage, _system)
-	}
 	for _, _port := range part.Ports {
 		StageBranch(stage, _port)
 	}
@@ -1474,12 +1468,6 @@ func CopyBranchPart(mapOrigCopy map[any]any, partFrom *Part) (partTo *Part) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _resource := range partFrom.Resources {
-		partTo.Resources = append(partTo.Resources, CopyBranchResource(mapOrigCopy, _resource))
-	}
-	for _, _system := range partFrom.Systemes {
-		partTo.Systemes = append(partTo.Systemes, CopyBranchSystem(mapOrigCopy, _system))
-	}
 	for _, _port := range partFrom.Ports {
 		partTo.Ports = append(partTo.Ports, CopyBranchPort(mapOrigCopy, _port))
 	}
@@ -2122,12 +2110,6 @@ func (stage *Stage) UnstageBranchPart(part *Part) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _resource := range part.Resources {
-		UnstageBranch(stage, _resource)
-	}
-	for _, _system := range part.Systemes {
-		UnstageBranch(stage, _system)
-	}
 	for _, _port := range part.Ports {
 		UnstageBranch(stage, _port)
 	}
@@ -2559,14 +2541,6 @@ func (reference *NoteShape) GongReconstructPointersFromReferences(stage *Stage, 
 func (reference *Part) GongReconstructPointersFromReferences(stage *Stage, instance *Part) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.Resources = reference.Resources[:0]
-	for _, _b := range instance.Resources {
-		reference.Resources = append(reference.Resources, stage.Resources_reference[_b])
-	}
-	reference.Systemes = reference.Systemes[:0]
-	for _, _b := range instance.Systemes {
-		reference.Systemes = append(reference.Systemes, stage.Systems_reference[_b])
-	}
 	reference.Ports = reference.Ports[:0]
 	for _, _b := range instance.Ports {
 		reference.Ports = append(reference.Ports, stage.Ports_reference[_b])
@@ -3122,20 +3096,6 @@ func (reference *NoteShape) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *Part) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _Resources []*Resource
-	for _, _reference := range reference.Resources {
-		if _instance, ok := stage.Resources_instance[_reference]; ok {
-			_Resources = append(_Resources, _instance)
-		}
-	}
-	reference.Resources = _Resources
-	var _Systemes []*System
-	for _, _reference := range reference.Systemes {
-		if _instance, ok := stage.Systems_instance[_reference]; ok {
-			_Systemes = append(_Systemes, _instance)
-		}
-	}
-	reference.Systemes = _Systemes
 	var _Ports []*Port
 	for _, _reference := range reference.Ports {
 		if _instance, ok := stage.Ports_instance[_reference]; ok {
@@ -4640,59 +4600,8 @@ func (part *Part) GongDiff(stage *Stage, partOther *Part) (diffs []string) {
 	if part.Name != partOther.Name {
 		diffs = append(diffs, part.GongMarshallField(stage, "Name"))
 	}
-	if part.IsSystemResource != partOther.IsSystemResource {
-		diffs = append(diffs, part.GongMarshallField(stage, "IsSystemResource"))
-	}
 	if part.Description != partOther.Description {
 		diffs = append(diffs, part.GongMarshallField(stage, "Description"))
-	}
-	ResourcesDifferent := false
-	if len(part.Resources) != len(partOther.Resources) {
-		ResourcesDifferent = true
-	} else {
-		for i := range part.Resources {
-			if (part.Resources[i] == nil) != (partOther.Resources[i] == nil) {
-				ResourcesDifferent = true
-				break
-			} else if part.Resources[i] != nil && partOther.Resources[i] != nil {
-				// this is a pointer comparaison
-				if part.Resources[i] != partOther.Resources[i] {
-					ResourcesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if ResourcesDifferent {
-		ops := Diff(stage, part, partOther, "Resources", partOther.Resources, part.Resources)
-		diffs = append(diffs, ops)
-	}
-	if part.IsResourcesNodeExpanded != partOther.IsResourcesNodeExpanded {
-		diffs = append(diffs, part.GongMarshallField(stage, "IsResourcesNodeExpanded"))
-	}
-	SystemesDifferent := false
-	if len(part.Systemes) != len(partOther.Systemes) {
-		SystemesDifferent = true
-	} else {
-		for i := range part.Systemes {
-			if (part.Systemes[i] == nil) != (partOther.Systemes[i] == nil) {
-				SystemesDifferent = true
-				break
-			} else if part.Systemes[i] != nil && partOther.Systemes[i] != nil {
-				// this is a pointer comparaison
-				if part.Systemes[i] != partOther.Systemes[i] {
-					SystemesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SystemesDifferent {
-		ops := Diff(stage, part, partOther, "Systemes", partOther.Systemes, part.Systemes)
-		diffs = append(diffs, ops)
-	}
-	if part.IsSystemesNodeExpanded != partOther.IsSystemesNodeExpanded {
-		diffs = append(diffs, part.GongMarshallField(stage, "IsSystemesNodeExpanded"))
 	}
 	if part.ComputedPrefix != partOther.ComputedPrefix {
 		diffs = append(diffs, part.GongMarshallField(stage, "ComputedPrefix"))
@@ -4873,9 +4782,6 @@ func (partshape *PartShape) GongDiff(stage *Stage, partshapeOther *PartShape) (d
 	}
 	if partshape.IsHidden != partshapeOther.IsHidden {
 		diffs = append(diffs, partshape.GongMarshallField(stage, "IsHidden"))
-	}
-	if partshape.WidthWeight != partshapeOther.WidthWeight {
-		diffs = append(diffs, partshape.GongMarshallField(stage, "WidthWeight"))
 	}
 
 	return

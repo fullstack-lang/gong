@@ -80,34 +80,6 @@ func (stager *Stager) treeExternalParts(
 	}
 	node.OnClick = onNodeClicked(stager, externalPart)
 
-	// allocated resources
-	allocatedResourcesNode := &tree.Node{
-		Name:            "Allocated Resources",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      externalPart.IsResourcesNodeExpanded,
-		IsNodeClickable: true,
-	}
-	node.Children = append(node.Children, allocatedResourcesNode)
-	allocatedResourcesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&externalPart.IsResourcesNodeExpanded)
-
-	for _, resource := range externalPart.Resources {
-		stager.treeAllocatedResourceWithinDiagramWithinPart(diagramStructure, resource, externalPart, allocatedResourcesNode)
-	}
-
-	// systemes
-	systemesNode := &tree.Node{
-		Name:            "Allocated Systemes",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      externalPart.IsSystemesNodeExpanded,
-		IsNodeClickable: true,
-	}
-	node.Children = append(node.Children, systemesNode)
-	systemesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&externalPart.IsSystemesNodeExpanded)
-
-	for _, system := range externalPart.Systemes {
-		stager.treeSystemesWithinDiagramStructureWithinPart(diagramStructure, system, externalPart, systemesNode)
-	}
-
 	// out data flows and in data flows
 	nodeOutDataFlows := &tree.Node{
 		Name:            "out data flows",

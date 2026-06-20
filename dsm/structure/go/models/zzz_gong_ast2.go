@@ -1146,18 +1146,8 @@ func (u *PartUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "IsSystemResource":
-		instance.IsSystemResource = GongExtractBool(valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
-	case "Resources":
-		GongUnmarshallSliceOfPointers(&instance.Resources, valueExpr, identifierMap)
-	case "IsResourcesNodeExpanded":
-		instance.IsResourcesNodeExpanded = GongExtractBool(valueExpr)
-	case "Systemes":
-		GongUnmarshallSliceOfPointers(&instance.Systemes, valueExpr, identifierMap)
-	case "IsSystemesNodeExpanded":
-		instance.IsSystemesNodeExpanded = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
@@ -1225,8 +1215,6 @@ func (u *PartShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.Height = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
-	case "WidthWeight":
-		instance.WidthWeight = GongExtractFloat(valueExpr)
 	}
 	return nil
 }

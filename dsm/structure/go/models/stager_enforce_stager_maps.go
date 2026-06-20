@@ -30,8 +30,8 @@ func (stager *Stager) enforceStagerMaps() {
 		diagramStructure.map_AllocatedResourceShapeKey_AllocatedResourceShape = make(map[allocatedResourceShapeKey]*AllocatedResourceShape)
 		for _, allocatedResourceShape := range diagramStructure.AllocatedResourceShapes {
 			key := allocatedResourceShapeKey{
-				part: allocatedResourceShape.Part,
-				resource:    allocatedResourceShape.Resource,
+				part:     allocatedResourceShape.Part,
+				resource: allocatedResourceShape.Resource,
 			}
 			diagramStructure.map_AllocatedResourceShapeKey_AllocatedResourceShape[key] = allocatedResourceShape
 		}
@@ -39,8 +39,8 @@ func (stager *Stager) enforceStagerMaps() {
 		diagramStructure.map_AllocatedSystemShapeKey_AllocatedSystemShape = make(map[allocatedSystemShapeKey]*AllocatedSystemShape)
 		for _, allocatedSystemShape := range diagramStructure.AllocatedSystemShapes {
 			key := allocatedSystemShapeKey{
-				part: allocatedSystemShape.Part,
-				system:     allocatedSystemShape.System,
+				part:   allocatedSystemShape.Part,
+				system: allocatedSystemShape.System,
 			}
 			diagramStructure.map_AllocatedSystemShapeKey_AllocatedSystemShape[key] = allocatedSystemShape
 		}
@@ -56,7 +56,6 @@ func (stager *Stager) enforceStagerMaps() {
 	}
 
 	stager.rm_Data_DataFlows = GetSliceOfPointersReverseMap[DataFlow, Data](GetAssociationName[DataFlow]().Datas[0].Name, stager.stage)
-	stager.rm_Resource_Parts = GetSliceOfPointersReverseMap[Part, Resource](GetAssociationName[Part]().Resources[0].Name, stager.stage)
 }
 
 // updateMapElementDiagrams is a helper function to update the map of abstract elements to their shapes for a given diagram

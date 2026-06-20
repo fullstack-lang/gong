@@ -17,7 +17,7 @@ var (
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
-// When parsed, those maps will help with the renaming system
+// When parsed, those maps will help with the renaming process
 var _ map[string]any = map[string]any{
 	// injection point for docLink to identifiers{{EntriesDocLinkStringDocLinkIdentifier}}
 }
@@ -34,8 +34,8 @@ func _(stage *models.Stage) {
 	__Part__00000000_ := (&models.Part{Name: `P1`}).Stage(stage)
 	__Part__00000001_ := (&models.Part{Name: `P2`}).Stage(stage)
 
-	__PartShape__00000000_ := (&models.PartShape{Name: `P1-DiagramStructure`}).Stage(stage)
-	__PartShape__00000001_ := (&models.PartShape{Name: `P2-DiagramStructure`}).Stage(stage)
+	__PartShape__00000003_ := (&models.PartShape{Name: `P1-DiagramStructure`}).Stage(stage)
+	__PartShape__00000005_ := (&models.PartShape{Name: `P2-DiagramStructure`}).Stage(stage)
 
 	__System__00000000_ := (&models.System{Name: `System 1`}).Stage(stage)
 
@@ -53,8 +53,8 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.IsShowPrefix = false
 	__DiagramStructure__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramStructure__00000000_.DefaultBoxHeigth = 70.000000
-	__DiagramStructure__00000000_.Width = 1662.999939
-	__DiagramStructure__00000000_.Height = 1350.000000
+	__DiagramStructure__00000000_.Width = 1615.999939
+	__DiagramStructure__00000000_.Height = 1332.000000
 	__DiagramStructure__00000000_.IsSystemsNodeExpanded = false
 	__DiagramStructure__00000000_.IsPartsNodeExpanded = true
 	__DiagramStructure__00000000_.IsExternalPartsNodeExpanded = false
@@ -77,10 +77,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsExpandedTmp = true
 
 	__Part__00000000_.Name = `P1`
-	__Part__00000000_.IsSystemResource = false
 	__Part__00000000_.Description = ``
-	__Part__00000000_.IsResourcesNodeExpanded = false
-	__Part__00000000_.IsSystemesNodeExpanded = false
 	__Part__00000000_.ComputedPrefix = ``
 	__Part__00000000_.IsExpanded = false
 	__Part__00000000_.LayoutDirection = models.Vertical
@@ -89,10 +86,7 @@ func _(stage *models.Stage) {
 	__Part__00000000_.IsDataFlowsNodeExpanded = false
 
 	__Part__00000001_.Name = `P2`
-	__Part__00000001_.IsSystemResource = false
 	__Part__00000001_.Description = ``
-	__Part__00000001_.IsResourcesNodeExpanded = false
-	__Part__00000001_.IsSystemesNodeExpanded = false
 	__Part__00000001_.ComputedPrefix = ``
 	__Part__00000001_.IsExpanded = false
 	__Part__00000001_.LayoutDirection = models.Vertical
@@ -100,23 +94,21 @@ func _(stage *models.Stage) {
 	__Part__00000001_.IsControlFlowsNodeExpanded = false
 	__Part__00000001_.IsDataFlowsNodeExpanded = false
 
-	__PartShape__00000000_.Name = `P1-DiagramStructure`
-	__PartShape__00000000_.IsExpanded = false
-	__PartShape__00000000_.X = 191.494223
-	__PartShape__00000000_.Y = 116.217293
-	__PartShape__00000000_.Width = 250.000000
-	__PartShape__00000000_.Height = 70.000000
-	__PartShape__00000000_.IsHidden = false
-	__PartShape__00000000_.WidthWeight = 1.000000
+	__PartShape__00000003_.Name = `P1-DiagramStructure`
+	__PartShape__00000003_.IsExpanded = false
+	__PartShape__00000003_.X = 717.000000
+	__PartShape__00000003_.Y = 276.999985
+	__PartShape__00000003_.Width = 250.000000
+	__PartShape__00000003_.Height = 203.000000
+	__PartShape__00000003_.IsHidden = false
 
-	__PartShape__00000001_.Name = `P2-DiagramStructure`
-	__PartShape__00000001_.IsExpanded = false
-	__PartShape__00000001_.X = 177.408274
-	__PartShape__00000001_.Y = 166.681744
-	__PartShape__00000001_.Width = 250.000000
-	__PartShape__00000001_.Height = 70.000000
-	__PartShape__00000001_.IsHidden = false
-	__PartShape__00000001_.WidthWeight = 1.000000
+	__PartShape__00000005_.Name = `P2-DiagramStructure`
+	__PartShape__00000005_.IsExpanded = false
+	__PartShape__00000005_.X = 190.921831
+	__PartShape__00000005_.Y = 351.288735
+	__PartShape__00000005_.Width = 250.000000
+	__PartShape__00000005_.Height = 153.999985
+	__PartShape__00000005_.IsHidden = false
 
 	__System__00000000_.Name = `System 1`
 	__System__00000000_.Description = ``
@@ -130,20 +122,21 @@ func _(stage *models.Stage) {
 
 	__SystemShape__00000000_.Name = `SystemShape`
 	__SystemShape__00000000_.IsExpanded = false
-	__SystemShape__00000000_.X = 100.000000
-	__SystemShape__00000000_.Y = 50.000000
+	__SystemShape__00000000_.X = 53.000000
+	__SystemShape__00000000_.Y = 32.000000
 	__SystemShape__00000000_.Width = 1262.999939
 	__SystemShape__00000000_.Height = 1000.000000
 	__SystemShape__00000000_.IsHidden = false
 
 	// insertion point for setup of pointers
 	__DiagramStructure__00000000_.System_Shapes = append(__DiagramStructure__00000000_.System_Shapes, __SystemShape__00000000_)
-	__DiagramStructure__00000000_.Part_Shapes = append(__DiagramStructure__00000000_.Part_Shapes, __PartShape__00000000_)
-	__DiagramStructure__00000000_.Part_Shapes = append(__DiagramStructure__00000000_.Part_Shapes, __PartShape__00000001_)
+	__DiagramStructure__00000000_.Part_Shapes = append(__DiagramStructure__00000000_.Part_Shapes, __PartShape__00000003_)
+	__DiagramStructure__00000000_.Part_Shapes = append(__DiagramStructure__00000000_.Part_Shapes, __PartShape__00000005_)
+	__DiagramStructure__00000000_.PartWhoseNodeIsExpanded = append(__DiagramStructure__00000000_.PartWhoseNodeIsExpanded, __Part__00000000_)
 	__Library__00000000_.RootSystemes = append(__Library__00000000_.RootSystemes, __System__00000000_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000000_)
-	__PartShape__00000000_.Part = __Part__00000000_
-	__PartShape__00000001_.Part = __Part__00000001_
+	__PartShape__00000003_.Part = __Part__00000000_
+	__PartShape__00000005_.Part = __Part__00000001_
 	__System__00000000_.DiagramStructures = append(__System__00000000_.DiagramStructures, __DiagramStructure__00000000_)
 	__System__00000000_.DiagramStructureWhoseNodeIsExpanded = append(__System__00000000_.DiagramStructureWhoseNodeIsExpanded, __DiagramStructure__00000000_)
 	__System__00000000_.Parts = append(__System__00000000_.Parts, __Part__00000000_)

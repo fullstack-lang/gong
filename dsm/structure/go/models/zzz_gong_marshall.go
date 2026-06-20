@@ -796,12 +796,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(part.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "IsSystemResource"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "Description"))
-		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "Resources"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "IsResourcesNodeExpanded"))
-		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "Systemes"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "IsSystemesNodeExpanded"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "LayoutDirection"))
@@ -847,7 +842,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(partshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(partshape.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(partshape.GongMarshallField(stage, "IsHidden"))
-		initializerStatements.WriteString(partshape.GongMarshallField(stage, "WidthWeight"))
 	}
 
 	portOrdered := []*Port{}
@@ -2599,26 +2593,11 @@ func (part *Part) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part.Name))
-	case "IsSystemResource":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsSystemResource")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", part.IsSystemResource))
 	case "Description":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part.Description))
-	case "IsResourcesNodeExpanded":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsResourcesNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", part.IsResourcesNodeExpanded))
-	case "IsSystemesNodeExpanded":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsSystemesNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", part.IsSystemesNodeExpanded))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
@@ -2658,26 +2637,6 @@ func (part *Part) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDataFlowsNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", part.IsDataFlowsNodeExpanded))
 
-	case "Resources":
-		var sb strings.Builder
-		for _, _resource := range part.Resources {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", part.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Resources")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _resource.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
-	case "Systemes":
-		var sb strings.Builder
-		for _, _system := range part.Systemes {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", part.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Systemes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _system.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
 	case "Ports":
 		var sb strings.Builder
 		for _, _port := range part.Ports {
@@ -2782,11 +2741,6 @@ func (partshape *PartShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = strings.ReplaceAll(res, "{{Identifier}}", partshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", partshape.IsHidden))
-	case "WidthWeight":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", partshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "WidthWeight")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", partshape.WidthWeight))
 
 	case "Part":
 		if partshape.Part != nil {
@@ -3494,12 +3448,7 @@ func (part *Part) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(part.GongMarshallField(stage, "Name"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "IsSystemResource"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "Description"))
-		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "Resources"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "IsResourcesNodeExpanded"))
-		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "Systemes"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "IsSystemesNodeExpanded"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "LayoutDirection"))
@@ -3530,7 +3479,6 @@ func (partshape *PartShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(partshape.GongMarshallField(stage, "Width"))
 		initializerStatements.WriteString(partshape.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(partshape.GongMarshallField(stage, "IsHidden"))
-		initializerStatements.WriteString(partshape.GongMarshallField(stage, "WidthWeight"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

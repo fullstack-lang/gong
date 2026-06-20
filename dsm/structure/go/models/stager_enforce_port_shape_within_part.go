@@ -20,20 +20,6 @@ func (stager *Stager) enforcePortShapeWithinPart() (needCommit bool) {
 			continue
 		}
 
-		horizontalMargin := 10.0
-		verticalTopMargin := 50.0
-		verticalBottomMargin := 10.0
-
-		partsWidth := owningSystemShape.Width - 2*horizontalMargin
-		var totalWeight float64
-		for _, pShape := range diagramStructure.Part_Shapes {
-			weight := pShape.WidthWeight
-			if weight == 0 {
-				weight = 1.0
-			}
-			totalWeight += weight
-		}
-
 		for _, portShape := range diagramStructure.Port_Shapes {
 
 			// The bounding shape is ideally the part shape (swimlane),
@@ -42,34 +28,6 @@ func (stager *Stager) enforcePortShapeWithinPart() (needCommit bool) {
 			boundingY := owningSystemShape.Y
 			boundingWidth := owningSystemShape.Width
 			boundingHeight := owningSystemShape.Height
-
-			if portShape.Port != nil && portShape.Port.owningPart != nil && totalWeight > 0 {
-				// Find the index of the owning part to compute its exact SVG bounds
-				currentWeight := 0.0
-				var currentPartShape *PartShape
-				for _, pShape := range diagramStructure.Part_Shapes {
-					if pShape.Part == portShape.Port.owningPart {
-						currentPartShape = pShape
-						break
-					}
-					weight := pShape.WidthWeight
-					if weight == 0 {
-						weight = 1.0
-					}
-					currentWeight += weight
-				}
-
-				if currentPartShape != nil {
-					boundingX = owningSystemShape.X + horizontalMargin + currentWeight*(partsWidth/totalWeight)
-					shapeWeight := currentPartShape.WidthWeight
-					if shapeWeight == 0 {
-						shapeWeight = 1.0
-					}
-					boundingWidth = shapeWeight * (partsWidth / totalWeight)
-					boundingY = owningSystemShape.Y + verticalTopMargin
-					boundingHeight = owningSystemShape.Height - verticalTopMargin - verticalBottomMargin
-				}
-			}
 
 			modified := false
 			margin := 1.0

@@ -100,20 +100,6 @@ func (stager *Stager) treeParts(
 	}
 	node.OnClick = onNodeClicked(stager, part)
 
-	// Allocated Resources
-	allocatedResourcesNode := &tree.Node{
-		Name:            "Allocated Resources",
-		FontStyle:       tree.ITALIC,
-		IsExpanded:      part.IsResourcesNodeExpanded,
-		IsNodeClickable: true,
-	}
-	node.Children = append(node.Children, allocatedResourcesNode)
-	allocatedResourcesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&part.IsResourcesNodeExpanded)
-
-	for _, resource := range part.Resources {
-		stager.treeAllocatedResourceWithinDiagramWithinPart(diagramStructure, resource, part, allocatedResourcesNode)
-	}
-
 	// Ports
 	portsNode := &tree.Node{
 		Name:            "Ports",

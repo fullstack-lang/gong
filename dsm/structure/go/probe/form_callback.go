@@ -3774,78 +3774,8 @@ func (partFormCallback *PartFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(part_.Name), formDiv)
-		case "IsSystemResource":
-			FormDivBasicFieldToField(&(part_.IsSystemResource), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(part_.Description), formDiv)
-		case "Resources":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Resource](partFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Resource, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Resource)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					partFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Resource](partFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			part_.Resources = instanceSlice
-			partFormCallback.probe.UpdateSliceOfPointersCallback(part_, "Resources", &part_.Resources)
-
-		case "IsResourcesNodeExpanded":
-			FormDivBasicFieldToField(&(part_.IsResourcesNodeExpanded), formDiv)
-		case "Systemes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.System](partFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.System, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.System)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					partFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.System](partFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			part_.Systemes = instanceSlice
-			partFormCallback.probe.UpdateSliceOfPointersCallback(part_, "Systemes", &part_.Systemes)
-
-		case "IsSystemesNodeExpanded":
-			FormDivBasicFieldToField(&(part_.IsSystemesNodeExpanded), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(part_.ComputedPrefix), formDiv)
 		case "IsExpanded":
@@ -4547,8 +4477,6 @@ func (partshapeFormCallback *PartShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(partshape_.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(partshape_.IsHidden), formDiv)
-		case "WidthWeight":
-			FormDivBasicFieldToField(&(partshape_.WidthWeight), formDiv)
 		case "DiagramStructure:Part_Shapes":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -5367,51 +5295,6 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 					}
 				}
 			}
-		case "Part:Resources":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Part instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Part instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Part](resourceFormCallback.probe.stageOfInterest)
-			targetPartIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetPartIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Part instances and update their Resources slice
-			for _part := range *models.GetGongstructInstancesSetFromPointerType[*models.Part](resourceFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(resourceFormCallback.probe.stageOfInterest, _part)
-				
-				// if Part is selected
-				if targetPartIDs[id] {
-					// ensure resource_ is in _part.Resources
-					found := false
-					for _, _b := range _part.Resources {
-						if _b == resource_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_part.Resources = append(_part.Resources, resource_)
-						resourceFormCallback.probe.UpdateSliceOfPointersCallback(_part, "Resources", &_part.Resources)
-					}
-				} else {
-					// ensure resource_ is NOT in _part.Resources
-					idx := slices.Index(_part.Resources, resource_)
-					if idx != -1 {
-						_part.Resources = slices.Delete(_part.Resources, idx, idx+1)
-						resourceFormCallback.probe.UpdateSliceOfPointersCallback(_part, "Resources", &_part.Resources)
-					}
-				}
-			}
 		}
 	}
 
@@ -5939,51 +5822,6 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 					if idx != -1 {
 						_library.SystemsWhoseNodeIsExpanded = slices.Delete(_library.SystemsWhoseNodeIsExpanded, idx, idx+1)
 						systemFormCallback.probe.UpdateSliceOfPointersCallback(_library, "SystemsWhoseNodeIsExpanded", &_library.SystemsWhoseNodeIsExpanded)
-					}
-				}
-			}
-		case "Part:Systemes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Part instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Part instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Part](systemFormCallback.probe.stageOfInterest)
-			targetPartIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetPartIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Part instances and update their Systemes slice
-			for _part := range *models.GetGongstructInstancesSetFromPointerType[*models.Part](systemFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(systemFormCallback.probe.stageOfInterest, _part)
-				
-				// if Part is selected
-				if targetPartIDs[id] {
-					// ensure system_ is in _part.Systemes
-					found := false
-					for _, _b := range _part.Systemes {
-						if _b == system_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_part.Systemes = append(_part.Systemes, system_)
-						systemFormCallback.probe.UpdateSliceOfPointersCallback(_part, "Systemes", &_part.Systemes)
-					}
-				} else {
-					// ensure system_ is NOT in _part.Systemes
-					idx := slices.Index(_part.Systemes, system_)
-					if idx != -1 {
-						_part.Systemes = slices.Delete(_part.Systemes, idx, idx+1)
-						systemFormCallback.probe.UpdateSliceOfPointersCallback(_part, "Systemes", &_part.Systemes)
 					}
 				}
 			}
