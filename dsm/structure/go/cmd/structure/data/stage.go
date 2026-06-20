@@ -33,8 +33,10 @@ func _(stage *models.Stage) {
 	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
 
 	__Part__00000000_ := (&models.Part{Name: `Part2`}).Stage(stage)
+	__Part__00000001_ := (&models.Part{Name: `Part1`}).Stage(stage)
 
 	__PartShape__00000004_ := (&models.PartShape{Name: `Part2-DiagramStructure`}).Stage(stage)
+	__PartShape__00000005_ := (&models.PartShape{Name: `Part1-DiagramStructure`}).Stage(stage)
 
 	__System__00000000_ := (&models.System{Name: ``}).Stage(stage)
 
@@ -47,8 +49,8 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.IsChecked = true
 	__DiagramStructure__00000000_.IsEditable_ = true
 	__DiagramStructure__00000000_.IsShowPrefix = false
-	__DiagramStructure__00000000_.Width = 620.678986
-	__DiagramStructure__00000000_.Height = 502.440649
+	__DiagramStructure__00000000_.Width = 1069.964258
+	__DiagramStructure__00000000_.Height = 694.090483
 	__DiagramStructure__00000000_.DefaultBoxWidth = 0.000000
 	__DiagramStructure__00000000_.DefaultBoxHeigth = 0.000000
 	__DiagramStructure__00000000_.IsPartsNodeExpanded = true
@@ -83,16 +85,32 @@ func _(stage *models.Stage) {
 	__Part__00000000_.IsExpanded = false
 	__Part__00000000_.LayoutDirection = models.Vertical
 
+	__Part__00000001_.Name = `Part1`
+	__Part__00000001_.ComputedPrefix = ``
+	__Part__00000001_.IsExpanded = false
+	__Part__00000001_.LayoutDirection = models.Vertical
+
 	__PartShape__00000004_.Name = `Part2-DiagramStructure`
 	__PartShape__00000004_.IsExpanded = false
-	__PartShape__00000004_.X = 66.678986
-	__PartShape__00000004_.Y = 251.440649
+	__PartShape__00000004_.X = 155.678986
+	__PartShape__00000004_.Y = 199.440649
 	__PartShape__00000004_.Width = 200.000000
 	__PartShape__00000004_.Height = 100.000000
 	__PartShape__00000004_.IsHidden = false
 	__PartShape__00000004_.WidthWeight = 0.000000
 	__PartShape__00000004_.OverideLayoutDirection = false
 	__PartShape__00000004_.LayoutDirection = models.Vertical
+
+	__PartShape__00000005_.Name = `Part1-DiagramStructure`
+	__PartShape__00000005_.IsExpanded = false
+	__PartShape__00000005_.X = 569.964258
+	__PartShape__00000005_.Y = 294.090483
+	__PartShape__00000005_.Width = 200.000000
+	__PartShape__00000005_.Height = 100.000000
+	__PartShape__00000005_.IsHidden = false
+	__PartShape__00000005_.WidthWeight = 0.000000
+	__PartShape__00000005_.OverideLayoutDirection = false
+	__PartShape__00000005_.LayoutDirection = models.Vertical
 
 	__System__00000000_.Name = ``
 	__System__00000000_.ComputedPrefix = ``
@@ -105,9 +123,12 @@ func _(stage *models.Stage) {
 
 	// insertion point for setup of pointers
 	__DiagramStructure__00000000_.Part_Shapes = append(__DiagramStructure__00000000_.Part_Shapes, __PartShape__00000004_)
+	__DiagramStructure__00000000_.Part_Shapes = append(__DiagramStructure__00000000_.Part_Shapes, __PartShape__00000005_)
 	__Library__00000000_.RootSystems = append(__Library__00000000_.RootSystems, __System__00000000_)
 	__PartShape__00000004_.Part = __Part__00000000_
+	__PartShape__00000005_.Part = __Part__00000001_
 	__System__00000000_.Parts = append(__System__00000000_.Parts, __Part__00000000_)
+	__System__00000000_.Parts = append(__System__00000000_.Parts, __Part__00000001_)
 	__System__00000000_.DiagramStructures = append(__System__00000000_.DiagramStructures, __DiagramStructure__00000000_)
 	__System__00000000_.DiagramStructures = append(__System__00000000_.DiagramStructures, __DiagramStructure__00000001_)
 }

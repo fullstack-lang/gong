@@ -484,6 +484,8 @@ func (u *DiagramStructureUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.DefaultBoxWidth = GongExtractFloat(valueExpr)
 	case "DefaultBoxHeigth":
 		instance.DefaultBoxHeigth = GongExtractFloat(valueExpr)
+	case "System_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.System_Shapes, valueExpr, identifierMap)
 	case "Part_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.Part_Shapes, valueExpr, identifierMap)
 	case "IsPartsNodeExpanded":
@@ -774,6 +776,53 @@ func (u *SystemUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		instance.IsDiagramStructuresNodeExpanded = GongExtractBool(valueExpr)
 	case "DiagramStructuresWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.DiagramStructuresWhoseNodeIsExpanded, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type SystemShapeUnmarshaller struct{}
+
+func (u *SystemShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(SystemShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *SystemShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*SystemShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "System":
+		GongUnmarshallPointer(&instance.System, valueExpr, identifierMap)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	case "OverideLayoutDirection":
+		instance.OverideLayoutDirection = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	}
 	return nil
 }

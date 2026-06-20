@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 
+	"github.com/fullstack-lang/gong/lib/strutils"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
@@ -48,92 +49,170 @@ func (stager *Stager) generateSvgObject(diagram *DiagramStructure) *svg.SVG {
 	layer := (&svg.Layer{Name: "Default"})
 	svgObject.Layers = append(svgObject.Layers, layer)
 
-	stager.drawPartShapes(diagram, layer)
-	stager.drawLinkShapes(diagram, layer)
-
 	stager.drawSystemShape(diagram, layer)
+
+	rectOfOwningSystem := diagram.map_System_Rect[diagram.owningSystem]
+	if rectOfOwningSystem != nil {
+		stager.drawPartShapes(diagram, layer, rectOfOwningSystem)
+	}
+	stager.drawLinkShapes(diagram, layer)
 
 	return svgObject
 }
 
-func (stager *Stager) drawPartShapes(diagram *DiagramStructure, layer *svg.Layer) {
+func (stager *Stager) drawPartShapes(diagram *DiagramStructure, layer *svg.Layer, rectOfOwningSystem *svg.Rect) {
+	root := stager.GetRootLibrary()
+
 	diagram.map_Part_Rect = make(map[*Part]*svg.Rect)
 	diagram.map_SvgRect_PartShape = make(map[*svg.Rect]*PartShape)
 
-	for _, partShape := range diagram.Part_Shapes {
+	horizontalMargin := 10.0
+	verticalTopMargin := 50.0
+	verticalTopMarginForTitle := 60.0
+	verticalBottomMargin := 10.0
+
+	partsWidth := rectOfOwningSystem.Width - 2*horizontalMargin
+
+	var totalWeight float64
+	for _, pShape := range diagram.Part_Shapes {
+		weight := pShape.WidthWeight
+		if weight == 0 {
+			weight = 1.0
+		}
+		totalWeight += weight
+	}
+
+	currentWeight := 0.0
+
+	for idx, partShape := range diagram.Part_Shapes {
+		shapeWeight := partShape.WidthWeight
+		if shapeWeight == 0 {
+			shapeWeight = 1.0
+		}
+		partWidth := 0.0
+		if totalWeight > 0 {
+			partWidth = shapeWeight * (partsWidth / totalWeight)
+		}
+
 		if partShape.IsHidden {
+			currentWeight += shapeWeight
 			continue
 		}
 
 		rect := new(svg.Rect)
 		layer.Rects = append(layer.Rects, rect)
+		diagram.map_SvgRect_PartShape[rect] = partShape
 
-		rect.Name = partShape.Name
-		rect.X = partShape.X
-		rect.Y = partShape.Y
-		rect.Width = partShape.Width
-		if rect.Width == 0 {
-			rect.Width = 200 // default width
-		}
-		rect.Height = partShape.Height
-		if rect.Height == 0 {
-			rect.Height = 100 // default height
-		}
+		rect.Name = partShape.GetName()
+		rect.Stroke = "#E0E0E0"
+		rect.StrokeWidth = 1
+		rect.StrokeOpacity = 1
 
-		rect.Color = "white"
+		rect.Color = "#FFFFFF"
 		rect.FillOpacity = 1.0
-		rect.Stroke = "black"
-		rect.StrokeOpacity = 1.0
-		rect.StrokeWidth = 2
-		rect.RX = 5
 
-		text := new(svg.RectAnchoredText)
-		text.Name = partShape.Name
-		if partShape.Part != nil {
-			text.Content = partShape.Part.Name
-		} else {
-			text.Content = partShape.Name
-		}
-		text.Color = "black"
-		text.FillOpacity = 1.0
-		text.X_Offset = 10
-		text.Y_Offset = 20
-		text.RectAnchorType = svg.RECT_TOP_LEFT
-		text.TextAnchorType = svg.TEXT_ANCHOR_START
-		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, text)
-
-		// Setup interactivity
-		rect.IsSelectable = true
+		// rect cannot move
 		rect.CanMoveHorizontaly = true
 		rect.CanMoveVerticaly = true
-		rect.CanHaveLeftHandle = true
-		rect.CanHaveRightHandle = true
-		rect.CanHaveTopHandle = true
-		rect.CanHaveBottomHandle = true
+		rect.CanHaveBottomHandle = false
+		rect.CanHaveLeftHandle = false
+		rect.CanHaveTopHandle = false
 
-		rect.OnSelect = func() {
-			if partShape.Part != nil {
-				stager.probeForm.FillUpFormFromGongstruct(partShape.Part, GetPointerToGongstructName[*Part]())
-				stager.stage.Commit()
+		// all but the last part have right handle
+		rect.CanHaveRightHandle = func() bool {
+			if idx == len(diagram.Part_Shapes)-1 {
+				return false
 			}
+			return true
+		}()
+
+		// visuals
+		rect.RX = 0
+		rect.StrokeWidth = 1
+
+		if totalWeight > 0 {
+			rect.X = rectOfOwningSystem.X + horizontalMargin + currentWeight*(partsWidth/totalWeight)
+		} else {
+			rect.X = rectOfOwningSystem.X + horizontalMargin
 		}
-		rect.OnMove = func(x, y float64) {
-			partShape.SetX(x)
-			partShape.SetY(y)
-			stager.stage.CommitWithSuspendedCallbacks()
+		rect.Width = partWidth
+
+		rect.Y = rectOfOwningSystem.Y + verticalTopMargin + verticalTopMarginForTitle
+		rect.Height = rectOfOwningSystem.Height - verticalTopMargin - verticalBottomMargin - verticalTopMarginForTitle
+
+		// make the part shape peer of the system shape
+		rect.Peers = append(rect.Peers, rectOfOwningSystem)
+		rectOfOwningSystem.Peers = append(rectOfOwningSystem.Peers, rect)
+
+		// override default behavior, we need to commit when the rect is moved
+		rect.OnSelect = func() {
+			stager.probeForm.FillUpFormFromGongstruct(partShape.Part, GetPointerToGongstructName[*Part]())
 		}
+		rect.OnMove = func(x, y float64) {}
 		rect.OnResize = func(x, y, width, height float64) {
-			partShape.SetX(x)
-			partShape.SetY(y)
-			partShape.SetWidth(width)
-			partShape.SetHeight(height)
-			stager.stage.Commit()
+			if width != partWidth {
+				othersWeight := totalWeight - shapeWeight
+				if othersWeight > 0 {
+					boundedWidth := width
+					if boundedWidth > partsWidth-10 {
+						boundedWidth = partsWidth - 10
+					}
+					if boundedWidth < 10 {
+						boundedWidth = 10
+					}
+					newWeight := (boundedWidth * othersWeight) / (partsWidth - boundedWidth)
+
+					partShape.WidthWeight = newWeight
+					stager.stage.Commit()
+				}
+			}
 		}
 
 		if partShape.Part != nil {
 			diagram.map_Part_Rect[partShape.Part] = rect
-			diagram.map_SvgRect_PartShape[rect] = partShape
 		}
+
+		title := new(svg.RectAnchoredText)
+		title.Name = partShape.GetAbstractElement().GetName()
+
+		content := partShape.GetAbstractElement().GetName()
+		if diagram.GetIsShowPrefix() {
+			content = partShape.GetAbstractElement().GetComputedPrefix() + " " + content
+		}
+
+		if rect.Width > 0 {
+			content = strutils.WrapStringPreservingNewlines(content, int(rect.Width/root.NbPixPerCharacter))
+		}
+		title.Content = content
+		title.StrokeWidth = 0
+		title.StrokeOpacity = 1
+		title.Color = "#333333"
+		title.FillOpacity = 1
+		title.FontSize = "16px"
+		title.FontWeight = "500"
+		title.X_Offset = 0
+		title.Y_Offset = -verticalTopMarginForTitle / 2.0
+		title.RectAnchorType = svg.RECT_TOP
+		title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+
+		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
+
+		titleBox := &svg.RectAnchoredRect{
+			Name: partShape.GetAbstractElement().GetName(),
+			Presentation: svg.Presentation{
+				Stroke:        "#E0E0E0",
+				StrokeWidth:   1,
+				StrokeOpacity: 1,
+			},
+			X_Offset:       0,
+			Y_Offset:       -verticalTopMarginForTitle,
+			Height:         verticalTopMarginForTitle,
+			Width:          rect.Width,
+			RectAnchorType: svg.RECT_TOP_LEFT,
+		}
+		rect.RectAnchoredRects = append(rect.RectAnchoredRects, titleBox)
+
+		currentWeight += shapeWeight
 	}
 }
 
@@ -197,77 +276,42 @@ func (stager *Stager) drawLinkShapes(diagram *DiagramStructure, layer *svg.Layer
 
 
 func (stager *Stager) drawSystemShape(diagram *DiagramStructure, layer *svg.Layer) {
-	if diagram.owningSystem == nil {
-		return
+	diagram.map_System_Rect = make(map[*System]*svg.Rect)
+	for _, systemShape := range diagram.System_Shapes {
+
+		rect := svgRect(
+			stager,
+			diagram,
+			systemShape,
+			layer)
+		rect.RX = 3
+
+		rect.Color = "#F8F9FA"
+		rect.FillOpacity = 1.0
+		rect.Stroke = "#E0E0E0"
+		rect.StrokeWidth = 1.5
+
+		if len(rect.RectAnchoredTexts) > 0 {
+			title := rect.RectAnchoredTexts[0]
+			title.FontWeight = "500"
+			title.FontSize = "18px"
+		}
+
+		rect.OnSelect = func() {
+			stager.probeForm.FillUpFormFromGongstruct(systemShape.System, GetPointerToGongstructName[*System]())
+		}
+		rect.OnMove = func(x, y float64) {
+			systemShape.SetX(x)
+			systemShape.SetY(y)
+			stager.stage.CommitWithSuspendedCallbacks()
+		}
+		rect.OnResize = func(x, y, width, height float64) {
+			systemShape.SetX(x)
+			systemShape.SetY(y)
+			systemShape.SetWidth(width)
+			systemShape.SetHeight(height)
+			stager.stage.Commit()
+		}
+		diagram.map_System_Rect[systemShape.System] = rect
 	}
-
-	minX, minY := 1000000.0, 1000000.0
-	maxX, maxY := -1000000.0, -1000000.0
-
-	hasShapes := false
-	for _, partShape := range diagram.Part_Shapes {
-		if partShape.IsHidden {
-			continue
-		}
-		hasShapes = true
-		if partShape.X < minX {
-			minX = partShape.X
-		}
-		if partShape.Y < minY {
-			minY = partShape.Y
-		}
-		if partShape.X+partShape.Width > maxX {
-			maxX = partShape.X + partShape.Width
-		}
-		if partShape.Y+partShape.Height > maxY {
-			maxY = partShape.Y + partShape.Height
-		}
-	}
-
-	padding := 40.0
-	if !hasShapes {
-		minX, minY = 50, 50
-		maxX, maxY = 350, 250
-	} else {
-		minX -= padding
-		minY -= padding + 20 // extra space for title
-		maxX += padding
-		maxY += padding
-	}
-
-	rect := new(svg.Rect)
-
-	rect.Name = diagram.owningSystem.Name
-	rect.X = minX
-	rect.Y = minY
-	rect.Width = maxX - minX
-	rect.Height = maxY - minY
-
-	rect.Color = "#F8F9FA"
-	rect.FillOpacity = 1.0
-	rect.Stroke = "#E0E0E0"
-	rect.StrokeOpacity = 1.0
-	rect.StrokeWidth = 1.5
-	rect.RX = 3
-
-	rect.IsSelectable = false
-	rect.CanMoveHorizontaly = false
-	rect.CanMoveVerticaly = false
-
-	title := new(svg.RectAnchoredText)
-	title.Name = diagram.owningSystem.Name
-	title.Content = diagram.owningSystem.Name
-	title.Color = "#333333"
-	title.FillOpacity = 1.0
-	title.FontWeight = "500"
-	title.FontSize = "18px"
-	title.X_Offset = 10
-	title.Y_Offset = 25
-	title.RectAnchorType = svg.RECT_TOP_LEFT
-	title.TextAnchorType = svg.TEXT_ANCHOR_START
-
-	rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
-
-	// Prepend to draw underneath parts
-	layer.Rects = append([]*svg.Rect{rect}, layer.Rects...)
 }

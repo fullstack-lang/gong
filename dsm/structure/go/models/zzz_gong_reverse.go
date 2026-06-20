@@ -159,6 +159,22 @@ func (inst *System) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rev
 	return
 }
 
+func (inst *SystemShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramStructure":
+		switch reverseField.Fieldname {
+		case "System_Shapes":
+			if _diagramstructure, ok := stage.DiagramStructure_System_Shapes_reverseMap[inst]; ok {
+				res = _diagramstructure.Name
+			}
+		}
+	}
+	return
+}
+
 // insertion point
 func (inst *DiagramStructure) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
@@ -280,6 +296,20 @@ func (inst *System) GongGetReverseFieldOwner(stage *Stage, reverseField *Reverse
 			res = stage.System_SubSystems_reverseMap[inst]
 		case "SubSystemsWhoseNodeIsExpanded":
 			res = stage.System_SubSystemsWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *SystemShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramStructure":
+		switch reverseField.Fieldname {
+		case "System_Shapes":
+			res = stage.DiagramStructure_System_Shapes_reverseMap[inst]
 		}
 	}
 	return res

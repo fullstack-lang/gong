@@ -127,6 +127,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.Part](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PartShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.System](stage)
+	models.SetOrchestratorOnAfterUpdate[models.SystemShape](stage)
 
 	return
 }

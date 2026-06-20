@@ -86,6 +86,38 @@ func (diagramstructureFormCallback *DiagramStructureFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagramstructure_.DefaultBoxWidth), formDiv)
 		case "DefaultBoxHeigth":
 			FormDivBasicFieldToField(&(diagramstructure_.DefaultBoxHeigth), formDiv)
+		case "System_Shapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SystemShape](diagramstructureFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.SystemShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.SystemShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramstructureFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.SystemShape](diagramstructureFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagramstructure_.System_Shapes = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "System_Shapes", &diagramstructure_.System_Shapes)
+
 		case "Part_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartShape](diagramstructureFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.PartShape, 0)
@@ -1900,4 +1932,145 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 	}
 
 	systemFormCallback.probe.ux_tree()
+}
+func __gong__New__SystemShapeFormCallback(
+	systemshape *models.SystemShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (systemshapeFormCallback *SystemShapeFormCallback) {
+	systemshapeFormCallback = new(SystemShapeFormCallback)
+	systemshapeFormCallback.probe = probe
+	systemshapeFormCallback.systemshape = systemshape
+	systemshapeFormCallback.formGroup = formGroup
+
+	systemshapeFormCallback.CreationMode = (systemshape == nil)
+
+	return
+}
+
+type SystemShapeFormCallback struct {
+	systemshape *models.SystemShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (systemshapeFormCallback *SystemShapeFormCallback) OnSave() {
+	systemshapeFormCallback.probe.stageOfInterest.Lock()
+	defer systemshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("SystemShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	systemshapeFormCallback.probe.formStage.Checkout()
+
+	if systemshapeFormCallback.systemshape == nil {
+		systemshapeFormCallback.systemshape = new(models.SystemShape).Stage(systemshapeFormCallback.probe.stageOfInterest)
+	}
+	systemshape_ := systemshapeFormCallback.systemshape
+	_ = systemshape_
+
+	for _, formDiv := range systemshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(systemshape_.Name), formDiv)
+		case "System":
+			FormDivSelectFieldToField(&(systemshape_.System), systemshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(systemshape_.IsExpanded), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(systemshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(systemshape_.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(systemshape_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(systemshape_.Height), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(systemshape_.IsHidden), formDiv)
+		case "OverideLayoutDirection":
+			FormDivBasicFieldToField(&(systemshape_.OverideLayoutDirection), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(systemshape_.LayoutDirection), formDiv)
+		case "DiagramStructure:System_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](systemshapeFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramStructureIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all DiagramStructure instances and update their System_Shapes slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](systemshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(systemshapeFormCallback.probe.stageOfInterest, _diagramstructure)
+				
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure systemshape_ is in _diagramstructure.System_Shapes
+					found := false
+					for _, _b := range _diagramstructure.System_Shapes {
+						if _b == systemshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagramstructure.System_Shapes = append(_diagramstructure.System_Shapes, systemshape_)
+						systemshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "System_Shapes", &_diagramstructure.System_Shapes)
+					}
+				} else {
+					// ensure systemshape_ is NOT in _diagramstructure.System_Shapes
+					idx := slices.Index(_diagramstructure.System_Shapes, systemshape_)
+					if idx != -1 {
+						_diagramstructure.System_Shapes = slices.Delete(_diagramstructure.System_Shapes, idx, idx+1)
+						systemshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "System_Shapes", &_diagramstructure.System_Shapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if systemshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		systemshape_.Unstage(systemshapeFormCallback.probe.stageOfInterest)
+	}
+
+	systemshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.SystemShape](
+		systemshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if systemshapeFormCallback.CreationMode || systemshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		systemshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(systemshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__SystemShapeFormCallback(
+			nil,
+			systemshapeFormCallback.probe,
+			newFormGroup,
+		)
+		systemshape := new(models.SystemShape)
+		FillUpForm(systemshape, newFormGroup, systemshapeFormCallback.probe)
+		systemshapeFormCallback.probe.formStage.Commit()
+	}
+
+	systemshapeFormCallback.probe.ux_tree()
 }

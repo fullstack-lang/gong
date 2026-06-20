@@ -141,6 +141,8 @@ type Stage struct {
 	DiagramStructures_referenceOrder map[*DiagramStructure]uint
 
 	// insertion point for slice of pointers maps
+	DiagramStructure_System_Shapes_reverseMap map[*SystemShape]*DiagramStructure
+
 	DiagramStructure_Part_Shapes_reverseMap map[*PartShape]*DiagramStructure
 
 	DiagramStructure_PartsWhoseNodeIsExpanded_reverseMap map[*Part]*DiagramStructure
@@ -267,6 +269,21 @@ type Stage struct {
 	OnAfterSystemUpdateCallback OnAfterUpdateInterface[System]
 	OnAfterSystemDeleteCallback OnAfterDeleteInterface[System]
 	OnAfterSystemReadCallback   OnAfterReadInterface[System]
+
+	SystemShapes                map[*SystemShape]struct{}
+	SystemShapes_instance       map[*SystemShape]*SystemShape
+	SystemShapes_mapString      map[string]*SystemShape
+	SystemShapeOrder            uint
+	SystemShape_stagedOrder     map[*SystemShape]uint
+	SystemShape_orderStaged     map[uint]*SystemShape
+	SystemShapes_reference      map[*SystemShape]*SystemShape
+	SystemShapes_referenceOrder map[*SystemShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterSystemShapeCreateCallback OnAfterCreateInterface[SystemShape]
+	OnAfterSystemShapeUpdateCallback OnAfterUpdateInterface[SystemShape]
+	OnAfterSystemShapeDeleteCallback OnAfterDeleteInterface[SystemShape]
+	OnAfterSystemShapeReadCallback   OnAfterReadInterface[SystemShape]
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -532,6 +549,10 @@ func (stage *Stage) Squash() {
 	stage.Systems_instance = make(map[*System]*System)
 	stage.Systems_referenceOrder = make(map[*System]uint)
 
+	stage.SystemShapes_reference = make(map[*SystemShape]*SystemShape)
+	stage.SystemShapes_instance = make(map[*SystemShape]*SystemShape)
+	stage.SystemShapes_referenceOrder = make(map[*SystemShape]uint)
+
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
 		stage.OnInitCommitCallback.BeforeCommit(stage)
@@ -655,6 +676,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.SystemOrder = maxSystemOrder + 1
 	} else {
 		stage.SystemOrder = 0
+	}
+
+	var maxSystemShapeOrder uint
+	var foundSystemShape bool
+	for _, order := range stage.SystemShape_stagedOrder {
+		if !foundSystemShape || order > maxSystemShapeOrder {
+			maxSystemShapeOrder = order
+			foundSystemShape = true
+		}
+	}
+	if foundSystemShape {
+		stage.SystemShapeOrder = maxSystemShapeOrder + 1
+	} else {
+		stage.SystemShapeOrder = 0
 	}
 
 	// end of insertion point for max order recomputation
@@ -816,6 +851,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *SystemShape:
+		tmp := GetStructInstancesByOrder(stage.SystemShapes, stage.SystemShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *SystemShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 
 	}
 	return
@@ -859,6 +908,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.PartShapes, stage.PartShape_stagedOrder)
 	case "System":
 		res = GetNamedStructInstances(stage.Systems, stage.System_stagedOrder)
+	case "SystemShape":
+		res = GetNamedStructInstances(stage.SystemShapes, stage.SystemShape_stagedOrder)
 	}
 
 	return
@@ -942,6 +993,8 @@ type BackRepoInterface interface {
 	CheckoutPartShape(partshape *PartShape)
 	CommitSystem(system *System)
 	CheckoutSystem(system *System)
+	CommitSystemShape(systemshape *SystemShape)
+	CheckoutSystemShape(systemshape *SystemShape)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -968,6 +1021,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Systems:           make(map[*System]struct{}),
 		Systems_mapString: make(map[string]*System),
+
+		SystemShapes:           make(map[*SystemShape]struct{}),
+		SystemShapes_mapString: make(map[string]*SystemShape),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -1007,6 +1063,10 @@ func NewStage(name string) (stage *Stage) {
 		System_orderStaged: make(map[uint]*System),
 		Systems_reference:  make(map[*System]*System),
 
+		SystemShape_stagedOrder: make(map[*SystemShape]uint),
+		SystemShape_orderStaged: make(map[uint]*SystemShape),
+		SystemShapes_reference:  make(map[*SystemShape]*SystemShape),
+
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"DiagramStructure": &DiagramStructureUnmarshaller{},
@@ -1023,6 +1083,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"System": &SystemUnmarshaller{},
 
+			"SystemShape": &SystemShapeUnmarshaller{},
+
 			// end of insertion point
 		},
 
@@ -1034,6 +1096,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Part"},
 			{name: "PartShape"},
 			{name: "System"},
+			{name: "SystemShape"},
 		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
@@ -1059,6 +1122,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.PartShape_stagedOrder[instance]
 	case *System:
 		return stage.System_stagedOrder[instance]
+	case *SystemShape:
+		return stage.SystemShape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1082,6 +1147,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.PartShape_orderStaged[order]).(Type)
 	case *System:
 		return any(stage.System_orderStaged[order]).(Type)
+	case *SystemShape:
+		return any(stage.SystemShape_orderStaged[order]).(Type)
 	default:
 		return // should not happen
 	}
@@ -1104,6 +1171,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.PartShape_stagedOrder[instance]
 	case *System:
 		return stage.System_stagedOrder[instance]
+	case *SystemShape:
+		return stage.SystemShape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1176,6 +1245,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Part"] = len(stage.Parts)
 	stage.Map_GongStructName_InstancesNb["PartShape"] = len(stage.PartShapes)
 	stage.Map_GongStructName_InstancesNb["System"] = len(stage.Systems)
+	stage.Map_GongStructName_InstancesNb["SystemShape"] = len(stage.SystemShapes)
 }
 
 func (stage *Stage) Checkout() {
@@ -1832,6 +1902,94 @@ func (system *System) SetName(name string) {
 	system.Name = name
 }
 
+// Stage puts systemshape to the model stage
+func (systemshape *SystemShape) Stage(stage *Stage) *SystemShape {
+	if _, ok := stage.SystemShapes[systemshape]; !ok {
+		stage.SystemShapes[systemshape] = struct{}{}
+		stage.SystemShape_stagedOrder[systemshape] = stage.SystemShapeOrder
+		stage.SystemShape_orderStaged[stage.SystemShapeOrder] = systemshape
+		stage.SystemShapeOrder++
+	}
+	stage.SystemShapes_mapString[systemshape.Name] = systemshape
+
+	return systemshape
+}
+
+// StagePreserveOrder puts systemshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.SystemShapeOrder
+// - update stage.SystemShapeOrder accordingly
+func (systemshape *SystemShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.SystemShapes[systemshape]; !ok {
+		stage.SystemShapes[systemshape] = struct{}{}
+
+		if order > stage.SystemShapeOrder {
+			stage.SystemShapeOrder = order
+		}
+		stage.SystemShape_stagedOrder[systemshape] = order
+		stage.SystemShape_orderStaged[order] = systemshape
+		stage.SystemShapeOrder++
+	}
+	stage.SystemShapes_mapString[systemshape.Name] = systemshape
+}
+
+// Unstage removes systemshape off the model stage
+func (systemshape *SystemShape) Unstage(stage *Stage) *SystemShape {
+	delete(stage.SystemShapes, systemshape)
+	// issue1150
+	// delete(stage.SystemShape_stagedOrder, systemshape)
+	delete(stage.SystemShapes_mapString, systemshape.Name)
+
+	return systemshape
+}
+
+// UnstageVoid removes systemshape off the model stage
+func (systemshape *SystemShape) UnstageVoid(stage *Stage) {
+	delete(stage.SystemShapes, systemshape)
+	// issue1150
+	// delete(stage.SystemShape_stagedOrder, systemshape)
+	delete(stage.SystemShapes_mapString, systemshape.Name)
+}
+
+// commit systemshape to the back repo (if it is already staged)
+func (systemshape *SystemShape) Commit(stage *Stage) *SystemShape {
+	if _, ok := stage.SystemShapes[systemshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitSystemShape(systemshape)
+		}
+	}
+	return systemshape
+}
+
+func (systemshape *SystemShape) CommitVoid(stage *Stage) {
+	systemshape.Commit(stage)
+}
+
+func (systemshape *SystemShape) StageVoid(stage *Stage) {
+	systemshape.Stage(stage)
+}
+
+// Checkout systemshape to the back repo (if it is already staged)
+func (systemshape *SystemShape) Checkout(stage *Stage) *SystemShape {
+	if _, ok := stage.SystemShapes[systemshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutSystemShape(systemshape)
+		}
+	}
+	return systemshape
+}
+
+// for satisfaction of GongStruct interface
+func (systemshape *SystemShape) GetName() (res string) {
+	return systemshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (systemshape *SystemShape) SetName(name string) {
+	systemshape.Name = name
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMDiagramStructure(DiagramStructure *DiagramStructure)
@@ -1841,6 +1999,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMPart(Part *Part)
 	CreateORMPartShape(PartShape *PartShape)
 	CreateORMSystem(System *System)
+	CreateORMSystemShape(SystemShape *SystemShape)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
@@ -1851,6 +2010,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMPart(Part *Part)
 	DeleteORMPartShape(PartShape *PartShape)
 	DeleteORMSystem(System *System)
+	DeleteORMSystemShape(SystemShape *SystemShape)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1889,6 +2049,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.System_stagedOrder = make(map[*System]uint)
 	stage.SystemOrder = 0
 
+	stage.SystemShapes = make(map[*SystemShape]struct{})
+	stage.SystemShapes_mapString = make(map[string]*SystemShape)
+	stage.SystemShape_stagedOrder = make(map[*SystemShape]uint)
+	stage.SystemShapeOrder = 0
+
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
@@ -1918,6 +2083,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.Systems = nil
 	stage.Systems_mapString = nil
+
+	stage.SystemShapes = nil
+	stage.SystemShapes_mapString = nil
 
 	// end of insertion point for array nil
 }
@@ -1949,6 +2117,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for system := range stage.Systems {
 		system.Unstage(stage)
+	}
+
+	for systemshape := range stage.SystemShapes {
+		systemshape.Unstage(stage)
 	}
 
 	// end of insertion point for array nil
@@ -2041,6 +2213,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.PartShapes).(*Type)
 	case map[*System]any:
 		return any(&stage.Systems).(*Type)
+	case map[*SystemShape]any:
+		return any(&stage.SystemShapes).(*Type)
 	default:
 		return nil
 	}
@@ -2067,6 +2241,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.PartShapes_mapString).(map[string]Type)
 	case *System:
 		return any(stage.Systems_mapString).(map[string]Type)
+	case *SystemShape:
+		return any(stage.SystemShapes_mapString).(map[string]Type)
 	default:
 		return nil
 	}
@@ -2093,6 +2269,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.PartShapes).(*map[*Type]struct{})
 	case System:
 		return any(&stage.Systems).(*map[*Type]struct{})
+	case SystemShape:
+		return any(&stage.SystemShapes).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -2119,6 +2297,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.PartShapes).(*map[Type]struct{})
 	case *System:
 		return any(&stage.Systems).(*map[Type]struct{})
+	case *SystemShape:
+		return any(&stage.SystemShapes).(*map[Type]struct{})
 	default:
 		return nil
 	}
@@ -2145,6 +2325,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.PartShapes_mapString).(*map[string]*Type)
 	case System:
 		return any(&stage.Systems_mapString).(*map[string]*Type)
+	case SystemShape:
+		return any(&stage.SystemShapes_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -2162,6 +2344,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case DiagramStructure:
 		return any(&DiagramStructure{
 			// Initialisation of associations
+			// field is initialized with an instance of SystemShape with the name of the field
+			System_Shapes: []*SystemShape{{Name: "System_Shapes"}},
 			// field is initialized with an instance of PartShape with the name of the field
 			Part_Shapes: []*PartShape{{Name: "Part_Shapes"}},
 			// field is initialized with an instance of Part with the name of the field
@@ -2226,6 +2410,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			DiagramStructures: []*DiagramStructure{{Name: "DiagramStructures"}},
 			// field is initialized with an instance of DiagramStructure with the name of the field
 			DiagramStructuresWhoseNodeIsExpanded: []*DiagramStructure{{Name: "DiagramStructuresWhoseNodeIsExpanded"}},
+		}).(*Type)
+	case SystemShape:
+		return any(&SystemShape{
+			// Initialisation of associations
+			// field is initialized with an instance of System with the name of the field
+			System: &System{Name: "System"},
 		}).(*Type)
 	default:
 		return nil
@@ -2347,6 +2537,28 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of SystemShape
+	case SystemShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "System":
+			res := make(map[*System][]*SystemShape)
+			for systemshape := range stage.SystemShapes {
+				if systemshape.System != nil {
+					system_ := systemshape.System
+					var systemshapes []*SystemShape
+					_, ok := res[system_]
+					if ok {
+						systemshapes = res[system_]
+					} else {
+						systemshapes = make([]*SystemShape, 0)
+					}
+					systemshapes = append(systemshapes, systemshape)
+					res[system_] = systemshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	}
 	return nil
 }
@@ -2366,6 +2578,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case DiagramStructure:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "System_Shapes":
+			res := make(map[*SystemShape][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, systemshape_ := range diagramstructure.System_Shapes {
+					res[systemshape_] = append(res[systemshape_], diagramstructure)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Part_Shapes":
 			res := make(map[*PartShape][]*DiagramStructure)
 			for diagramstructure := range stage.DiagramStructures {
@@ -2525,6 +2745,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of SystemShape
+	case SystemShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	}
 	return nil
 }
@@ -2550,6 +2775,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "PartShape"
 	case *System:
 		res = "System"
+	case *SystemShape:
+		res = "SystemShape"
 	}
 	return res
 }
@@ -2636,6 +2863,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "System"
 		rf.Fieldname = "SubSystemsWhoseNodeIsExpanded"
 		res = append(res, rf)
+	case *SystemShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "DiagramStructure"
+		rf.Fieldname = "System_Shapes"
+		res = append(res, rf)
 	}
 	return
 }
@@ -2688,6 +2921,11 @@ func (diagramstructure *DiagramStructure) GongGetFieldHeaders() (res []GongField
 		{
 			Name:               "DefaultBoxHeigth",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "System_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "SystemShape",
 		},
 		{
 			Name:                 "Part_Shapes",
@@ -3018,6 +3256,55 @@ func (system *System) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
+func (systemshape *SystemShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "System",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "System",
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "OverideLayoutDirection",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+	}
+	return
+}
+
 // GetFieldsFromPointer return the array of the fields
 func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 	var ret Type
@@ -3115,6 +3402,16 @@ func (diagramstructure *DiagramStructure) GongGetFieldValue(fieldName string, st
 		res.valueString = fmt.Sprintf("%f", diagramstructure.DefaultBoxHeigth)
 		res.valueFloat = diagramstructure.DefaultBoxHeigth
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "System_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagramstructure.System_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "Part_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagramstructure.Part_Shapes {
@@ -3492,6 +3789,52 @@ func (system *System) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	return
 }
 
+func (systemshape *SystemShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = systemshape.Name
+	case "System":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if systemshape.System != nil {
+			res.valueString = systemshape.System.Name
+			res.ids = systemshape.System.GongGetUUID(stage)
+		}
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", systemshape.IsExpanded)
+		res.valueBool = systemshape.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "X":
+		res.valueString = fmt.Sprintf("%f", systemshape.X)
+		res.valueFloat = systemshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", systemshape.Y)
+		res.valueFloat = systemshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", systemshape.Width)
+		res.valueFloat = systemshape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", systemshape.Height)
+		res.valueFloat = systemshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", systemshape.IsHidden)
+		res.valueBool = systemshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "OverideLayoutDirection":
+		res.valueString = fmt.Sprintf("%t", systemshape.OverideLayoutDirection)
+		res.valueBool = systemshape.OverideLayoutDirection
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := systemshape.LayoutDirection
+		res.valueString = enum.ToCodeString()
+	}
+	return
+}
+
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
@@ -3523,6 +3866,20 @@ func (diagramstructure *DiagramStructure) GongSetFieldValue(fieldName string, va
 		diagramstructure.DefaultBoxWidth = value.GetValueFloat()
 	case "DefaultBoxHeigth":
 		diagramstructure.DefaultBoxHeigth = value.GetValueFloat()
+	case "System_Shapes":
+		diagramstructure.System_Shapes = make([]*SystemShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.SystemShapes {
+					if stage.SystemShape_stagedOrder[__instance__] == uint(id) {
+						diagramstructure.System_Shapes = append(diagramstructure.System_Shapes, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "Part_Shapes":
 		diagramstructure.Part_Shapes = make([]*PartShape, 0)
 		ids := strings.Split(value.ids, ";")
@@ -3939,6 +4296,44 @@ func (system *System) GongSetFieldValue(fieldName string, value GongFieldValue, 
 	return nil
 }
 
+func (systemshape *SystemShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		systemshape.Name = value.GetValueString()
+	case "System":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			systemshape.System = nil
+			for __instance__ := range stage.Systems {
+				if stage.System_stagedOrder[__instance__] == uint(id) {
+					systemshape.System = __instance__
+					break
+				}
+			}
+		}
+	case "IsExpanded":
+		systemshape.IsExpanded = value.GetValueBool()
+	case "X":
+		systemshape.X = value.GetValueFloat()
+	case "Y":
+		systemshape.Y = value.GetValueFloat()
+	case "Width":
+		systemshape.Width = value.GetValueFloat()
+	case "Height":
+		systemshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		systemshape.IsHidden = value.GetValueBool()
+	case "OverideLayoutDirection":
+		systemshape.OverideLayoutDirection = value.GetValueBool()
+	case "LayoutDirection":
+		systemshape.LayoutDirection.FromCodeString(value.GetValueString())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -3970,6 +4365,10 @@ func (partshape *PartShape) GongGetGongstructName() string {
 
 func (system *System) GongGetGongstructName() string {
 	return "System"
+}
+
+func (systemshape *SystemShape) GongGetGongstructName() string {
+	return "SystemShape"
 }
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
@@ -4012,6 +4411,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Systems_mapString = make(map[string]*System)
 	for system := range stage.Systems {
 		stage.Systems_mapString[system.Name] = system
+	}
+
+	stage.SystemShapes_mapString = make(map[string]*SystemShape)
+	for systemshape := range stage.SystemShapes {
+		stage.SystemShapes_mapString[systemshape.Name] = systemshape
 	}
 
 	// end of insertion point for generic get gongstruct name

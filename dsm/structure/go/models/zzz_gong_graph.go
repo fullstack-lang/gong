@@ -28,6 +28,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *System:
 		ok = stage.IsStagedSystem(target)
 
+	case *SystemShape:
+		ok = stage.IsStagedSystemShape(target)
+
 	default:
 		_ = target
 	}
@@ -58,6 +61,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *System:
 		ok = stage.IsStagedSystem(target)
+
+	case *SystemShape:
+		ok = stage.IsStagedSystemShape(target)
 
 	default:
 		_ = target
@@ -115,6 +121,13 @@ func (stage *Stage) IsStagedSystem(system *System) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedSystemShape(systemshape *SystemShape) (ok bool) {
+
+	_, ok = stage.SystemShapes[systemshape]
+
+	return
+}
+
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -144,6 +157,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *System:
 		stage.StageBranchSystem(target)
 
+	case *SystemShape:
+		stage.StageBranchSystemShape(target)
+
 	default:
 		_ = target
 	}
@@ -162,6 +178,9 @@ func (stage *Stage) StageBranchDiagramStructure(diagramstructure *DiagramStructu
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _systemshape := range diagramstructure.System_Shapes {
+		StageBranch(stage, _systemshape)
+	}
 	for _, _partshape := range diagramstructure.Part_Shapes {
 		StageBranch(stage, _partshape)
 	}
@@ -315,6 +334,24 @@ func (stage *Stage) StageBranchSystem(system *System) {
 
 }
 
+func (stage *Stage) StageBranchSystemShape(systemshape *SystemShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, systemshape) {
+		return
+	}
+
+	systemshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if systemshape.System != nil {
+		StageBranch(stage, systemshape.System)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 // CopyBranch stages instance and apply CopyBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -354,6 +391,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchSystem(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *SystemShape:
+		toT := CopyBranchSystemShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	default:
 		_ = fromT // to espace compilation issue when model is empty
 	}
@@ -376,6 +417,9 @@ func CopyBranchDiagramStructure(mapOrigCopy map[any]any, diagramstructureFrom *D
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _systemshape := range diagramstructureFrom.System_Shapes {
+		diagramstructureTo.System_Shapes = append(diagramstructureTo.System_Shapes, CopyBranchSystemShape(mapOrigCopy, _systemshape))
+	}
 	for _, _partshape := range diagramstructureFrom.Part_Shapes {
 		diagramstructureTo.Part_Shapes = append(diagramstructureTo.Part_Shapes, CopyBranchPartShape(mapOrigCopy, _partshape))
 	}
@@ -554,6 +598,28 @@ func CopyBranchSystem(mapOrigCopy map[any]any, systemFrom *System) (systemTo *Sy
 	return
 }
 
+func CopyBranchSystemShape(mapOrigCopy map[any]any, systemshapeFrom *SystemShape) (systemshapeTo *SystemShape) {
+
+	// systemshapeFrom has already been copied
+	if _systemshapeTo, ok := mapOrigCopy[systemshapeFrom]; ok {
+		systemshapeTo = _systemshapeTo.(*SystemShape)
+		return
+	}
+
+	systemshapeTo = new(SystemShape)
+	mapOrigCopy[systemshapeFrom] = systemshapeTo
+	systemshapeFrom.CopyBasicFields(systemshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if systemshapeFrom.System != nil {
+		systemshapeTo.System = CopyBranchSystem(mapOrigCopy, systemshapeFrom.System)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
 //
@@ -583,6 +649,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *System:
 		stage.UnstageBranchSystem(target)
 
+	case *SystemShape:
+		stage.UnstageBranchSystemShape(target)
+
 	default:
 		_ = target
 	}
@@ -601,6 +670,9 @@ func (stage *Stage) UnstageBranchDiagramStructure(diagramstructure *DiagramStruc
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _systemshape := range diagramstructure.System_Shapes {
+		UnstageBranch(stage, _systemshape)
+	}
 	for _, _partshape := range diagramstructure.Part_Shapes {
 		UnstageBranch(stage, _partshape)
 	}
@@ -754,10 +826,32 @@ func (stage *Stage) UnstageBranchSystem(system *System) {
 
 }
 
+func (stage *Stage) UnstageBranchSystemShape(systemshape *SystemShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, systemshape) {
+		return
+	}
+
+	systemshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if systemshape.System != nil {
+		UnstageBranch(stage, systemshape.System)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 // insertion point for pointer reconstruction from references
 func (reference *DiagramStructure) GongReconstructPointersFromReferences(stage *Stage, instance *DiagramStructure) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
+	reference.System_Shapes = reference.System_Shapes[:0]
+	for _, _b := range instance.System_Shapes {
+		reference.System_Shapes = append(reference.System_Shapes, stage.SystemShapes_reference[_b])
+	}
 	reference.Part_Shapes = reference.Part_Shapes[:0]
 	for _, _b := range instance.Part_Shapes {
 		reference.Part_Shapes = append(reference.Part_Shapes, stage.PartShapes_reference[_b])
@@ -866,10 +960,25 @@ func (reference *System) GongReconstructPointersFromReferences(stage *Stage, ins
 	}
 }
 
+func (reference *SystemShape) GongReconstructPointersFromReferences(stage *Stage, instance *SystemShape) {
+	// insertion point for pointers field
+	if instance.System != nil {
+		reference.System = stage.Systems_reference[instance.System]
+	}
+	// insertion point for slice of pointers field
+}
+
 // insertion point for pointer reconstruction from instances
 func (reference *DiagramStructure) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
+	var _System_Shapes []*SystemShape
+	for _, _reference := range reference.System_Shapes {
+		if _instance, ok := stage.SystemShapes_instance[_reference]; ok {
+			_System_Shapes = append(_System_Shapes, _instance)
+		}
+	}
+	reference.System_Shapes = _System_Shapes
 	var _Part_Shapes []*PartShape
 	for _, _reference := range reference.Part_Shapes {
 		if _instance, ok := stage.PartShapes_instance[_reference]; ok {
@@ -1038,6 +1147,17 @@ func (reference *System) GongReconstructPointersFromInstances(stage *Stage) {
 	reference.DiagramStructuresWhoseNodeIsExpanded = _DiagramStructuresWhoseNodeIsExpanded
 }
 
+func (reference *SystemShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.System; _reference != nil {
+		reference.System = nil
+		if _instance, ok := stage.Systems_instance[_reference]; ok {
+			reference.System = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+}
+
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -1075,6 +1195,27 @@ func (diagramstructure *DiagramStructure) GongDiff(stage *Stage, diagramstructur
 	}
 	if diagramstructure.DefaultBoxHeigth != diagramstructureOther.DefaultBoxHeigth {
 		diffs = append(diffs, diagramstructure.GongMarshallField(stage, "DefaultBoxHeigth"))
+	}
+	System_ShapesDifferent := false
+	if len(diagramstructure.System_Shapes) != len(diagramstructureOther.System_Shapes) {
+		System_ShapesDifferent = true
+	} else {
+		for i := range diagramstructure.System_Shapes {
+			if (diagramstructure.System_Shapes[i] == nil) != (diagramstructureOther.System_Shapes[i] == nil) {
+				System_ShapesDifferent = true
+				break
+			} else if diagramstructure.System_Shapes[i] != nil && diagramstructureOther.System_Shapes[i] != nil {
+				// this is a pointer comparaison
+				if diagramstructure.System_Shapes[i] != diagramstructureOther.System_Shapes[i] {
+					System_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if System_ShapesDifferent {
+		ops := Diff(stage, diagramstructure, diagramstructureOther, "System_Shapes", diagramstructureOther.System_Shapes, diagramstructure.System_Shapes)
+		diffs = append(diffs, ops)
 	}
 	Part_ShapesDifferent := false
 	if len(diagramstructure.Part_Shapes) != len(diagramstructureOther.Part_Shapes) {
@@ -1619,6 +1760,48 @@ func (system *System) GongDiff(stage *Stage, systemOther *System) (diffs []strin
 	if DiagramStructuresWhoseNodeIsExpandedDifferent {
 		ops := Diff(stage, system, systemOther, "DiagramStructuresWhoseNodeIsExpanded", systemOther.DiagramStructuresWhoseNodeIsExpanded, system.DiagramStructuresWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (systemshape *SystemShape) GongDiff(stage *Stage, systemshapeOther *SystemShape) (diffs []string) {
+	// insertion point for field diffs
+	if systemshape.Name != systemshapeOther.Name {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "Name"))
+	}
+	if (systemshape.System == nil) != (systemshapeOther.System == nil) {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "System"))
+	} else if systemshape.System != nil && systemshapeOther.System != nil {
+		if systemshape.System != systemshapeOther.System {
+			diffs = append(diffs, systemshape.GongMarshallField(stage, "System"))
+		}
+	}
+	if systemshape.IsExpanded != systemshapeOther.IsExpanded {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "IsExpanded"))
+	}
+	if systemshape.X != systemshapeOther.X {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "X"))
+	}
+	if systemshape.Y != systemshapeOther.Y {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "Y"))
+	}
+	if systemshape.Width != systemshapeOther.Width {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "Width"))
+	}
+	if systemshape.Height != systemshapeOther.Height {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "Height"))
+	}
+	if systemshape.IsHidden != systemshapeOther.IsHidden {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "IsHidden"))
+	}
+	if systemshape.OverideLayoutDirection != systemshapeOther.OverideLayoutDirection {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "OverideLayoutDirection"))
+	}
+	if systemshape.LayoutDirection != systemshapeOther.LayoutDirection {
+		diffs = append(diffs, systemshape.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	return

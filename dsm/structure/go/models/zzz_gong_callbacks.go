@@ -34,6 +34,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterSystemCreateCallback != nil {
 			stage.OnAfterSystemCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *SystemShape:
+		if stage.OnAfterSystemShapeCreateCallback != nil {
+			stage.OnAfterSystemShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -83,6 +87,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterSystemUpdateCallback != nil {
 			stage.OnAfterSystemUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *SystemShape:
+		newTarget := any(new).(*SystemShape)
+		if stage.OnAfterSystemShapeUpdateCallback != nil {
+			stage.OnAfterSystemShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	default:
 		_ = oldTarget
 	}
@@ -128,6 +137,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*System)
 			stage.OnAfterSystemDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *SystemShape:
+		if stage.OnAfterSystemShapeDeleteCallback != nil {
+			staged := any(staged).(*SystemShape)
+			stage.OnAfterSystemShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	default:
 		_ = front
 	}
@@ -166,6 +180,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterSystemReadCallback != nil {
 			stage.OnAfterSystemReadCallback.OnAfterRead(stage, target)
 		}
+	case *SystemShape:
+		if stage.OnAfterSystemShapeReadCallback != nil {
+			stage.OnAfterSystemShapeReadCallback.OnAfterRead(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -191,6 +209,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPartShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartShape])
 	case *System:
 		stage.OnAfterSystemUpdateCallback = any(callback).(OnAfterUpdateInterface[System])
+	case *SystemShape:
+		stage.OnAfterSystemShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[SystemShape])
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -212,6 +232,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPartShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartShape])
 	case *System:
 		stage.OnAfterSystemCreateCallback = any(callback).(OnAfterCreateInterface[System])
+	case *SystemShape:
+		stage.OnAfterSystemShapeCreateCallback = any(callback).(OnAfterCreateInterface[SystemShape])
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -233,6 +255,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPartShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartShape])
 	case *System:
 		stage.OnAfterSystemDeleteCallback = any(callback).(OnAfterDeleteInterface[System])
+	case *SystemShape:
+		stage.OnAfterSystemShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[SystemShape])
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -254,5 +278,7 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterPartShapeReadCallback = any(callback).(OnAfterReadInterface[PartShape])
 	case *System:
 		stage.OnAfterSystemReadCallback = any(callback).(OnAfterReadInterface[System])
+	case *SystemShape:
+		stage.OnAfterSystemShapeReadCallback = any(callback).(OnAfterReadInterface[SystemShape])
 	}
 }
