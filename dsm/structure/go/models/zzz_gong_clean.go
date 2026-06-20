@@ -43,6 +43,7 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 // Clean garbage collect unstaged instances that are referenced by DiagramStructure
 func (diagramstructure *DiagramStructure) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &diagramstructure.System_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagramstructure.Part_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagramstructure.PartsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagramstructure.Link_Shapes) || modified
@@ -106,6 +107,14 @@ func (system *System) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &system.DiagramStructures) || modified
 	modified = GongCleanSlice(stage, &system.DiagramStructuresWhoseNodeIsExpanded) || modified
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by SystemShape
+func (systemshape *SystemShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &systemshape.System) || modified
 	return
 }
 

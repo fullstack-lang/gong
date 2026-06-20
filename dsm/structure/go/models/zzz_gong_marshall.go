@@ -304,6 +304,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "DefaultBoxWidth"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "DefaultBoxHeigth"))
+		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "System_Shapes"))
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "Part_Shapes"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsPartsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "PartsWhoseNodeIsExpanded"))
@@ -520,6 +521,41 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "DiagramStructuresWhoseNodeIsExpanded"))
 	}
 
+	systemshapeOrdered := []*SystemShape{}
+	for systemshape := range stage.SystemShapes {
+		systemshapeOrdered = append(systemshapeOrdered, systemshape)
+	}
+	sort.Slice(systemshapeOrdered[:], func(i, j int) bool {
+		systemshapei := systemshapeOrdered[i]
+		systemshapej := systemshapeOrdered[j]
+		systemshapei_order, oki := stage.SystemShape_stagedOrder[systemshapei]
+		systemshapej_order, okj := stage.SystemShape_stagedOrder[systemshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return systemshapei_order < systemshapej_order
+	})
+	if len(systemshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, systemshape := range systemshapeOrdered {
+
+		identifiersDecl.WriteString(systemshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(systemshape.GongMarshallField(stage, "System"))
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "OverideLayoutDirection"))
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "LayoutDirection"))
+	}
+
 	// insertion initialization of objects to stage
 	for _, diagramstructure := range diagramstructureOrdered {
 		_ = diagramstructure
@@ -571,6 +607,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, system := range systemOrdered {
 		_ = system
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, systemshape := range systemshapeOrdered {
+		_ = systemshape
 		var setPointerField string
 		_ = setPointerField
 
@@ -708,6 +752,16 @@ func (diagramstructure *DiagramStructure) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsLinksNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramstructure.IsLinksNodeExpanded))
 
+	case "System_Shapes":
+		var sb strings.Builder
+		for _, _systemshape := range diagramstructure.System_Shapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramstructure.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "System_Shapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _systemshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "Part_Shapes":
 		var sb strings.Builder
 		for _, _partshape := range diagramstructure.Part_Shapes {
@@ -1252,6 +1306,82 @@ func (system *System) GongMarshallField(stage *Stage, fieldName string) (res str
 	return
 }
 
+func (systemshape *SystemShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", systemshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(systemshape.Name))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", systemshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", systemshape.IsExpanded))
+	case "X":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", systemshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", systemshape.X))
+	case "Y":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", systemshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", systemshape.Y))
+	case "Width":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", systemshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Width")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", systemshape.Width))
+	case "Height":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", systemshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Height")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", systemshape.Height))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", systemshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", systemshape.IsHidden))
+	case "OverideLayoutDirection":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", systemshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OverideLayoutDirection")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", systemshape.OverideLayoutDirection))
+	case "LayoutDirection":
+		if systemshape.LayoutDirection.ToCodeString() != "" {
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", systemshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+systemshape.LayoutDirection.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = NumberInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", systemshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+
+	case "System":
+		if systemshape.System != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", systemshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "System")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", systemshape.System.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", systemshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "System")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct SystemShape", fieldName)
+	}
+	return
+}
+
 // insertion point for marshall all fields methods
 func (diagramstructure *DiagramStructure) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
@@ -1269,6 +1399,7 @@ func (diagramstructure *DiagramStructure) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "Height"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "DefaultBoxWidth"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "DefaultBoxHeigth"))
+		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "System_Shapes"))
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "Part_Shapes"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsPartsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "PartsWhoseNodeIsExpanded"))
@@ -1393,6 +1524,26 @@ func (system *System) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "DiagramStructures"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "IsDiagramStructuresNodeExpanded"))
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "DiagramStructuresWhoseNodeIsExpanded"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (systemshape *SystemShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(systemshape.GongMarshallField(stage, "System"))
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "X"))
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "Y"))
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "Width"))
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "Height"))
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "OverideLayoutDirection"))
+		initializerStatements.WriteString(systemshape.GongMarshallField(stage, "LayoutDirection"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

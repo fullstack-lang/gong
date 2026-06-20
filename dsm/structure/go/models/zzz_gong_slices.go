@@ -22,6 +22,13 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
 	// Compute reverse map for named struct DiagramStructure
 	// insertion point per field
+	stage.DiagramStructure_System_Shapes_reverseMap = make(map[*SystemShape]*DiagramStructure)
+	for diagramstructure := range stage.DiagramStructures {
+		_ = diagramstructure
+		for _, _systemshape := range diagramstructure.System_Shapes {
+			stage.DiagramStructure_System_Shapes_reverseMap[_systemshape] = diagramstructure
+		}
+	}
 	stage.DiagramStructure_Part_Shapes_reverseMap = make(map[*PartShape]*DiagramStructure)
 	for diagramstructure := range stage.DiagramStructures {
 		_ = diagramstructure
@@ -153,6 +160,9 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct SystemShape
+	// insertion point per field
+
 	// end of insertion point per named struct
 }
 
@@ -183,6 +193,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.Systems {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.SystemShapes {
 		res = append(res, instance)
 	}
 
@@ -229,6 +243,12 @@ func (partshape *PartShape) GongCopy() GongstructIF {
 func (system *System) GongCopy() GongstructIF {
 	newInstance := new(System)
 	system.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (systemshape *SystemShape) GongCopy() GongstructIF {
+	newInstance := new(SystemShape)
+	systemshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -300,6 +320,16 @@ func (system *System) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(system), uint64(GetOrderPointerGongstruct(stage, system)))
+	return
+}
+
+func (systemshape *SystemShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(systemshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(systemshape), uint64(GetOrderPointerGongstruct(stage, systemshape)))
 	return
 }
 
@@ -706,6 +736,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(systems_newInstances)
 	lenDeletedInstances += len(systems_deletedInstances)
+	var systemshapes_newInstances []*SystemShape
+	var systemshapes_deletedInstances []*SystemShape
+
+	// parse all staged instances and check if they have a reference
+	for systemshape := range stage.SystemShapes {
+		if ref, ok := stage.SystemShapes_reference[systemshape]; !ok {
+			systemshapes_newInstances = append(systemshapes_newInstances, systemshape)
+			newInstancesSlice = append(newInstancesSlice, systemshape.GongMarshallIdentifier(stage))
+			if stage.SystemShapes_referenceOrder == nil {
+				stage.SystemShapes_referenceOrder = make(map[*SystemShape]uint)
+			}
+			stage.SystemShapes_referenceOrder[systemshape] = stage.SystemShape_stagedOrder[systemshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, systemshape.GongMarshallUnstaging(stage))
+			// delete(stage.SystemShapes_referenceOrder, systemshape)
+			fieldInitializers, pointersInitializations := systemshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.SystemShape_stagedOrder[ref] = stage.SystemShape_stagedOrder[systemshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := systemshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, systemshape)
+			// delete(stage.SystemShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if systemshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", systemshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.SystemShapes_reference {
+		instance := stage.SystemShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.SystemShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			systemshapes_deletedInstances = append(systemshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(systemshapes_newInstances)
+	lenDeletedInstances += len(systemshapes_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 
@@ -811,6 +896,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Systems_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.SystemShapes_reference = make(map[*SystemShape]*SystemShape)
+	stage.SystemShapes_referenceOrder = make(map[*SystemShape]uint) // diff Unstage needs the reference order
+	stage.SystemShapes_instance = make(map[*SystemShape]*SystemShape)
+	for instance := range stage.SystemShapes {
+		_copy := instance.GongCopy().(*SystemShape)
+		stage.SystemShapes_reference[instance] = _copy
+		stage.SystemShapes_instance[_copy] = instance
+		stage.SystemShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	// insertion point per named struct
 	for instance := range stage.DiagramStructures {
 		reference := stage.DiagramStructures_reference[instance]
@@ -844,6 +939,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.Systems {
 		reference := stage.Systems_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.SystemShapes {
+		reference := stage.SystemShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -941,6 +1041,18 @@ func (system *System) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (systemshape *SystemShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.SystemShape_stagedOrder[systemshape]; ok {
+		return order
+	}
+	if order, ok := stage.SystemShapes_referenceOrder[systemshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type SystemShape was not staged and does not have a reference order", systemshape)
+		return 0
+	}
+}
+
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
 // in the staging area
@@ -1009,6 +1121,15 @@ func (system *System) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", system.GongGetGongstructName(), system.GongGetOrder(stage))
 }
 
+func (systemshape *SystemShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", systemshape.GongGetGongstructName(), systemshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (systemshape *SystemShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", systemshape.GongGetGongstructName(), systemshape.GongGetOrder(stage))
+}
+
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
@@ -1068,6 +1189,14 @@ func (system *System) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (systemshape *SystemShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", systemshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SystemShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(systemshape.Name))
+	return
+}
+
 // insertion point for unstaging
 func (diagramstructure *DiagramStructure) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
@@ -1108,6 +1237,12 @@ func (partshape *PartShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (system *System) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", system.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (systemshape *SystemShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", systemshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

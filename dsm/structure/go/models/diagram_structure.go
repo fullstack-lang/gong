@@ -31,6 +31,10 @@ type DiagramStructure struct {
 
 	owningSystem *System
 
+	System_Shapes []*SystemShape
+	map_System_SystemShape map[*System]*SystemShape
+	map_System_Rect map[*System]*svg.Rect
+
 	Part_Shapes              []*PartShape
 	map_Part_PartShape    map[*Part]*PartShape
 	IsPartsNodeExpanded      bool

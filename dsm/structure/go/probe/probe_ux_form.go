@@ -57,6 +57,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.system, probe)
 			}
+		case *SystemShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "SystemShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.systemshape, probe)
+			}
 		}
 	}
 }
@@ -170,6 +176,19 @@ func FillUpFormFromGongstructName(
 		system := new(models.System)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(system, formGroup, probe)
+	case "SystemShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "SystemShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__SystemShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		systemshape := new(models.SystemShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(systemshape, formGroup, probe)
 	}
 	formStage.Commit()
 }

@@ -38,6 +38,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.PartShape](probe)
 	case "System":
 		updateProbeTable[*models.System](probe)
+	case "SystemShape":
+		updateProbeTable[*models.SystemShape](probe)
 	}
 }
 

@@ -29,6 +29,31 @@ func (s *PartShape) SetAbstractElement(abstractElement AbstractType) {
 var _ ConcreteType = (*PartShape)(nil)
 var _ LayoutConcreteType = (*PartShape)(nil)
 
+type SystemShape struct {
+	Name   string
+	System *System
+
+	IsExpanded bool
+
+	RectShape
+
+	ConcreteTypeFields
+}
+
+func (s *SystemShape) GetAbstractElement() AbstractType {
+	if s.System == nil {
+		return nil
+	}
+	return s.System
+}
+
+func (s *SystemShape) SetAbstractElement(abstractElement AbstractType) {
+	s.System = abstractElement.(*System)
+}
+
+var _ ConcreteType = (*SystemShape)(nil)
+var _ LayoutConcreteType = (*SystemShape)(nil)
+
 type LinkAssociationShape struct {
 	Name string
 

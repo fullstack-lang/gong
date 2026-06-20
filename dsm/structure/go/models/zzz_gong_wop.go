@@ -230,4 +230,39 @@ func (from *System) CopyBasicFields(to *System) {
 	to.IsDiagramStructuresNodeExpanded = from.IsDiagramStructuresNodeExpanded
 }
 
+type SystemShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+
+	OverideLayoutDirection bool
+
+	LayoutDirection LayoutDirection
+}
+
+func (from *SystemShape) CopyBasicFields(to *SystemShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
+	to.OverideLayoutDirection = from.OverideLayoutDirection
+	to.LayoutDirection = from.LayoutDirection
+}
+
 // end of insertion point
