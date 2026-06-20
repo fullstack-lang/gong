@@ -21,41 +21,41 @@ func (s *NoteShape) SetAbstractElement(abstractElement AbstractType) {
 
 var _ ConcreteType = (*NoteShape)(nil)
 
-type noteTaskKey struct {
+type notePortKey struct {
 	Note *Note
-	Task *Task
+	Port *Port
 }
 
-type NoteTaskShape struct {
+type NotePortShape struct {
 	Name string
 
 	Note *Note
 
-	Task *Task
+	Port *Port
 
 	LinkShape
 }
 
-func (s *NoteTaskShape) GetAbstractEndElement() AbstractType {
-	if s.Task == nil {
+func (s *NotePortShape) GetAbstractEndElement() AbstractType {
+	if s.Port == nil {
 		return nil
 	}
-	return s.Task
+	return s.Port
 }
 
-func (s *NoteTaskShape) SetAbstractEndElement(abstractElement AbstractType) {
-	s.Task = abstractElement.(*Task)
+func (s *NotePortShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.Port = abstractElement.(*Port)
 }
 
-func (s *NoteTaskShape) GetAbstractStartElement() AbstractType {
+func (s *NotePortShape) GetAbstractStartElement() AbstractType {
 	if s.Note == nil {
 		return nil
 	}
 	return s.Note
 }
 
-func (s *NoteTaskShape) SetAbstractStartElement(abstractElement AbstractType) {
+func (s *NotePortShape) SetAbstractStartElement(abstractElement AbstractType) {
 	s.Note = abstractElement.(*Note)
 }
 
-var _ AssociationConcreteType = (*NoteTaskShape)(nil)
+var _ AssociationConcreteType = (*NotePortShape)(nil)

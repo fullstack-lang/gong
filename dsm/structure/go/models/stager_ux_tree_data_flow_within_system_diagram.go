@@ -8,15 +8,15 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
-	diagramProcess *DiagramProcess,
+func (stager *Stager) treeDataFlowsWithinSystemDiagram(
+	diagramStructure *DiagramStructure,
 	dataFlow *DataFlow,
 	parentNode *tree.Node,
 ) {
 	stage := stager.stage
 
 	// find the dataFlowShape (if any)
-	dataFlowShape, isShapePresent := diagramProcess.map_DataFlow_DataFlowShape[dataFlow]
+	dataFlowShape, isShapePresent := diagramStructure.map_DataFlow_DataFlowShape[dataFlow]
 
 	isStartShapePresent := false
 	isEndShapePresent := false
@@ -25,45 +25,45 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 	var startElement, endElement AbstractType
 
 	switch dataFlow.Type {
-	case DataFlow_Task2Task:
-		if dataFlow.StartTask != nil {
-			_, isStartShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.StartTask]
-			startName = dataFlow.StartTask.GetName()
-			startElement = dataFlow.StartTask
+	case DataFlow_Port2Port:
+		if dataFlow.StartPort != nil {
+			_, isStartShapePresent = diagramStructure.map_Port_PortShape[dataFlow.StartPort]
+			startName = dataFlow.StartPort.GetName()
+			startElement = dataFlow.StartPort
 		}
-		if dataFlow.EndTask != nil {
-			_, isEndShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.EndTask]
-			endName = dataFlow.EndTask.GetName()
-			endElement = dataFlow.EndTask
+		if dataFlow.EndPort != nil {
+			_, isEndShapePresent = diagramStructure.map_Port_PortShape[dataFlow.EndPort]
+			endName = dataFlow.EndPort.GetName()
+			endElement = dataFlow.EndPort
 		}
-	case DataFlow_ExternalParticipant2Task:
-		if dataFlow.StartExternalParticipant != nil {
-			_, isStartShapePresent = diagramProcess.map_Participant_ExternalParticipantShape[dataFlow.StartExternalParticipant]
-			startName = dataFlow.StartExternalParticipant.GetName()
-			startElement = dataFlow.StartExternalParticipant
+	case DataFlow_ExternalPart2Port:
+		if dataFlow.StartExternalPart != nil {
+			_, isStartShapePresent = diagramStructure.map_Part_ExternalPartShape[dataFlow.StartExternalPart]
+			startName = dataFlow.StartExternalPart.GetName()
+			startElement = dataFlow.StartExternalPart
 		}
-		if dataFlow.EndTask != nil {
-			_, isEndShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.EndTask]
-			endName = dataFlow.EndTask.GetName()
-			endElement = dataFlow.EndTask
+		if dataFlow.EndPort != nil {
+			_, isEndShapePresent = diagramStructure.map_Port_PortShape[dataFlow.EndPort]
+			endName = dataFlow.EndPort.GetName()
+			endElement = dataFlow.EndPort
 		}
-	case DataFlow_Task2ExternalParticipant:
-		if dataFlow.StartTask != nil {
-			_, isStartShapePresent = diagramProcess.map_Task_TaskShape[dataFlow.StartTask]
-			startName = dataFlow.StartTask.GetName()
-			startElement = dataFlow.StartTask
+	case DataFlow_Port2ExternalPart:
+		if dataFlow.StartPort != nil {
+			_, isStartShapePresent = diagramStructure.map_Port_PortShape[dataFlow.StartPort]
+			startName = dataFlow.StartPort.GetName()
+			startElement = dataFlow.StartPort
 		}
-		if dataFlow.EndExternalParticipant != nil {
-			_, isEndShapePresent = diagramProcess.map_Participant_ExternalParticipantShape[dataFlow.EndExternalParticipant]
-			endName = dataFlow.EndExternalParticipant.GetName()
-			endElement = dataFlow.EndExternalParticipant
+		if dataFlow.EndExternalPart != nil {
+			_, isEndShapePresent = diagramStructure.map_Part_ExternalPartShape[dataFlow.EndExternalPart]
+			endName = dataFlow.EndExternalPart.GetName()
+			endElement = dataFlow.EndExternalPart
 		}
 	}
 	isCheckboxDisabled := !(isStartShapePresent && isEndShapePresent)
 
 	dataFlowNode := &tree.Node{
 		Name:                    dataFlow.GetName(),
-		IsExpanded:              slices.Contains(diagramProcess.DataFlowsWhoseDataNodeIsExpanded, dataFlow),
+		IsExpanded:              slices.Contains(diagramStructure.DataFlowsWhoseNodeIsExpanded, dataFlow),
 		IsNodeClickable:         true,
 		IsInEditMode:            dataFlow.GetIsInRenameMode(),
 		HasCheckboxButton:       true,
@@ -73,7 +73,7 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 		CheckboxToolTipPosition: tree.Left,
 		CheckboxToolTipText: func() string {
 			if isCheckboxDisabled {
-				return "A data shape cannot be created if the start or end shape is not present from the diagram"
+				return "A data flow cannot be created if the start or end shape is not present from the diagram"
 			}
 			if isShapePresent {
 				return "Click to remove the data flow shape"
@@ -90,21 +90,20 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 
 	addRenameButton(dataFlow, dataFlowNode, stager)
 
-	dataFlowShape, shapePresent := diagramProcess.map_DataFlow_DataFlowShape[dataFlow]
-	if shapePresent {
+	if shape, ok := diagramStructure.map_DataFlow_DataFlowShape[dataFlow]; ok {
 		dataFlowNode.IsChecked = true
 		visibilityButton := &tree.Button{
-			Name:            diagramProcess.GetName(),
+			Name:            diagramStructure.GetName(),
 			Icon:            string(buttons.BUTTON_visibility_off),
 			ToolTipText:     "Hide from diagram",
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 			OnClick: func() {
-				dataFlowShape.SetIsHidden(!dataFlowShape.GetIsHidden())
+				shape.SetIsHidden(!shape.GetIsHidden())
 				stage.Commit()
 			},
 		}
-		if dataFlowShape.GetIsHidden() {
+		if shape.GetIsHidden() {
 			visibilityButton.Icon = string(buttons.BUTTON_visibility)
 			visibilityButton.ToolTipText = "Show on diagram"
 		}
@@ -112,15 +111,15 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 	}
 
 	dataFlowNode.OnNameChange = stager.onNameChange(dataFlow)
-	dataFlowNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, dataFlow, &diagramProcess.DataFlowsWhoseDataNodeIsExpanded)
+	dataFlowNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, dataFlow, &diagramStructure.DataFlowsWhoseNodeIsExpanded)
 	dataFlowNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked && !isShapePresent {
 			isShapePresent = isChecked
 			if dataFlowShape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
-			// shape = newShapeToDiagram(dataflow, diagramProcess, &diagramProcess.DataFlowShapes, stage)
-			// addAssociationShapeToDiagram(stager, dataflow.Start, dataflow.End, &diagramProcess.DataFlowShapes)
+			// shape = newShapeToDiagram(controlflow, diagramStructure, &diagramStructure.ControlFlowShapes, stage)
+			// addAssociationShapeToDiagram(stager, controlflow.Start, controlflow.End, &diagramStructure.ControlFlowShapes)
 			dataFlowShape := (&DataFlowShape{
 				DataFlow: dataFlow,
 			}).Stage(stage)
@@ -133,7 +132,7 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 			dataFlowShape.SetCornerOffsetRatio(1.1)
 			dataFlowShape.SetStartRatio(0.5)
 			dataFlowShape.SetEndRatio(0.5)
-			diagramProcess.DataFlow_Shapes = append(diagramProcess.DataFlow_Shapes, dataFlowShape)
+			diagramStructure.DataFlow_Shapes = append(diagramStructure.DataFlow_Shapes, dataFlowShape)
 
 			stage.Commit()
 			return
@@ -146,8 +145,8 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 			dataFlowShape.UnstageVoid(stage)
 
 			// not necessary since there is a semantic rule (gong clean) that remove the shape from the slice when it is unstaged
-			idx := slices.Index(diagramProcess.DataFlow_Shapes, dataFlowShape)
-			diagramProcess.DataFlow_Shapes = slices.Delete(diagramProcess.DataFlow_Shapes, idx, idx+1)
+			idx := slices.Index(diagramStructure.DataFlow_Shapes, dataFlowShape)
+			diagramStructure.DataFlow_Shapes = slices.Delete(diagramStructure.DataFlow_Shapes, idx, idx+1)
 			stage.Commit()
 			return
 		}
@@ -155,6 +154,6 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 	dataFlowNode.OnClick = onNodeClicked(stager, dataFlow)
 
 	for _, data := range dataFlow.Datas {
-		stager.treeDataWithinDiagramProcessWithinDataFlow(dataFlowNode, diagramProcess, dataFlow, dataFlowShape, shapePresent, data)
+		stager.treeDataWithinDiagramStructureWithinDataFlow(dataFlowNode, diagramStructure, dataFlow, dataFlowShape, isShapePresent, data)
 	}
 }

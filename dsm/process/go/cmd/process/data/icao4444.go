@@ -79,11 +79,14 @@ func _(stage *models.Stage) {
 
 	__DiagramProcess__00000000_ := (&models.DiagramProcess{Name: `DiagramProcess`}).Stage(stage)
 
+	__ExternalParticipantShape__00000000_ := (&models.ExternalParticipantShape{Name: `E1-DiagramProcess`}).Stage(stage)
+
 	__Library__00000000_ := (&models.Library{Name: `ICAO 4444 Chapter 11`}).Stage(stage)
 
 	__Participant__00000000_ := (&models.Participant{Name: `Flight Plan Originator`}).Stage(stage)
 	__Participant__00000001_ := (&models.Participant{Name: `Air Traffic Flow Manager`}).Stage(stage)
 	__Participant__00000002_ := (&models.Participant{Name: `ATC Unit`}).Stage(stage)
+	__Participant__00000003_ := (&models.Participant{Name: `NMUI`}).Stage(stage)
 
 	__ParticipantShape__00000000_ := (&models.ParticipantShape{Name: `Aircraft Operator-DiagramProcess`}).Stage(stage)
 	__ParticipantShape__00000001_ := (&models.ParticipantShape{Name: `ATS Reporting Office-DiagramProcess`}).Stage(stage)
@@ -384,12 +387,21 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.IsShowPrefix = false
 	__DiagramProcess__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000000_.DefaultBoxHeigth = 70.000000
-	__DiagramProcess__00000000_.Width = 1375.000000
-	__DiagramProcess__00000000_.Height = 1442.000000
+	__DiagramProcess__00000000_.Width = 1716.444502
+	__DiagramProcess__00000000_.Height = 1450.000000
 	__DiagramProcess__00000000_.IsProcesssNodeExpanded = false
-	__DiagramProcess__00000000_.IsParticipantsNodeExpanded = false
-	__DiagramProcess__00000000_.IsExternalParticipantsNodeExpanded = false
+	__DiagramProcess__00000000_.IsParticipantsNodeExpanded = true
+	__DiagramProcess__00000000_.IsExternalParticipantsNodeExpanded = true
 	__DiagramProcess__00000000_.IsNotesNodeExpanded = false
+
+	__ExternalParticipantShape__00000000_.Name = `E1-DiagramProcess`
+	__ExternalParticipantShape__00000000_.IsExpanded = false
+	__ExternalParticipantShape__00000000_.X = 1166.444502
+	__ExternalParticipantShape__00000000_.Y = 73.671133
+	__ExternalParticipantShape__00000000_.Width = 250.000000
+	__ExternalParticipantShape__00000000_.Height = 70.000000
+	__ExternalParticipantShape__00000000_.IsHidden = false
+	__ExternalParticipantShape__00000000_.TailHeigth = 921.999924
 
 	__Library__00000000_.Name = `ICAO 4444 Chapter 11`
 	__Library__00000000_.Description = `Modeling of message exchanges handled by the ATS Reporting Office (ARO)`
@@ -401,7 +413,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.IsProcessesNodeExpanded = true
-	__Library__00000000_.IsDataFlowsNodeExpanded = false
+	__Library__00000000_.IsDataFlowsNodeExpanded = true
 	__Library__00000000_.IsDatasNodeExpanded = false
 	__Library__00000000_.IsResourcesNodeExpanded = false
 	__Library__00000000_.IsNotesNodeExpanded = false
@@ -443,6 +455,18 @@ func _(stage *models.Stage) {
 	__Participant__00000002_.IsControlFlowsNodeExpanded = false
 	__Participant__00000002_.IsDataFlowsNodeExpanded = false
 
+	__Participant__00000003_.Name = `NMUI`
+	__Participant__00000003_.IsProcessResource = false
+	__Participant__00000003_.Description = ``
+	__Participant__00000003_.IsResourcesNodeExpanded = false
+	__Participant__00000003_.IsProcessesNodeExpanded = false
+	__Participant__00000003_.ComputedPrefix = ``
+	__Participant__00000003_.IsExpanded = false
+	__Participant__00000003_.LayoutDirection = models.Vertical
+	__Participant__00000003_.IsTasksNodeExpanded = false
+	__Participant__00000003_.IsControlFlowsNodeExpanded = false
+	__Participant__00000003_.IsDataFlowsNodeExpanded = false
+
 	__ParticipantShape__00000000_.Name = `Aircraft Operator-DiagramProcess`
 	__ParticipantShape__00000000_.IsExpanded = false
 	__ParticipantShape__00000000_.X = 153.916317
@@ -478,12 +502,12 @@ func _(stage *models.Stage) {
 	__Process__00000000_.SVG_Path = ``
 	__Process__00000000_.InverseAppliedScaling = 0.000000
 	__Process__00000000_.IsSubProcessNodeExpanded = false
-	__Process__00000000_.IsDataFlowsNodeExpanded = false
+	__Process__00000000_.IsDataFlowsNodeExpanded = true
 
 	__ProcessShape__00000000_.Name = `ProcessShape`
 	__ProcessShape__00000000_.IsExpanded = false
-	__ProcessShape__00000000_.X = 28.000000
-	__ProcessShape__00000000_.Y = 18.000000
+	__ProcessShape__00000000_.X = 75.000000
+	__ProcessShape__00000000_.Y = 24.000000
 	__ProcessShape__00000000_.Width = 1020.000000
 	__ProcessShape__00000000_.Height = 1126.000000
 	__ProcessShape__00000000_.IsHidden = false
@@ -571,64 +595,64 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000000_.Name = `Submit Flight Plan-DiagramProcess`
 	__TaskShape__00000000_.IsExpanded = false
-	__TaskShape__00000000_.X = 63.000000
-	__TaskShape__00000000_.Y = 279.795175
+	__TaskShape__00000000_.X = 110.000000
+	__TaskShape__00000000_.Y = 285.795175
 	__TaskShape__00000000_.Width = 240.333333
 	__TaskShape__00000000_.Height = 48.000000
 	__TaskShape__00000000_.IsHidden = false
 
 	__TaskShape__00000001_.Name = `Manage Operational Changes-DiagramProcess`
 	__TaskShape__00000001_.IsExpanded = false
-	__TaskShape__00000001_.X = 64.000000
-	__TaskShape__00000001_.Y = 379.907212
+	__TaskShape__00000001_.X = 111.000000
+	__TaskShape__00000001_.Y = 385.907212
 	__TaskShape__00000001_.Width = 240.333333
 	__TaskShape__00000001_.Height = 70.000000
 	__TaskShape__00000001_.IsHidden = false
 
 	__TaskShape__00000002_.Name = `Validate and Accept-DiagramProcess`
 	__TaskShape__00000002_.IsExpanded = false
-	__TaskShape__00000002_.X = 434.000000
-	__TaskShape__00000002_.Y = 258.100648
+	__TaskShape__00000002_.X = 481.000000
+	__TaskShape__00000002_.Y = 268.100648
 	__TaskShape__00000002_.Width = 189.333333
 	__TaskShape__00000002_.Height = 259.000000
 	__TaskShape__00000002_.IsHidden = false
 
 	__TaskShape__00000003_.Name = `Distribute ATS Messages-DiagramProcess`
 	__TaskShape__00000003_.IsExpanded = false
-	__TaskShape__00000003_.X = 434.000000
-	__TaskShape__00000003_.Y = 581.893285
+	__TaskShape__00000003_.X = 481.000000
+	__TaskShape__00000003_.Y = 587.893285
 	__TaskShape__00000003_.Width = 175.000000
 	__TaskShape__00000003_.Height = 70.000000
 	__TaskShape__00000003_.IsHidden = false
 
 	__TaskShape__00000004_.Name = `Ingest Flight Data-DiagramProcess`
 	__TaskShape__00000004_.IsExpanded = false
-	__TaskShape__00000004_.X = 787.666667
-	__TaskShape__00000004_.Y = 556.382953
+	__TaskShape__00000004_.X = 834.666667
+	__TaskShape__00000004_.Y = 562.382953
 	__TaskShape__00000004_.Width = 160.000000
 	__TaskShape__00000004_.Height = 116.000000
 	__TaskShape__00000004_.IsHidden = false
 
 	__TaskShape__00000005_.Name = `Log Flight Movement-DiagramProcess`
 	__TaskShape__00000005_.IsExpanded = false
-	__TaskShape__00000005_.X = 782.000000
-	__TaskShape__00000005_.Y = 768.607545
+	__TaskShape__00000005_.X = 829.000000
+	__TaskShape__00000005_.Y = 774.607545
 	__TaskShape__00000005_.Width = 156.000000
 	__TaskShape__00000005_.Height = 60.000000
 	__TaskShape__00000005_.IsHidden = false
 
 	__TaskShape__00000006_.Name = `-DiagramProcess`
 	__TaskShape__00000006_.IsExpanded = false
-	__TaskShape__00000006_.X = 91.000000
-	__TaskShape__00000006_.Y = 212.251563
+	__TaskShape__00000006_.X = 138.000000
+	__TaskShape__00000006_.Y = 218.251563
 	__TaskShape__00000006_.Width = 83.000000
 	__TaskShape__00000006_.Height = 20.000000
 	__TaskShape__00000006_.IsHidden = false
 
 	__TaskShape__00000007_.Name = `-DiagramProcess`
 	__TaskShape__00000007_.IsExpanded = false
-	__TaskShape__00000007_.X = 787.666667
-	__TaskShape__00000007_.Y = 929.033596
+	__TaskShape__00000007_.X = 834.666667
+	__TaskShape__00000007_.Y = 935.033596
 	__TaskShape__00000007_.Width = 97.000000
 	__TaskShape__00000007_.Height = 36.000000
 	__TaskShape__00000007_.IsHidden = false
@@ -717,6 +741,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.Participant_Shapes = append(__DiagramProcess__00000000_.Participant_Shapes, __ParticipantShape__00000001_)
 	__DiagramProcess__00000000_.Participant_Shapes = append(__DiagramProcess__00000000_.Participant_Shapes, __ParticipantShape__00000002_)
 	__DiagramProcess__00000000_.ParticipantWhoseNodeIsExpanded = append(__DiagramProcess__00000000_.ParticipantWhoseNodeIsExpanded, __Participant__00000002_)
+	__DiagramProcess__00000000_.ExternalParticipant_Shapes = append(__DiagramProcess__00000000_.ExternalParticipant_Shapes, __ExternalParticipantShape__00000000_)
 	__DiagramProcess__00000000_.TasksWhoseNodeIsExpanded = append(__DiagramProcess__00000000_.TasksWhoseNodeIsExpanded, __Task__00000003_)
 	__DiagramProcess__00000000_.TasksWhoseNodeIsExpanded = append(__DiagramProcess__00000000_.TasksWhoseNodeIsExpanded, __Task__00000007_)
 	__DiagramProcess__00000000_.Task_Shapes = append(__DiagramProcess__00000000_.Task_Shapes, __TaskShape__00000000_)
@@ -756,6 +781,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.AllocatedResourceShapes = append(__DiagramProcess__00000000_.AllocatedResourceShapes, __AllocatedResourceShape__00000000_)
 	__DiagramProcess__00000000_.AllocatedResourceShapes = append(__DiagramProcess__00000000_.AllocatedResourceShapes, __AllocatedResourceShape__00000001_)
 	__DiagramProcess__00000000_.AllocatedResourceShapes = append(__DiagramProcess__00000000_.AllocatedResourceShapes, __AllocatedResourceShape__00000002_)
+	__ExternalParticipantShape__00000000_.Participant = __Participant__00000003_
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000000_)
 	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000000_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000000_)
@@ -804,6 +830,7 @@ func _(stage *models.Stage) {
 	__Process__00000000_.DataFlows = append(__Process__00000000_.DataFlows, __DataFlow__00000002_)
 	__Process__00000000_.DataFlows = append(__Process__00000000_.DataFlows, __DataFlow__00000003_)
 	__Process__00000000_.DataFlows = append(__Process__00000000_.DataFlows, __DataFlow__00000004_)
+	__Process__00000000_.ExternalParticipants = append(__Process__00000000_.ExternalParticipants, __Participant__00000003_)
 	__ProcessShape__00000000_.Process = __Process__00000000_
 	__Task__00000000_.Type = nil
 	__Task__00000001_.Type = nil

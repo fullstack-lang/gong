@@ -9,7 +9,7 @@ func (stager *Stager) computeDataFlowShapeFields() {
 	}
 
 	// compute dataShapes by iterating over diagrams and their maps
-	for _, diagram := range GetGongstrucsSorted[*DiagramProcess](stage) {
+	for _, diagram := range GetGongstrucsSorted[*DiagramStructure](stage) {
 		for _, dataFlowShape := range diagram.DataFlow_Shapes {
 			if dataFlowShape.DataFlow != nil {
 				for _, data := range dataFlowShape.DataFlow.Datas {

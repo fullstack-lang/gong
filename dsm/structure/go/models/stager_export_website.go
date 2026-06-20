@@ -20,9 +20,9 @@ func (stager *Stager) exportWebsite() {
 	stager.ssgStage.Reset()
 
 	content := ssg.Content{
-		Name:           "Root to process the website",
-		ContentPath:    "/tmp/process",
-		MardownContent: "## Process website",
+		Name:           "Root to system the website",
+		ContentPath:    "/tmp/system",
+		MardownContent: "## System website",
 	}
 
 	content.LogoSVGFile = stager.GetRootLibrary().LogoSVGFile
@@ -33,9 +33,9 @@ func (stager *Stager) exportWebsite() {
 	}
 	content.Chapters = append(content.Chapters, refChapter)
 
-	appendWebExportableChapter(stager, refChapter, "Processes", GetGongstrucsSorted[*Process](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Participants", GetGongstrucsSorted[*Participant](stager.stage))
-	appendWebExportableChapter(stager, refChapter, "Tasks", GetGongstrucsSorted[*Task](stager.stage))
+	appendWebExportableChapter(stager, refChapter, "Systemes", GetGongstrucsSorted[*System](stager.stage))
+	appendWebExportableChapter(stager, refChapter, "Parts", GetGongstrucsSorted[*Part](stager.stage))
+	appendWebExportableChapter(stager, refChapter, "Ports", GetGongstrucsSorted[*Port](stager.stage))
 	appendWebExportableChapter(stager, refChapter, "Control Flows", GetGongstrucsSorted[*ControlFlow](stager.stage))
 	appendWebExportableChapter(stager, refChapter, "Data Flows", GetGongstrucsSorted[*DataFlow](stager.stage))
 	appendWebExportableChapter(stager, refChapter, "Datas", GetGongstrucsSorted[*Data](stager.stage))
@@ -73,16 +73,16 @@ func appendWebExportableChapter[T WebExportable](stager *Stager, refChapter *ssg
 	}
 }
 
-func (process *Process) GetDescription() string { return process.Description }
-func (process *Process) GetReferencePath() string {
-	return strings.ReplaceAll(ssg.SanitizeFileName(process.Name, " "), " ", "%20")
+func (system *System) GetDescription() string { return system.Description }
+func (system *System) GetReferencePath() string {
+	return strings.ReplaceAll(ssg.SanitizeFileName(system.Name, " "), " ", "%20")
 }
 
-func (process *Process) GeneratePage(stager *Stager) *ssg.Page {
-	processPage := &ssg.Page{Name: process.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", process.Name, process.Description)}
+func (system *System) GeneratePage(stager *Stager) *ssg.Page {
+	systemPage := &ssg.Page{Name: system.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", system.Name, system.Description)}
 
-	if len(process.DiagramProcesss) > 0 {
-		for _, diagram := range process.DiagramProcesss {
+	if len(system.DiagramStructures) > 0 {
+		for _, diagram := range system.DiagramStructures {
 			svgObject := stager.generateSvgObject(diagram)
 			svgString, maxX, maxY := svgObject.GenerateString()
 
@@ -98,50 +98,50 @@ func (process *Process) GeneratePage(stager *Stager) *ssg.Page {
 					Content: svgString,
 				},
 			}
-			processPage.Sections = append(processPage.Sections, section)
+			systemPage.Sections = append(systemPage.Sections, section)
 		}
 	}
 
-	if len(process.Participants) > 0 {
+	if len(system.Parts) > 0 {
 		page := &ssg.Section{
-			Name:           "Participants",
-			MardownContent: "### Participants\n\n| Name |\n|---|\n",
+			Name:           "Parts",
+			MardownContent: "### Parts\n\n| Name |\n|---|\n",
 		}
-		for _, p := range process.Participants {
+		for _, p := range system.Parts {
 			page.MardownContent += fmt.Sprintf("| %s |\n", p.Name)
 		}
-		processPage.Sections = append(processPage.Sections, page)
+		systemPage.Sections = append(systemPage.Sections, page)
 	}
 
-	if len(process.ExternalParticipants) > 0 {
+	if len(system.ExternalParts) > 0 {
 		page := &ssg.Section{
-			Name:           "External Participants",
-			MardownContent: "### External Participants\n\n| Name |\n|---|\n",
+			Name:           "External Parts",
+			MardownContent: "### External Parts\n\n| Name |\n|---|\n",
 		}
-		for _, p := range process.ExternalParticipants {
+		for _, p := range system.ExternalParts {
 			page.MardownContent += fmt.Sprintf("| %s |\n", p.Name)
 		}
-		processPage.Sections = append(processPage.Sections, page)
+		systemPage.Sections = append(systemPage.Sections, page)
 	}
 
-	var allTasks []*Task
+	var allPorts []*Port
 	var allControlFlows []*ControlFlow
-	for _, p := range process.Participants {
-		allTasks = append(allTasks, p.Tasks...)
+	for _, p := range system.Parts {
+		allPorts = append(allPorts, p.Ports...)
 		allControlFlows = append(allControlFlows, p.ControlFlows...)
 	}
 
-	if len(allTasks) > 0 {
+	if len(allPorts) > 0 {
 		page := &ssg.Section{
-			Name:           "Tasks",
-			MardownContent: "### Tasks\n\n| Name | Participant |\n|---|---|\n",
+			Name:           "Ports",
+			MardownContent: "### Ports\n\n| Name | Part |\n|---|---|\n",
 		}
-		for _, p := range process.Participants {
-			for _, t := range p.Tasks {
+		for _, p := range system.Parts {
+			for _, t := range p.Ports {
 				page.MardownContent += fmt.Sprintf("| %s | %s |\n", t.Name, p.Name)
 			}
 		}
-		processPage.Sections = append(processPage.Sections, page)
+		systemPage.Sections = append(systemPage.Sections, page)
 	}
 
 	if len(allControlFlows) > 0 {
@@ -160,38 +160,38 @@ func (process *Process) GeneratePage(stager *Stager) *ssg.Page {
 			}
 			page.MardownContent += fmt.Sprintf("| %s | %s | %s |\n", c.Name, start, end)
 		}
-		processPage.Sections = append(processPage.Sections, page)
+		systemPage.Sections = append(systemPage.Sections, page)
 	}
 
-	if len(process.DataFlows) > 0 {
+	if len(system.DataFlows) > 0 {
 		page := &ssg.Section{
 			Name:           "Data Flows",
 			MardownContent: "### Data Flows\n\n| Name |\n|---|\n",
 		}
-		for _, d := range process.DataFlows {
+		for _, d := range system.DataFlows {
 			page.MardownContent += fmt.Sprintf("| %s |\n", d.Name)
 		}
-		processPage.Sections = append(processPage.Sections, page)
+		systemPage.Sections = append(systemPage.Sections, page)
 	}
 
-	return processPage
+	return systemPage
 }
 
-func (inst *Participant) GetDescription() string { return inst.Description }
-func (inst *Participant) GetReferencePath() string {
+func (inst *Part) GetDescription() string { return inst.Description }
+func (inst *Part) GetReferencePath() string {
 	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
 }
 
-func (inst *Participant) GeneratePage(stager *Stager) *ssg.Page {
+func (inst *Part) GeneratePage(stager *Stager) *ssg.Page {
 	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
 }
 
-func (inst *Task) GetDescription() string { return inst.Description }
-func (inst *Task) GetReferencePath() string {
+func (inst *Port) GetDescription() string { return inst.Description }
+func (inst *Port) GetReferencePath() string {
 	return strings.ReplaceAll(ssg.SanitizeFileName(inst.Name, " "), " ", "%20")
 }
 
-func (inst *Task) GeneratePage(stager *Stager) *ssg.Page {
+func (inst *Port) GeneratePage(stager *Stager) *ssg.Page {
 	return &ssg.Page{Name: inst.Name, MardownContent: fmt.Sprintf("#### %s\n\n%s", inst.Name, inst.Description)}
 }
 

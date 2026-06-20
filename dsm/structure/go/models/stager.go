@@ -33,23 +33,23 @@ type Stager struct {
 	treeStage *tree.Stage
 	// the tree stage can be very deep. The zoomTreeStage display on the tree starting from the current diagram.
 	zoomTreeStage            *tree.Stage
-	processDiagramSvgStage   *svg.Stage
+	systemDiagramSvgStage   *svg.Stage
 	structureDiagramSvgStage *svg.Stage
 	ssgStage                 *ssg.Stage
 	loadStage                *load.Stage
 	fileName                 string // fileName is used to store the name of the file to load or save
 	buttonStage              *button.Stage
 
-	svgObjectDiagramProcess *svg.SVG
-	diagramProcess          *DiagramProcess // diagram is the current diagram being displayed
+	svgObjectDiagramStructure *svg.SVG
+	diagramStructure          *DiagramStructure // diagram is the current diagram being displayed
 
 	// present in all "dsm" applications
 	// map to navigate from abstract elements to all diagrams where they are displayed
-	map_Element_Diagrams map[AbstractType][]*DiagramProcess
+	map_Element_Diagrams map[AbstractType][]*DiagramStructure
 
 	// reverse map to navigate
 	rm_Data_DataFlows        map[*Data][]*DataFlow
-	rm_Resource_Participants map[*Resource][]*Participant
+	rm_Resource_Parts map[*Resource][]*Part
 }
 
 func NewStager(
@@ -68,7 +68,7 @@ func NewStager(
 	stager.treeStage = tree_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.zoomTreeStage = tree_stack.NewStack(r, "zoom tree", "", "", "", true, true).Stage
 	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
-	stager.processDiagramSvgStage = svg_stack.NewStack(r, "process diagram svg", "", "", "", true, true).Stage
+	stager.systemDiagramSvgStage = svg_stack.NewStack(r, "system diagram svg", "", "", "", true, true).Stage
 	stager.structureDiagramSvgStage = svg_stack.NewStack(r, "structure diagram svg", "", "", "", true, true).Stage
 	stager.loadStage = load_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage

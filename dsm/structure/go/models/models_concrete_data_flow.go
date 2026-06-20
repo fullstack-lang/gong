@@ -23,49 +23,49 @@ func (s *DataFlowShape) SetAbstractElement(a AbstractType) {
 }
 
 func (s *DataFlowShape) GetAbstractEndElement() AbstractType {
-	if s.DataFlow == nil || (s.DataFlow.EndTask == nil && s.DataFlow.EndExternalParticipant == nil) {
+	if s.DataFlow == nil || (s.DataFlow.EndPort == nil && s.DataFlow.EndExternalPart == nil) {
 		return nil
 	}
-	if s.DataFlow.EndTask != nil {
-		return s.DataFlow.EndTask
+	if s.DataFlow.EndPort != nil {
+		return s.DataFlow.EndPort
 	}
-	if s.DataFlow.EndExternalParticipant != nil {
-		return s.DataFlow.EndExternalParticipant
+	if s.DataFlow.EndExternalPart != nil {
+		return s.DataFlow.EndExternalPart
 	}
 	return nil // can not happen
 }
 
 func (s *DataFlowShape) SetAbstractEndElement(abstractElement AbstractType) {
-	if endTask, ok := abstractElement.(*Task); ok {
-		s.DataFlow.EndTask = endTask
+	if endPort, ok := abstractElement.(*Port); ok {
+		s.DataFlow.EndPort = endPort
 		return
 	}
-	if endExternalParticipant, ok := abstractElement.(*Participant); ok {
-		s.DataFlow.EndExternalParticipant = endExternalParticipant
+	if endExternalPart, ok := abstractElement.(*Part); ok {
+		s.DataFlow.EndExternalPart = endExternalPart
 		return
 	}
 }
 
 func (s *DataFlowShape) GetAbstractStartElement() AbstractType {
-	if s.DataFlow == nil || (s.DataFlow.StartTask == nil && s.DataFlow.StartExternalParticipant == nil) {
+	if s.DataFlow == nil || (s.DataFlow.StartPort == nil && s.DataFlow.StartExternalPart == nil) {
 		return nil
 	}
-	if s.DataFlow.StartTask != nil {
-		return s.DataFlow.StartTask
+	if s.DataFlow.StartPort != nil {
+		return s.DataFlow.StartPort
 	}
-	if s.DataFlow.StartExternalParticipant != nil {
-		return s.DataFlow.StartExternalParticipant
+	if s.DataFlow.StartExternalPart != nil {
+		return s.DataFlow.StartExternalPart
 	}
 	return nil // can not happen
 }
 
 func (s *DataFlowShape) SetAbstractStartElement(abstractElement AbstractType) {
-	if startTask, ok := abstractElement.(*Task); ok {
-		s.DataFlow.StartTask = startTask
+	if startPort, ok := abstractElement.(*Port); ok {
+		s.DataFlow.StartPort = startPort
 		return
 	}
-	if startExternalParticipant, ok := abstractElement.(*Participant); ok {
-		s.DataFlow.StartExternalParticipant = startExternalParticipant
+	if startExternalPart, ok := abstractElement.(*Part); ok {
+		s.DataFlow.StartExternalPart = startExternalPart
 		return
 	}
 }

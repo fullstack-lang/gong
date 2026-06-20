@@ -46,12 +46,12 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 			continue // No further checks needed
 		}
 
-		// Rule : StartTask, EndTaskEnd, StartExternalParticipant & EndExternalParticipant
+		// Rule : StartPort, EndPortEnd, StartExternalPart & EndExternalPart
 		// must be non nil according to the dataFlow type
 		switch dataFlow.Type {
-		case DataFlow_Task2Task:
-			// Rule: A data flow must have a start task.
-			if dataFlow.StartTask == nil {
+		case DataFlow_Port2Port:
+			// Rule: A data flow must have a start port.
+			if dataFlow.StartPort == nil {
 				dataFlow.UnstageVoid(stage)
 				if stager.probeForm != nil {
 					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no start, unstaging",
@@ -60,7 +60,7 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 				needCommit = true
 				continue
 			}
-			if dataFlow.EndTask == nil {
+			if dataFlow.EndPort == nil {
 				dataFlow.UnstageVoid(stage)
 				if stager.probeForm != nil {
 					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no end, unstaging",
@@ -69,8 +69,8 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 				needCommit = true
 				continue
 			}
-		case DataFlow_ExternalParticipant2Task:
-			if dataFlow.StartExternalParticipant == nil {
+		case DataFlow_ExternalPart2Port:
+			if dataFlow.StartExternalPart == nil {
 				dataFlow.UnstageVoid(stage)
 				if stager.probeForm != nil {
 					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no start, unstaging",
@@ -79,7 +79,7 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 				needCommit = true
 				continue
 			}
-			if dataFlow.EndTask == nil {
+			if dataFlow.EndPort == nil {
 				dataFlow.UnstageVoid(stage)
 				if stager.probeForm != nil {
 					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no end, unstaging",
@@ -88,9 +88,9 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 				needCommit = true
 				continue
 			}
-		case DataFlow_Task2ExternalParticipant:
-			// Rule: A data flow must have a start task.
-			if dataFlow.StartTask == nil {
+		case DataFlow_Port2ExternalPart:
+			// Rule: A data flow must have a start port.
+			if dataFlow.StartPort == nil {
 				dataFlow.UnstageVoid(stage)
 				if stager.probeForm != nil {
 					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no start, unstaging",
@@ -99,7 +99,7 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 				needCommit = true
 				continue
 			}
-			if dataFlow.EndExternalParticipant == nil {
+			if dataFlow.EndExternalPart == nil {
 				dataFlow.UnstageVoid(stage)
 				if stager.probeForm != nil {
 					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" has no end, unstaging",
@@ -118,33 +118,33 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 			continue
 		}
 
-		// Rule: A data flow must have an end task.
+		// Rule: A data flow must have an end port.
 
-		// Rule: A data flow cannot connect a start or an end task.
-		if dataFlow.Type == DataFlow_Task2Task &&
-			(dataFlow.StartTask.IsStartTask || dataFlow.StartTask.IsEndTask || dataFlow.EndTask.IsStartTask || dataFlow.EndTask.IsEndTask) {
+		// Rule: A data flow cannot connect a start or an end port.
+		if dataFlow.Type == DataFlow_Port2Port &&
+			(dataFlow.StartPort.IsStartPort || dataFlow.StartPort.IsEndPort || dataFlow.EndPort.IsStartPort || dataFlow.EndPort.IsEndPort) {
 			dataFlow.UnstageVoid(stage)
 			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" connects to a start or end task, unstaging", dataFlow.GetName()))
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" connects to a start or end port, unstaging", dataFlow.GetName()))
 			}
 			needCommit = true
 			continue
 		}
 
-		// Rule: Start and end task cannot belong to the same participant.
-		if dataFlow.Type == DataFlow_Task2Task &&
-			(dataFlow.StartTask.owningParticipant == dataFlow.EndTask.owningParticipant) {
+		// Rule: Start and end port cannot belong to the same part.
+		if dataFlow.Type == DataFlow_Port2Port &&
+			(dataFlow.StartPort.owningPart == dataFlow.EndPort.owningPart) {
 			dataFlow.UnstageVoid(stage)
 			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" connects tasks from the same participant, unstaging", dataFlow.GetName()))
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" connects ports from the same part, unstaging", dataFlow.GetName()))
 			}
 			needCommit = true
 			continue
 		}
 
-		// enforce name to be "StartTaskName to EndTaskName" for Task2Task data flow
-		if dataFlow.Type == DataFlow_Task2Task {
-			expectedName := "\"" + dataFlow.StartTask.GetName() + "\"" + " to " + "\"" + dataFlow.EndTask.GetName() + "\""
+		// enforce name to be "StartPortName to EndPortName" for Port2Port data flow
+		if dataFlow.Type == DataFlow_Port2Port {
+			expectedName := "\"" + dataFlow.StartPort.GetName() + "\"" + " to " + "\"" + dataFlow.EndPort.GetName() + "\""
 			if dataFlow.Name != expectedName {
 				dataFlow.Name = expectedName
 				needCommit = true

@@ -24,10 +24,10 @@ func (probe *Probe) ux_table() {
 	}
 	switch tableName {
 	// insertion point
-	case "AllocatedProcessShape":
-		updateProbeTable[*models.AllocatedProcessShape](probe)
 	case "AllocatedResourceShape":
 		updateProbeTable[*models.AllocatedResourceShape](probe)
+	case "AllocatedSystemShape":
+		updateProbeTable[*models.AllocatedSystemShape](probe)
 	case "ControlFlow":
 		updateProbeTable[*models.ControlFlow](probe)
 	case "ControlFlowShape":
@@ -40,32 +40,32 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.DataFlowShape](probe)
 	case "DataShape":
 		updateProbeTable[*models.DataShape](probe)
-	case "DiagramProcess":
-		updateProbeTable[*models.DiagramProcess](probe)
-	case "ExternalParticipantShape":
-		updateProbeTable[*models.ExternalParticipantShape](probe)
+	case "DiagramStructure":
+		updateProbeTable[*models.DiagramStructure](probe)
+	case "ExternalPartShape":
+		updateProbeTable[*models.ExternalPartShape](probe)
 	case "Library":
 		updateProbeTable[*models.Library](probe)
 	case "Note":
 		updateProbeTable[*models.Note](probe)
+	case "NotePortShape":
+		updateProbeTable[*models.NotePortShape](probe)
 	case "NoteShape":
 		updateProbeTable[*models.NoteShape](probe)
-	case "NoteTaskShape":
-		updateProbeTable[*models.NoteTaskShape](probe)
-	case "Participant":
-		updateProbeTable[*models.Participant](probe)
-	case "ParticipantShape":
-		updateProbeTable[*models.ParticipantShape](probe)
-	case "Process":
-		updateProbeTable[*models.Process](probe)
-	case "ProcessShape":
-		updateProbeTable[*models.ProcessShape](probe)
+	case "Part":
+		updateProbeTable[*models.Part](probe)
+	case "PartShape":
+		updateProbeTable[*models.PartShape](probe)
+	case "Port":
+		updateProbeTable[*models.Port](probe)
+	case "PortShape":
+		updateProbeTable[*models.PortShape](probe)
 	case "Resource":
 		updateProbeTable[*models.Resource](probe)
-	case "Task":
-		updateProbeTable[*models.Task](probe)
-	case "TaskShape":
-		updateProbeTable[*models.TaskShape](probe)
+	case "System":
+		updateProbeTable[*models.System](probe)
+	case "SystemShape":
+		updateProbeTable[*models.SystemShape](probe)
 	}
 }
 

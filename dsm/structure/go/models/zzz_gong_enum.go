@@ -10,12 +10,12 @@ func (dataflowtype DataFlowType) ToString() (res string) {
 	// migration of former implementation of enum
 	switch dataflowtype {
 	// insertion code per enum code
-	case DataFlow_Task2Task:
-		res = "DataFlow_Task2Task"
-	case DataFlow_ExternalParticipant2Task:
-		res = "DataFlow_ExternalParticipant2Task"
-	case DataFlow_Task2ExternalParticipant:
-		res = "DataFlow_Task2ExternalParticipant"
+	case DataFlow_Port2Port:
+		res = "DataFlow_Port2Port"
+	case DataFlow_ExternalPart2Port:
+		res = "DataFlow_ExternalPart2Port"
+	case DataFlow_Port2ExternalPart:
+		res = "DataFlow_Port2ExternalPart"
 	}
 	return
 }
@@ -24,14 +24,14 @@ func (dataflowtype *DataFlowType) FromString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "DataFlow_Task2Task":
-		*dataflowtype = DataFlow_Task2Task
+	case "DataFlow_Port2Port":
+		*dataflowtype = DataFlow_Port2Port
 		return
-	case "DataFlow_ExternalParticipant2Task":
-		*dataflowtype = DataFlow_ExternalParticipant2Task
+	case "DataFlow_ExternalPart2Port":
+		*dataflowtype = DataFlow_ExternalPart2Port
 		return
-	case "DataFlow_Task2ExternalParticipant":
-		*dataflowtype = DataFlow_Task2ExternalParticipant
+	case "DataFlow_Port2ExternalPart":
+		*dataflowtype = DataFlow_Port2ExternalPart
 		return
 	default:
 		return errUnkownEnum
@@ -42,12 +42,12 @@ func (dataflowtype *DataFlowType) FromCodeString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "DataFlow_Task2Task":
-		*dataflowtype = DataFlow_Task2Task
-	case "DataFlow_ExternalParticipant2Task":
-		*dataflowtype = DataFlow_ExternalParticipant2Task
-	case "DataFlow_Task2ExternalParticipant":
-		*dataflowtype = DataFlow_Task2ExternalParticipant
+	case "DataFlow_Port2Port":
+		*dataflowtype = DataFlow_Port2Port
+	case "DataFlow_ExternalPart2Port":
+		*dataflowtype = DataFlow_ExternalPart2Port
+	case "DataFlow_Port2ExternalPart":
+		*dataflowtype = DataFlow_Port2ExternalPart
 	default:
 		err = errUnkownEnum
 	}
@@ -58,12 +58,12 @@ func (dataflowtype *DataFlowType) ToCodeString() (res string) {
 
 	switch *dataflowtype {
 	// insertion code per enum code
-	case DataFlow_Task2Task:
-		res = "DataFlow_Task2Task"
-	case DataFlow_ExternalParticipant2Task:
-		res = "DataFlow_ExternalParticipant2Task"
-	case DataFlow_Task2ExternalParticipant:
-		res = "DataFlow_Task2ExternalParticipant"
+	case DataFlow_Port2Port:
+		res = "DataFlow_Port2Port"
+	case DataFlow_ExternalPart2Port:
+		res = "DataFlow_ExternalPart2Port"
+	case DataFlow_Port2ExternalPart:
+		res = "DataFlow_Port2ExternalPart"
 	}
 	return
 }
@@ -73,9 +73,9 @@ func (dataflowtype DataFlowType) Codes() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "DataFlow_Task2Task")
-	res = append(res, "DataFlow_ExternalParticipant2Task")
-	res = append(res, "DataFlow_Task2ExternalParticipant")
+	res = append(res, "DataFlow_Port2Port")
+	res = append(res, "DataFlow_ExternalPart2Port")
+	res = append(res, "DataFlow_Port2ExternalPart")
 
 	return
 }
@@ -85,9 +85,9 @@ func (dataflowtype DataFlowType) CodeValues() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "DataFlow_Task2Task")
-	res = append(res, "DataFlow_ExternalParticipant2Task")
-	res = append(res, "DataFlow_Task2ExternalParticipant")
+	res = append(res, "DataFlow_Port2Port")
+	res = append(res, "DataFlow_ExternalPart2Port")
+	res = append(res, "DataFlow_Port2ExternalPart")
 
 	return
 }

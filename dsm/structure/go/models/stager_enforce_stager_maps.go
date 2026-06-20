@@ -5,58 +5,58 @@ import (
 )
 
 func (stager *Stager) enforceStagerMaps() {
-	stager.map_Element_Diagrams = make(map[AbstractType][]*DiagramProcess)
+	stager.map_Element_Diagrams = make(map[AbstractType][]*DiagramStructure)
 
-	for _, diagramProcess := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
-		_ = diagramProcess
+	for _, diagramStructure := range GetGongstrucsSorted[*DiagramStructure](stager.stage) {
+		_ = diagramStructure
 
-		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.Process_Shapes, &diagramProcess.map_Process_ProcessShape)
-		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.Participant_Shapes, &diagramProcess.map_Participant_ParticipantShape)
-		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.ExternalParticipant_Shapes, &diagramProcess.map_Participant_ExternalParticipantShape)
-		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.Task_Shapes, &diagramProcess.map_Task_TaskShape)
-		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.ControlFlow_Shapes, &diagramProcess.map_ControlFlow_ControlFlowShape)
-		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.DataFlow_Shapes, &diagramProcess.map_DataFlow_DataFlowShape)
-		updateMapElementDiagrams(stager, diagramProcess, diagramProcess.Note_Shapes, &diagramProcess.map_Note_NoteShape)
+		updateMapElementDiagrams(stager, diagramStructure, diagramStructure.System_Shapes, &diagramStructure.map_System_SystemShape)
+		updateMapElementDiagrams(stager, diagramStructure, diagramStructure.Part_Shapes, &diagramStructure.map_Part_PartShape)
+		updateMapElementDiagrams(stager, diagramStructure, diagramStructure.ExternalPart_Shapes, &diagramStructure.map_Part_ExternalPartShape)
+		updateMapElementDiagrams(stager, diagramStructure, diagramStructure.Port_Shapes, &diagramStructure.map_Port_PortShape)
+		updateMapElementDiagrams(stager, diagramStructure, diagramStructure.ControlFlow_Shapes, &diagramStructure.map_ControlFlow_ControlFlowShape)
+		updateMapElementDiagrams(stager, diagramStructure, diagramStructure.DataFlow_Shapes, &diagramStructure.map_DataFlow_DataFlowShape)
+		updateMapElementDiagrams(stager, diagramStructure, diagramStructure.Note_Shapes, &diagramStructure.map_Note_NoteShape)
 
-		diagramProcess.map_DataShapeKey_DataShape = make(map[dataShapeKey]*DataShape)
-		for _, dataShape := range diagramProcess.Data_Shapes {
+		diagramStructure.map_DataShapeKey_DataShape = make(map[dataShapeKey]*DataShape)
+		for _, dataShape := range diagramStructure.Data_Shapes {
 			key := dataShapeKey{
 				dataFlow: dataShape.DataFlow,
 				data:     dataShape.Data,
 			}
-			diagramProcess.map_DataShapeKey_DataShape[key] = dataShape
+			diagramStructure.map_DataShapeKey_DataShape[key] = dataShape
 		}
 
-		diagramProcess.map_AllocatedResourceShapeKey_AllocatedResourceShape = make(map[allocatedResourceShapeKey]*AllocatedResourceShape)
-		for _, allocatedResourceShape := range diagramProcess.AllocatedResourceShapes {
+		diagramStructure.map_AllocatedResourceShapeKey_AllocatedResourceShape = make(map[allocatedResourceShapeKey]*AllocatedResourceShape)
+		for _, allocatedResourceShape := range diagramStructure.AllocatedResourceShapes {
 			key := allocatedResourceShapeKey{
-				participant: allocatedResourceShape.Participant,
+				part: allocatedResourceShape.Part,
 				resource:    allocatedResourceShape.Resource,
 			}
-			diagramProcess.map_AllocatedResourceShapeKey_AllocatedResourceShape[key] = allocatedResourceShape
+			diagramStructure.map_AllocatedResourceShapeKey_AllocatedResourceShape[key] = allocatedResourceShape
 		}
 
-		diagramProcess.map_AllocatedProcessShapeKey_AllocatedProcessShape = make(map[allocatedProcessShapeKey]*AllocatedProcessShape)
-		for _, allocatedProcessShape := range diagramProcess.AllocatedProcessShapes {
-			key := allocatedProcessShapeKey{
-				participant: allocatedProcessShape.Participant,
-				process:     allocatedProcessShape.Process,
+		diagramStructure.map_AllocatedSystemShapeKey_AllocatedSystemShape = make(map[allocatedSystemShapeKey]*AllocatedSystemShape)
+		for _, allocatedSystemShape := range diagramStructure.AllocatedSystemShapes {
+			key := allocatedSystemShapeKey{
+				part: allocatedSystemShape.Part,
+				system:     allocatedSystemShape.System,
 			}
-			diagramProcess.map_AllocatedProcessShapeKey_AllocatedProcessShape[key] = allocatedProcessShape
+			diagramStructure.map_AllocatedSystemShapeKey_AllocatedSystemShape[key] = allocatedSystemShape
 		}
 
-		diagramProcess.map_Note_NoteTaskShape = make(map[noteTaskKey]*NoteTaskShape)
-		for _, noteTaskShape := range diagramProcess.NoteTaskShapes {
-			key := noteTaskKey{
-				Note: noteTaskShape.Note,
-				Task: noteTaskShape.Task,
+		diagramStructure.map_Note_NotePortShape = make(map[notePortKey]*NotePortShape)
+		for _, notePortShape := range diagramStructure.NotePortShapes {
+			key := notePortKey{
+				Note: notePortShape.Note,
+				Port: notePortShape.Port,
 			}
-			diagramProcess.map_Note_NoteTaskShape[key] = noteTaskShape
+			diagramStructure.map_Note_NotePortShape[key] = notePortShape
 		}
 	}
 
 	stager.rm_Data_DataFlows = GetSliceOfPointersReverseMap[DataFlow, Data](GetAssociationName[DataFlow]().Datas[0].Name, stager.stage)
-	stager.rm_Resource_Participants = GetSliceOfPointersReverseMap[Participant, Resource](GetAssociationName[Participant]().Resources[0].Name, stager.stage)
+	stager.rm_Resource_Parts = GetSliceOfPointersReverseMap[Part, Resource](GetAssociationName[Part]().Resources[0].Name, stager.stage)
 }
 
 // updateMapElementDiagrams is a helper function to update the map of abstract elements to their shapes for a given diagram
@@ -69,7 +69,7 @@ func updateMapElementDiagrams[
 	CT ConcreteType,
 ](
 	stager *Stager,
-	diagram *DiagramProcess,
+	diagram *DiagramStructure,
 	shapes []CT,
 	diagramMapPtr *map[AT]CT, // Now a pointer to the map
 ) {
@@ -88,7 +88,7 @@ func updateMapElementDiagrams[
 		// track all diagrams that display this element across the stage
 		diagrams := stager.map_Element_Diagrams[abstractElement]
 		if diagrams == nil {
-			diagrams = []*DiagramProcess{diagram}
+			diagrams = []*DiagramStructure{diagram}
 		}
 		if !slices.Contains(diagrams, diagram) {
 			diagrams = append(diagrams, diagram)

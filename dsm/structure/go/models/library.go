@@ -26,9 +26,9 @@ type Library struct {
 	LogoSVGFile string // the content of the logo file, used for the static site generation
 
 	// DSM specific fields
-	RootProcesses               []*Process
-	IsProcessesNodeExpanded     bool
-	ProcesssWhoseNodeIsExpanded []*Process
+	RootSystemes               []*System
+	IsSystemesNodeExpanded     bool
+	SystemsWhoseNodeIsExpanded []*System
 
 	RootDataFlows                []*DataFlow
 	IsDataFlowsNodeExpanded      bool
@@ -41,7 +41,7 @@ type Library struct {
 	RootResources                   []*Resource
 	IsResourcesNodeExpanded         bool
 	ResourcesWhoseNodeIsExpanded    []*Resource
-	ParticipantsWhoseNodeIsExpanded []*Participant
+	PartsWhoseNodeIsExpanded []*Part
 
 	RootNotes                []*Note
 	IsNotesNodeExpanded      bool

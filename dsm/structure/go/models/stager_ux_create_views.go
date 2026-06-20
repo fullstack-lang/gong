@@ -54,7 +54,7 @@ func (stager *Stager) createViews() {
 						{
 							Size: 64,
 							Svg: &split.Svg{
-								StackName: stager.processDiagramSvgStage.GetName(),
+								StackName: stager.systemDiagramSvgStage.GetName(),
 							},
 						},
 					},
@@ -156,7 +156,7 @@ func (stager *Stager) createViews() {
 						{
 							Size: 50,
 							Svg: &split.Svg{
-								StackName: stager.processDiagramSvgStage.GetName(),
+								StackName: stager.systemDiagramSvgStage.GetName(),
 							},
 						},
 					},
@@ -189,7 +189,7 @@ func (stager *Stager) createViews() {
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Split: &split.Split{
-					StackName: stager.processDiagramSvgStage.GetProbeSplitStageName(),
+					StackName: stager.systemDiagramSvgStage.GetProbeSplitStageName(),
 				},
 			},
 		},

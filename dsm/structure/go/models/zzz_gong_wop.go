@@ -9,17 +9,6 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point
-type AllocatedProcessShape_WOP struct {
-	// insertion point
-
-	Name string
-}
-
-func (from *AllocatedProcessShape) CopyBasicFields(to *AllocatedProcessShape) {
-	// insertion point
-	to.Name = from.Name
-}
-
 type AllocatedResourceShape_WOP struct {
 	// insertion point
 
@@ -27,6 +16,17 @@ type AllocatedResourceShape_WOP struct {
 }
 
 func (from *AllocatedResourceShape) CopyBasicFields(to *AllocatedResourceShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type AllocatedSystemShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *AllocatedSystemShape) CopyBasicFields(to *AllocatedSystemShape) {
 	// insertion point
 	to.Name = from.Name
 }
@@ -184,7 +184,7 @@ func (from *DataShape) CopyBasicFields(to *DataShape) {
 	to.Name = from.Name
 }
 
-type DiagramProcess_WOP struct {
+type DiagramStructure_WOP struct {
 	// insertion point
 
 	Name string
@@ -211,16 +211,16 @@ type DiagramProcess_WOP struct {
 
 	Height float64
 
-	IsProcesssNodeExpanded bool
+	IsSystemsNodeExpanded bool
 
-	IsParticipantsNodeExpanded bool
+	IsPartsNodeExpanded bool
 
-	IsExternalParticipantsNodeExpanded bool
+	IsExternalPartsNodeExpanded bool
 
 	IsNotesNodeExpanded bool
 }
 
-func (from *DiagramProcess) CopyBasicFields(to *DiagramProcess) {
+func (from *DiagramStructure) CopyBasicFields(to *DiagramStructure) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
@@ -234,13 +234,13 @@ func (from *DiagramProcess) CopyBasicFields(to *DiagramProcess) {
 	to.DefaultBoxHeigth = from.DefaultBoxHeigth
 	to.Width = from.Width
 	to.Height = from.Height
-	to.IsProcesssNodeExpanded = from.IsProcesssNodeExpanded
-	to.IsParticipantsNodeExpanded = from.IsParticipantsNodeExpanded
-	to.IsExternalParticipantsNodeExpanded = from.IsExternalParticipantsNodeExpanded
+	to.IsSystemsNodeExpanded = from.IsSystemsNodeExpanded
+	to.IsPartsNodeExpanded = from.IsPartsNodeExpanded
+	to.IsExternalPartsNodeExpanded = from.IsExternalPartsNodeExpanded
 	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 }
 
-type ExternalParticipantShape_WOP struct {
+type ExternalPartShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -260,7 +260,7 @@ type ExternalParticipantShape_WOP struct {
 	TailHeigth float64
 }
 
-func (from *ExternalParticipantShape) CopyBasicFields(to *ExternalParticipantShape) {
+func (from *ExternalPartShape) CopyBasicFields(to *ExternalPartShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
@@ -293,7 +293,7 @@ type Library_WOP struct {
 
 	LogoSVGFile string
 
-	IsProcessesNodeExpanded bool
+	IsSystemesNodeExpanded bool
 
 	IsDataFlowsNodeExpanded bool
 
@@ -317,7 +317,7 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.IsSubLibrariesNodeExpanded = from.IsSubLibrariesNodeExpanded
 	to.NbPixPerCharacter = from.NbPixPerCharacter
 	to.LogoSVGFile = from.LogoSVGFile
-	to.IsProcessesNodeExpanded = from.IsProcessesNodeExpanded
+	to.IsSystemesNodeExpanded = from.IsSystemesNodeExpanded
 	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
 	to.IsDatasNodeExpanded = from.IsDatasNodeExpanded
 	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
@@ -338,7 +338,7 @@ type Note_WOP struct {
 
 	LayoutDirection LayoutDirection
 
-	IsTasksNodeExpanded bool
+	IsPortsNodeExpanded bool
 }
 
 func (from *Note) CopyBasicFields(to *Note) {
@@ -348,7 +348,36 @@ func (from *Note) CopyBasicFields(to *Note) {
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.LayoutDirection = from.LayoutDirection
-	to.IsTasksNodeExpanded = from.IsTasksNodeExpanded
+	to.IsPortsNodeExpanded = from.IsPortsNodeExpanded
+}
+
+type NotePortShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+
+	IsHidden bool
+}
+
+func (from *NotePortShape) CopyBasicFields(to *NotePortShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
 }
 
 type NoteShape_WOP struct {
@@ -377,47 +406,18 @@ func (from *NoteShape) CopyBasicFields(to *NoteShape) {
 	to.IsHidden = from.IsHidden
 }
 
-type NoteTaskShape_WOP struct {
+type Part_WOP struct {
 	// insertion point
 
 	Name string
 
-	StartRatio float64
-
-	EndRatio float64
-
-	StartOrientation OrientationType
-
-	EndOrientation OrientationType
-
-	CornerOffsetRatio float64
-
-	IsHidden bool
-}
-
-func (from *NoteTaskShape) CopyBasicFields(to *NoteTaskShape) {
-	// insertion point
-	to.Name = from.Name
-	to.StartRatio = from.StartRatio
-	to.EndRatio = from.EndRatio
-	to.StartOrientation = from.StartOrientation
-	to.EndOrientation = from.EndOrientation
-	to.CornerOffsetRatio = from.CornerOffsetRatio
-	to.IsHidden = from.IsHidden
-}
-
-type Participant_WOP struct {
-	// insertion point
-
-	Name string
-
-	IsProcessResource bool
+	IsSystemResource bool
 
 	Description string
 
 	IsResourcesNodeExpanded bool
 
-	IsProcessesNodeExpanded bool
+	IsSystemesNodeExpanded bool
 
 	ComputedPrefix string
 
@@ -425,29 +425,29 @@ type Participant_WOP struct {
 
 	LayoutDirection LayoutDirection
 
-	IsTasksNodeExpanded bool
+	IsPortsNodeExpanded bool
 
 	IsControlFlowsNodeExpanded bool
 
 	IsDataFlowsNodeExpanded bool
 }
 
-func (from *Participant) CopyBasicFields(to *Participant) {
+func (from *Part) CopyBasicFields(to *Part) {
 	// insertion point
 	to.Name = from.Name
-	to.IsProcessResource = from.IsProcessResource
+	to.IsSystemResource = from.IsSystemResource
 	to.Description = from.Description
 	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
-	to.IsProcessesNodeExpanded = from.IsProcessesNodeExpanded
+	to.IsSystemesNodeExpanded = from.IsSystemesNodeExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.LayoutDirection = from.LayoutDirection
-	to.IsTasksNodeExpanded = from.IsTasksNodeExpanded
+	to.IsPortsNodeExpanded = from.IsPortsNodeExpanded
 	to.IsControlFlowsNodeExpanded = from.IsControlFlowsNodeExpanded
 	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
 }
 
-type ParticipantShape_WOP struct {
+type PartShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -467,7 +467,7 @@ type ParticipantShape_WOP struct {
 	WidthWeight float64
 }
 
-func (from *ParticipantShape) CopyBasicFields(to *ParticipantShape) {
+func (from *PartShape) CopyBasicFields(to *PartShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
@@ -479,7 +479,7 @@ func (from *ParticipantShape) CopyBasicFields(to *ParticipantShape) {
 	to.WidthWeight = from.WidthWeight
 }
 
-type Process_WOP struct {
+type Port_WOP struct {
 	// insertion point
 
 	Name string
@@ -492,29 +492,26 @@ type Process_WOP struct {
 
 	LayoutDirection LayoutDirection
 
-	SVG_Path string
+	IsStartPort bool
 
-	InverseAppliedScaling float64
+	IsEndPort bool
 
-	IsSubProcessNodeExpanded bool
-
-	IsDataFlowsNodeExpanded bool
+	IsPortNameNotSystemName bool
 }
 
-func (from *Process) CopyBasicFields(to *Process) {
+func (from *Port) CopyBasicFields(to *Port) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.LayoutDirection = from.LayoutDirection
-	to.SVG_Path = from.SVG_Path
-	to.InverseAppliedScaling = from.InverseAppliedScaling
-	to.IsSubProcessNodeExpanded = from.IsSubProcessNodeExpanded
-	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
+	to.IsStartPort = from.IsStartPort
+	to.IsEndPort = from.IsEndPort
+	to.IsPortNameNotSystemName = from.IsPortNameNotSystemName
 }
 
-type ProcessShape_WOP struct {
+type PortShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -532,7 +529,7 @@ type ProcessShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *ProcessShape) CopyBasicFields(to *ProcessShape) {
+func (from *PortShape) CopyBasicFields(to *PortShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
@@ -575,7 +572,7 @@ func (from *Resource) CopyBasicFields(to *Resource) {
 	to.InverseAppliedScaling = from.InverseAppliedScaling
 }
 
-type Task_WOP struct {
+type System_WOP struct {
 	// insertion point
 
 	Name string
@@ -588,26 +585,29 @@ type Task_WOP struct {
 
 	LayoutDirection LayoutDirection
 
-	IsStartTask bool
+	SVG_Path string
 
-	IsEndTask bool
+	InverseAppliedScaling float64
 
-	IsTaskNameNotProcessName bool
+	IsSubSystemNodeExpanded bool
+
+	IsDataFlowsNodeExpanded bool
 }
 
-func (from *Task) CopyBasicFields(to *Task) {
+func (from *System) CopyBasicFields(to *System) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.LayoutDirection = from.LayoutDirection
-	to.IsStartTask = from.IsStartTask
-	to.IsEndTask = from.IsEndTask
-	to.IsTaskNameNotProcessName = from.IsTaskNameNotProcessName
+	to.SVG_Path = from.SVG_Path
+	to.InverseAppliedScaling = from.InverseAppliedScaling
+	to.IsSubSystemNodeExpanded = from.IsSubSystemNodeExpanded
+	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
 }
 
-type TaskShape_WOP struct {
+type SystemShape_WOP struct {
 	// insertion point
 
 	Name string
@@ -625,7 +625,7 @@ type TaskShape_WOP struct {
 	IsHidden bool
 }
 
-func (from *TaskShape) CopyBasicFields(to *TaskShape) {
+func (from *SystemShape) CopyBasicFields(to *SystemShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded

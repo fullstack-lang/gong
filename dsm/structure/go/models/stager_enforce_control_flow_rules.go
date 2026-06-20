@@ -9,23 +9,23 @@ import (
 func (stager *Stager) enforceControlFlowRules() (needCommit bool) {
 	stage := stager.stage
 
-	// Build a reverse map from ControlFlow to its owning Participants
-	controlFlowToParticipants := make(map[*ControlFlow][]*Participant)
-	for _, participant := range GetGongstrucsSorted[*Participant](stage) {
-		for _, controlFlow := range participant.ControlFlows {
-			controlFlowToParticipants[controlFlow] = append(controlFlowToParticipants[controlFlow], participant)
+	// Build a reverse map from ControlFlow to its owning Parts
+	controlFlowToParts := make(map[*ControlFlow][]*Part)
+	for _, part := range GetGongstrucsSorted[*Part](stage) {
+		for _, controlFlow := range part.ControlFlows {
+			controlFlowToParts[controlFlow] = append(controlFlowToParts[controlFlow], part)
 		}
 	}
 
 	for _, controlFlow := range GetGongstrucsSorted[*ControlFlow](stage) {
-		// Rule: A control flow must have exactly one owning participant.
-		owners := controlFlowToParticipants[controlFlow]
+		// Rule: A control flow must have exactly one owning part.
+		owners := controlFlowToParts[controlFlow]
 		if len(owners) == 0 {
 			controlFlow.UnstageVoid(stage)
 			needCommit = true
 			if stager.probeForm != nil {
 				stager.probeForm.AddNotification(time.Now(),
-					fmt.Sprintf("Unstaged orphan control flow \"%s\" (no participant)", controlFlow.GetName()))
+					fmt.Sprintf("Unstaged orphan control flow \"%s\" (no part)", controlFlow.GetName()))
 			}
 			continue // No further checks needed for this orphan
 		}
@@ -41,12 +41,12 @@ func (stager *Stager) enforceControlFlowRules() (needCommit bool) {
 			needCommit = true
 			if stager.probeForm != nil {
 				stager.probeForm.AddNotification(time.Now(),
-					fmt.Sprintf("Unstaged control flow \"%s\" with multiple participants", controlFlow.GetName()))
+					fmt.Sprintf("Unstaged control flow \"%s\" with multiple parts", controlFlow.GetName()))
 			}
 			continue // No further checks needed
 		}
 
-		// Rule: A control flow must have a start task.
+		// Rule: A control flow must have a start port.
 		if controlFlow.Start == nil {
 			controlFlow.UnstageVoid(stage)
 			if stager.probeForm != nil {
@@ -57,7 +57,7 @@ func (stager *Stager) enforceControlFlowRules() (needCommit bool) {
 			continue
 		}
 
-		// Rule: A control flow must have an end task.
+		// Rule: A control flow must have an end port.
 		if controlFlow.End == nil {
 			controlFlow.UnstageVoid(stage)
 			if stager.probeForm != nil {
@@ -68,11 +68,11 @@ func (stager *Stager) enforceControlFlowRules() (needCommit bool) {
 			continue
 		}
 
-		// Rule: Start and end tasks of a control flow must belong to the same participant.
-		if controlFlow.Start.owningParticipant != controlFlow.End.owningParticipant {
+		// Rule: Start and end ports of a control flow must belong to the same part.
+		if controlFlow.Start.owningPart != controlFlow.End.owningPart {
 			controlFlow.UnstageVoid(stage)
 			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Control flow \"%s\" connects tasks from different participants, unstaging", controlFlow.GetName()))
+				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Control flow \"%s\" connects ports from different parts, unstaging", controlFlow.GetName()))
 			}
 			needCommit = true
 			continue

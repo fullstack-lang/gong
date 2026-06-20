@@ -19,133 +19,6 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 var _ = log.Panicf
 
 // insertion point
-func __gong__New__AllocatedProcessShapeFormCallback(
-	allocatedprocessshape *models.AllocatedProcessShape,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (allocatedprocessshapeFormCallback *AllocatedProcessShapeFormCallback) {
-	allocatedprocessshapeFormCallback = new(AllocatedProcessShapeFormCallback)
-	allocatedprocessshapeFormCallback.probe = probe
-	allocatedprocessshapeFormCallback.allocatedprocessshape = allocatedprocessshape
-	allocatedprocessshapeFormCallback.formGroup = formGroup
-
-	allocatedprocessshapeFormCallback.CreationMode = (allocatedprocessshape == nil)
-
-	return
-}
-
-type AllocatedProcessShapeFormCallback struct {
-	allocatedprocessshape *models.AllocatedProcessShape
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (allocatedprocessshapeFormCallback *AllocatedProcessShapeFormCallback) OnSave() {
-	allocatedprocessshapeFormCallback.probe.stageOfInterest.Lock()
-	defer allocatedprocessshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("AllocatedProcessShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	allocatedprocessshapeFormCallback.probe.formStage.Checkout()
-
-	if allocatedprocessshapeFormCallback.allocatedprocessshape == nil {
-		allocatedprocessshapeFormCallback.allocatedprocessshape = new(models.AllocatedProcessShape).Stage(allocatedprocessshapeFormCallback.probe.stageOfInterest)
-	}
-	allocatedprocessshape_ := allocatedprocessshapeFormCallback.allocatedprocessshape
-	_ = allocatedprocessshape_
-
-	for _, formDiv := range allocatedprocessshapeFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(allocatedprocessshape_.Name), formDiv)
-		case "Participant":
-			FormDivSelectFieldToField(&(allocatedprocessshape_.Participant), allocatedprocessshapeFormCallback.probe.stageOfInterest, formDiv)
-		case "Process":
-			FormDivSelectFieldToField(&(allocatedprocessshape_.Process), allocatedprocessshapeFormCallback.probe.stageOfInterest, formDiv)
-		case "DiagramProcess:AllocatedProcessShapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](allocatedprocessshapeFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all DiagramProcess instances and update their AllocatedProcessShapes slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](allocatedprocessshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(allocatedprocessshapeFormCallback.probe.stageOfInterest, _diagramprocess)
-				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure allocatedprocessshape_ is in _diagramprocess.AllocatedProcessShapes
-					found := false
-					for _, _b := range _diagramprocess.AllocatedProcessShapes {
-						if _b == allocatedprocessshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_diagramprocess.AllocatedProcessShapes = append(_diagramprocess.AllocatedProcessShapes, allocatedprocessshape_)
-						allocatedprocessshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "AllocatedProcessShapes", &_diagramprocess.AllocatedProcessShapes)
-					}
-				} else {
-					// ensure allocatedprocessshape_ is NOT in _diagramprocess.AllocatedProcessShapes
-					idx := slices.Index(_diagramprocess.AllocatedProcessShapes, allocatedprocessshape_)
-					if idx != -1 {
-						_diagramprocess.AllocatedProcessShapes = slices.Delete(_diagramprocess.AllocatedProcessShapes, idx, idx+1)
-						allocatedprocessshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "AllocatedProcessShapes", &_diagramprocess.AllocatedProcessShapes)
-					}
-				}
-			}
-		}
-	}
-
-	// manage the suppress operation
-	if allocatedprocessshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		allocatedprocessshape_.Unstage(allocatedprocessshapeFormCallback.probe.stageOfInterest)
-	}
-
-	allocatedprocessshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.AllocatedProcessShape](
-		allocatedprocessshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if allocatedprocessshapeFormCallback.CreationMode || allocatedprocessshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		allocatedprocessshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(allocatedprocessshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__AllocatedProcessShapeFormCallback(
-			nil,
-			allocatedprocessshapeFormCallback.probe,
-			newFormGroup,
-		)
-		allocatedprocessshape := new(models.AllocatedProcessShape)
-		FillUpForm(allocatedprocessshape, newFormGroup, allocatedprocessshapeFormCallback.probe)
-		allocatedprocessshapeFormCallback.probe.formStage.Commit()
-	}
-
-	allocatedprocessshapeFormCallback.probe.ux_tree()
-}
 func __gong__New__AllocatedResourceShapeFormCallback(
 	allocatedresourceshape *models.AllocatedResourceShape,
 	probe *Probe,
@@ -193,52 +66,52 @@ func (allocatedresourceshapeFormCallback *AllocatedResourceShapeFormCallback) On
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(allocatedresourceshape_.Name), formDiv)
-		case "Participant":
-			FormDivSelectFieldToField(&(allocatedresourceshape_.Participant), allocatedresourceshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "Part":
+			FormDivSelectFieldToField(&(allocatedresourceshape_.Part), allocatedresourceshapeFormCallback.probe.stageOfInterest, formDiv)
 		case "Resource":
 			FormDivSelectFieldToField(&(allocatedresourceshape_.Resource), allocatedresourceshapeFormCallback.probe.stageOfInterest, formDiv)
-		case "DiagramProcess:AllocatedResourceShapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+		case "DiagramStructure:AllocatedResourceShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](allocatedresourceshapeFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](allocatedresourceshapeFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their AllocatedResourceShapes slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](allocatedresourceshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(allocatedresourceshapeFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their AllocatedResourceShapes slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](allocatedresourceshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(allocatedresourceshapeFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure allocatedresourceshape_ is in _diagramprocess.AllocatedResourceShapes
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure allocatedresourceshape_ is in _diagramstructure.AllocatedResourceShapes
 					found := false
-					for _, _b := range _diagramprocess.AllocatedResourceShapes {
+					for _, _b := range _diagramstructure.AllocatedResourceShapes {
 						if _b == allocatedresourceshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.AllocatedResourceShapes = append(_diagramprocess.AllocatedResourceShapes, allocatedresourceshape_)
-						allocatedresourceshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "AllocatedResourceShapes", &_diagramprocess.AllocatedResourceShapes)
+						_diagramstructure.AllocatedResourceShapes = append(_diagramstructure.AllocatedResourceShapes, allocatedresourceshape_)
+						allocatedresourceshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "AllocatedResourceShapes", &_diagramstructure.AllocatedResourceShapes)
 					}
 				} else {
-					// ensure allocatedresourceshape_ is NOT in _diagramprocess.AllocatedResourceShapes
-					idx := slices.Index(_diagramprocess.AllocatedResourceShapes, allocatedresourceshape_)
+					// ensure allocatedresourceshape_ is NOT in _diagramstructure.AllocatedResourceShapes
+					idx := slices.Index(_diagramstructure.AllocatedResourceShapes, allocatedresourceshape_)
 					if idx != -1 {
-						_diagramprocess.AllocatedResourceShapes = slices.Delete(_diagramprocess.AllocatedResourceShapes, idx, idx+1)
-						allocatedresourceshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "AllocatedResourceShapes", &_diagramprocess.AllocatedResourceShapes)
+						_diagramstructure.AllocatedResourceShapes = slices.Delete(_diagramstructure.AllocatedResourceShapes, idx, idx+1)
+						allocatedresourceshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "AllocatedResourceShapes", &_diagramstructure.AllocatedResourceShapes)
 					}
 				}
 			}
@@ -272,6 +145,133 @@ func (allocatedresourceshapeFormCallback *AllocatedResourceShapeFormCallback) On
 	}
 
 	allocatedresourceshapeFormCallback.probe.ux_tree()
+}
+func __gong__New__AllocatedSystemShapeFormCallback(
+	allocatedsystemshape *models.AllocatedSystemShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (allocatedsystemshapeFormCallback *AllocatedSystemShapeFormCallback) {
+	allocatedsystemshapeFormCallback = new(AllocatedSystemShapeFormCallback)
+	allocatedsystemshapeFormCallback.probe = probe
+	allocatedsystemshapeFormCallback.allocatedsystemshape = allocatedsystemshape
+	allocatedsystemshapeFormCallback.formGroup = formGroup
+
+	allocatedsystemshapeFormCallback.CreationMode = (allocatedsystemshape == nil)
+
+	return
+}
+
+type AllocatedSystemShapeFormCallback struct {
+	allocatedsystemshape *models.AllocatedSystemShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (allocatedsystemshapeFormCallback *AllocatedSystemShapeFormCallback) OnSave() {
+	allocatedsystemshapeFormCallback.probe.stageOfInterest.Lock()
+	defer allocatedsystemshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("AllocatedSystemShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	allocatedsystemshapeFormCallback.probe.formStage.Checkout()
+
+	if allocatedsystemshapeFormCallback.allocatedsystemshape == nil {
+		allocatedsystemshapeFormCallback.allocatedsystemshape = new(models.AllocatedSystemShape).Stage(allocatedsystemshapeFormCallback.probe.stageOfInterest)
+	}
+	allocatedsystemshape_ := allocatedsystemshapeFormCallback.allocatedsystemshape
+	_ = allocatedsystemshape_
+
+	for _, formDiv := range allocatedsystemshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(allocatedsystemshape_.Name), formDiv)
+		case "Part":
+			FormDivSelectFieldToField(&(allocatedsystemshape_.Part), allocatedsystemshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "System":
+			FormDivSelectFieldToField(&(allocatedsystemshape_.System), allocatedsystemshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "DiagramStructure:AllocatedSystemShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](allocatedsystemshapeFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramStructureIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all DiagramStructure instances and update their AllocatedSystemShapes slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](allocatedsystemshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(allocatedsystemshapeFormCallback.probe.stageOfInterest, _diagramstructure)
+				
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure allocatedsystemshape_ is in _diagramstructure.AllocatedSystemShapes
+					found := false
+					for _, _b := range _diagramstructure.AllocatedSystemShapes {
+						if _b == allocatedsystemshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagramstructure.AllocatedSystemShapes = append(_diagramstructure.AllocatedSystemShapes, allocatedsystemshape_)
+						allocatedsystemshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "AllocatedSystemShapes", &_diagramstructure.AllocatedSystemShapes)
+					}
+				} else {
+					// ensure allocatedsystemshape_ is NOT in _diagramstructure.AllocatedSystemShapes
+					idx := slices.Index(_diagramstructure.AllocatedSystemShapes, allocatedsystemshape_)
+					if idx != -1 {
+						_diagramstructure.AllocatedSystemShapes = slices.Delete(_diagramstructure.AllocatedSystemShapes, idx, idx+1)
+						allocatedsystemshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "AllocatedSystemShapes", &_diagramstructure.AllocatedSystemShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if allocatedsystemshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		allocatedsystemshape_.Unstage(allocatedsystemshapeFormCallback.probe.stageOfInterest)
+	}
+
+	allocatedsystemshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.AllocatedSystemShape](
+		allocatedsystemshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if allocatedsystemshapeFormCallback.CreationMode || allocatedsystemshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		allocatedsystemshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(allocatedsystemshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__AllocatedSystemShapeFormCallback(
+			nil,
+			allocatedsystemshapeFormCallback.probe,
+			newFormGroup,
+		)
+		allocatedsystemshape := new(models.AllocatedSystemShape)
+		FillUpForm(allocatedsystemshape, newFormGroup, allocatedsystemshapeFormCallback.probe)
+		allocatedsystemshapeFormCallback.probe.formStage.Commit()
+	}
+
+	allocatedsystemshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__ControlFlowFormCallback(
 	controlflow *models.ControlFlow,
@@ -332,93 +332,93 @@ func (controlflowFormCallback *ControlFlowFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(controlflow_.Start), controlflowFormCallback.probe.stageOfInterest, formDiv)
 		case "End":
 			FormDivSelectFieldToField(&(controlflow_.End), controlflowFormCallback.probe.stageOfInterest, formDiv)
-		case "DiagramProcess:ControlFlowsWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+		case "DiagramStructure:ControlFlowsWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](controlflowFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](controlflowFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their ControlFlowsWhoseNodeIsExpanded slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](controlflowFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(controlflowFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their ControlFlowsWhoseNodeIsExpanded slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](controlflowFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(controlflowFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure controlflow_ is in _diagramprocess.ControlFlowsWhoseNodeIsExpanded
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure controlflow_ is in _diagramstructure.ControlFlowsWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _diagramprocess.ControlFlowsWhoseNodeIsExpanded {
+					for _, _b := range _diagramstructure.ControlFlowsWhoseNodeIsExpanded {
 						if _b == controlflow_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.ControlFlowsWhoseNodeIsExpanded = append(_diagramprocess.ControlFlowsWhoseNodeIsExpanded, controlflow_)
-						controlflowFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "ControlFlowsWhoseNodeIsExpanded", &_diagramprocess.ControlFlowsWhoseNodeIsExpanded)
+						_diagramstructure.ControlFlowsWhoseNodeIsExpanded = append(_diagramstructure.ControlFlowsWhoseNodeIsExpanded, controlflow_)
+						controlflowFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "ControlFlowsWhoseNodeIsExpanded", &_diagramstructure.ControlFlowsWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure controlflow_ is NOT in _diagramprocess.ControlFlowsWhoseNodeIsExpanded
-					idx := slices.Index(_diagramprocess.ControlFlowsWhoseNodeIsExpanded, controlflow_)
+					// ensure controlflow_ is NOT in _diagramstructure.ControlFlowsWhoseNodeIsExpanded
+					idx := slices.Index(_diagramstructure.ControlFlowsWhoseNodeIsExpanded, controlflow_)
 					if idx != -1 {
-						_diagramprocess.ControlFlowsWhoseNodeIsExpanded = slices.Delete(_diagramprocess.ControlFlowsWhoseNodeIsExpanded, idx, idx+1)
-						controlflowFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "ControlFlowsWhoseNodeIsExpanded", &_diagramprocess.ControlFlowsWhoseNodeIsExpanded)
+						_diagramstructure.ControlFlowsWhoseNodeIsExpanded = slices.Delete(_diagramstructure.ControlFlowsWhoseNodeIsExpanded, idx, idx+1)
+						controlflowFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "ControlFlowsWhoseNodeIsExpanded", &_diagramstructure.ControlFlowsWhoseNodeIsExpanded)
 					}
 				}
 			}
-		case "Participant:ControlFlows":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Participant instances
+		case "Part:ControlFlows":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Part instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Participant instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](controlflowFormCallback.probe.stageOfInterest)
-			targetParticipantIDs := make(map[uint]bool)
+			// 2. Build a map of target Part instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](controlflowFormCallback.probe.stageOfInterest)
+			targetPartIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetParticipantIDs[id] = true
+					targetPartIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Participant instances and update their ControlFlows slice
-			for _participant := range *models.GetGongstructInstancesSetFromPointerType[*models.Participant](controlflowFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(controlflowFormCallback.probe.stageOfInterest, _participant)
+			// 3. Iterate over all Part instances and update their ControlFlows slice
+			for _part := range *models.GetGongstructInstancesSetFromPointerType[*models.Part](controlflowFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(controlflowFormCallback.probe.stageOfInterest, _part)
 				
-				// if Participant is selected
-				if targetParticipantIDs[id] {
-					// ensure controlflow_ is in _participant.ControlFlows
+				// if Part is selected
+				if targetPartIDs[id] {
+					// ensure controlflow_ is in _part.ControlFlows
 					found := false
-					for _, _b := range _participant.ControlFlows {
+					for _, _b := range _part.ControlFlows {
 						if _b == controlflow_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_participant.ControlFlows = append(_participant.ControlFlows, controlflow_)
-						controlflowFormCallback.probe.UpdateSliceOfPointersCallback(_participant, "ControlFlows", &_participant.ControlFlows)
+						_part.ControlFlows = append(_part.ControlFlows, controlflow_)
+						controlflowFormCallback.probe.UpdateSliceOfPointersCallback(_part, "ControlFlows", &_part.ControlFlows)
 					}
 				} else {
-					// ensure controlflow_ is NOT in _participant.ControlFlows
-					idx := slices.Index(_participant.ControlFlows, controlflow_)
+					// ensure controlflow_ is NOT in _part.ControlFlows
+					idx := slices.Index(_part.ControlFlows, controlflow_)
 					if idx != -1 {
-						_participant.ControlFlows = slices.Delete(_participant.ControlFlows, idx, idx+1)
-						controlflowFormCallback.probe.UpdateSliceOfPointersCallback(_participant, "ControlFlows", &_participant.ControlFlows)
+						_part.ControlFlows = slices.Delete(_part.ControlFlows, idx, idx+1)
+						controlflowFormCallback.probe.UpdateSliceOfPointersCallback(_part, "ControlFlows", &_part.ControlFlows)
 					}
 				}
 			}
@@ -514,48 +514,48 @@ func (controlflowshapeFormCallback *ControlFlowShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(controlflowshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(controlflowshape_.IsHidden), formDiv)
-		case "DiagramProcess:ControlFlow_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+		case "DiagramStructure:ControlFlow_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](controlflowshapeFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](controlflowshapeFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their ControlFlow_Shapes slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](controlflowshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(controlflowshapeFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their ControlFlow_Shapes slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](controlflowshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(controlflowshapeFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure controlflowshape_ is in _diagramprocess.ControlFlow_Shapes
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure controlflowshape_ is in _diagramstructure.ControlFlow_Shapes
 					found := false
-					for _, _b := range _diagramprocess.ControlFlow_Shapes {
+					for _, _b := range _diagramstructure.ControlFlow_Shapes {
 						if _b == controlflowshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.ControlFlow_Shapes = append(_diagramprocess.ControlFlow_Shapes, controlflowshape_)
-						controlflowshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "ControlFlow_Shapes", &_diagramprocess.ControlFlow_Shapes)
+						_diagramstructure.ControlFlow_Shapes = append(_diagramstructure.ControlFlow_Shapes, controlflowshape_)
+						controlflowshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "ControlFlow_Shapes", &_diagramstructure.ControlFlow_Shapes)
 					}
 				} else {
-					// ensure controlflowshape_ is NOT in _diagramprocess.ControlFlow_Shapes
-					idx := slices.Index(_diagramprocess.ControlFlow_Shapes, controlflowshape_)
+					// ensure controlflowshape_ is NOT in _diagramstructure.ControlFlow_Shapes
+					idx := slices.Index(_diagramstructure.ControlFlow_Shapes, controlflowshape_)
 					if idx != -1 {
-						_diagramprocess.ControlFlow_Shapes = slices.Delete(_diagramprocess.ControlFlow_Shapes, idx, idx+1)
-						controlflowshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "ControlFlow_Shapes", &_diagramprocess.ControlFlow_Shapes)
+						_diagramstructure.ControlFlow_Shapes = slices.Delete(_diagramstructure.ControlFlow_Shapes, idx, idx+1)
+						controlflowshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "ControlFlow_Shapes", &_diagramstructure.ControlFlow_Shapes)
 					}
 				}
 			}
@@ -696,48 +696,48 @@ func (dataFormCallback *DataFormCallback) OnSave() {
 					}
 				}
 			}
-		case "DiagramProcess:DatasWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+		case "DiagramStructure:DatasWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](dataFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](dataFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their DatasWhoseNodeIsExpanded slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](dataFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(dataFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their DatasWhoseNodeIsExpanded slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](dataFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(dataFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure data_ is in _diagramprocess.DatasWhoseNodeIsExpanded
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure data_ is in _diagramstructure.DatasWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _diagramprocess.DatasWhoseNodeIsExpanded {
+					for _, _b := range _diagramstructure.DatasWhoseNodeIsExpanded {
 						if _b == data_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.DatasWhoseNodeIsExpanded = append(_diagramprocess.DatasWhoseNodeIsExpanded, data_)
-						dataFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "DatasWhoseNodeIsExpanded", &_diagramprocess.DatasWhoseNodeIsExpanded)
+						_diagramstructure.DatasWhoseNodeIsExpanded = append(_diagramstructure.DatasWhoseNodeIsExpanded, data_)
+						dataFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "DatasWhoseNodeIsExpanded", &_diagramstructure.DatasWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure data_ is NOT in _diagramprocess.DatasWhoseNodeIsExpanded
-					idx := slices.Index(_diagramprocess.DatasWhoseNodeIsExpanded, data_)
+					// ensure data_ is NOT in _diagramstructure.DatasWhoseNodeIsExpanded
+					idx := slices.Index(_diagramstructure.DatasWhoseNodeIsExpanded, data_)
 					if idx != -1 {
-						_diagramprocess.DatasWhoseNodeIsExpanded = slices.Delete(_diagramprocess.DatasWhoseNodeIsExpanded, idx, idx+1)
-						dataFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "DatasWhoseNodeIsExpanded", &_diagramprocess.DatasWhoseNodeIsExpanded)
+						_diagramstructure.DatasWhoseNodeIsExpanded = slices.Delete(_diagramstructure.DatasWhoseNodeIsExpanded, idx, idx+1)
+						dataFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "DatasWhoseNodeIsExpanded", &_diagramstructure.DatasWhoseNodeIsExpanded)
 					}
 				}
 			}
@@ -951,103 +951,103 @@ func (dataflowFormCallback *DataFlowFormCallback) OnSave() {
 			FormDivEnumIntFieldToField(&(dataflow_.LayoutDirection), formDiv)
 		case "Type":
 			FormDivEnumStringFieldToField(&(dataflow_.Type), formDiv)
-		case "StartTask":
-			FormDivSelectFieldToField(&(dataflow_.StartTask), dataflowFormCallback.probe.stageOfInterest, formDiv)
-		case "EndTask":
-			FormDivSelectFieldToField(&(dataflow_.EndTask), dataflowFormCallback.probe.stageOfInterest, formDiv)
-		case "StartExternalParticipant":
-			FormDivSelectFieldToField(&(dataflow_.StartExternalParticipant), dataflowFormCallback.probe.stageOfInterest, formDiv)
-		case "EndExternalParticipant":
-			FormDivSelectFieldToField(&(dataflow_.EndExternalParticipant), dataflowFormCallback.probe.stageOfInterest, formDiv)
+		case "StartPort":
+			FormDivSelectFieldToField(&(dataflow_.StartPort), dataflowFormCallback.probe.stageOfInterest, formDiv)
+		case "EndPort":
+			FormDivSelectFieldToField(&(dataflow_.EndPort), dataflowFormCallback.probe.stageOfInterest, formDiv)
+		case "StartExternalPart":
+			FormDivSelectFieldToField(&(dataflow_.StartExternalPart), dataflowFormCallback.probe.stageOfInterest, formDiv)
+		case "EndExternalPart":
+			FormDivSelectFieldToField(&(dataflow_.EndExternalPart), dataflowFormCallback.probe.stageOfInterest, formDiv)
 		case "IsDatasNodeExpanded":
 			FormDivBasicFieldToField(&(dataflow_.IsDatasNodeExpanded), formDiv)
-		case "DiagramProcess:DataFlowsWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+		case "DiagramStructure:DataFlowsWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](dataflowFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](dataflowFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their DataFlowsWhoseNodeIsExpanded slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](dataflowFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(dataflowFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their DataFlowsWhoseNodeIsExpanded slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](dataflowFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(dataflowFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure dataflow_ is in _diagramprocess.DataFlowsWhoseNodeIsExpanded
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure dataflow_ is in _diagramstructure.DataFlowsWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _diagramprocess.DataFlowsWhoseNodeIsExpanded {
+					for _, _b := range _diagramstructure.DataFlowsWhoseNodeIsExpanded {
 						if _b == dataflow_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.DataFlowsWhoseNodeIsExpanded = append(_diagramprocess.DataFlowsWhoseNodeIsExpanded, dataflow_)
-						dataflowFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "DataFlowsWhoseNodeIsExpanded", &_diagramprocess.DataFlowsWhoseNodeIsExpanded)
+						_diagramstructure.DataFlowsWhoseNodeIsExpanded = append(_diagramstructure.DataFlowsWhoseNodeIsExpanded, dataflow_)
+						dataflowFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "DataFlowsWhoseNodeIsExpanded", &_diagramstructure.DataFlowsWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure dataflow_ is NOT in _diagramprocess.DataFlowsWhoseNodeIsExpanded
-					idx := slices.Index(_diagramprocess.DataFlowsWhoseNodeIsExpanded, dataflow_)
+					// ensure dataflow_ is NOT in _diagramstructure.DataFlowsWhoseNodeIsExpanded
+					idx := slices.Index(_diagramstructure.DataFlowsWhoseNodeIsExpanded, dataflow_)
 					if idx != -1 {
-						_diagramprocess.DataFlowsWhoseNodeIsExpanded = slices.Delete(_diagramprocess.DataFlowsWhoseNodeIsExpanded, idx, idx+1)
-						dataflowFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "DataFlowsWhoseNodeIsExpanded", &_diagramprocess.DataFlowsWhoseNodeIsExpanded)
+						_diagramstructure.DataFlowsWhoseNodeIsExpanded = slices.Delete(_diagramstructure.DataFlowsWhoseNodeIsExpanded, idx, idx+1)
+						dataflowFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "DataFlowsWhoseNodeIsExpanded", &_diagramstructure.DataFlowsWhoseNodeIsExpanded)
 					}
 				}
 			}
-		case "DiagramProcess:DataFlowsWhoseDataNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+		case "DiagramStructure:DataFlowsWhoseDataNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](dataflowFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](dataflowFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their DataFlowsWhoseDataNodeIsExpanded slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](dataflowFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(dataflowFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their DataFlowsWhoseDataNodeIsExpanded slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](dataflowFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(dataflowFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure dataflow_ is in _diagramprocess.DataFlowsWhoseDataNodeIsExpanded
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure dataflow_ is in _diagramstructure.DataFlowsWhoseDataNodeIsExpanded
 					found := false
-					for _, _b := range _diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
+					for _, _b := range _diagramstructure.DataFlowsWhoseDataNodeIsExpanded {
 						if _b == dataflow_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.DataFlowsWhoseDataNodeIsExpanded = append(_diagramprocess.DataFlowsWhoseDataNodeIsExpanded, dataflow_)
-						dataflowFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "DataFlowsWhoseDataNodeIsExpanded", &_diagramprocess.DataFlowsWhoseDataNodeIsExpanded)
+						_diagramstructure.DataFlowsWhoseDataNodeIsExpanded = append(_diagramstructure.DataFlowsWhoseDataNodeIsExpanded, dataflow_)
+						dataflowFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "DataFlowsWhoseDataNodeIsExpanded", &_diagramstructure.DataFlowsWhoseDataNodeIsExpanded)
 					}
 				} else {
-					// ensure dataflow_ is NOT in _diagramprocess.DataFlowsWhoseDataNodeIsExpanded
-					idx := slices.Index(_diagramprocess.DataFlowsWhoseDataNodeIsExpanded, dataflow_)
+					// ensure dataflow_ is NOT in _diagramstructure.DataFlowsWhoseDataNodeIsExpanded
+					idx := slices.Index(_diagramstructure.DataFlowsWhoseDataNodeIsExpanded, dataflow_)
 					if idx != -1 {
-						_diagramprocess.DataFlowsWhoseDataNodeIsExpanded = slices.Delete(_diagramprocess.DataFlowsWhoseDataNodeIsExpanded, idx, idx+1)
-						dataflowFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "DataFlowsWhoseDataNodeIsExpanded", &_diagramprocess.DataFlowsWhoseDataNodeIsExpanded)
+						_diagramstructure.DataFlowsWhoseDataNodeIsExpanded = slices.Delete(_diagramstructure.DataFlowsWhoseDataNodeIsExpanded, idx, idx+1)
+						dataflowFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "DataFlowsWhoseDataNodeIsExpanded", &_diagramstructure.DataFlowsWhoseDataNodeIsExpanded)
 					}
 				}
 			}
@@ -1141,48 +1141,48 @@ func (dataflowFormCallback *DataFlowFormCallback) OnSave() {
 					}
 				}
 			}
-		case "Process:DataFlows":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Process instances
+		case "System:DataFlows":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Process instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Process](dataflowFormCallback.probe.stageOfInterest)
-			targetProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target System instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.System](dataflowFormCallback.probe.stageOfInterest)
+			targetSystemIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetProcessIDs[id] = true
+					targetSystemIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Process instances and update their DataFlows slice
-			for _process := range *models.GetGongstructInstancesSetFromPointerType[*models.Process](dataflowFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(dataflowFormCallback.probe.stageOfInterest, _process)
+			// 3. Iterate over all System instances and update their DataFlows slice
+			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](dataflowFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(dataflowFormCallback.probe.stageOfInterest, _system)
 				
-				// if Process is selected
-				if targetProcessIDs[id] {
-					// ensure dataflow_ is in _process.DataFlows
+				// if System is selected
+				if targetSystemIDs[id] {
+					// ensure dataflow_ is in _system.DataFlows
 					found := false
-					for _, _b := range _process.DataFlows {
+					for _, _b := range _system.DataFlows {
 						if _b == dataflow_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_process.DataFlows = append(_process.DataFlows, dataflow_)
-						dataflowFormCallback.probe.UpdateSliceOfPointersCallback(_process, "DataFlows", &_process.DataFlows)
+						_system.DataFlows = append(_system.DataFlows, dataflow_)
+						dataflowFormCallback.probe.UpdateSliceOfPointersCallback(_system, "DataFlows", &_system.DataFlows)
 					}
 				} else {
-					// ensure dataflow_ is NOT in _process.DataFlows
-					idx := slices.Index(_process.DataFlows, dataflow_)
+					// ensure dataflow_ is NOT in _system.DataFlows
+					idx := slices.Index(_system.DataFlows, dataflow_)
 					if idx != -1 {
-						_process.DataFlows = slices.Delete(_process.DataFlows, idx, idx+1)
-						dataflowFormCallback.probe.UpdateSliceOfPointersCallback(_process, "DataFlows", &_process.DataFlows)
+						_system.DataFlows = slices.Delete(_system.DataFlows, idx, idx+1)
+						dataflowFormCallback.probe.UpdateSliceOfPointersCallback(_system, "DataFlows", &_system.DataFlows)
 					}
 				}
 			}
@@ -1278,48 +1278,48 @@ func (dataflowshapeFormCallback *DataFlowShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(dataflowshape_.CornerOffsetRatio), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(dataflowshape_.IsHidden), formDiv)
-		case "DiagramProcess:DataFlow_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+		case "DiagramStructure:DataFlow_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](dataflowshapeFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](dataflowshapeFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their DataFlow_Shapes slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](dataflowshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(dataflowshapeFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their DataFlow_Shapes slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](dataflowshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(dataflowshapeFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure dataflowshape_ is in _diagramprocess.DataFlow_Shapes
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure dataflowshape_ is in _diagramstructure.DataFlow_Shapes
 					found := false
-					for _, _b := range _diagramprocess.DataFlow_Shapes {
+					for _, _b := range _diagramstructure.DataFlow_Shapes {
 						if _b == dataflowshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.DataFlow_Shapes = append(_diagramprocess.DataFlow_Shapes, dataflowshape_)
-						dataflowshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "DataFlow_Shapes", &_diagramprocess.DataFlow_Shapes)
+						_diagramstructure.DataFlow_Shapes = append(_diagramstructure.DataFlow_Shapes, dataflowshape_)
+						dataflowshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "DataFlow_Shapes", &_diagramstructure.DataFlow_Shapes)
 					}
 				} else {
-					// ensure dataflowshape_ is NOT in _diagramprocess.DataFlow_Shapes
-					idx := slices.Index(_diagramprocess.DataFlow_Shapes, dataflowshape_)
+					// ensure dataflowshape_ is NOT in _diagramstructure.DataFlow_Shapes
+					idx := slices.Index(_diagramstructure.DataFlow_Shapes, dataflowshape_)
 					if idx != -1 {
-						_diagramprocess.DataFlow_Shapes = slices.Delete(_diagramprocess.DataFlow_Shapes, idx, idx+1)
-						dataflowshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "DataFlow_Shapes", &_diagramprocess.DataFlow_Shapes)
+						_diagramstructure.DataFlow_Shapes = slices.Delete(_diagramstructure.DataFlow_Shapes, idx, idx+1)
+						dataflowshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "DataFlow_Shapes", &_diagramstructure.DataFlow_Shapes)
 					}
 				}
 			}
@@ -1405,48 +1405,48 @@ func (datashapeFormCallback *DataShapeFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(datashape_.Data), datashapeFormCallback.probe.stageOfInterest, formDiv)
 		case "DataFlow":
 			FormDivSelectFieldToField(&(datashape_.DataFlow), datashapeFormCallback.probe.stageOfInterest, formDiv)
-		case "DiagramProcess:Data_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+		case "DiagramStructure:Data_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](datashapeFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](datashapeFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their Data_Shapes slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](datashapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(datashapeFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their Data_Shapes slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](datashapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(datashapeFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure datashape_ is in _diagramprocess.Data_Shapes
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure datashape_ is in _diagramstructure.Data_Shapes
 					found := false
-					for _, _b := range _diagramprocess.Data_Shapes {
+					for _, _b := range _diagramstructure.Data_Shapes {
 						if _b == datashape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.Data_Shapes = append(_diagramprocess.Data_Shapes, datashape_)
-						datashapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "Data_Shapes", &_diagramprocess.Data_Shapes)
+						_diagramstructure.Data_Shapes = append(_diagramstructure.Data_Shapes, datashape_)
+						datashapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "Data_Shapes", &_diagramstructure.Data_Shapes)
 					}
 				} else {
-					// ensure datashape_ is NOT in _diagramprocess.Data_Shapes
-					idx := slices.Index(_diagramprocess.Data_Shapes, datashape_)
+					// ensure datashape_ is NOT in _diagramstructure.Data_Shapes
+					idx := slices.Index(_diagramstructure.Data_Shapes, datashape_)
 					if idx != -1 {
-						_diagramprocess.Data_Shapes = slices.Delete(_diagramprocess.Data_Shapes, idx, idx+1)
-						datashapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "Data_Shapes", &_diagramprocess.Data_Shapes)
+						_diagramstructure.Data_Shapes = slices.Delete(_diagramstructure.Data_Shapes, idx, idx+1)
+						datashapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "Data_Shapes", &_diagramstructure.Data_Shapes)
 					}
 				}
 			}
@@ -1481,23 +1481,23 @@ func (datashapeFormCallback *DataShapeFormCallback) OnSave() {
 
 	datashapeFormCallback.probe.ux_tree()
 }
-func __gong__New__DiagramProcessFormCallback(
-	diagramprocess *models.DiagramProcess,
+func __gong__New__DiagramStructureFormCallback(
+	diagramstructure *models.DiagramStructure,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (diagramprocessFormCallback *DiagramProcessFormCallback) {
-	diagramprocessFormCallback = new(DiagramProcessFormCallback)
-	diagramprocessFormCallback.probe = probe
-	diagramprocessFormCallback.diagramprocess = diagramprocess
-	diagramprocessFormCallback.formGroup = formGroup
+) (diagramstructureFormCallback *DiagramStructureFormCallback) {
+	diagramstructureFormCallback = new(DiagramStructureFormCallback)
+	diagramstructureFormCallback.probe = probe
+	diagramstructureFormCallback.diagramstructure = diagramstructure
+	diagramstructureFormCallback.formGroup = formGroup
 
-	diagramprocessFormCallback.CreationMode = (diagramprocess == nil)
+	diagramstructureFormCallback.CreationMode = (diagramstructure == nil)
 
 	return
 }
 
-type DiagramProcessFormCallback struct {
-	diagramprocess *models.DiagramProcess
+type DiagramStructureFormCallback struct {
+	diagramstructure *models.DiagramStructure
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -1507,59 +1507,59 @@ type DiagramProcessFormCallback struct {
 	formGroup *form.FormGroup
 }
 
-func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
-	diagramprocessFormCallback.probe.stageOfInterest.Lock()
-	defer diagramprocessFormCallback.probe.stageOfInterest.Unlock()
+func (diagramstructureFormCallback *DiagramStructureFormCallback) OnSave() {
+	diagramstructureFormCallback.probe.stageOfInterest.Lock()
+	defer diagramstructureFormCallback.probe.stageOfInterest.Unlock()
 
-	// log.Println("DiagramProcessFormCallback, OnSave")
+	// log.Println("DiagramStructureFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	diagramprocessFormCallback.probe.formStage.Checkout()
+	diagramstructureFormCallback.probe.formStage.Checkout()
 
-	if diagramprocessFormCallback.diagramprocess == nil {
-		diagramprocessFormCallback.diagramprocess = new(models.DiagramProcess).Stage(diagramprocessFormCallback.probe.stageOfInterest)
+	if diagramstructureFormCallback.diagramstructure == nil {
+		diagramstructureFormCallback.diagramstructure = new(models.DiagramStructure).Stage(diagramstructureFormCallback.probe.stageOfInterest)
 	}
-	diagramprocess_ := diagramprocessFormCallback.diagramprocess
-	_ = diagramprocess_
+	diagramstructure_ := diagramstructureFormCallback.diagramstructure
+	_ = diagramstructure_
 
-	for _, formDiv := range diagramprocessFormCallback.formGroup.FormDivs {
+	for _, formDiv := range diagramstructureFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(diagramprocess_.Name), formDiv)
+			FormDivBasicFieldToField(&(diagramstructure_.Name), formDiv)
 		case "Description":
-			FormDivBasicFieldToField(&(diagramprocess_.Description), formDiv)
+			FormDivBasicFieldToField(&(diagramstructure_.Description), formDiv)
 		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(diagramprocess_.ComputedPrefix), formDiv)
+			FormDivBasicFieldToField(&(diagramstructure_.ComputedPrefix), formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(diagramprocess_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(diagramstructure_.IsExpanded), formDiv)
 		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(diagramprocess_.LayoutDirection), formDiv)
+			FormDivEnumIntFieldToField(&(diagramstructure_.LayoutDirection), formDiv)
 		case "IsChecked":
-			FormDivBasicFieldToField(&(diagramprocess_.IsChecked), formDiv)
+			FormDivBasicFieldToField(&(diagramstructure_.IsChecked), formDiv)
 		case "IsEditable_":
-			FormDivBasicFieldToField(&(diagramprocess_.IsEditable_), formDiv)
+			FormDivBasicFieldToField(&(diagramstructure_.IsEditable_), formDiv)
 		case "IsShowPrefix":
-			FormDivBasicFieldToField(&(diagramprocess_.IsShowPrefix), formDiv)
+			FormDivBasicFieldToField(&(diagramstructure_.IsShowPrefix), formDiv)
 		case "DefaultBoxWidth":
-			FormDivBasicFieldToField(&(diagramprocess_.DefaultBoxWidth), formDiv)
+			FormDivBasicFieldToField(&(diagramstructure_.DefaultBoxWidth), formDiv)
 		case "DefaultBoxHeigth":
-			FormDivBasicFieldToField(&(diagramprocess_.DefaultBoxHeigth), formDiv)
+			FormDivBasicFieldToField(&(diagramstructure_.DefaultBoxHeigth), formDiv)
 		case "Width":
-			FormDivBasicFieldToField(&(diagramprocess_.Width), formDiv)
+			FormDivBasicFieldToField(&(diagramstructure_.Width), formDiv)
 		case "Height":
-			FormDivBasicFieldToField(&(diagramprocess_.Height), formDiv)
-		case "Process_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ProcessShape](diagramprocessFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.ProcessShape, 0)
+			FormDivBasicFieldToField(&(diagramstructure_.Height), formDiv)
+		case "System_Shapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SystemShape](diagramstructureFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.SystemShape, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.ProcessShape)
+			map_id_instances := make(map[uint]*models.SystemShape)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1570,7 +1570,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.ProcessShape](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.SystemShape](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -1579,21 +1579,21 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.Process_Shapes = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "Process_Shapes", &diagramprocess_.Process_Shapes)
+			diagramstructure_.System_Shapes = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "System_Shapes", &diagramstructure_.System_Shapes)
 
-		case "IsProcesssNodeExpanded":
-			FormDivBasicFieldToField(&(diagramprocess_.IsProcesssNodeExpanded), formDiv)
-		case "ProcesssWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Process](diagramprocessFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Process, 0)
+		case "IsSystemsNodeExpanded":
+			FormDivBasicFieldToField(&(diagramstructure_.IsSystemsNodeExpanded), formDiv)
+		case "SystemsWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.System](diagramstructureFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.System, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Process)
+			map_id_instances := make(map[uint]*models.System)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1604,7 +1604,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Process](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.System](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -1613,19 +1613,19 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.ProcesssWhoseNodeIsExpanded = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "ProcesssWhoseNodeIsExpanded", &diagramprocess_.ProcesssWhoseNodeIsExpanded)
+			diagramstructure_.SystemsWhoseNodeIsExpanded = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "SystemsWhoseNodeIsExpanded", &diagramstructure_.SystemsWhoseNodeIsExpanded)
 
-		case "Participant_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ParticipantShape](diagramprocessFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.ParticipantShape, 0)
+		case "Part_Shapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartShape](diagramstructureFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.PartShape, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.ParticipantShape)
+			map_id_instances := make(map[uint]*models.PartShape)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1636,7 +1636,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.ParticipantShape](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.PartShape](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -1645,21 +1645,21 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.Participant_Shapes = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "Participant_Shapes", &diagramprocess_.Participant_Shapes)
+			diagramstructure_.Part_Shapes = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "Part_Shapes", &diagramstructure_.Part_Shapes)
 
-		case "IsParticipantsNodeExpanded":
-			FormDivBasicFieldToField(&(diagramprocess_.IsParticipantsNodeExpanded), formDiv)
-		case "ParticipantWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](diagramprocessFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Participant, 0)
+		case "IsPartsNodeExpanded":
+			FormDivBasicFieldToField(&(diagramstructure_.IsPartsNodeExpanded), formDiv)
+		case "PartWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Part](diagramstructureFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Part, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Participant)
+			map_id_instances := make(map[uint]*models.Part)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1670,7 +1670,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -1679,19 +1679,19 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.ParticipantWhoseNodeIsExpanded = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "ParticipantWhoseNodeIsExpanded", &diagramprocess_.ParticipantWhoseNodeIsExpanded)
+			diagramstructure_.PartWhoseNodeIsExpanded = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "PartWhoseNodeIsExpanded", &diagramstructure_.PartWhoseNodeIsExpanded)
 
-		case "ExternalParticipant_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ExternalParticipantShape](diagramprocessFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.ExternalParticipantShape, 0)
+		case "ExternalPart_Shapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ExternalPartShape](diagramstructureFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ExternalPartShape, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.ExternalParticipantShape)
+			map_id_instances := make(map[uint]*models.ExternalPartShape)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1702,7 +1702,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.ExternalParticipantShape](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.ExternalPartShape](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -1711,21 +1711,21 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.ExternalParticipant_Shapes = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "ExternalParticipant_Shapes", &diagramprocess_.ExternalParticipant_Shapes)
+			diagramstructure_.ExternalPart_Shapes = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "ExternalPart_Shapes", &diagramstructure_.ExternalPart_Shapes)
 
-		case "IsExternalParticipantsNodeExpanded":
-			FormDivBasicFieldToField(&(diagramprocess_.IsExternalParticipantsNodeExpanded), formDiv)
-		case "ExternalParticipantWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](diagramprocessFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Participant, 0)
+		case "IsExternalPartsNodeExpanded":
+			FormDivBasicFieldToField(&(diagramstructure_.IsExternalPartsNodeExpanded), formDiv)
+		case "ExternalPartWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Part](diagramstructureFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Part, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Participant)
+			map_id_instances := make(map[uint]*models.Part)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1736,7 +1736,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -1745,19 +1745,19 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.ExternalParticipantWhoseNodeIsExpanded = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "ExternalParticipantWhoseNodeIsExpanded", &diagramprocess_.ExternalParticipantWhoseNodeIsExpanded)
+			diagramstructure_.ExternalPartWhoseNodeIsExpanded = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "ExternalPartWhoseNodeIsExpanded", &diagramstructure_.ExternalPartWhoseNodeIsExpanded)
 
-		case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](diagramprocessFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Participant, 0)
+		case "ExternalPartsWhoseOutDataFlowsNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Part](diagramstructureFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Part, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Participant)
+			map_id_instances := make(map[uint]*models.Part)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1768,7 +1768,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -1777,19 +1777,19 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded", &diagramprocess_.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded)
+			diagramstructure_.ExternalPartsWhoseOutDataFlowsNodeIsExpanded = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "ExternalPartsWhoseOutDataFlowsNodeIsExpanded", &diagramstructure_.ExternalPartsWhoseOutDataFlowsNodeIsExpanded)
 
-		case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](diagramprocessFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Participant, 0)
+		case "ExternalPartsWhoseInDataFlowsNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Part](diagramstructureFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Part, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Participant)
+			map_id_instances := make(map[uint]*models.Part)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1800,7 +1800,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -1809,19 +1809,19 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded", &diagramprocess_.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded)
+			diagramstructure_.ExternalPartsWhoseInDataFlowsNodeIsExpanded = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "ExternalPartsWhoseInDataFlowsNodeIsExpanded", &diagramstructure_.ExternalPartsWhoseInDataFlowsNodeIsExpanded)
 
-		case "TasksWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](diagramprocessFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Task, 0)
+		case "PortsWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Port](diagramstructureFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Port, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Task)
+			map_id_instances := make(map[uint]*models.Port)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1832,7 +1832,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Task](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Port](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -1841,19 +1841,19 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.TasksWhoseNodeIsExpanded = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "TasksWhoseNodeIsExpanded", &diagramprocess_.TasksWhoseNodeIsExpanded)
+			diagramstructure_.PortsWhoseNodeIsExpanded = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "PortsWhoseNodeIsExpanded", &diagramstructure_.PortsWhoseNodeIsExpanded)
 
-		case "Task_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskShape](diagramprocessFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.TaskShape, 0)
+		case "Port_Shapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PortShape](diagramstructureFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.PortShape, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.TaskShape)
+			map_id_instances := make(map[uint]*models.PortShape)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1864,7 +1864,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.TaskShape](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.PortShape](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -1873,11 +1873,11 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.Task_Shapes = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "Task_Shapes", &diagramprocess_.Task_Shapes)
+			diagramstructure_.Port_Shapes = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "Port_Shapes", &diagramstructure_.Port_Shapes)
 
 		case "ControlFlowsWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlFlow](diagramprocessFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlFlow](diagramstructureFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ControlFlow, 0)
 
 			// make a map of all instances by their ID
@@ -1885,7 +1885,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1896,7 +1896,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.ControlFlow](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.ControlFlow](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -1905,11 +1905,11 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.ControlFlowsWhoseNodeIsExpanded = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "ControlFlowsWhoseNodeIsExpanded", &diagramprocess_.ControlFlowsWhoseNodeIsExpanded)
+			diagramstructure_.ControlFlowsWhoseNodeIsExpanded = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "ControlFlowsWhoseNodeIsExpanded", &diagramstructure_.ControlFlowsWhoseNodeIsExpanded)
 
 		case "ControlFlow_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlFlowShape](diagramprocessFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlFlowShape](diagramstructureFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ControlFlowShape, 0)
 
 			// make a map of all instances by their ID
@@ -1917,7 +1917,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1928,7 +1928,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.ControlFlowShape](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.ControlFlowShape](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -1937,11 +1937,11 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.ControlFlow_Shapes = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "ControlFlow_Shapes", &diagramprocess_.ControlFlow_Shapes)
+			diagramstructure_.ControlFlow_Shapes = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "ControlFlow_Shapes", &diagramstructure_.ControlFlow_Shapes)
 
 		case "DataFlowsWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlow](diagramprocessFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlow](diagramstructureFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DataFlow, 0)
 
 			// make a map of all instances by their ID
@@ -1949,7 +1949,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1960,7 +1960,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.DataFlow](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.DataFlow](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -1969,11 +1969,11 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.DataFlowsWhoseNodeIsExpanded = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "DataFlowsWhoseNodeIsExpanded", &diagramprocess_.DataFlowsWhoseNodeIsExpanded)
+			diagramstructure_.DataFlowsWhoseNodeIsExpanded = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "DataFlowsWhoseNodeIsExpanded", &diagramstructure_.DataFlowsWhoseNodeIsExpanded)
 
 		case "DataFlow_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlowShape](diagramprocessFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlowShape](diagramstructureFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DataFlowShape, 0)
 
 			// make a map of all instances by their ID
@@ -1981,7 +1981,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -1992,7 +1992,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.DataFlowShape](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.DataFlowShape](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -2001,11 +2001,11 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.DataFlow_Shapes = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "DataFlow_Shapes", &diagramprocess_.DataFlow_Shapes)
+			diagramstructure_.DataFlow_Shapes = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "DataFlow_Shapes", &diagramstructure_.DataFlow_Shapes)
 
 		case "DatasWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Data](diagramprocessFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Data](diagramstructureFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Data, 0)
 
 			// make a map of all instances by their ID
@@ -2013,7 +2013,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2024,7 +2024,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Data](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Data](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -2033,11 +2033,11 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.DatasWhoseNodeIsExpanded = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "DatasWhoseNodeIsExpanded", &diagramprocess_.DatasWhoseNodeIsExpanded)
+			diagramstructure_.DatasWhoseNodeIsExpanded = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "DatasWhoseNodeIsExpanded", &diagramstructure_.DatasWhoseNodeIsExpanded)
 
 		case "Data_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataShape](diagramprocessFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataShape](diagramstructureFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DataShape, 0)
 
 			// make a map of all instances by their ID
@@ -2045,7 +2045,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2056,7 +2056,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.DataShape](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.DataShape](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -2065,11 +2065,11 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.Data_Shapes = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "Data_Shapes", &diagramprocess_.Data_Shapes)
+			diagramstructure_.Data_Shapes = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "Data_Shapes", &diagramstructure_.Data_Shapes)
 
 		case "DataFlowsWhoseDataNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlow](diagramprocessFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlow](diagramstructureFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.DataFlow, 0)
 
 			// make a map of all instances by their ID
@@ -2077,7 +2077,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2088,7 +2088,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.DataFlow](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.DataFlow](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -2097,11 +2097,11 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.DataFlowsWhoseDataNodeIsExpanded = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "DataFlowsWhoseDataNodeIsExpanded", &diagramprocess_.DataFlowsWhoseDataNodeIsExpanded)
+			diagramstructure_.DataFlowsWhoseDataNodeIsExpanded = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "DataFlowsWhoseDataNodeIsExpanded", &diagramstructure_.DataFlowsWhoseDataNodeIsExpanded)
 
 		case "AllocatedResourcesWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Resource](diagramprocessFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Resource](diagramstructureFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Resource, 0)
 
 			// make a map of all instances by their ID
@@ -2109,7 +2109,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2120,7 +2120,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Resource](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Resource](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -2129,11 +2129,11 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.AllocatedResourcesWhoseNodeIsExpanded = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "AllocatedResourcesWhoseNodeIsExpanded", &diagramprocess_.AllocatedResourcesWhoseNodeIsExpanded)
+			diagramstructure_.AllocatedResourcesWhoseNodeIsExpanded = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "AllocatedResourcesWhoseNodeIsExpanded", &diagramstructure_.AllocatedResourcesWhoseNodeIsExpanded)
 
 		case "AllocatedResourceShapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AllocatedResourceShape](diagramprocessFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AllocatedResourceShape](diagramstructureFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.AllocatedResourceShape, 0)
 
 			// make a map of all instances by their ID
@@ -2141,7 +2141,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2152,7 +2152,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.AllocatedResourceShape](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.AllocatedResourceShape](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -2161,19 +2161,19 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.AllocatedResourceShapes = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "AllocatedResourceShapes", &diagramprocess_.AllocatedResourceShapes)
+			diagramstructure_.AllocatedResourceShapes = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "AllocatedResourceShapes", &diagramstructure_.AllocatedResourceShapes)
 
-		case "AllocatedProcessesWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Process](diagramprocessFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Process, 0)
+		case "AllocatedSystemesWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.System](diagramstructureFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.System, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Process)
+			map_id_instances := make(map[uint]*models.System)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2184,7 +2184,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Process](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.System](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -2193,19 +2193,19 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.AllocatedProcessesWhoseNodeIsExpanded = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "AllocatedProcessesWhoseNodeIsExpanded", &diagramprocess_.AllocatedProcessesWhoseNodeIsExpanded)
+			diagramstructure_.AllocatedSystemesWhoseNodeIsExpanded = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "AllocatedSystemesWhoseNodeIsExpanded", &diagramstructure_.AllocatedSystemesWhoseNodeIsExpanded)
 
-		case "AllocatedProcessShapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AllocatedProcessShape](diagramprocessFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.AllocatedProcessShape, 0)
+		case "AllocatedSystemShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AllocatedSystemShape](diagramstructureFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.AllocatedSystemShape, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.AllocatedProcessShape)
+			map_id_instances := make(map[uint]*models.AllocatedSystemShape)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2216,7 +2216,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.AllocatedProcessShape](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.AllocatedSystemShape](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -2225,11 +2225,11 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.AllocatedProcessShapes = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "AllocatedProcessShapes", &diagramprocess_.AllocatedProcessShapes)
+			diagramstructure_.AllocatedSystemShapes = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "AllocatedSystemShapes", &diagramstructure_.AllocatedSystemShapes)
 
 		case "Note_Shapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteShape](diagramprocessFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteShape](diagramstructureFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.NoteShape, 0)
 
 			// make a map of all instances by their ID
@@ -2237,7 +2237,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2248,7 +2248,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.NoteShape](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.NoteShape](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -2257,11 +2257,11 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.Note_Shapes = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "Note_Shapes", &diagramprocess_.Note_Shapes)
+			diagramstructure_.Note_Shapes = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "Note_Shapes", &diagramstructure_.Note_Shapes)
 
 		case "NotesWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Note](diagramprocessFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Note](diagramstructureFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Note, 0)
 
 			// make a map of all instances by their ID
@@ -2269,7 +2269,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2280,7 +2280,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Note](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Note](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -2289,21 +2289,21 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.NotesWhoseNodeIsExpanded = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "NotesWhoseNodeIsExpanded", &diagramprocess_.NotesWhoseNodeIsExpanded)
+			diagramstructure_.NotesWhoseNodeIsExpanded = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "NotesWhoseNodeIsExpanded", &diagramstructure_.NotesWhoseNodeIsExpanded)
 
 		case "IsNotesNodeExpanded":
-			FormDivBasicFieldToField(&(diagramprocess_.IsNotesNodeExpanded), formDiv)
-		case "NoteTaskShapes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NoteTaskShape](diagramprocessFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.NoteTaskShape, 0)
+			FormDivBasicFieldToField(&(diagramstructure_.IsNotesNodeExpanded), formDiv)
+		case "NotePortShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NotePortShape](diagramstructureFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.NotePortShape, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.NoteTaskShape)
+			map_id_instances := make(map[uint]*models.NotePortShape)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					diagramprocessFormCallback.probe.stageOfInterest,
+					diagramstructureFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -2314,7 +2314,7 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.NoteTaskShape](diagramprocessFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.NotePortShape](diagramstructureFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -2323,96 +2323,96 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			diagramprocess_.NoteTaskShapes = instanceSlice
-			diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(diagramprocess_, "NoteTaskShapes", &diagramprocess_.NoteTaskShapes)
+			diagramstructure_.NotePortShapes = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "NotePortShapes", &diagramstructure_.NotePortShapes)
 
-		case "Process:DiagramProcesss":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Process instances
+		case "System:DiagramStructures":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Process instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Process](diagramprocessFormCallback.probe.stageOfInterest)
-			targetProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target System instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.System](diagramstructureFormCallback.probe.stageOfInterest)
+			targetSystemIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetProcessIDs[id] = true
+					targetSystemIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Process instances and update their DiagramProcesss slice
-			for _process := range *models.GetGongstructInstancesSetFromPointerType[*models.Process](diagramprocessFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(diagramprocessFormCallback.probe.stageOfInterest, _process)
+			// 3. Iterate over all System instances and update their DiagramStructures slice
+			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](diagramstructureFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(diagramstructureFormCallback.probe.stageOfInterest, _system)
 				
-				// if Process is selected
-				if targetProcessIDs[id] {
-					// ensure diagramprocess_ is in _process.DiagramProcesss
+				// if System is selected
+				if targetSystemIDs[id] {
+					// ensure diagramstructure_ is in _system.DiagramStructures
 					found := false
-					for _, _b := range _process.DiagramProcesss {
-						if _b == diagramprocess_ {
+					for _, _b := range _system.DiagramStructures {
+						if _b == diagramstructure_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_process.DiagramProcesss = append(_process.DiagramProcesss, diagramprocess_)
-						diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(_process, "DiagramProcesss", &_process.DiagramProcesss)
+						_system.DiagramStructures = append(_system.DiagramStructures, diagramstructure_)
+						diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(_system, "DiagramStructures", &_system.DiagramStructures)
 					}
 				} else {
-					// ensure diagramprocess_ is NOT in _process.DiagramProcesss
-					idx := slices.Index(_process.DiagramProcesss, diagramprocess_)
+					// ensure diagramstructure_ is NOT in _system.DiagramStructures
+					idx := slices.Index(_system.DiagramStructures, diagramstructure_)
 					if idx != -1 {
-						_process.DiagramProcesss = slices.Delete(_process.DiagramProcesss, idx, idx+1)
-						diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(_process, "DiagramProcesss", &_process.DiagramProcesss)
+						_system.DiagramStructures = slices.Delete(_system.DiagramStructures, idx, idx+1)
+						diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(_system, "DiagramStructures", &_system.DiagramStructures)
 					}
 				}
 			}
-		case "Process:DiagramProcessWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Process instances
+		case "System:DiagramStructureWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Process instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Process](diagramprocessFormCallback.probe.stageOfInterest)
-			targetProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target System instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.System](diagramstructureFormCallback.probe.stageOfInterest)
+			targetSystemIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetProcessIDs[id] = true
+					targetSystemIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Process instances and update their DiagramProcessWhoseNodeIsExpanded slice
-			for _process := range *models.GetGongstructInstancesSetFromPointerType[*models.Process](diagramprocessFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(diagramprocessFormCallback.probe.stageOfInterest, _process)
+			// 3. Iterate over all System instances and update their DiagramStructureWhoseNodeIsExpanded slice
+			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](diagramstructureFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(diagramstructureFormCallback.probe.stageOfInterest, _system)
 				
-				// if Process is selected
-				if targetProcessIDs[id] {
-					// ensure diagramprocess_ is in _process.DiagramProcessWhoseNodeIsExpanded
+				// if System is selected
+				if targetSystemIDs[id] {
+					// ensure diagramstructure_ is in _system.DiagramStructureWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _process.DiagramProcessWhoseNodeIsExpanded {
-						if _b == diagramprocess_ {
+					for _, _b := range _system.DiagramStructureWhoseNodeIsExpanded {
+						if _b == diagramstructure_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_process.DiagramProcessWhoseNodeIsExpanded = append(_process.DiagramProcessWhoseNodeIsExpanded, diagramprocess_)
-						diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(_process, "DiagramProcessWhoseNodeIsExpanded", &_process.DiagramProcessWhoseNodeIsExpanded)
+						_system.DiagramStructureWhoseNodeIsExpanded = append(_system.DiagramStructureWhoseNodeIsExpanded, diagramstructure_)
+						diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(_system, "DiagramStructureWhoseNodeIsExpanded", &_system.DiagramStructureWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure diagramprocess_ is NOT in _process.DiagramProcessWhoseNodeIsExpanded
-					idx := slices.Index(_process.DiagramProcessWhoseNodeIsExpanded, diagramprocess_)
+					// ensure diagramstructure_ is NOT in _system.DiagramStructureWhoseNodeIsExpanded
+					idx := slices.Index(_system.DiagramStructureWhoseNodeIsExpanded, diagramstructure_)
 					if idx != -1 {
-						_process.DiagramProcessWhoseNodeIsExpanded = slices.Delete(_process.DiagramProcessWhoseNodeIsExpanded, idx, idx+1)
-						diagramprocessFormCallback.probe.UpdateSliceOfPointersCallback(_process, "DiagramProcessWhoseNodeIsExpanded", &_process.DiagramProcessWhoseNodeIsExpanded)
+						_system.DiagramStructureWhoseNodeIsExpanded = slices.Delete(_system.DiagramStructureWhoseNodeIsExpanded, idx, idx+1)
+						diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(_system, "DiagramStructureWhoseNodeIsExpanded", &_system.DiagramStructureWhoseNodeIsExpanded)
 					}
 				}
 			}
@@ -2420,50 +2420,50 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 	}
 
 	// manage the suppress operation
-	if diagramprocessFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		diagramprocess_.Unstage(diagramprocessFormCallback.probe.stageOfInterest)
+	if diagramstructureFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		diagramstructure_.Unstage(diagramstructureFormCallback.probe.stageOfInterest)
 	}
 
-	diagramprocessFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.DiagramProcess](
-		diagramprocessFormCallback.probe,
+	diagramstructureFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.DiagramStructure](
+		diagramstructureFormCallback.probe,
 	)
 
 	// display a new form by reset the form stage
-	if diagramprocessFormCallback.CreationMode || diagramprocessFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		diagramprocessFormCallback.probe.formStage.Reset()
+	if diagramstructureFormCallback.CreationMode || diagramstructureFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		diagramstructureFormCallback.probe.formStage.Reset()
 		newFormGroup := (&form.FormGroup{
 			Name: FormName,
-		}).Stage(diagramprocessFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__DiagramProcessFormCallback(
+		}).Stage(diagramstructureFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__DiagramStructureFormCallback(
 			nil,
-			diagramprocessFormCallback.probe,
+			diagramstructureFormCallback.probe,
 			newFormGroup,
 		)
-		diagramprocess := new(models.DiagramProcess)
-		FillUpForm(diagramprocess, newFormGroup, diagramprocessFormCallback.probe)
-		diagramprocessFormCallback.probe.formStage.Commit()
+		diagramstructure := new(models.DiagramStructure)
+		FillUpForm(diagramstructure, newFormGroup, diagramstructureFormCallback.probe)
+		diagramstructureFormCallback.probe.formStage.Commit()
 	}
 
-	diagramprocessFormCallback.probe.ux_tree()
+	diagramstructureFormCallback.probe.ux_tree()
 }
-func __gong__New__ExternalParticipantShapeFormCallback(
-	externalparticipantshape *models.ExternalParticipantShape,
+func __gong__New__ExternalPartShapeFormCallback(
+	externalpartshape *models.ExternalPartShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (externalparticipantshapeFormCallback *ExternalParticipantShapeFormCallback) {
-	externalparticipantshapeFormCallback = new(ExternalParticipantShapeFormCallback)
-	externalparticipantshapeFormCallback.probe = probe
-	externalparticipantshapeFormCallback.externalparticipantshape = externalparticipantshape
-	externalparticipantshapeFormCallback.formGroup = formGroup
+) (externalpartshapeFormCallback *ExternalPartShapeFormCallback) {
+	externalpartshapeFormCallback = new(ExternalPartShapeFormCallback)
+	externalpartshapeFormCallback.probe = probe
+	externalpartshapeFormCallback.externalpartshape = externalpartshape
+	externalpartshapeFormCallback.formGroup = formGroup
 
-	externalparticipantshapeFormCallback.CreationMode = (externalparticipantshape == nil)
+	externalpartshapeFormCallback.CreationMode = (externalpartshape == nil)
 
 	return
 }
 
-type ExternalParticipantShapeFormCallback struct {
-	externalparticipantshape *models.ExternalParticipantShape
+type ExternalPartShapeFormCallback struct {
+	externalpartshape *models.ExternalPartShape
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -2473,85 +2473,85 @@ type ExternalParticipantShapeFormCallback struct {
 	formGroup *form.FormGroup
 }
 
-func (externalparticipantshapeFormCallback *ExternalParticipantShapeFormCallback) OnSave() {
-	externalparticipantshapeFormCallback.probe.stageOfInterest.Lock()
-	defer externalparticipantshapeFormCallback.probe.stageOfInterest.Unlock()
+func (externalpartshapeFormCallback *ExternalPartShapeFormCallback) OnSave() {
+	externalpartshapeFormCallback.probe.stageOfInterest.Lock()
+	defer externalpartshapeFormCallback.probe.stageOfInterest.Unlock()
 
-	// log.Println("ExternalParticipantShapeFormCallback, OnSave")
+	// log.Println("ExternalPartShapeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	externalparticipantshapeFormCallback.probe.formStage.Checkout()
+	externalpartshapeFormCallback.probe.formStage.Checkout()
 
-	if externalparticipantshapeFormCallback.externalparticipantshape == nil {
-		externalparticipantshapeFormCallback.externalparticipantshape = new(models.ExternalParticipantShape).Stage(externalparticipantshapeFormCallback.probe.stageOfInterest)
+	if externalpartshapeFormCallback.externalpartshape == nil {
+		externalpartshapeFormCallback.externalpartshape = new(models.ExternalPartShape).Stage(externalpartshapeFormCallback.probe.stageOfInterest)
 	}
-	externalparticipantshape_ := externalparticipantshapeFormCallback.externalparticipantshape
-	_ = externalparticipantshape_
+	externalpartshape_ := externalpartshapeFormCallback.externalpartshape
+	_ = externalpartshape_
 
-	for _, formDiv := range externalparticipantshapeFormCallback.formGroup.FormDivs {
+	for _, formDiv := range externalpartshapeFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(externalparticipantshape_.Name), formDiv)
-		case "Participant":
-			FormDivSelectFieldToField(&(externalparticipantshape_.Participant), externalparticipantshapeFormCallback.probe.stageOfInterest, formDiv)
+			FormDivBasicFieldToField(&(externalpartshape_.Name), formDiv)
+		case "Part":
+			FormDivSelectFieldToField(&(externalpartshape_.Part), externalpartshapeFormCallback.probe.stageOfInterest, formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(externalparticipantshape_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(externalpartshape_.IsExpanded), formDiv)
 		case "X":
-			FormDivBasicFieldToField(&(externalparticipantshape_.X), formDiv)
+			FormDivBasicFieldToField(&(externalpartshape_.X), formDiv)
 		case "Y":
-			FormDivBasicFieldToField(&(externalparticipantshape_.Y), formDiv)
+			FormDivBasicFieldToField(&(externalpartshape_.Y), formDiv)
 		case "Width":
-			FormDivBasicFieldToField(&(externalparticipantshape_.Width), formDiv)
+			FormDivBasicFieldToField(&(externalpartshape_.Width), formDiv)
 		case "Height":
-			FormDivBasicFieldToField(&(externalparticipantshape_.Height), formDiv)
+			FormDivBasicFieldToField(&(externalpartshape_.Height), formDiv)
 		case "IsHidden":
-			FormDivBasicFieldToField(&(externalparticipantshape_.IsHidden), formDiv)
+			FormDivBasicFieldToField(&(externalpartshape_.IsHidden), formDiv)
 		case "TailHeigth":
-			FormDivBasicFieldToField(&(externalparticipantshape_.TailHeigth), formDiv)
-		case "DiagramProcess:ExternalParticipant_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+			FormDivBasicFieldToField(&(externalpartshape_.TailHeigth), formDiv)
+		case "DiagramStructure:ExternalPart_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](externalparticipantshapeFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](externalpartshapeFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their ExternalParticipant_Shapes slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](externalparticipantshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(externalparticipantshapeFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their ExternalPart_Shapes slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](externalpartshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(externalpartshapeFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure externalparticipantshape_ is in _diagramprocess.ExternalParticipant_Shapes
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure externalpartshape_ is in _diagramstructure.ExternalPart_Shapes
 					found := false
-					for _, _b := range _diagramprocess.ExternalParticipant_Shapes {
-						if _b == externalparticipantshape_ {
+					for _, _b := range _diagramstructure.ExternalPart_Shapes {
+						if _b == externalpartshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.ExternalParticipant_Shapes = append(_diagramprocess.ExternalParticipant_Shapes, externalparticipantshape_)
-						externalparticipantshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "ExternalParticipant_Shapes", &_diagramprocess.ExternalParticipant_Shapes)
+						_diagramstructure.ExternalPart_Shapes = append(_diagramstructure.ExternalPart_Shapes, externalpartshape_)
+						externalpartshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "ExternalPart_Shapes", &_diagramstructure.ExternalPart_Shapes)
 					}
 				} else {
-					// ensure externalparticipantshape_ is NOT in _diagramprocess.ExternalParticipant_Shapes
-					idx := slices.Index(_diagramprocess.ExternalParticipant_Shapes, externalparticipantshape_)
+					// ensure externalpartshape_ is NOT in _diagramstructure.ExternalPart_Shapes
+					idx := slices.Index(_diagramstructure.ExternalPart_Shapes, externalpartshape_)
 					if idx != -1 {
-						_diagramprocess.ExternalParticipant_Shapes = slices.Delete(_diagramprocess.ExternalParticipant_Shapes, idx, idx+1)
-						externalparticipantshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "ExternalParticipant_Shapes", &_diagramprocess.ExternalParticipant_Shapes)
+						_diagramstructure.ExternalPart_Shapes = slices.Delete(_diagramstructure.ExternalPart_Shapes, idx, idx+1)
+						externalpartshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "ExternalPart_Shapes", &_diagramstructure.ExternalPart_Shapes)
 					}
 				}
 			}
@@ -2559,32 +2559,32 @@ func (externalparticipantshapeFormCallback *ExternalParticipantShapeFormCallback
 	}
 
 	// manage the suppress operation
-	if externalparticipantshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		externalparticipantshape_.Unstage(externalparticipantshapeFormCallback.probe.stageOfInterest)
+	if externalpartshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		externalpartshape_.Unstage(externalpartshapeFormCallback.probe.stageOfInterest)
 	}
 
-	externalparticipantshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.ExternalParticipantShape](
-		externalparticipantshapeFormCallback.probe,
+	externalpartshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ExternalPartShape](
+		externalpartshapeFormCallback.probe,
 	)
 
 	// display a new form by reset the form stage
-	if externalparticipantshapeFormCallback.CreationMode || externalparticipantshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		externalparticipantshapeFormCallback.probe.formStage.Reset()
+	if externalpartshapeFormCallback.CreationMode || externalpartshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		externalpartshapeFormCallback.probe.formStage.Reset()
 		newFormGroup := (&form.FormGroup{
 			Name: FormName,
-		}).Stage(externalparticipantshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ExternalParticipantShapeFormCallback(
+		}).Stage(externalpartshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ExternalPartShapeFormCallback(
 			nil,
-			externalparticipantshapeFormCallback.probe,
+			externalpartshapeFormCallback.probe,
 			newFormGroup,
 		)
-		externalparticipantshape := new(models.ExternalParticipantShape)
-		FillUpForm(externalparticipantshape, newFormGroup, externalparticipantshapeFormCallback.probe)
-		externalparticipantshapeFormCallback.probe.formStage.Commit()
+		externalpartshape := new(models.ExternalPartShape)
+		FillUpForm(externalpartshape, newFormGroup, externalpartshapeFormCallback.probe)
+		externalpartshapeFormCallback.probe.formStage.Commit()
 	}
 
-	externalparticipantshapeFormCallback.probe.ux_tree()
+	externalpartshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__LibraryFormCallback(
 	library *models.Library,
@@ -2713,12 +2713,12 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.NbPixPerCharacter), formDiv)
 		case "LogoSVGFile":
 			FormDivBasicFieldToField(&(library_.LogoSVGFile), formDiv)
-		case "RootProcesses":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Process](libraryFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Process, 0)
+		case "RootSystemes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.System](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.System, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Process)
+			map_id_instances := make(map[uint]*models.System)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
@@ -2733,7 +2733,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Process](libraryFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.System](libraryFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -2742,17 +2742,17 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			library_.RootProcesses = instanceSlice
-			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootProcesses", &library_.RootProcesses)
+			library_.RootSystemes = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootSystemes", &library_.RootSystemes)
 
-		case "IsProcessesNodeExpanded":
-			FormDivBasicFieldToField(&(library_.IsProcessesNodeExpanded), formDiv)
-		case "ProcesssWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Process](libraryFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Process, 0)
+		case "IsSystemesNodeExpanded":
+			FormDivBasicFieldToField(&(library_.IsSystemesNodeExpanded), formDiv)
+		case "SystemsWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.System](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.System, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Process)
+			map_id_instances := make(map[uint]*models.System)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
@@ -2767,7 +2767,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Process](libraryFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.System](libraryFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -2776,8 +2776,8 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			library_.ProcesssWhoseNodeIsExpanded = instanceSlice
-			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "ProcesssWhoseNodeIsExpanded", &library_.ProcesssWhoseNodeIsExpanded)
+			library_.SystemsWhoseNodeIsExpanded = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "SystemsWhoseNodeIsExpanded", &library_.SystemsWhoseNodeIsExpanded)
 
 		case "RootDataFlows":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlow](libraryFormCallback.probe.stageOfInterest)
@@ -2977,12 +2977,12 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			library_.ResourcesWhoseNodeIsExpanded = instanceSlice
 			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "ResourcesWhoseNodeIsExpanded", &library_.ResourcesWhoseNodeIsExpanded)
 
-		case "ParticipantsWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](libraryFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Participant, 0)
+		case "PartsWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Part](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Part, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Participant)
+			map_id_instances := make(map[uint]*models.Part)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
@@ -2997,7 +2997,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](libraryFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](libraryFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -3006,8 +3006,8 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			library_.ParticipantsWhoseNodeIsExpanded = instanceSlice
-			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "ParticipantsWhoseNodeIsExpanded", &library_.ParticipantsWhoseNodeIsExpanded)
+			library_.PartsWhoseNodeIsExpanded = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "PartsWhoseNodeIsExpanded", &library_.PartsWhoseNodeIsExpanded)
 
 		case "RootNotes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Note](libraryFormCallback.probe.stageOfInterest)
@@ -3253,14 +3253,14 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(note_.IsExpanded), formDiv)
 		case "LayoutDirection":
 			FormDivEnumIntFieldToField(&(note_.LayoutDirection), formDiv)
-		case "IsTasksNodeExpanded":
-			FormDivBasicFieldToField(&(note_.IsTasksNodeExpanded), formDiv)
-		case "Tasks":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](noteFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Task, 0)
+		case "IsPortsNodeExpanded":
+			FormDivBasicFieldToField(&(note_.IsPortsNodeExpanded), formDiv)
+		case "Ports":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Port](noteFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Port, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Task)
+			map_id_instances := make(map[uint]*models.Port)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
@@ -3275,7 +3275,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Task](noteFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Port](noteFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -3284,51 +3284,51 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			note_.Tasks = instanceSlice
-			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Tasks", &note_.Tasks)
+			note_.Ports = instanceSlice
+			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Ports", &note_.Ports)
 
-		case "DiagramProcess:NotesWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+		case "DiagramStructure:NotesWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](noteFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](noteFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their NotesWhoseNodeIsExpanded slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](noteFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(noteFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their NotesWhoseNodeIsExpanded slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](noteFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(noteFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure note_ is in _diagramprocess.NotesWhoseNodeIsExpanded
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure note_ is in _diagramstructure.NotesWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _diagramprocess.NotesWhoseNodeIsExpanded {
+					for _, _b := range _diagramstructure.NotesWhoseNodeIsExpanded {
 						if _b == note_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.NotesWhoseNodeIsExpanded = append(_diagramprocess.NotesWhoseNodeIsExpanded, note_)
-						noteFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "NotesWhoseNodeIsExpanded", &_diagramprocess.NotesWhoseNodeIsExpanded)
+						_diagramstructure.NotesWhoseNodeIsExpanded = append(_diagramstructure.NotesWhoseNodeIsExpanded, note_)
+						noteFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "NotesWhoseNodeIsExpanded", &_diagramstructure.NotesWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure note_ is NOT in _diagramprocess.NotesWhoseNodeIsExpanded
-					idx := slices.Index(_diagramprocess.NotesWhoseNodeIsExpanded, note_)
+					// ensure note_ is NOT in _diagramstructure.NotesWhoseNodeIsExpanded
+					idx := slices.Index(_diagramstructure.NotesWhoseNodeIsExpanded, note_)
 					if idx != -1 {
-						_diagramprocess.NotesWhoseNodeIsExpanded = slices.Delete(_diagramprocess.NotesWhoseNodeIsExpanded, idx, idx+1)
-						noteFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "NotesWhoseNodeIsExpanded", &_diagramprocess.NotesWhoseNodeIsExpanded)
+						_diagramstructure.NotesWhoseNodeIsExpanded = slices.Delete(_diagramstructure.NotesWhoseNodeIsExpanded, idx, idx+1)
+						noteFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "NotesWhoseNodeIsExpanded", &_diagramstructure.NotesWhoseNodeIsExpanded)
 					}
 				}
 			}
@@ -3453,6 +3453,145 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 
 	noteFormCallback.probe.ux_tree()
 }
+func __gong__New__NotePortShapeFormCallback(
+	noteportshape *models.NotePortShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (noteportshapeFormCallback *NotePortShapeFormCallback) {
+	noteportshapeFormCallback = new(NotePortShapeFormCallback)
+	noteportshapeFormCallback.probe = probe
+	noteportshapeFormCallback.noteportshape = noteportshape
+	noteportshapeFormCallback.formGroup = formGroup
+
+	noteportshapeFormCallback.CreationMode = (noteportshape == nil)
+
+	return
+}
+
+type NotePortShapeFormCallback struct {
+	noteportshape *models.NotePortShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (noteportshapeFormCallback *NotePortShapeFormCallback) OnSave() {
+	noteportshapeFormCallback.probe.stageOfInterest.Lock()
+	defer noteportshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("NotePortShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	noteportshapeFormCallback.probe.formStage.Checkout()
+
+	if noteportshapeFormCallback.noteportshape == nil {
+		noteportshapeFormCallback.noteportshape = new(models.NotePortShape).Stage(noteportshapeFormCallback.probe.stageOfInterest)
+	}
+	noteportshape_ := noteportshapeFormCallback.noteportshape
+	_ = noteportshape_
+
+	for _, formDiv := range noteportshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(noteportshape_.Name), formDiv)
+		case "Note":
+			FormDivSelectFieldToField(&(noteportshape_.Note), noteportshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "Port":
+			FormDivSelectFieldToField(&(noteportshape_.Port), noteportshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "StartRatio":
+			FormDivBasicFieldToField(&(noteportshape_.StartRatio), formDiv)
+		case "EndRatio":
+			FormDivBasicFieldToField(&(noteportshape_.EndRatio), formDiv)
+		case "StartOrientation":
+			FormDivEnumStringFieldToField(&(noteportshape_.StartOrientation), formDiv)
+		case "EndOrientation":
+			FormDivEnumStringFieldToField(&(noteportshape_.EndOrientation), formDiv)
+		case "CornerOffsetRatio":
+			FormDivBasicFieldToField(&(noteportshape_.CornerOffsetRatio), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(noteportshape_.IsHidden), formDiv)
+		case "DiagramStructure:NotePortShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](noteportshapeFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramStructureIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all DiagramStructure instances and update their NotePortShapes slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](noteportshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(noteportshapeFormCallback.probe.stageOfInterest, _diagramstructure)
+				
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure noteportshape_ is in _diagramstructure.NotePortShapes
+					found := false
+					for _, _b := range _diagramstructure.NotePortShapes {
+						if _b == noteportshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagramstructure.NotePortShapes = append(_diagramstructure.NotePortShapes, noteportshape_)
+						noteportshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "NotePortShapes", &_diagramstructure.NotePortShapes)
+					}
+				} else {
+					// ensure noteportshape_ is NOT in _diagramstructure.NotePortShapes
+					idx := slices.Index(_diagramstructure.NotePortShapes, noteportshape_)
+					if idx != -1 {
+						_diagramstructure.NotePortShapes = slices.Delete(_diagramstructure.NotePortShapes, idx, idx+1)
+						noteportshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "NotePortShapes", &_diagramstructure.NotePortShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if noteportshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		noteportshape_.Unstage(noteportshapeFormCallback.probe.stageOfInterest)
+	}
+
+	noteportshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.NotePortShape](
+		noteportshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if noteportshapeFormCallback.CreationMode || noteportshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		noteportshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(noteportshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__NotePortShapeFormCallback(
+			nil,
+			noteportshapeFormCallback.probe,
+			newFormGroup,
+		)
+		noteportshape := new(models.NotePortShape)
+		FillUpForm(noteportshape, newFormGroup, noteportshapeFormCallback.probe)
+		noteportshapeFormCallback.probe.formStage.Commit()
+	}
+
+	noteportshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__NoteShapeFormCallback(
 	noteshape *models.NoteShape,
 	probe *Probe,
@@ -3512,48 +3651,48 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(noteshape_.Height), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(noteshape_.IsHidden), formDiv)
-		case "DiagramProcess:Note_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+		case "DiagramStructure:Note_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](noteshapeFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](noteshapeFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their Note_Shapes slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](noteshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(noteshapeFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their Note_Shapes slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](noteshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(noteshapeFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure noteshape_ is in _diagramprocess.Note_Shapes
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure noteshape_ is in _diagramstructure.Note_Shapes
 					found := false
-					for _, _b := range _diagramprocess.Note_Shapes {
+					for _, _b := range _diagramstructure.Note_Shapes {
 						if _b == noteshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.Note_Shapes = append(_diagramprocess.Note_Shapes, noteshape_)
-						noteshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "Note_Shapes", &_diagramprocess.Note_Shapes)
+						_diagramstructure.Note_Shapes = append(_diagramstructure.Note_Shapes, noteshape_)
+						noteshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "Note_Shapes", &_diagramstructure.Note_Shapes)
 					}
 				} else {
-					// ensure noteshape_ is NOT in _diagramprocess.Note_Shapes
-					idx := slices.Index(_diagramprocess.Note_Shapes, noteshape_)
+					// ensure noteshape_ is NOT in _diagramstructure.Note_Shapes
+					idx := slices.Index(_diagramstructure.Note_Shapes, noteshape_)
 					if idx != -1 {
-						_diagramprocess.Note_Shapes = slices.Delete(_diagramprocess.Note_Shapes, idx, idx+1)
-						noteshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "Note_Shapes", &_diagramprocess.Note_Shapes)
+						_diagramstructure.Note_Shapes = slices.Delete(_diagramstructure.Note_Shapes, idx, idx+1)
+						noteshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "Note_Shapes", &_diagramstructure.Note_Shapes)
 					}
 				}
 			}
@@ -3588,23 +3727,23 @@ func (noteshapeFormCallback *NoteShapeFormCallback) OnSave() {
 
 	noteshapeFormCallback.probe.ux_tree()
 }
-func __gong__New__NoteTaskShapeFormCallback(
-	notetaskshape *models.NoteTaskShape,
+func __gong__New__PartFormCallback(
+	part *models.Part,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (notetaskshapeFormCallback *NoteTaskShapeFormCallback) {
-	notetaskshapeFormCallback = new(NoteTaskShapeFormCallback)
-	notetaskshapeFormCallback.probe = probe
-	notetaskshapeFormCallback.notetaskshape = notetaskshape
-	notetaskshapeFormCallback.formGroup = formGroup
+) (partFormCallback *PartFormCallback) {
+	partFormCallback = new(PartFormCallback)
+	partFormCallback.probe = probe
+	partFormCallback.part = part
+	partFormCallback.formGroup = formGroup
 
-	notetaskshapeFormCallback.CreationMode = (notetaskshape == nil)
+	partFormCallback.CreationMode = (part == nil)
 
 	return
 }
 
-type NoteTaskShapeFormCallback struct {
-	notetaskshape *models.NoteTaskShape
+type PartFormCallback struct {
+	part *models.Part
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -3614,172 +3753,33 @@ type NoteTaskShapeFormCallback struct {
 	formGroup *form.FormGroup
 }
 
-func (notetaskshapeFormCallback *NoteTaskShapeFormCallback) OnSave() {
-	notetaskshapeFormCallback.probe.stageOfInterest.Lock()
-	defer notetaskshapeFormCallback.probe.stageOfInterest.Unlock()
+func (partFormCallback *PartFormCallback) OnSave() {
+	partFormCallback.probe.stageOfInterest.Lock()
+	defer partFormCallback.probe.stageOfInterest.Unlock()
 
-	// log.Println("NoteTaskShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	notetaskshapeFormCallback.probe.formStage.Checkout()
-
-	if notetaskshapeFormCallback.notetaskshape == nil {
-		notetaskshapeFormCallback.notetaskshape = new(models.NoteTaskShape).Stage(notetaskshapeFormCallback.probe.stageOfInterest)
-	}
-	notetaskshape_ := notetaskshapeFormCallback.notetaskshape
-	_ = notetaskshape_
-
-	for _, formDiv := range notetaskshapeFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(notetaskshape_.Name), formDiv)
-		case "Note":
-			FormDivSelectFieldToField(&(notetaskshape_.Note), notetaskshapeFormCallback.probe.stageOfInterest, formDiv)
-		case "Task":
-			FormDivSelectFieldToField(&(notetaskshape_.Task), notetaskshapeFormCallback.probe.stageOfInterest, formDiv)
-		case "StartRatio":
-			FormDivBasicFieldToField(&(notetaskshape_.StartRatio), formDiv)
-		case "EndRatio":
-			FormDivBasicFieldToField(&(notetaskshape_.EndRatio), formDiv)
-		case "StartOrientation":
-			FormDivEnumStringFieldToField(&(notetaskshape_.StartOrientation), formDiv)
-		case "EndOrientation":
-			FormDivEnumStringFieldToField(&(notetaskshape_.EndOrientation), formDiv)
-		case "CornerOffsetRatio":
-			FormDivBasicFieldToField(&(notetaskshape_.CornerOffsetRatio), formDiv)
-		case "IsHidden":
-			FormDivBasicFieldToField(&(notetaskshape_.IsHidden), formDiv)
-		case "DiagramProcess:NoteTaskShapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](notetaskshapeFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all DiagramProcess instances and update their NoteTaskShapes slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](notetaskshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(notetaskshapeFormCallback.probe.stageOfInterest, _diagramprocess)
-				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure notetaskshape_ is in _diagramprocess.NoteTaskShapes
-					found := false
-					for _, _b := range _diagramprocess.NoteTaskShapes {
-						if _b == notetaskshape_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_diagramprocess.NoteTaskShapes = append(_diagramprocess.NoteTaskShapes, notetaskshape_)
-						notetaskshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "NoteTaskShapes", &_diagramprocess.NoteTaskShapes)
-					}
-				} else {
-					// ensure notetaskshape_ is NOT in _diagramprocess.NoteTaskShapes
-					idx := slices.Index(_diagramprocess.NoteTaskShapes, notetaskshape_)
-					if idx != -1 {
-						_diagramprocess.NoteTaskShapes = slices.Delete(_diagramprocess.NoteTaskShapes, idx, idx+1)
-						notetaskshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "NoteTaskShapes", &_diagramprocess.NoteTaskShapes)
-					}
-				}
-			}
-		}
-	}
-
-	// manage the suppress operation
-	if notetaskshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		notetaskshape_.Unstage(notetaskshapeFormCallback.probe.stageOfInterest)
-	}
-
-	notetaskshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.NoteTaskShape](
-		notetaskshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if notetaskshapeFormCallback.CreationMode || notetaskshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		notetaskshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(notetaskshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__NoteTaskShapeFormCallback(
-			nil,
-			notetaskshapeFormCallback.probe,
-			newFormGroup,
-		)
-		notetaskshape := new(models.NoteTaskShape)
-		FillUpForm(notetaskshape, newFormGroup, notetaskshapeFormCallback.probe)
-		notetaskshapeFormCallback.probe.formStage.Commit()
-	}
-
-	notetaskshapeFormCallback.probe.ux_tree()
-}
-func __gong__New__ParticipantFormCallback(
-	participant *models.Participant,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (participantFormCallback *ParticipantFormCallback) {
-	participantFormCallback = new(ParticipantFormCallback)
-	participantFormCallback.probe = probe
-	participantFormCallback.participant = participant
-	participantFormCallback.formGroup = formGroup
-
-	participantFormCallback.CreationMode = (participant == nil)
-
-	return
-}
-
-type ParticipantFormCallback struct {
-	participant *models.Participant
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (participantFormCallback *ParticipantFormCallback) OnSave() {
-	participantFormCallback.probe.stageOfInterest.Lock()
-	defer participantFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("ParticipantFormCallback, OnSave")
+	// log.Println("PartFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	participantFormCallback.probe.formStage.Checkout()
+	partFormCallback.probe.formStage.Checkout()
 
-	if participantFormCallback.participant == nil {
-		participantFormCallback.participant = new(models.Participant).Stage(participantFormCallback.probe.stageOfInterest)
+	if partFormCallback.part == nil {
+		partFormCallback.part = new(models.Part).Stage(partFormCallback.probe.stageOfInterest)
 	}
-	participant_ := participantFormCallback.participant
-	_ = participant_
+	part_ := partFormCallback.part
+	_ = part_
 
-	for _, formDiv := range participantFormCallback.formGroup.FormDivs {
+	for _, formDiv := range partFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(participant_.Name), formDiv)
-		case "IsProcessResource":
-			FormDivBasicFieldToField(&(participant_.IsProcessResource), formDiv)
+			FormDivBasicFieldToField(&(part_.Name), formDiv)
+		case "IsSystemResource":
+			FormDivBasicFieldToField(&(part_.IsSystemResource), formDiv)
 		case "Description":
-			FormDivBasicFieldToField(&(participant_.Description), formDiv)
+			FormDivBasicFieldToField(&(part_.Description), formDiv)
 		case "Resources":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Resource](participantFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Resource](partFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Resource, 0)
 
 			// make a map of all instances by their ID
@@ -3787,7 +3787,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					participantFormCallback.probe.stageOfInterest,
+					partFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3798,7 +3798,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Resource](participantFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Resource](partFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -3807,21 +3807,21 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			participant_.Resources = instanceSlice
-			participantFormCallback.probe.UpdateSliceOfPointersCallback(participant_, "Resources", &participant_.Resources)
+			part_.Resources = instanceSlice
+			partFormCallback.probe.UpdateSliceOfPointersCallback(part_, "Resources", &part_.Resources)
 
 		case "IsResourcesNodeExpanded":
-			FormDivBasicFieldToField(&(participant_.IsResourcesNodeExpanded), formDiv)
-		case "Processes":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Process](participantFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Process, 0)
+			FormDivBasicFieldToField(&(part_.IsResourcesNodeExpanded), formDiv)
+		case "Systemes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.System](partFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.System, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Process)
+			map_id_instances := make(map[uint]*models.System)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					participantFormCallback.probe.stageOfInterest,
+					partFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3832,7 +3832,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Process](participantFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.System](partFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -3841,29 +3841,29 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			participant_.Processes = instanceSlice
-			participantFormCallback.probe.UpdateSliceOfPointersCallback(participant_, "Processes", &participant_.Processes)
+			part_.Systemes = instanceSlice
+			partFormCallback.probe.UpdateSliceOfPointersCallback(part_, "Systemes", &part_.Systemes)
 
-		case "IsProcessesNodeExpanded":
-			FormDivBasicFieldToField(&(participant_.IsProcessesNodeExpanded), formDiv)
+		case "IsSystemesNodeExpanded":
+			FormDivBasicFieldToField(&(part_.IsSystemesNodeExpanded), formDiv)
 		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(participant_.ComputedPrefix), formDiv)
+			FormDivBasicFieldToField(&(part_.ComputedPrefix), formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(participant_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(part_.IsExpanded), formDiv)
 		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(participant_.LayoutDirection), formDiv)
-		case "IsTasksNodeExpanded":
-			FormDivBasicFieldToField(&(participant_.IsTasksNodeExpanded), formDiv)
-		case "Tasks":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](participantFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Task, 0)
+			FormDivEnumIntFieldToField(&(part_.LayoutDirection), formDiv)
+		case "IsPortsNodeExpanded":
+			FormDivBasicFieldToField(&(part_.IsPortsNodeExpanded), formDiv)
+		case "Ports":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Port](partFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Port, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Task)
+			map_id_instances := make(map[uint]*models.Port)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					participantFormCallback.probe.stageOfInterest,
+					partFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3874,7 +3874,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Task](participantFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Port](partFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -3883,13 +3883,13 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			participant_.Tasks = instanceSlice
-			participantFormCallback.probe.UpdateSliceOfPointersCallback(participant_, "Tasks", &participant_.Tasks)
+			part_.Ports = instanceSlice
+			partFormCallback.probe.UpdateSliceOfPointersCallback(part_, "Ports", &part_.Ports)
 
 		case "IsControlFlowsNodeExpanded":
-			FormDivBasicFieldToField(&(participant_.IsControlFlowsNodeExpanded), formDiv)
+			FormDivBasicFieldToField(&(part_.IsControlFlowsNodeExpanded), formDiv)
 		case "ControlFlows":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlFlow](participantFormCallback.probe.stageOfInterest)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlFlow](partFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ControlFlow, 0)
 
 			// make a map of all instances by their ID
@@ -3897,7 +3897,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					participantFormCallback.probe.stageOfInterest,
+					partFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3908,7 +3908,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.ControlFlow](participantFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.ControlFlow](partFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -3917,19 +3917,19 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			participant_.ControlFlows = instanceSlice
-			participantFormCallback.probe.UpdateSliceOfPointersCallback(participant_, "ControlFlows", &participant_.ControlFlows)
+			part_.ControlFlows = instanceSlice
+			partFormCallback.probe.UpdateSliceOfPointersCallback(part_, "ControlFlows", &part_.ControlFlows)
 
-		case "TaskWhoseOutControlFlowsNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](participantFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Task, 0)
+		case "PortWhoseOutControlFlowsNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Port](partFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Port, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Task)
+			map_id_instances := make(map[uint]*models.Port)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					participantFormCallback.probe.stageOfInterest,
+					partFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3940,7 +3940,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Task](participantFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Port](partFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -3949,19 +3949,19 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			participant_.TaskWhoseOutControlFlowsNodeIsExpanded = instanceSlice
-			participantFormCallback.probe.UpdateSliceOfPointersCallback(participant_, "TaskWhoseOutControlFlowsNodeIsExpanded", &participant_.TaskWhoseOutControlFlowsNodeIsExpanded)
+			part_.PortWhoseOutControlFlowsNodeIsExpanded = instanceSlice
+			partFormCallback.probe.UpdateSliceOfPointersCallback(part_, "PortWhoseOutControlFlowsNodeIsExpanded", &part_.PortWhoseOutControlFlowsNodeIsExpanded)
 
-		case "TaskWhoseInControlFlowsNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](participantFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Task, 0)
+		case "PortWhoseInControlFlowsNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Port](partFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Port, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Task)
+			map_id_instances := make(map[uint]*models.Port)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					participantFormCallback.probe.stageOfInterest,
+					partFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -3972,7 +3972,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Task](participantFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Port](partFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -3981,21 +3981,21 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			participant_.TaskWhoseInControlFlowsNodeIsExpanded = instanceSlice
-			participantFormCallback.probe.UpdateSliceOfPointersCallback(participant_, "TaskWhoseInControlFlowsNodeIsExpanded", &participant_.TaskWhoseInControlFlowsNodeIsExpanded)
+			part_.PortWhoseInControlFlowsNodeIsExpanded = instanceSlice
+			partFormCallback.probe.UpdateSliceOfPointersCallback(part_, "PortWhoseInControlFlowsNodeIsExpanded", &part_.PortWhoseInControlFlowsNodeIsExpanded)
 
 		case "IsDataFlowsNodeExpanded":
-			FormDivBasicFieldToField(&(participant_.IsDataFlowsNodeExpanded), formDiv)
-		case "TaskWhoseOutDataFlowsNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](participantFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Task, 0)
+			FormDivBasicFieldToField(&(part_.IsDataFlowsNodeExpanded), formDiv)
+		case "PortWhoseOutDataFlowsNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Port](partFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Port, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Task)
+			map_id_instances := make(map[uint]*models.Port)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					participantFormCallback.probe.stageOfInterest,
+					partFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4006,7 +4006,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Task](participantFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Port](partFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -4015,19 +4015,19 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			participant_.TaskWhoseOutDataFlowsNodeIsExpanded = instanceSlice
-			participantFormCallback.probe.UpdateSliceOfPointersCallback(participant_, "TaskWhoseOutDataFlowsNodeIsExpanded", &participant_.TaskWhoseOutDataFlowsNodeIsExpanded)
+			part_.PortWhoseOutDataFlowsNodeIsExpanded = instanceSlice
+			partFormCallback.probe.UpdateSliceOfPointersCallback(part_, "PortWhoseOutDataFlowsNodeIsExpanded", &part_.PortWhoseOutDataFlowsNodeIsExpanded)
 
-		case "TaskWhoseInDataFlowsNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](participantFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Task, 0)
+		case "PortWhoseInDataFlowsNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Port](partFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Port, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Task)
+			map_id_instances := make(map[uint]*models.Port)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
-					participantFormCallback.probe.stageOfInterest,
+					partFormCallback.probe.stageOfInterest,
 					instance,
 				)
 				map_id_instances[id] = instance
@@ -4038,7 +4038,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Task](participantFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Port](partFormCallback.probe.stageOfInterest)
 
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -4047,190 +4047,190 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			participant_.TaskWhoseInDataFlowsNodeIsExpanded = instanceSlice
-			participantFormCallback.probe.UpdateSliceOfPointersCallback(participant_, "TaskWhoseInDataFlowsNodeIsExpanded", &participant_.TaskWhoseInDataFlowsNodeIsExpanded)
+			part_.PortWhoseInDataFlowsNodeIsExpanded = instanceSlice
+			partFormCallback.probe.UpdateSliceOfPointersCallback(part_, "PortWhoseInDataFlowsNodeIsExpanded", &part_.PortWhoseInDataFlowsNodeIsExpanded)
 
-		case "DiagramProcess:ParticipantWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+		case "DiagramStructure:PartWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](participantFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](partFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their ParticipantWhoseNodeIsExpanded slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](participantFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(participantFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their PartWhoseNodeIsExpanded slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](partFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure participant_ is in _diagramprocess.ParticipantWhoseNodeIsExpanded
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure part_ is in _diagramstructure.PartWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _diagramprocess.ParticipantWhoseNodeIsExpanded {
-						if _b == participant_ {
+					for _, _b := range _diagramstructure.PartWhoseNodeIsExpanded {
+						if _b == part_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.ParticipantWhoseNodeIsExpanded = append(_diagramprocess.ParticipantWhoseNodeIsExpanded, participant_)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "ParticipantWhoseNodeIsExpanded", &_diagramprocess.ParticipantWhoseNodeIsExpanded)
+						_diagramstructure.PartWhoseNodeIsExpanded = append(_diagramstructure.PartWhoseNodeIsExpanded, part_)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "PartWhoseNodeIsExpanded", &_diagramstructure.PartWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure participant_ is NOT in _diagramprocess.ParticipantWhoseNodeIsExpanded
-					idx := slices.Index(_diagramprocess.ParticipantWhoseNodeIsExpanded, participant_)
+					// ensure part_ is NOT in _diagramstructure.PartWhoseNodeIsExpanded
+					idx := slices.Index(_diagramstructure.PartWhoseNodeIsExpanded, part_)
 					if idx != -1 {
-						_diagramprocess.ParticipantWhoseNodeIsExpanded = slices.Delete(_diagramprocess.ParticipantWhoseNodeIsExpanded, idx, idx+1)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "ParticipantWhoseNodeIsExpanded", &_diagramprocess.ParticipantWhoseNodeIsExpanded)
+						_diagramstructure.PartWhoseNodeIsExpanded = slices.Delete(_diagramstructure.PartWhoseNodeIsExpanded, idx, idx+1)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "PartWhoseNodeIsExpanded", &_diagramstructure.PartWhoseNodeIsExpanded)
 					}
 				}
 			}
-		case "DiagramProcess:ExternalParticipantWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+		case "DiagramStructure:ExternalPartWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](participantFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](partFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their ExternalParticipantWhoseNodeIsExpanded slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](participantFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(participantFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their ExternalPartWhoseNodeIsExpanded slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](partFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure participant_ is in _diagramprocess.ExternalParticipantWhoseNodeIsExpanded
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure part_ is in _diagramstructure.ExternalPartWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
-						if _b == participant_ {
+					for _, _b := range _diagramstructure.ExternalPartWhoseNodeIsExpanded {
+						if _b == part_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.ExternalParticipantWhoseNodeIsExpanded = append(_diagramprocess.ExternalParticipantWhoseNodeIsExpanded, participant_)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "ExternalParticipantWhoseNodeIsExpanded", &_diagramprocess.ExternalParticipantWhoseNodeIsExpanded)
+						_diagramstructure.ExternalPartWhoseNodeIsExpanded = append(_diagramstructure.ExternalPartWhoseNodeIsExpanded, part_)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "ExternalPartWhoseNodeIsExpanded", &_diagramstructure.ExternalPartWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure participant_ is NOT in _diagramprocess.ExternalParticipantWhoseNodeIsExpanded
-					idx := slices.Index(_diagramprocess.ExternalParticipantWhoseNodeIsExpanded, participant_)
+					// ensure part_ is NOT in _diagramstructure.ExternalPartWhoseNodeIsExpanded
+					idx := slices.Index(_diagramstructure.ExternalPartWhoseNodeIsExpanded, part_)
 					if idx != -1 {
-						_diagramprocess.ExternalParticipantWhoseNodeIsExpanded = slices.Delete(_diagramprocess.ExternalParticipantWhoseNodeIsExpanded, idx, idx+1)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "ExternalParticipantWhoseNodeIsExpanded", &_diagramprocess.ExternalParticipantWhoseNodeIsExpanded)
+						_diagramstructure.ExternalPartWhoseNodeIsExpanded = slices.Delete(_diagramstructure.ExternalPartWhoseNodeIsExpanded, idx, idx+1)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "ExternalPartWhoseNodeIsExpanded", &_diagramstructure.ExternalPartWhoseNodeIsExpanded)
 					}
 				}
 			}
-		case "DiagramProcess:ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+		case "DiagramStructure:ExternalPartsWhoseOutDataFlowsNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](participantFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](partFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](participantFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(participantFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their ExternalPartsWhoseOutDataFlowsNodeIsExpanded slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](partFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure participant_ is in _diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure part_ is in _diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded
 					found := false
-					for _, _b := range _diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
-						if _b == participant_ {
+					for _, _b := range _diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded {
+						if _b == part_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(_diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, participant_)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded", &_diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded)
+						_diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded = append(_diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded, part_)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "ExternalPartsWhoseOutDataFlowsNodeIsExpanded", &_diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded)
 					}
 				} else {
-					// ensure participant_ is NOT in _diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded
-					idx := slices.Index(_diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, participant_)
+					// ensure part_ is NOT in _diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded
+					idx := slices.Index(_diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded, part_)
 					if idx != -1 {
-						_diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = slices.Delete(_diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, idx, idx+1)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded", &_diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded)
+						_diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded = slices.Delete(_diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded, idx, idx+1)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "ExternalPartsWhoseOutDataFlowsNodeIsExpanded", &_diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded)
 					}
 				}
 			}
-		case "DiagramProcess:ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+		case "DiagramStructure:ExternalPartsWhoseInDataFlowsNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](participantFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](partFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their ExternalParticipantsWhoseInDataFlowsNodeIsExpanded slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](participantFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(participantFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their ExternalPartsWhoseInDataFlowsNodeIsExpanded slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](partFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure participant_ is in _diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure part_ is in _diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded
 					found := false
-					for _, _b := range _diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
-						if _b == participant_ {
+					for _, _b := range _diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded {
+						if _b == part_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(_diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, participant_)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded", &_diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded)
+						_diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded = append(_diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded, part_)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "ExternalPartsWhoseInDataFlowsNodeIsExpanded", &_diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded)
 					}
 				} else {
-					// ensure participant_ is NOT in _diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded
-					idx := slices.Index(_diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, participant_)
+					// ensure part_ is NOT in _diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded
+					idx := slices.Index(_diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded, part_)
 					if idx != -1 {
-						_diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = slices.Delete(_diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, idx, idx+1)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded", &_diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded)
+						_diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded = slices.Delete(_diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded, idx, idx+1)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "ExternalPartsWhoseInDataFlowsNodeIsExpanded", &_diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded)
 					}
 				}
 			}
-		case "Library:ParticipantsWhoseNodeIsExpanded":
+		case "Library:PartsWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -4238,7 +4238,7 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 			}
 
 			// 2. Build a map of target Library instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Library](participantFormCallback.probe.stageOfInterest)
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](partFormCallback.probe.stageOfInterest)
 			targetLibraryIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
@@ -4248,210 +4248,210 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 				}
 			}
 
-			// 3. Iterate over all Library instances and update their ParticipantsWhoseNodeIsExpanded slice
-			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](participantFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(participantFormCallback.probe.stageOfInterest, _library)
+			// 3. Iterate over all Library instances and update their PartsWhoseNodeIsExpanded slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](partFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partFormCallback.probe.stageOfInterest, _library)
 				
 				// if Library is selected
 				if targetLibraryIDs[id] {
-					// ensure participant_ is in _library.ParticipantsWhoseNodeIsExpanded
+					// ensure part_ is in _library.PartsWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _library.ParticipantsWhoseNodeIsExpanded {
-						if _b == participant_ {
+					for _, _b := range _library.PartsWhoseNodeIsExpanded {
+						if _b == part_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_library.ParticipantsWhoseNodeIsExpanded = append(_library.ParticipantsWhoseNodeIsExpanded, participant_)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_library, "ParticipantsWhoseNodeIsExpanded", &_library.ParticipantsWhoseNodeIsExpanded)
+						_library.PartsWhoseNodeIsExpanded = append(_library.PartsWhoseNodeIsExpanded, part_)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_library, "PartsWhoseNodeIsExpanded", &_library.PartsWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure participant_ is NOT in _library.ParticipantsWhoseNodeIsExpanded
-					idx := slices.Index(_library.ParticipantsWhoseNodeIsExpanded, participant_)
+					// ensure part_ is NOT in _library.PartsWhoseNodeIsExpanded
+					idx := slices.Index(_library.PartsWhoseNodeIsExpanded, part_)
 					if idx != -1 {
-						_library.ParticipantsWhoseNodeIsExpanded = slices.Delete(_library.ParticipantsWhoseNodeIsExpanded, idx, idx+1)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_library, "ParticipantsWhoseNodeIsExpanded", &_library.ParticipantsWhoseNodeIsExpanded)
+						_library.PartsWhoseNodeIsExpanded = slices.Delete(_library.PartsWhoseNodeIsExpanded, idx, idx+1)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_library, "PartsWhoseNodeIsExpanded", &_library.PartsWhoseNodeIsExpanded)
 					}
 				}
 			}
-		case "Process:Participants":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Process instances
+		case "System:Parts":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Process instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Process](participantFormCallback.probe.stageOfInterest)
-			targetProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target System instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.System](partFormCallback.probe.stageOfInterest)
+			targetSystemIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetProcessIDs[id] = true
+					targetSystemIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Process instances and update their Participants slice
-			for _process := range *models.GetGongstructInstancesSetFromPointerType[*models.Process](participantFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(participantFormCallback.probe.stageOfInterest, _process)
+			// 3. Iterate over all System instances and update their Parts slice
+			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](partFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partFormCallback.probe.stageOfInterest, _system)
 				
-				// if Process is selected
-				if targetProcessIDs[id] {
-					// ensure participant_ is in _process.Participants
+				// if System is selected
+				if targetSystemIDs[id] {
+					// ensure part_ is in _system.Parts
 					found := false
-					for _, _b := range _process.Participants {
-						if _b == participant_ {
+					for _, _b := range _system.Parts {
+						if _b == part_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_process.Participants = append(_process.Participants, participant_)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_process, "Participants", &_process.Participants)
+						_system.Parts = append(_system.Parts, part_)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_system, "Parts", &_system.Parts)
 					}
 				} else {
-					// ensure participant_ is NOT in _process.Participants
-					idx := slices.Index(_process.Participants, participant_)
+					// ensure part_ is NOT in _system.Parts
+					idx := slices.Index(_system.Parts, part_)
 					if idx != -1 {
-						_process.Participants = slices.Delete(_process.Participants, idx, idx+1)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_process, "Participants", &_process.Participants)
+						_system.Parts = slices.Delete(_system.Parts, idx, idx+1)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_system, "Parts", &_system.Parts)
 					}
 				}
 			}
-		case "Process:ParticipantWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Process instances
+		case "System:PartWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Process instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Process](participantFormCallback.probe.stageOfInterest)
-			targetProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target System instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.System](partFormCallback.probe.stageOfInterest)
+			targetSystemIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetProcessIDs[id] = true
+					targetSystemIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Process instances and update their ParticipantWhoseNodeIsExpanded slice
-			for _process := range *models.GetGongstructInstancesSetFromPointerType[*models.Process](participantFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(participantFormCallback.probe.stageOfInterest, _process)
+			// 3. Iterate over all System instances and update their PartWhoseNodeIsExpanded slice
+			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](partFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partFormCallback.probe.stageOfInterest, _system)
 				
-				// if Process is selected
-				if targetProcessIDs[id] {
-					// ensure participant_ is in _process.ParticipantWhoseNodeIsExpanded
+				// if System is selected
+				if targetSystemIDs[id] {
+					// ensure part_ is in _system.PartWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _process.ParticipantWhoseNodeIsExpanded {
-						if _b == participant_ {
+					for _, _b := range _system.PartWhoseNodeIsExpanded {
+						if _b == part_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_process.ParticipantWhoseNodeIsExpanded = append(_process.ParticipantWhoseNodeIsExpanded, participant_)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_process, "ParticipantWhoseNodeIsExpanded", &_process.ParticipantWhoseNodeIsExpanded)
+						_system.PartWhoseNodeIsExpanded = append(_system.PartWhoseNodeIsExpanded, part_)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_system, "PartWhoseNodeIsExpanded", &_system.PartWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure participant_ is NOT in _process.ParticipantWhoseNodeIsExpanded
-					idx := slices.Index(_process.ParticipantWhoseNodeIsExpanded, participant_)
+					// ensure part_ is NOT in _system.PartWhoseNodeIsExpanded
+					idx := slices.Index(_system.PartWhoseNodeIsExpanded, part_)
 					if idx != -1 {
-						_process.ParticipantWhoseNodeIsExpanded = slices.Delete(_process.ParticipantWhoseNodeIsExpanded, idx, idx+1)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_process, "ParticipantWhoseNodeIsExpanded", &_process.ParticipantWhoseNodeIsExpanded)
+						_system.PartWhoseNodeIsExpanded = slices.Delete(_system.PartWhoseNodeIsExpanded, idx, idx+1)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_system, "PartWhoseNodeIsExpanded", &_system.PartWhoseNodeIsExpanded)
 					}
 				}
 			}
-		case "Process:ExternalParticipants":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Process instances
+		case "System:ExternalParts":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Process instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Process](participantFormCallback.probe.stageOfInterest)
-			targetProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target System instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.System](partFormCallback.probe.stageOfInterest)
+			targetSystemIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetProcessIDs[id] = true
+					targetSystemIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Process instances and update their ExternalParticipants slice
-			for _process := range *models.GetGongstructInstancesSetFromPointerType[*models.Process](participantFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(participantFormCallback.probe.stageOfInterest, _process)
+			// 3. Iterate over all System instances and update their ExternalParts slice
+			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](partFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partFormCallback.probe.stageOfInterest, _system)
 				
-				// if Process is selected
-				if targetProcessIDs[id] {
-					// ensure participant_ is in _process.ExternalParticipants
+				// if System is selected
+				if targetSystemIDs[id] {
+					// ensure part_ is in _system.ExternalParts
 					found := false
-					for _, _b := range _process.ExternalParticipants {
-						if _b == participant_ {
+					for _, _b := range _system.ExternalParts {
+						if _b == part_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_process.ExternalParticipants = append(_process.ExternalParticipants, participant_)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_process, "ExternalParticipants", &_process.ExternalParticipants)
+						_system.ExternalParts = append(_system.ExternalParts, part_)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_system, "ExternalParts", &_system.ExternalParts)
 					}
 				} else {
-					// ensure participant_ is NOT in _process.ExternalParticipants
-					idx := slices.Index(_process.ExternalParticipants, participant_)
+					// ensure part_ is NOT in _system.ExternalParts
+					idx := slices.Index(_system.ExternalParts, part_)
 					if idx != -1 {
-						_process.ExternalParticipants = slices.Delete(_process.ExternalParticipants, idx, idx+1)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_process, "ExternalParticipants", &_process.ExternalParticipants)
+						_system.ExternalParts = slices.Delete(_system.ExternalParts, idx, idx+1)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_system, "ExternalParts", &_system.ExternalParts)
 					}
 				}
 			}
-		case "Process:ExternalParticipantWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Process instances
+		case "System:ExternalPartWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Process instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Process](participantFormCallback.probe.stageOfInterest)
-			targetProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target System instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.System](partFormCallback.probe.stageOfInterest)
+			targetSystemIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetProcessIDs[id] = true
+					targetSystemIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Process instances and update their ExternalParticipantWhoseNodeIsExpanded slice
-			for _process := range *models.GetGongstructInstancesSetFromPointerType[*models.Process](participantFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(participantFormCallback.probe.stageOfInterest, _process)
+			// 3. Iterate over all System instances and update their ExternalPartWhoseNodeIsExpanded slice
+			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](partFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partFormCallback.probe.stageOfInterest, _system)
 				
-				// if Process is selected
-				if targetProcessIDs[id] {
-					// ensure participant_ is in _process.ExternalParticipantWhoseNodeIsExpanded
+				// if System is selected
+				if targetSystemIDs[id] {
+					// ensure part_ is in _system.ExternalPartWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _process.ExternalParticipantWhoseNodeIsExpanded {
-						if _b == participant_ {
+					for _, _b := range _system.ExternalPartWhoseNodeIsExpanded {
+						if _b == part_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_process.ExternalParticipantWhoseNodeIsExpanded = append(_process.ExternalParticipantWhoseNodeIsExpanded, participant_)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_process, "ExternalParticipantWhoseNodeIsExpanded", &_process.ExternalParticipantWhoseNodeIsExpanded)
+						_system.ExternalPartWhoseNodeIsExpanded = append(_system.ExternalPartWhoseNodeIsExpanded, part_)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_system, "ExternalPartWhoseNodeIsExpanded", &_system.ExternalPartWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure participant_ is NOT in _process.ExternalParticipantWhoseNodeIsExpanded
-					idx := slices.Index(_process.ExternalParticipantWhoseNodeIsExpanded, participant_)
+					// ensure part_ is NOT in _system.ExternalPartWhoseNodeIsExpanded
+					idx := slices.Index(_system.ExternalPartWhoseNodeIsExpanded, part_)
 					if idx != -1 {
-						_process.ExternalParticipantWhoseNodeIsExpanded = slices.Delete(_process.ExternalParticipantWhoseNodeIsExpanded, idx, idx+1)
-						participantFormCallback.probe.UpdateSliceOfPointersCallback(_process, "ExternalParticipantWhoseNodeIsExpanded", &_process.ExternalParticipantWhoseNodeIsExpanded)
+						_system.ExternalPartWhoseNodeIsExpanded = slices.Delete(_system.ExternalPartWhoseNodeIsExpanded, idx, idx+1)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_system, "ExternalPartWhoseNodeIsExpanded", &_system.ExternalPartWhoseNodeIsExpanded)
 					}
 				}
 			}
@@ -4459,50 +4459,50 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 	}
 
 	// manage the suppress operation
-	if participantFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		participant_.Unstage(participantFormCallback.probe.stageOfInterest)
+	if partFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		part_.Unstage(partFormCallback.probe.stageOfInterest)
 	}
 
-	participantFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Participant](
-		participantFormCallback.probe,
+	partFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Part](
+		partFormCallback.probe,
 	)
 
 	// display a new form by reset the form stage
-	if participantFormCallback.CreationMode || participantFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		participantFormCallback.probe.formStage.Reset()
+	if partFormCallback.CreationMode || partFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partFormCallback.probe.formStage.Reset()
 		newFormGroup := (&form.FormGroup{
 			Name: FormName,
-		}).Stage(participantFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ParticipantFormCallback(
+		}).Stage(partFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PartFormCallback(
 			nil,
-			participantFormCallback.probe,
+			partFormCallback.probe,
 			newFormGroup,
 		)
-		participant := new(models.Participant)
-		FillUpForm(participant, newFormGroup, participantFormCallback.probe)
-		participantFormCallback.probe.formStage.Commit()
+		part := new(models.Part)
+		FillUpForm(part, newFormGroup, partFormCallback.probe)
+		partFormCallback.probe.formStage.Commit()
 	}
 
-	participantFormCallback.probe.ux_tree()
+	partFormCallback.probe.ux_tree()
 }
-func __gong__New__ParticipantShapeFormCallback(
-	participantshape *models.ParticipantShape,
+func __gong__New__PartShapeFormCallback(
+	partshape *models.PartShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (participantshapeFormCallback *ParticipantShapeFormCallback) {
-	participantshapeFormCallback = new(ParticipantShapeFormCallback)
-	participantshapeFormCallback.probe = probe
-	participantshapeFormCallback.participantshape = participantshape
-	participantshapeFormCallback.formGroup = formGroup
+) (partshapeFormCallback *PartShapeFormCallback) {
+	partshapeFormCallback = new(PartShapeFormCallback)
+	partshapeFormCallback.probe = probe
+	partshapeFormCallback.partshape = partshape
+	partshapeFormCallback.formGroup = formGroup
 
-	participantshapeFormCallback.CreationMode = (participantshape == nil)
+	partshapeFormCallback.CreationMode = (partshape == nil)
 
 	return
 }
 
-type ParticipantShapeFormCallback struct {
-	participantshape *models.ParticipantShape
+type PartShapeFormCallback struct {
+	partshape *models.PartShape
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -4512,85 +4512,85 @@ type ParticipantShapeFormCallback struct {
 	formGroup *form.FormGroup
 }
 
-func (participantshapeFormCallback *ParticipantShapeFormCallback) OnSave() {
-	participantshapeFormCallback.probe.stageOfInterest.Lock()
-	defer participantshapeFormCallback.probe.stageOfInterest.Unlock()
+func (partshapeFormCallback *PartShapeFormCallback) OnSave() {
+	partshapeFormCallback.probe.stageOfInterest.Lock()
+	defer partshapeFormCallback.probe.stageOfInterest.Unlock()
 
-	// log.Println("ParticipantShapeFormCallback, OnSave")
+	// log.Println("PartShapeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	participantshapeFormCallback.probe.formStage.Checkout()
+	partshapeFormCallback.probe.formStage.Checkout()
 
-	if participantshapeFormCallback.participantshape == nil {
-		participantshapeFormCallback.participantshape = new(models.ParticipantShape).Stage(participantshapeFormCallback.probe.stageOfInterest)
+	if partshapeFormCallback.partshape == nil {
+		partshapeFormCallback.partshape = new(models.PartShape).Stage(partshapeFormCallback.probe.stageOfInterest)
 	}
-	participantshape_ := participantshapeFormCallback.participantshape
-	_ = participantshape_
+	partshape_ := partshapeFormCallback.partshape
+	_ = partshape_
 
-	for _, formDiv := range participantshapeFormCallback.formGroup.FormDivs {
+	for _, formDiv := range partshapeFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(participantshape_.Name), formDiv)
-		case "Participant":
-			FormDivSelectFieldToField(&(participantshape_.Participant), participantshapeFormCallback.probe.stageOfInterest, formDiv)
+			FormDivBasicFieldToField(&(partshape_.Name), formDiv)
+		case "Part":
+			FormDivSelectFieldToField(&(partshape_.Part), partshapeFormCallback.probe.stageOfInterest, formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(participantshape_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(partshape_.IsExpanded), formDiv)
 		case "X":
-			FormDivBasicFieldToField(&(participantshape_.X), formDiv)
+			FormDivBasicFieldToField(&(partshape_.X), formDiv)
 		case "Y":
-			FormDivBasicFieldToField(&(participantshape_.Y), formDiv)
+			FormDivBasicFieldToField(&(partshape_.Y), formDiv)
 		case "Width":
-			FormDivBasicFieldToField(&(participantshape_.Width), formDiv)
+			FormDivBasicFieldToField(&(partshape_.Width), formDiv)
 		case "Height":
-			FormDivBasicFieldToField(&(participantshape_.Height), formDiv)
+			FormDivBasicFieldToField(&(partshape_.Height), formDiv)
 		case "IsHidden":
-			FormDivBasicFieldToField(&(participantshape_.IsHidden), formDiv)
+			FormDivBasicFieldToField(&(partshape_.IsHidden), formDiv)
 		case "WidthWeight":
-			FormDivBasicFieldToField(&(participantshape_.WidthWeight), formDiv)
-		case "DiagramProcess:Participant_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+			FormDivBasicFieldToField(&(partshape_.WidthWeight), formDiv)
+		case "DiagramStructure:Part_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](participantshapeFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](partshapeFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their Participant_Shapes slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](participantshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(participantshapeFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their Part_Shapes slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](partshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partshapeFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure participantshape_ is in _diagramprocess.Participant_Shapes
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure partshape_ is in _diagramstructure.Part_Shapes
 					found := false
-					for _, _b := range _diagramprocess.Participant_Shapes {
-						if _b == participantshape_ {
+					for _, _b := range _diagramstructure.Part_Shapes {
+						if _b == partshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.Participant_Shapes = append(_diagramprocess.Participant_Shapes, participantshape_)
-						participantshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "Participant_Shapes", &_diagramprocess.Participant_Shapes)
+						_diagramstructure.Part_Shapes = append(_diagramstructure.Part_Shapes, partshape_)
+						partshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "Part_Shapes", &_diagramstructure.Part_Shapes)
 					}
 				} else {
-					// ensure participantshape_ is NOT in _diagramprocess.Participant_Shapes
-					idx := slices.Index(_diagramprocess.Participant_Shapes, participantshape_)
+					// ensure partshape_ is NOT in _diagramstructure.Part_Shapes
+					idx := slices.Index(_diagramstructure.Part_Shapes, partshape_)
 					if idx != -1 {
-						_diagramprocess.Participant_Shapes = slices.Delete(_diagramprocess.Participant_Shapes, idx, idx+1)
-						participantshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "Participant_Shapes", &_diagramprocess.Participant_Shapes)
+						_diagramstructure.Part_Shapes = slices.Delete(_diagramstructure.Part_Shapes, idx, idx+1)
+						partshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "Part_Shapes", &_diagramstructure.Part_Shapes)
 					}
 				}
 			}
@@ -4598,50 +4598,50 @@ func (participantshapeFormCallback *ParticipantShapeFormCallback) OnSave() {
 	}
 
 	// manage the suppress operation
-	if participantshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		participantshape_.Unstage(participantshapeFormCallback.probe.stageOfInterest)
+	if partshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partshape_.Unstage(partshapeFormCallback.probe.stageOfInterest)
 	}
 
-	participantshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.ParticipantShape](
-		participantshapeFormCallback.probe,
+	partshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PartShape](
+		partshapeFormCallback.probe,
 	)
 
 	// display a new form by reset the form stage
-	if participantshapeFormCallback.CreationMode || participantshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		participantshapeFormCallback.probe.formStage.Reset()
+	if partshapeFormCallback.CreationMode || partshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partshapeFormCallback.probe.formStage.Reset()
 		newFormGroup := (&form.FormGroup{
 			Name: FormName,
-		}).Stage(participantshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ParticipantShapeFormCallback(
+		}).Stage(partshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PartShapeFormCallback(
 			nil,
-			participantshapeFormCallback.probe,
+			partshapeFormCallback.probe,
 			newFormGroup,
 		)
-		participantshape := new(models.ParticipantShape)
-		FillUpForm(participantshape, newFormGroup, participantshapeFormCallback.probe)
-		participantshapeFormCallback.probe.formStage.Commit()
+		partshape := new(models.PartShape)
+		FillUpForm(partshape, newFormGroup, partshapeFormCallback.probe)
+		partshapeFormCallback.probe.formStage.Commit()
 	}
 
-	participantshapeFormCallback.probe.ux_tree()
+	partshapeFormCallback.probe.ux_tree()
 }
-func __gong__New__ProcessFormCallback(
-	process *models.Process,
+func __gong__New__PortFormCallback(
+	port *models.Port,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (processFormCallback *ProcessFormCallback) {
-	processFormCallback = new(ProcessFormCallback)
-	processFormCallback.probe = probe
-	processFormCallback.process = process
-	processFormCallback.formGroup = formGroup
+) (portFormCallback *PortFormCallback) {
+	portFormCallback = new(PortFormCallback)
+	portFormCallback.probe = probe
+	portFormCallback.port = port
+	portFormCallback.formGroup = formGroup
 
-	processFormCallback.CreationMode = (process == nil)
+	portFormCallback.CreationMode = (port == nil)
 
 	return
 }
 
-type ProcessFormCallback struct {
-	process *models.Process
+type PortFormCallback struct {
+	port *models.Port
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -4651,566 +4651,355 @@ type ProcessFormCallback struct {
 	formGroup *form.FormGroup
 }
 
-func (processFormCallback *ProcessFormCallback) OnSave() {
-	processFormCallback.probe.stageOfInterest.Lock()
-	defer processFormCallback.probe.stageOfInterest.Unlock()
+func (portFormCallback *PortFormCallback) OnSave() {
+	portFormCallback.probe.stageOfInterest.Lock()
+	defer portFormCallback.probe.stageOfInterest.Unlock()
 
-	// log.Println("ProcessFormCallback, OnSave")
+	// log.Println("PortFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	processFormCallback.probe.formStage.Checkout()
+	portFormCallback.probe.formStage.Checkout()
 
-	if processFormCallback.process == nil {
-		processFormCallback.process = new(models.Process).Stage(processFormCallback.probe.stageOfInterest)
+	if portFormCallback.port == nil {
+		portFormCallback.port = new(models.Port).Stage(portFormCallback.probe.stageOfInterest)
 	}
-	process_ := processFormCallback.process
-	_ = process_
+	port_ := portFormCallback.port
+	_ = port_
 
-	for _, formDiv := range processFormCallback.formGroup.FormDivs {
+	for _, formDiv := range portFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(process_.Name), formDiv)
+			FormDivBasicFieldToField(&(port_.Name), formDiv)
 		case "Description":
-			FormDivBasicFieldToField(&(process_.Description), formDiv)
+			FormDivBasicFieldToField(&(port_.Description), formDiv)
 		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(process_.ComputedPrefix), formDiv)
+			FormDivBasicFieldToField(&(port_.ComputedPrefix), formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(process_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(port_.IsExpanded), formDiv)
 		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(process_.LayoutDirection), formDiv)
-		case "SVG_Path":
-			FormDivBasicFieldToField(&(process_.SVG_Path), formDiv)
-		case "InverseAppliedScaling":
-			FormDivBasicFieldToField(&(process_.InverseAppliedScaling), formDiv)
-		case "DiagramProcesss":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](processFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.DiagramProcess, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.DiagramProcess)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					processFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](processFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			process_.DiagramProcesss = instanceSlice
-			processFormCallback.probe.UpdateSliceOfPointersCallback(process_, "DiagramProcesss", &process_.DiagramProcesss)
-
-		case "DiagramProcessWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](processFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.DiagramProcess, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.DiagramProcess)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					processFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](processFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			process_.DiagramProcessWhoseNodeIsExpanded = instanceSlice
-			processFormCallback.probe.UpdateSliceOfPointersCallback(process_, "DiagramProcessWhoseNodeIsExpanded", &process_.DiagramProcessWhoseNodeIsExpanded)
-
-		case "IsSubProcessNodeExpanded":
-			FormDivBasicFieldToField(&(process_.IsSubProcessNodeExpanded), formDiv)
-		case "SubProcesses":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Process](processFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Process, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Process)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					processFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Process](processFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			process_.SubProcesses = instanceSlice
-			processFormCallback.probe.UpdateSliceOfPointersCallback(process_, "SubProcesses", &process_.SubProcesses)
-
-		case "Participants":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](processFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Participant, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Participant)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					processFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](processFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			process_.Participants = instanceSlice
-			processFormCallback.probe.UpdateSliceOfPointersCallback(process_, "Participants", &process_.Participants)
-
-		case "ParticipantWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](processFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Participant, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Participant)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					processFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](processFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			process_.ParticipantWhoseNodeIsExpanded = instanceSlice
-			processFormCallback.probe.UpdateSliceOfPointersCallback(process_, "ParticipantWhoseNodeIsExpanded", &process_.ParticipantWhoseNodeIsExpanded)
-
-		case "DataFlows":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlow](processFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.DataFlow, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.DataFlow)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					processFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.DataFlow](processFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			process_.DataFlows = instanceSlice
-			processFormCallback.probe.UpdateSliceOfPointersCallback(process_, "DataFlows", &process_.DataFlows)
-
-		case "IsDataFlowsNodeExpanded":
-			FormDivBasicFieldToField(&(process_.IsDataFlowsNodeExpanded), formDiv)
-		case "ExternalParticipants":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](processFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Participant, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Participant)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					processFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](processFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			process_.ExternalParticipants = instanceSlice
-			processFormCallback.probe.UpdateSliceOfPointersCallback(process_, "ExternalParticipants", &process_.ExternalParticipants)
-
-		case "ExternalParticipantWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Participant](processFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Participant, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Participant)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					processFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](processFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			process_.ExternalParticipantWhoseNodeIsExpanded = instanceSlice
-			processFormCallback.probe.UpdateSliceOfPointersCallback(process_, "ExternalParticipantWhoseNodeIsExpanded", &process_.ExternalParticipantWhoseNodeIsExpanded)
-
-		case "DiagramProcess:ProcesssWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+			FormDivEnumIntFieldToField(&(port_.LayoutDirection), formDiv)
+		case "IsStartPort":
+			FormDivBasicFieldToField(&(port_.IsStartPort), formDiv)
+		case "IsEndPort":
+			FormDivBasicFieldToField(&(port_.IsEndPort), formDiv)
+		case "Type":
+			FormDivSelectFieldToField(&(port_.Type), portFormCallback.probe.stageOfInterest, formDiv)
+		case "IsPortNameNotSystemName":
+			FormDivBasicFieldToField(&(port_.IsPortNameNotSystemName), formDiv)
+		case "DiagramStructure:PortsWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](processFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](portFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their ProcesssWhoseNodeIsExpanded slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](processFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(processFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their PortsWhoseNodeIsExpanded slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](portFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(portFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure process_ is in _diagramprocess.ProcesssWhoseNodeIsExpanded
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure port_ is in _diagramstructure.PortsWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _diagramprocess.ProcesssWhoseNodeIsExpanded {
-						if _b == process_ {
+					for _, _b := range _diagramstructure.PortsWhoseNodeIsExpanded {
+						if _b == port_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.ProcesssWhoseNodeIsExpanded = append(_diagramprocess.ProcesssWhoseNodeIsExpanded, process_)
-						processFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "ProcesssWhoseNodeIsExpanded", &_diagramprocess.ProcesssWhoseNodeIsExpanded)
+						_diagramstructure.PortsWhoseNodeIsExpanded = append(_diagramstructure.PortsWhoseNodeIsExpanded, port_)
+						portFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "PortsWhoseNodeIsExpanded", &_diagramstructure.PortsWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure process_ is NOT in _diagramprocess.ProcesssWhoseNodeIsExpanded
-					idx := slices.Index(_diagramprocess.ProcesssWhoseNodeIsExpanded, process_)
+					// ensure port_ is NOT in _diagramstructure.PortsWhoseNodeIsExpanded
+					idx := slices.Index(_diagramstructure.PortsWhoseNodeIsExpanded, port_)
 					if idx != -1 {
-						_diagramprocess.ProcesssWhoseNodeIsExpanded = slices.Delete(_diagramprocess.ProcesssWhoseNodeIsExpanded, idx, idx+1)
-						processFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "ProcesssWhoseNodeIsExpanded", &_diagramprocess.ProcesssWhoseNodeIsExpanded)
+						_diagramstructure.PortsWhoseNodeIsExpanded = slices.Delete(_diagramstructure.PortsWhoseNodeIsExpanded, idx, idx+1)
+						portFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "PortsWhoseNodeIsExpanded", &_diagramstructure.PortsWhoseNodeIsExpanded)
 					}
 				}
 			}
-		case "DiagramProcess:AllocatedProcessesWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+		case "Note:Ports":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Note instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](processFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target Note instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Note](portFormCallback.probe.stageOfInterest)
+			targetNoteIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetNoteIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their AllocatedProcessesWhoseNodeIsExpanded slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](processFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(processFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all Note instances and update their Ports slice
+			for _note := range *models.GetGongstructInstancesSetFromPointerType[*models.Note](portFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(portFormCallback.probe.stageOfInterest, _note)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure process_ is in _diagramprocess.AllocatedProcessesWhoseNodeIsExpanded
+				// if Note is selected
+				if targetNoteIDs[id] {
+					// ensure port_ is in _note.Ports
 					found := false
-					for _, _b := range _diagramprocess.AllocatedProcessesWhoseNodeIsExpanded {
-						if _b == process_ {
+					for _, _b := range _note.Ports {
+						if _b == port_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.AllocatedProcessesWhoseNodeIsExpanded = append(_diagramprocess.AllocatedProcessesWhoseNodeIsExpanded, process_)
-						processFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "AllocatedProcessesWhoseNodeIsExpanded", &_diagramprocess.AllocatedProcessesWhoseNodeIsExpanded)
+						_note.Ports = append(_note.Ports, port_)
+						portFormCallback.probe.UpdateSliceOfPointersCallback(_note, "Ports", &_note.Ports)
 					}
 				} else {
-					// ensure process_ is NOT in _diagramprocess.AllocatedProcessesWhoseNodeIsExpanded
-					idx := slices.Index(_diagramprocess.AllocatedProcessesWhoseNodeIsExpanded, process_)
+					// ensure port_ is NOT in _note.Ports
+					idx := slices.Index(_note.Ports, port_)
 					if idx != -1 {
-						_diagramprocess.AllocatedProcessesWhoseNodeIsExpanded = slices.Delete(_diagramprocess.AllocatedProcessesWhoseNodeIsExpanded, idx, idx+1)
-						processFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "AllocatedProcessesWhoseNodeIsExpanded", &_diagramprocess.AllocatedProcessesWhoseNodeIsExpanded)
+						_note.Ports = slices.Delete(_note.Ports, idx, idx+1)
+						portFormCallback.probe.UpdateSliceOfPointersCallback(_note, "Ports", &_note.Ports)
 					}
 				}
 			}
-		case "Library:RootProcesses":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
+		case "Part:Ports":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Part instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Library instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Library](processFormCallback.probe.stageOfInterest)
-			targetLibraryIDs := make(map[uint]bool)
+			// 2. Build a map of target Part instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](portFormCallback.probe.stageOfInterest)
+			targetPartIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetLibraryIDs[id] = true
+					targetPartIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Library instances and update their RootProcesses slice
-			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](processFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(processFormCallback.probe.stageOfInterest, _library)
+			// 3. Iterate over all Part instances and update their Ports slice
+			for _part := range *models.GetGongstructInstancesSetFromPointerType[*models.Part](portFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(portFormCallback.probe.stageOfInterest, _part)
 				
-				// if Library is selected
-				if targetLibraryIDs[id] {
-					// ensure process_ is in _library.RootProcesses
+				// if Part is selected
+				if targetPartIDs[id] {
+					// ensure port_ is in _part.Ports
 					found := false
-					for _, _b := range _library.RootProcesses {
-						if _b == process_ {
+					for _, _b := range _part.Ports {
+						if _b == port_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_library.RootProcesses = append(_library.RootProcesses, process_)
-						processFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootProcesses", &_library.RootProcesses)
+						_part.Ports = append(_part.Ports, port_)
+						portFormCallback.probe.UpdateSliceOfPointersCallback(_part, "Ports", &_part.Ports)
 					}
 				} else {
-					// ensure process_ is NOT in _library.RootProcesses
-					idx := slices.Index(_library.RootProcesses, process_)
+					// ensure port_ is NOT in _part.Ports
+					idx := slices.Index(_part.Ports, port_)
 					if idx != -1 {
-						_library.RootProcesses = slices.Delete(_library.RootProcesses, idx, idx+1)
-						processFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootProcesses", &_library.RootProcesses)
+						_part.Ports = slices.Delete(_part.Ports, idx, idx+1)
+						portFormCallback.probe.UpdateSliceOfPointersCallback(_part, "Ports", &_part.Ports)
 					}
 				}
 			}
-		case "Library:ProcesssWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
+		case "Part:PortWhoseOutControlFlowsNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Part instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Library instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Library](processFormCallback.probe.stageOfInterest)
-			targetLibraryIDs := make(map[uint]bool)
+			// 2. Build a map of target Part instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](portFormCallback.probe.stageOfInterest)
+			targetPartIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetLibraryIDs[id] = true
+					targetPartIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Library instances and update their ProcesssWhoseNodeIsExpanded slice
-			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](processFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(processFormCallback.probe.stageOfInterest, _library)
+			// 3. Iterate over all Part instances and update their PortWhoseOutControlFlowsNodeIsExpanded slice
+			for _part := range *models.GetGongstructInstancesSetFromPointerType[*models.Part](portFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(portFormCallback.probe.stageOfInterest, _part)
 				
-				// if Library is selected
-				if targetLibraryIDs[id] {
-					// ensure process_ is in _library.ProcesssWhoseNodeIsExpanded
+				// if Part is selected
+				if targetPartIDs[id] {
+					// ensure port_ is in _part.PortWhoseOutControlFlowsNodeIsExpanded
 					found := false
-					for _, _b := range _library.ProcesssWhoseNodeIsExpanded {
-						if _b == process_ {
+					for _, _b := range _part.PortWhoseOutControlFlowsNodeIsExpanded {
+						if _b == port_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_library.ProcesssWhoseNodeIsExpanded = append(_library.ProcesssWhoseNodeIsExpanded, process_)
-						processFormCallback.probe.UpdateSliceOfPointersCallback(_library, "ProcesssWhoseNodeIsExpanded", &_library.ProcesssWhoseNodeIsExpanded)
+						_part.PortWhoseOutControlFlowsNodeIsExpanded = append(_part.PortWhoseOutControlFlowsNodeIsExpanded, port_)
+						portFormCallback.probe.UpdateSliceOfPointersCallback(_part, "PortWhoseOutControlFlowsNodeIsExpanded", &_part.PortWhoseOutControlFlowsNodeIsExpanded)
 					}
 				} else {
-					// ensure process_ is NOT in _library.ProcesssWhoseNodeIsExpanded
-					idx := slices.Index(_library.ProcesssWhoseNodeIsExpanded, process_)
+					// ensure port_ is NOT in _part.PortWhoseOutControlFlowsNodeIsExpanded
+					idx := slices.Index(_part.PortWhoseOutControlFlowsNodeIsExpanded, port_)
 					if idx != -1 {
-						_library.ProcesssWhoseNodeIsExpanded = slices.Delete(_library.ProcesssWhoseNodeIsExpanded, idx, idx+1)
-						processFormCallback.probe.UpdateSliceOfPointersCallback(_library, "ProcesssWhoseNodeIsExpanded", &_library.ProcesssWhoseNodeIsExpanded)
+						_part.PortWhoseOutControlFlowsNodeIsExpanded = slices.Delete(_part.PortWhoseOutControlFlowsNodeIsExpanded, idx, idx+1)
+						portFormCallback.probe.UpdateSliceOfPointersCallback(_part, "PortWhoseOutControlFlowsNodeIsExpanded", &_part.PortWhoseOutControlFlowsNodeIsExpanded)
 					}
 				}
 			}
-		case "Participant:Processes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Participant instances
+		case "Part:PortWhoseInControlFlowsNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Part instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Participant instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](processFormCallback.probe.stageOfInterest)
-			targetParticipantIDs := make(map[uint]bool)
+			// 2. Build a map of target Part instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](portFormCallback.probe.stageOfInterest)
+			targetPartIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetParticipantIDs[id] = true
+					targetPartIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Participant instances and update their Processes slice
-			for _participant := range *models.GetGongstructInstancesSetFromPointerType[*models.Participant](processFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(processFormCallback.probe.stageOfInterest, _participant)
+			// 3. Iterate over all Part instances and update their PortWhoseInControlFlowsNodeIsExpanded slice
+			for _part := range *models.GetGongstructInstancesSetFromPointerType[*models.Part](portFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(portFormCallback.probe.stageOfInterest, _part)
 				
-				// if Participant is selected
-				if targetParticipantIDs[id] {
-					// ensure process_ is in _participant.Processes
+				// if Part is selected
+				if targetPartIDs[id] {
+					// ensure port_ is in _part.PortWhoseInControlFlowsNodeIsExpanded
 					found := false
-					for _, _b := range _participant.Processes {
-						if _b == process_ {
+					for _, _b := range _part.PortWhoseInControlFlowsNodeIsExpanded {
+						if _b == port_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_participant.Processes = append(_participant.Processes, process_)
-						processFormCallback.probe.UpdateSliceOfPointersCallback(_participant, "Processes", &_participant.Processes)
+						_part.PortWhoseInControlFlowsNodeIsExpanded = append(_part.PortWhoseInControlFlowsNodeIsExpanded, port_)
+						portFormCallback.probe.UpdateSliceOfPointersCallback(_part, "PortWhoseInControlFlowsNodeIsExpanded", &_part.PortWhoseInControlFlowsNodeIsExpanded)
 					}
 				} else {
-					// ensure process_ is NOT in _participant.Processes
-					idx := slices.Index(_participant.Processes, process_)
+					// ensure port_ is NOT in _part.PortWhoseInControlFlowsNodeIsExpanded
+					idx := slices.Index(_part.PortWhoseInControlFlowsNodeIsExpanded, port_)
 					if idx != -1 {
-						_participant.Processes = slices.Delete(_participant.Processes, idx, idx+1)
-						processFormCallback.probe.UpdateSliceOfPointersCallback(_participant, "Processes", &_participant.Processes)
+						_part.PortWhoseInControlFlowsNodeIsExpanded = slices.Delete(_part.PortWhoseInControlFlowsNodeIsExpanded, idx, idx+1)
+						portFormCallback.probe.UpdateSliceOfPointersCallback(_part, "PortWhoseInControlFlowsNodeIsExpanded", &_part.PortWhoseInControlFlowsNodeIsExpanded)
 					}
 				}
 			}
-		case "Process:SubProcesses":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Process instances
+		case "Part:PortWhoseOutDataFlowsNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Part instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Process instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Process](processFormCallback.probe.stageOfInterest)
-			targetProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target Part instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](portFormCallback.probe.stageOfInterest)
+			targetPartIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetProcessIDs[id] = true
+					targetPartIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Process instances and update their SubProcesses slice
-			for _process := range *models.GetGongstructInstancesSetFromPointerType[*models.Process](processFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(processFormCallback.probe.stageOfInterest, _process)
+			// 3. Iterate over all Part instances and update their PortWhoseOutDataFlowsNodeIsExpanded slice
+			for _part := range *models.GetGongstructInstancesSetFromPointerType[*models.Part](portFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(portFormCallback.probe.stageOfInterest, _part)
 				
-				// if Process is selected
-				if targetProcessIDs[id] {
-					// ensure process_ is in _process.SubProcesses
+				// if Part is selected
+				if targetPartIDs[id] {
+					// ensure port_ is in _part.PortWhoseOutDataFlowsNodeIsExpanded
 					found := false
-					for _, _b := range _process.SubProcesses {
-						if _b == process_ {
+					for _, _b := range _part.PortWhoseOutDataFlowsNodeIsExpanded {
+						if _b == port_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_process.SubProcesses = append(_process.SubProcesses, process_)
-						processFormCallback.probe.UpdateSliceOfPointersCallback(_process, "SubProcesses", &_process.SubProcesses)
+						_part.PortWhoseOutDataFlowsNodeIsExpanded = append(_part.PortWhoseOutDataFlowsNodeIsExpanded, port_)
+						portFormCallback.probe.UpdateSliceOfPointersCallback(_part, "PortWhoseOutDataFlowsNodeIsExpanded", &_part.PortWhoseOutDataFlowsNodeIsExpanded)
 					}
 				} else {
-					// ensure process_ is NOT in _process.SubProcesses
-					idx := slices.Index(_process.SubProcesses, process_)
+					// ensure port_ is NOT in _part.PortWhoseOutDataFlowsNodeIsExpanded
+					idx := slices.Index(_part.PortWhoseOutDataFlowsNodeIsExpanded, port_)
 					if idx != -1 {
-						_process.SubProcesses = slices.Delete(_process.SubProcesses, idx, idx+1)
-						processFormCallback.probe.UpdateSliceOfPointersCallback(_process, "SubProcesses", &_process.SubProcesses)
+						_part.PortWhoseOutDataFlowsNodeIsExpanded = slices.Delete(_part.PortWhoseOutDataFlowsNodeIsExpanded, idx, idx+1)
+						portFormCallback.probe.UpdateSliceOfPointersCallback(_part, "PortWhoseOutDataFlowsNodeIsExpanded", &_part.PortWhoseOutDataFlowsNodeIsExpanded)
+					}
+				}
+			}
+		case "Part:PortWhoseInDataFlowsNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Part instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Part instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](portFormCallback.probe.stageOfInterest)
+			targetPartIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPartIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Part instances and update their PortWhoseInDataFlowsNodeIsExpanded slice
+			for _part := range *models.GetGongstructInstancesSetFromPointerType[*models.Part](portFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(portFormCallback.probe.stageOfInterest, _part)
+				
+				// if Part is selected
+				if targetPartIDs[id] {
+					// ensure port_ is in _part.PortWhoseInDataFlowsNodeIsExpanded
+					found := false
+					for _, _b := range _part.PortWhoseInDataFlowsNodeIsExpanded {
+						if _b == port_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_part.PortWhoseInDataFlowsNodeIsExpanded = append(_part.PortWhoseInDataFlowsNodeIsExpanded, port_)
+						portFormCallback.probe.UpdateSliceOfPointersCallback(_part, "PortWhoseInDataFlowsNodeIsExpanded", &_part.PortWhoseInDataFlowsNodeIsExpanded)
+					}
+				} else {
+					// ensure port_ is NOT in _part.PortWhoseInDataFlowsNodeIsExpanded
+					idx := slices.Index(_part.PortWhoseInDataFlowsNodeIsExpanded, port_)
+					if idx != -1 {
+						_part.PortWhoseInDataFlowsNodeIsExpanded = slices.Delete(_part.PortWhoseInDataFlowsNodeIsExpanded, idx, idx+1)
+						portFormCallback.probe.UpdateSliceOfPointersCallback(_part, "PortWhoseInDataFlowsNodeIsExpanded", &_part.PortWhoseInDataFlowsNodeIsExpanded)
 					}
 				}
 			}
@@ -5218,50 +5007,50 @@ func (processFormCallback *ProcessFormCallback) OnSave() {
 	}
 
 	// manage the suppress operation
-	if processFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		process_.Unstage(processFormCallback.probe.stageOfInterest)
+	if portFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		port_.Unstage(portFormCallback.probe.stageOfInterest)
 	}
 
-	processFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Process](
-		processFormCallback.probe,
+	portFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Port](
+		portFormCallback.probe,
 	)
 
 	// display a new form by reset the form stage
-	if processFormCallback.CreationMode || processFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		processFormCallback.probe.formStage.Reset()
+	if portFormCallback.CreationMode || portFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		portFormCallback.probe.formStage.Reset()
 		newFormGroup := (&form.FormGroup{
 			Name: FormName,
-		}).Stage(processFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ProcessFormCallback(
+		}).Stage(portFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PortFormCallback(
 			nil,
-			processFormCallback.probe,
+			portFormCallback.probe,
 			newFormGroup,
 		)
-		process := new(models.Process)
-		FillUpForm(process, newFormGroup, processFormCallback.probe)
-		processFormCallback.probe.formStage.Commit()
+		port := new(models.Port)
+		FillUpForm(port, newFormGroup, portFormCallback.probe)
+		portFormCallback.probe.formStage.Commit()
 	}
 
-	processFormCallback.probe.ux_tree()
+	portFormCallback.probe.ux_tree()
 }
-func __gong__New__ProcessShapeFormCallback(
-	processshape *models.ProcessShape,
+func __gong__New__PortShapeFormCallback(
+	portshape *models.PortShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (processshapeFormCallback *ProcessShapeFormCallback) {
-	processshapeFormCallback = new(ProcessShapeFormCallback)
-	processshapeFormCallback.probe = probe
-	processshapeFormCallback.processshape = processshape
-	processshapeFormCallback.formGroup = formGroup
+) (portshapeFormCallback *PortShapeFormCallback) {
+	portshapeFormCallback = new(PortShapeFormCallback)
+	portshapeFormCallback.probe = probe
+	portshapeFormCallback.portshape = portshape
+	portshapeFormCallback.formGroup = formGroup
 
-	processshapeFormCallback.CreationMode = (processshape == nil)
+	portshapeFormCallback.CreationMode = (portshape == nil)
 
 	return
 }
 
-type ProcessShapeFormCallback struct {
-	processshape *models.ProcessShape
+type PortShapeFormCallback struct {
+	portshape *models.PortShape
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -5271,83 +5060,83 @@ type ProcessShapeFormCallback struct {
 	formGroup *form.FormGroup
 }
 
-func (processshapeFormCallback *ProcessShapeFormCallback) OnSave() {
-	processshapeFormCallback.probe.stageOfInterest.Lock()
-	defer processshapeFormCallback.probe.stageOfInterest.Unlock()
+func (portshapeFormCallback *PortShapeFormCallback) OnSave() {
+	portshapeFormCallback.probe.stageOfInterest.Lock()
+	defer portshapeFormCallback.probe.stageOfInterest.Unlock()
 
-	// log.Println("ProcessShapeFormCallback, OnSave")
+	// log.Println("PortShapeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	processshapeFormCallback.probe.formStage.Checkout()
+	portshapeFormCallback.probe.formStage.Checkout()
 
-	if processshapeFormCallback.processshape == nil {
-		processshapeFormCallback.processshape = new(models.ProcessShape).Stage(processshapeFormCallback.probe.stageOfInterest)
+	if portshapeFormCallback.portshape == nil {
+		portshapeFormCallback.portshape = new(models.PortShape).Stage(portshapeFormCallback.probe.stageOfInterest)
 	}
-	processshape_ := processshapeFormCallback.processshape
-	_ = processshape_
+	portshape_ := portshapeFormCallback.portshape
+	_ = portshape_
 
-	for _, formDiv := range processshapeFormCallback.formGroup.FormDivs {
+	for _, formDiv := range portshapeFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(processshape_.Name), formDiv)
-		case "Process":
-			FormDivSelectFieldToField(&(processshape_.Process), processshapeFormCallback.probe.stageOfInterest, formDiv)
+			FormDivBasicFieldToField(&(portshape_.Name), formDiv)
+		case "Port":
+			FormDivSelectFieldToField(&(portshape_.Port), portshapeFormCallback.probe.stageOfInterest, formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(processshape_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(portshape_.IsExpanded), formDiv)
 		case "X":
-			FormDivBasicFieldToField(&(processshape_.X), formDiv)
+			FormDivBasicFieldToField(&(portshape_.X), formDiv)
 		case "Y":
-			FormDivBasicFieldToField(&(processshape_.Y), formDiv)
+			FormDivBasicFieldToField(&(portshape_.Y), formDiv)
 		case "Width":
-			FormDivBasicFieldToField(&(processshape_.Width), formDiv)
+			FormDivBasicFieldToField(&(portshape_.Width), formDiv)
 		case "Height":
-			FormDivBasicFieldToField(&(processshape_.Height), formDiv)
+			FormDivBasicFieldToField(&(portshape_.Height), formDiv)
 		case "IsHidden":
-			FormDivBasicFieldToField(&(processshape_.IsHidden), formDiv)
-		case "DiagramProcess:Process_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+			FormDivBasicFieldToField(&(portshape_.IsHidden), formDiv)
+		case "DiagramStructure:Port_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](processshapeFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](portshapeFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their Process_Shapes slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](processshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(processshapeFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their Port_Shapes slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](portshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(portshapeFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure processshape_ is in _diagramprocess.Process_Shapes
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure portshape_ is in _diagramstructure.Port_Shapes
 					found := false
-					for _, _b := range _diagramprocess.Process_Shapes {
-						if _b == processshape_ {
+					for _, _b := range _diagramstructure.Port_Shapes {
+						if _b == portshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.Process_Shapes = append(_diagramprocess.Process_Shapes, processshape_)
-						processshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "Process_Shapes", &_diagramprocess.Process_Shapes)
+						_diagramstructure.Port_Shapes = append(_diagramstructure.Port_Shapes, portshape_)
+						portshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "Port_Shapes", &_diagramstructure.Port_Shapes)
 					}
 				} else {
-					// ensure processshape_ is NOT in _diagramprocess.Process_Shapes
-					idx := slices.Index(_diagramprocess.Process_Shapes, processshape_)
+					// ensure portshape_ is NOT in _diagramstructure.Port_Shapes
+					idx := slices.Index(_diagramstructure.Port_Shapes, portshape_)
 					if idx != -1 {
-						_diagramprocess.Process_Shapes = slices.Delete(_diagramprocess.Process_Shapes, idx, idx+1)
-						processshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "Process_Shapes", &_diagramprocess.Process_Shapes)
+						_diagramstructure.Port_Shapes = slices.Delete(_diagramstructure.Port_Shapes, idx, idx+1)
+						portshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "Port_Shapes", &_diagramstructure.Port_Shapes)
 					}
 				}
 			}
@@ -5355,32 +5144,32 @@ func (processshapeFormCallback *ProcessShapeFormCallback) OnSave() {
 	}
 
 	// manage the suppress operation
-	if processshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		processshape_.Unstage(processshapeFormCallback.probe.stageOfInterest)
+	if portshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		portshape_.Unstage(portshapeFormCallback.probe.stageOfInterest)
 	}
 
-	processshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.ProcessShape](
-		processshapeFormCallback.probe,
+	portshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PortShape](
+		portshapeFormCallback.probe,
 	)
 
 	// display a new form by reset the form stage
-	if processshapeFormCallback.CreationMode || processshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		processshapeFormCallback.probe.formStage.Reset()
+	if portshapeFormCallback.CreationMode || portshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		portshapeFormCallback.probe.formStage.Reset()
 		newFormGroup := (&form.FormGroup{
 			Name: FormName,
-		}).Stage(processshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__ProcessShapeFormCallback(
+		}).Stage(portshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PortShapeFormCallback(
 			nil,
-			processshapeFormCallback.probe,
+			portshapeFormCallback.probe,
 			newFormGroup,
 		)
-		processshape := new(models.ProcessShape)
-		FillUpForm(processshape, newFormGroup, processshapeFormCallback.probe)
-		processshapeFormCallback.probe.formStage.Commit()
+		portshape := new(models.PortShape)
+		FillUpForm(portshape, newFormGroup, portshapeFormCallback.probe)
+		portshapeFormCallback.probe.formStage.Commit()
 	}
 
-	processshapeFormCallback.probe.ux_tree()
+	portshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__ResourceFormCallback(
 	resource *models.Resource,
@@ -5443,48 +5232,48 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(resource_.SVG_Path), formDiv)
 		case "InverseAppliedScaling":
 			FormDivBasicFieldToField(&(resource_.InverseAppliedScaling), formDiv)
-		case "DiagramProcess:AllocatedResourcesWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+		case "DiagramStructure:AllocatedResourcesWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](resourceFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](resourceFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their AllocatedResourcesWhoseNodeIsExpanded slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](resourceFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(resourceFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their AllocatedResourcesWhoseNodeIsExpanded slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](resourceFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(resourceFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure resource_ is in _diagramprocess.AllocatedResourcesWhoseNodeIsExpanded
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure resource_ is in _diagramstructure.AllocatedResourcesWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _diagramprocess.AllocatedResourcesWhoseNodeIsExpanded {
+					for _, _b := range _diagramstructure.AllocatedResourcesWhoseNodeIsExpanded {
 						if _b == resource_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.AllocatedResourcesWhoseNodeIsExpanded = append(_diagramprocess.AllocatedResourcesWhoseNodeIsExpanded, resource_)
-						resourceFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "AllocatedResourcesWhoseNodeIsExpanded", &_diagramprocess.AllocatedResourcesWhoseNodeIsExpanded)
+						_diagramstructure.AllocatedResourcesWhoseNodeIsExpanded = append(_diagramstructure.AllocatedResourcesWhoseNodeIsExpanded, resource_)
+						resourceFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "AllocatedResourcesWhoseNodeIsExpanded", &_diagramstructure.AllocatedResourcesWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure resource_ is NOT in _diagramprocess.AllocatedResourcesWhoseNodeIsExpanded
-					idx := slices.Index(_diagramprocess.AllocatedResourcesWhoseNodeIsExpanded, resource_)
+					// ensure resource_ is NOT in _diagramstructure.AllocatedResourcesWhoseNodeIsExpanded
+					idx := slices.Index(_diagramstructure.AllocatedResourcesWhoseNodeIsExpanded, resource_)
 					if idx != -1 {
-						_diagramprocess.AllocatedResourcesWhoseNodeIsExpanded = slices.Delete(_diagramprocess.AllocatedResourcesWhoseNodeIsExpanded, idx, idx+1)
-						resourceFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "AllocatedResourcesWhoseNodeIsExpanded", &_diagramprocess.AllocatedResourcesWhoseNodeIsExpanded)
+						_diagramstructure.AllocatedResourcesWhoseNodeIsExpanded = slices.Delete(_diagramstructure.AllocatedResourcesWhoseNodeIsExpanded, idx, idx+1)
+						resourceFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "AllocatedResourcesWhoseNodeIsExpanded", &_diagramstructure.AllocatedResourcesWhoseNodeIsExpanded)
 					}
 				}
 			}
@@ -5578,48 +5367,48 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 					}
 				}
 			}
-		case "Participant:Resources":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Participant instances
+		case "Part:Resources":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Part instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Participant instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](resourceFormCallback.probe.stageOfInterest)
-			targetParticipantIDs := make(map[uint]bool)
+			// 2. Build a map of target Part instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](resourceFormCallback.probe.stageOfInterest)
+			targetPartIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetParticipantIDs[id] = true
+					targetPartIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Participant instances and update their Resources slice
-			for _participant := range *models.GetGongstructInstancesSetFromPointerType[*models.Participant](resourceFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(resourceFormCallback.probe.stageOfInterest, _participant)
+			// 3. Iterate over all Part instances and update their Resources slice
+			for _part := range *models.GetGongstructInstancesSetFromPointerType[*models.Part](resourceFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(resourceFormCallback.probe.stageOfInterest, _part)
 				
-				// if Participant is selected
-				if targetParticipantIDs[id] {
-					// ensure resource_ is in _participant.Resources
+				// if Part is selected
+				if targetPartIDs[id] {
+					// ensure resource_ is in _part.Resources
 					found := false
-					for _, _b := range _participant.Resources {
+					for _, _b := range _part.Resources {
 						if _b == resource_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_participant.Resources = append(_participant.Resources, resource_)
-						resourceFormCallback.probe.UpdateSliceOfPointersCallback(_participant, "Resources", &_participant.Resources)
+						_part.Resources = append(_part.Resources, resource_)
+						resourceFormCallback.probe.UpdateSliceOfPointersCallback(_part, "Resources", &_part.Resources)
 					}
 				} else {
-					// ensure resource_ is NOT in _participant.Resources
-					idx := slices.Index(_participant.Resources, resource_)
+					// ensure resource_ is NOT in _part.Resources
+					idx := slices.Index(_part.Resources, resource_)
 					if idx != -1 {
-						_participant.Resources = slices.Delete(_participant.Resources, idx, idx+1)
-						resourceFormCallback.probe.UpdateSliceOfPointersCallback(_participant, "Resources", &_participant.Resources)
+						_part.Resources = slices.Delete(_part.Resources, idx, idx+1)
+						resourceFormCallback.probe.UpdateSliceOfPointersCallback(_part, "Resources", &_part.Resources)
 					}
 				}
 			}
@@ -5654,23 +5443,23 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 
 	resourceFormCallback.probe.ux_tree()
 }
-func __gong__New__TaskFormCallback(
-	task *models.Task,
+func __gong__New__SystemFormCallback(
+	system *models.System,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (taskFormCallback *TaskFormCallback) {
-	taskFormCallback = new(TaskFormCallback)
-	taskFormCallback.probe = probe
-	taskFormCallback.task = task
-	taskFormCallback.formGroup = formGroup
+) (systemFormCallback *SystemFormCallback) {
+	systemFormCallback = new(SystemFormCallback)
+	systemFormCallback.probe = probe
+	systemFormCallback.system = system
+	systemFormCallback.formGroup = formGroup
 
-	taskFormCallback.CreationMode = (task == nil)
+	systemFormCallback.CreationMode = (system == nil)
 
 	return
 }
 
-type TaskFormCallback struct {
-	task *models.Task
+type SystemFormCallback struct {
+	system *models.System
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -5680,355 +5469,566 @@ type TaskFormCallback struct {
 	formGroup *form.FormGroup
 }
 
-func (taskFormCallback *TaskFormCallback) OnSave() {
-	taskFormCallback.probe.stageOfInterest.Lock()
-	defer taskFormCallback.probe.stageOfInterest.Unlock()
+func (systemFormCallback *SystemFormCallback) OnSave() {
+	systemFormCallback.probe.stageOfInterest.Lock()
+	defer systemFormCallback.probe.stageOfInterest.Unlock()
 
-	// log.Println("TaskFormCallback, OnSave")
+	// log.Println("SystemFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	taskFormCallback.probe.formStage.Checkout()
+	systemFormCallback.probe.formStage.Checkout()
 
-	if taskFormCallback.task == nil {
-		taskFormCallback.task = new(models.Task).Stage(taskFormCallback.probe.stageOfInterest)
+	if systemFormCallback.system == nil {
+		systemFormCallback.system = new(models.System).Stage(systemFormCallback.probe.stageOfInterest)
 	}
-	task_ := taskFormCallback.task
-	_ = task_
+	system_ := systemFormCallback.system
+	_ = system_
 
-	for _, formDiv := range taskFormCallback.formGroup.FormDivs {
+	for _, formDiv := range systemFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(task_.Name), formDiv)
+			FormDivBasicFieldToField(&(system_.Name), formDiv)
 		case "Description":
-			FormDivBasicFieldToField(&(task_.Description), formDiv)
+			FormDivBasicFieldToField(&(system_.Description), formDiv)
 		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(task_.ComputedPrefix), formDiv)
+			FormDivBasicFieldToField(&(system_.ComputedPrefix), formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(task_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(system_.IsExpanded), formDiv)
 		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(task_.LayoutDirection), formDiv)
-		case "IsStartTask":
-			FormDivBasicFieldToField(&(task_.IsStartTask), formDiv)
-		case "IsEndTask":
-			FormDivBasicFieldToField(&(task_.IsEndTask), formDiv)
-		case "Type":
-			FormDivSelectFieldToField(&(task_.Type), taskFormCallback.probe.stageOfInterest, formDiv)
-		case "IsTaskNameNotProcessName":
-			FormDivBasicFieldToField(&(task_.IsTaskNameNotProcessName), formDiv)
-		case "DiagramProcess:TasksWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+			FormDivEnumIntFieldToField(&(system_.LayoutDirection), formDiv)
+		case "SVG_Path":
+			FormDivBasicFieldToField(&(system_.SVG_Path), formDiv)
+		case "InverseAppliedScaling":
+			FormDivBasicFieldToField(&(system_.InverseAppliedScaling), formDiv)
+		case "DiagramStructures":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](systemFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.DiagramStructure, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.DiagramStructure)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					systemFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](systemFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			system_.DiagramStructures = instanceSlice
+			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "DiagramStructures", &system_.DiagramStructures)
+
+		case "DiagramStructureWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](systemFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.DiagramStructure, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.DiagramStructure)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					systemFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](systemFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			system_.DiagramStructureWhoseNodeIsExpanded = instanceSlice
+			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "DiagramStructureWhoseNodeIsExpanded", &system_.DiagramStructureWhoseNodeIsExpanded)
+
+		case "IsSubSystemNodeExpanded":
+			FormDivBasicFieldToField(&(system_.IsSubSystemNodeExpanded), formDiv)
+		case "SubSystemes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.System](systemFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.System, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.System)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					systemFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.System](systemFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			system_.SubSystemes = instanceSlice
+			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "SubSystemes", &system_.SubSystemes)
+
+		case "Parts":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Part](systemFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Part, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Part)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					systemFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](systemFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			system_.Parts = instanceSlice
+			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "Parts", &system_.Parts)
+
+		case "PartWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Part](systemFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Part, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Part)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					systemFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](systemFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			system_.PartWhoseNodeIsExpanded = instanceSlice
+			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "PartWhoseNodeIsExpanded", &system_.PartWhoseNodeIsExpanded)
+
+		case "DataFlows":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DataFlow](systemFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.DataFlow, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.DataFlow)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					systemFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.DataFlow](systemFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			system_.DataFlows = instanceSlice
+			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "DataFlows", &system_.DataFlows)
+
+		case "IsDataFlowsNodeExpanded":
+			FormDivBasicFieldToField(&(system_.IsDataFlowsNodeExpanded), formDiv)
+		case "ExternalParts":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Part](systemFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Part, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Part)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					systemFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](systemFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			system_.ExternalParts = instanceSlice
+			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "ExternalParts", &system_.ExternalParts)
+
+		case "ExternalPartWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Part](systemFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Part, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Part)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					systemFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](systemFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			system_.ExternalPartWhoseNodeIsExpanded = instanceSlice
+			systemFormCallback.probe.UpdateSliceOfPointersCallback(system_, "ExternalPartWhoseNodeIsExpanded", &system_.ExternalPartWhoseNodeIsExpanded)
+
+		case "DiagramStructure:SystemsWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](taskFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](systemFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their TasksWhoseNodeIsExpanded slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](taskFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their SystemsWhoseNodeIsExpanded slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](systemFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(systemFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure task_ is in _diagramprocess.TasksWhoseNodeIsExpanded
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure system_ is in _diagramstructure.SystemsWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _diagramprocess.TasksWhoseNodeIsExpanded {
-						if _b == task_ {
+					for _, _b := range _diagramstructure.SystemsWhoseNodeIsExpanded {
+						if _b == system_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.TasksWhoseNodeIsExpanded = append(_diagramprocess.TasksWhoseNodeIsExpanded, task_)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "TasksWhoseNodeIsExpanded", &_diagramprocess.TasksWhoseNodeIsExpanded)
+						_diagramstructure.SystemsWhoseNodeIsExpanded = append(_diagramstructure.SystemsWhoseNodeIsExpanded, system_)
+						systemFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "SystemsWhoseNodeIsExpanded", &_diagramstructure.SystemsWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure task_ is NOT in _diagramprocess.TasksWhoseNodeIsExpanded
-					idx := slices.Index(_diagramprocess.TasksWhoseNodeIsExpanded, task_)
+					// ensure system_ is NOT in _diagramstructure.SystemsWhoseNodeIsExpanded
+					idx := slices.Index(_diagramstructure.SystemsWhoseNodeIsExpanded, system_)
 					if idx != -1 {
-						_diagramprocess.TasksWhoseNodeIsExpanded = slices.Delete(_diagramprocess.TasksWhoseNodeIsExpanded, idx, idx+1)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "TasksWhoseNodeIsExpanded", &_diagramprocess.TasksWhoseNodeIsExpanded)
+						_diagramstructure.SystemsWhoseNodeIsExpanded = slices.Delete(_diagramstructure.SystemsWhoseNodeIsExpanded, idx, idx+1)
+						systemFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "SystemsWhoseNodeIsExpanded", &_diagramstructure.SystemsWhoseNodeIsExpanded)
 					}
 				}
 			}
-		case "Note:Tasks":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Note instances
+		case "DiagramStructure:AllocatedSystemesWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Note instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Note](taskFormCallback.probe.stageOfInterest)
-			targetNoteIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](systemFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetNoteIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Note instances and update their Tasks slice
-			for _note := range *models.GetGongstructInstancesSetFromPointerType[*models.Note](taskFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _note)
+			// 3. Iterate over all DiagramStructure instances and update their AllocatedSystemesWhoseNodeIsExpanded slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](systemFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(systemFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if Note is selected
-				if targetNoteIDs[id] {
-					// ensure task_ is in _note.Tasks
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure system_ is in _diagramstructure.AllocatedSystemesWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _note.Tasks {
-						if _b == task_ {
+					for _, _b := range _diagramstructure.AllocatedSystemesWhoseNodeIsExpanded {
+						if _b == system_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_note.Tasks = append(_note.Tasks, task_)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_note, "Tasks", &_note.Tasks)
+						_diagramstructure.AllocatedSystemesWhoseNodeIsExpanded = append(_diagramstructure.AllocatedSystemesWhoseNodeIsExpanded, system_)
+						systemFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "AllocatedSystemesWhoseNodeIsExpanded", &_diagramstructure.AllocatedSystemesWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure task_ is NOT in _note.Tasks
-					idx := slices.Index(_note.Tasks, task_)
+					// ensure system_ is NOT in _diagramstructure.AllocatedSystemesWhoseNodeIsExpanded
+					idx := slices.Index(_diagramstructure.AllocatedSystemesWhoseNodeIsExpanded, system_)
 					if idx != -1 {
-						_note.Tasks = slices.Delete(_note.Tasks, idx, idx+1)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_note, "Tasks", &_note.Tasks)
+						_diagramstructure.AllocatedSystemesWhoseNodeIsExpanded = slices.Delete(_diagramstructure.AllocatedSystemesWhoseNodeIsExpanded, idx, idx+1)
+						systemFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "AllocatedSystemesWhoseNodeIsExpanded", &_diagramstructure.AllocatedSystemesWhoseNodeIsExpanded)
 					}
 				}
 			}
-		case "Participant:Tasks":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Participant instances
+		case "Library:RootSystemes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Participant instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](taskFormCallback.probe.stageOfInterest)
-			targetParticipantIDs := make(map[uint]bool)
+			// 2. Build a map of target Library instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](systemFormCallback.probe.stageOfInterest)
+			targetLibraryIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetParticipantIDs[id] = true
+					targetLibraryIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Participant instances and update their Tasks slice
-			for _participant := range *models.GetGongstructInstancesSetFromPointerType[*models.Participant](taskFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _participant)
+			// 3. Iterate over all Library instances and update their RootSystemes slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](systemFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(systemFormCallback.probe.stageOfInterest, _library)
 				
-				// if Participant is selected
-				if targetParticipantIDs[id] {
-					// ensure task_ is in _participant.Tasks
+				// if Library is selected
+				if targetLibraryIDs[id] {
+					// ensure system_ is in _library.RootSystemes
 					found := false
-					for _, _b := range _participant.Tasks {
-						if _b == task_ {
+					for _, _b := range _library.RootSystemes {
+						if _b == system_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_participant.Tasks = append(_participant.Tasks, task_)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_participant, "Tasks", &_participant.Tasks)
+						_library.RootSystemes = append(_library.RootSystemes, system_)
+						systemFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootSystemes", &_library.RootSystemes)
 					}
 				} else {
-					// ensure task_ is NOT in _participant.Tasks
-					idx := slices.Index(_participant.Tasks, task_)
+					// ensure system_ is NOT in _library.RootSystemes
+					idx := slices.Index(_library.RootSystemes, system_)
 					if idx != -1 {
-						_participant.Tasks = slices.Delete(_participant.Tasks, idx, idx+1)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_participant, "Tasks", &_participant.Tasks)
+						_library.RootSystemes = slices.Delete(_library.RootSystemes, idx, idx+1)
+						systemFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootSystemes", &_library.RootSystemes)
 					}
 				}
 			}
-		case "Participant:TaskWhoseOutControlFlowsNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Participant instances
+		case "Library:SystemsWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Participant instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](taskFormCallback.probe.stageOfInterest)
-			targetParticipantIDs := make(map[uint]bool)
+			// 2. Build a map of target Library instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](systemFormCallback.probe.stageOfInterest)
+			targetLibraryIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetParticipantIDs[id] = true
+					targetLibraryIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Participant instances and update their TaskWhoseOutControlFlowsNodeIsExpanded slice
-			for _participant := range *models.GetGongstructInstancesSetFromPointerType[*models.Participant](taskFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _participant)
+			// 3. Iterate over all Library instances and update their SystemsWhoseNodeIsExpanded slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](systemFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(systemFormCallback.probe.stageOfInterest, _library)
 				
-				// if Participant is selected
-				if targetParticipantIDs[id] {
-					// ensure task_ is in _participant.TaskWhoseOutControlFlowsNodeIsExpanded
+				// if Library is selected
+				if targetLibraryIDs[id] {
+					// ensure system_ is in _library.SystemsWhoseNodeIsExpanded
 					found := false
-					for _, _b := range _participant.TaskWhoseOutControlFlowsNodeIsExpanded {
-						if _b == task_ {
+					for _, _b := range _library.SystemsWhoseNodeIsExpanded {
+						if _b == system_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_participant.TaskWhoseOutControlFlowsNodeIsExpanded = append(_participant.TaskWhoseOutControlFlowsNodeIsExpanded, task_)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_participant, "TaskWhoseOutControlFlowsNodeIsExpanded", &_participant.TaskWhoseOutControlFlowsNodeIsExpanded)
+						_library.SystemsWhoseNodeIsExpanded = append(_library.SystemsWhoseNodeIsExpanded, system_)
+						systemFormCallback.probe.UpdateSliceOfPointersCallback(_library, "SystemsWhoseNodeIsExpanded", &_library.SystemsWhoseNodeIsExpanded)
 					}
 				} else {
-					// ensure task_ is NOT in _participant.TaskWhoseOutControlFlowsNodeIsExpanded
-					idx := slices.Index(_participant.TaskWhoseOutControlFlowsNodeIsExpanded, task_)
+					// ensure system_ is NOT in _library.SystemsWhoseNodeIsExpanded
+					idx := slices.Index(_library.SystemsWhoseNodeIsExpanded, system_)
 					if idx != -1 {
-						_participant.TaskWhoseOutControlFlowsNodeIsExpanded = slices.Delete(_participant.TaskWhoseOutControlFlowsNodeIsExpanded, idx, idx+1)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_participant, "TaskWhoseOutControlFlowsNodeIsExpanded", &_participant.TaskWhoseOutControlFlowsNodeIsExpanded)
+						_library.SystemsWhoseNodeIsExpanded = slices.Delete(_library.SystemsWhoseNodeIsExpanded, idx, idx+1)
+						systemFormCallback.probe.UpdateSliceOfPointersCallback(_library, "SystemsWhoseNodeIsExpanded", &_library.SystemsWhoseNodeIsExpanded)
 					}
 				}
 			}
-		case "Participant:TaskWhoseInControlFlowsNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Participant instances
+		case "Part:Systemes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Part instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Participant instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](taskFormCallback.probe.stageOfInterest)
-			targetParticipantIDs := make(map[uint]bool)
+			// 2. Build a map of target Part instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](systemFormCallback.probe.stageOfInterest)
+			targetPartIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetParticipantIDs[id] = true
+					targetPartIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Participant instances and update their TaskWhoseInControlFlowsNodeIsExpanded slice
-			for _participant := range *models.GetGongstructInstancesSetFromPointerType[*models.Participant](taskFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _participant)
+			// 3. Iterate over all Part instances and update their Systemes slice
+			for _part := range *models.GetGongstructInstancesSetFromPointerType[*models.Part](systemFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(systemFormCallback.probe.stageOfInterest, _part)
 				
-				// if Participant is selected
-				if targetParticipantIDs[id] {
-					// ensure task_ is in _participant.TaskWhoseInControlFlowsNodeIsExpanded
+				// if Part is selected
+				if targetPartIDs[id] {
+					// ensure system_ is in _part.Systemes
 					found := false
-					for _, _b := range _participant.TaskWhoseInControlFlowsNodeIsExpanded {
-						if _b == task_ {
+					for _, _b := range _part.Systemes {
+						if _b == system_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_participant.TaskWhoseInControlFlowsNodeIsExpanded = append(_participant.TaskWhoseInControlFlowsNodeIsExpanded, task_)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_participant, "TaskWhoseInControlFlowsNodeIsExpanded", &_participant.TaskWhoseInControlFlowsNodeIsExpanded)
+						_part.Systemes = append(_part.Systemes, system_)
+						systemFormCallback.probe.UpdateSliceOfPointersCallback(_part, "Systemes", &_part.Systemes)
 					}
 				} else {
-					// ensure task_ is NOT in _participant.TaskWhoseInControlFlowsNodeIsExpanded
-					idx := slices.Index(_participant.TaskWhoseInControlFlowsNodeIsExpanded, task_)
+					// ensure system_ is NOT in _part.Systemes
+					idx := slices.Index(_part.Systemes, system_)
 					if idx != -1 {
-						_participant.TaskWhoseInControlFlowsNodeIsExpanded = slices.Delete(_participant.TaskWhoseInControlFlowsNodeIsExpanded, idx, idx+1)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_participant, "TaskWhoseInControlFlowsNodeIsExpanded", &_participant.TaskWhoseInControlFlowsNodeIsExpanded)
+						_part.Systemes = slices.Delete(_part.Systemes, idx, idx+1)
+						systemFormCallback.probe.UpdateSliceOfPointersCallback(_part, "Systemes", &_part.Systemes)
 					}
 				}
 			}
-		case "Participant:TaskWhoseOutDataFlowsNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Participant instances
+		case "System:SubSystemes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target Participant instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](taskFormCallback.probe.stageOfInterest)
-			targetParticipantIDs := make(map[uint]bool)
+			// 2. Build a map of target System instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.System](systemFormCallback.probe.stageOfInterest)
+			targetSystemIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetParticipantIDs[id] = true
+					targetSystemIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all Participant instances and update their TaskWhoseOutDataFlowsNodeIsExpanded slice
-			for _participant := range *models.GetGongstructInstancesSetFromPointerType[*models.Participant](taskFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _participant)
+			// 3. Iterate over all System instances and update their SubSystemes slice
+			for _system := range *models.GetGongstructInstancesSetFromPointerType[*models.System](systemFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(systemFormCallback.probe.stageOfInterest, _system)
 				
-				// if Participant is selected
-				if targetParticipantIDs[id] {
-					// ensure task_ is in _participant.TaskWhoseOutDataFlowsNodeIsExpanded
+				// if System is selected
+				if targetSystemIDs[id] {
+					// ensure system_ is in _system.SubSystemes
 					found := false
-					for _, _b := range _participant.TaskWhoseOutDataFlowsNodeIsExpanded {
-						if _b == task_ {
+					for _, _b := range _system.SubSystemes {
+						if _b == system_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_participant.TaskWhoseOutDataFlowsNodeIsExpanded = append(_participant.TaskWhoseOutDataFlowsNodeIsExpanded, task_)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_participant, "TaskWhoseOutDataFlowsNodeIsExpanded", &_participant.TaskWhoseOutDataFlowsNodeIsExpanded)
+						_system.SubSystemes = append(_system.SubSystemes, system_)
+						systemFormCallback.probe.UpdateSliceOfPointersCallback(_system, "SubSystemes", &_system.SubSystemes)
 					}
 				} else {
-					// ensure task_ is NOT in _participant.TaskWhoseOutDataFlowsNodeIsExpanded
-					idx := slices.Index(_participant.TaskWhoseOutDataFlowsNodeIsExpanded, task_)
+					// ensure system_ is NOT in _system.SubSystemes
+					idx := slices.Index(_system.SubSystemes, system_)
 					if idx != -1 {
-						_participant.TaskWhoseOutDataFlowsNodeIsExpanded = slices.Delete(_participant.TaskWhoseOutDataFlowsNodeIsExpanded, idx, idx+1)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_participant, "TaskWhoseOutDataFlowsNodeIsExpanded", &_participant.TaskWhoseOutDataFlowsNodeIsExpanded)
-					}
-				}
-			}
-		case "Participant:TaskWhoseInDataFlowsNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Participant instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Participant instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Participant](taskFormCallback.probe.stageOfInterest)
-			targetParticipantIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetParticipantIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Participant instances and update their TaskWhoseInDataFlowsNodeIsExpanded slice
-			for _participant := range *models.GetGongstructInstancesSetFromPointerType[*models.Participant](taskFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _participant)
-				
-				// if Participant is selected
-				if targetParticipantIDs[id] {
-					// ensure task_ is in _participant.TaskWhoseInDataFlowsNodeIsExpanded
-					found := false
-					for _, _b := range _participant.TaskWhoseInDataFlowsNodeIsExpanded {
-						if _b == task_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_participant.TaskWhoseInDataFlowsNodeIsExpanded = append(_participant.TaskWhoseInDataFlowsNodeIsExpanded, task_)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_participant, "TaskWhoseInDataFlowsNodeIsExpanded", &_participant.TaskWhoseInDataFlowsNodeIsExpanded)
-					}
-				} else {
-					// ensure task_ is NOT in _participant.TaskWhoseInDataFlowsNodeIsExpanded
-					idx := slices.Index(_participant.TaskWhoseInDataFlowsNodeIsExpanded, task_)
-					if idx != -1 {
-						_participant.TaskWhoseInDataFlowsNodeIsExpanded = slices.Delete(_participant.TaskWhoseInDataFlowsNodeIsExpanded, idx, idx+1)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_participant, "TaskWhoseInDataFlowsNodeIsExpanded", &_participant.TaskWhoseInDataFlowsNodeIsExpanded)
+						_system.SubSystemes = slices.Delete(_system.SubSystemes, idx, idx+1)
+						systemFormCallback.probe.UpdateSliceOfPointersCallback(_system, "SubSystemes", &_system.SubSystemes)
 					}
 				}
 			}
@@ -6036,50 +6036,50 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 	}
 
 	// manage the suppress operation
-	if taskFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		task_.Unstage(taskFormCallback.probe.stageOfInterest)
+	if systemFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		system_.Unstage(systemFormCallback.probe.stageOfInterest)
 	}
 
-	taskFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Task](
-		taskFormCallback.probe,
+	systemFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.System](
+		systemFormCallback.probe,
 	)
 
 	// display a new form by reset the form stage
-	if taskFormCallback.CreationMode || taskFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		taskFormCallback.probe.formStage.Reset()
+	if systemFormCallback.CreationMode || systemFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		systemFormCallback.probe.formStage.Reset()
 		newFormGroup := (&form.FormGroup{
 			Name: FormName,
-		}).Stage(taskFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__TaskFormCallback(
+		}).Stage(systemFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__SystemFormCallback(
 			nil,
-			taskFormCallback.probe,
+			systemFormCallback.probe,
 			newFormGroup,
 		)
-		task := new(models.Task)
-		FillUpForm(task, newFormGroup, taskFormCallback.probe)
-		taskFormCallback.probe.formStage.Commit()
+		system := new(models.System)
+		FillUpForm(system, newFormGroup, systemFormCallback.probe)
+		systemFormCallback.probe.formStage.Commit()
 	}
 
-	taskFormCallback.probe.ux_tree()
+	systemFormCallback.probe.ux_tree()
 }
-func __gong__New__TaskShapeFormCallback(
-	taskshape *models.TaskShape,
+func __gong__New__SystemShapeFormCallback(
+	systemshape *models.SystemShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (taskshapeFormCallback *TaskShapeFormCallback) {
-	taskshapeFormCallback = new(TaskShapeFormCallback)
-	taskshapeFormCallback.probe = probe
-	taskshapeFormCallback.taskshape = taskshape
-	taskshapeFormCallback.formGroup = formGroup
+) (systemshapeFormCallback *SystemShapeFormCallback) {
+	systemshapeFormCallback = new(SystemShapeFormCallback)
+	systemshapeFormCallback.probe = probe
+	systemshapeFormCallback.systemshape = systemshape
+	systemshapeFormCallback.formGroup = formGroup
 
-	taskshapeFormCallback.CreationMode = (taskshape == nil)
+	systemshapeFormCallback.CreationMode = (systemshape == nil)
 
 	return
 }
 
-type TaskShapeFormCallback struct {
-	taskshape *models.TaskShape
+type SystemShapeFormCallback struct {
+	systemshape *models.SystemShape
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -6089,83 +6089,83 @@ type TaskShapeFormCallback struct {
 	formGroup *form.FormGroup
 }
 
-func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
-	taskshapeFormCallback.probe.stageOfInterest.Lock()
-	defer taskshapeFormCallback.probe.stageOfInterest.Unlock()
+func (systemshapeFormCallback *SystemShapeFormCallback) OnSave() {
+	systemshapeFormCallback.probe.stageOfInterest.Lock()
+	defer systemshapeFormCallback.probe.stageOfInterest.Unlock()
 
-	// log.Println("TaskShapeFormCallback, OnSave")
+	// log.Println("SystemShapeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	taskshapeFormCallback.probe.formStage.Checkout()
+	systemshapeFormCallback.probe.formStage.Checkout()
 
-	if taskshapeFormCallback.taskshape == nil {
-		taskshapeFormCallback.taskshape = new(models.TaskShape).Stage(taskshapeFormCallback.probe.stageOfInterest)
+	if systemshapeFormCallback.systemshape == nil {
+		systemshapeFormCallback.systemshape = new(models.SystemShape).Stage(systemshapeFormCallback.probe.stageOfInterest)
 	}
-	taskshape_ := taskshapeFormCallback.taskshape
-	_ = taskshape_
+	systemshape_ := systemshapeFormCallback.systemshape
+	_ = systemshape_
 
-	for _, formDiv := range taskshapeFormCallback.formGroup.FormDivs {
+	for _, formDiv := range systemshapeFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(taskshape_.Name), formDiv)
-		case "Task":
-			FormDivSelectFieldToField(&(taskshape_.Task), taskshapeFormCallback.probe.stageOfInterest, formDiv)
+			FormDivBasicFieldToField(&(systemshape_.Name), formDiv)
+		case "System":
+			FormDivSelectFieldToField(&(systemshape_.System), systemshapeFormCallback.probe.stageOfInterest, formDiv)
 		case "IsExpanded":
-			FormDivBasicFieldToField(&(taskshape_.IsExpanded), formDiv)
+			FormDivBasicFieldToField(&(systemshape_.IsExpanded), formDiv)
 		case "X":
-			FormDivBasicFieldToField(&(taskshape_.X), formDiv)
+			FormDivBasicFieldToField(&(systemshape_.X), formDiv)
 		case "Y":
-			FormDivBasicFieldToField(&(taskshape_.Y), formDiv)
+			FormDivBasicFieldToField(&(systemshape_.Y), formDiv)
 		case "Width":
-			FormDivBasicFieldToField(&(taskshape_.Width), formDiv)
+			FormDivBasicFieldToField(&(systemshape_.Width), formDiv)
 		case "Height":
-			FormDivBasicFieldToField(&(taskshape_.Height), formDiv)
+			FormDivBasicFieldToField(&(systemshape_.Height), formDiv)
 		case "IsHidden":
-			FormDivBasicFieldToField(&(taskshape_.IsHidden), formDiv)
-		case "DiagramProcess:Task_Shapes":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramProcess instances
+			FormDivBasicFieldToField(&(systemshape_.IsHidden), formDiv)
+		case "DiagramStructure:System_Shapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
 
-			// 2. Build a map of target DiagramProcess instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.DiagramProcess](taskshapeFormCallback.probe.stageOfInterest)
-			targetDiagramProcessIDs := make(map[uint]bool)
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](systemshapeFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
 			for _, rowID := range rowIDs {
 				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetDiagramProcessIDs[id] = true
+					targetDiagramStructureIDs[id] = true
 				} else {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
 				}
 			}
 
-			// 3. Iterate over all DiagramProcess instances and update their Task_Shapes slice
-			for _diagramprocess := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramProcess](taskshapeFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskshapeFormCallback.probe.stageOfInterest, _diagramprocess)
+			// 3. Iterate over all DiagramStructure instances and update their System_Shapes slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](systemshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(systemshapeFormCallback.probe.stageOfInterest, _diagramstructure)
 				
-				// if DiagramProcess is selected
-				if targetDiagramProcessIDs[id] {
-					// ensure taskshape_ is in _diagramprocess.Task_Shapes
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure systemshape_ is in _diagramstructure.System_Shapes
 					found := false
-					for _, _b := range _diagramprocess.Task_Shapes {
-						if _b == taskshape_ {
+					for _, _b := range _diagramstructure.System_Shapes {
+						if _b == systemshape_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_diagramprocess.Task_Shapes = append(_diagramprocess.Task_Shapes, taskshape_)
-						taskshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "Task_Shapes", &_diagramprocess.Task_Shapes)
+						_diagramstructure.System_Shapes = append(_diagramstructure.System_Shapes, systemshape_)
+						systemshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "System_Shapes", &_diagramstructure.System_Shapes)
 					}
 				} else {
-					// ensure taskshape_ is NOT in _diagramprocess.Task_Shapes
-					idx := slices.Index(_diagramprocess.Task_Shapes, taskshape_)
+					// ensure systemshape_ is NOT in _diagramstructure.System_Shapes
+					idx := slices.Index(_diagramstructure.System_Shapes, systemshape_)
 					if idx != -1 {
-						_diagramprocess.Task_Shapes = slices.Delete(_diagramprocess.Task_Shapes, idx, idx+1)
-						taskshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramprocess, "Task_Shapes", &_diagramprocess.Task_Shapes)
+						_diagramstructure.System_Shapes = slices.Delete(_diagramstructure.System_Shapes, idx, idx+1)
+						systemshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "System_Shapes", &_diagramstructure.System_Shapes)
 					}
 				}
 			}
@@ -6173,30 +6173,30 @@ func (taskshapeFormCallback *TaskShapeFormCallback) OnSave() {
 	}
 
 	// manage the suppress operation
-	if taskshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		taskshape_.Unstage(taskshapeFormCallback.probe.stageOfInterest)
+	if systemshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		systemshape_.Unstage(systemshapeFormCallback.probe.stageOfInterest)
 	}
 
-	taskshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.TaskShape](
-		taskshapeFormCallback.probe,
+	systemshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.SystemShape](
+		systemshapeFormCallback.probe,
 	)
 
 	// display a new form by reset the form stage
-	if taskshapeFormCallback.CreationMode || taskshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		taskshapeFormCallback.probe.formStage.Reset()
+	if systemshapeFormCallback.CreationMode || systemshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		systemshapeFormCallback.probe.formStage.Reset()
 		newFormGroup := (&form.FormGroup{
 			Name: FormName,
-		}).Stage(taskshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__TaskShapeFormCallback(
+		}).Stage(systemshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__SystemShapeFormCallback(
 			nil,
-			taskshapeFormCallback.probe,
+			systemshapeFormCallback.probe,
 			newFormGroup,
 		)
-		taskshape := new(models.TaskShape)
-		FillUpForm(taskshape, newFormGroup, taskshapeFormCallback.probe)
-		taskshapeFormCallback.probe.formStage.Commit()
+		systemshape := new(models.SystemShape)
+		FillUpForm(systemshape, newFormGroup, systemshapeFormCallback.probe)
+		systemshapeFormCallback.probe.formStage.Commit()
 	}
 
-	taskshapeFormCallback.probe.ux_tree()
+	systemshapeFormCallback.probe.ux_tree()
 }

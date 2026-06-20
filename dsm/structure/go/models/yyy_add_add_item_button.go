@@ -10,7 +10,7 @@ import (
 
 // This file contains the implementation of the "add item" button for tree nodes.
 // The main function is addAddItemButton, which is a highly generic function that can be used
-// to add any type of item (e.g. Product, Task, Note) to any type of parent item (e.g. Product, Task, Participant).
+// to add any type of item (e.g. Product, Port, Note) to any type of parent item (e.g. Product, Port, Part).
 // It also supports the automatic creation of the corresponding shape on the diagram and an association link to the parent shape.
 //
 // The implementation relies heavily on Go's generics to achieve maximum reusability and type safety.
@@ -115,9 +115,9 @@ type ItemShapeAndLinkButtonConfiguration[
 // 4. SHARED CORE LOGIC
 // ---------------------------------------------------------
 
-// processAbstractItemAddition handles the item creation, form updates,
+// systemAbstractItemAddition handles the item creation, form updates,
 // and tree expansion logic shared by the button types.
-func processAbstractItemAddition[
+func systemAbstractItemAddition[
 	AT Gongstruct, PAT interface {
 		*AT
 		AbstractType
@@ -193,7 +193,7 @@ func addCreateItemButton[
 	conf.parentNode.Buttons = append([]*tree.Button{addButton}, conf.parentNode.Buttons...)
 
 	addButton.OnClick = func() {
-		processAbstractItemAddition(stager, conf, callbacks)
+		systemAbstractItemAddition(stager, conf, callbacks)
 
 		if callbacks.OnBeforeCommit != nil {
 			callbacks.OnBeforeCommit()
@@ -240,7 +240,7 @@ func addCreateItemAndShapeButton[
 	conf.parentNode.Buttons = append([]*tree.Button{addButton}, conf.parentNode.Buttons...)
 
 	addButton.OnClick = func() {
-		newAbstractElement := processAbstractItemAddition(stager, conf.ItemButtonConfiguration, callbacks)
+		newAbstractElement := systemAbstractItemAddition(stager, conf.ItemButtonConfiguration, callbacks)
 
 		if conf.receivingDiagram != nil && conf.sliceForNewAddedShape != nil {
 			newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager.stage)
@@ -298,7 +298,7 @@ func addCreateItemShapeAndLinkButton[
 	conf.parentNode.Buttons = append([]*tree.Button{addButton}, conf.parentNode.Buttons...)
 
 	addButton.OnClick = func() {
-		newAbstractElement := processAbstractItemAddition(stager, conf.ItemButtonConfiguration, callbacks)
+		newAbstractElement := systemAbstractItemAddition(stager, conf.ItemButtonConfiguration, callbacks)
 
 		if conf.receivingDiagram != nil && conf.sliceForNewAddedShape != nil {
 			newShape := newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager.stage)
