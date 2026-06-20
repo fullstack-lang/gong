@@ -482,8 +482,8 @@ func _(stage *models.Stage) {
 
 	__ProcessShape__00000000_.Name = `ProcessShape`
 	__ProcessShape__00000000_.IsExpanded = false
-	__ProcessShape__00000000_.X = 55.000000
-	__ProcessShape__00000000_.Y = 16.000000
+	__ProcessShape__00000000_.X = 28.000000
+	__ProcessShape__00000000_.Y = 18.000000
 	__ProcessShape__00000000_.Width = 1020.000000
 	__ProcessShape__00000000_.Height = 1126.000000
 	__ProcessShape__00000000_.IsHidden = false
@@ -571,64 +571,64 @@ func _(stage *models.Stage) {
 
 	__TaskShape__00000000_.Name = `Submit Flight Plan-DiagramProcess`
 	__TaskShape__00000000_.IsExpanded = false
-	__TaskShape__00000000_.X = 90.000000
-	__TaskShape__00000000_.Y = 277.795175
+	__TaskShape__00000000_.X = 63.000000
+	__TaskShape__00000000_.Y = 279.795175
 	__TaskShape__00000000_.Width = 240.333333
 	__TaskShape__00000000_.Height = 48.000000
 	__TaskShape__00000000_.IsHidden = false
 
 	__TaskShape__00000001_.Name = `Manage Operational Changes-DiagramProcess`
 	__TaskShape__00000001_.IsExpanded = false
-	__TaskShape__00000001_.X = 91.000000
-	__TaskShape__00000001_.Y = 377.907212
+	__TaskShape__00000001_.X = 64.000000
+	__TaskShape__00000001_.Y = 379.907212
 	__TaskShape__00000001_.Width = 240.333333
 	__TaskShape__00000001_.Height = 70.000000
 	__TaskShape__00000001_.IsHidden = false
 
 	__TaskShape__00000002_.Name = `Validate and Accept-DiagramProcess`
 	__TaskShape__00000002_.IsExpanded = false
-	__TaskShape__00000002_.X = 461.000000
-	__TaskShape__00000002_.Y = 256.100648
+	__TaskShape__00000002_.X = 434.000000
+	__TaskShape__00000002_.Y = 258.100648
 	__TaskShape__00000002_.Width = 189.333333
 	__TaskShape__00000002_.Height = 259.000000
 	__TaskShape__00000002_.IsHidden = false
 
 	__TaskShape__00000003_.Name = `Distribute ATS Messages-DiagramProcess`
 	__TaskShape__00000003_.IsExpanded = false
-	__TaskShape__00000003_.X = 461.000000
-	__TaskShape__00000003_.Y = 579.893285
+	__TaskShape__00000003_.X = 434.000000
+	__TaskShape__00000003_.Y = 581.893285
 	__TaskShape__00000003_.Width = 175.000000
 	__TaskShape__00000003_.Height = 70.000000
 	__TaskShape__00000003_.IsHidden = false
 
 	__TaskShape__00000004_.Name = `Ingest Flight Data-DiagramProcess`
 	__TaskShape__00000004_.IsExpanded = false
-	__TaskShape__00000004_.X = 814.666667
-	__TaskShape__00000004_.Y = 554.382953
+	__TaskShape__00000004_.X = 787.666667
+	__TaskShape__00000004_.Y = 556.382953
 	__TaskShape__00000004_.Width = 160.000000
 	__TaskShape__00000004_.Height = 116.000000
 	__TaskShape__00000004_.IsHidden = false
 
 	__TaskShape__00000005_.Name = `Log Flight Movement-DiagramProcess`
 	__TaskShape__00000005_.IsExpanded = false
-	__TaskShape__00000005_.X = 809.000000
-	__TaskShape__00000005_.Y = 766.607545
+	__TaskShape__00000005_.X = 782.000000
+	__TaskShape__00000005_.Y = 768.607545
 	__TaskShape__00000005_.Width = 156.000000
 	__TaskShape__00000005_.Height = 60.000000
 	__TaskShape__00000005_.IsHidden = false
 
 	__TaskShape__00000006_.Name = `-DiagramProcess`
 	__TaskShape__00000006_.IsExpanded = false
-	__TaskShape__00000006_.X = 118.000000
-	__TaskShape__00000006_.Y = 210.251563
+	__TaskShape__00000006_.X = 91.000000
+	__TaskShape__00000006_.Y = 212.251563
 	__TaskShape__00000006_.Width = 83.000000
 	__TaskShape__00000006_.Height = 20.000000
 	__TaskShape__00000006_.IsHidden = false
 
 	__TaskShape__00000007_.Name = `-DiagramProcess`
 	__TaskShape__00000007_.IsExpanded = false
-	__TaskShape__00000007_.X = 814.666667
-	__TaskShape__00000007_.Y = 927.033596
+	__TaskShape__00000007_.X = 787.666667
+	__TaskShape__00000007_.Y = 929.033596
 	__TaskShape__00000007_.Width = 97.000000
 	__TaskShape__00000007_.Height = 36.000000
 	__TaskShape__00000007_.IsHidden = false

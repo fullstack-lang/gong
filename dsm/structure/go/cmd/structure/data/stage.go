@@ -47,8 +47,8 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.IsChecked = true
 	__DiagramStructure__00000000_.IsEditable_ = true
 	__DiagramStructure__00000000_.IsShowPrefix = false
-	__DiagramStructure__00000000_.Width = 439.678986
-	__DiagramStructure__00000000_.Height = 497.440649
+	__DiagramStructure__00000000_.Width = 620.678986
+	__DiagramStructure__00000000_.Height = 502.440649
 	__DiagramStructure__00000000_.DefaultBoxWidth = 0.000000
 	__DiagramStructure__00000000_.DefaultBoxHeigth = 0.000000
 	__DiagramStructure__00000000_.IsPartsNodeExpanded = true
@@ -85,10 +85,10 @@ func _(stage *models.Stage) {
 
 	__PartShape__00000004_.Name = `Part2-DiagramStructure`
 	__PartShape__00000004_.IsExpanded = false
-	__PartShape__00000004_.X = 139.678986
-	__PartShape__00000004_.Y = 197.440649
-	__PartShape__00000004_.Width = 0.000000
-	__PartShape__00000004_.Height = 0.000000
+	__PartShape__00000004_.X = 66.678986
+	__PartShape__00000004_.Y = 251.440649
+	__PartShape__00000004_.Width = 200.000000
+	__PartShape__00000004_.Height = 100.000000
 	__PartShape__00000004_.IsHidden = false
 	__PartShape__00000004_.WidthWeight = 0.000000
 	__PartShape__00000004_.OverideLayoutDirection = false

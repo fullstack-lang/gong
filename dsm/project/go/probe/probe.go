@@ -120,6 +120,8 @@ func NewProbe(
 	splitStage, _ := split_fullstack.NewStackInstance(r, stageOfInterest.GetProbeSplitStageName())
 	splitStage.Commit()
 
+	stageOfInterest.MetaPackageImportPath = "github.com/fullstack-lang/gong/dsm/project/go/models"
+
 	// load the gong
 	stage := gong_models.NewStage(stageOfInterest.GetName())
 	gong_models.LoadEmbedded(stage, goModelsDir)
@@ -416,7 +418,7 @@ func (probe *Probe) ExportStageExcel() {
 	fileToDownload := new(load.FileToDownload)
 
 	if probe.fileName == "" {
-		probe.fileName = "project:" + probe.stageOfInterest.GetName() + ".go"
+		probe.fileName = "project-" + probe.stageOfInterest.GetName() + ".go"
 	}
 
 	prefixRegex := regexp.MustCompile("^\\d{8} \\d{4} ")
@@ -447,7 +449,7 @@ func (probe *Probe) ExportStage() {
 	fileToDownload := new(load.FileToDownload)
 
 	if probe.fileName == "" {
-		probe.fileName = "project:" + probe.stageOfInterest.GetName() + ".go"
+		probe.fileName = "project-" + probe.stageOfInterest.GetName() + ".go"
 	}
 
 	prefixRegex := regexp.MustCompile("^\\d{8} \\d{4} ")
