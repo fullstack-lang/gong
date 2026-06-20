@@ -51,7 +51,7 @@ func (stager *Stager) generateSvgObject(diagram *DiagramStructure) *svg.SVG {
 	stager.drawPartShapes(diagram, layer)
 	stager.drawLinkShapes(diagram, layer)
 
-	stager.drawSystemBox(diagram, layer)
+	stager.drawSystemShape(diagram, layer)
 
 	return svgObject
 }
@@ -81,13 +81,31 @@ func (stager *Stager) drawPartShapes(diagram *DiagramStructure, layer *svg.Layer
 		}
 
 		rect.Color = "white"
-		rect.FillOpacity = 100
+		rect.FillOpacity = 1.0
 		rect.Stroke = "black"
+		rect.StrokeOpacity = 1.0
 		rect.StrokeWidth = 2
 		rect.RX = 5
 
+		text := new(svg.RectAnchoredText)
+		text.Name = partShape.Name
+		if partShape.Part != nil {
+			text.Content = partShape.Part.Name
+		} else {
+			text.Content = partShape.Name
+		}
+		text.Color = "black"
+		text.FillOpacity = 1.0
+		text.X_Offset = 10
+		text.Y_Offset = 20
+		text.RectAnchorType = svg.RECT_TOP_LEFT
+		text.TextAnchorType = svg.TEXT_ANCHOR_START
+		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, text)
+
 		// Setup interactivity
 		rect.IsSelectable = true
+		rect.CanMoveHorizontaly = true
+		rect.CanMoveVerticaly = true
 		rect.CanHaveLeftHandle = true
 		rect.CanHaveRightHandle = true
 		rect.CanHaveTopHandle = true
@@ -178,7 +196,7 @@ func (stager *Stager) drawLinkShapes(diagram *DiagramStructure, layer *svg.Layer
 }
 
 
-func (stager *Stager) drawSystemBox(diagram *DiagramStructure, layer *svg.Layer) {
+func (stager *Stager) drawSystemShape(diagram *DiagramStructure, layer *svg.Layer) {
 	if diagram.owningSystem == nil {
 		return
 	}
@@ -228,6 +246,7 @@ func (stager *Stager) drawSystemBox(diagram *DiagramStructure, layer *svg.Layer)
 	rect.Color = "#F8F9FA"
 	rect.FillOpacity = 1.0
 	rect.Stroke = "#E0E0E0"
+	rect.StrokeOpacity = 1.0
 	rect.StrokeWidth = 1.5
 	rect.RX = 3
 

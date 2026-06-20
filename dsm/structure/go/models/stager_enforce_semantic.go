@@ -56,7 +56,9 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce shape orphans", stager.enforceShapeOrphans},
 		{"Enforce shapes abstract consistency", stager.enforceShapesAbstractConsistency},
 		{"Enforce diagram maps and duplicates", stager.enforceDiagramMaps},
+		{"Enforce structure diagram has owning system", stager.enforceAStructureDiagramHasItsOwningSystem},
 		{"Enforce shape names", stager.enforceShapeNames},
+		{"Enforce diagram size", stager.enforceDiagramSize},
 	}
 
 	for _, method := range methods {

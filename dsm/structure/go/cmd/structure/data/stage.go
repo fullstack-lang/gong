@@ -47,8 +47,8 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.IsChecked = true
 	__DiagramStructure__00000000_.IsEditable_ = true
 	__DiagramStructure__00000000_.IsShowPrefix = false
-	__DiagramStructure__00000000_.Width = 0.000000
-	__DiagramStructure__00000000_.Height = 0.000000
+	__DiagramStructure__00000000_.Width = 439.678986
+	__DiagramStructure__00000000_.Height = 497.440649
 	__DiagramStructure__00000000_.DefaultBoxWidth = 0.000000
 	__DiagramStructure__00000000_.DefaultBoxHeigth = 0.000000
 	__DiagramStructure__00000000_.IsPartsNodeExpanded = true
@@ -61,8 +61,8 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000001_.IsChecked = false
 	__DiagramStructure__00000001_.IsEditable_ = false
 	__DiagramStructure__00000001_.IsShowPrefix = false
-	__DiagramStructure__00000001_.Width = 0.000000
-	__DiagramStructure__00000001_.Height = 0.000000
+	__DiagramStructure__00000001_.Width = 300.000000
+	__DiagramStructure__00000001_.Height = 300.000000
 	__DiagramStructure__00000001_.DefaultBoxWidth = 0.000000
 	__DiagramStructure__00000001_.DefaultBoxHeigth = 0.000000
 	__DiagramStructure__00000001_.IsPartsNodeExpanded = false
