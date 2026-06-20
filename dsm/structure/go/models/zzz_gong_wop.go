@@ -411,13 +411,7 @@ type Part_WOP struct {
 
 	Name string
 
-	IsSystemResource bool
-
 	Description string
-
-	IsResourcesNodeExpanded bool
-
-	IsSystemesNodeExpanded bool
 
 	ComputedPrefix string
 
@@ -435,10 +429,7 @@ type Part_WOP struct {
 func (from *Part) CopyBasicFields(to *Part) {
 	// insertion point
 	to.Name = from.Name
-	to.IsSystemResource = from.IsSystemResource
 	to.Description = from.Description
-	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
-	to.IsSystemesNodeExpanded = from.IsSystemesNodeExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.LayoutDirection = from.LayoutDirection
@@ -463,8 +454,6 @@ type PartShape_WOP struct {
 	Height float64
 
 	IsHidden bool
-
-	WidthWeight float64
 }
 
 func (from *PartShape) CopyBasicFields(to *PartShape) {
@@ -476,7 +465,6 @@ func (from *PartShape) CopyBasicFields(to *PartShape) {
 	to.Width = from.Width
 	to.Height = from.Height
 	to.IsHidden = from.IsHidden
-	to.WidthWeight = from.WidthWeight
 }
 
 type Port_WOP struct {

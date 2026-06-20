@@ -653,16 +653,8 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsSystemResource", instanceWithInferedType.IsSystemResource, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
 			true, false, 0, false, 0)
-		AssociationSliceToForm("Resources", instanceWithInferedType, &instanceWithInferedType.Resources, formGroup, probe)
-		BasicFieldtoForm("IsResourcesNodeExpanded", instanceWithInferedType.IsResourcesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		AssociationSliceToForm("Systemes", instanceWithInferedType, &instanceWithInferedType.Systemes, formGroup, probe)
-		BasicFieldtoForm("IsSystemesNodeExpanded", instanceWithInferedType.IsSystemesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
@@ -801,8 +793,6 @@ func FillUpForm(
 		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("WidthWeight", instanceWithInferedType.WidthWeight, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -1011,17 +1001,6 @@ func FillUpForm(
 					return owner.ResourcesWhoseNodeIsExpanded
 				})
 		}
-		{
-			AssociationReverseSliceToForm[*models.Part, *models.Resource](
-				"Part",
-				"Resources",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Part) []*models.Resource {
-					return owner.Resources
-				})
-		}
 
 	case *models.System:
 		// insertion point
@@ -1097,17 +1076,6 @@ func FillUpForm(
 				probe,
 				func(owner *models.Library) []*models.System {
 					return owner.SystemsWhoseNodeIsExpanded
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Part, *models.System](
-				"Part",
-				"Systemes",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Part) []*models.System {
-					return owner.Systemes
 				})
 		}
 		{

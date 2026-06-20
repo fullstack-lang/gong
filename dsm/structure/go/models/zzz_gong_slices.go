@@ -337,20 +337,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Part
 	// insertion point per field
-	stage.Part_Resources_reverseMap = make(map[*Resource]*Part)
-	for part := range stage.Parts {
-		_ = part
-		for _, _resource := range part.Resources {
-			stage.Part_Resources_reverseMap[_resource] = part
-		}
-	}
-	stage.Part_Systemes_reverseMap = make(map[*System]*Part)
-	for part := range stage.Parts {
-		_ = part
-		for _, _system := range part.Systemes {
-			stage.Part_Systemes_reverseMap[_system] = part
-		}
-	}
 	stage.Part_Ports_reverseMap = make(map[*Port]*Part)
 	for part := range stage.Parts {
 		_ = part

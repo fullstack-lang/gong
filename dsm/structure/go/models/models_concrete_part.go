@@ -1,16 +1,12 @@
 package models
 
 type PartShape struct {
-	Name        string
+	Name string
 	Part *Part
 
 	IsExpanded bool
 
 	RectShape
-
-	// Every part defaults to a weight of 1.0
-	// if a user wants a part to be 50% wider, its weight becomes 1.5.
-	WidthWeight float64
 }
 
 func (s *PartShape) GetAbstractElement() AbstractType {
@@ -27,7 +23,7 @@ func (s *PartShape) SetAbstractElement(abstractElement AbstractType) {
 var _ ConcreteType = (*PartShape)(nil)
 
 type ExternalPartShape struct {
-	Name        string
+	Name string
 	Part *Part
 
 	IsExpanded bool

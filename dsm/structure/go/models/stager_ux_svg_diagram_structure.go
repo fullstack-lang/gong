@@ -3,10 +3,9 @@ package models
 import (
 	"fmt"
 	"log"
-	"strings"
 
-	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/strutils"
+	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
 func (stager *Stager) svg() {
@@ -40,6 +39,7 @@ func (stager *Stager) svg() {
 // to SVG elements (Rects, Links, Paths) on a single layer. It also populates the diagram's
 // internal maps to link abstract elements with their visual SVG counterparts.
 func (stager *Stager) generateSvgObject(diagramStructure *DiagramStructure) *svg.SVG {
+
 	svgObject := (&svg.SVG{Name: `SVG`})
 	stager.diagramStructure = diagramStructure
 
@@ -135,41 +135,12 @@ func (stager *Stager) drawSystemShapes(diagramStructure *DiagramStructure, layer
 }
 
 func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *svg.Layer, rectOfOwningSystem *svg.Rect) {
-	root := stager.GetRootLibrary()
-
+	root := stager.getRootLibrary()
 	diagramStructure.map_Part_Rect = make(map[*Part]*svg.Rect)
-	horizontalMargin := 10.0
-	verticalTopMargin := 50.0
+
 	verticalTopMarginForTitle := 60.0
-	verticalBottomMargin := 10.0
 
-	partsWidth := rectOfOwningSystem.Width - 2*horizontalMargin
-
-	var totalWeight float64
-	for _, pShape := range diagramStructure.Part_Shapes {
-		weight := pShape.WidthWeight
-		if weight == 0 {
-			weight = 1.0
-		}
-		totalWeight += weight
-	}
-
-	currentWeight := 0.0
-
-	for idx, partShape := range diagramStructure.Part_Shapes {
-		shapeWeight := partShape.WidthWeight
-		if shapeWeight == 0 {
-			shapeWeight = 1.0
-		}
-		partWidth := 0.0
-		if totalWeight > 0 {
-			partWidth = shapeWeight * (partsWidth / totalWeight)
-		}
-
-		if partShape.IsHidden {
-			currentWeight += shapeWeight
-			continue
-		}
+	for _, partShape := range diagramStructure.Part_Shapes {
 
 		rect := new(svg.Rect)
 		layer.Rects = append(layer.Rects, rect)
@@ -180,74 +151,37 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 		rect.StrokeWidth = 1
 		rect.StrokeOpacity = 1
 
+		rect.X = partShape.GetX()
+		rect.Y = partShape.GetY()
+		rect.Width = partShape.GetWidth()
+		rect.Height = partShape.GetHeight()
+
 		rect.Color = "#FFFFFF"
 		rect.FillOpacity = 1.0
 
 		// rect cannot move
 		rect.CanMoveHorizontaly = true
 		rect.CanMoveVerticaly = true
-		rect.CanHaveBottomHandle = false
-		rect.CanHaveLeftHandle = false
-		rect.CanHaveTopHandle = false
 
-		// all but the last part have right handle
-		rect.CanHaveRightHandle = func() bool {
-			if idx == len(diagramStructure.Part_Shapes)-1 {
-				return false
-			}
-			return true
-		}()
+		rect.CanHaveBottomHandle = true
+		rect.CanHaveLeftHandle = true
+		rect.CanHaveRightHandle = true
+		rect.CanHaveTopHandle = true
 
 		// visuals
 		rect.RX = 0
 		rect.StrokeWidth = 1
 
-		if totalWeight > 0 {
-			rect.X = rectOfOwningSystem.X + horizontalMargin + currentWeight*(partsWidth/totalWeight)
-		} else {
-			rect.X = rectOfOwningSystem.X + horizontalMargin
-		}
-		rect.Width = partWidth
-
-		rect.Y = rectOfOwningSystem.Y + verticalTopMargin + verticalTopMarginForTitle
-		rect.Height = rectOfOwningSystem.Height - verticalTopMargin - verticalBottomMargin - verticalTopMarginForTitle
-
-		if partShape.Part.IsSystemResource {
-			rect.Y = rectOfOwningSystem.Y + verticalTopMargin
-			rect.Height = rectOfOwningSystem.Height - verticalTopMargin - verticalBottomMargin
-		}
-
-		// make the part shape peer of the system shape
-		rect.Peers = append(rect.Peers, rectOfOwningSystem)
-		rectOfOwningSystem.Peers = append(rectOfOwningSystem.Peers, rect)
-
 		// override default behavior, we need to commit when the rect is moved
 		rect.OnSelect = func() {
 			stager.probeForm.FillUpFormFromGongstruct(partShape.Part, GetPointerToGongstructName[*Part]())
 		}
-		rect.OnMove = func(x, y float64) {}
-		rect.OnResize = func(x, y, width, height float64) {
-			if width != partWidth {
-				othersWeight := totalWeight - shapeWeight
-				if othersWeight > 0 {
-					boundedWidth := width
-					if boundedWidth > partsWidth-10 {
-						boundedWidth = partsWidth - 10
-					}
-					if boundedWidth < 10 {
-						boundedWidth = 10
-					}
-					newWeight := (boundedWidth * othersWeight) / (partsWidth - boundedWidth)
-
-					partShape.WidthWeight = newWeight
-					stager.stage.Commit()
-				}
-			}
-		}
+		rect.OnMove = onMoveRectElement(stager, partShape, true)
+		rect.OnResize = onResizeRectElement(stager, partShape)
 
 		diagramStructure.map_Part_Rect[partShape.Part] = rect
 
-		if !partShape.Part.IsSystemResource {
+		{
 			title := new(svg.RectAnchoredText)
 			title.Name = partShape.GetAbstractElement().GetName()
 
@@ -268,69 +202,18 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 			title.FontSize = "16px"
 			title.FontWeight = "500"
 			title.X_Offset = 0
-			title.Y_Offset = -verticalTopMarginForTitle / 2.0
+			title.Y_Offset = verticalTopMarginForTitle / 2.0
 			title.RectAnchorType = svg.RECT_TOP
 			title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
 
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 		}
-		titleBox := &svg.RectAnchoredRect{
-			Name: partShape.GetAbstractElement().GetName(),
-			Presentation: svg.Presentation{
-				Stroke:        "#E0E0E0",
-				StrokeWidth:   1,
-				StrokeOpacity: 1,
-			},
-			X_Offset:       0,
-			Y_Offset:       -verticalTopMarginForTitle,
-			Height:         verticalTopMarginForTitle,
-			Width:          rect.Width,
-			RectAnchorType: svg.RECT_TOP_LEFT,
-		}
-		rect.RectAnchoredRects = append(rect.RectAnchoredRects, titleBox)
 
-		boxHeigth, anchoredRect := stager.drawAllocatedSystemesAndResources(partShape.Part, diagramStructure, rect, svg.RECT_TOP)
-		_ = boxHeigth
-		_ = anchoredRect
-
-		if partShape.Part.IsSystemResource {
-			if boxHeigth > 0 {
-				titleBox.Y_Offset = 0
-				titleBox.Height = boxHeigth
-			} else {
-				titleBox.Height = 0
-				titleBox.StrokeWidth = 0
-			}
-		}
-
-		currentWeight += shapeWeight
 	}
 
-	// make all part shapes peers together, so that if one of them move, all the others move as well
-	for _, partShape := range diagramStructure.Part_Shapes {
-		if partShape.IsHidden {
-			continue
-		}
-		rect := diagramStructure.map_Part_Rect[partShape.Part]
-		if rect == nil {
-			continue
-		}
-		for _, otherPartShape := range diagramStructure.Part_Shapes {
-			if partShape == otherPartShape || otherPartShape.IsHidden {
-				continue
-			}
-			otherRect := diagramStructure.map_Part_Rect[otherPartShape.Part]
-			if otherRect == nil {
-				continue
-			}
-			rect.Peers = append(rect.Peers, otherRect)
-			otherRect.Peers = append(otherRect.Peers, rect)
-		}
-	}
 }
 
 func (stager *Stager) drawExternalPartShapes(diagramStructure *DiagramStructure, layer *svg.Layer) {
-	root := stager.GetRootLibrary()
 
 	diagramStructure.map_ExternalPart_Rect = make(map[*Part]*svg.Rect)
 	for _, externalPartShape := range diagramStructure.ExternalPart_Shapes {
@@ -367,33 +250,6 @@ func (stager *Stager) drawExternalPartShapes(diagramStructure *DiagramStructure,
 		rect.FillOpacity = 1.0
 		rect.Stroke = "#E0E0E0"
 
-		if !externalPartShape.Part.IsSystemResource {
-			title := new(svg.RectAnchoredText)
-			title.Name = externalPartShape.GetAbstractElement().GetName()
-
-			content := externalPartShape.GetAbstractElement().GetName()
-			if diagramStructure.GetIsShowPrefix() {
-				content = externalPartShape.GetAbstractElement().GetComputedPrefix() + " " + content
-			}
-
-			if rect.Width > 0 {
-				content = strutils.WrapStringPreservingNewlines(content, int(rect.Width/root.NbPixPerCharacter))
-			}
-			title.Content = content
-			title.StrokeWidth = 0
-			title.StrokeOpacity = 1
-			title.Color = "#333333"
-			title.FillOpacity = 1
-			title.FontSize = "16px"
-			title.FontWeight = "500"
-			title.X_Offset = 0
-			title.Y_Offset = 0
-			title.RectAnchorType = svg.RECT_CENTER
-			title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
-
-			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
-		}
-
 		rect.OnSelect = onSelectRectElement(stager, externalPartShape.Part)
 		rect.OnMove = onMoveRectElement(stager, externalPartShape, false)
 		rect.OnResize = onResizeRectElement(stager, externalPartShape)
@@ -401,23 +257,6 @@ func (stager *Stager) drawExternalPartShapes(diagramStructure *DiagramStructure,
 		externalPartWidth := 5.0
 		if externalPartShape.TailHeigth == 0 {
 			externalPartShape.TailHeigth = 100.0
-		}
-
-		anchorType := svg.RECT_BOTTOM
-		if externalPartShape.Part.IsSystemResource {
-			anchorType = svg.RECT_TOP
-		}
-
-		boxHeight, rectAnchoredRect := stager.drawAllocatedSystemesAndResources(
-			externalPartShape.Part,
-			diagramStructure,
-			rect,
-			anchorType)
-		_ = rectAnchoredRect
-
-		if externalPartShape.Part.IsSystemResource && boxHeight > 0 {
-			rect.Height = boxHeight
-			boxHeight = 0
 		}
 
 		// have the system rect be an obstacle to the rect
@@ -438,9 +277,9 @@ func (stager *Stager) drawExternalPartShapes(diagramStructure *DiagramStructure,
 				FillOpacity:     0.0,
 			},
 			Width:               externalPartWidth,
-			Height:              externalPartShape.TailHeigth - boxHeight,
+			Height:              externalPartShape.TailHeigth,
 			X:                   rect.X + (rect.Width-externalPartWidth)/2.0,
-			Y:                   rect.Y + rect.Height + boxHeight,
+			Y:                   rect.Y + rect.Height,
 			CanHaveBottomHandle: true,
 		}
 		diagramStructure.map_ExternalPart_Rect[externalPartShape.Part] = tailRect
@@ -455,10 +294,10 @@ func (stager *Stager) drawExternalPartShapes(diagramStructure *DiagramStructure,
 		tailRect.OnSelect = func() {}
 		tailRect.OnMove = func(x, y float64) {}
 		tailRect.OnResize = func(x, y, width, height float64) {
-			diffSize := externalPartShape.TailHeigth != height+boxHeight
+			diffSize := externalPartShape.TailHeigth != height
 
 			if diffSize {
-				externalPartShape.TailHeigth = height + boxHeight
+				externalPartShape.TailHeigth = height
 				stager.stage.CommitWithSuspendedCallbacks()
 			}
 		}
@@ -846,189 +685,4 @@ func (stager *Stager) drawNotePortShapes(diagramStructure *DiagramStructure, lay
 		link.Stroke = "#9E9E9E"
 		link.StrokeWidth = 1.5
 	}
-}
-
-func (stager *Stager) drawAllocatedSystemesAndResources(
-	part *Part,
-	diagramStructure *DiagramStructure,
-	rect *svg.Rect,
-	rectAnchorType svg.RectAnchorType) (boxHeight float64, allocatedResourceRect *svg.RectAnchoredRect) {
-	root := stager.GetRootLibrary()
-	const HeightBetween2AttributeShapes = 20.0
-
-	totalLines := 0
-	X_Offset := 35.0
-	Y_Offset := 20.0
-
-	// draw allocated system shapes that are within the part
-	for _, system := range part.Systemes {
-		key := allocatedSystemShapeKey{
-			part: part,
-			system:     system,
-		}
-		allocatedSystemShape := diagramStructure.map_AllocatedSystemShapeKey_AllocatedSystemShape[key]
-		if allocatedSystemShape == nil {
-			continue
-		}
-
-		content := system.Name
-		if rect.Width > 0 {
-			content = strutils.WrapStringPreservingNewlinesScaled(content, rect.Width, float64(root.NbPixPerCharacter), 15.0, 16.0)
-		}
-
-		allocatedSystemText := &svg.RectAnchoredText{
-			Name:    allocatedSystemShape.Name,
-			Content: content,
-			Presentation: svg.Presentation{
-				StrokeWidth: 0,
-				Color:       "#757575",
-				FillOpacity: 1,
-			},
-			TextAttributes: svg.TextAttributes{
-				FontStyle: "italic",
-				FontSize:  "15px",
-			},
-
-			DominantBaseline: svg.DominantBaselineMiddle,
-			X_Offset:         X_Offset,
-			Y_Offset:         Y_Offset + float64(totalLines)*HeightBetween2AttributeShapes,
-			RectAnchorType:   rectAnchorType,
-			TextAnchorType:   svg.TEXT_ANCHOR_START,
-			URLPath:          "../../../References/Systemes/" + system.GetReferencePath() + "/index.html",
-			URLTarget:        svg.LINK_TARGET_BLANK,
-		}
-		if rectAnchorType == svg.RECT_BOTTOM {
-			allocatedSystemText.RectAnchorType = svg.RECT_BOTTOM_LEFT
-		} else {
-			allocatedSystemText.RectAnchorType = svg.RECT_TOP_LEFT
-		}
-		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, allocatedSystemText)
-
-		lines := strings.Split(content, "\n")
-		totalLines += len(lines)
-
-		// add a rect anchored icon
-		if system.SVG_Path != "" {
-			if system.InverseAppliedScaling == 0 {
-				system.InverseAppliedScaling = 1.0
-			}
-			allocatedSystemPath := &svg.RectAnchoredPath{
-				Name:       system.GetName(),
-				Definition: system.SVG_Path,
-				Presentation: svg.Presentation{
-					StrokeWidth: 0,
-					Color:       "#757575",
-					FillOpacity: 1,
-				},
-				X_Offset:            10,
-				Y_Offset:            10 + float64(totalLines)*HeightBetween2AttributeShapes,
-				ScalePropotionnally: true,
-				AppliedScaling:      1.25 / system.InverseAppliedScaling,
-			}
-			if rectAnchorType == svg.RECT_BOTTOM {
-				allocatedSystemPath.RectAnchorType = svg.RECT_BOTTOM_LEFT
-			} else {
-				allocatedSystemPath.RectAnchorType = svg.RECT_TOP_LEFT
-			}
-			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, allocatedSystemPath)
-		}
-	}
-
-	// draw allocated resource shapes that are within the part
-	for _, resource := range part.Resources {
-		key := allocatedResourceShapeKey{
-			part: part,
-			resource:    resource,
-		}
-		allocatedResourceShape := diagramStructure.map_AllocatedResourceShapeKey_AllocatedResourceShape[key]
-		if allocatedResourceShape == nil {
-			continue
-		}
-
-		content := resource.Name
-		if rect.Width > 0 {
-			content = strutils.WrapStringPreservingNewlinesScaled(content, rect.Width, float64(root.NbPixPerCharacter), 15.0, 16.0)
-		}
-
-		allocatedResourceText := &svg.RectAnchoredText{
-			Name:    allocatedResourceShape.Name,
-			Content: content,
-			Presentation: svg.Presentation{
-				StrokeWidth: 0,
-				Color:       "#757575",
-				FillOpacity: 1,
-			},
-			TextAttributes: svg.TextAttributes{
-				FontStyle: "italic",
-				FontSize:  "15px",
-			},
-
-			DominantBaseline: svg.DominantBaselineMiddle,
-			X_Offset:         X_Offset,
-			Y_Offset:         Y_Offset + float64(totalLines)*HeightBetween2AttributeShapes,
-			RectAnchorType:   rectAnchorType,
-			TextAnchorType:   svg.TEXT_ANCHOR_START,
-			URLPath:          "../../../References/Resources/" + resource.GetReferencePath() + "/index.html",
-			URLTarget:        svg.LINK_TARGET_BLANK,
-		}
-		if rectAnchorType == svg.RECT_BOTTOM {
-			allocatedResourceText.RectAnchorType = svg.RECT_BOTTOM_LEFT
-		} else {
-			allocatedResourceText.RectAnchorType = svg.RECT_TOP_LEFT
-		}
-		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, allocatedResourceText)
-
-		lines := strings.Split(content, "\n")
-		totalLines += len(lines)
-
-		// add a rect anchored icon
-		if resource.SVG_Path != "" {
-			if resource.InverseAppliedScaling == 0 {
-				resource.InverseAppliedScaling = 1.0
-			}
-			allocatedResourcePath := &svg.RectAnchoredPath{
-				Name:       resource.GetName(),
-				Definition: resource.SVG_Path,
-				Presentation: svg.Presentation{
-					StrokeWidth: 0,
-					Color:       "#757575",
-					FillOpacity: 1,
-				},
-				X_Offset:            10,
-				Y_Offset:            10 + float64(totalLines)*HeightBetween2AttributeShapes,
-				ScalePropotionnally: true,
-				AppliedScaling:      1.25 / resource.InverseAppliedScaling,
-			}
-			if rectAnchorType == svg.RECT_BOTTOM {
-				allocatedResourcePath.RectAnchorType = svg.RECT_BOTTOM_LEFT
-			} else {
-				allocatedResourcePath.RectAnchorType = svg.RECT_TOP_LEFT
-			}
-			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, allocatedResourcePath)
-		}
-	}
-	// draw a rect around the allocated resource and system shapes if there is at least one
-	boxHeight = float64(totalLines)*HeightBetween2AttributeShapes + Y_Offset - 5.0
-	if totalLines > 0 {
-		lineWidth := 1.0
-		allocatedResourceRect = &svg.RectAnchoredRect{
-			Name: part.Name + "_allocated_resources_and_systemes",
-			Presentation: svg.Presentation{
-				Stroke:        "#CCCCCC",
-				StrokeWidth:   lineWidth,
-				StrokeOpacity: 1,
-			},
-			X_Offset:       lineWidth,
-			Y_Offset:       lineWidth,
-			Height:         boxHeight - 2*lineWidth,
-			Width:          rect.Width - 2*lineWidth,
-			RectAnchorType: svg.RECT_TOP_LEFT,
-		}
-
-		if rectAnchorType == svg.RECT_BOTTOM {
-			allocatedResourceRect.RectAnchorType = svg.RECT_BOTTOM_LEFT
-		}
-		rect.RectAnchoredRects = append(rect.RectAnchoredRects, allocatedResourceRect)
-	}
-	return
 }

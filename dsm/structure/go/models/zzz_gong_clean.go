@@ -198,8 +198,6 @@ func (noteshape *NoteShape) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Part
 func (part *Part) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
-	modified = GongCleanSlice(stage, &part.Resources) || modified
-	modified = GongCleanSlice(stage, &part.Systemes) || modified
 	modified = GongCleanSlice(stage, &part.Ports) || modified
 	modified = GongCleanSlice(stage, &part.ControlFlows) || modified
 	modified = GongCleanSlice(stage, &part.PortWhoseOutControlFlowsNodeIsExpanded) || modified

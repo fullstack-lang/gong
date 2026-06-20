@@ -429,10 +429,6 @@ type Stage struct {
 	Parts_referenceOrder map[*Part]uint
 
 	// insertion point for slice of pointers maps
-	Part_Resources_reverseMap map[*Resource]*Part
-
-	Part_Systemes_reverseMap map[*System]*Part
-
 	Part_Ports_reverseMap map[*Port]*Part
 
 	Part_ControlFlows_reverseMap map[*ControlFlow]*Part
@@ -4930,10 +4926,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Part:
 		return any(&Part{
 			// Initialisation of associations
-			// field is initialized with an instance of Resource with the name of the field
-			Resources: []*Resource{{Name: "Resources"}},
-			// field is initialized with an instance of System with the name of the field
-			Systemes: []*System{{Name: "Systemes"}},
 			// field is initialized with an instance of Port with the name of the field
 			Ports: []*Port{{Name: "Ports"}},
 			// field is initialized with an instance of ControlFlow with the name of the field
@@ -5892,22 +5884,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Part:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Resources":
-			res := make(map[*Resource][]*Part)
-			for part := range stage.Parts {
-				for _, resource_ := range part.Resources {
-					res[resource_] = append(res[resource_], part)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Systemes":
-			res := make(map[*System][]*Part)
-			for part := range stage.Parts {
-				for _, system_ := range part.Systemes {
-					res[system_] = append(res[system_], part)
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "Ports":
 			res := make(map[*Port][]*Part)
 			for part := range stage.Parts {
@@ -6319,9 +6295,6 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Library"
 		rf.Fieldname = "ResourcesWhoseNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "Part"
-		rf.Fieldname = "Resources"
-		res = append(res, rf)
 	case *System:
 		var rf ReverseField
 		_ = rf
@@ -6336,9 +6309,6 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "Library"
 		rf.Fieldname = "SystemsWhoseNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "Part"
-		rf.Fieldname = "Systemes"
 		res = append(res, rf)
 		rf.GongstructName = "System"
 		rf.Fieldname = "SubSystemes"
@@ -7138,30 +7108,8 @@ func (part *Part) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsSystemResource",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:                 "Resources",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Resource",
-		},
-		{
-			Name:               "IsResourcesNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "Systemes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "System",
-		},
-		{
-			Name:               "IsSystemesNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "ComputedPrefix",
@@ -7257,10 +7205,6 @@ func (partshape *PartShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "WidthWeight",
-			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 	}
 	return
@@ -8480,40 +8424,8 @@ func (part *Part) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	// string value of fields
 	case "Name":
 		res.valueString = part.Name
-	case "IsSystemResource":
-		res.valueString = fmt.Sprintf("%t", part.IsSystemResource)
-		res.valueBool = part.IsSystemResource
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Description":
 		res.valueString = part.Description
-	case "Resources":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range part.Resources {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "IsResourcesNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", part.IsResourcesNodeExpanded)
-		res.valueBool = part.IsResourcesNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "Systemes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range part.Systemes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "IsSystemesNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", part.IsSystemesNodeExpanded)
-		res.valueBool = part.IsSystemesNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ComputedPrefix":
 		res.valueString = part.ComputedPrefix
 	case "IsExpanded":
@@ -8634,10 +8546,6 @@ func (partshape *PartShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", partshape.IsHidden)
 		res.valueBool = partshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "WidthWeight":
-		res.valueString = fmt.Sprintf("%f", partshape.WidthWeight)
-		res.valueFloat = partshape.WidthWeight
-		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -9971,42 +9879,8 @@ func (part *Part) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 	// insertion point for per field code
 	case "Name":
 		part.Name = value.GetValueString()
-	case "IsSystemResource":
-		part.IsSystemResource = value.GetValueBool()
 	case "Description":
 		part.Description = value.GetValueString()
-	case "Resources":
-		part.Resources = make([]*Resource, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Resources {
-					if stage.Resource_stagedOrder[__instance__] == uint(id) {
-						part.Resources = append(part.Resources, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsResourcesNodeExpanded":
-		part.IsResourcesNodeExpanded = value.GetValueBool()
-	case "Systemes":
-		part.Systemes = make([]*System, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Systems {
-					if stage.System_stagedOrder[__instance__] == uint(id) {
-						part.Systemes = append(part.Systemes, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsSystemesNodeExpanded":
-		part.IsSystemesNodeExpanded = value.GetValueBool()
 	case "ComputedPrefix":
 		part.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
@@ -10137,8 +10011,6 @@ func (partshape *PartShape) GongSetFieldValue(fieldName string, value GongFieldV
 		partshape.Height = value.GetValueFloat()
 	case "IsHidden":
 		partshape.IsHidden = value.GetValueBool()
-	case "WidthWeight":
-		partshape.WidthWeight = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
