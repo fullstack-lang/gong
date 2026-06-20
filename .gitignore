@@ -103,3 +103,4 @@ dsm/scenario/go/cmd/scenario/scenario
 !/.vscode/
 main
 dsm/structure/go/cmd/structure/structure
+docs/.DS_Store
