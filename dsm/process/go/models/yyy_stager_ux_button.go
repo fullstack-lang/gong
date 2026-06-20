@@ -2,15 +2,11 @@
 package models
 
 import (
-	"encoding/base64"
 	"log"
 	"os"
-	"path/filepath"
-	"time"
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
 	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
-	load "github.com/fullstack-lang/gong/lib/load/go/models"
 )
 
 func (stager *Stager) button() {
@@ -22,57 +18,6 @@ func (stager *Stager) button() {
 	group1 := new(button.Group)
 	group1.Percentage = 100
 	layout.Groups = append(layout.Groups, group1)
-
-	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:  "Reset file",
-		Icon:  string(buttons.BUTTON_reset_tv),
-		Label: "Reset file",
-		OnClick: func() {
-			stager.stage.Reset()
-			stager.stage.Commit()
-		},
-	})
-
-	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:  "Export file",
-		Icon:  string(buttons.BUTTON_fact_check),
-		Label: "Export file",
-		OnClick: func() {
-			log.Println("Exporting the rendering configuration")
-
-			loadStage := stager.loadStage
-			loadStage.Reset()
-
-			stage := stager.stage
-
-			fileToDownload := new(load.FileToDownload).Stage(loadStage)
-
-			if stager.fileName == "" {
-				stager.fileName = stager.stage.GetName() + ".go"
-			}
-
-			fileToDownload.Name = time.Now().Format("20060102 1504 ") + stager.fileName
-
-			fileName := filepath.Base(fileToDownload.Name)
-
-			// Use MarshallToString for pure in-memory export (WASM compatible)
-			res, err := stage.MarshallToString(stage.MetaPackageImportPath, "main")
-			if err != nil {
-				log.Println("Error marshalling to string:", err)
-				return
-			}
-
-			// The content is now a string in memory.
-			fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(res))
-
-			stager.loadStage.Commit()
-
-			log.Println("Finished exporting file", fileName)
-
-			time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we delete the file.
-			stager.load()
-		},
-	})
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
 		Name:  "Stop for maintenance",

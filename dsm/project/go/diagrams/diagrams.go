@@ -38,9 +38,20 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000006_ := (&models.AttributeShape{Name: `DefaultBoxHeigth`}).Stage(stage)
 	__AttributeShape__00000007_ := (&models.AttributeShape{Name: `Width`}).Stage(stage)
 	__AttributeShape__00000008_ := (&models.AttributeShape{Name: `Height`}).Stage(stage)
+	__AttributeShape__00000009_ := (&models.AttributeShape{Name: `DurationYears`}).Stage(stage)
+	__AttributeShape__00000010_ := (&models.AttributeShape{Name: `DurationMonths`}).Stage(stage)
+	__AttributeShape__00000011_ := (&models.AttributeShape{Name: `DurationWeeks`}).Stage(stage)
+	__AttributeShape__00000012_ := (&models.AttributeShape{Name: `End`}).Stage(stage)
+	__AttributeShape__00000013_ := (&models.AttributeShape{Name: `Start`}).Stage(stage)
+	__AttributeShape__00000014_ := (&models.AttributeShape{Name: `DurationDays`}).Stage(stage)
+	__AttributeShape__00000015_ := (&models.AttributeShape{Name: `DurationHours`}).Stage(stage)
+	__AttributeShape__00000016_ := (&models.AttributeShape{Name: `IsEndDateComputedFromDuration`}).Stage(stage)
+	__AttributeShape__00000017_ := (&models.AttributeShape{Name: `IsStartDateComputedFromPredecessors`}).Stage(stage)
+	__AttributeShape__00000018_ := (&models.AttributeShape{Name: `IsMilestone`}).Stage(stage)
 
-	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `Abstract model`}).Stage(stage)
-	__Classdiagram__00000001_ := (&models.Classdiagram{Name: `Concrete model`}).Stage(stage)
+	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `01 § Abstract model`}).Stage(stage)
+	__Classdiagram__00000001_ := (&models.Classdiagram{Name: `02 § Concrete model`}).Stage(stage)
+	__Classdiagram__00000002_ := (&models.Classdiagram{Name: `01b - Abstract Task model `}).Stage(stage)
 
 	__DiagramPackage__00000000_ := (&models.DiagramPackage{Name: `Diagram Package created the 2025-12-18T17:41:37Z`}).Stage(stage)
 
@@ -50,6 +61,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000003_ := (&models.GongStructShape{Name: `Default-Note`}).Stage(stage)
 	__GongStructShape__00000004_ := (&models.GongStructShape{Name: `Abstract model-Resource`}).Stage(stage)
 	__GongStructShape__00000005_ := (&models.GongStructShape{Name: `Concrete model-Diagram`}).Stage(stage)
+	__GongStructShape__00000006_ := (&models.GongStructShape{Name: `01b - Abstract Task model -Task`}).Stage(stage)
 
 	__LinkShape__00000000_ := (&models.LinkShape{Name: `SubProducts`}).Stage(stage)
 	__LinkShape__00000001_ := (&models.LinkShape{Name: `SubTasks`}).Stage(stage)
@@ -63,6 +75,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000009_ := (&models.LinkShape{Name: `RootResources`}).Stage(stage)
 	__LinkShape__00000010_ := (&models.LinkShape{Name: `SubResources`}).Stage(stage)
 	__LinkShape__00000011_ := (&models.LinkShape{Name: `Tasks`}).Stage(stage)
+	__LinkShape__00000012_ := (&models.LinkShape{Name: `Predecessors`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -120,7 +133,67 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000008_.Structname = `Diagram`
 	__AttributeShape__00000008_.Fieldtypename = `float64`
 
-	__Classdiagram__00000000_.Name = `Abstract model`
+	__AttributeShape__00000009_.Name = `DurationYears`
+	__AttributeShape__00000009_.IdentifierMeta = ref_models.Task{}.DurationYears
+	__AttributeShape__00000009_.FieldTypeAsString = ``
+	__AttributeShape__00000009_.Structname = `Task`
+	__AttributeShape__00000009_.Fieldtypename = `float64`
+
+	__AttributeShape__00000010_.Name = `DurationMonths`
+	__AttributeShape__00000010_.IdentifierMeta = ref_models.Task{}.DurationMonths
+	__AttributeShape__00000010_.FieldTypeAsString = ``
+	__AttributeShape__00000010_.Structname = `Task`
+	__AttributeShape__00000010_.Fieldtypename = `float64`
+
+	__AttributeShape__00000011_.Name = `DurationWeeks`
+	__AttributeShape__00000011_.IdentifierMeta = ref_models.Task{}.DurationWeeks
+	__AttributeShape__00000011_.FieldTypeAsString = ``
+	__AttributeShape__00000011_.Structname = `Task`
+	__AttributeShape__00000011_.Fieldtypename = `float64`
+
+	__AttributeShape__00000012_.Name = `End`
+	__AttributeShape__00000012_.IdentifierMeta = ref_models.Task{}.End
+	__AttributeShape__00000012_.FieldTypeAsString = ``
+	__AttributeShape__00000012_.Structname = `Task`
+	__AttributeShape__00000012_.Fieldtypename = `Time`
+
+	__AttributeShape__00000013_.Name = `Start`
+	__AttributeShape__00000013_.IdentifierMeta = ref_models.Task{}.Start
+	__AttributeShape__00000013_.FieldTypeAsString = ``
+	__AttributeShape__00000013_.Structname = `Task`
+	__AttributeShape__00000013_.Fieldtypename = `Time`
+
+	__AttributeShape__00000014_.Name = `DurationDays`
+	__AttributeShape__00000014_.IdentifierMeta = ref_models.Task{}.DurationDays
+	__AttributeShape__00000014_.FieldTypeAsString = ``
+	__AttributeShape__00000014_.Structname = `Task`
+	__AttributeShape__00000014_.Fieldtypename = `float64`
+
+	__AttributeShape__00000015_.Name = `DurationHours`
+	__AttributeShape__00000015_.IdentifierMeta = ref_models.Task{}.DurationHours
+	__AttributeShape__00000015_.FieldTypeAsString = ``
+	__AttributeShape__00000015_.Structname = `Task`
+	__AttributeShape__00000015_.Fieldtypename = `float64`
+
+	__AttributeShape__00000016_.Name = `IsEndDateComputedFromDuration`
+	__AttributeShape__00000016_.IdentifierMeta = ref_models.Task{}.IsEndDateComputedFromDuration
+	__AttributeShape__00000016_.FieldTypeAsString = ``
+	__AttributeShape__00000016_.Structname = `Task`
+	__AttributeShape__00000016_.Fieldtypename = `bool`
+
+	__AttributeShape__00000017_.Name = `IsStartDateComputedFromPredecessors`
+	__AttributeShape__00000017_.IdentifierMeta = ref_models.Task{}.IsStartDateComputedFromPredecessors
+	__AttributeShape__00000017_.FieldTypeAsString = ``
+	__AttributeShape__00000017_.Structname = `Task`
+	__AttributeShape__00000017_.Fieldtypename = `bool`
+
+	__AttributeShape__00000018_.Name = `IsMilestone`
+	__AttributeShape__00000018_.IdentifierMeta = ref_models.Task{}.IsMilestone
+	__AttributeShape__00000018_.FieldTypeAsString = ``
+	__AttributeShape__00000018_.Structname = `Task`
+	__AttributeShape__00000018_.Fieldtypename = `bool`
+
+	__Classdiagram__00000000_.Name = `01 § Abstract model`
 	__Classdiagram__00000000_.Description = ``
 	__Classdiagram__00000000_.IsIncludedInStaticWebSite = false
 	__Classdiagram__00000000_.ShowNbInstances = true
@@ -129,26 +202,41 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.IsInRenameMode = false
 	__Classdiagram__00000000_.IsExpanded = true
 	__Classdiagram__00000000_.NodeGongStructsIsExpanded = false
-	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,false,true,true]`
+	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,false,false,false,false,false,false,false,true]`
 	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
 	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
 	__Classdiagram__00000000_.NodeGongNoteNodeExpansion = ``
 
-	__Classdiagram__00000001_.Name = `Concrete model`
+	__Classdiagram__00000001_.Name = `02 § Concrete model`
 	__Classdiagram__00000001_.Description = ``
 	__Classdiagram__00000001_.IsIncludedInStaticWebSite = false
 	__Classdiagram__00000001_.ShowNbInstances = false
 	__Classdiagram__00000001_.ShowMultiplicity = false
 	__Classdiagram__00000001_.ShowLinkNames = false
 	__Classdiagram__00000001_.IsInRenameMode = false
-	__Classdiagram__00000001_.IsExpanded = true
+	__Classdiagram__00000001_.IsExpanded = false
 	__Classdiagram__00000001_.NodeGongStructsIsExpanded = true
 	__Classdiagram__00000001_.NodeGongStructNodeExpansion = `[true]`
 	__Classdiagram__00000001_.NodeGongEnumsIsExpanded = false
 	__Classdiagram__00000001_.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__00000001_.NodeGongNotesIsExpanded = false
 	__Classdiagram__00000001_.NodeGongNoteNodeExpansion = ``
+
+	__Classdiagram__00000002_.Name = `01b - Abstract Task model `
+	__Classdiagram__00000002_.Description = ``
+	__Classdiagram__00000002_.IsIncludedInStaticWebSite = false
+	__Classdiagram__00000002_.ShowNbInstances = true
+	__Classdiagram__00000002_.ShowMultiplicity = true
+	__Classdiagram__00000002_.ShowLinkNames = true
+	__Classdiagram__00000002_.IsInRenameMode = false
+	__Classdiagram__00000002_.IsExpanded = false
+	__Classdiagram__00000002_.NodeGongStructsIsExpanded = true
+	__Classdiagram__00000002_.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,false,false,false,false,false,false,false,false,true]`
+	__Classdiagram__00000002_.NodeGongEnumsIsExpanded = false
+	__Classdiagram__00000002_.NodeGongEnumNodeExpansion = ``
+	__Classdiagram__00000002_.NodeGongNotesIsExpanded = false
+	__Classdiagram__00000002_.NodeGongNoteNodeExpansion = ``
 
 	__DiagramPackage__00000000_.Name = `Diagram Package created the 2025-12-18T17:41:37Z`
 	__DiagramPackage__00000000_.Path = ``
@@ -202,6 +290,14 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000005_.Width = 240.000000
 	__GongStructShape__00000005_.Height = 243.000000
 	__GongStructShape__00000005_.IsSelected = false
+
+	__GongStructShape__00000006_.Name = `01b - Abstract Task model -Task`
+	__GongStructShape__00000006_.X = 380.000000
+	__GongStructShape__00000006_.Y = 31.000000
+	__GongStructShape__00000006_.IdentifierMeta = ref_models.Task{}
+	__GongStructShape__00000006_.Width = 434.000000
+	__GongStructShape__00000006_.Height = 290.000031
+	__GongStructShape__00000006_.IsSelected = false
 
 	__LinkShape__00000000_.Name = `SubProducts`
 	__LinkShape__00000000_.IdentifierMeta = ref_models.Product{}.SubProducts
@@ -431,6 +527,25 @@ func _(stage *models.Stage) {
 	__LinkShape__00000011_.EndRatio = 0.895370
 	__LinkShape__00000011_.CornerOffsetRatio = 1.591464
 
+	__LinkShape__00000012_.Name = `Predecessors`
+	__LinkShape__00000012_.IdentifierMeta = ref_models.Task{}.Predecessors
+	__LinkShape__00000012_.FieldTypeIdentifierMeta = ref_models.Task{}
+	__LinkShape__00000012_.FieldOffsetX = 0.000000
+	__LinkShape__00000012_.FieldOffsetY = 0.000000
+	__LinkShape__00000012_.TargetMultiplicity = models.MANY
+	__LinkShape__00000012_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000012_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000012_.SourceMultiplicity = models.MANY
+	__LinkShape__00000012_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000012_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000012_.X = 807.000000
+	__LinkShape__00000012_.Y = 356.500000
+	__LinkShape__00000012_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000012_.StartRatio = 0.243678
+	__LinkShape__00000012_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000012_.EndRatio = 0.723113
+	__LinkShape__00000012_.CornerOffsetRatio = 1.827430
+
 	// insertion point for setup of pointers
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000000_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000001_)
@@ -438,9 +553,11 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000003_)
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000004_)
 	__Classdiagram__00000001_.GongStructShapes = append(__Classdiagram__00000001_.GongStructShapes, __GongStructShape__00000005_)
+	__Classdiagram__00000002_.GongStructShapes = append(__Classdiagram__00000002_.GongStructShapes, __GongStructShape__00000006_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000000_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000001_)
-	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000001_
+	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000002_)
+	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000002_
 	__GongStructShape__00000000_.LinkShapes = append(__GongStructShape__00000000_.LinkShapes, __LinkShape__00000000_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000002_)
 	__GongStructShape__00000001_.LinkShapes = append(__GongStructShape__00000001_.LinkShapes, __LinkShape__00000003_)
@@ -462,4 +579,15 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000005_.AttributeShapes = append(__GongStructShape__00000005_.AttributeShapes, __AttributeShape__00000006_)
 	__GongStructShape__00000005_.AttributeShapes = append(__GongStructShape__00000005_.AttributeShapes, __AttributeShape__00000007_)
 	__GongStructShape__00000005_.AttributeShapes = append(__GongStructShape__00000005_.AttributeShapes, __AttributeShape__00000008_)
+	__GongStructShape__00000006_.AttributeShapes = append(__GongStructShape__00000006_.AttributeShapes, __AttributeShape__00000013_)
+	__GongStructShape__00000006_.AttributeShapes = append(__GongStructShape__00000006_.AttributeShapes, __AttributeShape__00000012_)
+	__GongStructShape__00000006_.AttributeShapes = append(__GongStructShape__00000006_.AttributeShapes, __AttributeShape__00000009_)
+	__GongStructShape__00000006_.AttributeShapes = append(__GongStructShape__00000006_.AttributeShapes, __AttributeShape__00000010_)
+	__GongStructShape__00000006_.AttributeShapes = append(__GongStructShape__00000006_.AttributeShapes, __AttributeShape__00000011_)
+	__GongStructShape__00000006_.AttributeShapes = append(__GongStructShape__00000006_.AttributeShapes, __AttributeShape__00000014_)
+	__GongStructShape__00000006_.AttributeShapes = append(__GongStructShape__00000006_.AttributeShapes, __AttributeShape__00000015_)
+	__GongStructShape__00000006_.AttributeShapes = append(__GongStructShape__00000006_.AttributeShapes, __AttributeShape__00000016_)
+	__GongStructShape__00000006_.AttributeShapes = append(__GongStructShape__00000006_.AttributeShapes, __AttributeShape__00000017_)
+	__GongStructShape__00000006_.AttributeShapes = append(__GongStructShape__00000006_.AttributeShapes, __AttributeShape__00000018_)
+	__GongStructShape__00000006_.LinkShapes = append(__GongStructShape__00000006_.LinkShapes, __LinkShape__00000012_)
 }
