@@ -1262,8 +1262,16 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 				}
 			}
 		}
-	case "Duration":
-		instance.Duration = time.Duration(GongExtractInt(valueExpr))
+	case "DurationYears":
+		instance.DurationYears = GongExtractFloat(valueExpr)
+	case "DurationMonths":
+		instance.DurationMonths = GongExtractFloat(valueExpr)
+	case "DurationWeeks":
+		instance.DurationWeeks = GongExtractFloat(valueExpr)
+	case "DurationDays":
+		instance.DurationDays = GongExtractFloat(valueExpr)
+	case "DurationHours":
+		instance.DurationHours = GongExtractFloat(valueExpr)
 	case "IsEndDateComputedFromDuration":
 		instance.IsEndDateComputedFromDuration = GongExtractBool(valueExpr)
 	case "Predecessors":

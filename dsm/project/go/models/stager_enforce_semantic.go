@@ -117,7 +117,15 @@ func (stager *Stager) enforceTaskMilestoneDates() (needCommit bool) {
 func (stager *Stager) enforceTaskDurationDates() (needCommit bool) {
 	for _, task := range GetGongstrucsSorted[*Task](stager.stage) {
 		if task.IsEndDateComputedFromDuration {
-			expectedEnd := task.Start.Add(task.Duration)
+			days := task.DurationWeeks*7 + task.DurationDays
+			fractionalDays := days - float64(int(days))
+			hours := task.DurationHours + fractionalDays*24
+
+			expectedEnd := task.Start.AddDate(
+				int(task.DurationYears),
+				int(task.DurationMonths),
+				int(days),
+			).Add(time.Duration(hours * float64(time.Hour)))
 			if !task.End.Equal(expectedEnd) {
 				task.End = expectedEnd
 				needCommit = true

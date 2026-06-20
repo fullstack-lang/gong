@@ -4380,8 +4380,20 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	if task.End != taskOther.End {
 		diffs = append(diffs, task.GongMarshallField(stage, "End"))
 	}
-	if task.Duration != taskOther.Duration {
-		diffs = append(diffs, task.GongMarshallField(stage, "Duration"))
+	if task.DurationYears != taskOther.DurationYears {
+		diffs = append(diffs, task.GongMarshallField(stage, "DurationYears"))
+	}
+	if task.DurationMonths != taskOther.DurationMonths {
+		diffs = append(diffs, task.GongMarshallField(stage, "DurationMonths"))
+	}
+	if task.DurationWeeks != taskOther.DurationWeeks {
+		diffs = append(diffs, task.GongMarshallField(stage, "DurationWeeks"))
+	}
+	if task.DurationDays != taskOther.DurationDays {
+		diffs = append(diffs, task.GongMarshallField(stage, "DurationDays"))
+	}
+	if task.DurationHours != taskOther.DurationHours {
+		diffs = append(diffs, task.GongMarshallField(stage, "DurationHours"))
 	}
 	if task.IsEndDateComputedFromDuration != taskOther.IsEndDateComputedFromDuration {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsEndDateComputedFromDuration"))

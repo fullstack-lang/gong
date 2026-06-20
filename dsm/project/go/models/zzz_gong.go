@@ -7089,8 +7089,24 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
-			Name:               "Duration",
-			GongFieldValueType: GongFieldValueTypeIntDuration,
+			Name:               "DurationYears",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "DurationMonths",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "DurationWeeks",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "DurationDays",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "DurationHours",
+			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "IsEndDateComputedFromDuration",
@@ -8530,47 +8546,26 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = task.Start.String()
 	case "End":
 		res.valueString = task.End.String()
-	case "Duration":
-		if math.Abs(task.Duration.Hours()) >= 24 {
-			days := __Gong__Abs(int(int(task.Duration.Hours()) / 24))
-			months := int(days / 31)
-			days = days - months*31
-
-			remainingHours := int(task.Duration.Hours()) % 24
-			remainingMinutes := int(task.Duration.Minutes()) % 60
-			remainingSeconds := int(task.Duration.Seconds()) % 60
-
-			if task.Duration.Hours() < 0 {
-				res.valueString = "- "
-			}
-
-			if months > 0 {
-				if months > 1 {
-					res.valueString = res.valueString + fmt.Sprintf("%d months", months)
-				} else {
-					res.valueString = res.valueString + fmt.Sprintf("%d month", months)
-				}
-			}
-			if days > 0 {
-				if months != 0 {
-					res.valueString = res.valueString + ", "
-				}
-				if days > 1 {
-					res.valueString = res.valueString + fmt.Sprintf("%d days", days)
-				} else {
-					res.valueString = res.valueString + fmt.Sprintf("%d day", days)
-				}
-
-			}
-			if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
-				if days != 0 || (days == 0 && months != 0) {
-					res.valueString = res.valueString + ", "
-				}
-				res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
-			}
-		} else {
-			res.valueString = fmt.Sprintf("%s\n", task.Duration.String())
-		}
+	case "DurationYears":
+		res.valueString = fmt.Sprintf("%f", task.DurationYears)
+		res.valueFloat = task.DurationYears
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DurationMonths":
+		res.valueString = fmt.Sprintf("%f", task.DurationMonths)
+		res.valueFloat = task.DurationMonths
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DurationWeeks":
+		res.valueString = fmt.Sprintf("%f", task.DurationWeeks)
+		res.valueFloat = task.DurationWeeks
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DurationDays":
+		res.valueString = fmt.Sprintf("%f", task.DurationDays)
+		res.valueFloat = task.DurationDays
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DurationHours":
+		res.valueString = fmt.Sprintf("%f", task.DurationHours)
+		res.valueFloat = task.DurationHours
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "IsEndDateComputedFromDuration":
 		res.valueString = fmt.Sprintf("%t", task.IsEndDateComputedFromDuration)
 		res.valueBool = task.IsEndDateComputedFromDuration
@@ -9960,6 +9955,16 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
+	case "DurationYears":
+		task.DurationYears = value.GetValueFloat()
+	case "DurationMonths":
+		task.DurationMonths = value.GetValueFloat()
+	case "DurationWeeks":
+		task.DurationWeeks = value.GetValueFloat()
+	case "DurationDays":
+		task.DurationDays = value.GetValueFloat()
+	case "DurationHours":
+		task.DurationHours = value.GetValueFloat()
 	case "IsEndDateComputedFromDuration":
 		task.IsEndDateComputedFromDuration = value.GetValueBool()
 	case "Predecessors":

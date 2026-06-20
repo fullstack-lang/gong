@@ -3569,8 +3569,16 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(task_.Start), formDiv)
 		case "End":
 			FormDivBasicFieldToField(&(task_.End), formDiv)
-		case "Duration":
-			FormDivBasicFieldToField(&(task_.Duration), formDiv)
+		case "DurationYears":
+			FormDivBasicFieldToField(&(task_.DurationYears), formDiv)
+		case "DurationMonths":
+			FormDivBasicFieldToField(&(task_.DurationMonths), formDiv)
+		case "DurationWeeks":
+			FormDivBasicFieldToField(&(task_.DurationWeeks), formDiv)
+		case "DurationDays":
+			FormDivBasicFieldToField(&(task_.DurationDays), formDiv)
+		case "DurationHours":
+			FormDivBasicFieldToField(&(task_.DurationHours), formDiv)
 		case "IsEndDateComputedFromDuration":
 			FormDivBasicFieldToField(&(task_.IsEndDateComputedFromDuration), formDiv)
 		case "Predecessors":
