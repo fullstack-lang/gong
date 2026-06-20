@@ -7,6 +7,10 @@ type PortShape struct {
 
 	IsExpanded bool
 
+	// when a port shape is display the part shape is always
+	// present
+	owningPartShape *PartShape
+
 	RectShape
 }
 
