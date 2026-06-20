@@ -1,0 +1,72 @@
+--- dsm/project/go/models/stager_ux_svg_time_diagram.go
++++ dsm/project/go/models/stager_ux_svg_time_diagram.go
+@@ -366,7 +366,7 @@
+ 
+ 	// Ticks text only at this point
+ 
+-	for i := 0; i < len(ticks)-1; i++ {
++	for i := 0; i < len(ticks); i++ {
+ 		tick := ticks[i]
+-		nextTick := ticks[i+1]
+ 
+ 		durationBetweenTickAndGanttStart := tick.Sub(diagram.ComputedStart)
+ 		durationBetweenTickAndGanttStartRelativeToGanttDuration :=
+ 			float64(durationBetweenTickAndGanttStart) / float64(diagram.ComputedDuration)
+ 
+ 		xOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenTickAndGanttStartRelativeToGanttDuration
+ 
+-		durationBetweenNextTickAndGanttStart := nextTick.Sub(diagram.ComputedStart)
+-		durationBetweenNextTickAndGanttStartRelativeToGanttDuration :=
+-			float64(durationBetweenNextTickAndGanttStart) / float64(diagram.ComputedDuration)
+-
+-		xNextOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenNextTickAndGanttStartRelativeToGanttDuration
+-
+ 		xVisible := xOriginal
+ 		if xVisible < XLeftLanes {
+ 			xVisible = XLeftLanes
+ 		}
+ 		if xVisible > XRightMargin {
+ 			xVisible = XRightMargin
+ 		}
+ 
+-		xNextVisible := xNextOriginal
+-		if xNextVisible < XLeftLanes {
+-			xNextVisible = XLeftLanes
+-		}
+-		if xNextVisible > XRightMargin {
+-			xNextVisible = XRightMargin
+-		}
+-
+-		if xVisible == xNextVisible {
+-			continue
++		if i < len(ticks)-1 {
++			nextTick := ticks[i+1]
++			durationBetweenNextTickAndGanttStart := nextTick.Sub(diagram.ComputedStart)
++			durationBetweenNextTickAndGanttStartRelativeToGanttDuration :=
++				float64(durationBetweenNextTickAndGanttStart) / float64(diagram.ComputedDuration)
++			xNextOriginal := XLeftLanes + (XRightMargin-XLeftLanes)*durationBetweenNextTickAndGanttStartRelativeToGanttDuration
++			xNextVisible := xNextOriginal
++			if xNextVisible < XLeftLanes {
++				xNextVisible = XLeftLanes
++			}
++			if xNextVisible > XRightMargin {
++				xNextVisible = XRightMargin
++			}
++			if xVisible == xNextVisible {
++				continue
++			}
++		} else {
++			if xOriginal < XLeftLanes {
++				continue
++			}
+ 		}
+ 
+ 		tickText := new(svg.Text)
+@@ -429,7 +439,7 @@
+ 	// Draw the vertical grid lines as thin Rects so they overlay the lanes perfectly
+ 	if diagram.DrawVerticalTimeLines {
+-		for i := 0; i < len(ticksToDraw)-1; i++ {
++		for i := 0; i < len(ticksToDraw); i++ {
+ 			tick := ticksToDraw[i]
+ 
+ 			durationBetweenTickAndGanttStart := tick.Sub(diagram.ComputedStart)
