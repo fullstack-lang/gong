@@ -105,6 +105,12 @@ func (probe *Probe) RefreshNavigationTree() {
 	probe.ux_navigation_tree()
 }
 
+func (probe *Probe) GetProbeLoadStageName() string {
+	return probe.stageOfInterest.GetProbeLoadStageName()
+}
+
+
+
 func NewProbe(
 	r *gin.Engine,
 	goModelsDir embed.FS,
@@ -135,7 +141,7 @@ func NewProbe(
 	formStage, _ := form_fullstack.NewStackInstance(r, stageOfInterest.GetProbeFormStageName())
 	formStage.Commit()
 
-	loadStage, _ := load_fullstack.NewStackInstance(r, stageOfInterest.GetName()+"-probe")
+	loadStage, _ := load_fullstack.NewStackInstance(r, stageOfInterest.GetProbeLoadStageName())
 
 	probe = &Probe{
 		r:                              r,

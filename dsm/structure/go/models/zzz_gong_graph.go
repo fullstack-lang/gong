@@ -1142,6 +1142,9 @@ func (diagramstructure *DiagramStructure) GongDiff(stage *Stage, diagramstructur
 		ops := Diff(stage, diagramstructure, diagramstructureOther, "Link_Shapes", diagramstructureOther.Link_Shapes, diagramstructure.Link_Shapes)
 		diffs = append(diffs, ops)
 	}
+	if diagramstructure.IsLinksNodeExpanded != diagramstructureOther.IsLinksNodeExpanded {
+		diffs = append(diffs, diagramstructure.GongMarshallField(stage, "IsLinksNodeExpanded"))
+	}
 	LinksWhoseNodeIsExpandedDifferent := false
 	if len(diagramstructure.LinksWhoseNodeIsExpanded) != len(diagramstructureOther.LinksWhoseNodeIsExpanded) {
 		LinksWhoseNodeIsExpandedDifferent = true

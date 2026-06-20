@@ -5,9 +5,9 @@ package main
 import (
 	"log"
 
+	"github.com/fullstack-lang/gong/lib/wasmregistry"
 	"github.com/fullstack-lang/gong/dsm/project/go/level1stack"
 	"github.com/fullstack-lang/gong/dsm/project/go/models"
-	"github.com/fullstack-lang/gong/lib/wasmregistry"
 )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
 	log.SetPrefix("project: ")
 	log.SetFlags(log.Lmicroseconds)
 
-	log.Println("Initializing DSM Project WASM Backend...")
+	log.Println("Initializing project WASM Backend...")
 
 	unmarshallFromCode := ""
 	marshallOnCommit := ""
@@ -36,7 +36,6 @@ func main() {
 		stack.R,
 		stack.Stage,
 		stack.Probe,
-		"",
 	)
 
 	// Expose the HTTP and Socket bridges to the Angular frontend

@@ -618,6 +618,22 @@
       "group": "build"
     },
     {
+      "label": "04 - go run process icao4444 port 8090",
+      "type": "shell",
+      "options": {
+        "cwd": "./dsm/process/go/cmd/process"
+      },
+      "command": "go",
+      "args": [
+        "run",
+        ".",
+        "-embeddedDiagrams=false",
+        "-port=8090",
+        "data/icao4444.go",
+      ],
+      "group": "build"
+    },
+    {
       "label": "01 - gong generate project",
       "type": "shell",
       "options": {

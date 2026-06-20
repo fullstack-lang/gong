@@ -35,6 +35,8 @@ type DiagramStructure_WOP struct {
 	DefaultBoxHeigth float64
 
 	IsPartsNodeExpanded bool
+
+	IsLinksNodeExpanded bool
 }
 
 func (from *DiagramStructure) CopyBasicFields(to *DiagramStructure) {
@@ -51,6 +53,7 @@ func (from *DiagramStructure) CopyBasicFields(to *DiagramStructure) {
 	to.DefaultBoxWidth = from.DefaultBoxWidth
 	to.DefaultBoxHeigth = from.DefaultBoxHeigth
 	to.IsPartsNodeExpanded = from.IsPartsNodeExpanded
+	to.IsLinksNodeExpanded = from.IsLinksNodeExpanded
 }
 
 type Library_WOP struct {

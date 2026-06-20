@@ -184,6 +184,8 @@ func (diagramstructureFormCallback *DiagramStructureFormCallback) OnSave() {
 			diagramstructure_.Link_Shapes = instanceSlice
 			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "Link_Shapes", &diagramstructure_.Link_Shapes)
 
+		case "IsLinksNodeExpanded":
+			FormDivBasicFieldToField(&(diagramstructure_.IsLinksNodeExpanded), formDiv)
 		case "LinksWhoseNodeIsExpanded":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Link](diagramstructureFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Link, 0)

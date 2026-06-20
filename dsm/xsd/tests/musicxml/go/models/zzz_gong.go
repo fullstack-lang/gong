@@ -39,6 +39,7 @@ const (
 	ProbeNotificationTableSuffix     = ":notification table of the probe"
 	ProbeFormSuffix                  = ":form of the probe"
 	ProbeSplitSuffix                 = ":probe of the probe"
+	ProbeLoadSuffix                  = ":load of the probe"
 )
 
 type GongMarshallingMode string
@@ -73,6 +74,10 @@ func (stage *Stage) GetProbeNotificationTableStageName() string {
 
 func (stage *Stage) GetProbeSplitStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeSplitSuffix
+}
+
+func (stage *Stage) GetProbeLoadStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeLoadSuffix
 }
 
 // errUnkownEnum is returns when a value cannot match enum values

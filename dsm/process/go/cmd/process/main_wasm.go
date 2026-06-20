@@ -5,9 +5,9 @@ package main
 import (
 	"log"
 
+	"github.com/fullstack-lang/gong/lib/wasmregistry"
 	"github.com/fullstack-lang/gong/dsm/process/go/level1stack"
 	"github.com/fullstack-lang/gong/dsm/process/go/models"
-	"github.com/fullstack-lang/gong/lib/wasmregistry"
 )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
 	log.SetPrefix("process: ")
 	log.SetFlags(log.Lmicroseconds)
 
-	log.Println("Initializing DSM process WASM Backend...")
+	log.Println("Initializing process WASM Backend...")
 
 	unmarshallFromCode := ""
 	marshallOnCommit := ""

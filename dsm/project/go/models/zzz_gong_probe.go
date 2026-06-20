@@ -23,6 +23,8 @@ type ProbeIF interface {
 	SetCommitMode(bool)
 	RefreshNavigationTree() // to be called in delta mode, when the navigation tree shall be refreshed to navigate commits
 
+	GetProbeLoadStageName() string
+
 	// UpdateSliceOfPointersCallback is called after a SliceOfPointers field is updated in the probe
 	UpdateSliceOfPointersCallback(instance any, fieldName string, slicePtr any)
 	SetUpdateSliceOfPointersCallback(cb func(instance any, fieldName string, slicePtr any))

@@ -40,6 +40,7 @@ type DiagramStructure struct {
 
 	Link_Shapes []*LinkAssociationShape
 	map_Link_LinkAssociationShape map[*Link]*LinkAssociationShape
+	IsLinksNodeExpanded bool
 	LinksWhoseNodeIsExpanded []*Link
 }
 
