@@ -521,10 +521,10 @@
       "group": "build"
     },
     {
-      "label": "01 - gong generate statemachines --dsm",
+      "label": "01 - gong generate structure --dsm",
       "type": "shell",
       "options": {
-        "cwd": "${workspaceFolder}/dsm/statemachines/go/models"
+        "cwd": "${workspaceFolder}/dsm/structure/go/models"
       },
       "command": "gong",
       "group": "build",

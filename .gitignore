@@ -102,3 +102,4 @@ dsm/scenario/go/cmd/scenario/scenario
 .vscode/
 !/.vscode/
 main
+dsm/structure/go/cmd/structure/structure

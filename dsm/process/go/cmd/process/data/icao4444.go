@@ -124,22 +124,32 @@ func _(stage *models.Stage) {
 	__ControlFlow__00000000_.Name = `"Submit Flight Plan" to "Manage Operational Changes"`
 	__ControlFlow__00000000_.Description = ``
 	__ControlFlow__00000000_.ComputedPrefix = ``
+	__ControlFlow__00000000_.IsExpanded = false
+	__ControlFlow__00000000_.LayoutDirection = models.Vertical
 
 	__ControlFlow__00000001_.Name = `"Validate and Accept" to "Distribute ATS Messages"`
 	__ControlFlow__00000001_.Description = ``
 	__ControlFlow__00000001_.ComputedPrefix = ``
+	__ControlFlow__00000001_.IsExpanded = false
+	__ControlFlow__00000001_.LayoutDirection = models.Vertical
 
 	__ControlFlow__00000002_.Name = `"Ingest Flight Data" to "Log Flight Movement"`
 	__ControlFlow__00000002_.Description = ``
 	__ControlFlow__00000002_.ComputedPrefix = ``
+	__ControlFlow__00000002_.IsExpanded = false
+	__ControlFlow__00000002_.LayoutDirection = models.Vertical
 
 	__ControlFlow__00000003_.Name = `"" to "Submit Flight Plan"`
 	__ControlFlow__00000003_.Description = ``
 	__ControlFlow__00000003_.ComputedPrefix = ``
+	__ControlFlow__00000003_.IsExpanded = false
+	__ControlFlow__00000003_.LayoutDirection = models.Vertical
 
 	__ControlFlow__00000004_.Name = `"Log Flight Movement" to "End"`
 	__ControlFlow__00000004_.Description = ``
 	__ControlFlow__00000004_.ComputedPrefix = ``
+	__ControlFlow__00000004_.IsExpanded = false
+	__ControlFlow__00000004_.LayoutDirection = models.Vertical
 
 	__ControlFlowShape__00000000_.Name = `"Submit Flight Plan" to "Manage Operational Changes"`
 	__ControlFlowShape__00000000_.StartRatio = 0.449246
@@ -185,6 +195,8 @@ func _(stage *models.Stage) {
 	__Data__00000000_.Acronym = ``
 	__Data__00000000_.Description = `Filed Flight Plan Message`
 	__Data__00000000_.ComputedPrefix = ``
+	__Data__00000000_.IsExpanded = false
+	__Data__00000000_.LayoutDirection = models.Vertical
 	__Data__00000000_.SVG_Path = ``
 	__Data__00000000_.InverseAppliedScaling = 0.000000
 
@@ -192,6 +204,8 @@ func _(stage *models.Stage) {
 	__Data__00000001_.Acronym = ``
 	__Data__00000001_.Description = `Modification Message`
 	__Data__00000001_.ComputedPrefix = ``
+	__Data__00000001_.IsExpanded = false
+	__Data__00000001_.LayoutDirection = models.Vertical
 	__Data__00000001_.SVG_Path = ``
 	__Data__00000001_.InverseAppliedScaling = 0.000000
 
@@ -199,6 +213,8 @@ func _(stage *models.Stage) {
 	__Data__00000002_.Acronym = ``
 	__Data__00000002_.Description = `Flight Plan Cancellation Message`
 	__Data__00000002_.ComputedPrefix = ``
+	__Data__00000002_.IsExpanded = false
+	__Data__00000002_.LayoutDirection = models.Vertical
 	__Data__00000002_.SVG_Path = ``
 	__Data__00000002_.InverseAppliedScaling = 0.000000
 
@@ -206,6 +222,8 @@ func _(stage *models.Stage) {
 	__Data__00000003_.Acronym = ``
 	__Data__00000003_.Description = `Delay Message`
 	__Data__00000003_.ComputedPrefix = ``
+	__Data__00000003_.IsExpanded = false
+	__Data__00000003_.LayoutDirection = models.Vertical
 	__Data__00000003_.SVG_Path = ``
 	__Data__00000003_.InverseAppliedScaling = 0.000000
 
@@ -213,6 +231,8 @@ func _(stage *models.Stage) {
 	__Data__00000004_.Acronym = ``
 	__Data__00000004_.Description = `Departure Message`
 	__Data__00000004_.ComputedPrefix = ``
+	__Data__00000004_.IsExpanded = false
+	__Data__00000004_.LayoutDirection = models.Vertical
 	__Data__00000004_.SVG_Path = ``
 	__Data__00000004_.InverseAppliedScaling = 0.000000
 
@@ -220,6 +240,8 @@ func _(stage *models.Stage) {
 	__Data__00000005_.Acronym = ``
 	__Data__00000005_.Description = `Arrival Message`
 	__Data__00000005_.ComputedPrefix = ``
+	__Data__00000005_.IsExpanded = false
+	__Data__00000005_.LayoutDirection = models.Vertical
 	__Data__00000005_.SVG_Path = ``
 	__Data__00000005_.InverseAppliedScaling = 0.000000
 
@@ -227,6 +249,8 @@ func _(stage *models.Stage) {
 	__Data__00000006_.Acronym = ``
 	__Data__00000006_.Description = ``
 	__Data__00000006_.ComputedPrefix = ``
+	__Data__00000006_.IsExpanded = false
+	__Data__00000006_.LayoutDirection = models.Vertical
 	__Data__00000006_.SVG_Path = ``
 	__Data__00000006_.InverseAppliedScaling = 0.000000
 
@@ -234,6 +258,8 @@ func _(stage *models.Stage) {
 	__Data__00000007_.Acronym = ``
 	__Data__00000007_.Description = ``
 	__Data__00000007_.ComputedPrefix = ``
+	__Data__00000007_.IsExpanded = false
+	__Data__00000007_.LayoutDirection = models.Vertical
 	__Data__00000007_.SVG_Path = ``
 	__Data__00000007_.InverseAppliedScaling = 0.000000
 
@@ -241,36 +267,48 @@ func _(stage *models.Stage) {
 	__Data__00000008_.Acronym = ``
 	__Data__00000008_.Description = ``
 	__Data__00000008_.ComputedPrefix = ``
+	__Data__00000008_.IsExpanded = false
+	__Data__00000008_.LayoutDirection = models.Vertical
 	__Data__00000008_.SVG_Path = ``
 	__Data__00000008_.InverseAppliedScaling = 0.000000
 
 	__DataFlow__00000000_.Name = `"Submit Flight Plan" to "Validate and Accept"`
 	__DataFlow__00000000_.Description = ``
 	__DataFlow__00000000_.ComputedPrefix = ``
+	__DataFlow__00000000_.IsExpanded = false
+	__DataFlow__00000000_.LayoutDirection = models.Vertical
 	__DataFlow__00000000_.Type = models.DataFlow_Task2Task
 	__DataFlow__00000000_.IsDatasNodeExpanded = false
 
 	__DataFlow__00000001_.Name = `"Manage Operational Changes" to "Validate and Accept"`
 	__DataFlow__00000001_.Description = ``
 	__DataFlow__00000001_.ComputedPrefix = ``
+	__DataFlow__00000001_.IsExpanded = false
+	__DataFlow__00000001_.LayoutDirection = models.Vertical
 	__DataFlow__00000001_.Type = models.DataFlow_Task2Task
 	__DataFlow__00000001_.IsDatasNodeExpanded = false
 
 	__DataFlow__00000002_.Name = `"Distribute ATS Messages" to "Ingest Flight Data"`
 	__DataFlow__00000002_.Description = ``
 	__DataFlow__00000002_.ComputedPrefix = ``
+	__DataFlow__00000002_.IsExpanded = false
+	__DataFlow__00000002_.LayoutDirection = models.Vertical
 	__DataFlow__00000002_.Type = models.DataFlow_Task2Task
 	__DataFlow__00000002_.IsDatasNodeExpanded = false
 
 	__DataFlow__00000003_.Name = `"Log Flight Movement" to "Validate and Accept"`
 	__DataFlow__00000003_.Description = ``
 	__DataFlow__00000003_.ComputedPrefix = ``
+	__DataFlow__00000003_.IsExpanded = false
+	__DataFlow__00000003_.LayoutDirection = models.Vertical
 	__DataFlow__00000003_.Type = models.DataFlow_Task2Task
 	__DataFlow__00000003_.IsDatasNodeExpanded = false
 
 	__DataFlow__00000004_.Name = `"Log Flight Movement" to "Validate and Accept"`
 	__DataFlow__00000004_.Description = ``
 	__DataFlow__00000004_.ComputedPrefix = ``
+	__DataFlow__00000004_.IsExpanded = false
+	__DataFlow__00000004_.LayoutDirection = models.Vertical
 	__DataFlow__00000004_.Type = models.DataFlow_Task2Task
 	__DataFlow__00000004_.IsDatasNodeExpanded = false
 
@@ -339,6 +377,8 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.Name = `DiagramProcess`
 	__DiagramProcess__00000000_.Description = ``
 	__DiagramProcess__00000000_.ComputedPrefix = ``
+	__DiagramProcess__00000000_.IsExpanded = false
+	__DiagramProcess__00000000_.LayoutDirection = models.Vertical
 	__DiagramProcess__00000000_.IsChecked = true
 	__DiagramProcess__00000000_.IsEditable_ = true
 	__DiagramProcess__00000000_.IsShowPrefix = false
@@ -354,6 +394,8 @@ func _(stage *models.Stage) {
 	__Library__00000000_.Name = `ICAO 4444 Chapter 11`
 	__Library__00000000_.Description = `Modeling of message exchanges handled by the ATS Reporting Office (ARO)`
 	__Library__00000000_.ComputedPrefix = ``
+	__Library__00000000_.IsExpanded = false
+	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__Library__00000000_.NbPixPerCharacter = 8.000000
@@ -371,6 +413,8 @@ func _(stage *models.Stage) {
 	__Participant__00000000_.IsResourcesNodeExpanded = true
 	__Participant__00000000_.IsProcessesNodeExpanded = false
 	__Participant__00000000_.ComputedPrefix = ``
+	__Participant__00000000_.IsExpanded = false
+	__Participant__00000000_.LayoutDirection = models.Vertical
 	__Participant__00000000_.IsTasksNodeExpanded = true
 	__Participant__00000000_.IsControlFlowsNodeExpanded = false
 	__Participant__00000000_.IsDataFlowsNodeExpanded = false
@@ -381,6 +425,8 @@ func _(stage *models.Stage) {
 	__Participant__00000001_.IsResourcesNodeExpanded = false
 	__Participant__00000001_.IsProcessesNodeExpanded = false
 	__Participant__00000001_.ComputedPrefix = ``
+	__Participant__00000001_.IsExpanded = false
+	__Participant__00000001_.LayoutDirection = models.Vertical
 	__Participant__00000001_.IsTasksNodeExpanded = true
 	__Participant__00000001_.IsControlFlowsNodeExpanded = false
 	__Participant__00000001_.IsDataFlowsNodeExpanded = false
@@ -391,6 +437,8 @@ func _(stage *models.Stage) {
 	__Participant__00000002_.IsResourcesNodeExpanded = false
 	__Participant__00000002_.IsProcessesNodeExpanded = false
 	__Participant__00000002_.ComputedPrefix = ``
+	__Participant__00000002_.IsExpanded = false
+	__Participant__00000002_.LayoutDirection = models.Vertical
 	__Participant__00000002_.IsTasksNodeExpanded = true
 	__Participant__00000002_.IsControlFlowsNodeExpanded = false
 	__Participant__00000002_.IsDataFlowsNodeExpanded = false
@@ -425,6 +473,8 @@ func _(stage *models.Stage) {
 	__Process__00000000_.Name = `Flight Messages Exchanges`
 	__Process__00000000_.Description = `Process governing the submission, validation, modification, and distribution of ATS messages via the ARO.`
 	__Process__00000000_.ComputedPrefix = ``
+	__Process__00000000_.IsExpanded = false
+	__Process__00000000_.LayoutDirection = models.Vertical
 	__Process__00000000_.SVG_Path = ``
 	__Process__00000000_.InverseAppliedScaling = 0.000000
 	__Process__00000000_.IsSubProcessNodeExpanded = false
@@ -442,12 +492,16 @@ func _(stage *models.Stage) {
 	__Resource__00000001_.Acronym = ``
 	__Resource__00000001_.Description = `Euroncontrol's Initial Flight Plan Processing`
 	__Resource__00000001_.ComputedPrefix = ``
+	__Resource__00000001_.IsExpanded = false
+	__Resource__00000001_.LayoutDirection = models.Vertical
 	__Resource__00000001_.SVG_Path = ``
 	__Resource__00000001_.InverseAppliedScaling = 0.000000
 
 	__Task__00000000_.Name = `Submit Flight Plan`
 	__Task__00000000_.Description = `Originates and files the initial field flight plan parameters before departure.`
 	__Task__00000000_.ComputedPrefix = ``
+	__Task__00000000_.IsExpanded = false
+	__Task__00000000_.LayoutDirection = models.Vertical
 	__Task__00000000_.IsStartTask = false
 	__Task__00000000_.IsEndTask = false
 	__Task__00000000_.IsTaskNameNotProcessName = true
@@ -455,6 +509,8 @@ func _(stage *models.Stage) {
 	__Task__00000001_.Name = `Manage Operational Changes`
 	__Task__00000001_.Description = `Monitors operational status and decides if a flight needs to be delayed, modified, or aborted prior to departure.`
 	__Task__00000001_.ComputedPrefix = ``
+	__Task__00000001_.IsExpanded = false
+	__Task__00000001_.LayoutDirection = models.Vertical
 	__Task__00000001_.IsStartTask = false
 	__Task__00000001_.IsEndTask = false
 	__Task__00000001_.IsTaskNameNotProcessName = true
@@ -462,6 +518,8 @@ func _(stage *models.Stage) {
 	__Task__00000002_.Name = `Validate and Accept`
 	__Task__00000002_.Description = `Receives incoming submissions and checks them for syntax, formatting correctness, and logical consistency according to ICAO standards.`
 	__Task__00000002_.ComputedPrefix = ``
+	__Task__00000002_.IsExpanded = false
+	__Task__00000002_.LayoutDirection = models.Vertical
 	__Task__00000002_.IsStartTask = false
 	__Task__00000002_.IsEndTask = false
 	__Task__00000002_.IsTaskNameNotProcessName = true
@@ -469,6 +527,8 @@ func _(stage *models.Stage) {
 	__Task__00000003_.Name = `Distribute ATS Messages`
 	__Task__00000003_.Description = `Determines the appropriate addressing routing and distributes accepted flight plans or updates to downstream units.`
 	__Task__00000003_.ComputedPrefix = ``
+	__Task__00000003_.IsExpanded = false
+	__Task__00000003_.LayoutDirection = models.Vertical
 	__Task__00000003_.IsStartTask = false
 	__Task__00000003_.IsEndTask = false
 	__Task__00000003_.IsTaskNameNotProcessName = true
@@ -476,6 +536,8 @@ func _(stage *models.Stage) {
 	__Task__00000004_.Name = `Ingest Flight Data`
 	__Task__00000004_.Description = `Receives distributed data and loads it into the local Flight Data Processing System (FDPS) for air traffic controllers.`
 	__Task__00000004_.ComputedPrefix = ``
+	__Task__00000004_.IsExpanded = false
+	__Task__00000004_.LayoutDirection = models.Vertical
 	__Task__00000004_.IsStartTask = false
 	__Task__00000004_.IsEndTask = false
 	__Task__00000004_.IsTaskNameNotProcessName = true
@@ -483,6 +545,8 @@ func _(stage *models.Stage) {
 	__Task__00000005_.Name = `Log Flight Movement`
 	__Task__00000005_.Description = `Tracks physical execution milestones (actual departure and arrival times) and generates status updates.`
 	__Task__00000005_.ComputedPrefix = ``
+	__Task__00000005_.IsExpanded = false
+	__Task__00000005_.LayoutDirection = models.Vertical
 	__Task__00000005_.IsStartTask = false
 	__Task__00000005_.IsEndTask = false
 	__Task__00000005_.IsTaskNameNotProcessName = true
@@ -490,6 +554,8 @@ func _(stage *models.Stage) {
 	__Task__00000006_.Name = ``
 	__Task__00000006_.Description = ``
 	__Task__00000006_.ComputedPrefix = ``
+	__Task__00000006_.IsExpanded = false
+	__Task__00000006_.LayoutDirection = models.Vertical
 	__Task__00000006_.IsStartTask = true
 	__Task__00000006_.IsEndTask = false
 	__Task__00000006_.IsTaskNameNotProcessName = false
@@ -497,6 +563,8 @@ func _(stage *models.Stage) {
 	__Task__00000007_.Name = `End`
 	__Task__00000007_.Description = ``
 	__Task__00000007_.ComputedPrefix = ``
+	__Task__00000007_.IsExpanded = false
+	__Task__00000007_.LayoutDirection = models.Vertical
 	__Task__00000007_.IsStartTask = false
 	__Task__00000007_.IsEndTask = true
 	__Task__00000007_.IsTaskNameNotProcessName = false
