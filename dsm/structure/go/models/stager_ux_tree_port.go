@@ -43,7 +43,7 @@ func (stager *Stager) treePort(
 			portShape := newShapeToDiagram(port, diagramStructure, &diagramStructure.Port_Shapes, stager.stage)
 
 			// default position on the left of the part shape
-			portShape.X = partShape.X
+			portShape.X = partShape.X - defaultPortWidth/2
 			portShape.Y = partShape.Y + partShape.Height/2
 			portShape.Width = defaultPortWidth
 			portShape.Height = defaultPortHeight

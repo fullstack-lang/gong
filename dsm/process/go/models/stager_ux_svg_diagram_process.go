@@ -521,7 +521,6 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 			participantRect.Peers = append(participantRect.Peers, rect)
 		}
 
-		rect.EnclosingRect = participantRect
 
 		rect.Color = "#E3F2FD"
 		rect.FillOpacity = 1.0

@@ -336,10 +336,6 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 		rect.RectAnchoredTexts[0].URLPath = rect.URLPath
 		rect.RectAnchoredTexts[0].URLTarget = svg.LINK_TARGET_BLANK
 
-		// make the rect of the port move with alls part rect and the system rect
-		// not the opposite !
-		systemRect.Peers = append(systemRect.Peers, rect)
-
 		// make the port be anchored to the border of the part shape
 		rect.AnchoredTo = partRect
 
@@ -355,7 +351,6 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 			partRect.Peers = append(partRect.Peers, rect)
 		}
 
-		rect.EnclosingRect = partRect
 
 		rect.Color = "#E3F2FD"
 		rect.FillOpacity = 1.0
