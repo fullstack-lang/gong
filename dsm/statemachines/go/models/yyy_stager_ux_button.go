@@ -48,7 +48,7 @@ func (stager *Stager) button() {
 			fileToDownload := new(load.FileToDownload).Stage(loadStage)
 
 			if stager.fileName == "" {
-				stager.fileName = "library.go"
+				stager.fileName = stager.stage.GetName() + ".go"
 			}
 
 			fileToDownload.Name = time.Now().Format("20060102 1504 ") + stager.fileName

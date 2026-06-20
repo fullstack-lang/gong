@@ -50,7 +50,7 @@ func (stager *Stager) button() {
 			fileToDownload := new(load.FileToDownload).Stage(loadStage)
 
 			if stager.fileName == "" {
-				stager.fileName = "library.go"
+				stager.fileName = stager.stage.GetName() + ".go"
 			}
 
 			// 1. Compile the regex to match "YYYYMMDD HHMM " at the start of the string
@@ -98,7 +98,7 @@ func (stager *Stager) button() {
 			fileToDownload := new(load.FileToDownload).Stage(loadStage)
 
 			if stager.fileName == "" {
-				stager.fileName = "library.go"
+				stager.fileName = stager.stage.GetName() + ".go"
 			}
 
 			// 1. Compile the regex to match "YYYYMMDD HHMM " at the start of the string

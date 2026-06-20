@@ -5,26 +5,30 @@ import (
 	"embed"
 	"encoding/base64"
 	"fmt"
+	"regexp"
 	"strings"
 	"time"
+
+	"go/parser"
+	"go/token"
 
 	"github.com/gin-gonic/gin"
 
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
 	form_fullstack "github.com/fullstack-lang/gong/lib/form/go/fullstack"
-	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
 	split_fullstack "github.com/fullstack-lang/gong/lib/split/go/fullstack"
 	table_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	tree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
+	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
 	doc "github.com/fullstack-lang/gong/lib/doc/go/models"
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
-	load "github.com/fullstack-lang/gong/lib/load/go/models"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
+	load "github.com/fullstack-lang/gong/lib/load/go/models"
 
 	"github.com/fullstack-lang/gong/dsm/project/go/models"
 
@@ -42,6 +46,8 @@ type Probe struct {
 	notificationTableStage *table.Stage
 	splitStage             *split.Stage
 	loadStage              *load.Stage
+
+	fileName               string
 
 	// AsSplit to be used if one need only the data editor
 	dataEditor *split.AsSplit
@@ -128,7 +134,6 @@ func NewProbe(
 	formStage.Commit()
 
 	loadStage, _ := load_fullstack.NewStackInstance(r, stageOfInterest.GetName()+"-probe")
-	loadStage.Commit()
 
 	probe = &Probe{
 		r:                              r,
@@ -197,7 +202,7 @@ func NewProbe(
 						},
 						{
 							Name: "load",
-							Size: 200,
+							Size: 83,
 							Load: &split.Load{
 								Name:      "Table",
 								StackName: probe.loadStage.GetName(),
@@ -256,9 +261,64 @@ func NewProbe(
 	})
 	probe.splitStage.Commit()
 
+	fileToUpload := &load.FileToUpload{
+		Name: "Name of file",
+		FileToUploadProxy: &loadProxy{
+			probe: probe,
+		},
+	}
+
+	load.StageBranch(probe.loadStage,
+		fileToUpload,
+	)
+
+	message := &load.Message{
+		Name: "Drop your stage.go file here or ",
+	}
+
+	message.Stage(probe.loadStage)
+
+	probe.loadStage.Commit()
+
 	probe.ux_tree()
 
 	return
+}
+
+type loadProxy struct {
+	probe *Probe
+}
+
+func (proxy *loadProxy) OnFileUpload(uploadedFile *load.FileToUpload) error {
+	fmt.Println("OnFileUpload: start")
+	proxy.probe.fileName = uploadedFile.GetName()
+
+	decodedBytes, err := base64.StdEncoding.DecodeString(uploadedFile.Base64EncodedContent)
+	if err != nil {
+		return fmt.Errorf("base64.StdEncoding.DecodeString failed: %w", err)
+	}
+
+	// if the user loads a second file, we don't want the previous file to be committed
+	proxy.probe.stageOfInterest.OnInitCommitCallback = nil
+
+	proxy.probe.stageOfInterest.Reset()
+	fmt.Println("OnFileUpload: after reset")
+
+	fset := token.NewFileSet()
+	inFile, errParser := parser.ParseFile(fset, "", decodedBytes, parser.ParseComments)
+	if errParser != nil {
+		return fmt.Errorf("Unable to parse: %w", errParser)
+	}
+	errParse := models.ParseAstFileFromAst(proxy.probe.stageOfInterest, inFile, fset, false)
+	if errParse != nil {
+		return errParse
+	}
+
+	fmt.Println("OnFileUpload: after parse")
+	proxy.probe.stageOfInterest.Commit()
+	fmt.Println("OnFileUpload: after commit")
+
+	return nil
 }
 
 func (probe *Probe) Refresh() {
@@ -339,7 +399,16 @@ func (probe *Probe) ExportStageExcel() {
 	probe.loadStage.Reset()
 
 	fileToDownload := new(load.FileToDownload)
-	fileToDownload.Name = "stage_" + time.Now().Format("20060102 0304") + ".xlsx"
+
+	if probe.fileName == "" {
+		probe.fileName = probe.stageOfInterest.GetName() + ".go"
+	}
+
+	prefixRegex := regexp.MustCompile("^\\d{8} \\d{4} ")
+	cleanFileName := prefixRegex.ReplaceAllString(probe.fileName, "")
+	cleanFileName = strings.TrimSuffix(cleanFileName, ".go") + ".xlsx"
+
+	fileToDownload.Name = time.Now().Format("20060102 1504 ") + cleanFileName
 
 	excelBytes, err := models.SerializeStageAsBytes(probe.stageOfInterest, false)
 	if err != nil {
@@ -358,7 +427,15 @@ func (probe *Probe) ExportStage() {
 	probe.loadStage.Reset()
 
 	fileToDownload := new(load.FileToDownload)
-	fileToDownload.Name = "stage_" + time.Now().Format("20060102 0304") + ".go"
+
+	if probe.fileName == "" {
+		probe.fileName = probe.stageOfInterest.GetName() + ".go"
+	}
+
+	prefixRegex := regexp.MustCompile("^\\d{8} \\d{4} ")
+	cleanFileName := prefixRegex.ReplaceAllString(probe.fileName, "")
+
+	fileToDownload.Name = time.Now().Format("20060102 1504 ") + cleanFileName
 
 	stageString, err := probe.stageOfInterest.MarshallToString(probe.stageOfInterest.MetaPackageImportPath, "main")
 	if err != nil {
