@@ -23,6 +23,9 @@
         <mat-divider class="custom-divider"></mat-divider>
       } @else {
         <div class="form-div-container">
+            @if (div.FormFields && div.FormFields.length > 1) {
+            <p class="custom-text">{{div.Name}}</p>
+          }
           @for (formField of div.FormFields; track formField; let i = $index) {
           @if (formField.FormFieldInt || formField.FormFieldFloat64 || formField.FormFieldString || formField.FormFieldDate || formField.FormFieldTime || formField.FormFieldDateTime || formField.FormFieldSelect) {
             <mat-form-field [ngStyle]="getDynamicStyles(formField)" class="custom-form-field">

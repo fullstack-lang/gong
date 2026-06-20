@@ -123,7 +123,7 @@ func BasicFieldtoForm[TF models.GongtructBasicField](
 
 		{
 			checkBox := (&form.CheckBox{
-				Name:  "negative",
+				Name:  fieldName + " - negative",
 				Value: fieldWithInterferedType < 0,
 			}).Stage(formStage)
 			formDiv.CheckBoxs = append(formDiv.CheckBoxs, checkBox)
@@ -131,7 +131,7 @@ func BasicFieldtoForm[TF models.GongtructBasicField](
 
 		{
 			formFieldDays := (&form.FormField{
-				Name:  "Days",
+				Name:  fieldName + " - Days",
 				Label: "Days",
 			}).Stage(formStage)
 			formFieldDays.HasBespokeWidth = true
@@ -141,7 +141,7 @@ func BasicFieldtoForm[TF models.GongtructBasicField](
 
 			value := int(math.Abs(fieldWithInterferedType.Hours() / 24))
 			formFieldIntDays := (&form.FormFieldInt{
-				Name:  "Days",
+				Name:  fieldName + " - Days",
 				Value: value,
 			}).Stage(formStage)
 			formFieldIntDays.HasMinValidator = true
@@ -151,7 +151,7 @@ func BasicFieldtoForm[TF models.GongtructBasicField](
 
 		{
 			formFieldHours := (&form.FormField{
-				Name:  "Hours",
+				Name:  fieldName + " - Hours",
 				Label: "Hours",
 			}).Stage(formStage)
 			formFieldHours.HasBespokeWidth = true
@@ -160,7 +160,7 @@ func BasicFieldtoForm[TF models.GongtructBasicField](
 			formDiv.FormFields = append(formDiv.FormFields, formFieldHours)
 
 			formFieldIntHours := (&form.FormFieldInt{
-				Name:  "Hours",
+				Name:  fieldName + " - Hours",
 				Value: int(math.Abs(fieldWithInterferedType.Hours())) % 24,
 			}).Stage(formStage)
 			formFieldIntHours.HasMaxValidator = true
@@ -172,7 +172,7 @@ func BasicFieldtoForm[TF models.GongtructBasicField](
 
 		{
 			formFieldMinutes := (&form.FormField{
-				Name:  "Minutes",
+				Name:  fieldName + " - Minutes",
 				Label: "Minutes",
 			}).Stage(formStage)
 			formFieldMinutes.HasBespokeWidth = true
@@ -180,7 +180,7 @@ func BasicFieldtoForm[TF models.GongtructBasicField](
 			formDiv.FormFields = append(formDiv.FormFields, formFieldMinutes)
 
 			formFieldIntMinutes := (&form.FormFieldInt{
-				Name:  "Minutes",
+				Name:  fieldName + " - Minutes",
 				Value: int(math.Abs(fieldWithInterferedType.Minutes())) % 60,
 			}).Stage(formStage)
 			formFieldIntMinutes.HasMaxValidator = true
@@ -191,7 +191,7 @@ func BasicFieldtoForm[TF models.GongtructBasicField](
 		}
 		{
 			formFieldSeconds := (&form.FormField{
-				Name:  "Seconds",
+				Name:  fieldName + " - Seconds",
 				Label: "Seconds",
 			}).Stage(formStage)
 			formFieldSeconds.HasBespokeWidth = true
@@ -199,7 +199,7 @@ func BasicFieldtoForm[TF models.GongtructBasicField](
 			formDiv.FormFields = append(formDiv.FormFields, formFieldSeconds)
 
 			formFieldIntSeconds := (&form.FormFieldInt{
-				Name:  "Seconds",
+				Name:  fieldName + " - Seconds",
 				Value: int(math.Abs(fieldWithInterferedType.Seconds())) % 60,
 			}).Stage(formStage)
 			formFieldIntSeconds.HasMaxValidator = true
