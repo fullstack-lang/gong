@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/fullstack-lang/gong/lib/strutils"
@@ -360,100 +359,10 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 		if len(portRect.RectAnchoredTexts) > 0 {
 			portRect.RectAnchoredTexts[0].FontFamily = "sans-serif"
 			portRect.RectAnchoredTexts[0].Color = "#333333"
+			portRect.RectAnchoredTexts[0].RectAnchorType = svg.RECT_TOP
+			portRect.RectAnchoredTexts[0].Y_Offset = -15
 		}
 
-		// pick up the title of the rect
-		stateTitleText := portRect.RectAnchoredTexts[0]
-		smallRadius := 10.0
-		if port.IsStartPort {
-			stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
-			stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
-			stateTitleText.DominantBaseline = svg.DominantBaselineCentral
-			stateTitleText.WhiteSpace = svg.WhiteSpaceEnumPre
-			stateTitleText.X_Offset = 0
-			stateTitleText.Y_Offset = 0
-
-			circle := new(svg.RectAnchoredPath)
-			circle.Stroke = "#90CAF9"
-			circle.StrokeWidth = 2
-			circle.StrokeOpacity = 1
-
-			circle.Color = "#E3F2FD"
-			circle.FillOpacity = 1.0
-
-			// force size
-			portRect.CanHaveBottomHandle = false
-			portRect.CanHaveTopHandle = false
-
-			// we allow resizing for the sake of the text width
-			if portRect.Width < 2*smallRadius {
-				portRect.Width = 2 * smallRadius
-			}
-			portRect.Height = 2 * smallRadius
-
-			circle.Definition = fmt.Sprintf("M %f 0 A %f %f 0 0 1 %f %f A %f %f 0 0 1 %f 0 Z",
-				smallRadius, smallRadius, smallRadius, smallRadius, 2*smallRadius, smallRadius, smallRadius, smallRadius)
-			circle.X_Offset = -smallRadius
-			circle.Y_Offset = -smallRadius
-			circle.RectAnchorType = svg.RECT_RIGHT
-			portRect.RectAnchoredPaths = append(portRect.RectAnchoredPaths, circle)
-
-			portRect.StrokeOpacity = 0.0
-			portRect.FillOpacity = 0.0
-		}
-
-		bigRadius := 18.0
-		if port.IsEndPort {
-			stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
-			stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
-			stateTitleText.DominantBaseline = svg.DominantBaselineCentral
-			stateTitleText.WhiteSpace = svg.WhiteSpaceEnumPre
-			stateTitleText.X_Offset = 0
-			stateTitleText.Y_Offset = 0
-
-			portRect.CanHaveBottomHandle = false
-			portRect.CanHaveTopHandle = false
-			if portRect.Width < 2*bigRadius {
-				portRect.Width = 2 * bigRadius
-			}
-			portRect.Height = 2 * bigRadius
-
-			{
-				circle := new(svg.RectAnchoredPath)
-
-				circle.Stroke = "#90CAF9"
-				circle.StrokeWidth = 2
-				circle.StrokeOpacity = 1.0
-
-				circle.Definition = fmt.Sprintf("M %f 0 A %f %f 0 0 1 %f %f A %f %f 0 0 1 %f 0 Z",
-					bigRadius, bigRadius, bigRadius, bigRadius, 2*bigRadius, bigRadius, bigRadius, bigRadius)
-				circle.X_Offset = -2 * bigRadius
-				circle.Y_Offset = -bigRadius
-				circle.RectAnchorType = svg.RECT_RIGHT
-				portRect.RectAnchoredPaths = append(portRect.RectAnchoredPaths, circle)
-			}
-
-			{
-				circle := new(svg.RectAnchoredPath)
-				circle.Stroke = "#90CAF9"
-				circle.StrokeWidth = 2
-				circle.StrokeOpacity = 1
-
-				circle.Color = "#90CAF9"
-				circle.FillOpacity = 1.0
-
-				circle.Definition = fmt.Sprintf("M %f 0 A %f %f 0 0 1 %f %f A %f %f 0 0 1 %f 0 Z",
-					smallRadius, smallRadius, smallRadius, smallRadius, 2*smallRadius, smallRadius, smallRadius, smallRadius)
-				circle.X_Offset = -smallRadius - bigRadius
-				circle.Y_Offset = -smallRadius
-				circle.RectAnchorType = svg.RECT_RIGHT
-				portRect.RectAnchoredPaths = append(portRect.RectAnchoredPaths, circle)
-			}
-
-			portRect.StrokeOpacity = 0.0
-			portRect.FillOpacity = 0.0
-
-		}
 		diagramStructure.map_Port_Rect[portShape.Port] = portRect
 	}
 }
