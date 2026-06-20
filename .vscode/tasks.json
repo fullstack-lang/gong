@@ -53,42 +53,6 @@
       "group": "build"
     },
     {
-      "label": "00 - go install statemachines",
-      "type": "shell",
-      "options": {
-        "cwd": "dsm/statemachines/go/cmd/statemachines"
-      },
-      "command": "go",
-      "args": [
-        "install"
-      ],
-      "group": "build"
-    },
-    {
-      "label": "00 - go install process",
-      "type": "shell",
-      "options": {
-        "cwd": "dsm/process/go/cmd/process"
-      },
-      "command": "go",
-      "args": [
-        "install"
-      ],
-      "group": "build"
-    },
-    {
-      "label": "00 - go install project",
-      "type": "shell",
-      "options": {
-        "cwd": "dsm/project/go/cmd/project"
-      },
-      "command": "go",
-      "args": [
-        "install"
-      ],
-      "group": "build"
-    },
-    {
       "label": "00 - go mod vendor",
       "type": "shell",
       "group": "build",
@@ -100,15 +64,6 @@
       "type": "shell",
       "group": "build",
       "command": "go mod tidy"
-    },
-    {
-      "label": "00 - go wasm",
-      "type": "shell",
-      "group": "build",
-      "options": {
-        "cwd": "${workspaceFolder}/test3/go/cmd/test3"
-      },
-      "command": "GOOS=js GOARCH=wasm go build -o wasmworkbench.wasm"
     },
     {
       "label": "01 - Run gong skipNg conditionally (from script)",
@@ -540,12 +495,12 @@
       ]
     },
     {
-      "label": "01 - gong generate statemachines --dsm & gong portable it",
+      "label": "01 -  gong portable statemachines",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/dsm/statemachines"
       },
-      "command": "gong generate go/models --dsm --skipGoModCommands && gong portable go/cmd/statemachines",
+      "command": "gong portable go/cmd/statemachines",
       "group": "build"
     },
     {
@@ -553,6 +508,46 @@
       "type": "shell",
       "options": {
         "cwd": "./dsm/statemachines/go/cmd/statemachines"
+      },
+      "command": "go",
+      "args": [
+        "run",
+        ".",
+        "-unmarshallFromCode",
+        "data/stage.go",
+        "-marshallOnCommit",
+        "data/stage.go"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "01 - gong generate statemachines --dsm",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/dsm/statemachines/go/models"
+      },
+      "command": "gong",
+      "group": "build",
+      "args": [
+        "generate",
+        "--dsm",
+        "--skipGoModCommands"
+      ]
+    },
+    {
+      "label": "01 -  gong portable structure",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/dsm/structure"
+      },
+      "command": "gong portable go/cmd/structure",
+      "group": "build"
+    },
+    {
+      "label": "04 - go run structure on stage",
+      "type": "shell",
+      "options": {
+        "cwd": "./dsm/structure/go/cmd/structure"
       },
       "command": "go",
       "args": [

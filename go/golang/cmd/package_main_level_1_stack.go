@@ -1,6 +1,8 @@
 package cmd
 
-const PackageMainLevel1Stack = `package main
+const PackageMainLevel1Stack = `//go:build !js
+
+package main
 
 import (
 	"flag"

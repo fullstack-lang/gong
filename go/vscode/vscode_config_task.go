@@ -52,6 +52,18 @@ const VsCodeTasksConfig = `{
 			"generate",
 		]
 	  },
+	  {
+		"label": "01 - gong portable",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/cmd/{{pkgname}}"
+		},
+		"command": "gong",
+		"group": "build",
+		"args": [
+			"portable",
+		]
+	  },
    	  {
 		"label": "00 - go install",
 		"type": "shell",

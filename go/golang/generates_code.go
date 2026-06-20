@@ -64,6 +64,12 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 				log.Println("directory " + dataDirPath + " allready exists")
 			}
 
+			// generate dummy.go in data directory to prevent go build from failing when embedding data/*
+			dummyFilePath := filepath.Join(dataDirPath, "dummy.go")
+			if _, err := os.Stat(dummyFilePath); os.IsNotExist(err) {
+				os.WriteFile(dummyFilePath, []byte("package main\n"), os.ModePerm)
+			}
+
 			if stackHeight == 0 {
 				gong_models.VerySimpleCodeGenerator(
 					modelPkg,
@@ -75,6 +81,41 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 					mainFilePath,
 					cmd.PackageMainFullStack)
 			}
+		}
+
+		// generate main_wasm.go if absent
+		relativePathToMainWasm := fmt.Sprintf("../cmd/%s/main_wasm.go", gong_models.ComputePkgNameFromPkgPath(pkgPath))
+		mainWasmFilePath := filepath.Join(pkgPath, relativePathToMainWasm)
+
+		_, errWasm := os.Stat(mainWasmFilePath)
+		if os.IsNotExist(errWasm) {
+			log.Printf("main_wasm.go does not exist, gong generate creates a default main_wasm.go")
+
+			if stackHeight == 0 {
+				gong_models.VerySimpleCodeGenerator(
+					modelPkg,
+					mainWasmFilePath,
+					cmd.PackageMainWasmLevel1Stack)
+			} else {
+				gong_models.VerySimpleCodeGenerator(
+					modelPkg,
+					mainWasmFilePath,
+					cmd.PackageMainWasmFullStack)
+			}
+		}
+
+		// generate .gitignore if absent
+		relativePathToGitignore := fmt.Sprintf("../cmd/%s/.gitignore", gong_models.ComputePkgNameFromPkgPath(pkgPath))
+		gitignoreFilePath := filepath.Join(pkgPath, relativePathToGitignore)
+
+		_, errGitignore := os.Stat(gitignoreFilePath)
+		if os.IsNotExist(errGitignore) {
+			log.Printf(".gitignore does not exist, gong generate creates a default .gitignore")
+
+			gong_models.VerySimpleCodeGenerator(
+				modelPkg,
+				gitignoreFilePath,
+				cmd.GitignoreTemplate)
 		}
 	}
 
