@@ -340,6 +340,9 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 		// not the opposite !
 		systemRect.Peers = append(systemRect.Peers, rect)
 
+		// make the port be anchored to the border of the part shape
+		rect.AnchoredTo = partRect
+
 		// we range over the non hidden parts and have the port shape appended as peer
 		for _, pShape := range diagramStructure.Part_Shapes {
 			if pShape.IsHidden {
