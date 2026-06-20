@@ -70,9 +70,10 @@ func (stager *Stager) generateSvgObject(diagramStructure *DiagramStructure) *svg
 	rectOfOwningSystem := diagramStructure.map_System_Rect[diagramStructure.owningSystem]
 	if rectOfOwningSystem != nil {
 		stager.drawPartShapes(diagramStructure, layer, rectOfOwningSystem)
+		stager.drawPortShapes(diagramStructure, layer, rectOfOwningSystem)
 	}
 	stager.drawExternalPartShapes(diagramStructure, layer)
-	stager.drawPortShapes(diagramStructure, layer)
+
 	stager.drawControlFlowShapes(diagramStructure, layer)
 	stager.drawDataFlowShapes(diagramStructure, layer)
 	map_Note_Rect := stager.drawNoteShapes(diagramStructure, layer)
@@ -134,47 +135,47 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 			continue
 		}
 
-		rect := new(svg.Rect)
-		layer.Rects = append(layer.Rects, rect)
-		diagramStructure.map_SvgRect_Part[rect] = partShape.Part
+		partRect := new(svg.Rect)
+		layer.Rects = append(layer.Rects, partRect)
+		diagramStructure.map_SvgRect_Part[partRect] = partShape.Part
+		diagramStructure.map_Part_Rect[partShape.Part] = partRect
 
 		// part rect cannot espace owning system shape
-		rect.EnclosingRect = rectOfOwningSystem
+		partRect.EnclosingRect = rectOfOwningSystem
+		rectOfOwningSystem.Peers = append(rectOfOwningSystem.Peers, partRect)
 
-		rect.Name = partShape.GetName()
-		rect.Stroke = "#E0E0E0"
-		rect.StrokeWidth = 1
-		rect.StrokeOpacity = 1
+		partRect.Name = partShape.GetName()
+		partRect.Stroke = "#E0E0E0"
+		partRect.StrokeWidth = 1
+		partRect.StrokeOpacity = 1
 
-		rect.X = partShape.GetX()
-		rect.Y = partShape.GetY()
-		rect.Width = partShape.GetWidth()
-		rect.Height = partShape.GetHeight()
+		partRect.X = partShape.GetX()
+		partRect.Y = partShape.GetY()
+		partRect.Width = partShape.GetWidth()
+		partRect.Height = partShape.GetHeight()
 
-		rect.Color = "#FFFFFF"
-		rect.FillOpacity = 1.0
+		partRect.Color = "#FFFFFF"
+		partRect.FillOpacity = 1.0
 
 		// rect cannot move
-		rect.CanMoveHorizontaly = true
-		rect.CanMoveVerticaly = true
+		partRect.CanMoveHorizontaly = true
+		partRect.CanMoveVerticaly = true
 
-		rect.CanHaveBottomHandle = true
-		rect.CanHaveLeftHandle = true
-		rect.CanHaveRightHandle = true
-		rect.CanHaveTopHandle = true
+		partRect.CanHaveBottomHandle = true
+		partRect.CanHaveLeftHandle = true
+		partRect.CanHaveRightHandle = true
+		partRect.CanHaveTopHandle = true
 
 		// visuals
-		rect.RX = 0
-		rect.StrokeWidth = 1
+		partRect.RX = 0
+		partRect.StrokeWidth = 1
 
 		// override default behavior, we need to commit when the rect is moved
-		rect.OnSelect = func() {
+		partRect.OnSelect = func() {
 			stager.probeForm.FillUpFormFromGongstruct(partShape.Part, GetPointerToGongstructName[*Part]())
 		}
-		rect.OnMove = onMoveRectElement(stager, partShape, true)
-		rect.OnResize = onResizeRectElement(stager, partShape)
-
-		diagramStructure.map_Part_Rect[partShape.Part] = rect
+		partRect.OnMove = onMoveRectElement(stager, partShape, true)
+		partRect.OnResize = onResizeRectElement(stager, partShape)
 
 		{
 			title := new(svg.RectAnchoredText)
@@ -185,8 +186,8 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 				content = partShape.GetAbstractElement().GetComputedPrefix() + " " + content
 			}
 
-			if rect.Width > 0 {
-				content = strutils.WrapStringPreservingNewlines(content, int(rect.Width/root.NbPixPerCharacter))
+			if partRect.Width > 0 {
+				content = strutils.WrapStringPreservingNewlines(content, int(partRect.Width/root.NbPixPerCharacter))
 			}
 			title.Content = content
 			title.StrokeWidth = 0
@@ -201,9 +202,22 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 			title.RectAnchorType = svg.RECT_TOP
 			title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
 
-			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
+			partRect.RectAnchoredTexts = append(partRect.RectAnchoredTexts, title)
 		}
+	}
 
+	// make every part shape an obstable for the others
+	for _, partShape1 := range diagramStructure.Part_Shapes {
+		rect1 := diagramStructure.map_Part_Rect[partShape1.Part]
+
+		for _, partShape2 := range diagramStructure.Part_Shapes {
+			rect2 := diagramStructure.map_Part_Rect[partShape2.Part]
+
+			if partShape1 != partShape2 {
+				rect1.Obstacles = append(rect1.Obstacles, rect2)
+				rect2.Obstacles = append(rect2.Obstacles, rect1)
+			}
+		}
 	}
 
 }
@@ -300,7 +314,7 @@ func (stager *Stager) drawExternalPartShapes(diagramStructure *DiagramStructure,
 	}
 }
 
-func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *svg.Layer) {
+func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *svg.Layer, rectOfOwningSystem *svg.Rect) {
 	rm := GetSliceOfPointersReverseMap[Part, Port](GetAssociationName[Part]().Ports[0].Name, stager.stage)
 
 	diagramStructure.map_Port_Rect = make(map[*Port]*svg.Rect)
@@ -343,18 +357,8 @@ func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *
 
 		// make the port be anchored to the border of the part shape
 		portRect.AnchoredTo = partRect
-
-		// we range over the non hidden parts and have the port shape appended as peer
-		for _, _partShape := range diagramStructure.Part_Shapes {
-			if _partShape.IsHidden {
-				continue
-			}
-			partRect := diagramStructure.map_Part_Rect[_partShape.Part]
-			if partRect == nil {
-				continue
-			}
-			partRect.Peers = append(partRect.Peers, portRect)
-		}
+		partRect.Peers = append(partRect.Peers, portRect)
+		rectOfOwningSystem.Peers = append(rectOfOwningSystem.Peers, portRect)
 
 		portRect.Color = "#E3F2FD"
 		portRect.FillOpacity = 1.0

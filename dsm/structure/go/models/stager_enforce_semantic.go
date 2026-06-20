@@ -85,6 +85,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce data flow shapes rules", stager.enforceDataFlowShapesRules},
 		{"Enforce part shape semantic", stager.enforcePartShapeSemantic},
 		{"Enforce port shape within part", stager.enforcePortShapeWithinPart},
+		{"Enforce port shape part presence", stager.enforcePortShapePartPresence},
 		{"Enforce shapes abstract consistency", stager.enforceShapesAbstractConsistency},
 		{"Enforce diagram size", stager.enforceDiagramSize},
 	}
