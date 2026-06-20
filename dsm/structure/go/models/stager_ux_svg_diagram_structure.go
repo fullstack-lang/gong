@@ -96,6 +96,11 @@ func (stager *Stager) drawSystemShapes(diagramStructure *DiagramStructure, layer
 			layer)
 		rect.RX = 3
 
+		// title is on top of the rect
+		title := rect.RectAnchoredTexts[0]
+		title.RectAnchorType = svg.RECT_TOP
+		title.Y_Offset = +30
+
 		rect.Color = "#F8F9FA"
 		rect.FillOpacity = 1.0
 		rect.Stroke = "#E0E0E0"
@@ -112,24 +117,8 @@ func (stager *Stager) drawSystemShapes(diagramStructure *DiagramStructure, layer
 		rect.OnSelect = func() {
 			stager.probeForm.FillUpFormFromGongstruct(systemShape.System, GetPointerToGongstructName[*System]())
 		}
-		rect.OnMove = func(x, y float64) {
-			systemShape.SetX(x)
-			systemShape.SetY(y)
-
-			// no need to update the position of the part shapes and port shapes that are within the system
-			// because they are peers of the system shape, so they will move together
-			stager.stage.CommitWithSuspendedCallbacks()
-		}
-		rect.OnResize = func(x, y, width, height float64) {
-			systemShape.SetX(x)
-			systemShape.SetY(y)
-			systemShape.SetWidth(width)
-			systemShape.SetHeight(height)
-
-			// when heigth or width is updated, we need to update the position/size of the parts shapes and port shapes that are within the system
-			// this is performed in the semantic pass of the commit
-			stager.stage.Commit()
-		}
+		rect.OnMove = onMoveRectElement(stager, systemShape, false)
+		rect.OnResize = onResizeRectElement(stager, systemShape)
 		diagramStructure.map_System_Rect[systemShape.System] = rect
 	}
 }
@@ -145,6 +134,9 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 		rect := new(svg.Rect)
 		layer.Rects = append(layer.Rects, rect)
 		diagramStructure.map_SvgRect_Part[rect] = partShape.Part
+
+		// part rect cannot espace owning system shape
+		rect.EnclosingRect = rectOfOwningSystem
 
 		rect.Name = partShape.GetName()
 		rect.Stroke = "#E0E0E0"
