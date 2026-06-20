@@ -4,6 +4,8 @@ package main
 
 import (
 	"log"
+	"github.com/gin-gonic/gin"
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 	"github.com/fullstack-lang/gong/lib/gantt/go/level1stack"
@@ -21,6 +23,8 @@ func main() {
 	marshallOnCommit := ""
 	embeddedDiagrams := true
 
+	r := gin.Default()
+
 	// setup
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
@@ -32,11 +36,8 @@ func main() {
 	stack.Probe.Refresh()
 
 	// initiates the UX loop
-	models.NewStager(
-		stack.R,
-		stack.Stage,
-		stack.Probe,
-	)
+		splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+	models.NewStager(r, stack.Stage, splitStage)
 
 	// Expose the HTTP and Socket bridges to the Angular frontend
 	wasmregistry.SetupWasmHooks(stack.R)

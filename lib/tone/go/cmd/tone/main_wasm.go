@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
+	"github.com/gin-gonic/gin"
 
 	// insertion point for models import{{modelsImportDirective}}
 	tone_models "github.com/fullstack-lang/gong/lib/tone/go/models"
@@ -23,18 +24,20 @@ func main() {
 	marshallOnCommit := ""
 	embeddedDiagrams := true
 
+	r := gin.Default()
+
 	// setup model stack with its probe
-	stack := tone_stack.NewStack(nil, "tone", unmarshallFromCode, marshallOnCommit, "", embeddedDiagrams, true)
+	stack := tone_stack.NewStack(r, "tone", unmarshallFromCode, marshallOnCommit, "", embeddedDiagrams, true)
 	stack.Stage.SetGongMarshallingMode(tone_models.GongMarshallingAppendCommit)
 	stack.Stage.SetIsWithGenesisCommit(true) // the genesis commit is the first commit of the stage, it is the one that contains the initial data. It cannot be rollbacked.
 
 	stack.Probe.Refresh()
 	stack.Stage.Commit()
 
-	tone_models.NewStager(nil, stack.Stage, stack.Probe)
+	tone_models.NewStager(r, stack.Stage)
 
 	// Expose the HTTP and Socket bridges to the Angular frontend
-	wasmregistry.SetupWasmHooks(nil)
+	wasmregistry.SetupWasmHooks(r)
 
 	select {} // Keep the WASM instance running indefinitely
 }
