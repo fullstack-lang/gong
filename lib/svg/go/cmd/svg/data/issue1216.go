@@ -10,8 +10,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
-var _ = slices.Index[[]int, int]
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -151,6 +153,8 @@ func _(stage *models.Stage) {
 	__Rect__00000000_.MouseX = 0.000000
 	__Rect__00000000_.MouseY = 0.000000
 	__Rect__00000000_.MouseEventKey = ""
+	__Rect__00000000_.URLPath = ``
+	__Rect__00000000_.URLTarget = ""
 
 	__Rect__00000001_.Name = `End`
 	__Rect__00000001_.X = 200.000000
@@ -190,6 +194,8 @@ func _(stage *models.Stage) {
 	__Rect__00000001_.MouseX = 0.000000
 	__Rect__00000001_.MouseY = 0.000000
 	__Rect__00000001_.MouseEventKey = ""
+	__Rect__00000001_.URLPath = ``
+	__Rect__00000001_.URLTarget = ""
 
 	__SVG__00000000_.Name = `issue 1216 back end`
 	__SVG__00000000_.DrawingState = ""
@@ -218,6 +224,10 @@ func _(stage *models.Stage) {
 	__Link__00000001_.End = __Rect__00000001_
 	__Link__00000001_.ControlPoints = append(__Link__00000001_.ControlPoints, __ControlPoint__00000002_)
 	__Link__00000001_.ControlPoints = append(__Link__00000001_.ControlPoints, __ControlPoint__00000001_)
+	__Rect__00000000_.EnclosingRect = nil
+	__Rect__00000000_.AnchoredTo = nil
+	__Rect__00000001_.EnclosingRect = nil
+	__Rect__00000001_.AnchoredTo = nil
 	__SVG__00000000_.Layers = append(__SVG__00000000_.Layers, __Layer__00000000_)
 	__SVG__00000000_.StartRect = nil
 	__SVG__00000000_.EndRect = nil
