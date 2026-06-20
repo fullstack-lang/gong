@@ -8,17 +8,17 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treeNoteWithinDiagramProcess(
-	diagramProcess *DiagramProcess,
+func (stager *Stager) treeNoteWithinDiagramStructure(
+	diagramStructure *DiagramStructure,
 	note *Note,
 	parentNode *tree.Node,
 ) {
 	stage := stager.stage
-	noteShape, ok := diagramProcess.map_Note_NoteShape[note]
+	noteShape, ok := diagramStructure.map_Note_NoteShape[note]
 
 	noteNode := &tree.Node{
 		Name:                    note.GetName(),
-		IsExpanded:              slices.Contains(diagramProcess.NotesWhoseNodeIsExpanded, note),
+		IsExpanded:              slices.Contains(diagramStructure.NotesWhoseNodeIsExpanded, note),
 		IsNodeClickable:         true,
 		IsInEditMode:            note.GetIsInRenameMode(),
 		HasCheckboxButton:       true,
@@ -37,7 +37,7 @@ func (stager *Stager) treeNoteWithinDiagramProcess(
 
 	if ok {
 		visibilityButton := &tree.Button{
-			Name:            diagramProcess.GetName(),
+			Name:            diagramStructure.GetName(),
 			Icon:            string(buttons.BUTTON_visibility_off),
 			ToolTipText:     "Hide from diagram",
 			HasToolTip:      true,
@@ -55,7 +55,7 @@ func (stager *Stager) treeNoteWithinDiagramProcess(
 	}
 
 	noteNode.OnNameChange = stager.onNameChange(note)
-	noteNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, note, &diagramProcess.NotesWhoseNodeIsExpanded)
+	noteNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, note, &diagramStructure.NotesWhoseNodeIsExpanded)
 	noteNode.OnClick = onNodeClicked(stager, note)
 	noteNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked && !ok {
@@ -65,11 +65,11 @@ func (stager *Stager) treeNoteWithinDiagramProcess(
 				RectShape: RectShape{
 					X:      100 + rand.Float64()*100.0,
 					Y:      100 + rand.Float64()*100.0,
-					Width:  diagramProcess.GetDefaultBoxWidth(),
-					Height: diagramProcess.GetDefaultBoxHeigth(),
+					Width:  diagramStructure.GetDefaultBoxWidth(),
+					Height: diagramStructure.GetDefaultBoxHeigth(),
 				},
 			}).Stage(stager.stage)
-			diagramProcess.Note_Shapes = append(diagramProcess.Note_Shapes, noteShape)
+			diagramStructure.Note_Shapes = append(diagramStructure.Note_Shapes, noteShape)
 			stage.Commit()
 			return
 		}
@@ -79,49 +79,49 @@ func (stager *Stager) treeNoteWithinDiagramProcess(
 			return
 		}
 	}
-	// tasks relarted to the note
-	tasksNode := &tree.Node{
-		Name:            "Tasks",
+	// ports relarted to the note
+	portsNode := &tree.Node{
+		Name:            "Ports",
 		FontStyle:       tree.ITALIC,
-		IsExpanded:      note.IsTasksNodeExpanded,
+		IsExpanded:      note.IsPortsNodeExpanded,
 		IsNodeClickable: true,
 	}
-	noteNode.Children = append(noteNode.Children, tasksNode)
-	tasksNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&note.IsTasksNodeExpanded)
+	noteNode.Children = append(noteNode.Children, portsNode)
+	portsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&note.IsPortsNodeExpanded)
 
-	for _, task := range note.Tasks {
-		noteTaskKey := noteTaskKey{
+	for _, port := range note.Ports {
+		notePortKey := notePortKey{
 			Note: note,
-			Task: task,
+			Port: port,
 		}
-		_, ok := diagramProcess.map_Note_NoteTaskShape[noteTaskKey]
-		nodeTask := &tree.Node{
-			Name:                    task.GetName(),
+		_, ok := diagramStructure.map_Note_NotePortShape[notePortKey]
+		nodePort := &tree.Node{
+			Name:                    port.GetName(),
 			HasCheckboxButton:       true,
 			IsChecked:               ok,
 			CheckboxHasToolTip:      true,
 			CheckboxToolTipPosition: tree.Left,
 			CheckboxToolTipText: func() string {
 				if ok {
-					return "Click to remove the note task shape"
+					return "Click to remove the note port shape"
 				}
-				return "Click to create a note task shape for this task within this diagram"
+				return "Click to create a note port shape for this port within this diagram"
 			}(),
 			IsNodeClickable: true,
 		}
-		nodeTask.OnIsCheckedChanged = func(isChecked bool) {
+		nodePort.OnIsCheckedChanged = func(isChecked bool) {
 			if isChecked && !ok {
-				noteTaskShape := (&NoteTaskShape{
-					Name:      task.GetName() + " shape",
-					Task:      task,
+				notePortShape := (&NotePortShape{
+					Name:      port.GetName() + " shape",
+					Port:      port,
 					Note:      note,
 					LinkShape: LinkShape{},
 				}).Stage(stager.stage)
-				diagramProcess.NoteTaskShapes = append(diagramProcess.NoteTaskShapes, noteTaskShape)
+				diagramStructure.NotePortShapes = append(diagramStructure.NotePortShapes, notePortShape)
 				stage.Commit()
 				return
 			}
 		}
-		tasksNode.Children = append(tasksNode.Children, nodeTask)
+		portsNode.Children = append(portsNode.Children, nodePort)
 	}
 }

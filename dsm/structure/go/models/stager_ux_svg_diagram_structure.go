@@ -11,88 +11,88 @@ import (
 
 func (stager *Stager) svg() {
 	log.Println("svg")
-	stager.processDiagramSvgStage.Reset()
+	stager.systemDiagramSvgStage.Reset()
 
-	var diagramProcess *DiagramProcess
+	var diagramStructure *DiagramStructure
 	{
-		for diagramprocess_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
-			if diagramprocess_.IsChecked {
-				diagramProcess = diagramprocess_
+		for diagramsystem_ := range *GetGongstructInstancesSet[DiagramStructure](stager.stage) {
+			if diagramsystem_.IsChecked {
+				diagramStructure = diagramsystem_
 			}
 		}
 	}
 
-	if diagramProcess == nil {
-		stager.processDiagramSvgStage.Commit()
+	if diagramStructure == nil {
+		stager.systemDiagramSvgStage.Commit()
 		return
 	}
-	svgObject := stager.generateSvgObject(diagramProcess)
+	svgObject := stager.generateSvgObject(diagramStructure)
 
-	svg.StageBranch(stager.processDiagramSvgStage, svgObject)
-	stager.svgObjectDiagramProcess = svgObject
-	stager.svgObjectDiagramProcess.OnUpdate = stager.onUpdateSVG
+	svg.StageBranch(stager.systemDiagramSvgStage, svgObject)
+	stager.svgObjectDiagramStructure = svgObject
+	stager.svgObjectDiagramStructure.OnUpdate = stager.onUpdateSVG
 
-	stager.processDiagramSvgStage.Commit()
+	stager.systemDiagramSvgStage.Commit()
 }
 
 // generateSvgObject creates and returns a new svg.SVG object representing the given diagram.
-// It maps all visible domain shapes (Processs, Tasks, Notes, Resources) and their associations
+// It maps all visible domain shapes (Systems, Ports, Notes, Resources) and their associations
 // to SVG elements (Rects, Links, Paths) on a single layer. It also populates the diagram's
 // internal maps to link abstract elements with their visual SVG counterparts.
-func (stager *Stager) generateSvgObject(diagramProcess *DiagramProcess) *svg.SVG {
+func (stager *Stager) generateSvgObject(diagramStructure *DiagramStructure) *svg.SVG {
 	svgObject := (&svg.SVG{Name: `SVG`})
-	stager.diagramProcess = diagramProcess
+	stager.diagramStructure = diagramStructure
 
 	svgObject.OverrideWidth = true
-	svgObject.OverriddenWidth = diagramProcess.Width
+	svgObject.OverriddenWidth = diagramStructure.Width
 	svgObject.OverrideHeight = true
-	svgObject.OverriddenHeight = diagramProcess.Height
+	svgObject.OverriddenHeight = diagramStructure.Height
 
-	diagramProcess.map_SvgRect_TaskShape = make(map[*svg.Rect]*TaskShape)
-	diagramProcess.map_SvgRect_ExternalParticipantShape = map[*svg.Rect]*ExternalParticipantShape{}
-	diagramProcess.map_SvgRect_Participant = map[*svg.Rect]*Participant{}
+	diagramStructure.map_SvgRect_PortShape = make(map[*svg.Rect]*PortShape)
+	diagramStructure.map_SvgRect_ExternalPartShape = map[*svg.Rect]*ExternalPartShape{}
+	diagramStructure.map_SvgRect_Part = map[*svg.Rect]*Part{}
 
 	// // to implement association between abstract elements by mouse drag
 	// svgImpl := &svgProxy{
 	// 	stager:  stager,
 	// 	svg_:
-	// 	diagramProcess: diagramProcess,
+	// 	diagramStructure: diagramStructure,
 	// }
 	// Impl = svgImpl
 
-	svgObject.Name = diagramProcess.Name
-	svgObject.IsEditable = diagramProcess.IsEditable()
+	svgObject.Name = diagramStructure.Name
+	svgObject.IsEditable = diagramStructure.IsEditable()
 
 	layer := (&svg.Layer{Name: "Layer 1"})
 	svgObject.Layers = append(svgObject.Layers, layer)
 
-	stager.drawProcessShapes(diagramProcess, layer)
+	stager.drawSystemShapes(diagramStructure, layer)
 
-	rectOfOwningProcess := diagramProcess.map_Process_Rect[diagramProcess.owningProcess]
-	if rectOfOwningProcess != nil {
-		stager.drawParticipantShapes(diagramProcess, layer, rectOfOwningProcess)
+	rectOfOwningSystem := diagramStructure.map_System_Rect[diagramStructure.owningSystem]
+	if rectOfOwningSystem != nil {
+		stager.drawPartShapes(diagramStructure, layer, rectOfOwningSystem)
 	}
-	stager.drawExternalParticipantShapes(diagramProcess, layer)
-	stager.drawTaskShapes(diagramProcess, layer)
-	stager.drawControlFlowShapes(diagramProcess, layer)
-	stager.drawDataFlowShapes(diagramProcess, layer)
-	map_Note_Rect := stager.drawNoteShapes(diagramProcess, layer)
-	stager.drawNoteTaskShapes(diagramProcess, layer, map_Note_Rect)
+	stager.drawExternalPartShapes(diagramStructure, layer)
+	stager.drawPortShapes(diagramStructure, layer)
+	stager.drawControlFlowShapes(diagramStructure, layer)
+	stager.drawDataFlowShapes(diagramStructure, layer)
+	map_Note_Rect := stager.drawNoteShapes(diagramStructure, layer)
+	stager.drawNotePortShapes(diagramStructure, layer, map_Note_Rect)
 
 	return svgObject
 }
 
-func (stager *Stager) drawProcessShapes(diagramProcess *DiagramProcess, layer *svg.Layer) {
-	diagramProcess.map_Process_Rect = make(map[*Process]*svg.Rect)
-	for _, processShape := range diagramProcess.Process_Shapes {
-		if processShape.IsHidden {
+func (stager *Stager) drawSystemShapes(diagramStructure *DiagramStructure, layer *svg.Layer) {
+	diagramStructure.map_System_Rect = make(map[*System]*svg.Rect)
+	for _, systemShape := range diagramStructure.System_Shapes {
+		if systemShape.IsHidden {
 			continue
 		}
 
 		rect := svgRect(
 			stager,
-			diagramProcess,
-			processShape,
+			diagramStructure,
+			systemShape,
 			layer)
 		rect.RX = 3
 
@@ -108,45 +108,45 @@ func (stager *Stager) drawProcessShapes(diagramProcess *DiagramProcess, layer *s
 		}
 
 		// override default behavior, we need to commit when the rect is moved
-		// we need to update the position of the participants shapes and task shapes that are within the process
+		// we need to update the position of the parts shapes and port shapes that are within the system
 		rect.OnSelect = func() {
-			stager.probeForm.FillUpFormFromGongstruct(processShape.Process, GetPointerToGongstructName[*Process]())
+			stager.probeForm.FillUpFormFromGongstruct(systemShape.System, GetPointerToGongstructName[*System]())
 		}
 		rect.OnMove = func(x, y float64) {
-			processShape.SetX(x)
-			processShape.SetY(y)
+			systemShape.SetX(x)
+			systemShape.SetY(y)
 
-			// no need to update the position of the participant shapes and task shapes that are within the process
-			// because they are peers of the process shape, so they will move together
+			// no need to update the position of the part shapes and port shapes that are within the system
+			// because they are peers of the system shape, so they will move together
 			stager.stage.CommitWithSuspendedCallbacks()
 		}
 		rect.OnResize = func(x, y, width, height float64) {
-			processShape.SetX(x)
-			processShape.SetY(y)
-			processShape.SetWidth(width)
-			processShape.SetHeight(height)
+			systemShape.SetX(x)
+			systemShape.SetY(y)
+			systemShape.SetWidth(width)
+			systemShape.SetHeight(height)
 
-			// when heigth or width is updated, we need to update the position/size of the participants shapes and task shapes that are within the process
+			// when heigth or width is updated, we need to update the position/size of the parts shapes and port shapes that are within the system
 			// this is performed in the semantic pass of the commit
 			stager.stage.Commit()
 		}
-		diagramProcess.map_Process_Rect[processShape.Process] = rect
+		diagramStructure.map_System_Rect[systemShape.System] = rect
 	}
 }
 
-func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, layer *svg.Layer, rectOfOwningProcess *svg.Rect) {
+func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *svg.Layer, rectOfOwningSystem *svg.Rect) {
 	root := stager.GetRootLibrary()
 
-	diagramProcess.map_Participant_Rect = make(map[*Participant]*svg.Rect)
+	diagramStructure.map_Part_Rect = make(map[*Part]*svg.Rect)
 	horizontalMargin := 10.0
 	verticalTopMargin := 50.0
 	verticalTopMarginForTitle := 60.0
 	verticalBottomMargin := 10.0
 
-	participantsWidth := rectOfOwningProcess.Width - 2*horizontalMargin
+	partsWidth := rectOfOwningSystem.Width - 2*horizontalMargin
 
 	var totalWeight float64
-	for _, pShape := range diagramProcess.Participant_Shapes {
+	for _, pShape := range diagramStructure.Part_Shapes {
 		weight := pShape.WidthWeight
 		if weight == 0 {
 			weight = 1.0
@@ -156,26 +156,26 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 
 	currentWeight := 0.0
 
-	for idx, participantShape := range diagramProcess.Participant_Shapes {
-		shapeWeight := participantShape.WidthWeight
+	for idx, partShape := range diagramStructure.Part_Shapes {
+		shapeWeight := partShape.WidthWeight
 		if shapeWeight == 0 {
 			shapeWeight = 1.0
 		}
-		participantWidth := 0.0
+		partWidth := 0.0
 		if totalWeight > 0 {
-			participantWidth = shapeWeight * (participantsWidth / totalWeight)
+			partWidth = shapeWeight * (partsWidth / totalWeight)
 		}
 
-		if participantShape.IsHidden {
+		if partShape.IsHidden {
 			currentWeight += shapeWeight
 			continue
 		}
 
 		rect := new(svg.Rect)
 		layer.Rects = append(layer.Rects, rect)
-		diagramProcess.map_SvgRect_Participant[rect] = participantShape.Participant
+		diagramStructure.map_SvgRect_Part[rect] = partShape.Part
 
-		rect.Name = participantShape.GetName()
+		rect.Name = partShape.GetName()
 		rect.Stroke = "#E0E0E0"
 		rect.StrokeWidth = 1
 		rect.StrokeOpacity = 1
@@ -190,9 +190,9 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 		rect.CanHaveLeftHandle = false
 		rect.CanHaveTopHandle = false
 
-		// all but the last participant have right handle
+		// all but the last part have right handle
 		rect.CanHaveRightHandle = func() bool {
-			if idx == len(diagramProcess.Participant_Shapes)-1 {
+			if idx == len(diagramStructure.Part_Shapes)-1 {
 				return false
 			}
 			return true
@@ -203,57 +203,57 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 		rect.StrokeWidth = 1
 
 		if totalWeight > 0 {
-			rect.X = rectOfOwningProcess.X + horizontalMargin + currentWeight*(participantsWidth/totalWeight)
+			rect.X = rectOfOwningSystem.X + horizontalMargin + currentWeight*(partsWidth/totalWeight)
 		} else {
-			rect.X = rectOfOwningProcess.X + horizontalMargin
+			rect.X = rectOfOwningSystem.X + horizontalMargin
 		}
-		rect.Width = participantWidth
+		rect.Width = partWidth
 
-		rect.Y = rectOfOwningProcess.Y + verticalTopMargin + verticalTopMarginForTitle
-		rect.Height = rectOfOwningProcess.Height - verticalTopMargin - verticalBottomMargin - verticalTopMarginForTitle
+		rect.Y = rectOfOwningSystem.Y + verticalTopMargin + verticalTopMarginForTitle
+		rect.Height = rectOfOwningSystem.Height - verticalTopMargin - verticalBottomMargin - verticalTopMarginForTitle
 
-		if participantShape.Participant.IsProcessResource {
-			rect.Y = rectOfOwningProcess.Y + verticalTopMargin
-			rect.Height = rectOfOwningProcess.Height - verticalTopMargin - verticalBottomMargin
+		if partShape.Part.IsSystemResource {
+			rect.Y = rectOfOwningSystem.Y + verticalTopMargin
+			rect.Height = rectOfOwningSystem.Height - verticalTopMargin - verticalBottomMargin
 		}
 
-		// make the participant shape peer of the process shape
-		rect.Peers = append(rect.Peers, rectOfOwningProcess)
-		rectOfOwningProcess.Peers = append(rectOfOwningProcess.Peers, rect)
+		// make the part shape peer of the system shape
+		rect.Peers = append(rect.Peers, rectOfOwningSystem)
+		rectOfOwningSystem.Peers = append(rectOfOwningSystem.Peers, rect)
 
 		// override default behavior, we need to commit when the rect is moved
 		rect.OnSelect = func() {
-			stager.probeForm.FillUpFormFromGongstruct(participantShape.Participant, GetPointerToGongstructName[*Participant]())
+			stager.probeForm.FillUpFormFromGongstruct(partShape.Part, GetPointerToGongstructName[*Part]())
 		}
 		rect.OnMove = func(x, y float64) {}
 		rect.OnResize = func(x, y, width, height float64) {
-			if width != participantWidth {
+			if width != partWidth {
 				othersWeight := totalWeight - shapeWeight
 				if othersWeight > 0 {
 					boundedWidth := width
-					if boundedWidth > participantsWidth-10 {
-						boundedWidth = participantsWidth - 10
+					if boundedWidth > partsWidth-10 {
+						boundedWidth = partsWidth - 10
 					}
 					if boundedWidth < 10 {
 						boundedWidth = 10
 					}
-					newWeight := (boundedWidth * othersWeight) / (participantsWidth - boundedWidth)
+					newWeight := (boundedWidth * othersWeight) / (partsWidth - boundedWidth)
 
-					participantShape.WidthWeight = newWeight
+					partShape.WidthWeight = newWeight
 					stager.stage.Commit()
 				}
 			}
 		}
 
-		diagramProcess.map_Participant_Rect[participantShape.Participant] = rect
+		diagramStructure.map_Part_Rect[partShape.Part] = rect
 
-		if !participantShape.Participant.IsProcessResource {
+		if !partShape.Part.IsSystemResource {
 			title := new(svg.RectAnchoredText)
-			title.Name = participantShape.GetAbstractElement().GetName()
+			title.Name = partShape.GetAbstractElement().GetName()
 
-			content := participantShape.GetAbstractElement().GetName()
-			if diagramProcess.GetIsShowPrefix() {
-				content = participantShape.GetAbstractElement().GetComputedPrefix() + " " + content
+			content := partShape.GetAbstractElement().GetName()
+			if diagramStructure.GetIsShowPrefix() {
+				content = partShape.GetAbstractElement().GetComputedPrefix() + " " + content
 			}
 
 			if rect.Width > 0 {
@@ -275,7 +275,7 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 		}
 		titleBox := &svg.RectAnchoredRect{
-			Name: participantShape.GetAbstractElement().GetName(),
+			Name: partShape.GetAbstractElement().GetName(),
 			Presentation: svg.Presentation{
 				Stroke:        "#E0E0E0",
 				StrokeWidth:   1,
@@ -289,11 +289,11 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 		}
 		rect.RectAnchoredRects = append(rect.RectAnchoredRects, titleBox)
 
-		boxHeigth, anchoredRect := stager.drawAllocatedProcessesAndResources(participantShape.Participant, diagramProcess, rect, svg.RECT_TOP)
+		boxHeigth, anchoredRect := stager.drawAllocatedSystemesAndResources(partShape.Part, diagramStructure, rect, svg.RECT_TOP)
 		_ = boxHeigth
 		_ = anchoredRect
 
-		if participantShape.Participant.IsProcessResource {
+		if partShape.Part.IsSystemResource {
 			if boxHeigth > 0 {
 				titleBox.Y_Offset = 0
 				titleBox.Height = boxHeigth
@@ -306,20 +306,20 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 		currentWeight += shapeWeight
 	}
 
-	// make all participant shapes peers together, so that if one of them move, all the others move as well
-	for _, participantShape := range diagramProcess.Participant_Shapes {
-		if participantShape.IsHidden {
+	// make all part shapes peers together, so that if one of them move, all the others move as well
+	for _, partShape := range diagramStructure.Part_Shapes {
+		if partShape.IsHidden {
 			continue
 		}
-		rect := diagramProcess.map_Participant_Rect[participantShape.Participant]
+		rect := diagramStructure.map_Part_Rect[partShape.Part]
 		if rect == nil {
 			continue
 		}
-		for _, otherParticipantShape := range diagramProcess.Participant_Shapes {
-			if participantShape == otherParticipantShape || otherParticipantShape.IsHidden {
+		for _, otherPartShape := range diagramStructure.Part_Shapes {
+			if partShape == otherPartShape || otherPartShape.IsHidden {
 				continue
 			}
-			otherRect := diagramProcess.map_Participant_Rect[otherParticipantShape.Participant]
+			otherRect := diagramStructure.map_Part_Rect[otherPartShape.Part]
 			if otherRect == nil {
 				continue
 			}
@@ -329,23 +329,23 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 	}
 }
 
-func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProcess, layer *svg.Layer) {
+func (stager *Stager) drawExternalPartShapes(diagramStructure *DiagramStructure, layer *svg.Layer) {
 	root := stager.GetRootLibrary()
 
-	diagramProcess.map_ExternalParticipant_Rect = make(map[*Participant]*svg.Rect)
-	for _, externalParticipantShape := range diagramProcess.ExternalParticipant_Shapes {
-		if externalParticipantShape.IsHidden {
+	diagramStructure.map_ExternalPart_Rect = make(map[*Part]*svg.Rect)
+	for _, externalPartShape := range diagramStructure.ExternalPart_Shapes {
+		if externalPartShape.IsHidden {
 			continue
 		}
 
 		rect := new(svg.Rect)
 		layer.Rects = append(layer.Rects, rect)
 
-		rect.Name = externalParticipantShape.GetName()
-		rect.X = externalParticipantShape.GetX()
-		rect.Y = externalParticipantShape.GetY()
-		rect.Width = externalParticipantShape.GetWidth()
-		rect.Height = externalParticipantShape.GetHeight()
+		rect.Name = externalPartShape.GetName()
+		rect.X = externalPartShape.GetX()
+		rect.Y = externalPartShape.GetY()
+		rect.Width = externalPartShape.GetWidth()
+		rect.Height = externalPartShape.GetHeight()
 
 		rect.CanMoveHorizontaly = true
 		rect.CanMoveVerticaly = true
@@ -367,13 +367,13 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 		rect.FillOpacity = 1.0
 		rect.Stroke = "#E0E0E0"
 
-		if !externalParticipantShape.Participant.IsProcessResource {
+		if !externalPartShape.Part.IsSystemResource {
 			title := new(svg.RectAnchoredText)
-			title.Name = externalParticipantShape.GetAbstractElement().GetName()
+			title.Name = externalPartShape.GetAbstractElement().GetName()
 
-			content := externalParticipantShape.GetAbstractElement().GetName()
-			if diagramProcess.GetIsShowPrefix() {
-				content = externalParticipantShape.GetAbstractElement().GetComputedPrefix() + " " + content
+			content := externalPartShape.GetAbstractElement().GetName()
+			if diagramStructure.GetIsShowPrefix() {
+				content = externalPartShape.GetAbstractElement().GetComputedPrefix() + " " + content
 			}
 
 			if rect.Width > 0 {
@@ -394,36 +394,36 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 		}
 
-		rect.OnSelect = onSelectRectElement(stager, externalParticipantShape.Participant)
-		rect.OnMove = onMoveRectElement(stager, externalParticipantShape, false)
-		rect.OnResize = onResizeRectElement(stager, externalParticipantShape)
+		rect.OnSelect = onSelectRectElement(stager, externalPartShape.Part)
+		rect.OnMove = onMoveRectElement(stager, externalPartShape, false)
+		rect.OnResize = onResizeRectElement(stager, externalPartShape)
 
-		externalParticipantWidth := 5.0
-		if externalParticipantShape.TailHeigth == 0 {
-			externalParticipantShape.TailHeigth = 100.0
+		externalPartWidth := 5.0
+		if externalPartShape.TailHeigth == 0 {
+			externalPartShape.TailHeigth = 100.0
 		}
 
 		anchorType := svg.RECT_BOTTOM
-		if externalParticipantShape.Participant.IsProcessResource {
+		if externalPartShape.Part.IsSystemResource {
 			anchorType = svg.RECT_TOP
 		}
 
-		boxHeight, rectAnchoredRect := stager.drawAllocatedProcessesAndResources(
-			externalParticipantShape.Participant,
-			diagramProcess,
+		boxHeight, rectAnchoredRect := stager.drawAllocatedSystemesAndResources(
+			externalPartShape.Part,
+			diagramStructure,
 			rect,
 			anchorType)
 		_ = rectAnchoredRect
 
-		if externalParticipantShape.Participant.IsProcessResource && boxHeight > 0 {
+		if externalPartShape.Part.IsSystemResource && boxHeight > 0 {
 			rect.Height = boxHeight
 			boxHeight = 0
 		}
 
-		// have the process rect be an obstacle to the rect
-		processRect := diagramProcess.map_Process_Rect[diagramProcess.owningProcess]
-		rect.Obstacles = append(rect.Obstacles, processRect)
-		processRect.Obstacles = append(processRect.Obstacles, rect)
+		// have the system rect be an obstacle to the rect
+		systemRect := diagramStructure.map_System_Rect[diagramStructure.owningSystem]
+		rect.Obstacles = append(rect.Obstacles, systemRect)
+		systemRect.Obstacles = append(systemRect.Obstacles, rect)
 
 		tailRect := &svg.Rect{
 			Name:               "Tail" + rect.GetName(),
@@ -437,28 +437,28 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 				Color:           "transparent",
 				FillOpacity:     0.0,
 			},
-			Width:               externalParticipantWidth,
-			Height:              externalParticipantShape.TailHeigth - boxHeight,
-			X:                   rect.X + (rect.Width-externalParticipantWidth)/2.0,
+			Width:               externalPartWidth,
+			Height:              externalPartShape.TailHeigth - boxHeight,
+			X:                   rect.X + (rect.Width-externalPartWidth)/2.0,
 			Y:                   rect.Y + rect.Height + boxHeight,
 			CanHaveBottomHandle: true,
 		}
-		diagramProcess.map_ExternalParticipant_Rect[externalParticipantShape.Participant] = tailRect
+		diagramStructure.map_ExternalPart_Rect[externalPartShape.Part] = tailRect
 
 		// tail rect and rect are moved togethere, therefore they are peers
 		rect.Peers = append(rect.Peers, tailRect)
 		tailRect.Peers = append(tailRect.Peers, rect)
 
-		// this is the tail rect that is used for drawing links between external participant and task, so we need to keep a reference of it in the diagram process
-		diagramProcess.map_SvgRect_ExternalParticipantShape[tailRect] = externalParticipantShape
+		// this is the tail rect that is used for drawing links between external part and port, so we need to keep a reference of it in the diagram system
+		diagramStructure.map_SvgRect_ExternalPartShape[tailRect] = externalPartShape
 		// if the tailRect bottom handle is used, the heigth is updated
 		tailRect.OnSelect = func() {}
 		tailRect.OnMove = func(x, y float64) {}
 		tailRect.OnResize = func(x, y, width, height float64) {
-			diffSize := externalParticipantShape.TailHeigth != height+boxHeight
+			diffSize := externalPartShape.TailHeigth != height+boxHeight
 
 			if diffSize {
-				externalParticipantShape.TailHeigth = height + boxHeight
+				externalPartShape.TailHeigth = height + boxHeight
 				stager.stage.CommitWithSuspendedCallbacks()
 			}
 		}
@@ -466,62 +466,62 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 	}
 }
 
-func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.Layer) {
-	rm := GetSliceOfPointersReverseMap[Participant, Task](GetAssociationName[Participant]().Tasks[0].Name, stager.stage)
+func (stager *Stager) drawPortShapes(diagramStructure *DiagramStructure, layer *svg.Layer) {
+	rm := GetSliceOfPointersReverseMap[Part, Port](GetAssociationName[Part]().Ports[0].Name, stager.stage)
 
-	diagramProcess.map_Task_Rect = make(map[*Task]*svg.Rect)
-	for _, taskShape := range diagramProcess.Task_Shapes {
-		if taskShape.IsHidden {
+	diagramStructure.map_Port_Rect = make(map[*Port]*svg.Rect)
+	for _, portShape := range diagramStructure.Port_Shapes {
+		if portShape.IsHidden {
 			continue
 		}
 
-		task := taskShape.Task
-		participants := rm[task]
-		if len(participants) == 0 {
+		port := portShape.Port
+		parts := rm[port]
+		if len(parts) == 0 {
 			continue
 		}
 
-		participant := participants[0]
-		participantRect := diagramProcess.map_Participant_Rect[participant]
-		if participantRect == nil {
+		part := parts[0]
+		partRect := diagramStructure.map_Part_Rect[part]
+		if partRect == nil {
 			continue
 		}
 
-		processRect := diagramProcess.map_Process_Rect[diagramProcess.owningProcess]
-		if processRect == nil {
+		systemRect := diagramStructure.map_System_Rect[diagramStructure.owningSystem]
+		if systemRect == nil {
 			continue
 		}
 
 		rect := svgRect(
 			stager,
-			diagramProcess,
-			taskShape,
+			diagramStructure,
+			portShape,
 			layer)
-		diagramProcess.map_SvgRect_TaskShape[rect] = taskShape
+		diagramStructure.map_SvgRect_PortShape[rect] = portShape
 
-		rect.URLPath = "../../../References/Tasks/" + task.GetReferencePath() + "/index.html"
+		rect.URLPath = "../../../References/Ports/" + port.GetReferencePath() + "/index.html"
 		rect.URLTarget = svg.LINK_TARGET_BLANK
 
 		rect.RectAnchoredTexts[0].URLPath = rect.URLPath
 		rect.RectAnchoredTexts[0].URLTarget = svg.LINK_TARGET_BLANK
 
-		// make the rect of the task move with alls participant rect and the process rect
+		// make the rect of the port move with alls part rect and the system rect
 		// not the opposite !
-		processRect.Peers = append(processRect.Peers, rect)
+		systemRect.Peers = append(systemRect.Peers, rect)
 
-		// we range over the non hidden participants and have the task shape appended as peer
-		for _, pShape := range diagramProcess.Participant_Shapes {
+		// we range over the non hidden parts and have the port shape appended as peer
+		for _, pShape := range diagramStructure.Part_Shapes {
 			if pShape.IsHidden {
 				continue
 			}
-			participantRect := diagramProcess.map_Participant_Rect[pShape.Participant]
-			if participantRect == nil {
+			partRect := diagramStructure.map_Part_Rect[pShape.Part]
+			if partRect == nil {
 				continue
 			}
-			participantRect.Peers = append(participantRect.Peers, rect)
+			partRect.Peers = append(partRect.Peers, rect)
 		}
 
-		rect.EnclosingRect = participantRect
+		rect.EnclosingRect = partRect
 
 		rect.Color = "#E3F2FD"
 		rect.FillOpacity = 1.0
@@ -537,7 +537,7 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 		// pick up the title of the rect
 		stateTitleText := rect.RectAnchoredTexts[0]
 		smallRadius := 10.0
-		if task.IsStartTask {
+		if port.IsStartPort {
 			stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
 			stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
 			stateTitleText.DominantBaseline = svg.DominantBaselineCentral
@@ -575,7 +575,7 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 		}
 
 		bigRadius := 18.0
-		if task.IsEndTask {
+		if port.IsEndPort {
 			stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
 			stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
 			stateTitleText.DominantBaseline = svg.DominantBaselineCentral
@@ -626,25 +626,25 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 			rect.FillOpacity = 0.0
 
 		}
-		diagramProcess.map_Task_Rect[taskShape.Task] = rect
+		diagramStructure.map_Port_Rect[portShape.Port] = rect
 	}
 }
 
-func (stager *Stager) drawControlFlowShapes(diagramProcess *DiagramProcess, layer *svg.Layer) {
-	for _, controlFlowShape := range diagramProcess.ControlFlow_Shapes {
+func (stager *Stager) drawControlFlowShapes(diagramStructure *DiagramStructure, layer *svg.Layer) {
+	for _, controlFlowShape := range diagramStructure.ControlFlow_Shapes {
 		if controlFlowShape.GetIsHidden() {
 			continue
 		}
 		_ = controlFlowShape
-		startTask := controlFlowShape.ControlFlow.Start
-		endTask := controlFlowShape.ControlFlow.End
+		startPort := controlFlowShape.ControlFlow.Start
+		endPort := controlFlowShape.ControlFlow.End
 
-		if startTask == nil || endTask == nil {
-			log.Panic("There should be a start task and a end task")
+		if startPort == nil || endPort == nil {
+			log.Panic("There should be a start port and a end port")
 		}
 
-		startRect := diagramProcess.map_Task_Rect[startTask]
-		endRect := diagramProcess.map_Task_Rect[endTask]
+		startRect := diagramStructure.map_Port_Rect[startPort]
+		endRect := diagramStructure.map_Port_Rect[endPort]
 
 		if startRect == nil || endRect == nil {
 			continue
@@ -663,8 +663,8 @@ func (stager *Stager) drawControlFlowShapes(diagramProcess *DiagramProcess, laye
 	}
 }
 
-func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *svg.Layer) {
-	for _, dataFlowShape := range diagramProcess.DataFlow_Shapes {
+func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, layer *svg.Layer) {
+	for _, dataFlowShape := range diagramStructure.DataFlow_Shapes {
 		if dataFlowShape.GetIsHidden() {
 			continue
 		}
@@ -673,24 +673,24 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 		df := dataFlowShape.DataFlow
 
 		switch df.Type {
-		case DataFlow_Task2Task:
-			if df.StartTask == nil || df.EndTask == nil {
-				log.Panic("There should be a start task and an end task")
+		case DataFlow_Port2Port:
+			if df.StartPort == nil || df.EndPort == nil {
+				log.Panic("There should be a start port and an end port")
 			}
-			startRect = diagramProcess.map_Task_Rect[df.StartTask]
-			endRect = diagramProcess.map_Task_Rect[df.EndTask]
-		case DataFlow_ExternalParticipant2Task:
-			if df.StartExternalParticipant == nil || df.EndTask == nil {
-				log.Panic("There should be a start external participant and an end task")
+			startRect = diagramStructure.map_Port_Rect[df.StartPort]
+			endRect = diagramStructure.map_Port_Rect[df.EndPort]
+		case DataFlow_ExternalPart2Port:
+			if df.StartExternalPart == nil || df.EndPort == nil {
+				log.Panic("There should be a start external part and an end port")
 			}
-			startRect = diagramProcess.map_ExternalParticipant_Rect[df.StartExternalParticipant]
-			endRect = diagramProcess.map_Task_Rect[df.EndTask]
-		case DataFlow_Task2ExternalParticipant:
-			if df.StartTask == nil || df.EndExternalParticipant == nil {
-				log.Panic("There should be a start task and an end external participant")
+			startRect = diagramStructure.map_ExternalPart_Rect[df.StartExternalPart]
+			endRect = diagramStructure.map_Port_Rect[df.EndPort]
+		case DataFlow_Port2ExternalPart:
+			if df.StartPort == nil || df.EndExternalPart == nil {
+				log.Panic("There should be a start port and an end external part")
 			}
-			startRect = diagramProcess.map_Task_Rect[df.StartTask]
-			endRect = diagramProcess.map_ExternalParticipant_Rect[df.EndExternalParticipant]
+			startRect = diagramStructure.map_Port_Rect[df.StartPort]
+			endRect = diagramStructure.map_ExternalPart_Rect[df.EndExternalPart]
 		}
 
 		if startRect == nil || endRect == nil {
@@ -763,16 +763,16 @@ func (stager *Stager) drawDataFlowShapes(diagramProcess *DiagramProcess, layer *
 	}
 }
 
-func (stager *Stager) drawNoteShapes(diagramProcess *DiagramProcess, layer *svg.Layer) map[*Note]*svg.Rect {
+func (stager *Stager) drawNoteShapes(diagramStructure *DiagramStructure, layer *svg.Layer) map[*Note]*svg.Rect {
 	map_Note_Rect := make(map[*Note]*svg.Rect)
-	for _, noteShape := range diagramProcess.Note_Shapes {
+	for _, noteShape := range diagramStructure.Note_Shapes {
 		if noteShape.GetIsHidden() {
 			continue
 		}
 
 		rect := svgRect(
 			stager,
-			diagramProcess,
+			diagramStructure,
 			noteShape,
 			layer)
 
@@ -786,7 +786,7 @@ func (stager *Stager) drawNoteShapes(diagramProcess *DiagramProcess, layer *svg.
 		if len(rect.RectAnchoredTexts) > 0 {
 			abstractElement := noteShape.GetAbstractElement()
 			content := abstractElement.GetName()
-			if diagramProcess.GetIsShowPrefix() {
+			if diagramStructure.GetIsShowPrefix() {
 				content = abstractElement.GetComputedPrefix() + " " + content
 			}
 			content = "📝 " + content
@@ -809,21 +809,21 @@ func (stager *Stager) drawNoteShapes(diagramProcess *DiagramProcess, layer *svg.
 	return map_Note_Rect
 }
 
-func (stager *Stager) drawNoteTaskShapes(diagramProcess *DiagramProcess, layer *svg.Layer, map_Note_Rect map[*Note]*svg.Rect) {
-	for _, noteTaskShape := range diagramProcess.NoteTaskShapes {
-		if noteTaskShape.GetIsHidden() {
+func (stager *Stager) drawNotePortShapes(diagramStructure *DiagramStructure, layer *svg.Layer, map_Note_Rect map[*Note]*svg.Rect) {
+	for _, notePortShape := range diagramStructure.NotePortShapes {
+		if notePortShape.GetIsHidden() {
 			continue
 		}
 
-		startNote := noteTaskShape.Note
-		endTask := noteTaskShape.Task
+		startNote := notePortShape.Note
+		endPort := notePortShape.Port
 
-		if startNote == nil || endTask == nil {
+		if startNote == nil || endPort == nil {
 			continue
 		}
 
 		startRect := map_Note_Rect[startNote]
-		endRect := diagramProcess.map_Task_Rect[endTask]
+		endRect := diagramStructure.map_Port_Rect[endPort]
 
 		if startRect == nil || endRect == nil {
 			continue
@@ -832,7 +832,7 @@ func (stager *Stager) drawNoteTaskShapes(diagramProcess *DiagramProcess, layer *
 		link := svgAssociationLink(
 			stager,
 			startRect, endRect,
-			noteTaskShape,
+			notePortShape,
 			startNote,
 			layer,
 			false)
@@ -848,9 +848,9 @@ func (stager *Stager) drawNoteTaskShapes(diagramProcess *DiagramProcess, layer *
 	}
 }
 
-func (stager *Stager) drawAllocatedProcessesAndResources(
-	participant *Participant,
-	diagramProcess *DiagramProcess,
+func (stager *Stager) drawAllocatedSystemesAndResources(
+	part *Part,
+	diagramStructure *DiagramStructure,
 	rect *svg.Rect,
 	rectAnchorType svg.RectAnchorType) (boxHeight float64, allocatedResourceRect *svg.RectAnchoredRect) {
 	root := stager.GetRootLibrary()
@@ -860,24 +860,24 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 	X_Offset := 35.0
 	Y_Offset := 20.0
 
-	// draw allocated process shapes that are within the participant
-	for _, process := range participant.Processes {
-		key := allocatedProcessShapeKey{
-			participant: participant,
-			process:     process,
+	// draw allocated system shapes that are within the part
+	for _, system := range part.Systemes {
+		key := allocatedSystemShapeKey{
+			part: part,
+			system:     system,
 		}
-		allocatedProcessShape := diagramProcess.map_AllocatedProcessShapeKey_AllocatedProcessShape[key]
-		if allocatedProcessShape == nil {
+		allocatedSystemShape := diagramStructure.map_AllocatedSystemShapeKey_AllocatedSystemShape[key]
+		if allocatedSystemShape == nil {
 			continue
 		}
 
-		content := process.Name
+		content := system.Name
 		if rect.Width > 0 {
 			content = strutils.WrapStringPreservingNewlinesScaled(content, rect.Width, float64(root.NbPixPerCharacter), 15.0, 16.0)
 		}
 
-		allocatedProcessText := &svg.RectAnchoredText{
-			Name:    allocatedProcessShape.Name,
+		allocatedSystemText := &svg.RectAnchoredText{
+			Name:    allocatedSystemShape.Name,
 			Content: content,
 			Presentation: svg.Presentation{
 				StrokeWidth: 0,
@@ -894,27 +894,27 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 			Y_Offset:         Y_Offset + float64(totalLines)*HeightBetween2AttributeShapes,
 			RectAnchorType:   rectAnchorType,
 			TextAnchorType:   svg.TEXT_ANCHOR_START,
-			URLPath:          "../../../References/Processes/" + process.GetReferencePath() + "/index.html",
+			URLPath:          "../../../References/Systemes/" + system.GetReferencePath() + "/index.html",
 			URLTarget:        svg.LINK_TARGET_BLANK,
 		}
 		if rectAnchorType == svg.RECT_BOTTOM {
-			allocatedProcessText.RectAnchorType = svg.RECT_BOTTOM_LEFT
+			allocatedSystemText.RectAnchorType = svg.RECT_BOTTOM_LEFT
 		} else {
-			allocatedProcessText.RectAnchorType = svg.RECT_TOP_LEFT
+			allocatedSystemText.RectAnchorType = svg.RECT_TOP_LEFT
 		}
-		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, allocatedProcessText)
+		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, allocatedSystemText)
 
 		lines := strings.Split(content, "\n")
 		totalLines += len(lines)
 
 		// add a rect anchored icon
-		if process.SVG_Path != "" {
-			if process.InverseAppliedScaling == 0 {
-				process.InverseAppliedScaling = 1.0
+		if system.SVG_Path != "" {
+			if system.InverseAppliedScaling == 0 {
+				system.InverseAppliedScaling = 1.0
 			}
-			allocatedProcessPath := &svg.RectAnchoredPath{
-				Name:       process.GetName(),
-				Definition: process.SVG_Path,
+			allocatedSystemPath := &svg.RectAnchoredPath{
+				Name:       system.GetName(),
+				Definition: system.SVG_Path,
 				Presentation: svg.Presentation{
 					StrokeWidth: 0,
 					Color:       "#757575",
@@ -923,24 +923,24 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 				X_Offset:            10,
 				Y_Offset:            10 + float64(totalLines)*HeightBetween2AttributeShapes,
 				ScalePropotionnally: true,
-				AppliedScaling:      1.25 / process.InverseAppliedScaling,
+				AppliedScaling:      1.25 / system.InverseAppliedScaling,
 			}
 			if rectAnchorType == svg.RECT_BOTTOM {
-				allocatedProcessPath.RectAnchorType = svg.RECT_BOTTOM_LEFT
+				allocatedSystemPath.RectAnchorType = svg.RECT_BOTTOM_LEFT
 			} else {
-				allocatedProcessPath.RectAnchorType = svg.RECT_TOP_LEFT
+				allocatedSystemPath.RectAnchorType = svg.RECT_TOP_LEFT
 			}
-			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, allocatedProcessPath)
+			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, allocatedSystemPath)
 		}
 	}
 
-	// draw allocated resource shapes that are within the participant
-	for _, resource := range participant.Resources {
+	// draw allocated resource shapes that are within the part
+	for _, resource := range part.Resources {
 		key := allocatedResourceShapeKey{
-			participant: participant,
+			part: part,
 			resource:    resource,
 		}
-		allocatedResourceShape := diagramProcess.map_AllocatedResourceShapeKey_AllocatedResourceShape[key]
+		allocatedResourceShape := diagramStructure.map_AllocatedResourceShapeKey_AllocatedResourceShape[key]
 		if allocatedResourceShape == nil {
 			continue
 		}
@@ -1007,12 +1007,12 @@ func (stager *Stager) drawAllocatedProcessesAndResources(
 			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, allocatedResourcePath)
 		}
 	}
-	// draw a rect around the allocated resource and process shapes if there is at least one
+	// draw a rect around the allocated resource and system shapes if there is at least one
 	boxHeight = float64(totalLines)*HeightBetween2AttributeShapes + Y_Offset - 5.0
 	if totalLines > 0 {
 		lineWidth := 1.0
 		allocatedResourceRect = &svg.RectAnchoredRect{
-			Name: participant.Name + "_allocated_resources_and_processes",
+			Name: part.Name + "_allocated_resources_and_systemes",
 			Presentation: svg.Presentation{
 				Stroke:        "#CCCCCC",
 				StrokeWidth:   lineWidth,

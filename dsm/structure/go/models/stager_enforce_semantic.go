@@ -13,8 +13,8 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	// computes fields that are not persisted
 	stager.enforceOwningLibraryAndObjects()
 	stager.enforceStagerMaps()
-	stager.computeTaskFields()
-	stager.computeParticipantFields()
+	stager.computePortFields()
+	stager.computePartFields()
 	stager.computeDataFlowShapeFields()
 
 	pass := 0
@@ -40,8 +40,8 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	// computes fields that are not persisted
 	stager.enforceOwningLibraryAndObjects()
 	stager.enforceStagerMaps()
-	stager.computeTaskFields()
-	stager.computeParticipantFields()
+	stager.computePortFields()
+	stager.computePartFields()
 	stager.computeDataFlowShapeFields()
 
 	if needCommit {
@@ -67,22 +67,22 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Clean stage", func() bool { return stage.Clean() }},
 		{"Enforce default values", stager.enforceDefaultValues},
 		{"Enforce orphans abstract element", stager.enforceOrphansAbstractElement},
-		{"Enforce task participant consistency", stager.enforceTaskParticipantConsistency},
-		{"Enforce task semantic rules", stager.enforceTaskSemanticRules},
-		{"Enforce participant semantic rules", stager.enforceParticipantSemanticRules},
+		{"Enforce port part consistency", stager.enforcePortPartConsistency},
+		{"Enforce port semantic rules", stager.enforcePortSemanticRules},
+		{"Enforce part semantic rules", stager.enforcePartSemanticRules},
 		{"Enforce control flow semantic rules", stager.enforceControlFlowRules},
 		{"Enforce data flow semantic rules", stager.enforceDataFlowRules},
 
 		// concrete semantic check
-		{"Enforce at least one diagram per process", stager.enforceAtLeastOneDiagramPerProcess},
-		{"Enforce a process diagram has its owning process", stager.enforceAProcessDiagramHasItsOwningProcess},
+		{"Enforce at least one diagram per system", stager.enforceAtLeastOneDiagramPerSystem},
+		{"Enforce a system diagram has its owning system", stager.enforceASystemDiagramHasItsOwningSystem},
 		{"Enforce node shape duplicates", stager.enforceNodeShapeDuplicates},
 		{"Enforce relation duplicates", stager.enforceRelationDuplicates},
 		{"Enforce shape orphans", stager.enforceShapeOrphans},
 		{"Enforce control flow shapes rules", stager.enforceControlFlowShapesRules},
 		{"Enforce data flow shapes rules", stager.enforceDataFlowShapesRules},
-		{"Enforce participant shape semantic", stager.enforceParticipantShapeSemantic},
-		{"Enforce task shape within participant", stager.enforceTaskShapeWithinParticipant},
+		{"Enforce part shape semantic", stager.enforcePartShapeSemantic},
+		{"Enforce port shape within part", stager.enforcePortShapeWithinPart},
 		{"Enforce shapes abstract consistency", stager.enforceShapesAbstractConsistency},
 		{"Enforce diagram size", stager.enforceDiagramSize},
 	}

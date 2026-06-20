@@ -6,13 +6,13 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
-	case *AllocatedProcessShape:
-		if stage.OnAfterAllocatedProcessShapeCreateCallback != nil {
-			stage.OnAfterAllocatedProcessShapeCreateCallback.OnAfterCreate(stage, target)
-		}
 	case *AllocatedResourceShape:
 		if stage.OnAfterAllocatedResourceShapeCreateCallback != nil {
 			stage.OnAfterAllocatedResourceShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *AllocatedSystemShape:
+		if stage.OnAfterAllocatedSystemShapeCreateCallback != nil {
+			stage.OnAfterAllocatedSystemShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *ControlFlow:
 		if stage.OnAfterControlFlowCreateCallback != nil {
@@ -38,13 +38,13 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDataShapeCreateCallback != nil {
 			stage.OnAfterDataShapeCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *DiagramProcess:
-		if stage.OnAfterDiagramProcessCreateCallback != nil {
-			stage.OnAfterDiagramProcessCreateCallback.OnAfterCreate(stage, target)
+	case *DiagramStructure:
+		if stage.OnAfterDiagramStructureCreateCallback != nil {
+			stage.OnAfterDiagramStructureCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *ExternalParticipantShape:
-		if stage.OnAfterExternalParticipantShapeCreateCallback != nil {
-			stage.OnAfterExternalParticipantShapeCreateCallback.OnAfterCreate(stage, target)
+	case *ExternalPartShape:
+		if stage.OnAfterExternalPartShapeCreateCallback != nil {
+			stage.OnAfterExternalPartShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *Library:
 		if stage.OnAfterLibraryCreateCallback != nil {
@@ -54,41 +54,41 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterNoteCreateCallback != nil {
 			stage.OnAfterNoteCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *NotePortShape:
+		if stage.OnAfterNotePortShapeCreateCallback != nil {
+			stage.OnAfterNotePortShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *NoteShape:
 		if stage.OnAfterNoteShapeCreateCallback != nil {
 			stage.OnAfterNoteShapeCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *NoteTaskShape:
-		if stage.OnAfterNoteTaskShapeCreateCallback != nil {
-			stage.OnAfterNoteTaskShapeCreateCallback.OnAfterCreate(stage, target)
+	case *Part:
+		if stage.OnAfterPartCreateCallback != nil {
+			stage.OnAfterPartCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *Participant:
-		if stage.OnAfterParticipantCreateCallback != nil {
-			stage.OnAfterParticipantCreateCallback.OnAfterCreate(stage, target)
+	case *PartShape:
+		if stage.OnAfterPartShapeCreateCallback != nil {
+			stage.OnAfterPartShapeCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *ParticipantShape:
-		if stage.OnAfterParticipantShapeCreateCallback != nil {
-			stage.OnAfterParticipantShapeCreateCallback.OnAfterCreate(stage, target)
+	case *Port:
+		if stage.OnAfterPortCreateCallback != nil {
+			stage.OnAfterPortCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *Process:
-		if stage.OnAfterProcessCreateCallback != nil {
-			stage.OnAfterProcessCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *ProcessShape:
-		if stage.OnAfterProcessShapeCreateCallback != nil {
-			stage.OnAfterProcessShapeCreateCallback.OnAfterCreate(stage, target)
+	case *PortShape:
+		if stage.OnAfterPortShapeCreateCallback != nil {
+			stage.OnAfterPortShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *Resource:
 		if stage.OnAfterResourceCreateCallback != nil {
 			stage.OnAfterResourceCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *Task:
-		if stage.OnAfterTaskCreateCallback != nil {
-			stage.OnAfterTaskCreateCallback.OnAfterCreate(stage, target)
+	case *System:
+		if stage.OnAfterSystemCreateCallback != nil {
+			stage.OnAfterSystemCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *TaskShape:
-		if stage.OnAfterTaskShapeCreateCallback != nil {
-			stage.OnAfterTaskShapeCreateCallback.OnAfterCreate(stage, target)
+	case *SystemShape:
+		if stage.OnAfterSystemShapeCreateCallback != nil {
+			stage.OnAfterSystemShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	default:
 		_ = target
@@ -104,15 +104,15 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
-	case *AllocatedProcessShape:
-		newTarget := any(new).(*AllocatedProcessShape)
-		if stage.OnAfterAllocatedProcessShapeUpdateCallback != nil {
-			stage.OnAfterAllocatedProcessShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
 	case *AllocatedResourceShape:
 		newTarget := any(new).(*AllocatedResourceShape)
 		if stage.OnAfterAllocatedResourceShapeUpdateCallback != nil {
 			stage.OnAfterAllocatedResourceShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *AllocatedSystemShape:
+		newTarget := any(new).(*AllocatedSystemShape)
+		if stage.OnAfterAllocatedSystemShapeUpdateCallback != nil {
+			stage.OnAfterAllocatedSystemShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *ControlFlow:
 		newTarget := any(new).(*ControlFlow)
@@ -144,15 +144,15 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterDataShapeUpdateCallback != nil {
 			stage.OnAfterDataShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *DiagramProcess:
-		newTarget := any(new).(*DiagramProcess)
-		if stage.OnAfterDiagramProcessUpdateCallback != nil {
-			stage.OnAfterDiagramProcessUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *DiagramStructure:
+		newTarget := any(new).(*DiagramStructure)
+		if stage.OnAfterDiagramStructureUpdateCallback != nil {
+			stage.OnAfterDiagramStructureUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *ExternalParticipantShape:
-		newTarget := any(new).(*ExternalParticipantShape)
-		if stage.OnAfterExternalParticipantShapeUpdateCallback != nil {
-			stage.OnAfterExternalParticipantShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *ExternalPartShape:
+		newTarget := any(new).(*ExternalPartShape)
+		if stage.OnAfterExternalPartShapeUpdateCallback != nil {
+			stage.OnAfterExternalPartShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Library:
 		newTarget := any(new).(*Library)
@@ -164,50 +164,50 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterNoteUpdateCallback != nil {
 			stage.OnAfterNoteUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *NotePortShape:
+		newTarget := any(new).(*NotePortShape)
+		if stage.OnAfterNotePortShapeUpdateCallback != nil {
+			stage.OnAfterNotePortShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *NoteShape:
 		newTarget := any(new).(*NoteShape)
 		if stage.OnAfterNoteShapeUpdateCallback != nil {
 			stage.OnAfterNoteShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *NoteTaskShape:
-		newTarget := any(new).(*NoteTaskShape)
-		if stage.OnAfterNoteTaskShapeUpdateCallback != nil {
-			stage.OnAfterNoteTaskShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *Part:
+		newTarget := any(new).(*Part)
+		if stage.OnAfterPartUpdateCallback != nil {
+			stage.OnAfterPartUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *Participant:
-		newTarget := any(new).(*Participant)
-		if stage.OnAfterParticipantUpdateCallback != nil {
-			stage.OnAfterParticipantUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *PartShape:
+		newTarget := any(new).(*PartShape)
+		if stage.OnAfterPartShapeUpdateCallback != nil {
+			stage.OnAfterPartShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *ParticipantShape:
-		newTarget := any(new).(*ParticipantShape)
-		if stage.OnAfterParticipantShapeUpdateCallback != nil {
-			stage.OnAfterParticipantShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *Port:
+		newTarget := any(new).(*Port)
+		if stage.OnAfterPortUpdateCallback != nil {
+			stage.OnAfterPortUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *Process:
-		newTarget := any(new).(*Process)
-		if stage.OnAfterProcessUpdateCallback != nil {
-			stage.OnAfterProcessUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *ProcessShape:
-		newTarget := any(new).(*ProcessShape)
-		if stage.OnAfterProcessShapeUpdateCallback != nil {
-			stage.OnAfterProcessShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *PortShape:
+		newTarget := any(new).(*PortShape)
+		if stage.OnAfterPortShapeUpdateCallback != nil {
+			stage.OnAfterPortShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Resource:
 		newTarget := any(new).(*Resource)
 		if stage.OnAfterResourceUpdateCallback != nil {
 			stage.OnAfterResourceUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *Task:
-		newTarget := any(new).(*Task)
-		if stage.OnAfterTaskUpdateCallback != nil {
-			stage.OnAfterTaskUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *System:
+		newTarget := any(new).(*System)
+		if stage.OnAfterSystemUpdateCallback != nil {
+			stage.OnAfterSystemUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *TaskShape:
-		newTarget := any(new).(*TaskShape)
-		if stage.OnAfterTaskShapeUpdateCallback != nil {
-			stage.OnAfterTaskShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *SystemShape:
+		newTarget := any(new).(*SystemShape)
+		if stage.OnAfterSystemShapeUpdateCallback != nil {
+			stage.OnAfterSystemShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:
 		_ = oldTarget
@@ -219,15 +219,15 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
-	case *AllocatedProcessShape:
-		if stage.OnAfterAllocatedProcessShapeDeleteCallback != nil {
-			staged := any(staged).(*AllocatedProcessShape)
-			stage.OnAfterAllocatedProcessShapeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
 	case *AllocatedResourceShape:
 		if stage.OnAfterAllocatedResourceShapeDeleteCallback != nil {
 			staged := any(staged).(*AllocatedResourceShape)
 			stage.OnAfterAllocatedResourceShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *AllocatedSystemShape:
+		if stage.OnAfterAllocatedSystemShapeDeleteCallback != nil {
+			staged := any(staged).(*AllocatedSystemShape)
+			stage.OnAfterAllocatedSystemShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *ControlFlow:
 		if stage.OnAfterControlFlowDeleteCallback != nil {
@@ -259,15 +259,15 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*DataShape)
 			stage.OnAfterDataShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *DiagramProcess:
-		if stage.OnAfterDiagramProcessDeleteCallback != nil {
-			staged := any(staged).(*DiagramProcess)
-			stage.OnAfterDiagramProcessDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *DiagramStructure:
+		if stage.OnAfterDiagramStructureDeleteCallback != nil {
+			staged := any(staged).(*DiagramStructure)
+			stage.OnAfterDiagramStructureDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *ExternalParticipantShape:
-		if stage.OnAfterExternalParticipantShapeDeleteCallback != nil {
-			staged := any(staged).(*ExternalParticipantShape)
-			stage.OnAfterExternalParticipantShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *ExternalPartShape:
+		if stage.OnAfterExternalPartShapeDeleteCallback != nil {
+			staged := any(staged).(*ExternalPartShape)
+			stage.OnAfterExternalPartShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Library:
 		if stage.OnAfterLibraryDeleteCallback != nil {
@@ -279,50 +279,50 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Note)
 			stage.OnAfterNoteDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *NotePortShape:
+		if stage.OnAfterNotePortShapeDeleteCallback != nil {
+			staged := any(staged).(*NotePortShape)
+			stage.OnAfterNotePortShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *NoteShape:
 		if stage.OnAfterNoteShapeDeleteCallback != nil {
 			staged := any(staged).(*NoteShape)
 			stage.OnAfterNoteShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *NoteTaskShape:
-		if stage.OnAfterNoteTaskShapeDeleteCallback != nil {
-			staged := any(staged).(*NoteTaskShape)
-			stage.OnAfterNoteTaskShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *Part:
+		if stage.OnAfterPartDeleteCallback != nil {
+			staged := any(staged).(*Part)
+			stage.OnAfterPartDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *Participant:
-		if stage.OnAfterParticipantDeleteCallback != nil {
-			staged := any(staged).(*Participant)
-			stage.OnAfterParticipantDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *PartShape:
+		if stage.OnAfterPartShapeDeleteCallback != nil {
+			staged := any(staged).(*PartShape)
+			stage.OnAfterPartShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *ParticipantShape:
-		if stage.OnAfterParticipantShapeDeleteCallback != nil {
-			staged := any(staged).(*ParticipantShape)
-			stage.OnAfterParticipantShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *Port:
+		if stage.OnAfterPortDeleteCallback != nil {
+			staged := any(staged).(*Port)
+			stage.OnAfterPortDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *Process:
-		if stage.OnAfterProcessDeleteCallback != nil {
-			staged := any(staged).(*Process)
-			stage.OnAfterProcessDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *ProcessShape:
-		if stage.OnAfterProcessShapeDeleteCallback != nil {
-			staged := any(staged).(*ProcessShape)
-			stage.OnAfterProcessShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *PortShape:
+		if stage.OnAfterPortShapeDeleteCallback != nil {
+			staged := any(staged).(*PortShape)
+			stage.OnAfterPortShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Resource:
 		if stage.OnAfterResourceDeleteCallback != nil {
 			staged := any(staged).(*Resource)
 			stage.OnAfterResourceDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *Task:
-		if stage.OnAfterTaskDeleteCallback != nil {
-			staged := any(staged).(*Task)
-			stage.OnAfterTaskDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *System:
+		if stage.OnAfterSystemDeleteCallback != nil {
+			staged := any(staged).(*System)
+			stage.OnAfterSystemDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *TaskShape:
-		if stage.OnAfterTaskShapeDeleteCallback != nil {
-			staged := any(staged).(*TaskShape)
-			stage.OnAfterTaskShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *SystemShape:
+		if stage.OnAfterSystemShapeDeleteCallback != nil {
+			staged := any(staged).(*SystemShape)
+			stage.OnAfterSystemShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	default:
 		_ = front
@@ -334,13 +334,13 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
-	case *AllocatedProcessShape:
-		if stage.OnAfterAllocatedProcessShapeReadCallback != nil {
-			stage.OnAfterAllocatedProcessShapeReadCallback.OnAfterRead(stage, target)
-		}
 	case *AllocatedResourceShape:
 		if stage.OnAfterAllocatedResourceShapeReadCallback != nil {
 			stage.OnAfterAllocatedResourceShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *AllocatedSystemShape:
+		if stage.OnAfterAllocatedSystemShapeReadCallback != nil {
+			stage.OnAfterAllocatedSystemShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *ControlFlow:
 		if stage.OnAfterControlFlowReadCallback != nil {
@@ -366,13 +366,13 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDataShapeReadCallback != nil {
 			stage.OnAfterDataShapeReadCallback.OnAfterRead(stage, target)
 		}
-	case *DiagramProcess:
-		if stage.OnAfterDiagramProcessReadCallback != nil {
-			stage.OnAfterDiagramProcessReadCallback.OnAfterRead(stage, target)
+	case *DiagramStructure:
+		if stage.OnAfterDiagramStructureReadCallback != nil {
+			stage.OnAfterDiagramStructureReadCallback.OnAfterRead(stage, target)
 		}
-	case *ExternalParticipantShape:
-		if stage.OnAfterExternalParticipantShapeReadCallback != nil {
-			stage.OnAfterExternalParticipantShapeReadCallback.OnAfterRead(stage, target)
+	case *ExternalPartShape:
+		if stage.OnAfterExternalPartShapeReadCallback != nil {
+			stage.OnAfterExternalPartShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *Library:
 		if stage.OnAfterLibraryReadCallback != nil {
@@ -382,41 +382,41 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterNoteReadCallback != nil {
 			stage.OnAfterNoteReadCallback.OnAfterRead(stage, target)
 		}
+	case *NotePortShape:
+		if stage.OnAfterNotePortShapeReadCallback != nil {
+			stage.OnAfterNotePortShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *NoteShape:
 		if stage.OnAfterNoteShapeReadCallback != nil {
 			stage.OnAfterNoteShapeReadCallback.OnAfterRead(stage, target)
 		}
-	case *NoteTaskShape:
-		if stage.OnAfterNoteTaskShapeReadCallback != nil {
-			stage.OnAfterNoteTaskShapeReadCallback.OnAfterRead(stage, target)
+	case *Part:
+		if stage.OnAfterPartReadCallback != nil {
+			stage.OnAfterPartReadCallback.OnAfterRead(stage, target)
 		}
-	case *Participant:
-		if stage.OnAfterParticipantReadCallback != nil {
-			stage.OnAfterParticipantReadCallback.OnAfterRead(stage, target)
+	case *PartShape:
+		if stage.OnAfterPartShapeReadCallback != nil {
+			stage.OnAfterPartShapeReadCallback.OnAfterRead(stage, target)
 		}
-	case *ParticipantShape:
-		if stage.OnAfterParticipantShapeReadCallback != nil {
-			stage.OnAfterParticipantShapeReadCallback.OnAfterRead(stage, target)
+	case *Port:
+		if stage.OnAfterPortReadCallback != nil {
+			stage.OnAfterPortReadCallback.OnAfterRead(stage, target)
 		}
-	case *Process:
-		if stage.OnAfterProcessReadCallback != nil {
-			stage.OnAfterProcessReadCallback.OnAfterRead(stage, target)
-		}
-	case *ProcessShape:
-		if stage.OnAfterProcessShapeReadCallback != nil {
-			stage.OnAfterProcessShapeReadCallback.OnAfterRead(stage, target)
+	case *PortShape:
+		if stage.OnAfterPortShapeReadCallback != nil {
+			stage.OnAfterPortShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *Resource:
 		if stage.OnAfterResourceReadCallback != nil {
 			stage.OnAfterResourceReadCallback.OnAfterRead(stage, target)
 		}
-	case *Task:
-		if stage.OnAfterTaskReadCallback != nil {
-			stage.OnAfterTaskReadCallback.OnAfterRead(stage, target)
+	case *System:
+		if stage.OnAfterSystemReadCallback != nil {
+			stage.OnAfterSystemReadCallback.OnAfterRead(stage, target)
 		}
-	case *TaskShape:
-		if stage.OnAfterTaskShapeReadCallback != nil {
-			stage.OnAfterTaskShapeReadCallback.OnAfterRead(stage, target)
+	case *SystemShape:
+		if stage.OnAfterSystemShapeReadCallback != nil {
+			stage.OnAfterSystemShapeReadCallback.OnAfterRead(stage, target)
 		}
 	default:
 		_ = target
@@ -429,10 +429,10 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
-	case *AllocatedProcessShape:
-		stage.OnAfterAllocatedProcessShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[AllocatedProcessShape])
 	case *AllocatedResourceShape:
 		stage.OnAfterAllocatedResourceShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[AllocatedResourceShape])
+	case *AllocatedSystemShape:
+		stage.OnAfterAllocatedSystemShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[AllocatedSystemShape])
 	case *ControlFlow:
 		stage.OnAfterControlFlowUpdateCallback = any(callback).(OnAfterUpdateInterface[ControlFlow])
 	case *ControlFlowShape:
@@ -445,32 +445,32 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterDataFlowShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DataFlowShape])
 	case *DataShape:
 		stage.OnAfterDataShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[DataShape])
-	case *DiagramProcess:
-		stage.OnAfterDiagramProcessUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramProcess])
-	case *ExternalParticipantShape:
-		stage.OnAfterExternalParticipantShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ExternalParticipantShape])
+	case *DiagramStructure:
+		stage.OnAfterDiagramStructureUpdateCallback = any(callback).(OnAfterUpdateInterface[DiagramStructure])
+	case *ExternalPartShape:
+		stage.OnAfterExternalPartShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ExternalPartShape])
 	case *Library:
 		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *Note:
 		stage.OnAfterNoteUpdateCallback = any(callback).(OnAfterUpdateInterface[Note])
+	case *NotePortShape:
+		stage.OnAfterNotePortShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NotePortShape])
 	case *NoteShape:
 		stage.OnAfterNoteShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteShape])
-	case *NoteTaskShape:
-		stage.OnAfterNoteTaskShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteTaskShape])
-	case *Participant:
-		stage.OnAfterParticipantUpdateCallback = any(callback).(OnAfterUpdateInterface[Participant])
-	case *ParticipantShape:
-		stage.OnAfterParticipantShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ParticipantShape])
-	case *Process:
-		stage.OnAfterProcessUpdateCallback = any(callback).(OnAfterUpdateInterface[Process])
-	case *ProcessShape:
-		stage.OnAfterProcessShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ProcessShape])
+	case *Part:
+		stage.OnAfterPartUpdateCallback = any(callback).(OnAfterUpdateInterface[Part])
+	case *PartShape:
+		stage.OnAfterPartShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartShape])
+	case *Port:
+		stage.OnAfterPortUpdateCallback = any(callback).(OnAfterUpdateInterface[Port])
+	case *PortShape:
+		stage.OnAfterPortShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PortShape])
 	case *Resource:
 		stage.OnAfterResourceUpdateCallback = any(callback).(OnAfterUpdateInterface[Resource])
-	case *Task:
-		stage.OnAfterTaskUpdateCallback = any(callback).(OnAfterUpdateInterface[Task])
-	case *TaskShape:
-		stage.OnAfterTaskShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[TaskShape])
+	case *System:
+		stage.OnAfterSystemUpdateCallback = any(callback).(OnAfterUpdateInterface[System])
+	case *SystemShape:
+		stage.OnAfterSystemShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[SystemShape])
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -478,10 +478,10 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
-	case *AllocatedProcessShape:
-		stage.OnAfterAllocatedProcessShapeCreateCallback = any(callback).(OnAfterCreateInterface[AllocatedProcessShape])
 	case *AllocatedResourceShape:
 		stage.OnAfterAllocatedResourceShapeCreateCallback = any(callback).(OnAfterCreateInterface[AllocatedResourceShape])
+	case *AllocatedSystemShape:
+		stage.OnAfterAllocatedSystemShapeCreateCallback = any(callback).(OnAfterCreateInterface[AllocatedSystemShape])
 	case *ControlFlow:
 		stage.OnAfterControlFlowCreateCallback = any(callback).(OnAfterCreateInterface[ControlFlow])
 	case *ControlFlowShape:
@@ -494,32 +494,32 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterDataFlowShapeCreateCallback = any(callback).(OnAfterCreateInterface[DataFlowShape])
 	case *DataShape:
 		stage.OnAfterDataShapeCreateCallback = any(callback).(OnAfterCreateInterface[DataShape])
-	case *DiagramProcess:
-		stage.OnAfterDiagramProcessCreateCallback = any(callback).(OnAfterCreateInterface[DiagramProcess])
-	case *ExternalParticipantShape:
-		stage.OnAfterExternalParticipantShapeCreateCallback = any(callback).(OnAfterCreateInterface[ExternalParticipantShape])
+	case *DiagramStructure:
+		stage.OnAfterDiagramStructureCreateCallback = any(callback).(OnAfterCreateInterface[DiagramStructure])
+	case *ExternalPartShape:
+		stage.OnAfterExternalPartShapeCreateCallback = any(callback).(OnAfterCreateInterface[ExternalPartShape])
 	case *Library:
 		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *Note:
 		stage.OnAfterNoteCreateCallback = any(callback).(OnAfterCreateInterface[Note])
+	case *NotePortShape:
+		stage.OnAfterNotePortShapeCreateCallback = any(callback).(OnAfterCreateInterface[NotePortShape])
 	case *NoteShape:
 		stage.OnAfterNoteShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteShape])
-	case *NoteTaskShape:
-		stage.OnAfterNoteTaskShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteTaskShape])
-	case *Participant:
-		stage.OnAfterParticipantCreateCallback = any(callback).(OnAfterCreateInterface[Participant])
-	case *ParticipantShape:
-		stage.OnAfterParticipantShapeCreateCallback = any(callback).(OnAfterCreateInterface[ParticipantShape])
-	case *Process:
-		stage.OnAfterProcessCreateCallback = any(callback).(OnAfterCreateInterface[Process])
-	case *ProcessShape:
-		stage.OnAfterProcessShapeCreateCallback = any(callback).(OnAfterCreateInterface[ProcessShape])
+	case *Part:
+		stage.OnAfterPartCreateCallback = any(callback).(OnAfterCreateInterface[Part])
+	case *PartShape:
+		stage.OnAfterPartShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartShape])
+	case *Port:
+		stage.OnAfterPortCreateCallback = any(callback).(OnAfterCreateInterface[Port])
+	case *PortShape:
+		stage.OnAfterPortShapeCreateCallback = any(callback).(OnAfterCreateInterface[PortShape])
 	case *Resource:
 		stage.OnAfterResourceCreateCallback = any(callback).(OnAfterCreateInterface[Resource])
-	case *Task:
-		stage.OnAfterTaskCreateCallback = any(callback).(OnAfterCreateInterface[Task])
-	case *TaskShape:
-		stage.OnAfterTaskShapeCreateCallback = any(callback).(OnAfterCreateInterface[TaskShape])
+	case *System:
+		stage.OnAfterSystemCreateCallback = any(callback).(OnAfterCreateInterface[System])
+	case *SystemShape:
+		stage.OnAfterSystemShapeCreateCallback = any(callback).(OnAfterCreateInterface[SystemShape])
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -527,10 +527,10 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
-	case *AllocatedProcessShape:
-		stage.OnAfterAllocatedProcessShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[AllocatedProcessShape])
 	case *AllocatedResourceShape:
 		stage.OnAfterAllocatedResourceShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[AllocatedResourceShape])
+	case *AllocatedSystemShape:
+		stage.OnAfterAllocatedSystemShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[AllocatedSystemShape])
 	case *ControlFlow:
 		stage.OnAfterControlFlowDeleteCallback = any(callback).(OnAfterDeleteInterface[ControlFlow])
 	case *ControlFlowShape:
@@ -543,32 +543,32 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterDataFlowShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DataFlowShape])
 	case *DataShape:
 		stage.OnAfterDataShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[DataShape])
-	case *DiagramProcess:
-		stage.OnAfterDiagramProcessDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramProcess])
-	case *ExternalParticipantShape:
-		stage.OnAfterExternalParticipantShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ExternalParticipantShape])
+	case *DiagramStructure:
+		stage.OnAfterDiagramStructureDeleteCallback = any(callback).(OnAfterDeleteInterface[DiagramStructure])
+	case *ExternalPartShape:
+		stage.OnAfterExternalPartShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ExternalPartShape])
 	case *Library:
 		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *Note:
 		stage.OnAfterNoteDeleteCallback = any(callback).(OnAfterDeleteInterface[Note])
+	case *NotePortShape:
+		stage.OnAfterNotePortShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NotePortShape])
 	case *NoteShape:
 		stage.OnAfterNoteShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteShape])
-	case *NoteTaskShape:
-		stage.OnAfterNoteTaskShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteTaskShape])
-	case *Participant:
-		stage.OnAfterParticipantDeleteCallback = any(callback).(OnAfterDeleteInterface[Participant])
-	case *ParticipantShape:
-		stage.OnAfterParticipantShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ParticipantShape])
-	case *Process:
-		stage.OnAfterProcessDeleteCallback = any(callback).(OnAfterDeleteInterface[Process])
-	case *ProcessShape:
-		stage.OnAfterProcessShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ProcessShape])
+	case *Part:
+		stage.OnAfterPartDeleteCallback = any(callback).(OnAfterDeleteInterface[Part])
+	case *PartShape:
+		stage.OnAfterPartShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartShape])
+	case *Port:
+		stage.OnAfterPortDeleteCallback = any(callback).(OnAfterDeleteInterface[Port])
+	case *PortShape:
+		stage.OnAfterPortShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PortShape])
 	case *Resource:
 		stage.OnAfterResourceDeleteCallback = any(callback).(OnAfterDeleteInterface[Resource])
-	case *Task:
-		stage.OnAfterTaskDeleteCallback = any(callback).(OnAfterDeleteInterface[Task])
-	case *TaskShape:
-		stage.OnAfterTaskShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[TaskShape])
+	case *System:
+		stage.OnAfterSystemDeleteCallback = any(callback).(OnAfterDeleteInterface[System])
+	case *SystemShape:
+		stage.OnAfterSystemShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[SystemShape])
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -576,10 +576,10 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
-	case *AllocatedProcessShape:
-		stage.OnAfterAllocatedProcessShapeReadCallback = any(callback).(OnAfterReadInterface[AllocatedProcessShape])
 	case *AllocatedResourceShape:
 		stage.OnAfterAllocatedResourceShapeReadCallback = any(callback).(OnAfterReadInterface[AllocatedResourceShape])
+	case *AllocatedSystemShape:
+		stage.OnAfterAllocatedSystemShapeReadCallback = any(callback).(OnAfterReadInterface[AllocatedSystemShape])
 	case *ControlFlow:
 		stage.OnAfterControlFlowReadCallback = any(callback).(OnAfterReadInterface[ControlFlow])
 	case *ControlFlowShape:
@@ -592,31 +592,31 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterDataFlowShapeReadCallback = any(callback).(OnAfterReadInterface[DataFlowShape])
 	case *DataShape:
 		stage.OnAfterDataShapeReadCallback = any(callback).(OnAfterReadInterface[DataShape])
-	case *DiagramProcess:
-		stage.OnAfterDiagramProcessReadCallback = any(callback).(OnAfterReadInterface[DiagramProcess])
-	case *ExternalParticipantShape:
-		stage.OnAfterExternalParticipantShapeReadCallback = any(callback).(OnAfterReadInterface[ExternalParticipantShape])
+	case *DiagramStructure:
+		stage.OnAfterDiagramStructureReadCallback = any(callback).(OnAfterReadInterface[DiagramStructure])
+	case *ExternalPartShape:
+		stage.OnAfterExternalPartShapeReadCallback = any(callback).(OnAfterReadInterface[ExternalPartShape])
 	case *Library:
 		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *Note:
 		stage.OnAfterNoteReadCallback = any(callback).(OnAfterReadInterface[Note])
+	case *NotePortShape:
+		stage.OnAfterNotePortShapeReadCallback = any(callback).(OnAfterReadInterface[NotePortShape])
 	case *NoteShape:
 		stage.OnAfterNoteShapeReadCallback = any(callback).(OnAfterReadInterface[NoteShape])
-	case *NoteTaskShape:
-		stage.OnAfterNoteTaskShapeReadCallback = any(callback).(OnAfterReadInterface[NoteTaskShape])
-	case *Participant:
-		stage.OnAfterParticipantReadCallback = any(callback).(OnAfterReadInterface[Participant])
-	case *ParticipantShape:
-		stage.OnAfterParticipantShapeReadCallback = any(callback).(OnAfterReadInterface[ParticipantShape])
-	case *Process:
-		stage.OnAfterProcessReadCallback = any(callback).(OnAfterReadInterface[Process])
-	case *ProcessShape:
-		stage.OnAfterProcessShapeReadCallback = any(callback).(OnAfterReadInterface[ProcessShape])
+	case *Part:
+		stage.OnAfterPartReadCallback = any(callback).(OnAfterReadInterface[Part])
+	case *PartShape:
+		stage.OnAfterPartShapeReadCallback = any(callback).(OnAfterReadInterface[PartShape])
+	case *Port:
+		stage.OnAfterPortReadCallback = any(callback).(OnAfterReadInterface[Port])
+	case *PortShape:
+		stage.OnAfterPortShapeReadCallback = any(callback).(OnAfterReadInterface[PortShape])
 	case *Resource:
 		stage.OnAfterResourceReadCallback = any(callback).(OnAfterReadInterface[Resource])
-	case *Task:
-		stage.OnAfterTaskReadCallback = any(callback).(OnAfterReadInterface[Task])
-	case *TaskShape:
-		stage.OnAfterTaskShapeReadCallback = any(callback).(OnAfterReadInterface[TaskShape])
+	case *System:
+		stage.OnAfterSystemReadCallback = any(callback).(OnAfterReadInterface[System])
+	case *SystemShape:
+		stage.OnAfterSystemShapeReadCallback = any(callback).(OnAfterReadInterface[SystemShape])
 	}
 }

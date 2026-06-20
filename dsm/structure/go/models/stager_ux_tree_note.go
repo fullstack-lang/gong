@@ -25,20 +25,20 @@ func (stager *Stager) treeNote(
 	noteNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, note, &library.NotesWhoseNodeIsExpanded)
 	noteNode.OnClick = onNodeClicked(stager, note)
 
-	// tasks relarted to the note
-	tasksNode := &tree.Node{
-		Name:            "Tasks",
+	// ports relarted to the note
+	portsNode := &tree.Node{
+		Name:            "Ports",
 		FontStyle:       tree.ITALIC,
-		IsExpanded:      note.IsTasksNodeExpanded,
+		IsExpanded:      note.IsPortsNodeExpanded,
 		IsNodeClickable: true,
 	}
-	noteNode.Children = append(noteNode.Children, tasksNode)
-	tasksNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&note.IsTasksNodeExpanded)
+	noteNode.Children = append(noteNode.Children, portsNode)
+	portsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&note.IsPortsNodeExpanded)
 
-	for _, task := range note.Tasks {
-		nodeTask := &tree.Node{
-			Name: task.GetName(),
+	for _, port := range note.Ports {
+		nodePort := &tree.Node{
+			Name: port.GetName(),
 		}
-		tasksNode.Children = append(tasksNode.Children, nodeTask)
+		portsNode.Children = append(portsNode.Children, nodePort)
 	}
 }

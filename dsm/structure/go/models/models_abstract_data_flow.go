@@ -3,9 +3,9 @@ package models
 type DataFlowType string
 
 var (
-	DataFlow_Task2Task                DataFlowType = "DataFlow_Task2Task"
-	DataFlow_ExternalParticipant2Task DataFlowType = "DataFlow_ExternalParticipant2Task"
-	DataFlow_Task2ExternalParticipant DataFlowType = "DataFlow_Task2ExternalParticipant"
+	DataFlow_Port2Port                DataFlowType = "DataFlow_Port2Port"
+	DataFlow_ExternalPart2Port DataFlowType = "DataFlow_ExternalPart2Port"
+	DataFlow_Port2ExternalPart DataFlowType = "DataFlow_Port2ExternalPart"
 )
 
 type DataFlow struct {
@@ -21,11 +21,11 @@ type DataFlow struct {
 
 	Type DataFlowType
 
-	StartTask *Task // non nil if
-	EndTask   *Task
+	StartPort *Port // non nil if
+	EndPort   *Port
 
-	StartExternalParticipant *Participant
-	EndExternalParticipant   *Participant
+	StartExternalPart *Part
+	EndExternalPart   *Part
 
 	IsDatasNodeExpanded bool
 }

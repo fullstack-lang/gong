@@ -27,7 +27,7 @@ func (s *ControlFlowShape) GetAbstractEndElement() AbstractType {
 }
 
 func (s *ControlFlowShape) SetAbstractEndElement(abstractElement AbstractType) {
-	s.ControlFlow.End = abstractElement.(*Task)
+	s.ControlFlow.End = abstractElement.(*Port)
 }
 
 func (s *ControlFlowShape) GetAbstractStartElement() AbstractType {
@@ -38,7 +38,7 @@ func (s *ControlFlowShape) GetAbstractStartElement() AbstractType {
 }
 
 func (s *ControlFlowShape) SetAbstractStartElement(abstractElement AbstractType) {
-	s.ControlFlow.Start = abstractElement.(*Task)
+	s.ControlFlow.Start = abstractElement.(*Port)
 }
 
 var _ AssociationConcreteType = (*ControlFlowShape)(nil)

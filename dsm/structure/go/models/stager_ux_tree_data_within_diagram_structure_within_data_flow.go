@@ -4,9 +4,9 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlow(
+func (stager *Stager) treeDataWithinDiagramStructureWithinDataFlow(
 	dataFlowNode *tree.Node,
-	diagramProcess *DiagramProcess,
+	diagramStructure *DiagramStructure,
 	dataFlow *DataFlow,
 	dataFlowShape *DataFlowShape,
 	isDataFlowShapePresent bool,
@@ -19,7 +19,7 @@ func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlow(
 		dataFlow: dataFlow,
 		data:     data,
 	}
-	dataShape, isDataShapePresent := diagramProcess.map_DataShapeKey_DataShape[dataShapeKey]
+	dataShape, isDataShapePresent := diagramStructure.map_DataShapeKey_DataShape[dataShapeKey]
 
 	dataNode := &tree.Node{
 		Name:                    data.GetName(),
@@ -45,11 +45,11 @@ func (stager *Stager) treeDataWithinDiagramProcessWithinDataFlow(
 	dataNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked && !isDataShapePresent {
 			dataShape := (&DataShape{
-				Name:     dataFlow.Name + "-" + dataFlowShape.GetName() + "-" + diagramProcess.GetName(),
+				Name:     dataFlow.Name + "-" + dataFlowShape.GetName() + "-" + diagramStructure.GetName(),
 				Data:     data,
 				DataFlow: dataFlow,
 			}).Stage(stager.stage)
-			diagramProcess.Data_Shapes = append(diagramProcess.Data_Shapes, dataShape)
+			diagramStructure.Data_Shapes = append(diagramStructure.Data_Shapes, dataShape)
 			stage.Commit()
 			return
 		}

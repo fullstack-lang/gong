@@ -11,17 +11,17 @@ func (stager *Stager) treeZoom() {
 		treeInstance.RootNodes = append(treeInstance.RootNodes, gni.(*tree.Node))
 	})
 
-	var diagramProcess *DiagramProcess
-	for diagramprocess_ := range *GetGongstructInstancesSet[DiagramProcess](stager.stage) {
-		if diagramprocess_.IsChecked {
-			diagramProcess = diagramprocess_
+	var diagramStructure *DiagramStructure
+	for diagramsystem_ := range *GetGongstructInstancesSet[DiagramStructure](stager.stage) {
+		if diagramsystem_.IsChecked {
+			diagramStructure = diagramsystem_
 			break
 		}
 	}
 
-	if diagramProcess != nil && diagramProcess.owningProcess != nil {
+	if diagramStructure != nil && diagramStructure.owningSystem != nil {
 		dummyNode := &tree.Node{}
-		stager.treeDiagramProcess(diagramProcess.owningProcess, diagramProcess, dummyNode)
+		stager.treeDiagramStructure(diagramStructure.owningSystem, diagramStructure, dummyNode)
 		treeInstance.RootNodes = append(treeInstance.RootNodes, dummyNode.Children...)
 	}
 

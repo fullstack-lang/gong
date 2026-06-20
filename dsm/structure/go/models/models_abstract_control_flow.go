@@ -9,9 +9,9 @@ type ControlFlow struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
-	Start *Task
+	Start *Port
 
-	End *Task
+	End *Port
 }
 
 var _ AbstractType = (*ControlFlow)(nil)

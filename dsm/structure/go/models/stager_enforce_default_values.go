@@ -21,21 +21,21 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			fmt.Sprintf("Root: setting nbPixPerCharacter to %f", root.NbPixPerCharacter))
 	}
 
-	for _, diagramprocess := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
-		if diagramprocess.DefaultBoxHeigth == 0 {
-			diagramprocess.DefaultBoxHeigth = defaultBoxHeigth
+	for _, diagramsystem := range GetGongstrucsSorted[*DiagramStructure](stager.stage) {
+		if diagramsystem.DefaultBoxHeigth == 0 {
+			diagramsystem.DefaultBoxHeigth = defaultBoxHeigth
 			needCommit = true
 			if stager.probeForm != nil {
 				stager.probeForm.AddNotification(time.Now(),
-					fmt.Sprintf("DiagramProcess %s: setting default box height to %f", diagramprocess.Name, defaultBoxHeigth))
+					fmt.Sprintf("DiagramStructure %s: setting default box height to %f", diagramsystem.Name, defaultBoxHeigth))
 			}
 		}
-		if diagramprocess.DefaultBoxWidth == 0 {
-			diagramprocess.DefaultBoxWidth = defaultBoxWidth
+		if diagramsystem.DefaultBoxWidth == 0 {
+			diagramsystem.DefaultBoxWidth = defaultBoxWidth
 			needCommit = true
 			if stager.probeForm != nil {
 				stager.probeForm.AddNotification(time.Now(),
-					fmt.Sprintf("DiagramProcess %s: setting default box width to %f", diagramprocess.Name, defaultBoxWidth))
+					fmt.Sprintf("DiagramStructure %s: setting default box width to %f", diagramsystem.Name, defaultBoxWidth))
 			}
 		}
 	}

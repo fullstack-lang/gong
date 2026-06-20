@@ -4,18 +4,18 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treeAllocatedResourceWithinDiagramWithinParticipant(
-	diagramProcess *DiagramProcess,
+func (stager *Stager) treeAllocatedResourceWithinDiagramWithinPart(
+	diagramStructure *DiagramStructure,
 	resource *Resource,
-	participant *Participant,
+	part *Part,
 	parentNode *tree.Node) {
 
 	stage := stager.stage
 	key := allocatedResourceShapeKey{
-		participant: participant,
+		part: part,
 		resource:    resource,
 	}
-	allocatedResourceShape, ok := diagramProcess.map_AllocatedResourceShapeKey_AllocatedResourceShape[key]
+	allocatedResourceShape, ok := diagramStructure.map_AllocatedResourceShapeKey_AllocatedResourceShape[key]
 
 	node := &tree.Node{
 		Name:              resource.Name,
@@ -33,11 +33,11 @@ func (stager *Stager) treeAllocatedResourceWithinDiagramWithinParticipant(
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked && !ok {
 			allocatedResourceShape = (&AllocatedResourceShape{
-				Name:        diagramProcess.GetName() + "-" + participant.GetName() + "-" + resource.GetName(),
-				Participant: participant,
+				Name:        diagramStructure.GetName() + "-" + part.GetName() + "-" + resource.GetName(),
+				Part: part,
 				Resource:    resource,
 			}).Stage(stage)
-			diagramProcess.AllocatedResourceShapes = append(diagramProcess.AllocatedResourceShapes, allocatedResourceShape)
+			diagramStructure.AllocatedResourceShapes = append(diagramStructure.AllocatedResourceShapes, allocatedResourceShape)
 			stage.Commit()
 		} else if !isChecked && ok {
 			allocatedResourceShape.Unstage(stage)

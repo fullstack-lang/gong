@@ -7,38 +7,38 @@ import (
 
 func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	// 1. collect all shapes that are attached to a diagram
-	reachableProcessShapes := make(map[*ProcessShape]struct{})
-	reachableParticipantShapes := make(map[*ParticipantShape]struct{})
-	reachableExternalParticipantShapes := make(map[*ExternalParticipantShape]struct{})
-	reachableTaskShapes := make(map[*TaskShape]struct{})
+	reachableSystemShapes := make(map[*SystemShape]struct{})
+	reachablePartShapes := make(map[*PartShape]struct{})
+	reachableExternalPartShapes := make(map[*ExternalPartShape]struct{})
+	reachablePortShapes := make(map[*PortShape]struct{})
 	reachableControlFlowShapes := make(map[*ControlFlowShape]struct{})
 	reachableDataFlowShapes := make(map[*DataFlowShape]struct{})
 	reachableDataShapes := make(map[*DataShape]struct{})
 	reachableNoteShapes := make(map[*NoteShape]struct{})
-	reachableNoteTaskShapes := make(map[*NoteTaskShape]struct{})
+	reachableNotePortShapes := make(map[*NotePortShape]struct{})
 
-	for _, diagram := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
-		collectShapes(diagram.Process_Shapes, reachableProcessShapes)
-		collectShapes(diagram.Participant_Shapes, reachableParticipantShapes)
-		collectShapes(diagram.ExternalParticipant_Shapes, reachableExternalParticipantShapes)
-		collectShapes(diagram.Task_Shapes, reachableTaskShapes)
+	for _, diagram := range GetGongstrucsSorted[*DiagramStructure](stager.stage) {
+		collectShapes(diagram.System_Shapes, reachableSystemShapes)
+		collectShapes(diagram.Part_Shapes, reachablePartShapes)
+		collectShapes(diagram.ExternalPart_Shapes, reachableExternalPartShapes)
+		collectShapes(diagram.Port_Shapes, reachablePortShapes)
 		collectShapes(diagram.ControlFlow_Shapes, reachableControlFlowShapes)
 		collectShapes(diagram.DataFlow_Shapes, reachableDataFlowShapes)
 		collectShapes(diagram.Data_Shapes, reachableDataShapes)
 		collectShapes(diagram.Note_Shapes, reachableNoteShapes)
-		collectShapes(diagram.NoteTaskShapes, reachableNoteTaskShapes)
+		collectShapes(diagram.NotePortShapes, reachableNotePortShapes)
 	}
 
 	// 2. unstage shapes that are not attached to a diagram
-	needCommit = unstageUnreachableOrphans(stager, reachableProcessShapes) || needCommit
-	needCommit = unstageUnreachableOrphans(stager, reachableParticipantShapes) || needCommit
-	needCommit = unstageUnreachableOrphans(stager, reachableExternalParticipantShapes) || needCommit
-	needCommit = unstageUnreachableOrphans(stager, reachableTaskShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableSystemShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachablePartShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableExternalPartShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachablePortShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableControlFlowShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableDataFlowShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableDataShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableNoteShapes) || needCommit
-	needCommit = unstageUnreachableOrphans(stager, reachableNoteTaskShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableNotePortShapes) || needCommit
 
 	return
 }

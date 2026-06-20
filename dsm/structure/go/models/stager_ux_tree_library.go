@@ -51,33 +51,33 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	addCreateItemButton(stager, confSubLibraries)
 
 	//
-	// Processes
+	// Systemes
 	//
-	processesNode := &tree.Node{
-		Name:            "Processes",
+	systemesNode := &tree.Node{
+		Name:            "Systemes",
 		FontStyle:       tree.ITALIC,
-		IsExpanded:      library.IsProcessesNodeExpanded,
+		IsExpanded:      library.IsSystemesNodeExpanded,
 		IsNodeClickable: true,
 	}
-	libraryNode.Children = append(libraryNode.Children, processesNode)
-	processesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsProcessesNodeExpanded)
-	processesNode.OnClick = onNodeClicked(stager, library)
+	libraryNode.Children = append(libraryNode.Children, systemesNode)
+	systemesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsSystemesNodeExpanded)
+	systemesNode.OnClick = onNodeClicked(stager, library)
 
-	// add a process to the library button
-	confRootProcesses := ItemButtonConfiguration[
-		Process, *Process,
+	// add a system to the library button
+	confRootSystemes := ItemButtonConfiguration[
+		System, *System,
 		Library, *Library,
 	]{
-		parentNode:                         processesNode,
-		sliceForNewAddedItem:               &library.RootProcesses,
+		parentNode:                         systemesNode,
+		sliceForNewAddedItem:               &library.RootSystemes,
 		isParentNodeExpandedByAddOperation: true,
 		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-		parentNodeExpansionBooleanValue:    &library.IsProcessesNodeExpanded,
+		parentNodeExpansionBooleanValue:    &library.IsSystemesNodeExpanded,
 	}
-	addCreateItemButton(stager, confRootProcesses)
+	addCreateItemButton(stager, confRootSystemes)
 
-	for _, process := range library.RootProcesses {
-		stager.treeProcesses(process, processesNode, &library.ProcesssWhoseNodeIsExpanded)
+	for _, system := range library.RootSystemes {
+		stager.treeSystemes(system, systemesNode, &library.SystemsWhoseNodeIsExpanded)
 	}
 
 	//

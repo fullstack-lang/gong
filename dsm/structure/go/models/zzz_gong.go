@@ -131,21 +131,6 @@ type Stage struct {
 	isWithGenesisCommit bool
 
 	// insertion point for definition of arrays registering instances
-	AllocatedProcessShapes                map[*AllocatedProcessShape]struct{}
-	AllocatedProcessShapes_instance       map[*AllocatedProcessShape]*AllocatedProcessShape
-	AllocatedProcessShapes_mapString      map[string]*AllocatedProcessShape
-	AllocatedProcessShapeOrder            uint
-	AllocatedProcessShape_stagedOrder     map[*AllocatedProcessShape]uint
-	AllocatedProcessShape_orderStaged     map[uint]*AllocatedProcessShape
-	AllocatedProcessShapes_reference      map[*AllocatedProcessShape]*AllocatedProcessShape
-	AllocatedProcessShapes_referenceOrder map[*AllocatedProcessShape]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterAllocatedProcessShapeCreateCallback OnAfterCreateInterface[AllocatedProcessShape]
-	OnAfterAllocatedProcessShapeUpdateCallback OnAfterUpdateInterface[AllocatedProcessShape]
-	OnAfterAllocatedProcessShapeDeleteCallback OnAfterDeleteInterface[AllocatedProcessShape]
-	OnAfterAllocatedProcessShapeReadCallback   OnAfterReadInterface[AllocatedProcessShape]
-
 	AllocatedResourceShapes                map[*AllocatedResourceShape]struct{}
 	AllocatedResourceShapes_instance       map[*AllocatedResourceShape]*AllocatedResourceShape
 	AllocatedResourceShapes_mapString      map[string]*AllocatedResourceShape
@@ -160,6 +145,21 @@ type Stage struct {
 	OnAfterAllocatedResourceShapeUpdateCallback OnAfterUpdateInterface[AllocatedResourceShape]
 	OnAfterAllocatedResourceShapeDeleteCallback OnAfterDeleteInterface[AllocatedResourceShape]
 	OnAfterAllocatedResourceShapeReadCallback   OnAfterReadInterface[AllocatedResourceShape]
+
+	AllocatedSystemShapes                map[*AllocatedSystemShape]struct{}
+	AllocatedSystemShapes_instance       map[*AllocatedSystemShape]*AllocatedSystemShape
+	AllocatedSystemShapes_mapString      map[string]*AllocatedSystemShape
+	AllocatedSystemShapeOrder            uint
+	AllocatedSystemShape_stagedOrder     map[*AllocatedSystemShape]uint
+	AllocatedSystemShape_orderStaged     map[uint]*AllocatedSystemShape
+	AllocatedSystemShapes_reference      map[*AllocatedSystemShape]*AllocatedSystemShape
+	AllocatedSystemShapes_referenceOrder map[*AllocatedSystemShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterAllocatedSystemShapeCreateCallback OnAfterCreateInterface[AllocatedSystemShape]
+	OnAfterAllocatedSystemShapeUpdateCallback OnAfterUpdateInterface[AllocatedSystemShape]
+	OnAfterAllocatedSystemShapeDeleteCallback OnAfterDeleteInterface[AllocatedSystemShape]
+	OnAfterAllocatedSystemShapeReadCallback   OnAfterReadInterface[AllocatedSystemShape]
 
 	ControlFlows                map[*ControlFlow]struct{}
 	ControlFlows_instance       map[*ControlFlow]*ControlFlow
@@ -253,83 +253,83 @@ type Stage struct {
 	OnAfterDataShapeDeleteCallback OnAfterDeleteInterface[DataShape]
 	OnAfterDataShapeReadCallback   OnAfterReadInterface[DataShape]
 
-	DiagramProcesss                map[*DiagramProcess]struct{}
-	DiagramProcesss_instance       map[*DiagramProcess]*DiagramProcess
-	DiagramProcesss_mapString      map[string]*DiagramProcess
-	DiagramProcessOrder            uint
-	DiagramProcess_stagedOrder     map[*DiagramProcess]uint
-	DiagramProcess_orderStaged     map[uint]*DiagramProcess
-	DiagramProcesss_reference      map[*DiagramProcess]*DiagramProcess
-	DiagramProcesss_referenceOrder map[*DiagramProcess]uint
+	DiagramStructures                map[*DiagramStructure]struct{}
+	DiagramStructures_instance       map[*DiagramStructure]*DiagramStructure
+	DiagramStructures_mapString      map[string]*DiagramStructure
+	DiagramStructureOrder            uint
+	DiagramStructure_stagedOrder     map[*DiagramStructure]uint
+	DiagramStructure_orderStaged     map[uint]*DiagramStructure
+	DiagramStructures_reference      map[*DiagramStructure]*DiagramStructure
+	DiagramStructures_referenceOrder map[*DiagramStructure]uint
 
 	// insertion point for slice of pointers maps
-	DiagramProcess_Process_Shapes_reverseMap map[*ProcessShape]*DiagramProcess
+	DiagramStructure_System_Shapes_reverseMap map[*SystemShape]*DiagramStructure
 
-	DiagramProcess_ProcesssWhoseNodeIsExpanded_reverseMap map[*Process]*DiagramProcess
+	DiagramStructure_SystemsWhoseNodeIsExpanded_reverseMap map[*System]*DiagramStructure
 
-	DiagramProcess_Participant_Shapes_reverseMap map[*ParticipantShape]*DiagramProcess
+	DiagramStructure_Part_Shapes_reverseMap map[*PartShape]*DiagramStructure
 
-	DiagramProcess_ParticipantWhoseNodeIsExpanded_reverseMap map[*Participant]*DiagramProcess
+	DiagramStructure_PartWhoseNodeIsExpanded_reverseMap map[*Part]*DiagramStructure
 
-	DiagramProcess_ExternalParticipant_Shapes_reverseMap map[*ExternalParticipantShape]*DiagramProcess
+	DiagramStructure_ExternalPart_Shapes_reverseMap map[*ExternalPartShape]*DiagramStructure
 
-	DiagramProcess_ExternalParticipantWhoseNodeIsExpanded_reverseMap map[*Participant]*DiagramProcess
+	DiagramStructure_ExternalPartWhoseNodeIsExpanded_reverseMap map[*Part]*DiagramStructure
 
-	DiagramProcess_ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded_reverseMap map[*Participant]*DiagramProcess
+	DiagramStructure_ExternalPartsWhoseOutDataFlowsNodeIsExpanded_reverseMap map[*Part]*DiagramStructure
 
-	DiagramProcess_ExternalParticipantsWhoseInDataFlowsNodeIsExpanded_reverseMap map[*Participant]*DiagramProcess
+	DiagramStructure_ExternalPartsWhoseInDataFlowsNodeIsExpanded_reverseMap map[*Part]*DiagramStructure
 
-	DiagramProcess_TasksWhoseNodeIsExpanded_reverseMap map[*Task]*DiagramProcess
+	DiagramStructure_PortsWhoseNodeIsExpanded_reverseMap map[*Port]*DiagramStructure
 
-	DiagramProcess_Task_Shapes_reverseMap map[*TaskShape]*DiagramProcess
+	DiagramStructure_Port_Shapes_reverseMap map[*PortShape]*DiagramStructure
 
-	DiagramProcess_ControlFlowsWhoseNodeIsExpanded_reverseMap map[*ControlFlow]*DiagramProcess
+	DiagramStructure_ControlFlowsWhoseNodeIsExpanded_reverseMap map[*ControlFlow]*DiagramStructure
 
-	DiagramProcess_ControlFlow_Shapes_reverseMap map[*ControlFlowShape]*DiagramProcess
+	DiagramStructure_ControlFlow_Shapes_reverseMap map[*ControlFlowShape]*DiagramStructure
 
-	DiagramProcess_DataFlowsWhoseNodeIsExpanded_reverseMap map[*DataFlow]*DiagramProcess
+	DiagramStructure_DataFlowsWhoseNodeIsExpanded_reverseMap map[*DataFlow]*DiagramStructure
 
-	DiagramProcess_DataFlow_Shapes_reverseMap map[*DataFlowShape]*DiagramProcess
+	DiagramStructure_DataFlow_Shapes_reverseMap map[*DataFlowShape]*DiagramStructure
 
-	DiagramProcess_DatasWhoseNodeIsExpanded_reverseMap map[*Data]*DiagramProcess
+	DiagramStructure_DatasWhoseNodeIsExpanded_reverseMap map[*Data]*DiagramStructure
 
-	DiagramProcess_Data_Shapes_reverseMap map[*DataShape]*DiagramProcess
+	DiagramStructure_Data_Shapes_reverseMap map[*DataShape]*DiagramStructure
 
-	DiagramProcess_DataFlowsWhoseDataNodeIsExpanded_reverseMap map[*DataFlow]*DiagramProcess
+	DiagramStructure_DataFlowsWhoseDataNodeIsExpanded_reverseMap map[*DataFlow]*DiagramStructure
 
-	DiagramProcess_AllocatedResourcesWhoseNodeIsExpanded_reverseMap map[*Resource]*DiagramProcess
+	DiagramStructure_AllocatedResourcesWhoseNodeIsExpanded_reverseMap map[*Resource]*DiagramStructure
 
-	DiagramProcess_AllocatedResourceShapes_reverseMap map[*AllocatedResourceShape]*DiagramProcess
+	DiagramStructure_AllocatedResourceShapes_reverseMap map[*AllocatedResourceShape]*DiagramStructure
 
-	DiagramProcess_AllocatedProcessesWhoseNodeIsExpanded_reverseMap map[*Process]*DiagramProcess
+	DiagramStructure_AllocatedSystemesWhoseNodeIsExpanded_reverseMap map[*System]*DiagramStructure
 
-	DiagramProcess_AllocatedProcessShapes_reverseMap map[*AllocatedProcessShape]*DiagramProcess
+	DiagramStructure_AllocatedSystemShapes_reverseMap map[*AllocatedSystemShape]*DiagramStructure
 
-	DiagramProcess_Note_Shapes_reverseMap map[*NoteShape]*DiagramProcess
+	DiagramStructure_Note_Shapes_reverseMap map[*NoteShape]*DiagramStructure
 
-	DiagramProcess_NotesWhoseNodeIsExpanded_reverseMap map[*Note]*DiagramProcess
+	DiagramStructure_NotesWhoseNodeIsExpanded_reverseMap map[*Note]*DiagramStructure
 
-	DiagramProcess_NoteTaskShapes_reverseMap map[*NoteTaskShape]*DiagramProcess
+	DiagramStructure_NotePortShapes_reverseMap map[*NotePortShape]*DiagramStructure
 
-	OnAfterDiagramProcessCreateCallback OnAfterCreateInterface[DiagramProcess]
-	OnAfterDiagramProcessUpdateCallback OnAfterUpdateInterface[DiagramProcess]
-	OnAfterDiagramProcessDeleteCallback OnAfterDeleteInterface[DiagramProcess]
-	OnAfterDiagramProcessReadCallback   OnAfterReadInterface[DiagramProcess]
+	OnAfterDiagramStructureCreateCallback OnAfterCreateInterface[DiagramStructure]
+	OnAfterDiagramStructureUpdateCallback OnAfterUpdateInterface[DiagramStructure]
+	OnAfterDiagramStructureDeleteCallback OnAfterDeleteInterface[DiagramStructure]
+	OnAfterDiagramStructureReadCallback   OnAfterReadInterface[DiagramStructure]
 
-	ExternalParticipantShapes                map[*ExternalParticipantShape]struct{}
-	ExternalParticipantShapes_instance       map[*ExternalParticipantShape]*ExternalParticipantShape
-	ExternalParticipantShapes_mapString      map[string]*ExternalParticipantShape
-	ExternalParticipantShapeOrder            uint
-	ExternalParticipantShape_stagedOrder     map[*ExternalParticipantShape]uint
-	ExternalParticipantShape_orderStaged     map[uint]*ExternalParticipantShape
-	ExternalParticipantShapes_reference      map[*ExternalParticipantShape]*ExternalParticipantShape
-	ExternalParticipantShapes_referenceOrder map[*ExternalParticipantShape]uint
+	ExternalPartShapes                map[*ExternalPartShape]struct{}
+	ExternalPartShapes_instance       map[*ExternalPartShape]*ExternalPartShape
+	ExternalPartShapes_mapString      map[string]*ExternalPartShape
+	ExternalPartShapeOrder            uint
+	ExternalPartShape_stagedOrder     map[*ExternalPartShape]uint
+	ExternalPartShape_orderStaged     map[uint]*ExternalPartShape
+	ExternalPartShapes_reference      map[*ExternalPartShape]*ExternalPartShape
+	ExternalPartShapes_referenceOrder map[*ExternalPartShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterExternalParticipantShapeCreateCallback OnAfterCreateInterface[ExternalParticipantShape]
-	OnAfterExternalParticipantShapeUpdateCallback OnAfterUpdateInterface[ExternalParticipantShape]
-	OnAfterExternalParticipantShapeDeleteCallback OnAfterDeleteInterface[ExternalParticipantShape]
-	OnAfterExternalParticipantShapeReadCallback   OnAfterReadInterface[ExternalParticipantShape]
+	OnAfterExternalPartShapeCreateCallback OnAfterCreateInterface[ExternalPartShape]
+	OnAfterExternalPartShapeUpdateCallback OnAfterUpdateInterface[ExternalPartShape]
+	OnAfterExternalPartShapeDeleteCallback OnAfterDeleteInterface[ExternalPartShape]
+	OnAfterExternalPartShapeReadCallback   OnAfterReadInterface[ExternalPartShape]
 
 	Librarys                map[*Library]struct{}
 	Librarys_instance       map[*Library]*Library
@@ -345,9 +345,9 @@ type Stage struct {
 
 	Library_SubLibrariesWhoseNodeIsExpanded_reverseMap map[*Library]*Library
 
-	Library_RootProcesses_reverseMap map[*Process]*Library
+	Library_RootSystemes_reverseMap map[*System]*Library
 
-	Library_ProcesssWhoseNodeIsExpanded_reverseMap map[*Process]*Library
+	Library_SystemsWhoseNodeIsExpanded_reverseMap map[*System]*Library
 
 	Library_RootDataFlows_reverseMap map[*DataFlow]*Library
 
@@ -361,7 +361,7 @@ type Stage struct {
 
 	Library_ResourcesWhoseNodeIsExpanded_reverseMap map[*Resource]*Library
 
-	Library_ParticipantsWhoseNodeIsExpanded_reverseMap map[*Participant]*Library
+	Library_PartsWhoseNodeIsExpanded_reverseMap map[*Part]*Library
 
 	Library_RootNotes_reverseMap map[*Note]*Library
 
@@ -382,12 +382,27 @@ type Stage struct {
 	Notes_referenceOrder map[*Note]uint
 
 	// insertion point for slice of pointers maps
-	Note_Tasks_reverseMap map[*Task]*Note
+	Note_Ports_reverseMap map[*Port]*Note
 
 	OnAfterNoteCreateCallback OnAfterCreateInterface[Note]
 	OnAfterNoteUpdateCallback OnAfterUpdateInterface[Note]
 	OnAfterNoteDeleteCallback OnAfterDeleteInterface[Note]
 	OnAfterNoteReadCallback   OnAfterReadInterface[Note]
+
+	NotePortShapes                map[*NotePortShape]struct{}
+	NotePortShapes_instance       map[*NotePortShape]*NotePortShape
+	NotePortShapes_mapString      map[string]*NotePortShape
+	NotePortShapeOrder            uint
+	NotePortShape_stagedOrder     map[*NotePortShape]uint
+	NotePortShape_orderStaged     map[uint]*NotePortShape
+	NotePortShapes_reference      map[*NotePortShape]*NotePortShape
+	NotePortShapes_referenceOrder map[*NotePortShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterNotePortShapeCreateCallback OnAfterCreateInterface[NotePortShape]
+	OnAfterNotePortShapeUpdateCallback OnAfterUpdateInterface[NotePortShape]
+	OnAfterNotePortShapeDeleteCallback OnAfterDeleteInterface[NotePortShape]
+	OnAfterNotePortShapeReadCallback   OnAfterReadInterface[NotePortShape]
 
 	NoteShapes                map[*NoteShape]struct{}
 	NoteShapes_instance       map[*NoteShape]*NoteShape
@@ -404,112 +419,81 @@ type Stage struct {
 	OnAfterNoteShapeDeleteCallback OnAfterDeleteInterface[NoteShape]
 	OnAfterNoteShapeReadCallback   OnAfterReadInterface[NoteShape]
 
-	NoteTaskShapes                map[*NoteTaskShape]struct{}
-	NoteTaskShapes_instance       map[*NoteTaskShape]*NoteTaskShape
-	NoteTaskShapes_mapString      map[string]*NoteTaskShape
-	NoteTaskShapeOrder            uint
-	NoteTaskShape_stagedOrder     map[*NoteTaskShape]uint
-	NoteTaskShape_orderStaged     map[uint]*NoteTaskShape
-	NoteTaskShapes_reference      map[*NoteTaskShape]*NoteTaskShape
-	NoteTaskShapes_referenceOrder map[*NoteTaskShape]uint
+	Parts                map[*Part]struct{}
+	Parts_instance       map[*Part]*Part
+	Parts_mapString      map[string]*Part
+	PartOrder            uint
+	Part_stagedOrder     map[*Part]uint
+	Part_orderStaged     map[uint]*Part
+	Parts_reference      map[*Part]*Part
+	Parts_referenceOrder map[*Part]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterNoteTaskShapeCreateCallback OnAfterCreateInterface[NoteTaskShape]
-	OnAfterNoteTaskShapeUpdateCallback OnAfterUpdateInterface[NoteTaskShape]
-	OnAfterNoteTaskShapeDeleteCallback OnAfterDeleteInterface[NoteTaskShape]
-	OnAfterNoteTaskShapeReadCallback   OnAfterReadInterface[NoteTaskShape]
+	Part_Resources_reverseMap map[*Resource]*Part
 
-	Participants                map[*Participant]struct{}
-	Participants_instance       map[*Participant]*Participant
-	Participants_mapString      map[string]*Participant
-	ParticipantOrder            uint
-	Participant_stagedOrder     map[*Participant]uint
-	Participant_orderStaged     map[uint]*Participant
-	Participants_reference      map[*Participant]*Participant
-	Participants_referenceOrder map[*Participant]uint
+	Part_Systemes_reverseMap map[*System]*Part
 
-	// insertion point for slice of pointers maps
-	Participant_Resources_reverseMap map[*Resource]*Participant
+	Part_Ports_reverseMap map[*Port]*Part
 
-	Participant_Processes_reverseMap map[*Process]*Participant
+	Part_ControlFlows_reverseMap map[*ControlFlow]*Part
 
-	Participant_Tasks_reverseMap map[*Task]*Participant
+	Part_PortWhoseOutControlFlowsNodeIsExpanded_reverseMap map[*Port]*Part
 
-	Participant_ControlFlows_reverseMap map[*ControlFlow]*Participant
+	Part_PortWhoseInControlFlowsNodeIsExpanded_reverseMap map[*Port]*Part
 
-	Participant_TaskWhoseOutControlFlowsNodeIsExpanded_reverseMap map[*Task]*Participant
+	Part_PortWhoseOutDataFlowsNodeIsExpanded_reverseMap map[*Port]*Part
 
-	Participant_TaskWhoseInControlFlowsNodeIsExpanded_reverseMap map[*Task]*Participant
+	Part_PortWhoseInDataFlowsNodeIsExpanded_reverseMap map[*Port]*Part
 
-	Participant_TaskWhoseOutDataFlowsNodeIsExpanded_reverseMap map[*Task]*Participant
+	OnAfterPartCreateCallback OnAfterCreateInterface[Part]
+	OnAfterPartUpdateCallback OnAfterUpdateInterface[Part]
+	OnAfterPartDeleteCallback OnAfterDeleteInterface[Part]
+	OnAfterPartReadCallback   OnAfterReadInterface[Part]
 
-	Participant_TaskWhoseInDataFlowsNodeIsExpanded_reverseMap map[*Task]*Participant
-
-	OnAfterParticipantCreateCallback OnAfterCreateInterface[Participant]
-	OnAfterParticipantUpdateCallback OnAfterUpdateInterface[Participant]
-	OnAfterParticipantDeleteCallback OnAfterDeleteInterface[Participant]
-	OnAfterParticipantReadCallback   OnAfterReadInterface[Participant]
-
-	ParticipantShapes                map[*ParticipantShape]struct{}
-	ParticipantShapes_instance       map[*ParticipantShape]*ParticipantShape
-	ParticipantShapes_mapString      map[string]*ParticipantShape
-	ParticipantShapeOrder            uint
-	ParticipantShape_stagedOrder     map[*ParticipantShape]uint
-	ParticipantShape_orderStaged     map[uint]*ParticipantShape
-	ParticipantShapes_reference      map[*ParticipantShape]*ParticipantShape
-	ParticipantShapes_referenceOrder map[*ParticipantShape]uint
+	PartShapes                map[*PartShape]struct{}
+	PartShapes_instance       map[*PartShape]*PartShape
+	PartShapes_mapString      map[string]*PartShape
+	PartShapeOrder            uint
+	PartShape_stagedOrder     map[*PartShape]uint
+	PartShape_orderStaged     map[uint]*PartShape
+	PartShapes_reference      map[*PartShape]*PartShape
+	PartShapes_referenceOrder map[*PartShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterParticipantShapeCreateCallback OnAfterCreateInterface[ParticipantShape]
-	OnAfterParticipantShapeUpdateCallback OnAfterUpdateInterface[ParticipantShape]
-	OnAfterParticipantShapeDeleteCallback OnAfterDeleteInterface[ParticipantShape]
-	OnAfterParticipantShapeReadCallback   OnAfterReadInterface[ParticipantShape]
+	OnAfterPartShapeCreateCallback OnAfterCreateInterface[PartShape]
+	OnAfterPartShapeUpdateCallback OnAfterUpdateInterface[PartShape]
+	OnAfterPartShapeDeleteCallback OnAfterDeleteInterface[PartShape]
+	OnAfterPartShapeReadCallback   OnAfterReadInterface[PartShape]
 
-	Processs                map[*Process]struct{}
-	Processs_instance       map[*Process]*Process
-	Processs_mapString      map[string]*Process
-	ProcessOrder            uint
-	Process_stagedOrder     map[*Process]uint
-	Process_orderStaged     map[uint]*Process
-	Processs_reference      map[*Process]*Process
-	Processs_referenceOrder map[*Process]uint
-
-	// insertion point for slice of pointers maps
-	Process_DiagramProcesss_reverseMap map[*DiagramProcess]*Process
-
-	Process_DiagramProcessWhoseNodeIsExpanded_reverseMap map[*DiagramProcess]*Process
-
-	Process_SubProcesses_reverseMap map[*Process]*Process
-
-	Process_Participants_reverseMap map[*Participant]*Process
-
-	Process_ParticipantWhoseNodeIsExpanded_reverseMap map[*Participant]*Process
-
-	Process_DataFlows_reverseMap map[*DataFlow]*Process
-
-	Process_ExternalParticipants_reverseMap map[*Participant]*Process
-
-	Process_ExternalParticipantWhoseNodeIsExpanded_reverseMap map[*Participant]*Process
-
-	OnAfterProcessCreateCallback OnAfterCreateInterface[Process]
-	OnAfterProcessUpdateCallback OnAfterUpdateInterface[Process]
-	OnAfterProcessDeleteCallback OnAfterDeleteInterface[Process]
-	OnAfterProcessReadCallback   OnAfterReadInterface[Process]
-
-	ProcessShapes                map[*ProcessShape]struct{}
-	ProcessShapes_instance       map[*ProcessShape]*ProcessShape
-	ProcessShapes_mapString      map[string]*ProcessShape
-	ProcessShapeOrder            uint
-	ProcessShape_stagedOrder     map[*ProcessShape]uint
-	ProcessShape_orderStaged     map[uint]*ProcessShape
-	ProcessShapes_reference      map[*ProcessShape]*ProcessShape
-	ProcessShapes_referenceOrder map[*ProcessShape]uint
+	Ports                map[*Port]struct{}
+	Ports_instance       map[*Port]*Port
+	Ports_mapString      map[string]*Port
+	PortOrder            uint
+	Port_stagedOrder     map[*Port]uint
+	Port_orderStaged     map[uint]*Port
+	Ports_reference      map[*Port]*Port
+	Ports_referenceOrder map[*Port]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterProcessShapeCreateCallback OnAfterCreateInterface[ProcessShape]
-	OnAfterProcessShapeUpdateCallback OnAfterUpdateInterface[ProcessShape]
-	OnAfterProcessShapeDeleteCallback OnAfterDeleteInterface[ProcessShape]
-	OnAfterProcessShapeReadCallback   OnAfterReadInterface[ProcessShape]
+	OnAfterPortCreateCallback OnAfterCreateInterface[Port]
+	OnAfterPortUpdateCallback OnAfterUpdateInterface[Port]
+	OnAfterPortDeleteCallback OnAfterDeleteInterface[Port]
+	OnAfterPortReadCallback   OnAfterReadInterface[Port]
+
+	PortShapes                map[*PortShape]struct{}
+	PortShapes_instance       map[*PortShape]*PortShape
+	PortShapes_mapString      map[string]*PortShape
+	PortShapeOrder            uint
+	PortShape_stagedOrder     map[*PortShape]uint
+	PortShape_orderStaged     map[uint]*PortShape
+	PortShapes_reference      map[*PortShape]*PortShape
+	PortShapes_referenceOrder map[*PortShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPortShapeCreateCallback OnAfterCreateInterface[PortShape]
+	OnAfterPortShapeUpdateCallback OnAfterUpdateInterface[PortShape]
+	OnAfterPortShapeDeleteCallback OnAfterDeleteInterface[PortShape]
+	OnAfterPortShapeReadCallback   OnAfterReadInterface[PortShape]
 
 	Resources                map[*Resource]struct{}
 	Resources_instance       map[*Resource]*Resource
@@ -526,35 +510,51 @@ type Stage struct {
 	OnAfterResourceDeleteCallback OnAfterDeleteInterface[Resource]
 	OnAfterResourceReadCallback   OnAfterReadInterface[Resource]
 
-	Tasks                map[*Task]struct{}
-	Tasks_instance       map[*Task]*Task
-	Tasks_mapString      map[string]*Task
-	TaskOrder            uint
-	Task_stagedOrder     map[*Task]uint
-	Task_orderStaged     map[uint]*Task
-	Tasks_reference      map[*Task]*Task
-	Tasks_referenceOrder map[*Task]uint
+	Systems                map[*System]struct{}
+	Systems_instance       map[*System]*System
+	Systems_mapString      map[string]*System
+	SystemOrder            uint
+	System_stagedOrder     map[*System]uint
+	System_orderStaged     map[uint]*System
+	Systems_reference      map[*System]*System
+	Systems_referenceOrder map[*System]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTaskCreateCallback OnAfterCreateInterface[Task]
-	OnAfterTaskUpdateCallback OnAfterUpdateInterface[Task]
-	OnAfterTaskDeleteCallback OnAfterDeleteInterface[Task]
-	OnAfterTaskReadCallback   OnAfterReadInterface[Task]
+	System_DiagramStructures_reverseMap map[*DiagramStructure]*System
 
-	TaskShapes                map[*TaskShape]struct{}
-	TaskShapes_instance       map[*TaskShape]*TaskShape
-	TaskShapes_mapString      map[string]*TaskShape
-	TaskShapeOrder            uint
-	TaskShape_stagedOrder     map[*TaskShape]uint
-	TaskShape_orderStaged     map[uint]*TaskShape
-	TaskShapes_reference      map[*TaskShape]*TaskShape
-	TaskShapes_referenceOrder map[*TaskShape]uint
+	System_DiagramStructureWhoseNodeIsExpanded_reverseMap map[*DiagramStructure]*System
+
+	System_SubSystemes_reverseMap map[*System]*System
+
+	System_Parts_reverseMap map[*Part]*System
+
+	System_PartWhoseNodeIsExpanded_reverseMap map[*Part]*System
+
+	System_DataFlows_reverseMap map[*DataFlow]*System
+
+	System_ExternalParts_reverseMap map[*Part]*System
+
+	System_ExternalPartWhoseNodeIsExpanded_reverseMap map[*Part]*System
+
+	OnAfterSystemCreateCallback OnAfterCreateInterface[System]
+	OnAfterSystemUpdateCallback OnAfterUpdateInterface[System]
+	OnAfterSystemDeleteCallback OnAfterDeleteInterface[System]
+	OnAfterSystemReadCallback   OnAfterReadInterface[System]
+
+	SystemShapes                map[*SystemShape]struct{}
+	SystemShapes_instance       map[*SystemShape]*SystemShape
+	SystemShapes_mapString      map[string]*SystemShape
+	SystemShapeOrder            uint
+	SystemShape_stagedOrder     map[*SystemShape]uint
+	SystemShape_orderStaged     map[uint]*SystemShape
+	SystemShapes_reference      map[*SystemShape]*SystemShape
+	SystemShapes_referenceOrder map[*SystemShape]uint
 
 	// insertion point for slice of pointers maps
-	OnAfterTaskShapeCreateCallback OnAfterCreateInterface[TaskShape]
-	OnAfterTaskShapeUpdateCallback OnAfterUpdateInterface[TaskShape]
-	OnAfterTaskShapeDeleteCallback OnAfterDeleteInterface[TaskShape]
-	OnAfterTaskShapeReadCallback   OnAfterReadInterface[TaskShape]
+	OnAfterSystemShapeCreateCallback OnAfterCreateInterface[SystemShape]
+	OnAfterSystemShapeUpdateCallback OnAfterUpdateInterface[SystemShape]
+	OnAfterSystemShapeDeleteCallback OnAfterDeleteInterface[SystemShape]
+	OnAfterSystemShapeReadCallback   OnAfterReadInterface[SystemShape]
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -792,13 +792,13 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
-	stage.AllocatedProcessShapes_reference = make(map[*AllocatedProcessShape]*AllocatedProcessShape)
-	stage.AllocatedProcessShapes_instance = make(map[*AllocatedProcessShape]*AllocatedProcessShape)
-	stage.AllocatedProcessShapes_referenceOrder = make(map[*AllocatedProcessShape]uint)
-
 	stage.AllocatedResourceShapes_reference = make(map[*AllocatedResourceShape]*AllocatedResourceShape)
 	stage.AllocatedResourceShapes_instance = make(map[*AllocatedResourceShape]*AllocatedResourceShape)
 	stage.AllocatedResourceShapes_referenceOrder = make(map[*AllocatedResourceShape]uint)
+
+	stage.AllocatedSystemShapes_reference = make(map[*AllocatedSystemShape]*AllocatedSystemShape)
+	stage.AllocatedSystemShapes_instance = make(map[*AllocatedSystemShape]*AllocatedSystemShape)
+	stage.AllocatedSystemShapes_referenceOrder = make(map[*AllocatedSystemShape]uint)
 
 	stage.ControlFlows_reference = make(map[*ControlFlow]*ControlFlow)
 	stage.ControlFlows_instance = make(map[*ControlFlow]*ControlFlow)
@@ -824,13 +824,13 @@ func (stage *Stage) Squash() {
 	stage.DataShapes_instance = make(map[*DataShape]*DataShape)
 	stage.DataShapes_referenceOrder = make(map[*DataShape]uint)
 
-	stage.DiagramProcesss_reference = make(map[*DiagramProcess]*DiagramProcess)
-	stage.DiagramProcesss_instance = make(map[*DiagramProcess]*DiagramProcess)
-	stage.DiagramProcesss_referenceOrder = make(map[*DiagramProcess]uint)
+	stage.DiagramStructures_reference = make(map[*DiagramStructure]*DiagramStructure)
+	stage.DiagramStructures_instance = make(map[*DiagramStructure]*DiagramStructure)
+	stage.DiagramStructures_referenceOrder = make(map[*DiagramStructure]uint)
 
-	stage.ExternalParticipantShapes_reference = make(map[*ExternalParticipantShape]*ExternalParticipantShape)
-	stage.ExternalParticipantShapes_instance = make(map[*ExternalParticipantShape]*ExternalParticipantShape)
-	stage.ExternalParticipantShapes_referenceOrder = make(map[*ExternalParticipantShape]uint)
+	stage.ExternalPartShapes_reference = make(map[*ExternalPartShape]*ExternalPartShape)
+	stage.ExternalPartShapes_instance = make(map[*ExternalPartShape]*ExternalPartShape)
+	stage.ExternalPartShapes_referenceOrder = make(map[*ExternalPartShape]uint)
 
 	stage.Librarys_reference = make(map[*Library]*Library)
 	stage.Librarys_instance = make(map[*Library]*Library)
@@ -840,41 +840,41 @@ func (stage *Stage) Squash() {
 	stage.Notes_instance = make(map[*Note]*Note)
 	stage.Notes_referenceOrder = make(map[*Note]uint)
 
+	stage.NotePortShapes_reference = make(map[*NotePortShape]*NotePortShape)
+	stage.NotePortShapes_instance = make(map[*NotePortShape]*NotePortShape)
+	stage.NotePortShapes_referenceOrder = make(map[*NotePortShape]uint)
+
 	stage.NoteShapes_reference = make(map[*NoteShape]*NoteShape)
 	stage.NoteShapes_instance = make(map[*NoteShape]*NoteShape)
 	stage.NoteShapes_referenceOrder = make(map[*NoteShape]uint)
 
-	stage.NoteTaskShapes_reference = make(map[*NoteTaskShape]*NoteTaskShape)
-	stage.NoteTaskShapes_instance = make(map[*NoteTaskShape]*NoteTaskShape)
-	stage.NoteTaskShapes_referenceOrder = make(map[*NoteTaskShape]uint)
+	stage.Parts_reference = make(map[*Part]*Part)
+	stage.Parts_instance = make(map[*Part]*Part)
+	stage.Parts_referenceOrder = make(map[*Part]uint)
 
-	stage.Participants_reference = make(map[*Participant]*Participant)
-	stage.Participants_instance = make(map[*Participant]*Participant)
-	stage.Participants_referenceOrder = make(map[*Participant]uint)
+	stage.PartShapes_reference = make(map[*PartShape]*PartShape)
+	stage.PartShapes_instance = make(map[*PartShape]*PartShape)
+	stage.PartShapes_referenceOrder = make(map[*PartShape]uint)
 
-	stage.ParticipantShapes_reference = make(map[*ParticipantShape]*ParticipantShape)
-	stage.ParticipantShapes_instance = make(map[*ParticipantShape]*ParticipantShape)
-	stage.ParticipantShapes_referenceOrder = make(map[*ParticipantShape]uint)
+	stage.Ports_reference = make(map[*Port]*Port)
+	stage.Ports_instance = make(map[*Port]*Port)
+	stage.Ports_referenceOrder = make(map[*Port]uint)
 
-	stage.Processs_reference = make(map[*Process]*Process)
-	stage.Processs_instance = make(map[*Process]*Process)
-	stage.Processs_referenceOrder = make(map[*Process]uint)
-
-	stage.ProcessShapes_reference = make(map[*ProcessShape]*ProcessShape)
-	stage.ProcessShapes_instance = make(map[*ProcessShape]*ProcessShape)
-	stage.ProcessShapes_referenceOrder = make(map[*ProcessShape]uint)
+	stage.PortShapes_reference = make(map[*PortShape]*PortShape)
+	stage.PortShapes_instance = make(map[*PortShape]*PortShape)
+	stage.PortShapes_referenceOrder = make(map[*PortShape]uint)
 
 	stage.Resources_reference = make(map[*Resource]*Resource)
 	stage.Resources_instance = make(map[*Resource]*Resource)
 	stage.Resources_referenceOrder = make(map[*Resource]uint)
 
-	stage.Tasks_reference = make(map[*Task]*Task)
-	stage.Tasks_instance = make(map[*Task]*Task)
-	stage.Tasks_referenceOrder = make(map[*Task]uint)
+	stage.Systems_reference = make(map[*System]*System)
+	stage.Systems_instance = make(map[*System]*System)
+	stage.Systems_referenceOrder = make(map[*System]uint)
 
-	stage.TaskShapes_reference = make(map[*TaskShape]*TaskShape)
-	stage.TaskShapes_instance = make(map[*TaskShape]*TaskShape)
-	stage.TaskShapes_referenceOrder = make(map[*TaskShape]uint)
+	stage.SystemShapes_reference = make(map[*SystemShape]*SystemShape)
+	stage.SystemShapes_instance = make(map[*SystemShape]*SystemShape)
+	stage.SystemShapes_referenceOrder = make(map[*SystemShape]uint)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -903,20 +903,6 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
-	var maxAllocatedProcessShapeOrder uint
-	var foundAllocatedProcessShape bool
-	for _, order := range stage.AllocatedProcessShape_stagedOrder {
-		if !foundAllocatedProcessShape || order > maxAllocatedProcessShapeOrder {
-			maxAllocatedProcessShapeOrder = order
-			foundAllocatedProcessShape = true
-		}
-	}
-	if foundAllocatedProcessShape {
-		stage.AllocatedProcessShapeOrder = maxAllocatedProcessShapeOrder + 1
-	} else {
-		stage.AllocatedProcessShapeOrder = 0
-	}
-
 	var maxAllocatedResourceShapeOrder uint
 	var foundAllocatedResourceShape bool
 	for _, order := range stage.AllocatedResourceShape_stagedOrder {
@@ -929,6 +915,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.AllocatedResourceShapeOrder = maxAllocatedResourceShapeOrder + 1
 	} else {
 		stage.AllocatedResourceShapeOrder = 0
+	}
+
+	var maxAllocatedSystemShapeOrder uint
+	var foundAllocatedSystemShape bool
+	for _, order := range stage.AllocatedSystemShape_stagedOrder {
+		if !foundAllocatedSystemShape || order > maxAllocatedSystemShapeOrder {
+			maxAllocatedSystemShapeOrder = order
+			foundAllocatedSystemShape = true
+		}
+	}
+	if foundAllocatedSystemShape {
+		stage.AllocatedSystemShapeOrder = maxAllocatedSystemShapeOrder + 1
+	} else {
+		stage.AllocatedSystemShapeOrder = 0
 	}
 
 	var maxControlFlowOrder uint
@@ -1015,32 +1015,32 @@ func (stage *Stage) recomputeOrders() {
 		stage.DataShapeOrder = 0
 	}
 
-	var maxDiagramProcessOrder uint
-	var foundDiagramProcess bool
-	for _, order := range stage.DiagramProcess_stagedOrder {
-		if !foundDiagramProcess || order > maxDiagramProcessOrder {
-			maxDiagramProcessOrder = order
-			foundDiagramProcess = true
+	var maxDiagramStructureOrder uint
+	var foundDiagramStructure bool
+	for _, order := range stage.DiagramStructure_stagedOrder {
+		if !foundDiagramStructure || order > maxDiagramStructureOrder {
+			maxDiagramStructureOrder = order
+			foundDiagramStructure = true
 		}
 	}
-	if foundDiagramProcess {
-		stage.DiagramProcessOrder = maxDiagramProcessOrder + 1
+	if foundDiagramStructure {
+		stage.DiagramStructureOrder = maxDiagramStructureOrder + 1
 	} else {
-		stage.DiagramProcessOrder = 0
+		stage.DiagramStructureOrder = 0
 	}
 
-	var maxExternalParticipantShapeOrder uint
-	var foundExternalParticipantShape bool
-	for _, order := range stage.ExternalParticipantShape_stagedOrder {
-		if !foundExternalParticipantShape || order > maxExternalParticipantShapeOrder {
-			maxExternalParticipantShapeOrder = order
-			foundExternalParticipantShape = true
+	var maxExternalPartShapeOrder uint
+	var foundExternalPartShape bool
+	for _, order := range stage.ExternalPartShape_stagedOrder {
+		if !foundExternalPartShape || order > maxExternalPartShapeOrder {
+			maxExternalPartShapeOrder = order
+			foundExternalPartShape = true
 		}
 	}
-	if foundExternalParticipantShape {
-		stage.ExternalParticipantShapeOrder = maxExternalParticipantShapeOrder + 1
+	if foundExternalPartShape {
+		stage.ExternalPartShapeOrder = maxExternalPartShapeOrder + 1
 	} else {
-		stage.ExternalParticipantShapeOrder = 0
+		stage.ExternalPartShapeOrder = 0
 	}
 
 	var maxLibraryOrder uint
@@ -1071,6 +1071,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.NoteOrder = 0
 	}
 
+	var maxNotePortShapeOrder uint
+	var foundNotePortShape bool
+	for _, order := range stage.NotePortShape_stagedOrder {
+		if !foundNotePortShape || order > maxNotePortShapeOrder {
+			maxNotePortShapeOrder = order
+			foundNotePortShape = true
+		}
+	}
+	if foundNotePortShape {
+		stage.NotePortShapeOrder = maxNotePortShapeOrder + 1
+	} else {
+		stage.NotePortShapeOrder = 0
+	}
+
 	var maxNoteShapeOrder uint
 	var foundNoteShape bool
 	for _, order := range stage.NoteShape_stagedOrder {
@@ -1085,74 +1099,60 @@ func (stage *Stage) recomputeOrders() {
 		stage.NoteShapeOrder = 0
 	}
 
-	var maxNoteTaskShapeOrder uint
-	var foundNoteTaskShape bool
-	for _, order := range stage.NoteTaskShape_stagedOrder {
-		if !foundNoteTaskShape || order > maxNoteTaskShapeOrder {
-			maxNoteTaskShapeOrder = order
-			foundNoteTaskShape = true
+	var maxPartOrder uint
+	var foundPart bool
+	for _, order := range stage.Part_stagedOrder {
+		if !foundPart || order > maxPartOrder {
+			maxPartOrder = order
+			foundPart = true
 		}
 	}
-	if foundNoteTaskShape {
-		stage.NoteTaskShapeOrder = maxNoteTaskShapeOrder + 1
+	if foundPart {
+		stage.PartOrder = maxPartOrder + 1
 	} else {
-		stage.NoteTaskShapeOrder = 0
+		stage.PartOrder = 0
 	}
 
-	var maxParticipantOrder uint
-	var foundParticipant bool
-	for _, order := range stage.Participant_stagedOrder {
-		if !foundParticipant || order > maxParticipantOrder {
-			maxParticipantOrder = order
-			foundParticipant = true
+	var maxPartShapeOrder uint
+	var foundPartShape bool
+	for _, order := range stage.PartShape_stagedOrder {
+		if !foundPartShape || order > maxPartShapeOrder {
+			maxPartShapeOrder = order
+			foundPartShape = true
 		}
 	}
-	if foundParticipant {
-		stage.ParticipantOrder = maxParticipantOrder + 1
+	if foundPartShape {
+		stage.PartShapeOrder = maxPartShapeOrder + 1
 	} else {
-		stage.ParticipantOrder = 0
+		stage.PartShapeOrder = 0
 	}
 
-	var maxParticipantShapeOrder uint
-	var foundParticipantShape bool
-	for _, order := range stage.ParticipantShape_stagedOrder {
-		if !foundParticipantShape || order > maxParticipantShapeOrder {
-			maxParticipantShapeOrder = order
-			foundParticipantShape = true
+	var maxPortOrder uint
+	var foundPort bool
+	for _, order := range stage.Port_stagedOrder {
+		if !foundPort || order > maxPortOrder {
+			maxPortOrder = order
+			foundPort = true
 		}
 	}
-	if foundParticipantShape {
-		stage.ParticipantShapeOrder = maxParticipantShapeOrder + 1
+	if foundPort {
+		stage.PortOrder = maxPortOrder + 1
 	} else {
-		stage.ParticipantShapeOrder = 0
+		stage.PortOrder = 0
 	}
 
-	var maxProcessOrder uint
-	var foundProcess bool
-	for _, order := range stage.Process_stagedOrder {
-		if !foundProcess || order > maxProcessOrder {
-			maxProcessOrder = order
-			foundProcess = true
+	var maxPortShapeOrder uint
+	var foundPortShape bool
+	for _, order := range stage.PortShape_stagedOrder {
+		if !foundPortShape || order > maxPortShapeOrder {
+			maxPortShapeOrder = order
+			foundPortShape = true
 		}
 	}
-	if foundProcess {
-		stage.ProcessOrder = maxProcessOrder + 1
+	if foundPortShape {
+		stage.PortShapeOrder = maxPortShapeOrder + 1
 	} else {
-		stage.ProcessOrder = 0
-	}
-
-	var maxProcessShapeOrder uint
-	var foundProcessShape bool
-	for _, order := range stage.ProcessShape_stagedOrder {
-		if !foundProcessShape || order > maxProcessShapeOrder {
-			maxProcessShapeOrder = order
-			foundProcessShape = true
-		}
-	}
-	if foundProcessShape {
-		stage.ProcessShapeOrder = maxProcessShapeOrder + 1
-	} else {
-		stage.ProcessShapeOrder = 0
+		stage.PortShapeOrder = 0
 	}
 
 	var maxResourceOrder uint
@@ -1169,32 +1169,32 @@ func (stage *Stage) recomputeOrders() {
 		stage.ResourceOrder = 0
 	}
 
-	var maxTaskOrder uint
-	var foundTask bool
-	for _, order := range stage.Task_stagedOrder {
-		if !foundTask || order > maxTaskOrder {
-			maxTaskOrder = order
-			foundTask = true
+	var maxSystemOrder uint
+	var foundSystem bool
+	for _, order := range stage.System_stagedOrder {
+		if !foundSystem || order > maxSystemOrder {
+			maxSystemOrder = order
+			foundSystem = true
 		}
 	}
-	if foundTask {
-		stage.TaskOrder = maxTaskOrder + 1
+	if foundSystem {
+		stage.SystemOrder = maxSystemOrder + 1
 	} else {
-		stage.TaskOrder = 0
+		stage.SystemOrder = 0
 	}
 
-	var maxTaskShapeOrder uint
-	var foundTaskShape bool
-	for _, order := range stage.TaskShape_stagedOrder {
-		if !foundTaskShape || order > maxTaskShapeOrder {
-			maxTaskShapeOrder = order
-			foundTaskShape = true
+	var maxSystemShapeOrder uint
+	var foundSystemShape bool
+	for _, order := range stage.SystemShape_stagedOrder {
+		if !foundSystemShape || order > maxSystemShapeOrder {
+			maxSystemShapeOrder = order
+			foundSystemShape = true
 		}
 	}
-	if foundTaskShape {
-		stage.TaskShapeOrder = maxTaskShapeOrder + 1
+	if foundSystemShape {
+		stage.SystemShapeOrder = maxSystemShapeOrder + 1
 	} else {
-		stage.TaskShapeOrder = 0
+		stage.SystemShapeOrder = 0
 	}
 
 	// end of insertion point for max order recomputation
@@ -1258,20 +1258,6 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
-	case *AllocatedProcessShape:
-		tmp := GetStructInstancesByOrder(stage.AllocatedProcessShapes, stage.AllocatedProcessShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *AllocatedProcessShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
 	case *AllocatedResourceShape:
 		tmp := GetStructInstancesByOrder(stage.AllocatedResourceShapes, stage.AllocatedResourceShape_stagedOrder)
 
@@ -1283,6 +1269,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *AllocatedResourceShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *AllocatedSystemShape:
+		tmp := GetStructInstancesByOrder(stage.AllocatedSystemShapes, stage.AllocatedSystemShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *AllocatedSystemShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -1370,8 +1370,8 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *DiagramProcess:
-		tmp := GetStructInstancesByOrder(stage.DiagramProcesss, stage.DiagramProcess_stagedOrder)
+	case *DiagramStructure:
+		tmp := GetStructInstancesByOrder(stage.DiagramStructures, stage.DiagramStructure_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1380,12 +1380,12 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		for _, v := range tmp {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *DiagramProcess implements.
+			// is an interface that *DiagramStructure implements.
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *ExternalParticipantShape:
-		tmp := GetStructInstancesByOrder(stage.ExternalParticipantShapes, stage.ExternalParticipantShape_stagedOrder)
+	case *ExternalPartShape:
+		tmp := GetStructInstancesByOrder(stage.ExternalPartShapes, stage.ExternalPartShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1394,7 +1394,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		for _, v := range tmp {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *ExternalParticipantShape implements.
+			// is an interface that *ExternalPartShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -1426,6 +1426,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *NotePortShape:
+		tmp := GetStructInstancesByOrder(stage.NotePortShapes, stage.NotePortShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *NotePortShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *NoteShape:
 		tmp := GetStructInstancesByOrder(stage.NoteShapes, stage.NoteShape_stagedOrder)
 
@@ -1440,8 +1454,8 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *NoteTaskShape:
-		tmp := GetStructInstancesByOrder(stage.NoteTaskShapes, stage.NoteTaskShape_stagedOrder)
+	case *Part:
+		tmp := GetStructInstancesByOrder(stage.Parts, stage.Part_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1450,12 +1464,12 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		for _, v := range tmp {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *NoteTaskShape implements.
+			// is an interface that *Part implements.
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *Participant:
-		tmp := GetStructInstancesByOrder(stage.Participants, stage.Participant_stagedOrder)
+	case *PartShape:
+		tmp := GetStructInstancesByOrder(stage.PartShapes, stage.PartShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1464,12 +1478,12 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		for _, v := range tmp {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Participant implements.
+			// is an interface that *PartShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *ParticipantShape:
-		tmp := GetStructInstancesByOrder(stage.ParticipantShapes, stage.ParticipantShape_stagedOrder)
+	case *Port:
+		tmp := GetStructInstancesByOrder(stage.Ports, stage.Port_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1478,12 +1492,12 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		for _, v := range tmp {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *ParticipantShape implements.
+			// is an interface that *Port implements.
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *Process:
-		tmp := GetStructInstancesByOrder(stage.Processs, stage.Process_stagedOrder)
+	case *PortShape:
+		tmp := GetStructInstancesByOrder(stage.PortShapes, stage.PortShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1492,21 +1506,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		for _, v := range tmp {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Process implements.
-			res = append(res, any(v).(T))
-		}
-		return res
-	case *ProcessShape:
-		tmp := GetStructInstancesByOrder(stage.ProcessShapes, stage.ProcessShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *ProcessShape implements.
+			// is an interface that *PortShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -1524,8 +1524,8 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *Task:
-		tmp := GetStructInstancesByOrder(stage.Tasks, stage.Task_stagedOrder)
+	case *System:
+		tmp := GetStructInstancesByOrder(stage.Systems, stage.System_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1534,12 +1534,12 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		for _, v := range tmp {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Task implements.
+			// is an interface that *System implements.
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *TaskShape:
-		tmp := GetStructInstancesByOrder(stage.TaskShapes, stage.TaskShape_stagedOrder)
+	case *SystemShape:
+		tmp := GetStructInstancesByOrder(stage.SystemShapes, stage.SystemShape_stagedOrder)
 
 		// Create a new slice of the generic type T with the same capacity.
 		res = make([]T, 0, len(tmp))
@@ -1548,7 +1548,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 		for _, v := range tmp {
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *TaskShape implements.
+			// is an interface that *SystemShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -1581,10 +1581,10 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 	switch namedStructName {
 	// insertion point for case
-	case "AllocatedProcessShape":
-		res = GetNamedStructInstances(stage.AllocatedProcessShapes, stage.AllocatedProcessShape_stagedOrder)
 	case "AllocatedResourceShape":
 		res = GetNamedStructInstances(stage.AllocatedResourceShapes, stage.AllocatedResourceShape_stagedOrder)
+	case "AllocatedSystemShape":
+		res = GetNamedStructInstances(stage.AllocatedSystemShapes, stage.AllocatedSystemShape_stagedOrder)
 	case "ControlFlow":
 		res = GetNamedStructInstances(stage.ControlFlows, stage.ControlFlow_stagedOrder)
 	case "ControlFlowShape":
@@ -1597,32 +1597,32 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.DataFlowShapes, stage.DataFlowShape_stagedOrder)
 	case "DataShape":
 		res = GetNamedStructInstances(stage.DataShapes, stage.DataShape_stagedOrder)
-	case "DiagramProcess":
-		res = GetNamedStructInstances(stage.DiagramProcesss, stage.DiagramProcess_stagedOrder)
-	case "ExternalParticipantShape":
-		res = GetNamedStructInstances(stage.ExternalParticipantShapes, stage.ExternalParticipantShape_stagedOrder)
+	case "DiagramStructure":
+		res = GetNamedStructInstances(stage.DiagramStructures, stage.DiagramStructure_stagedOrder)
+	case "ExternalPartShape":
+		res = GetNamedStructInstances(stage.ExternalPartShapes, stage.ExternalPartShape_stagedOrder)
 	case "Library":
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
 	case "Note":
 		res = GetNamedStructInstances(stage.Notes, stage.Note_stagedOrder)
+	case "NotePortShape":
+		res = GetNamedStructInstances(stage.NotePortShapes, stage.NotePortShape_stagedOrder)
 	case "NoteShape":
 		res = GetNamedStructInstances(stage.NoteShapes, stage.NoteShape_stagedOrder)
-	case "NoteTaskShape":
-		res = GetNamedStructInstances(stage.NoteTaskShapes, stage.NoteTaskShape_stagedOrder)
-	case "Participant":
-		res = GetNamedStructInstances(stage.Participants, stage.Participant_stagedOrder)
-	case "ParticipantShape":
-		res = GetNamedStructInstances(stage.ParticipantShapes, stage.ParticipantShape_stagedOrder)
-	case "Process":
-		res = GetNamedStructInstances(stage.Processs, stage.Process_stagedOrder)
-	case "ProcessShape":
-		res = GetNamedStructInstances(stage.ProcessShapes, stage.ProcessShape_stagedOrder)
+	case "Part":
+		res = GetNamedStructInstances(stage.Parts, stage.Part_stagedOrder)
+	case "PartShape":
+		res = GetNamedStructInstances(stage.PartShapes, stage.PartShape_stagedOrder)
+	case "Port":
+		res = GetNamedStructInstances(stage.Ports, stage.Port_stagedOrder)
+	case "PortShape":
+		res = GetNamedStructInstances(stage.PortShapes, stage.PortShape_stagedOrder)
 	case "Resource":
 		res = GetNamedStructInstances(stage.Resources, stage.Resource_stagedOrder)
-	case "Task":
-		res = GetNamedStructInstances(stage.Tasks, stage.Task_stagedOrder)
-	case "TaskShape":
-		res = GetNamedStructInstances(stage.TaskShapes, stage.TaskShape_stagedOrder)
+	case "System":
+		res = GetNamedStructInstances(stage.Systems, stage.System_stagedOrder)
+	case "SystemShape":
+		res = GetNamedStructInstances(stage.SystemShapes, stage.SystemShape_stagedOrder)
 	}
 
 	return
@@ -1692,10 +1692,10 @@ type BackRepoInterface interface {
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
 	// insertion point for Commit and Checkout signatures
-	CommitAllocatedProcessShape(allocatedprocessshape *AllocatedProcessShape)
-	CheckoutAllocatedProcessShape(allocatedprocessshape *AllocatedProcessShape)
 	CommitAllocatedResourceShape(allocatedresourceshape *AllocatedResourceShape)
 	CheckoutAllocatedResourceShape(allocatedresourceshape *AllocatedResourceShape)
+	CommitAllocatedSystemShape(allocatedsystemshape *AllocatedSystemShape)
+	CheckoutAllocatedSystemShape(allocatedsystemshape *AllocatedSystemShape)
 	CommitControlFlow(controlflow *ControlFlow)
 	CheckoutControlFlow(controlflow *ControlFlow)
 	CommitControlFlowShape(controlflowshape *ControlFlowShape)
@@ -1708,43 +1708,43 @@ type BackRepoInterface interface {
 	CheckoutDataFlowShape(dataflowshape *DataFlowShape)
 	CommitDataShape(datashape *DataShape)
 	CheckoutDataShape(datashape *DataShape)
-	CommitDiagramProcess(diagramprocess *DiagramProcess)
-	CheckoutDiagramProcess(diagramprocess *DiagramProcess)
-	CommitExternalParticipantShape(externalparticipantshape *ExternalParticipantShape)
-	CheckoutExternalParticipantShape(externalparticipantshape *ExternalParticipantShape)
+	CommitDiagramStructure(diagramstructure *DiagramStructure)
+	CheckoutDiagramStructure(diagramstructure *DiagramStructure)
+	CommitExternalPartShape(externalpartshape *ExternalPartShape)
+	CheckoutExternalPartShape(externalpartshape *ExternalPartShape)
 	CommitLibrary(library *Library)
 	CheckoutLibrary(library *Library)
 	CommitNote(note *Note)
 	CheckoutNote(note *Note)
+	CommitNotePortShape(noteportshape *NotePortShape)
+	CheckoutNotePortShape(noteportshape *NotePortShape)
 	CommitNoteShape(noteshape *NoteShape)
 	CheckoutNoteShape(noteshape *NoteShape)
-	CommitNoteTaskShape(notetaskshape *NoteTaskShape)
-	CheckoutNoteTaskShape(notetaskshape *NoteTaskShape)
-	CommitParticipant(participant *Participant)
-	CheckoutParticipant(participant *Participant)
-	CommitParticipantShape(participantshape *ParticipantShape)
-	CheckoutParticipantShape(participantshape *ParticipantShape)
-	CommitProcess(process *Process)
-	CheckoutProcess(process *Process)
-	CommitProcessShape(processshape *ProcessShape)
-	CheckoutProcessShape(processshape *ProcessShape)
+	CommitPart(part *Part)
+	CheckoutPart(part *Part)
+	CommitPartShape(partshape *PartShape)
+	CheckoutPartShape(partshape *PartShape)
+	CommitPort(port *Port)
+	CheckoutPort(port *Port)
+	CommitPortShape(portshape *PortShape)
+	CheckoutPortShape(portshape *PortShape)
 	CommitResource(resource *Resource)
 	CheckoutResource(resource *Resource)
-	CommitTask(task *Task)
-	CheckoutTask(task *Task)
-	CommitTaskShape(taskshape *TaskShape)
-	CheckoutTaskShape(taskshape *TaskShape)
+	CommitSystem(system *System)
+	CheckoutSystem(system *System)
+	CommitSystemShape(systemshape *SystemShape)
+	CheckoutSystemShape(systemshape *SystemShape)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
 
 func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
-		AllocatedProcessShapes:           make(map[*AllocatedProcessShape]struct{}),
-		AllocatedProcessShapes_mapString: make(map[string]*AllocatedProcessShape),
-
 		AllocatedResourceShapes:           make(map[*AllocatedResourceShape]struct{}),
 		AllocatedResourceShapes_mapString: make(map[string]*AllocatedResourceShape),
+
+		AllocatedSystemShapes:           make(map[*AllocatedSystemShape]struct{}),
+		AllocatedSystemShapes_mapString: make(map[string]*AllocatedSystemShape),
 
 		ControlFlows:           make(map[*ControlFlow]struct{}),
 		ControlFlows_mapString: make(map[string]*ControlFlow),
@@ -1764,11 +1764,11 @@ func NewStage(name string) (stage *Stage) {
 		DataShapes:           make(map[*DataShape]struct{}),
 		DataShapes_mapString: make(map[string]*DataShape),
 
-		DiagramProcesss:           make(map[*DiagramProcess]struct{}),
-		DiagramProcesss_mapString: make(map[string]*DiagramProcess),
+		DiagramStructures:           make(map[*DiagramStructure]struct{}),
+		DiagramStructures_mapString: make(map[string]*DiagramStructure),
 
-		ExternalParticipantShapes:           make(map[*ExternalParticipantShape]struct{}),
-		ExternalParticipantShapes_mapString: make(map[string]*ExternalParticipantShape),
+		ExternalPartShapes:           make(map[*ExternalPartShape]struct{}),
+		ExternalPartShapes_mapString: make(map[string]*ExternalPartShape),
 
 		Librarys:           make(map[*Library]struct{}),
 		Librarys_mapString: make(map[string]*Library),
@@ -1776,32 +1776,32 @@ func NewStage(name string) (stage *Stage) {
 		Notes:           make(map[*Note]struct{}),
 		Notes_mapString: make(map[string]*Note),
 
+		NotePortShapes:           make(map[*NotePortShape]struct{}),
+		NotePortShapes_mapString: make(map[string]*NotePortShape),
+
 		NoteShapes:           make(map[*NoteShape]struct{}),
 		NoteShapes_mapString: make(map[string]*NoteShape),
 
-		NoteTaskShapes:           make(map[*NoteTaskShape]struct{}),
-		NoteTaskShapes_mapString: make(map[string]*NoteTaskShape),
+		Parts:           make(map[*Part]struct{}),
+		Parts_mapString: make(map[string]*Part),
 
-		Participants:           make(map[*Participant]struct{}),
-		Participants_mapString: make(map[string]*Participant),
+		PartShapes:           make(map[*PartShape]struct{}),
+		PartShapes_mapString: make(map[string]*PartShape),
 
-		ParticipantShapes:           make(map[*ParticipantShape]struct{}),
-		ParticipantShapes_mapString: make(map[string]*ParticipantShape),
+		Ports:           make(map[*Port]struct{}),
+		Ports_mapString: make(map[string]*Port),
 
-		Processs:           make(map[*Process]struct{}),
-		Processs_mapString: make(map[string]*Process),
-
-		ProcessShapes:           make(map[*ProcessShape]struct{}),
-		ProcessShapes_mapString: make(map[string]*ProcessShape),
+		PortShapes:           make(map[*PortShape]struct{}),
+		PortShapes_mapString: make(map[string]*PortShape),
 
 		Resources:           make(map[*Resource]struct{}),
 		Resources_mapString: make(map[string]*Resource),
 
-		Tasks:           make(map[*Task]struct{}),
-		Tasks_mapString: make(map[string]*Task),
+		Systems:           make(map[*System]struct{}),
+		Systems_mapString: make(map[string]*System),
 
-		TaskShapes:           make(map[*TaskShape]struct{}),
-		TaskShapes_mapString: make(map[string]*TaskShape),
+		SystemShapes:           make(map[*SystemShape]struct{}),
+		SystemShapes_mapString: make(map[string]*SystemShape),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -1813,13 +1813,13 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
-		AllocatedProcessShape_stagedOrder: make(map[*AllocatedProcessShape]uint),
-		AllocatedProcessShape_orderStaged: make(map[uint]*AllocatedProcessShape),
-		AllocatedProcessShapes_reference:  make(map[*AllocatedProcessShape]*AllocatedProcessShape),
-
 		AllocatedResourceShape_stagedOrder: make(map[*AllocatedResourceShape]uint),
 		AllocatedResourceShape_orderStaged: make(map[uint]*AllocatedResourceShape),
 		AllocatedResourceShapes_reference:  make(map[*AllocatedResourceShape]*AllocatedResourceShape),
+
+		AllocatedSystemShape_stagedOrder: make(map[*AllocatedSystemShape]uint),
+		AllocatedSystemShape_orderStaged: make(map[uint]*AllocatedSystemShape),
+		AllocatedSystemShapes_reference:  make(map[*AllocatedSystemShape]*AllocatedSystemShape),
 
 		ControlFlow_stagedOrder: make(map[*ControlFlow]uint),
 		ControlFlow_orderStaged: make(map[uint]*ControlFlow),
@@ -1845,13 +1845,13 @@ func NewStage(name string) (stage *Stage) {
 		DataShape_orderStaged: make(map[uint]*DataShape),
 		DataShapes_reference:  make(map[*DataShape]*DataShape),
 
-		DiagramProcess_stagedOrder: make(map[*DiagramProcess]uint),
-		DiagramProcess_orderStaged: make(map[uint]*DiagramProcess),
-		DiagramProcesss_reference:  make(map[*DiagramProcess]*DiagramProcess),
+		DiagramStructure_stagedOrder: make(map[*DiagramStructure]uint),
+		DiagramStructure_orderStaged: make(map[uint]*DiagramStructure),
+		DiagramStructures_reference:  make(map[*DiagramStructure]*DiagramStructure),
 
-		ExternalParticipantShape_stagedOrder: make(map[*ExternalParticipantShape]uint),
-		ExternalParticipantShape_orderStaged: make(map[uint]*ExternalParticipantShape),
-		ExternalParticipantShapes_reference:  make(map[*ExternalParticipantShape]*ExternalParticipantShape),
+		ExternalPartShape_stagedOrder: make(map[*ExternalPartShape]uint),
+		ExternalPartShape_orderStaged: make(map[uint]*ExternalPartShape),
+		ExternalPartShapes_reference:  make(map[*ExternalPartShape]*ExternalPartShape),
 
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
@@ -1861,47 +1861,47 @@ func NewStage(name string) (stage *Stage) {
 		Note_orderStaged: make(map[uint]*Note),
 		Notes_reference:  make(map[*Note]*Note),
 
+		NotePortShape_stagedOrder: make(map[*NotePortShape]uint),
+		NotePortShape_orderStaged: make(map[uint]*NotePortShape),
+		NotePortShapes_reference:  make(map[*NotePortShape]*NotePortShape),
+
 		NoteShape_stagedOrder: make(map[*NoteShape]uint),
 		NoteShape_orderStaged: make(map[uint]*NoteShape),
 		NoteShapes_reference:  make(map[*NoteShape]*NoteShape),
 
-		NoteTaskShape_stagedOrder: make(map[*NoteTaskShape]uint),
-		NoteTaskShape_orderStaged: make(map[uint]*NoteTaskShape),
-		NoteTaskShapes_reference:  make(map[*NoteTaskShape]*NoteTaskShape),
+		Part_stagedOrder: make(map[*Part]uint),
+		Part_orderStaged: make(map[uint]*Part),
+		Parts_reference:  make(map[*Part]*Part),
 
-		Participant_stagedOrder: make(map[*Participant]uint),
-		Participant_orderStaged: make(map[uint]*Participant),
-		Participants_reference:  make(map[*Participant]*Participant),
+		PartShape_stagedOrder: make(map[*PartShape]uint),
+		PartShape_orderStaged: make(map[uint]*PartShape),
+		PartShapes_reference:  make(map[*PartShape]*PartShape),
 
-		ParticipantShape_stagedOrder: make(map[*ParticipantShape]uint),
-		ParticipantShape_orderStaged: make(map[uint]*ParticipantShape),
-		ParticipantShapes_reference:  make(map[*ParticipantShape]*ParticipantShape),
+		Port_stagedOrder: make(map[*Port]uint),
+		Port_orderStaged: make(map[uint]*Port),
+		Ports_reference:  make(map[*Port]*Port),
 
-		Process_stagedOrder: make(map[*Process]uint),
-		Process_orderStaged: make(map[uint]*Process),
-		Processs_reference:  make(map[*Process]*Process),
-
-		ProcessShape_stagedOrder: make(map[*ProcessShape]uint),
-		ProcessShape_orderStaged: make(map[uint]*ProcessShape),
-		ProcessShapes_reference:  make(map[*ProcessShape]*ProcessShape),
+		PortShape_stagedOrder: make(map[*PortShape]uint),
+		PortShape_orderStaged: make(map[uint]*PortShape),
+		PortShapes_reference:  make(map[*PortShape]*PortShape),
 
 		Resource_stagedOrder: make(map[*Resource]uint),
 		Resource_orderStaged: make(map[uint]*Resource),
 		Resources_reference:  make(map[*Resource]*Resource),
 
-		Task_stagedOrder: make(map[*Task]uint),
-		Task_orderStaged: make(map[uint]*Task),
-		Tasks_reference:  make(map[*Task]*Task),
+		System_stagedOrder: make(map[*System]uint),
+		System_orderStaged: make(map[uint]*System),
+		Systems_reference:  make(map[*System]*System),
 
-		TaskShape_stagedOrder: make(map[*TaskShape]uint),
-		TaskShape_orderStaged: make(map[uint]*TaskShape),
-		TaskShapes_reference:  make(map[*TaskShape]*TaskShape),
+		SystemShape_stagedOrder: make(map[*SystemShape]uint),
+		SystemShape_orderStaged: make(map[uint]*SystemShape),
+		SystemShapes_reference:  make(map[*SystemShape]*SystemShape),
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
-			"AllocatedProcessShape": &AllocatedProcessShapeUnmarshaller{},
-
 			"AllocatedResourceShape": &AllocatedResourceShapeUnmarshaller{},
+
+			"AllocatedSystemShape": &AllocatedSystemShapeUnmarshaller{},
 
 			"ControlFlow": &ControlFlowUnmarshaller{},
 
@@ -1915,57 +1915,57 @@ func NewStage(name string) (stage *Stage) {
 
 			"DataShape": &DataShapeUnmarshaller{},
 
-			"DiagramProcess": &DiagramProcessUnmarshaller{},
+			"DiagramStructure": &DiagramStructureUnmarshaller{},
 
-			"ExternalParticipantShape": &ExternalParticipantShapeUnmarshaller{},
+			"ExternalPartShape": &ExternalPartShapeUnmarshaller{},
 
 			"Library": &LibraryUnmarshaller{},
 
 			"Note": &NoteUnmarshaller{},
 
+			"NotePortShape": &NotePortShapeUnmarshaller{},
+
 			"NoteShape": &NoteShapeUnmarshaller{},
 
-			"NoteTaskShape": &NoteTaskShapeUnmarshaller{},
+			"Part": &PartUnmarshaller{},
 
-			"Participant": &ParticipantUnmarshaller{},
+			"PartShape": &PartShapeUnmarshaller{},
 
-			"ParticipantShape": &ParticipantShapeUnmarshaller{},
+			"Port": &PortUnmarshaller{},
 
-			"Process": &ProcessUnmarshaller{},
-
-			"ProcessShape": &ProcessShapeUnmarshaller{},
+			"PortShape": &PortShapeUnmarshaller{},
 
 			"Resource": &ResourceUnmarshaller{},
 
-			"Task": &TaskUnmarshaller{},
+			"System": &SystemUnmarshaller{},
 
-			"TaskShape": &TaskShapeUnmarshaller{},
+			"SystemShape": &SystemShapeUnmarshaller{},
 
 			// end of insertion point
 		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
-			{name: "AllocatedProcessShape"},
 			{name: "AllocatedResourceShape"},
+			{name: "AllocatedSystemShape"},
 			{name: "ControlFlow"},
 			{name: "ControlFlowShape"},
 			{name: "Data"},
 			{name: "DataFlow"},
 			{name: "DataFlowShape"},
 			{name: "DataShape"},
-			{name: "DiagramProcess"},
-			{name: "ExternalParticipantShape"},
+			{name: "DiagramStructure"},
+			{name: "ExternalPartShape"},
 			{name: "Library"},
 			{name: "Note"},
+			{name: "NotePortShape"},
 			{name: "NoteShape"},
-			{name: "NoteTaskShape"},
-			{name: "Participant"},
-			{name: "ParticipantShape"},
-			{name: "Process"},
-			{name: "ProcessShape"},
+			{name: "Part"},
+			{name: "PartShape"},
+			{name: "Port"},
+			{name: "PortShape"},
 			{name: "Resource"},
-			{name: "Task"},
-			{name: "TaskShape"},
+			{name: "System"},
+			{name: "SystemShape"},
 		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
@@ -1977,10 +1977,10 @@ func NewStage(name string) (stage *Stage) {
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
-	case *AllocatedProcessShape:
-		return stage.AllocatedProcessShape_stagedOrder[instance]
 	case *AllocatedResourceShape:
 		return stage.AllocatedResourceShape_stagedOrder[instance]
+	case *AllocatedSystemShape:
+		return stage.AllocatedSystemShape_stagedOrder[instance]
 	case *ControlFlow:
 		return stage.ControlFlow_stagedOrder[instance]
 	case *ControlFlowShape:
@@ -1993,32 +1993,32 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.DataFlowShape_stagedOrder[instance]
 	case *DataShape:
 		return stage.DataShape_stagedOrder[instance]
-	case *DiagramProcess:
-		return stage.DiagramProcess_stagedOrder[instance]
-	case *ExternalParticipantShape:
-		return stage.ExternalParticipantShape_stagedOrder[instance]
+	case *DiagramStructure:
+		return stage.DiagramStructure_stagedOrder[instance]
+	case *ExternalPartShape:
+		return stage.ExternalPartShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *Note:
 		return stage.Note_stagedOrder[instance]
+	case *NotePortShape:
+		return stage.NotePortShape_stagedOrder[instance]
 	case *NoteShape:
 		return stage.NoteShape_stagedOrder[instance]
-	case *NoteTaskShape:
-		return stage.NoteTaskShape_stagedOrder[instance]
-	case *Participant:
-		return stage.Participant_stagedOrder[instance]
-	case *ParticipantShape:
-		return stage.ParticipantShape_stagedOrder[instance]
-	case *Process:
-		return stage.Process_stagedOrder[instance]
-	case *ProcessShape:
-		return stage.ProcessShape_stagedOrder[instance]
+	case *Part:
+		return stage.Part_stagedOrder[instance]
+	case *PartShape:
+		return stage.PartShape_stagedOrder[instance]
+	case *Port:
+		return stage.Port_stagedOrder[instance]
+	case *PortShape:
+		return stage.PortShape_stagedOrder[instance]
 	case *Resource:
 		return stage.Resource_stagedOrder[instance]
-	case *Task:
-		return stage.Task_stagedOrder[instance]
-	case *TaskShape:
-		return stage.TaskShape_stagedOrder[instance]
+	case *System:
+		return stage.System_stagedOrder[instance]
+	case *SystemShape:
+		return stage.SystemShape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -2028,10 +2028,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
-	case *AllocatedProcessShape:
-		return any(stage.AllocatedProcessShape_orderStaged[order]).(Type)
 	case *AllocatedResourceShape:
 		return any(stage.AllocatedResourceShape_orderStaged[order]).(Type)
+	case *AllocatedSystemShape:
+		return any(stage.AllocatedSystemShape_orderStaged[order]).(Type)
 	case *ControlFlow:
 		return any(stage.ControlFlow_orderStaged[order]).(Type)
 	case *ControlFlowShape:
@@ -2044,32 +2044,32 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.DataFlowShape_orderStaged[order]).(Type)
 	case *DataShape:
 		return any(stage.DataShape_orderStaged[order]).(Type)
-	case *DiagramProcess:
-		return any(stage.DiagramProcess_orderStaged[order]).(Type)
-	case *ExternalParticipantShape:
-		return any(stage.ExternalParticipantShape_orderStaged[order]).(Type)
+	case *DiagramStructure:
+		return any(stage.DiagramStructure_orderStaged[order]).(Type)
+	case *ExternalPartShape:
+		return any(stage.ExternalPartShape_orderStaged[order]).(Type)
 	case *Library:
 		return any(stage.Library_orderStaged[order]).(Type)
 	case *Note:
 		return any(stage.Note_orderStaged[order]).(Type)
+	case *NotePortShape:
+		return any(stage.NotePortShape_orderStaged[order]).(Type)
 	case *NoteShape:
 		return any(stage.NoteShape_orderStaged[order]).(Type)
-	case *NoteTaskShape:
-		return any(stage.NoteTaskShape_orderStaged[order]).(Type)
-	case *Participant:
-		return any(stage.Participant_orderStaged[order]).(Type)
-	case *ParticipantShape:
-		return any(stage.ParticipantShape_orderStaged[order]).(Type)
-	case *Process:
-		return any(stage.Process_orderStaged[order]).(Type)
-	case *ProcessShape:
-		return any(stage.ProcessShape_orderStaged[order]).(Type)
+	case *Part:
+		return any(stage.Part_orderStaged[order]).(Type)
+	case *PartShape:
+		return any(stage.PartShape_orderStaged[order]).(Type)
+	case *Port:
+		return any(stage.Port_orderStaged[order]).(Type)
+	case *PortShape:
+		return any(stage.PortShape_orderStaged[order]).(Type)
 	case *Resource:
 		return any(stage.Resource_orderStaged[order]).(Type)
-	case *Task:
-		return any(stage.Task_orderStaged[order]).(Type)
-	case *TaskShape:
-		return any(stage.TaskShape_orderStaged[order]).(Type)
+	case *System:
+		return any(stage.System_orderStaged[order]).(Type)
+	case *SystemShape:
+		return any(stage.SystemShape_orderStaged[order]).(Type)
 	default:
 		return // should not happen
 	}
@@ -2078,10 +2078,10 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
-	case *AllocatedProcessShape:
-		return stage.AllocatedProcessShape_stagedOrder[instance]
 	case *AllocatedResourceShape:
 		return stage.AllocatedResourceShape_stagedOrder[instance]
+	case *AllocatedSystemShape:
+		return stage.AllocatedSystemShape_stagedOrder[instance]
 	case *ControlFlow:
 		return stage.ControlFlow_stagedOrder[instance]
 	case *ControlFlowShape:
@@ -2094,32 +2094,32 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.DataFlowShape_stagedOrder[instance]
 	case *DataShape:
 		return stage.DataShape_stagedOrder[instance]
-	case *DiagramProcess:
-		return stage.DiagramProcess_stagedOrder[instance]
-	case *ExternalParticipantShape:
-		return stage.ExternalParticipantShape_stagedOrder[instance]
+	case *DiagramStructure:
+		return stage.DiagramStructure_stagedOrder[instance]
+	case *ExternalPartShape:
+		return stage.ExternalPartShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *Note:
 		return stage.Note_stagedOrder[instance]
+	case *NotePortShape:
+		return stage.NotePortShape_stagedOrder[instance]
 	case *NoteShape:
 		return stage.NoteShape_stagedOrder[instance]
-	case *NoteTaskShape:
-		return stage.NoteTaskShape_stagedOrder[instance]
-	case *Participant:
-		return stage.Participant_stagedOrder[instance]
-	case *ParticipantShape:
-		return stage.ParticipantShape_stagedOrder[instance]
-	case *Process:
-		return stage.Process_stagedOrder[instance]
-	case *ProcessShape:
-		return stage.ProcessShape_stagedOrder[instance]
+	case *Part:
+		return stage.Part_stagedOrder[instance]
+	case *PartShape:
+		return stage.PartShape_stagedOrder[instance]
+	case *Port:
+		return stage.Port_stagedOrder[instance]
+	case *PortShape:
+		return stage.PortShape_stagedOrder[instance]
 	case *Resource:
 		return stage.Resource_stagedOrder[instance]
-	case *Task:
-		return stage.Task_stagedOrder[instance]
-	case *TaskShape:
-		return stage.TaskShape_stagedOrder[instance]
+	case *System:
+		return stage.System_stagedOrder[instance]
+	case *SystemShape:
+		return stage.SystemShape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -2185,27 +2185,27 @@ func (stage *Stage) Commit() {
 
 func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["AllocatedProcessShape"] = len(stage.AllocatedProcessShapes)
 	stage.Map_GongStructName_InstancesNb["AllocatedResourceShape"] = len(stage.AllocatedResourceShapes)
+	stage.Map_GongStructName_InstancesNb["AllocatedSystemShape"] = len(stage.AllocatedSystemShapes)
 	stage.Map_GongStructName_InstancesNb["ControlFlow"] = len(stage.ControlFlows)
 	stage.Map_GongStructName_InstancesNb["ControlFlowShape"] = len(stage.ControlFlowShapes)
 	stage.Map_GongStructName_InstancesNb["Data"] = len(stage.Datas)
 	stage.Map_GongStructName_InstancesNb["DataFlow"] = len(stage.DataFlows)
 	stage.Map_GongStructName_InstancesNb["DataFlowShape"] = len(stage.DataFlowShapes)
 	stage.Map_GongStructName_InstancesNb["DataShape"] = len(stage.DataShapes)
-	stage.Map_GongStructName_InstancesNb["DiagramProcess"] = len(stage.DiagramProcesss)
-	stage.Map_GongStructName_InstancesNb["ExternalParticipantShape"] = len(stage.ExternalParticipantShapes)
+	stage.Map_GongStructName_InstancesNb["DiagramStructure"] = len(stage.DiagramStructures)
+	stage.Map_GongStructName_InstancesNb["ExternalPartShape"] = len(stage.ExternalPartShapes)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Note"] = len(stage.Notes)
+	stage.Map_GongStructName_InstancesNb["NotePortShape"] = len(stage.NotePortShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
-	stage.Map_GongStructName_InstancesNb["NoteTaskShape"] = len(stage.NoteTaskShapes)
-	stage.Map_GongStructName_InstancesNb["Participant"] = len(stage.Participants)
-	stage.Map_GongStructName_InstancesNb["ParticipantShape"] = len(stage.ParticipantShapes)
-	stage.Map_GongStructName_InstancesNb["Process"] = len(stage.Processs)
-	stage.Map_GongStructName_InstancesNb["ProcessShape"] = len(stage.ProcessShapes)
+	stage.Map_GongStructName_InstancesNb["Part"] = len(stage.Parts)
+	stage.Map_GongStructName_InstancesNb["PartShape"] = len(stage.PartShapes)
+	stage.Map_GongStructName_InstancesNb["Port"] = len(stage.Ports)
+	stage.Map_GongStructName_InstancesNb["PortShape"] = len(stage.PortShapes)
 	stage.Map_GongStructName_InstancesNb["Resource"] = len(stage.Resources)
-	stage.Map_GongStructName_InstancesNb["Task"] = len(stage.Tasks)
-	stage.Map_GongStructName_InstancesNb["TaskShape"] = len(stage.TaskShapes)
+	stage.Map_GongStructName_InstancesNb["System"] = len(stage.Systems)
+	stage.Map_GongStructName_InstancesNb["SystemShape"] = len(stage.SystemShapes)
 }
 
 func (stage *Stage) Checkout() {
@@ -2246,94 +2246,6 @@ func (stage *Stage) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
-// Stage puts allocatedprocessshape to the model stage
-func (allocatedprocessshape *AllocatedProcessShape) Stage(stage *Stage) *AllocatedProcessShape {
-	if _, ok := stage.AllocatedProcessShapes[allocatedprocessshape]; !ok {
-		stage.AllocatedProcessShapes[allocatedprocessshape] = struct{}{}
-		stage.AllocatedProcessShape_stagedOrder[allocatedprocessshape] = stage.AllocatedProcessShapeOrder
-		stage.AllocatedProcessShape_orderStaged[stage.AllocatedProcessShapeOrder] = allocatedprocessshape
-		stage.AllocatedProcessShapeOrder++
-	}
-	stage.AllocatedProcessShapes_mapString[allocatedprocessshape.Name] = allocatedprocessshape
-
-	return allocatedprocessshape
-}
-
-// StagePreserveOrder puts allocatedprocessshape to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.AllocatedProcessShapeOrder
-// - update stage.AllocatedProcessShapeOrder accordingly
-func (allocatedprocessshape *AllocatedProcessShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.AllocatedProcessShapes[allocatedprocessshape]; !ok {
-		stage.AllocatedProcessShapes[allocatedprocessshape] = struct{}{}
-
-		if order > stage.AllocatedProcessShapeOrder {
-			stage.AllocatedProcessShapeOrder = order
-		}
-		stage.AllocatedProcessShape_stagedOrder[allocatedprocessshape] = order
-		stage.AllocatedProcessShape_orderStaged[order] = allocatedprocessshape
-		stage.AllocatedProcessShapeOrder++
-	}
-	stage.AllocatedProcessShapes_mapString[allocatedprocessshape.Name] = allocatedprocessshape
-}
-
-// Unstage removes allocatedprocessshape off the model stage
-func (allocatedprocessshape *AllocatedProcessShape) Unstage(stage *Stage) *AllocatedProcessShape {
-	delete(stage.AllocatedProcessShapes, allocatedprocessshape)
-	// issue1150
-	// delete(stage.AllocatedProcessShape_stagedOrder, allocatedprocessshape)
-	delete(stage.AllocatedProcessShapes_mapString, allocatedprocessshape.Name)
-
-	return allocatedprocessshape
-}
-
-// UnstageVoid removes allocatedprocessshape off the model stage
-func (allocatedprocessshape *AllocatedProcessShape) UnstageVoid(stage *Stage) {
-	delete(stage.AllocatedProcessShapes, allocatedprocessshape)
-	// issue1150
-	// delete(stage.AllocatedProcessShape_stagedOrder, allocatedprocessshape)
-	delete(stage.AllocatedProcessShapes_mapString, allocatedprocessshape.Name)
-}
-
-// commit allocatedprocessshape to the back repo (if it is already staged)
-func (allocatedprocessshape *AllocatedProcessShape) Commit(stage *Stage) *AllocatedProcessShape {
-	if _, ok := stage.AllocatedProcessShapes[allocatedprocessshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitAllocatedProcessShape(allocatedprocessshape)
-		}
-	}
-	return allocatedprocessshape
-}
-
-func (allocatedprocessshape *AllocatedProcessShape) CommitVoid(stage *Stage) {
-	allocatedprocessshape.Commit(stage)
-}
-
-func (allocatedprocessshape *AllocatedProcessShape) StageVoid(stage *Stage) {
-	allocatedprocessshape.Stage(stage)
-}
-
-// Checkout allocatedprocessshape to the back repo (if it is already staged)
-func (allocatedprocessshape *AllocatedProcessShape) Checkout(stage *Stage) *AllocatedProcessShape {
-	if _, ok := stage.AllocatedProcessShapes[allocatedprocessshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutAllocatedProcessShape(allocatedprocessshape)
-		}
-	}
-	return allocatedprocessshape
-}
-
-// for satisfaction of GongStruct interface
-func (allocatedprocessshape *AllocatedProcessShape) GetName() (res string) {
-	return allocatedprocessshape.Name
-}
-
-// for satisfaction of GongStruct interface
-func (allocatedprocessshape *AllocatedProcessShape) SetName(name string) {
-	allocatedprocessshape.Name = name
-}
-
 // Stage puts allocatedresourceshape to the model stage
 func (allocatedresourceshape *AllocatedResourceShape) Stage(stage *Stage) *AllocatedResourceShape {
 	if _, ok := stage.AllocatedResourceShapes[allocatedresourceshape]; !ok {
@@ -2420,6 +2332,94 @@ func (allocatedresourceshape *AllocatedResourceShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (allocatedresourceshape *AllocatedResourceShape) SetName(name string) {
 	allocatedresourceshape.Name = name
+}
+
+// Stage puts allocatedsystemshape to the model stage
+func (allocatedsystemshape *AllocatedSystemShape) Stage(stage *Stage) *AllocatedSystemShape {
+	if _, ok := stage.AllocatedSystemShapes[allocatedsystemshape]; !ok {
+		stage.AllocatedSystemShapes[allocatedsystemshape] = struct{}{}
+		stage.AllocatedSystemShape_stagedOrder[allocatedsystemshape] = stage.AllocatedSystemShapeOrder
+		stage.AllocatedSystemShape_orderStaged[stage.AllocatedSystemShapeOrder] = allocatedsystemshape
+		stage.AllocatedSystemShapeOrder++
+	}
+	stage.AllocatedSystemShapes_mapString[allocatedsystemshape.Name] = allocatedsystemshape
+
+	return allocatedsystemshape
+}
+
+// StagePreserveOrder puts allocatedsystemshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.AllocatedSystemShapeOrder
+// - update stage.AllocatedSystemShapeOrder accordingly
+func (allocatedsystemshape *AllocatedSystemShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.AllocatedSystemShapes[allocatedsystemshape]; !ok {
+		stage.AllocatedSystemShapes[allocatedsystemshape] = struct{}{}
+
+		if order > stage.AllocatedSystemShapeOrder {
+			stage.AllocatedSystemShapeOrder = order
+		}
+		stage.AllocatedSystemShape_stagedOrder[allocatedsystemshape] = order
+		stage.AllocatedSystemShape_orderStaged[order] = allocatedsystemshape
+		stage.AllocatedSystemShapeOrder++
+	}
+	stage.AllocatedSystemShapes_mapString[allocatedsystemshape.Name] = allocatedsystemshape
+}
+
+// Unstage removes allocatedsystemshape off the model stage
+func (allocatedsystemshape *AllocatedSystemShape) Unstage(stage *Stage) *AllocatedSystemShape {
+	delete(stage.AllocatedSystemShapes, allocatedsystemshape)
+	// issue1150
+	// delete(stage.AllocatedSystemShape_stagedOrder, allocatedsystemshape)
+	delete(stage.AllocatedSystemShapes_mapString, allocatedsystemshape.Name)
+
+	return allocatedsystemshape
+}
+
+// UnstageVoid removes allocatedsystemshape off the model stage
+func (allocatedsystemshape *AllocatedSystemShape) UnstageVoid(stage *Stage) {
+	delete(stage.AllocatedSystemShapes, allocatedsystemshape)
+	// issue1150
+	// delete(stage.AllocatedSystemShape_stagedOrder, allocatedsystemshape)
+	delete(stage.AllocatedSystemShapes_mapString, allocatedsystemshape.Name)
+}
+
+// commit allocatedsystemshape to the back repo (if it is already staged)
+func (allocatedsystemshape *AllocatedSystemShape) Commit(stage *Stage) *AllocatedSystemShape {
+	if _, ok := stage.AllocatedSystemShapes[allocatedsystemshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitAllocatedSystemShape(allocatedsystemshape)
+		}
+	}
+	return allocatedsystemshape
+}
+
+func (allocatedsystemshape *AllocatedSystemShape) CommitVoid(stage *Stage) {
+	allocatedsystemshape.Commit(stage)
+}
+
+func (allocatedsystemshape *AllocatedSystemShape) StageVoid(stage *Stage) {
+	allocatedsystemshape.Stage(stage)
+}
+
+// Checkout allocatedsystemshape to the back repo (if it is already staged)
+func (allocatedsystemshape *AllocatedSystemShape) Checkout(stage *Stage) *AllocatedSystemShape {
+	if _, ok := stage.AllocatedSystemShapes[allocatedsystemshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutAllocatedSystemShape(allocatedsystemshape)
+		}
+	}
+	return allocatedsystemshape
+}
+
+// for satisfaction of GongStruct interface
+func (allocatedsystemshape *AllocatedSystemShape) GetName() (res string) {
+	return allocatedsystemshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (allocatedsystemshape *AllocatedSystemShape) SetName(name string) {
+	allocatedsystemshape.Name = name
 }
 
 // Stage puts controlflow to the model stage
@@ -2950,180 +2950,180 @@ func (datashape *DataShape) SetName(name string) {
 	datashape.Name = name
 }
 
-// Stage puts diagramprocess to the model stage
-func (diagramprocess *DiagramProcess) Stage(stage *Stage) *DiagramProcess {
-	if _, ok := stage.DiagramProcesss[diagramprocess]; !ok {
-		stage.DiagramProcesss[diagramprocess] = struct{}{}
-		stage.DiagramProcess_stagedOrder[diagramprocess] = stage.DiagramProcessOrder
-		stage.DiagramProcess_orderStaged[stage.DiagramProcessOrder] = diagramprocess
-		stage.DiagramProcessOrder++
+// Stage puts diagramstructure to the model stage
+func (diagramstructure *DiagramStructure) Stage(stage *Stage) *DiagramStructure {
+	if _, ok := stage.DiagramStructures[diagramstructure]; !ok {
+		stage.DiagramStructures[diagramstructure] = struct{}{}
+		stage.DiagramStructure_stagedOrder[diagramstructure] = stage.DiagramStructureOrder
+		stage.DiagramStructure_orderStaged[stage.DiagramStructureOrder] = diagramstructure
+		stage.DiagramStructureOrder++
 	}
-	stage.DiagramProcesss_mapString[diagramprocess.Name] = diagramprocess
+	stage.DiagramStructures_mapString[diagramstructure.Name] = diagramstructure
 
-	return diagramprocess
+	return diagramstructure
 }
 
-// StagePreserveOrder puts diagramprocess to the model stage, and if the astrtuct
+// StagePreserveOrder puts diagramstructure to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.DiagramProcessOrder
-// - update stage.DiagramProcessOrder accordingly
-func (diagramprocess *DiagramProcess) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.DiagramProcesss[diagramprocess]; !ok {
-		stage.DiagramProcesss[diagramprocess] = struct{}{}
+// - force the order if the order is equal or greater than the stage.DiagramStructureOrder
+// - update stage.DiagramStructureOrder accordingly
+func (diagramstructure *DiagramStructure) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.DiagramStructures[diagramstructure]; !ok {
+		stage.DiagramStructures[diagramstructure] = struct{}{}
 
-		if order > stage.DiagramProcessOrder {
-			stage.DiagramProcessOrder = order
+		if order > stage.DiagramStructureOrder {
+			stage.DiagramStructureOrder = order
 		}
-		stage.DiagramProcess_stagedOrder[diagramprocess] = order
-		stage.DiagramProcess_orderStaged[order] = diagramprocess
-		stage.DiagramProcessOrder++
+		stage.DiagramStructure_stagedOrder[diagramstructure] = order
+		stage.DiagramStructure_orderStaged[order] = diagramstructure
+		stage.DiagramStructureOrder++
 	}
-	stage.DiagramProcesss_mapString[diagramprocess.Name] = diagramprocess
+	stage.DiagramStructures_mapString[diagramstructure.Name] = diagramstructure
 }
 
-// Unstage removes diagramprocess off the model stage
-func (diagramprocess *DiagramProcess) Unstage(stage *Stage) *DiagramProcess {
-	delete(stage.DiagramProcesss, diagramprocess)
+// Unstage removes diagramstructure off the model stage
+func (diagramstructure *DiagramStructure) Unstage(stage *Stage) *DiagramStructure {
+	delete(stage.DiagramStructures, diagramstructure)
 	// issue1150
-	// delete(stage.DiagramProcess_stagedOrder, diagramprocess)
-	delete(stage.DiagramProcesss_mapString, diagramprocess.Name)
+	// delete(stage.DiagramStructure_stagedOrder, diagramstructure)
+	delete(stage.DiagramStructures_mapString, diagramstructure.Name)
 
-	return diagramprocess
+	return diagramstructure
 }
 
-// UnstageVoid removes diagramprocess off the model stage
-func (diagramprocess *DiagramProcess) UnstageVoid(stage *Stage) {
-	delete(stage.DiagramProcesss, diagramprocess)
+// UnstageVoid removes diagramstructure off the model stage
+func (diagramstructure *DiagramStructure) UnstageVoid(stage *Stage) {
+	delete(stage.DiagramStructures, diagramstructure)
 	// issue1150
-	// delete(stage.DiagramProcess_stagedOrder, diagramprocess)
-	delete(stage.DiagramProcesss_mapString, diagramprocess.Name)
+	// delete(stage.DiagramStructure_stagedOrder, diagramstructure)
+	delete(stage.DiagramStructures_mapString, diagramstructure.Name)
 }
 
-// commit diagramprocess to the back repo (if it is already staged)
-func (diagramprocess *DiagramProcess) Commit(stage *Stage) *DiagramProcess {
-	if _, ok := stage.DiagramProcesss[diagramprocess]; ok {
+// commit diagramstructure to the back repo (if it is already staged)
+func (diagramstructure *DiagramStructure) Commit(stage *Stage) *DiagramStructure {
+	if _, ok := stage.DiagramStructures[diagramstructure]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitDiagramProcess(diagramprocess)
+			stage.BackRepo.CommitDiagramStructure(diagramstructure)
 		}
 	}
-	return diagramprocess
+	return diagramstructure
 }
 
-func (diagramprocess *DiagramProcess) CommitVoid(stage *Stage) {
-	diagramprocess.Commit(stage)
+func (diagramstructure *DiagramStructure) CommitVoid(stage *Stage) {
+	diagramstructure.Commit(stage)
 }
 
-func (diagramprocess *DiagramProcess) StageVoid(stage *Stage) {
-	diagramprocess.Stage(stage)
+func (diagramstructure *DiagramStructure) StageVoid(stage *Stage) {
+	diagramstructure.Stage(stage)
 }
 
-// Checkout diagramprocess to the back repo (if it is already staged)
-func (diagramprocess *DiagramProcess) Checkout(stage *Stage) *DiagramProcess {
-	if _, ok := stage.DiagramProcesss[diagramprocess]; ok {
+// Checkout diagramstructure to the back repo (if it is already staged)
+func (diagramstructure *DiagramStructure) Checkout(stage *Stage) *DiagramStructure {
+	if _, ok := stage.DiagramStructures[diagramstructure]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutDiagramProcess(diagramprocess)
+			stage.BackRepo.CheckoutDiagramStructure(diagramstructure)
 		}
 	}
-	return diagramprocess
+	return diagramstructure
 }
 
 // for satisfaction of GongStruct interface
-func (diagramprocess *DiagramProcess) GetName() (res string) {
-	return diagramprocess.Name
+func (diagramstructure *DiagramStructure) GetName() (res string) {
+	return diagramstructure.Name
 }
 
 // for satisfaction of GongStruct interface
-func (diagramprocess *DiagramProcess) SetName(name string) {
-	diagramprocess.Name = name
+func (diagramstructure *DiagramStructure) SetName(name string) {
+	diagramstructure.Name = name
 }
 
-// Stage puts externalparticipantshape to the model stage
-func (externalparticipantshape *ExternalParticipantShape) Stage(stage *Stage) *ExternalParticipantShape {
-	if _, ok := stage.ExternalParticipantShapes[externalparticipantshape]; !ok {
-		stage.ExternalParticipantShapes[externalparticipantshape] = struct{}{}
-		stage.ExternalParticipantShape_stagedOrder[externalparticipantshape] = stage.ExternalParticipantShapeOrder
-		stage.ExternalParticipantShape_orderStaged[stage.ExternalParticipantShapeOrder] = externalparticipantshape
-		stage.ExternalParticipantShapeOrder++
+// Stage puts externalpartshape to the model stage
+func (externalpartshape *ExternalPartShape) Stage(stage *Stage) *ExternalPartShape {
+	if _, ok := stage.ExternalPartShapes[externalpartshape]; !ok {
+		stage.ExternalPartShapes[externalpartshape] = struct{}{}
+		stage.ExternalPartShape_stagedOrder[externalpartshape] = stage.ExternalPartShapeOrder
+		stage.ExternalPartShape_orderStaged[stage.ExternalPartShapeOrder] = externalpartshape
+		stage.ExternalPartShapeOrder++
 	}
-	stage.ExternalParticipantShapes_mapString[externalparticipantshape.Name] = externalparticipantshape
+	stage.ExternalPartShapes_mapString[externalpartshape.Name] = externalpartshape
 
-	return externalparticipantshape
+	return externalpartshape
 }
 
-// StagePreserveOrder puts externalparticipantshape to the model stage, and if the astrtuct
+// StagePreserveOrder puts externalpartshape to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.ExternalParticipantShapeOrder
-// - update stage.ExternalParticipantShapeOrder accordingly
-func (externalparticipantshape *ExternalParticipantShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.ExternalParticipantShapes[externalparticipantshape]; !ok {
-		stage.ExternalParticipantShapes[externalparticipantshape] = struct{}{}
+// - force the order if the order is equal or greater than the stage.ExternalPartShapeOrder
+// - update stage.ExternalPartShapeOrder accordingly
+func (externalpartshape *ExternalPartShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ExternalPartShapes[externalpartshape]; !ok {
+		stage.ExternalPartShapes[externalpartshape] = struct{}{}
 
-		if order > stage.ExternalParticipantShapeOrder {
-			stage.ExternalParticipantShapeOrder = order
+		if order > stage.ExternalPartShapeOrder {
+			stage.ExternalPartShapeOrder = order
 		}
-		stage.ExternalParticipantShape_stagedOrder[externalparticipantshape] = order
-		stage.ExternalParticipantShape_orderStaged[order] = externalparticipantshape
-		stage.ExternalParticipantShapeOrder++
+		stage.ExternalPartShape_stagedOrder[externalpartshape] = order
+		stage.ExternalPartShape_orderStaged[order] = externalpartshape
+		stage.ExternalPartShapeOrder++
 	}
-	stage.ExternalParticipantShapes_mapString[externalparticipantshape.Name] = externalparticipantshape
+	stage.ExternalPartShapes_mapString[externalpartshape.Name] = externalpartshape
 }
 
-// Unstage removes externalparticipantshape off the model stage
-func (externalparticipantshape *ExternalParticipantShape) Unstage(stage *Stage) *ExternalParticipantShape {
-	delete(stage.ExternalParticipantShapes, externalparticipantshape)
+// Unstage removes externalpartshape off the model stage
+func (externalpartshape *ExternalPartShape) Unstage(stage *Stage) *ExternalPartShape {
+	delete(stage.ExternalPartShapes, externalpartshape)
 	// issue1150
-	// delete(stage.ExternalParticipantShape_stagedOrder, externalparticipantshape)
-	delete(stage.ExternalParticipantShapes_mapString, externalparticipantshape.Name)
+	// delete(stage.ExternalPartShape_stagedOrder, externalpartshape)
+	delete(stage.ExternalPartShapes_mapString, externalpartshape.Name)
 
-	return externalparticipantshape
+	return externalpartshape
 }
 
-// UnstageVoid removes externalparticipantshape off the model stage
-func (externalparticipantshape *ExternalParticipantShape) UnstageVoid(stage *Stage) {
-	delete(stage.ExternalParticipantShapes, externalparticipantshape)
+// UnstageVoid removes externalpartshape off the model stage
+func (externalpartshape *ExternalPartShape) UnstageVoid(stage *Stage) {
+	delete(stage.ExternalPartShapes, externalpartshape)
 	// issue1150
-	// delete(stage.ExternalParticipantShape_stagedOrder, externalparticipantshape)
-	delete(stage.ExternalParticipantShapes_mapString, externalparticipantshape.Name)
+	// delete(stage.ExternalPartShape_stagedOrder, externalpartshape)
+	delete(stage.ExternalPartShapes_mapString, externalpartshape.Name)
 }
 
-// commit externalparticipantshape to the back repo (if it is already staged)
-func (externalparticipantshape *ExternalParticipantShape) Commit(stage *Stage) *ExternalParticipantShape {
-	if _, ok := stage.ExternalParticipantShapes[externalparticipantshape]; ok {
+// commit externalpartshape to the back repo (if it is already staged)
+func (externalpartshape *ExternalPartShape) Commit(stage *Stage) *ExternalPartShape {
+	if _, ok := stage.ExternalPartShapes[externalpartshape]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitExternalParticipantShape(externalparticipantshape)
+			stage.BackRepo.CommitExternalPartShape(externalpartshape)
 		}
 	}
-	return externalparticipantshape
+	return externalpartshape
 }
 
-func (externalparticipantshape *ExternalParticipantShape) CommitVoid(stage *Stage) {
-	externalparticipantshape.Commit(stage)
+func (externalpartshape *ExternalPartShape) CommitVoid(stage *Stage) {
+	externalpartshape.Commit(stage)
 }
 
-func (externalparticipantshape *ExternalParticipantShape) StageVoid(stage *Stage) {
-	externalparticipantshape.Stage(stage)
+func (externalpartshape *ExternalPartShape) StageVoid(stage *Stage) {
+	externalpartshape.Stage(stage)
 }
 
-// Checkout externalparticipantshape to the back repo (if it is already staged)
-func (externalparticipantshape *ExternalParticipantShape) Checkout(stage *Stage) *ExternalParticipantShape {
-	if _, ok := stage.ExternalParticipantShapes[externalparticipantshape]; ok {
+// Checkout externalpartshape to the back repo (if it is already staged)
+func (externalpartshape *ExternalPartShape) Checkout(stage *Stage) *ExternalPartShape {
+	if _, ok := stage.ExternalPartShapes[externalpartshape]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutExternalParticipantShape(externalparticipantshape)
+			stage.BackRepo.CheckoutExternalPartShape(externalpartshape)
 		}
 	}
-	return externalparticipantshape
+	return externalpartshape
 }
 
 // for satisfaction of GongStruct interface
-func (externalparticipantshape *ExternalParticipantShape) GetName() (res string) {
-	return externalparticipantshape.Name
+func (externalpartshape *ExternalPartShape) GetName() (res string) {
+	return externalpartshape.Name
 }
 
 // for satisfaction of GongStruct interface
-func (externalparticipantshape *ExternalParticipantShape) SetName(name string) {
-	externalparticipantshape.Name = name
+func (externalpartshape *ExternalPartShape) SetName(name string) {
+	externalpartshape.Name = name
 }
 
 // Stage puts library to the model stage
@@ -3302,6 +3302,94 @@ func (note *Note) SetName(name string) {
 	note.Name = name
 }
 
+// Stage puts noteportshape to the model stage
+func (noteportshape *NotePortShape) Stage(stage *Stage) *NotePortShape {
+	if _, ok := stage.NotePortShapes[noteportshape]; !ok {
+		stage.NotePortShapes[noteportshape] = struct{}{}
+		stage.NotePortShape_stagedOrder[noteportshape] = stage.NotePortShapeOrder
+		stage.NotePortShape_orderStaged[stage.NotePortShapeOrder] = noteportshape
+		stage.NotePortShapeOrder++
+	}
+	stage.NotePortShapes_mapString[noteportshape.Name] = noteportshape
+
+	return noteportshape
+}
+
+// StagePreserveOrder puts noteportshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.NotePortShapeOrder
+// - update stage.NotePortShapeOrder accordingly
+func (noteportshape *NotePortShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.NotePortShapes[noteportshape]; !ok {
+		stage.NotePortShapes[noteportshape] = struct{}{}
+
+		if order > stage.NotePortShapeOrder {
+			stage.NotePortShapeOrder = order
+		}
+		stage.NotePortShape_stagedOrder[noteportshape] = order
+		stage.NotePortShape_orderStaged[order] = noteportshape
+		stage.NotePortShapeOrder++
+	}
+	stage.NotePortShapes_mapString[noteportshape.Name] = noteportshape
+}
+
+// Unstage removes noteportshape off the model stage
+func (noteportshape *NotePortShape) Unstage(stage *Stage) *NotePortShape {
+	delete(stage.NotePortShapes, noteportshape)
+	// issue1150
+	// delete(stage.NotePortShape_stagedOrder, noteportshape)
+	delete(stage.NotePortShapes_mapString, noteportshape.Name)
+
+	return noteportshape
+}
+
+// UnstageVoid removes noteportshape off the model stage
+func (noteportshape *NotePortShape) UnstageVoid(stage *Stage) {
+	delete(stage.NotePortShapes, noteportshape)
+	// issue1150
+	// delete(stage.NotePortShape_stagedOrder, noteportshape)
+	delete(stage.NotePortShapes_mapString, noteportshape.Name)
+}
+
+// commit noteportshape to the back repo (if it is already staged)
+func (noteportshape *NotePortShape) Commit(stage *Stage) *NotePortShape {
+	if _, ok := stage.NotePortShapes[noteportshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitNotePortShape(noteportshape)
+		}
+	}
+	return noteportshape
+}
+
+func (noteportshape *NotePortShape) CommitVoid(stage *Stage) {
+	noteportshape.Commit(stage)
+}
+
+func (noteportshape *NotePortShape) StageVoid(stage *Stage) {
+	noteportshape.Stage(stage)
+}
+
+// Checkout noteportshape to the back repo (if it is already staged)
+func (noteportshape *NotePortShape) Checkout(stage *Stage) *NotePortShape {
+	if _, ok := stage.NotePortShapes[noteportshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutNotePortShape(noteportshape)
+		}
+	}
+	return noteportshape
+}
+
+// for satisfaction of GongStruct interface
+func (noteportshape *NotePortShape) GetName() (res string) {
+	return noteportshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (noteportshape *NotePortShape) SetName(name string) {
+	noteportshape.Name = name
+}
+
 // Stage puts noteshape to the model stage
 func (noteshape *NoteShape) Stage(stage *Stage) *NoteShape {
 	if _, ok := stage.NoteShapes[noteshape]; !ok {
@@ -3390,444 +3478,356 @@ func (noteshape *NoteShape) SetName(name string) {
 	noteshape.Name = name
 }
 
-// Stage puts notetaskshape to the model stage
-func (notetaskshape *NoteTaskShape) Stage(stage *Stage) *NoteTaskShape {
-	if _, ok := stage.NoteTaskShapes[notetaskshape]; !ok {
-		stage.NoteTaskShapes[notetaskshape] = struct{}{}
-		stage.NoteTaskShape_stagedOrder[notetaskshape] = stage.NoteTaskShapeOrder
-		stage.NoteTaskShape_orderStaged[stage.NoteTaskShapeOrder] = notetaskshape
-		stage.NoteTaskShapeOrder++
+// Stage puts part to the model stage
+func (part *Part) Stage(stage *Stage) *Part {
+	if _, ok := stage.Parts[part]; !ok {
+		stage.Parts[part] = struct{}{}
+		stage.Part_stagedOrder[part] = stage.PartOrder
+		stage.Part_orderStaged[stage.PartOrder] = part
+		stage.PartOrder++
 	}
-	stage.NoteTaskShapes_mapString[notetaskshape.Name] = notetaskshape
+	stage.Parts_mapString[part.Name] = part
 
-	return notetaskshape
+	return part
 }
 
-// StagePreserveOrder puts notetaskshape to the model stage, and if the astrtuct
+// StagePreserveOrder puts part to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.NoteTaskShapeOrder
-// - update stage.NoteTaskShapeOrder accordingly
-func (notetaskshape *NoteTaskShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.NoteTaskShapes[notetaskshape]; !ok {
-		stage.NoteTaskShapes[notetaskshape] = struct{}{}
+// - force the order if the order is equal or greater than the stage.PartOrder
+// - update stage.PartOrder accordingly
+func (part *Part) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Parts[part]; !ok {
+		stage.Parts[part] = struct{}{}
 
-		if order > stage.NoteTaskShapeOrder {
-			stage.NoteTaskShapeOrder = order
+		if order > stage.PartOrder {
+			stage.PartOrder = order
 		}
-		stage.NoteTaskShape_stagedOrder[notetaskshape] = order
-		stage.NoteTaskShape_orderStaged[order] = notetaskshape
-		stage.NoteTaskShapeOrder++
+		stage.Part_stagedOrder[part] = order
+		stage.Part_orderStaged[order] = part
+		stage.PartOrder++
 	}
-	stage.NoteTaskShapes_mapString[notetaskshape.Name] = notetaskshape
+	stage.Parts_mapString[part.Name] = part
 }
 
-// Unstage removes notetaskshape off the model stage
-func (notetaskshape *NoteTaskShape) Unstage(stage *Stage) *NoteTaskShape {
-	delete(stage.NoteTaskShapes, notetaskshape)
+// Unstage removes part off the model stage
+func (part *Part) Unstage(stage *Stage) *Part {
+	delete(stage.Parts, part)
 	// issue1150
-	// delete(stage.NoteTaskShape_stagedOrder, notetaskshape)
-	delete(stage.NoteTaskShapes_mapString, notetaskshape.Name)
+	// delete(stage.Part_stagedOrder, part)
+	delete(stage.Parts_mapString, part.Name)
 
-	return notetaskshape
+	return part
 }
 
-// UnstageVoid removes notetaskshape off the model stage
-func (notetaskshape *NoteTaskShape) UnstageVoid(stage *Stage) {
-	delete(stage.NoteTaskShapes, notetaskshape)
+// UnstageVoid removes part off the model stage
+func (part *Part) UnstageVoid(stage *Stage) {
+	delete(stage.Parts, part)
 	// issue1150
-	// delete(stage.NoteTaskShape_stagedOrder, notetaskshape)
-	delete(stage.NoteTaskShapes_mapString, notetaskshape.Name)
+	// delete(stage.Part_stagedOrder, part)
+	delete(stage.Parts_mapString, part.Name)
 }
 
-// commit notetaskshape to the back repo (if it is already staged)
-func (notetaskshape *NoteTaskShape) Commit(stage *Stage) *NoteTaskShape {
-	if _, ok := stage.NoteTaskShapes[notetaskshape]; ok {
+// commit part to the back repo (if it is already staged)
+func (part *Part) Commit(stage *Stage) *Part {
+	if _, ok := stage.Parts[part]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitNoteTaskShape(notetaskshape)
+			stage.BackRepo.CommitPart(part)
 		}
 	}
-	return notetaskshape
+	return part
 }
 
-func (notetaskshape *NoteTaskShape) CommitVoid(stage *Stage) {
-	notetaskshape.Commit(stage)
+func (part *Part) CommitVoid(stage *Stage) {
+	part.Commit(stage)
 }
 
-func (notetaskshape *NoteTaskShape) StageVoid(stage *Stage) {
-	notetaskshape.Stage(stage)
+func (part *Part) StageVoid(stage *Stage) {
+	part.Stage(stage)
 }
 
-// Checkout notetaskshape to the back repo (if it is already staged)
-func (notetaskshape *NoteTaskShape) Checkout(stage *Stage) *NoteTaskShape {
-	if _, ok := stage.NoteTaskShapes[notetaskshape]; ok {
+// Checkout part to the back repo (if it is already staged)
+func (part *Part) Checkout(stage *Stage) *Part {
+	if _, ok := stage.Parts[part]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutNoteTaskShape(notetaskshape)
+			stage.BackRepo.CheckoutPart(part)
 		}
 	}
-	return notetaskshape
+	return part
 }
 
 // for satisfaction of GongStruct interface
-func (notetaskshape *NoteTaskShape) GetName() (res string) {
-	return notetaskshape.Name
+func (part *Part) GetName() (res string) {
+	return part.Name
 }
 
 // for satisfaction of GongStruct interface
-func (notetaskshape *NoteTaskShape) SetName(name string) {
-	notetaskshape.Name = name
+func (part *Part) SetName(name string) {
+	part.Name = name
 }
 
-// Stage puts participant to the model stage
-func (participant *Participant) Stage(stage *Stage) *Participant {
-	if _, ok := stage.Participants[participant]; !ok {
-		stage.Participants[participant] = struct{}{}
-		stage.Participant_stagedOrder[participant] = stage.ParticipantOrder
-		stage.Participant_orderStaged[stage.ParticipantOrder] = participant
-		stage.ParticipantOrder++
+// Stage puts partshape to the model stage
+func (partshape *PartShape) Stage(stage *Stage) *PartShape {
+	if _, ok := stage.PartShapes[partshape]; !ok {
+		stage.PartShapes[partshape] = struct{}{}
+		stage.PartShape_stagedOrder[partshape] = stage.PartShapeOrder
+		stage.PartShape_orderStaged[stage.PartShapeOrder] = partshape
+		stage.PartShapeOrder++
 	}
-	stage.Participants_mapString[participant.Name] = participant
+	stage.PartShapes_mapString[partshape.Name] = partshape
 
-	return participant
+	return partshape
 }
 
-// StagePreserveOrder puts participant to the model stage, and if the astrtuct
+// StagePreserveOrder puts partshape to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.ParticipantOrder
-// - update stage.ParticipantOrder accordingly
-func (participant *Participant) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Participants[participant]; !ok {
-		stage.Participants[participant] = struct{}{}
+// - force the order if the order is equal or greater than the stage.PartShapeOrder
+// - update stage.PartShapeOrder accordingly
+func (partshape *PartShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PartShapes[partshape]; !ok {
+		stage.PartShapes[partshape] = struct{}{}
 
-		if order > stage.ParticipantOrder {
-			stage.ParticipantOrder = order
+		if order > stage.PartShapeOrder {
+			stage.PartShapeOrder = order
 		}
-		stage.Participant_stagedOrder[participant] = order
-		stage.Participant_orderStaged[order] = participant
-		stage.ParticipantOrder++
+		stage.PartShape_stagedOrder[partshape] = order
+		stage.PartShape_orderStaged[order] = partshape
+		stage.PartShapeOrder++
 	}
-	stage.Participants_mapString[participant.Name] = participant
+	stage.PartShapes_mapString[partshape.Name] = partshape
 }
 
-// Unstage removes participant off the model stage
-func (participant *Participant) Unstage(stage *Stage) *Participant {
-	delete(stage.Participants, participant)
+// Unstage removes partshape off the model stage
+func (partshape *PartShape) Unstage(stage *Stage) *PartShape {
+	delete(stage.PartShapes, partshape)
 	// issue1150
-	// delete(stage.Participant_stagedOrder, participant)
-	delete(stage.Participants_mapString, participant.Name)
+	// delete(stage.PartShape_stagedOrder, partshape)
+	delete(stage.PartShapes_mapString, partshape.Name)
 
-	return participant
+	return partshape
 }
 
-// UnstageVoid removes participant off the model stage
-func (participant *Participant) UnstageVoid(stage *Stage) {
-	delete(stage.Participants, participant)
+// UnstageVoid removes partshape off the model stage
+func (partshape *PartShape) UnstageVoid(stage *Stage) {
+	delete(stage.PartShapes, partshape)
 	// issue1150
-	// delete(stage.Participant_stagedOrder, participant)
-	delete(stage.Participants_mapString, participant.Name)
+	// delete(stage.PartShape_stagedOrder, partshape)
+	delete(stage.PartShapes_mapString, partshape.Name)
 }
 
-// commit participant to the back repo (if it is already staged)
-func (participant *Participant) Commit(stage *Stage) *Participant {
-	if _, ok := stage.Participants[participant]; ok {
+// commit partshape to the back repo (if it is already staged)
+func (partshape *PartShape) Commit(stage *Stage) *PartShape {
+	if _, ok := stage.PartShapes[partshape]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitParticipant(participant)
+			stage.BackRepo.CommitPartShape(partshape)
 		}
 	}
-	return participant
+	return partshape
 }
 
-func (participant *Participant) CommitVoid(stage *Stage) {
-	participant.Commit(stage)
+func (partshape *PartShape) CommitVoid(stage *Stage) {
+	partshape.Commit(stage)
 }
 
-func (participant *Participant) StageVoid(stage *Stage) {
-	participant.Stage(stage)
+func (partshape *PartShape) StageVoid(stage *Stage) {
+	partshape.Stage(stage)
 }
 
-// Checkout participant to the back repo (if it is already staged)
-func (participant *Participant) Checkout(stage *Stage) *Participant {
-	if _, ok := stage.Participants[participant]; ok {
+// Checkout partshape to the back repo (if it is already staged)
+func (partshape *PartShape) Checkout(stage *Stage) *PartShape {
+	if _, ok := stage.PartShapes[partshape]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutParticipant(participant)
+			stage.BackRepo.CheckoutPartShape(partshape)
 		}
 	}
-	return participant
+	return partshape
 }
 
 // for satisfaction of GongStruct interface
-func (participant *Participant) GetName() (res string) {
-	return participant.Name
+func (partshape *PartShape) GetName() (res string) {
+	return partshape.Name
 }
 
 // for satisfaction of GongStruct interface
-func (participant *Participant) SetName(name string) {
-	participant.Name = name
+func (partshape *PartShape) SetName(name string) {
+	partshape.Name = name
 }
 
-// Stage puts participantshape to the model stage
-func (participantshape *ParticipantShape) Stage(stage *Stage) *ParticipantShape {
-	if _, ok := stage.ParticipantShapes[participantshape]; !ok {
-		stage.ParticipantShapes[participantshape] = struct{}{}
-		stage.ParticipantShape_stagedOrder[participantshape] = stage.ParticipantShapeOrder
-		stage.ParticipantShape_orderStaged[stage.ParticipantShapeOrder] = participantshape
-		stage.ParticipantShapeOrder++
+// Stage puts port to the model stage
+func (port *Port) Stage(stage *Stage) *Port {
+	if _, ok := stage.Ports[port]; !ok {
+		stage.Ports[port] = struct{}{}
+		stage.Port_stagedOrder[port] = stage.PortOrder
+		stage.Port_orderStaged[stage.PortOrder] = port
+		stage.PortOrder++
 	}
-	stage.ParticipantShapes_mapString[participantshape.Name] = participantshape
+	stage.Ports_mapString[port.Name] = port
 
-	return participantshape
+	return port
 }
 
-// StagePreserveOrder puts participantshape to the model stage, and if the astrtuct
+// StagePreserveOrder puts port to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.ParticipantShapeOrder
-// - update stage.ParticipantShapeOrder accordingly
-func (participantshape *ParticipantShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.ParticipantShapes[participantshape]; !ok {
-		stage.ParticipantShapes[participantshape] = struct{}{}
+// - force the order if the order is equal or greater than the stage.PortOrder
+// - update stage.PortOrder accordingly
+func (port *Port) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Ports[port]; !ok {
+		stage.Ports[port] = struct{}{}
 
-		if order > stage.ParticipantShapeOrder {
-			stage.ParticipantShapeOrder = order
+		if order > stage.PortOrder {
+			stage.PortOrder = order
 		}
-		stage.ParticipantShape_stagedOrder[participantshape] = order
-		stage.ParticipantShape_orderStaged[order] = participantshape
-		stage.ParticipantShapeOrder++
+		stage.Port_stagedOrder[port] = order
+		stage.Port_orderStaged[order] = port
+		stage.PortOrder++
 	}
-	stage.ParticipantShapes_mapString[participantshape.Name] = participantshape
+	stage.Ports_mapString[port.Name] = port
 }
 
-// Unstage removes participantshape off the model stage
-func (participantshape *ParticipantShape) Unstage(stage *Stage) *ParticipantShape {
-	delete(stage.ParticipantShapes, participantshape)
+// Unstage removes port off the model stage
+func (port *Port) Unstage(stage *Stage) *Port {
+	delete(stage.Ports, port)
 	// issue1150
-	// delete(stage.ParticipantShape_stagedOrder, participantshape)
-	delete(stage.ParticipantShapes_mapString, participantshape.Name)
+	// delete(stage.Port_stagedOrder, port)
+	delete(stage.Ports_mapString, port.Name)
 
-	return participantshape
+	return port
 }
 
-// UnstageVoid removes participantshape off the model stage
-func (participantshape *ParticipantShape) UnstageVoid(stage *Stage) {
-	delete(stage.ParticipantShapes, participantshape)
+// UnstageVoid removes port off the model stage
+func (port *Port) UnstageVoid(stage *Stage) {
+	delete(stage.Ports, port)
 	// issue1150
-	// delete(stage.ParticipantShape_stagedOrder, participantshape)
-	delete(stage.ParticipantShapes_mapString, participantshape.Name)
+	// delete(stage.Port_stagedOrder, port)
+	delete(stage.Ports_mapString, port.Name)
 }
 
-// commit participantshape to the back repo (if it is already staged)
-func (participantshape *ParticipantShape) Commit(stage *Stage) *ParticipantShape {
-	if _, ok := stage.ParticipantShapes[participantshape]; ok {
+// commit port to the back repo (if it is already staged)
+func (port *Port) Commit(stage *Stage) *Port {
+	if _, ok := stage.Ports[port]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitParticipantShape(participantshape)
+			stage.BackRepo.CommitPort(port)
 		}
 	}
-	return participantshape
+	return port
 }
 
-func (participantshape *ParticipantShape) CommitVoid(stage *Stage) {
-	participantshape.Commit(stage)
+func (port *Port) CommitVoid(stage *Stage) {
+	port.Commit(stage)
 }
 
-func (participantshape *ParticipantShape) StageVoid(stage *Stage) {
-	participantshape.Stage(stage)
+func (port *Port) StageVoid(stage *Stage) {
+	port.Stage(stage)
 }
 
-// Checkout participantshape to the back repo (if it is already staged)
-func (participantshape *ParticipantShape) Checkout(stage *Stage) *ParticipantShape {
-	if _, ok := stage.ParticipantShapes[participantshape]; ok {
+// Checkout port to the back repo (if it is already staged)
+func (port *Port) Checkout(stage *Stage) *Port {
+	if _, ok := stage.Ports[port]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutParticipantShape(participantshape)
+			stage.BackRepo.CheckoutPort(port)
 		}
 	}
-	return participantshape
+	return port
 }
 
 // for satisfaction of GongStruct interface
-func (participantshape *ParticipantShape) GetName() (res string) {
-	return participantshape.Name
+func (port *Port) GetName() (res string) {
+	return port.Name
 }
 
 // for satisfaction of GongStruct interface
-func (participantshape *ParticipantShape) SetName(name string) {
-	participantshape.Name = name
+func (port *Port) SetName(name string) {
+	port.Name = name
 }
 
-// Stage puts process to the model stage
-func (process *Process) Stage(stage *Stage) *Process {
-	if _, ok := stage.Processs[process]; !ok {
-		stage.Processs[process] = struct{}{}
-		stage.Process_stagedOrder[process] = stage.ProcessOrder
-		stage.Process_orderStaged[stage.ProcessOrder] = process
-		stage.ProcessOrder++
+// Stage puts portshape to the model stage
+func (portshape *PortShape) Stage(stage *Stage) *PortShape {
+	if _, ok := stage.PortShapes[portshape]; !ok {
+		stage.PortShapes[portshape] = struct{}{}
+		stage.PortShape_stagedOrder[portshape] = stage.PortShapeOrder
+		stage.PortShape_orderStaged[stage.PortShapeOrder] = portshape
+		stage.PortShapeOrder++
 	}
-	stage.Processs_mapString[process.Name] = process
+	stage.PortShapes_mapString[portshape.Name] = portshape
 
-	return process
+	return portshape
 }
 
-// StagePreserveOrder puts process to the model stage, and if the astrtuct
+// StagePreserveOrder puts portshape to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.ProcessOrder
-// - update stage.ProcessOrder accordingly
-func (process *Process) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Processs[process]; !ok {
-		stage.Processs[process] = struct{}{}
+// - force the order if the order is equal or greater than the stage.PortShapeOrder
+// - update stage.PortShapeOrder accordingly
+func (portshape *PortShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PortShapes[portshape]; !ok {
+		stage.PortShapes[portshape] = struct{}{}
 
-		if order > stage.ProcessOrder {
-			stage.ProcessOrder = order
+		if order > stage.PortShapeOrder {
+			stage.PortShapeOrder = order
 		}
-		stage.Process_stagedOrder[process] = order
-		stage.Process_orderStaged[order] = process
-		stage.ProcessOrder++
+		stage.PortShape_stagedOrder[portshape] = order
+		stage.PortShape_orderStaged[order] = portshape
+		stage.PortShapeOrder++
 	}
-	stage.Processs_mapString[process.Name] = process
+	stage.PortShapes_mapString[portshape.Name] = portshape
 }
 
-// Unstage removes process off the model stage
-func (process *Process) Unstage(stage *Stage) *Process {
-	delete(stage.Processs, process)
+// Unstage removes portshape off the model stage
+func (portshape *PortShape) Unstage(stage *Stage) *PortShape {
+	delete(stage.PortShapes, portshape)
 	// issue1150
-	// delete(stage.Process_stagedOrder, process)
-	delete(stage.Processs_mapString, process.Name)
+	// delete(stage.PortShape_stagedOrder, portshape)
+	delete(stage.PortShapes_mapString, portshape.Name)
 
-	return process
+	return portshape
 }
 
-// UnstageVoid removes process off the model stage
-func (process *Process) UnstageVoid(stage *Stage) {
-	delete(stage.Processs, process)
+// UnstageVoid removes portshape off the model stage
+func (portshape *PortShape) UnstageVoid(stage *Stage) {
+	delete(stage.PortShapes, portshape)
 	// issue1150
-	// delete(stage.Process_stagedOrder, process)
-	delete(stage.Processs_mapString, process.Name)
+	// delete(stage.PortShape_stagedOrder, portshape)
+	delete(stage.PortShapes_mapString, portshape.Name)
 }
 
-// commit process to the back repo (if it is already staged)
-func (process *Process) Commit(stage *Stage) *Process {
-	if _, ok := stage.Processs[process]; ok {
+// commit portshape to the back repo (if it is already staged)
+func (portshape *PortShape) Commit(stage *Stage) *PortShape {
+	if _, ok := stage.PortShapes[portshape]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitProcess(process)
+			stage.BackRepo.CommitPortShape(portshape)
 		}
 	}
-	return process
+	return portshape
 }
 
-func (process *Process) CommitVoid(stage *Stage) {
-	process.Commit(stage)
+func (portshape *PortShape) CommitVoid(stage *Stage) {
+	portshape.Commit(stage)
 }
 
-func (process *Process) StageVoid(stage *Stage) {
-	process.Stage(stage)
+func (portshape *PortShape) StageVoid(stage *Stage) {
+	portshape.Stage(stage)
 }
 
-// Checkout process to the back repo (if it is already staged)
-func (process *Process) Checkout(stage *Stage) *Process {
-	if _, ok := stage.Processs[process]; ok {
+// Checkout portshape to the back repo (if it is already staged)
+func (portshape *PortShape) Checkout(stage *Stage) *PortShape {
+	if _, ok := stage.PortShapes[portshape]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutProcess(process)
+			stage.BackRepo.CheckoutPortShape(portshape)
 		}
 	}
-	return process
+	return portshape
 }
 
 // for satisfaction of GongStruct interface
-func (process *Process) GetName() (res string) {
-	return process.Name
+func (portshape *PortShape) GetName() (res string) {
+	return portshape.Name
 }
 
 // for satisfaction of GongStruct interface
-func (process *Process) SetName(name string) {
-	process.Name = name
-}
-
-// Stage puts processshape to the model stage
-func (processshape *ProcessShape) Stage(stage *Stage) *ProcessShape {
-	if _, ok := stage.ProcessShapes[processshape]; !ok {
-		stage.ProcessShapes[processshape] = struct{}{}
-		stage.ProcessShape_stagedOrder[processshape] = stage.ProcessShapeOrder
-		stage.ProcessShape_orderStaged[stage.ProcessShapeOrder] = processshape
-		stage.ProcessShapeOrder++
-	}
-	stage.ProcessShapes_mapString[processshape.Name] = processshape
-
-	return processshape
-}
-
-// StagePreserveOrder puts processshape to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.ProcessShapeOrder
-// - update stage.ProcessShapeOrder accordingly
-func (processshape *ProcessShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.ProcessShapes[processshape]; !ok {
-		stage.ProcessShapes[processshape] = struct{}{}
-
-		if order > stage.ProcessShapeOrder {
-			stage.ProcessShapeOrder = order
-		}
-		stage.ProcessShape_stagedOrder[processshape] = order
-		stage.ProcessShape_orderStaged[order] = processshape
-		stage.ProcessShapeOrder++
-	}
-	stage.ProcessShapes_mapString[processshape.Name] = processshape
-}
-
-// Unstage removes processshape off the model stage
-func (processshape *ProcessShape) Unstage(stage *Stage) *ProcessShape {
-	delete(stage.ProcessShapes, processshape)
-	// issue1150
-	// delete(stage.ProcessShape_stagedOrder, processshape)
-	delete(stage.ProcessShapes_mapString, processshape.Name)
-
-	return processshape
-}
-
-// UnstageVoid removes processshape off the model stage
-func (processshape *ProcessShape) UnstageVoid(stage *Stage) {
-	delete(stage.ProcessShapes, processshape)
-	// issue1150
-	// delete(stage.ProcessShape_stagedOrder, processshape)
-	delete(stage.ProcessShapes_mapString, processshape.Name)
-}
-
-// commit processshape to the back repo (if it is already staged)
-func (processshape *ProcessShape) Commit(stage *Stage) *ProcessShape {
-	if _, ok := stage.ProcessShapes[processshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitProcessShape(processshape)
-		}
-	}
-	return processshape
-}
-
-func (processshape *ProcessShape) CommitVoid(stage *Stage) {
-	processshape.Commit(stage)
-}
-
-func (processshape *ProcessShape) StageVoid(stage *Stage) {
-	processshape.Stage(stage)
-}
-
-// Checkout processshape to the back repo (if it is already staged)
-func (processshape *ProcessShape) Checkout(stage *Stage) *ProcessShape {
-	if _, ok := stage.ProcessShapes[processshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutProcessShape(processshape)
-		}
-	}
-	return processshape
-}
-
-// for satisfaction of GongStruct interface
-func (processshape *ProcessShape) GetName() (res string) {
-	return processshape.Name
-}
-
-// for satisfaction of GongStruct interface
-func (processshape *ProcessShape) SetName(name string) {
-	processshape.Name = name
+func (portshape *PortShape) SetName(name string) {
+	portshape.Name = name
 }
 
 // Stage puts resource to the model stage
@@ -3918,241 +3918,241 @@ func (resource *Resource) SetName(name string) {
 	resource.Name = name
 }
 
-// Stage puts task to the model stage
-func (task *Task) Stage(stage *Stage) *Task {
-	if _, ok := stage.Tasks[task]; !ok {
-		stage.Tasks[task] = struct{}{}
-		stage.Task_stagedOrder[task] = stage.TaskOrder
-		stage.Task_orderStaged[stage.TaskOrder] = task
-		stage.TaskOrder++
+// Stage puts system to the model stage
+func (system *System) Stage(stage *Stage) *System {
+	if _, ok := stage.Systems[system]; !ok {
+		stage.Systems[system] = struct{}{}
+		stage.System_stagedOrder[system] = stage.SystemOrder
+		stage.System_orderStaged[stage.SystemOrder] = system
+		stage.SystemOrder++
 	}
-	stage.Tasks_mapString[task.Name] = task
+	stage.Systems_mapString[system.Name] = system
 
-	return task
+	return system
 }
 
-// StagePreserveOrder puts task to the model stage, and if the astrtuct
+// StagePreserveOrder puts system to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.TaskOrder
-// - update stage.TaskOrder accordingly
-func (task *Task) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.Tasks[task]; !ok {
-		stage.Tasks[task] = struct{}{}
+// - force the order if the order is equal or greater than the stage.SystemOrder
+// - update stage.SystemOrder accordingly
+func (system *System) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Systems[system]; !ok {
+		stage.Systems[system] = struct{}{}
 
-		if order > stage.TaskOrder {
-			stage.TaskOrder = order
+		if order > stage.SystemOrder {
+			stage.SystemOrder = order
 		}
-		stage.Task_stagedOrder[task] = order
-		stage.Task_orderStaged[order] = task
-		stage.TaskOrder++
+		stage.System_stagedOrder[system] = order
+		stage.System_orderStaged[order] = system
+		stage.SystemOrder++
 	}
-	stage.Tasks_mapString[task.Name] = task
+	stage.Systems_mapString[system.Name] = system
 }
 
-// Unstage removes task off the model stage
-func (task *Task) Unstage(stage *Stage) *Task {
-	delete(stage.Tasks, task)
+// Unstage removes system off the model stage
+func (system *System) Unstage(stage *Stage) *System {
+	delete(stage.Systems, system)
 	// issue1150
-	// delete(stage.Task_stagedOrder, task)
-	delete(stage.Tasks_mapString, task.Name)
+	// delete(stage.System_stagedOrder, system)
+	delete(stage.Systems_mapString, system.Name)
 
-	return task
+	return system
 }
 
-// UnstageVoid removes task off the model stage
-func (task *Task) UnstageVoid(stage *Stage) {
-	delete(stage.Tasks, task)
+// UnstageVoid removes system off the model stage
+func (system *System) UnstageVoid(stage *Stage) {
+	delete(stage.Systems, system)
 	// issue1150
-	// delete(stage.Task_stagedOrder, task)
-	delete(stage.Tasks_mapString, task.Name)
+	// delete(stage.System_stagedOrder, system)
+	delete(stage.Systems_mapString, system.Name)
 }
 
-// commit task to the back repo (if it is already staged)
-func (task *Task) Commit(stage *Stage) *Task {
-	if _, ok := stage.Tasks[task]; ok {
+// commit system to the back repo (if it is already staged)
+func (system *System) Commit(stage *Stage) *System {
+	if _, ok := stage.Systems[system]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitTask(task)
+			stage.BackRepo.CommitSystem(system)
 		}
 	}
-	return task
+	return system
 }
 
-func (task *Task) CommitVoid(stage *Stage) {
-	task.Commit(stage)
+func (system *System) CommitVoid(stage *Stage) {
+	system.Commit(stage)
 }
 
-func (task *Task) StageVoid(stage *Stage) {
-	task.Stage(stage)
+func (system *System) StageVoid(stage *Stage) {
+	system.Stage(stage)
 }
 
-// Checkout task to the back repo (if it is already staged)
-func (task *Task) Checkout(stage *Stage) *Task {
-	if _, ok := stage.Tasks[task]; ok {
+// Checkout system to the back repo (if it is already staged)
+func (system *System) Checkout(stage *Stage) *System {
+	if _, ok := stage.Systems[system]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutTask(task)
+			stage.BackRepo.CheckoutSystem(system)
 		}
 	}
-	return task
+	return system
 }
 
 // for satisfaction of GongStruct interface
-func (task *Task) GetName() (res string) {
-	return task.Name
+func (system *System) GetName() (res string) {
+	return system.Name
 }
 
 // for satisfaction of GongStruct interface
-func (task *Task) SetName(name string) {
-	task.Name = name
+func (system *System) SetName(name string) {
+	system.Name = name
 }
 
-// Stage puts taskshape to the model stage
-func (taskshape *TaskShape) Stage(stage *Stage) *TaskShape {
-	if _, ok := stage.TaskShapes[taskshape]; !ok {
-		stage.TaskShapes[taskshape] = struct{}{}
-		stage.TaskShape_stagedOrder[taskshape] = stage.TaskShapeOrder
-		stage.TaskShape_orderStaged[stage.TaskShapeOrder] = taskshape
-		stage.TaskShapeOrder++
+// Stage puts systemshape to the model stage
+func (systemshape *SystemShape) Stage(stage *Stage) *SystemShape {
+	if _, ok := stage.SystemShapes[systemshape]; !ok {
+		stage.SystemShapes[systemshape] = struct{}{}
+		stage.SystemShape_stagedOrder[systemshape] = stage.SystemShapeOrder
+		stage.SystemShape_orderStaged[stage.SystemShapeOrder] = systemshape
+		stage.SystemShapeOrder++
 	}
-	stage.TaskShapes_mapString[taskshape.Name] = taskshape
+	stage.SystemShapes_mapString[systemshape.Name] = systemshape
 
-	return taskshape
+	return systemshape
 }
 
-// StagePreserveOrder puts taskshape to the model stage, and if the astrtuct
+// StagePreserveOrder puts systemshape to the model stage, and if the astrtuct
 // was not staged before:
 //
-// - force the order if the order is equal or greater than the stage.TaskShapeOrder
-// - update stage.TaskShapeOrder accordingly
-func (taskshape *TaskShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.TaskShapes[taskshape]; !ok {
-		stage.TaskShapes[taskshape] = struct{}{}
+// - force the order if the order is equal or greater than the stage.SystemShapeOrder
+// - update stage.SystemShapeOrder accordingly
+func (systemshape *SystemShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.SystemShapes[systemshape]; !ok {
+		stage.SystemShapes[systemshape] = struct{}{}
 
-		if order > stage.TaskShapeOrder {
-			stage.TaskShapeOrder = order
+		if order > stage.SystemShapeOrder {
+			stage.SystemShapeOrder = order
 		}
-		stage.TaskShape_stagedOrder[taskshape] = order
-		stage.TaskShape_orderStaged[order] = taskshape
-		stage.TaskShapeOrder++
+		stage.SystemShape_stagedOrder[systemshape] = order
+		stage.SystemShape_orderStaged[order] = systemshape
+		stage.SystemShapeOrder++
 	}
-	stage.TaskShapes_mapString[taskshape.Name] = taskshape
+	stage.SystemShapes_mapString[systemshape.Name] = systemshape
 }
 
-// Unstage removes taskshape off the model stage
-func (taskshape *TaskShape) Unstage(stage *Stage) *TaskShape {
-	delete(stage.TaskShapes, taskshape)
+// Unstage removes systemshape off the model stage
+func (systemshape *SystemShape) Unstage(stage *Stage) *SystemShape {
+	delete(stage.SystemShapes, systemshape)
 	// issue1150
-	// delete(stage.TaskShape_stagedOrder, taskshape)
-	delete(stage.TaskShapes_mapString, taskshape.Name)
+	// delete(stage.SystemShape_stagedOrder, systemshape)
+	delete(stage.SystemShapes_mapString, systemshape.Name)
 
-	return taskshape
+	return systemshape
 }
 
-// UnstageVoid removes taskshape off the model stage
-func (taskshape *TaskShape) UnstageVoid(stage *Stage) {
-	delete(stage.TaskShapes, taskshape)
+// UnstageVoid removes systemshape off the model stage
+func (systemshape *SystemShape) UnstageVoid(stage *Stage) {
+	delete(stage.SystemShapes, systemshape)
 	// issue1150
-	// delete(stage.TaskShape_stagedOrder, taskshape)
-	delete(stage.TaskShapes_mapString, taskshape.Name)
+	// delete(stage.SystemShape_stagedOrder, systemshape)
+	delete(stage.SystemShapes_mapString, systemshape.Name)
 }
 
-// commit taskshape to the back repo (if it is already staged)
-func (taskshape *TaskShape) Commit(stage *Stage) *TaskShape {
-	if _, ok := stage.TaskShapes[taskshape]; ok {
+// commit systemshape to the back repo (if it is already staged)
+func (systemshape *SystemShape) Commit(stage *Stage) *SystemShape {
+	if _, ok := stage.SystemShapes[systemshape]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitTaskShape(taskshape)
+			stage.BackRepo.CommitSystemShape(systemshape)
 		}
 	}
-	return taskshape
+	return systemshape
 }
 
-func (taskshape *TaskShape) CommitVoid(stage *Stage) {
-	taskshape.Commit(stage)
+func (systemshape *SystemShape) CommitVoid(stage *Stage) {
+	systemshape.Commit(stage)
 }
 
-func (taskshape *TaskShape) StageVoid(stage *Stage) {
-	taskshape.Stage(stage)
+func (systemshape *SystemShape) StageVoid(stage *Stage) {
+	systemshape.Stage(stage)
 }
 
-// Checkout taskshape to the back repo (if it is already staged)
-func (taskshape *TaskShape) Checkout(stage *Stage) *TaskShape {
-	if _, ok := stage.TaskShapes[taskshape]; ok {
+// Checkout systemshape to the back repo (if it is already staged)
+func (systemshape *SystemShape) Checkout(stage *Stage) *SystemShape {
+	if _, ok := stage.SystemShapes[systemshape]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutTaskShape(taskshape)
+			stage.BackRepo.CheckoutSystemShape(systemshape)
 		}
 	}
-	return taskshape
+	return systemshape
 }
 
 // for satisfaction of GongStruct interface
-func (taskshape *TaskShape) GetName() (res string) {
-	return taskshape.Name
+func (systemshape *SystemShape) GetName() (res string) {
+	return systemshape.Name
 }
 
 // for satisfaction of GongStruct interface
-func (taskshape *TaskShape) SetName(name string) {
-	taskshape.Name = name
+func (systemshape *SystemShape) SetName(name string) {
+	systemshape.Name = name
 }
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMAllocatedProcessShape(AllocatedProcessShape *AllocatedProcessShape)
 	CreateORMAllocatedResourceShape(AllocatedResourceShape *AllocatedResourceShape)
+	CreateORMAllocatedSystemShape(AllocatedSystemShape *AllocatedSystemShape)
 	CreateORMControlFlow(ControlFlow *ControlFlow)
 	CreateORMControlFlowShape(ControlFlowShape *ControlFlowShape)
 	CreateORMData(Data *Data)
 	CreateORMDataFlow(DataFlow *DataFlow)
 	CreateORMDataFlowShape(DataFlowShape *DataFlowShape)
 	CreateORMDataShape(DataShape *DataShape)
-	CreateORMDiagramProcess(DiagramProcess *DiagramProcess)
-	CreateORMExternalParticipantShape(ExternalParticipantShape *ExternalParticipantShape)
+	CreateORMDiagramStructure(DiagramStructure *DiagramStructure)
+	CreateORMExternalPartShape(ExternalPartShape *ExternalPartShape)
 	CreateORMLibrary(Library *Library)
 	CreateORMNote(Note *Note)
+	CreateORMNotePortShape(NotePortShape *NotePortShape)
 	CreateORMNoteShape(NoteShape *NoteShape)
-	CreateORMNoteTaskShape(NoteTaskShape *NoteTaskShape)
-	CreateORMParticipant(Participant *Participant)
-	CreateORMParticipantShape(ParticipantShape *ParticipantShape)
-	CreateORMProcess(Process *Process)
-	CreateORMProcessShape(ProcessShape *ProcessShape)
+	CreateORMPart(Part *Part)
+	CreateORMPartShape(PartShape *PartShape)
+	CreateORMPort(Port *Port)
+	CreateORMPortShape(PortShape *PortShape)
 	CreateORMResource(Resource *Resource)
-	CreateORMTask(Task *Task)
-	CreateORMTaskShape(TaskShape *TaskShape)
+	CreateORMSystem(System *System)
+	CreateORMSystemShape(SystemShape *SystemShape)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMAllocatedProcessShape(AllocatedProcessShape *AllocatedProcessShape)
 	DeleteORMAllocatedResourceShape(AllocatedResourceShape *AllocatedResourceShape)
+	DeleteORMAllocatedSystemShape(AllocatedSystemShape *AllocatedSystemShape)
 	DeleteORMControlFlow(ControlFlow *ControlFlow)
 	DeleteORMControlFlowShape(ControlFlowShape *ControlFlowShape)
 	DeleteORMData(Data *Data)
 	DeleteORMDataFlow(DataFlow *DataFlow)
 	DeleteORMDataFlowShape(DataFlowShape *DataFlowShape)
 	DeleteORMDataShape(DataShape *DataShape)
-	DeleteORMDiagramProcess(DiagramProcess *DiagramProcess)
-	DeleteORMExternalParticipantShape(ExternalParticipantShape *ExternalParticipantShape)
+	DeleteORMDiagramStructure(DiagramStructure *DiagramStructure)
+	DeleteORMExternalPartShape(ExternalPartShape *ExternalPartShape)
 	DeleteORMLibrary(Library *Library)
 	DeleteORMNote(Note *Note)
+	DeleteORMNotePortShape(NotePortShape *NotePortShape)
 	DeleteORMNoteShape(NoteShape *NoteShape)
-	DeleteORMNoteTaskShape(NoteTaskShape *NoteTaskShape)
-	DeleteORMParticipant(Participant *Participant)
-	DeleteORMParticipantShape(ParticipantShape *ParticipantShape)
-	DeleteORMProcess(Process *Process)
-	DeleteORMProcessShape(ProcessShape *ProcessShape)
+	DeleteORMPart(Part *Part)
+	DeleteORMPartShape(PartShape *PartShape)
+	DeleteORMPort(Port *Port)
+	DeleteORMPortShape(PortShape *PortShape)
 	DeleteORMResource(Resource *Resource)
-	DeleteORMTask(Task *Task)
-	DeleteORMTaskShape(TaskShape *TaskShape)
+	DeleteORMSystem(System *System)
+	DeleteORMSystemShape(SystemShape *SystemShape)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.AllocatedProcessShapes = make(map[*AllocatedProcessShape]struct{})
-	stage.AllocatedProcessShapes_mapString = make(map[string]*AllocatedProcessShape)
-	stage.AllocatedProcessShape_stagedOrder = make(map[*AllocatedProcessShape]uint)
-	stage.AllocatedProcessShapeOrder = 0
-
 	stage.AllocatedResourceShapes = make(map[*AllocatedResourceShape]struct{})
 	stage.AllocatedResourceShapes_mapString = make(map[string]*AllocatedResourceShape)
 	stage.AllocatedResourceShape_stagedOrder = make(map[*AllocatedResourceShape]uint)
 	stage.AllocatedResourceShapeOrder = 0
+
+	stage.AllocatedSystemShapes = make(map[*AllocatedSystemShape]struct{})
+	stage.AllocatedSystemShapes_mapString = make(map[string]*AllocatedSystemShape)
+	stage.AllocatedSystemShape_stagedOrder = make(map[*AllocatedSystemShape]uint)
+	stage.AllocatedSystemShapeOrder = 0
 
 	stage.ControlFlows = make(map[*ControlFlow]struct{})
 	stage.ControlFlows_mapString = make(map[string]*ControlFlow)
@@ -4184,15 +4184,15 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.DataShape_stagedOrder = make(map[*DataShape]uint)
 	stage.DataShapeOrder = 0
 
-	stage.DiagramProcesss = make(map[*DiagramProcess]struct{})
-	stage.DiagramProcesss_mapString = make(map[string]*DiagramProcess)
-	stage.DiagramProcess_stagedOrder = make(map[*DiagramProcess]uint)
-	stage.DiagramProcessOrder = 0
+	stage.DiagramStructures = make(map[*DiagramStructure]struct{})
+	stage.DiagramStructures_mapString = make(map[string]*DiagramStructure)
+	stage.DiagramStructure_stagedOrder = make(map[*DiagramStructure]uint)
+	stage.DiagramStructureOrder = 0
 
-	stage.ExternalParticipantShapes = make(map[*ExternalParticipantShape]struct{})
-	stage.ExternalParticipantShapes_mapString = make(map[string]*ExternalParticipantShape)
-	stage.ExternalParticipantShape_stagedOrder = make(map[*ExternalParticipantShape]uint)
-	stage.ExternalParticipantShapeOrder = 0
+	stage.ExternalPartShapes = make(map[*ExternalPartShape]struct{})
+	stage.ExternalPartShapes_mapString = make(map[string]*ExternalPartShape)
+	stage.ExternalPartShape_stagedOrder = make(map[*ExternalPartShape]uint)
+	stage.ExternalPartShapeOrder = 0
 
 	stage.Librarys = make(map[*Library]struct{})
 	stage.Librarys_mapString = make(map[string]*Library)
@@ -4204,50 +4204,50 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Note_stagedOrder = make(map[*Note]uint)
 	stage.NoteOrder = 0
 
+	stage.NotePortShapes = make(map[*NotePortShape]struct{})
+	stage.NotePortShapes_mapString = make(map[string]*NotePortShape)
+	stage.NotePortShape_stagedOrder = make(map[*NotePortShape]uint)
+	stage.NotePortShapeOrder = 0
+
 	stage.NoteShapes = make(map[*NoteShape]struct{})
 	stage.NoteShapes_mapString = make(map[string]*NoteShape)
 	stage.NoteShape_stagedOrder = make(map[*NoteShape]uint)
 	stage.NoteShapeOrder = 0
 
-	stage.NoteTaskShapes = make(map[*NoteTaskShape]struct{})
-	stage.NoteTaskShapes_mapString = make(map[string]*NoteTaskShape)
-	stage.NoteTaskShape_stagedOrder = make(map[*NoteTaskShape]uint)
-	stage.NoteTaskShapeOrder = 0
+	stage.Parts = make(map[*Part]struct{})
+	stage.Parts_mapString = make(map[string]*Part)
+	stage.Part_stagedOrder = make(map[*Part]uint)
+	stage.PartOrder = 0
 
-	stage.Participants = make(map[*Participant]struct{})
-	stage.Participants_mapString = make(map[string]*Participant)
-	stage.Participant_stagedOrder = make(map[*Participant]uint)
-	stage.ParticipantOrder = 0
+	stage.PartShapes = make(map[*PartShape]struct{})
+	stage.PartShapes_mapString = make(map[string]*PartShape)
+	stage.PartShape_stagedOrder = make(map[*PartShape]uint)
+	stage.PartShapeOrder = 0
 
-	stage.ParticipantShapes = make(map[*ParticipantShape]struct{})
-	stage.ParticipantShapes_mapString = make(map[string]*ParticipantShape)
-	stage.ParticipantShape_stagedOrder = make(map[*ParticipantShape]uint)
-	stage.ParticipantShapeOrder = 0
+	stage.Ports = make(map[*Port]struct{})
+	stage.Ports_mapString = make(map[string]*Port)
+	stage.Port_stagedOrder = make(map[*Port]uint)
+	stage.PortOrder = 0
 
-	stage.Processs = make(map[*Process]struct{})
-	stage.Processs_mapString = make(map[string]*Process)
-	stage.Process_stagedOrder = make(map[*Process]uint)
-	stage.ProcessOrder = 0
-
-	stage.ProcessShapes = make(map[*ProcessShape]struct{})
-	stage.ProcessShapes_mapString = make(map[string]*ProcessShape)
-	stage.ProcessShape_stagedOrder = make(map[*ProcessShape]uint)
-	stage.ProcessShapeOrder = 0
+	stage.PortShapes = make(map[*PortShape]struct{})
+	stage.PortShapes_mapString = make(map[string]*PortShape)
+	stage.PortShape_stagedOrder = make(map[*PortShape]uint)
+	stage.PortShapeOrder = 0
 
 	stage.Resources = make(map[*Resource]struct{})
 	stage.Resources_mapString = make(map[string]*Resource)
 	stage.Resource_stagedOrder = make(map[*Resource]uint)
 	stage.ResourceOrder = 0
 
-	stage.Tasks = make(map[*Task]struct{})
-	stage.Tasks_mapString = make(map[string]*Task)
-	stage.Task_stagedOrder = make(map[*Task]uint)
-	stage.TaskOrder = 0
+	stage.Systems = make(map[*System]struct{})
+	stage.Systems_mapString = make(map[string]*System)
+	stage.System_stagedOrder = make(map[*System]uint)
+	stage.SystemOrder = 0
 
-	stage.TaskShapes = make(map[*TaskShape]struct{})
-	stage.TaskShapes_mapString = make(map[string]*TaskShape)
-	stage.TaskShape_stagedOrder = make(map[*TaskShape]uint)
-	stage.TaskShapeOrder = 0
+	stage.SystemShapes = make(map[*SystemShape]struct{})
+	stage.SystemShapes_mapString = make(map[string]*SystemShape)
+	stage.SystemShape_stagedOrder = make(map[*SystemShape]uint)
+	stage.SystemShapeOrder = 0
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -4258,11 +4258,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
-	stage.AllocatedProcessShapes = nil
-	stage.AllocatedProcessShapes_mapString = nil
-
 	stage.AllocatedResourceShapes = nil
 	stage.AllocatedResourceShapes_mapString = nil
+
+	stage.AllocatedSystemShapes = nil
+	stage.AllocatedSystemShapes_mapString = nil
 
 	stage.ControlFlows = nil
 	stage.ControlFlows_mapString = nil
@@ -4282,11 +4282,11 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.DataShapes = nil
 	stage.DataShapes_mapString = nil
 
-	stage.DiagramProcesss = nil
-	stage.DiagramProcesss_mapString = nil
+	stage.DiagramStructures = nil
+	stage.DiagramStructures_mapString = nil
 
-	stage.ExternalParticipantShapes = nil
-	stage.ExternalParticipantShapes_mapString = nil
+	stage.ExternalPartShapes = nil
+	stage.ExternalPartShapes_mapString = nil
 
 	stage.Librarys = nil
 	stage.Librarys_mapString = nil
@@ -4294,43 +4294,43 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Notes = nil
 	stage.Notes_mapString = nil
 
+	stage.NotePortShapes = nil
+	stage.NotePortShapes_mapString = nil
+
 	stage.NoteShapes = nil
 	stage.NoteShapes_mapString = nil
 
-	stage.NoteTaskShapes = nil
-	stage.NoteTaskShapes_mapString = nil
+	stage.Parts = nil
+	stage.Parts_mapString = nil
 
-	stage.Participants = nil
-	stage.Participants_mapString = nil
+	stage.PartShapes = nil
+	stage.PartShapes_mapString = nil
 
-	stage.ParticipantShapes = nil
-	stage.ParticipantShapes_mapString = nil
+	stage.Ports = nil
+	stage.Ports_mapString = nil
 
-	stage.Processs = nil
-	stage.Processs_mapString = nil
-
-	stage.ProcessShapes = nil
-	stage.ProcessShapes_mapString = nil
+	stage.PortShapes = nil
+	stage.PortShapes_mapString = nil
 
 	stage.Resources = nil
 	stage.Resources_mapString = nil
 
-	stage.Tasks = nil
-	stage.Tasks_mapString = nil
+	stage.Systems = nil
+	stage.Systems_mapString = nil
 
-	stage.TaskShapes = nil
-	stage.TaskShapes_mapString = nil
+	stage.SystemShapes = nil
+	stage.SystemShapes_mapString = nil
 
 	// end of insertion point for array nil
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
-	for allocatedprocessshape := range stage.AllocatedProcessShapes {
-		allocatedprocessshape.Unstage(stage)
-	}
-
 	for allocatedresourceshape := range stage.AllocatedResourceShapes {
 		allocatedresourceshape.Unstage(stage)
+	}
+
+	for allocatedsystemshape := range stage.AllocatedSystemShapes {
+		allocatedsystemshape.Unstage(stage)
 	}
 
 	for controlflow := range stage.ControlFlows {
@@ -4357,12 +4357,12 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		datashape.Unstage(stage)
 	}
 
-	for diagramprocess := range stage.DiagramProcesss {
-		diagramprocess.Unstage(stage)
+	for diagramstructure := range stage.DiagramStructures {
+		diagramstructure.Unstage(stage)
 	}
 
-	for externalparticipantshape := range stage.ExternalParticipantShapes {
-		externalparticipantshape.Unstage(stage)
+	for externalpartshape := range stage.ExternalPartShapes {
+		externalpartshape.Unstage(stage)
 	}
 
 	for library := range stage.Librarys {
@@ -4373,40 +4373,40 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		note.Unstage(stage)
 	}
 
+	for noteportshape := range stage.NotePortShapes {
+		noteportshape.Unstage(stage)
+	}
+
 	for noteshape := range stage.NoteShapes {
 		noteshape.Unstage(stage)
 	}
 
-	for notetaskshape := range stage.NoteTaskShapes {
-		notetaskshape.Unstage(stage)
+	for part := range stage.Parts {
+		part.Unstage(stage)
 	}
 
-	for participant := range stage.Participants {
-		participant.Unstage(stage)
+	for partshape := range stage.PartShapes {
+		partshape.Unstage(stage)
 	}
 
-	for participantshape := range stage.ParticipantShapes {
-		participantshape.Unstage(stage)
+	for port := range stage.Ports {
+		port.Unstage(stage)
 	}
 
-	for process := range stage.Processs {
-		process.Unstage(stage)
-	}
-
-	for processshape := range stage.ProcessShapes {
-		processshape.Unstage(stage)
+	for portshape := range stage.PortShapes {
+		portshape.Unstage(stage)
 	}
 
 	for resource := range stage.Resources {
 		resource.Unstage(stage)
 	}
 
-	for task := range stage.Tasks {
-		task.Unstage(stage)
+	for system := range stage.Systems {
+		system.Unstage(stage)
 	}
 
-	for taskshape := range stage.TaskShapes {
-		taskshape.Unstage(stage)
+	for systemshape := range stage.SystemShapes {
+		systemshape.Unstage(stage)
 	}
 
 	// end of insertion point for array nil
@@ -4485,10 +4485,10 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[*AllocatedProcessShape]any:
-		return any(&stage.AllocatedProcessShapes).(*Type)
 	case map[*AllocatedResourceShape]any:
 		return any(&stage.AllocatedResourceShapes).(*Type)
+	case map[*AllocatedSystemShape]any:
+		return any(&stage.AllocatedSystemShapes).(*Type)
 	case map[*ControlFlow]any:
 		return any(&stage.ControlFlows).(*Type)
 	case map[*ControlFlowShape]any:
@@ -4501,32 +4501,32 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.DataFlowShapes).(*Type)
 	case map[*DataShape]any:
 		return any(&stage.DataShapes).(*Type)
-	case map[*DiagramProcess]any:
-		return any(&stage.DiagramProcesss).(*Type)
-	case map[*ExternalParticipantShape]any:
-		return any(&stage.ExternalParticipantShapes).(*Type)
+	case map[*DiagramStructure]any:
+		return any(&stage.DiagramStructures).(*Type)
+	case map[*ExternalPartShape]any:
+		return any(&stage.ExternalPartShapes).(*Type)
 	case map[*Library]any:
 		return any(&stage.Librarys).(*Type)
 	case map[*Note]any:
 		return any(&stage.Notes).(*Type)
+	case map[*NotePortShape]any:
+		return any(&stage.NotePortShapes).(*Type)
 	case map[*NoteShape]any:
 		return any(&stage.NoteShapes).(*Type)
-	case map[*NoteTaskShape]any:
-		return any(&stage.NoteTaskShapes).(*Type)
-	case map[*Participant]any:
-		return any(&stage.Participants).(*Type)
-	case map[*ParticipantShape]any:
-		return any(&stage.ParticipantShapes).(*Type)
-	case map[*Process]any:
-		return any(&stage.Processs).(*Type)
-	case map[*ProcessShape]any:
-		return any(&stage.ProcessShapes).(*Type)
+	case map[*Part]any:
+		return any(&stage.Parts).(*Type)
+	case map[*PartShape]any:
+		return any(&stage.PartShapes).(*Type)
+	case map[*Port]any:
+		return any(&stage.Ports).(*Type)
+	case map[*PortShape]any:
+		return any(&stage.PortShapes).(*Type)
 	case map[*Resource]any:
 		return any(&stage.Resources).(*Type)
-	case map[*Task]any:
-		return any(&stage.Tasks).(*Type)
-	case map[*TaskShape]any:
-		return any(&stage.TaskShapes).(*Type)
+	case map[*System]any:
+		return any(&stage.Systems).(*Type)
+	case map[*SystemShape]any:
+		return any(&stage.SystemShapes).(*Type)
 	default:
 		return nil
 	}
@@ -4539,10 +4539,10 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case *AllocatedProcessShape:
-		return any(stage.AllocatedProcessShapes_mapString).(map[string]Type)
 	case *AllocatedResourceShape:
 		return any(stage.AllocatedResourceShapes_mapString).(map[string]Type)
+	case *AllocatedSystemShape:
+		return any(stage.AllocatedSystemShapes_mapString).(map[string]Type)
 	case *ControlFlow:
 		return any(stage.ControlFlows_mapString).(map[string]Type)
 	case *ControlFlowShape:
@@ -4555,32 +4555,32 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.DataFlowShapes_mapString).(map[string]Type)
 	case *DataShape:
 		return any(stage.DataShapes_mapString).(map[string]Type)
-	case *DiagramProcess:
-		return any(stage.DiagramProcesss_mapString).(map[string]Type)
-	case *ExternalParticipantShape:
-		return any(stage.ExternalParticipantShapes_mapString).(map[string]Type)
+	case *DiagramStructure:
+		return any(stage.DiagramStructures_mapString).(map[string]Type)
+	case *ExternalPartShape:
+		return any(stage.ExternalPartShapes_mapString).(map[string]Type)
 	case *Library:
 		return any(stage.Librarys_mapString).(map[string]Type)
 	case *Note:
 		return any(stage.Notes_mapString).(map[string]Type)
+	case *NotePortShape:
+		return any(stage.NotePortShapes_mapString).(map[string]Type)
 	case *NoteShape:
 		return any(stage.NoteShapes_mapString).(map[string]Type)
-	case *NoteTaskShape:
-		return any(stage.NoteTaskShapes_mapString).(map[string]Type)
-	case *Participant:
-		return any(stage.Participants_mapString).(map[string]Type)
-	case *ParticipantShape:
-		return any(stage.ParticipantShapes_mapString).(map[string]Type)
-	case *Process:
-		return any(stage.Processs_mapString).(map[string]Type)
-	case *ProcessShape:
-		return any(stage.ProcessShapes_mapString).(map[string]Type)
+	case *Part:
+		return any(stage.Parts_mapString).(map[string]Type)
+	case *PartShape:
+		return any(stage.PartShapes_mapString).(map[string]Type)
+	case *Port:
+		return any(stage.Ports_mapString).(map[string]Type)
+	case *PortShape:
+		return any(stage.PortShapes_mapString).(map[string]Type)
 	case *Resource:
 		return any(stage.Resources_mapString).(map[string]Type)
-	case *Task:
-		return any(stage.Tasks_mapString).(map[string]Type)
-	case *TaskShape:
-		return any(stage.TaskShapes_mapString).(map[string]Type)
+	case *System:
+		return any(stage.Systems_mapString).(map[string]Type)
+	case *SystemShape:
+		return any(stage.SystemShapes_mapString).(map[string]Type)
 	default:
 		return nil
 	}
@@ -4593,10 +4593,10 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case AllocatedProcessShape:
-		return any(&stage.AllocatedProcessShapes).(*map[*Type]struct{})
 	case AllocatedResourceShape:
 		return any(&stage.AllocatedResourceShapes).(*map[*Type]struct{})
+	case AllocatedSystemShape:
+		return any(&stage.AllocatedSystemShapes).(*map[*Type]struct{})
 	case ControlFlow:
 		return any(&stage.ControlFlows).(*map[*Type]struct{})
 	case ControlFlowShape:
@@ -4609,32 +4609,32 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.DataFlowShapes).(*map[*Type]struct{})
 	case DataShape:
 		return any(&stage.DataShapes).(*map[*Type]struct{})
-	case DiagramProcess:
-		return any(&stage.DiagramProcesss).(*map[*Type]struct{})
-	case ExternalParticipantShape:
-		return any(&stage.ExternalParticipantShapes).(*map[*Type]struct{})
+	case DiagramStructure:
+		return any(&stage.DiagramStructures).(*map[*Type]struct{})
+	case ExternalPartShape:
+		return any(&stage.ExternalPartShapes).(*map[*Type]struct{})
 	case Library:
 		return any(&stage.Librarys).(*map[*Type]struct{})
 	case Note:
 		return any(&stage.Notes).(*map[*Type]struct{})
+	case NotePortShape:
+		return any(&stage.NotePortShapes).(*map[*Type]struct{})
 	case NoteShape:
 		return any(&stage.NoteShapes).(*map[*Type]struct{})
-	case NoteTaskShape:
-		return any(&stage.NoteTaskShapes).(*map[*Type]struct{})
-	case Participant:
-		return any(&stage.Participants).(*map[*Type]struct{})
-	case ParticipantShape:
-		return any(&stage.ParticipantShapes).(*map[*Type]struct{})
-	case Process:
-		return any(&stage.Processs).(*map[*Type]struct{})
-	case ProcessShape:
-		return any(&stage.ProcessShapes).(*map[*Type]struct{})
+	case Part:
+		return any(&stage.Parts).(*map[*Type]struct{})
+	case PartShape:
+		return any(&stage.PartShapes).(*map[*Type]struct{})
+	case Port:
+		return any(&stage.Ports).(*map[*Type]struct{})
+	case PortShape:
+		return any(&stage.PortShapes).(*map[*Type]struct{})
 	case Resource:
 		return any(&stage.Resources).(*map[*Type]struct{})
-	case Task:
-		return any(&stage.Tasks).(*map[*Type]struct{})
-	case TaskShape:
-		return any(&stage.TaskShapes).(*map[*Type]struct{})
+	case System:
+		return any(&stage.Systems).(*map[*Type]struct{})
+	case SystemShape:
+		return any(&stage.SystemShapes).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -4647,10 +4647,10 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case *AllocatedProcessShape:
-		return any(&stage.AllocatedProcessShapes).(*map[Type]struct{})
 	case *AllocatedResourceShape:
 		return any(&stage.AllocatedResourceShapes).(*map[Type]struct{})
+	case *AllocatedSystemShape:
+		return any(&stage.AllocatedSystemShapes).(*map[Type]struct{})
 	case *ControlFlow:
 		return any(&stage.ControlFlows).(*map[Type]struct{})
 	case *ControlFlowShape:
@@ -4663,32 +4663,32 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.DataFlowShapes).(*map[Type]struct{})
 	case *DataShape:
 		return any(&stage.DataShapes).(*map[Type]struct{})
-	case *DiagramProcess:
-		return any(&stage.DiagramProcesss).(*map[Type]struct{})
-	case *ExternalParticipantShape:
-		return any(&stage.ExternalParticipantShapes).(*map[Type]struct{})
+	case *DiagramStructure:
+		return any(&stage.DiagramStructures).(*map[Type]struct{})
+	case *ExternalPartShape:
+		return any(&stage.ExternalPartShapes).(*map[Type]struct{})
 	case *Library:
 		return any(&stage.Librarys).(*map[Type]struct{})
 	case *Note:
 		return any(&stage.Notes).(*map[Type]struct{})
+	case *NotePortShape:
+		return any(&stage.NotePortShapes).(*map[Type]struct{})
 	case *NoteShape:
 		return any(&stage.NoteShapes).(*map[Type]struct{})
-	case *NoteTaskShape:
-		return any(&stage.NoteTaskShapes).(*map[Type]struct{})
-	case *Participant:
-		return any(&stage.Participants).(*map[Type]struct{})
-	case *ParticipantShape:
-		return any(&stage.ParticipantShapes).(*map[Type]struct{})
-	case *Process:
-		return any(&stage.Processs).(*map[Type]struct{})
-	case *ProcessShape:
-		return any(&stage.ProcessShapes).(*map[Type]struct{})
+	case *Part:
+		return any(&stage.Parts).(*map[Type]struct{})
+	case *PartShape:
+		return any(&stage.PartShapes).(*map[Type]struct{})
+	case *Port:
+		return any(&stage.Ports).(*map[Type]struct{})
+	case *PortShape:
+		return any(&stage.PortShapes).(*map[Type]struct{})
 	case *Resource:
 		return any(&stage.Resources).(*map[Type]struct{})
-	case *Task:
-		return any(&stage.Tasks).(*map[Type]struct{})
-	case *TaskShape:
-		return any(&stage.TaskShapes).(*map[Type]struct{})
+	case *System:
+		return any(&stage.Systems).(*map[Type]struct{})
+	case *SystemShape:
+		return any(&stage.SystemShapes).(*map[Type]struct{})
 	default:
 		return nil
 	}
@@ -4701,10 +4701,10 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case AllocatedProcessShape:
-		return any(&stage.AllocatedProcessShapes_mapString).(*map[string]*Type)
 	case AllocatedResourceShape:
 		return any(&stage.AllocatedResourceShapes_mapString).(*map[string]*Type)
+	case AllocatedSystemShape:
+		return any(&stage.AllocatedSystemShapes_mapString).(*map[string]*Type)
 	case ControlFlow:
 		return any(&stage.ControlFlows_mapString).(*map[string]*Type)
 	case ControlFlowShape:
@@ -4717,32 +4717,32 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.DataFlowShapes_mapString).(*map[string]*Type)
 	case DataShape:
 		return any(&stage.DataShapes_mapString).(*map[string]*Type)
-	case DiagramProcess:
-		return any(&stage.DiagramProcesss_mapString).(*map[string]*Type)
-	case ExternalParticipantShape:
-		return any(&stage.ExternalParticipantShapes_mapString).(*map[string]*Type)
+	case DiagramStructure:
+		return any(&stage.DiagramStructures_mapString).(*map[string]*Type)
+	case ExternalPartShape:
+		return any(&stage.ExternalPartShapes_mapString).(*map[string]*Type)
 	case Library:
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
 	case Note:
 		return any(&stage.Notes_mapString).(*map[string]*Type)
+	case NotePortShape:
+		return any(&stage.NotePortShapes_mapString).(*map[string]*Type)
 	case NoteShape:
 		return any(&stage.NoteShapes_mapString).(*map[string]*Type)
-	case NoteTaskShape:
-		return any(&stage.NoteTaskShapes_mapString).(*map[string]*Type)
-	case Participant:
-		return any(&stage.Participants_mapString).(*map[string]*Type)
-	case ParticipantShape:
-		return any(&stage.ParticipantShapes_mapString).(*map[string]*Type)
-	case Process:
-		return any(&stage.Processs_mapString).(*map[string]*Type)
-	case ProcessShape:
-		return any(&stage.ProcessShapes_mapString).(*map[string]*Type)
+	case Part:
+		return any(&stage.Parts_mapString).(*map[string]*Type)
+	case PartShape:
+		return any(&stage.PartShapes_mapString).(*map[string]*Type)
+	case Port:
+		return any(&stage.Ports_mapString).(*map[string]*Type)
+	case PortShape:
+		return any(&stage.PortShapes_mapString).(*map[string]*Type)
 	case Resource:
 		return any(&stage.Resources_mapString).(*map[string]*Type)
-	case Task:
-		return any(&stage.Tasks_mapString).(*map[string]*Type)
-	case TaskShape:
-		return any(&stage.TaskShapes_mapString).(*map[string]*Type)
+	case System:
+		return any(&stage.Systems_mapString).(*map[string]*Type)
+	case SystemShape:
+		return any(&stage.SystemShapes_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -4757,29 +4757,29 @@ func GetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case AllocatedProcessShape:
-		return any(&AllocatedProcessShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Participant with the name of the field
-			Participant: &Participant{Name: "Participant"},
-			// field is initialized with an instance of Process with the name of the field
-			Process: &Process{Name: "Process"},
-		}).(*Type)
 	case AllocatedResourceShape:
 		return any(&AllocatedResourceShape{
 			// Initialisation of associations
-			// field is initialized with an instance of Participant with the name of the field
-			Participant: &Participant{Name: "Participant"},
+			// field is initialized with an instance of Part with the name of the field
+			Part: &Part{Name: "Part"},
 			// field is initialized with an instance of Resource with the name of the field
 			Resource: &Resource{Name: "Resource"},
+		}).(*Type)
+	case AllocatedSystemShape:
+		return any(&AllocatedSystemShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Part with the name of the field
+			Part: &Part{Name: "Part"},
+			// field is initialized with an instance of System with the name of the field
+			System: &System{Name: "System"},
 		}).(*Type)
 	case ControlFlow:
 		return any(&ControlFlow{
 			// Initialisation of associations
-			// field is initialized with an instance of Task with the name of the field
-			Start: &Task{Name: "Start"},
-			// field is initialized with an instance of Task with the name of the field
-			End: &Task{Name: "End"},
+			// field is initialized with an instance of Port with the name of the field
+			Start: &Port{Name: "Start"},
+			// field is initialized with an instance of Port with the name of the field
+			End: &Port{Name: "End"},
 		}).(*Type)
 	case ControlFlowShape:
 		return any(&ControlFlowShape{
@@ -4796,14 +4796,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Data with the name of the field
 			Datas: []*Data{{Name: "Datas"}},
-			// field is initialized with an instance of Task with the name of the field
-			StartTask: &Task{Name: "StartTask"},
-			// field is initialized with an instance of Task with the name of the field
-			EndTask: &Task{Name: "EndTask"},
-			// field is initialized with an instance of Participant with the name of the field
-			StartExternalParticipant: &Participant{Name: "StartExternalParticipant"},
-			// field is initialized with an instance of Participant with the name of the field
-			EndExternalParticipant: &Participant{Name: "EndExternalParticipant"},
+			// field is initialized with an instance of Port with the name of the field
+			StartPort: &Port{Name: "StartPort"},
+			// field is initialized with an instance of Port with the name of the field
+			EndPort: &Port{Name: "EndPort"},
+			// field is initialized with an instance of Part with the name of the field
+			StartExternalPart: &Part{Name: "StartExternalPart"},
+			// field is initialized with an instance of Part with the name of the field
+			EndExternalPart: &Part{Name: "EndExternalPart"},
 		}).(*Type)
 	case DataFlowShape:
 		return any(&DataFlowShape{
@@ -4819,29 +4819,29 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of DataFlow with the name of the field
 			DataFlow: &DataFlow{Name: "DataFlow"},
 		}).(*Type)
-	case DiagramProcess:
-		return any(&DiagramProcess{
+	case DiagramStructure:
+		return any(&DiagramStructure{
 			// Initialisation of associations
-			// field is initialized with an instance of ProcessShape with the name of the field
-			Process_Shapes: []*ProcessShape{{Name: "Process_Shapes"}},
-			// field is initialized with an instance of Process with the name of the field
-			ProcesssWhoseNodeIsExpanded: []*Process{{Name: "ProcesssWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of ParticipantShape with the name of the field
-			Participant_Shapes: []*ParticipantShape{{Name: "Participant_Shapes"}},
-			// field is initialized with an instance of Participant with the name of the field
-			ParticipantWhoseNodeIsExpanded: []*Participant{{Name: "ParticipantWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of ExternalParticipantShape with the name of the field
-			ExternalParticipant_Shapes: []*ExternalParticipantShape{{Name: "ExternalParticipant_Shapes"}},
-			// field is initialized with an instance of Participant with the name of the field
-			ExternalParticipantWhoseNodeIsExpanded: []*Participant{{Name: "ExternalParticipantWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Participant with the name of the field
-			ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded: []*Participant{{Name: "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of Participant with the name of the field
-			ExternalParticipantsWhoseInDataFlowsNodeIsExpanded: []*Participant{{Name: "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of Task with the name of the field
-			TasksWhoseNodeIsExpanded: []*Task{{Name: "TasksWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of TaskShape with the name of the field
-			Task_Shapes: []*TaskShape{{Name: "Task_Shapes"}},
+			// field is initialized with an instance of SystemShape with the name of the field
+			System_Shapes: []*SystemShape{{Name: "System_Shapes"}},
+			// field is initialized with an instance of System with the name of the field
+			SystemsWhoseNodeIsExpanded: []*System{{Name: "SystemsWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of PartShape with the name of the field
+			Part_Shapes: []*PartShape{{Name: "Part_Shapes"}},
+			// field is initialized with an instance of Part with the name of the field
+			PartWhoseNodeIsExpanded: []*Part{{Name: "PartWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of ExternalPartShape with the name of the field
+			ExternalPart_Shapes: []*ExternalPartShape{{Name: "ExternalPart_Shapes"}},
+			// field is initialized with an instance of Part with the name of the field
+			ExternalPartWhoseNodeIsExpanded: []*Part{{Name: "ExternalPartWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Part with the name of the field
+			ExternalPartsWhoseOutDataFlowsNodeIsExpanded: []*Part{{Name: "ExternalPartsWhoseOutDataFlowsNodeIsExpanded"}},
+			// field is initialized with an instance of Part with the name of the field
+			ExternalPartsWhoseInDataFlowsNodeIsExpanded: []*Part{{Name: "ExternalPartsWhoseInDataFlowsNodeIsExpanded"}},
+			// field is initialized with an instance of Port with the name of the field
+			PortsWhoseNodeIsExpanded: []*Port{{Name: "PortsWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of PortShape with the name of the field
+			Port_Shapes: []*PortShape{{Name: "Port_Shapes"}},
 			// field is initialized with an instance of ControlFlow with the name of the field
 			ControlFlowsWhoseNodeIsExpanded: []*ControlFlow{{Name: "ControlFlowsWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of ControlFlowShape with the name of the field
@@ -4860,22 +4860,22 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			AllocatedResourcesWhoseNodeIsExpanded: []*Resource{{Name: "AllocatedResourcesWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of AllocatedResourceShape with the name of the field
 			AllocatedResourceShapes: []*AllocatedResourceShape{{Name: "AllocatedResourceShapes"}},
-			// field is initialized with an instance of Process with the name of the field
-			AllocatedProcessesWhoseNodeIsExpanded: []*Process{{Name: "AllocatedProcessesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of AllocatedProcessShape with the name of the field
-			AllocatedProcessShapes: []*AllocatedProcessShape{{Name: "AllocatedProcessShapes"}},
+			// field is initialized with an instance of System with the name of the field
+			AllocatedSystemesWhoseNodeIsExpanded: []*System{{Name: "AllocatedSystemesWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of AllocatedSystemShape with the name of the field
+			AllocatedSystemShapes: []*AllocatedSystemShape{{Name: "AllocatedSystemShapes"}},
 			// field is initialized with an instance of NoteShape with the name of the field
 			Note_Shapes: []*NoteShape{{Name: "Note_Shapes"}},
 			// field is initialized with an instance of Note with the name of the field
 			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of NoteTaskShape with the name of the field
-			NoteTaskShapes: []*NoteTaskShape{{Name: "NoteTaskShapes"}},
+			// field is initialized with an instance of NotePortShape with the name of the field
+			NotePortShapes: []*NotePortShape{{Name: "NotePortShapes"}},
 		}).(*Type)
-	case ExternalParticipantShape:
-		return any(&ExternalParticipantShape{
+	case ExternalPartShape:
+		return any(&ExternalPartShape{
 			// Initialisation of associations
-			// field is initialized with an instance of Participant with the name of the field
-			Participant: &Participant{Name: "Participant"},
+			// field is initialized with an instance of Part with the name of the field
+			Part: &Part{Name: "Part"},
 		}).(*Type)
 	case Library:
 		return any(&Library{
@@ -4884,10 +4884,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
 			// field is initialized with an instance of Library with the name of the field
 			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Process with the name of the field
-			RootProcesses: []*Process{{Name: "RootProcesses"}},
-			// field is initialized with an instance of Process with the name of the field
-			ProcesssWhoseNodeIsExpanded: []*Process{{Name: "ProcesssWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of System with the name of the field
+			RootSystemes: []*System{{Name: "RootSystemes"}},
+			// field is initialized with an instance of System with the name of the field
+			SystemsWhoseNodeIsExpanded: []*System{{Name: "SystemsWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of DataFlow with the name of the field
 			RootDataFlows: []*DataFlow{{Name: "RootDataFlows"}},
 			// field is initialized with an instance of DataFlow with the name of the field
@@ -4900,8 +4900,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RootResources: []*Resource{{Name: "RootResources"}},
 			// field is initialized with an instance of Resource with the name of the field
 			ResourcesWhoseNodeIsExpanded: []*Resource{{Name: "ResourcesWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Participant with the name of the field
-			ParticipantsWhoseNodeIsExpanded: []*Participant{{Name: "ParticipantsWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Part with the name of the field
+			PartsWhoseNodeIsExpanded: []*Part{{Name: "PartsWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of Note with the name of the field
 			RootNotes: []*Note{{Name: "RootNotes"}},
 			// field is initialized with an instance of Note with the name of the field
@@ -4910,8 +4910,16 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Note:
 		return any(&Note{
 			// Initialisation of associations
-			// field is initialized with an instance of Task with the name of the field
-			Tasks: []*Task{{Name: "Tasks"}},
+			// field is initialized with an instance of Port with the name of the field
+			Ports: []*Port{{Name: "Ports"}},
+		}).(*Type)
+	case NotePortShape:
+		return any(&NotePortShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Note with the name of the field
+			Note: &Note{Name: "Note"},
+			// field is initialized with an instance of Port with the name of the field
+			Port: &Port{Name: "Port"},
 		}).(*Type)
 	case NoteShape:
 		return any(&NoteShape{
@@ -4919,81 +4927,73 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
 		}).(*Type)
-	case NoteTaskShape:
-		return any(&NoteTaskShape{
-			// Initialisation of associations
-			// field is initialized with an instance of Note with the name of the field
-			Note: &Note{Name: "Note"},
-			// field is initialized with an instance of Task with the name of the field
-			Task: &Task{Name: "Task"},
-		}).(*Type)
-	case Participant:
-		return any(&Participant{
+	case Part:
+		return any(&Part{
 			// Initialisation of associations
 			// field is initialized with an instance of Resource with the name of the field
 			Resources: []*Resource{{Name: "Resources"}},
-			// field is initialized with an instance of Process with the name of the field
-			Processes: []*Process{{Name: "Processes"}},
-			// field is initialized with an instance of Task with the name of the field
-			Tasks: []*Task{{Name: "Tasks"}},
+			// field is initialized with an instance of System with the name of the field
+			Systemes: []*System{{Name: "Systemes"}},
+			// field is initialized with an instance of Port with the name of the field
+			Ports: []*Port{{Name: "Ports"}},
 			// field is initialized with an instance of ControlFlow with the name of the field
 			ControlFlows: []*ControlFlow{{Name: "ControlFlows"}},
-			// field is initialized with an instance of Task with the name of the field
-			TaskWhoseOutControlFlowsNodeIsExpanded: []*Task{{Name: "TaskWhoseOutControlFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of Task with the name of the field
-			TaskWhoseInControlFlowsNodeIsExpanded: []*Task{{Name: "TaskWhoseInControlFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of Task with the name of the field
-			TaskWhoseOutDataFlowsNodeIsExpanded: []*Task{{Name: "TaskWhoseOutDataFlowsNodeIsExpanded"}},
-			// field is initialized with an instance of Task with the name of the field
-			TaskWhoseInDataFlowsNodeIsExpanded: []*Task{{Name: "TaskWhoseInDataFlowsNodeIsExpanded"}},
+			// field is initialized with an instance of Port with the name of the field
+			PortWhoseOutControlFlowsNodeIsExpanded: []*Port{{Name: "PortWhoseOutControlFlowsNodeIsExpanded"}},
+			// field is initialized with an instance of Port with the name of the field
+			PortWhoseInControlFlowsNodeIsExpanded: []*Port{{Name: "PortWhoseInControlFlowsNodeIsExpanded"}},
+			// field is initialized with an instance of Port with the name of the field
+			PortWhoseOutDataFlowsNodeIsExpanded: []*Port{{Name: "PortWhoseOutDataFlowsNodeIsExpanded"}},
+			// field is initialized with an instance of Port with the name of the field
+			PortWhoseInDataFlowsNodeIsExpanded: []*Port{{Name: "PortWhoseInDataFlowsNodeIsExpanded"}},
 		}).(*Type)
-	case ParticipantShape:
-		return any(&ParticipantShape{
+	case PartShape:
+		return any(&PartShape{
 			// Initialisation of associations
-			// field is initialized with an instance of Participant with the name of the field
-			Participant: &Participant{Name: "Participant"},
+			// field is initialized with an instance of Part with the name of the field
+			Part: &Part{Name: "Part"},
 		}).(*Type)
-	case Process:
-		return any(&Process{
+	case Port:
+		return any(&Port{
 			// Initialisation of associations
-			// field is initialized with an instance of DiagramProcess with the name of the field
-			DiagramProcesss: []*DiagramProcess{{Name: "DiagramProcesss"}},
-			// field is initialized with an instance of DiagramProcess with the name of the field
-			DiagramProcessWhoseNodeIsExpanded: []*DiagramProcess{{Name: "DiagramProcessWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of Process with the name of the field
-			SubProcesses: []*Process{{Name: "SubProcesses"}},
-			// field is initialized with an instance of Participant with the name of the field
-			Participants: []*Participant{{Name: "Participants"}},
-			// field is initialized with an instance of Participant with the name of the field
-			ParticipantWhoseNodeIsExpanded: []*Participant{{Name: "ParticipantWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of DataFlow with the name of the field
-			DataFlows: []*DataFlow{{Name: "DataFlows"}},
-			// field is initialized with an instance of Participant with the name of the field
-			ExternalParticipants: []*Participant{{Name: "ExternalParticipants"}},
-			// field is initialized with an instance of Participant with the name of the field
-			ExternalParticipantWhoseNodeIsExpanded: []*Participant{{Name: "ExternalParticipantWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of System with the name of the field
+			Type: &System{Name: "Type"},
 		}).(*Type)
-	case ProcessShape:
-		return any(&ProcessShape{
+	case PortShape:
+		return any(&PortShape{
 			// Initialisation of associations
-			// field is initialized with an instance of Process with the name of the field
-			Process: &Process{Name: "Process"},
+			// field is initialized with an instance of Port with the name of the field
+			Port: &Port{Name: "Port"},
 		}).(*Type)
 	case Resource:
 		return any(&Resource{
 			// Initialisation of associations
 		}).(*Type)
-	case Task:
-		return any(&Task{
+	case System:
+		return any(&System{
 			// Initialisation of associations
-			// field is initialized with an instance of Process with the name of the field
-			Type: &Process{Name: "Type"},
+			// field is initialized with an instance of DiagramStructure with the name of the field
+			DiagramStructures: []*DiagramStructure{{Name: "DiagramStructures"}},
+			// field is initialized with an instance of DiagramStructure with the name of the field
+			DiagramStructureWhoseNodeIsExpanded: []*DiagramStructure{{Name: "DiagramStructureWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of System with the name of the field
+			SubSystemes: []*System{{Name: "SubSystemes"}},
+			// field is initialized with an instance of Part with the name of the field
+			Parts: []*Part{{Name: "Parts"}},
+			// field is initialized with an instance of Part with the name of the field
+			PartWhoseNodeIsExpanded: []*Part{{Name: "PartWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of DataFlow with the name of the field
+			DataFlows: []*DataFlow{{Name: "DataFlows"}},
+			// field is initialized with an instance of Part with the name of the field
+			ExternalParts: []*Part{{Name: "ExternalParts"}},
+			// field is initialized with an instance of Part with the name of the field
+			ExternalPartWhoseNodeIsExpanded: []*Part{{Name: "ExternalPartWhoseNodeIsExpanded"}},
 		}).(*Type)
-	case TaskShape:
-		return any(&TaskShape{
+	case SystemShape:
+		return any(&SystemShape{
 			// Initialisation of associations
-			// field is initialized with an instance of Task with the name of the field
-			Task: &Task{Name: "Task"},
+			// field is initialized with an instance of System with the name of the field
+			System: &System{Name: "System"},
 		}).(*Type)
 	default:
 		return nil
@@ -5012,63 +5012,24 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
-	// reverse maps of direct associations of AllocatedProcessShape
-	case AllocatedProcessShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		case "Participant":
-			res := make(map[*Participant][]*AllocatedProcessShape)
-			for allocatedprocessshape := range stage.AllocatedProcessShapes {
-				if allocatedprocessshape.Participant != nil {
-					participant_ := allocatedprocessshape.Participant
-					var allocatedprocessshapes []*AllocatedProcessShape
-					_, ok := res[participant_]
-					if ok {
-						allocatedprocessshapes = res[participant_]
-					} else {
-						allocatedprocessshapes = make([]*AllocatedProcessShape, 0)
-					}
-					allocatedprocessshapes = append(allocatedprocessshapes, allocatedprocessshape)
-					res[participant_] = allocatedprocessshapes
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Process":
-			res := make(map[*Process][]*AllocatedProcessShape)
-			for allocatedprocessshape := range stage.AllocatedProcessShapes {
-				if allocatedprocessshape.Process != nil {
-					process_ := allocatedprocessshape.Process
-					var allocatedprocessshapes []*AllocatedProcessShape
-					_, ok := res[process_]
-					if ok {
-						allocatedprocessshapes = res[process_]
-					} else {
-						allocatedprocessshapes = make([]*AllocatedProcessShape, 0)
-					}
-					allocatedprocessshapes = append(allocatedprocessshapes, allocatedprocessshape)
-					res[process_] = allocatedprocessshapes
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		}
 	// reverse maps of direct associations of AllocatedResourceShape
 	case AllocatedResourceShape:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Participant":
-			res := make(map[*Participant][]*AllocatedResourceShape)
+		case "Part":
+			res := make(map[*Part][]*AllocatedResourceShape)
 			for allocatedresourceshape := range stage.AllocatedResourceShapes {
-				if allocatedresourceshape.Participant != nil {
-					participant_ := allocatedresourceshape.Participant
+				if allocatedresourceshape.Part != nil {
+					part_ := allocatedresourceshape.Part
 					var allocatedresourceshapes []*AllocatedResourceShape
-					_, ok := res[participant_]
+					_, ok := res[part_]
 					if ok {
-						allocatedresourceshapes = res[participant_]
+						allocatedresourceshapes = res[part_]
 					} else {
 						allocatedresourceshapes = make([]*AllocatedResourceShape, 0)
 					}
 					allocatedresourceshapes = append(allocatedresourceshapes, allocatedresourceshape)
-					res[participant_] = allocatedresourceshapes
+					res[part_] = allocatedresourceshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -5090,41 +5051,80 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of AllocatedSystemShape
+	case AllocatedSystemShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Part":
+			res := make(map[*Part][]*AllocatedSystemShape)
+			for allocatedsystemshape := range stage.AllocatedSystemShapes {
+				if allocatedsystemshape.Part != nil {
+					part_ := allocatedsystemshape.Part
+					var allocatedsystemshapes []*AllocatedSystemShape
+					_, ok := res[part_]
+					if ok {
+						allocatedsystemshapes = res[part_]
+					} else {
+						allocatedsystemshapes = make([]*AllocatedSystemShape, 0)
+					}
+					allocatedsystemshapes = append(allocatedsystemshapes, allocatedsystemshape)
+					res[part_] = allocatedsystemshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "System":
+			res := make(map[*System][]*AllocatedSystemShape)
+			for allocatedsystemshape := range stage.AllocatedSystemShapes {
+				if allocatedsystemshape.System != nil {
+					system_ := allocatedsystemshape.System
+					var allocatedsystemshapes []*AllocatedSystemShape
+					_, ok := res[system_]
+					if ok {
+						allocatedsystemshapes = res[system_]
+					} else {
+						allocatedsystemshapes = make([]*AllocatedSystemShape, 0)
+					}
+					allocatedsystemshapes = append(allocatedsystemshapes, allocatedsystemshape)
+					res[system_] = allocatedsystemshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of ControlFlow
 	case ControlFlow:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Start":
-			res := make(map[*Task][]*ControlFlow)
+			res := make(map[*Port][]*ControlFlow)
 			for controlflow := range stage.ControlFlows {
 				if controlflow.Start != nil {
-					task_ := controlflow.Start
+					port_ := controlflow.Start
 					var controlflows []*ControlFlow
-					_, ok := res[task_]
+					_, ok := res[port_]
 					if ok {
-						controlflows = res[task_]
+						controlflows = res[port_]
 					} else {
 						controlflows = make([]*ControlFlow, 0)
 					}
 					controlflows = append(controlflows, controlflow)
-					res[task_] = controlflows
+					res[port_] = controlflows
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "End":
-			res := make(map[*Task][]*ControlFlow)
+			res := make(map[*Port][]*ControlFlow)
 			for controlflow := range stage.ControlFlows {
 				if controlflow.End != nil {
-					task_ := controlflow.End
+					port_ := controlflow.End
 					var controlflows []*ControlFlow
-					_, ok := res[task_]
+					_, ok := res[port_]
 					if ok {
-						controlflows = res[task_]
+						controlflows = res[port_]
 					} else {
 						controlflows = make([]*ControlFlow, 0)
 					}
 					controlflows = append(controlflows, controlflow)
-					res[task_] = controlflows
+					res[port_] = controlflows
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -5160,71 +5160,71 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case DataFlow:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "StartTask":
-			res := make(map[*Task][]*DataFlow)
+		case "StartPort":
+			res := make(map[*Port][]*DataFlow)
 			for dataflow := range stage.DataFlows {
-				if dataflow.StartTask != nil {
-					task_ := dataflow.StartTask
+				if dataflow.StartPort != nil {
+					port_ := dataflow.StartPort
 					var dataflows []*DataFlow
-					_, ok := res[task_]
+					_, ok := res[port_]
 					if ok {
-						dataflows = res[task_]
+						dataflows = res[port_]
 					} else {
 						dataflows = make([]*DataFlow, 0)
 					}
 					dataflows = append(dataflows, dataflow)
-					res[task_] = dataflows
+					res[port_] = dataflows
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "EndTask":
-			res := make(map[*Task][]*DataFlow)
+		case "EndPort":
+			res := make(map[*Port][]*DataFlow)
 			for dataflow := range stage.DataFlows {
-				if dataflow.EndTask != nil {
-					task_ := dataflow.EndTask
+				if dataflow.EndPort != nil {
+					port_ := dataflow.EndPort
 					var dataflows []*DataFlow
-					_, ok := res[task_]
+					_, ok := res[port_]
 					if ok {
-						dataflows = res[task_]
+						dataflows = res[port_]
 					} else {
 						dataflows = make([]*DataFlow, 0)
 					}
 					dataflows = append(dataflows, dataflow)
-					res[task_] = dataflows
+					res[port_] = dataflows
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "StartExternalParticipant":
-			res := make(map[*Participant][]*DataFlow)
+		case "StartExternalPart":
+			res := make(map[*Part][]*DataFlow)
 			for dataflow := range stage.DataFlows {
-				if dataflow.StartExternalParticipant != nil {
-					participant_ := dataflow.StartExternalParticipant
+				if dataflow.StartExternalPart != nil {
+					part_ := dataflow.StartExternalPart
 					var dataflows []*DataFlow
-					_, ok := res[participant_]
+					_, ok := res[part_]
 					if ok {
-						dataflows = res[participant_]
+						dataflows = res[part_]
 					} else {
 						dataflows = make([]*DataFlow, 0)
 					}
 					dataflows = append(dataflows, dataflow)
-					res[participant_] = dataflows
+					res[part_] = dataflows
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "EndExternalParticipant":
-			res := make(map[*Participant][]*DataFlow)
+		case "EndExternalPart":
+			res := make(map[*Part][]*DataFlow)
 			for dataflow := range stage.DataFlows {
-				if dataflow.EndExternalParticipant != nil {
-					participant_ := dataflow.EndExternalParticipant
+				if dataflow.EndExternalPart != nil {
+					part_ := dataflow.EndExternalPart
 					var dataflows []*DataFlow
-					_, ok := res[participant_]
+					_, ok := res[part_]
 					if ok {
-						dataflows = res[participant_]
+						dataflows = res[part_]
 					} else {
 						dataflows = make([]*DataFlow, 0)
 					}
 					dataflows = append(dataflows, dataflow)
-					res[participant_] = dataflows
+					res[part_] = dataflows
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -5290,29 +5290,29 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 			}
 			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of DiagramProcess
-	case DiagramProcess:
+	// reverse maps of direct associations of DiagramStructure
+	case DiagramStructure:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of ExternalParticipantShape
-	case ExternalParticipantShape:
+	// reverse maps of direct associations of ExternalPartShape
+	case ExternalPartShape:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Participant":
-			res := make(map[*Participant][]*ExternalParticipantShape)
-			for externalparticipantshape := range stage.ExternalParticipantShapes {
-				if externalparticipantshape.Participant != nil {
-					participant_ := externalparticipantshape.Participant
-					var externalparticipantshapes []*ExternalParticipantShape
-					_, ok := res[participant_]
+		case "Part":
+			res := make(map[*Part][]*ExternalPartShape)
+			for externalpartshape := range stage.ExternalPartShapes {
+				if externalpartshape.Part != nil {
+					part_ := externalpartshape.Part
+					var externalpartshapes []*ExternalPartShape
+					_, ok := res[part_]
 					if ok {
-						externalparticipantshapes = res[participant_]
+						externalpartshapes = res[part_]
 					} else {
-						externalparticipantshapes = make([]*ExternalParticipantShape, 0)
+						externalpartshapes = make([]*ExternalPartShape, 0)
 					}
-					externalparticipantshapes = append(externalparticipantshapes, externalparticipantshape)
-					res[participant_] = externalparticipantshapes
+					externalpartshapes = append(externalpartshapes, externalpartshape)
+					res[part_] = externalpartshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -5326,6 +5326,45 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Note:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of NotePortShape
+	case NotePortShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Note":
+			res := make(map[*Note][]*NotePortShape)
+			for noteportshape := range stage.NotePortShapes {
+				if noteportshape.Note != nil {
+					note_ := noteportshape.Note
+					var noteportshapes []*NotePortShape
+					_, ok := res[note_]
+					if ok {
+						noteportshapes = res[note_]
+					} else {
+						noteportshapes = make([]*NotePortShape, 0)
+					}
+					noteportshapes = append(noteportshapes, noteportshape)
+					res[note_] = noteportshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Port":
+			res := make(map[*Port][]*NotePortShape)
+			for noteportshape := range stage.NotePortShapes {
+				if noteportshape.Port != nil {
+					port_ := noteportshape.Port
+					var noteportshapes []*NotePortShape
+					_, ok := res[port_]
+					if ok {
+						noteportshapes = res[port_]
+					} else {
+						noteportshapes = make([]*NotePortShape, 0)
+					}
+					noteportshapes = append(noteportshapes, noteportshape)
+					res[port_] = noteportshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of NoteShape
 	case NoteShape:
@@ -5349,95 +5388,73 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 			}
 			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of NoteTaskShape
-	case NoteTaskShape:
+	// reverse maps of direct associations of Part
+	case Part:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Note":
-			res := make(map[*Note][]*NoteTaskShape)
-			for notetaskshape := range stage.NoteTaskShapes {
-				if notetaskshape.Note != nil {
-					note_ := notetaskshape.Note
-					var notetaskshapes []*NoteTaskShape
-					_, ok := res[note_]
+		}
+	// reverse maps of direct associations of PartShape
+	case PartShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Part":
+			res := make(map[*Part][]*PartShape)
+			for partshape := range stage.PartShapes {
+				if partshape.Part != nil {
+					part_ := partshape.Part
+					var partshapes []*PartShape
+					_, ok := res[part_]
 					if ok {
-						notetaskshapes = res[note_]
+						partshapes = res[part_]
 					} else {
-						notetaskshapes = make([]*NoteTaskShape, 0)
+						partshapes = make([]*PartShape, 0)
 					}
-					notetaskshapes = append(notetaskshapes, notetaskshape)
-					res[note_] = notetaskshapes
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Task":
-			res := make(map[*Task][]*NoteTaskShape)
-			for notetaskshape := range stage.NoteTaskShapes {
-				if notetaskshape.Task != nil {
-					task_ := notetaskshape.Task
-					var notetaskshapes []*NoteTaskShape
-					_, ok := res[task_]
-					if ok {
-						notetaskshapes = res[task_]
-					} else {
-						notetaskshapes = make([]*NoteTaskShape, 0)
-					}
-					notetaskshapes = append(notetaskshapes, notetaskshape)
-					res[task_] = notetaskshapes
+					partshapes = append(partshapes, partshape)
+					res[part_] = partshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of Participant
-	case Participant:
+	// reverse maps of direct associations of Port
+	case Port:
 		switch fieldname {
 		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of ParticipantShape
-	case ParticipantShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		case "Participant":
-			res := make(map[*Participant][]*ParticipantShape)
-			for participantshape := range stage.ParticipantShapes {
-				if participantshape.Participant != nil {
-					participant_ := participantshape.Participant
-					var participantshapes []*ParticipantShape
-					_, ok := res[participant_]
+		case "Type":
+			res := make(map[*System][]*Port)
+			for port := range stage.Ports {
+				if port.Type != nil {
+					system_ := port.Type
+					var ports []*Port
+					_, ok := res[system_]
 					if ok {
-						participantshapes = res[participant_]
+						ports = res[system_]
 					} else {
-						participantshapes = make([]*ParticipantShape, 0)
+						ports = make([]*Port, 0)
 					}
-					participantshapes = append(participantshapes, participantshape)
-					res[participant_] = participantshapes
+					ports = append(ports, port)
+					res[system_] = ports
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of Process
-	case Process:
+	// reverse maps of direct associations of PortShape
+	case PortShape:
 		switch fieldname {
 		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of ProcessShape
-	case ProcessShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		case "Process":
-			res := make(map[*Process][]*ProcessShape)
-			for processshape := range stage.ProcessShapes {
-				if processshape.Process != nil {
-					process_ := processshape.Process
-					var processshapes []*ProcessShape
-					_, ok := res[process_]
+		case "Port":
+			res := make(map[*Port][]*PortShape)
+			for portshape := range stage.PortShapes {
+				if portshape.Port != nil {
+					port_ := portshape.Port
+					var portshapes []*PortShape
+					_, ok := res[port_]
 					if ok {
-						processshapes = res[process_]
+						portshapes = res[port_]
 					} else {
-						processshapes = make([]*ProcessShape, 0)
+						portshapes = make([]*PortShape, 0)
 					}
-					processshapes = append(processshapes, processshape)
-					res[process_] = processshapes
+					portshapes = append(portshapes, portshape)
+					res[port_] = portshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -5447,46 +5464,29 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Task
-	case Task:
+	// reverse maps of direct associations of System
+	case System:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Type":
-			res := make(map[*Process][]*Task)
-			for task := range stage.Tasks {
-				if task.Type != nil {
-					process_ := task.Type
-					var tasks []*Task
-					_, ok := res[process_]
-					if ok {
-						tasks = res[process_]
-					} else {
-						tasks = make([]*Task, 0)
-					}
-					tasks = append(tasks, task)
-					res[process_] = tasks
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of TaskShape
-	case TaskShape:
+	// reverse maps of direct associations of SystemShape
+	case SystemShape:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Task":
-			res := make(map[*Task][]*TaskShape)
-			for taskshape := range stage.TaskShapes {
-				if taskshape.Task != nil {
-					task_ := taskshape.Task
-					var taskshapes []*TaskShape
-					_, ok := res[task_]
+		case "System":
+			res := make(map[*System][]*SystemShape)
+			for systemshape := range stage.SystemShapes {
+				if systemshape.System != nil {
+					system_ := systemshape.System
+					var systemshapes []*SystemShape
+					_, ok := res[system_]
 					if ok {
-						taskshapes = res[task_]
+						systemshapes = res[system_]
 					} else {
-						taskshapes = make([]*TaskShape, 0)
+						systemshapes = make([]*SystemShape, 0)
 					}
-					taskshapes = append(taskshapes, taskshape)
-					res[task_] = taskshapes
+					systemshapes = append(systemshapes, systemshape)
+					res[system_] = systemshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -5506,13 +5506,13 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
-	// reverse maps of direct associations of AllocatedProcessShape
-	case AllocatedProcessShape:
+	// reverse maps of direct associations of AllocatedResourceShape
+	case AllocatedResourceShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of AllocatedResourceShape
-	case AllocatedResourceShape:
+	// reverse maps of direct associations of AllocatedSystemShape
+	case AllocatedSystemShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -5554,205 +5554,205 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of DiagramProcess
-	case DiagramProcess:
+	// reverse maps of direct associations of DiagramStructure
+	case DiagramStructure:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Process_Shapes":
-			res := make(map[*ProcessShape][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, processshape_ := range diagramprocess.Process_Shapes {
-					res[processshape_] = append(res[processshape_], diagramprocess)
+		case "System_Shapes":
+			res := make(map[*SystemShape][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, systemshape_ := range diagramstructure.System_Shapes {
+					res[systemshape_] = append(res[systemshape_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "ProcesssWhoseNodeIsExpanded":
-			res := make(map[*Process][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, process_ := range diagramprocess.ProcesssWhoseNodeIsExpanded {
-					res[process_] = append(res[process_], diagramprocess)
+		case "SystemsWhoseNodeIsExpanded":
+			res := make(map[*System][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, system_ := range diagramstructure.SystemsWhoseNodeIsExpanded {
+					res[system_] = append(res[system_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "Participant_Shapes":
-			res := make(map[*ParticipantShape][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, participantshape_ := range diagramprocess.Participant_Shapes {
-					res[participantshape_] = append(res[participantshape_], diagramprocess)
+		case "Part_Shapes":
+			res := make(map[*PartShape][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, partshape_ := range diagramstructure.Part_Shapes {
+					res[partshape_] = append(res[partshape_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "ParticipantWhoseNodeIsExpanded":
-			res := make(map[*Participant][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, participant_ := range diagramprocess.ParticipantWhoseNodeIsExpanded {
-					res[participant_] = append(res[participant_], diagramprocess)
+		case "PartWhoseNodeIsExpanded":
+			res := make(map[*Part][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, part_ := range diagramstructure.PartWhoseNodeIsExpanded {
+					res[part_] = append(res[part_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "ExternalParticipant_Shapes":
-			res := make(map[*ExternalParticipantShape][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, externalparticipantshape_ := range diagramprocess.ExternalParticipant_Shapes {
-					res[externalparticipantshape_] = append(res[externalparticipantshape_], diagramprocess)
+		case "ExternalPart_Shapes":
+			res := make(map[*ExternalPartShape][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, externalpartshape_ := range diagramstructure.ExternalPart_Shapes {
+					res[externalpartshape_] = append(res[externalpartshape_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "ExternalParticipantWhoseNodeIsExpanded":
-			res := make(map[*Participant][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, participant_ := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
-					res[participant_] = append(res[participant_], diagramprocess)
+		case "ExternalPartWhoseNodeIsExpanded":
+			res := make(map[*Part][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, part_ := range diagramstructure.ExternalPartWhoseNodeIsExpanded {
+					res[part_] = append(res[part_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
-			res := make(map[*Participant][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, participant_ := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
-					res[participant_] = append(res[participant_], diagramprocess)
+		case "ExternalPartsWhoseOutDataFlowsNodeIsExpanded":
+			res := make(map[*Part][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, part_ := range diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded {
+					res[part_] = append(res[part_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
-			res := make(map[*Participant][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, participant_ := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
-					res[participant_] = append(res[participant_], diagramprocess)
+		case "ExternalPartsWhoseInDataFlowsNodeIsExpanded":
+			res := make(map[*Part][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, part_ := range diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded {
+					res[part_] = append(res[part_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TasksWhoseNodeIsExpanded":
-			res := make(map[*Task][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, task_ := range diagramprocess.TasksWhoseNodeIsExpanded {
-					res[task_] = append(res[task_], diagramprocess)
+		case "PortsWhoseNodeIsExpanded":
+			res := make(map[*Port][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, port_ := range diagramstructure.PortsWhoseNodeIsExpanded {
+					res[port_] = append(res[port_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "Task_Shapes":
-			res := make(map[*TaskShape][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, taskshape_ := range diagramprocess.Task_Shapes {
-					res[taskshape_] = append(res[taskshape_], diagramprocess)
+		case "Port_Shapes":
+			res := make(map[*PortShape][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, portshape_ := range diagramstructure.Port_Shapes {
+					res[portshape_] = append(res[portshape_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ControlFlowsWhoseNodeIsExpanded":
-			res := make(map[*ControlFlow][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, controlflow_ := range diagramprocess.ControlFlowsWhoseNodeIsExpanded {
-					res[controlflow_] = append(res[controlflow_], diagramprocess)
+			res := make(map[*ControlFlow][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, controlflow_ := range diagramstructure.ControlFlowsWhoseNodeIsExpanded {
+					res[controlflow_] = append(res[controlflow_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ControlFlow_Shapes":
-			res := make(map[*ControlFlowShape][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, controlflowshape_ := range diagramprocess.ControlFlow_Shapes {
-					res[controlflowshape_] = append(res[controlflowshape_], diagramprocess)
+			res := make(map[*ControlFlowShape][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, controlflowshape_ := range diagramstructure.ControlFlow_Shapes {
+					res[controlflowshape_] = append(res[controlflowshape_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "DataFlowsWhoseNodeIsExpanded":
-			res := make(map[*DataFlow][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, dataflow_ := range diagramprocess.DataFlowsWhoseNodeIsExpanded {
-					res[dataflow_] = append(res[dataflow_], diagramprocess)
+			res := make(map[*DataFlow][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, dataflow_ := range diagramstructure.DataFlowsWhoseNodeIsExpanded {
+					res[dataflow_] = append(res[dataflow_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "DataFlow_Shapes":
-			res := make(map[*DataFlowShape][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, dataflowshape_ := range diagramprocess.DataFlow_Shapes {
-					res[dataflowshape_] = append(res[dataflowshape_], diagramprocess)
+			res := make(map[*DataFlowShape][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, dataflowshape_ := range diagramstructure.DataFlow_Shapes {
+					res[dataflowshape_] = append(res[dataflowshape_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "DatasWhoseNodeIsExpanded":
-			res := make(map[*Data][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, data_ := range diagramprocess.DatasWhoseNodeIsExpanded {
-					res[data_] = append(res[data_], diagramprocess)
+			res := make(map[*Data][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, data_ := range diagramstructure.DatasWhoseNodeIsExpanded {
+					res[data_] = append(res[data_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "Data_Shapes":
-			res := make(map[*DataShape][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, datashape_ := range diagramprocess.Data_Shapes {
-					res[datashape_] = append(res[datashape_], diagramprocess)
+			res := make(map[*DataShape][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, datashape_ := range diagramstructure.Data_Shapes {
+					res[datashape_] = append(res[datashape_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "DataFlowsWhoseDataNodeIsExpanded":
-			res := make(map[*DataFlow][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, dataflow_ := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
-					res[dataflow_] = append(res[dataflow_], diagramprocess)
+			res := make(map[*DataFlow][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, dataflow_ := range diagramstructure.DataFlowsWhoseDataNodeIsExpanded {
+					res[dataflow_] = append(res[dataflow_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "AllocatedResourcesWhoseNodeIsExpanded":
-			res := make(map[*Resource][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, resource_ := range diagramprocess.AllocatedResourcesWhoseNodeIsExpanded {
-					res[resource_] = append(res[resource_], diagramprocess)
+			res := make(map[*Resource][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, resource_ := range diagramstructure.AllocatedResourcesWhoseNodeIsExpanded {
+					res[resource_] = append(res[resource_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "AllocatedResourceShapes":
-			res := make(map[*AllocatedResourceShape][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, allocatedresourceshape_ := range diagramprocess.AllocatedResourceShapes {
-					res[allocatedresourceshape_] = append(res[allocatedresourceshape_], diagramprocess)
+			res := make(map[*AllocatedResourceShape][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, allocatedresourceshape_ := range diagramstructure.AllocatedResourceShapes {
+					res[allocatedresourceshape_] = append(res[allocatedresourceshape_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "AllocatedProcessesWhoseNodeIsExpanded":
-			res := make(map[*Process][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, process_ := range diagramprocess.AllocatedProcessesWhoseNodeIsExpanded {
-					res[process_] = append(res[process_], diagramprocess)
+		case "AllocatedSystemesWhoseNodeIsExpanded":
+			res := make(map[*System][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, system_ := range diagramstructure.AllocatedSystemesWhoseNodeIsExpanded {
+					res[system_] = append(res[system_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "AllocatedProcessShapes":
-			res := make(map[*AllocatedProcessShape][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, allocatedprocessshape_ := range diagramprocess.AllocatedProcessShapes {
-					res[allocatedprocessshape_] = append(res[allocatedprocessshape_], diagramprocess)
+		case "AllocatedSystemShapes":
+			res := make(map[*AllocatedSystemShape][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, allocatedsystemshape_ := range diagramstructure.AllocatedSystemShapes {
+					res[allocatedsystemshape_] = append(res[allocatedsystemshape_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "Note_Shapes":
-			res := make(map[*NoteShape][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, noteshape_ := range diagramprocess.Note_Shapes {
-					res[noteshape_] = append(res[noteshape_], diagramprocess)
+			res := make(map[*NoteShape][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, noteshape_ := range diagramstructure.Note_Shapes {
+					res[noteshape_] = append(res[noteshape_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "NotesWhoseNodeIsExpanded":
-			res := make(map[*Note][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, note_ := range diagramprocess.NotesWhoseNodeIsExpanded {
-					res[note_] = append(res[note_], diagramprocess)
+			res := make(map[*Note][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, note_ := range diagramstructure.NotesWhoseNodeIsExpanded {
+					res[note_] = append(res[note_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "NoteTaskShapes":
-			res := make(map[*NoteTaskShape][]*DiagramProcess)
-			for diagramprocess := range stage.DiagramProcesss {
-				for _, notetaskshape_ := range diagramprocess.NoteTaskShapes {
-					res[notetaskshape_] = append(res[notetaskshape_], diagramprocess)
+		case "NotePortShapes":
+			res := make(map[*NotePortShape][]*DiagramStructure)
+			for diagramstructure := range stage.DiagramStructures {
+				for _, noteportshape_ := range diagramstructure.NotePortShapes {
+					res[noteportshape_] = append(res[noteportshape_], diagramstructure)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of ExternalParticipantShape
-	case ExternalParticipantShape:
+	// reverse maps of direct associations of ExternalPartShape
+	case ExternalPartShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -5776,19 +5776,19 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "RootProcesses":
-			res := make(map[*Process][]*Library)
+		case "RootSystemes":
+			res := make(map[*System][]*Library)
 			for library := range stage.Librarys {
-				for _, process_ := range library.RootProcesses {
-					res[process_] = append(res[process_], library)
+				for _, system_ := range library.RootSystemes {
+					res[system_] = append(res[system_], library)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "ProcesssWhoseNodeIsExpanded":
-			res := make(map[*Process][]*Library)
+		case "SystemsWhoseNodeIsExpanded":
+			res := make(map[*System][]*Library)
 			for library := range stage.Librarys {
-				for _, process_ := range library.ProcesssWhoseNodeIsExpanded {
-					res[process_] = append(res[process_], library)
+				for _, system_ := range library.SystemsWhoseNodeIsExpanded {
+					res[system_] = append(res[system_], library)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -5840,11 +5840,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "ParticipantsWhoseNodeIsExpanded":
-			res := make(map[*Participant][]*Library)
+		case "PartsWhoseNodeIsExpanded":
+			res := make(map[*Part][]*Library)
 			for library := range stage.Librarys {
-				for _, participant_ := range library.ParticipantsWhoseNodeIsExpanded {
-					res[participant_] = append(res[participant_], library)
+				for _, part_ := range library.PartsWhoseNodeIsExpanded {
+					res[part_] = append(res[part_], library)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -5869,170 +5869,106 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Note:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Tasks":
-			res := make(map[*Task][]*Note)
+		case "Ports":
+			res := make(map[*Port][]*Note)
 			for note := range stage.Notes {
-				for _, task_ := range note.Tasks {
-					res[task_] = append(res[task_], note)
+				for _, port_ := range note.Ports {
+					res[port_] = append(res[port_], note)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of NotePortShape
+	case NotePortShape:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of NoteShape
 	case NoteShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of NoteTaskShape
-	case NoteTaskShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of Participant
-	case Participant:
+	// reverse maps of direct associations of Part
+	case Part:
 		switch fieldname {
 		// insertion point for per direct association field
 		case "Resources":
-			res := make(map[*Resource][]*Participant)
-			for participant := range stage.Participants {
-				for _, resource_ := range participant.Resources {
-					res[resource_] = append(res[resource_], participant)
+			res := make(map[*Resource][]*Part)
+			for part := range stage.Parts {
+				for _, resource_ := range part.Resources {
+					res[resource_] = append(res[resource_], part)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "Processes":
-			res := make(map[*Process][]*Participant)
-			for participant := range stage.Participants {
-				for _, process_ := range participant.Processes {
-					res[process_] = append(res[process_], participant)
+		case "Systemes":
+			res := make(map[*System][]*Part)
+			for part := range stage.Parts {
+				for _, system_ := range part.Systemes {
+					res[system_] = append(res[system_], part)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "Tasks":
-			res := make(map[*Task][]*Participant)
-			for participant := range stage.Participants {
-				for _, task_ := range participant.Tasks {
-					res[task_] = append(res[task_], participant)
+		case "Ports":
+			res := make(map[*Port][]*Part)
+			for part := range stage.Parts {
+				for _, port_ := range part.Ports {
+					res[port_] = append(res[port_], part)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		case "ControlFlows":
-			res := make(map[*ControlFlow][]*Participant)
-			for participant := range stage.Participants {
-				for _, controlflow_ := range participant.ControlFlows {
-					res[controlflow_] = append(res[controlflow_], participant)
+			res := make(map[*ControlFlow][]*Part)
+			for part := range stage.Parts {
+				for _, controlflow_ := range part.ControlFlows {
+					res[controlflow_] = append(res[controlflow_], part)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TaskWhoseOutControlFlowsNodeIsExpanded":
-			res := make(map[*Task][]*Participant)
-			for participant := range stage.Participants {
-				for _, task_ := range participant.TaskWhoseOutControlFlowsNodeIsExpanded {
-					res[task_] = append(res[task_], participant)
+		case "PortWhoseOutControlFlowsNodeIsExpanded":
+			res := make(map[*Port][]*Part)
+			for part := range stage.Parts {
+				for _, port_ := range part.PortWhoseOutControlFlowsNodeIsExpanded {
+					res[port_] = append(res[port_], part)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TaskWhoseInControlFlowsNodeIsExpanded":
-			res := make(map[*Task][]*Participant)
-			for participant := range stage.Participants {
-				for _, task_ := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
-					res[task_] = append(res[task_], participant)
+		case "PortWhoseInControlFlowsNodeIsExpanded":
+			res := make(map[*Port][]*Part)
+			for part := range stage.Parts {
+				for _, port_ := range part.PortWhoseInControlFlowsNodeIsExpanded {
+					res[port_] = append(res[port_], part)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TaskWhoseOutDataFlowsNodeIsExpanded":
-			res := make(map[*Task][]*Participant)
-			for participant := range stage.Participants {
-				for _, task_ := range participant.TaskWhoseOutDataFlowsNodeIsExpanded {
-					res[task_] = append(res[task_], participant)
+		case "PortWhoseOutDataFlowsNodeIsExpanded":
+			res := make(map[*Port][]*Part)
+			for part := range stage.Parts {
+				for _, port_ := range part.PortWhoseOutDataFlowsNodeIsExpanded {
+					res[port_] = append(res[port_], part)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "TaskWhoseInDataFlowsNodeIsExpanded":
-			res := make(map[*Task][]*Participant)
-			for participant := range stage.Participants {
-				for _, task_ := range participant.TaskWhoseInDataFlowsNodeIsExpanded {
-					res[task_] = append(res[task_], participant)
+		case "PortWhoseInDataFlowsNodeIsExpanded":
+			res := make(map[*Port][]*Part)
+			for part := range stage.Parts {
+				for _, port_ := range part.PortWhoseInDataFlowsNodeIsExpanded {
+					res[port_] = append(res[port_], part)
 				}
 			}
 			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of ParticipantShape
-	case ParticipantShape:
+	// reverse maps of direct associations of PartShape
+	case PartShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Process
-	case Process:
+	// reverse maps of direct associations of Port
+	case Port:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "DiagramProcesss":
-			res := make(map[*DiagramProcess][]*Process)
-			for process := range stage.Processs {
-				for _, diagramprocess_ := range process.DiagramProcesss {
-					res[diagramprocess_] = append(res[diagramprocess_], process)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "DiagramProcessWhoseNodeIsExpanded":
-			res := make(map[*DiagramProcess][]*Process)
-			for process := range stage.Processs {
-				for _, diagramprocess_ := range process.DiagramProcessWhoseNodeIsExpanded {
-					res[diagramprocess_] = append(res[diagramprocess_], process)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "SubProcesses":
-			res := make(map[*Process][]*Process)
-			for process := range stage.Processs {
-				for _, process_ := range process.SubProcesses {
-					res[process_] = append(res[process_], process)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Participants":
-			res := make(map[*Participant][]*Process)
-			for process := range stage.Processs {
-				for _, participant_ := range process.Participants {
-					res[participant_] = append(res[participant_], process)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ParticipantWhoseNodeIsExpanded":
-			res := make(map[*Participant][]*Process)
-			for process := range stage.Processs {
-				for _, participant_ := range process.ParticipantWhoseNodeIsExpanded {
-					res[participant_] = append(res[participant_], process)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "DataFlows":
-			res := make(map[*DataFlow][]*Process)
-			for process := range stage.Processs {
-				for _, dataflow_ := range process.DataFlows {
-					res[dataflow_] = append(res[dataflow_], process)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ExternalParticipants":
-			res := make(map[*Participant][]*Process)
-			for process := range stage.Processs {
-				for _, participant_ := range process.ExternalParticipants {
-					res[participant_] = append(res[participant_], process)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "ExternalParticipantWhoseNodeIsExpanded":
-			res := make(map[*Participant][]*Process)
-			for process := range stage.Processs {
-				for _, participant_ := range process.ExternalParticipantWhoseNodeIsExpanded {
-					res[participant_] = append(res[participant_], process)
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of ProcessShape
-	case ProcessShape:
+	// reverse maps of direct associations of PortShape
+	case PortShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -6041,13 +5977,77 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Task
-	case Task:
+	// reverse maps of direct associations of System
+	case System:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "DiagramStructures":
+			res := make(map[*DiagramStructure][]*System)
+			for system := range stage.Systems {
+				for _, diagramstructure_ := range system.DiagramStructures {
+					res[diagramstructure_] = append(res[diagramstructure_], system)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DiagramStructureWhoseNodeIsExpanded":
+			res := make(map[*DiagramStructure][]*System)
+			for system := range stage.Systems {
+				for _, diagramstructure_ := range system.DiagramStructureWhoseNodeIsExpanded {
+					res[diagramstructure_] = append(res[diagramstructure_], system)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "SubSystemes":
+			res := make(map[*System][]*System)
+			for system := range stage.Systems {
+				for _, system_ := range system.SubSystemes {
+					res[system_] = append(res[system_], system)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Parts":
+			res := make(map[*Part][]*System)
+			for system := range stage.Systems {
+				for _, part_ := range system.Parts {
+					res[part_] = append(res[part_], system)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PartWhoseNodeIsExpanded":
+			res := make(map[*Part][]*System)
+			for system := range stage.Systems {
+				for _, part_ := range system.PartWhoseNodeIsExpanded {
+					res[part_] = append(res[part_], system)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DataFlows":
+			res := make(map[*DataFlow][]*System)
+			for system := range stage.Systems {
+				for _, dataflow_ := range system.DataFlows {
+					res[dataflow_] = append(res[dataflow_], system)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ExternalParts":
+			res := make(map[*Part][]*System)
+			for system := range stage.Systems {
+				for _, part_ := range system.ExternalParts {
+					res[part_] = append(res[part_], system)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ExternalPartWhoseNodeIsExpanded":
+			res := make(map[*Part][]*System)
+			for system := range stage.Systems {
+				for _, part_ := range system.ExternalPartWhoseNodeIsExpanded {
+					res[part_] = append(res[part_], system)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of TaskShape
-	case TaskShape:
+	// reverse maps of direct associations of SystemShape
+	case SystemShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -6062,10 +6062,10 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
-	case *AllocatedProcessShape:
-		res = "AllocatedProcessShape"
 	case *AllocatedResourceShape:
 		res = "AllocatedResourceShape"
+	case *AllocatedSystemShape:
+		res = "AllocatedSystemShape"
 	case *ControlFlow:
 		res = "ControlFlow"
 	case *ControlFlowShape:
@@ -6078,32 +6078,32 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "DataFlowShape"
 	case *DataShape:
 		res = "DataShape"
-	case *DiagramProcess:
-		res = "DiagramProcess"
-	case *ExternalParticipantShape:
-		res = "ExternalParticipantShape"
+	case *DiagramStructure:
+		res = "DiagramStructure"
+	case *ExternalPartShape:
+		res = "ExternalPartShape"
 	case *Library:
 		res = "Library"
 	case *Note:
 		res = "Note"
+	case *NotePortShape:
+		res = "NotePortShape"
 	case *NoteShape:
 		res = "NoteShape"
-	case *NoteTaskShape:
-		res = "NoteTaskShape"
-	case *Participant:
-		res = "Participant"
-	case *ParticipantShape:
-		res = "ParticipantShape"
-	case *Process:
-		res = "Process"
-	case *ProcessShape:
-		res = "ProcessShape"
+	case *Part:
+		res = "Part"
+	case *PartShape:
+		res = "PartShape"
+	case *Port:
+		res = "Port"
+	case *PortShape:
+		res = "PortShape"
 	case *Resource:
 		res = "Resource"
-	case *Task:
-		res = "Task"
-	case *TaskShape:
-		res = "TaskShape"
+	case *System:
+		res = "System"
+	case *SystemShape:
+		res = "SystemShape"
 	}
 	return res
 }
@@ -6121,31 +6121,31 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
-	case *AllocatedProcessShape:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "AllocatedProcessShapes"
-		res = append(res, rf)
 	case *AllocatedResourceShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "DiagramProcess"
+		rf.GongstructName = "DiagramStructure"
 		rf.Fieldname = "AllocatedResourceShapes"
+		res = append(res, rf)
+	case *AllocatedSystemShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "DiagramStructure"
+		rf.Fieldname = "AllocatedSystemShapes"
 		res = append(res, rf)
 	case *ControlFlow:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "DiagramProcess"
+		rf.GongstructName = "DiagramStructure"
 		rf.Fieldname = "ControlFlowsWhoseNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "Participant"
+		rf.GongstructName = "Part"
 		rf.Fieldname = "ControlFlows"
 		res = append(res, rf)
 	case *ControlFlowShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "DiagramProcess"
+		rf.GongstructName = "DiagramStructure"
 		rf.Fieldname = "ControlFlow_Shapes"
 		res = append(res, rf)
 	case *Data:
@@ -6154,7 +6154,7 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "DataFlow"
 		rf.Fieldname = "Datas"
 		res = append(res, rf)
-		rf.GongstructName = "DiagramProcess"
+		rf.GongstructName = "DiagramStructure"
 		rf.Fieldname = "DatasWhoseNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Library"
@@ -6166,10 +6166,10 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *DataFlow:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "DiagramProcess"
+		rf.GongstructName = "DiagramStructure"
 		rf.Fieldname = "DataFlowsWhoseNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "DiagramProcess"
+		rf.GongstructName = "DiagramStructure"
 		rf.Fieldname = "DataFlowsWhoseDataNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Library"
@@ -6178,35 +6178,35 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Library"
 		rf.Fieldname = "DataFlowsWhoseNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "Process"
+		rf.GongstructName = "System"
 		rf.Fieldname = "DataFlows"
 		res = append(res, rf)
 	case *DataFlowShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "DiagramProcess"
+		rf.GongstructName = "DiagramStructure"
 		rf.Fieldname = "DataFlow_Shapes"
 		res = append(res, rf)
 	case *DataShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "DiagramProcess"
+		rf.GongstructName = "DiagramStructure"
 		rf.Fieldname = "Data_Shapes"
 		res = append(res, rf)
-	case *DiagramProcess:
+	case *DiagramStructure:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Process"
-		rf.Fieldname = "DiagramProcesss"
+		rf.GongstructName = "System"
+		rf.Fieldname = "DiagramStructures"
 		res = append(res, rf)
-		rf.GongstructName = "Process"
-		rf.Fieldname = "DiagramProcessWhoseNodeIsExpanded"
+		rf.GongstructName = "System"
+		rf.Fieldname = "DiagramStructureWhoseNodeIsExpanded"
 		res = append(res, rf)
-	case *ExternalParticipantShape:
+	case *ExternalPartShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "ExternalParticipant_Shapes"
+		rf.GongstructName = "DiagramStructure"
+		rf.Fieldname = "ExternalPart_Shapes"
 		res = append(res, rf)
 	case *Library:
 		var rf ReverseField
@@ -6220,7 +6220,7 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Note:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "DiagramProcess"
+		rf.GongstructName = "DiagramStructure"
 		rf.Fieldname = "NotesWhoseNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Library"
@@ -6229,85 +6229,88 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Library"
 		rf.Fieldname = "NotesWhoseNodeIsExpanded"
 		res = append(res, rf)
+	case *NotePortShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "DiagramStructure"
+		rf.Fieldname = "NotePortShapes"
+		res = append(res, rf)
 	case *NoteShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "DiagramProcess"
+		rf.GongstructName = "DiagramStructure"
 		rf.Fieldname = "Note_Shapes"
 		res = append(res, rf)
-	case *NoteTaskShape:
+	case *Part:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "NoteTaskShapes"
+		rf.GongstructName = "DiagramStructure"
+		rf.Fieldname = "PartWhoseNodeIsExpanded"
 		res = append(res, rf)
-	case *Participant:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "ParticipantWhoseNodeIsExpanded"
+		rf.GongstructName = "DiagramStructure"
+		rf.Fieldname = "ExternalPartWhoseNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "ExternalParticipantWhoseNodeIsExpanded"
+		rf.GongstructName = "DiagramStructure"
+		rf.Fieldname = "ExternalPartsWhoseOutDataFlowsNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded"
-		res = append(res, rf)
-		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded"
+		rf.GongstructName = "DiagramStructure"
+		rf.Fieldname = "ExternalPartsWhoseInDataFlowsNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Library"
-		rf.Fieldname = "ParticipantsWhoseNodeIsExpanded"
+		rf.Fieldname = "PartsWhoseNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "Process"
-		rf.Fieldname = "Participants"
+		rf.GongstructName = "System"
+		rf.Fieldname = "Parts"
 		res = append(res, rf)
-		rf.GongstructName = "Process"
-		rf.Fieldname = "ParticipantWhoseNodeIsExpanded"
+		rf.GongstructName = "System"
+		rf.Fieldname = "PartWhoseNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "Process"
-		rf.Fieldname = "ExternalParticipants"
+		rf.GongstructName = "System"
+		rf.Fieldname = "ExternalParts"
 		res = append(res, rf)
-		rf.GongstructName = "Process"
-		rf.Fieldname = "ExternalParticipantWhoseNodeIsExpanded"
+		rf.GongstructName = "System"
+		rf.Fieldname = "ExternalPartWhoseNodeIsExpanded"
 		res = append(res, rf)
-	case *ParticipantShape:
+	case *PartShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "Participant_Shapes"
+		rf.GongstructName = "DiagramStructure"
+		rf.Fieldname = "Part_Shapes"
 		res = append(res, rf)
-	case *Process:
+	case *Port:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "ProcesssWhoseNodeIsExpanded"
+		rf.GongstructName = "DiagramStructure"
+		rf.Fieldname = "PortsWhoseNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "AllocatedProcessesWhoseNodeIsExpanded"
+		rf.GongstructName = "Note"
+		rf.Fieldname = "Ports"
 		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "RootProcesses"
+		rf.GongstructName = "Part"
+		rf.Fieldname = "Ports"
 		res = append(res, rf)
-		rf.GongstructName = "Library"
-		rf.Fieldname = "ProcesssWhoseNodeIsExpanded"
+		rf.GongstructName = "Part"
+		rf.Fieldname = "PortWhoseOutControlFlowsNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "Participant"
-		rf.Fieldname = "Processes"
+		rf.GongstructName = "Part"
+		rf.Fieldname = "PortWhoseInControlFlowsNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "Process"
-		rf.Fieldname = "SubProcesses"
+		rf.GongstructName = "Part"
+		rf.Fieldname = "PortWhoseOutDataFlowsNodeIsExpanded"
 		res = append(res, rf)
-	case *ProcessShape:
+		rf.GongstructName = "Part"
+		rf.Fieldname = "PortWhoseInDataFlowsNodeIsExpanded"
+		res = append(res, rf)
+	case *PortShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "Process_Shapes"
+		rf.GongstructName = "DiagramStructure"
+		rf.Fieldname = "Port_Shapes"
 		res = append(res, rf)
 	case *Resource:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "DiagramProcess"
+		rf.GongstructName = "DiagramStructure"
 		rf.Fieldname = "AllocatedResourcesWhoseNodeIsExpanded"
 		res = append(res, rf)
 		rf.GongstructName = "Library"
@@ -6316,65 +6319,41 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Library"
 		rf.Fieldname = "ResourcesWhoseNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "Participant"
+		rf.GongstructName = "Part"
 		rf.Fieldname = "Resources"
 		res = append(res, rf)
-	case *Task:
+	case *System:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "TasksWhoseNodeIsExpanded"
+		rf.GongstructName = "DiagramStructure"
+		rf.Fieldname = "SystemsWhoseNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "Note"
-		rf.Fieldname = "Tasks"
+		rf.GongstructName = "DiagramStructure"
+		rf.Fieldname = "AllocatedSystemesWhoseNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "Participant"
-		rf.Fieldname = "Tasks"
+		rf.GongstructName = "Library"
+		rf.Fieldname = "RootSystemes"
 		res = append(res, rf)
-		rf.GongstructName = "Participant"
-		rf.Fieldname = "TaskWhoseOutControlFlowsNodeIsExpanded"
+		rf.GongstructName = "Library"
+		rf.Fieldname = "SystemsWhoseNodeIsExpanded"
 		res = append(res, rf)
-		rf.GongstructName = "Participant"
-		rf.Fieldname = "TaskWhoseInControlFlowsNodeIsExpanded"
+		rf.GongstructName = "Part"
+		rf.Fieldname = "Systemes"
 		res = append(res, rf)
-		rf.GongstructName = "Participant"
-		rf.Fieldname = "TaskWhoseOutDataFlowsNodeIsExpanded"
+		rf.GongstructName = "System"
+		rf.Fieldname = "SubSystemes"
 		res = append(res, rf)
-		rf.GongstructName = "Participant"
-		rf.Fieldname = "TaskWhoseInDataFlowsNodeIsExpanded"
-		res = append(res, rf)
-	case *TaskShape:
+	case *SystemShape:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "DiagramProcess"
-		rf.Fieldname = "Task_Shapes"
+		rf.GongstructName = "DiagramStructure"
+		rf.Fieldname = "System_Shapes"
 		res = append(res, rf)
 	}
 	return
 }
 
 // insertion point for get fields header method
-func (allocatedprocessshape *AllocatedProcessShape) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:                 "Participant",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Participant",
-		},
-		{
-			Name:                 "Process",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Process",
-		},
-	}
-	return
-}
-
 func (allocatedresourceshape *AllocatedResourceShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -6383,14 +6362,35 @@ func (allocatedresourceshape *AllocatedResourceShape) GongGetFieldHeaders() (res
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Participant",
+			Name:                 "Part",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Participant",
+			TargetGongstructName: "Part",
 		},
 		{
 			Name:                 "Resource",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Resource",
+		},
+	}
+	return
+}
+
+func (allocatedsystemshape *AllocatedSystemShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Part",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Part",
+		},
+		{
+			Name:                 "System",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "System",
 		},
 	}
 	return
@@ -6423,12 +6423,12 @@ func (controlflow *ControlFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:                 "Start",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Task",
+			TargetGongstructName: "Port",
 		},
 		{
 			Name:                 "End",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Task",
+			TargetGongstructName: "Port",
 		},
 	}
 	return
@@ -6551,24 +6551,24 @@ func (dataflow *DataFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "DataFlowType",
 		},
 		{
-			Name:                 "StartTask",
+			Name:                 "StartPort",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Task",
+			TargetGongstructName: "Port",
 		},
 		{
-			Name:                 "EndTask",
+			Name:                 "EndPort",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Task",
+			TargetGongstructName: "Port",
 		},
 		{
-			Name:                 "StartExternalParticipant",
+			Name:                 "StartExternalPart",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Participant",
+			TargetGongstructName: "Part",
 		},
 		{
-			Name:                 "EndExternalParticipant",
+			Name:                 "EndExternalPart",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Participant",
+			TargetGongstructName: "Part",
 		},
 		{
 			Name:               "IsDatasNodeExpanded",
@@ -6641,7 +6641,7 @@ func (datashape *DataShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
-func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (diagramstructure *DiagramStructure) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -6694,66 +6694,66 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
-			Name:                 "Process_Shapes",
+			Name:                 "System_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "ProcessShape",
+			TargetGongstructName: "SystemShape",
 		},
 		{
-			Name:               "IsProcesssNodeExpanded",
+			Name:               "IsSystemsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "ProcesssWhoseNodeIsExpanded",
+			Name:                 "SystemsWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Process",
+			TargetGongstructName: "System",
 		},
 		{
-			Name:                 "Participant_Shapes",
+			Name:                 "Part_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "ParticipantShape",
+			TargetGongstructName: "PartShape",
 		},
 		{
-			Name:               "IsParticipantsNodeExpanded",
+			Name:               "IsPartsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "ParticipantWhoseNodeIsExpanded",
+			Name:                 "PartWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Participant",
+			TargetGongstructName: "Part",
 		},
 		{
-			Name:                 "ExternalParticipant_Shapes",
+			Name:                 "ExternalPart_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "ExternalParticipantShape",
+			TargetGongstructName: "ExternalPartShape",
 		},
 		{
-			Name:               "IsExternalParticipantsNodeExpanded",
+			Name:               "IsExternalPartsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "ExternalParticipantWhoseNodeIsExpanded",
+			Name:                 "ExternalPartWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Participant",
+			TargetGongstructName: "Part",
 		},
 		{
-			Name:                 "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded",
+			Name:                 "ExternalPartsWhoseOutDataFlowsNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Participant",
+			TargetGongstructName: "Part",
 		},
 		{
-			Name:                 "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded",
+			Name:                 "ExternalPartsWhoseInDataFlowsNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Participant",
+			TargetGongstructName: "Part",
 		},
 		{
-			Name:                 "TasksWhoseNodeIsExpanded",
+			Name:                 "PortsWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Task",
+			TargetGongstructName: "Port",
 		},
 		{
-			Name:                 "Task_Shapes",
+			Name:                 "Port_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "TaskShape",
+			TargetGongstructName: "PortShape",
 		},
 		{
 			Name:                 "ControlFlowsWhoseNodeIsExpanded",
@@ -6801,14 +6801,14 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 			TargetGongstructName: "AllocatedResourceShape",
 		},
 		{
-			Name:                 "AllocatedProcessesWhoseNodeIsExpanded",
+			Name:                 "AllocatedSystemesWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Process",
+			TargetGongstructName: "System",
 		},
 		{
-			Name:                 "AllocatedProcessShapes",
+			Name:                 "AllocatedSystemShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "AllocatedProcessShape",
+			TargetGongstructName: "AllocatedSystemShape",
 		},
 		{
 			Name:                 "Note_Shapes",
@@ -6825,15 +6825,15 @@ func (diagramprocess *DiagramProcess) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "NoteTaskShapes",
+			Name:                 "NotePortShapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "NoteTaskShape",
+			TargetGongstructName: "NotePortShape",
 		},
 	}
 	return
 }
 
-func (externalparticipantshape *ExternalParticipantShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (externalpartshape *ExternalPartShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -6841,9 +6841,9 @@ func (externalparticipantshape *ExternalParticipantShape) GongGetFieldHeaders() 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Participant",
+			Name:                 "Part",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Participant",
+			TargetGongstructName: "Part",
 		},
 		{
 			Name:               "IsExpanded",
@@ -6928,18 +6928,18 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "RootProcesses",
+			Name:                 "RootSystemes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Process",
+			TargetGongstructName: "System",
 		},
 		{
-			Name:               "IsProcessesNodeExpanded",
+			Name:               "IsSystemesNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "ProcesssWhoseNodeIsExpanded",
+			Name:                 "SystemsWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Process",
+			TargetGongstructName: "System",
 		},
 		{
 			Name:                 "RootDataFlows",
@@ -6984,9 +6984,9 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Resource",
 		},
 		{
-			Name:                 "ParticipantsWhoseNodeIsExpanded",
+			Name:                 "PartsWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Participant",
+			TargetGongstructName: "Part",
 		},
 		{
 			Name:                 "RootNotes",
@@ -7035,13 +7035,60 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "LayoutDirection",
 		},
 		{
-			Name:               "IsTasksNodeExpanded",
+			Name:               "IsPortsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "Tasks",
+			Name:                 "Ports",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Task",
+			TargetGongstructName: "Port",
+		},
+	}
+	return
+}
+
+func (noteportshape *NotePortShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Note",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Note",
+		},
+		{
+			Name:                 "Port",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Port",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "StartOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:                 "EndOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:               "CornerOffsetRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -7083,7 +7130,7 @@ func (noteshape *NoteShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
-func (notetaskshape *NoteTaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (part *Part) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -7091,54 +7138,7 @@ func (notetaskshape *NoteTaskShape) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Note",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Note",
-		},
-		{
-			Name:                 "Task",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Task",
-		},
-		{
-			Name:               "StartRatio",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "EndRatio",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:                 "StartOrientation",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
-		},
-		{
-			Name:                 "EndOrientation",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "OrientationType",
-		},
-		{
-			Name:               "CornerOffsetRatio",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "IsHidden",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-	}
-	return
-}
-
-func (participant *Participant) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsProcessResource",
+			Name:               "IsSystemResource",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -7155,12 +7155,12 @@ func (participant *Participant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "Processes",
+			Name:                 "Systemes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Process",
+			TargetGongstructName: "System",
 		},
 		{
-			Name:               "IsProcessesNodeExpanded",
+			Name:               "IsSystemesNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
@@ -7177,13 +7177,13 @@ func (participant *Participant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "LayoutDirection",
 		},
 		{
-			Name:               "IsTasksNodeExpanded",
+			Name:               "IsPortsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "Tasks",
+			Name:                 "Ports",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Task",
+			TargetGongstructName: "Port",
 		},
 		{
 			Name:               "IsControlFlowsNodeExpanded",
@@ -7195,34 +7195,34 @@ func (participant *Participant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "ControlFlow",
 		},
 		{
-			Name:                 "TaskWhoseOutControlFlowsNodeIsExpanded",
+			Name:                 "PortWhoseOutControlFlowsNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Task",
+			TargetGongstructName: "Port",
 		},
 		{
-			Name:                 "TaskWhoseInControlFlowsNodeIsExpanded",
+			Name:                 "PortWhoseInControlFlowsNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Task",
+			TargetGongstructName: "Port",
 		},
 		{
 			Name:               "IsDataFlowsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "TaskWhoseOutDataFlowsNodeIsExpanded",
+			Name:                 "PortWhoseOutDataFlowsNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Task",
+			TargetGongstructName: "Port",
 		},
 		{
-			Name:                 "TaskWhoseInDataFlowsNodeIsExpanded",
+			Name:                 "PortWhoseInDataFlowsNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Task",
+			TargetGongstructName: "Port",
 		},
 	}
 	return
 }
 
-func (participantshape *ParticipantShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (partshape *PartShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -7230,9 +7230,9 @@ func (participantshape *ParticipantShape) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Participant",
+			Name:                 "Part",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Participant",
+			TargetGongstructName: "Part",
 		},
 		{
 			Name:               "IsExpanded",
@@ -7266,7 +7266,7 @@ func (participantshape *ParticipantShape) GongGetFieldHeaders() (res []GongField
 	return
 }
 
-func (process *Process) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (port *Port) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -7291,66 +7291,27 @@ func (process *Process) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "LayoutDirection",
 		},
 		{
-			Name:               "SVG_Path",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "InverseAppliedScaling",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:                 "DiagramProcesss",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "DiagramProcess",
-		},
-		{
-			Name:                 "DiagramProcessWhoseNodeIsExpanded",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "DiagramProcess",
-		},
-		{
-			Name:               "IsSubProcessNodeExpanded",
+			Name:               "IsStartPort",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "SubProcesses",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Process",
-		},
-		{
-			Name:                 "Participants",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Participant",
-		},
-		{
-			Name:                 "ParticipantWhoseNodeIsExpanded",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Participant",
-		},
-		{
-			Name:                 "DataFlows",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "DataFlow",
-		},
-		{
-			Name:               "IsDataFlowsNodeExpanded",
+			Name:               "IsEndPort",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "ExternalParticipants",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Participant",
+			Name:                 "Type",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "System",
 		},
 		{
-			Name:                 "ExternalParticipantWhoseNodeIsExpanded",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Participant",
+			Name:               "IsPortNameNotSystemName",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
 }
 
-func (processshape *ProcessShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (portshape *PortShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -7358,9 +7319,9 @@ func (processshape *ProcessShape) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Process",
+			Name:                 "Port",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Process",
+			TargetGongstructName: "Port",
 		},
 		{
 			Name:               "IsExpanded",
@@ -7430,7 +7391,7 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
-func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (system *System) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -7455,27 +7416,66 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "LayoutDirection",
 		},
 		{
-			Name:               "IsStartTask",
+			Name:               "SVG_Path",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "InverseAppliedScaling",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "DiagramStructures",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "DiagramStructure",
+		},
+		{
+			Name:                 "DiagramStructureWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "DiagramStructure",
+		},
+		{
+			Name:               "IsSubSystemNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsEndTask",
+			Name:                 "SubSystemes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "System",
+		},
+		{
+			Name:                 "Parts",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Part",
+		},
+		{
+			Name:                 "PartWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Part",
+		},
+		{
+			Name:                 "DataFlows",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "DataFlow",
+		},
+		{
+			Name:               "IsDataFlowsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "Type",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Process",
+			Name:                 "ExternalParts",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Part",
 		},
 		{
-			Name:               "IsTaskNameNotProcessName",
-			GongFieldValueType: GongFieldValueTypeBool,
+			Name:                 "ExternalPartWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Part",
 		},
 	}
 	return
 }
 
-func (taskshape *TaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (systemshape *SystemShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -7483,9 +7483,9 @@ func (taskshape *TaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Task",
+			Name:                 "System",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Task",
+			TargetGongstructName: "System",
 		},
 		{
 			Name:               "IsExpanded",
@@ -7570,43 +7570,43 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
-func (allocatedprocessshape *AllocatedProcessShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = allocatedprocessshape.Name
-	case "Participant":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if allocatedprocessshape.Participant != nil {
-			res.valueString = allocatedprocessshape.Participant.Name
-			res.ids = allocatedprocessshape.Participant.GongGetUUID(stage)
-		}
-	case "Process":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if allocatedprocessshape.Process != nil {
-			res.valueString = allocatedprocessshape.Process.Name
-			res.ids = allocatedprocessshape.Process.GongGetUUID(stage)
-		}
-	}
-	return
-}
-
 func (allocatedresourceshape *AllocatedResourceShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
 		res.valueString = allocatedresourceshape.Name
-	case "Participant":
+	case "Part":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if allocatedresourceshape.Participant != nil {
-			res.valueString = allocatedresourceshape.Participant.Name
-			res.ids = allocatedresourceshape.Participant.GongGetUUID(stage)
+		if allocatedresourceshape.Part != nil {
+			res.valueString = allocatedresourceshape.Part.Name
+			res.ids = allocatedresourceshape.Part.GongGetUUID(stage)
 		}
 	case "Resource":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if allocatedresourceshape.Resource != nil {
 			res.valueString = allocatedresourceshape.Resource.Name
 			res.ids = allocatedresourceshape.Resource.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (allocatedsystemshape *AllocatedSystemShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = allocatedsystemshape.Name
+	case "Part":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if allocatedsystemshape.Part != nil {
+			res.valueString = allocatedsystemshape.Part.Name
+			res.ids = allocatedsystemshape.Part.GongGetUUID(stage)
+		}
+	case "System":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if allocatedsystemshape.System != nil {
+			res.valueString = allocatedsystemshape.System.Name
+			res.ids = allocatedsystemshape.System.GongGetUUID(stage)
 		}
 	}
 	return
@@ -7738,29 +7738,29 @@ func (dataflow *DataFlow) GongGetFieldValue(fieldName string, stage *Stage) (res
 	case "Type":
 		enum := dataflow.Type
 		res.valueString = enum.ToCodeString()
-	case "StartTask":
+	case "StartPort":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if dataflow.StartTask != nil {
-			res.valueString = dataflow.StartTask.Name
-			res.ids = dataflow.StartTask.GongGetUUID(stage)
+		if dataflow.StartPort != nil {
+			res.valueString = dataflow.StartPort.Name
+			res.ids = dataflow.StartPort.GongGetUUID(stage)
 		}
-	case "EndTask":
+	case "EndPort":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if dataflow.EndTask != nil {
-			res.valueString = dataflow.EndTask.Name
-			res.ids = dataflow.EndTask.GongGetUUID(stage)
+		if dataflow.EndPort != nil {
+			res.valueString = dataflow.EndPort.Name
+			res.ids = dataflow.EndPort.GongGetUUID(stage)
 		}
-	case "StartExternalParticipant":
+	case "StartExternalPart":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if dataflow.StartExternalParticipant != nil {
-			res.valueString = dataflow.StartExternalParticipant.Name
-			res.ids = dataflow.StartExternalParticipant.GongGetUUID(stage)
+		if dataflow.StartExternalPart != nil {
+			res.valueString = dataflow.StartExternalPart.Name
+			res.ids = dataflow.StartExternalPart.GongGetUUID(stage)
 		}
-	case "EndExternalParticipant":
+	case "EndExternalPart":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if dataflow.EndExternalParticipant != nil {
-			res.valueString = dataflow.EndExternalParticipant.Name
-			res.ids = dataflow.EndExternalParticipant.GongGetUUID(stage)
+		if dataflow.EndExternalPart != nil {
+			res.valueString = dataflow.EndExternalPart.Name
+			res.ids = dataflow.EndExternalPart.GongGetUUID(stage)
 		}
 	case "IsDatasNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", dataflow.IsDatasNodeExpanded)
@@ -7828,53 +7828,53 @@ func (datashape *DataShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 	return
 }
 
-func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (diagramstructure *DiagramStructure) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = diagramprocess.Name
+		res.valueString = diagramstructure.Name
 	case "Description":
-		res.valueString = diagramprocess.Description
+		res.valueString = diagramstructure.Description
 	case "ComputedPrefix":
-		res.valueString = diagramprocess.ComputedPrefix
+		res.valueString = diagramstructure.ComputedPrefix
 	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", diagramprocess.IsExpanded)
-		res.valueBool = diagramprocess.IsExpanded
+		res.valueString = fmt.Sprintf("%t", diagramstructure.IsExpanded)
+		res.valueBool = diagramstructure.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "LayoutDirection":
-		enum := diagramprocess.LayoutDirection
+		enum := diagramstructure.LayoutDirection
 		res.valueString = enum.ToCodeString()
 	case "IsChecked":
-		res.valueString = fmt.Sprintf("%t", diagramprocess.IsChecked)
-		res.valueBool = diagramprocess.IsChecked
+		res.valueString = fmt.Sprintf("%t", diagramstructure.IsChecked)
+		res.valueBool = diagramstructure.IsChecked
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsEditable_":
-		res.valueString = fmt.Sprintf("%t", diagramprocess.IsEditable_)
-		res.valueBool = diagramprocess.IsEditable_
+		res.valueString = fmt.Sprintf("%t", diagramstructure.IsEditable_)
+		res.valueBool = diagramstructure.IsEditable_
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsShowPrefix":
-		res.valueString = fmt.Sprintf("%t", diagramprocess.IsShowPrefix)
-		res.valueBool = diagramprocess.IsShowPrefix
+		res.valueString = fmt.Sprintf("%t", diagramstructure.IsShowPrefix)
+		res.valueBool = diagramstructure.IsShowPrefix
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "DefaultBoxWidth":
-		res.valueString = fmt.Sprintf("%f", diagramprocess.DefaultBoxWidth)
-		res.valueFloat = diagramprocess.DefaultBoxWidth
+		res.valueString = fmt.Sprintf("%f", diagramstructure.DefaultBoxWidth)
+		res.valueFloat = diagramstructure.DefaultBoxWidth
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "DefaultBoxHeigth":
-		res.valueString = fmt.Sprintf("%f", diagramprocess.DefaultBoxHeigth)
-		res.valueFloat = diagramprocess.DefaultBoxHeigth
+		res.valueString = fmt.Sprintf("%f", diagramstructure.DefaultBoxHeigth)
+		res.valueFloat = diagramstructure.DefaultBoxHeigth
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Width":
-		res.valueString = fmt.Sprintf("%f", diagramprocess.Width)
-		res.valueFloat = diagramprocess.Width
+		res.valueString = fmt.Sprintf("%f", diagramstructure.Width)
+		res.valueFloat = diagramstructure.Width
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Height":
-		res.valueString = fmt.Sprintf("%f", diagramprocess.Height)
-		res.valueFloat = diagramprocess.Height
+		res.valueString = fmt.Sprintf("%f", diagramstructure.Height)
+		res.valueFloat = diagramstructure.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Process_Shapes":
+	case "System_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.Process_Shapes {
+		for idx, __instance__ := range diagramstructure.System_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7882,13 +7882,13 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "IsProcesssNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagramprocess.IsProcesssNodeExpanded)
-		res.valueBool = diagramprocess.IsProcesssNodeExpanded
+	case "IsSystemsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagramstructure.IsSystemsNodeExpanded)
+		res.valueBool = diagramstructure.IsSystemsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ProcesssWhoseNodeIsExpanded":
+	case "SystemsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.ProcesssWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagramstructure.SystemsWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7896,9 +7896,9 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "Participant_Shapes":
+	case "Part_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.Participant_Shapes {
+		for idx, __instance__ := range diagramstructure.Part_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7906,13 +7906,13 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "IsParticipantsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagramprocess.IsParticipantsNodeExpanded)
-		res.valueBool = diagramprocess.IsParticipantsNodeExpanded
+	case "IsPartsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagramstructure.IsPartsNodeExpanded)
+		res.valueBool = diagramstructure.IsPartsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ParticipantWhoseNodeIsExpanded":
+	case "PartWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.ParticipantWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagramstructure.PartWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7920,9 +7920,9 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "ExternalParticipant_Shapes":
+	case "ExternalPart_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.ExternalParticipant_Shapes {
+		for idx, __instance__ := range diagramstructure.ExternalPart_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7930,13 +7930,13 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "IsExternalParticipantsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagramprocess.IsExternalParticipantsNodeExpanded)
-		res.valueBool = diagramprocess.IsExternalParticipantsNodeExpanded
+	case "IsExternalPartsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagramstructure.IsExternalPartsNodeExpanded)
+		res.valueBool = diagramstructure.IsExternalPartsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ExternalParticipantWhoseNodeIsExpanded":
+	case "ExternalPartWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.ExternalParticipantWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagramstructure.ExternalPartWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7944,9 +7944,9 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
+	case "ExternalPartsWhoseOutDataFlowsNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded {
+		for idx, __instance__ := range diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7954,9 +7954,9 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
+	case "ExternalPartsWhoseInDataFlowsNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded {
+		for idx, __instance__ := range diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7964,9 +7964,9 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "TasksWhoseNodeIsExpanded":
+	case "PortsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.TasksWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagramstructure.PortsWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7974,9 +7974,9 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "Task_Shapes":
+	case "Port_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.Task_Shapes {
+		for idx, __instance__ := range diagramstructure.Port_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7986,7 +7986,7 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 		}
 	case "ControlFlowsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.ControlFlowsWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagramstructure.ControlFlowsWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -7996,7 +7996,7 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 		}
 	case "ControlFlow_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.ControlFlow_Shapes {
+		for idx, __instance__ := range diagramstructure.ControlFlow_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8006,7 +8006,7 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 		}
 	case "DataFlowsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.DataFlowsWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagramstructure.DataFlowsWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8016,7 +8016,7 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 		}
 	case "DataFlow_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.DataFlow_Shapes {
+		for idx, __instance__ := range diagramstructure.DataFlow_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8026,7 +8026,7 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 		}
 	case "DatasWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.DatasWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagramstructure.DatasWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8036,7 +8036,7 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 		}
 	case "Data_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.Data_Shapes {
+		for idx, __instance__ := range diagramstructure.Data_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8046,7 +8046,7 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 		}
 	case "DataFlowsWhoseDataNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.DataFlowsWhoseDataNodeIsExpanded {
+		for idx, __instance__ := range diagramstructure.DataFlowsWhoseDataNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8056,7 +8056,7 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 		}
 	case "AllocatedResourcesWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.AllocatedResourcesWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagramstructure.AllocatedResourcesWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8066,7 +8066,7 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 		}
 	case "AllocatedResourceShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.AllocatedResourceShapes {
+		for idx, __instance__ := range diagramstructure.AllocatedResourceShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8074,9 +8074,9 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "AllocatedProcessesWhoseNodeIsExpanded":
+	case "AllocatedSystemesWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.AllocatedProcessesWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagramstructure.AllocatedSystemesWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8084,9 +8084,9 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "AllocatedProcessShapes":
+	case "AllocatedSystemShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.AllocatedProcessShapes {
+		for idx, __instance__ := range diagramstructure.AllocatedSystemShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8096,7 +8096,7 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 		}
 	case "Note_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.Note_Shapes {
+		for idx, __instance__ := range diagramstructure.Note_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8106,7 +8106,7 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 		}
 	case "NotesWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.NotesWhoseNodeIsExpanded {
+		for idx, __instance__ := range diagramstructure.NotesWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8115,12 +8115,12 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "IsNotesNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagramprocess.IsNotesNodeExpanded)
-		res.valueBool = diagramprocess.IsNotesNodeExpanded
+		res.valueString = fmt.Sprintf("%t", diagramstructure.IsNotesNodeExpanded)
+		res.valueBool = diagramstructure.IsNotesNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "NoteTaskShapes":
+	case "NotePortShapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagramprocess.NoteTaskShapes {
+		for idx, __instance__ := range diagramstructure.NotePortShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8132,44 +8132,44 @@ func (diagramprocess *DiagramProcess) GongGetFieldValue(fieldName string, stage 
 	return
 }
 
-func (externalparticipantshape *ExternalParticipantShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (externalpartshape *ExternalPartShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = externalparticipantshape.Name
-	case "Participant":
+		res.valueString = externalpartshape.Name
+	case "Part":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if externalparticipantshape.Participant != nil {
-			res.valueString = externalparticipantshape.Participant.Name
-			res.ids = externalparticipantshape.Participant.GongGetUUID(stage)
+		if externalpartshape.Part != nil {
+			res.valueString = externalpartshape.Part.Name
+			res.ids = externalpartshape.Part.GongGetUUID(stage)
 		}
 	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", externalparticipantshape.IsExpanded)
-		res.valueBool = externalparticipantshape.IsExpanded
+		res.valueString = fmt.Sprintf("%t", externalpartshape.IsExpanded)
+		res.valueBool = externalpartshape.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "X":
-		res.valueString = fmt.Sprintf("%f", externalparticipantshape.X)
-		res.valueFloat = externalparticipantshape.X
+		res.valueString = fmt.Sprintf("%f", externalpartshape.X)
+		res.valueFloat = externalpartshape.X
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Y":
-		res.valueString = fmt.Sprintf("%f", externalparticipantshape.Y)
-		res.valueFloat = externalparticipantshape.Y
+		res.valueString = fmt.Sprintf("%f", externalpartshape.Y)
+		res.valueFloat = externalpartshape.Y
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Width":
-		res.valueString = fmt.Sprintf("%f", externalparticipantshape.Width)
-		res.valueFloat = externalparticipantshape.Width
+		res.valueString = fmt.Sprintf("%f", externalpartshape.Width)
+		res.valueFloat = externalpartshape.Width
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Height":
-		res.valueString = fmt.Sprintf("%f", externalparticipantshape.Height)
-		res.valueFloat = externalparticipantshape.Height
+		res.valueString = fmt.Sprintf("%f", externalpartshape.Height)
+		res.valueFloat = externalpartshape.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "IsHidden":
-		res.valueString = fmt.Sprintf("%t", externalparticipantshape.IsHidden)
-		res.valueBool = externalparticipantshape.IsHidden
+		res.valueString = fmt.Sprintf("%t", externalpartshape.IsHidden)
+		res.valueBool = externalpartshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "TailHeigth":
-		res.valueString = fmt.Sprintf("%f", externalparticipantshape.TailHeigth)
-		res.valueFloat = externalparticipantshape.TailHeigth
+		res.valueString = fmt.Sprintf("%f", externalpartshape.TailHeigth)
+		res.valueFloat = externalpartshape.TailHeigth
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
@@ -8225,9 +8225,9 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "LogoSVGFile":
 		res.valueString = library.LogoSVGFile
-	case "RootProcesses":
+	case "RootSystemes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range library.RootProcesses {
+		for idx, __instance__ := range library.RootSystemes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8235,13 +8235,13 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "IsProcessesNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", library.IsProcessesNodeExpanded)
-		res.valueBool = library.IsProcessesNodeExpanded
+	case "IsSystemesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsSystemesNodeExpanded)
+		res.valueBool = library.IsSystemesNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ProcesssWhoseNodeIsExpanded":
+	case "SystemsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range library.ProcesssWhoseNodeIsExpanded {
+		for idx, __instance__ := range library.SystemsWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8321,9 +8321,9 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "ParticipantsWhoseNodeIsExpanded":
+	case "PartsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range library.ParticipantsWhoseNodeIsExpanded {
+		for idx, __instance__ := range library.PartsWhoseNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8379,13 +8379,13 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "LayoutDirection":
 		enum := note.LayoutDirection
 		res.valueString = enum.ToCodeString()
-	case "IsTasksNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", note.IsTasksNodeExpanded)
-		res.valueBool = note.IsTasksNodeExpanded
+	case "IsPortsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", note.IsPortsNodeExpanded)
+		res.valueBool = note.IsPortsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "Tasks":
+	case "Ports":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range note.Tasks {
+		for idx, __instance__ := range note.Ports {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8393,6 +8393,49 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	}
+	return
+}
+
+func (noteportshape *NotePortShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = noteportshape.Name
+	case "Note":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if noteportshape.Note != nil {
+			res.valueString = noteportshape.Note.Name
+			res.ids = noteportshape.Note.GongGetUUID(stage)
+		}
+	case "Port":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if noteportshape.Port != nil {
+			res.valueString = noteportshape.Port.Name
+			res.ids = noteportshape.Port.GongGetUUID(stage)
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", noteportshape.StartRatio)
+		res.valueFloat = noteportshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", noteportshape.EndRatio)
+		res.valueFloat = noteportshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := noteportshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := noteportshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", noteportshape.CornerOffsetRatio)
+		res.valueFloat = noteportshape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", noteportshape.IsHidden)
+		res.valueBool = noteportshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -8432,63 +8475,20 @@ func (noteshape *NoteShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 	return
 }
 
-func (notetaskshape *NoteTaskShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (part *Part) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = notetaskshape.Name
-	case "Note":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if notetaskshape.Note != nil {
-			res.valueString = notetaskshape.Note.Name
-			res.ids = notetaskshape.Note.GongGetUUID(stage)
-		}
-	case "Task":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if notetaskshape.Task != nil {
-			res.valueString = notetaskshape.Task.Name
-			res.ids = notetaskshape.Task.GongGetUUID(stage)
-		}
-	case "StartRatio":
-		res.valueString = fmt.Sprintf("%f", notetaskshape.StartRatio)
-		res.valueFloat = notetaskshape.StartRatio
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "EndRatio":
-		res.valueString = fmt.Sprintf("%f", notetaskshape.EndRatio)
-		res.valueFloat = notetaskshape.EndRatio
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "StartOrientation":
-		enum := notetaskshape.StartOrientation
-		res.valueString = enum.ToCodeString()
-	case "EndOrientation":
-		enum := notetaskshape.EndOrientation
-		res.valueString = enum.ToCodeString()
-	case "CornerOffsetRatio":
-		res.valueString = fmt.Sprintf("%f", notetaskshape.CornerOffsetRatio)
-		res.valueFloat = notetaskshape.CornerOffsetRatio
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "IsHidden":
-		res.valueString = fmt.Sprintf("%t", notetaskshape.IsHidden)
-		res.valueBool = notetaskshape.IsHidden
-		res.GongFieldValueType = GongFieldValueTypeBool
-	}
-	return
-}
-
-func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = participant.Name
-	case "IsProcessResource":
-		res.valueString = fmt.Sprintf("%t", participant.IsProcessResource)
-		res.valueBool = participant.IsProcessResource
+		res.valueString = part.Name
+	case "IsSystemResource":
+		res.valueString = fmt.Sprintf("%t", part.IsSystemResource)
+		res.valueBool = part.IsSystemResource
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Description":
-		res.valueString = participant.Description
+		res.valueString = part.Description
 	case "Resources":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range participant.Resources {
+		for idx, __instance__ := range part.Resources {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8497,12 +8497,12 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "IsResourcesNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", participant.IsResourcesNodeExpanded)
-		res.valueBool = participant.IsResourcesNodeExpanded
+		res.valueString = fmt.Sprintf("%t", part.IsResourcesNodeExpanded)
+		res.valueBool = part.IsResourcesNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "Processes":
+	case "Systemes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range participant.Processes {
+		for idx, __instance__ := range part.Systemes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8510,26 +8510,26 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "IsProcessesNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", participant.IsProcessesNodeExpanded)
-		res.valueBool = participant.IsProcessesNodeExpanded
+	case "IsSystemesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", part.IsSystemesNodeExpanded)
+		res.valueBool = part.IsSystemesNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ComputedPrefix":
-		res.valueString = participant.ComputedPrefix
+		res.valueString = part.ComputedPrefix
 	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", participant.IsExpanded)
-		res.valueBool = participant.IsExpanded
+		res.valueString = fmt.Sprintf("%t", part.IsExpanded)
+		res.valueBool = part.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "LayoutDirection":
-		enum := participant.LayoutDirection
+		enum := part.LayoutDirection
 		res.valueString = enum.ToCodeString()
-	case "IsTasksNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", participant.IsTasksNodeExpanded)
-		res.valueBool = participant.IsTasksNodeExpanded
+	case "IsPortsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", part.IsPortsNodeExpanded)
+		res.valueBool = part.IsPortsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "Tasks":
+	case "Ports":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range participant.Tasks {
+		for idx, __instance__ := range part.Ports {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8538,12 +8538,12 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "IsControlFlowsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", participant.IsControlFlowsNodeExpanded)
-		res.valueBool = participant.IsControlFlowsNodeExpanded
+		res.valueString = fmt.Sprintf("%t", part.IsControlFlowsNodeExpanded)
+		res.valueBool = part.IsControlFlowsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ControlFlows":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range participant.ControlFlows {
+		for idx, __instance__ := range part.ControlFlows {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8551,9 +8551,9 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "TaskWhoseOutControlFlowsNodeIsExpanded":
+	case "PortWhoseOutControlFlowsNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range participant.TaskWhoseOutControlFlowsNodeIsExpanded {
+		for idx, __instance__ := range part.PortWhoseOutControlFlowsNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8561,9 +8561,9 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "TaskWhoseInControlFlowsNodeIsExpanded":
+	case "PortWhoseInControlFlowsNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range participant.TaskWhoseInControlFlowsNodeIsExpanded {
+		for idx, __instance__ := range part.PortWhoseInControlFlowsNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8572,12 +8572,12 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 			res.ids += __instance__.GongGetUUID(stage)
 		}
 	case "IsDataFlowsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", participant.IsDataFlowsNodeExpanded)
-		res.valueBool = participant.IsDataFlowsNodeExpanded
+		res.valueString = fmt.Sprintf("%t", part.IsDataFlowsNodeExpanded)
+		res.valueBool = part.IsDataFlowsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "TaskWhoseOutDataFlowsNodeIsExpanded":
+	case "PortWhoseOutDataFlowsNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range participant.TaskWhoseOutDataFlowsNodeIsExpanded {
+		for idx, __instance__ := range part.PortWhoseOutDataFlowsNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8585,9 +8585,9 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "TaskWhoseInDataFlowsNodeIsExpanded":
+	case "PortWhoseInDataFlowsNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range participant.TaskWhoseInDataFlowsNodeIsExpanded {
+		for idx, __instance__ := range part.PortWhoseInDataFlowsNodeIsExpanded {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -8599,197 +8599,121 @@ func (participant *Participant) GongGetFieldValue(fieldName string, stage *Stage
 	return
 }
 
-func (participantshape *ParticipantShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (partshape *PartShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = participantshape.Name
-	case "Participant":
+		res.valueString = partshape.Name
+	case "Part":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if participantshape.Participant != nil {
-			res.valueString = participantshape.Participant.Name
-			res.ids = participantshape.Participant.GongGetUUID(stage)
+		if partshape.Part != nil {
+			res.valueString = partshape.Part.Name
+			res.ids = partshape.Part.GongGetUUID(stage)
 		}
 	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", participantshape.IsExpanded)
-		res.valueBool = participantshape.IsExpanded
+		res.valueString = fmt.Sprintf("%t", partshape.IsExpanded)
+		res.valueBool = partshape.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "X":
-		res.valueString = fmt.Sprintf("%f", participantshape.X)
-		res.valueFloat = participantshape.X
+		res.valueString = fmt.Sprintf("%f", partshape.X)
+		res.valueFloat = partshape.X
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Y":
-		res.valueString = fmt.Sprintf("%f", participantshape.Y)
-		res.valueFloat = participantshape.Y
+		res.valueString = fmt.Sprintf("%f", partshape.Y)
+		res.valueFloat = partshape.Y
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Width":
-		res.valueString = fmt.Sprintf("%f", participantshape.Width)
-		res.valueFloat = participantshape.Width
+		res.valueString = fmt.Sprintf("%f", partshape.Width)
+		res.valueFloat = partshape.Width
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Height":
-		res.valueString = fmt.Sprintf("%f", participantshape.Height)
-		res.valueFloat = participantshape.Height
+		res.valueString = fmt.Sprintf("%f", partshape.Height)
+		res.valueFloat = partshape.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "IsHidden":
-		res.valueString = fmt.Sprintf("%t", participantshape.IsHidden)
-		res.valueBool = participantshape.IsHidden
+		res.valueString = fmt.Sprintf("%t", partshape.IsHidden)
+		res.valueBool = partshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "WidthWeight":
-		res.valueString = fmt.Sprintf("%f", participantshape.WidthWeight)
-		res.valueFloat = participantshape.WidthWeight
+		res.valueString = fmt.Sprintf("%f", partshape.WidthWeight)
+		res.valueFloat = partshape.WidthWeight
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
 
-func (process *Process) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (port *Port) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = process.Name
+		res.valueString = port.Name
 	case "Description":
-		res.valueString = process.Description
+		res.valueString = port.Description
 	case "ComputedPrefix":
-		res.valueString = process.ComputedPrefix
+		res.valueString = port.ComputedPrefix
 	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", process.IsExpanded)
-		res.valueBool = process.IsExpanded
+		res.valueString = fmt.Sprintf("%t", port.IsExpanded)
+		res.valueBool = port.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "LayoutDirection":
-		enum := process.LayoutDirection
+		enum := port.LayoutDirection
 		res.valueString = enum.ToCodeString()
-	case "SVG_Path":
-		res.valueString = process.SVG_Path
-	case "InverseAppliedScaling":
-		res.valueString = fmt.Sprintf("%f", process.InverseAppliedScaling)
-		res.valueFloat = process.InverseAppliedScaling
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "DiagramProcesss":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range process.DiagramProcesss {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "DiagramProcessWhoseNodeIsExpanded":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range process.DiagramProcessWhoseNodeIsExpanded {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "IsSubProcessNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", process.IsSubProcessNodeExpanded)
-		res.valueBool = process.IsSubProcessNodeExpanded
+	case "IsStartPort":
+		res.valueString = fmt.Sprintf("%t", port.IsStartPort)
+		res.valueBool = port.IsStartPort
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "SubProcesses":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range process.SubProcesses {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "Participants":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range process.Participants {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "ParticipantWhoseNodeIsExpanded":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range process.ParticipantWhoseNodeIsExpanded {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "DataFlows":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range process.DataFlows {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "IsDataFlowsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", process.IsDataFlowsNodeExpanded)
-		res.valueBool = process.IsDataFlowsNodeExpanded
+	case "IsEndPort":
+		res.valueString = fmt.Sprintf("%t", port.IsEndPort)
+		res.valueBool = port.IsEndPort
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ExternalParticipants":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range process.ExternalParticipants {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
+	case "Type":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if port.Type != nil {
+			res.valueString = port.Type.Name
+			res.ids = port.Type.GongGetUUID(stage)
 		}
-	case "ExternalParticipantWhoseNodeIsExpanded":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range process.ExternalParticipantWhoseNodeIsExpanded {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
+	case "IsPortNameNotSystemName":
+		res.valueString = fmt.Sprintf("%t", port.IsPortNameNotSystemName)
+		res.valueBool = port.IsPortNameNotSystemName
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
 
-func (processshape *ProcessShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (portshape *PortShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = processshape.Name
-	case "Process":
+		res.valueString = portshape.Name
+	case "Port":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if processshape.Process != nil {
-			res.valueString = processshape.Process.Name
-			res.ids = processshape.Process.GongGetUUID(stage)
+		if portshape.Port != nil {
+			res.valueString = portshape.Port.Name
+			res.ids = portshape.Port.GongGetUUID(stage)
 		}
 	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", processshape.IsExpanded)
-		res.valueBool = processshape.IsExpanded
+		res.valueString = fmt.Sprintf("%t", portshape.IsExpanded)
+		res.valueBool = portshape.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "X":
-		res.valueString = fmt.Sprintf("%f", processshape.X)
-		res.valueFloat = processshape.X
+		res.valueString = fmt.Sprintf("%f", portshape.X)
+		res.valueFloat = portshape.X
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Y":
-		res.valueString = fmt.Sprintf("%f", processshape.Y)
-		res.valueFloat = processshape.Y
+		res.valueString = fmt.Sprintf("%f", portshape.Y)
+		res.valueFloat = portshape.Y
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Width":
-		res.valueString = fmt.Sprintf("%f", processshape.Width)
-		res.valueFloat = processshape.Width
+		res.valueString = fmt.Sprintf("%f", portshape.Width)
+		res.valueFloat = portshape.Width
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Height":
-		res.valueString = fmt.Sprintf("%f", processshape.Height)
-		res.valueFloat = processshape.Height
+		res.valueString = fmt.Sprintf("%f", portshape.Height)
+		res.valueFloat = portshape.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "IsHidden":
-		res.valueString = fmt.Sprintf("%t", processshape.IsHidden)
-		res.valueBool = processshape.IsHidden
+		res.valueString = fmt.Sprintf("%t", portshape.IsHidden)
+		res.valueBool = portshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
@@ -8823,78 +8747,154 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 	return
 }
 
-func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (system *System) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = task.Name
+		res.valueString = system.Name
 	case "Description":
-		res.valueString = task.Description
+		res.valueString = system.Description
 	case "ComputedPrefix":
-		res.valueString = task.ComputedPrefix
+		res.valueString = system.ComputedPrefix
 	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", task.IsExpanded)
-		res.valueBool = task.IsExpanded
+		res.valueString = fmt.Sprintf("%t", system.IsExpanded)
+		res.valueBool = system.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "LayoutDirection":
-		enum := task.LayoutDirection
+		enum := system.LayoutDirection
 		res.valueString = enum.ToCodeString()
-	case "IsStartTask":
-		res.valueString = fmt.Sprintf("%t", task.IsStartTask)
-		res.valueBool = task.IsStartTask
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsEndTask":
-		res.valueString = fmt.Sprintf("%t", task.IsEndTask)
-		res.valueBool = task.IsEndTask
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "Type":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if task.Type != nil {
-			res.valueString = task.Type.Name
-			res.ids = task.Type.GongGetUUID(stage)
+	case "SVG_Path":
+		res.valueString = system.SVG_Path
+	case "InverseAppliedScaling":
+		res.valueString = fmt.Sprintf("%f", system.InverseAppliedScaling)
+		res.valueFloat = system.InverseAppliedScaling
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DiagramStructures":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range system.DiagramStructures {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "IsTaskNameNotProcessName":
-		res.valueString = fmt.Sprintf("%t", task.IsTaskNameNotProcessName)
-		res.valueBool = task.IsTaskNameNotProcessName
+	case "DiagramStructureWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range system.DiagramStructureWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsSubSystemNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", system.IsSubSystemNodeExpanded)
+		res.valueBool = system.IsSubSystemNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SubSystemes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range system.SubSystemes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Parts":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range system.Parts {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "PartWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range system.PartWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "DataFlows":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range system.DataFlows {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsDataFlowsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", system.IsDataFlowsNodeExpanded)
+		res.valueBool = system.IsDataFlowsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ExternalParts":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range system.ExternalParts {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ExternalPartWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range system.ExternalPartWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
 
-func (taskshape *TaskShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+func (systemshape *SystemShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
-		res.valueString = taskshape.Name
-	case "Task":
+		res.valueString = systemshape.Name
+	case "System":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if taskshape.Task != nil {
-			res.valueString = taskshape.Task.Name
-			res.ids = taskshape.Task.GongGetUUID(stage)
+		if systemshape.System != nil {
+			res.valueString = systemshape.System.Name
+			res.ids = systemshape.System.GongGetUUID(stage)
 		}
 	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", taskshape.IsExpanded)
-		res.valueBool = taskshape.IsExpanded
+		res.valueString = fmt.Sprintf("%t", systemshape.IsExpanded)
+		res.valueBool = systemshape.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "X":
-		res.valueString = fmt.Sprintf("%f", taskshape.X)
-		res.valueFloat = taskshape.X
+		res.valueString = fmt.Sprintf("%f", systemshape.X)
+		res.valueFloat = systemshape.X
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Y":
-		res.valueString = fmt.Sprintf("%f", taskshape.Y)
-		res.valueFloat = taskshape.Y
+		res.valueString = fmt.Sprintf("%f", systemshape.Y)
+		res.valueFloat = systemshape.Y
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Width":
-		res.valueString = fmt.Sprintf("%f", taskshape.Width)
-		res.valueFloat = taskshape.Width
+		res.valueString = fmt.Sprintf("%f", systemshape.Width)
+		res.valueFloat = systemshape.Width
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "Height":
-		res.valueString = fmt.Sprintf("%f", taskshape.Height)
-		res.valueFloat = taskshape.Height
+		res.valueString = fmt.Sprintf("%f", systemshape.Height)
+		res.valueFloat = systemshape.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "IsHidden":
-		res.valueString = fmt.Sprintf("%t", taskshape.IsHidden)
-		res.valueBool = taskshape.IsHidden
+		res.valueString = fmt.Sprintf("%t", systemshape.IsHidden)
+		res.valueBool = systemshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
@@ -8906,51 +8906,18 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 }
 
 // insertion point for generic set gongstruct field value
-func (allocatedprocessshape *AllocatedProcessShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		allocatedprocessshape.Name = value.GetValueString()
-	case "Participant":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			allocatedprocessshape.Participant = nil
-			for __instance__ := range stage.Participants {
-				if stage.Participant_stagedOrder[__instance__] == uint(id) {
-					allocatedprocessshape.Participant = __instance__
-					break
-				}
-			}
-		}
-	case "Process":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			allocatedprocessshape.Process = nil
-			for __instance__ := range stage.Processs {
-				if stage.Process_stagedOrder[__instance__] == uint(id) {
-					allocatedprocessshape.Process = __instance__
-					break
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
 func (allocatedresourceshape *AllocatedResourceShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
 	case "Name":
 		allocatedresourceshape.Name = value.GetValueString()
-	case "Participant":
+	case "Part":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			allocatedresourceshape.Participant = nil
-			for __instance__ := range stage.Participants {
-				if stage.Participant_stagedOrder[__instance__] == uint(id) {
-					allocatedresourceshape.Participant = __instance__
+			allocatedresourceshape.Part = nil
+			for __instance__ := range stage.Parts {
+				if stage.Part_stagedOrder[__instance__] == uint(id) {
+					allocatedresourceshape.Part = __instance__
 					break
 				}
 			}
@@ -8962,6 +8929,39 @@ func (allocatedresourceshape *AllocatedResourceShape) GongSetFieldValue(fieldNam
 			for __instance__ := range stage.Resources {
 				if stage.Resource_stagedOrder[__instance__] == uint(id) {
 					allocatedresourceshape.Resource = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (allocatedsystemshape *AllocatedSystemShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		allocatedsystemshape.Name = value.GetValueString()
+	case "Part":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			allocatedsystemshape.Part = nil
+			for __instance__ := range stage.Parts {
+				if stage.Part_stagedOrder[__instance__] == uint(id) {
+					allocatedsystemshape.Part = __instance__
+					break
+				}
+			}
+		}
+	case "System":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			allocatedsystemshape.System = nil
+			for __instance__ := range stage.Systems {
+				if stage.System_stagedOrder[__instance__] == uint(id) {
+					allocatedsystemshape.System = __instance__
 					break
 				}
 			}
@@ -8989,8 +8989,8 @@ func (controlflow *ControlFlow) GongSetFieldValue(fieldName string, value GongFi
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			controlflow.Start = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
+			for __instance__ := range stage.Ports {
+				if stage.Port_stagedOrder[__instance__] == uint(id) {
 					controlflow.Start = __instance__
 					break
 				}
@@ -9000,8 +9000,8 @@ func (controlflow *ControlFlow) GongSetFieldValue(fieldName string, value GongFi
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
 			controlflow.End = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
+			for __instance__ := range stage.Ports {
+				if stage.Port_stagedOrder[__instance__] == uint(id) {
 					controlflow.End = __instance__
 					break
 				}
@@ -9101,46 +9101,46 @@ func (dataflow *DataFlow) GongSetFieldValue(fieldName string, value GongFieldVal
 		dataflow.LayoutDirection.FromCodeString(value.GetValueString())
 	case "Type":
 		dataflow.Type.FromCodeString(value.GetValueString())
-	case "StartTask":
+	case "StartPort":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dataflow.StartTask = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					dataflow.StartTask = __instance__
+			dataflow.StartPort = nil
+			for __instance__ := range stage.Ports {
+				if stage.Port_stagedOrder[__instance__] == uint(id) {
+					dataflow.StartPort = __instance__
 					break
 				}
 			}
 		}
-	case "EndTask":
+	case "EndPort":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dataflow.EndTask = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					dataflow.EndTask = __instance__
+			dataflow.EndPort = nil
+			for __instance__ := range stage.Ports {
+				if stage.Port_stagedOrder[__instance__] == uint(id) {
+					dataflow.EndPort = __instance__
 					break
 				}
 			}
 		}
-	case "StartExternalParticipant":
+	case "StartExternalPart":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dataflow.StartExternalParticipant = nil
-			for __instance__ := range stage.Participants {
-				if stage.Participant_stagedOrder[__instance__] == uint(id) {
-					dataflow.StartExternalParticipant = __instance__
+			dataflow.StartExternalPart = nil
+			for __instance__ := range stage.Parts {
+				if stage.Part_stagedOrder[__instance__] == uint(id) {
+					dataflow.StartExternalPart = __instance__
 					break
 				}
 			}
 		}
-	case "EndExternalParticipant":
+	case "EndExternalPart":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			dataflow.EndExternalParticipant = nil
-			for __instance__ := range stage.Participants {
-				if stage.Participant_stagedOrder[__instance__] == uint(id) {
-					dataflow.EndExternalParticipant = __instance__
+			dataflow.EndExternalPart = nil
+			for __instance__ := range stage.Parts {
+				if stage.Part_stagedOrder[__instance__] == uint(id) {
+					dataflow.EndExternalPart = __instance__
 					break
 				}
 			}
@@ -9220,372 +9220,372 @@ func (datashape *DataShape) GongSetFieldValue(fieldName string, value GongFieldV
 	return nil
 }
 
-func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+func (diagramstructure *DiagramStructure) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
 	case "Name":
-		diagramprocess.Name = value.GetValueString()
+		diagramstructure.Name = value.GetValueString()
 	case "Description":
-		diagramprocess.Description = value.GetValueString()
+		diagramstructure.Description = value.GetValueString()
 	case "ComputedPrefix":
-		diagramprocess.ComputedPrefix = value.GetValueString()
+		diagramstructure.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
-		diagramprocess.IsExpanded = value.GetValueBool()
+		diagramstructure.IsExpanded = value.GetValueBool()
 	case "LayoutDirection":
-		diagramprocess.LayoutDirection.FromCodeString(value.GetValueString())
+		diagramstructure.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsChecked":
-		diagramprocess.IsChecked = value.GetValueBool()
+		diagramstructure.IsChecked = value.GetValueBool()
 	case "IsEditable_":
-		diagramprocess.IsEditable_ = value.GetValueBool()
+		diagramstructure.IsEditable_ = value.GetValueBool()
 	case "IsShowPrefix":
-		diagramprocess.IsShowPrefix = value.GetValueBool()
+		diagramstructure.IsShowPrefix = value.GetValueBool()
 	case "DefaultBoxWidth":
-		diagramprocess.DefaultBoxWidth = value.GetValueFloat()
+		diagramstructure.DefaultBoxWidth = value.GetValueFloat()
 	case "DefaultBoxHeigth":
-		diagramprocess.DefaultBoxHeigth = value.GetValueFloat()
+		diagramstructure.DefaultBoxHeigth = value.GetValueFloat()
 	case "Width":
-		diagramprocess.Width = value.GetValueFloat()
+		diagramstructure.Width = value.GetValueFloat()
 	case "Height":
-		diagramprocess.Height = value.GetValueFloat()
-	case "Process_Shapes":
-		diagramprocess.Process_Shapes = make([]*ProcessShape, 0)
+		diagramstructure.Height = value.GetValueFloat()
+	case "System_Shapes":
+		diagramstructure.System_Shapes = make([]*SystemShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ProcessShapes {
-					if stage.ProcessShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.Process_Shapes = append(diagramprocess.Process_Shapes, __instance__)
+				for __instance__ := range stage.SystemShapes {
+					if stage.SystemShape_stagedOrder[__instance__] == uint(id) {
+						diagramstructure.System_Shapes = append(diagramstructure.System_Shapes, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "IsProcesssNodeExpanded":
-		diagramprocess.IsProcesssNodeExpanded = value.GetValueBool()
-	case "ProcesssWhoseNodeIsExpanded":
-		diagramprocess.ProcesssWhoseNodeIsExpanded = make([]*Process, 0)
+	case "IsSystemsNodeExpanded":
+		diagramstructure.IsSystemsNodeExpanded = value.GetValueBool()
+	case "SystemsWhoseNodeIsExpanded":
+		diagramstructure.SystemsWhoseNodeIsExpanded = make([]*System, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Processs {
-					if stage.Process_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ProcesssWhoseNodeIsExpanded = append(diagramprocess.ProcesssWhoseNodeIsExpanded, __instance__)
+				for __instance__ := range stage.Systems {
+					if stage.System_stagedOrder[__instance__] == uint(id) {
+						diagramstructure.SystemsWhoseNodeIsExpanded = append(diagramstructure.SystemsWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "Participant_Shapes":
-		diagramprocess.Participant_Shapes = make([]*ParticipantShape, 0)
+	case "Part_Shapes":
+		diagramstructure.Part_Shapes = make([]*PartShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ParticipantShapes {
-					if stage.ParticipantShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.Participant_Shapes = append(diagramprocess.Participant_Shapes, __instance__)
+				for __instance__ := range stage.PartShapes {
+					if stage.PartShape_stagedOrder[__instance__] == uint(id) {
+						diagramstructure.Part_Shapes = append(diagramstructure.Part_Shapes, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "IsParticipantsNodeExpanded":
-		diagramprocess.IsParticipantsNodeExpanded = value.GetValueBool()
-	case "ParticipantWhoseNodeIsExpanded":
-		diagramprocess.ParticipantWhoseNodeIsExpanded = make([]*Participant, 0)
+	case "IsPartsNodeExpanded":
+		diagramstructure.IsPartsNodeExpanded = value.GetValueBool()
+	case "PartWhoseNodeIsExpanded":
+		diagramstructure.PartWhoseNodeIsExpanded = make([]*Part, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ParticipantWhoseNodeIsExpanded = append(diagramprocess.ParticipantWhoseNodeIsExpanded, __instance__)
+				for __instance__ := range stage.Parts {
+					if stage.Part_stagedOrder[__instance__] == uint(id) {
+						diagramstructure.PartWhoseNodeIsExpanded = append(diagramstructure.PartWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "ExternalParticipant_Shapes":
-		diagramprocess.ExternalParticipant_Shapes = make([]*ExternalParticipantShape, 0)
+	case "ExternalPart_Shapes":
+		diagramstructure.ExternalPart_Shapes = make([]*ExternalPartShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.ExternalParticipantShapes {
-					if stage.ExternalParticipantShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ExternalParticipant_Shapes = append(diagramprocess.ExternalParticipant_Shapes, __instance__)
+				for __instance__ := range stage.ExternalPartShapes {
+					if stage.ExternalPartShape_stagedOrder[__instance__] == uint(id) {
+						diagramstructure.ExternalPart_Shapes = append(diagramstructure.ExternalPart_Shapes, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "IsExternalParticipantsNodeExpanded":
-		diagramprocess.IsExternalParticipantsNodeExpanded = value.GetValueBool()
-	case "ExternalParticipantWhoseNodeIsExpanded":
-		diagramprocess.ExternalParticipantWhoseNodeIsExpanded = make([]*Participant, 0)
+	case "IsExternalPartsNodeExpanded":
+		diagramstructure.IsExternalPartsNodeExpanded = value.GetValueBool()
+	case "ExternalPartWhoseNodeIsExpanded":
+		diagramstructure.ExternalPartWhoseNodeIsExpanded = make([]*Part, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ExternalParticipantWhoseNodeIsExpanded = append(diagramprocess.ExternalParticipantWhoseNodeIsExpanded, __instance__)
+				for __instance__ := range stage.Parts {
+					if stage.Part_stagedOrder[__instance__] == uint(id) {
+						diagramstructure.ExternalPartWhoseNodeIsExpanded = append(diagramstructure.ExternalPartWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded":
-		diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = make([]*Participant, 0)
+	case "ExternalPartsWhoseOutDataFlowsNodeIsExpanded":
+		diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded = make([]*Part, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded = append(diagramprocess.ExternalParticipantsWhoseOutDataFlowsNodeIsExpanded, __instance__)
+				for __instance__ := range stage.Parts {
+					if stage.Part_stagedOrder[__instance__] == uint(id) {
+						diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded = append(diagramstructure.ExternalPartsWhoseOutDataFlowsNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "ExternalParticipantsWhoseInDataFlowsNodeIsExpanded":
-		diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = make([]*Participant, 0)
+	case "ExternalPartsWhoseInDataFlowsNodeIsExpanded":
+		diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded = make([]*Part, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded = append(diagramprocess.ExternalParticipantsWhoseInDataFlowsNodeIsExpanded, __instance__)
+				for __instance__ := range stage.Parts {
+					if stage.Part_stagedOrder[__instance__] == uint(id) {
+						diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded = append(diagramstructure.ExternalPartsWhoseInDataFlowsNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "TasksWhoseNodeIsExpanded":
-		diagramprocess.TasksWhoseNodeIsExpanded = make([]*Task, 0)
+	case "PortsWhoseNodeIsExpanded":
+		diagramstructure.PortsWhoseNodeIsExpanded = make([]*Port, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.TasksWhoseNodeIsExpanded = append(diagramprocess.TasksWhoseNodeIsExpanded, __instance__)
+				for __instance__ := range stage.Ports {
+					if stage.Port_stagedOrder[__instance__] == uint(id) {
+						diagramstructure.PortsWhoseNodeIsExpanded = append(diagramstructure.PortsWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "Task_Shapes":
-		diagramprocess.Task_Shapes = make([]*TaskShape, 0)
+	case "Port_Shapes":
+		diagramstructure.Port_Shapes = make([]*PortShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.TaskShapes {
-					if stage.TaskShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.Task_Shapes = append(diagramprocess.Task_Shapes, __instance__)
+				for __instance__ := range stage.PortShapes {
+					if stage.PortShape_stagedOrder[__instance__] == uint(id) {
+						diagramstructure.Port_Shapes = append(diagramstructure.Port_Shapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "ControlFlowsWhoseNodeIsExpanded":
-		diagramprocess.ControlFlowsWhoseNodeIsExpanded = make([]*ControlFlow, 0)
+		diagramstructure.ControlFlowsWhoseNodeIsExpanded = make([]*ControlFlow, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ControlFlows {
 					if stage.ControlFlow_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ControlFlowsWhoseNodeIsExpanded = append(diagramprocess.ControlFlowsWhoseNodeIsExpanded, __instance__)
+						diagramstructure.ControlFlowsWhoseNodeIsExpanded = append(diagramstructure.ControlFlowsWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "ControlFlow_Shapes":
-		diagramprocess.ControlFlow_Shapes = make([]*ControlFlowShape, 0)
+		diagramstructure.ControlFlow_Shapes = make([]*ControlFlowShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ControlFlowShapes {
 					if stage.ControlFlowShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.ControlFlow_Shapes = append(diagramprocess.ControlFlow_Shapes, __instance__)
+						diagramstructure.ControlFlow_Shapes = append(diagramstructure.ControlFlow_Shapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "DataFlowsWhoseNodeIsExpanded":
-		diagramprocess.DataFlowsWhoseNodeIsExpanded = make([]*DataFlow, 0)
+		diagramstructure.DataFlowsWhoseNodeIsExpanded = make([]*DataFlow, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.DataFlows {
 					if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.DataFlowsWhoseNodeIsExpanded = append(diagramprocess.DataFlowsWhoseNodeIsExpanded, __instance__)
+						diagramstructure.DataFlowsWhoseNodeIsExpanded = append(diagramstructure.DataFlowsWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "DataFlow_Shapes":
-		diagramprocess.DataFlow_Shapes = make([]*DataFlowShape, 0)
+		diagramstructure.DataFlow_Shapes = make([]*DataFlowShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.DataFlowShapes {
 					if stage.DataFlowShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.DataFlow_Shapes = append(diagramprocess.DataFlow_Shapes, __instance__)
+						diagramstructure.DataFlow_Shapes = append(diagramstructure.DataFlow_Shapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "DatasWhoseNodeIsExpanded":
-		diagramprocess.DatasWhoseNodeIsExpanded = make([]*Data, 0)
+		diagramstructure.DatasWhoseNodeIsExpanded = make([]*Data, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Datas {
 					if stage.Data_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.DatasWhoseNodeIsExpanded = append(diagramprocess.DatasWhoseNodeIsExpanded, __instance__)
+						diagramstructure.DatasWhoseNodeIsExpanded = append(diagramstructure.DatasWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "Data_Shapes":
-		diagramprocess.Data_Shapes = make([]*DataShape, 0)
+		diagramstructure.Data_Shapes = make([]*DataShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.DataShapes {
 					if stage.DataShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.Data_Shapes = append(diagramprocess.Data_Shapes, __instance__)
+						diagramstructure.Data_Shapes = append(diagramstructure.Data_Shapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "DataFlowsWhoseDataNodeIsExpanded":
-		diagramprocess.DataFlowsWhoseDataNodeIsExpanded = make([]*DataFlow, 0)
+		diagramstructure.DataFlowsWhoseDataNodeIsExpanded = make([]*DataFlow, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.DataFlows {
 					if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.DataFlowsWhoseDataNodeIsExpanded = append(diagramprocess.DataFlowsWhoseDataNodeIsExpanded, __instance__)
+						diagramstructure.DataFlowsWhoseDataNodeIsExpanded = append(diagramstructure.DataFlowsWhoseDataNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "AllocatedResourcesWhoseNodeIsExpanded":
-		diagramprocess.AllocatedResourcesWhoseNodeIsExpanded = make([]*Resource, 0)
+		diagramstructure.AllocatedResourcesWhoseNodeIsExpanded = make([]*Resource, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Resources {
 					if stage.Resource_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.AllocatedResourcesWhoseNodeIsExpanded = append(diagramprocess.AllocatedResourcesWhoseNodeIsExpanded, __instance__)
+						diagramstructure.AllocatedResourcesWhoseNodeIsExpanded = append(diagramstructure.AllocatedResourcesWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "AllocatedResourceShapes":
-		diagramprocess.AllocatedResourceShapes = make([]*AllocatedResourceShape, 0)
+		diagramstructure.AllocatedResourceShapes = make([]*AllocatedResourceShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.AllocatedResourceShapes {
 					if stage.AllocatedResourceShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.AllocatedResourceShapes = append(diagramprocess.AllocatedResourceShapes, __instance__)
+						diagramstructure.AllocatedResourceShapes = append(diagramstructure.AllocatedResourceShapes, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "AllocatedProcessesWhoseNodeIsExpanded":
-		diagramprocess.AllocatedProcessesWhoseNodeIsExpanded = make([]*Process, 0)
+	case "AllocatedSystemesWhoseNodeIsExpanded":
+		diagramstructure.AllocatedSystemesWhoseNodeIsExpanded = make([]*System, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Processs {
-					if stage.Process_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.AllocatedProcessesWhoseNodeIsExpanded = append(diagramprocess.AllocatedProcessesWhoseNodeIsExpanded, __instance__)
+				for __instance__ := range stage.Systems {
+					if stage.System_stagedOrder[__instance__] == uint(id) {
+						diagramstructure.AllocatedSystemesWhoseNodeIsExpanded = append(diagramstructure.AllocatedSystemesWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "AllocatedProcessShapes":
-		diagramprocess.AllocatedProcessShapes = make([]*AllocatedProcessShape, 0)
+	case "AllocatedSystemShapes":
+		diagramstructure.AllocatedSystemShapes = make([]*AllocatedSystemShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.AllocatedProcessShapes {
-					if stage.AllocatedProcessShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.AllocatedProcessShapes = append(diagramprocess.AllocatedProcessShapes, __instance__)
+				for __instance__ := range stage.AllocatedSystemShapes {
+					if stage.AllocatedSystemShape_stagedOrder[__instance__] == uint(id) {
+						diagramstructure.AllocatedSystemShapes = append(diagramstructure.AllocatedSystemShapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "Note_Shapes":
-		diagramprocess.Note_Shapes = make([]*NoteShape, 0)
+		diagramstructure.Note_Shapes = make([]*NoteShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.NoteShapes {
 					if stage.NoteShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.Note_Shapes = append(diagramprocess.Note_Shapes, __instance__)
+						diagramstructure.Note_Shapes = append(diagramstructure.Note_Shapes, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "NotesWhoseNodeIsExpanded":
-		diagramprocess.NotesWhoseNodeIsExpanded = make([]*Note, 0)
+		diagramstructure.NotesWhoseNodeIsExpanded = make([]*Note, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Notes {
 					if stage.Note_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.NotesWhoseNodeIsExpanded = append(diagramprocess.NotesWhoseNodeIsExpanded, __instance__)
+						diagramstructure.NotesWhoseNodeIsExpanded = append(diagramstructure.NotesWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "IsNotesNodeExpanded":
-		diagramprocess.IsNotesNodeExpanded = value.GetValueBool()
-	case "NoteTaskShapes":
-		diagramprocess.NoteTaskShapes = make([]*NoteTaskShape, 0)
+		diagramstructure.IsNotesNodeExpanded = value.GetValueBool()
+	case "NotePortShapes":
+		diagramstructure.NotePortShapes = make([]*NotePortShape, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.NoteTaskShapes {
-					if stage.NoteTaskShape_stagedOrder[__instance__] == uint(id) {
-						diagramprocess.NoteTaskShapes = append(diagramprocess.NoteTaskShapes, __instance__)
+				for __instance__ := range stage.NotePortShapes {
+					if stage.NotePortShape_stagedOrder[__instance__] == uint(id) {
+						diagramstructure.NotePortShapes = append(diagramstructure.NotePortShapes, __instance__)
 						break
 					}
 				}
@@ -9597,36 +9597,36 @@ func (diagramprocess *DiagramProcess) GongSetFieldValue(fieldName string, value 
 	return nil
 }
 
-func (externalparticipantshape *ExternalParticipantShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+func (externalpartshape *ExternalPartShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
 	case "Name":
-		externalparticipantshape.Name = value.GetValueString()
-	case "Participant":
+		externalpartshape.Name = value.GetValueString()
+	case "Part":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			externalparticipantshape.Participant = nil
-			for __instance__ := range stage.Participants {
-				if stage.Participant_stagedOrder[__instance__] == uint(id) {
-					externalparticipantshape.Participant = __instance__
+			externalpartshape.Part = nil
+			for __instance__ := range stage.Parts {
+				if stage.Part_stagedOrder[__instance__] == uint(id) {
+					externalpartshape.Part = __instance__
 					break
 				}
 			}
 		}
 	case "IsExpanded":
-		externalparticipantshape.IsExpanded = value.GetValueBool()
+		externalpartshape.IsExpanded = value.GetValueBool()
 	case "X":
-		externalparticipantshape.X = value.GetValueFloat()
+		externalpartshape.X = value.GetValueFloat()
 	case "Y":
-		externalparticipantshape.Y = value.GetValueFloat()
+		externalpartshape.Y = value.GetValueFloat()
 	case "Width":
-		externalparticipantshape.Width = value.GetValueFloat()
+		externalpartshape.Width = value.GetValueFloat()
 	case "Height":
-		externalparticipantshape.Height = value.GetValueFloat()
+		externalpartshape.Height = value.GetValueFloat()
 	case "IsHidden":
-		externalparticipantshape.IsHidden = value.GetValueBool()
+		externalpartshape.IsHidden = value.GetValueBool()
 	case "TailHeigth":
-		externalparticipantshape.TailHeigth = value.GetValueFloat()
+		externalpartshape.TailHeigth = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -9682,31 +9682,31 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.NbPixPerCharacter = value.GetValueFloat()
 	case "LogoSVGFile":
 		library.LogoSVGFile = value.GetValueString()
-	case "RootProcesses":
-		library.RootProcesses = make([]*Process, 0)
+	case "RootSystemes":
+		library.RootSystemes = make([]*System, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Processs {
-					if stage.Process_stagedOrder[__instance__] == uint(id) {
-						library.RootProcesses = append(library.RootProcesses, __instance__)
+				for __instance__ := range stage.Systems {
+					if stage.System_stagedOrder[__instance__] == uint(id) {
+						library.RootSystemes = append(library.RootSystemes, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "IsProcessesNodeExpanded":
-		library.IsProcessesNodeExpanded = value.GetValueBool()
-	case "ProcesssWhoseNodeIsExpanded":
-		library.ProcesssWhoseNodeIsExpanded = make([]*Process, 0)
+	case "IsSystemesNodeExpanded":
+		library.IsSystemesNodeExpanded = value.GetValueBool()
+	case "SystemsWhoseNodeIsExpanded":
+		library.SystemsWhoseNodeIsExpanded = make([]*System, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Processs {
-					if stage.Process_stagedOrder[__instance__] == uint(id) {
-						library.ProcesssWhoseNodeIsExpanded = append(library.ProcesssWhoseNodeIsExpanded, __instance__)
+				for __instance__ := range stage.Systems {
+					if stage.System_stagedOrder[__instance__] == uint(id) {
+						library.SystemsWhoseNodeIsExpanded = append(library.SystemsWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
@@ -9802,15 +9802,15 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
-	case "ParticipantsWhoseNodeIsExpanded":
-		library.ParticipantsWhoseNodeIsExpanded = make([]*Participant, 0)
+	case "PartsWhoseNodeIsExpanded":
+		library.PartsWhoseNodeIsExpanded = make([]*Part, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						library.ParticipantsWhoseNodeIsExpanded = append(library.ParticipantsWhoseNodeIsExpanded, __instance__)
+				for __instance__ := range stage.Parts {
+					if stage.Part_stagedOrder[__instance__] == uint(id) {
+						library.PartsWhoseNodeIsExpanded = append(library.PartsWhoseNodeIsExpanded, __instance__)
 						break
 					}
 				}
@@ -9867,22 +9867,67 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		note.IsExpanded = value.GetValueBool()
 	case "LayoutDirection":
 		note.LayoutDirection.FromCodeString(value.GetValueString())
-	case "IsTasksNodeExpanded":
-		note.IsTasksNodeExpanded = value.GetValueBool()
-	case "Tasks":
-		note.Tasks = make([]*Task, 0)
+	case "IsPortsNodeExpanded":
+		note.IsPortsNodeExpanded = value.GetValueBool()
+	case "Ports":
+		note.Ports = make([]*Port, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						note.Tasks = append(note.Tasks, __instance__)
+				for __instance__ := range stage.Ports {
+					if stage.Port_stagedOrder[__instance__] == uint(id) {
+						note.Ports = append(note.Ports, __instance__)
 						break
 					}
 				}
 			}
 		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (noteportshape *NotePortShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		noteportshape.Name = value.GetValueString()
+	case "Note":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			noteportshape.Note = nil
+			for __instance__ := range stage.Notes {
+				if stage.Note_stagedOrder[__instance__] == uint(id) {
+					noteportshape.Note = __instance__
+					break
+				}
+			}
+		}
+	case "Port":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			noteportshape.Port = nil
+			for __instance__ := range stage.Ports {
+				if stage.Port_stagedOrder[__instance__] == uint(id) {
+					noteportshape.Port = __instance__
+					break
+				}
+			}
+		}
+	case "StartRatio":
+		noteportshape.StartRatio = value.GetValueFloat()
+	case "EndRatio":
+		noteportshape.EndRatio = value.GetValueFloat()
+	case "StartOrientation":
+		noteportshape.StartOrientation.FromCodeString(value.GetValueString())
+	case "EndOrientation":
+		noteportshape.EndOrientation.FromCodeString(value.GetValueString())
+	case "CornerOffsetRatio":
+		noteportshape.CornerOffsetRatio = value.GetValueFloat()
+	case "IsHidden":
+		noteportshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -9921,183 +9966,138 @@ func (noteshape *NoteShape) GongSetFieldValue(fieldName string, value GongFieldV
 	return nil
 }
 
-func (notetaskshape *NoteTaskShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+func (part *Part) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
 	case "Name":
-		notetaskshape.Name = value.GetValueString()
-	case "Note":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notetaskshape.Note = nil
-			for __instance__ := range stage.Notes {
-				if stage.Note_stagedOrder[__instance__] == uint(id) {
-					notetaskshape.Note = __instance__
-					break
-				}
-			}
-		}
-	case "Task":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			notetaskshape.Task = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					notetaskshape.Task = __instance__
-					break
-				}
-			}
-		}
-	case "StartRatio":
-		notetaskshape.StartRatio = value.GetValueFloat()
-	case "EndRatio":
-		notetaskshape.EndRatio = value.GetValueFloat()
-	case "StartOrientation":
-		notetaskshape.StartOrientation.FromCodeString(value.GetValueString())
-	case "EndOrientation":
-		notetaskshape.EndOrientation.FromCodeString(value.GetValueString())
-	case "CornerOffsetRatio":
-		notetaskshape.CornerOffsetRatio = value.GetValueFloat()
-	case "IsHidden":
-		notetaskshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (participant *Participant) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		participant.Name = value.GetValueString()
-	case "IsProcessResource":
-		participant.IsProcessResource = value.GetValueBool()
+		part.Name = value.GetValueString()
+	case "IsSystemResource":
+		part.IsSystemResource = value.GetValueBool()
 	case "Description":
-		participant.Description = value.GetValueString()
+		part.Description = value.GetValueString()
 	case "Resources":
-		participant.Resources = make([]*Resource, 0)
+		part.Resources = make([]*Resource, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Resources {
 					if stage.Resource_stagedOrder[__instance__] == uint(id) {
-						participant.Resources = append(participant.Resources, __instance__)
+						part.Resources = append(part.Resources, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "IsResourcesNodeExpanded":
-		participant.IsResourcesNodeExpanded = value.GetValueBool()
-	case "Processes":
-		participant.Processes = make([]*Process, 0)
+		part.IsResourcesNodeExpanded = value.GetValueBool()
+	case "Systemes":
+		part.Systemes = make([]*System, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Processs {
-					if stage.Process_stagedOrder[__instance__] == uint(id) {
-						participant.Processes = append(participant.Processes, __instance__)
+				for __instance__ := range stage.Systems {
+					if stage.System_stagedOrder[__instance__] == uint(id) {
+						part.Systemes = append(part.Systemes, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "IsProcessesNodeExpanded":
-		participant.IsProcessesNodeExpanded = value.GetValueBool()
+	case "IsSystemesNodeExpanded":
+		part.IsSystemesNodeExpanded = value.GetValueBool()
 	case "ComputedPrefix":
-		participant.ComputedPrefix = value.GetValueString()
+		part.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
-		participant.IsExpanded = value.GetValueBool()
+		part.IsExpanded = value.GetValueBool()
 	case "LayoutDirection":
-		participant.LayoutDirection.FromCodeString(value.GetValueString())
-	case "IsTasksNodeExpanded":
-		participant.IsTasksNodeExpanded = value.GetValueBool()
-	case "Tasks":
-		participant.Tasks = make([]*Task, 0)
+		part.LayoutDirection.FromCodeString(value.GetValueString())
+	case "IsPortsNodeExpanded":
+		part.IsPortsNodeExpanded = value.GetValueBool()
+	case "Ports":
+		part.Ports = make([]*Port, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						participant.Tasks = append(participant.Tasks, __instance__)
+				for __instance__ := range stage.Ports {
+					if stage.Port_stagedOrder[__instance__] == uint(id) {
+						part.Ports = append(part.Ports, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "IsControlFlowsNodeExpanded":
-		participant.IsControlFlowsNodeExpanded = value.GetValueBool()
+		part.IsControlFlowsNodeExpanded = value.GetValueBool()
 	case "ControlFlows":
-		participant.ControlFlows = make([]*ControlFlow, 0)
+		part.ControlFlows = make([]*ControlFlow, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.ControlFlows {
 					if stage.ControlFlow_stagedOrder[__instance__] == uint(id) {
-						participant.ControlFlows = append(participant.ControlFlows, __instance__)
+						part.ControlFlows = append(part.ControlFlows, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "TaskWhoseOutControlFlowsNodeIsExpanded":
-		participant.TaskWhoseOutControlFlowsNodeIsExpanded = make([]*Task, 0)
+	case "PortWhoseOutControlFlowsNodeIsExpanded":
+		part.PortWhoseOutControlFlowsNodeIsExpanded = make([]*Port, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						participant.TaskWhoseOutControlFlowsNodeIsExpanded = append(participant.TaskWhoseOutControlFlowsNodeIsExpanded, __instance__)
+				for __instance__ := range stage.Ports {
+					if stage.Port_stagedOrder[__instance__] == uint(id) {
+						part.PortWhoseOutControlFlowsNodeIsExpanded = append(part.PortWhoseOutControlFlowsNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "TaskWhoseInControlFlowsNodeIsExpanded":
-		participant.TaskWhoseInControlFlowsNodeIsExpanded = make([]*Task, 0)
+	case "PortWhoseInControlFlowsNodeIsExpanded":
+		part.PortWhoseInControlFlowsNodeIsExpanded = make([]*Port, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						participant.TaskWhoseInControlFlowsNodeIsExpanded = append(participant.TaskWhoseInControlFlowsNodeIsExpanded, __instance__)
+				for __instance__ := range stage.Ports {
+					if stage.Port_stagedOrder[__instance__] == uint(id) {
+						part.PortWhoseInControlFlowsNodeIsExpanded = append(part.PortWhoseInControlFlowsNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
 	case "IsDataFlowsNodeExpanded":
-		participant.IsDataFlowsNodeExpanded = value.GetValueBool()
-	case "TaskWhoseOutDataFlowsNodeIsExpanded":
-		participant.TaskWhoseOutDataFlowsNodeIsExpanded = make([]*Task, 0)
+		part.IsDataFlowsNodeExpanded = value.GetValueBool()
+	case "PortWhoseOutDataFlowsNodeIsExpanded":
+		part.PortWhoseOutDataFlowsNodeIsExpanded = make([]*Port, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						participant.TaskWhoseOutDataFlowsNodeIsExpanded = append(participant.TaskWhoseOutDataFlowsNodeIsExpanded, __instance__)
+				for __instance__ := range stage.Ports {
+					if stage.Port_stagedOrder[__instance__] == uint(id) {
+						part.PortWhoseOutDataFlowsNodeIsExpanded = append(part.PortWhoseOutDataFlowsNodeIsExpanded, __instance__)
 						break
 					}
 				}
 			}
 		}
-	case "TaskWhoseInDataFlowsNodeIsExpanded":
-		participant.TaskWhoseInDataFlowsNodeIsExpanded = make([]*Task, 0)
+	case "PortWhoseInDataFlowsNodeIsExpanded":
+		part.PortWhoseInDataFlowsNodeIsExpanded = make([]*Port, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						participant.TaskWhoseInDataFlowsNodeIsExpanded = append(participant.TaskWhoseInDataFlowsNodeIsExpanded, __instance__)
+				for __instance__ := range stage.Ports {
+					if stage.Port_stagedOrder[__instance__] == uint(id) {
+						part.PortWhoseInDataFlowsNodeIsExpanded = append(part.PortWhoseInDataFlowsNodeIsExpanded, __instance__)
 						break
 					}
 				}
@@ -10109,209 +10109,106 @@ func (participant *Participant) GongSetFieldValue(fieldName string, value GongFi
 	return nil
 }
 
-func (participantshape *ParticipantShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+func (partshape *PartShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
 	case "Name":
-		participantshape.Name = value.GetValueString()
-	case "Participant":
+		partshape.Name = value.GetValueString()
+	case "Part":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			participantshape.Participant = nil
-			for __instance__ := range stage.Participants {
-				if stage.Participant_stagedOrder[__instance__] == uint(id) {
-					participantshape.Participant = __instance__
+			partshape.Part = nil
+			for __instance__ := range stage.Parts {
+				if stage.Part_stagedOrder[__instance__] == uint(id) {
+					partshape.Part = __instance__
 					break
 				}
 			}
 		}
 	case "IsExpanded":
-		participantshape.IsExpanded = value.GetValueBool()
+		partshape.IsExpanded = value.GetValueBool()
 	case "X":
-		participantshape.X = value.GetValueFloat()
+		partshape.X = value.GetValueFloat()
 	case "Y":
-		participantshape.Y = value.GetValueFloat()
+		partshape.Y = value.GetValueFloat()
 	case "Width":
-		participantshape.Width = value.GetValueFloat()
+		partshape.Width = value.GetValueFloat()
 	case "Height":
-		participantshape.Height = value.GetValueFloat()
+		partshape.Height = value.GetValueFloat()
 	case "IsHidden":
-		participantshape.IsHidden = value.GetValueBool()
+		partshape.IsHidden = value.GetValueBool()
 	case "WidthWeight":
-		participantshape.WidthWeight = value.GetValueFloat()
+		partshape.WidthWeight = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
 	return nil
 }
 
-func (process *Process) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+func (port *Port) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
 	case "Name":
-		process.Name = value.GetValueString()
+		port.Name = value.GetValueString()
 	case "Description":
-		process.Description = value.GetValueString()
+		port.Description = value.GetValueString()
 	case "ComputedPrefix":
-		process.ComputedPrefix = value.GetValueString()
+		port.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
-		process.IsExpanded = value.GetValueBool()
+		port.IsExpanded = value.GetValueBool()
 	case "LayoutDirection":
-		process.LayoutDirection.FromCodeString(value.GetValueString())
-	case "SVG_Path":
-		process.SVG_Path = value.GetValueString()
-	case "InverseAppliedScaling":
-		process.InverseAppliedScaling = value.GetValueFloat()
-	case "DiagramProcesss":
-		process.DiagramProcesss = make([]*DiagramProcess, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DiagramProcesss {
-					if stage.DiagramProcess_stagedOrder[__instance__] == uint(id) {
-						process.DiagramProcesss = append(process.DiagramProcesss, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DiagramProcessWhoseNodeIsExpanded":
-		process.DiagramProcessWhoseNodeIsExpanded = make([]*DiagramProcess, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DiagramProcesss {
-					if stage.DiagramProcess_stagedOrder[__instance__] == uint(id) {
-						process.DiagramProcessWhoseNodeIsExpanded = append(process.DiagramProcessWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsSubProcessNodeExpanded":
-		process.IsSubProcessNodeExpanded = value.GetValueBool()
-	case "SubProcesses":
-		process.SubProcesses = make([]*Process, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Processs {
-					if stage.Process_stagedOrder[__instance__] == uint(id) {
-						process.SubProcesses = append(process.SubProcesses, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Participants":
-		process.Participants = make([]*Participant, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						process.Participants = append(process.Participants, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ParticipantWhoseNodeIsExpanded":
-		process.ParticipantWhoseNodeIsExpanded = make([]*Participant, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						process.ParticipantWhoseNodeIsExpanded = append(process.ParticipantWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "DataFlows":
-		process.DataFlows = make([]*DataFlow, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.DataFlows {
-					if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
-						process.DataFlows = append(process.DataFlows, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsDataFlowsNodeExpanded":
-		process.IsDataFlowsNodeExpanded = value.GetValueBool()
-	case "ExternalParticipants":
-		process.ExternalParticipants = make([]*Participant, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						process.ExternalParticipants = append(process.ExternalParticipants, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ExternalParticipantWhoseNodeIsExpanded":
-		process.ExternalParticipantWhoseNodeIsExpanded = make([]*Participant, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Participants {
-					if stage.Participant_stagedOrder[__instance__] == uint(id) {
-						process.ExternalParticipantWhoseNodeIsExpanded = append(process.ExternalParticipantWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (processshape *ProcessShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		processshape.Name = value.GetValueString()
-	case "Process":
+		port.LayoutDirection.FromCodeString(value.GetValueString())
+	case "IsStartPort":
+		port.IsStartPort = value.GetValueBool()
+	case "IsEndPort":
+		port.IsEndPort = value.GetValueBool()
+	case "Type":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			processshape.Process = nil
-			for __instance__ := range stage.Processs {
-				if stage.Process_stagedOrder[__instance__] == uint(id) {
-					processshape.Process = __instance__
+			port.Type = nil
+			for __instance__ := range stage.Systems {
+				if stage.System_stagedOrder[__instance__] == uint(id) {
+					port.Type = __instance__
+					break
+				}
+			}
+		}
+	case "IsPortNameNotSystemName":
+		port.IsPortNameNotSystemName = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (portshape *PortShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		portshape.Name = value.GetValueString()
+	case "Port":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			portshape.Port = nil
+			for __instance__ := range stage.Ports {
+				if stage.Port_stagedOrder[__instance__] == uint(id) {
+					portshape.Port = __instance__
 					break
 				}
 			}
 		}
 	case "IsExpanded":
-		processshape.IsExpanded = value.GetValueBool()
+		portshape.IsExpanded = value.GetValueBool()
 	case "X":
-		processshape.X = value.GetValueFloat()
+		portshape.X = value.GetValueFloat()
 	case "Y":
-		processshape.Y = value.GetValueFloat()
+		portshape.Y = value.GetValueFloat()
 	case "Width":
-		processshape.Width = value.GetValueFloat()
+		portshape.Width = value.GetValueFloat()
 	case "Height":
-		processshape.Height = value.GetValueFloat()
+		portshape.Height = value.GetValueFloat()
 	case "IsHidden":
-		processshape.IsHidden = value.GetValueBool()
+		portshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10343,70 +10240,173 @@ func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldVal
 	return nil
 }
 
-func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+func (system *System) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
 	case "Name":
-		task.Name = value.GetValueString()
+		system.Name = value.GetValueString()
 	case "Description":
-		task.Description = value.GetValueString()
+		system.Description = value.GetValueString()
 	case "ComputedPrefix":
-		task.ComputedPrefix = value.GetValueString()
+		system.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
-		task.IsExpanded = value.GetValueBool()
+		system.IsExpanded = value.GetValueBool()
 	case "LayoutDirection":
-		task.LayoutDirection.FromCodeString(value.GetValueString())
-	case "IsStartTask":
-		task.IsStartTask = value.GetValueBool()
-	case "IsEndTask":
-		task.IsEndTask = value.GetValueBool()
-	case "Type":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			task.Type = nil
-			for __instance__ := range stage.Processs {
-				if stage.Process_stagedOrder[__instance__] == uint(id) {
-					task.Type = __instance__
-					break
+		system.LayoutDirection.FromCodeString(value.GetValueString())
+	case "SVG_Path":
+		system.SVG_Path = value.GetValueString()
+	case "InverseAppliedScaling":
+		system.InverseAppliedScaling = value.GetValueFloat()
+	case "DiagramStructures":
+		system.DiagramStructures = make([]*DiagramStructure, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.DiagramStructures {
+					if stage.DiagramStructure_stagedOrder[__instance__] == uint(id) {
+						system.DiagramStructures = append(system.DiagramStructures, __instance__)
+						break
+					}
 				}
 			}
 		}
-	case "IsTaskNameNotProcessName":
-		task.IsTaskNameNotProcessName = value.GetValueBool()
+	case "DiagramStructureWhoseNodeIsExpanded":
+		system.DiagramStructureWhoseNodeIsExpanded = make([]*DiagramStructure, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.DiagramStructures {
+					if stage.DiagramStructure_stagedOrder[__instance__] == uint(id) {
+						system.DiagramStructureWhoseNodeIsExpanded = append(system.DiagramStructureWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsSubSystemNodeExpanded":
+		system.IsSubSystemNodeExpanded = value.GetValueBool()
+	case "SubSystemes":
+		system.SubSystemes = make([]*System, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Systems {
+					if stage.System_stagedOrder[__instance__] == uint(id) {
+						system.SubSystemes = append(system.SubSystemes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Parts":
+		system.Parts = make([]*Part, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Parts {
+					if stage.Part_stagedOrder[__instance__] == uint(id) {
+						system.Parts = append(system.Parts, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "PartWhoseNodeIsExpanded":
+		system.PartWhoseNodeIsExpanded = make([]*Part, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Parts {
+					if stage.Part_stagedOrder[__instance__] == uint(id) {
+						system.PartWhoseNodeIsExpanded = append(system.PartWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "DataFlows":
+		system.DataFlows = make([]*DataFlow, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.DataFlows {
+					if stage.DataFlow_stagedOrder[__instance__] == uint(id) {
+						system.DataFlows = append(system.DataFlows, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsDataFlowsNodeExpanded":
+		system.IsDataFlowsNodeExpanded = value.GetValueBool()
+	case "ExternalParts":
+		system.ExternalParts = make([]*Part, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Parts {
+					if stage.Part_stagedOrder[__instance__] == uint(id) {
+						system.ExternalParts = append(system.ExternalParts, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "ExternalPartWhoseNodeIsExpanded":
+		system.ExternalPartWhoseNodeIsExpanded = make([]*Part, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Parts {
+					if stage.Part_stagedOrder[__instance__] == uint(id) {
+						system.ExternalPartWhoseNodeIsExpanded = append(system.ExternalPartWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
 	return nil
 }
 
-func (taskshape *TaskShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+func (systemshape *SystemShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
 	case "Name":
-		taskshape.Name = value.GetValueString()
-	case "Task":
+		systemshape.Name = value.GetValueString()
+	case "System":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			taskshape.Task = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					taskshape.Task = __instance__
+			systemshape.System = nil
+			for __instance__ := range stage.Systems {
+				if stage.System_stagedOrder[__instance__] == uint(id) {
+					systemshape.System = __instance__
 					break
 				}
 			}
 		}
 	case "IsExpanded":
-		taskshape.IsExpanded = value.GetValueBool()
+		systemshape.IsExpanded = value.GetValueBool()
 	case "X":
-		taskshape.X = value.GetValueFloat()
+		systemshape.X = value.GetValueFloat()
 	case "Y":
-		taskshape.Y = value.GetValueFloat()
+		systemshape.Y = value.GetValueFloat()
 	case "Width":
-		taskshape.Width = value.GetValueFloat()
+		systemshape.Width = value.GetValueFloat()
 	case "Height":
-		taskshape.Height = value.GetValueFloat()
+		systemshape.Height = value.GetValueFloat()
 	case "IsHidden":
-		taskshape.IsHidden = value.GetValueBool()
+		systemshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10418,12 +10418,12 @@ func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, val
 }
 
 // insertion point for generic get gongstruct name
-func (allocatedprocessshape *AllocatedProcessShape) GongGetGongstructName() string {
-	return "AllocatedProcessShape"
-}
-
 func (allocatedresourceshape *AllocatedResourceShape) GongGetGongstructName() string {
 	return "AllocatedResourceShape"
+}
+
+func (allocatedsystemshape *AllocatedSystemShape) GongGetGongstructName() string {
+	return "AllocatedSystemShape"
 }
 
 func (controlflow *ControlFlow) GongGetGongstructName() string {
@@ -10450,12 +10450,12 @@ func (datashape *DataShape) GongGetGongstructName() string {
 	return "DataShape"
 }
 
-func (diagramprocess *DiagramProcess) GongGetGongstructName() string {
-	return "DiagramProcess"
+func (diagramstructure *DiagramStructure) GongGetGongstructName() string {
+	return "DiagramStructure"
 }
 
-func (externalparticipantshape *ExternalParticipantShape) GongGetGongstructName() string {
-	return "ExternalParticipantShape"
+func (externalpartshape *ExternalPartShape) GongGetGongstructName() string {
+	return "ExternalPartShape"
 }
 
 func (library *Library) GongGetGongstructName() string {
@@ -10466,40 +10466,40 @@ func (note *Note) GongGetGongstructName() string {
 	return "Note"
 }
 
+func (noteportshape *NotePortShape) GongGetGongstructName() string {
+	return "NotePortShape"
+}
+
 func (noteshape *NoteShape) GongGetGongstructName() string {
 	return "NoteShape"
 }
 
-func (notetaskshape *NoteTaskShape) GongGetGongstructName() string {
-	return "NoteTaskShape"
+func (part *Part) GongGetGongstructName() string {
+	return "Part"
 }
 
-func (participant *Participant) GongGetGongstructName() string {
-	return "Participant"
+func (partshape *PartShape) GongGetGongstructName() string {
+	return "PartShape"
 }
 
-func (participantshape *ParticipantShape) GongGetGongstructName() string {
-	return "ParticipantShape"
+func (port *Port) GongGetGongstructName() string {
+	return "Port"
 }
 
-func (process *Process) GongGetGongstructName() string {
-	return "Process"
-}
-
-func (processshape *ProcessShape) GongGetGongstructName() string {
-	return "ProcessShape"
+func (portshape *PortShape) GongGetGongstructName() string {
+	return "PortShape"
 }
 
 func (resource *Resource) GongGetGongstructName() string {
 	return "Resource"
 }
 
-func (task *Task) GongGetGongstructName() string {
-	return "Task"
+func (system *System) GongGetGongstructName() string {
+	return "System"
 }
 
-func (taskshape *TaskShape) GongGetGongstructName() string {
-	return "TaskShape"
+func (systemshape *SystemShape) GongGetGongstructName() string {
+	return "SystemShape"
 }
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
@@ -10509,14 +10509,14 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
-	stage.AllocatedProcessShapes_mapString = make(map[string]*AllocatedProcessShape)
-	for allocatedprocessshape := range stage.AllocatedProcessShapes {
-		stage.AllocatedProcessShapes_mapString[allocatedprocessshape.Name] = allocatedprocessshape
-	}
-
 	stage.AllocatedResourceShapes_mapString = make(map[string]*AllocatedResourceShape)
 	for allocatedresourceshape := range stage.AllocatedResourceShapes {
 		stage.AllocatedResourceShapes_mapString[allocatedresourceshape.Name] = allocatedresourceshape
+	}
+
+	stage.AllocatedSystemShapes_mapString = make(map[string]*AllocatedSystemShape)
+	for allocatedsystemshape := range stage.AllocatedSystemShapes {
+		stage.AllocatedSystemShapes_mapString[allocatedsystemshape.Name] = allocatedsystemshape
 	}
 
 	stage.ControlFlows_mapString = make(map[string]*ControlFlow)
@@ -10549,14 +10549,14 @@ func (stage *Stage) ResetMapStrings() {
 		stage.DataShapes_mapString[datashape.Name] = datashape
 	}
 
-	stage.DiagramProcesss_mapString = make(map[string]*DiagramProcess)
-	for diagramprocess := range stage.DiagramProcesss {
-		stage.DiagramProcesss_mapString[diagramprocess.Name] = diagramprocess
+	stage.DiagramStructures_mapString = make(map[string]*DiagramStructure)
+	for diagramstructure := range stage.DiagramStructures {
+		stage.DiagramStructures_mapString[diagramstructure.Name] = diagramstructure
 	}
 
-	stage.ExternalParticipantShapes_mapString = make(map[string]*ExternalParticipantShape)
-	for externalparticipantshape := range stage.ExternalParticipantShapes {
-		stage.ExternalParticipantShapes_mapString[externalparticipantshape.Name] = externalparticipantshape
+	stage.ExternalPartShapes_mapString = make(map[string]*ExternalPartShape)
+	for externalpartshape := range stage.ExternalPartShapes {
+		stage.ExternalPartShapes_mapString[externalpartshape.Name] = externalpartshape
 	}
 
 	stage.Librarys_mapString = make(map[string]*Library)
@@ -10569,34 +10569,34 @@ func (stage *Stage) ResetMapStrings() {
 		stage.Notes_mapString[note.Name] = note
 	}
 
+	stage.NotePortShapes_mapString = make(map[string]*NotePortShape)
+	for noteportshape := range stage.NotePortShapes {
+		stage.NotePortShapes_mapString[noteportshape.Name] = noteportshape
+	}
+
 	stage.NoteShapes_mapString = make(map[string]*NoteShape)
 	for noteshape := range stage.NoteShapes {
 		stage.NoteShapes_mapString[noteshape.Name] = noteshape
 	}
 
-	stage.NoteTaskShapes_mapString = make(map[string]*NoteTaskShape)
-	for notetaskshape := range stage.NoteTaskShapes {
-		stage.NoteTaskShapes_mapString[notetaskshape.Name] = notetaskshape
+	stage.Parts_mapString = make(map[string]*Part)
+	for part := range stage.Parts {
+		stage.Parts_mapString[part.Name] = part
 	}
 
-	stage.Participants_mapString = make(map[string]*Participant)
-	for participant := range stage.Participants {
-		stage.Participants_mapString[participant.Name] = participant
+	stage.PartShapes_mapString = make(map[string]*PartShape)
+	for partshape := range stage.PartShapes {
+		stage.PartShapes_mapString[partshape.Name] = partshape
 	}
 
-	stage.ParticipantShapes_mapString = make(map[string]*ParticipantShape)
-	for participantshape := range stage.ParticipantShapes {
-		stage.ParticipantShapes_mapString[participantshape.Name] = participantshape
+	stage.Ports_mapString = make(map[string]*Port)
+	for port := range stage.Ports {
+		stage.Ports_mapString[port.Name] = port
 	}
 
-	stage.Processs_mapString = make(map[string]*Process)
-	for process := range stage.Processs {
-		stage.Processs_mapString[process.Name] = process
-	}
-
-	stage.ProcessShapes_mapString = make(map[string]*ProcessShape)
-	for processshape := range stage.ProcessShapes {
-		stage.ProcessShapes_mapString[processshape.Name] = processshape
+	stage.PortShapes_mapString = make(map[string]*PortShape)
+	for portshape := range stage.PortShapes {
+		stage.PortShapes_mapString[portshape.Name] = portshape
 	}
 
 	stage.Resources_mapString = make(map[string]*Resource)
@@ -10604,14 +10604,14 @@ func (stage *Stage) ResetMapStrings() {
 		stage.Resources_mapString[resource.Name] = resource
 	}
 
-	stage.Tasks_mapString = make(map[string]*Task)
-	for task := range stage.Tasks {
-		stage.Tasks_mapString[task.Name] = task
+	stage.Systems_mapString = make(map[string]*System)
+	for system := range stage.Systems {
+		stage.Systems_mapString[system.Name] = system
 	}
 
-	stage.TaskShapes_mapString = make(map[string]*TaskShape)
-	for taskshape := range stage.TaskShapes {
-		stage.TaskShapes_mapString[taskshape.Name] = taskshape
+	stage.SystemShapes_mapString = make(map[string]*SystemShape)
+	for systemshape := range stage.SystemShapes {
+		stage.SystemShapes_mapString[systemshape.Name] = systemshape
 	}
 
 	// end of insertion point for generic get gongstruct name

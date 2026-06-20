@@ -9,7 +9,7 @@ import (
 )
 
 func (stager *Stager) treeControlFlows(
-	diagramProcess *DiagramProcess,
+	diagramStructure *DiagramStructure,
 	controlFlow *ControlFlow,
 	parentNode *tree.Node,
 	controlflowWhoseNodeIsExpanded *[]*ControlFlow,
@@ -17,15 +17,15 @@ func (stager *Stager) treeControlFlows(
 	stage := stager.stage
 
 	// find the shape (if any)
-	shape, isShapePresent := diagramProcess.map_ControlFlow_ControlFlowShape[controlFlow]
+	shape, isShapePresent := diagramStructure.map_ControlFlow_ControlFlowShape[controlFlow]
 
 	isStartShapePresent := false
 	isEndShapePresent := false
 	if controlFlow.Start != nil {
-		_, isStartShapePresent = diagramProcess.map_Task_TaskShape[controlFlow.Start]
+		_, isStartShapePresent = diagramStructure.map_Port_PortShape[controlFlow.Start]
 	}
 	if controlFlow.End != nil {
-		_, isEndShapePresent = diagramProcess.map_Task_TaskShape[controlFlow.End]
+		_, isEndShapePresent = diagramStructure.map_Port_PortShape[controlFlow.End]
 	}
 	isCheckboxDisabled := !(isStartShapePresent && isEndShapePresent)
 
@@ -41,16 +41,16 @@ func (stager *Stager) treeControlFlows(
 
 	if isCheckboxDisabled {
 		node.CheckboxHasToolTip = true
-		node.CheckboxToolTipText = "Start or end task shape is missing from the diagram"
+		node.CheckboxToolTipText = "Start or end port shape is missing from the diagram"
 	}
 	parentNode.Children = append(parentNode.Children, node)
 
 	addRenameButton(controlFlow, node, stager)
 
-	if shape, ok := diagramProcess.map_ControlFlow_ControlFlowShape[controlFlow]; ok {
+	if shape, ok := diagramStructure.map_ControlFlow_ControlFlowShape[controlFlow]; ok {
 		node.IsChecked = true
 		visibilityButton := &tree.Button{
-			Name:            diagramProcess.GetName(),
+			Name:            diagramStructure.GetName(),
 			Icon:            string(buttons.BUTTON_visibility_off),
 			ToolTipText:     "Hide from diagram",
 			HasToolTip:      true,
@@ -75,8 +75,8 @@ func (stager *Stager) treeControlFlows(
 			if shape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
-			// shape = newShapeToDiagram(controlflow, diagramProcess, &diagramProcess.ControlFlowShapes, stage)
-			// addAssociationShapeToDiagram(stager, controlflow.Start, controlflow.End, &diagramProcess.ControlFlowShapes)
+			// shape = newShapeToDiagram(controlflow, diagramStructure, &diagramStructure.ControlFlowShapes, stage)
+			// addAssociationShapeToDiagram(stager, controlflow.Start, controlflow.End, &diagramStructure.ControlFlowShapes)
 			controlFlowShape := (&ControlFlowShape{
 				ControlFlow: controlFlow,
 			}).Stage(stage)
@@ -89,7 +89,7 @@ func (stager *Stager) treeControlFlows(
 			controlFlowShape.SetCornerOffsetRatio(1.1)
 			controlFlowShape.SetStartRatio(0.5)
 			controlFlowShape.SetEndRatio(0.5)
-			diagramProcess.ControlFlow_Shapes = append(diagramProcess.ControlFlow_Shapes, controlFlowShape)
+			diagramStructure.ControlFlow_Shapes = append(diagramStructure.ControlFlow_Shapes, controlFlowShape)
 
 			stage.Commit()
 			return
@@ -102,8 +102,8 @@ func (stager *Stager) treeControlFlows(
 			shape.UnstageVoid(stage)
 
 			// not necessary since there is a semantic rule (gong clean) that remove the shape from the slice when it is unstaged
-			idx := slices.Index(diagramProcess.ControlFlow_Shapes, shape)
-			diagramProcess.ControlFlow_Shapes = slices.Delete(diagramProcess.ControlFlow_Shapes, idx, idx+1)
+			idx := slices.Index(diagramStructure.ControlFlow_Shapes, shape)
+			diagramStructure.ControlFlow_Shapes = slices.Delete(diagramStructure.ControlFlow_Shapes, idx, idx+1)
 			stage.Commit()
 			return
 		}

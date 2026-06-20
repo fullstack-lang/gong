@@ -15,17 +15,17 @@ func (probe *Probe) ux_form() {
 	}
 	if formGroup != nil {
 		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *AllocatedProcessShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "AllocatedProcessShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.allocatedprocessshape, probe)
-			}
 		case *AllocatedResourceShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "AllocatedResourceShape", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.allocatedresourceshape, probe)
+			}
+		case *AllocatedSystemShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "AllocatedSystemShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.allocatedsystemshape, probe)
 			}
 		case *ControlFlowFormCallback:
 			if onSave.CreationMode {
@@ -63,17 +63,17 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.datashape, probe)
 			}
-		case *DiagramProcessFormCallback:
+		case *DiagramStructureFormCallback:
 			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "DiagramProcess", true)
+				FillUpFormFromGongstructName(probe, "DiagramStructure", true)
 			} else {
-				FillUpFormFromGongstruct(onSave.diagramprocess, probe)
+				FillUpFormFromGongstruct(onSave.diagramstructure, probe)
 			}
-		case *ExternalParticipantShapeFormCallback:
+		case *ExternalPartShapeFormCallback:
 			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "ExternalParticipantShape", true)
+				FillUpFormFromGongstructName(probe, "ExternalPartShape", true)
 			} else {
-				FillUpFormFromGongstruct(onSave.externalparticipantshape, probe)
+				FillUpFormFromGongstruct(onSave.externalpartshape, probe)
 			}
 		case *LibraryFormCallback:
 			if onSave.CreationMode {
@@ -87,41 +87,41 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.note, probe)
 			}
+		case *NotePortShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "NotePortShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.noteportshape, probe)
+			}
 		case *NoteShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "NoteShape", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.noteshape, probe)
 			}
-		case *NoteTaskShapeFormCallback:
+		case *PartFormCallback:
 			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "NoteTaskShape", true)
+				FillUpFormFromGongstructName(probe, "Part", true)
 			} else {
-				FillUpFormFromGongstruct(onSave.notetaskshape, probe)
+				FillUpFormFromGongstruct(onSave.part, probe)
 			}
-		case *ParticipantFormCallback:
+		case *PartShapeFormCallback:
 			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Participant", true)
+				FillUpFormFromGongstructName(probe, "PartShape", true)
 			} else {
-				FillUpFormFromGongstruct(onSave.participant, probe)
+				FillUpFormFromGongstruct(onSave.partshape, probe)
 			}
-		case *ParticipantShapeFormCallback:
+		case *PortFormCallback:
 			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "ParticipantShape", true)
+				FillUpFormFromGongstructName(probe, "Port", true)
 			} else {
-				FillUpFormFromGongstruct(onSave.participantshape, probe)
+				FillUpFormFromGongstruct(onSave.port, probe)
 			}
-		case *ProcessFormCallback:
+		case *PortShapeFormCallback:
 			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Process", true)
+				FillUpFormFromGongstructName(probe, "PortShape", true)
 			} else {
-				FillUpFormFromGongstruct(onSave.process, probe)
-			}
-		case *ProcessShapeFormCallback:
-			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "ProcessShape", true)
-			} else {
-				FillUpFormFromGongstruct(onSave.processshape, probe)
+				FillUpFormFromGongstruct(onSave.portshape, probe)
 			}
 		case *ResourceFormCallback:
 			if onSave.CreationMode {
@@ -129,17 +129,17 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.resource, probe)
 			}
-		case *TaskFormCallback:
+		case *SystemFormCallback:
 			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Task", true)
+				FillUpFormFromGongstructName(probe, "System", true)
 			} else {
-				FillUpFormFromGongstruct(onSave.task, probe)
+				FillUpFormFromGongstruct(onSave.system, probe)
 			}
-		case *TaskShapeFormCallback:
+		case *SystemShapeFormCallback:
 			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "TaskShape", true)
+				FillUpFormFromGongstructName(probe, "SystemShape", true)
 			} else {
-				FillUpFormFromGongstruct(onSave.taskshape, probe)
+				FillUpFormFromGongstruct(onSave.systemshape, probe)
 			}
 		}
 	}
@@ -163,19 +163,6 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
-	case "AllocatedProcessShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "AllocatedProcessShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__AllocatedProcessShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		allocatedprocessshape := new(models.AllocatedProcessShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(allocatedprocessshape, formGroup, probe)
 	case "AllocatedResourceShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -189,6 +176,19 @@ func FillUpFormFromGongstructName(
 		allocatedresourceshape := new(models.AllocatedResourceShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(allocatedresourceshape, formGroup, probe)
+	case "AllocatedSystemShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "AllocatedSystemShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__AllocatedSystemShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		allocatedsystemshape := new(models.AllocatedSystemShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(allocatedsystemshape, formGroup, probe)
 	case "ControlFlow":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -267,32 +267,32 @@ func FillUpFormFromGongstructName(
 		datashape := new(models.DataShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(datashape, formGroup, probe)
-	case "DiagramProcess":
+	case "DiagramStructure":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
-			Label: prefix + "DiagramProcess Form",
+			Label: prefix + "DiagramStructure Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__DiagramProcessFormCallback(
+		formGroup.OnSave = __gong__New__DiagramStructureFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		diagramprocess := new(models.DiagramProcess)
+		diagramstructure := new(models.DiagramStructure)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(diagramprocess, formGroup, probe)
-	case "ExternalParticipantShape":
+		FillUpForm(diagramstructure, formGroup, probe)
+	case "ExternalPartShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
-			Label: prefix + "ExternalParticipantShape Form",
+			Label: prefix + "ExternalPartShape Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ExternalParticipantShapeFormCallback(
+		formGroup.OnSave = __gong__New__ExternalPartShapeFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		externalparticipantshape := new(models.ExternalParticipantShape)
+		externalpartshape := new(models.ExternalPartShape)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(externalparticipantshape, formGroup, probe)
+		FillUpForm(externalpartshape, formGroup, probe)
 	case "Library":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -319,6 +319,19 @@ func FillUpFormFromGongstructName(
 		note := new(models.Note)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(note, formGroup, probe)
+	case "NotePortShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "NotePortShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__NotePortShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		noteportshape := new(models.NotePortShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(noteportshape, formGroup, probe)
 	case "NoteShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -332,71 +345,58 @@ func FillUpFormFromGongstructName(
 		noteshape := new(models.NoteShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(noteshape, formGroup, probe)
-	case "NoteTaskShape":
+	case "Part":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
-			Label: prefix + "NoteTaskShape Form",
+			Label: prefix + "Part Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__NoteTaskShapeFormCallback(
+		formGroup.OnSave = __gong__New__PartFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		notetaskshape := new(models.NoteTaskShape)
+		part := new(models.Part)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(notetaskshape, formGroup, probe)
-	case "Participant":
+		FillUpForm(part, formGroup, probe)
+	case "PartShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
-			Label: prefix + "Participant Form",
+			Label: prefix + "PartShape Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ParticipantFormCallback(
+		formGroup.OnSave = __gong__New__PartShapeFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		participant := new(models.Participant)
+		partshape := new(models.PartShape)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(participant, formGroup, probe)
-	case "ParticipantShape":
+		FillUpForm(partshape, formGroup, probe)
+	case "Port":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
-			Label: prefix + "ParticipantShape Form",
+			Label: prefix + "Port Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ParticipantShapeFormCallback(
+		formGroup.OnSave = __gong__New__PortFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		participantshape := new(models.ParticipantShape)
+		port := new(models.Port)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(participantshape, formGroup, probe)
-	case "Process":
+		FillUpForm(port, formGroup, probe)
+	case "PortShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
-			Label: prefix + "Process Form",
+			Label: prefix + "PortShape Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ProcessFormCallback(
+		formGroup.OnSave = __gong__New__PortShapeFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		process := new(models.Process)
+		portshape := new(models.PortShape)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(process, formGroup, probe)
-	case "ProcessShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "ProcessShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__ProcessShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		processshape := new(models.ProcessShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(processshape, formGroup, probe)
+		FillUpForm(portshape, formGroup, probe)
 	case "Resource":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -410,32 +410,32 @@ func FillUpFormFromGongstructName(
 		resource := new(models.Resource)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(resource, formGroup, probe)
-	case "Task":
+	case "System":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
-			Label: prefix + "Task Form",
+			Label: prefix + "System Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__TaskFormCallback(
+		formGroup.OnSave = __gong__New__SystemFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		task := new(models.Task)
+		system := new(models.System)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(task, formGroup, probe)
-	case "TaskShape":
+		FillUpForm(system, formGroup, probe)
+	case "SystemShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
-			Label: prefix + "TaskShape Form",
+			Label: prefix + "SystemShape Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__TaskShapeFormCallback(
+		formGroup.OnSave = __gong__New__SystemShapeFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		taskshape := new(models.TaskShape)
+		systemshape := new(models.SystemShape)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(taskshape, formGroup, probe)
+		FillUpForm(systemshape, formGroup, probe)
 	}
 	formStage.Commit()
 }

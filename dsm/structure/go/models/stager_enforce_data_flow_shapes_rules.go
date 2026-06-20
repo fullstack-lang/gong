@@ -6,21 +6,21 @@ import (
 )
 
 func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
-	for _, diagram := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
+	for _, diagram := range GetGongstrucsSorted[*DiagramStructure](stager.stage) {
 
-		// Build a set of tasks that have a shape in this diagram
-		tasksInDiagram := make(map[*Task]bool)
-		for _, taskShape := range diagram.Task_Shapes {
-			if taskShape.Task != nil {
-				tasksInDiagram[taskShape.Task] = true
+		// Build a set of ports that have a shape in this diagram
+		portsInDiagram := make(map[*Port]bool)
+		for _, portShape := range diagram.Port_Shapes {
+			if portShape.Port != nil {
+				portsInDiagram[portShape.Port] = true
 			}
 		}
 
-		// Build a set of external participants that have a shape in this diagram
-		externalParticipantsInDiagram := make(map[*Participant]bool)
-		for _, epShape := range diagram.ExternalParticipant_Shapes {
-			if epShape.Participant != nil {
-				externalParticipantsInDiagram[epShape.Participant] = true
+		// Build a set of external parts that have a shape in this diagram
+		externalPartsInDiagram := make(map[*Part]bool)
+		for _, epShape := range diagram.ExternalPart_Shapes {
+			if epShape.Part != nil {
+				externalPartsInDiagram[epShape.Part] = true
 			}
 		}
 
@@ -31,19 +31,19 @@ func (stager *Stager) enforceDataFlowShapesRules() (needCommit bool) {
 			if dataFlowShape.DataFlow != nil {
 				df := dataFlowShape.DataFlow
 				switch df.Type {
-				case DataFlow_Task2Task:
-					if df.StartTask == nil || !tasksInDiagram[df.StartTask] ||
-						df.EndTask == nil || !tasksInDiagram[df.EndTask] {
+				case DataFlow_Port2Port:
+					if df.StartPort == nil || !portsInDiagram[df.StartPort] ||
+						df.EndPort == nil || !portsInDiagram[df.EndPort] {
 						isValid = false
 					}
-				case DataFlow_ExternalParticipant2Task:
-					if df.StartExternalParticipant == nil || !externalParticipantsInDiagram[df.StartExternalParticipant] ||
-						df.EndTask == nil || !tasksInDiagram[df.EndTask] {
+				case DataFlow_ExternalPart2Port:
+					if df.StartExternalPart == nil || !externalPartsInDiagram[df.StartExternalPart] ||
+						df.EndPort == nil || !portsInDiagram[df.EndPort] {
 						isValid = false
 					}
-				case DataFlow_Task2ExternalParticipant:
-					if df.StartTask == nil || !tasksInDiagram[df.StartTask] ||
-						df.EndExternalParticipant == nil || !externalParticipantsInDiagram[df.EndExternalParticipant] {
+				case DataFlow_Port2ExternalPart:
+					if df.StartPort == nil || !portsInDiagram[df.StartPort] ||
+						df.EndExternalPart == nil || !externalPartsInDiagram[df.EndExternalPart] {
 						isValid = false
 					}
 				}

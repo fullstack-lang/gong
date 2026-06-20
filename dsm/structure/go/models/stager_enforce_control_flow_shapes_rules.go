@@ -6,13 +6,13 @@ import (
 )
 
 func (stager *Stager) enforceControlFlowShapesRules() (needCommit bool) {
-	for _, diagram := range GetGongstrucsSorted[*DiagramProcess](stager.stage) {
+	for _, diagram := range GetGongstrucsSorted[*DiagramStructure](stager.stage) {
 
-		// Build a set of tasks that have a shape in this diagram
-		tasksInDiagram := make(map[*Task]bool)
-		for _, taskShape := range diagram.Task_Shapes {
-			if taskShape.Task != nil {
-				tasksInDiagram[taskShape.Task] = true
+		// Build a set of ports that have a shape in this diagram
+		portsInDiagram := make(map[*Port]bool)
+		for _, portShape := range diagram.Port_Shapes {
+			if portShape.Port != nil {
+				portsInDiagram[portShape.Port] = true
 			}
 		}
 
@@ -21,7 +21,7 @@ func (stager *Stager) enforceControlFlowShapesRules() (needCommit bool) {
 		for _, controlFlowShape := range diagram.ControlFlow_Shapes {
 			isValid := true
 			if controlFlowShape.ControlFlow != nil {
-				if !tasksInDiagram[controlFlowShape.ControlFlow.Start] || !tasksInDiagram[controlFlowShape.ControlFlow.End] {
+				if !portsInDiagram[controlFlowShape.ControlFlow.Start] || !portsInDiagram[controlFlowShape.ControlFlow.End] {
 					isValid = false
 				}
 			} else {
@@ -38,7 +38,7 @@ func (stager *Stager) enforceControlFlowShapesRules() (needCommit bool) {
 				controlFlowShape.UnstageVoid(stager.stage)
 				needCommit = true
 				if stager.probeForm != nil {
-					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged control flow shape %s (missing start or end task shape)", controlFlowShape.GetName()))
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaged control flow shape %s (missing start or end port shape)", controlFlowShape.GetName()))
 				}
 			}
 		}
