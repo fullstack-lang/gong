@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 	"time"
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
@@ -39,7 +40,7 @@ func (stager *Stager) button() {
 		Icon:  string(buttons.BUTTON_fact_check),
 		Label: "Export file",
 		OnClick: func() {
-			log.Println("Exporting the rendering configuration")
+			log.Println("Exporting as stage")
 
 			loadStage := stager.loadStage
 			loadStage.Reset()
@@ -76,6 +77,50 @@ func (stager *Stager) button() {
 			stager.loadStage.Commit()
 
 			log.Println("Finished exporting file", fileName)
+
+			time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we delete the file.
+			stager.load()
+		},
+	})
+
+	group1.Buttons = append(group1.Buttons, &button.Button{
+		Name:  "Export XL file",
+		Icon:  string(buttons.BUTTON_table_view),
+		Label: "Export XL file",
+		OnClick: func() {
+			log.Println("Exporting as XL file")
+
+			loadStage := stager.loadStage
+			loadStage.Reset()
+
+			stage := stager.stage
+
+			fileToDownload := new(load.FileToDownload).Stage(loadStage)
+
+			if stager.fileName == "" {
+				stager.fileName = "library.go"
+			}
+
+			// 1. Compile the regex to match "YYYYMMDD HHMM " at the start of the string
+			prefixRegex := regexp.MustCompile(`^\d{8} \d{4} `)
+
+			// 2. Remove the matched prefix if it exists, leaving just the base file name
+			cleanFileName := prefixRegex.ReplaceAllString(stager.fileName, "")
+			cleanFileName = strings.TrimSuffix(cleanFileName, ".go") + ".xlsx"
+
+			fileToDownload.Name = time.Now().Format("20060102 0304 ") + cleanFileName
+
+			excelBytes, err := SerializeStageAsBytes(stage, false)
+			if err != nil {
+				log.Println("Error serializing stage:", err)
+				return
+			}
+
+			fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString(excelBytes)
+
+			stager.loadStage.Commit()
+
+			log.Println("Finished exporting XL file", fileToDownload.Name)
 
 			time.Sleep(1 * time.Second) // Sleep to ensure the client has time to start the download before we delete the file.
 			stager.load()

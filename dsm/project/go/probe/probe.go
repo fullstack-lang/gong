@@ -12,19 +12,19 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
 	form_fullstack "github.com/fullstack-lang/gong/lib/form/go/fullstack"
+	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
 	split_fullstack "github.com/fullstack-lang/gong/lib/split/go/fullstack"
 	table_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	tree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
-	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
 	doc "github.com/fullstack-lang/gong/lib/doc/go/models"
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
+	load "github.com/fullstack-lang/gong/lib/load/go/models"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
-	load "github.com/fullstack-lang/gong/lib/load/go/models"
 
 	"github.com/fullstack-lang/gong/dsm/project/go/models"
 
@@ -195,6 +195,14 @@ func NewProbe(
 								StackName: probe.treeStage.GetName(),
 							},
 						},
+						{
+							Name: "load",
+							Size: 200,
+							Load: &split.Load{
+								Name:      "Table",
+								StackName: probe.loadStage.GetName(),
+							},
+						},
 					},
 				},
 			},
@@ -219,14 +227,6 @@ func NewProbe(
 							Table: &split.Table{
 								Name:      "Table",
 								StackName: probe.notificationTableStage.GetName(),
-							},
-						},
-						{
-							Name: "load",
-							Size: 0,
-							Load: &split.Load{
-								Name:      "Table",
-								StackName: probe.loadStage.GetName(),
 							},
 						},
 					},
@@ -330,6 +330,44 @@ func (probe *Probe) DownloadNotificationsCSV() {
 	fileToDownload := new(load.FileToDownload)
 	fileToDownload.Name = "notifications.csv"
 	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(csvContent))
+
+	load.StageBranch(probe.loadStage, fileToDownload)
+	probe.loadStage.Commit()
+}
+
+func (probe *Probe) ExportStageExcel() {
+	probe.loadStage.Reset()
+
+	fileToDownload := new(load.FileToDownload)
+	fileToDownload.Name = "stage_" + time.Now().Format("20060102 0304") + ".xlsx"
+
+	excelBytes, err := models.SerializeStageAsBytes(probe.stageOfInterest, false)
+	if err != nil {
+		probe.AddNotification(time.Now(), "Error serializing stage: "+err.Error())
+		probe.CommitNotificationTable()
+		return
+	}
+
+	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString(excelBytes)
+
+	load.StageBranch(probe.loadStage, fileToDownload)
+	probe.loadStage.Commit()
+}
+
+func (probe *Probe) ExportStage() {
+	probe.loadStage.Reset()
+
+	fileToDownload := new(load.FileToDownload)
+	fileToDownload.Name = "stage_" + time.Now().Format("20060102 0304") + ".go"
+
+	stageString, err := probe.stageOfInterest.MarshallToString(probe.stageOfInterest.MetaPackageImportPath, "main")
+	if err != nil {
+		probe.AddNotification(time.Now(), "Error serializing stage: "+err.Error())
+		probe.CommitNotificationTable()
+		return
+	}
+
+	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stageString))
 
 	load.StageBranch(probe.loadStage, fileToDownload)
 	probe.loadStage.Commit()

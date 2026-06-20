@@ -336,4 +336,42 @@ func (probe *Probe) DownloadNotificationsCSV() {
 	load.StageBranch(probe.loadStage, fileToDownload)
 	probe.loadStage.Commit()
 }
+
+func (probe *Probe) ExportStageExcel() {
+	probe.loadStage.Reset()
+
+	fileToDownload := new(load.FileToDownload)
+	fileToDownload.Name = "stage_" + time.Now().Format("20060102 0304") + ".xlsx"
+
+	excelBytes, err := models.SerializeStageAsBytes(probe.stageOfInterest, false)
+	if err != nil {
+		probe.AddNotification(time.Now(), "Error serializing stage: "+err.Error())
+		probe.CommitNotificationTable()
+		return
+	}
+
+	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString(excelBytes)
+
+	load.StageBranch(probe.loadStage, fileToDownload)
+	probe.loadStage.Commit()
+}
+
+func (probe *Probe) ExportStage() {
+	probe.loadStage.Reset()
+
+	fileToDownload := new(load.FileToDownload)
+	fileToDownload.Name = "stage_" + time.Now().Format("20060102 0304") + ".go"
+
+	stageString, err := probe.stageOfInterest.MarshallToString(probe.stageOfInterest.MetaPackageImportPath, "main")
+	if err != nil {
+		probe.AddNotification(time.Now(), "Error serializing stage: "+err.Error())
+		probe.CommitNotificationTable()
+		return
+	}
+
+	fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(stageString))
+
+	load.StageBranch(probe.loadStage, fileToDownload)
+	probe.loadStage.Commit()
+}
 `

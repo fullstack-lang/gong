@@ -34,23 +34,24 @@ func _(stage *models.Stage) {
 
 	__Note__00000000_ := (&models.Note{Name: ``}).Stage(stage)
 
-	__NoteShape__00000000_ := (&models.NoteShape{Name: `-Default Diagram`}).Stage(stage)
-	__NoteShape__00000003_ := (&models.NoteShape{Name: `-Default Diagram`}).Stage(stage)
+	__NoteShape__00000000_ := (&models.NoteShape{Name: `D1-`}).Stage(stage)
+	__NoteShape__00000003_ := (&models.NoteShape{Name: `Default Diagram copy-`}).Stage(stage)
 
 	__Product__00000000_ := (&models.Product{Name: `G3`}).Stage(stage)
 	__Product__00000001_ := (&models.Product{Name: `G3.1`}).Stage(stage)
 
-	__ProductCompositionShape__00000000_ := (&models.ProductCompositionShape{Name: `G3 to `}).Stage(stage)
+	__ProductCompositionShape__00000000_ := (&models.ProductCompositionShape{Name: `D1-G3-G3.1`}).Stage(stage)
 
-	__ProductShape__00000000_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
-	__ProductShape__00000001_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
-	__ProductShape__00000023_ := (&models.ProductShape{Name: `-Default Diagram`}).Stage(stage)
+	__ProductShape__00000000_ := (&models.ProductShape{Name: `D1-G3`}).Stage(stage)
+	__ProductShape__00000001_ := (&models.ProductShape{Name: `D1-G3.1`}).Stage(stage)
+	__ProductShape__00000023_ := (&models.ProductShape{Name: `Default Diagram copy-G3`}).Stage(stage)
 
 	// insertion point for initialization of values
 
 	__Diagram__00000000_.Name = `D1`
 	__Diagram__00000000_.ComputedPrefix = `1`
 	__Diagram__00000000_.IsExpanded = false
+	__Diagram__00000000_.LayoutDirection = models.Vertical
 	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsShowPrefix = false
@@ -96,6 +97,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000007_.Name = `Default Diagram copy`
 	__Diagram__00000007_.ComputedPrefix = `2`
 	__Diagram__00000007_.IsExpanded = true
+	__Diagram__00000007_.LayoutDirection = models.Vertical
 	__Diagram__00000007_.IsChecked = true
 	__Diagram__00000007_.IsEditable_ = true
 	__Diagram__00000007_.IsShowPrefix = false
@@ -142,21 +144,27 @@ func _(stage *models.Stage) {
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.ComputedPrefix = ``
-	__Library__00000000_.IsExpanded = false
+	__Library__00000000_.IsExpanded = true
+	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.IsRootLibrary = true
 
 	__Note__00000000_.Name = ``
 	__Note__00000000_.ComputedPrefix = `1`
 	__Note__00000000_.IsExpanded = false
+	__Note__00000000_.LayoutDirection = models.Vertical
 
-	__NoteShape__00000000_.Name = `-Default Diagram`
+	__NoteShape__00000000_.Name = `D1-`
+	__NoteShape__00000000_.OverideLayoutDirection = false
+	__NoteShape__00000000_.LayoutDirection = models.Vertical
 	__NoteShape__00000000_.X = 409.078303
 	__NoteShape__00000000_.Y = 447.001756
 	__NoteShape__00000000_.Width = 250.000000
 	__NoteShape__00000000_.Height = 70.000000
 	__NoteShape__00000000_.IsHidden = false
 
-	__NoteShape__00000003_.Name = `-Default Diagram`
+	__NoteShape__00000003_.Name = `Default Diagram copy-`
+	__NoteShape__00000003_.OverideLayoutDirection = false
+	__NoteShape__00000003_.LayoutDirection = models.Vertical
 	__NoteShape__00000003_.X = 409.078303
 	__NoteShape__00000003_.Y = 447.001756
 	__NoteShape__00000003_.Width = 250.000000
@@ -166,22 +174,22 @@ func _(stage *models.Stage) {
 	__Product__00000000_.Name = `G3`
 	__Product__00000000_.ComputedPrefix = `1`
 	__Product__00000000_.IsExpanded = false
+	__Product__00000000_.LayoutDirection = models.Vertical
 	__Product__00000000_.IsImport = false
 	__Product__00000000_.Description = ``
 	__Product__00000000_.IsProducersNodeExpanded = false
 	__Product__00000000_.IsConsumersNodeExpanded = false
-	__Product__00000000_.LayoutDirection = models.Vertical
 
 	__Product__00000001_.Name = `G3.1`
 	__Product__00000001_.ComputedPrefix = `1.1`
 	__Product__00000001_.IsExpanded = false
+	__Product__00000001_.LayoutDirection = models.Vertical
 	__Product__00000001_.IsImport = false
 	__Product__00000001_.Description = ``
 	__Product__00000001_.IsProducersNodeExpanded = false
 	__Product__00000001_.IsConsumersNodeExpanded = false
-	__Product__00000001_.LayoutDirection = models.Vertical
 
-	__ProductCompositionShape__00000000_.Name = `G3 to `
+	__ProductCompositionShape__00000000_.Name = `D1-G3-G3.1`
 	__ProductCompositionShape__00000000_.StartRatio = 0.500000
 	__ProductCompositionShape__00000000_.EndRatio = 0.500000
 	__ProductCompositionShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
@@ -189,7 +197,7 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000000_.CornerOffsetRatio = 1.680000
 	__ProductCompositionShape__00000000_.IsHidden = false
 
-	__ProductShape__00000000_.Name = `-Default Diagram`
+	__ProductShape__00000000_.Name = `D1-G3`
 	__ProductShape__00000000_.OverideLayoutDirection = false
 	__ProductShape__00000000_.LayoutDirection = models.Vertical
 	__ProductShape__00000000_.X = 159.729721
@@ -198,7 +206,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000000_.Height = 70.000000
 	__ProductShape__00000000_.IsHidden = false
 
-	__ProductShape__00000001_.Name = `-Default Diagram`
+	__ProductShape__00000001_.Name = `D1-G3.1`
 	__ProductShape__00000001_.OverideLayoutDirection = false
 	__ProductShape__00000001_.LayoutDirection = models.Vertical
 	__ProductShape__00000001_.X = 159.729721
@@ -207,7 +215,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000001_.Height = 70.000000
 	__ProductShape__00000001_.IsHidden = false
 
-	__ProductShape__00000023_.Name = `-Default Diagram`
+	__ProductShape__00000023_.Name = `Default Diagram copy-G3`
 	__ProductShape__00000023_.OverideLayoutDirection = false
 	__ProductShape__00000023_.LayoutDirection = models.Vertical
 	__ProductShape__00000023_.X = 159.729721

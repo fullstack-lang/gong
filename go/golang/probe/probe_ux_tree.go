@@ -74,6 +74,43 @@ func (probe *Probe) ux_tree() {
 	}
 	topNode.Buttons = append(topNode.Buttons, refreshButton)
 
+	exportExcelButton := &tree_models.Button{
+		Name:            "ExportExcelButton" + " " + string(tree_buttons.BUTTON_download),
+		Icon:            string(tree_buttons.BUTTON_download),
+		HasToolTip:      true,
+		ToolTipText:     "Export stage as Excel",
+		ToolTipPosition: tree_models.Below,
+		OnClick: func() {
+			probe.ExportStageExcel()
+		},
+	}
+	topNode.Buttons = append(topNode.Buttons, exportExcelButton)
+
+	exportGoButton := &tree_models.Button{
+		Name:            "ExportGoButton" + " " + string(tree_buttons.BUTTON_file_download),
+		Icon:            string(tree_buttons.BUTTON_file_download),
+		HasToolTip:      true,
+		ToolTipText:     "Export stage as Go file",
+		ToolTipPosition: tree_models.Below,
+		OnClick: func() {
+			probe.ExportStage()
+		},
+	}
+	topNode.Buttons = append(topNode.Buttons, exportGoButton)
+
+	resetButton := &tree_models.Button{
+		Name:            "ResetButton" + " " + string(tree_buttons.BUTTON_reset_tv),
+		Icon:            string(tree_buttons.BUTTON_reset_tv),
+		HasToolTip:      true,
+		ToolTipText:     "Reset stage",
+		ToolTipPosition: tree_models.Below,
+		OnClick: func() {
+			probe.stageOfInterest.Reset()
+			probe.stageOfInterest.Commit()
+		},
+	}
+	topNode.Buttons = append(topNode.Buttons, resetButton)
+
 	// collect all gong struct to construe the true
 	setOfGongStructs := *gong_models.GetGongstructInstancesSetFromPointerType[*gong_models.GongStruct](probe.gongStage)
 
