@@ -39,6 +39,7 @@ const (
 	ProbeNotificationTableSuffix     = ":notification table of the probe"
 	ProbeFormSuffix                  = ":form of the probe"
 	ProbeSplitSuffix                 = ":probe of the probe"
+	ProbeLoadSuffix                  = ":load of the probe"
 )
 
 type GongMarshallingMode string
@@ -73,6 +74,10 @@ func (stage *Stage) GetProbeNotificationTableStageName() string {
 
 func (stage *Stage) GetProbeSplitStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeSplitSuffix
+}
+
+func (stage *Stage) GetProbeLoadStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeLoadSuffix
 }
 
 // errUnkownEnum is returns when a value cannot match enum values
@@ -2704,6 +2709,10 @@ func (diagramstructure *DiagramStructure) GongGetFieldHeaders() (res []GongField
 			TargetGongstructName: "LinkAssociationShape",
 		},
 		{
+			Name:               "IsLinksNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:                 "LinksWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Link",
@@ -3140,6 +3149,10 @@ func (diagramstructure *DiagramStructure) GongGetFieldValue(fieldName string, st
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsLinksNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagramstructure.IsLinksNodeExpanded)
+		res.valueBool = diagramstructure.IsLinksNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "LinksWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagramstructure.LinksWhoseNodeIsExpanded {
@@ -3554,6 +3567,8 @@ func (diagramstructure *DiagramStructure) GongSetFieldValue(fieldName string, va
 				}
 			}
 		}
+	case "IsLinksNodeExpanded":
+		diagramstructure.IsLinksNodeExpanded = value.GetValueBool()
 	case "LinksWhoseNodeIsExpanded":
 		diagramstructure.LinksWhoseNodeIsExpanded = make([]*Link, 0)
 		ids := strings.Split(value.ids, ";")

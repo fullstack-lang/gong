@@ -29,6 +29,8 @@ This document outlines the systematic steps and best practices for creating a do
     - `OnIsCheckedChanged`: To toggle active diagrams.
   - Utilize generated generic buttons: Bind `addCreateItemButton` to allow nested object instantiation directly from tree folders. Bind `addCreateItemShapeAndLinkButton` to instantiate visual objects alongside their abstract representations automatically.
 
+  note that the diagram node is a root of all elements of the library. for each element node below the diagram, check/uncheck the diagram add/remove the shape to the diagram 
+
 ## 4. SVG Mapping and Interactivity (`stager_ux_svg.go`)
 - Map your domain `PartShape` and `LinkAssociationShape`s to generic `svg.Rect` and `svg.Link` instances.
 - Define `onUpdateElementInDiagram` logic within `yyy_on_update_element_in_diagram.go` (if overwritten) to push DOM drag-and-drop / resize events from the SVG canvas back to the underlying `X`, `Y`, `Width`, and `Height` domain state.

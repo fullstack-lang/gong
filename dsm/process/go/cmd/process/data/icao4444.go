@@ -387,7 +387,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.Width = 1375.000000
 	__DiagramProcess__00000000_.Height = 1442.000000
 	__DiagramProcess__00000000_.IsProcesssNodeExpanded = false
-	__DiagramProcess__00000000_.IsParticipantsNodeExpanded = true
+	__DiagramProcess__00000000_.IsParticipantsNodeExpanded = false
 	__DiagramProcess__00000000_.IsExternalParticipantsNodeExpanded = false
 	__DiagramProcess__00000000_.IsNotesNodeExpanded = false
 
@@ -757,6 +757,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.AllocatedResourceShapes = append(__DiagramProcess__00000000_.AllocatedResourceShapes, __AllocatedResourceShape__00000001_)
 	__DiagramProcess__00000000_.AllocatedResourceShapes = append(__DiagramProcess__00000000_.AllocatedResourceShapes, __AllocatedResourceShape__00000002_)
 	__Library__00000000_.RootProcesses = append(__Library__00000000_.RootProcesses, __Process__00000000_)
+	__Library__00000000_.ProcesssWhoseNodeIsExpanded = append(__Library__00000000_.ProcesssWhoseNodeIsExpanded, __Process__00000000_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000000_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000001_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000002_)

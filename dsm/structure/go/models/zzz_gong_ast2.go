@@ -492,6 +492,8 @@ func (u *DiagramStructureUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		GongUnmarshallSliceOfPointers(&instance.PartsWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "Link_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.Link_Shapes, valueExpr, identifierMap)
+	case "IsLinksNodeExpanded":
+		instance.IsLinksNodeExpanded = GongExtractBool(valueExpr)
 	case "LinksWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.LinksWhoseNodeIsExpanded, valueExpr, identifierMap)
 	}

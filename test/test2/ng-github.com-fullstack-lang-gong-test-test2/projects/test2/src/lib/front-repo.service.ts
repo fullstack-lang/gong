@@ -284,7 +284,7 @@ export class FrontRepoService {
 
 			let socket: WebSocket | undefined
 
-			const isOfflineMode = window.location.protocol === 'file:'
+			const isOfflineMode = window.location.protocol === 'file:' || window.document.getElementById('wasm-progress-container') !== null
 
 			const processData = (dataString: string) => {
 				// console.log("github.com/fullstack-lang/gong/test/test2/go; connectToWebSocket: processData called")

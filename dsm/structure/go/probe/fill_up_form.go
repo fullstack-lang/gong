@@ -45,6 +45,8 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		AssociationSliceToForm("PartsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.PartsWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("Link_Shapes", instanceWithInferedType, &instanceWithInferedType.Link_Shapes, formGroup, probe)
+		BasicFieldtoForm("IsLinksNodeExpanded", instanceWithInferedType.IsLinksNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		AssociationSliceToForm("LinksWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.LinksWhoseNodeIsExpanded, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",

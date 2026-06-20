@@ -308,6 +308,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsPartsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "PartsWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "Link_Shapes"))
+		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsLinksNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "LinksWhoseNodeIsExpanded"))
 	}
 
@@ -701,6 +702,11 @@ func (diagramstructure *DiagramStructure) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramstructure.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPartsNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramstructure.IsPartsNodeExpanded))
+	case "IsLinksNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", diagramstructure.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsLinksNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramstructure.IsLinksNodeExpanded))
 
 	case "Part_Shapes":
 		var sb strings.Builder
@@ -1267,6 +1273,7 @@ func (diagramstructure *DiagramStructure) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsPartsNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "PartsWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "Link_Shapes"))
+		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsLinksNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "LinksWhoseNodeIsExpanded"))
 	}
 	initRes = initializerStatements.String()

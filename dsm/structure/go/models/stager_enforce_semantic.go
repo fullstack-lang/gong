@@ -55,6 +55,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce at least one diagram per system", stager.enforceAtLeastOneDiagramPerSystem},
 		{"Enforce shape orphans", stager.enforceShapeOrphans},
 		{"Enforce shapes abstract consistency", stager.enforceShapesAbstractConsistency},
+		{"Enforce diagram maps and duplicates", stager.enforceDiagramMaps},
 		{"Enforce shape names", stager.enforceShapeNames},
 	}
 

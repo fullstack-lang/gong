@@ -64,7 +64,7 @@ func (stager *Stager) treeSystem(system *System, parentNode *tree.Node, expanded
 	diagramsNode.OnClick = onNodeClicked(stager, system)
 
 	for _, diag := range system.DiagramStructures {
-		stager.treeDiagramStructure(diag, diagramsNode, &system.DiagramStructuresWhoseNodeIsExpanded)
+		stager.treeDiagramStructure(system, diag, diagramsNode, &system.DiagramStructuresWhoseNodeIsExpanded)
 	}
 
 	confDiagrams := ItemButtonConfiguration[

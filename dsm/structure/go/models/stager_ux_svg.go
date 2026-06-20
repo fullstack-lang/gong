@@ -51,6 +51,8 @@ func (stager *Stager) generateSvgObject(diagram *DiagramStructure) *svg.SVG {
 	stager.drawPartShapes(diagram, layer)
 	stager.drawLinkShapes(diagram, layer)
 
+	stager.drawSystemBox(diagram, layer)
+
 	return svgObject
 }
 
@@ -94,6 +96,7 @@ func (stager *Stager) drawPartShapes(diagram *DiagramStructure, layer *svg.Layer
 		rect.OnSelect = func() {
 			if partShape.Part != nil {
 				stager.probeForm.FillUpFormFromGongstruct(partShape.Part, GetPointerToGongstructName[*Part]())
+				stager.stage.Commit()
 			}
 		}
 		rect.OnMove = func(x, y float64) {
@@ -159,6 +162,8 @@ func (stager *Stager) drawLinkShapes(diagram *DiagramStructure, layer *svg.Layer
 			svgLink.HasEndArrow = true
 			svgLink.EndArrowSize = 10
 
+
+
 			// Text for the link
 			text := new(svg.LinkAnchoredText)
 			text.Name = linkShape.Link.Name
@@ -172,3 +177,78 @@ func (stager *Stager) drawLinkShapes(diagram *DiagramStructure, layer *svg.Layer
 	}
 }
 
+
+func (stager *Stager) drawSystemBox(diagram *DiagramStructure, layer *svg.Layer) {
+	if diagram.owningSystem == nil {
+		return
+	}
+
+	minX, minY := 1000000.0, 1000000.0
+	maxX, maxY := -1000000.0, -1000000.0
+
+	hasShapes := false
+	for _, partShape := range diagram.Part_Shapes {
+		if partShape.IsHidden {
+			continue
+		}
+		hasShapes = true
+		if partShape.X < minX {
+			minX = partShape.X
+		}
+		if partShape.Y < minY {
+			minY = partShape.Y
+		}
+		if partShape.X+partShape.Width > maxX {
+			maxX = partShape.X + partShape.Width
+		}
+		if partShape.Y+partShape.Height > maxY {
+			maxY = partShape.Y + partShape.Height
+		}
+	}
+
+	padding := 40.0
+	if !hasShapes {
+		minX, minY = 50, 50
+		maxX, maxY = 350, 250
+	} else {
+		minX -= padding
+		minY -= padding + 20 // extra space for title
+		maxX += padding
+		maxY += padding
+	}
+
+	rect := new(svg.Rect)
+
+	rect.Name = diagram.owningSystem.Name
+	rect.X = minX
+	rect.Y = minY
+	rect.Width = maxX - minX
+	rect.Height = maxY - minY
+
+	rect.Color = "#F8F9FA"
+	rect.FillOpacity = 1.0
+	rect.Stroke = "#E0E0E0"
+	rect.StrokeWidth = 1.5
+	rect.RX = 3
+
+	rect.IsSelectable = false
+	rect.CanMoveHorizontaly = false
+	rect.CanMoveVerticaly = false
+
+	title := new(svg.RectAnchoredText)
+	title.Name = diagram.owningSystem.Name
+	title.Content = diagram.owningSystem.Name
+	title.Color = "#333333"
+	title.FillOpacity = 1.0
+	title.FontWeight = "500"
+	title.FontSize = "18px"
+	title.X_Offset = 10
+	title.Y_Offset = 25
+	title.RectAnchorType = svg.RECT_TOP_LEFT
+	title.TextAnchorType = svg.TEXT_ANCHOR_START
+
+	rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
+
+	// Prepend to draw underneath parts
+	layer.Rects = append([]*svg.Rect{rect}, layer.Rects...)
+}
