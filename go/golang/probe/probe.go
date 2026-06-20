@@ -122,6 +122,8 @@ func NewProbe(
 	splitStage, _ := split_fullstack.NewStackInstance(r, stageOfInterest.GetProbeSplitStageName())
 	splitStage.Commit()
 
+	stageOfInterest.MetaPackageImportPath = "{{PkgPathRoot}}/models"
+
 	// load the gong
 	stage := gong_models.NewStage(stageOfInterest.GetName())
 	gong_models.LoadEmbedded(stage, goModelsDir)
