@@ -183,7 +183,7 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 	backgroundRect.Height = 200000
 	backgroundRect.Color = "white"
 	backgroundRect.FillOpacity = 0.0
-	backgroundRect.OnUpdate = func(frontRect *svg.Rect) {
+	backgroundRect.OnSelect = func() {
 		diagram.IsInDrawMode = !diagram.IsInDrawMode
 		stager.stage.Commit()
 	}

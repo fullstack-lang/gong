@@ -109,33 +109,26 @@ func (stager *Stager) drawProcessShapes(diagramProcess *DiagramProcess, layer *s
 
 		// override default behavior, we need to commit when the rect is moved
 		// we need to update the position of the participants shapes and task shapes that are within the process
-		rect.OnUpdate = func(updatedRect *svg.Rect) {
-			diffX := processShape.GetX() != updatedRect.X
-			diffY := processShape.GetY() != updatedRect.Y
-			diffWidth := processShape.GetWidth() != updatedRect.Width
-			diffHeight := processShape.GetHeight() != updatedRect.Height
-
-			if diffX || diffY {
-				processShape.SetX(updatedRect.X)
-				processShape.SetY(updatedRect.Y)
-
-				// no need to update the position of the participant shapes and task shapes that are within the process
-				// because they are peers of the process shape, so they will move together
-				stager.stage.CommitWithSuspendedCallbacks()
-				return
-			}
-			if diffWidth || diffHeight {
-				processShape.SetWidth(updatedRect.Width)
-				processShape.SetHeight(updatedRect.Height)
-
-				// when heigth or width is updated, we need to update the position/size of the participants shapes and task shapes that are within the process
-				// this is performed in the semantic pass of the commit
-				stager.stage.Commit()
-				return
-			}
-
+		rect.OnSelect = func() {
 			stager.probeForm.FillUpFormFromGongstruct(processShape.Process, GetPointerToGongstructName[*Process]())
+		}
+		rect.OnMove = func(x, y float64) {
+			processShape.SetX(x)
+			processShape.SetY(y)
 
+			// no need to update the position of the participant shapes and task shapes that are within the process
+			// because they are peers of the process shape, so they will move together
+			stager.stage.CommitWithSuspendedCallbacks()
+		}
+		rect.OnResize = func(x, y, width, height float64) {
+			processShape.SetX(x)
+			processShape.SetY(y)
+			processShape.SetWidth(width)
+			processShape.SetHeight(height)
+
+			// when heigth or width is updated, we need to update the position/size of the participants shapes and task shapes that are within the process
+			// this is performed in the semantic pass of the commit
+			stager.stage.Commit()
 		}
 		diagramProcess.map_Process_Rect[processShape.Process] = rect
 	}
@@ -229,11 +222,15 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 		rectOfOwningProcess.Peers = append(rectOfOwningProcess.Peers, rect)
 
 		// override default behavior, we need to commit when the rect is moved
-		rect.OnUpdate = func(updatedRect *svg.Rect) {
-			if updatedRect.Width != participantWidth {
+		rect.OnSelect = func() {
+			stager.probeForm.FillUpFormFromGongstruct(participantShape.Participant, GetPointerToGongstructName[*Participant]())
+		}
+		rect.OnMove = func(x, y float64) {}
+		rect.OnResize = func(x, y, width, height float64) {
+			if width != participantWidth {
 				othersWeight := totalWeight - shapeWeight
 				if othersWeight > 0 {
-					boundedWidth := updatedRect.Width
+					boundedWidth := width
 					if boundedWidth > participantsWidth-10 {
 						boundedWidth = participantsWidth - 10
 					}
@@ -245,9 +242,7 @@ func (stager *Stager) drawParticipantShapes(diagramProcess *DiagramProcess, laye
 					participantShape.WidthWeight = newWeight
 					stager.stage.Commit()
 				}
-				return
 			}
-			stager.probeForm.FillUpFormFromGongstruct(participantShape.Participant, GetPointerToGongstructName[*Participant]())
 		}
 
 		diagramProcess.map_Participant_Rect[participantShape.Participant] = rect
@@ -399,7 +394,9 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 		}
 
-		rect.OnUpdate = onUpdateRectElement(stager, externalParticipantShape.Participant, externalParticipantShape, false)
+		rect.OnSelect = onSelectRectElement(stager, externalParticipantShape.Participant)
+		rect.OnMove = onMoveRectElement(stager, externalParticipantShape, false)
+		rect.OnResize = onResizeRectElement(stager, externalParticipantShape)
 
 		externalParticipantWidth := 5.0
 		if externalParticipantShape.TailHeigth == 0 {
@@ -455,11 +452,13 @@ func (stager *Stager) drawExternalParticipantShapes(diagramProcess *DiagramProce
 		// this is the tail rect that is used for drawing links between external participant and task, so we need to keep a reference of it in the diagram process
 		diagramProcess.map_SvgRect_ExternalParticipantShape[tailRect] = externalParticipantShape
 		// if the tailRect bottom handle is used, the heigth is updated
-		tailRect.OnUpdate = func(updatedRect *svg.Rect) {
-			diffSize := externalParticipantShape.TailHeigth != updatedRect.Height+boxHeight
+		tailRect.OnSelect = func() {}
+		tailRect.OnMove = func(x, y float64) {}
+		tailRect.OnResize = func(x, y, width, height float64) {
+			diffSize := externalParticipantShape.TailHeigth != height+boxHeight
 
 			if diffSize {
-				externalParticipantShape.TailHeigth = updatedRect.Height + boxHeight
+				externalParticipantShape.TailHeigth = height + boxHeight
 				stager.stage.CommitWithSuspendedCallbacks()
 			}
 		}

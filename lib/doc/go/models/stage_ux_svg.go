@@ -61,11 +61,18 @@ func (stager *Stager) Svg() {
 		rect.Name = gongStructIdentifier
 
 		// hook a callback on rect modifications
-		rect.OnUpdate = func(updatedRect *svg_models.Rect) {
-			gongstructShape.X = updatedRect.X
-			gongstructShape.Y = updatedRect.Y
-			gongstructShape.Width = updatedRect.Width
-			gongstructShape.Height = updatedRect.Height
+		rect.OnSelect = func() {}
+		rect.OnMove = func(x, y float64) {
+			gongstructShape.X = x
+			gongstructShape.Y = y
+			stager.stage.CommitWithSuspendedCallbacks()
+			stager.navigationTree()
+		}
+		rect.OnResize = func(x, y, width, height float64) {
+			gongstructShape.X = x
+			gongstructShape.Y = y
+			gongstructShape.Width = width
+			gongstructShape.Height = height
 
 			stager.stage.CommitWithSuspendedCallbacks()
 			stager.navigationTree()
@@ -353,11 +360,19 @@ func (stager *Stager) Svg() {
 		rect := new(svg_models.Rect)
 		rect.Name = GongEnumIdentifierMetaToGongEnumName(gongenumShape.IdentifierMeta)
 
-		rect.OnUpdate = func(updatedRect *svg_models.Rect) {
-			gongenumShape.X = updatedRect.X
-			gongenumShape.Y = updatedRect.Y
-			gongenumShape.Width = updatedRect.Width
-			gongenumShape.Height = updatedRect.Height
+		rect.OnSelect = func() {}
+		rect.OnMove = func(x, y float64) {
+			gongenumShape.X = x
+			gongenumShape.Y = y
+
+			stager.stage.CommitWithSuspendedCallbacks()
+			stager.navigationTree()
+		}
+		rect.OnResize = func(x, y, width, height float64) {
+			gongenumShape.X = x
+			gongenumShape.Y = y
+			gongenumShape.Width = width
+			gongenumShape.Height = height
 
 			stager.stage.CommitWithSuspendedCallbacks()
 			stager.navigationTree()
@@ -454,24 +469,21 @@ func (stager *Stager) Svg() {
 		rect := new(svg_models.Rect)
 		rect.Name = noteShape.Identifier
 
-		rect.OnUpdate = func(updatedRect *svg_models.Rect) {
-			diffSize := noteShape.Width != updatedRect.Width || noteShape.Height != updatedRect.Height
-			diffPosition := noteShape.X != updatedRect.X || noteShape.Y != updatedRect.Y
-
-			if diffSize {
-				noteShape.Width = updatedRect.Width
-				noteShape.Height = updatedRect.Height
-				noteShape.X = updatedRect.X
-				noteShape.Y = updatedRect.Y
-				stager.stage.CommitWithSuspendedCallbacks()
-				stager.Svg()
-				stager.navigationTree()
-			} else if diffPosition {
-				noteShape.X = updatedRect.X
-				noteShape.Y = updatedRect.Y
-				stager.stage.CommitWithSuspendedCallbacks()
-				stager.navigationTree()
-			}
+		rect.OnSelect = func() {}
+		rect.OnMove = func(x, y float64) {
+			noteShape.X = x
+			noteShape.Y = y
+			stager.stage.CommitWithSuspendedCallbacks()
+			stager.navigationTree()
+		}
+		rect.OnResize = func(x, y, width, height float64) {
+			noteShape.X = x
+			noteShape.Y = y
+			noteShape.Width = width
+			noteShape.Height = height
+			stager.stage.CommitWithSuspendedCallbacks()
+			stager.Svg()
+			stager.navigationTree()
 		}
 
 		stager.map_NoteShape_Rect[noteShape] = rect

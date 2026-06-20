@@ -67,7 +67,9 @@ func svgRect[CT interface {
 		rect.CanMoveHorizontaly = true
 		rect.CanMoveVerticaly = true
 
-		rect.OnUpdate = onUpdateRectElement(stager, abstractElement, shape, true)
+		rect.OnSelect = onSelectRectElement(stager, abstractElement)
+		rect.OnMove = onMoveRectElement(stager, shape, true)
+		rect.OnResize = onResizeRectElement(stager, shape)
 		// for allowing later Stage() on the rect shape
 		shape.SetReceiver(shape)
 	}
@@ -104,51 +106,59 @@ func svgRect[CT interface {
 	return rect
 }
 
-func onUpdateRectElement[CT interface {
+func onSelectRectElement[AT AbstractType](
+	stager *Stager,
+	abstractElement AT,
+) func() {
+	return func() {
+		stager.stage.CommitWithSuspendedCallbacks()
+		stager.probeForm.FillUpFormFromGongstruct(abstractElement, GetPointerToGongstructName[AT]())
+		// update the tree because it contains the undo/redo calls
+		stager.ux_tree()
+	}
+}
+
+func onMoveRectElement[CT interface {
 	*CT_
 	RectShapeInterface
 	ConcreteType
 }, CT_ Gongstruct](
 	stager *Stager,
-	abstractElement AbstractType,
 	rectShape CT,
 	suspendCallbacksOnPositionDiff bool,
-) func(frontRect *svg.Rect) {
-	return func(updatedRect *svg.Rect) {
-		diffSize := rectShape.GetWidth() != updatedRect.Width ||
-			rectShape.GetHeight() != updatedRect.Height
+) func(x, y float64) {
+	return func(x, y float64) {
+		rectShape.SetX(x)
+		rectShape.SetY(y)
 
-		diffPosition := rectShape.GetX() != updatedRect.X ||
-			rectShape.GetY() != updatedRect.Y
-
-		rectShape.SetX(updatedRect.X)
-		rectShape.SetY(updatedRect.Y)
-		rectShape.SetWidth(updatedRect.Width)
-		rectShape.SetHeight(updatedRect.Height)
-
-		if !diffSize && !diffPosition {
+		if suspendCallbacksOnPositionDiff {
+			// Issue #7, this will allow multiple rect to be moved together
 			stager.stage.CommitWithSuspendedCallbacks()
-			stager.probeForm.FillUpFormFromGongstruct(abstractElement, GetPointerToGongstructName[AbstractType]())
 			// update the tree because it contains the undo/redo calls
 			stager.ux_tree()
+		} else {
+			// if the position is different, no need to generates
+			// the SVG updates with the semantic rules updates.
+			stager.stage.CommitWithSuspendedCallbacks()
 		}
+	}
+}
 
-		if diffPosition {
-			if suspendCallbacksOnPositionDiff {
-				// Issue #7, this will allow multiple rect to be moved together
-				stager.stage.CommitWithSuspendedCallbacks()
-				// update the tree because it contains the undo/redo calls
-				stager.ux_tree()
-			} else {
-				// if the position is different, no need to generates
-				// the SVG updates with the semantic rules updates.
-				stager.stage.CommitWithSuspendedCallbacks()
-			}
-		}
+func onResizeRectElement[CT interface {
+	*CT_
+	RectShapeInterface
+	ConcreteType
+}, CT_ Gongstruct](
+	stager *Stager,
+	rectShape CT,
+) func(x, y, width, height float64) {
+	return func(x, y, width, height float64) {
+		rectShape.SetX(x)
+		rectShape.SetY(y)
+		rectShape.SetWidth(width)
+		rectShape.SetHeight(height)
 
-		if diffSize {
-			stager.stage.Commit()
-		}
+		stager.stage.Commit()
 	}
 }
 
@@ -196,25 +206,19 @@ func svgAssociationLink[AT AbstractType,
 		link.StrokeDashArray = "5 5"
 	}
 
-	link.OnUpdate = func(updatedLink *svg.Link) {
-		diff := shape.GetStartRatio() != updatedLink.StartRatio ||
-			shape.GetEndRatio() != updatedLink.EndRatio ||
-			shape.GetStartOrientation() != OrientationType(updatedLink.StartOrientation) ||
-			shape.GetEndOrientation() != OrientationType(updatedLink.EndOrientation) ||
-			shape.GetCornerOffsetRatio() != updatedLink.CornerOffsetRatio
+	link.OnSelect = func() {
+		stager.stage.CommitWithSuspendedCallbacks()
+		stager.probeForm.FillUpFormFromGongstruct(productOfInterest, GetPointerToGongstructName[AT]())
+	}
 
+	link.OnChange = func(updatedLink *svg.Link) {
 		shape.SetStartRatio(updatedLink.StartRatio)
 		shape.SetEndRatio(updatedLink.EndRatio)
 		shape.SetCornerOffsetRatio(updatedLink.CornerOffsetRatio)
 		shape.SetStartOrientation(OrientationType(updatedLink.StartOrientation))
 		shape.SetEndOrientation(OrientationType(updatedLink.EndOrientation))
 
-		if !diff {
-			stager.stage.CommitWithSuspendedCallbacks()
-			stager.probeForm.FillUpFormFromGongstruct(productOfInterest, GetPointerToGongstructName[AT]())
-		} else {
-			stager.stage.Commit()
-		}
+		stager.stage.Commit()
 	}
 
 	layer.Links = append(layer.Links, link)
@@ -266,25 +270,19 @@ func svgAssociationLinkAsCT[AT AbstractType,
 		link.StrokeDashArray = "5 5"
 	}
 
-	link.OnUpdate = func(updatedLink *svg.Link) {
-		diff := shape.GetStartRatio() != updatedLink.StartRatio ||
-			shape.GetEndRatio() != updatedLink.EndRatio ||
-			shape.GetStartOrientation() != OrientationType(updatedLink.StartOrientation) ||
-			shape.GetEndOrientation() != OrientationType(updatedLink.EndOrientation) ||
-			shape.GetCornerOffsetRatio() != updatedLink.CornerOffsetRatio
+	link.OnSelect = func() {
+		stager.stage.CommitWithSuspendedCallbacks()
+		stager.probeForm.FillUpFormFromGongstruct(shape.GetAbstractElement().(AT), GetPointerToGongstructName[AT]())
+	}
 
+	link.OnChange = func(updatedLink *svg.Link) {
 		shape.SetStartRatio(updatedLink.StartRatio)
 		shape.SetEndRatio(updatedLink.EndRatio)
 		shape.SetCornerOffsetRatio(updatedLink.CornerOffsetRatio)
 		shape.SetStartOrientation(OrientationType(updatedLink.StartOrientation))
 		shape.SetEndOrientation(OrientationType(updatedLink.EndOrientation))
 
-		if !diff {
-			stager.stage.CommitWithSuspendedCallbacks()
-			stager.probeForm.FillUpFormFromGongstruct(shape.GetAbstractElement().(AT), GetPointerToGongstructName[AT]())
-		} else {
-			stager.stage.Commit()
-		}
+		stager.stage.Commit()
 	}
 
 	layer.Links = append(layer.Links, link)

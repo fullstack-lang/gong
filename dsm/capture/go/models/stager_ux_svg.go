@@ -733,34 +733,27 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) *svg.SVG {
 		diagram.map_Diagram_Rect[diagramShape.Diagram] = rect
 		diagram.map_SvgRect_DiagramShape[rect] = diagramShape
 
-		rect.OnUpdate = func(updatedRect *svg.Rect) {
-			diffSize := diagramShape.GetWidth() != updatedRect.Width ||
-				diagramShape.GetHeight() != updatedRect.Height
-
-			diffPosition := diagramShape.GetX() != updatedRect.X ||
-				diagramShape.GetY() != updatedRect.Y
-
-			diagramShape.SetX(updatedRect.X)
-			diagramShape.SetY(updatedRect.Y)
-			diagramShape.SetWidth(updatedRect.Width)
-			diagramShape.SetHeight(updatedRect.Height)
-
-			if !diffSize && !diffPosition {
-				for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
-					diagram_.IsChecked = false
-				}
-				diagramShape.Diagram.IsChecked = true
-				stager.stage.Commit()
-				return
+		rect.OnSelect = func() {
+			for diagram_ := range *GetGongstructInstancesSet[Diagram](stager.stage) {
+				diagram_.IsChecked = false
 			}
+			diagramShape.Diagram.IsChecked = true
+			stager.stage.Commit()
+		}
+		rect.OnMove = func(x, y float64) {
+			diagramShape.SetX(x)
+			diagramShape.SetY(y)
 
-			if diffPosition {
-				stager.stage.CommitWithSuspendedCallbacks()
-				stager.ux_tree()
-			}
-			if diffSize {
-				stager.stage.Commit()
-			}
+			stager.stage.CommitWithSuspendedCallbacks()
+			stager.ux_tree()
+		}
+		rect.OnResize = func(x, y, width, height float64) {
+			diagramShape.SetX(x)
+			diagramShape.SetY(y)
+			diagramShape.SetWidth(width)
+			diagramShape.SetHeight(height)
+
+			stager.stage.Commit()
 		}
 
 		diagramLogo := new(svg.RectAnchoredPath)

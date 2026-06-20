@@ -78,6 +78,9 @@ type Link struct {
 
 	OnUpdate func(updatedLink *Link)
 
+	OnSelect func()
+	OnChange func(updatedLink *Link)
+
 	MouseEvent
 }
 
@@ -85,6 +88,23 @@ func (link *Link) OnAfterUpdate(stage *Stage, _, frontLink *Link) {
 	if link.Impl != nil {
 		link.Impl.LinkUpdated(frontLink)
 	}
+
+	diff := link.StartRatio != frontLink.StartRatio ||
+		link.EndRatio != frontLink.EndRatio ||
+		link.StartOrientation != frontLink.StartOrientation ||
+		link.EndOrientation != frontLink.EndOrientation ||
+		link.CornerOffsetRatio != frontLink.CornerOffsetRatio
+
+	if !diff {
+		if link.OnSelect != nil {
+			link.OnSelect()
+		}
+	} else {
+		if link.OnChange != nil {
+			link.OnChange(frontLink)
+		}
+	}
+
 	if link.OnUpdate != nil {
 		link.OnUpdate(frontLink)
 	}

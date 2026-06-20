@@ -275,24 +275,21 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			},
 		}
 
-		rect.OnUpdate = func(frontRect *svg.Rect) {
-			diff := movementShape.X != frontRect.X ||
-				movementShape.Y != frontRect.Y ||
-				movementShape.Width != frontRect.Width ||
-				movementShape.Height != frontRect.Height
-
-			// update the shape
-			movementShape.X = frontRect.X
-			movementShape.Y = frontRect.Y
-			movementShape.Width = frontRect.Width
-			movementShape.Height = frontRect.Height
-
-			if !diff {
-				stager.stage.probeIF.FillUpFormFromGongstruct(movementShape.Movement,
-					GetGongstructNameFromPointer(movementShape.Movement))
-			} else {
-				stager.stage.CommitWithSuspendedCallbacks()
-			}
+		rect.OnSelect = func() {
+			stager.stage.probeIF.FillUpFormFromGongstruct(movementShape.Movement,
+				GetGongstructNameFromPointer(movementShape.Movement))
+		}
+		rect.OnMove = func(x, y float64) {
+			movementShape.X = x
+			movementShape.Y = y
+			stager.stage.CommitWithSuspendedCallbacks()
+		}
+		rect.OnResize = func(x, y, width, height float64) {
+			movementShape.X = x
+			movementShape.Y = y
+			movementShape.Width = width
+			movementShape.Height = height
+			stager.stage.CommitWithSuspendedCallbacks()
 		}
 
 		if !diagram.IsInfluenceCategoryHidden {
@@ -357,24 +354,21 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 		map_ArtElement_Rect[artefactType] = rect
 		diagram.map_SvgRect_ArtefactTypeShape[rect] = artefactTypeShape
 
-		rect.OnUpdate = func(frontRect *svg.Rect) {
-			diff := artefactTypeShape.X != frontRect.X ||
-				artefactTypeShape.Y != frontRect.Y ||
-				artefactTypeShape.Width != frontRect.Width ||
-				artefactTypeShape.Height != frontRect.Height
-
-			// update the shape
-			artefactTypeShape.X = frontRect.X
-			artefactTypeShape.Y = frontRect.Y
-			artefactTypeShape.Width = frontRect.Width
-			artefactTypeShape.Height = frontRect.Height
-
-			if !diff {
-				stager.stage.probeIF.FillUpFormFromGongstruct(artefactTypeShape.ArtefactType,
-					GetGongstructNameFromPointer(artefactTypeShape.ArtefactType))
-			} else {
-				stager.stage.CommitWithSuspendedCallbacks()
-			}
+		rect.OnSelect = func() {
+			stager.stage.probeIF.FillUpFormFromGongstruct(artefactTypeShape.ArtefactType,
+				GetGongstructNameFromPointer(artefactTypeShape.ArtefactType))
+		}
+		rect.OnMove = func(x, y float64) {
+			artefactTypeShape.X = x
+			artefactTypeShape.Y = y
+			stager.stage.CommitWithSuspendedCallbacks()
+		}
+		rect.OnResize = func(x, y, width, height float64) {
+			artefactTypeShape.X = x
+			artefactTypeShape.Y = y
+			artefactTypeShape.Width = width
+			artefactTypeShape.Height = height
+			stager.stage.CommitWithSuspendedCallbacks()
 		}
 
 		if !diagram.IsArtefactTypeCategoryHidden {
@@ -513,24 +507,21 @@ func (stager *Stager) generateSvgObject(diagram *Diagram) (svg_ *svg.SVG) {
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, dateRectAnchoredText)
 		}
 
-		rect.OnUpdate = func(frontRect *svg.Rect) {
-			diff := artistShape.X != frontRect.X ||
-				artistShape.Y != frontRect.Y ||
-				artistShape.Width != frontRect.Width ||
-				artistShape.Height != frontRect.Height
-
-			// update the shape
-			artistShape.X = frontRect.X
-			artistShape.Y = frontRect.Y
-			artistShape.Width = frontRect.Width
-			artistShape.Height = frontRect.Height
-
-			if !diff {
-				stager.stage.probeIF.FillUpFormFromGongstruct(artistShape.Artist,
-					GetGongstructNameFromPointer(artistShape.Artist))
-			} else {
-				stager.stage.CommitWithSuspendedCallbacks()
-			}
+		rect.OnSelect = func() {
+			stager.stage.probeIF.FillUpFormFromGongstruct(artistShape.Artist,
+				GetGongstructNameFromPointer(artistShape.Artist))
+		}
+		rect.OnMove = func(x, y float64) {
+			artistShape.X = x
+			artistShape.Y = y
+			stager.stage.CommitWithSuspendedCallbacks()
+		}
+		rect.OnResize = func(x, y, width, height float64) {
+			artistShape.X = x
+			artistShape.Y = y
+			artistShape.Width = width
+			artistShape.Height = height
+			stager.stage.CommitWithSuspendedCallbacks()
 		}
 
 		if !diagram.IsInfluenceCategoryHidden {

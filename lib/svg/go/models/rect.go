@@ -71,6 +71,10 @@ type Rect struct {
 
 	OnUpdate func(updatedRect *Rect)
 
+	OnSelect func()
+	OnMove   func(x, y float64)
+	OnResize func(x, y, width, height float64)
+
 	MouseEvent
 
 	// URLPath is the path, if not empty, to navigate to when the rect is clicked, if not empty
@@ -90,6 +94,24 @@ func (rect *Rect) OnAfterUpdate(stage *Stage, _, frontRect *Rect) {
 	if rect.Impl != nil {
 		rect.Impl.RectUpdated(frontRect)
 	}
+
+	diffSize := rect.Width != frontRect.Width || rect.Height != frontRect.Height
+	diffPosition := rect.X != frontRect.X || rect.Y != frontRect.Y
+
+	if !diffSize && !diffPosition {
+		if rect.OnSelect != nil {
+			rect.OnSelect()
+		}
+	} else if diffSize {
+		if rect.OnResize != nil {
+			rect.OnResize(frontRect.X, frontRect.Y, frontRect.Width, frontRect.Height)
+		}
+	} else if diffPosition {
+		if rect.OnMove != nil {
+			rect.OnMove(frontRect.X, frontRect.Y)
+		}
+	}
+
 	if rect.OnUpdate != nil {
 		rect.OnUpdate(frontRect)
 	}

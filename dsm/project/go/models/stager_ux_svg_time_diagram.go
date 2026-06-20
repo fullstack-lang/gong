@@ -146,19 +146,16 @@ func (stager *Stager) displayTask(diagram *Diagram, task *Task, taskShape *TaskS
 	rect4Bar.CanHaveLeftHandle = true
 	rect4Bar.CanMoveHorizontaly = true
 
-	rect4Bar.OnUpdate = func(updatedRect *svg.Rect) {
-		// We don't save size or position changes because time diagrams are driven by dates
-		// but we want to allow clicking to open the probe form
-		diffSize := rect4Bar.Width != updatedRect.Width || rect4Bar.Height != updatedRect.Height
-		diffPosition := rect4Bar.X != updatedRect.X || rect4Bar.Y != updatedRect.Y
-
-		if !diffSize && !diffPosition {
-			stager.stage.CommitWithSuspendedCallbacks()
-			stager.probeForm.FillUpFormFromGongstruct(task, "Task")
-			stager.ux_tree()
-		} else {
-			stager.stage.CommitWithSuspendedCallbacks() // just revert UI to backend state
-		}
+	rect4Bar.OnSelect = func() {
+		stager.stage.CommitWithSuspendedCallbacks()
+		stager.probeForm.FillUpFormFromGongstruct(task, "Task")
+		stager.ux_tree()
+	}
+	rect4Bar.OnMove = func(x, y float64) {
+		stager.stage.CommitWithSuspendedCallbacks() // just revert UI to backend state
+	}
+	rect4Bar.OnResize = func(x, y, width, height float64) {
+		stager.stage.CommitWithSuspendedCallbacks() // just revert UI to backend state
 	}
 
 	var taskToDisplay = *task
@@ -261,19 +258,16 @@ func (stager *Stager) displayMilestone(diagram *Diagram, task *Task, taskShape *
 		layer.Rects = append(layer.Rects, diamond)
 		diamond.Name = task.Name
 
-		diamond.OnUpdate = func(updatedRect *svg.Rect) {
-			// We don't save size or position changes because time diagrams are driven by dates
-			// but we want to allow clicking to open the probe form
-			diffSize := diamond.Width != updatedRect.Width || diamond.Height != updatedRect.Height
-			diffPosition := diamond.X != updatedRect.X || diamond.Y != updatedRect.Y
-
-			if !diffSize && !diffPosition {
-				stager.stage.CommitWithSuspendedCallbacks()
-				stager.probeForm.FillUpFormFromGongstruct(task, "Task")
-				stager.ux_tree()
-			} else {
-				stager.stage.CommitWithSuspendedCallbacks() // just revert UI to backend state
-			}
+		diamond.OnSelect = func() {
+			stager.stage.CommitWithSuspendedCallbacks()
+			stager.probeForm.FillUpFormFromGongstruct(task, "Task")
+			stager.ux_tree()
+		}
+		diamond.OnMove = func(x, y float64) {
+			stager.stage.CommitWithSuspendedCallbacks() // just revert UI to backend state
+		}
+		diamond.OnResize = func(x, y, width, height float64) {
+			stager.stage.CommitWithSuspendedCallbacks() // just revert UI to backend state
 		}
 
 		diamond.X = lineX - diamondWidth/2.0
