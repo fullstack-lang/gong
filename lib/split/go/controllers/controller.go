@@ -24,6 +24,9 @@ var _controllerSingloton *Controller
 var doRegisterOnce sync.Once
 
 func Register(r *gin.Engine) {
+	if r == nil {
+		return
+	}
 	doRegisterOnce.Do(func() {
 		registerControllers(r)
 	})

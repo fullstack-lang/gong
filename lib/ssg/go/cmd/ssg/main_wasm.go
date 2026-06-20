@@ -8,6 +8,7 @@ import (
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 	"github.com/fullstack-lang/gong/lib/ssg/go/level1stack"
 	"github.com/fullstack-lang/gong/lib/ssg/go/models"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -21,6 +22,8 @@ func main() {
 	marshallOnCommit := ""
 	embeddedDiagrams := true
 
+	r := gin.Default()
+
 	// setup
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
@@ -32,11 +35,7 @@ func main() {
 	stack.Probe.Refresh()
 
 	// initiates the UX loop
-	models.NewStager(
-		stack.R,
-		stack.Stage,
-		stack.Probe,
-	)
+	models.NewStager(r, stack.Stage)
 
 	// Expose the HTTP and Socket bridges to the Angular frontend
 	wasmregistry.SetupWasmHooks(stack.R)

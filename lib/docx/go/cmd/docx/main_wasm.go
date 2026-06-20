@@ -8,6 +8,7 @@ import (
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 	"github.com/fullstack-lang/gong/lib/docx/go/level1stack"
 	"github.com/fullstack-lang/gong/lib/docx/go/models"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -20,6 +21,8 @@ func main() {
 	unmarshallFromCode := ""
 	marshallOnCommit := ""
 	embeddedDiagrams := true
+
+	r := gin.Default()
 
 	// setup
 	// - model level1 stack with its probe
@@ -36,6 +39,7 @@ func main() {
 		stack.R,
 		stack.Stage,
 		stack.Probe,
+		"",
 	)
 
 	// Expose the HTTP and Socket bridges to the Angular frontend

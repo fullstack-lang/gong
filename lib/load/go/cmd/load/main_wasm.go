@@ -4,6 +4,8 @@ package main
 
 import (
 	"log"
+	"github.com/gin-gonic/gin"
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 
@@ -23,18 +25,21 @@ func main() {
 	marshallOnCommit := ""
 	embeddedDiagrams := true
 
+	r := gin.Default()
+
 	// setup model stack with its probe
-	stack := load_stack.NewStack(nil, "load", unmarshallFromCode, marshallOnCommit, "", embeddedDiagrams, true)
+	stack := load_stack.NewStack(r, "load", unmarshallFromCode, marshallOnCommit, "", embeddedDiagrams, true)
 	stack.Stage.SetGongMarshallingMode(load_models.GongMarshallingAppendCommit)
 	stack.Stage.SetIsWithGenesisCommit(true) // the genesis commit is the first commit of the stage, it is the one that contains the initial data. It cannot be rollbacked.
 
 	stack.Probe.Refresh()
 	stack.Stage.Commit()
 
-	load_models.NewStager(nil, stack.Stage, stack.Probe)
+		splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+	load_models.NewStager(r, stack.Stage, splitStage)
 
 	// Expose the HTTP and Socket bridges to the Angular frontend
-	wasmregistry.SetupWasmHooks(nil)
+	wasmregistry.SetupWasmHooks(r)
 
 	select {} // Keep the WASM instance running indefinitely
 }
