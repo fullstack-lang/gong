@@ -6,11 +6,12 @@ import (
 
 func (stager *Stager) treeDiagramStructure(diagram *DiagramStructure, parentNode *tree.Node, expandedSlice *[]*DiagramStructure) {
 	diagNode := &tree.Node{
-		Name:            diagram.Name,
-		IsExpanded:      diagram.IsExpanded,
-		IsNodeClickable: true,
-		IsInEditMode:    diagram.isInRenameMode,
-		IsChecked:       diagram.IsChecked,
+		Name:              diagram.Name,
+		IsExpanded:        diagram.IsExpanded,
+		IsNodeClickable:   true,
+		HasCheckboxButton: true,
+		IsInEditMode:      diagram.isInRenameMode,
+		IsChecked:         diagram.IsChecked,
 	}
 	if diagNode.Name == "" {
 		diagNode.Name = "Diagram"
@@ -20,14 +21,24 @@ func (stager *Stager) treeDiagramStructure(diagram *DiagramStructure, parentNode
 	addRenameButton(diagram, diagNode, stager)
 
 	diagCopy := diagram
-	diagNode.OnClick = func(frontNode *tree.Node) {
-		// uncheck all diagrams
-		for d := range *GetGongstructInstancesSetFromPointerType[*DiagramStructure](stager.stage) {
-			d.IsChecked = false
+	diagNode.OnIsCheckedChanged = func(isChecked bool) {
+		if isChecked {
+			// uncheck all diagrams
+			for d := range *GetGongstructInstancesSetFromPointerType[*DiagramStructure](stager.stage) {
+				d.IsChecked = false
+			}
+			// check this diagram
+			diagCopy.IsChecked = true
+			stager.diagram = diagCopy
+			stager.stage.Commit()
+		} else {
+			diagCopy.IsChecked = false
+			stager.diagram = nil
+			stager.stage.Commit()
 		}
-		// check this diagram
-		diagCopy.IsChecked = true
-		stager.diagram = diagCopy
-		stager.stage.Commit()
 	}
+
+	diagNode.OnClick = onNodeClicked(stager, diagram)
+	diagNode.OnNameChange = stager.onNameChange(diagram)
+	diagNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&diagram.IsExpanded)
 }

@@ -17,6 +17,9 @@ func (stager *Stager) treeSystem(system *System, parentNode *tree.Node, expanded
 	parentNode.Children = append(parentNode.Children, systemNode)
 
 	addRenameButton(system, systemNode, stager)
+	systemNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&system.IsExpanded)
+	systemNode.OnNameChange = stager.onNameChange(system)
+	systemNode.OnClick = onNodeClicked(stager, system)
 
 	//
 	// Sub Systems
@@ -28,6 +31,8 @@ func (stager *Stager) treeSystem(system *System, parentNode *tree.Node, expanded
 		IsNodeClickable: true,
 	}
 	systemNode.Children = append(systemNode.Children, subSystemsNode)
+	subSystemsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&system.IsSubSystemsNodeExpanded)
+	subSystemsNode.OnClick = onNodeClicked(stager, system)
 
 	for _, subSystem := range system.SubSystems {
 		stager.treeSystem(subSystem, subSystemsNode, &system.SubSystemsWhoseNodeIsExpanded)
@@ -55,6 +60,8 @@ func (stager *Stager) treeSystem(system *System, parentNode *tree.Node, expanded
 		IsNodeClickable: true,
 	}
 	systemNode.Children = append(systemNode.Children, diagramsNode)
+	diagramsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&system.IsDiagramStructuresNodeExpanded)
+	diagramsNode.OnClick = onNodeClicked(stager, system)
 
 	for _, diag := range system.DiagramStructures {
 		stager.treeDiagramStructure(diag, diagramsNode, &system.DiagramStructuresWhoseNodeIsExpanded)
@@ -82,6 +89,8 @@ func (stager *Stager) treeSystem(system *System, parentNode *tree.Node, expanded
 		IsNodeClickable: true,
 	}
 	systemNode.Children = append(systemNode.Children, partsNode)
+	partsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&system.IsPartsNodeExpanded)
+	partsNode.OnClick = onNodeClicked(stager, system)
 
 	for _, part := range system.Parts {
 		partNode := &tree.Node{
@@ -95,6 +104,9 @@ func (stager *Stager) treeSystem(system *System, parentNode *tree.Node, expanded
 		}
 		partsNode.Children = append(partsNode.Children, partNode)
 		addRenameButton(part, partNode, stager)
+		partNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&part.IsExpanded)
+		partNode.OnNameChange = stager.onNameChange(part)
+		partNode.OnClick = onNodeClicked(stager, part)
 	}
 
 	confParts := ItemAndShapeButtonConfiguration[
@@ -129,6 +141,8 @@ func (stager *Stager) treeSystem(system *System, parentNode *tree.Node, expanded
 		IsNodeClickable: true,
 	}
 	systemNode.Children = append(systemNode.Children, linksNode)
+	linksNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&system.IsLinksNodeExpanded)
+	linksNode.OnClick = onNodeClicked(stager, system)
 
 	for _, link := range system.Links {
 		linkNode := &tree.Node{
@@ -142,6 +156,9 @@ func (stager *Stager) treeSystem(system *System, parentNode *tree.Node, expanded
 		}
 		linksNode.Children = append(linksNode.Children, linkNode)
 		addRenameButton(link, linkNode, stager)
+		linkNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&link.IsExpanded)
+		linkNode.OnNameChange = stager.onNameChange(link)
+		linkNode.OnClick = onNodeClicked(stager, link)
 	}
 
 	confLinks := ItemShapeAndLinkButtonConfiguration[

@@ -32,6 +32,10 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
 
+	__Part__00000000_ := (&models.Part{Name: `Part2`}).Stage(stage)
+
+	__PartShape__00000000_ := (&models.PartShape{Name: `Part2-DiagramStructure`}).Stage(stage)
+
 	__System__00000000_ := (&models.System{Name: ``}).Stage(stage)
 
 	// insertion point for initialization of values
@@ -40,7 +44,7 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.ComputedPrefix = ``
 	__DiagramStructure__00000000_.IsExpanded = false
 	__DiagramStructure__00000000_.LayoutDirection = models.Vertical
-	__DiagramStructure__00000000_.IsChecked = false
+	__DiagramStructure__00000000_.IsChecked = true
 	__DiagramStructure__00000000_.IsEditable_ = true
 	__DiagramStructure__00000000_.IsShowPrefix = false
 	__DiagramStructure__00000000_.Width = 0.000000
@@ -67,22 +71,41 @@ func _(stage *models.Stage) {
 	__Library__00000000_.NbPixPerCharacter = 0.000000
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.ComputedPrefix = ``
-	__Library__00000000_.IsExpanded = false
+	__Library__00000000_.IsExpanded = true
 	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.IsSystemsNodeExpanded = true
 
+	__Part__00000000_.Name = `Part2`
+	__Part__00000000_.ComputedPrefix = ``
+	__Part__00000000_.IsExpanded = false
+	__Part__00000000_.LayoutDirection = models.Vertical
+
+	__PartShape__00000000_.Name = `Part2-DiagramStructure`
+	__PartShape__00000000_.IsExpanded = false
+	__PartShape__00000000_.X = 130.497172
+	__PartShape__00000000_.Y = 163.764962
+	__PartShape__00000000_.Width = 0.000000
+	__PartShape__00000000_.Height = 0.000000
+	__PartShape__00000000_.IsHidden = false
+	__PartShape__00000000_.WidthWeight = 0.000000
+	__PartShape__00000000_.OverideLayoutDirection = false
+	__PartShape__00000000_.LayoutDirection = models.Vertical
+
 	__System__00000000_.Name = ``
 	__System__00000000_.ComputedPrefix = ``
-	__System__00000000_.IsExpanded = false
+	__System__00000000_.IsExpanded = true
 	__System__00000000_.LayoutDirection = models.Vertical
-	__System__00000000_.IsPartsNodeExpanded = false
+	__System__00000000_.IsPartsNodeExpanded = true
 	__System__00000000_.IsSubSystemsNodeExpanded = false
 	__System__00000000_.IsLinksNodeExpanded = false
 	__System__00000000_.IsDiagramStructuresNodeExpanded = true
 
 	// insertion point for setup of pointers
+	__DiagramStructure__00000000_.Part_Shapes = append(__DiagramStructure__00000000_.Part_Shapes, __PartShape__00000000_)
 	__Library__00000000_.RootSystems = append(__Library__00000000_.RootSystems, __System__00000000_)
+	__PartShape__00000000_.Part = __Part__00000000_
+	__System__00000000_.Parts = append(__System__00000000_.Parts, __Part__00000000_)
 	__System__00000000_.DiagramStructures = append(__System__00000000_.DiagramStructures, __DiagramStructure__00000000_)
 	__System__00000000_.DiagramStructures = append(__System__00000000_.DiagramStructures, __DiagramStructure__00000001_)
 }

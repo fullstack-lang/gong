@@ -17,6 +17,9 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	*parentNodes = append(*parentNodes, libraryNode)
 
 	addRenameButton(library, libraryNode, stager)
+	libraryNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsExpanded)
+	libraryNode.OnNameChange = stager.onNameChange(library)
+	libraryNode.OnClick = onNodeClicked(stager, library)
 
 	//
 	// Sub Libraries
@@ -28,6 +31,8 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		IsNodeClickable: true,
 	}
 	libraryNode.Children = append(libraryNode.Children, subLibrariesNode)
+	subLibrariesNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsSubLibrariesNodeExpanded)
+	subLibrariesNode.OnClick = onNodeClicked(stager, library)
 
 	for _, subLibrary := range library.SubLibraries {
 		stager.treeLibrary(subLibrary, &subLibrariesNode.Children)
@@ -55,6 +60,8 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 		IsNodeClickable: true,
 	}
 	libraryNode.Children = append(libraryNode.Children, systemsNode)
+	systemsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&library.IsSystemsNodeExpanded)
+	systemsNode.OnClick = onNodeClicked(stager, library)
 
 	for _, system := range library.RootSystems {
 		stager.treeSystem(system, systemsNode, &library.SystemsWhoseNodeIsExpanded)
