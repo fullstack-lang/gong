@@ -44,11 +44,13 @@ func _(stage *models.Stage) {
 
 	__ConcernCompositionShape__00000000_ := (&models.ConcernCompositionShape{Name: `share his CONOPS with stakeholders to Messages are legally bindings`}).Stage(stage)
 	__ConcernCompositionShape__00000001_ := (&models.ConcernCompositionShape{Name: `Develop Tool to Reuse SysML Statemachines`}).Stage(stage)
+	__ConcernCompositionShape__00000002_ := (&models.ConcernCompositionShape{Name: `Develop Tool to Tailor Statemachines to add messages generation`}).Stage(stage)
 
 	__ConcernOutputShape__00000000_ := (&models.ConcernOutputShape{Name: `share his CONOPS with stakeholders to CONOPS`}).Stage(stage)
 	__ConcernOutputShape__00000001_ := (&models.ConcernOutputShape{Name: `capture CONOPS for developpers to CONOPS`}).Stage(stage)
 	__ConcernOutputShape__00000002_ := (&models.ConcernOutputShape{Name: `capture CONOPS for developpers to Structured CONOPS`}).Stage(stage)
 	__ConcernOutputShape__00000003_ := (&models.ConcernOutputShape{Name: `Messages are legally bindings to Messages generated during the CONOPS`}).Stage(stage)
+	__ConcernOutputShape__00000004_ := (&models.ConcernOutputShape{Name: `Develop Tool to MBSE Tool`}).Stage(stage)
 
 	__ConcernShape__00000000_ := (&models.ConcernShape{Name: `-Default Diagram`}).Stage(stage)
 	__ConcernShape__00000001_ := (&models.ConcernShape{Name: `-Default Diagram`}).Stage(stage)
@@ -59,6 +61,12 @@ func _(stage *models.Stage) {
 
 	__ControlPointShape__00000000_ := (&models.ControlPointShape{Name: `Control Point Shape in Messages are legally bindings to Messages generated during the CONOPS 0`}).Stage(stage)
 	__ControlPointShape__00000001_ := (&models.ControlPointShape{Name: `Control Point Shape in Messages are legally bindings to Messages generated during the CONOPS 1`}).Stage(stage)
+	__ControlPointShape__00000002_ := (&models.ControlPointShape{Name: `Control Point Shape in Modeling of the CONOPS translates a non structured CONOPS into a structure CONOPS to Messages generated during the lifecyle 0`}).Stage(stage)
+	__ControlPointShape__00000003_ := (&models.ControlPointShape{Name: `Control Point Shape in Modeling of the CONOPS translates a non structured CONOPS into a structure CONOPS to Messages generated during the lifecyle 1`}).Stage(stage)
+	__ControlPointShape__00000004_ := (&models.ControlPointShape{Name: `Control Point Shape in Modeling of the CONOPS translates a non structured CONOPS into a structure CONOPS to Messages generated during the lifecyle 2`}).Stage(stage)
+	__ControlPointShape__00000005_ := (&models.ControlPointShape{Name: `Control Point Shape in Modeling of the CONOPS translates a non structured CONOPS into a structure CONOPS to Messages generated during the lifecyle 2`}).Stage(stage)
+	__ControlPointShape__00000006_ := (&models.ControlPointShape{Name: `Control Point Shape in Modeling of the CONOPS translates a non structured CONOPS into a structure CONOPS to Messages generated during the lifecyle 2`}).Stage(stage)
+	__ControlPointShape__00000007_ := (&models.ControlPointShape{Name: `Control Point Shape in Modeling of the CONOPS translates a non structured CONOPS into a structure CONOPS to Messages generated during the lifecyle 3`}).Stage(stage)
 
 	__Deliverable__00000000_ := (&models.Deliverable{Name: `CONOPS`}).Stage(stage)
 	__Deliverable__00000001_ := (&models.Deliverable{Name: `Structured CONOPS`}).Stage(stage)
@@ -89,13 +97,8 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: `Capture of the state machine DSM concepts`}).Stage(stage)
 
-	__Note__00000000_ := (&models.Note{Name: `Modeling of the CONOPS translates a non structured CONOPS into a structure CONOPS`}).Stage(stage)
 	__Note__00000001_ := (&models.Note{Name: `The System of Interest is an operational Messaging Application `}).Stage(stage)
 
-	__NoteDeliverableShape__00000000_ := (&models.NoteDeliverableShape{Name: `Modeling of the CONOPS to Messages generated during the CONOPS`}).Stage(stage)
-	__NoteDeliverableShape__00000001_ := (&models.NoteDeliverableShape{Name: `Modeling of the CONOPS to Messages generated during the lifecyle`}).Stage(stage)
-
-	__NoteShape__00000000_ := (&models.NoteShape{Name: `-Default Diagram`}).Stage(stage)
 	__NoteShape__00000001_ := (&models.NoteShape{Name: `-Default Diagram`}).Stage(stage)
 
 	__NoteTaskShape__00000000_ := (&models.NoteTaskShape{Name: `The System of Interest is an operational Messaging Application  to Messages are legally bindings`}).Stage(stage)
@@ -134,24 +137,24 @@ func _(stage *models.Stage) {
 
 	__ConceptShape__00000000_.Name = `-Default Diagram`
 	__ConceptShape__00000000_.IsExpanded = false
-	__ConceptShape__00000000_.X = 1289.236897
-	__ConceptShape__00000000_.Y = 835.816417
+	__ConceptShape__00000000_.X = 1185.236897
+	__ConceptShape__00000000_.Y = 672.816417
 	__ConceptShape__00000000_.Width = 250.000000
 	__ConceptShape__00000000_.Height = 70.000000
 	__ConceptShape__00000000_.IsHidden = false
 
 	__ConceptShape__00000001_.Name = `-Default Diagram`
 	__ConceptShape__00000001_.IsExpanded = false
-	__ConceptShape__00000001_.X = 1289.929824
-	__ConceptShape__00000001_.Y = 977.933474
+	__ConceptShape__00000001_.X = 1195.929824
+	__ConceptShape__00000001_.Y = 782.933474
 	__ConceptShape__00000001_.Width = 250.000000
 	__ConceptShape__00000001_.Height = 70.000000
 	__ConceptShape__00000001_.IsHidden = false
 
 	__ConceptShape__00000002_.Name = `-Default Diagram`
 	__ConceptShape__00000002_.IsExpanded = false
-	__ConceptShape__00000002_.X = 1239.506465
-	__ConceptShape__00000002_.Y = 1105.151534
+	__ConceptShape__00000002_.X = 1187.506465
+	__ConceptShape__00000002_.Y = 924.151534
 	__ConceptShape__00000002_.Width = 250.000000
 	__ConceptShape__00000002_.Height = 70.000000
 	__ConceptShape__00000002_.IsHidden = false
@@ -244,6 +247,14 @@ func _(stage *models.Stage) {
 	__ConcernCompositionShape__00000001_.CornerOffsetRatio = 1.727902
 	__ConcernCompositionShape__00000001_.IsHidden = false
 
+	__ConcernCompositionShape__00000002_.Name = `Develop Tool to Tailor Statemachines to add messages generation`
+	__ConcernCompositionShape__00000002_.StartRatio = 0.500000
+	__ConcernCompositionShape__00000002_.EndRatio = 0.500000
+	__ConcernCompositionShape__00000002_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ConcernCompositionShape__00000002_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ConcernCompositionShape__00000002_.CornerOffsetRatio = 2.301688
+	__ConcernCompositionShape__00000002_.IsHidden = false
+
 	__ConcernOutputShape__00000000_.Name = `share his CONOPS with stakeholders to CONOPS`
 	__ConcernOutputShape__00000000_.StartRatio = 0.500000
 	__ConcernOutputShape__00000000_.EndRatio = 0.500000
@@ -276,6 +287,14 @@ func _(stage *models.Stage) {
 	__ConcernOutputShape__00000003_.CornerOffsetRatio = 1.680000
 	__ConcernOutputShape__00000003_.IsHidden = false
 
+	__ConcernOutputShape__00000004_.Name = `Develop Tool to MBSE Tool`
+	__ConcernOutputShape__00000004_.StartRatio = 0.500000
+	__ConcernOutputShape__00000004_.EndRatio = 0.500000
+	__ConcernOutputShape__00000004_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ConcernOutputShape__00000004_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ConcernOutputShape__00000004_.CornerOffsetRatio = 1.680000
+	__ConcernOutputShape__00000004_.IsHidden = false
+
 	__ConcernShape__00000000_.Name = `-Default Diagram`
 	__ConcernShape__00000000_.IsExpanded = false
 	__ConcernShape__00000000_.X = 403.378500
@@ -286,8 +305,8 @@ func _(stage *models.Stage) {
 
 	__ConcernShape__00000001_.Name = `-Default Diagram`
 	__ConcernShape__00000001_.IsExpanded = false
-	__ConcernShape__00000001_.X = 384.704161
-	__ConcernShape__00000001_.Y = 401.421651
+	__ConcernShape__00000001_.X = 373.704161
+	__ConcernShape__00000001_.Y = 348.421651
 	__ConcernShape__00000001_.Width = 250.000000
 	__ConcernShape__00000001_.Height = 70.000000
 	__ConcernShape__00000001_.IsHidden = false
@@ -318,8 +337,8 @@ func _(stage *models.Stage) {
 
 	__ConcernShape__00000005_.Name = `-Default Diagram`
 	__ConcernShape__00000005_.IsExpanded = false
-	__ConcernShape__00000005_.X = 574.816243
-	__ConcernShape__00000005_.Y = 1128.028342
+	__ConcernShape__00000005_.X = 599.816243
+	__ConcernShape__00000005_.Y = 1131.028342
 	__ConcernShape__00000005_.Width = 250.000000
 	__ConcernShape__00000005_.Height = 70.000000
 	__ConcernShape__00000005_.IsHidden = false
@@ -333,6 +352,36 @@ func _(stage *models.Stage) {
 	__ControlPointShape__00000001_.X_Relative = 0.552069
 	__ControlPointShape__00000001_.Y_Relative = 0.547072
 	__ControlPointShape__00000001_.IsStartShapeTheClosestShape = false
+
+	__ControlPointShape__00000002_.Name = `Control Point Shape in Modeling of the CONOPS translates a non structured CONOPS into a structure CONOPS to Messages generated during the lifecyle 0`
+	__ControlPointShape__00000002_.X_Relative = 0.911759
+	__ControlPointShape__00000002_.Y_Relative = 0.596052
+	__ControlPointShape__00000002_.IsStartShapeTheClosestShape = true
+
+	__ControlPointShape__00000003_.Name = `Control Point Shape in Modeling of the CONOPS translates a non structured CONOPS into a structure CONOPS to Messages generated during the lifecyle 1`
+	__ControlPointShape__00000003_.X_Relative = 1.207758
+	__ControlPointShape__00000003_.Y_Relative = 1.121053
+	__ControlPointShape__00000003_.IsStartShapeTheClosestShape = true
+
+	__ControlPointShape__00000004_.Name = `Control Point Shape in Modeling of the CONOPS translates a non structured CONOPS into a structure CONOPS to Messages generated during the lifecyle 2`
+	__ControlPointShape__00000004_.X_Relative = 0.671760
+	__ControlPointShape__00000004_.Y_Relative = 1.821054
+	__ControlPointShape__00000004_.IsStartShapeTheClosestShape = true
+
+	__ControlPointShape__00000005_.Name = `Control Point Shape in Modeling of the CONOPS translates a non structured CONOPS into a structure CONOPS to Messages generated during the lifecyle 2`
+	__ControlPointShape__00000005_.X_Relative = 0.691760
+	__ControlPointShape__00000005_.Y_Relative = 1.871054
+	__ControlPointShape__00000005_.IsStartShapeTheClosestShape = true
+
+	__ControlPointShape__00000006_.Name = `Control Point Shape in Modeling of the CONOPS translates a non structured CONOPS into a structure CONOPS to Messages generated during the lifecyle 2`
+	__ControlPointShape__00000006_.X_Relative = 1.219758
+	__ControlPointShape__00000006_.Y_Relative = 3.112717
+	__ControlPointShape__00000006_.IsStartShapeTheClosestShape = true
+
+	__ControlPointShape__00000007_.Name = `Control Point Shape in Modeling of the CONOPS translates a non structured CONOPS into a structure CONOPS to Messages generated during the lifecyle 3`
+	__ControlPointShape__00000007_.X_Relative = 0.953029
+	__ControlPointShape__00000007_.Y_Relative = 0.454706
+	__ControlPointShape__00000007_.IsStartShapeTheClosestShape = false
 
 	__Deliverable__00000000_.Name = `CONOPS`
 	__Deliverable__00000000_.ComputedPrefix = `1`
@@ -456,48 +505,48 @@ func _(stage *models.Stage) {
 
 	__DeliverableShape__00000001_.Name = `-Default Diagram`
 	__DeliverableShape__00000001_.IsExpanded = false
-	__DeliverableShape__00000001_.X = 784.673110
-	__DeliverableShape__00000001_.Y = 493.330291
+	__DeliverableShape__00000001_.X = 749.673110
+	__DeliverableShape__00000001_.Y = 429.330291
 	__DeliverableShape__00000001_.Width = 250.000000
 	__DeliverableShape__00000001_.Height = 70.000000
 	__DeliverableShape__00000001_.IsHidden = false
 
 	__DeliverableShape__00000002_.Name = `-Default Diagram`
 	__DeliverableShape__00000002_.IsExpanded = false
-	__DeliverableShape__00000002_.X = 597.395240
-	__DeliverableShape__00000002_.Y = 685.112103
+	__DeliverableShape__00000002_.X = 568.395240
+	__DeliverableShape__00000002_.Y = 580.112103
 	__DeliverableShape__00000002_.Width = 250.000000
 	__DeliverableShape__00000002_.Height = 70.000000
 	__DeliverableShape__00000002_.IsHidden = false
 
 	__DeliverableShape__00000003_.Name = `-Default Diagram`
 	__DeliverableShape__00000003_.IsExpanded = false
-	__DeliverableShape__00000003_.X = 899.287537
-	__DeliverableShape__00000003_.Y = 685.641290
+	__DeliverableShape__00000003_.X = 891.287537
+	__DeliverableShape__00000003_.Y = 568.641290
 	__DeliverableShape__00000003_.Width = 250.000000
 	__DeliverableShape__00000003_.Height = 70.000000
 	__DeliverableShape__00000003_.IsHidden = false
 
 	__DeliverableShape__00000004_.Name = `-Default Diagram`
 	__DeliverableShape__00000004_.IsExpanded = false
-	__DeliverableShape__00000004_.X = 1183.517501
-	__DeliverableShape__00000004_.Y = 349.424189
+	__DeliverableShape__00000004_.X = 1156.517501
+	__DeliverableShape__00000004_.Y = 346.424189
 	__DeliverableShape__00000004_.Width = 250.000000
 	__DeliverableShape__00000004_.Height = 70.000000
 	__DeliverableShape__00000004_.IsHidden = false
 
 	__DeliverableShape__00000005_.Name = `-Default Diagram`
 	__DeliverableShape__00000005_.IsExpanded = false
-	__DeliverableShape__00000005_.X = 932.200771
-	__DeliverableShape__00000005_.Y = 891.503870
+	__DeliverableShape__00000005_.X = 849.200771
+	__DeliverableShape__00000005_.Y = 797.503870
 	__DeliverableShape__00000005_.Width = 250.000000
 	__DeliverableShape__00000005_.Height = 70.000000
 	__DeliverableShape__00000005_.IsHidden = false
 
 	__DeliverableShape__00000006_.Name = `-Default Diagram`
 	__DeliverableShape__00000006_.IsExpanded = false
-	__DeliverableShape__00000006_.X = 759.077074
-	__DeliverableShape__00000006_.Y = 1012.044617
+	__DeliverableShape__00000006_.X = 757.077074
+	__DeliverableShape__00000006_.Y = 959.044617
 	__DeliverableShape__00000006_.Width = 250.000000
 	__DeliverableShape__00000006_.Height = 70.000000
 	__DeliverableShape__00000006_.IsHidden = false
@@ -511,8 +560,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
-	__Diagram__00000000_.Width = 16900.000000
-	__Diagram__00000000_.Height = 16900.000000
+	__Diagram__00000000_.Width = 20800.000000
+	__Diagram__00000000_.Height = 20800.000000
 	__Diagram__00000000_.IsRequirementsNodeExpanded = false
 	__Diagram__00000000_.IsConceptsNodeExpanded = true
 	__Diagram__00000000_.IsPBSNodeExpanded = true
@@ -528,39 +577,10 @@ func _(stage *models.Stage) {
 	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 
-	__Note__00000000_.Name = `Modeling of the CONOPS translates a non structured CONOPS into a structure CONOPS`
-	__Note__00000000_.ComputedPrefix = `1`
-	__Note__00000000_.IsExpanded = false
-	__Note__00000000_.LayoutDirection = models.Vertical
-
 	__Note__00000001_.Name = `The System of Interest is an operational Messaging Application `
-	__Note__00000001_.ComputedPrefix = `2`
+	__Note__00000001_.ComputedPrefix = `1`
 	__Note__00000001_.IsExpanded = false
 	__Note__00000001_.LayoutDirection = models.Vertical
-
-	__NoteDeliverableShape__00000000_.Name = `Modeling of the CONOPS to Messages generated during the CONOPS`
-	__NoteDeliverableShape__00000000_.StartRatio = 0.500000
-	__NoteDeliverableShape__00000000_.EndRatio = 0.500000
-	__NoteDeliverableShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
-	__NoteDeliverableShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
-	__NoteDeliverableShape__00000000_.CornerOffsetRatio = 1.680000
-	__NoteDeliverableShape__00000000_.IsHidden = false
-
-	__NoteDeliverableShape__00000001_.Name = `Modeling of the CONOPS to Messages generated during the lifecyle`
-	__NoteDeliverableShape__00000001_.StartRatio = 0.500000
-	__NoteDeliverableShape__00000001_.EndRatio = 0.500000
-	__NoteDeliverableShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
-	__NoteDeliverableShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
-	__NoteDeliverableShape__00000001_.CornerOffsetRatio = 1.680000
-	__NoteDeliverableShape__00000001_.IsHidden = false
-
-	__NoteShape__00000000_.Name = `-Default Diagram`
-	__NoteShape__00000000_.IsExpanded = false
-	__NoteShape__00000000_.X = 1231.518196
-	__NoteShape__00000000_.Y = 571.806620
-	__NoteShape__00000000_.Width = 250.000000
-	__NoteShape__00000000_.Height = 120.000000
-	__NoteShape__00000000_.IsHidden = false
 
 	__NoteShape__00000001_.Name = `-Default Diagram`
 	__NoteShape__00000001_.IsExpanded = false
@@ -664,8 +684,8 @@ func _(stage *models.Stage) {
 
 	__StakeholderShape__00000003_.Name = `-Default Diagram`
 	__StakeholderShape__00000003_.IsExpanded = false
-	__StakeholderShape__00000003_.X = 35.471908
-	__StakeholderShape__00000003_.Y = 1197.288029
+	__StakeholderShape__00000003_.X = 46.471908
+	__StakeholderShape__00000003_.Y = 1270.288029
 	__StakeholderShape__00000003_.Width = 250.000000
 	__StakeholderShape__00000003_.Height = 70.000000
 	__StakeholderShape__00000003_.IsHidden = false
@@ -681,8 +701,10 @@ func _(stage *models.Stage) {
 	__Concern__00000002_.Outputs = append(__Concern__00000002_.Outputs, __Deliverable__00000004_)
 	__Concern__00000003_.SubConcerns = append(__Concern__00000003_.SubConcerns, __Concern__00000004_)
 	__Concern__00000003_.SubConcerns = append(__Concern__00000003_.SubConcerns, __Concern__00000005_)
+	__Concern__00000003_.Outputs = append(__Concern__00000003_.Outputs, __Deliverable__00000006_)
 	__ConcernCompositionShape__00000000_.Concern = __Concern__00000002_
 	__ConcernCompositionShape__00000001_.Concern = __Concern__00000004_
+	__ConcernCompositionShape__00000002_.Concern = __Concern__00000005_
 	__ConcernOutputShape__00000000_.Concern = __Concern__00000000_
 	__ConcernOutputShape__00000000_.Deliverable = __Deliverable__00000000_
 	__ConcernOutputShape__00000001_.Concern = __Concern__00000001_
@@ -693,6 +715,8 @@ func _(stage *models.Stage) {
 	__ConcernOutputShape__00000003_.Deliverable = __Deliverable__00000004_
 	__ConcernOutputShape__00000003_.ControlPointShapes = append(__ConcernOutputShape__00000003_.ControlPointShapes, __ControlPointShape__00000000_)
 	__ConcernOutputShape__00000003_.ControlPointShapes = append(__ConcernOutputShape__00000003_.ControlPointShapes, __ControlPointShape__00000001_)
+	__ConcernOutputShape__00000004_.Concern = __Concern__00000003_
+	__ConcernOutputShape__00000004_.Deliverable = __Deliverable__00000006_
 	__ConcernShape__00000000_.Concern = __Concern__00000000_
 	__ConcernShape__00000001_.Concern = __Concern__00000001_
 	__ConcernShape__00000002_.Concern = __Concern__00000002_
@@ -733,6 +757,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.DeliverablesWhoseNodeIsExpanded = append(__Diagram__00000000_.DeliverablesWhoseNodeIsExpanded, __Deliverable__00000001_)
 	__Diagram__00000000_.DeliverablesWhoseNodeIsExpanded = append(__Diagram__00000000_.DeliverablesWhoseNodeIsExpanded, __Deliverable__00000000_)
 	__Diagram__00000000_.DeliverablesWhoseNodeIsExpanded = append(__Diagram__00000000_.DeliverablesWhoseNodeIsExpanded, __Deliverable__00000003_)
+	__Diagram__00000000_.DeliverablesWhoseNodeIsExpanded = append(__Diagram__00000000_.DeliverablesWhoseNodeIsExpanded, __Deliverable__00000006_)
 	__Diagram__00000000_.DeliverableComposition_Shapes = append(__Diagram__00000000_.DeliverableComposition_Shapes, __DeliverableCompositionShape__00000000_)
 	__Diagram__00000000_.DeliverableComposition_Shapes = append(__Diagram__00000000_.DeliverableComposition_Shapes, __DeliverableCompositionShape__00000002_)
 	__Diagram__00000000_.DeliverableComposition_Shapes = append(__Diagram__00000000_.DeliverableComposition_Shapes, __DeliverableCompositionShape__00000003_)
@@ -747,14 +772,13 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.ConcernsWhoseNodeIsExpanded = append(__Diagram__00000000_.ConcernsWhoseNodeIsExpanded, __Concern__00000003_)
 	__Diagram__00000000_.ConcernComposition_Shapes = append(__Diagram__00000000_.ConcernComposition_Shapes, __ConcernCompositionShape__00000000_)
 	__Diagram__00000000_.ConcernComposition_Shapes = append(__Diagram__00000000_.ConcernComposition_Shapes, __ConcernCompositionShape__00000001_)
+	__Diagram__00000000_.ConcernComposition_Shapes = append(__Diagram__00000000_.ConcernComposition_Shapes, __ConcernCompositionShape__00000002_)
 	__Diagram__00000000_.ConcernOutputShapes = append(__Diagram__00000000_.ConcernOutputShapes, __ConcernOutputShape__00000000_)
 	__Diagram__00000000_.ConcernOutputShapes = append(__Diagram__00000000_.ConcernOutputShapes, __ConcernOutputShape__00000001_)
 	__Diagram__00000000_.ConcernOutputShapes = append(__Diagram__00000000_.ConcernOutputShapes, __ConcernOutputShape__00000002_)
 	__Diagram__00000000_.ConcernOutputShapes = append(__Diagram__00000000_.ConcernOutputShapes, __ConcernOutputShape__00000003_)
-	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000000_)
+	__Diagram__00000000_.ConcernOutputShapes = append(__Diagram__00000000_.ConcernOutputShapes, __ConcernOutputShape__00000004_)
 	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000001_)
-	__Diagram__00000000_.NoteDeliverableShapes = append(__Diagram__00000000_.NoteDeliverableShapes, __NoteDeliverableShape__00000000_)
-	__Diagram__00000000_.NoteDeliverableShapes = append(__Diagram__00000000_.NoteDeliverableShapes, __NoteDeliverableShape__00000001_)
 	__Diagram__00000000_.NoteTaskShapes = append(__Diagram__00000000_.NoteTaskShapes, __NoteTaskShape__00000000_)
 	__Diagram__00000000_.Stakeholder_Shapes = append(__Diagram__00000000_.Stakeholder_Shapes, __StakeholderShape__00000000_)
 	__Diagram__00000000_.Stakeholder_Shapes = append(__Diagram__00000000_.Stakeholder_Shapes, __StakeholderShape__00000001_)
@@ -784,17 +808,9 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootConcepts = append(__Library__00000000_.RootConcepts, __Concept__00000000_)
 	__Library__00000000_.RootConcepts = append(__Library__00000000_.RootConcepts, __Concept__00000001_)
 	__Library__00000000_.RootConcepts = append(__Library__00000000_.RootConcepts, __Concept__00000002_)
-	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000000_)
 	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000001_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
-	__Note__00000000_.Deliverables = append(__Note__00000000_.Deliverables, __Deliverable__00000004_)
-	__Note__00000000_.Deliverables = append(__Note__00000000_.Deliverables, __Deliverable__00000005_)
 	__Note__00000001_.Tasks = append(__Note__00000001_.Tasks, __Concern__00000002_)
-	__NoteDeliverableShape__00000000_.Note = __Note__00000000_
-	__NoteDeliverableShape__00000000_.Deliverable = __Deliverable__00000004_
-	__NoteDeliverableShape__00000001_.Note = __Note__00000000_
-	__NoteDeliverableShape__00000001_.Deliverable = __Deliverable__00000005_
-	__NoteShape__00000000_.Note = __Note__00000000_
 	__NoteShape__00000001_.Note = __Note__00000001_
 	__NoteTaskShape__00000000_.Note = __Note__00000001_
 	__NoteTaskShape__00000000_.Task = __Concern__00000002_
