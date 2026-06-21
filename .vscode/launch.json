@@ -8,9 +8,7 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
             "args": [
-                "-unmarshallFromCode",
-                "data/aviva stool.go",
-                "-marshallOnCommit",
+                "edit",
                 "data/aviva stool.go"
             ]
         },
@@ -20,7 +18,9 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
-            "args": []
+            "args": [
+                "edit"
+            ]
         },
         {
             "name": "dsm - barrgraph: go run cubism and abstract art",
@@ -29,8 +29,8 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
             "args": [
-                "-unmarshallFromCode=data/cubism and abstract art.go",
-                "-marshallOnCommit=data/cubism and abstract art.go"
+                "edit",
+                "data/cubism and abstract art.go"
             ]
         },
         {
@@ -40,9 +40,7 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
             "args": [
-                "-unmarshallFromCode",
-                "data/modern design.go",
-                "-marshallOnCommit",
+                "edit",
                 "data/modern design.go"
             ]
         },
@@ -53,8 +51,8 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
             "args": [
-                "-unmarshallFromCode=data/netherland golden century.go",
-                "-marshallOnCommit=data/netherland golden century.go"
+                "edit",
+                "data/netherland golden century.go"
             ]
         },
         {
@@ -64,9 +62,7 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
             "args": [
-                "-unmarshallFromCode",
-                "data/renaissance.go",
-                "-marshallOnCommit",
+                "edit",
                 "data/renaissance.go"
             ]
         },
@@ -117,8 +113,7 @@
             "mode": "debug",
             "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
             "args": [
-                "-unmarshallFromCode=data/capture_process.go",
-                "-marshallOnCommit=data/capture_process"
+                "data/capture_process.go"
             ]
         },
         {
@@ -141,8 +136,9 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/process/go/cmd/process",
             "args": [
+                "edit",
                 "data/144.go",
-                "-embeddedDiagrams=false"
+                "--embedded-diagrams=false"
             ]
         },
         {
@@ -152,8 +148,9 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/process/go/cmd/process",
             "args": [
+                "edit",
                 "data/foo.go",
-                "-embeddedDiagrams=false"
+                "--embedded-diagrams=false"
             ]
         },
         {
@@ -163,8 +160,9 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/process/go/cmd/process",
             "args": [
+                "edit",
                 "data/icao4444.go",
-                "-embeddedDiagrams=false"
+                "--embedded-diagrams=false"
             ]
         },
         {
@@ -174,8 +172,9 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/process/go/cmd/process",
             "args": [
+                "edit",
                 "data/ifps_ops.go",
-                "-embeddedDiagrams=false"
+                "--embedded-diagrams=false"
             ]
         },
         {
@@ -185,8 +184,9 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/process/go/cmd/process",
             "args": [
+                "edit",
                 "data/rqs_spl_v1.go",
-                "-embeddedDiagrams=false"
+                "--embedded-diagrams=false"
             ]
         },
         {
@@ -196,8 +196,9 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/process/go/cmd/process",
             "args": [
+                "edit",
                 "data/rqs_spl_v2.go",
-                "-embeddedDiagrams=false"
+                "--embedded-diagrams=false"
             ]
         },
         {
@@ -207,8 +208,9 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/process/go/cmd/process",
             "args": [
+                "edit",
                 "data/simple.go",
-                "-embeddedDiagrams=false"
+                "--embedded-diagrams=false"
             ]
         },
         {
@@ -218,8 +220,9 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/process/go/cmd/process",
             "args": [
+                "edit",
                 "data/stage.go",
-                "-embeddedDiagrams=false"
+                "--embedded-diagrams=false"
             ]
         },
         {
@@ -242,7 +245,8 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/project/go/cmd/project",
             "args": [
-                "-embeddedDiagrams=false"
+                "edit",
+                "--embedded-diagrams=false"
             ]
         },
         {
@@ -252,7 +256,8 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/project/go/cmd/project",
             "args": [
-                "-embeddedDiagrams=false",
+                "edit",
+                "--embedded-diagrams=false",
                 "data/issue1121.go"
             ]
         },
@@ -263,7 +268,8 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/project/go/cmd/project",
             "args": [
-                "-embeddedDiagrams=false",
+                "edit",
+                "--embedded-diagrams=false",
                 "data/issue1263.go"
             ]
         },
@@ -274,7 +280,8 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/project/go/cmd/project",
             "args": [
-                "-embeddedDiagrams=false",
+                "edit",
+                "--embedded-diagrams=false",
                 "data/issue1337.go"
             ]
         },
@@ -285,7 +292,8 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/project/go/cmd/project",
             "args": [
-                "-embeddedDiagrams=false",
+                "edit",
+                "--embedded-diagrams=false",
                 "data/simple.go"
             ]
         },
@@ -296,8 +304,9 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/project/go/cmd/project",
             "args": [
+                "edit",
                 "data/stage.go",
-                "-embeddedDiagrams=false"
+                "--embedded-diagrams=false"
             ]
         },
         {
@@ -307,8 +316,9 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/project/go/cmd/project",
             "args": [
+                "edit",
                 "data/starline_report.go",
-                "-embeddedDiagrams=false"
+                "--embedded-diagrams=false"
             ]
         },
         {
@@ -331,7 +341,7 @@
             "program": "${workspaceFolder}/dsm/reqif/go/cmd/reqif",
             "buildFlags": "-v",
             "args": [
-                "-embeddedDiagrams=false"
+                "--embedded-diagrams=false"
             ]
         },
         {
@@ -342,7 +352,7 @@
             "program": "${workspaceFolder}/dsm/reqif/go/cmd/reqif",
             "buildFlags": "-v",
             "args": [
-                "-embeddedDiagrams=false",
+                "--embedded-diagrams=false",
                 "-pathToReqifFile",
                 "samples/ReqIF for Wheeled Tennis Ball Drone.reqif",
                 "-pathToRenderingConf",
@@ -357,7 +367,7 @@
             "program": "${workspaceFolder}/dsm/reqif/go/cmd/reqif",
             "buildFlags": "-v",
             "args": [
-                "-embeddedDiagrams=false",
+                "--embedded-diagrams=false",
                 "-pathToReqifFile",
                 "samples/ReqIF for Wheeled Tennis Ball Drone.reqifz",
                 "-pathToRenderingConf",
@@ -371,41 +381,42 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/scenario/go/cmd/scenario",
             "args": [
+                "edit",
                 "data/stage.go",
-                "-embeddedDiagrams=false"
+                "--embedded-diagrams=false"
             ]
         },
         {
-            "name": "dsm - statemachines: go run -unmarshallFromCode=data/massive_probe_edit.go -marshallOnCommit=data/massive_probe_edit.go",
+            "name": "dsm - statemachines: go run . edit data/massive_probe_edit.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/statemachines/go/cmd/statemachines",
             "args": [
-                "-unmarshallFromCode=data/massive_probe_edit.go",
-                "-marshallOnCommit=data/massive_probe_edit.go"
+                "edit",
+                "data/massive_probe_edit.go"
             ]
         },
         {
-            "name": "dsm - statemachines: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
+            "name": "dsm - statemachines: go run . edit data/stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/statemachines/go/cmd/statemachines",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage.go"
+                "edit",
+                "data/stage.go"
             ]
         },
         {
-            "name": "dsm - statemachines: go run -unmarshallFromCode=data/uxloop.go -marshallOnCommit=data/uxloop.go",
+            "name": "dsm - statemachines: go run . edit data/uxloop.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/statemachines/go/cmd/statemachines",
             "args": [
-                "-unmarshallFromCode=data/uxloop.go",
-                "-marshallOnCommit=data/uxloop.go"
+                "edit",
+                "data/uxloop.go"
             ]
         },
         {
@@ -421,14 +432,14 @@
             ]
         },
         {
-            "name": "dsm - structure: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
+            "name": "dsm - structure: go run . edit data/stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/structure/go/cmd/structure",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage.go"
+                "edit",
+                "data/stage.go"
             ]
         },
         {
@@ -470,14 +481,14 @@
             ]
         },
         {
-            "name": "dsm - xsd: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
+            "name": "dsm - xsd: go run . edit data/stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage.go"
+                "edit",
+                "data/stage.go"
             ]
         },
         {
@@ -627,7 +638,7 @@
                 "data/stage.go",
                 "--out",
                 "data/stage",
-                "-embeddedDiagrams=true"
+                "--embedded-diagrams=true"
             ]
         },
         {
@@ -649,6 +660,7 @@
             "mode": "auto",
             "program": "${workspaceFolder}/pkg/docx/go/cmd/docx",
             "args": [
+                "edit",
                 "samples/test.docx"
             ]
         },
@@ -685,7 +697,7 @@
                 "data/stage.go",
                 "--out",
                 "data/stage",
-                "-embeddedDiagrams=true"
+                "--embedded-diagrams=true"
             ]
         },
         {
