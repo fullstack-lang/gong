@@ -6,10 +6,8 @@ import (
 	"log"
 
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
-
-	// insertion point for models import{{modelsImportDirective}}
-	test2_models "github.com/fullstack-lang/gong/test/test2/go/models"
-	test2_stack "github.com/fullstack-lang/gong/test/test2/go/stack"
+	"github.com/fullstack-lang/gong/test/test2/go/level1stack"
+	"github.com/fullstack-lang/gong/test/test2/go/models"
 )
 
 func main() {
@@ -23,18 +21,25 @@ func main() {
 	marshallOnCommit := ""
 	embeddedDiagrams := true
 
-	// setup model stack with its probe
-	stack := test2_stack.NewStack(nil, "test2", unmarshallFromCode, marshallOnCommit, "", embeddedDiagrams, true)
-	stack.Stage.SetGongMarshallingMode(test2_models.GongMarshallingAppendCommit)
+	// setup
+	// - model level1 stack with its probe
+	// - unmarshall/marshall go file with stage data
+	stack := level1stack.NewLevel1StackDelta("test2", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams, true)
+	stack.Stage.SetGongMarshallingMode(models.GongMarshallingAppendCommit)
 	stack.Stage.SetIsWithGenesisCommit(true) // the genesis commit is the first commit of the stage, it is the one that contains the initial data. It cannot be rollbacked.
 
+	// refresh the probe, therefore we can see what has been unmarshalled
 	stack.Probe.Refresh()
-	stack.Stage.Commit()
 
-	test2_models.NewStager(nil, stack.Stage, stack.Probe)
+	// initiates the UX loop
+	models.NewStager(
+		stack.R,
+		stack.Stage,
+		stack.Probe,
+	)
 
 	// Expose the HTTP and Socket bridges to the Angular frontend
-	wasmregistry.SetupWasmHooks(nil)
+	wasmregistry.SetupWasmHooks(stack.R)
 
 	select {} // Keep the WASM instance running indefinitely
 }

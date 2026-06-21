@@ -4,7 +4,7 @@ const VsCodeTasksConfig = `{
 	"version": "2.0.0",
 	"tasks": [
 	  {
-		"label": "02 - run {{pkgname}} --unmarshallFromCode=data/stage.go --marshallOnCommit=data/stage",
+		"label": "02 - run {{pkgname}} data/stage.go",
 		"type": "shell",
 		"options": {
 		  "cwd": "${workspaceFolder}/go/cmd/{{pkgname}}"
@@ -12,11 +12,10 @@ const VsCodeTasksConfig = `{
 		"command": "go",
 		"args": [
 		  "run",
-		  "main.go",
-		  "--unmarshallFromCode",
-		  "data/stage.go",
-		  "--marshallOnCommit",
+		  ".",
+		  "edit",
 		  "data/stage.go"
+
 		],
 		"group": "build"
 	  },
