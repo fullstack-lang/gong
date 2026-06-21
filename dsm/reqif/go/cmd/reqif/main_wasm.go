@@ -8,6 +8,14 @@ import (
 	"github.com/fullstack-lang/gong/dsm/reqif/go/level1stack"
 	"github.com/fullstack-lang/gong/dsm/reqif/go/models"
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
+
+	"github.com/fullstack-lang/gong/dsm/reqif/go/datatypes"
+	"github.com/fullstack-lang/gong/dsm/reqif/go/exporter"
+	"github.com/fullstack-lang/gong/dsm/reqif/go/namer"
+	"github.com/fullstack-lang/gong/dsm/reqif/go/specifications"
+	"github.com/fullstack-lang/gong/dsm/reqif/go/specobjects"
+	"github.com/fullstack-lang/gong/dsm/reqif/go/specrelations"
+	"github.com/fullstack-lang/gong/dsm/reqif/go/spectypes"
 )
 
 func main() {
@@ -35,8 +43,16 @@ func main() {
 	models.NewStager(
 		stack.R,
 		stack.Stage,
-		stack.Probe,
-	)
+		"",
+		"",
+		"",
+		&datatypes.DataTypeTreeStageUpdater{},
+		&spectypes.SpecTypesTreeStageUpdater{},
+		&specobjects.SpecObjectsTreeStageUpdater{},
+		&specrelations.SpecRelationsTreeStageUpdater{},
+		&specifications.SpecificationsTreeStageUpdater{},
+		&exporter.Exporter{},
+		&namer.ObjectNamer{})
 
 	// Expose the HTTP and Socket bridges to the Angular frontend
 	wasmregistry.SetupWasmHooks(stack.R)
