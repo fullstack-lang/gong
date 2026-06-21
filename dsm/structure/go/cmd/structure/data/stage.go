@@ -122,7 +122,7 @@ func _(stage *models.Stage) {
 	__Part__00000000_.ComputedPrefix = ``
 	__Part__00000000_.IsExpanded = false
 	__Part__00000000_.LayoutDirection = models.Vertical
-	__Part__00000000_.IsPortsNodeExpanded = true
+	__Part__00000000_.IsPortsNodeExpanded = false
 	__Part__00000000_.IsControlFlowsNodeExpanded = false
 	__Part__00000000_.IsDataFlowsNodeExpanded = false
 
@@ -145,8 +145,8 @@ func _(stage *models.Stage) {
 
 	__PartShape__00000009_.Name = `P1-DiagramStructure`
 	__PartShape__00000009_.IsExpanded = false
-	__PartShape__00000009_.X = 212.000000
-	__PartShape__00000009_.Y = 442.897868
+	__PartShape__00000009_.X = 216.000000
+	__PartShape__00000009_.Y = 384.897868
 	__PartShape__00000009_.Width = 250.000000
 	__PartShape__00000009_.Height = 144.999985
 	__PartShape__00000009_.IsHidden = false
@@ -171,8 +171,8 @@ func _(stage *models.Stage) {
 
 	__PortShape__00000009_.Name = `Port 1-DiagramStructure`
 	__PortShape__00000009_.IsExpanded = false
-	__PortShape__00000009_.X = 422.000000
-	__PortShape__00000009_.Y = 517.897837
+	__PortShape__00000009_.X = 426.000000
+	__PortShape__00000009_.Y = 459.897837
 	__PortShape__00000009_.Width = 80.000000
 	__PortShape__00000009_.Height = 40.000000
 	__PortShape__00000009_.IsHidden = false
@@ -193,7 +193,7 @@ func _(stage *models.Stage) {
 	__System__00000000_.SVG_Path = ``
 	__System__00000000_.InverseAppliedScaling = 0.000000
 	__System__00000000_.IsSubSystemNodeExpanded = false
-	__System__00000000_.IsDataFlowsNodeExpanded = false
+	__System__00000000_.IsDataFlowsNodeExpanded = true
 
 	__SystemShape__00000000_.Name = `SystemShape`
 	__SystemShape__00000000_.IsExpanded = false
@@ -216,7 +216,6 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.Part_Shapes = append(__DiagramStructure__00000000_.Part_Shapes, __PartShape__00000007_)
 	__DiagramStructure__00000000_.Part_Shapes = append(__DiagramStructure__00000000_.Part_Shapes, __PartShape__00000009_)
 	__DiagramStructure__00000000_.PartWhoseNodeIsExpanded = append(__DiagramStructure__00000000_.PartWhoseNodeIsExpanded, __Part__00000000_)
-	__DiagramStructure__00000000_.PartWhoseNodeIsExpanded = append(__DiagramStructure__00000000_.PartWhoseNodeIsExpanded, __Part__00000001_)
 	__DiagramStructure__00000000_.PortsWhoseNodeIsExpanded = append(__DiagramStructure__00000000_.PortsWhoseNodeIsExpanded, __Port__00000000_)
 	__DiagramStructure__00000000_.Port_Shapes = append(__DiagramStructure__00000000_.Port_Shapes, __PortShape__00000009_)
 	__DiagramStructure__00000000_.Port_Shapes = append(__DiagramStructure__00000000_.Port_Shapes, __PortShape__00000010_)

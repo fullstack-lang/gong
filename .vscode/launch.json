@@ -1298,26 +1298,31 @@
             ]
         },
         {
-            "name": "test - go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
+            "name": "test - go run . edit data/stage.go --out data/stage_out.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/test/test/go/cmd/test",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage_out"
+                "edit",
+                "data/stage.go",
+                "--out",
+                "data/stage_out.go"
             ]
         },
         {
-            "name": "test - go run -unmarshallFromCode=data/stage.go -marshallOnCommit=stage -logFile=app.log",
+            "name": "test - go run . edit data/stage.go --out stage --logFile app.log",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/test/test/go/cmd/test",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage",
-                "-logFile=app.log"
+                "edit",
+                "data/stage.go",
+                "--out",
+                "stage",
+                "--logFile",
+                "app.log"
             ]
         },
         {
@@ -1337,36 +1342,40 @@
             ]
         },
         {
-            "name": "test - go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
+            "name": "test - go run . edit data/stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/test/test/go/cmd/test",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
+                "edit",
+                "data/stage.go"
             ]
         },
         {
-            "name": "test - go run -port=8082 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
+            "name": "test - go run . edit data/stage.go --out data/stage_out.go --port 8082",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/test/test/go/cmd/test",
             "args": [
-                "-port=8082",
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage_out"
+                "edit",
+                "data/stage.go",
+                "--out",
+                "data/stage_out.go",
+                "--port",
+                "8082"
             ]
         },
         {
-            "name": "test - go run -marshallOnCommit=stage",
+            "name": "test - go run . edit stage --out stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/test/test/go/cmd/test",
             "args": [
-                "-marshallOnCommit=stage"
+                "edit",
+                "stage"
             ]
         },
         {
@@ -1381,35 +1390,40 @@
             ]
         },
         {
-            "name": "test - test2: go run -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
+            "name": "test - test2: go run . edit data/stage.go --out data/stage_out.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test2/go/cmd/test2",
+            "program": "${workspaceFolder}/test/test2/go/cmd/test2",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage_out"
+                "edit",
+                "data/stage.go",
+                "--out",
+                "data/stage_out.go"
             ]
         },
         {
-            "name": "test - test2: go run -unmarshallFromCode=data/stage2.go -marshallOnCommit=stage2",
+            "name": "test - test2: go run . edit data/stage2.go --out stage2",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test2/go/cmd/test2",
+            "program": "${workspaceFolder}/test/test2/go/cmd/test2",
             "args": [
-                "-unmarshallFromCode=data/stage2.go",
-                "-marshallOnCommit=stage2"
+                "edit",
+                "data/stage2.go",
+                "--out",
+                "stage2"
             ]
         },
         {
-            "name": "test - test2: go run -unmarshallFromCode=data/stage2.go",
+            "name": "test - test2: go run . edit data/stage2.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test2/go/cmd/test2",
+            "program": "${workspaceFolder}/test/test2/go/cmd/test2",
             "args": [
-                "-unmarshallFromCode=data/stage2.go"
+                "edit",
+                "data/stage2.go"
             ]
         },
         {
