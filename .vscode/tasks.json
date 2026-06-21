@@ -1147,10 +1147,10 @@
       "group": "build"
     },
     {
-      "label": "test - test: go run . edit stage.go --out stage_out.go --embedded-diagrams",
+      "label": "test - test1: go run . edit stage.go --out stage_out.go --embedded-diagrams",
       "type": "shell",
       "options": {
-        "cwd": "./test/test/go/cmd/test"
+        "cwd": "./test/test1/go/cmd/test1"
       },
       "command": "go",
       "args": [
@@ -1165,25 +1165,25 @@
       "group": "build"
     },
     {
-      "label": "test - test: go run . edit stage.go",
+      "label": "test - test1: go run . edit data/stage.go",
       "type": "shell",
       "options": {
-        "cwd": "./test/test/go/cmd/test"
+        "cwd": "./test/test1/go/cmd/test1"
       },
       "command": "go",
       "args": [
         "run",
         ".",
         "edit",
-        "stage.go"
+        "data/stage.go"
       ],
       "group": "build"
     },
     {
-      "label": "test - test: go run . edit data/stage.go --out data/stage_out",
+      "label": "test - test1: go run . edit data/stage.go --out data/stage_out",
       "type": "shell",
       "options": {
-        "cwd": "./test/test/go/cmd/test"
+        "cwd": "./test/test1/go/cmd/test1"
       },
       "command": "go",
       "args": [
@@ -1197,10 +1197,10 @@
       "group": "build"
     },
     {
-      "label": "test - test: go run . edit data/stage.go --out data/stage.go",
+      "label": "test - test1: go run . edit data/stage.go --out data/stage.go",
       "type": "shell",
       "options": {
-        "cwd": "./test/test/go/cmd/test"
+        "cwd": "./test/test1/go/cmd/test1"
       },
       "command": "go",
       "args": [
@@ -1214,10 +1214,10 @@
       "group": "build"
     },
     {
-      "label": "test - test: gong generate test --skipGoModCommands --skipNpmWorkspaces",
+      "label": "test - test1: gong generate test --skipGoModCommands --skipNpmWorkspaces",
       "type": "shell",
       "options": {
-        "cwd": "${workspaceFolder}/test/test/go/models"
+        "cwd": "${workspaceFolder}/test/test1/go/models"
       },
       "command": "gong",
       "group": "build",
@@ -1229,10 +1229,10 @@
       ]
     },
     {
-      "label": "test - test: gong generate test --skipNg",
+      "label": "test - test1: gong generate test --skipNg",
       "type": "shell",
       "options": {
-        "cwd": "${workspaceFolder}/test/test/go/models"
+        "cwd": "${workspaceFolder}/test/test1/go/models"
       },
       "command": "gong",
       "group": "build",
@@ -1243,10 +1243,10 @@
       ]
     },
     {
-      "label": "test - test: gong generate test --skipNpmWorkspaces",
+      "label": "test - test1: gong generate test --skipNpmWorkspaces",
       "type": "shell",
       "options": {
-        "cwd": "${workspaceFolder}/test/test/go/models"
+        "cwd": "${workspaceFolder}/test/test1/go/models"
       },
       "command": "gong",
       "group": "build",
@@ -1257,20 +1257,20 @@
       ]
     },
     {
-      "label": "test - test: ng build test",
+      "label": "test - test1: ng build test",
       "type": "shell",
       "options": {
-        "cwd": "test/test/ng-github.com-fullstack-lang-gong-test-test"
+        "cwd": "test/test1/ng-github.com-fullstack-lang-gong-test-test1"
       },
       "command": "ng build",
       "group": "build",
       "problemMatcher": []
     },
     {
-      "label": "test - test: ng serve test ",
+      "label": "test - test1: ng serve test ",
       "type": "shell",
       "options": {
-        "cwd": "test/test/ng-github.com-fullstack-lang-gong-test-test"
+        "cwd": "test/test1/ng-github.com-fullstack-lang-gong-test-test1"
       },
       "command": "ng",
       "group": "build",
@@ -1280,10 +1280,10 @@
       ]
     },
     {
-      "label": "test - test: ng serve test --host=127.0.0.1",
+      "label": "test - test1: ng serve test --host=127.0.0.1",
       "type": "shell",
       "options": {
-        "cwd": "test/test/ng-github.com-fullstack-lang-gong-test-test"
+        "cwd": "test/test1/ng-github.com-fullstack-lang-gong-test-test1"
       },
       "command": "ng",
       "group": "build",
@@ -1293,23 +1293,10 @@
       ]
     },
     {
-      "label": "test - test: ngserve test ",
+      "label": "test - test1: remove test main.go and stager.go",
       "type": "shell",
       "options": {
-        "cwd": "test/test/ng"
-      },
-      "command": "ngserve",
-      "group": "build",
-      "args": [
-        "",
-        ""
-      ]
-    },
-    {
-      "label": "test - test: remove test main.go and stager.go",
-      "type": "shell",
-      "options": {
-        "cwd": "${workspaceFolder}/test/test/go/cmd/test"
+        "cwd": "${workspaceFolder}/test/test1/go/cmd/test"
       },
       "command": "rm",
       "group": "build",

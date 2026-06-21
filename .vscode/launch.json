@@ -1084,12 +1084,12 @@
         // "test" configurations
         //
         {
-            "name": "test - gong generate test -skipGoModCommands -skipNg with rm main.go",
+            "name": "test - test1: gong generate test -skipGoModCommands -skipNg with rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go and stager.go",
-            "cwd": "${workspaceFolder}/test/test/go/models",
+            "cwd": "${workspaceFolder}/test/test1/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
@@ -1099,11 +1099,11 @@
             ]
         },
         {
-            "name": "test - gong generate test -skipGoModCommands -skipNg without rm main.go",
+            "name": "test - test1: gong generate test -skipGoModCommands -skipNg without rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "cwd": "${workspaceFolder}/test/test/go/models",
+            "cwd": "${workspaceFolder}/test/test1/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
@@ -1113,11 +1113,11 @@
             ]
         },
         {
-            "name": "test - gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug -debouncedMarshall w/o rm main.go",
+            "name": "test - test1: gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug -debouncedMarshall w/o rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "cwd": "${workspaceFolder}/test/test/go/models",
+            "cwd": "${workspaceFolder}/test/test1/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
@@ -1130,12 +1130,12 @@
             ]
         },
         {
-            "name": "test - gong generate test -skipGoModCommands -skipNpmInstall  with rm main.go",
+            "name": "test - test1: gong generate test -skipGoModCommands -skipNpmInstall  with rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go and stager.go",
-            "cwd": "${workspaceFolder}/test/test/go/models",
+            "cwd": "${workspaceFolder}/test/test1/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
@@ -1145,12 +1145,12 @@
             ]
         },
         {
-            "name": "test - gong generate test -skipGoModCommands -skipNpmInstall -skipNg with rm main.go",
+            "name": "test - test1: gong generate test -skipGoModCommands -skipNpmInstall -skipNg with rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go and stager.go",
-            "cwd": "${workspaceFolder}/test/test/go/models",
+            "cwd": "${workspaceFolder}/test/test1/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
@@ -1161,7 +1161,7 @@
             ]
         },
         {
-            "name": "test - gong generate test -skipGoModCommands -skipNpmInstall -skipNg with rm main.go, from test",
+            "name": "test - test1: gong generate test -skipGoModCommands -skipNpmInstall -skipNg with rm main.go, from test",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -1178,12 +1178,12 @@
             ]
         },
         {
-            "name": "test - gong generate test -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
+            "name": "test - test1: gong generate test -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go and stager.go",
-            "cwd": "${workspaceFolder}/test/test/go/models",
+            "cwd": "${workspaceFolder}/test/test1/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
@@ -1194,11 +1194,11 @@
             ]
         },
         {
-            "name": "test - gong generate test -skipGoModCommands -skipNpmInstall without rm main.go",
+            "name": "test - test1: gong generate test -skipGoModCommands -skipNpmInstall without rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "cwd": "${workspaceFolder}/test/test/go/models",
+            "cwd": "${workspaceFolder}/test/test1/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
@@ -1208,12 +1208,12 @@
             ]
         },
         {
-            "name": "test - gong generate test -skipGoModCommands -skipNpmWorkspaces",
+            "name": "test - test1: gong generate test -skipGoModCommands -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go and stager.go",
-            "cwd": "${workspaceFolder}/test/test/go/models",
+            "cwd": "${workspaceFolder}/test/test1/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
@@ -1228,7 +1228,7 @@
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go and stager.go",
-            "cwd": "${workspaceFolder}/test/test/go/models",
+            "cwd": "${workspaceFolder}/test/test1/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
@@ -1239,12 +1239,12 @@
             ]
         },
         {
-            "name": "test - gong generate test -skipNpmInstall -skipGoModCommands -skipNg",
+            "name": "test - test1: gong generate test -skipNpmInstall -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go and stager.go",
-            "cwd": "${workspaceFolder}/test/test/go/models",
+            "cwd": "${workspaceFolder}/test/test1/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
@@ -1298,11 +1298,11 @@
             ]
         },
         {
-            "name": "test - go run . edit data/stage.go --out data/stage_out.go",
+            "name": "test - test1: go run . edit data/stage.go --out data/stage_out.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test/test/go/cmd/test",
+            "program": "${workspaceFolder}/test/test1/go/cmd/test1",
             "args": [
                 "edit",
                 "data/stage.go",
@@ -1311,11 +1311,11 @@
             ]
         },
         {
-            "name": "test - go run . edit data/stage.go --out stage --logFile app.log",
+            "name": "test - test1: go run . edit data/stage.go --out stage --logFile app.log",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test/test/go/cmd/test",
+            "program": "${workspaceFolder}/test/test1/go/cmd/test1",
             "args": [
                 "edit",
                 "data/stage.go",
@@ -1326,11 +1326,11 @@
             ]
         },
         {
-            "name": "test - gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug w/o rm main.go",
+            "name": "test - test1: gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug w/o rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "cwd": "${workspaceFolder}/test/test/go/models",
+            "cwd": "${workspaceFolder}/test/test1/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
@@ -1342,22 +1342,22 @@
             ]
         },
         {
-            "name": "test - go run . edit data/stage.go",
+            "name": "test - test1: go run . edit data/stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test/test/go/cmd/test",
+            "program": "${workspaceFolder}/test/test1/go/cmd/test1",
             "args": [
                 "edit",
                 "data/stage.go"
             ]
         },
         {
-            "name": "test - go run . edit data/stage.go --out data/stage_out.go --port 8082",
+            "name": "test - test1: go run . edit data/stage.go --out data/stage_out.go --port 8082",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test/test/go/cmd/test",
+            "program": "${workspaceFolder}/test/test1/go/cmd/test1",
             "args": [
                 "edit",
                 "data/stage.go",
@@ -1368,22 +1368,22 @@
             ]
         },
         {
-            "name": "test - go run . edit stage --out stage",
+            "name": "test - test1: go run . edit stage --out stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test/test/go/cmd/test",
+            "program": "${workspaceFolder}/test/test1/go/cmd/test1",
             "args": [
                 "edit",
                 "stage"
             ]
         },
         {
-            "name": "test - go run debug TestStageCount",
+            "name": "test - test1: - go run debug TestStageCount",
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/test/test/go/tests/stage_tests",
+            "program": "${workspaceFolder}/test/test1/go/tests/stage_tests",
             "args": [
                 "-test.run",
                 "^TestStageCount$"
