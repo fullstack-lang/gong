@@ -50,6 +50,13 @@
             "group": "build"
         },
         {
+            "label": "gong generate --dsm go/models in all dsm projects but project, xsd & reqif",
+            "type": "shell",
+            "command": "for p in barrgraph capture process scenario statemachines structure; do echo \"Executing in $p\" && cd ${workspaceFolder}/dsm/$p && gong generate --dsm go/models; done",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
             "label": "clean all",
             "type": "shell",
             "command": "go clean -x -i ./... && find . -name \"*debug*.exe\" -exec rm -rf {} +",
