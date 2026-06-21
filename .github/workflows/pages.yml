@@ -65,6 +65,18 @@ jobs:
           cd dsm/capture/go/cmd/capture
           gong portable
           cp capture-app-portable.html ../../../../../public-site/
+
+      - name: Build structure portable app
+        run: |
+          cd dsm/structure/go/cmd/structure
+          gong portable
+          cp structure-app-portable.html ../../../../../public-site/
+
+      - name: Build scenario portable app
+        run: |
+          cd dsm/scenario/go/cmd/scenario
+          gong portable
+          cp scenario-app-portable.html ../../../../../public-site/
           
       - name: Build project portable app
         run: |
