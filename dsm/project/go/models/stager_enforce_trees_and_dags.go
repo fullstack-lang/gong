@@ -278,6 +278,35 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 		},
 	) || needCommit
 
+	// 6. Dependency DAG for Task Predecessors
+	for _, task := range tasks {
+		for j := 0; j < len(task.Predecessors); j++ {
+			if task.Predecessors[j] == task {
+				task.Predecessors = slices.Delete(task.Predecessors, j, j+1)
+				if stager.probeForm != nil {
+					stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Task %s is a predecessor of itself, link broken", task.Name))
+				}
+				needCommit = true
+				j-- // adjust index since we deleted an element
+			}
+		}
+	}
+
+	needCommit = EnforceDAG(
+		stager,
+		tasks,
+		func(t *Task) []*Task { return t.Predecessors },
+		func(parent, child *Task) {
+			for j, pred := range parent.Predecessors {
+				if pred == child {
+					parent.Predecessors = slices.Delete(parent.Predecessors, j, j+1)
+					break
+				}
+			}
+		},
+		func(t *Task) string { return "Task " + t.Name },
+	) || needCommit
+
 	return
 }
 
