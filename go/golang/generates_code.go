@@ -81,6 +81,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 					mainFilePath,
 					cmd.PackageMainFullStack)
 			}
+		}
 
 		// Cobra command files
 		commands := []struct {
@@ -112,7 +113,6 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 			} else {
 				gong_models.VerySimpleCodeGenerator(modelPkg, serverFilePath, cmd.PackageMainServerFullStack)
 			}
-		}
 		}
 
 		// generate main_wasm.go if absent
