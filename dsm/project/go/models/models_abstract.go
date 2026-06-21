@@ -29,11 +29,11 @@ type Task struct {
 	Start time.Time
 	End   time.Time
 
-	DurationYears  float64
-	DurationMonths float64
-	DurationWeeks  float64
-	DurationDays   float64
-	DurationHours  float64
+	DurationYears                 float64
+	DurationMonths                float64
+	DurationWeeks                 float64
+	DurationDays                  float64
+	DurationHours                 float64
 	IsEndDateComputedFromDuration bool
 
 	Predecessors                        []*Task

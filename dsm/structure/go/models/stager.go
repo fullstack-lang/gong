@@ -33,7 +33,7 @@ type Stager struct {
 	treeStage *tree.Stage
 	// the tree stage can be very deep. The zoomTreeStage display on the tree starting from the current diagram.
 	zoomTreeStage            *tree.Stage
-	systemDiagramSvgStage   *svg.Stage
+	systemDiagramSvgStage    *svg.Stage
 	structureDiagramSvgStage *svg.Stage
 	ssgStage                 *ssg.Stage
 	loadStage                *load.Stage
@@ -48,7 +48,7 @@ type Stager struct {
 	map_Element_Diagrams map[AbstractType][]*DiagramStructure
 
 	// reverse map to navigate
-	rm_Data_DataFlows        map[*Data][]*DataFlow
+	rm_Data_DataFlows map[*Data][]*DataFlow
 	rm_Resource_Parts map[*Resource][]*Part
 }
 

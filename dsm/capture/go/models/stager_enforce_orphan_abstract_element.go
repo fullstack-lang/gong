@@ -1,8 +1,5 @@
 package models
 
-import (
-)
-
 func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 	needCommit = reattachToLibraryRoots(
 		stager,
@@ -109,5 +106,3 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 
 	return
 }
-
-

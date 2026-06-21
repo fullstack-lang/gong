@@ -543,10 +543,10 @@ func (stager *Stager) tree() {
 				}
 
 				docLinkNode := &tree.Node{
-					Name:              name,
-					HasCheckboxButton: true,
-					IsChecked:         isGongLinkShapeInDiagram,
-					IsExpanded:        noteIsExpanded, // Links inherit expansion from parent note
+					Name:               name,
+					HasCheckboxButton:  true,
+					IsChecked:          isGongLinkShapeInDiagram,
+					IsExpanded:         noteIsExpanded, // Links inherit expansion from parent note
 					IsCheckboxDisabled: !isGongNoteShapeInDiagram || isTargetAbsent || stager.embeddedDiagrams || !selected,
 				}
 				docLinkNode.OnIsCheckedChanged = func(isChecked bool) {

@@ -5,9 +5,9 @@ package main
 import (
 	"log"
 
-	"github.com/fullstack-lang/gong/lib/wasmregistry"
 	"github.com/fullstack-lang/gong/lib/doc/go/level1stack"
 	"github.com/fullstack-lang/gong/lib/doc/go/models"
+	"github.com/fullstack-lang/gong/lib/wasmregistry"
 	"github.com/gin-gonic/gin"
 )
 
@@ -35,7 +35,6 @@ func main() {
 	stack.Probe.Refresh()
 
 	// initiates the UX loop
-
 
 	// Expose the HTTP and Socket bridges to the Angular frontend
 	wasmregistry.SetupWasmHooks(stack.R)

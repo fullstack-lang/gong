@@ -34,9 +34,9 @@ type Note struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
-	Deliverables  []*Deliverable
-	Tasks     []*Concern
-	Resources []*Stakeholder
+	Deliverables []*Deliverable
+	Tasks        []*Concern
+	Resources    []*Stakeholder
 }
 
 type Priority string

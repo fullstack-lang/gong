@@ -1,8 +1,5 @@
 package models
 
-import (
-)
-
 // onShowAllInDiagram resets the diagram, creates and add all all possible concrete instances to the diagram,
 // and organize them in a pseudo pert diagram
 func onShowAllInDiagram(stager *Stager, diagram *Diagram) func() {

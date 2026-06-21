@@ -97,7 +97,7 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 					inputDeliverableNode.HasCheckboxButton = true
 
 					taskDeliverableKey := concernDeliverableKey{
-						Concern: concern,
+						Concern:     concern,
 						Deliverable: deliverable,
 					}
 					taskInputShape, ok := diagram.map_Concern_TaskInputShape[taskDeliverableKey]
@@ -177,7 +177,7 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 					outputDeliverableNode.HasCheckboxButton = true
 
 					taskDeliverableKey := concernDeliverableKey{
-						Concern: concern,
+						Concern:     concern,
 						Deliverable: deliverable,
 					}
 					taskOutputShape, ok := diagram.map_Concern_ConcernOutputShape[taskDeliverableKey]
@@ -331,4 +331,3 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 		}
 	}
 }
-

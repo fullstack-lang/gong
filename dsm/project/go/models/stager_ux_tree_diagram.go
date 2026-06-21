@@ -260,8 +260,6 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 		}
 	}
 
-
-
 	for _, task := range library.RootTasks {
 		stager.treeTask(diagram, task, wbsNode)
 	}

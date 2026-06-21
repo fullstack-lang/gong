@@ -23,7 +23,7 @@ type Library struct {
 	RootTasks      []*Task
 	RootTaskGroups []*TaskGroup
 
-	RootResources  []*Resource
+	RootResources []*Resource
 
 	Notes []*Note
 

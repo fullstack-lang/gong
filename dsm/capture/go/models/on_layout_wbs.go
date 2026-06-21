@@ -1,8 +1,5 @@
 package models
 
-import (
-)
-
 // onLayoutWBS resets the diagram, creates and adds all possible task-related concrete instances to the diagram,
 // and organizes them in a breakdown structure
 func onLayoutWBS(stager *Stager, diagram *Diagram) func() {

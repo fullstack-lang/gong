@@ -24,13 +24,13 @@ type Diagram struct {
 	IsRequirementsNodeExpanded bool
 	IsConceptsNodeExpanded     bool
 
-	Deliverable_Shapes                  []*DeliverableShape
+	Deliverable_Shapes                      []*DeliverableShape
 	map_Deliverable_DeliverableShape        map[*Deliverable]*DeliverableShape
-	DeliverablesWhoseNodeIsExpanded     []*Deliverable // to be made private once in production (no need to persist)
+	DeliverablesWhoseNodeIsExpanded         []*Deliverable // to be made private once in production (no need to persist)
 	DeliverablesWhoseConceptsNodeIsExpanded []*Deliverable
-	IsPBSNodeExpanded               bool
+	IsPBSNodeExpanded                       bool
 
-	DeliverableComposition_Shapes           []*DeliverableCompositionShape
+	DeliverableComposition_Shapes               []*DeliverableCompositionShape
 	map_Deliverable_DeliverableCompositionShape map[*Deliverable]*DeliverableCompositionShape
 
 	IsConcernsNodeExpanded bool
@@ -88,14 +88,14 @@ type Diagram struct {
 	DeliverableConceptShapes                          []*DeliverableConceptShape
 	map_DeliverableConceptKey_DeliverableConceptShape map[deliverableConceptKey]*DeliverableConceptShape
 
-	map_Deliverable_Rect     map[*Deliverable]*svg.Rect
+	map_Deliverable_Rect map[*Deliverable]*svg.Rect
 	map_Task_Rect        map[*Concern]*svg.Rect
 	map_Note_Rect        map[*Note]*svg.Rect
 	map_Stakeholder_Rect map[*Stakeholder]*svg.Rect
 	map_Requirement_Rect map[*Requirement]*svg.Rect
 	map_Concept_Rect     map[*Concept]*svg.Rect
 
-	map_SvgRect_DeliverableShape     map[*svg.Rect]*DeliverableShape
+	map_SvgRect_DeliverableShape map[*svg.Rect]*DeliverableShape
 	map_SvgRect_ConcernShape     map[*svg.Rect]*ConcernShape
 	map_SvgRect_NoteShape        map[*svg.Rect]*NoteShape
 	map_SvgRect_StakeholderShape map[*svg.Rect]*StakeholderShape
@@ -103,10 +103,10 @@ type Diagram struct {
 	map_SvgRect_ConceptShape     map[*svg.Rect]*ConceptShape
 	map_SvgRect_DiagramShape     map[*svg.Rect]*DiagramShape
 
-	Diagram_Shapes           []*DiagramShape
-	map_Diagram_DiagramShape map[*Diagram]*DiagramShape
-	map_Diagram_Rect         map[*Diagram]*svg.Rect
-	IsDiagramsNodeExpanded   bool
+	Diagram_Shapes              []*DiagramShape
+	map_Diagram_DiagramShape    map[*Diagram]*DiagramShape
+	map_Diagram_Rect            map[*Diagram]*svg.Rect
+	IsDiagramsNodeExpanded      bool
 	DiagramsWhoseNodeIsExpanded []*Diagram
 
 	elementWhoseDiagramListIsDisplayed AbstractType

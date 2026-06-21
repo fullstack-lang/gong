@@ -37,7 +37,7 @@ func (stager *Stager) enforceASystemDiagramHasItsOwningSystem() (needCommit bool
 		if !isSystemShapeOfOwningSystemFound {
 			stager.probeForm.AddNotification(time.Now(), "DiagramStructure "+diagramStructure.Name+" has no system shape for its owning system "+diagramStructure.owningSystem.Name)
 			systemShape := (&SystemShape{
-				Name:    "SystemShape",
+				Name:   "SystemShape",
 				System: diagramStructure.owningSystem,
 				RectShape: RectShape{
 					X:      100,

@@ -24,7 +24,7 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 	// DSM specific association
 	type associationType string
 	const (
-		ASSOCIATION_TYPE_PORT_PORT                 associationType = "PortPort"
+		ASSOCIATION_TYPE_PORT_PORT          associationType = "PortPort"
 		ASSOCIATION_TYPE_EXTERNAL_PART_PORT associationType = "ExternalPartPort"
 		ASSOCIATION_TYPE_PORT_EXTERNAL_PART associationType = "PortExternalPart"
 	)
@@ -116,9 +116,9 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		endPort := targetAbstractElement.(*Port)
 
 		dataFlow := (&DataFlow{
-			Type:                     DataFlow_ExternalPart2Port,
+			Type:              DataFlow_ExternalPart2Port,
 			StartExternalPart: startPart,
-			EndPort:                  endPort,
+			EndPort:           endPort,
 		})
 		dataFlow.StartExternalPart.owningSystem.DataFlows = append(dataFlow.StartExternalPart.owningSystem.DataFlows, dataFlow)
 		dataFlow.Name = dataFlow.StartExternalPart.GetName() + " to " + dataFlow.EndPort.GetName()
@@ -143,8 +143,8 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		endPart := targetAbstractElement.(*Part)
 
 		dataFlow := (&DataFlow{
-			Type:                   DataFlow_ExternalPart2Port,
-			StartPort:              startPort,
+			Type:            DataFlow_ExternalPart2Port,
+			StartPort:       startPort,
 			EndExternalPart: endPart,
 		})
 		dataFlow.StartPort.owningPart.owningSystem.DataFlows = append(dataFlow.StartPort.owningPart.owningSystem.DataFlows, dataFlow)

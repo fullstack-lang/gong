@@ -1,8 +1,5 @@
 package models
 
-import (
-)
-
 var (
 	leftOffset = 50.0
 	topOffset  = 50.0

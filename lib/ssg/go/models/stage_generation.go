@@ -272,7 +272,7 @@ func (*Stage) markdown2ssg(content *Content, memoryFS fs.FS, inMemory bool) (fst
 			logoFileName = content.BespokeLogoFileName
 		}
 		logoPath := filepath.Join(content.OutputPath, "images", logoFileName)
-		
+
 		if !inMemory {
 			if err := os.MkdirAll(filepath.Dir(logoPath), 0o755); err != nil {
 				return nil, fmt.Errorf("error creating directory for logo: %w", err)

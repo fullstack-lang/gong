@@ -158,4 +158,3 @@ func (stager *Stager) enforceTaskPredecessorDates() (needCommit bool) {
 	}
 	return
 }
-

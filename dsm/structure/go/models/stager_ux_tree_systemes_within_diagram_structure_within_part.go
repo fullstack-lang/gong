@@ -12,8 +12,8 @@ func (stager *Stager) treeSystemesWithinDiagramStructureWithinPart(
 
 	stage := stager.stage
 	key := allocatedSystemShapeKey{
-		part: part,
-		system:     system,
+		part:   part,
+		system: system,
 	}
 	allocatedSystemShape, ok := diagramStructure.map_AllocatedSystemShapeKey_AllocatedSystemShape[key]
 
@@ -33,9 +33,9 @@ func (stager *Stager) treeSystemesWithinDiagramStructureWithinPart(
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked && !ok {
 			allocatedSystemShape = (&AllocatedSystemShape{
-				Name:        diagramStructure.GetName() + "-" + part.GetName() + "-" + system.GetName(),
-				Part: part,
-				System:     system,
+				Name:   diagramStructure.GetName() + "-" + part.GetName() + "-" + system.GetName(),
+				Part:   part,
+				System: system,
 			}).Stage(stage)
 			diagramStructure.AllocatedSystemShapes = append(diagramStructure.AllocatedSystemShapes, allocatedSystemShape)
 			stage.Commit()

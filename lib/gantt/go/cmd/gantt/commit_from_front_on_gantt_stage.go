@@ -24,7 +24,7 @@ type CommitFromFrontOnGanttStage struct {
 // 2 - persists the data to the gantt file
 func (beforeCommitFromFrontOnGanttStage *CommitFromFrontOnGanttStage) BeforeCommit(
 	ganttStage *gantt_models.Stage) {
-	file, err := os.Create(fmt.Sprintf("./%s.go", *marshallOnCommit))
+	file, err := os.Create(fmt.Sprintf("./%s.go", marshallOnCommit))
 	if err != nil {
 		log.Fatal(err.Error())
 	}

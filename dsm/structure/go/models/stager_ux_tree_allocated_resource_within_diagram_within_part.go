@@ -12,8 +12,8 @@ func (stager *Stager) treeAllocatedResourceWithinDiagramWithinPart(
 
 	stage := stager.stage
 	key := allocatedResourceShapeKey{
-		part: part,
-		resource:    resource,
+		part:     part,
+		resource: resource,
 	}
 	allocatedResourceShape, ok := diagramStructure.map_AllocatedResourceShapeKey_AllocatedResourceShape[key]
 
@@ -33,9 +33,9 @@ func (stager *Stager) treeAllocatedResourceWithinDiagramWithinPart(
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked && !ok {
 			allocatedResourceShape = (&AllocatedResourceShape{
-				Name:        diagramStructure.GetName() + "-" + part.GetName() + "-" + resource.GetName(),
-				Part: part,
-				Resource:    resource,
+				Name:     diagramStructure.GetName() + "-" + part.GetName() + "-" + resource.GetName(),
+				Part:     part,
+				Resource: resource,
 			}).Stage(stage)
 			diagramStructure.AllocatedResourceShapes = append(diagramStructure.AllocatedResourceShapes, allocatedResourceShape)
 			stage.Commit()

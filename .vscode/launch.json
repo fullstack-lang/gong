@@ -1,24 +1,6 @@
 {
     "version": "0.2.0",
     "configurations": [
-        //
-        // "go" configurations
-        //
-        {
-            "name": "go - gong: gong generate gong -skipGoModCommands --stack-height=0",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands"
-            ]
-        },
-        //
-        // "dsm" configurations
-        //
         {
             "name": "dsm - barrgraph: go run aviva stool",
             "type": "go",
@@ -52,17 +34,6 @@
             ]
         },
         {
-            "name": "dsm - barrgraph: go run netherland golden century",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
-            "args": [
-                "-unmarshallFromCode=data/netherland golden century.go",
-                "-marshallOnCommit=data/netherland golden century.go"
-            ]
-        },
-        {
             "name": "dsm - barrgraph: go run modern design",
             "type": "go",
             "request": "launch",
@@ -73,6 +44,17 @@
                 "data/modern design.go",
                 "-marshallOnCommit",
                 "data/modern design.go"
+            ]
+        },
+        {
+            "name": "dsm - barrgraph: go run netherland golden century",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/barrgraph/go/cmd/barrgraph",
+            "args": [
+                "-unmarshallFromCode=data/netherland golden century.go",
+                "-marshallOnCommit=data/netherland golden century.go"
             ]
         },
         {
@@ -109,17 +91,6 @@
             "args": []
         },
         {
-            "name": "dsm - capture: go server capture_process.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
-            "args": [
-                "-unmarshallFromCode=data/capture_process.go",
-                "-marshallOnCommit=data/capture_process"
-            ]
-        },
-        {
             "name": "dsm - capture: go server 15288.go",
             "type": "go",
             "request": "launch",
@@ -140,26 +111,48 @@
             ]
         },
         {
-            "name": "dsm - process: gong generate --dsm",
+            "name": "dsm - capture: go server capture_process.go",
             "type": "go",
             "request": "launch",
-            "mode": "auto",
-            "cwd": "${workspaceFolder}/dsm/process/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
+            "mode": "debug",
+            "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
             "args": [
-                "generate",
-                "--skipGoModCommands",
-                "--dsm"
+                "-unmarshallFromCode=data/capture_process.go",
+                "-marshallOnCommit=data/capture_process"
             ]
         },
         {
-            "name": "dsm - process: go run stage.go",
+            "name": "dsm - process : merge",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process/merge/main.go",
+            "cwd": "${workspaceFolder}/dsm/process/go/cmd/process/merge",
+            "args": [
+                "../data/icao444.go",
+                "../data/rqs_spl_v1.go",
+                "../data/rqs_spl_v2.go"
+            ]
+        },
+        {
+            "name": "dsm - process: go run 144.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/process/go/cmd/process",
             "args": [
-                "data/stage.go",
+                "data/144.go",
+                "-embeddedDiagrams=false"
+            ]
+        },
+        {
+            "name": "dsm - process: go run foo.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/foo.go",
                 "-embeddedDiagrams=false"
             ]
         },
@@ -171,6 +164,17 @@
             "program": "${workspaceFolder}/dsm/process/go/cmd/process",
             "args": [
                 "data/icao4444.go",
+                "-embeddedDiagrams=false"
+            ]
+        },
+        {
+            "name": "dsm - process: go run ifps_ops.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "args": [
+                "data/ifps_ops.go",
                 "-embeddedDiagrams=false"
             ]
         },
@@ -197,17 +201,6 @@
             ]
         },
         {
-            "name": "dsm - process: go run ifps_ops.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
-            "args": [
-                "data/ifps_ops.go",
-                "-embeddedDiagrams=false"
-            ]
-        },
-        {
             "name": "dsm - process: go run simple.go",
             "type": "go",
             "request": "launch",
@@ -219,38 +212,27 @@
             ]
         },
         {
-            "name": "dsm - process: go run foo.go",
+            "name": "dsm - process: go run stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/process/go/cmd/process",
             "args": [
-                "data/foo.go",
+                "data/stage.go",
                 "-embeddedDiagrams=false"
             ]
         },
         {
-            "name": "dsm - process: go run 144.go",
+            "name": "dsm - process: gong generate --dsm",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/dsm/process/go/cmd/process",
+            "cwd": "${workspaceFolder}/dsm/process/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "data/144.go",
-                "-embeddedDiagrams=false"
-            ]
-        },
-        {
-            "name": "dsm - process : merge",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/process/go/cmd/process/merge/main.go",
-            "cwd": "${workspaceFolder}/dsm/process/go/cmd/process/merge",
-            "args": [
-                "../data/icao444.go",
-                "../data/rqs_spl_v1.go",
-                "../data/rqs_spl_v2.go"
+                "generate",
+                "--skipGoModCommands",
+                "--dsm"
             ]
         },
         {
@@ -261,17 +243,6 @@
             "program": "${workspaceFolder}/dsm/project/go/cmd/project",
             "args": [
                 "-embeddedDiagrams=false"
-            ]
-        },
-        {
-            "name": "dsm - project: go run simple.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
-            "args": [
-                "-embeddedDiagrams=false",
-                "data/simple.go"
             ]
         },
         {
@@ -286,6 +257,17 @@
             ]
         },
         {
+            "name": "dsm - project: go run issue1263.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/project/go/cmd/project",
+            "args": [
+                "-embeddedDiagrams=false",
+                "data/issue1263.go"
+            ]
+        },
+        {
             "name": "dsm - project: go run issue1337.go",
             "type": "go",
             "request": "launch",
@@ -297,14 +279,14 @@
             ]
         },
         {
-            "name": "dsm - project: go run issue1263.go",
+            "name": "dsm - project: go run simple.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/project/go/cmd/project",
             "args": [
                 "-embeddedDiagrams=false",
-                "data/issue1263.go"
+                "data/simple.go"
             ]
         },
         {
@@ -552,27 +534,51 @@
                 "--skipGoModCommands"
             ]
         },
-        //
-        // "lib" configurations
-        //
         {
-            "name": "lib - button: go run button",
+            "name": "external - phyllotaxymusic: gong generate phyllotaxymusic --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../../thomaspeugeot/phyllotaxymusic/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate"
+            ]
+        },
+        {
+            "name": "go - gong: gong generate gong -skipGoModCommands --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "name": "lib - button: go run . edit data/stage.go --out data/stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/button/go/cmd/button",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
+                "edit",
+                "data/stage.go",
+                "--out",
+                "data/stage"
             ]
         },
         {
-            "name": "lib - cursor: go run cursor",
+            "name": "lib - cursor: go run . edit",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/cursor/go/cmd/cursor",
-            "args": []
+            "args": [
+                "edit"
+            ]
         },
         {
             "name": "lib - cursor: gong generate cursor --skipGoModCommands --skipNpmWorkspaces --skipGoModCommands",
@@ -598,26 +604,30 @@
             "sourceMaps": true
         },
         {
-            "name": "lib - doc: go run -embeddedDiagrams=true",
+            "name": "lib - doc: go run . edit data/stage.go --out data/stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/doc/go/cmd/doc",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage",
-                "-embeddedDiagrams=true"
+                "edit",
+                "data/stage.go",
+                "--out",
+                "data/stage"
             ]
         },
         {
-            "name": "lib - doc: go run doc",
+            "name": "lib - doc: go run . edit data/stage.go --out data/stage -embeddedDiagrams=true",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/doc/go/cmd/doc",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
+                "edit",
+                "data/stage.go",
+                "--out",
+                "data/stage",
+                "-embeddedDiagrams=true"
             ]
         },
         {
@@ -665,14 +675,16 @@
             "sourceMaps": true
         },
         {
-            "name": "lib - form: go run form",
+            "name": "lib - form: go run . edit data/stage.go --out data/stage -embeddedDiagrams=true",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/form/go/cmd/form",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage",
+                "edit",
+                "data/stage.go",
+                "--out",
+                "data/stage",
                 "-embeddedDiagrams=true"
             ]
         },
@@ -691,14 +703,16 @@
             ]
         },
         {
-            "name": "lib - gantt: go run gantt",
+            "name": "lib - gantt: go run . edit data/gantt1.go --out data/gantt1",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/gantt/go/cmd/gantt",
             "args": [
-                "-unmarshallFromCode=data/gantt1.go",
-                "-marshallOnCommit=data/gantt1"
+                "edit",
+                "data/gantt1.go",
+                "--out",
+                "data/gantt1"
             ]
         },
         {
@@ -710,14 +724,16 @@
             "sourceMaps": true
         },
         {
-            "name": "lib - load: go run load",
+            "name": "lib - load: go run . edit data/load.go --out data/load",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/load/go/cmd/load",
             "args": [
-                "-unmarshallFromCode=data/load.go",
-                "-marshallOnCommit=data/load"
+                "edit",
+                "data/load.go",
+                "--out",
+                "data/load"
             ]
         },
         {
@@ -729,58 +745,64 @@
             "sourceMaps": true
         },
         {
-            "name": "lib - markdown: go run markdown",
+            "name": "lib - markdown: go run . edit data/barrgraph.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/markdown/go/cmd/markdown",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage.go"
+                "edit",
+                "data/barrgraph.go"
             ]
         },
         {
-            "name": "lib - markdown: barrgraph",
+            "name": "lib - markdown: go run . edit data/stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/markdown/go/cmd/markdown",
             "args": [
-                "-unmarshallFromCode=data/barrgraph.go",
-                "-marshallOnCommit=data/barrgraph.go"
+                "edit",
+                "data/stage.go"
             ]
         },
         {
-            "name": "lib - probe: go run probe",
+            "name": "lib - probe: go run . edit data/probe.go --out data/probe",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/probe/go/cmd/probe",
             "args": [
-                "-unmarshallFromCode=data/probe.go",
-                "-marshallOnCommit=data/probe"
+                "edit",
+                "data/probe.go",
+                "--out",
+                "data/probe"
             ]
         },
         {
-            "name": "lib - sim: go run sim",
+            "name": "lib - sim: go run . edit data/stage.go --out data/stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/sim/go/cmd/sim",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
+                "edit",
+                "data/stage.go",
+                "--out",
+                "data/stage"
             ]
         },
         {
-            "name": "lib - slider: go run slider",
+            "name": "lib - slider: go run . edit data/stage.go --out data/stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/slider/go/cmd/slider",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
+                "edit",
+                "data/stage.go",
+                "--out",
+                "data/stage"
             ]
         },
         {
@@ -815,27 +837,31 @@
             "sourceMaps": true
         },
         {
-            "name": "lib - split: go run issue564",
+            "name": "lib - split: go run . edit data/stage.go --out data/stage_out -issue564",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/split/go/cmd/split",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage_out",
+                "edit",
+                "data/stage.go",
+                "--out",
+                "data/stage_out",
                 "-issue564"
             ],
             "buildFlags": "-race"
         },
         {
-            "name": "lib - split: go run split",
+            "name": "lib - split: go run . edit data/stage2.go --out data/stage2",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/split/go/cmd/split",
             "args": [
-                "-unmarshallFromCode=data/stage2.go",
-                "-marshallOnCommit=data/stage2"
+                "edit",
+                "data/stage2.go",
+                "--out",
+                "data/stage2"
             ]
         },
         {
@@ -851,14 +877,16 @@
             ]
         },
         {
-            "name": "lib - ssg: go run ssg",
+            "name": "lib - ssg: go run . edit data/stage.go --out data/stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/ssg/go/cmd/ssg",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
+                "edit",
+                "data/stage.go",
+                "--out",
+                "data/stage"
             ]
         },
         {
@@ -878,104 +906,108 @@
             "sourceMaps": true
         },
         {
-            "name": "lib - svg: go run -unmarshallFromCode=bezier.go -marshallOnCommit=bezier.go",
+            "name": "lib - svg: go run . edit data/bezier.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
             "args": [
-                "-unmarshallFromCode=data/bezier.go",
-                "-marshallOnCommit=data/bezier.go"
+                "edit",
+                "data/bezier.go"
             ]
         },
         {
-            "name": "lib - svg: go run -unmarshallFromCode=issue1216.go -marshallOnCommit=issue1216.go",
+            "name": "lib - svg: go run . edit data/issue1216.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
             "args": [
-                "-unmarshallFromCode=data/issue1216.go",
-                "-marshallOnCommit=data/issue1216.go"
+                "edit",
+                "data/issue1216.go"
             ]
         },
         {
-            "name": "lib - svg: go run -unmarshallFromCode=path.go -marshallOnCommit=path.go",
+            "name": "lib - svg: go run . edit data/issue1326.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
             "args": [
-                "-unmarshallFromCode=data/path.go",
-                "-marshallOnCommit=data/path.go"
+                "edit",
+                "data/issue1326.go"
             ]
         },
         {
-            "name": "lib - svg: go run -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle.go",
+            "name": "lib - svg: go run . edit data/path.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
             "args": [
-                "-unmarshallFromCode=data/rectangle.go",
-                "-marshallOnCommit=data/rectangle.go"
+                "edit",
+                "data/path.go"
             ]
         },
         {
-            "name": "lib - svg: go run -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle_out",
+            "name": "lib - svg: go run . edit data/rectangle.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
             "args": [
-                "-unmarshallFromCode=data/rectangle.go",
-                "-marshallOnCommit=data/rectangle_out"
+                "edit",
+                "data/rectangle.go"
             ]
         },
         {
-            "name": "lib - svg: go run -unmarshallFromCode=simple.go -marshallOnCommit=simple.go -port 8090",
+            "name": "lib - svg: go run . edit data/rectangle.go --out data/rectangle_out",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
             "args": [
-                "-unmarshallFromCode=data/simple.go",
-                "-marshallOnCommit=data/simple.go",
-                "-port",
+                "edit",
+                "data/rectangle.go",
+                "--out",
+                "data/rectangle_out"
+            ]
+        },
+        {
+            "name": "lib - svg: go run . edit data/simple.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
+            "args": [
+                "edit",
+                "data/simple.go"
+            ]
+        },
+        {
+            "name": "lib - svg: go run . edit data/simple.go --port 8090",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
+            "args": [
+                "edit",
+                "data/simple.go",
+                "--port",
                 "8090"
             ]
         },
         {
-            "name": "lib - svg: go run -unmarshallFromCode=simple.go -marshallOnCommit=simple.go",
+            "name": "lib - svg: go run . edit data/stage.go --out data/stage_out",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
             "args": [
-                "-unmarshallFromCode=data/simple.go",
-                "-marshallOnCommit=data/simple.go"
-            ]
-        },
-        {
-            "name": "lib - svg: go run -unmarshallFromCode=issue1326.go -marshallOnCommit=issue1326.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
-            "args": [
-                "-unmarshallFromCode=data/issue1326.go",
-                "-marshallOnCommit=data/issue1326.go"
-            ]
-        },
-        {
-            "name": "lib - svg: go run svg",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage_out"
+                "edit",
+                "data/stage.go",
+                "--out",
+                "data/stage_out"
             ]
         },
         {
@@ -1024,12 +1056,14 @@
             "sourceMaps": true
         },
         {
-            "name": "lib - table: go run table",
+            "name": "lib - table: go run . edit",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/table/go/cmd/table",
-            "args": []
+            "args": [
+                "edit"
+            ]
         },
         {
             "name": "lib - tone: Launch Chrome (tone) on 4200",
@@ -1040,14 +1074,16 @@
             "sourceMaps": true
         },
         {
-            "name": "lib - tone: go run tone",
+            "name": "lib - tone: go run . edit data/stage.go --out stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/tone/go/cmd/tone",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=stage"
+                "edit",
+                "data/stage.go",
+                "--out",
+                "stage"
             ]
         },
         {
@@ -1059,30 +1095,163 @@
             "sourceMaps": true
         },
         {
-            "name": "lib - tree: go run tree",
+            "name": "lib - tree: go run . edit data/stage.go --out data/stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/tree/go/cmd/tree",
             "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
+                "edit",
+                "data/stage.go",
+                "--out",
+                "data/stage"
             ]
         },
         {
-            "name": "lib - xlsx: go run xlsx",
+            "name": "lib - xlsx: go run . edit data/samplefile.xlsx data/samplefile2.xlsx",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/xlsx/go/cmd/xlsx",
             "args": [
+                "edit",
                 "data/samplefile.xlsx",
                 "data/samplefile2.xlsx"
             ]
         },
-        //
-        // "test" configurations
-        //
+        {
+            "name": "test - Launch Chrome (test) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/test/test/ng-github.com-fullstack-lang-gong-test-test",
+            "sourceMaps": true
+        },
+        {
+            "name": "test - gong generate test -skipNg -skipGoModCommands -skipNpmWorkspaces",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "preLaunchTask": "01 - remove test main.go and stager.go",
+            "cwd": "${workspaceFolder}/test/test1/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipNg",
+                "--skipGoModCommands",
+                "--skipNpmWorkspaces",
+                "--stack-height=4"
+            ]
+        },
+        {
+            "name": "test - test1: go run . -test.run ^TestStageCount$",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/test/test1/go/tests/stage_tests",
+            "args": [
+                "-test.run",
+                "^TestStageCount$"
+            ]
+        },
+        {
+            "name": "test - test1: go run . edit data/stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/test1/go/cmd/test1",
+            "args": [
+                "edit",
+                "data/stage.go"
+            ]
+        },
+        {
+            "name": "test - test1: go run . edit data/stage.go --out data/stage_out.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/test1/go/cmd/test1",
+            "args": [
+                "edit",
+                "data/stage.go",
+                "--out",
+                "data/stage_out.go"
+            ]
+        },
+        {
+            "name": "test - test1: go run . edit data/stage.go --out data/stage_out.go --port 8082",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/test1/go/cmd/test1",
+            "args": [
+                "edit",
+                "data/stage.go",
+                "--out",
+                "data/stage_out.go",
+                "--port",
+                "8082"
+            ]
+        },
+        {
+            "name": "test - test1: go run . edit data/stage.go --out stage --logFile app.log",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/test1/go/cmd/test1",
+            "args": [
+                "edit",
+                "data/stage.go",
+                "--out",
+                "stage",
+                "--logFile",
+                "app.log"
+            ]
+        },
+        {
+            "name": "test - test1: go run . edit stage",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/test1/go/cmd/test1",
+            "args": [
+                "edit",
+                "stage"
+            ]
+        },
+        {
+            "name": "test - test1: gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug -debouncedMarshall w/o rm main.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test/test1/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--compileForDebug",
+                "--skipGoModCommands",
+                "--skipNg",
+                "--skipNpmInstall",
+                "--debouncedMarshall",
+                "--stack-height=4"
+            ]
+        },
+        {
+            "name": "test - test1: gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug w/o rm main.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test/test1/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--compileForDebug",
+                "--skipGoModCommands",
+                "--skipNg",
+                "--skipNpmInstall",
+                "--stack-height=4"
+            ]
+        },
         {
             "name": "test - test1: gong generate test -skipGoModCommands -skipNg with rm main.go",
             "type": "go",
@@ -1109,23 +1278,6 @@
                 "generate",
                 "--skipGoModCommands",
                 "--skipNg",
-                "--stack-height=4"
-            ]
-        },
-        {
-            "name": "test - test1: gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug -debouncedMarshall w/o rm main.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/test/test1/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--compileForDebug",
-                "--skipGoModCommands",
-                "--skipNg",
-                "--skipNpmInstall",
-                "--debouncedMarshall",
                 "--stack-height=4"
             ]
         },
@@ -1223,22 +1375,6 @@
             ]
         },
         {
-            "name": "test - gong generate test -skipNg -skipGoModCommands -skipNpmWorkspaces",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go and stager.go",
-            "cwd": "${workspaceFolder}/test/test1/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipNg",
-                "--skipGoModCommands",
-                "--skipNpmWorkspaces",
-                "--stack-height=4"
-            ]
-        },
-        {
             "name": "test - test1: gong generate test -skipNpmInstall -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
@@ -1252,6 +1388,53 @@
                 "--skipGoModCommands",
                 "--skipNg",
                 "--stack-height=4"
+            ]
+        },
+        {
+            "name": "test - test2: go run -testPackageHierarchy",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test2/go/cmd/test2",
+            "args": [
+                "-testPackageHierarchy"
+            ]
+        },
+        {
+            "name": "test - test2: go run . edit data/stage.go --out data/stage_out.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/test2/go/cmd/test2",
+            "args": [
+                "edit",
+                "data/stage.go",
+                "--out",
+                "data/stage_out.go"
+            ]
+        },
+        {
+            "name": "test - test2: go run . edit data/stage2.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/test2/go/cmd/test2",
+            "args": [
+                "edit",
+                "data/stage2.go"
+            ]
+        },
+        {
+            "name": "test - test2: go run . edit data/stage2.go --out stage2",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/test2/go/cmd/test2",
+            "args": [
+                "edit",
+                "data/stage2.go",
+                "--out",
+                "stage2"
             ]
         },
         {
@@ -1298,165 +1481,25 @@
             ]
         },
         {
-            "name": "test - test1: go run . edit data/stage.go --out data/stage_out.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/test1/go/cmd/test1",
-            "args": [
-                "edit",
-                "data/stage.go",
-                "--out",
-                "data/stage_out.go"
-            ]
-        },
-        {
-            "name": "test - test1: go run . edit data/stage.go --out stage --logFile app.log",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/test1/go/cmd/test1",
-            "args": [
-                "edit",
-                "data/stage.go",
-                "--out",
-                "stage",
-                "--logFile",
-                "app.log"
-            ]
-        },
-        {
-            "name": "test - test1: gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug w/o rm main.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/test/test1/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--compileForDebug",
-                "--skipGoModCommands",
-                "--skipNg",
-                "--skipNpmInstall",
-                "--stack-height=4"
-            ]
-        },
-        {
-            "name": "test - test1: go run . edit data/stage.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/test1/go/cmd/test1",
-            "args": [
-                "edit",
-                "data/stage.go"
-            ]
-        },
-        {
-            "name": "test - test1: go run . edit data/stage.go --out data/stage_out.go --port 8082",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/test1/go/cmd/test1",
-            "args": [
-                "edit",
-                "data/stage.go",
-                "--out",
-                "data/stage_out.go",
-                "--port",
-                "8082"
-            ]
-        },
-        {
-            "name": "test - test1: go run . edit stage --out stage",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/test1/go/cmd/test1",
-            "args": [
-                "edit",
-                "stage"
-            ]
-        },
-        {
-            "name": "test - test1: - go run debug TestStageCount",
+            "name": "test - test3: go run . -test.run ^TestBasicCommitNavigation$",
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/test/test1/go/tests/stage_tests",
+            "program": "${workspaceFolder}/test/test3/go/tests",
             "args": [
                 "-test.run",
-                "^TestStageCount$"
+                "^TestBasicCommitNavigation$"
             ]
         },
         {
-            "name": "test - test2: go run . edit data/stage.go --out data/stage_out.go",
+            "name": "test - test3: go run . -test.run ^TestCommitNavigation$",
             "type": "go",
             "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/test2/go/cmd/test2",
+            "mode": "test",
+            "program": "${workspaceFolder}/test/test3/go/tests",
             "args": [
-                "edit",
-                "data/stage.go",
-                "--out",
-                "data/stage_out.go"
-            ]
-        },
-        {
-            "name": "test - test2: go run . edit data/stage2.go --out stage2",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/test2/go/cmd/test2",
-            "args": [
-                "edit",
-                "data/stage2.go",
-                "--out",
-                "stage2"
-            ]
-        },
-        {
-            "name": "test - test2: go run . edit data/stage2.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/test2/go/cmd/test2",
-            "args": [
-                "edit",
-                "data/stage2.go"
-            ]
-        },
-        {
-            "name": "test - test2: go run -testPackageHierarchy",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test2/go/cmd/test2",
-            "args": [
-                "-testPackageHierarchy"
-            ]
-        },
-        {
-            "name": "test - test3: gong generate test3",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/test/test3/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands"
-            ]
-        },
-        {
-            "name": "test - test3: go run . edit data/stage.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/test3/go/cmd/test3",
-            "args": [
-                "edit",
-                "data/stage.go"
+                "-test.run",
+                "^TestCommitNavigation$"
             ]
         },
         {
@@ -1495,34 +1538,27 @@
             ]
         },
         {
-            "name": "test - test3: debug commits navigation - issue 1148",
+            "name": "test - test3: go run . edit data/stage.go",
             "type": "go",
             "request": "launch",
-            "mode": "test",
-            "program": "${workspaceFolder}/test/test3/go/tests",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/test3/go/cmd/test3",
             "args": [
-                "-test.run",
-                "^TestCommitNavigation$"
+                "edit",
+                "data/stage.go"
             ]
         },
         {
-            "name": "test - test3: debug basic commits navigation",
+            "name": "test - test3: gong generate test3",
             "type": "go",
             "request": "launch",
-            "mode": "test",
-            "program": "${workspaceFolder}/test/test3/go/tests",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test/test3/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-test.run",
-                "^TestBasicCommitNavigation$"
+                "generate",
+                "--skipGoModCommands"
             ]
-        },
-        {
-            "name": "test - Launch Chrome (test) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/test/test/ng-github.com-fullstack-lang-gong-test-test",
-            "sourceMaps": true
         },
         {
             "name": "test - test4: Launch Chrome (test4) on 4200",
@@ -1532,23 +1568,6 @@
             "webRoot": "${workspaceFolder}/test/test4/ng-github.com-fullstack-lang-gong-test-test4",
             "sourceMaps": true
         },
-        //
-        // "external" configurations
-        //
-        {
-            "name": "external - phyllotaxymusic: gong generate phyllotaxymusic --stack-height=0",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../../thomaspeugeot/phyllotaxymusic/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate"
-            ]
-        },
-        //
-        // "tmp" configurations
-        //
         {
             "name": "tmp - helloworld: gong generate /tmp/helloworld",
             "type": "go",

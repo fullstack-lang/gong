@@ -5,6 +5,6 @@ package models
 type AllocatedResourceShape struct {
 	Name string
 
-	Part *Part
-	Resource    *Resource
+	Part     *Part
+	Resource *Resource
 }
