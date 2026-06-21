@@ -81,37 +81,37 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 					mainFilePath,
 					cmd.PackageMainFullStack)
 			}
-		}
 
-		// Cobra command files
-		commands := []struct {
-			filename string
-			template string
-		}{
-			{"root.go", cmd.PackageMainRoot},
-			{"read.go", cmd.PackageMainRead},
-			{"edit.go", cmd.PackageMainEdit},
-			{"check.go", cmd.PackageMainCheck},
-			{"syntax.go", cmd.PackageMainSyntax},
-			{"semantic.go", cmd.PackageMainSemantic},
-		}
-
-		for _, command := range commands {
-			commandFilePath := filepath.Join(pkgPath, fmt.Sprintf("../cmd/%s/%s", gong_models.ComputePkgNameFromPkgPath(pkgPath), command.filename))
-			if _, err := os.Stat(commandFilePath); os.IsNotExist(err) {
-				log.Printf("%s does not exist, gong generate creates it", command.filename)
-				gong_models.VerySimpleCodeGenerator(modelPkg, commandFilePath, command.template)
+			// Cobra command files
+			commands := []struct {
+				filename string
+				template string
+			}{
+				{"root.go", cmd.PackageMainRoot},
+				{"read.go", cmd.PackageMainRead},
+				{"edit.go", cmd.PackageMainEdit},
+				{"check.go", cmd.PackageMainCheck},
+				{"syntax.go", cmd.PackageMainSyntax},
+				{"semantic.go", cmd.PackageMainSemantic},
 			}
-		}
 
-		// server.go depends on stack height
-		serverFilePath := filepath.Join(pkgPath, fmt.Sprintf("../cmd/%s/server.go", gong_models.ComputePkgNameFromPkgPath(pkgPath)))
-		if _, err := os.Stat(serverFilePath); os.IsNotExist(err) {
-			log.Printf("server.go does not exist, gong generate creates it")
-			if stackHeight == 0 {
-				gong_models.VerySimpleCodeGenerator(modelPkg, serverFilePath, cmd.PackageMainServerLevel1Stack)
-			} else {
-				gong_models.VerySimpleCodeGenerator(modelPkg, serverFilePath, cmd.PackageMainServerFullStack)
+			for _, command := range commands {
+				commandFilePath := filepath.Join(pkgPath, fmt.Sprintf("../cmd/%s/%s", gong_models.ComputePkgNameFromPkgPath(pkgPath), command.filename))
+				if _, err := os.Stat(commandFilePath); os.IsNotExist(err) {
+					log.Printf("%s does not exist, gong generate creates it", command.filename)
+					gong_models.VerySimpleCodeGenerator(modelPkg, commandFilePath, command.template)
+				}
+			}
+
+			// server.go depends on stack height
+			serverFilePath := filepath.Join(pkgPath, fmt.Sprintf("../cmd/%s/server.go", gong_models.ComputePkgNameFromPkgPath(pkgPath)))
+			if _, err := os.Stat(serverFilePath); os.IsNotExist(err) {
+				log.Printf("server.go does not exist, gong generate creates it")
+				if stackHeight == 0 {
+					gong_models.VerySimpleCodeGenerator(modelPkg, serverFilePath, cmd.PackageMainServerLevel1Stack)
+				} else {
+					gong_models.VerySimpleCodeGenerator(modelPkg, serverFilePath, cmd.PackageMainServerFullStack)
+				}
 			}
 		}
 
