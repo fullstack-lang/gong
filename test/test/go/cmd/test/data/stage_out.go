@@ -10,8 +10,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
-var _ = slices.Index[[]int, int]
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -25,7 +27,7 @@ func _(stage *models.Stage) {
 
 	// insertion point for declaration of instances to stage
 
-	__Astruct__00000000_ := (&models.Astruct{Name: `A0xxd`}).Stage(stage)
+	__Astruct__00000000_ := (&models.Astruct{Name: `A0xxdd`}).Stage(stage)
 	__Astruct__00000001_ := (&models.Astruct{Name: `A1`}).Stage(stage)
 	__Astruct__00000005_ := (&models.Astruct{Name: `A5`}).Stage(stage)
 	__Astruct__00000006_ := (&models.Astruct{Name: `A6`}).Stage(stage)
@@ -43,7 +45,7 @@ func _(stage *models.Stage) {
 
 	// insertion point for initialization of values
 
-	__Astruct__00000000_.Name = `A0xxd`
+	__Astruct__00000000_.Name = `A0xxdd`
 	__Astruct__00000000_.Field = models.Astruct{}.Date2
 	__Astruct__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2042-11-14 03:08:21 +0000 UTC")
 	__Astruct__00000000_.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
