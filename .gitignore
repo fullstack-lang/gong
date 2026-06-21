@@ -106,3 +106,5 @@ dsm/structure/go/cmd/structure/structure
 docs/.DS_Store
 test2-bin
 test1-bin
+test/test1/go/cmd/test1/test
+test/test1/go/cmd/test1/test1
