@@ -5,9 +5,9 @@ package main
 import (
 	"log"
 
-	"github.com/fullstack-lang/gong/lib/wasmregistry"
 	"github.com/fullstack-lang/gong/lib/ssg/go/level1stack"
 	"github.com/fullstack-lang/gong/lib/ssg/go/models"
+	"github.com/fullstack-lang/gong/lib/wasmregistry"
 	"github.com/gin-gonic/gin"
 )
 

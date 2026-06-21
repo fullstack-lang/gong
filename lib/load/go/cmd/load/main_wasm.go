@@ -3,9 +3,9 @@
 package main
 
 import (
-	"log"
-	"github.com/gin-gonic/gin"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
+	"github.com/gin-gonic/gin"
+	"log"
 
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 
@@ -35,7 +35,7 @@ func main() {
 	stack.Probe.Refresh()
 	stack.Stage.Commit()
 
-		splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	load_models.NewStager(r, stack.Stage, splitStage)
 
 	// Expose the HTTP and Socket bridges to the Angular frontend

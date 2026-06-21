@@ -10,8 +10,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
-var _ = slices.Index[[]int, int]
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -23,150 +25,149 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// Declaration of instances to stage
+	// insertion point for declaration of instances to stage
 
-	__Button__000000_One := (&models.Button{}).Stage(stage)
-	__Button__000001_Two := (&models.Button{}).Stage(stage)
-	__Button__000002_Three := (&models.Button{}).Stage(stage)
-	__Button__000003_Four := (&models.Button{}).Stage(stage)
-	__Button__000004_Five := (&models.Button{}).Stage(stage)
-	__Button__000005_Un := (&models.Button{}).Stage(stage)
+	__Button__00000000_ := (&models.Button{Name: `One`}).Stage(stage)
+	__Button__00000001_ := (&models.Button{Name: `Two`}).Stage(stage)
+	__Button__00000002_ := (&models.Button{Name: `Three`}).Stage(stage)
+	__Button__00000003_ := (&models.Button{Name: `Four`}).Stage(stage)
+	__Button__00000004_ := (&models.Button{Name: `Five`}).Stage(stage)
+	__Button__00000005_ := (&models.Button{Name: `Un`}).Stage(stage)
 
-	__ButtonToggle__000000_small := (&models.ButtonToggle{}).Stage(stage)
-	__ButtonToggle__000001_medium := (&models.ButtonToggle{}).Stage(stage)
-	__ButtonToggle__000002_large := (&models.ButtonToggle{}).Stage(stage)
-	__ButtonToggle__000003_flour := (&models.ButtonToggle{}).Stage(stage)
-	__ButtonToggle__000004_eggs := (&models.ButtonToggle{}).Stage(stage)
-	__ButtonToggle__000005_sugar := (&models.ButtonToggle{}).Stage(stage)
+	__ButtonToggle__00000000_ := (&models.ButtonToggle{Name: `small`}).Stage(stage)
+	__ButtonToggle__00000001_ := (&models.ButtonToggle{Name: `medium`}).Stage(stage)
+	__ButtonToggle__00000002_ := (&models.ButtonToggle{Name: `large`}).Stage(stage)
+	__ButtonToggle__00000003_ := (&models.ButtonToggle{Name: `flour`}).Stage(stage)
+	__ButtonToggle__00000004_ := (&models.ButtonToggle{Name: `eggs`}).Stage(stage)
+	__ButtonToggle__00000005_ := (&models.ButtonToggle{Name: `sugar`}).Stage(stage)
 
-	__Group__000000_Group_1 := (&models.Group{}).Stage(stage)
-	__Group__000001_Groupe_2 := (&models.Group{}).Stage(stage)
+	__Group__00000000_ := (&models.Group{Name: `Group 1`}).Stage(stage)
+	__Group__00000001_ := (&models.Group{Name: `Groupe 2`}).Stage(stage)
 
-	__GroupToogle__000000_Group_toggle_single_selector := (&models.GroupToogle{}).Stage(stage)
-	__GroupToogle__000001_Group_toggle_multi_selector := (&models.GroupToogle{}).Stage(stage)
+	__GroupToogle__00000000_ := (&models.GroupToogle{Name: `Group toggle single selector`}).Stage(stage)
+	__GroupToogle__00000001_ := (&models.GroupToogle{Name: `Group toggle multi selector`}).Stage(stage)
 
-	__Layout__000000_layout := (&models.Layout{}).Stage(stage)
+	__Layout__00000000_ := (&models.Layout{Name: `layout`}).Stage(stage)
 
-	// Setup of values
+	// insertion point for initialization of values
 
-	__Button__000000_One.Name = `One`
-	__Button__000000_One.Label = `One`
-	__Button__000000_One.Icon = `draw`
-	__Button__000000_One.IsDisabled = false
-	__Button__000000_One.Color = models.MatButtonPaletteTypePrimary
-	__Button__000000_One.MatButtonType = models.MatButtonTypeBasic
-	__Button__000000_One.MatButtonAppearance = models.MatButtonAppearanceElevated
+	__Button__00000000_.Name = `One`
+	__Button__00000000_.Label = `One`
+	__Button__00000000_.Icon = `draw`
+	__Button__00000000_.IsDisabled = false
+	__Button__00000000_.Color = models.MatButtonPaletteTypePrimary
+	__Button__00000000_.MatButtonType = models.MatButtonTypeBasic
+	__Button__00000000_.MatButtonAppearance = models.MatButtonAppearanceElevated
 
-	__Button__000001_Two.Name = `Two`
-	__Button__000001_Two.Label = `Two`
-	__Button__000001_Two.Icon = `add`
-	__Button__000001_Two.IsDisabled = false
-	__Button__000001_Two.Color = models.MatButtonPaletteTypeWarn
-	__Button__000001_Two.MatButtonType = models.MatButtonTypeExtendedFab
-	__Button__000001_Two.MatButtonAppearance = models.MatButtonAppearanceFilled
+	__Button__00000001_.Name = `Two`
+	__Button__00000001_.Label = `Two`
+	__Button__00000001_.Icon = `add`
+	__Button__00000001_.IsDisabled = false
+	__Button__00000001_.Color = models.MatButtonPaletteTypeWarn
+	__Button__00000001_.MatButtonType = models.MatButtonTypeExtendedFab
+	__Button__00000001_.MatButtonAppearance = models.MatButtonAppearanceFilled
 
-	__Button__000002_Three.Name = `Three`
-	__Button__000002_Three.Label = `Three`
-	__Button__000002_Three.Icon = `add_box`
-	__Button__000002_Three.IsDisabled = false
-	__Button__000002_Three.Color = models.MatButtonPaletteTypeAccent
-	__Button__000002_Three.MatButtonType = models.MatButtonTypeBasic
-	__Button__000002_Three.MatButtonAppearance = models.MatButtonAppearanceFilled
+	__Button__00000002_.Name = `Three`
+	__Button__00000002_.Label = `Three`
+	__Button__00000002_.Icon = `add_box`
+	__Button__00000002_.IsDisabled = false
+	__Button__00000002_.Color = models.MatButtonPaletteTypeAccent
+	__Button__00000002_.MatButtonType = models.MatButtonTypeBasic
+	__Button__00000002_.MatButtonAppearance = models.MatButtonAppearanceFilled
 
-	__Button__000003_Four.Name = `Four`
-	__Button__000003_Four.Label = `Four`
-	__Button__000003_Four.Icon = ``
-	__Button__000003_Four.IsDisabled = false
-	__Button__000003_Four.Color = models.MatButtonPaletteTypePrimary
-	__Button__000003_Four.MatButtonType = models.MatButtonTypeExtendedFab
-	__Button__000003_Four.MatButtonAppearance = models.MatButtonAppearanceElevated
+	__Button__00000003_.Name = `Four`
+	__Button__00000003_.Label = `Four`
+	__Button__00000003_.Icon = ``
+	__Button__00000003_.IsDisabled = false
+	__Button__00000003_.Color = models.MatButtonPaletteTypePrimary
+	__Button__00000003_.MatButtonType = models.MatButtonTypeExtendedFab
+	__Button__00000003_.MatButtonAppearance = models.MatButtonAppearanceElevated
 
-	__Button__000004_Five.Name = `Five`
-	__Button__000004_Five.Label = `Five`
-	__Button__000004_Five.Icon = ``
-	__Button__000004_Five.IsDisabled = false
+	__Button__00000004_.Name = `Five`
+	__Button__00000004_.Label = `Five`
+	__Button__00000004_.Icon = ``
+	__Button__00000004_.IsDisabled = false
+	__Button__00000004_.Color = ""
+	__Button__00000004_.MatButtonType = ""
+	__Button__00000004_.MatButtonAppearance = ""
 
-	__Button__000005_Un.Name = `Un`
-	__Button__000005_Un.Label = `Un`
-	__Button__000005_Un.Icon = `add`
-	__Button__000005_Un.IsDisabled = false
-	__Button__000005_Un.MatButtonType = models.MatButtonTypeMiniFab
-	__Button__000005_Un.MatButtonAppearance = models.MatButtonAppearanceOutlined
+	__Button__00000005_.Name = `Un`
+	__Button__00000005_.Label = `Un`
+	__Button__00000005_.Icon = `add`
+	__Button__00000005_.IsDisabled = false
+	__Button__00000005_.Color = ""
+	__Button__00000005_.MatButtonType = models.MatButtonTypeMiniFab
+	__Button__00000005_.MatButtonAppearance = models.MatButtonAppearanceOutlined
 
-	__ButtonToggle__000000_small.Name = `small`
-	__ButtonToggle__000000_small.Label = `small`
-	__ButtonToggle__000000_small.Icon = ``
-	__ButtonToggle__000000_small.IsDisabled = false
-	__ButtonToggle__000000_small.IsChecked = false
+	__ButtonToggle__00000000_.Name = `small`
+	__ButtonToggle__00000000_.Label = `small`
+	__ButtonToggle__00000000_.Icon = ``
+	__ButtonToggle__00000000_.IsDisabled = false
+	__ButtonToggle__00000000_.IsChecked = false
 
-	__ButtonToggle__000001_medium.Name = `medium`
-	__ButtonToggle__000001_medium.Label = `medium`
-	__ButtonToggle__000001_medium.Icon = ``
-	__ButtonToggle__000001_medium.IsDisabled = false
-	__ButtonToggle__000001_medium.IsChecked = false
+	__ButtonToggle__00000001_.Name = `medium`
+	__ButtonToggle__00000001_.Label = `medium`
+	__ButtonToggle__00000001_.Icon = ``
+	__ButtonToggle__00000001_.IsDisabled = false
+	__ButtonToggle__00000001_.IsChecked = false
 
-	__ButtonToggle__000002_large.Name = `large`
-	__ButtonToggle__000002_large.Label = `large`
-	__ButtonToggle__000002_large.Icon = ``
-	__ButtonToggle__000002_large.IsDisabled = false
-	__ButtonToggle__000002_large.IsChecked = false
+	__ButtonToggle__00000002_.Name = `large`
+	__ButtonToggle__00000002_.Label = `large`
+	__ButtonToggle__00000002_.Icon = ``
+	__ButtonToggle__00000002_.IsDisabled = false
+	__ButtonToggle__00000002_.IsChecked = false
 
-	__ButtonToggle__000003_flour.Name = `flour`
-	__ButtonToggle__000003_flour.Label = `flour`
-	__ButtonToggle__000003_flour.Icon = ``
-	__ButtonToggle__000003_flour.IsDisabled = false
-	__ButtonToggle__000003_flour.IsChecked = false
+	__ButtonToggle__00000003_.Name = `flour`
+	__ButtonToggle__00000003_.Label = `flour`
+	__ButtonToggle__00000003_.Icon = ``
+	__ButtonToggle__00000003_.IsDisabled = false
+	__ButtonToggle__00000003_.IsChecked = false
 
-	__ButtonToggle__000004_eggs.Name = `eggs`
-	__ButtonToggle__000004_eggs.Label = `eggs`
-	__ButtonToggle__000004_eggs.Icon = ``
-	__ButtonToggle__000004_eggs.IsDisabled = false
-	__ButtonToggle__000004_eggs.IsChecked = false
+	__ButtonToggle__00000004_.Name = `eggs`
+	__ButtonToggle__00000004_.Label = `eggs`
+	__ButtonToggle__00000004_.Icon = ``
+	__ButtonToggle__00000004_.IsDisabled = false
+	__ButtonToggle__00000004_.IsChecked = false
 
-	__ButtonToggle__000005_sugar.Name = `sugar`
-	__ButtonToggle__000005_sugar.Label = `sugar`
-	__ButtonToggle__000005_sugar.Icon = ``
-	__ButtonToggle__000005_sugar.IsDisabled = false
-	__ButtonToggle__000005_sugar.IsChecked = false
+	__ButtonToggle__00000005_.Name = `sugar`
+	__ButtonToggle__00000005_.Label = `sugar`
+	__ButtonToggle__00000005_.Icon = ``
+	__ButtonToggle__00000005_.IsDisabled = false
+	__ButtonToggle__00000005_.IsChecked = false
 
-	__Group__000000_Group_1.Name = `Group 1`
-	__Group__000000_Group_1.Percentage = 50.000000
-	__Group__000000_Group_1.NbColumns = 15
+	__Group__00000000_.Name = `Group 1`
+	__Group__00000000_.Percentage = 50.000000
+	__Group__00000000_.NbColumns = 15
 
-	__Group__000001_Groupe_2.Name = `Groupe 2`
-	__Group__000001_Groupe_2.Percentage = 50.000000
-	__Group__000001_Groupe_2.NbColumns = 12
+	__Group__00000001_.Name = `Groupe 2`
+	__Group__00000001_.Percentage = 50.000000
+	__Group__00000001_.NbColumns = 12
 
-	__GroupToogle__000000_Group_toggle_single_selector.Name = `Group toggle single selector`
-	__GroupToogle__000000_Group_toggle_single_selector.Percentage = 40.000000
-	__GroupToogle__000000_Group_toggle_single_selector.IsSingleSelector = false
+	__GroupToogle__00000000_.Name = `Group toggle single selector`
+	__GroupToogle__00000000_.Percentage = 40.000000
+	__GroupToogle__00000000_.IsSingleSelector = false
 
-	__GroupToogle__000001_Group_toggle_multi_selector.Name = `Group toggle multi selector`
-	__GroupToogle__000001_Group_toggle_multi_selector.Percentage = 50.000000
-	__GroupToogle__000001_Group_toggle_multi_selector.IsSingleSelector = false
+	__GroupToogle__00000001_.Name = `Group toggle multi selector`
+	__GroupToogle__00000001_.Percentage = 50.000000
+	__GroupToogle__00000001_.IsSingleSelector = false
 
-	__Layout__000000_layout.Name = `layout`
+	__Layout__00000000_.Name = `layout`
 
-	// Setup of pointers
-	// setup of Button instances pointers
-	// setup of ButtonToggle instances pointers
-	// setup of Group instances pointers
-	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000000_One)
-	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000001_Two)
-	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000002_Three)
-	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000003_Four)
-	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000004_Five)
-	__Group__000001_Groupe_2.Buttons = append(__Group__000001_Groupe_2.Buttons, __Button__000005_Un)
-	// setup of GroupToogle instances pointers
-	__GroupToogle__000000_Group_toggle_single_selector.ButtonToggles = append(__GroupToogle__000000_Group_toggle_single_selector.ButtonToggles, __ButtonToggle__000000_small)
-	__GroupToogle__000000_Group_toggle_single_selector.ButtonToggles = append(__GroupToogle__000000_Group_toggle_single_selector.ButtonToggles, __ButtonToggle__000001_medium)
-	__GroupToogle__000000_Group_toggle_single_selector.ButtonToggles = append(__GroupToogle__000000_Group_toggle_single_selector.ButtonToggles, __ButtonToggle__000002_large)
-	__GroupToogle__000001_Group_toggle_multi_selector.ButtonToggles = append(__GroupToogle__000001_Group_toggle_multi_selector.ButtonToggles, __ButtonToggle__000003_flour)
-	__GroupToogle__000001_Group_toggle_multi_selector.ButtonToggles = append(__GroupToogle__000001_Group_toggle_multi_selector.ButtonToggles, __ButtonToggle__000004_eggs)
-	__GroupToogle__000001_Group_toggle_multi_selector.ButtonToggles = append(__GroupToogle__000001_Group_toggle_multi_selector.ButtonToggles, __ButtonToggle__000005_sugar)
-	// setup of Layout instances pointers
-	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000000_Group_1)
-	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000001_Groupe_2)
-	__Layout__000000_layout.GroupToogles = append(__Layout__000000_layout.GroupToogles, __GroupToogle__000000_Group_toggle_single_selector)
-	__Layout__000000_layout.GroupToogles = append(__Layout__000000_layout.GroupToogles, __GroupToogle__000001_Group_toggle_multi_selector)
+	// insertion point for setup of pointers
+	__Group__00000000_.Buttons = append(__Group__00000000_.Buttons, __Button__00000000_)
+	__Group__00000000_.Buttons = append(__Group__00000000_.Buttons, __Button__00000001_)
+	__Group__00000000_.Buttons = append(__Group__00000000_.Buttons, __Button__00000002_)
+	__Group__00000000_.Buttons = append(__Group__00000000_.Buttons, __Button__00000003_)
+	__Group__00000000_.Buttons = append(__Group__00000000_.Buttons, __Button__00000004_)
+	__Group__00000001_.Buttons = append(__Group__00000001_.Buttons, __Button__00000005_)
+	__GroupToogle__00000000_.ButtonToggles = append(__GroupToogle__00000000_.ButtonToggles, __ButtonToggle__00000000_)
+	__GroupToogle__00000000_.ButtonToggles = append(__GroupToogle__00000000_.ButtonToggles, __ButtonToggle__00000001_)
+	__GroupToogle__00000000_.ButtonToggles = append(__GroupToogle__00000000_.ButtonToggles, __ButtonToggle__00000002_)
+	__GroupToogle__00000001_.ButtonToggles = append(__GroupToogle__00000001_.ButtonToggles, __ButtonToggle__00000003_)
+	__GroupToogle__00000001_.ButtonToggles = append(__GroupToogle__00000001_.ButtonToggles, __ButtonToggle__00000004_)
+	__GroupToogle__00000001_.ButtonToggles = append(__GroupToogle__00000001_.ButtonToggles, __ButtonToggle__00000005_)
+	__Layout__00000000_.Groups = append(__Layout__00000000_.Groups, __Group__00000000_)
+	__Layout__00000000_.Groups = append(__Layout__00000000_.Groups, __Group__00000001_)
+	__Layout__00000000_.GroupToogles = append(__Layout__00000000_.GroupToogles, __GroupToogle__00000000_)
+	__Layout__00000000_.GroupToogles = append(__Layout__00000000_.GroupToogles, __GroupToogle__00000001_)
 }

@@ -1,8 +1,5 @@
 package models
 
-import (
-)
-
 func onCopyDiagram(stager *Stager, diagram *Diagram) func() {
 	return func() {
 		newDiagram := new(Diagram)

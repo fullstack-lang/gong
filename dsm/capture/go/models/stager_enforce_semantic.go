@@ -9,7 +9,6 @@ import (
 func (stager *Stager) enforceSemantic() (needCommit bool) {
 	stage := stager.stage
 
-
 	// computes fields that are not persisted
 	stager.enforceProducersConsumers()
 	stager.enforceOwningLibraryAndObjects()
@@ -96,5 +95,3 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 
 	return needCommit
 }
-
-

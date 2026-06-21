@@ -1,0 +1,390 @@
+//go:build !js
+
+package main
+
+import (
+	"log"
+	"strconv"
+
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
+
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
+	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
+
+	button_models "github.com/fullstack-lang/gong/lib/button/go/models"
+	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
+
+	cursor_models "github.com/fullstack-lang/gong/lib/cursor/go/models"
+	cursor_stack "github.com/fullstack-lang/gong/lib/cursor/go/stack"
+
+	slider_models "github.com/fullstack-lang/gong/lib/slider/go/models"
+	slider_stack "github.com/fullstack-lang/gong/lib/slider/go/stack"
+
+	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
+	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
+
+	tone_stack "github.com/fullstack-lang/gong/lib/tone/go/stack"
+)
+
+func executeServer(args []string) {
+	// setup the static file server and get the controller
+	r := split_static.ServeStaticFiles(logGINFlag)
+
+	// setup root stack
+	stack := split_stack.NewStack(r, "", "", "", "", embeddedDiagrams, true)
+	splitStage := stack.Stage
+	stack.Probe.Refresh()
+
+	// set the title of the application (name of the tab)
+	(&split.Title{Name: "Test"}).Stage(splitStage)
+	(&split.FavIcon{Name: "Test",
+		SVG: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+			<circle cx="12" cy="12" r="10" fill="#ff6b6b"/>
+			<path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="white" stroke-width="2" stroke-linecap="round"/>
+			<circle cx="9" cy="9" r="1" fill="white"/>
+			<circle cx="15" cy="9" r="1" fill="white"/>
+		</svg>`,
+	}).Stage(splitStage)
+
+	// set the title of the application (name of the tab)
+	(&split.LogoOnTheLeft{
+		Name:   "Test",
+		Width:  200,
+		Height: 100,
+		SVG: `<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
+			<rect x="10" y="10" width="180" height="80" fill="none" stroke="green" stroke-width="10"/>
+			<text x="100" y="50" font-family="Arial, sans-serif" font-size="24" fill="green" text-anchor="middle" dominant-baseline="middle">SVG Left 1</text>
+		</svg>`,
+	}).Stage(splitStage)
+
+	(&split.LogoOnTheLeft{
+		Name:   "Test 2",
+		Width:  200,
+		Height: 100,
+		SVG: `<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
+			<rect x="10" y="10" width="180" height="80" fill="none" stroke="gray" stroke-width="10"/>
+			<text x="100" y="50" font-family="Arial, sans-serif" font-size="24" fill="gray" text-anchor="middle" dominant-baseline="middle">SVG 2</text>
+		</svg>`,
+	}).Stage(splitStage)
+
+	(&split.LogoOnTheRight{
+		Name:   "Test",
+		Width:  200,
+		Height: 100,
+		SVG: `<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
+			<rect x="10" y="10" width="180" height="80" fill="none" stroke="blue" stroke-width="10"/>
+			<text x="100" y="50" font-family="Arial, sans-serif" font-size="24" fill="blue" text-anchor="middle" dominant-baseline="middle">SVG R 1</text>
+		</svg>`,
+	}).Stage(splitStage)
+
+	(&split.LogoOnTheRight{
+		Name:   "Test 2",
+		Width:  200,
+		Height: 100,
+		SVG: `<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
+			<rect x="10" y="10" width="180" height="80" fill="none" stroke="gray" stroke-width="10"/>
+			<text x="100" y="50" font-family="Arial, sans-serif" font-size="24" fill="lightgray" text-anchor="middle" dominant-baseline="middle">SVG R 2</text>
+		</svg>`,
+	}).Stage(splitStage)
+
+	(&split.LogoOnTheRight{
+		Name:   "Test 3",
+		Width:  200,
+		Height: 100,
+		SVG: `<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
+			<rect x="10" y="10" width="180" height="80" fill="none" stroke="red" stroke-width="10"/>
+			<text x="100" y="50" font-family="Arial, sans-serif" font-size="24" fill="red" text-anchor="middle" dominant-baseline="middle">SVG R 3</text>
+		</svg>`,
+	}).Stage(splitStage)
+
+	sliderStage1 := slider_stack.NewStack(r, "slider 1", "", "", "", true, true).Stage
+
+	sliderStage2 := slider_stack.NewStack(r, "slider 2", "", "", "", true, true).Stage
+
+	buttonStackName := "button"
+	stackbutton := button_stack.NewStack(r, buttonStackName, "", "", "", true, true)
+	buttonStage := stackbutton.Stage
+
+	toneStackName := "tone"
+	stacktone := tone_stack.NewStack(r, toneStackName, "", "", "", true, true)
+	toneStage := stacktone.Stage
+
+	{
+
+		layout := new(slider_models.Layout).Stage(sliderStage1)
+		group := new(slider_models.Group).Stage(sliderStage1)
+		group.Percentage = 100
+		layout.Groups = append(layout.Groups, group)
+
+		slider := new(slider_models.Slider).Stage(sliderStage1)
+		slider.IsInt = true
+		slider.MinInt = 10
+		slider.MaxInt = 100
+		slider.StepInt = 5
+		slider.Name = "slider 1"
+		group.Sliders = append(group.Sliders, slider)
+
+		sliderStage1.Commit()
+	}
+
+	{
+
+		layout := new(slider_models.Layout).Stage(sliderStage2)
+		group := new(slider_models.Group).Stage(sliderStage2)
+		group.Percentage = 100
+		layout.Groups = append(layout.Groups, group)
+
+		slider := new(slider_models.Slider).Stage(sliderStage2)
+		slider.IsInt = true
+		slider.MinInt = 10
+		slider.MaxInt = 100
+		slider.StepInt = 5
+		slider.Name = "slider 2"
+		group.Sliders = append(group.Sliders, slider)
+
+		sliderStage2.Commit()
+	}
+
+	{
+
+		layout := new(button_models.Layout).Stage(buttonStage)
+		group := new(button_models.Group).Stage(buttonStage)
+		group.Percentage = 100
+		layout.Groups = append(layout.Groups, group)
+
+		button := new(button_models.Button).Stage(buttonStage)
+		button.Name = "example"
+		button.Icon = "draw"
+		button.Label = "Draw a Phyllotaxy Growth Curve"
+		group.Buttons = append(group.Buttons, button)
+
+		buttonStage.Commit()
+	}
+
+	{
+
+		toneStage.Commit()
+	}
+
+	{
+		cursorStackName := "cursor"
+		stackcursor := cursor_stack.NewStack(r, cursorStackName, "", "", "", true, true)
+		cursorStage := stackcursor.Stage
+
+		cursor := (&cursor_models.Cursor{Name: "cursor"}).Stage(cursorStage)
+
+		cursor.Y1 = 100
+		cursor.Y2 = 200
+
+		cursor.StartX,
+			cursor.EndX = 20, 20
+		cursor.DurationSeconds = 7
+		cursor.Stroke = "red"
+		cursor.StrokeOpacity = 1.0
+		cursor.StrokeWidth = 2.0
+		cursor.IsPlaying = true
+
+		cursorStage.Commit()
+
+		svgStackName := "svg"
+		stacksvg := svg_stack.NewStack(r, svgStackName, "", "", "", true, true)
+		svgStage := stacksvg.Stage
+
+		svg := (&svg_models.SVG{Name: "svg"}).Stage(svgStage)
+		layer := (&svg_models.Layer{Name: "layer"}).Stage(svgStage)
+		svg.Layers = append(svg.Layers, layer)
+
+		rect := (&svg_models.Rect{Name: "rect"}).Stage(svgStage)
+		layer.Rects = append(layer.Rects, rect)
+		rect.X = 10
+		rect.Y = 10
+		rect.Width = 200
+		rect.Height = 100
+		rect.Stroke = "black"
+		rect.StrokeOpacity = 1.0
+		rect.StrokeWidth = 2.0
+
+		svgStage.Commit()
+	}
+
+	if false {
+		stack.Stage.Checkout()
+
+		// fetch the view tone probe view
+		key := "view of tone probe"
+		mapView := *split.GetGongstructInstancesMap[split.View](stack.Stage)
+
+		viewToneProbe, ok := mapView[key]
+		if !ok {
+			log.Fatalln("view not found")
+		}
+		// remove the tone probe area from the probe view and commit
+		asSplitArea := viewToneProbe.RootAsSplitAreas[0]
+		if asSplitArea == nil {
+			log.Fatalln("split area not found")
+		}
+		viewToneProbe.RootAsSplitAreas = viewToneProbe.RootAsSplitAreas[:]
+		stack.Stage.Commit()
+
+		// add the tone probe area from the probe view and commit
+		viewToneProbe.RootAsSplitAreas = append(viewToneProbe.RootAsSplitAreas, asSplitArea)
+		stack.Stage.Commit()
+	}
+
+	(&split.View{
+		Name: "Probe Split",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Split: (&split.Split{
+					StackName: splitStage.GetProbeSplitStageName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+	}).Stage(splitStage)
+
+	(&split.View{
+		Name:                   "Slider 1",
+		IsSizeInPixel:          true,
+		IsWithCustomGutterSize: true,
+		GutterSize:             1,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Size: 100,
+				Slider: (&split.Slider{
+					StackName: sliderStage1.GetName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+			(&split.AsSplitArea{
+				IsAny: true,
+				Slider: (&split.Slider{
+					StackName: sliderStage1.GetName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+		IsSelectedView: true,
+	}).Stage(splitStage)
+
+	(&split.View{
+		Name: "Probe Slider 1",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Split: (&split.Split{
+					StackName: sliderStage1.GetProbeSplitStageName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+		IsSecondaryView: true,
+	}).Stage(splitStage)
+
+	(&split.View{
+		Name: "Slider 2",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Slider: (&split.Slider{
+					StackName: sliderStage2.GetName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+		IsSecondaryView: true,
+	}).Stage(splitStage)
+
+	(&split.View{
+		Name: "Probe Slider 2",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Split: (&split.Split{
+					StackName: sliderStage2.GetProbeSplitStageName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+		IsSecondaryView: true,
+	}).Stage(splitStage)
+
+	(&split.View{
+		Name: "Button",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Button: (&split.Button{
+					StackName: buttonStage.GetName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+	}).Stage(splitStage)
+
+	(&split.View{
+		Name: "Probe Button",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Split: (&split.Split{
+					Name:      "Button Split Probe",
+					StackName: buttonStage.GetProbeSplitStageName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+		IsSecondaryView: true,
+	}).Stage(splitStage)
+
+	(&split.View{
+		Name: "Spliting views",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				AsSplit: (&split.AsSplit{
+					Name:      "as split",
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						(&split.AsSplitArea{
+							Name:             "Top",
+							Size:             50,
+							ShowNameInHeader: true,
+							AsSplit: (&split.AsSplit{
+								Name:      "as split",
+								Direction: split.Horizontal,
+								AsSplitAreas: []*split.AsSplitArea{
+									(&split.AsSplitArea{
+										Name:             "Top",
+										Size:             50,
+										ShowNameInHeader: true,
+									}).Stage(splitStage),
+									(&split.AsSplitArea{
+										Name:             "Bottom",
+										Size:             50,
+										ShowNameInHeader: true,
+									}).Stage(splitStage),
+								},
+							}).Stage(splitStage),
+						}).Stage(splitStage),
+						(&split.AsSplitArea{
+							Name:             "Bottom",
+							Size:             50,
+							ShowNameInHeader: true,
+							AsSplit: (&split.AsSplit{
+								Name:      "as split",
+								Direction: split.Horizontal,
+								AsSplitAreas: []*split.AsSplitArea{
+									(&split.AsSplitArea{
+										Name:             "Top",
+										Size:             50,
+										ShowNameInHeader: true,
+									}).Stage(splitStage),
+									(&split.AsSplitArea{
+										Name:             "Bottom",
+										Size:             50,
+										ShowNameInHeader: true,
+									}).Stage(splitStage),
+								},
+							}).Stage(splitStage),
+						}).Stage(splitStage),
+					},
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+		},
+	}).Stage(splitStage)
+
+	splitStage.Commit()
+
+	log.Println("Server ready serve on localhost:" + strconv.Itoa(port))
+	err := r.Run(":" + strconv.Itoa(port))
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+}

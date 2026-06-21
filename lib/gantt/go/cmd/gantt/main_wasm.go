@@ -3,13 +3,13 @@
 package main
 
 import (
-	"log"
-	"github.com/gin-gonic/gin"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
+	"github.com/gin-gonic/gin"
+	"log"
 
-	"github.com/fullstack-lang/gong/lib/wasmregistry"
 	"github.com/fullstack-lang/gong/lib/gantt/go/level1stack"
 	"github.com/fullstack-lang/gong/lib/gantt/go/models"
+	"github.com/fullstack-lang/gong/lib/wasmregistry"
 )
 
 func main() {
@@ -36,7 +36,7 @@ func main() {
 	stack.Probe.Refresh()
 
 	// initiates the UX loop
-		splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	models.NewStager(r, stack.Stage, splitStage)
 
 	// Expose the HTTP and Socket bridges to the Angular frontend

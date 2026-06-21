@@ -515,7 +515,7 @@ func _(stage *models.Stage) {
 	stage.Commit()
 
 	// UX Loop Diagram
-	__Diagram__00000000_.StatesWhoseNodeIsExpanded = slices.Insert( __Diagram__00000000_.StatesWhoseNodeIsExpanded, 0, __State__00000000_)
+	__Diagram__00000000_.StatesWhoseNodeIsExpanded = slices.Insert(__Diagram__00000000_.StatesWhoseNodeIsExpanded, 0, __State__00000000_)
 	stage.Commit()
 
 	// UX 1 - Waiting for User Input to UX 1 - Update Stage
@@ -527,7 +527,7 @@ func _(stage *models.Stage) {
 	stage.Commit()
 
 	// UX Loop Diagram
-	__Diagram__00000000_.StatesWhoseNodeIsExpanded = slices.Delete( __Diagram__00000000_.StatesWhoseNodeIsExpanded, 0, 1)
+	__Diagram__00000000_.StatesWhoseNodeIsExpanded = slices.Delete(__Diagram__00000000_.StatesWhoseNodeIsExpanded, 0, 1)
 	stage.Commit()
 
 	// New Diagram
@@ -555,10 +555,10 @@ func _(stage *models.Stage) {
 	stage.Commit()
 
 	// UX Loop Diagram
-	__Diagram__00000000_.StatesWhoseNodeIsExpanded = slices.Insert( __Diagram__00000000_.StatesWhoseNodeIsExpanded, 0, __State__00000000_)
+	__Diagram__00000000_.StatesWhoseNodeIsExpanded = slices.Insert(__Diagram__00000000_.StatesWhoseNodeIsExpanded, 0, __State__00000000_)
 	stage.Commit()
 
 	// UX Loop Diagram
-	__Diagram__00000000_.StatesWhoseNodeIsExpanded = slices.Delete( __Diagram__00000000_.StatesWhoseNodeIsExpanded, 0, 1)
+	__Diagram__00000000_.StatesWhoseNodeIsExpanded = slices.Delete(__Diagram__00000000_.StatesWhoseNodeIsExpanded, 0, 1)
 	stage.Commit()
 }

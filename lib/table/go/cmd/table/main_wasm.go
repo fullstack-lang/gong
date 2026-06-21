@@ -34,8 +34,6 @@ func main() {
 	stack.Probe.Refresh()
 	stack.Stage.Commit()
 
-	
-
 	// Expose the HTTP and Socket bridges to the Angular frontend
 	wasmregistry.SetupWasmHooks(r)
 

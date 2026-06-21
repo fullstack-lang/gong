@@ -13,7 +13,7 @@ func (stager *Stager) enforceAtLeastOneDiagramPerSystem() (needCommit bool) {
 			system.DiagramStructures = append(system.DiagramStructures, diagramStructure)
 
 			systemShape := (&SystemShape{
-				Name:    "SystemShape",
+				Name:   "SystemShape",
 				System: system,
 				RectShape: RectShape{
 					X:      100,

@@ -2,7 +2,7 @@ package models
 
 // SystemShape
 type SystemShape struct {
-	Name    string
+	Name   string
 	System *System
 
 	IsExpanded bool

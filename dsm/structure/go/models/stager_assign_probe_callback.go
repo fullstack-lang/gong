@@ -6,7 +6,7 @@ func (stager *Stager) assignProbeCallback() bool {
 	if stager.probeForm == nil {
 		return false
 	}
-	
+
 	// We only assign it once. But since it's an assignment, doing it every time is harmless,
 	// though we might want to ensure it's not nil before assigning.
 	stager.probeForm.SetUpdateSliceOfPointersCallback(func(instance any, fieldName string, slicePtr any) {
@@ -16,7 +16,7 @@ func (stager *Stager) assignProbeCallback() bool {
 			}
 		}
 	})
-	
+
 	return false
 }
 
@@ -36,12 +36,12 @@ func (stager *Stager) onDataFlowDatasUpdate(dataFlow *DataFlow) {
 		if hasDataFlowShape {
 			existingDataShapes := make(map[*Data]*DataShape)
 			var validDataShapes []*DataShape
-			
+
 			for _, dataShape := range diagram.Data_Shapes {
 				if dataShape.DataFlow == dataFlow {
 					if dataShape.Data != nil {
 						existingDataShapes[dataShape.Data] = dataShape
-						
+
 						stillExists := false
 						for _, d := range dataFlow.Datas {
 							if d == dataShape.Data {
@@ -77,7 +77,7 @@ func (stager *Stager) onDataFlowDatasUpdate(dataFlow *DataFlow) {
 			}
 		}
 	}
-	
+
 	// The callback is invoked synchronously inside OnSave of the form,
 	// and OnSave calls commit *after* the callback. But in case it doesn't,
 	// we do not need to call commit explicitly if the form is saving.

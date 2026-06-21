@@ -31,9 +31,9 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		ASSOCIATION_TYPE_TASK_INPUT       associationType = "TaskInput"
 		ASSOCIATION_TYPE_TASK_OUTPUT      associationType = "TaskOutput"
 
-		ASSOCIAITON_TYPE_NOTE_DELIVERABLE  associationType = "NoteDeliverable"
-		ASSOCIAITON_TYPE_NOTE_TASK     associationType = "NoteTask"
-		ASSOCIAITON_TYPE_NOTE_RESOURCE associationType = "NoteResource"
+		ASSOCIAITON_TYPE_NOTE_DELIVERABLE associationType = "NoteDeliverable"
+		ASSOCIAITON_TYPE_NOTE_TASK        associationType = "NoteTask"
+		ASSOCIAITON_TYPE_NOTE_RESOURCE    associationType = "NoteResource"
 
 		ASSOCATIONN_TYPE_RESOURCE_COMPOSITION associationType = "ResourceComposition"
 		ASSOCIATION_TYPE_RESOURCE_TASK        associationType = "ResourceTask"

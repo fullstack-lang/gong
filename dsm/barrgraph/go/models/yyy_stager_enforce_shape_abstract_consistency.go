@@ -33,5 +33,11 @@ func (stager *Stager) enforceShapesAbstractConsistency() bool {
 		}
 
 	}
+
+	if needCommit {
+		// some slice of pointers might be not clean
+		stager.stage.Clean()
+	}
+
 	return needCommit
 }

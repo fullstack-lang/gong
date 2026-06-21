@@ -9,13 +9,13 @@ type dataShapeKey struct {
 }
 
 type allocatedResourceShapeKey struct {
-	part *Part
-	resource    *Resource
+	part     *Part
+	resource *Resource
 }
 
 type allocatedSystemShapeKey struct {
-	part *Part
-	system     *System
+	part   *Part
+	system *System
 }
 
 type DiagramStructure struct {
@@ -48,7 +48,7 @@ type DiagramStructure struct {
 
 	// System
 	System_Shapes              []*SystemShape
-	map_System_SystemShape    map[*System]*SystemShape
+	map_System_SystemShape     map[*System]*SystemShape
 	map_System_Rect            map[*System]*svg.Rect
 	IsSystemsNodeExpanded      bool
 	SystemsWhoseNodeIsExpanded []*System
@@ -56,20 +56,20 @@ type DiagramStructure struct {
 	owningSystem *System
 
 	// Part
-	Part_Shapes               []*PartShape
-	map_Part_PartShape map[*Part]*PartShape
-	map_Part_Rect             map[*Part]*svg.Rect
-	IsPartsNodeExpanded       bool
-	PartWhoseNodeIsExpanded   []*Part
+	Part_Shapes             []*PartShape
+	map_Part_PartShape      map[*Part]*PartShape
+	map_Part_Rect           map[*Part]*svg.Rect
+	IsPartsNodeExpanded     bool
+	PartWhoseNodeIsExpanded []*Part
 
 	// ExternalPart
-	ExternalPart_Shapes               []*ExternalPartShape
-	map_Part_ExternalPartShape map[*Part]*ExternalPartShape
-	map_ExternalPart_Rect             map[*Part]*svg.Rect
-	IsExternalPartsNodeExpanded       bool
-	ExternalPartWhoseNodeIsExpanded   []*Part
-	map_SvgRect_ExternalPartShape     map[*svg.Rect]*ExternalPartShape
-	map_SvgRect_Part                  map[*svg.Rect]*Part
+	ExternalPart_Shapes             []*ExternalPartShape
+	map_Part_ExternalPartShape      map[*Part]*ExternalPartShape
+	map_ExternalPart_Rect           map[*Part]*svg.Rect
+	IsExternalPartsNodeExpanded     bool
+	ExternalPartWhoseNodeIsExpanded []*Part
+	map_SvgRect_ExternalPartShape   map[*svg.Rect]*ExternalPartShape
+	map_SvgRect_Part                map[*svg.Rect]*Part
 
 	ExternalPartsWhoseOutDataFlowsNodeIsExpanded []*Part
 	ExternalPartsWhoseInDataFlowsNodeIsExpanded  []*Part
@@ -103,8 +103,8 @@ type DiagramStructure struct {
 	map_AllocatedResourceShapeKey_AllocatedResourceShape map[allocatedResourceShapeKey]*AllocatedResourceShape
 
 	// alllocated systemes
-	AllocatedSystemesWhoseNodeIsExpanded              []*System
-	AllocatedSystemShapes                             []*AllocatedSystemShape
+	AllocatedSystemesWhoseNodeIsExpanded             []*System
+	AllocatedSystemShapes                            []*AllocatedSystemShape
 	map_AllocatedSystemShapeKey_AllocatedSystemShape map[allocatedSystemShapeKey]*AllocatedSystemShape
 
 	Note_Shapes              []*NoteShape

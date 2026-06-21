@@ -185,4 +185,3 @@ func (stager *Stager) treeLibrary(library *Library, parentNodes *[]*tree.Node) {
 	}
 	addCreateItemButton(stager, confNote)
 }
-

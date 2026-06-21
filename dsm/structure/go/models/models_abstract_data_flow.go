@@ -3,7 +3,7 @@ package models
 type DataFlowType string
 
 var (
-	DataFlow_Port2Port                DataFlowType = "DataFlow_Port2Port"
+	DataFlow_Port2Port         DataFlowType = "DataFlow_Port2Port"
 	DataFlow_ExternalPart2Port DataFlowType = "DataFlow_ExternalPart2Port"
 	DataFlow_Port2ExternalPart DataFlowType = "DataFlow_Port2ExternalPart"
 )

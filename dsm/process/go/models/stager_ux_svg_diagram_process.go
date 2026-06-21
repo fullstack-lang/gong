@@ -5,8 +5,8 @@ import (
 	"log"
 	"strings"
 
-	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/strutils"
+	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
 func (stager *Stager) svg() {
@@ -520,7 +520,6 @@ func (stager *Stager) drawTaskShapes(diagramProcess *DiagramProcess, layer *svg.
 			}
 			participantRect.Peers = append(participantRect.Peers, rect)
 		}
-
 
 		rect.Color = "#E3F2FD"
 		rect.FillOpacity = 1.0

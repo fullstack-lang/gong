@@ -114,7 +114,7 @@ func (stager *Stager) enforceTreesAndDAG() (needCommit bool) {
 	// Define a wrapper node for the mixed graph because EnforceDAG expects a single type T
 	type DAGNode struct {
 		Deliverable *Deliverable
-		Task    *Concern
+		Task        *Concern
 	}
 
 	// Create the list of all nodes in the graph

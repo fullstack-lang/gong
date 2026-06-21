@@ -6,8 +6,8 @@ import (
 	"regexp"
 	"strings"
 
-	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/lib/strutils"
+	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
 const SVGName string = `SVG`

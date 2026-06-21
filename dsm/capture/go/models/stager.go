@@ -30,8 +30,6 @@ type Stager struct {
 	splitStage *split.Stage
 	probeForm  ProbeIF
 
-
-
 	treeStage   *tree.Stage
 	svgStage    *svg.Stage
 	ssgStage    *ssg.Stage
@@ -40,7 +38,7 @@ type Stager struct {
 	buttonStage *button.Stage
 
 	deliverableToLibrary map[*Deliverable]*Library
-	taskToLibrary    map[*Concern]*Library
+	taskToLibrary        map[*Concern]*Library
 	// reverse map
 	map_Concern_Stakeholder map[*Concern][]*Stakeholder
 

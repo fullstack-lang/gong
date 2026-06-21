@@ -307,7 +307,7 @@ func RenderPages(site *SiteInfo, outputDir string, buildTarget string, inMemory 
 	for _, page := range site.Pages {
 		// Note: page.OutputPath already includes the base outputDir from parseContent
 		outputPageDir := filepath.Dir(page.OutputPath)
-		
+
 		if !inMemory {
 			if err := os.MkdirAll(outputPageDir, 0755); err != nil {
 				log.Printf("Error creating directory %s for page %s: %v\n", outputPageDir, page.SourcePath, err)
