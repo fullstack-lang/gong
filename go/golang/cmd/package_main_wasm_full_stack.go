@@ -33,7 +33,7 @@ func main() {
 	stack.Probe.Refresh()
 	stack.Stage.Commit()
 
-	{{pkgname}}_models.NewStager(nil, stack.Stage, stack.Probe)
+	{{pkgname}}_models.NewStager(nil, stack.Stage, nil)
 
 	// Expose the HTTP and Socket bridges to the Angular frontend
 	wasmregistry.SetupWasmHooks(nil)
