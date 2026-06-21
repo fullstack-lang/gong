@@ -1,4 +1,6 @@
-package commands
+//go:build !js
+
+package main
 
 import (
 	"fmt"
@@ -8,7 +10,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var logGINFlag bool
+var (
+	logGINFlag         bool
+	unmarshallFromCode string
+	marshallOnCommit   string
+	embeddedDiagrams   bool
+	port               int
+)
 
 var rootCmd = &cobra.Command{
 	Use:   "test2",
