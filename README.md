@@ -1,6 +1,8 @@
 # 1. Try it in your browser
 
 - [Capture](https://fullstack-lang.github.io/gong/capture-app-portable.html)
+- [Structure](https://fullstack-lang.github.io/gong/structure-app-portable.html)
+- [Scenario](https://fullstack-lang.github.io/gong/scenario-app-portable.html)
 - [Process](https://fullstack-lang.github.io/gong/process-app-portable.html)
 - [Statemachines](https://fullstack-lang.github.io/gong/statemachines-app-portable.html)
 - [Barrgraph](https://fullstack-lang.github.io/gong/barrgraph-app-portable.html)
