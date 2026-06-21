@@ -84,35 +84,40 @@
             "request": "launch",
             "mode": "debug",
             "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
-            "args": []
+            "args": [
+                "edit"
+            ]
         },
         {
-            "name": "dsm - capture: go server 15288.go",
+            "name": "dsm - capture: go edit 15288.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
             "args": [
+                "edit",
                 "data/15288.go"
             ]
         },
         {
-            "name": "dsm - capture: go server 15288_analysis.go",
+            "name": "dsm - capture: go edit statemachines.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
             "args": [
-                "data/15288_analysis.go"
+                "edit",
+                "data/statemachines.go"
             ]
         },
         {
-            "name": "dsm - capture: go server capture_process.go",
+            "name": "dsm - capture: go edit capture_process.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "program": "${workspaceFolder}/dsm/capture/go/cmd/capture",
             "args": [
+                "edit",
                 "data/capture_process.go"
             ]
         },
