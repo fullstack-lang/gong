@@ -44,7 +44,7 @@ map[string]string{
 	case *models.{{Structname}}:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "{{Structname}} Form",
+			Label: "{{Structname}}",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__{{Structname}}FormCallback(
 			instancesTyped,

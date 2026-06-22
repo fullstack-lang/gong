@@ -22,7 +22,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.A:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "A Form",
+			Label: "A",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__AFormCallback(
 			instancesTyped,
@@ -34,7 +34,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.B:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "B Form",
+			Label: "B",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__BFormCallback(
 			instancesTyped,
