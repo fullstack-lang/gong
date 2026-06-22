@@ -809,6 +809,47 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(part.GongMarshallField(stage, "IsDataFlowsNodeExpanded"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PortWhoseOutDataFlowsNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PortWhoseInDataFlowsNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PartAnchoredPath"))
+	}
+
+	partanchoredpathOrdered := []*PartAnchoredPath{}
+	for partanchoredpath := range stage.PartAnchoredPaths {
+		partanchoredpathOrdered = append(partanchoredpathOrdered, partanchoredpath)
+	}
+	sort.Slice(partanchoredpathOrdered[:], func(i, j int) bool {
+		partanchoredpathi := partanchoredpathOrdered[i]
+		partanchoredpathj := partanchoredpathOrdered[j]
+		partanchoredpathi_order, oki := stage.PartAnchoredPath_stagedOrder[partanchoredpathi]
+		partanchoredpathj_order, okj := stage.PartAnchoredPath_stagedOrder[partanchoredpathj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return partanchoredpathi_order < partanchoredpathj_order
+	})
+	if len(partanchoredpathOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, partanchoredpath := range partanchoredpathOrdered {
+
+		identifiersDecl.WriteString(partanchoredpath.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "Definition"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "X_Offset"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "Y_Offset"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "RectAnchorType"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "ScalePropotionnally"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "AppliedScaling"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "Color"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "FillOpacity"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "Stroke"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "StrokeOpacity"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "StrokeWidth"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "StrokeDashArray"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "StrokeDashArrayWhenSelected"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "Transform"))
 	}
 
 	partshapeOrdered := []*PartShape{}
@@ -1134,6 +1175,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, part := range partOrdered {
 		_ = part
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, partanchoredpath := range partanchoredpathOrdered {
+		_ = partanchoredpath
 		var setPointerField string
 		_ = setPointerField
 
@@ -2697,8 +2746,111 @@ func (part *Part) GongMarshallField(stage *Stage, fieldName string) (res string)
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "PartAnchoredPath":
+		var sb strings.Builder
+		for _, _partanchoredpath := range part.PartAnchoredPath {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", part.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "PartAnchoredPath")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _partanchoredpath.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Part", fieldName)
+	}
+	return
+}
+
+func (partanchoredpath *PartAnchoredPath) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partanchoredpath.Name))
+	case "Definition":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Definition")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partanchoredpath.Definition))
+	case "X_Offset":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "X_Offset")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", partanchoredpath.X_Offset))
+	case "Y_Offset":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Y_Offset")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", partanchoredpath.Y_Offset))
+	case "RectAnchorType":
+		if partanchoredpath.RectAnchorType.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RectAnchorType")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+partanchoredpath.RectAnchorType.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RectAnchorType")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "ScalePropotionnally":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ScalePropotionnally")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", partanchoredpath.ScalePropotionnally))
+	case "AppliedScaling":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AppliedScaling")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", partanchoredpath.AppliedScaling))
+	case "Color":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Color")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partanchoredpath.Color))
+	case "FillOpacity":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FillOpacity")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", partanchoredpath.FillOpacity))
+	case "Stroke":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Stroke")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partanchoredpath.Stroke))
+	case "StrokeOpacity":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeOpacity")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", partanchoredpath.StrokeOpacity))
+	case "StrokeWidth":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeWidth")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", partanchoredpath.StrokeWidth))
+	case "StrokeDashArray":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partanchoredpath.StrokeDashArray))
+	case "StrokeDashArrayWhenSelected":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partanchoredpath.StrokeDashArrayWhenSelected))
+	case "Transform":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Transform")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partanchoredpath.Transform))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct PartAnchoredPath", fieldName)
 	}
 	return
 }
@@ -3461,6 +3613,32 @@ func (part *Part) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(part.GongMarshallField(stage, "IsDataFlowsNodeExpanded"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PortWhoseOutDataFlowsNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PortWhoseInDataFlowsNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PartAnchoredPath"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (partanchoredpath *PartAnchoredPath) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "Definition"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "X_Offset"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "Y_Offset"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "RectAnchorType"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "ScalePropotionnally"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "AppliedScaling"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "Color"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "FillOpacity"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "Stroke"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "StrokeOpacity"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "StrokeWidth"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "StrokeDashArray"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "StrokeDashArrayWhenSelected"))
+		initializerStatements.WriteString(partanchoredpath.GongMarshallField(stage, "Transform"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

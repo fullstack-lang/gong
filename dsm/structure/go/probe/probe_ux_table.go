@@ -54,6 +54,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.NoteShape](probe)
 	case "Part":
 		updateProbeTable[*models.Part](probe)
+	case "PartAnchoredPath":
+		updateProbeTable[*models.PartAnchoredPath](probe)
 	case "PartShape":
 		updateProbeTable[*models.PartShape](probe)
 	case "Port":

@@ -52,6 +52,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Part:
 		ok = stage.IsStagedPart(target)
 
+	case *PartAnchoredPath:
+		ok = stage.IsStagedPartAnchoredPath(target)
+
 	case *PartShape:
 		ok = stage.IsStagedPartShape(target)
 
@@ -124,6 +127,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Part:
 		ok = stage.IsStagedPart(target)
+
+	case *PartAnchoredPath:
+		ok = stage.IsStagedPartAnchoredPath(target)
 
 	case *PartShape:
 		ok = stage.IsStagedPartShape(target)
@@ -255,6 +261,13 @@ func (stage *Stage) IsStagedPart(part *Part) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedPartAnchoredPath(partanchoredpath *PartAnchoredPath) (ok bool) {
+
+	_, ok = stage.PartAnchoredPaths[partanchoredpath]
+
+	return
+}
+
 func (stage *Stage) IsStagedPartShape(partshape *PartShape) (ok bool) {
 
 	_, ok = stage.PartShapes[partshape]
@@ -349,6 +362,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Part:
 		stage.StageBranchPart(target)
+
+	case *PartAnchoredPath:
+		stage.StageBranchPartAnchoredPath(target)
 
 	case *PartShape:
 		stage.StageBranchPartShape(target)
@@ -785,6 +801,24 @@ func (stage *Stage) StageBranchPart(part *Part) {
 	for _, _port := range part.PortWhoseInDataFlowsNodeIsExpanded {
 		StageBranch(stage, _port)
 	}
+	for _, _partanchoredpath := range part.PartAnchoredPath {
+		StageBranch(stage, _partanchoredpath)
+	}
+
+}
+
+func (stage *Stage) StageBranchPartAnchoredPath(partanchoredpath *PartAnchoredPath) {
+
+	// check if instance is already staged
+	if IsStaged(stage, partanchoredpath) {
+		return
+	}
+
+	partanchoredpath.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -983,6 +1017,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Part:
 		toT := CopyBranchPart(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *PartAnchoredPath:
+		toT := CopyBranchPartAnchoredPath(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *PartShape:
@@ -1486,6 +1524,28 @@ func CopyBranchPart(mapOrigCopy map[any]any, partFrom *Part) (partTo *Part) {
 	for _, _port := range partFrom.PortWhoseInDataFlowsNodeIsExpanded {
 		partTo.PortWhoseInDataFlowsNodeIsExpanded = append(partTo.PortWhoseInDataFlowsNodeIsExpanded, CopyBranchPort(mapOrigCopy, _port))
 	}
+	for _, _partanchoredpath := range partFrom.PartAnchoredPath {
+		partTo.PartAnchoredPath = append(partTo.PartAnchoredPath, CopyBranchPartAnchoredPath(mapOrigCopy, _partanchoredpath))
+	}
+
+	return
+}
+
+func CopyBranchPartAnchoredPath(mapOrigCopy map[any]any, partanchoredpathFrom *PartAnchoredPath) (partanchoredpathTo *PartAnchoredPath) {
+
+	// partanchoredpathFrom has already been copied
+	if _partanchoredpathTo, ok := mapOrigCopy[partanchoredpathFrom]; ok {
+		partanchoredpathTo = _partanchoredpathTo.(*PartAnchoredPath)
+		return
+	}
+
+	partanchoredpathTo = new(PartAnchoredPath)
+	mapOrigCopy[partanchoredpathFrom] = partanchoredpathTo
+	partanchoredpathFrom.CopyBasicFields(partanchoredpathTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -1692,6 +1752,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Part:
 		stage.UnstageBranchPart(target)
+
+	case *PartAnchoredPath:
+		stage.UnstageBranchPartAnchoredPath(target)
 
 	case *PartShape:
 		stage.UnstageBranchPartShape(target)
@@ -2128,6 +2191,24 @@ func (stage *Stage) UnstageBranchPart(part *Part) {
 	for _, _port := range part.PortWhoseInDataFlowsNodeIsExpanded {
 		UnstageBranch(stage, _port)
 	}
+	for _, _partanchoredpath := range part.PartAnchoredPath {
+		UnstageBranch(stage, _partanchoredpath)
+	}
+
+}
+
+func (stage *Stage) UnstageBranchPartAnchoredPath(partanchoredpath *PartAnchoredPath) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, partanchoredpath) {
+		return
+	}
+
+	partanchoredpath.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -2565,6 +2646,15 @@ func (reference *Part) GongReconstructPointersFromReferences(stage *Stage, insta
 	for _, _b := range instance.PortWhoseInDataFlowsNodeIsExpanded {
 		reference.PortWhoseInDataFlowsNodeIsExpanded = append(reference.PortWhoseInDataFlowsNodeIsExpanded, stage.Ports_reference[_b])
 	}
+	reference.PartAnchoredPath = reference.PartAnchoredPath[:0]
+	for _, _b := range instance.PartAnchoredPath {
+		reference.PartAnchoredPath = append(reference.PartAnchoredPath, stage.PartAnchoredPaths_reference[_b])
+	}
+}
+
+func (reference *PartAnchoredPath) GongReconstructPointersFromReferences(stage *Stage, instance *PartAnchoredPath) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
 }
 
 func (reference *PartShape) GongReconstructPointersFromReferences(stage *Stage, instance *PartShape) {
@@ -3138,6 +3228,18 @@ func (reference *Part) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.PortWhoseInDataFlowsNodeIsExpanded = _PortWhoseInDataFlowsNodeIsExpanded
+	var _PartAnchoredPath []*PartAnchoredPath
+	for _, _reference := range reference.PartAnchoredPath {
+		if _instance, ok := stage.PartAnchoredPaths_instance[_reference]; ok {
+			_PartAnchoredPath = append(_PartAnchoredPath, _instance)
+		}
+	}
+	reference.PartAnchoredPath = _PartAnchoredPath
+}
+
+func (reference *PartAnchoredPath) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
 }
 
 func (reference *PartShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -4746,6 +4848,80 @@ func (part *Part) GongDiff(stage *Stage, partOther *Part) (diffs []string) {
 	if PortWhoseInDataFlowsNodeIsExpandedDifferent {
 		ops := Diff(stage, part, partOther, "PortWhoseInDataFlowsNodeIsExpanded", partOther.PortWhoseInDataFlowsNodeIsExpanded, part.PortWhoseInDataFlowsNodeIsExpanded)
 		diffs = append(diffs, ops)
+	}
+	PartAnchoredPathDifferent := false
+	if len(part.PartAnchoredPath) != len(partOther.PartAnchoredPath) {
+		PartAnchoredPathDifferent = true
+	} else {
+		for i := range part.PartAnchoredPath {
+			if (part.PartAnchoredPath[i] == nil) != (partOther.PartAnchoredPath[i] == nil) {
+				PartAnchoredPathDifferent = true
+				break
+			} else if part.PartAnchoredPath[i] != nil && partOther.PartAnchoredPath[i] != nil {
+				// this is a pointer comparaison
+				if part.PartAnchoredPath[i] != partOther.PartAnchoredPath[i] {
+					PartAnchoredPathDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PartAnchoredPathDifferent {
+		ops := Diff(stage, part, partOther, "PartAnchoredPath", partOther.PartAnchoredPath, part.PartAnchoredPath)
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (partanchoredpath *PartAnchoredPath) GongDiff(stage *Stage, partanchoredpathOther *PartAnchoredPath) (diffs []string) {
+	// insertion point for field diffs
+	if partanchoredpath.Name != partanchoredpathOther.Name {
+		diffs = append(diffs, partanchoredpath.GongMarshallField(stage, "Name"))
+	}
+	if partanchoredpath.Definition != partanchoredpathOther.Definition {
+		diffs = append(diffs, partanchoredpath.GongMarshallField(stage, "Definition"))
+	}
+	if partanchoredpath.X_Offset != partanchoredpathOther.X_Offset {
+		diffs = append(diffs, partanchoredpath.GongMarshallField(stage, "X_Offset"))
+	}
+	if partanchoredpath.Y_Offset != partanchoredpathOther.Y_Offset {
+		diffs = append(diffs, partanchoredpath.GongMarshallField(stage, "Y_Offset"))
+	}
+	if partanchoredpath.RectAnchorType != partanchoredpathOther.RectAnchorType {
+		diffs = append(diffs, partanchoredpath.GongMarshallField(stage, "RectAnchorType"))
+	}
+	if partanchoredpath.ScalePropotionnally != partanchoredpathOther.ScalePropotionnally {
+		diffs = append(diffs, partanchoredpath.GongMarshallField(stage, "ScalePropotionnally"))
+	}
+	if partanchoredpath.AppliedScaling != partanchoredpathOther.AppliedScaling {
+		diffs = append(diffs, partanchoredpath.GongMarshallField(stage, "AppliedScaling"))
+	}
+	if partanchoredpath.Color != partanchoredpathOther.Color {
+		diffs = append(diffs, partanchoredpath.GongMarshallField(stage, "Color"))
+	}
+	if partanchoredpath.FillOpacity != partanchoredpathOther.FillOpacity {
+		diffs = append(diffs, partanchoredpath.GongMarshallField(stage, "FillOpacity"))
+	}
+	if partanchoredpath.Stroke != partanchoredpathOther.Stroke {
+		diffs = append(diffs, partanchoredpath.GongMarshallField(stage, "Stroke"))
+	}
+	if partanchoredpath.StrokeOpacity != partanchoredpathOther.StrokeOpacity {
+		diffs = append(diffs, partanchoredpath.GongMarshallField(stage, "StrokeOpacity"))
+	}
+	if partanchoredpath.StrokeWidth != partanchoredpathOther.StrokeWidth {
+		diffs = append(diffs, partanchoredpath.GongMarshallField(stage, "StrokeWidth"))
+	}
+	if partanchoredpath.StrokeDashArray != partanchoredpathOther.StrokeDashArray {
+		diffs = append(diffs, partanchoredpath.GongMarshallField(stage, "StrokeDashArray"))
+	}
+	if partanchoredpath.StrokeDashArrayWhenSelected != partanchoredpathOther.StrokeDashArrayWhenSelected {
+		diffs = append(diffs, partanchoredpath.GongMarshallField(stage, "StrokeDashArrayWhenSelected"))
+	}
+	if partanchoredpath.Transform != partanchoredpathOther.Transform {
+		diffs = append(diffs, partanchoredpath.GongMarshallField(stage, "Transform"))
 	}
 
 	return

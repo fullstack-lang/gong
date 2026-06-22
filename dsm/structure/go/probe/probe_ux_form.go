@@ -105,6 +105,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.part, probe)
 			}
+		case *PartAnchoredPathFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PartAnchoredPath", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.partanchoredpath, probe)
+			}
 		case *PartShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "PartShape", true)
@@ -358,6 +364,19 @@ func FillUpFormFromGongstructName(
 		part := new(models.Part)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(part, formGroup, probe)
+	case "PartAnchoredPath":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PartAnchoredPath Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartAnchoredPathFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		partanchoredpath := new(models.PartAnchoredPath)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(partanchoredpath, formGroup, probe)
 	case "PartShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

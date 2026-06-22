@@ -204,6 +204,14 @@ func (part *Part) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &part.PortWhoseInControlFlowsNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &part.PortWhoseOutDataFlowsNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &part.PortWhoseInDataFlowsNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &part.PartAnchoredPath) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PartAnchoredPath
+func (partanchoredpath *PartAnchoredPath) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
 	// insertion point per field
 	return
 }

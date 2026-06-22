@@ -26,6 +26,8 @@ type Part struct {
 	PortWhoseInDataFlowsNodeIsExpanded  []*Port
 
 	owningSystem *System
+
+	PartAnchoredPath []*PartAnchoredPath
 }
 
 var _ AbstractType = (*Part)(nil)
