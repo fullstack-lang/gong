@@ -561,4 +561,9 @@ func _(stage *models.Stage) {
 	// UX Loop Diagram
 	__Diagram__00000000_.StatesWhoseNodeIsExpanded = slices.Delete(__Diagram__00000000_.StatesWhoseNodeIsExpanded, 0, 1)
 	stage.Commit()
+
+	// Form - Update Stage Of Interest
+	__StateShape__00000003_.X = 287.000000
+	__StateShape__00000003_.Width = 246.000000
+	stage.Commit()
 }

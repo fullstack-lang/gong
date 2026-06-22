@@ -39,6 +39,10 @@ func _(stage *models.Stage) {
 
 	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
 
+	__Note__00000000_ := (&models.Note{Name: `Note on the diagram that show that there is wrapping`}).Stage(stage)
+
+	__NoteShape__00000000_ := (&models.NoteShape{Name: `Note on the diagram that show that there is wrapping shape`}).Stage(stage)
+
 	__Part__00000000_ := (&models.Part{Name: `P1`}).Stage(stage)
 	__Part__00000001_ := (&models.Part{Name: `P2`}).Stage(stage)
 
@@ -99,7 +103,7 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.IsSystemsNodeExpanded = false
 	__DiagramStructure__00000000_.IsPartsNodeExpanded = true
 	__DiagramStructure__00000000_.IsExternalPartsNodeExpanded = false
-	__DiagramStructure__00000000_.IsNotesNodeExpanded = false
+	__DiagramStructure__00000000_.IsNotesNodeExpanded = true
 
 	__Library__00000000_.Name = ``
 	__Library__00000000_.Description = ``
@@ -114,8 +118,22 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsDataFlowsNodeExpanded = false
 	__Library__00000000_.IsDatasNodeExpanded = true
 	__Library__00000000_.IsResourcesNodeExpanded = false
-	__Library__00000000_.IsNotesNodeExpanded = false
+	__Library__00000000_.IsNotesNodeExpanded = true
 	__Library__00000000_.IsExpandedTmp = true
+
+	__Note__00000000_.Name = `Note on the diagram that show that there is wrapping`
+	__Note__00000000_.Description = ``
+	__Note__00000000_.ComputedPrefix = ``
+	__Note__00000000_.IsExpanded = false
+	__Note__00000000_.LayoutDirection = models.Vertical
+	__Note__00000000_.IsPortsNodeExpanded = false
+
+	__NoteShape__00000000_.Name = `Note on the diagram that show that there is wrapping shape`
+	__NoteShape__00000000_.X = 225.203176
+	__NoteShape__00000000_.Y = 197.642074
+	__NoteShape__00000000_.Width = 202.000000
+	__NoteShape__00000000_.Height = 70.000000
+	__NoteShape__00000000_.IsHidden = false
 
 	__Part__00000000_.Name = `P1`
 	__Part__00000000_.Description = ``
@@ -221,10 +239,13 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.Port_Shapes = append(__DiagramStructure__00000000_.Port_Shapes, __PortShape__00000010_)
 	__DiagramStructure__00000000_.DataFlow_Shapes = append(__DiagramStructure__00000000_.DataFlow_Shapes, __DataFlowShape__00000000_)
 	__DiagramStructure__00000000_.Data_Shapes = append(__DiagramStructure__00000000_.Data_Shapes, __DataShape__00000000_)
+	__DiagramStructure__00000000_.Note_Shapes = append(__DiagramStructure__00000000_.Note_Shapes, __NoteShape__00000000_)
 	__Library__00000000_.RootSystemes = append(__Library__00000000_.RootSystemes, __System__00000000_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000000_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000000_)
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000000_)
+	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000000_)
+	__NoteShape__00000000_.Note = __Note__00000000_
 	__Part__00000000_.Ports = append(__Part__00000000_.Ports, __Port__00000000_)
 	__Part__00000000_.PortWhoseOutDataFlowsNodeIsExpanded = append(__Part__00000000_.PortWhoseOutDataFlowsNodeIsExpanded, __Port__00000000_)
 	__Part__00000001_.Ports = append(__Part__00000001_.Ports, __Port__00000001_)
