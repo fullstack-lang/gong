@@ -1,4 +1,4 @@
-package split
+package dist
 
 import "embed"
 

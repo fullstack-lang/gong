@@ -454,8 +454,7 @@
             "command": "ng",
             "group": "build",
             "args": [
-                "serve",
-                ""
+                "serve"
             ]
         },
         {

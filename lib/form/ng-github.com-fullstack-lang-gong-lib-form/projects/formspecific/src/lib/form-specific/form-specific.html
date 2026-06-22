@@ -3,18 +3,20 @@
     @if (selectedFormGroup) {
       <div class="sticky-container">
         <div class="group-header">{{selectedFormGroup.Label}}</div>
-        <button class="table__save custom-button" mat-raised-button type="submit">Submit</button>
-        @if (selectedFormGroup.HasSuppressButton) {
-          <button
-            class="table__save custom-button"
-            color="warn"
-            mat-raised-button
-            type="button"
-            (click)="openDialog()"
-          >
-            Suppress
-          </button>
-        }
+        <div class="button-container">
+          <button class="table__save custom-button" color="primary" mat-flat-button type="submit">Submit</button>
+          @if (selectedFormGroup.HasSuppressButton) {
+            <button
+              class="table__save custom-button"
+              color="primary"
+              mat-stroked-button
+              type="button"
+              (click)="openDialog()"
+            >
+              Suppress
+            </button>
+          }
+        </div>
       </div>
     }
 
@@ -28,7 +30,7 @@
           }
           @for (formField of div.FormFields; track formField; let i = $index) {
           @if (formField.FormFieldInt || formField.FormFieldFloat64 || formField.FormFieldString || formField.FormFieldDate || formField.FormFieldTime || formField.FormFieldDateTime || formField.FormFieldSelect) {
-            <mat-form-field [ngStyle]="getDynamicStyles(formField)" class="custom-form-field">
+            <mat-form-field appearance="outline" [ngStyle]="getDynamicStyles(formField)" class="custom-form-field">
               <mat-label>{{formField.Label}}</mat-label>
 
               @if (formField.FormFieldInt) {
