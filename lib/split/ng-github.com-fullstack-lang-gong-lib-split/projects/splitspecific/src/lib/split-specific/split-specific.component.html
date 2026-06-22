@@ -1,5 +1,5 @@
 <ng-template #radioToolbar>
-    <div style="display: flex; align-items: center; gap: 20px; width: 100%;">
+    <div style="display: flex; align-items: center; gap: 20px; width: 100%; height: 100%;">
         <!-- SVG Logo section -->
         @for (logo_ of frontRepo?.array_LogoOnTheLefts; track logo_) {
         <div 
@@ -9,29 +9,47 @@
         </div>
         }
         
-        <!-- Radio group -->
+        <!-- View selection buttons -->
         <div style="flex: 1; min-width: 0; display: flex; align-items: center;">
-            <mat-radio-group aria-label="Select an option" [(ngModel)]="view" style="display: flex; align-items: center; flex-wrap: nowrap;">
+            <div style="display: flex; align-items: center; flex-wrap: nowrap;">
                 @for (view_ of frontRepo?.array_Views; track view_) {
                 @if (!view_.IsSecondaryView) {
-                <mat-radio-button [value]="view_" style="margin-right: 16px; white-space: nowrap;">
-                    {{view_.Name}}
-                </mat-radio-button>
+                    @if (view === view_) {
+                        <button mat-flat-button color="primary"
+                            (click)="view = view_" 
+                            style="margin-right: 16px; white-space: nowrap;">
+                            {{view_.Name}}
+                        </button>
+                    } @else {
+                        <button mat-button 
+                            (click)="view = view_" 
+                            style="margin-right: 16px; white-space: nowrap;">
+                            {{view_.Name}}
+                        </button>
+                    }
                 }
                 }
-            </mat-radio-group>
-            <mat-form-field subscriptSizing="dynamic">
-                <mat-label>Other views</mat-label>
-                <mat-select [(ngModel)]="view">
-                    @for (view_ of frontRepo?.array_Views; track view_) {
-                    @if (view_.IsSecondaryView) {
-                    <mat-option [value]="view_">
-                        {{view_.Name}}
-                    </mat-option>
-                    }
-                    }
-                </mat-select>
-            </mat-form-field>
+            </div>
+            
+            @if (isSecondaryViewSelected()) {
+                <button mat-flat-button color="primary" [matMenuTriggerFor]="otherViewsMenu">
+                    Other views
+                </button>
+            } @else {
+                <button mat-button [matMenuTriggerFor]="otherViewsMenu">
+                    Other views
+                </button>
+            }
+
+            <mat-menu #otherViewsMenu="matMenu">
+                @for (view_ of frontRepo?.array_Views; track view_) {
+                @if (view_.IsSecondaryView) {
+                <button mat-menu-item (click)="view = view_" [class.active-view]="view === view_">
+                    <span [style]="view === view_ ? 'color: var(--mat-primary-text, #3f51b5); font-weight: bold;' : ''">{{view_.Name}}</span>
+                </button>
+                }
+                }
+            </mat-menu>
         </div>
 
         <!-- SVG Logo section -->
@@ -49,12 +67,12 @@
 <as-split unit="pixel" direction="vertical">
 
     @if (frontRepo && frontRepo.array_Views && frontRepo.array_Views.length > 1) {
-    <as-split-area [size]="radioButtonHeight">
+    <as-split-area [size]="topBarHeight">
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
     </as-split-area>
     }
     @if (frontRepo && frontRepo.array_Views && frontRepo.array_Views.length == 1 && frontRepo.array_Views[0].ShowViewName) {
-        <as-split-area [size]=40>
+        <as-split-area [size]=56>
             <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
         </as-split-area>
     }
