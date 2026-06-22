@@ -36,6 +36,7 @@ func main() {
 		stack.R,
 		stack.Stage,
 		stack.Probe,
+		"",
 	)
 
 	// Expose the HTTP and Socket bridges to the Angular frontend
