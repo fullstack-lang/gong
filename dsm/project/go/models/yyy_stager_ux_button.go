@@ -83,6 +83,87 @@ func (stager *Stager) button() {
 		},
 	})
 
+	group1.Buttons = append(group1.Buttons, &button.Button{
+		Name:    "Export launcher HTML",
+		Icon:    string(buttons.BUTTON_launch),
+		Label:   "Export launcher HTML",
+		OnClick: func() {
+			log.Println("Exporting launcher HTML")
+			
+			stager.loadStage.Reset()
+
+			fileToDownload := new(load.FileToDownload)
+
+			if stager.fileName == "" {
+				pkgPath := stager.stage.MetaPackageImportPath
+				pkgName := ""
+				parts := strings.Split(pkgPath, "/")
+				if len(parts) >= 3 {
+					pkgName = parts[len(parts)-3]
+				}
+				stager.fileName = pkgName + "-" + stager.stage.GetName() + ".go"
+			}
+
+			prefixRegex := regexp.MustCompile("^\\d{8} \\d{4} ")
+			cleanFileName := prefixRegex.ReplaceAllString(stager.fileName, "")
+
+			fileToDownload.Name = time.Now().Format("20060102 1504 ") + cleanFileName + ".html"
+
+			stageString, err := stager.stage.MarshallToString(stager.stage.MetaPackageImportPath, "models")
+			if err != nil {
+				log.Println("Error serializing stage: " + err.Error())
+				return
+			}
+
+			b64 := base64.StdEncoding.EncodeToString([]byte(stageString))
+
+			htmlString := `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Launch Project App</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; margin-top: 50px; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <button id="launchBtn">Open App and Process ` + cleanFileName + `</button>
+
+    <script>
+        const fileXContent = "` + b64 + `";
+        
+        const fileXName = "` + cleanFileName + `";
+        const targetUrl = "https://fullstack-lang.github.io/gong/project-app-portable.html";
+        const targetOrigin = "https://fullstack-lang.github.io"; 
+
+        document.getElementById('launchBtn').addEventListener('click', () => {
+            const appWindow = window.open(targetUrl, '_blank');
+            setTimeout(() => {
+                const payload = {
+                    action: 'PROCESS_INJECTED_FILE',
+                    fileName: fileXName,
+                    fileData: fileXContent
+                };
+                appWindow.postMessage(payload, targetOrigin);
+                console.log("File payload sent to application.");
+            }, 3000);
+        });
+    </script>
+</body>
+</html>`
+
+			fileToDownload.Base64EncodedContent = base64.StdEncoding.EncodeToString([]byte(htmlString))
+
+			load.StageBranch(stager.loadStage, fileToDownload)
+			stager.loadStage.Commit()
+
+			time.Sleep(1 * time.Second)
+			stager.load()
+		},
+	})
+
 	button.StageBranch(buttonStage, layout)
 
 	buttonStage.Commit()
