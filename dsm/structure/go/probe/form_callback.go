@@ -3980,6 +3980,38 @@ func (partFormCallback *PartFormCallback) OnSave() {
 			part_.PortWhoseInDataFlowsNodeIsExpanded = instanceSlice
 			partFormCallback.probe.UpdateSliceOfPointersCallback(part_, "PortWhoseInDataFlowsNodeIsExpanded", &part_.PortWhoseInDataFlowsNodeIsExpanded)
 
+		case "PartAnchoredPath":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PartAnchoredPath](partFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.PartAnchoredPath, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.PartAnchoredPath)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					partFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.PartAnchoredPath](partFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			part_.PartAnchoredPath = instanceSlice
+			partFormCallback.probe.UpdateSliceOfPointersCallback(part_, "PartAnchoredPath", &part_.PartAnchoredPath)
+
 		case "DiagramStructure:PartWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -4415,6 +4447,157 @@ func (partFormCallback *PartFormCallback) OnSave() {
 	}
 
 	partFormCallback.probe.ux_tree()
+}
+func __gong__New__PartAnchoredPathFormCallback(
+	partanchoredpath *models.PartAnchoredPath,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (partanchoredpathFormCallback *PartAnchoredPathFormCallback) {
+	partanchoredpathFormCallback = new(PartAnchoredPathFormCallback)
+	partanchoredpathFormCallback.probe = probe
+	partanchoredpathFormCallback.partanchoredpath = partanchoredpath
+	partanchoredpathFormCallback.formGroup = formGroup
+
+	partanchoredpathFormCallback.CreationMode = (partanchoredpath == nil)
+
+	return
+}
+
+type PartAnchoredPathFormCallback struct {
+	partanchoredpath *models.PartAnchoredPath
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (partanchoredpathFormCallback *PartAnchoredPathFormCallback) OnSave() {
+	partanchoredpathFormCallback.probe.stageOfInterest.Lock()
+	defer partanchoredpathFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PartAnchoredPathFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	partanchoredpathFormCallback.probe.formStage.Checkout()
+
+	if partanchoredpathFormCallback.partanchoredpath == nil {
+		partanchoredpathFormCallback.partanchoredpath = new(models.PartAnchoredPath).Stage(partanchoredpathFormCallback.probe.stageOfInterest)
+	}
+	partanchoredpath_ := partanchoredpathFormCallback.partanchoredpath
+	_ = partanchoredpath_
+
+	for _, formDiv := range partanchoredpathFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(partanchoredpath_.Name), formDiv)
+		case "Definition":
+			FormDivBasicFieldToField(&(partanchoredpath_.Definition), formDiv)
+		case "X_Offset":
+			FormDivBasicFieldToField(&(partanchoredpath_.X_Offset), formDiv)
+		case "Y_Offset":
+			FormDivBasicFieldToField(&(partanchoredpath_.Y_Offset), formDiv)
+		case "RectAnchorType":
+			FormDivEnumStringFieldToField(&(partanchoredpath_.RectAnchorType), formDiv)
+		case "ScalePropotionnally":
+			FormDivBasicFieldToField(&(partanchoredpath_.ScalePropotionnally), formDiv)
+		case "AppliedScaling":
+			FormDivBasicFieldToField(&(partanchoredpath_.AppliedScaling), formDiv)
+		case "Color":
+			FormDivBasicFieldToField(&(partanchoredpath_.Color), formDiv)
+		case "FillOpacity":
+			FormDivBasicFieldToField(&(partanchoredpath_.FillOpacity), formDiv)
+		case "Stroke":
+			FormDivBasicFieldToField(&(partanchoredpath_.Stroke), formDiv)
+		case "StrokeOpacity":
+			FormDivBasicFieldToField(&(partanchoredpath_.StrokeOpacity), formDiv)
+		case "StrokeWidth":
+			FormDivBasicFieldToField(&(partanchoredpath_.StrokeWidth), formDiv)
+		case "StrokeDashArray":
+			FormDivBasicFieldToField(&(partanchoredpath_.StrokeDashArray), formDiv)
+		case "StrokeDashArrayWhenSelected":
+			FormDivBasicFieldToField(&(partanchoredpath_.StrokeDashArrayWhenSelected), formDiv)
+		case "Transform":
+			FormDivBasicFieldToField(&(partanchoredpath_.Transform), formDiv)
+		case "Part:PartAnchoredPath":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Part instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Part instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](partanchoredpathFormCallback.probe.stageOfInterest)
+			targetPartIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPartIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Part instances and update their PartAnchoredPath slice
+			for _part := range *models.GetGongstructInstancesSetFromPointerType[*models.Part](partanchoredpathFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partanchoredpathFormCallback.probe.stageOfInterest, _part)
+				
+				// if Part is selected
+				if targetPartIDs[id] {
+					// ensure partanchoredpath_ is in _part.PartAnchoredPath
+					found := false
+					for _, _b := range _part.PartAnchoredPath {
+						if _b == partanchoredpath_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_part.PartAnchoredPath = append(_part.PartAnchoredPath, partanchoredpath_)
+						partanchoredpathFormCallback.probe.UpdateSliceOfPointersCallback(_part, "PartAnchoredPath", &_part.PartAnchoredPath)
+					}
+				} else {
+					// ensure partanchoredpath_ is NOT in _part.PartAnchoredPath
+					idx := slices.Index(_part.PartAnchoredPath, partanchoredpath_)
+					if idx != -1 {
+						_part.PartAnchoredPath = slices.Delete(_part.PartAnchoredPath, idx, idx+1)
+						partanchoredpathFormCallback.probe.UpdateSliceOfPointersCallback(_part, "PartAnchoredPath", &_part.PartAnchoredPath)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if partanchoredpathFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partanchoredpath_.Unstage(partanchoredpathFormCallback.probe.stageOfInterest)
+	}
+
+	partanchoredpathFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PartAnchoredPath](
+		partanchoredpathFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if partanchoredpathFormCallback.CreationMode || partanchoredpathFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		partanchoredpathFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(partanchoredpathFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PartAnchoredPathFormCallback(
+			nil,
+			partanchoredpathFormCallback.probe,
+			newFormGroup,
+		)
+		partanchoredpath := new(models.PartAnchoredPath)
+		FillUpForm(partanchoredpath, newFormGroup, partanchoredpathFormCallback.probe)
+		partanchoredpathFormCallback.probe.formStage.Commit()
+	}
+
+	partanchoredpathFormCallback.probe.ux_tree()
 }
 func __gong__New__PartShapeFormCallback(
 	partshape *models.PartShape,

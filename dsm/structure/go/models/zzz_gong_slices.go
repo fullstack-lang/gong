@@ -379,6 +379,16 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Part_PortWhoseInDataFlowsNodeIsExpanded_reverseMap[_port] = part
 		}
 	}
+	stage.Part_PartAnchoredPath_reverseMap = make(map[*PartAnchoredPath]*Part)
+	for part := range stage.Parts {
+		_ = part
+		for _, _partanchoredpath := range part.PartAnchoredPath {
+			stage.Part_PartAnchoredPath_reverseMap[_partanchoredpath] = part
+		}
+	}
+
+	// Compute reverse map for named struct PartAnchoredPath
+	// insertion point per field
 
 	// Compute reverse map for named struct PartShape
 	// insertion point per field
@@ -519,6 +529,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.PartAnchoredPaths {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.PartShapes {
 		res = append(res, instance)
 	}
@@ -634,6 +648,12 @@ func (noteshape *NoteShape) GongCopy() GongstructIF {
 func (part *Part) GongCopy() GongstructIF {
 	newInstance := new(Part)
 	part.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (partanchoredpath *PartAnchoredPath) GongCopy() GongstructIF {
+	newInstance := new(PartAnchoredPath)
+	partanchoredpath.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -821,6 +841,16 @@ func (part *Part) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(part), uint64(GetOrderPointerGongstruct(stage, part)))
+	return
+}
+
+func (partanchoredpath *PartAnchoredPath) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(partanchoredpath).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(partanchoredpath), uint64(GetOrderPointerGongstruct(stage, partanchoredpath)))
 	return
 }
 
@@ -1727,6 +1757,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(parts_newInstances)
 	lenDeletedInstances += len(parts_deletedInstances)
+	var partanchoredpaths_newInstances []*PartAnchoredPath
+	var partanchoredpaths_deletedInstances []*PartAnchoredPath
+
+	// parse all staged instances and check if they have a reference
+	for partanchoredpath := range stage.PartAnchoredPaths {
+		if ref, ok := stage.PartAnchoredPaths_reference[partanchoredpath]; !ok {
+			partanchoredpaths_newInstances = append(partanchoredpaths_newInstances, partanchoredpath)
+			newInstancesSlice = append(newInstancesSlice, partanchoredpath.GongMarshallIdentifier(stage))
+			if stage.PartAnchoredPaths_referenceOrder == nil {
+				stage.PartAnchoredPaths_referenceOrder = make(map[*PartAnchoredPath]uint)
+			}
+			stage.PartAnchoredPaths_referenceOrder[partanchoredpath] = stage.PartAnchoredPath_stagedOrder[partanchoredpath]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, partanchoredpath.GongMarshallUnstaging(stage))
+			// delete(stage.PartAnchoredPaths_referenceOrder, partanchoredpath)
+			fieldInitializers, pointersInitializations := partanchoredpath.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.PartAnchoredPath_stagedOrder[ref] = stage.PartAnchoredPath_stagedOrder[partanchoredpath]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := partanchoredpath.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, partanchoredpath)
+			// delete(stage.PartAnchoredPath_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if partanchoredpath.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", partanchoredpath.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.PartAnchoredPaths_reference {
+		instance := stage.PartAnchoredPaths_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.PartAnchoredPaths[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			partanchoredpaths_deletedInstances = append(partanchoredpaths_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(partanchoredpaths_newInstances)
+	lenDeletedInstances += len(partanchoredpaths_deletedInstances)
 	var partshapes_newInstances []*PartShape
 	var partshapes_deletedInstances []*PartShape
 
@@ -2242,6 +2327,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Parts_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.PartAnchoredPaths_reference = make(map[*PartAnchoredPath]*PartAnchoredPath)
+	stage.PartAnchoredPaths_referenceOrder = make(map[*PartAnchoredPath]uint) // diff Unstage needs the reference order
+	stage.PartAnchoredPaths_instance = make(map[*PartAnchoredPath]*PartAnchoredPath)
+	for instance := range stage.PartAnchoredPaths {
+		_copy := instance.GongCopy().(*PartAnchoredPath)
+		stage.PartAnchoredPaths_reference[instance] = _copy
+		stage.PartAnchoredPaths_instance[_copy] = instance
+		stage.PartAnchoredPaths_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.PartShapes_reference = make(map[*PartShape]*PartShape)
 	stage.PartShapes_referenceOrder = make(map[*PartShape]uint) // diff Unstage needs the reference order
 	stage.PartShapes_instance = make(map[*PartShape]*PartShape)
@@ -2375,6 +2470,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.Parts {
 		reference := stage.Parts_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.PartAnchoredPaths {
+		reference := stage.PartAnchoredPaths_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -2598,6 +2698,18 @@ func (part *Part) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (partanchoredpath *PartAnchoredPath) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.PartAnchoredPath_stagedOrder[partanchoredpath]; ok {
+		return order
+	}
+	if order, ok := stage.PartAnchoredPaths_referenceOrder[partanchoredpath]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type PartAnchoredPath was not staged and does not have a reference order", partanchoredpath)
+		return 0
+	}
+}
+
 func (partshape *PartShape) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.PartShape_stagedOrder[partshape]; ok {
 		return order
@@ -2810,6 +2922,15 @@ func (part *Part) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", part.GongGetGongstructName(), part.GongGetOrder(stage))
 }
 
+func (partanchoredpath *PartAnchoredPath) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", partanchoredpath.GongGetGongstructName(), partanchoredpath.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (partanchoredpath *PartAnchoredPath) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", partanchoredpath.GongGetGongstructName(), partanchoredpath.GongGetOrder(stage))
+}
+
 func (partshape *PartShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", partshape.GongGetGongstructName(), partshape.GongGetOrder(stage))
 }
@@ -2987,6 +3108,14 @@ func (part *Part) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (partanchoredpath *PartAnchoredPath) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", partanchoredpath.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PartAnchoredPath")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(partanchoredpath.Name))
+	return
+}
+
 func (partshape *PartShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", partshape.GongGetIdentifier(stage))
@@ -3123,6 +3252,12 @@ func (noteshape *NoteShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (part *Part) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", part.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (partanchoredpath *PartAnchoredPath) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", partanchoredpath.GongGetReferenceIdentifier(stage))
 	return
 }
 

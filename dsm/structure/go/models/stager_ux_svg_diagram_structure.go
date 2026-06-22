@@ -204,6 +204,29 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 
 			partRect.RectAnchoredTexts = append(partRect.RectAnchoredTexts, title)
 		}
+
+		for _, path := range partShape.Part.PartAnchoredPath {
+			rectAnchoredPath := &svg.RectAnchoredPath{
+				Name:                path.Name,
+				Definition:          path.Definition,
+				X_Offset:            path.X_Offset,
+				Y_Offset:            path.Y_Offset,
+				RectAnchorType:      svg.RectAnchorType(path.RectAnchorType),
+				ScalePropotionnally: path.ScalePropotionnally,
+				AppliedScaling:      path.AppliedScaling,
+				Presentation: svg.Presentation{
+					Color:                       path.Color,
+					FillOpacity:                 path.FillOpacity,
+					Stroke:                      path.Stroke,
+					StrokeOpacity:               path.StrokeOpacity,
+					StrokeWidth:                 path.StrokeWidth,
+					StrokeDashArray:             path.StrokeDashArray,
+					StrokeDashArrayWhenSelected: path.StrokeDashArrayWhenSelected,
+					Transform:                   path.Transform,
+				},
+			}
+			partRect.RectAnchoredPaths = append(partRect.RectAnchoredPaths, rectAnchoredPath)
+		}
 	}
 
 	// make every part shape an obstable for the others

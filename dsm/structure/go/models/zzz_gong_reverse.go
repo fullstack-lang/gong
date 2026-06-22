@@ -346,6 +346,22 @@ func (inst *Part) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	return
 }
 
+func (inst *PartAnchoredPath) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Part":
+		switch reverseField.Fieldname {
+		case "PartAnchoredPath":
+			if _part, ok := stage.Part_PartAnchoredPath_reverseMap[inst]; ok {
+				res = _part.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *PartShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -775,6 +791,20 @@ func (inst *Part) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 			res = stage.System_ExternalParts_reverseMap[inst]
 		case "ExternalPartWhoseNodeIsExpanded":
 			res = stage.System_ExternalPartWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	}
+	return res
+}
+
+func (inst *PartAnchoredPath) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "Part":
+		switch reverseField.Fieldname {
+		case "PartAnchoredPath":
+			res = stage.Part_PartAnchoredPath_reverseMap[inst]
 		}
 	}
 	return res

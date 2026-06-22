@@ -46,6 +46,8 @@ func _(stage *models.Stage) {
 	__Part__00000000_ := (&models.Part{Name: `P1`}).Stage(stage)
 	__Part__00000001_ := (&models.Part{Name: `P2`}).Stage(stage)
 
+	__PartAnchoredPath__00000000_ := (&models.PartAnchoredPath{Name: `arrow`}).Stage(stage)
+
 	__PartShape__00000007_ := (&models.PartShape{Name: `P2-DiagramStructure`}).Stage(stage)
 	__PartShape__00000009_ := (&models.PartShape{Name: `P1-DiagramStructure`}).Stage(stage)
 
@@ -153,10 +155,26 @@ func _(stage *models.Stage) {
 	__Part__00000001_.IsControlFlowsNodeExpanded = false
 	__Part__00000001_.IsDataFlowsNodeExpanded = false
 
+	__PartAnchoredPath__00000000_.Name = `arrow`
+	__PartAnchoredPath__00000000_.Definition = `M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z`
+	__PartAnchoredPath__00000000_.X_Offset = 0.000000
+	__PartAnchoredPath__00000000_.Y_Offset = 0.000000
+	__PartAnchoredPath__00000000_.RectAnchorType = models.RECT_CENTER
+	__PartAnchoredPath__00000000_.ScalePropotionnally = false
+	__PartAnchoredPath__00000000_.AppliedScaling = 0.000000
+	__PartAnchoredPath__00000000_.Color = `blue`
+	__PartAnchoredPath__00000000_.FillOpacity = 1.000000
+	__PartAnchoredPath__00000000_.Stroke = `blue`
+	__PartAnchoredPath__00000000_.StrokeOpacity = 1.000000
+	__PartAnchoredPath__00000000_.StrokeWidth = 1.000000
+	__PartAnchoredPath__00000000_.StrokeDashArray = ``
+	__PartAnchoredPath__00000000_.StrokeDashArrayWhenSelected = ``
+	__PartAnchoredPath__00000000_.Transform = ``
+
 	__PartShape__00000007_.Name = `P2-DiagramStructure`
 	__PartShape__00000007_.IsExpanded = false
-	__PartShape__00000007_.X = 920.000000
-	__PartShape__00000007_.Y = 521.999985
+	__PartShape__00000007_.X = 767.000000
+	__PartShape__00000007_.Y = 438.999985
 	__PartShape__00000007_.Width = 329.000000
 	__PartShape__00000007_.Height = 282.000000
 	__PartShape__00000007_.IsHidden = false
@@ -197,8 +215,8 @@ func _(stage *models.Stage) {
 
 	__PortShape__00000010_.Name = `-DiagramStructure`
 	__PortShape__00000010_.IsExpanded = false
-	__PortShape__00000010_.X = 864.000000
-	__PortShape__00000010_.Y = 685.999985
+	__PortShape__00000010_.X = 711.000000
+	__PortShape__00000010_.Y = 602.999985
 	__PortShape__00000010_.Width = 112.000000
 	__PortShape__00000010_.Height = 34.000000
 	__PortShape__00000010_.IsHidden = false
@@ -249,6 +267,7 @@ func _(stage *models.Stage) {
 	__Part__00000000_.Ports = append(__Part__00000000_.Ports, __Port__00000000_)
 	__Part__00000000_.PortWhoseOutDataFlowsNodeIsExpanded = append(__Part__00000000_.PortWhoseOutDataFlowsNodeIsExpanded, __Port__00000000_)
 	__Part__00000001_.Ports = append(__Part__00000001_.Ports, __Port__00000001_)
+	__Part__00000001_.PartAnchoredPath = append(__Part__00000001_.PartAnchoredPath, __PartAnchoredPath__00000000_)
 	__PartShape__00000007_.Part = __Part__00000001_
 	__PartShape__00000009_.Part = __Part__00000000_
 	__Port__00000000_.Type = nil

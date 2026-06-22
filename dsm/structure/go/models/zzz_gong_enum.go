@@ -250,6 +250,206 @@ func (orientationtype OrientationType) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for RectAnchorType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (rectanchortype RectAnchorType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch rectanchortype {
+	// insertion code per enum code
+	case RECT_TOP:
+		res = "RECT_TOP"
+	case RECT_TOP_LEFT:
+		res = "RECT_TOP_LEFT"
+	case RECT_TOP_RIGHT:
+		res = "RECT_TOP_RIGHT"
+	case RECT_BOTTOM:
+		res = "RECT_BOTTOM"
+	case RECT_BOTTOM_LEFT:
+		res = "RECT_BOTTOM_LEFT"
+	case RECT_BOTTOM_LEFT_LEFT:
+		res = "RECT_BOTTOM_LEFT_LEFT"
+	case RECT_BOTTOM_BOTTOM_LEFT:
+		res = "RECT_BOTTOM_BOTTOM_LEFT"
+	case RECT_BOTTOM_RIGHT:
+		res = "RECT_BOTTOM_RIGHT"
+	case RECT_BOTTOM_INSIDE_RIGHT:
+		res = "RECT_BOTTOM_INSIDE_RIGHT"
+	case RECT_LEFT:
+		res = "RECT_LEFT"
+	case RECT_RIGHT:
+		res = "RECT_RIGHT"
+	case RECT_CENTER:
+		res = "RECT_CENTER"
+	case RECT_CENTER_MIDDLE:
+		res = "RECT_CENTER_MIDDLE"
+	}
+	return
+}
+
+func (rectanchortype *RectAnchorType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "RECT_TOP":
+		*rectanchortype = RECT_TOP
+		return
+	case "RECT_TOP_LEFT":
+		*rectanchortype = RECT_TOP_LEFT
+		return
+	case "RECT_TOP_RIGHT":
+		*rectanchortype = RECT_TOP_RIGHT
+		return
+	case "RECT_BOTTOM":
+		*rectanchortype = RECT_BOTTOM
+		return
+	case "RECT_BOTTOM_LEFT":
+		*rectanchortype = RECT_BOTTOM_LEFT
+		return
+	case "RECT_BOTTOM_LEFT_LEFT":
+		*rectanchortype = RECT_BOTTOM_LEFT_LEFT
+		return
+	case "RECT_BOTTOM_BOTTOM_LEFT":
+		*rectanchortype = RECT_BOTTOM_BOTTOM_LEFT
+		return
+	case "RECT_BOTTOM_RIGHT":
+		*rectanchortype = RECT_BOTTOM_RIGHT
+		return
+	case "RECT_BOTTOM_INSIDE_RIGHT":
+		*rectanchortype = RECT_BOTTOM_INSIDE_RIGHT
+		return
+	case "RECT_LEFT":
+		*rectanchortype = RECT_LEFT
+		return
+	case "RECT_RIGHT":
+		*rectanchortype = RECT_RIGHT
+		return
+	case "RECT_CENTER":
+		*rectanchortype = RECT_CENTER
+		return
+	case "RECT_CENTER_MIDDLE":
+		*rectanchortype = RECT_CENTER_MIDDLE
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (rectanchortype *RectAnchorType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "RECT_TOP":
+		*rectanchortype = RECT_TOP
+	case "RECT_TOP_LEFT":
+		*rectanchortype = RECT_TOP_LEFT
+	case "RECT_TOP_RIGHT":
+		*rectanchortype = RECT_TOP_RIGHT
+	case "RECT_BOTTOM":
+		*rectanchortype = RECT_BOTTOM
+	case "RECT_BOTTOM_LEFT":
+		*rectanchortype = RECT_BOTTOM_LEFT
+	case "RECT_BOTTOM_LEFT_LEFT":
+		*rectanchortype = RECT_BOTTOM_LEFT_LEFT
+	case "RECT_BOTTOM_BOTTOM_LEFT":
+		*rectanchortype = RECT_BOTTOM_BOTTOM_LEFT
+	case "RECT_BOTTOM_RIGHT":
+		*rectanchortype = RECT_BOTTOM_RIGHT
+	case "RECT_BOTTOM_INSIDE_RIGHT":
+		*rectanchortype = RECT_BOTTOM_INSIDE_RIGHT
+	case "RECT_LEFT":
+		*rectanchortype = RECT_LEFT
+	case "RECT_RIGHT":
+		*rectanchortype = RECT_RIGHT
+	case "RECT_CENTER":
+		*rectanchortype = RECT_CENTER
+	case "RECT_CENTER_MIDDLE":
+		*rectanchortype = RECT_CENTER_MIDDLE
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (rectanchortype *RectAnchorType) ToCodeString() (res string) {
+
+	switch *rectanchortype {
+	// insertion code per enum code
+	case RECT_TOP:
+		res = "RECT_TOP"
+	case RECT_TOP_LEFT:
+		res = "RECT_TOP_LEFT"
+	case RECT_TOP_RIGHT:
+		res = "RECT_TOP_RIGHT"
+	case RECT_BOTTOM:
+		res = "RECT_BOTTOM"
+	case RECT_BOTTOM_LEFT:
+		res = "RECT_BOTTOM_LEFT"
+	case RECT_BOTTOM_LEFT_LEFT:
+		res = "RECT_BOTTOM_LEFT_LEFT"
+	case RECT_BOTTOM_BOTTOM_LEFT:
+		res = "RECT_BOTTOM_BOTTOM_LEFT"
+	case RECT_BOTTOM_RIGHT:
+		res = "RECT_BOTTOM_RIGHT"
+	case RECT_BOTTOM_INSIDE_RIGHT:
+		res = "RECT_BOTTOM_INSIDE_RIGHT"
+	case RECT_LEFT:
+		res = "RECT_LEFT"
+	case RECT_RIGHT:
+		res = "RECT_RIGHT"
+	case RECT_CENTER:
+		res = "RECT_CENTER"
+	case RECT_CENTER_MIDDLE:
+		res = "RECT_CENTER_MIDDLE"
+	}
+	return
+}
+
+func (rectanchortype RectAnchorType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "RECT_TOP")
+	res = append(res, "RECT_TOP_LEFT")
+	res = append(res, "RECT_TOP_RIGHT")
+	res = append(res, "RECT_BOTTOM")
+	res = append(res, "RECT_BOTTOM_LEFT")
+	res = append(res, "RECT_BOTTOM_LEFT_LEFT")
+	res = append(res, "RECT_BOTTOM_BOTTOM_LEFT")
+	res = append(res, "RECT_BOTTOM_RIGHT")
+	res = append(res, "RECT_BOTTOM_INSIDE_RIGHT")
+	res = append(res, "RECT_LEFT")
+	res = append(res, "RECT_RIGHT")
+	res = append(res, "RECT_CENTER")
+	res = append(res, "RECT_CENTER_MIDDLE")
+
+	return
+}
+
+func (rectanchortype RectAnchorType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "RECT_TOP")
+	res = append(res, "RECT_TOP_LEFT")
+	res = append(res, "RECT_TOP_RIGHT")
+	res = append(res, "RECT_BOTTOM")
+	res = append(res, "RECT_BOTTOM_LEFT")
+	res = append(res, "RECT_BOTTOM_LEFT_LEFT")
+	res = append(res, "RECT_BOTTOM_BOTTOM_LEFT")
+	res = append(res, "RECT_BOTTOM_RIGHT")
+	res = append(res, "RECT_BOTTOM_INSIDE_RIGHT")
+	res = append(res, "RECT_LEFT")
+	res = append(res, "RECT_RIGHT")
+	res = append(res, "RECT_CENTER")
+	res = append(res, "RECT_CENTER_MIDDLE")
+
+	return
+}
+
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {

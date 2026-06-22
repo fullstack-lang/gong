@@ -135,6 +135,7 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.NotePortShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.NoteShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Part](stage)
+	models.SetOrchestratorOnAfterUpdate[models.PartAnchoredPath](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PartShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Port](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PortShape](stage)

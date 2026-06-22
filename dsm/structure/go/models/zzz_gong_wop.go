@@ -438,6 +438,59 @@ func (from *Part) CopyBasicFields(to *Part) {
 	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
 }
 
+type PartAnchoredPath_WOP struct {
+	// insertion point
+
+	Name string
+
+	Definition string
+
+	X_Offset float64
+
+	Y_Offset float64
+
+	RectAnchorType RectAnchorType
+
+	ScalePropotionnally bool
+
+	AppliedScaling float64
+
+	Color string
+
+	FillOpacity float64
+
+	Stroke string
+
+	StrokeOpacity float64
+
+	StrokeWidth float64
+
+	StrokeDashArray string
+
+	StrokeDashArrayWhenSelected string
+
+	Transform string
+}
+
+func (from *PartAnchoredPath) CopyBasicFields(to *PartAnchoredPath) {
+	// insertion point
+	to.Name = from.Name
+	to.Definition = from.Definition
+	to.X_Offset = from.X_Offset
+	to.Y_Offset = from.Y_Offset
+	to.RectAnchorType = from.RectAnchorType
+	to.ScalePropotionnally = from.ScalePropotionnally
+	to.AppliedScaling = from.AppliedScaling
+	to.Color = from.Color
+	to.FillOpacity = from.FillOpacity
+	to.Stroke = from.Stroke
+	to.StrokeOpacity = from.StrokeOpacity
+	to.StrokeWidth = from.StrokeWidth
+	to.StrokeDashArray = from.StrokeDashArray
+	to.StrokeDashArrayWhenSelected = from.StrokeDashArrayWhenSelected
+	to.Transform = from.Transform
+}
+
 type PartShape_WOP struct {
 	// insertion point
 

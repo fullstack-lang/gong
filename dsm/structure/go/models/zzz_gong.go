@@ -441,10 +441,27 @@ type Stage struct {
 
 	Part_PortWhoseInDataFlowsNodeIsExpanded_reverseMap map[*Port]*Part
 
+	Part_PartAnchoredPath_reverseMap map[*PartAnchoredPath]*Part
+
 	OnAfterPartCreateCallback OnAfterCreateInterface[Part]
 	OnAfterPartUpdateCallback OnAfterUpdateInterface[Part]
 	OnAfterPartDeleteCallback OnAfterDeleteInterface[Part]
 	OnAfterPartReadCallback   OnAfterReadInterface[Part]
+
+	PartAnchoredPaths                map[*PartAnchoredPath]struct{}
+	PartAnchoredPaths_instance       map[*PartAnchoredPath]*PartAnchoredPath
+	PartAnchoredPaths_mapString      map[string]*PartAnchoredPath
+	PartAnchoredPathOrder            uint
+	PartAnchoredPath_stagedOrder     map[*PartAnchoredPath]uint
+	PartAnchoredPath_orderStaged     map[uint]*PartAnchoredPath
+	PartAnchoredPaths_reference      map[*PartAnchoredPath]*PartAnchoredPath
+	PartAnchoredPaths_referenceOrder map[*PartAnchoredPath]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPartAnchoredPathCreateCallback OnAfterCreateInterface[PartAnchoredPath]
+	OnAfterPartAnchoredPathUpdateCallback OnAfterUpdateInterface[PartAnchoredPath]
+	OnAfterPartAnchoredPathDeleteCallback OnAfterDeleteInterface[PartAnchoredPath]
+	OnAfterPartAnchoredPathReadCallback   OnAfterReadInterface[PartAnchoredPath]
 
 	PartShapes                map[*PartShape]struct{}
 	PartShapes_instance       map[*PartShape]*PartShape
@@ -848,6 +865,10 @@ func (stage *Stage) Squash() {
 	stage.Parts_instance = make(map[*Part]*Part)
 	stage.Parts_referenceOrder = make(map[*Part]uint)
 
+	stage.PartAnchoredPaths_reference = make(map[*PartAnchoredPath]*PartAnchoredPath)
+	stage.PartAnchoredPaths_instance = make(map[*PartAnchoredPath]*PartAnchoredPath)
+	stage.PartAnchoredPaths_referenceOrder = make(map[*PartAnchoredPath]uint)
+
 	stage.PartShapes_reference = make(map[*PartShape]*PartShape)
 	stage.PartShapes_instance = make(map[*PartShape]*PartShape)
 	stage.PartShapes_referenceOrder = make(map[*PartShape]uint)
@@ -1107,6 +1128,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.PartOrder = maxPartOrder + 1
 	} else {
 		stage.PartOrder = 0
+	}
+
+	var maxPartAnchoredPathOrder uint
+	var foundPartAnchoredPath bool
+	for _, order := range stage.PartAnchoredPath_stagedOrder {
+		if !foundPartAnchoredPath || order > maxPartAnchoredPathOrder {
+			maxPartAnchoredPathOrder = order
+			foundPartAnchoredPath = true
+		}
+	}
+	if foundPartAnchoredPath {
+		stage.PartAnchoredPathOrder = maxPartAnchoredPathOrder + 1
+	} else {
+		stage.PartAnchoredPathOrder = 0
 	}
 
 	var maxPartShapeOrder uint
@@ -1464,6 +1499,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *PartAnchoredPath:
+		tmp := GetStructInstancesByOrder(stage.PartAnchoredPaths, stage.PartAnchoredPath_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PartAnchoredPath implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *PartShape:
 		tmp := GetStructInstancesByOrder(stage.PartShapes, stage.PartShape_stagedOrder)
 
@@ -1607,6 +1656,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.NoteShapes, stage.NoteShape_stagedOrder)
 	case "Part":
 		res = GetNamedStructInstances(stage.Parts, stage.Part_stagedOrder)
+	case "PartAnchoredPath":
+		res = GetNamedStructInstances(stage.PartAnchoredPaths, stage.PartAnchoredPath_stagedOrder)
 	case "PartShape":
 		res = GetNamedStructInstances(stage.PartShapes, stage.PartShape_stagedOrder)
 	case "Port":
@@ -1718,6 +1769,8 @@ type BackRepoInterface interface {
 	CheckoutNoteShape(noteshape *NoteShape)
 	CommitPart(part *Part)
 	CheckoutPart(part *Part)
+	CommitPartAnchoredPath(partanchoredpath *PartAnchoredPath)
+	CheckoutPartAnchoredPath(partanchoredpath *PartAnchoredPath)
 	CommitPartShape(partshape *PartShape)
 	CheckoutPartShape(partshape *PartShape)
 	CommitPort(port *Port)
@@ -1780,6 +1833,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Parts:           make(map[*Part]struct{}),
 		Parts_mapString: make(map[string]*Part),
+
+		PartAnchoredPaths:           make(map[*PartAnchoredPath]struct{}),
+		PartAnchoredPaths_mapString: make(map[string]*PartAnchoredPath),
 
 		PartShapes:           make(map[*PartShape]struct{}),
 		PartShapes_mapString: make(map[string]*PartShape),
@@ -1869,6 +1925,10 @@ func NewStage(name string) (stage *Stage) {
 		Part_orderStaged: make(map[uint]*Part),
 		Parts_reference:  make(map[*Part]*Part),
 
+		PartAnchoredPath_stagedOrder: make(map[*PartAnchoredPath]uint),
+		PartAnchoredPath_orderStaged: make(map[uint]*PartAnchoredPath),
+		PartAnchoredPaths_reference:  make(map[*PartAnchoredPath]*PartAnchoredPath),
+
 		PartShape_stagedOrder: make(map[*PartShape]uint),
 		PartShape_orderStaged: make(map[uint]*PartShape),
 		PartShapes_reference:  make(map[*PartShape]*PartShape),
@@ -1925,6 +1985,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"Part": &PartUnmarshaller{},
 
+			"PartAnchoredPath": &PartAnchoredPathUnmarshaller{},
+
 			"PartShape": &PartShapeUnmarshaller{},
 
 			"Port": &PortUnmarshaller{},
@@ -1956,6 +2018,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "NotePortShape"},
 			{name: "NoteShape"},
 			{name: "Part"},
+			{name: "PartAnchoredPath"},
 			{name: "PartShape"},
 			{name: "Port"},
 			{name: "PortShape"},
@@ -2003,6 +2066,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.NoteShape_stagedOrder[instance]
 	case *Part:
 		return stage.Part_stagedOrder[instance]
+	case *PartAnchoredPath:
+		return stage.PartAnchoredPath_stagedOrder[instance]
 	case *PartShape:
 		return stage.PartShape_stagedOrder[instance]
 	case *Port:
@@ -2054,6 +2119,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.NoteShape_orderStaged[order]).(Type)
 	case *Part:
 		return any(stage.Part_orderStaged[order]).(Type)
+	case *PartAnchoredPath:
+		return any(stage.PartAnchoredPath_orderStaged[order]).(Type)
 	case *PartShape:
 		return any(stage.PartShape_orderStaged[order]).(Type)
 	case *Port:
@@ -2104,6 +2171,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.NoteShape_stagedOrder[instance]
 	case *Part:
 		return stage.Part_stagedOrder[instance]
+	case *PartAnchoredPath:
+		return stage.PartAnchoredPath_stagedOrder[instance]
 	case *PartShape:
 		return stage.PartShape_stagedOrder[instance]
 	case *Port:
@@ -2196,6 +2265,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["NotePortShape"] = len(stage.NotePortShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
 	stage.Map_GongStructName_InstancesNb["Part"] = len(stage.Parts)
+	stage.Map_GongStructName_InstancesNb["PartAnchoredPath"] = len(stage.PartAnchoredPaths)
 	stage.Map_GongStructName_InstancesNb["PartShape"] = len(stage.PartShapes)
 	stage.Map_GongStructName_InstancesNb["Port"] = len(stage.Ports)
 	stage.Map_GongStructName_InstancesNb["PortShape"] = len(stage.PortShapes)
@@ -3562,6 +3632,94 @@ func (part *Part) SetName(name string) {
 	part.Name = name
 }
 
+// Stage puts partanchoredpath to the model stage
+func (partanchoredpath *PartAnchoredPath) Stage(stage *Stage) *PartAnchoredPath {
+	if _, ok := stage.PartAnchoredPaths[partanchoredpath]; !ok {
+		stage.PartAnchoredPaths[partanchoredpath] = struct{}{}
+		stage.PartAnchoredPath_stagedOrder[partanchoredpath] = stage.PartAnchoredPathOrder
+		stage.PartAnchoredPath_orderStaged[stage.PartAnchoredPathOrder] = partanchoredpath
+		stage.PartAnchoredPathOrder++
+	}
+	stage.PartAnchoredPaths_mapString[partanchoredpath.Name] = partanchoredpath
+
+	return partanchoredpath
+}
+
+// StagePreserveOrder puts partanchoredpath to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PartAnchoredPathOrder
+// - update stage.PartAnchoredPathOrder accordingly
+func (partanchoredpath *PartAnchoredPath) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PartAnchoredPaths[partanchoredpath]; !ok {
+		stage.PartAnchoredPaths[partanchoredpath] = struct{}{}
+
+		if order > stage.PartAnchoredPathOrder {
+			stage.PartAnchoredPathOrder = order
+		}
+		stage.PartAnchoredPath_stagedOrder[partanchoredpath] = order
+		stage.PartAnchoredPath_orderStaged[order] = partanchoredpath
+		stage.PartAnchoredPathOrder++
+	}
+	stage.PartAnchoredPaths_mapString[partanchoredpath.Name] = partanchoredpath
+}
+
+// Unstage removes partanchoredpath off the model stage
+func (partanchoredpath *PartAnchoredPath) Unstage(stage *Stage) *PartAnchoredPath {
+	delete(stage.PartAnchoredPaths, partanchoredpath)
+	// issue1150
+	// delete(stage.PartAnchoredPath_stagedOrder, partanchoredpath)
+	delete(stage.PartAnchoredPaths_mapString, partanchoredpath.Name)
+
+	return partanchoredpath
+}
+
+// UnstageVoid removes partanchoredpath off the model stage
+func (partanchoredpath *PartAnchoredPath) UnstageVoid(stage *Stage) {
+	delete(stage.PartAnchoredPaths, partanchoredpath)
+	// issue1150
+	// delete(stage.PartAnchoredPath_stagedOrder, partanchoredpath)
+	delete(stage.PartAnchoredPaths_mapString, partanchoredpath.Name)
+}
+
+// commit partanchoredpath to the back repo (if it is already staged)
+func (partanchoredpath *PartAnchoredPath) Commit(stage *Stage) *PartAnchoredPath {
+	if _, ok := stage.PartAnchoredPaths[partanchoredpath]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPartAnchoredPath(partanchoredpath)
+		}
+	}
+	return partanchoredpath
+}
+
+func (partanchoredpath *PartAnchoredPath) CommitVoid(stage *Stage) {
+	partanchoredpath.Commit(stage)
+}
+
+func (partanchoredpath *PartAnchoredPath) StageVoid(stage *Stage) {
+	partanchoredpath.Stage(stage)
+}
+
+// Checkout partanchoredpath to the back repo (if it is already staged)
+func (partanchoredpath *PartAnchoredPath) Checkout(stage *Stage) *PartAnchoredPath {
+	if _, ok := stage.PartAnchoredPaths[partanchoredpath]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPartAnchoredPath(partanchoredpath)
+		}
+	}
+	return partanchoredpath
+}
+
+// for satisfaction of GongStruct interface
+func (partanchoredpath *PartAnchoredPath) GetName() (res string) {
+	return partanchoredpath.Name
+}
+
+// for satisfaction of GongStruct interface
+func (partanchoredpath *PartAnchoredPath) SetName(name string) {
+	partanchoredpath.Name = name
+}
+
 // Stage puts partshape to the model stage
 func (partshape *PartShape) Stage(stage *Stage) *PartShape {
 	if _, ok := stage.PartShapes[partshape]; !ok {
@@ -4107,6 +4265,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMNotePortShape(NotePortShape *NotePortShape)
 	CreateORMNoteShape(NoteShape *NoteShape)
 	CreateORMPart(Part *Part)
+	CreateORMPartAnchoredPath(PartAnchoredPath *PartAnchoredPath)
 	CreateORMPartShape(PartShape *PartShape)
 	CreateORMPort(Port *Port)
 	CreateORMPortShape(PortShape *PortShape)
@@ -4131,6 +4290,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMNotePortShape(NotePortShape *NotePortShape)
 	DeleteORMNoteShape(NoteShape *NoteShape)
 	DeleteORMPart(Part *Part)
+	DeleteORMPartAnchoredPath(PartAnchoredPath *PartAnchoredPath)
 	DeleteORMPartShape(PartShape *PartShape)
 	DeleteORMPort(Port *Port)
 	DeleteORMPortShape(PortShape *PortShape)
@@ -4214,6 +4374,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Parts_mapString = make(map[string]*Part)
 	stage.Part_stagedOrder = make(map[*Part]uint)
 	stage.PartOrder = 0
+
+	stage.PartAnchoredPaths = make(map[*PartAnchoredPath]struct{})
+	stage.PartAnchoredPaths_mapString = make(map[string]*PartAnchoredPath)
+	stage.PartAnchoredPath_stagedOrder = make(map[*PartAnchoredPath]uint)
+	stage.PartAnchoredPathOrder = 0
 
 	stage.PartShapes = make(map[*PartShape]struct{})
 	stage.PartShapes_mapString = make(map[string]*PartShape)
@@ -4299,6 +4464,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Parts = nil
 	stage.Parts_mapString = nil
 
+	stage.PartAnchoredPaths = nil
+	stage.PartAnchoredPaths_mapString = nil
+
 	stage.PartShapes = nil
 	stage.PartShapes_mapString = nil
 
@@ -4379,6 +4547,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for part := range stage.Parts {
 		part.Unstage(stage)
+	}
+
+	for partanchoredpath := range stage.PartAnchoredPaths {
+		partanchoredpath.Unstage(stage)
 	}
 
 	for partshape := range stage.PartShapes {
@@ -4511,6 +4683,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.NoteShapes).(*Type)
 	case map[*Part]any:
 		return any(&stage.Parts).(*Type)
+	case map[*PartAnchoredPath]any:
+		return any(&stage.PartAnchoredPaths).(*Type)
 	case map[*PartShape]any:
 		return any(&stage.PartShapes).(*Type)
 	case map[*Port]any:
@@ -4565,6 +4739,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.NoteShapes_mapString).(map[string]Type)
 	case *Part:
 		return any(stage.Parts_mapString).(map[string]Type)
+	case *PartAnchoredPath:
+		return any(stage.PartAnchoredPaths_mapString).(map[string]Type)
 	case *PartShape:
 		return any(stage.PartShapes_mapString).(map[string]Type)
 	case *Port:
@@ -4619,6 +4795,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.NoteShapes).(*map[*Type]struct{})
 	case Part:
 		return any(&stage.Parts).(*map[*Type]struct{})
+	case PartAnchoredPath:
+		return any(&stage.PartAnchoredPaths).(*map[*Type]struct{})
 	case PartShape:
 		return any(&stage.PartShapes).(*map[*Type]struct{})
 	case Port:
@@ -4673,6 +4851,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.NoteShapes).(*map[Type]struct{})
 	case *Part:
 		return any(&stage.Parts).(*map[Type]struct{})
+	case *PartAnchoredPath:
+		return any(&stage.PartAnchoredPaths).(*map[Type]struct{})
 	case *PartShape:
 		return any(&stage.PartShapes).(*map[Type]struct{})
 	case *Port:
@@ -4727,6 +4907,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.NoteShapes_mapString).(*map[string]*Type)
 	case Part:
 		return any(&stage.Parts_mapString).(*map[string]*Type)
+	case PartAnchoredPath:
+		return any(&stage.PartAnchoredPaths_mapString).(*map[string]*Type)
 	case PartShape:
 		return any(&stage.PartShapes_mapString).(*map[string]*Type)
 	case Port:
@@ -4938,6 +5120,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			PortWhoseOutDataFlowsNodeIsExpanded: []*Port{{Name: "PortWhoseOutDataFlowsNodeIsExpanded"}},
 			// field is initialized with an instance of Port with the name of the field
 			PortWhoseInDataFlowsNodeIsExpanded: []*Port{{Name: "PortWhoseInDataFlowsNodeIsExpanded"}},
+			// field is initialized with an instance of PartAnchoredPath with the name of the field
+			PartAnchoredPath: []*PartAnchoredPath{{Name: "PartAnchoredPath"}},
+		}).(*Type)
+	case PartAnchoredPath:
+		return any(&PartAnchoredPath{
+			// Initialisation of associations
 		}).(*Type)
 	case PartShape:
 		return any(&PartShape{
@@ -5382,6 +5570,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of Part
 	case Part:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PartAnchoredPath
+	case PartAnchoredPath:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -5932,6 +6125,19 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "PartAnchoredPath":
+			res := make(map[*PartAnchoredPath][]*Part)
+			for part := range stage.Parts {
+				for _, partanchoredpath_ := range part.PartAnchoredPath {
+					res[partanchoredpath_] = append(res[partanchoredpath_], part)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of PartAnchoredPath
+	case PartAnchoredPath:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of PartShape
 	case PartShape:
@@ -6068,6 +6274,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "NoteShape"
 	case *Part:
 		res = "Part"
+	case *PartAnchoredPath:
+		res = "PartAnchoredPath"
 	case *PartShape:
 		res = "PartShape"
 	case *Port:
@@ -6246,6 +6454,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "System"
 		rf.Fieldname = "ExternalPartWhoseNodeIsExpanded"
+		res = append(res, rf)
+	case *PartAnchoredPath:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Part"
+		rf.Fieldname = "PartAnchoredPath"
 		res = append(res, rf)
 	case *PartShape:
 		var rf ReverseField
@@ -7165,6 +7379,79 @@ func (part *Part) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "PortWhoseInDataFlowsNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Port",
+		},
+		{
+			Name:                 "PartAnchoredPath",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "PartAnchoredPath",
+		},
+	}
+	return
+}
+
+func (partanchoredpath *PartAnchoredPath) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Definition",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "X_Offset",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y_Offset",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "RectAnchorType",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "RectAnchorType",
+		},
+		{
+			Name:               "ScalePropotionnally",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "AppliedScaling",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Color",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "FillOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Stroke",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeOpacity",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeWidth",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "StrokeDashArray",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StrokeDashArrayWhenSelected",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Transform",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 	}
 	return
@@ -8507,6 +8794,68 @@ func (part *Part) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "PartAnchoredPath":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range part.PartAnchoredPath {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (partanchoredpath *PartAnchoredPath) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = partanchoredpath.Name
+	case "Definition":
+		res.valueString = partanchoredpath.Definition
+	case "X_Offset":
+		res.valueString = fmt.Sprintf("%f", partanchoredpath.X_Offset)
+		res.valueFloat = partanchoredpath.X_Offset
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y_Offset":
+		res.valueString = fmt.Sprintf("%f", partanchoredpath.Y_Offset)
+		res.valueFloat = partanchoredpath.Y_Offset
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RectAnchorType":
+		enum := partanchoredpath.RectAnchorType
+		res.valueString = enum.ToCodeString()
+	case "ScalePropotionnally":
+		res.valueString = fmt.Sprintf("%t", partanchoredpath.ScalePropotionnally)
+		res.valueBool = partanchoredpath.ScalePropotionnally
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "AppliedScaling":
+		res.valueString = fmt.Sprintf("%f", partanchoredpath.AppliedScaling)
+		res.valueFloat = partanchoredpath.AppliedScaling
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Color":
+		res.valueString = partanchoredpath.Color
+	case "FillOpacity":
+		res.valueString = fmt.Sprintf("%f", partanchoredpath.FillOpacity)
+		res.valueFloat = partanchoredpath.FillOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Stroke":
+		res.valueString = partanchoredpath.Stroke
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", partanchoredpath.StrokeOpacity)
+		res.valueFloat = partanchoredpath.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", partanchoredpath.StrokeWidth)
+		res.valueFloat = partanchoredpath.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = partanchoredpath.StrokeDashArray
+	case "StrokeDashArrayWhenSelected":
+		res.valueString = partanchoredpath.StrokeDashArrayWhenSelected
+	case "Transform":
+		res.valueString = partanchoredpath.Transform
 	}
 	return
 }
@@ -9977,6 +10326,59 @@ func (part *Part) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
+	case "PartAnchoredPath":
+		part.PartAnchoredPath = make([]*PartAnchoredPath, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.PartAnchoredPaths {
+					if stage.PartAnchoredPath_stagedOrder[__instance__] == uint(id) {
+						part.PartAnchoredPath = append(part.PartAnchoredPath, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (partanchoredpath *PartAnchoredPath) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		partanchoredpath.Name = value.GetValueString()
+	case "Definition":
+		partanchoredpath.Definition = value.GetValueString()
+	case "X_Offset":
+		partanchoredpath.X_Offset = value.GetValueFloat()
+	case "Y_Offset":
+		partanchoredpath.Y_Offset = value.GetValueFloat()
+	case "RectAnchorType":
+		partanchoredpath.RectAnchorType.FromCodeString(value.GetValueString())
+	case "ScalePropotionnally":
+		partanchoredpath.ScalePropotionnally = value.GetValueBool()
+	case "AppliedScaling":
+		partanchoredpath.AppliedScaling = value.GetValueFloat()
+	case "Color":
+		partanchoredpath.Color = value.GetValueString()
+	case "FillOpacity":
+		partanchoredpath.FillOpacity = value.GetValueFloat()
+	case "Stroke":
+		partanchoredpath.Stroke = value.GetValueString()
+	case "StrokeOpacity":
+		partanchoredpath.StrokeOpacity = value.GetValueFloat()
+	case "StrokeWidth":
+		partanchoredpath.StrokeWidth = value.GetValueFloat()
+	case "StrokeDashArray":
+		partanchoredpath.StrokeDashArray = value.GetValueString()
+	case "StrokeDashArrayWhenSelected":
+		partanchoredpath.StrokeDashArrayWhenSelected = value.GetValueString()
+	case "Transform":
+		partanchoredpath.Transform = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10350,6 +10752,10 @@ func (part *Part) GongGetGongstructName() string {
 	return "Part"
 }
 
+func (partanchoredpath *PartAnchoredPath) GongGetGongstructName() string {
+	return "PartAnchoredPath"
+}
+
 func (partshape *PartShape) GongGetGongstructName() string {
 	return "PartShape"
 }
@@ -10454,6 +10860,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Parts_mapString = make(map[string]*Part)
 	for part := range stage.Parts {
 		stage.Parts_mapString[part.Name] = part
+	}
+
+	stage.PartAnchoredPaths_mapString = make(map[string]*PartAnchoredPath)
+	for partanchoredpath := range stage.PartAnchoredPaths {
+		stage.PartAnchoredPaths_mapString[partanchoredpath.Name] = partanchoredpath
 	}
 
 	stage.PartShapes_mapString = make(map[string]*PartShape)

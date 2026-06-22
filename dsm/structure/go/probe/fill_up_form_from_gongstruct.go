@@ -199,6 +199,18 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.PartAnchoredPath:
+		formGroup := (&form.FormGroup{
+			Name:  formName,
+			Label: "PartAnchoredPath",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PartAnchoredPathFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.PartShape:
 		formGroup := (&form.FormGroup{
 			Name:  formName,

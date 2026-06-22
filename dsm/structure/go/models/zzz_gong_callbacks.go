@@ -66,6 +66,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterPartCreateCallback != nil {
 			stage.OnAfterPartCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *PartAnchoredPath:
+		if stage.OnAfterPartAnchoredPathCreateCallback != nil {
+			stage.OnAfterPartAnchoredPathCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *PartShape:
 		if stage.OnAfterPartShapeCreateCallback != nil {
 			stage.OnAfterPartShapeCreateCallback.OnAfterCreate(stage, target)
@@ -178,6 +182,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Part)
 		if stage.OnAfterPartUpdateCallback != nil {
 			stage.OnAfterPartUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *PartAnchoredPath:
+		newTarget := any(new).(*PartAnchoredPath)
+		if stage.OnAfterPartAnchoredPathUpdateCallback != nil {
+			stage.OnAfterPartAnchoredPathUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *PartShape:
 		newTarget := any(new).(*PartShape)
@@ -294,6 +303,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Part)
 			stage.OnAfterPartDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *PartAnchoredPath:
+		if stage.OnAfterPartAnchoredPathDeleteCallback != nil {
+			staged := any(staged).(*PartAnchoredPath)
+			stage.OnAfterPartAnchoredPathDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *PartShape:
 		if stage.OnAfterPartShapeDeleteCallback != nil {
 			staged := any(staged).(*PartShape)
@@ -394,6 +408,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterPartReadCallback != nil {
 			stage.OnAfterPartReadCallback.OnAfterRead(stage, target)
 		}
+	case *PartAnchoredPath:
+		if stage.OnAfterPartAnchoredPathReadCallback != nil {
+			stage.OnAfterPartAnchoredPathReadCallback.OnAfterRead(stage, target)
+		}
 	case *PartShape:
 		if stage.OnAfterPartShapeReadCallback != nil {
 			stage.OnAfterPartShapeReadCallback.OnAfterRead(stage, target)
@@ -459,6 +477,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterNoteShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteShape])
 	case *Part:
 		stage.OnAfterPartUpdateCallback = any(callback).(OnAfterUpdateInterface[Part])
+	case *PartAnchoredPath:
+		stage.OnAfterPartAnchoredPathUpdateCallback = any(callback).(OnAfterUpdateInterface[PartAnchoredPath])
 	case *PartShape:
 		stage.OnAfterPartShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PartShape])
 	case *Port:
@@ -508,6 +528,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterNoteShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteShape])
 	case *Part:
 		stage.OnAfterPartCreateCallback = any(callback).(OnAfterCreateInterface[Part])
+	case *PartAnchoredPath:
+		stage.OnAfterPartAnchoredPathCreateCallback = any(callback).(OnAfterCreateInterface[PartAnchoredPath])
 	case *PartShape:
 		stage.OnAfterPartShapeCreateCallback = any(callback).(OnAfterCreateInterface[PartShape])
 	case *Port:
@@ -557,6 +579,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterNoteShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteShape])
 	case *Part:
 		stage.OnAfterPartDeleteCallback = any(callback).(OnAfterDeleteInterface[Part])
+	case *PartAnchoredPath:
+		stage.OnAfterPartAnchoredPathDeleteCallback = any(callback).(OnAfterDeleteInterface[PartAnchoredPath])
 	case *PartShape:
 		stage.OnAfterPartShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PartShape])
 	case *Port:
@@ -606,6 +630,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterNoteShapeReadCallback = any(callback).(OnAfterReadInterface[NoteShape])
 	case *Part:
 		stage.OnAfterPartReadCallback = any(callback).(OnAfterReadInterface[Part])
+	case *PartAnchoredPath:
+		stage.OnAfterPartAnchoredPathReadCallback = any(callback).(OnAfterReadInterface[PartAnchoredPath])
 	case *PartShape:
 		stage.OnAfterPartShapeReadCallback = any(callback).(OnAfterReadInterface[PartShape])
 	case *Port:
