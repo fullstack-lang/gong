@@ -85,8 +85,8 @@ func (stager *Stager) svgGenerateRect(
 
 		stateTitleText.FontSize = "16px"
 		stateTitleText.X_Offset = 0
-		stateTitleText.Y_Offset = 30
-		stateTitleText.RectAnchorType = svg.RECT_TOP
+		stateTitleText.Y_Offset = 0
+		stateTitleText.RectAnchorType = svg.RECT_CENTER_MIDDLE
 		stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
 
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, stateTitleText)

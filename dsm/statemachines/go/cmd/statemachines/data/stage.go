@@ -523,4 +523,61 @@ func _(stage *models.Stage) {
 	__Transition__00000011_.Guard = nil
 	__Transition__00000011_.Diagrams = append(__Transition__00000011_.Diagrams, __Diagram__00000001_)
 	stage.Commit()
+
+	// Green FR
+	__StateShape__00000002_.X = 454.000000
+	__StateShape__00000002_.Y = 358.000000
+	stage.Commit()
+
+	// Green FR
+	__StateShape__00000002_.X = 453.000000
+	__StateShape__00000002_.Y = 365.000000
+	stage.Commit()
+
+	// On FR
+	__StateShape__00000004_.X = 350.000000
+	__StateShape__00000004_.Y = 148.714286
+	stage.Commit()
+
+	// Yellow FR
+	__StateShape__00000003_.X = 567.000000
+	__StateShape__00000003_.Y = 542.000000
+	stage.Commit()
+
+	// On FR
+	__StateShape__00000004_.X = 351.000000
+	__StateShape__00000004_.Y = 166.714286
+	stage.Commit()
+
+	// Yellow FR
+	__StateShape__00000003_.X = 474.000000
+	stage.Commit()
+
+	// Red FR
+	__StateShape__00000000_.X = 453.000000
+	__StateShape__00000000_.Y = 195.000015
+	stage.Commit()
+
+	// Traffic Light FR Diagram
+	__Diagram__00000000_.IsChecked = false
+	// Traffic Light UK Diagram
+	__Diagram__00000001_.IsChecked = true
+	stage.Commit()
+
+	// On UK
+	__StateShape__00000010_.X = 57.000000
+	__StateShape__00000010_.Width = 772.000000
+	stage.Commit()
+
+	// Green UK
+	__StateShape__00000009_.X = 196.000000
+	stage.Commit()
+
+	// Red UK
+	__StateShape__00000006_.X = 196.000000
+	stage.Commit()
+
+	// Yellow UK
+	__StateShape__00000008_.X = 192.000000
+	stage.Commit()
 }
