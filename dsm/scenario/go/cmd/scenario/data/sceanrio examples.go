@@ -105,6 +105,10 @@ func _(stage *models.Stage) {
 	__ControlPointShape__00000029_ := (&models.ControlPointShape{Name: `Control Point Shape in Rick is cynical to Rick is empathic 2`}).Stage(stage)
 	__ControlPointShape__00000030_ := (&models.ControlPointShape{Name: `Control Point Shape in Rick is cynical to Rick is empathic 3`}).Stage(stage)
 	__ControlPointShape__00000031_ := (&models.ControlPointShape{Name: `Control Point Shape in Rick is cynical to Rick is empathic 4`}).Stage(stage)
+	__ControlPointShape__00000032_ := (&models.ControlPointShape{Name: `Control Point Shape in Rick is cynical to Rick is empathic 0`}).Stage(stage)
+	__ControlPointShape__00000033_ := (&models.ControlPointShape{Name: `Control Point Shape in Rick is cynical to Rick is empathic 1`}).Stage(stage)
+	__ControlPointShape__00000034_ := (&models.ControlPointShape{Name: `Control Point Shape in Rick is cynical to Rick is empathic 2`}).Stage(stage)
+	__ControlPointShape__00000035_ := (&models.ControlPointShape{Name: `Control Point Shape in Rick is cynical to Rick is empathic 3`}).Stage(stage)
 
 	__Diagram__00000000_ := (&models.Diagram{Name: `Ilsa's trajectory`}).Stage(stage)
 	__Diagram__00000001_ := (&models.Diagram{Name: `New Diagram`}).Stage(stage)
@@ -457,7 +461,7 @@ With a swedish girl
 	__Analysis__00000000_.IsGeoObjectUseNodeExpanded = false
 	__Analysis__00000000_.IsMapUseNodeExpanded = false
 	__Analysis__00000000_.ComputedPrefix = ``
-	__Analysis__00000000_.IsExpanded = false
+	__Analysis__00000000_.IsExpanded = true
 	__Analysis__00000000_.LayoutDirection = models.Vertical
 
 	__Analysis__00000001_.Name = `Horizon(s) analysis`
@@ -656,6 +660,26 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__ControlPointShape__00000031_.Y_Relative = -0.068749
 	__ControlPointShape__00000031_.IsStartShapeTheClosestShape = true
 
+	__ControlPointShape__00000032_.Name = `Control Point Shape in Rick is cynical to Rick is empathic 0`
+	__ControlPointShape__00000032_.X_Relative = 0.997263
+	__ControlPointShape__00000032_.Y_Relative = 0.595878
+	__ControlPointShape__00000032_.IsStartShapeTheClosestShape = true
+
+	__ControlPointShape__00000033_.Name = `Control Point Shape in Rick is cynical to Rick is empathic 1`
+	__ControlPointShape__00000033_.X_Relative = 1.552819
+	__ControlPointShape__00000033_.Y_Relative = -0.694444
+	__ControlPointShape__00000033_.IsStartShapeTheClosestShape = true
+
+	__ControlPointShape__00000034_.Name = `Control Point Shape in Rick is cynical to Rick is empathic 2`
+	__ControlPointShape__00000034_.X_Relative = -0.679298
+	__ControlPointShape__00000034_.Y_Relative = 1.034313
+	__ControlPointShape__00000034_.IsStartShapeTheClosestShape = false
+
+	__ControlPointShape__00000035_.Name = `Control Point Shape in Rick is cynical to Rick is empathic 3`
+	__ControlPointShape__00000035_.X_Relative = 0.013615
+	__ControlPointShape__00000035_.Y_Relative = 0.401959
+	__ControlPointShape__00000035_.IsStartShapeTheClosestShape = false
+
 	__Diagram__00000000_.Name = `Ilsa's trajectory`
 	__Diagram__00000000_.ComputedPrefix = ``
 	__Diagram__00000000_.IsExpanded = false
@@ -682,7 +706,7 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Diagram__00000001_.ComputedPrefix = ``
 	__Diagram__00000001_.IsExpanded = false
 	__Diagram__00000001_.LayoutDirection = models.Vertical
-	__Diagram__00000001_.IsChecked = true
+	__Diagram__00000001_.IsChecked = false
 	__Diagram__00000001_.IsShowPrefix = false
 	__Diagram__00000001_.Description = ``
 	__Diagram__00000001_.IsEvolutionDirectionsNodeExpanded = false
@@ -748,7 +772,7 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Diagram__00000004_.ComputedPrefix = ``
 	__Diagram__00000004_.IsExpanded = false
 	__Diagram__00000004_.LayoutDirection = models.Vertical
-	__Diagram__00000004_.IsChecked = false
+	__Diagram__00000004_.IsChecked = true
 	__Diagram__00000004_.IsShowPrefix = false
 	__Diagram__00000004_.Description = ``
 	__Diagram__00000004_.IsEvolutionDirectionsNodeExpanded = false
@@ -1401,7 +1425,7 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Scenario__00000005_.IsParametersNodeExpanded = false
 	__Scenario__00000005_.IsParametersAggretatesNodeExpanded = false
 	__Scenario__00000005_.ComputedPrefix = ``
-	__Scenario__00000005_.IsExpanded = false
+	__Scenario__00000005_.IsExpanded = true
 	__Scenario__00000005_.LayoutDirection = models.Vertical
 
 	__Workspace__00000000_.Name = `Default`
@@ -1472,6 +1496,10 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__ActorStateTransitionShape__00000005_.ActorStateTransition = __ActorStateTransition__00000005_
 	__ActorStateTransitionShape__00000005_.Start = __ActorStateShape__00000011_
 	__ActorStateTransitionShape__00000005_.End = __ActorStateShape__00000014_
+	__ActorStateTransitionShape__00000005_.ControlPointShapes = append(__ActorStateTransitionShape__00000005_.ControlPointShapes, __ControlPointShape__00000032_)
+	__ActorStateTransitionShape__00000005_.ControlPointShapes = append(__ActorStateTransitionShape__00000005_.ControlPointShapes, __ControlPointShape__00000033_)
+	__ActorStateTransitionShape__00000005_.ControlPointShapes = append(__ActorStateTransitionShape__00000005_.ControlPointShapes, __ControlPointShape__00000034_)
+	__ActorStateTransitionShape__00000005_.ControlPointShapes = append(__ActorStateTransitionShape__00000005_.ControlPointShapes, __ControlPointShape__00000035_)
 	__ActorStateTransitionShape__00000006_.ActorStateTransition = __ActorStateTransition__00000006_
 	__ActorStateTransitionShape__00000006_.Start = __ActorStateShape__00000015_
 	__ActorStateTransitionShape__00000006_.End = __ActorStateShape__00000016_
