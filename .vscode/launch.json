@@ -380,14 +380,13 @@
             ]
         },
         {
-            "name": "dsm - scenario: go run stage.go",
+            "name": "dsm - scenario: go run",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/scenario/go/cmd/scenario",
             "args": [
                 "edit",
-                "data/stage.go",
                 "--embedded-diagrams=false"
             ]
         },

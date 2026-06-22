@@ -3,12 +3,16 @@
 package main
 
 import (
+	"embed"
 	"log"
 	"strconv"
 
 	"github.com/fullstack-lang/gong/dsm/scenario/go/level1stack"
 	"github.com/fullstack-lang/gong/dsm/scenario/go/models"
 )
+
+//go:embed data/*
+var dataFS embed.FS
 
 func executeServer(args []string) {
 	if len(args) > 0 {
@@ -18,6 +22,8 @@ func executeServer(args []string) {
 	}
 
 	// setup
+	// - set embedded data to models
+	models.DataFS = &dataFS
 	// - model level1 stack with its probe
 	// - unmarshall/marshall go file with stage data
 	stack := level1stack.NewLevel1Stack("scenario", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams)
