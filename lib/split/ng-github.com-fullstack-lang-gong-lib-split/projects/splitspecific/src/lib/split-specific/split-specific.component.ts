@@ -3,13 +3,10 @@ import { Component, Renderer2, Input, OnInit, Inject, DOCUMENT } from '@angular/
 
 import * as split from '../../../../split/src/public-api'
 
-import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatOptionModule } from '@angular/material/core';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 
@@ -32,13 +29,10 @@ import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 @Component({
   selector: 'lib-split-specific',
   imports: [
-    MatRadioModule,
     CommonModule,
     FormsModule,
-    MatFormFieldModule,
-    MatOptionModule,
-    MatInputModule,
-    MatSelectModule,
+    MatButtonModule,
+    MatMenuModule,
 
     AngularSplitModule,
 
@@ -64,7 +58,7 @@ export class SplitSpecificComponent implements OnInit {
 
   public view: split.View | undefined
 
-  radioButtonHeight = 40
+  topBarHeight = 56
 
   constructor(
     private frontRepoService: split.FrontRepoService,
@@ -108,13 +102,13 @@ export class SplitSpecificComponent implements OnInit {
         }
 
         for (let logo of this.frontRepo.array_LogoOnTheLefts) {
-          if (this.radioButtonHeight < logo.Height) {
-            this.radioButtonHeight = logo.Height
+          if (this.topBarHeight < logo.Height) {
+            this.topBarHeight = logo.Height
           }
         }
         for (let logo of this.frontRepo.array_LogoOnTheRights) {
-          if (this.radioButtonHeight < logo.Height) {
-            this.radioButtonHeight = logo.Height
+          if (this.topBarHeight < logo.Height) {
+            this.topBarHeight = logo.Height
           }
         }
 
@@ -176,6 +170,10 @@ export class SplitSpecificComponent implements OnInit {
 
   get currentView(): split.View | undefined {
     return this.frontRepo?.array_Views.find(v => v === this.view);
+  }
+
+  isSecondaryViewSelected(): boolean {
+    return this.view?.IsSecondaryView ?? false;
   }
 
   public asSplitDirection(direction: string): 'horizontal' | 'vertical' {

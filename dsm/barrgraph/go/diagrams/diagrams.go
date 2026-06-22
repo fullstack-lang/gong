@@ -1,6 +1,7 @@
 package diagrams
 
 import (
+	"slices"
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/doc/go/models"
@@ -10,7 +11,10 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var _ time.Time
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
 
 // _ point for meta package dummy declaration
 var _ ref_models.Stage
@@ -22,6 +26,7 @@ var _ map[string]any = map[string]any{
 
 // function will stage objects
 func _(stage *models.Stage) {
+
 	// insertion point for declaration of instances to stage
 
 	__AttributeShape__00000000_ := (&models.AttributeShape{Name: `Date`}).Stage(stage)
@@ -1282,7 +1287,7 @@ func _(stage *models.Stage) {
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000001_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000002_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000003_)
-	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000000_
+	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000002_
 	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000000_)
 	__GongStructShape__00000000_.LinkShapes = append(__GongStructShape__00000000_.LinkShapes, __LinkShape__00000000_)
 	__GongStructShape__00000002_.AttributeShapes = append(__GongStructShape__00000002_.AttributeShapes, __AttributeShape__00000003_)

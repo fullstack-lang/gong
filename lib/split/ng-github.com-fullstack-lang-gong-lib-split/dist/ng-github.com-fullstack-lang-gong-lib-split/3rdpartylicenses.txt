@@ -380,12 +380,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 --------------------------------------------------------------------------------
-Package: @angular/cdk
+Package: @angular/forms
 License: "MIT"
 
 The MIT License
 
-Copyright (c) 2025 Google LLC.
+Copyright (c) 2010-2025 Google LLC. https://angular.dev/license
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -406,12 +406,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 --------------------------------------------------------------------------------
-Package: @angular/forms
+Package: @angular/cdk
 License: "MIT"
 
 The MIT License
 
-Copyright (c) 2010-2025 Google LLC. https://angular.dev/license
+Copyright (c) 2025 Google LLC.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
