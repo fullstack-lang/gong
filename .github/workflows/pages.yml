@@ -83,6 +83,14 @@ jobs:
           cd dsm/project/go/cmd/project
           gong portable
           cp project-app-portable.html ../../../../../public-site/
+
+
+      - name: Build svg portable app
+        run: |
+          cd lib/svg/go/cmd/svg
+          gong portable
+          cp svg-app-portable.html ../../../../../public-site/
+
           
       - name: Setup Pages
         uses: actions/configure-pages@v5

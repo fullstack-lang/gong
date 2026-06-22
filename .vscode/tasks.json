@@ -927,6 +927,19 @@
             ]
         },
         {
+            "label": "lib - svg: gong portable",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/svg"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "portable",
+                "go/cmd/svg"
+            ]
+        },
+        {
             "label": "lib - svg: ng build svg",
             "type": "shell",
             "options": {
