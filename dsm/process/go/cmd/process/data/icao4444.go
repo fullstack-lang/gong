@@ -388,7 +388,7 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.DefaultBoxWidth = 250.000000
 	__DiagramProcess__00000000_.DefaultBoxHeigth = 70.000000
 	__DiagramProcess__00000000_.Width = 1716.444502
-	__DiagramProcess__00000000_.Height = 1450.000000
+	__DiagramProcess__00000000_.Height = 1465.000000
 	__DiagramProcess__00000000_.IsProcesssNodeExpanded = false
 	__DiagramProcess__00000000_.IsParticipantsNodeExpanded = true
 	__DiagramProcess__00000000_.IsExternalParticipantsNodeExpanded = true

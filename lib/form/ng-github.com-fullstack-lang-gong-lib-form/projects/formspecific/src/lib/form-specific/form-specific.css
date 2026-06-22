@@ -35,9 +35,15 @@ mat-form-field {
 .flex-align-items-center {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 5px;
   width: 100%;
   margin-bottom: 4px;
+}
+
+.assoc-button-container {
+  display: flex;
+  gap: 8px;
 }
 
 .custom-text {
