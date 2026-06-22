@@ -541,7 +541,7 @@ func (stager *Stager) drawNoteShapes(diagramStructure *DiagramStructure, layer *
 			margin := 20.0
 			wrapWidth := rect.Width - margin
 			if wrapWidth > 0 {
-				content = strutils.WrapStringPreservingNewlines(content, int(wrapWidth/(stager.GetRootLibrary().NbPixPerCharacter*0.7)))
+				content = strutils.WrapStringPreservingNewlines(content, int(wrapWidth/(stager.GetRootLibrary().NbPixPerCharacter)))
 			}
 
 			rect.RectAnchoredTexts[0].Content = content
