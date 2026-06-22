@@ -3,6 +3,7 @@
 package main
 
 import (
+	"embed"
 	"log"
 
 	"github.com/fullstack-lang/gong/dsm/barrgraph/go/level1stack"
@@ -10,12 +11,22 @@ import (
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
 )
 
+//go:embed "data/cubism and abstract art.go"
+var stageGo string
+
+//go:embed data/*
+var dataFS embed.FS
+
 func main() {
 	log.SetOutput(&wasmregistry.ConsoleWriter{})
 	log.SetPrefix("barrgraph: ")
 	log.SetFlags(log.Lmicroseconds)
 
 	log.Println("Initializing barrgraph WASM Backend...")
+
+	// setup
+	// - set embedded data to models
+	models.DataFS = &dataFS
 
 	unmarshallFromCode := ""
 	marshallOnCommit := ""
