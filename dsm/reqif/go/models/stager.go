@@ -26,7 +26,7 @@ import (
 	ssg "github.com/fullstack-lang/gong/lib/ssg/go/models"
 
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
-	load_stack "github.com/fullstack-lang/gong/lib/load/go/stack"
+	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
 
 	markdown "github.com/fullstack-lang/gong/lib/markdown/go/models"
 	markdown_stack "github.com/fullstack-lang/gong/lib/markdown/go/stack"
