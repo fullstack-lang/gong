@@ -4,13 +4,15 @@
 .container {
     height: 100%;
     width: 100%;
-    max-width: 100%;
-    max-height: 70vh;
-    /* Limit height to 70% of viewport */
+    min-width: 500px;
+    max-width: 90vw;
+    max-height: 90vh;
+    /* Limit height to 90% of viewport */
     overflow: auto;
     display: flex;
     flex-direction: column;
     /* Stack toolbar and table vertically */
+    resize: both;
 }
 
 /* 2. FIX: Make table container scrollable while keeping toolbar fixed */
@@ -128,7 +130,7 @@
 
 /* 8. DIALOG-SPECIFIC: When used in dialog, ensure proper sizing */
 mat-dialog-container .container {
-    max-height: 60vh;
+    max-height: 90vh;
     /* Slightly smaller in dialog */
     min-height: 400px;
     /* Minimum height for usability */

@@ -408,6 +408,7 @@ export class FormSpecific implements OnInit {
 
               // when the association button is pressed
               this.dialogRef = this.dialog.open(TableSpecificComponent, {
+                maxWidth: '90vw',
                 data: {
                   Name: this.Name + TableExtraPathEnum.StackNamePostFixForTableForAssociation,
                   AssociationStorage: this.currentFormEditAssocButton?.AssociationStorage
@@ -486,6 +487,7 @@ export class FormSpecific implements OnInit {
 
               // when the association button is pressed
               this.dialogRef = this.dialog.open(TableSpecificComponent, {
+                maxWidth: '90vw',
                 data: {
                   Name: this.Name + TableExtraPathEnum.StackNamePostFixForTableForAssociationSorting,
                   TableName: TableExtraNameEnum.TableSortExtraName,
