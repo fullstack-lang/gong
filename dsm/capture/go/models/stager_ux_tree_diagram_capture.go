@@ -17,11 +17,15 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 	}
 	libraryNode.Children = append(libraryNode.Children, diagramNode)
 
+	diagramNode.Menu = &tree.Menu{
+		Name: "Menu",
+	}
+
 	element := diagram
 	node := diagramNode
 
 	if !element.GetIsInRenameMode() {
-		node.Buttons = append(node.Buttons,
+		node.Menu.Buttons = append(node.Menu.Buttons,
 			&tree.Button{
 				Name: element.GetName() + " " + string(buttons.BUTTON_edit_note),
 				Icon: string(buttons.BUTTON_edit_note),
@@ -34,7 +38,7 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 				ToolTipPosition: tree.Above,
 			})
 	} else {
-		node.Buttons = append(node.Buttons,
+		node.Menu.Buttons = append(node.Menu.Buttons,
 			&tree.Button{
 				Name: element.GetName() + " " + string(buttons.BUTTON_edit_off),
 				Icon: string(buttons.BUTTON_edit_off),
@@ -79,6 +83,24 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 	}
 
 	{
+		editButton := &tree.Button{
+			Name:            "Diagram Editability",
+			Icon:            string(buttons.BUTTON_edit),
+			HasToolTip:      true,
+			ToolTipPosition: tree.Above,
+			ToolTipText:     "Edit diagram",
+			OnClick: func() {
+				diagram.IsEditable_ = !diagram.IsEditable_
+				stager.stage.Commit()
+			},
+		}
+		if diagram.IsEditable_ {
+			editButton.Icon = string(buttons.BUTTON_edit_off)
+			editButton.ToolTipText = "Stop editing diagram"
+		}
+		diagramNode.Buttons = append(diagramNode.Buttons, editButton)
+	}
+	{
 		copyButton := &tree.Button{
 			Name:            "Diagram Copy",
 			Icon:            string(buttons.BUTTON_copy_all),
@@ -87,7 +109,7 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 			ToolTipText:     "Copy Diagram",
 			OnClick:         onCopyDiagram(stager, diagram),
 		}
-		diagramNode.Buttons = append(diagramNode.Buttons, copyButton)
+		diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, copyButton)
 	}
 	{
 		showAllButton := &tree.Button{
@@ -98,29 +120,7 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 			ToolTipText:     "Show All Elements in the Diagram",
 			OnClick:         onShowAllInDiagram(stager, diagram),
 		}
-		diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
-	}
-	{
-		showAllButton := &tree.Button{
-			Name:            "Diagram Show As PBS Tree",
-			Icon:            string(buttons.BUTTON_account_tree),
-			HasToolTip:      true,
-			ToolTipPosition: tree.Above,
-			ToolTipText:     "Show Show As PBS Tree",
-			OnClick:         onLayoutPBS(stager, diagram),
-		}
-		diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
-	}
-	{
-		showAllButton := &tree.Button{
-			Name:            "Diagram Show As WBS Tree",
-			Icon:            string(buttons.BUTTON_account_circle),
-			HasToolTip:      true,
-			ToolTipPosition: tree.Above,
-			ToolTipText:     "Show Show As WBS Tree",
-			OnClick:         onLayoutWBS(stager, diagram),
-		}
-		diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
+		diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, showAllButton)
 	}
 	{
 		showAllButton := &tree.Button{
@@ -141,7 +141,7 @@ func (stager *Stager) treeDiagramCapture(library *Library, diagram *Diagram, lib
 			showAllButton.Icon = string(buttons.BUTTON_label_off)
 			showAllButton.ToolTipText = "Hide Prefix"
 		}
-		diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
+		diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, showAllButton)
 	}
 
 	diagramsCategoryNode := &tree.Node{
