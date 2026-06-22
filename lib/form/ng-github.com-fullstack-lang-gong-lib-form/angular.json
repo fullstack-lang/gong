@@ -41,7 +41,6 @@
               "zone.js"
             ],
             "styles": [
-              "src/custom-theme.scss",
               "src/styles.css"
             ],
             "tsConfig": "tsconfig.app.json"
