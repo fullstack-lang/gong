@@ -1,13 +1,22 @@
-# 1. Try it in your browser
+# 1. Try in your browser
+
+## System Engineering DSM
 
 - [Capture](https://fullstack-lang.github.io/gong/capture-app-portable.html)
 - [Structure](https://fullstack-lang.github.io/gong/structure-app-portable.html)
 - [Scenario](https://fullstack-lang.github.io/gong/scenario-app-portable.html)
 - [Process](https://fullstack-lang.github.io/gong/process-app-portable.html)
 - [Statemachines](https://fullstack-lang.github.io/gong/statemachines-app-portable.html)
-- [Barrgraph](https://fullstack-lang.github.io/gong/barrgraph-app-portable.html)
 - [Project](https://fullstack-lang.github.io/gong/project-app-portable.html)
 - [Reqif](https://fullstack-lang.github.io/gong/reqif-app-portable.html)
+
+## Technical DSM
+
+- [SVG](https://fullstack-lang.github.io/gong/svg-app-portable.html)
+
+## For fun
+
+- [Barrgraph](https://fullstack-lang.github.io/gong/barrgraph-app-portable.html)
 
 # 2. Why Gong ?
 
