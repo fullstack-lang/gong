@@ -4,6 +4,7 @@ package main
 
 import (
 	"log"
+	"syscall/js"
 
 	"github.com/fullstack-lang/gong/dsm/project/go/level1stack"
 	"github.com/fullstack-lang/gong/dsm/project/go/models"
@@ -41,6 +42,35 @@ func main() {
 
 	// Expose the HTTP and Socket bridges to the Angular frontend
 	wasmregistry.SetupWasmHooks(stack.R)
+
+	// Add event listener for postMessage to handle injected files
+	js.Global().Call("eval", `
+window.addEventListener('message', (event) => {
+    if (event.data && event.data.action === 'PROCESS_INJECTED_FILE') {
+        const fileContent = event.data.fileData;
+        const fileName = event.data.fileName;
+        
+        const byteCharacters = atob(fileContent);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const injectedFile = new File([byteArray], fileName, { type: "text/plain" });
+
+        const fileInput = document.querySelector('input[type="file"]');
+        if (fileInput) {
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(injectedFile);
+            fileInput.files = dataTransfer.files;
+            const changeEvent = new Event('change', { bubbles: true });
+            fileInput.dispatchEvent(changeEvent);
+        } else {
+            console.error("file input not found!");
+        }
+    }
+});
+	`)
 
 	select {} // Keep the WASM instance running indefinitely
 }
