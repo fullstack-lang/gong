@@ -22,7 +22,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.FileToDownload:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "FileToDownload Form",
+			Label: "FileToDownload",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FileToDownloadFormCallback(
 			instancesTyped,
@@ -34,7 +34,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.FileToUpload:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "FileToUpload Form",
+			Label: "FileToUpload",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FileToUploadFormCallback(
 			instancesTyped,
@@ -46,7 +46,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.Message:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "Message Form",
+			Label: "Message",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__MessageFormCallback(
 			instancesTyped,

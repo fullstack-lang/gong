@@ -22,7 +22,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.DisplaySelection:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "DisplaySelection Form",
+			Label: "DisplaySelection",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__DisplaySelectionFormCallback(
 			instancesTyped,
@@ -34,7 +34,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.XLCell:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "XLCell Form",
+			Label: "XLCell",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__XLCellFormCallback(
 			instancesTyped,
@@ -46,7 +46,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.XLFile:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "XLFile Form",
+			Label: "XLFile",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__XLFileFormCallback(
 			instancesTyped,
@@ -58,7 +58,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.XLRow:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "XLRow Form",
+			Label: "XLRow",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__XLRowFormCallback(
 			instancesTyped,
@@ -70,7 +70,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.XLSheet:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "XLSheet Form",
+			Label: "XLSheet",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__XLSheetFormCallback(
 			instancesTyped,

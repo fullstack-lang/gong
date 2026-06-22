@@ -50,13 +50,16 @@ mat-form-field {
 }
 .group-header {
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 500;
   color: #606060;       /* Sober dark grey */
   margin: 0;            /* Reset browser defaults */
   padding: 10px 10px 0 10px; /* Align left/right with grid, provide top space */
   text-transform: uppercase; /* Optional: adds to the 'sober/structural' look */
   letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .sticky-container {
@@ -71,7 +74,7 @@ mat-form-field {
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #eee;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
   box-sizing: border-box;
 }
 

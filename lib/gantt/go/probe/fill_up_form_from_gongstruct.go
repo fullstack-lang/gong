@@ -22,7 +22,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.Arrow:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "Arrow Form",
+			Label: "Arrow",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ArrowFormCallback(
 			instancesTyped,
@@ -34,7 +34,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.Bar:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "Bar Form",
+			Label: "Bar",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__BarFormCallback(
 			instancesTyped,
@@ -46,7 +46,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.Gantt:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "Gantt Form",
+			Label: "Gantt",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GanttFormCallback(
 			instancesTyped,
@@ -58,7 +58,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.Group:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "Group Form",
+			Label: "Group",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GroupFormCallback(
 			instancesTyped,
@@ -70,7 +70,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.Lane:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "Lane Form",
+			Label: "Lane",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__LaneFormCallback(
 			instancesTyped,
@@ -82,7 +82,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.LaneUse:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "LaneUse Form",
+			Label: "LaneUse",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__LaneUseFormCallback(
 			instancesTyped,
@@ -94,7 +94,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.Milestone:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "Milestone Form",
+			Label: "Milestone",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__MilestoneFormCallback(
 			instancesTyped,
