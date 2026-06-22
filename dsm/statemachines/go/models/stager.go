@@ -18,7 +18,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
-	load_stack "github.com/fullstack-lang/gong/lib/load/go/stack"
+	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
 )
 
 type Stager struct {
@@ -91,7 +91,7 @@ func NewStager(
 	stager.treeObjectsSimulationStage = tree_stack.NewStack(r, stackName+"-objects", "", "", "", true, true).Stage
 	stager.treeStage = tree_stack.NewStack(r, stackName+"-diagrams", "", "", "", true, true).Stage
 	stager.svgStage = svg_stack.NewStack(r, stackName, "", "", "", true, true).Stage
-	stager.loadStage = load_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.loadStage, _ = load_fullstack.NewStackInstance(r, "")
 	stager.buttonTransitionsStage = button_stack.NewStack(r, stackName+"-transitions", "", "", "", false, false).Stage
 	stager.buttonStage = button_stack.NewStack(r, stackName+"-exportXL", "", "", "", true, true).Stage
 

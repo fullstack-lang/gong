@@ -19,7 +19,7 @@ import (
 	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
 
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
-	load_stack "github.com/fullstack-lang/gong/lib/load/go/stack"
+	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
 	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
@@ -70,7 +70,7 @@ func NewStager(
 	stager.treeStage = tree_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
 	stager.svgStage = svg_stack.NewStack(r, "", "", "", "", true, true).Stage
-	stager.loadStage = load_stack.NewStack(r, "", "", "", "", true, true).Stage
+	stager.loadStage, _ = load_fullstack.NewStackInstance(r, "")
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 
 	stager.createViews()
