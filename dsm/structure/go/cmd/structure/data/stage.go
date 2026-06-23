@@ -36,6 +36,8 @@ func _(stage *models.Stage) {
 	__DataShape__00000000_ := (&models.DataShape{Name: `D1`}).Stage(stage)
 
 	__DiagramStructure__00000000_ := (&models.DiagramStructure{Name: `DiagramStructure`}).Stage(stage)
+	__DiagramStructure__00000001_ := (&models.DiagramStructure{Name: `DiagramStructure`}).Stage(stage)
+	__DiagramStructure__00000002_ := (&models.DiagramStructure{Name: `sdqsdqsd`}).Stage(stage)
 
 	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
 
@@ -53,13 +55,18 @@ func _(stage *models.Stage) {
 
 	__Port__00000000_ := (&models.Port{Name: `Port 1`}).Stage(stage)
 	__Port__00000001_ := (&models.Port{Name: `Port 2`}).Stage(stage)
+	__Port__00000002_ := (&models.Port{Name: `Port 3`}).Stage(stage)
 
 	__PortShape__00000009_ := (&models.PortShape{Name: `Port 1-DiagramStructure`}).Stage(stage)
 	__PortShape__00000010_ := (&models.PortShape{Name: `-DiagramStructure`}).Stage(stage)
+	__PortShape__00000013_ := (&models.PortShape{Name: `Port 3-DiagramStructure`}).Stage(stage)
 
 	__System__00000000_ := (&models.System{Name: `System 1`}).Stage(stage)
+	__System__00000001_ := (&models.System{Name: ``}).Stage(stage)
 
 	__SystemShape__00000000_ := (&models.SystemShape{Name: `SystemShape`}).Stage(stage)
+	__SystemShape__00000001_ := (&models.SystemShape{Name: `SystemShape`}).Stage(stage)
+	__SystemShape__00000002_ := (&models.SystemShape{Name: `SystemShape`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -107,6 +114,40 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.IsExternalPartsNodeExpanded = false
 	__DiagramStructure__00000000_.IsNotesNodeExpanded = true
 
+	__DiagramStructure__00000001_.Name = `DiagramStructure`
+	__DiagramStructure__00000001_.Description = ``
+	__DiagramStructure__00000001_.ComputedPrefix = ``
+	__DiagramStructure__00000001_.IsExpanded = false
+	__DiagramStructure__00000001_.LayoutDirection = models.Vertical
+	__DiagramStructure__00000001_.IsChecked = false
+	__DiagramStructure__00000001_.IsEditable_ = true
+	__DiagramStructure__00000001_.IsShowPrefix = false
+	__DiagramStructure__00000001_.DefaultBoxWidth = 250.000000
+	__DiagramStructure__00000001_.DefaultBoxHeigth = 70.000000
+	__DiagramStructure__00000001_.Width = 900.000000
+	__DiagramStructure__00000001_.Height = 1350.000000
+	__DiagramStructure__00000001_.IsSystemsNodeExpanded = false
+	__DiagramStructure__00000001_.IsPartsNodeExpanded = false
+	__DiagramStructure__00000001_.IsExternalPartsNodeExpanded = false
+	__DiagramStructure__00000001_.IsNotesNodeExpanded = false
+
+	__DiagramStructure__00000002_.Name = `sdqsdqsd`
+	__DiagramStructure__00000002_.Description = ``
+	__DiagramStructure__00000002_.ComputedPrefix = ``
+	__DiagramStructure__00000002_.IsExpanded = true
+	__DiagramStructure__00000002_.LayoutDirection = models.Vertical
+	__DiagramStructure__00000002_.IsChecked = false
+	__DiagramStructure__00000002_.IsEditable_ = true
+	__DiagramStructure__00000002_.IsShowPrefix = false
+	__DiagramStructure__00000002_.DefaultBoxWidth = 250.000000
+	__DiagramStructure__00000002_.DefaultBoxHeigth = 70.000000
+	__DiagramStructure__00000002_.Width = 900.000000
+	__DiagramStructure__00000002_.Height = 1350.000000
+	__DiagramStructure__00000002_.IsSystemsNodeExpanded = false
+	__DiagramStructure__00000002_.IsPartsNodeExpanded = false
+	__DiagramStructure__00000002_.IsExternalPartsNodeExpanded = false
+	__DiagramStructure__00000002_.IsNotesNodeExpanded = false
+
 	__Library__00000000_.Name = ``
 	__Library__00000000_.Description = ``
 	__Library__00000000_.ComputedPrefix = ``
@@ -142,7 +183,7 @@ func _(stage *models.Stage) {
 	__Part__00000000_.ComputedPrefix = ``
 	__Part__00000000_.IsExpanded = false
 	__Part__00000000_.LayoutDirection = models.Vertical
-	__Part__00000000_.IsPortsNodeExpanded = false
+	__Part__00000000_.IsPortsNodeExpanded = true
 	__Part__00000000_.IsControlFlowsNodeExpanded = false
 	__Part__00000000_.IsDataFlowsNodeExpanded = false
 
@@ -205,11 +246,20 @@ func _(stage *models.Stage) {
 	__Port__00000001_.IsEndPort = false
 	__Port__00000001_.IsPortNameNotSystemName = false
 
+	__Port__00000002_.Name = `Port 3`
+	__Port__00000002_.Description = ``
+	__Port__00000002_.ComputedPrefix = ``
+	__Port__00000002_.IsExpanded = false
+	__Port__00000002_.LayoutDirection = models.Vertical
+	__Port__00000002_.IsStartPort = false
+	__Port__00000002_.IsEndPort = false
+	__Port__00000002_.IsPortNameNotSystemName = false
+
 	__PortShape__00000009_.Name = `Port 1-DiagramStructure`
 	__PortShape__00000009_.IsExpanded = false
-	__PortShape__00000009_.X = 426.000000
+	__PortShape__00000009_.X = 432.000000
 	__PortShape__00000009_.Y = 459.897837
-	__PortShape__00000009_.Width = 80.000000
+	__PortShape__00000009_.Width = 68.000000
 	__PortShape__00000009_.Height = 40.000000
 	__PortShape__00000009_.IsHidden = false
 
@@ -221,15 +271,33 @@ func _(stage *models.Stage) {
 	__PortShape__00000010_.Height = 34.000000
 	__PortShape__00000010_.IsHidden = false
 
+	__PortShape__00000013_.Name = `Port 3-DiagramStructure`
+	__PortShape__00000013_.IsExpanded = false
+	__PortShape__00000013_.X = 196.000000
+	__PortShape__00000013_.Y = 457.397861
+	__PortShape__00000013_.Width = 40.000000
+	__PortShape__00000013_.Height = 40.000000
+	__PortShape__00000013_.IsHidden = false
+
 	__System__00000000_.Name = `System 1`
 	__System__00000000_.Description = ``
 	__System__00000000_.ComputedPrefix = ``
-	__System__00000000_.IsExpanded = false
+	__System__00000000_.IsExpanded = true
 	__System__00000000_.LayoutDirection = models.Vertical
 	__System__00000000_.SVG_Path = ``
 	__System__00000000_.InverseAppliedScaling = 0.000000
 	__System__00000000_.IsSubSystemNodeExpanded = false
 	__System__00000000_.IsDataFlowsNodeExpanded = true
+
+	__System__00000001_.Name = ``
+	__System__00000001_.Description = ``
+	__System__00000001_.ComputedPrefix = ``
+	__System__00000001_.IsExpanded = false
+	__System__00000001_.LayoutDirection = models.Vertical
+	__System__00000001_.SVG_Path = ``
+	__System__00000001_.InverseAppliedScaling = 0.000000
+	__System__00000001_.IsSubSystemNodeExpanded = false
+	__System__00000001_.IsDataFlowsNodeExpanded = false
 
 	__SystemShape__00000000_.Name = `SystemShape`
 	__SystemShape__00000000_.IsExpanded = false
@@ -238,6 +306,22 @@ func _(stage *models.Stage) {
 	__SystemShape__00000000_.Width = 1258.999939
 	__SystemShape__00000000_.Height = 1028.000000
 	__SystemShape__00000000_.IsHidden = false
+
+	__SystemShape__00000001_.Name = `SystemShape`
+	__SystemShape__00000001_.IsExpanded = false
+	__SystemShape__00000001_.X = 100.000000
+	__SystemShape__00000001_.Y = 50.000000
+	__SystemShape__00000001_.Width = 500.000000
+	__SystemShape__00000001_.Height = 1000.000000
+	__SystemShape__00000001_.IsHidden = false
+
+	__SystemShape__00000002_.Name = `SystemShape`
+	__SystemShape__00000002_.IsExpanded = false
+	__SystemShape__00000002_.X = 100.000000
+	__SystemShape__00000002_.Y = 50.000000
+	__SystemShape__00000002_.Width = 500.000000
+	__SystemShape__00000002_.Height = 1000.000000
+	__SystemShape__00000002_.IsHidden = false
 
 	// insertion point for setup of pointers
 	__DataFlow__00000000_.Datas = append(__DataFlow__00000000_.Datas, __Data__00000000_)
@@ -255,9 +339,12 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.PortsWhoseNodeIsExpanded = append(__DiagramStructure__00000000_.PortsWhoseNodeIsExpanded, __Port__00000000_)
 	__DiagramStructure__00000000_.Port_Shapes = append(__DiagramStructure__00000000_.Port_Shapes, __PortShape__00000009_)
 	__DiagramStructure__00000000_.Port_Shapes = append(__DiagramStructure__00000000_.Port_Shapes, __PortShape__00000010_)
+	__DiagramStructure__00000000_.Port_Shapes = append(__DiagramStructure__00000000_.Port_Shapes, __PortShape__00000013_)
 	__DiagramStructure__00000000_.DataFlow_Shapes = append(__DiagramStructure__00000000_.DataFlow_Shapes, __DataFlowShape__00000000_)
 	__DiagramStructure__00000000_.Data_Shapes = append(__DiagramStructure__00000000_.Data_Shapes, __DataShape__00000000_)
 	__DiagramStructure__00000000_.Note_Shapes = append(__DiagramStructure__00000000_.Note_Shapes, __NoteShape__00000000_)
+	__DiagramStructure__00000001_.System_Shapes = append(__DiagramStructure__00000001_.System_Shapes, __SystemShape__00000001_)
+	__DiagramStructure__00000002_.System_Shapes = append(__DiagramStructure__00000002_.System_Shapes, __SystemShape__00000002_)
 	__Library__00000000_.RootSystemes = append(__Library__00000000_.RootSystemes, __System__00000000_)
 	__Library__00000000_.SystemsWhoseNodeIsExpanded = append(__Library__00000000_.SystemsWhoseNodeIsExpanded, __System__00000000_)
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000000_)
@@ -265,6 +352,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000000_)
 	__NoteShape__00000000_.Note = __Note__00000000_
 	__Part__00000000_.Ports = append(__Part__00000000_.Ports, __Port__00000000_)
+	__Part__00000000_.Ports = append(__Part__00000000_.Ports, __Port__00000002_)
 	__Part__00000000_.PortWhoseOutDataFlowsNodeIsExpanded = append(__Part__00000000_.PortWhoseOutDataFlowsNodeIsExpanded, __Port__00000000_)
 	__Part__00000001_.Ports = append(__Part__00000001_.Ports, __Port__00000001_)
 	__Part__00000001_.PartAnchoredPath = append(__Part__00000001_.PartAnchoredPath, __PartAnchoredPath__00000000_)
@@ -272,12 +360,19 @@ func _(stage *models.Stage) {
 	__PartShape__00000009_.Part = __Part__00000000_
 	__Port__00000000_.Type = nil
 	__Port__00000001_.Type = nil
+	__Port__00000002_.Type = nil
 	__PortShape__00000009_.Port = __Port__00000000_
 	__PortShape__00000010_.Port = __Port__00000001_
+	__PortShape__00000013_.Port = __Port__00000002_
 	__System__00000000_.DiagramStructures = append(__System__00000000_.DiagramStructures, __DiagramStructure__00000000_)
+	__System__00000000_.DiagramStructures = append(__System__00000000_.DiagramStructures, __DiagramStructure__00000002_)
 	__System__00000000_.DiagramStructureWhoseNodeIsExpanded = append(__System__00000000_.DiagramStructureWhoseNodeIsExpanded, __DiagramStructure__00000000_)
+	__System__00000000_.SubSystemes = append(__System__00000000_.SubSystemes, __System__00000001_)
 	__System__00000000_.Parts = append(__System__00000000_.Parts, __Part__00000000_)
 	__System__00000000_.Parts = append(__System__00000000_.Parts, __Part__00000001_)
 	__System__00000000_.DataFlows = append(__System__00000000_.DataFlows, __DataFlow__00000000_)
+	__System__00000001_.DiagramStructures = append(__System__00000001_.DiagramStructures, __DiagramStructure__00000001_)
 	__SystemShape__00000000_.System = __System__00000000_
+	__SystemShape__00000001_.System = __System__00000001_
+	__SystemShape__00000002_.System = __System__00000000_
 }

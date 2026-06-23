@@ -199,7 +199,9 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 			title.FontWeight = "500"
 			title.X_Offset = 0
 			title.Y_Offset = verticalTopMarginForTitle / 2.0
+			title.Y_Offset = 0
 			title.RectAnchorType = svg.RECT_TOP
+			title.RectAnchorType = svg.RECT_CENTER_MIDDLE
 			title.TextAnchorType = svg.TEXT_ANCHOR_CENTER
 
 			partRect.RectAnchoredTexts = append(partRect.RectAnchoredTexts, title)
