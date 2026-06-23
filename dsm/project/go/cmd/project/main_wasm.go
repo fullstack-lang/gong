@@ -46,6 +46,7 @@ func main() {
 	// Add event listener for postMessage to handle injected files
 	js.Global().Call("eval", `
 window.addEventListener('message', (event) => {
+    console.log("main_wasm.go: received message event:", event.data);
     if (event.data && event.data.action === 'PROCESS_INJECTED_FILE') {
         const fileContent = event.data.fileData;
         const fileName = event.data.fileName;
