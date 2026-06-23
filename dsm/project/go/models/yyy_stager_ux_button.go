@@ -140,15 +140,28 @@ func (stager *Stager) button() {
 
         document.getElementById('launchBtn').addEventListener('click', () => {
             const appWindow = window.open(targetUrl, '_blank');
-            setTimeout(() => {
-                const payload = {
-                    action: 'PROCESS_INJECTED_FILE',
-                    fileName: fileXName,
-                    fileData: fileXContent
-                };
+            const payload = {
+                action: 'PROCESS_INJECTED_FILE',
+                fileName: fileXName,
+                fileData: fileXContent
+            };
+
+            let ackReceived = false;
+            window.addEventListener('message', (event) => {
+                if (event.data && event.data.action === 'FILE_PROCESSED') {
+                    ackReceived = true;
+                    console.log("Application successfully received and processed the file!");
+                }
+            });
+
+            const sendInterval = setInterval(() => {
+                if (ackReceived || appWindow.closed) {
+                    clearInterval(sendInterval);
+                    return;
+                }
                 appWindow.postMessage(payload, targetOrigin);
-                console.log("File payload sent to application.");
-            }, 3000);
+                console.log("File payload sent to application (waiting for ACK)...");
+            }, 1000);
         });
     </script>
 </body>
