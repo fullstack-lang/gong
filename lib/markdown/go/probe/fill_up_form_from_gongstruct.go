@@ -22,7 +22,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.Content:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "Content",
+			Label: instancesTyped.GetName() + " : Content",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ContentFormCallback(
 			instancesTyped,
@@ -34,7 +34,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.JpgImage:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "JpgImage",
+			Label: instancesTyped.GetName() + " : JpgImage",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__JpgImageFormCallback(
 			instancesTyped,
@@ -46,7 +46,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.PngImage:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "PngImage",
+			Label: instancesTyped.GetName() + " : PngImage",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__PngImageFormCallback(
 			instancesTyped,
@@ -58,7 +58,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.SvgImage:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "SvgImage",
+			Label: instancesTyped.GetName() + " : SvgImage",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__SvgImageFormCallback(
 			instancesTyped,

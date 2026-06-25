@@ -369,7 +369,7 @@
             "group": "build"
         },
         {
-            "label": "go - gong: go install gong & run skipNg conditionally",
+            "label": "go - gong: go install gong & run script skipNg conditionally",
             "dependsOn": [
                 "go - gong: go install gong",
                 "Run gong skipNg conditionally (from script)"
