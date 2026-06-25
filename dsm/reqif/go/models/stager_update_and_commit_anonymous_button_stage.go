@@ -46,9 +46,9 @@ func (stager *Stager) UpdateAndCommitAnonymousButtonStage() {
 		&StopButtonProxy{
 			stager: stager,
 		},
-		"Stop for maintenance",
+		"Stop",
 		string(buttons.BUTTON_stop_circle),
-		"Stop for maintenance",
+		"Stop",
 	)
 
 	group1.Buttons = append(group1.Buttons, buttonKill)

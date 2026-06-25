@@ -2,9 +2,9 @@
 package models
 
 import (
+	"encoding/base64"
 	"log"
 	"os"
-	"encoding/base64"
 	"regexp"
 	"strings"
 	"time"
@@ -25,9 +25,9 @@ func (stager *Stager) button() {
 	layout.Groups = append(layout.Groups, group1)
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:  "Stop for maintenance",
+		Name:  "Stop",
 		Icon:  string(buttons.BUTTON_stop_circle),
-		Label: "Stop for maintenance",
+		Label: "Stop",
 		OnClick: func() {
 			log.Println("Stop")
 			os.Exit(0)
@@ -35,19 +35,19 @@ func (stager *Stager) button() {
 	})
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:    "Export website",
+		Name:    "Web",
 		Icon:    string(buttons.BUTTON_web),
-		Label:   "Export website",
+		Label:   "Web",
 		OnClick: stager.exportWebsite,
 	})
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:    "Export stage as Go file",
-		Icon:    string(buttons.BUTTON_file_download),
-		Label:   "Export stage as Go file",
+		Name:  "Go",
+		Icon:  string(buttons.BUTTON_file_download),
+		Label: "Go",
 		OnClick: func() {
 			log.Println("Exporting stage as Go file")
-			
+
 			stager.loadStage.Reset()
 
 			fileToDownload := new(load.FileToDownload)
@@ -84,12 +84,12 @@ func (stager *Stager) button() {
 	})
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:    "Export launcher HTML",
-		Icon:    string(buttons.BUTTON_launch),
-		Label:   "Export launcher HTML",
+		Name:  "Export launcher HTML",
+		Icon:  string(buttons.BUTTON_launch),
+		Label: "Export launcher HTML",
 		OnClick: func() {
 			log.Println("Exporting launcher HTML")
-			
+
 			stager.loadStage.Reset()
 
 			fileToDownload := new(load.FileToDownload)

@@ -23,17 +23,10 @@ func (stager *Stager) createViews() {
 								Direction: split.Vertical,
 								AsSplitAreas: []*split.AsSplitArea{
 									{
-										Size:             46,
+										Size:             86,
 										ShowNameInHeader: false,
 										Tree: &split.Tree{
 											StackName: stager.treeStage.GetName(),
-										},
-									},
-									{
-										Size:             40,
-										ShowNameInHeader: false,
-										Tree: &split.Tree{
-											StackName: stager.zoomTreeStage.GetName(),
 										},
 									},
 									{
