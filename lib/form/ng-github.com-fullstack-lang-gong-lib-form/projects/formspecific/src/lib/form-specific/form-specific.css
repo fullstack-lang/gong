@@ -60,7 +60,7 @@ mat-form-field {
   font-weight: 500;
   color: #606060;       /* Sober dark grey */
   margin: 0;            /* Reset browser defaults */
-  padding: 10px 10px 0 10px; /* Align left/right with grid, provide top space */
+  padding: 0 10px; /* Align left/right with grid, vertical padding moved to sticky-container */
   text-transform: uppercase; /* Optional: adds to the 'sober/structural' look */
   letter-spacing: 0.5px;
   display: flex;
@@ -73,7 +73,7 @@ mat-form-field {
   top: 0;
   z-index: 100;
   background-color: white;
-  padding: 3px 0;
+  padding: 10px 0;
   width: 100%;
   max-width: 500px;
   display: flex;
