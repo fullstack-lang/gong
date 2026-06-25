@@ -180,12 +180,13 @@ func NewProbe(
 	)
 
 	probe.dataEditor = &split.AsSplit{
-		Name:      "Top, sidebar, table & form",
-		Direction: split.Horizontal,
+		Name:          "Top, sidebar, table & form",
+		Direction:     split.Horizontal,
+		IsSizeInPixel: true,
 		AsSplitAreas: []*split.AsSplitArea{
 			{
 				Name: "sidebar",
-				Size: 20,
+				Size: 525,
 				AsSplit: &split.AsSplit{
 					Direction:              split.Vertical,
 					IsSizeInPixel:          true,
@@ -221,8 +222,8 @@ func NewProbe(
 			},
 
 			{
-				Name: "both tables",
-				Size: 50,
+				Name:  "both tables",
+				IsAny: true,
 				AsSplit: &split.AsSplit{
 					Direction: split.Vertical,
 					AsSplitAreas: []*split.AsSplitArea{
@@ -247,7 +248,7 @@ func NewProbe(
 			},
 			{
 				Name: "form",
-				Size: 30,
+				Size: 525,
 				Form: &split.Form{
 					Name:      "Form",
 					StackName: probe.formStage.GetName(),
