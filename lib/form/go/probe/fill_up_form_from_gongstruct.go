@@ -22,7 +22,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.CheckBox:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "CheckBox",
+			Label: instancesTyped.GetName() + " : CheckBox",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__CheckBoxFormCallback(
 			instancesTyped,
@@ -34,7 +34,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.FormDiv:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "FormDiv",
+			Label: instancesTyped.GetName() + " : FormDiv",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormDivFormCallback(
 			instancesTyped,
@@ -46,7 +46,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.FormEditAssocButton:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "FormEditAssocButton",
+			Label: instancesTyped.GetName() + " : FormEditAssocButton",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormEditAssocButtonFormCallback(
 			instancesTyped,
@@ -58,7 +58,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.FormField:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "FormField",
+			Label: instancesTyped.GetName() + " : FormField",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFieldFormCallback(
 			instancesTyped,
@@ -70,7 +70,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.FormFieldDate:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "FormFieldDate",
+			Label: instancesTyped.GetName() + " : FormFieldDate",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFieldDateFormCallback(
 			instancesTyped,
@@ -82,7 +82,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.FormFieldDateTime:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "FormFieldDateTime",
+			Label: instancesTyped.GetName() + " : FormFieldDateTime",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFieldDateTimeFormCallback(
 			instancesTyped,
@@ -94,7 +94,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.FormFieldFloat64:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "FormFieldFloat64",
+			Label: instancesTyped.GetName() + " : FormFieldFloat64",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFieldFloat64FormCallback(
 			instancesTyped,
@@ -106,7 +106,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.FormFieldInt:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "FormFieldInt",
+			Label: instancesTyped.GetName() + " : FormFieldInt",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFieldIntFormCallback(
 			instancesTyped,
@@ -118,7 +118,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.FormFieldSelect:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "FormFieldSelect",
+			Label: instancesTyped.GetName() + " : FormFieldSelect",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFieldSelectFormCallback(
 			instancesTyped,
@@ -130,7 +130,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.FormFieldString:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "FormFieldString",
+			Label: instancesTyped.GetName() + " : FormFieldString",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFieldStringFormCallback(
 			instancesTyped,
@@ -142,7 +142,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.FormFieldTime:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "FormFieldTime",
+			Label: instancesTyped.GetName() + " : FormFieldTime",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFieldTimeFormCallback(
 			instancesTyped,
@@ -154,7 +154,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.FormGroup:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "FormGroup",
+			Label: instancesTyped.GetName() + " : FormGroup",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormGroupFormCallback(
 			instancesTyped,
@@ -166,7 +166,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.FormSortAssocButton:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "FormSortAssocButton",
+			Label: instancesTyped.GetName() + " : FormSortAssocButton",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormSortAssocButtonFormCallback(
 			instancesTyped,
@@ -178,7 +178,7 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	case *models.Option:
 		formGroup := (&form.FormGroup{
 			Name:  formName,
-			Label: "Option",
+			Label: instancesTyped.GetName() + " : Option",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__OptionFormCallback(
 			instancesTyped,
