@@ -209,6 +209,17 @@ var portableCmd = &cobra.Command{
 `
 		html = strings.Replace(html, "<head>", "<head>\n"+fileProtocolPatch, 1)
 
+		// Inject beforeunload warning to prevent accidental data loss in portable mode
+		beforeUnloadPatch := `
+<script>
+  window.addEventListener('beforeunload', function (e) {
+    e.preventDefault();
+    e.returnValue = '';
+  });
+</script>
+`
+		html = strings.Replace(html, "<head>", "<head>\n"+beforeUnloadPatch, 1)
+
 		// Inline Angular CSS styles AND embed all referenced fonts/assets as Base64
 		cssLinkRe := regexp.MustCompile(`(?i)<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"[^>]*>`)
 		urlRe := regexp.MustCompile(`(?i)url\((?:['"]?)([^'"\)]+)(?:['"]?)\)`)
