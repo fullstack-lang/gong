@@ -18,8 +18,8 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
 
-	load "github.com/fullstack-lang/gong/lib/load/go/models"
 	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
+	load "github.com/fullstack-lang/gong/lib/load/go/models"
 
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
 	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
@@ -30,9 +30,7 @@ type Stager struct {
 	splitStage *split.Stage
 	probeForm  ProbeIF
 
-	treeStage *tree.Stage
-	// the tree stage can be very deep. The zoomTreeStage display on the tree starting from the current diagram.
-	zoomTreeStage            *tree.Stage
+	treeStage                *tree.Stage
 	systemDiagramSvgStage    *svg.Stage
 	structureDiagramSvgStage *svg.Stage
 	ssgStage                 *ssg.Stage
@@ -66,7 +64,6 @@ func NewStager(
 	// that do not develop their specific angular component
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	stager.treeStage = tree_stack.NewStack(r, "", "", "", "", true, true).Stage
-	stager.zoomTreeStage = tree_stack.NewStack(r, "zoom tree", "", "", "", true, true).Stage
 	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
 	stager.systemDiagramSvgStage = svg_stack.NewStack(r, "system diagram svg", "", "", "", true, true).Stage
 	stager.structureDiagramSvgStage = svg_stack.NewStack(r, "structure diagram svg", "", "", "", true, true).Stage
@@ -82,7 +79,6 @@ func NewStager(
 	}
 	afterCommit := func(stage *Stage) {
 		stager.ux_tree()
-		stager.treeZoom()
 		stager.svg()
 		stager.button()
 		stager.load()

@@ -76,7 +76,7 @@ func (probe *Probe) ux_tree() {
 		Name:            "ExportExcelButton" + " " + string(tree_buttons.BUTTON_download),
 		Icon:            string(tree_buttons.BUTTON_download),
 		HasToolTip:      true,
-		ToolTipText:     "Export stage as Excel",
+		ToolTipText:     "Export XL",
 		ToolTipPosition: tree_models.Below,
 		OnClick: func() {
 			probe.ExportStageExcel()
@@ -88,7 +88,7 @@ func (probe *Probe) ux_tree() {
 		Name:            "ExportGoButton" + " " + string(tree_buttons.BUTTON_file_download),
 		Icon:            string(tree_buttons.BUTTON_file_download),
 		HasToolTip:      true,
-		ToolTipText:     "Export stage as Go file",
+		ToolTipText:     "Export Go",
 		ToolTipPosition: tree_models.Below,
 		OnClick: func() {
 			probe.ExportStage()

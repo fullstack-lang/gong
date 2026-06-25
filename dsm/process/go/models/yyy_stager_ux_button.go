@@ -2,9 +2,9 @@
 package models
 
 import (
+	"encoding/base64"
 	"log"
 	"os"
-	"encoding/base64"
 	"regexp"
 	"strings"
 	"time"
@@ -25,9 +25,9 @@ func (stager *Stager) button() {
 	layout.Groups = append(layout.Groups, group1)
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:  "Stop for maintenance",
+		Name:  "Stop",
 		Icon:  string(buttons.BUTTON_stop_circle),
-		Label: "Stop for maintenance",
+		Label: "Stop",
 		OnClick: func() {
 			log.Println("Stop")
 			os.Exit(0)
@@ -42,12 +42,12 @@ func (stager *Stager) button() {
 	})
 
 	group1.Buttons = append(group1.Buttons, &button.Button{
-		Name:    "Export stage as Go file",
-		Icon:    string(buttons.BUTTON_file_download),
-		Label:   "Export stage as Go file",
+		Name:  "Export stage as Go file",
+		Icon:  string(buttons.BUTTON_file_download),
+		Label: "Export stage as Go file",
 		OnClick: func() {
 			log.Println("Exporting stage as Go file")
-			
+
 			stager.loadStage.Reset()
 
 			fileToDownload := new(load.FileToDownload)
