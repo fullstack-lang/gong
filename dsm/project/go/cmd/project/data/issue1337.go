@@ -40,22 +40,11 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values
 
 	__Diagram__00000000_.Name = `Default Diagram`
-	__Diagram__00000000_.ComputedPrefix = `1`
-	__Diagram__00000000_.IsExpanded = true
-	__Diagram__00000000_.LayoutDirection = models.Vertical
-	__Diagram__00000000_.IsChecked = true
-	__Diagram__00000000_.IsEditable_ = true
-	__Diagram__00000000_.IsShowPrefix = false
 	__Diagram__00000000_.DefaultBoxWidth = 250.000000
 	__Diagram__00000000_.DefaultBoxHeigth = 70.000000
+	__Diagram__00000000_.DateFormat = ``
 	__Diagram__00000000_.Width = 807.847114
 	__Diagram__00000000_.Height = 365.504572
-	__Diagram__00000000_.IsPBSNodeExpanded = false
-	__Diagram__00000000_.IsWBSNodeExpanded = true
-	__Diagram__00000000_.IsTaskGroupsNodeExpanded = false
-	__Diagram__00000000_.DateFormat = ``
-	__Diagram__00000000_.IsNotesNodeExpanded = false
-	__Diagram__00000000_.IsResourcesNodeExpanded = false
 	__Diagram__00000000_.IsTimeDiagram = false
 	__Diagram__00000000_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Diagram__00000000_.ComputedEnd, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
@@ -84,6 +73,17 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Group_StrokeDashArray = ``
 	__Diagram__00000000_.DateYOffset = 0.000000
 	__Diagram__00000000_.AlignOnStartEndOnYearStart = false
+	__Diagram__00000000_.ComputedPrefix = `1`
+	__Diagram__00000000_.IsExpanded = true
+	__Diagram__00000000_.LayoutDirection = models.Vertical
+	__Diagram__00000000_.IsChecked = true
+	__Diagram__00000000_.IsEditable_ = true
+	__Diagram__00000000_.IsShowPrefix = false
+	__Diagram__00000000_.IsPBSNodeExpanded = false
+	__Diagram__00000000_.IsWBSNodeExpanded = true
+	__Diagram__00000000_.IsTaskGroupsNodeExpanded = false
+	__Diagram__00000000_.IsNotesNodeExpanded = false
+	__Diagram__00000000_.IsResourcesNodeExpanded = false
 
 	__Library__00000000_.Name = ``
 	__Library__00000000_.NbPixPerCharacter = 8.000000
@@ -94,10 +94,7 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsRootLibrary = true
 
 	__Task__00000000_.Name = `winter 26`
-	__Task__00000000_.ComputedPrefix = `1`
-	__Task__00000000_.IsExpanded = false
-	__Task__00000000_.LayoutDirection = models.Vertical
-	__Task__00000000_.IsImport = false
+	__Task__00000000_.Description = ``
 	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-01-01 00:00:00 +0000 UTC")
 	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-04-01 00:00:00 +0000 UTC")
 	__Task__00000000_.DurationYears = 0.000000
@@ -108,7 +105,6 @@ func _(stage *models.Stage) {
 	__Task__00000000_.IsEndDateComputedFromDuration = true
 	__Task__00000000_.IsStartDateComputedFromPredecessors = false
 	__Task__00000000_.IsMilestone = false
-	__Task__00000000_.Description = ``
 	__Task__00000000_.IsInputsNodeExpanded = false
 	__Task__00000000_.IsOutputsNodeExpanded = false
 	__Task__00000000_.IsWithCompletion = false
@@ -117,12 +113,13 @@ func _(stage *models.Stage) {
 	__Task__00000000_.TextPosition = ""
 	__Task__00000000_.XOffset = 0.000000
 	__Task__00000000_.YOffset = 0.000000
+	__Task__00000000_.IsImport = false
+	__Task__00000000_.ComputedPrefix = `1`
+	__Task__00000000_.IsExpanded = false
+	__Task__00000000_.LayoutDirection = models.Vertical
 
 	__Task__00000002_.Name = `spring 26`
-	__Task__00000002_.ComputedPrefix = `2`
-	__Task__00000002_.IsExpanded = false
-	__Task__00000002_.LayoutDirection = models.Vertical
-	__Task__00000002_.IsImport = false
+	__Task__00000002_.Description = ``
 	__Task__00000002_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-04-01 00:00:00 +0000 UTC")
 	__Task__00000002_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2026-07-01 00:00:00 +0000 UTC")
 	__Task__00000002_.DurationYears = 0.000000
@@ -133,7 +130,6 @@ func _(stage *models.Stage) {
 	__Task__00000002_.IsEndDateComputedFromDuration = true
 	__Task__00000002_.IsStartDateComputedFromPredecessors = true
 	__Task__00000002_.IsMilestone = false
-	__Task__00000002_.Description = ``
 	__Task__00000002_.IsInputsNodeExpanded = false
 	__Task__00000002_.IsOutputsNodeExpanded = false
 	__Task__00000002_.IsWithCompletion = false
@@ -142,6 +138,10 @@ func _(stage *models.Stage) {
 	__Task__00000002_.TextPosition = ""
 	__Task__00000002_.XOffset = 0.000000
 	__Task__00000002_.YOffset = 0.000000
+	__Task__00000002_.IsImport = false
+	__Task__00000002_.ComputedPrefix = `2`
+	__Task__00000002_.IsExpanded = false
+	__Task__00000002_.LayoutDirection = models.Vertical
 
 	__TaskShape__00000000_.Name = `Default Diagram-winter 26`
 	__TaskShape__00000000_.IsShowDate = true
@@ -170,8 +170,8 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootTasks = append(__Library__00000000_.RootTasks, __Task__00000002_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
 	__Task__00000000_.ReferencedTask = nil
-	__Task__00000002_.ReferencedTask = nil
 	__Task__00000002_.Predecessors = append(__Task__00000002_.Predecessors, __Task__00000000_)
+	__Task__00000002_.ReferencedTask = nil
 	__TaskShape__00000000_.Task = __Task__00000000_
 	__TaskShape__00000002_.Task = __Task__00000002_
 }
