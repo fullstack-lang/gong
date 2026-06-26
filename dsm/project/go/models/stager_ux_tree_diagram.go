@@ -150,7 +150,7 @@ func (stager *Stager) treeDiagram(library *Library, diagram *Diagram, libraryNod
 				sliceForNewAddedItem:               &library.RootProducts,
 				isParentNodeExpandedByAddOperation: true,
 				parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
-				parentNodeExpansionBooleanValue:    &diagram.IsWBSNodeExpanded,
+				parentNodeExpansionBooleanValue:    &diagram.IsPBSNodeExpanded,
 			},
 			receivingDiagram:      diagram,
 			sliceForNewAddedShape: &diagram.Product_Shapes,
