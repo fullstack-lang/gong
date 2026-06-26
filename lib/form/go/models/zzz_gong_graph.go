@@ -1579,6 +1579,15 @@ func (formdiv *FormDiv) GongDiff(stage *Stage, formdivOther *FormDiv) (diffs []s
 	if formdiv.IsADivider != formdivOther.IsADivider {
 		diffs = append(diffs, formdiv.GongMarshallField(stage, "IsADivider"))
 	}
+	if formdiv.IsAStartAccordionGroup != formdivOther.IsAStartAccordionGroup {
+		diffs = append(diffs, formdiv.GongMarshallField(stage, "IsAStartAccordionGroup"))
+	}
+	if formdiv.AccordionGroupName != formdivOther.AccordionGroupName {
+		diffs = append(diffs, formdiv.GongMarshallField(stage, "AccordionGroupName"))
+	}
+	if formdiv.IsAEndAccordionGroup != formdivOther.IsAEndAccordionGroup {
+		diffs = append(diffs, formdiv.GongMarshallField(stage, "IsAEndAccordionGroup"))
+	}
 
 	return
 }
@@ -1864,6 +1873,9 @@ func (formgroup *FormGroup) GongDiff(stage *Stage, formgroupOther *FormGroup) (d
 	}
 	if formgroup.Label != formgroupOther.Label {
 		diffs = append(diffs, formgroup.GongMarshallField(stage, "Label"))
+	}
+	if formgroup.TypeLabel != formgroupOther.TypeLabel {
+		diffs = append(diffs, formgroup.GongMarshallField(stage, "TypeLabel"))
 	}
 	FormDivsDifferent := false
 	if len(formgroup.FormDivs) != len(formgroupOther.FormDivs) {

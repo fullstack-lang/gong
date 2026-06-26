@@ -4033,6 +4033,18 @@ func (formdiv *FormDiv) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsADivider",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:               "IsAStartAccordionGroup",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "AccordionGroupName",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsAEndAccordionGroup",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -4322,6 +4334,10 @@ func (formgroup *FormGroup) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "TypeLabel",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:                 "FormDivs",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "FormDiv",
@@ -4489,6 +4505,16 @@ func (formdiv *FormDiv) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "IsADivider":
 		res.valueString = fmt.Sprintf("%t", formdiv.IsADivider)
 		res.valueBool = formdiv.IsADivider
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsAStartAccordionGroup":
+		res.valueString = fmt.Sprintf("%t", formdiv.IsAStartAccordionGroup)
+		res.valueBool = formdiv.IsAStartAccordionGroup
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "AccordionGroupName":
+		res.valueString = formdiv.AccordionGroupName
+	case "IsAEndAccordionGroup":
+		res.valueString = fmt.Sprintf("%t", formdiv.IsAEndAccordionGroup)
+		res.valueBool = formdiv.IsAEndAccordionGroup
 		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
@@ -4747,6 +4773,8 @@ func (formgroup *FormGroup) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = formgroup.Name
 	case "Label":
 		res.valueString = formgroup.Label
+	case "TypeLabel":
+		res.valueString = formgroup.TypeLabel
 	case "FormDivs":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range formgroup.FormDivs {
@@ -4879,6 +4907,12 @@ func (formdiv *FormDiv) GongSetFieldValue(fieldName string, value GongFieldValue
 		}
 	case "IsADivider":
 		formdiv.IsADivider = value.GetValueBool()
+	case "IsAStartAccordionGroup":
+		formdiv.IsAStartAccordionGroup = value.GetValueBool()
+	case "AccordionGroupName":
+		formdiv.AccordionGroupName = value.GetValueString()
+	case "IsAEndAccordionGroup":
+		formdiv.IsAEndAccordionGroup = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -5151,6 +5185,8 @@ func (formgroup *FormGroup) GongSetFieldValue(fieldName string, value GongFieldV
 		formgroup.Name = value.GetValueString()
 	case "Label":
 		formgroup.Label = value.GetValueString()
+	case "TypeLabel":
+		formgroup.TypeLabel = value.GetValueString()
 	case "FormDivs":
 		formgroup.FormDivs = make([]*FormDiv, 0)
 		ids := strings.Split(value.ids, ";")

@@ -84,6 +84,17 @@ type FormDivDB struct {
 	// provide the sql storage for the boolan
 	IsADivider_Data sql.NullBool
 
+	// Declation for basic field formdivDB.IsAStartAccordionGroup
+	// provide the sql storage for the boolan
+	IsAStartAccordionGroup_Data sql.NullBool
+
+	// Declation for basic field formdivDB.AccordionGroupName
+	AccordionGroupName_Data sql.NullString
+
+	// Declation for basic field formdivDB.IsAEndAccordionGroup
+	// provide the sql storage for the boolan
+	IsAEndAccordionGroup_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormDivPointersEncoding
@@ -109,6 +120,12 @@ type FormDivWOP struct {
 	Name string `xlsx:"1"`
 
 	IsADivider bool `xlsx:"2"`
+
+	IsAStartAccordionGroup bool `xlsx:"3"`
+
+	AccordionGroupName string `xlsx:"4"`
+
+	IsAEndAccordionGroup bool `xlsx:"5"`
 	// insertion for WOP pointer fields
 }
 
@@ -117,6 +134,9 @@ var FormDiv_Fields = []string{
 	"ID",
 	"Name",
 	"IsADivider",
+	"IsAStartAccordionGroup",
+	"AccordionGroupName",
+	"IsAEndAccordionGroup",
 }
 
 type BackRepoFormDivStruct struct {
@@ -517,6 +537,15 @@ func (formdivDB *FormDivDB) CopyBasicFieldsFromFormDiv(formdiv *models.FormDiv) 
 
 	formdivDB.IsADivider_Data.Bool = formdiv.IsADivider
 	formdivDB.IsADivider_Data.Valid = true
+
+	formdivDB.IsAStartAccordionGroup_Data.Bool = formdiv.IsAStartAccordionGroup
+	formdivDB.IsAStartAccordionGroup_Data.Valid = true
+
+	formdivDB.AccordionGroupName_Data.String = formdiv.AccordionGroupName
+	formdivDB.AccordionGroupName_Data.Valid = true
+
+	formdivDB.IsAEndAccordionGroup_Data.Bool = formdiv.IsAEndAccordionGroup
+	formdivDB.IsAEndAccordionGroup_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormDiv_WOP
@@ -528,6 +557,15 @@ func (formdivDB *FormDivDB) CopyBasicFieldsFromFormDiv_WOP(formdiv *models.FormD
 
 	formdivDB.IsADivider_Data.Bool = formdiv.IsADivider
 	formdivDB.IsADivider_Data.Valid = true
+
+	formdivDB.IsAStartAccordionGroup_Data.Bool = formdiv.IsAStartAccordionGroup
+	formdivDB.IsAStartAccordionGroup_Data.Valid = true
+
+	formdivDB.AccordionGroupName_Data.String = formdiv.AccordionGroupName
+	formdivDB.AccordionGroupName_Data.Valid = true
+
+	formdivDB.IsAEndAccordionGroup_Data.Bool = formdiv.IsAEndAccordionGroup
+	formdivDB.IsAEndAccordionGroup_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormDivWOP
@@ -539,6 +577,15 @@ func (formdivDB *FormDivDB) CopyBasicFieldsFromFormDivWOP(formdiv *FormDivWOP) {
 
 	formdivDB.IsADivider_Data.Bool = formdiv.IsADivider
 	formdivDB.IsADivider_Data.Valid = true
+
+	formdivDB.IsAStartAccordionGroup_Data.Bool = formdiv.IsAStartAccordionGroup
+	formdivDB.IsAStartAccordionGroup_Data.Valid = true
+
+	formdivDB.AccordionGroupName_Data.String = formdiv.AccordionGroupName
+	formdivDB.AccordionGroupName_Data.Valid = true
+
+	formdivDB.IsAEndAccordionGroup_Data.Bool = formdiv.IsAEndAccordionGroup
+	formdivDB.IsAEndAccordionGroup_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormDiv
@@ -546,6 +593,9 @@ func (formdivDB *FormDivDB) CopyBasicFieldsToFormDiv(formdiv *models.FormDiv) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	formdiv.Name = formdivDB.Name_Data.String
 	formdiv.IsADivider = formdivDB.IsADivider_Data.Bool
+	formdiv.IsAStartAccordionGroup = formdivDB.IsAStartAccordionGroup_Data.Bool
+	formdiv.AccordionGroupName = formdivDB.AccordionGroupName_Data.String
+	formdiv.IsAEndAccordionGroup = formdivDB.IsAEndAccordionGroup_Data.Bool
 }
 
 // CopyBasicFieldsToFormDiv_WOP
@@ -553,6 +603,9 @@ func (formdivDB *FormDivDB) CopyBasicFieldsToFormDiv_WOP(formdiv *models.FormDiv
 	// insertion point for checkout of basic fields (back repo to stage)
 	formdiv.Name = formdivDB.Name_Data.String
 	formdiv.IsADivider = formdivDB.IsADivider_Data.Bool
+	formdiv.IsAStartAccordionGroup = formdivDB.IsAStartAccordionGroup_Data.Bool
+	formdiv.AccordionGroupName = formdivDB.AccordionGroupName_Data.String
+	formdiv.IsAEndAccordionGroup = formdivDB.IsAEndAccordionGroup_Data.Bool
 }
 
 // CopyBasicFieldsToFormDivWOP
@@ -561,6 +614,9 @@ func (formdivDB *FormDivDB) CopyBasicFieldsToFormDivWOP(formdiv *FormDivWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	formdiv.Name = formdivDB.Name_Data.String
 	formdiv.IsADivider = formdivDB.IsADivider_Data.Bool
+	formdiv.IsAStartAccordionGroup = formdivDB.IsAStartAccordionGroup_Data.Bool
+	formdiv.AccordionGroupName = formdivDB.AccordionGroupName_Data.String
+	formdiv.IsAEndAccordionGroup = formdivDB.IsAEndAccordionGroup_Data.Bool
 }
 
 // Backup generates a json file from a slice of all FormDivDB instances in the backrepo

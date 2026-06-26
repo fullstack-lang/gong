@@ -61,11 +61,30 @@ mat-form-field {
   color: #606060;       /* Sober dark grey */
   margin: 0;            /* Reset browser defaults */
   padding: 0 10px; /* Align left/right with grid, vertical padding moved to sticky-container */
-  text-transform: uppercase; /* Optional: adds to the 'sober/structural' look */
   letter-spacing: 0.5px;
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.header-text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header-label {
+  line-height: 1.2;
+}
+
+.header-type-label {
+  font-size: 12px;
+  font-weight: 400;
+  color: #888;
+  text-transform: none;
+  letter-spacing: normal;
+  line-height: 1.2;
+  margin-top: 2px;
 }
 
 .sticky-container {
@@ -137,4 +156,12 @@ textarea.mat-input-element {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+/* Custom styling for Accordion to match form fields width */
+mat-accordion.custom-accordion {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 16px;
 }

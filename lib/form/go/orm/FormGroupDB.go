@@ -72,6 +72,9 @@ type FormGroupDB struct {
 	// Declation for basic field formgroupDB.Label
 	Label_Data sql.NullString
 
+	// Declation for basic field formgroupDB.TypeLabel
+	TypeLabel_Data sql.NullString
+
 	// Declation for basic field formgroupDB.HasSuppressButton
 	// provide the sql storage for the boolan
 	HasSuppressButton_Data sql.NullBool
@@ -106,9 +109,11 @@ type FormGroupWOP struct {
 
 	Label string `xlsx:"2"`
 
-	HasSuppressButton bool `xlsx:"3"`
+	TypeLabel string `xlsx:"3"`
 
-	HasSuppressButtonBeenPressed bool `xlsx:"4"`
+	HasSuppressButton bool `xlsx:"4"`
+
+	HasSuppressButtonBeenPressed bool `xlsx:"5"`
 	// insertion for WOP pointer fields
 }
 
@@ -117,6 +122,7 @@ var FormGroup_Fields = []string{
 	"ID",
 	"Name",
 	"Label",
+	"TypeLabel",
 	"HasSuppressButton",
 	"HasSuppressButtonBeenPressed",
 }
@@ -427,6 +433,9 @@ func (formgroupDB *FormGroupDB) CopyBasicFieldsFromFormGroup(formgroup *models.F
 	formgroupDB.Label_Data.String = formgroup.Label
 	formgroupDB.Label_Data.Valid = true
 
+	formgroupDB.TypeLabel_Data.String = formgroup.TypeLabel
+	formgroupDB.TypeLabel_Data.Valid = true
+
 	formgroupDB.HasSuppressButton_Data.Bool = formgroup.HasSuppressButton
 	formgroupDB.HasSuppressButton_Data.Valid = true
 
@@ -443,6 +452,9 @@ func (formgroupDB *FormGroupDB) CopyBasicFieldsFromFormGroup_WOP(formgroup *mode
 
 	formgroupDB.Label_Data.String = formgroup.Label
 	formgroupDB.Label_Data.Valid = true
+
+	formgroupDB.TypeLabel_Data.String = formgroup.TypeLabel
+	formgroupDB.TypeLabel_Data.Valid = true
 
 	formgroupDB.HasSuppressButton_Data.Bool = formgroup.HasSuppressButton
 	formgroupDB.HasSuppressButton_Data.Valid = true
@@ -461,6 +473,9 @@ func (formgroupDB *FormGroupDB) CopyBasicFieldsFromFormGroupWOP(formgroup *FormG
 	formgroupDB.Label_Data.String = formgroup.Label
 	formgroupDB.Label_Data.Valid = true
 
+	formgroupDB.TypeLabel_Data.String = formgroup.TypeLabel
+	formgroupDB.TypeLabel_Data.Valid = true
+
 	formgroupDB.HasSuppressButton_Data.Bool = formgroup.HasSuppressButton
 	formgroupDB.HasSuppressButton_Data.Valid = true
 
@@ -473,6 +488,7 @@ func (formgroupDB *FormGroupDB) CopyBasicFieldsToFormGroup(formgroup *models.For
 	// insertion point for checkout of basic fields (back repo to stage)
 	formgroup.Name = formgroupDB.Name_Data.String
 	formgroup.Label = formgroupDB.Label_Data.String
+	formgroup.TypeLabel = formgroupDB.TypeLabel_Data.String
 	formgroup.HasSuppressButton = formgroupDB.HasSuppressButton_Data.Bool
 	formgroup.HasSuppressButtonBeenPressed = formgroupDB.HasSuppressButtonBeenPressed_Data.Bool
 }
@@ -482,6 +498,7 @@ func (formgroupDB *FormGroupDB) CopyBasicFieldsToFormGroup_WOP(formgroup *models
 	// insertion point for checkout of basic fields (back repo to stage)
 	formgroup.Name = formgroupDB.Name_Data.String
 	formgroup.Label = formgroupDB.Label_Data.String
+	formgroup.TypeLabel = formgroupDB.TypeLabel_Data.String
 	formgroup.HasSuppressButton = formgroupDB.HasSuppressButton_Data.Bool
 	formgroup.HasSuppressButtonBeenPressed = formgroupDB.HasSuppressButtonBeenPressed_Data.Bool
 }
@@ -492,6 +509,7 @@ func (formgroupDB *FormGroupDB) CopyBasicFieldsToFormGroupWOP(formgroup *FormGro
 	// insertion point for checkout of basic fields (back repo to stage)
 	formgroup.Name = formgroupDB.Name_Data.String
 	formgroup.Label = formgroupDB.Label_Data.String
+	formgroup.TypeLabel = formgroupDB.TypeLabel_Data.String
 	formgroup.HasSuppressButton = formgroupDB.HasSuppressButton_Data.Bool
 	formgroup.HasSuppressButtonBeenPressed = formgroupDB.HasSuppressButtonBeenPressed_Data.Bool
 }

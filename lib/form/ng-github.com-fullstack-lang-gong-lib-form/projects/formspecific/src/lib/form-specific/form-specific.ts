@@ -21,6 +21,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from "@angular/material/divider";
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { TableDialogData } from '../../../../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/table-dialog-data';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -31,6 +32,16 @@ import { decodeStringToIntArray_json, encodeIntArrayToString_json } from '../../
 import { TableExtraPathEnum } from '../../../../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/table/src/lib/TableExtraPathEnum';
 import { TableExtraNameEnum } from '../../../../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/table/src/lib/TableExtraNameEnum';
 
+export interface FormChunk {
+  IsAccordionGroup: boolean;
+  Panels: FormAccordionPanel[];
+  NormalDivs: form.FormDiv[];
+}
+
+export interface FormAccordionPanel {
+  Label: string;
+  Divs: form.FormDiv[];
+}
 
 @Component({
   selector: 'lib-form-specific',
@@ -47,7 +58,8 @@ import { TableExtraNameEnum } from '../../../../../../../table/ng-github.com-ful
     MatCheckboxModule,
     MatPaginatorModule,
     MatTooltipModule,
-    MatDividerModule
+    MatDividerModule,
+    MatExpansionModule
   ],
   templateUrl: './form-specific.html',
   styleUrl: './form-specific.css',
@@ -72,6 +84,8 @@ export class FormSpecific implements OnInit {
 
   // generated form by getting info from the back
   angularFormGroup: FormGroup | undefined
+
+  chunks: FormChunk[] = []
 
   currentFormEditAssocButton: form.FormEditAssocButton | undefined = undefined
 
@@ -114,8 +128,52 @@ export class FormSpecific implements OnInit {
         }
 
         this.angularFormGroup = undefined
+        this.chunks = []
         if (this.selectedFormGroup == undefined) {
           return
+        }
+
+        if (this.selectedFormGroup.FormDivs) {
+          let currentChunk: FormChunk | undefined = undefined;
+          let currentPanel: FormAccordionPanel | undefined = undefined;
+
+          for (let div of this.selectedFormGroup.FormDivs) {
+            if (div.IsAStartAccordionGroup) {
+              if (!currentChunk || !currentChunk.IsAccordionGroup) {
+                currentChunk = { IsAccordionGroup: true, Panels: [], NormalDivs: [] };
+                this.chunks.push(currentChunk);
+              }
+              currentPanel = { Label: div.AccordionGroupName, Divs: [] };
+              currentChunk.Panels.push(currentPanel);
+            }
+
+            if (div.IsAEndAccordionGroup) {
+              if (currentPanel) {
+                currentPanel.Divs.push(div);
+              } else if (currentChunk && !currentChunk.IsAccordionGroup) {
+                currentChunk.NormalDivs.push(div);
+              }
+              currentChunk = undefined;
+              currentPanel = undefined;
+              continue;
+            }
+
+            if (!div.IsAStartAccordionGroup) {
+              if (currentPanel) {
+                currentPanel.Divs.push(div);
+              } else {
+                if (!currentChunk || currentChunk.IsAccordionGroup) {
+                  currentChunk = { IsAccordionGroup: false, Panels: [], NormalDivs: [] };
+                  this.chunks.push(currentChunk);
+                }
+                currentChunk.NormalDivs.push(div);
+              }
+            } else {
+              if (currentPanel) {
+                currentPanel.Divs.push(div);
+              }
+            }
+          }
         }
 
         let generatedFormGroupConfig: { [key: string]: [any, any] } = {};

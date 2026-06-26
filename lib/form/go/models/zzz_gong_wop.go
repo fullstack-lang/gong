@@ -29,12 +29,21 @@ type FormDiv_WOP struct {
 	Name string
 
 	IsADivider bool
+
+	IsAStartAccordionGroup bool
+
+	AccordionGroupName string
+
+	IsAEndAccordionGroup bool
 }
 
 func (from *FormDiv) CopyBasicFields(to *FormDiv) {
 	// insertion point
 	to.Name = from.Name
 	to.IsADivider = from.IsADivider
+	to.IsAStartAccordionGroup = from.IsAStartAccordionGroup
+	to.AccordionGroupName = from.AccordionGroupName
+	to.IsAEndAccordionGroup = from.IsAEndAccordionGroup
 }
 
 type FormEditAssocButton_WOP struct {
@@ -239,6 +248,8 @@ type FormGroup_WOP struct {
 
 	Label string
 
+	TypeLabel string
+
 	HasSuppressButton bool
 
 	HasSuppressButtonBeenPressed bool
@@ -248,6 +259,7 @@ func (from *FormGroup) CopyBasicFields(to *FormGroup) {
 	// insertion point
 	to.Name = from.Name
 	to.Label = from.Label
+	to.TypeLabel = from.TypeLabel
 	to.HasSuppressButton = from.HasSuppressButton
 	to.HasSuppressButtonBeenPressed = from.HasSuppressButtonBeenPressed
 }

@@ -4,7 +4,12 @@
       <div class="sticky-container">
         <div class="group-header">
           <mat-icon>description</mat-icon>
-          {{selectedFormGroup.Label}}
+          <div class="header-text-container">
+            <span class="header-label">{{selectedFormGroup.Label}}</span>
+            @if (selectedFormGroup.TypeLabel) {
+              <span class="header-type-label">{{selectedFormGroup.TypeLabel}}</span>
+            }
+          </div>
         </div>
         <div class="button-container">
           <button class="table__save custom-button" color="primary" mat-flat-button type="submit">Submit</button>
@@ -23,7 +28,7 @@
       </div>
     }
 
-    @for (div of selectedFormGroup?.FormDivs; track div) {
+    <ng-template #divTemplate let-div="div">
       @if (div.IsADivider) {
         <mat-divider class="custom-divider"></mat-divider>
       } @else {
@@ -160,6 +165,29 @@
           </div>
         }
       </div>
+      }
+    </ng-template>
+
+    @for (chunk of chunks; track chunk) {
+      @if (chunk.IsAccordionGroup) {
+        <mat-accordion class="custom-accordion">
+          @for (panel of chunk.Panels; track panel) {
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{panel.Label}}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              @for (div of panel.Divs; track div) {
+                <ng-container *ngTemplateOutlet="divTemplate; context: { div: div }"></ng-container>
+              }
+            </mat-expansion-panel>
+          }
+        </mat-accordion>
+      } @else {
+        @for (div of chunk.NormalDivs; track div) {
+          <ng-container *ngTemplateOutlet="divTemplate; context: { div: div }"></ng-container>
+        }
       }
     }
   </form>

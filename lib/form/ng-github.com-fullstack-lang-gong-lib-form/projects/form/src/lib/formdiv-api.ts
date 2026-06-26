@@ -16,6 +16,9 @@ export class FormDivAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	IsADivider: boolean = false
+	IsAStartAccordionGroup: boolean = false
+	AccordionGroupName: string = ""
+	IsAEndAccordionGroup: boolean = false
 
 	// insertion point for other decls
 

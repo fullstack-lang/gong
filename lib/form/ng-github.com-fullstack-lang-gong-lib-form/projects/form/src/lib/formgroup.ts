@@ -18,6 +18,7 @@ export class FormGroup {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Label: string = ""
+	TypeLabel: string = ""
 	HasSuppressButton: boolean = false
 	HasSuppressButtonBeenPressed: boolean = false
 
@@ -37,6 +38,7 @@ export function CopyFormGroupToFormGroupAPI(formgroup: FormGroup, formgroupAPI: 
 	// insertion point for basic fields copy operations
 	formgroupAPI.Name = formgroup.Name
 	formgroupAPI.Label = formgroup.Label
+	formgroupAPI.TypeLabel = formgroup.TypeLabel
 	formgroupAPI.HasSuppressButton = formgroup.HasSuppressButton
 	formgroupAPI.HasSuppressButtonBeenPressed = formgroup.HasSuppressButtonBeenPressed
 
@@ -63,6 +65,7 @@ export function CopyFormGroupAPIToFormGroup(formgroupAPI: FormGroupAPI, formgrou
 	// insertion point for basic fields copy operations
 	formgroup.Name = formgroupAPI.Name
 	formgroup.Label = formgroupAPI.Label
+	formgroup.TypeLabel = formgroupAPI.TypeLabel
 	formgroup.HasSuppressButton = formgroupAPI.HasSuppressButton
 	formgroup.HasSuppressButtonBeenPressed = formgroupAPI.HasSuppressButtonBeenPressed
 

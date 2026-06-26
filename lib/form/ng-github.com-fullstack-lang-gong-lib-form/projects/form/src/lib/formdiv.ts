@@ -21,6 +21,9 @@ export class FormDiv {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	IsADivider: boolean = false
+	IsAStartAccordionGroup: boolean = false
+	AccordionGroupName: string = ""
+	IsAEndAccordionGroup: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 	FormFields: Array<FormField> = []
@@ -43,6 +46,9 @@ export function CopyFormDivToFormDivAPI(formdiv: FormDiv, formdivAPI: FormDivAPI
 	// insertion point for basic fields copy operations
 	formdivAPI.Name = formdiv.Name
 	formdivAPI.IsADivider = formdiv.IsADivider
+	formdivAPI.IsAStartAccordionGroup = formdiv.IsAStartAccordionGroup
+	formdivAPI.AccordionGroupName = formdiv.AccordionGroupName
+	formdivAPI.IsAEndAccordionGroup = formdiv.IsAEndAccordionGroup
 
 	// insertion point for pointer fields encoding
 	formdivAPI.FormDivPointersEncoding.FormEditAssocButtonID.Valid = true
@@ -86,6 +92,9 @@ export function CopyFormDivAPIToFormDiv(formdivAPI: FormDivAPI, formdiv: FormDiv
 	// insertion point for basic fields copy operations
 	formdiv.Name = formdivAPI.Name
 	formdiv.IsADivider = formdivAPI.IsADivider
+	formdiv.IsAStartAccordionGroup = formdivAPI.IsAStartAccordionGroup
+	formdiv.AccordionGroupName = formdivAPI.AccordionGroupName
+	formdiv.IsAEndAccordionGroup = formdivAPI.IsAEndAccordionGroup
 
 	// insertion point for pointer fields encoding
 	formdiv.FormEditAssocButton = frontRepo.map_ID_FormEditAssocButton.get(formdivAPI.FormDivPointersEncoding.FormEditAssocButtonID.Int64)
