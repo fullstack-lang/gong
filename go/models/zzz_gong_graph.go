@@ -1433,6 +1433,9 @@ func (gongtimefield *GongTimeField) GongDiff(stage *Stage, gongtimefieldOther *G
 	if gongtimefield.BespokeTimeFormat != gongtimefieldOther.BespokeTimeFormat {
 		diffs = append(diffs, gongtimefield.GongMarshallField(stage, "BespokeTimeFormat"))
 	}
+	if gongtimefield.TimeFormOnly != gongtimefieldOther.TimeFormOnly {
+		diffs = append(diffs, gongtimefield.GongMarshallField(stage, "TimeFormOnly"))
+	}
 
 	return
 }
