@@ -21,8 +21,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	// insertion point
 	case *models.BookType:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : BookType",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "BookType",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__BookTypeFormCallback(
 			instancesTyped,
@@ -33,8 +34,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Books:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Books",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Books",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__BooksFormCallback(
 			instancesTyped,
@@ -45,8 +47,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Credit:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Credit",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Credit",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__CreditFormCallback(
 			instancesTyped,
@@ -57,8 +60,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Link:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Link",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Link",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__LinkFormCallback(
 			instancesTyped,

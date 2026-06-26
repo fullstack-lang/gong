@@ -19,11 +19,17 @@ const (
 type A struct {
 
 	//gong:text gong:width 600 gong:height 300
-	Name       string
-	Date       time.Time
+	Name string
+
+	//gong:accordion-start "Time fields"
+	Date time.Time
+
+	//gong:accordion-end
+	Duration time.Duration
+
 	FloatValue float64
 	IntValue   int
-	Duration   time.Duration
+
 	EnumString EnumTypeString
 	EnumInt    EnumTypeInt
 

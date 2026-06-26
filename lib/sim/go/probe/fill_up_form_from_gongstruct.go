@@ -21,8 +21,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	// insertion point
 	case *models.Command:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Command",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Command",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__CommandFormCallback(
 			instancesTyped,
@@ -33,8 +34,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.DummyAgent:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : DummyAgent",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "DummyAgent",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__DummyAgentFormCallback(
 			instancesTyped,
@@ -45,8 +47,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Engine:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Engine",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Engine",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__EngineFormCallback(
 			instancesTyped,
@@ -57,8 +60,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Event:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Event",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Event",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__EventFormCallback(
 			instancesTyped,
@@ -69,8 +73,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Status:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Status",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Status",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__StatusFormCallback(
 			instancesTyped,
@@ -81,8 +86,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.UpdateState:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : UpdateState",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "UpdateState",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__UpdateStateFormCallback(
 			instancesTyped,

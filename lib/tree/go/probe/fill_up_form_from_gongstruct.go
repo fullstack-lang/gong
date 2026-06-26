@@ -21,8 +21,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	// insertion point
 	case *models.Button:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Button",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Button",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ButtonFormCallback(
 			instancesTyped,
@@ -33,8 +34,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Menu:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Menu",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Menu",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__MenuFormCallback(
 			instancesTyped,
@@ -45,8 +47,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Node:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Node",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Node",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__NodeFormCallback(
 			instancesTyped,
@@ -57,8 +60,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.SVGIcon:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : SVGIcon",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "SVGIcon",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__SVGIconFormCallback(
 			instancesTyped,
@@ -69,8 +73,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Tree:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Tree",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Tree",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__TreeFormCallback(
 			instancesTyped,

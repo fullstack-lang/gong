@@ -21,8 +21,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	// insertion point
 	case *models.AsSplit:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : AsSplit",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "AsSplit",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__AsSplitFormCallback(
 			instancesTyped,
@@ -33,8 +34,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.AsSplitArea:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : AsSplitArea",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "AsSplitArea",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__AsSplitAreaFormCallback(
 			instancesTyped,
@@ -45,8 +47,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Button:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Button",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Button",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ButtonFormCallback(
 			instancesTyped,
@@ -57,8 +60,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Cursor:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Cursor",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Cursor",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__CursorFormCallback(
 			instancesTyped,
@@ -69,8 +73,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.FavIcon:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : FavIcon",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "FavIcon",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FavIconFormCallback(
 			instancesTyped,
@@ -81,8 +86,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Form:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Form",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FormFormCallback(
 			instancesTyped,
@@ -93,8 +99,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Load:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Load",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Load",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__LoadFormCallback(
 			instancesTyped,
@@ -105,8 +112,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.LogoOnTheLeft:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : LogoOnTheLeft",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "LogoOnTheLeft",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__LogoOnTheLeftFormCallback(
 			instancesTyped,
@@ -117,8 +125,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.LogoOnTheRight:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : LogoOnTheRight",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "LogoOnTheRight",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__LogoOnTheRightFormCallback(
 			instancesTyped,
@@ -129,8 +138,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Markdown:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Markdown",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Markdown",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__MarkdownFormCallback(
 			instancesTyped,
@@ -141,8 +151,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Slider:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Slider",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Slider",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__SliderFormCallback(
 			instancesTyped,
@@ -153,8 +164,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Split:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Split",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Split",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__SplitFormCallback(
 			instancesTyped,
@@ -165,8 +177,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Svg:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Svg",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Svg",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__SvgFormCallback(
 			instancesTyped,
@@ -177,8 +190,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Table:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Table",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Table",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__TableFormCallback(
 			instancesTyped,
@@ -189,8 +203,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Title:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Title",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Title",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__TitleFormCallback(
 			instancesTyped,
@@ -201,8 +216,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Tone:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Tone",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Tone",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ToneFormCallback(
 			instancesTyped,
@@ -213,8 +229,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Tree:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Tree",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Tree",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__TreeFormCallback(
 			instancesTyped,
@@ -225,8 +242,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.View:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : View",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "View",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ViewFormCallback(
 			instancesTyped,
@@ -237,8 +255,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Xlsx:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Xlsx",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Xlsx",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__XlsxFormCallback(
 			instancesTyped,

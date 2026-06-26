@@ -21,8 +21,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	// insertion point
 	case *models.DisplaySelection:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : DisplaySelection",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "DisplaySelection",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__DisplaySelectionFormCallback(
 			instancesTyped,
@@ -33,8 +34,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.XLCell:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : XLCell",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "XLCell",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__XLCellFormCallback(
 			instancesTyped,
@@ -45,8 +47,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.XLFile:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : XLFile",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "XLFile",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__XLFileFormCallback(
 			instancesTyped,
@@ -57,8 +60,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.XLRow:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : XLRow",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "XLRow",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__XLRowFormCallback(
 			instancesTyped,
@@ -69,8 +73,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.XLSheet:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : XLSheet",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "XLSheet",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__XLSheetFormCallback(
 			instancesTyped,

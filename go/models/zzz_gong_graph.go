@@ -1175,6 +1175,9 @@ func (gongbasicfield *GongBasicField) GongDiff(stage *Stage, gongbasicfieldOther
 	if gongbasicfield.IsAccordionStart != gongbasicfieldOther.IsAccordionStart {
 		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "IsAccordionStart"))
 	}
+	if gongbasicfield.AccordionName != gongbasicfieldOther.AccordionName {
+		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "AccordionName"))
+	}
 	if gongbasicfield.IsAccordionEnd != gongbasicfieldOther.IsAccordionEnd {
 		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "IsAccordionEnd"))
 	}
@@ -1421,6 +1424,9 @@ func (gongtimefield *GongTimeField) GongDiff(stage *Stage, gongtimefieldOther *G
 	if gongtimefield.IsAccordionStart != gongtimefieldOther.IsAccordionStart {
 		diffs = append(diffs, gongtimefield.GongMarshallField(stage, "IsAccordionStart"))
 	}
+	if gongtimefield.AccordionName != gongtimefieldOther.AccordionName {
+		diffs = append(diffs, gongtimefield.GongMarshallField(stage, "AccordionName"))
+	}
 	if gongtimefield.IsAccordionEnd != gongtimefieldOther.IsAccordionEnd {
 		diffs = append(diffs, gongtimefield.GongMarshallField(stage, "IsAccordionEnd"))
 	}
@@ -1527,6 +1533,9 @@ func (pointertogongstructfield *PointerToGongStructField) GongDiff(stage *Stage,
 	if pointertogongstructfield.IsAccordionStart != pointertogongstructfieldOther.IsAccordionStart {
 		diffs = append(diffs, pointertogongstructfield.GongMarshallField(stage, "IsAccordionStart"))
 	}
+	if pointertogongstructfield.AccordionName != pointertogongstructfieldOther.AccordionName {
+		diffs = append(diffs, pointertogongstructfield.GongMarshallField(stage, "AccordionName"))
+	}
 	if pointertogongstructfield.IsAccordionEnd != pointertogongstructfieldOther.IsAccordionEnd {
 		diffs = append(diffs, pointertogongstructfield.GongMarshallField(stage, "IsAccordionEnd"))
 	}
@@ -1559,6 +1568,9 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongDiff
 	}
 	if sliceofpointertogongstructfield.IsAccordionStart != sliceofpointertogongstructfieldOther.IsAccordionStart {
 		diffs = append(diffs, sliceofpointertogongstructfield.GongMarshallField(stage, "IsAccordionStart"))
+	}
+	if sliceofpointertogongstructfield.AccordionName != sliceofpointertogongstructfieldOther.AccordionName {
+		diffs = append(diffs, sliceofpointertogongstructfield.GongMarshallField(stage, "AccordionName"))
 	}
 	if sliceofpointertogongstructfield.IsAccordionEnd != sliceofpointertogongstructfieldOther.IsAccordionEnd {
 		diffs = append(diffs, sliceofpointertogongstructfield.GongMarshallField(stage, "IsAccordionEnd"))

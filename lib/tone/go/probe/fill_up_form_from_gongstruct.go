@@ -21,8 +21,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	// insertion point
 	case *models.Freqency:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Freqency",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Freqency",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__FreqencyFormCallback(
 			instancesTyped,
@@ -33,8 +34,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Note:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Note",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Note",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__NoteFormCallback(
 			instancesTyped,
@@ -45,8 +47,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Player:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Player",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Player",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__PlayerFormCallback(
 			instancesTyped,

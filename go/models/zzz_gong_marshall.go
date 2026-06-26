@@ -299,6 +299,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(gongbasicfield.GongMarshallField(stage, "DeclaredType"))
 		initializerStatements.WriteString(gongbasicfield.GongMarshallField(stage, "CompositeStructName"))
 		initializerStatements.WriteString(gongbasicfield.GongMarshallField(stage, "IsAccordionStart"))
+		initializerStatements.WriteString(gongbasicfield.GongMarshallField(stage, "AccordionName"))
 		initializerStatements.WriteString(gongbasicfield.GongMarshallField(stage, "IsAccordionEnd"))
 		initializerStatements.WriteString(gongbasicfield.GongMarshallField(stage, "Index"))
 		initializerStatements.WriteString(gongbasicfield.GongMarshallField(stage, "IsTextArea"))
@@ -479,6 +480,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "Index"))
 		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "CompositeStructName"))
 		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "IsAccordionStart"))
+		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "AccordionName"))
 		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "IsAccordionEnd"))
 		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "BespokeTimeFormat"))
 	}
@@ -580,6 +582,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(pointertogongstructfield.GongMarshallField(stage, "Index"))
 		initializerStatements.WriteString(pointertogongstructfield.GongMarshallField(stage, "CompositeStructName"))
 		initializerStatements.WriteString(pointertogongstructfield.GongMarshallField(stage, "IsAccordionStart"))
+		initializerStatements.WriteString(pointertogongstructfield.GongMarshallField(stage, "AccordionName"))
 		initializerStatements.WriteString(pointertogongstructfield.GongMarshallField(stage, "IsAccordionEnd"))
 		initializerStatements.WriteString(pointertogongstructfield.GongMarshallField(stage, "IsType"))
 	}
@@ -612,6 +615,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(sliceofpointertogongstructfield.GongMarshallField(stage, "Index"))
 		initializerStatements.WriteString(sliceofpointertogongstructfield.GongMarshallField(stage, "CompositeStructName"))
 		initializerStatements.WriteString(sliceofpointertogongstructfield.GongMarshallField(stage, "IsAccordionStart"))
+		initializerStatements.WriteString(sliceofpointertogongstructfield.GongMarshallField(stage, "AccordionName"))
 		initializerStatements.WriteString(sliceofpointertogongstructfield.GongMarshallField(stage, "IsAccordionEnd"))
 	}
 
@@ -786,6 +790,11 @@ func (gongbasicfield *GongBasicField) GongMarshallField(stage *Stage, fieldName 
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsAccordionStart")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongbasicfield.IsAccordionStart))
+	case "AccordionName":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AccordionName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongbasicfield.AccordionName))
 	case "IsAccordionEnd":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
@@ -1047,6 +1056,11 @@ func (gongtimefield *GongTimeField) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsAccordionStart")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongtimefield.IsAccordionStart))
+	case "AccordionName":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AccordionName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongtimefield.AccordionName))
 	case "IsAccordionEnd":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
@@ -1202,6 +1216,11 @@ func (pointertogongstructfield *PointerToGongStructField) GongMarshallField(stag
 		res = strings.ReplaceAll(res, "{{Identifier}}", pointertogongstructfield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsAccordionStart")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", pointertogongstructfield.IsAccordionStart))
+	case "AccordionName":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", pointertogongstructfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AccordionName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(pointertogongstructfield.AccordionName))
 	case "IsAccordionEnd":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", pointertogongstructfield.GongGetIdentifier(stage))
@@ -1255,6 +1274,11 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMars
 		res = strings.ReplaceAll(res, "{{Identifier}}", sliceofpointertogongstructfield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsAccordionStart")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", sliceofpointertogongstructfield.IsAccordionStart))
+	case "AccordionName":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", sliceofpointertogongstructfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AccordionName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(sliceofpointertogongstructfield.AccordionName))
 	case "IsAccordionEnd":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", sliceofpointertogongstructfield.GongGetIdentifier(stage))
@@ -1292,6 +1316,7 @@ func (gongbasicfield *GongBasicField) GongMarshallAllFields(stage *Stage) (initR
 		initializerStatements.WriteString(gongbasicfield.GongMarshallField(stage, "DeclaredType"))
 		initializerStatements.WriteString(gongbasicfield.GongMarshallField(stage, "CompositeStructName"))
 		initializerStatements.WriteString(gongbasicfield.GongMarshallField(stage, "IsAccordionStart"))
+		initializerStatements.WriteString(gongbasicfield.GongMarshallField(stage, "AccordionName"))
 		initializerStatements.WriteString(gongbasicfield.GongMarshallField(stage, "IsAccordionEnd"))
 		initializerStatements.WriteString(gongbasicfield.GongMarshallField(stage, "Index"))
 		initializerStatements.WriteString(gongbasicfield.GongMarshallField(stage, "IsTextArea"))
@@ -1382,6 +1407,7 @@ func (gongtimefield *GongTimeField) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "Index"))
 		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "CompositeStructName"))
 		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "IsAccordionStart"))
+		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "AccordionName"))
 		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "IsAccordionEnd"))
 		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "BespokeTimeFormat"))
 	}
@@ -1438,6 +1464,7 @@ func (pointertogongstructfield *PointerToGongStructField) GongMarshallAllFields(
 		initializerStatements.WriteString(pointertogongstructfield.GongMarshallField(stage, "Index"))
 		initializerStatements.WriteString(pointertogongstructfield.GongMarshallField(stage, "CompositeStructName"))
 		initializerStatements.WriteString(pointertogongstructfield.GongMarshallField(stage, "IsAccordionStart"))
+		initializerStatements.WriteString(pointertogongstructfield.GongMarshallField(stage, "AccordionName"))
 		initializerStatements.WriteString(pointertogongstructfield.GongMarshallField(stage, "IsAccordionEnd"))
 		initializerStatements.WriteString(pointertogongstructfield.GongMarshallField(stage, "IsType"))
 	}
@@ -1455,6 +1482,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMars
 		initializerStatements.WriteString(sliceofpointertogongstructfield.GongMarshallField(stage, "Index"))
 		initializerStatements.WriteString(sliceofpointertogongstructfield.GongMarshallField(stage, "CompositeStructName"))
 		initializerStatements.WriteString(sliceofpointertogongstructfield.GongMarshallField(stage, "IsAccordionStart"))
+		initializerStatements.WriteString(sliceofpointertogongstructfield.GongMarshallField(stage, "AccordionName"))
 		initializerStatements.WriteString(sliceofpointertogongstructfield.GongMarshallField(stage, "IsAccordionEnd"))
 	}
 	initRes = initializerStatements.String()

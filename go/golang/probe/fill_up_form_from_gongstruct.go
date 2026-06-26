@@ -43,8 +43,9 @@ map[string]string{
 	string(rune(FillUpTreeStructCase)): `
 	case *models.{{Structname}}:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : {{Structname}}",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "{{Structname}}",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__{{Structname}}FormCallback(
 			instancesTyped,

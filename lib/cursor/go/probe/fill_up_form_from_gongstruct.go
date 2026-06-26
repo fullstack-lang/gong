@@ -21,8 +21,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	// insertion point
 	case *models.Cursor:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Cursor",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Cursor",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__CursorFormCallback(
 			instancesTyped,
