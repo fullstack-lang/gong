@@ -20,9 +20,9 @@ func FillUpForm(
 	case *models.Content:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
-			true, false, 0, false, 0)
+			true, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -32,9 +32,9 @@ func FillUpForm(
 	case *models.JpgImage:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Base64Content", instanceWithInferedType.Base64Content, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 400)
+			true, true, 600, true, 400, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -44,9 +44,9 @@ func FillUpForm(
 	case *models.PngImage:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Base64Content", instanceWithInferedType.Base64Content, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 400)
+			true, true, 600, true, 400, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -56,9 +56,9 @@ func FillUpForm(
 	case *models.SvgImage:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 400)
+			true, true, 600, true, 400, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

@@ -3016,6 +3016,105 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.Name != diagramOther.Name {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "Name"))
 	}
+	if diagram.DefaultBoxWidth != diagramOther.DefaultBoxWidth {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "DefaultBoxWidth"))
+	}
+	if diagram.DefaultBoxHeigth != diagramOther.DefaultBoxHeigth {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "DefaultBoxHeigth"))
+	}
+	if diagram.DateFormat != diagramOther.DateFormat {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "DateFormat"))
+	}
+	if diagram.Width != diagramOther.Width {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Width"))
+	}
+	if diagram.Height != diagramOther.Height {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Height"))
+	}
+	if diagram.IsTimeDiagram != diagramOther.IsTimeDiagram {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsTimeDiagram"))
+	}
+	if diagram.ComputedStart != diagramOther.ComputedStart {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedStart"))
+	}
+	if diagram.ComputedEnd != diagramOther.ComputedEnd {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedEnd"))
+	}
+	if diagram.ComputedDuration != diagramOther.ComputedDuration {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedDuration"))
+	}
+	if diagram.UseManualStartAndEndDates != diagramOther.UseManualStartAndEndDates {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "UseManualStartAndEndDates"))
+	}
+	if diagram.ManualStart != diagramOther.ManualStart {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ManualStart"))
+	}
+	if diagram.ManualEnd != diagramOther.ManualEnd {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ManualEnd"))
+	}
+	if diagram.TimeStep != diagramOther.TimeStep {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeStep"))
+	}
+	if diagram.TimeStepScale != diagramOther.TimeStepScale {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeStepScale"))
+	}
+	if diagram.LaneHeight != diagramOther.LaneHeight {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "LaneHeight"))
+	}
+	if diagram.RatioBarToLaneHeight != diagramOther.RatioBarToLaneHeight {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "RatioBarToLaneHeight"))
+	}
+	if diagram.YTopMargin != diagramOther.YTopMargin {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "YTopMargin"))
+	}
+	if diagram.XLeftText != diagramOther.XLeftText {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "XLeftText"))
+	}
+	if diagram.TextHeight != diagramOther.TextHeight {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TextHeight"))
+	}
+	if diagram.XLeftLanes != diagramOther.XLeftLanes {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "XLeftLanes"))
+	}
+	if diagram.XRightMargin != diagramOther.XRightMargin {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "XRightMargin"))
+	}
+	if diagram.ArrowLengthToTheRightOfStartBar != diagramOther.ArrowLengthToTheRightOfStartBar {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ArrowLengthToTheRightOfStartBar"))
+	}
+	if diagram.ArrowTipLenght != diagramOther.ArrowTipLenght {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ArrowTipLenght"))
+	}
+	if diagram.TimeLine_Color != diagramOther.TimeLine_Color {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeLine_Color"))
+	}
+	if diagram.TimeLine_FillOpacity != diagramOther.TimeLine_FillOpacity {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeLine_FillOpacity"))
+	}
+	if diagram.TimeLine_Stroke != diagramOther.TimeLine_Stroke {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeLine_Stroke"))
+	}
+	if diagram.TimeLine_StrokeWidth != diagramOther.TimeLine_StrokeWidth {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeLine_StrokeWidth"))
+	}
+	if diagram.DrawVerticalTimeLines != diagramOther.DrawVerticalTimeLines {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "DrawVerticalTimeLines"))
+	}
+	if diagram.Group_Stroke != diagramOther.Group_Stroke {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Group_Stroke"))
+	}
+	if diagram.Group_StrokeWidth != diagramOther.Group_StrokeWidth {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Group_StrokeWidth"))
+	}
+	if diagram.Group_StrokeDashArray != diagramOther.Group_StrokeDashArray {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Group_StrokeDashArray"))
+	}
+	if diagram.DateYOffset != diagramOther.DateYOffset {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "DateYOffset"))
+	}
+	if diagram.AlignOnStartEndOnYearStart != diagramOther.AlignOnStartEndOnYearStart {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "AlignOnStartEndOnYearStart"))
+	}
 	if diagram.ComputedPrefix != diagramOther.ComputedPrefix {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedPrefix"))
 	}
@@ -3033,18 +3132,6 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	}
 	if diagram.IsShowPrefix != diagramOther.IsShowPrefix {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsShowPrefix"))
-	}
-	if diagram.DefaultBoxWidth != diagramOther.DefaultBoxWidth {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "DefaultBoxWidth"))
-	}
-	if diagram.DefaultBoxHeigth != diagramOther.DefaultBoxHeigth {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "DefaultBoxHeigth"))
-	}
-	if diagram.Width != diagramOther.Width {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "Width"))
-	}
-	if diagram.Height != diagramOther.Height {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "Height"))
 	}
 	Product_ShapesDifferent := false
 	if len(diagram.Product_Shapes) != len(diagramOther.Product_Shapes) {
@@ -3243,9 +3330,6 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if TaskGroupsWhoseNodeIsExpandedDifferent {
 		ops := Diff(stage, diagram, diagramOther, "TaskGroupsWhoseNodeIsExpanded", diagramOther.TaskGroupsWhoseNodeIsExpanded, diagram.TaskGroupsWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
-	}
-	if diagram.DateFormat != diagramOther.DateFormat {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "DateFormat"))
 	}
 	TaskComposition_ShapesDifferent := false
 	if len(diagram.TaskComposition_Shapes) != len(diagramOther.TaskComposition_Shapes) {
@@ -3504,90 +3588,6 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if ResourceTaskShapesDifferent {
 		ops := Diff(stage, diagram, diagramOther, "ResourceTaskShapes", diagramOther.ResourceTaskShapes, diagram.ResourceTaskShapes)
 		diffs = append(diffs, ops)
-	}
-	if diagram.IsTimeDiagram != diagramOther.IsTimeDiagram {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "IsTimeDiagram"))
-	}
-	if diagram.ComputedStart != diagramOther.ComputedStart {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedStart"))
-	}
-	if diagram.ComputedEnd != diagramOther.ComputedEnd {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedEnd"))
-	}
-	if diagram.ComputedDuration != diagramOther.ComputedDuration {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedDuration"))
-	}
-	if diagram.UseManualStartAndEndDates != diagramOther.UseManualStartAndEndDates {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "UseManualStartAndEndDates"))
-	}
-	if diagram.ManualStart != diagramOther.ManualStart {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ManualStart"))
-	}
-	if diagram.ManualEnd != diagramOther.ManualEnd {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ManualEnd"))
-	}
-	if diagram.TimeStep != diagramOther.TimeStep {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeStep"))
-	}
-	if diagram.TimeStepScale != diagramOther.TimeStepScale {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeStepScale"))
-	}
-	if diagram.LaneHeight != diagramOther.LaneHeight {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "LaneHeight"))
-	}
-	if diagram.RatioBarToLaneHeight != diagramOther.RatioBarToLaneHeight {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "RatioBarToLaneHeight"))
-	}
-	if diagram.YTopMargin != diagramOther.YTopMargin {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "YTopMargin"))
-	}
-	if diagram.XLeftText != diagramOther.XLeftText {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "XLeftText"))
-	}
-	if diagram.TextHeight != diagramOther.TextHeight {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TextHeight"))
-	}
-	if diagram.XLeftLanes != diagramOther.XLeftLanes {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "XLeftLanes"))
-	}
-	if diagram.XRightMargin != diagramOther.XRightMargin {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "XRightMargin"))
-	}
-	if diagram.ArrowLengthToTheRightOfStartBar != diagramOther.ArrowLengthToTheRightOfStartBar {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ArrowLengthToTheRightOfStartBar"))
-	}
-	if diagram.ArrowTipLenght != diagramOther.ArrowTipLenght {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ArrowTipLenght"))
-	}
-	if diagram.TimeLine_Color != diagramOther.TimeLine_Color {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeLine_Color"))
-	}
-	if diagram.TimeLine_FillOpacity != diagramOther.TimeLine_FillOpacity {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeLine_FillOpacity"))
-	}
-	if diagram.TimeLine_Stroke != diagramOther.TimeLine_Stroke {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeLine_Stroke"))
-	}
-	if diagram.TimeLine_StrokeWidth != diagramOther.TimeLine_StrokeWidth {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TimeLine_StrokeWidth"))
-	}
-	if diagram.DrawVerticalTimeLines != diagramOther.DrawVerticalTimeLines {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "DrawVerticalTimeLines"))
-	}
-	if diagram.Group_Stroke != diagramOther.Group_Stroke {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "Group_Stroke"))
-	}
-	if diagram.Group_StrokeWidth != diagramOther.Group_StrokeWidth {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "Group_StrokeWidth"))
-	}
-	if diagram.Group_StrokeDashArray != diagramOther.Group_StrokeDashArray {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "Group_StrokeDashArray"))
-	}
-	if diagram.DateYOffset != diagramOther.DateYOffset {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "DateYOffset"))
-	}
-	if diagram.AlignOnStartEndOnYearStart != diagramOther.AlignOnStartEndOnYearStart {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "AlignOnStartEndOnYearStart"))
 	}
 
 	return

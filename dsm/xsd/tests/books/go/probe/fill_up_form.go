@@ -20,21 +20,21 @@ func FillUpForm(
 	case *models.BookType:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Edition", instanceWithInferedType.Edition, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Isbn", instanceWithInferedType.Isbn, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Bestseller", instanceWithInferedType.Bestseller, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Title", instanceWithInferedType.Title, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Author", instanceWithInferedType.Author, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Year", instanceWithInferedType.Year, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Format", instanceWithInferedType.Format, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Credit", instanceWithInferedType, &instanceWithInferedType.Credit, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -56,7 +56,7 @@ func FillUpForm(
 	case *models.Books:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Book", instanceWithInferedType, &instanceWithInferedType.Book, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -67,16 +67,16 @@ func FillUpForm(
 	case *models.Credit:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Page", instanceWithInferedType.Page, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Credit_type", instanceWithInferedType.Credit_type, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Link", instanceWithInferedType, &instanceWithInferedType.Link, formGroup, probe)
 		BasicFieldtoForm("Credit_words", instanceWithInferedType.Credit_words, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Credit_symbol", instanceWithInferedType.Credit_symbol, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -97,11 +97,11 @@ func FillUpForm(
 	case *models.Link:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("NameXSD", instanceWithInferedType.NameXSD, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("EnclosedText", instanceWithInferedType.EnclosedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

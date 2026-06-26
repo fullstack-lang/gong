@@ -20,9 +20,9 @@ func FillUpForm(
 	case *models.A:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("NumberField", instanceWithInferedType.NumberField, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("B", instanceWithInferedType.B, formGroup, probe)
 		AssociationSliceToForm("Bs", instanceWithInferedType, &instanceWithInferedType.Bs, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
@@ -34,7 +34,7 @@ func FillUpForm(
 	case *models.B:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

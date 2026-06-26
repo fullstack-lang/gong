@@ -20,30 +20,30 @@ func FillUpForm(
 	case *models.A:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 300)
+			true, true, 600, true, 300, false)
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
 			Name:       "Time fields",
 			IsAStartAccordionGroup: true,
 			AccordionGroupName: "Time fields",
 		}).Stage(probe.formStage))
 		BasicFieldtoForm("Date", instanceWithInferedType.Date, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, true)
 		BasicFieldtoForm("Duration", instanceWithInferedType.Duration, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
 			Name:       "",
 			IsAEndAccordionGroup:   true,
 		}).Stage(probe.formStage))
 		BasicFieldtoForm("FloatValue", instanceWithInferedType.FloatValue, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IntValue", instanceWithInferedType.IntValue, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		EnumTypeStringToForm("EnumString", instanceWithInferedType.EnumString, instanceWithInferedType, probe.formStage, formGroup)
 		EnumTypeIntToForm("EnumInt", instanceWithInferedType.EnumInt, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationFieldToForm("B", instanceWithInferedType.B, formGroup, probe)
 		AssociationSliceToForm("Bs", instanceWithInferedType, &instanceWithInferedType.Bs, formGroup, probe)
 		BasicFieldtoForm("UUID", instanceWithInferedType.UUID, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -53,7 +53,7 @@ func FillUpForm(
 	case *models.B:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

@@ -66,6 +66,72 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(diagram_.Name), formDiv)
+		case "DefaultBoxWidth":
+			FormDivBasicFieldToField(&(diagram_.DefaultBoxWidth), formDiv)
+		case "DefaultBoxHeigth":
+			FormDivBasicFieldToField(&(diagram_.DefaultBoxHeigth), formDiv)
+		case "DateFormat":
+			FormDivBasicFieldToField(&(diagram_.DateFormat), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(diagram_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(diagram_.Height), formDiv)
+		case "IsTimeDiagram":
+			FormDivBasicFieldToField(&(diagram_.IsTimeDiagram), formDiv)
+		case "ComputedStart":
+			FormDivBasicFieldToField(&(diagram_.ComputedStart), formDiv)
+		case "ComputedEnd":
+			FormDivBasicFieldToField(&(diagram_.ComputedEnd), formDiv)
+		case "ComputedDuration":
+			FormDivBasicFieldToField(&(diagram_.ComputedDuration), formDiv)
+		case "UseManualStartAndEndDates":
+			FormDivBasicFieldToField(&(diagram_.UseManualStartAndEndDates), formDiv)
+		case "ManualStart":
+			FormDivBasicFieldToField(&(diagram_.ManualStart), formDiv)
+		case "ManualEnd":
+			FormDivBasicFieldToField(&(diagram_.ManualEnd), formDiv)
+		case "TimeStep":
+			FormDivBasicFieldToField(&(diagram_.TimeStep), formDiv)
+		case "TimeStepScale":
+			FormDivEnumStringFieldToField(&(diagram_.TimeStepScale), formDiv)
+		case "LaneHeight":
+			FormDivBasicFieldToField(&(diagram_.LaneHeight), formDiv)
+		case "RatioBarToLaneHeight":
+			FormDivBasicFieldToField(&(diagram_.RatioBarToLaneHeight), formDiv)
+		case "YTopMargin":
+			FormDivBasicFieldToField(&(diagram_.YTopMargin), formDiv)
+		case "XLeftText":
+			FormDivBasicFieldToField(&(diagram_.XLeftText), formDiv)
+		case "TextHeight":
+			FormDivBasicFieldToField(&(diagram_.TextHeight), formDiv)
+		case "XLeftLanes":
+			FormDivBasicFieldToField(&(diagram_.XLeftLanes), formDiv)
+		case "XRightMargin":
+			FormDivBasicFieldToField(&(diagram_.XRightMargin), formDiv)
+		case "ArrowLengthToTheRightOfStartBar":
+			FormDivBasicFieldToField(&(diagram_.ArrowLengthToTheRightOfStartBar), formDiv)
+		case "ArrowTipLenght":
+			FormDivBasicFieldToField(&(diagram_.ArrowTipLenght), formDiv)
+		case "TimeLine_Color":
+			FormDivBasicFieldToField(&(diagram_.TimeLine_Color), formDiv)
+		case "TimeLine_FillOpacity":
+			FormDivBasicFieldToField(&(diagram_.TimeLine_FillOpacity), formDiv)
+		case "TimeLine_Stroke":
+			FormDivBasicFieldToField(&(diagram_.TimeLine_Stroke), formDiv)
+		case "TimeLine_StrokeWidth":
+			FormDivBasicFieldToField(&(diagram_.TimeLine_StrokeWidth), formDiv)
+		case "DrawVerticalTimeLines":
+			FormDivBasicFieldToField(&(diagram_.DrawVerticalTimeLines), formDiv)
+		case "Group_Stroke":
+			FormDivBasicFieldToField(&(diagram_.Group_Stroke), formDiv)
+		case "Group_StrokeWidth":
+			FormDivBasicFieldToField(&(diagram_.Group_StrokeWidth), formDiv)
+		case "Group_StrokeDashArray":
+			FormDivBasicFieldToField(&(diagram_.Group_StrokeDashArray), formDiv)
+		case "DateYOffset":
+			FormDivBasicFieldToField(&(diagram_.DateYOffset), formDiv)
+		case "AlignOnStartEndOnYearStart":
+			FormDivBasicFieldToField(&(diagram_.AlignOnStartEndOnYearStart), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
 		case "IsExpanded":
@@ -78,14 +144,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.IsEditable_), formDiv)
 		case "IsShowPrefix":
 			FormDivBasicFieldToField(&(diagram_.IsShowPrefix), formDiv)
-		case "DefaultBoxWidth":
-			FormDivBasicFieldToField(&(diagram_.DefaultBoxWidth), formDiv)
-		case "DefaultBoxHeigth":
-			FormDivBasicFieldToField(&(diagram_.DefaultBoxHeigth), formDiv)
-		case "Width":
-			FormDivBasicFieldToField(&(diagram_.Width), formDiv)
-		case "Height":
-			FormDivBasicFieldToField(&(diagram_.Height), formDiv)
 		case "Product_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ProductShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.ProductShape, 0)
@@ -380,8 +438,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagram_.TaskGroupsWhoseNodeIsExpanded = instanceSlice
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "TaskGroupsWhoseNodeIsExpanded", &diagram_.TaskGroupsWhoseNodeIsExpanded)
 
-		case "DateFormat":
-			FormDivBasicFieldToField(&(diagram_.DateFormat), formDiv)
 		case "TaskComposition_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskCompositionShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskCompositionShape, 0)
@@ -770,62 +826,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			diagram_.ResourceTaskShapes = instanceSlice
 			diagramFormCallback.probe.UpdateSliceOfPointersCallback(diagram_, "ResourceTaskShapes", &diagram_.ResourceTaskShapes)
 
-		case "IsTimeDiagram":
-			FormDivBasicFieldToField(&(diagram_.IsTimeDiagram), formDiv)
-		case "ComputedStart":
-			FormDivBasicFieldToField(&(diagram_.ComputedStart), formDiv)
-		case "ComputedEnd":
-			FormDivBasicFieldToField(&(diagram_.ComputedEnd), formDiv)
-		case "ComputedDuration":
-			FormDivBasicFieldToField(&(diagram_.ComputedDuration), formDiv)
-		case "UseManualStartAndEndDates":
-			FormDivBasicFieldToField(&(diagram_.UseManualStartAndEndDates), formDiv)
-		case "ManualStart":
-			FormDivBasicFieldToField(&(diagram_.ManualStart), formDiv)
-		case "ManualEnd":
-			FormDivBasicFieldToField(&(diagram_.ManualEnd), formDiv)
-		case "TimeStep":
-			FormDivBasicFieldToField(&(diagram_.TimeStep), formDiv)
-		case "TimeStepScale":
-			FormDivEnumStringFieldToField(&(diagram_.TimeStepScale), formDiv)
-		case "LaneHeight":
-			FormDivBasicFieldToField(&(diagram_.LaneHeight), formDiv)
-		case "RatioBarToLaneHeight":
-			FormDivBasicFieldToField(&(diagram_.RatioBarToLaneHeight), formDiv)
-		case "YTopMargin":
-			FormDivBasicFieldToField(&(diagram_.YTopMargin), formDiv)
-		case "XLeftText":
-			FormDivBasicFieldToField(&(diagram_.XLeftText), formDiv)
-		case "TextHeight":
-			FormDivBasicFieldToField(&(diagram_.TextHeight), formDiv)
-		case "XLeftLanes":
-			FormDivBasicFieldToField(&(diagram_.XLeftLanes), formDiv)
-		case "XRightMargin":
-			FormDivBasicFieldToField(&(diagram_.XRightMargin), formDiv)
-		case "ArrowLengthToTheRightOfStartBar":
-			FormDivBasicFieldToField(&(diagram_.ArrowLengthToTheRightOfStartBar), formDiv)
-		case "ArrowTipLenght":
-			FormDivBasicFieldToField(&(diagram_.ArrowTipLenght), formDiv)
-		case "TimeLine_Color":
-			FormDivBasicFieldToField(&(diagram_.TimeLine_Color), formDiv)
-		case "TimeLine_FillOpacity":
-			FormDivBasicFieldToField(&(diagram_.TimeLine_FillOpacity), formDiv)
-		case "TimeLine_Stroke":
-			FormDivBasicFieldToField(&(diagram_.TimeLine_Stroke), formDiv)
-		case "TimeLine_StrokeWidth":
-			FormDivBasicFieldToField(&(diagram_.TimeLine_StrokeWidth), formDiv)
-		case "DrawVerticalTimeLines":
-			FormDivBasicFieldToField(&(diagram_.DrawVerticalTimeLines), formDiv)
-		case "Group_Stroke":
-			FormDivBasicFieldToField(&(diagram_.Group_Stroke), formDiv)
-		case "Group_StrokeWidth":
-			FormDivBasicFieldToField(&(diagram_.Group_StrokeWidth), formDiv)
-		case "Group_StrokeDashArray":
-			FormDivBasicFieldToField(&(diagram_.Group_StrokeDashArray), formDiv)
-		case "DateYOffset":
-			FormDivBasicFieldToField(&(diagram_.DateYOffset), formDiv)
-		case "AlignOnStartEndOnYearStart":
-			FormDivBasicFieldToField(&(diagram_.AlignOnStartEndOnYearStart), formDiv)
 		case "Library:Diagrams":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

@@ -464,80 +464,16 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "ComputedPrefix":
-		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
-	case "IsChecked":
-		instance.IsChecked = GongExtractBool(valueExpr)
-	case "IsEditable_":
-		instance.IsEditable_ = GongExtractBool(valueExpr)
-	case "IsShowPrefix":
-		instance.IsShowPrefix = GongExtractBool(valueExpr)
 	case "DefaultBoxWidth":
 		instance.DefaultBoxWidth = GongExtractFloat(valueExpr)
 	case "DefaultBoxHeigth":
 		instance.DefaultBoxHeigth = GongExtractFloat(valueExpr)
+	case "DateFormat":
+		instance.DateFormat = GongExtractString(valueExpr)
 	case "Width":
 		instance.Width = GongExtractFloat(valueExpr)
 	case "Height":
 		instance.Height = GongExtractFloat(valueExpr)
-	case "Product_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.Product_Shapes, valueExpr, identifierMap)
-	case "ProductsWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.ProductsWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "IsPBSNodeExpanded":
-		instance.IsPBSNodeExpanded = GongExtractBool(valueExpr)
-	case "ProductComposition_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.ProductComposition_Shapes, valueExpr, identifierMap)
-	case "IsWBSNodeExpanded":
-		instance.IsWBSNodeExpanded = GongExtractBool(valueExpr)
-	case "Task_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.Task_Shapes, valueExpr, identifierMap)
-	case "TasksWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.TasksWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "TasksWhoseInputNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.TasksWhoseInputNodeIsExpanded, valueExpr, identifierMap)
-	case "TasksWhoseOutputNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.TasksWhoseOutputNodeIsExpanded, valueExpr, identifierMap)
-	case "IsTaskGroupsNodeExpanded":
-		instance.IsTaskGroupsNodeExpanded = GongExtractBool(valueExpr)
-	case "TaskGroupShapes":
-		GongUnmarshallSliceOfPointers(&instance.TaskGroupShapes, valueExpr, identifierMap)
-	case "TaskGroupsWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.TaskGroupsWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "DateFormat":
-		instance.DateFormat = GongExtractString(valueExpr)
-	case "TaskComposition_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.TaskComposition_Shapes, valueExpr, identifierMap)
-	case "TaskInputShapes":
-		GongUnmarshallSliceOfPointers(&instance.TaskInputShapes, valueExpr, identifierMap)
-	case "TaskOutputShapes":
-		GongUnmarshallSliceOfPointers(&instance.TaskOutputShapes, valueExpr, identifierMap)
-	case "Note_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.Note_Shapes, valueExpr, identifierMap)
-	case "NotesWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.NotesWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "IsNotesNodeExpanded":
-		instance.IsNotesNodeExpanded = GongExtractBool(valueExpr)
-	case "NoteProductShapes":
-		GongUnmarshallSliceOfPointers(&instance.NoteProductShapes, valueExpr, identifierMap)
-	case "NoteTaskShapes":
-		GongUnmarshallSliceOfPointers(&instance.NoteTaskShapes, valueExpr, identifierMap)
-	case "NoteResourceShapes":
-		GongUnmarshallSliceOfPointers(&instance.NoteResourceShapes, valueExpr, identifierMap)
-	case "Resource_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.Resource_Shapes, valueExpr, identifierMap)
-	case "ResourcesWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.ResourcesWhoseNodeIsExpanded, valueExpr, identifierMap)
-	case "IsResourcesNodeExpanded":
-		instance.IsResourcesNodeExpanded = GongExtractBool(valueExpr)
-	case "ResourceComposition_Shapes":
-		GongUnmarshallSliceOfPointers(&instance.ResourceComposition_Shapes, valueExpr, identifierMap)
-	case "ResourceTaskShapes":
-		GongUnmarshallSliceOfPointers(&instance.ResourceTaskShapes, valueExpr, identifierMap)
 	case "IsTimeDiagram":
 		instance.IsTimeDiagram = GongExtractBool(valueExpr)
 	case "ComputedStart":
@@ -618,6 +554,70 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.DateYOffset = GongExtractFloat(valueExpr)
 	case "AlignOnStartEndOnYearStart":
 		instance.AlignOnStartEndOnYearStart = GongExtractBool(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "IsChecked":
+		instance.IsChecked = GongExtractBool(valueExpr)
+	case "IsEditable_":
+		instance.IsEditable_ = GongExtractBool(valueExpr)
+	case "IsShowPrefix":
+		instance.IsShowPrefix = GongExtractBool(valueExpr)
+	case "Product_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.Product_Shapes, valueExpr, identifierMap)
+	case "ProductsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ProductsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsPBSNodeExpanded":
+		instance.IsPBSNodeExpanded = GongExtractBool(valueExpr)
+	case "ProductComposition_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.ProductComposition_Shapes, valueExpr, identifierMap)
+	case "IsWBSNodeExpanded":
+		instance.IsWBSNodeExpanded = GongExtractBool(valueExpr)
+	case "Task_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.Task_Shapes, valueExpr, identifierMap)
+	case "TasksWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.TasksWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "TasksWhoseInputNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.TasksWhoseInputNodeIsExpanded, valueExpr, identifierMap)
+	case "TasksWhoseOutputNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.TasksWhoseOutputNodeIsExpanded, valueExpr, identifierMap)
+	case "IsTaskGroupsNodeExpanded":
+		instance.IsTaskGroupsNodeExpanded = GongExtractBool(valueExpr)
+	case "TaskGroupShapes":
+		GongUnmarshallSliceOfPointers(&instance.TaskGroupShapes, valueExpr, identifierMap)
+	case "TaskGroupsWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.TaskGroupsWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "TaskComposition_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.TaskComposition_Shapes, valueExpr, identifierMap)
+	case "TaskInputShapes":
+		GongUnmarshallSliceOfPointers(&instance.TaskInputShapes, valueExpr, identifierMap)
+	case "TaskOutputShapes":
+		GongUnmarshallSliceOfPointers(&instance.TaskOutputShapes, valueExpr, identifierMap)
+	case "Note_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.Note_Shapes, valueExpr, identifierMap)
+	case "NotesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.NotesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsNotesNodeExpanded":
+		instance.IsNotesNodeExpanded = GongExtractBool(valueExpr)
+	case "NoteProductShapes":
+		GongUnmarshallSliceOfPointers(&instance.NoteProductShapes, valueExpr, identifierMap)
+	case "NoteTaskShapes":
+		GongUnmarshallSliceOfPointers(&instance.NoteTaskShapes, valueExpr, identifierMap)
+	case "NoteResourceShapes":
+		GongUnmarshallSliceOfPointers(&instance.NoteResourceShapes, valueExpr, identifierMap)
+	case "Resource_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.Resource_Shapes, valueExpr, identifierMap)
+	case "ResourcesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.ResourcesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsResourcesNodeExpanded":
+		instance.IsResourcesNodeExpanded = GongExtractBool(valueExpr)
+	case "ResourceComposition_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.ResourceComposition_Shapes, valueExpr, identifierMap)
+	case "ResourceTaskShapes":
+		GongUnmarshallSliceOfPointers(&instance.ResourceTaskShapes, valueExpr, identifierMap)
 	}
 	return nil
 }

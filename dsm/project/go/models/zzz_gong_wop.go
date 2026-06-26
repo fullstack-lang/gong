@@ -14,37 +14,15 @@ type Diagram_WOP struct {
 
 	Name string
 
-	ComputedPrefix string
-
-	IsExpanded bool
-
-	LayoutDirection LayoutDirection
-
-	IsChecked bool
-
-	IsEditable_ bool
-
-	IsShowPrefix bool
-
 	DefaultBoxWidth float64
 
 	DefaultBoxHeigth float64
 
+	DateFormat string
+
 	Width float64
 
 	Height float64
-
-	IsPBSNodeExpanded bool
-
-	IsWBSNodeExpanded bool
-
-	IsTaskGroupsNodeExpanded bool
-
-	DateFormat string
-
-	IsNotesNodeExpanded bool
-
-	IsResourcesNodeExpanded bool
 
 	IsTimeDiagram bool
 
@@ -101,27 +79,38 @@ type Diagram_WOP struct {
 	DateYOffset float64
 
 	AlignOnStartEndOnYearStart bool
+
+	ComputedPrefix string
+
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
+
+	IsChecked bool
+
+	IsEditable_ bool
+
+	IsShowPrefix bool
+
+	IsPBSNodeExpanded bool
+
+	IsWBSNodeExpanded bool
+
+	IsTaskGroupsNodeExpanded bool
+
+	IsNotesNodeExpanded bool
+
+	IsResourcesNodeExpanded bool
 }
 
 func (from *Diagram) CopyBasicFields(to *Diagram) {
 	// insertion point
 	to.Name = from.Name
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
-	to.IsChecked = from.IsChecked
-	to.IsEditable_ = from.IsEditable_
-	to.IsShowPrefix = from.IsShowPrefix
 	to.DefaultBoxWidth = from.DefaultBoxWidth
 	to.DefaultBoxHeigth = from.DefaultBoxHeigth
+	to.DateFormat = from.DateFormat
 	to.Width = from.Width
 	to.Height = from.Height
-	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
-	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
-	to.IsTaskGroupsNodeExpanded = from.IsTaskGroupsNodeExpanded
-	to.DateFormat = from.DateFormat
-	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
-	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
 	to.IsTimeDiagram = from.IsTimeDiagram
 	to.ComputedStart = from.ComputedStart
 	to.ComputedEnd = from.ComputedEnd
@@ -150,6 +139,17 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.Group_StrokeDashArray = from.Group_StrokeDashArray
 	to.DateYOffset = from.DateYOffset
 	to.AlignOnStartEndOnYearStart = from.AlignOnStartEndOnYearStart
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
+	to.IsChecked = from.IsChecked
+	to.IsEditable_ = from.IsEditable_
+	to.IsShowPrefix = from.IsShowPrefix
+	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
+	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
+	to.IsTaskGroupsNodeExpanded = from.IsTaskGroupsNodeExpanded
+	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
+	to.IsResourcesNodeExpanded = from.IsResourcesNodeExpanded
 }
 
 type Library_WOP struct {

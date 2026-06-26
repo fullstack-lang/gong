@@ -9,6 +9,66 @@ import (
 type Diagram struct {
 	Name string
 
+	DefaultBoxWidth  float64
+	DefaultBoxHeigth float64
+
+	// date format for task shapes. If "", use "2006-01-02"
+	// date format is go date format convention
+	DateFormat string
+
+	// computed
+	Width  float64
+	Height float64
+
+	// The following field are used when the diagram is a time diagram
+	//gong:accordion-start "Time Diagram"
+	IsTimeDiagram bool
+
+	// dates computed from tasks of the gantt
+	ComputedStart    time.Time
+	ComputedEnd      time.Time
+	ComputedDuration time.Duration
+
+	// start and end dates if manual setup is true
+	UseManualStartAndEndDates bool
+	ManualStart               time.Time
+	ManualEnd                 time.Time
+
+	// TimeStep is the step between ticks
+	TimeStep int
+
+	// TimeStepScale is the scale of the time step
+	TimeStepScale TimeStepScaleEnum
+
+	LaneHeight           float64
+	RatioBarToLaneHeight float64
+	YTopMargin           float64
+
+	XLeftText  float64
+	TextHeight float64
+
+	XLeftLanes   float64
+	XRightMargin float64
+
+	ArrowLengthToTheRightOfStartBar float64
+	ArrowTipLenght                  float64
+
+	TimeLine_Color       string
+	TimeLine_FillOpacity float64
+	TimeLine_Stroke      string
+	TimeLine_StrokeWidth float64
+
+	DrawVerticalTimeLines bool
+
+	Group_Stroke          string
+	Group_StrokeWidth     float64
+	Group_StrokeDashArray string
+
+	DateYOffset float64
+
+	//gong:accordion-end
+	AlignOnStartEndOnYearStart bool
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
@@ -16,12 +76,6 @@ type Diagram struct {
 	IsEditable_ bool
 
 	IsShowPrefix bool // display shapes with their prefix
-
-	DefaultBoxWidth  float64
-	DefaultBoxHeigth float64
-
-	Width  float64
-	Height float64
 
 	Product_Shapes              []*ProductShape
 	map_Product_ProductShape    map[*Product]*ProductShape
@@ -43,10 +97,6 @@ type Diagram struct {
 	TaskGroupShapes               []*TaskGroupShape
 	map_TaskGroup_TaskGroupShape  map[*TaskGroup]*TaskGroupShape
 	TaskGroupsWhoseNodeIsExpanded []*TaskGroup
-
-	// date format for task shapes. If "", use "2006-01-02"
-	// date format is go date format convention
-	DateFormat string
 
 	TaskComposition_Shapes        []*TaskCompositionShape
 	map_Task_TaskCompositionShape map[*Task]*TaskCompositionShape
@@ -95,53 +145,6 @@ type Diagram struct {
 	// within the tree branch of one diagram, when an element is present in more than one diagram,
 	// it is possible to access it via a list. Only one element have a list that is available per diagram.
 	diagramListElement AbstractType
-
-	// The following field are used when the diagram is a time diagram
-	IsTimeDiagram bool
-
-	// dates computed from tasks of the gantt
-	ComputedStart    time.Time
-	ComputedEnd      time.Time
-	ComputedDuration time.Duration
-
-	// start and end dates if manual setup is true
-	UseManualStartAndEndDates bool
-	ManualStart               time.Time
-	ManualEnd                 time.Time
-
-	// TimeStep is the step between ticks
-	TimeStep int
-
-	// TimeStepScale is the scale of the time step
-	TimeStepScale TimeStepScaleEnum
-
-	LaneHeight           float64
-	RatioBarToLaneHeight float64
-	YTopMargin           float64
-
-	XLeftText  float64
-	TextHeight float64
-
-	XLeftLanes   float64
-	XRightMargin float64
-
-	ArrowLengthToTheRightOfStartBar float64
-	ArrowTipLenght                  float64
-
-	TimeLine_Color       string
-	TimeLine_FillOpacity float64
-	TimeLine_Stroke      string
-	TimeLine_StrokeWidth float64
-
-	DrawVerticalTimeLines bool
-
-	Group_Stroke          string
-	Group_StrokeWidth     float64
-	Group_StrokeDashArray string
-
-	DateYOffset float64
-
-	AlignOnStartEndOnYearStart bool
 }
 
 func (d *Diagram) IsEditable() bool {

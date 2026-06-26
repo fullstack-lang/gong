@@ -20,9 +20,9 @@ func FillUpForm(
 	case *models.Chapter:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("MardownContent", instanceWithInferedType.MardownContent, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 300)
+			true, true, 600, true, 300, false)
 		AssociationSliceToForm("Sections", instanceWithInferedType, &instanceWithInferedType.Sections, formGroup, probe)
 		AssociationSliceToForm("Pages", instanceWithInferedType, &instanceWithInferedType.Pages, formGroup, probe)
 		AssociationSliceToForm("SubChapters", instanceWithInferedType, &instanceWithInferedType.SubChapters, formGroup, probe)
@@ -57,29 +57,29 @@ func FillUpForm(
 	case *models.Content:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("MardownContent", instanceWithInferedType.MardownContent, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 300)
+			true, true, 600, true, 300, false)
 		BasicFieldtoForm("ContentPath", instanceWithInferedType.ContentPath, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("OutputPath", instanceWithInferedType.OutputPath, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("StaticPath", instanceWithInferedType.StaticPath, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("LogoSVGFile", instanceWithInferedType.LogoSVGFile, instanceWithInferedType, probe.formStage, formGroup,
-			false, true, 600, true, 300)
+			false, true, 600, true, 300, false)
 		BasicFieldtoForm("IsBespokeLogoFileName", instanceWithInferedType.IsBespokeLogoFileName, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("BespokeLogoFileName", instanceWithInferedType.BespokeLogoFileName, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsBespokePageTileLogoFileName", instanceWithInferedType.IsBespokePageTileLogoFileName, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("BespokePageTileLogoFileName", instanceWithInferedType.BespokePageTileLogoFileName, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		EnumTypeStringToForm("Target", instanceWithInferedType.Target, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationSliceToForm("Chapters", instanceWithInferedType, &instanceWithInferedType.Chapters, formGroup, probe)
 		BasicFieldtoForm("VersionInfo", instanceWithInferedType.VersionInfo, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -89,9 +89,9 @@ func FillUpForm(
 	case *models.DownloadableFile:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Base64Content", instanceWithInferedType.Base64Content, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 400)
+			true, true, 600, true, 400, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -101,9 +101,9 @@ func FillUpForm(
 	case *models.JpgImage:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Base64Content", instanceWithInferedType.Base64Content, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 400)
+			true, true, 600, true, 400, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -113,9 +113,9 @@ func FillUpForm(
 	case *models.Page:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("MardownContent", instanceWithInferedType.MardownContent, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 300)
+			true, true, 600, true, 300, false)
 		AssociationSliceToForm("Sections", instanceWithInferedType, &instanceWithInferedType.Sections, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -137,9 +137,9 @@ func FillUpForm(
 	case *models.PngImage:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Base64Content", instanceWithInferedType.Base64Content, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 400)
+			true, true, 600, true, 400, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -149,16 +149,16 @@ func FillUpForm(
 	case *models.Section:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("MardownContent", instanceWithInferedType.MardownContent, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 300)
+			true, true, 600, true, 300, false)
 		BasicFieldtoForm("IsImage", instanceWithInferedType.IsImage, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("SvgImage", instanceWithInferedType.SvgImage, formGroup, probe)
 		AssociationFieldToForm("PngImage", instanceWithInferedType.PngImage, formGroup, probe)
 		AssociationFieldToForm("JpgImage", instanceWithInferedType.JpgImage, formGroup, probe)
 		BasicFieldtoForm("IsDownloadableFile", instanceWithInferedType.IsDownloadableFile, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("DownloadableFile", instanceWithInferedType.DownloadableFile, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -191,9 +191,9 @@ func FillUpForm(
 	case *models.SvgImage:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 400)
+			true, true, 600, true, 400, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
