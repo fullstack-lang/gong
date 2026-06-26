@@ -21,8 +21,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	// insertion point
 	case *models.Button:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Button",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Button",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ButtonFormCallback(
 			instancesTyped,
@@ -33,8 +34,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.ButtonToggle:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : ButtonToggle",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "ButtonToggle",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ButtonToggleFormCallback(
 			instancesTyped,
@@ -45,8 +47,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Group:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Group",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Group",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GroupFormCallback(
 			instancesTyped,
@@ -57,8 +60,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.GroupToogle:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : GroupToogle",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "GroupToogle",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GroupToogleFormCallback(
 			instancesTyped,
@@ -69,8 +73,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Layout:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Layout",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Layout",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__LayoutFormCallback(
 			instancesTyped,

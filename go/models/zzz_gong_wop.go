@@ -22,6 +22,8 @@ type GongBasicField_WOP struct {
 
 	IsAccordionStart bool
 
+	AccordionName string
+
 	IsAccordionEnd bool
 
 	Index int
@@ -44,6 +46,7 @@ func (from *GongBasicField) CopyBasicFields(to *GongBasicField) {
 	to.DeclaredType = from.DeclaredType
 	to.CompositeStructName = from.CompositeStructName
 	to.IsAccordionStart = from.IsAccordionStart
+	to.AccordionName = from.AccordionName
 	to.IsAccordionEnd = from.IsAccordionEnd
 	to.Index = from.Index
 	to.IsTextArea = from.IsTextArea
@@ -143,6 +146,8 @@ type GongTimeField_WOP struct {
 
 	IsAccordionStart bool
 
+	AccordionName string
+
 	IsAccordionEnd bool
 
 	BespokeTimeFormat string
@@ -154,6 +159,7 @@ func (from *GongTimeField) CopyBasicFields(to *GongTimeField) {
 	to.Index = from.Index
 	to.CompositeStructName = from.CompositeStructName
 	to.IsAccordionStart = from.IsAccordionStart
+	to.AccordionName = from.AccordionName
 	to.IsAccordionEnd = from.IsAccordionEnd
 	to.BespokeTimeFormat = from.BespokeTimeFormat
 }
@@ -242,6 +248,8 @@ type PointerToGongStructField_WOP struct {
 
 	IsAccordionStart bool
 
+	AccordionName string
+
 	IsAccordionEnd bool
 
 	IsType bool
@@ -253,6 +261,7 @@ func (from *PointerToGongStructField) CopyBasicFields(to *PointerToGongStructFie
 	to.Index = from.Index
 	to.CompositeStructName = from.CompositeStructName
 	to.IsAccordionStart = from.IsAccordionStart
+	to.AccordionName = from.AccordionName
 	to.IsAccordionEnd = from.IsAccordionEnd
 	to.IsType = from.IsType
 }
@@ -268,6 +277,8 @@ type SliceOfPointerToGongStructField_WOP struct {
 
 	IsAccordionStart bool
 
+	AccordionName string
+
 	IsAccordionEnd bool
 }
 
@@ -277,6 +288,7 @@ func (from *SliceOfPointerToGongStructField) CopyBasicFields(to *SliceOfPointerT
 	to.Index = from.Index
 	to.CompositeStructName = from.CompositeStructName
 	to.IsAccordionStart = from.IsAccordionStart
+	to.AccordionName = from.AccordionName
 	to.IsAccordionEnd = from.IsAccordionEnd
 }
 

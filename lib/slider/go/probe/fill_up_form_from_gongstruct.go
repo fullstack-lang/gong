@@ -21,8 +21,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	// insertion point
 	case *models.Checkbox:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Checkbox",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Checkbox",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__CheckboxFormCallback(
 			instancesTyped,
@@ -33,8 +34,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Group:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Group",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Group",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GroupFormCallback(
 			instancesTyped,
@@ -45,8 +47,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Layout:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Layout",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Layout",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__LayoutFormCallback(
 			instancesTyped,
@@ -57,8 +60,9 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Slider:
 		formGroup := (&form.FormGroup{
-			Name:  formName,
-			Label: instancesTyped.GetName() + " : Slider",
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "Slider",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__SliderFormCallback(
 			instancesTyped,

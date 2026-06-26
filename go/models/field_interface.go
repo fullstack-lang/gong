@@ -5,6 +5,7 @@ type AbstractField struct {
 
 	// some field mark the start of an accordion //gong:accordion-start //gong:accordion-end
 	IsAccordionStart bool
+	AccordionName    string
 	IsAccordionEnd   bool
 }
 

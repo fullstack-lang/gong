@@ -76,6 +76,8 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongbasicfield_.CompositeStructName), formDiv)
 		case "IsAccordionStart":
 			FormDivBasicFieldToField(&(gongbasicfield_.IsAccordionStart), formDiv)
+		case "AccordionName":
+			FormDivBasicFieldToField(&(gongbasicfield_.AccordionName), formDiv)
 		case "IsAccordionEnd":
 			FormDivBasicFieldToField(&(gongbasicfield_.IsAccordionEnd), formDiv)
 		case "Index":
@@ -907,6 +909,8 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongtimefield_.CompositeStructName), formDiv)
 		case "IsAccordionStart":
 			FormDivBasicFieldToField(&(gongtimefield_.IsAccordionStart), formDiv)
+		case "AccordionName":
+			FormDivBasicFieldToField(&(gongtimefield_.AccordionName), formDiv)
 		case "IsAccordionEnd":
 			FormDivBasicFieldToField(&(gongtimefield_.IsAccordionEnd), formDiv)
 		case "BespokeTimeFormat":
@@ -1232,6 +1236,8 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 			FormDivBasicFieldToField(&(pointertogongstructfield_.CompositeStructName), formDiv)
 		case "IsAccordionStart":
 			FormDivBasicFieldToField(&(pointertogongstructfield_.IsAccordionStart), formDiv)
+		case "AccordionName":
+			FormDivBasicFieldToField(&(pointertogongstructfield_.AccordionName), formDiv)
 		case "IsAccordionEnd":
 			FormDivBasicFieldToField(&(pointertogongstructfield_.IsAccordionEnd), formDiv)
 		case "IsType":
@@ -1367,6 +1373,8 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 			FormDivBasicFieldToField(&(sliceofpointertogongstructfield_.CompositeStructName), formDiv)
 		case "IsAccordionStart":
 			FormDivBasicFieldToField(&(sliceofpointertogongstructfield_.IsAccordionStart), formDiv)
+		case "AccordionName":
+			FormDivBasicFieldToField(&(sliceofpointertogongstructfield_.AccordionName), formDiv)
 		case "IsAccordionEnd":
 			FormDivBasicFieldToField(&(sliceofpointertogongstructfield_.IsAccordionEnd), formDiv)
 		case "GongStruct:SliceOfPointerToGongStructFields":
