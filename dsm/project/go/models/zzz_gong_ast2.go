@@ -1236,6 +1236,10 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
+	case "SubTasks":
+		GongUnmarshallSliceOfPointers(&instance.SubTasks, valueExpr, identifierMap)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
@@ -1280,10 +1284,6 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.IsStartDateComputedFromPredecessors = GongExtractBool(valueExpr)
 	case "IsMilestone":
 		instance.IsMilestone = GongExtractBool(valueExpr)
-	case "Description":
-		instance.Description = GongExtractString(valueExpr)
-	case "SubTasks":
-		GongUnmarshallSliceOfPointers(&instance.SubTasks, valueExpr, identifierMap)
 	case "Inputs":
 		GongUnmarshallSliceOfPointers(&instance.Inputs, valueExpr, identifierMap)
 	case "IsInputsNodeExpanded":

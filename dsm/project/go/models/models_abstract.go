@@ -20,6 +20,11 @@ type Note struct {
 type Task struct {
 	Name string
 
+	//gong:text width:300 height:300
+	Description string
+
+	SubTasks []*Task
+
 	LibraryAbstractFields
 	AbstractTypeFields
 
@@ -29,22 +34,21 @@ type Task struct {
 	Start time.Time
 	End   time.Time
 
-	DurationYears                 float64
-	DurationMonths                float64
-	DurationWeeks                 float64
-	DurationDays                  float64
-	DurationHours                 float64
+	//gong:accordion-start "Duration"
+	DurationYears  float64
+	DurationMonths float64
+	DurationWeeks  float64
+	DurationDays   float64
+	DurationHours  float64
+	//gong:accordion-end
 	IsEndDateComputedFromDuration bool
 
-	Predecessors                        []*Task
+	//gong:accordion-start "Predecessors"
+	Predecessors []*Task
+	//gong:accordion-end
 	IsStartDateComputedFromPredecessors bool
 
 	IsMilestone bool
-
-	//gong:text width:300 height:300
-	Description string
-
-	SubTasks []*Task
 
 	Inputs               []*Product
 	IsInputsNodeExpanded bool
@@ -59,8 +63,10 @@ type Task struct {
 	parentTask *Task
 
 	// Completion Management
+	//gong:accordion-start "Completion Display"
 	IsWithCompletion bool
-	Completion       CompletionEnum
+	//gong:accordion-end
+	Completion CompletionEnum
 
 	// DisplayVerticalBar indicates wether the task
 	// has a vertical vertical on the whole gantt when it is a milestone
@@ -69,10 +75,11 @@ type Task struct {
 	// a red diamond a text anchor will be displayed
 	TaskGroupsToDisplay []*TaskGroup
 
-	// Custom name positions
+	//gong:accordion-start "Custom positions"
 	TextPosition TextPositionEnum
 	XOffset      float64
-	YOffset      float64
+	//gong:accordion-end
+	YOffset float64
 }
 
 // TextPositionEnum

@@ -21,10 +21,19 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 300)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "Time fields",
+			IsAStartAccordionGroup: true,
+			AccordionGroupName: "Time fields",
+		}).Stage(probe.formStage))
 		BasicFieldtoForm("Date", instanceWithInferedType.Date, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Duration", instanceWithInferedType.Duration, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "",
+			IsAEndAccordionGroup:   true,
+		}).Stage(probe.formStage))
 		BasicFieldtoForm("FloatValue", instanceWithInferedType.FloatValue, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IntValue", instanceWithInferedType.IntValue, instanceWithInferedType, probe.formStage, formGroup,

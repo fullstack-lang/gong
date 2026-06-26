@@ -28,8 +28,17 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("CompositeStructName", instanceWithInferedType.CompositeStructName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "",
+			IsAStartAccordionGroup: true,
+			AccordionGroupName: "",
+		}).Stage(probe.formStage))
 		BasicFieldtoForm("IsAccordionStart", instanceWithInferedType.IsAccordionStart, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "",
+			IsAEndAccordionGroup:   true,
+		}).Stage(probe.formStage))
 		BasicFieldtoForm("AccordionName", instanceWithInferedType.AccordionName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsAccordionEnd", instanceWithInferedType.IsAccordionEnd, instanceWithInferedType, probe.formStage, formGroup,
@@ -164,8 +173,17 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("CompositeStructName", instanceWithInferedType.CompositeStructName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "",
+			IsAStartAccordionGroup: true,
+			AccordionGroupName: "",
+		}).Stage(probe.formStage))
 		BasicFieldtoForm("IsAccordionStart", instanceWithInferedType.IsAccordionStart, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "",
+			IsAEndAccordionGroup:   true,
+		}).Stage(probe.formStage))
 		BasicFieldtoForm("AccordionName", instanceWithInferedType.AccordionName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsAccordionEnd", instanceWithInferedType.IsAccordionEnd, instanceWithInferedType, probe.formStage, formGroup,
@@ -252,8 +270,17 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("CompositeStructName", instanceWithInferedType.CompositeStructName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "",
+			IsAStartAccordionGroup: true,
+			AccordionGroupName: "",
+		}).Stage(probe.formStage))
 		BasicFieldtoForm("IsAccordionStart", instanceWithInferedType.IsAccordionStart, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "",
+			IsAEndAccordionGroup:   true,
+		}).Stage(probe.formStage))
 		BasicFieldtoForm("AccordionName", instanceWithInferedType.AccordionName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsAccordionEnd", instanceWithInferedType.IsAccordionEnd, instanceWithInferedType, probe.formStage, formGroup,
@@ -286,8 +313,17 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("CompositeStructName", instanceWithInferedType.CompositeStructName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "",
+			IsAStartAccordionGroup: true,
+			AccordionGroupName: "",
+		}).Stage(probe.formStage))
 		BasicFieldtoForm("IsAccordionStart", instanceWithInferedType.IsAccordionStart, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "",
+			IsAEndAccordionGroup:   true,
+		}).Stage(probe.formStage))
 		BasicFieldtoForm("AccordionName", instanceWithInferedType.AccordionName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsAccordionEnd", instanceWithInferedType.IsAccordionEnd, instanceWithInferedType, probe.formStage, formGroup,

@@ -534,6 +534,8 @@ type Task_WOP struct {
 
 	Name string
 
+	Description string
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -562,8 +564,6 @@ type Task_WOP struct {
 
 	IsMilestone bool
 
-	Description string
-
 	IsInputsNodeExpanded bool
 
 	IsOutputsNodeExpanded bool
@@ -584,6 +584,7 @@ type Task_WOP struct {
 func (from *Task) CopyBasicFields(to *Task) {
 	// insertion point
 	to.Name = from.Name
+	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.LayoutDirection = from.LayoutDirection
@@ -598,7 +599,6 @@ func (from *Task) CopyBasicFields(to *Task) {
 	to.IsEndDateComputedFromDuration = from.IsEndDateComputedFromDuration
 	to.IsStartDateComputedFromPredecessors = from.IsStartDateComputedFromPredecessors
 	to.IsMilestone = from.IsMilestone
-	to.Description = from.Description
 	to.IsInputsNodeExpanded = from.IsInputsNodeExpanded
 	to.IsOutputsNodeExpanded = from.IsOutputsNodeExpanded
 	to.IsWithCompletion = from.IsWithCompletion

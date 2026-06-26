@@ -686,6 +686,9 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
+			true, false, 0, false, 0)
+		AssociationSliceToForm("SubTasks", instanceWithInferedType, &instanceWithInferedType.SubTasks, formGroup, probe)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
@@ -698,6 +701,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("End", instanceWithInferedType.End, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "Duration",
+			IsAStartAccordionGroup: true,
+			AccordionGroupName: "Duration",
+		}).Stage(probe.formStage))
 		BasicFieldtoForm("DurationYears", instanceWithInferedType.DurationYears, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("DurationMonths", instanceWithInferedType.DurationMonths, instanceWithInferedType, probe.formStage, formGroup,
@@ -710,31 +718,59 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsEndDateComputedFromDuration", instanceWithInferedType.IsEndDateComputedFromDuration, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "",
+			IsAEndAccordionGroup:   true,
+		}).Stage(probe.formStage))
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "Predecessors",
+			IsAStartAccordionGroup: true,
+			AccordionGroupName: "Predecessors",
+		}).Stage(probe.formStage))
 		AssociationSliceToForm("Predecessors", instanceWithInferedType, &instanceWithInferedType.Predecessors, formGroup, probe)
 		BasicFieldtoForm("IsStartDateComputedFromPredecessors", instanceWithInferedType.IsStartDateComputedFromPredecessors, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "",
+			IsAEndAccordionGroup:   true,
+		}).Stage(probe.formStage))
 		BasicFieldtoForm("IsMilestone", instanceWithInferedType.IsMilestone, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
-			true, false, 0, false, 0)
-		AssociationSliceToForm("SubTasks", instanceWithInferedType, &instanceWithInferedType.SubTasks, formGroup, probe)
 		AssociationSliceToForm("Inputs", instanceWithInferedType, &instanceWithInferedType.Inputs, formGroup, probe)
 		BasicFieldtoForm("IsInputsNodeExpanded", instanceWithInferedType.IsInputsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("Outputs", instanceWithInferedType, &instanceWithInferedType.Outputs, formGroup, probe)
 		BasicFieldtoForm("IsOutputsNodeExpanded", instanceWithInferedType.IsOutputsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "Completion Display",
+			IsAStartAccordionGroup: true,
+			AccordionGroupName: "Completion Display",
+		}).Stage(probe.formStage))
 		BasicFieldtoForm("IsWithCompletion", instanceWithInferedType.IsWithCompletion, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		EnumTypeStringToForm("Completion", instanceWithInferedType.Completion, instanceWithInferedType, probe.formStage, formGroup)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "",
+			IsAEndAccordionGroup:   true,
+		}).Stage(probe.formStage))
 		BasicFieldtoForm("DisplayVerticalBar", instanceWithInferedType.DisplayVerticalBar, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("TaskGroupsToDisplay", instanceWithInferedType, &instanceWithInferedType.TaskGroupsToDisplay, formGroup, probe)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "Custom positions",
+			IsAStartAccordionGroup: true,
+			AccordionGroupName: "Custom positions",
+		}).Stage(probe.formStage))
 		EnumTypeStringToForm("TextPosition", instanceWithInferedType.TextPosition, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("XOffset", instanceWithInferedType.XOffset, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("YOffset", instanceWithInferedType.YOffset, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "",
+			IsAEndAccordionGroup:   true,
+		}).Stage(probe.formStage))
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -809,23 +845,23 @@ func FillUpForm(
 		{
 			AssociationReverseSliceToForm[*models.Task, *models.Task](
 				"Task",
-				"Predecessors",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Task) []*models.Task {
-					return owner.Predecessors
-				})
-		}
-		{
-			AssociationReverseSliceToForm[*models.Task, *models.Task](
-				"Task",
 				"SubTasks",
 				instanceWithInferedType,
 				formGroup,
 				probe,
 				func(owner *models.Task) []*models.Task {
 					return owner.SubTasks
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.Task, *models.Task](
+				"Task",
+				"Predecessors",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Task) []*models.Task {
+					return owner.Predecessors
 				})
 		}
 		{

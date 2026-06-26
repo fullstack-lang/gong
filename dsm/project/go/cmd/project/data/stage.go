@@ -444,6 +444,7 @@ func _(stage *models.Stage) {
 	__ResourceShape__00000001_.IsHidden = false
 
 	__Task__00000000_.Name = `W1`
+	__Task__00000000_.Description = ``
 	__Task__00000000_.ComputedPrefix = `1`
 	__Task__00000000_.IsExpanded = false
 	__Task__00000000_.LayoutDirection = models.Vertical
@@ -458,7 +459,6 @@ func _(stage *models.Stage) {
 	__Task__00000000_.IsEndDateComputedFromDuration = false
 	__Task__00000000_.IsStartDateComputedFromPredecessors = false
 	__Task__00000000_.IsMilestone = false
-	__Task__00000000_.Description = ``
 	__Task__00000000_.IsInputsNodeExpanded = false
 	__Task__00000000_.IsOutputsNodeExpanded = false
 	__Task__00000000_.IsWithCompletion = true
@@ -469,6 +469,7 @@ func _(stage *models.Stage) {
 	__Task__00000000_.YOffset = 0.000000
 
 	__Task__00000001_.Name = `W1.1`
+	__Task__00000001_.Description = ``
 	__Task__00000001_.ComputedPrefix = `1.1`
 	__Task__00000001_.IsExpanded = false
 	__Task__00000001_.LayoutDirection = models.Vertical
@@ -483,7 +484,6 @@ func _(stage *models.Stage) {
 	__Task__00000001_.IsEndDateComputedFromDuration = false
 	__Task__00000001_.IsStartDateComputedFromPredecessors = false
 	__Task__00000001_.IsMilestone = false
-	__Task__00000001_.Description = ``
 	__Task__00000001_.IsInputsNodeExpanded = false
 	__Task__00000001_.IsOutputsNodeExpanded = false
 	__Task__00000001_.IsWithCompletion = false
@@ -583,8 +583,8 @@ func _(stage *models.Stage) {
 	__ResourceCompositionShape__00000000_.Resource = __Resource__00000001_
 	__ResourceShape__00000000_.Resource = __Resource__00000000_
 	__ResourceShape__00000001_.Resource = __Resource__00000001_
-	__Task__00000000_.ReferencedTask = nil
 	__Task__00000000_.SubTasks = append(__Task__00000000_.SubTasks, __Task__00000001_)
+	__Task__00000000_.ReferencedTask = nil
 	__Task__00000001_.ReferencedTask = nil
 	__TaskCompositionShape__00000000_.Task = __Task__00000001_
 	__TaskShape__00000000_.Task = __Task__00000000_

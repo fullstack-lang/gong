@@ -68,6 +68,8 @@ const (
 	ButtonImplSubTmplPointerField
 	ButtonImplSubTmplSliceOfPointersField
 	ButtonImplSubTmplSliceOfPointersReversePointer
+	ButtonImplSubTmplAccordionStart
+	ButtonImplSubTmplAccordionEnd
 	ButtonImplSubTmplDivider
 )
 
@@ -97,6 +99,17 @@ map[ButtonImplSubTemplateId]string{
 					return owner.{{FieldName}}
 				})
 		}`,
+	ButtonImplSubTmplAccordionStart: `
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "{{AccordionName}}",
+			IsAStartAccordionGroup: true,
+			AccordionGroupName: "{{AccordionName}}",
+		}).Stage(probe.formStage))`,
+	ButtonImplSubTmplAccordionEnd: `
+		formGroup.FormDivs = append(formGroup.FormDivs, (&form.FormDiv{
+			Name:       "",
+			IsAEndAccordionGroup:   true,
+		}).Stage(probe.formStage))`,
 	ButtonImplSubTmplDivider: `
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -139,6 +152,25 @@ func CodeGeneratorFillUpForm(
 			fieldToFormCode := ""
 
 			for _, field := range gongStruct.Fields {
+
+				var abstractField *models.AbstractField
+				switch field := field.(type) {
+				case *models.GongBasicField:
+					abstractField = &field.AbstractField
+				case *models.GongTimeField:
+					abstractField = &field.AbstractField
+				case *models.PointerToGongStructField:
+					abstractField = &field.AbstractField
+				case *models.SliceOfPointerToGongStructField:
+					abstractField = &field.AbstractField
+				}
+				if abstractField != nil {
+					if abstractField.IsAccordionStart {
+						fieldToFormCode += models.Replace1(
+							ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplAccordionStart],
+							"{{AccordionName}}", abstractField.AccordionName)
+					}
+				}
 
 				switch field := field.(type) {
 				case *models.GongBasicField:
@@ -204,6 +236,12 @@ func CodeGeneratorFillUpForm(
 						ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplSliceOfPointersField],
 						"{{FieldName}}", field.Name)
 				default:
+				}
+
+				if abstractField != nil {
+					if abstractField.IsAccordionEnd {
+						fieldToFormCode += ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplAccordionEnd]
+					}
 				}
 
 			}
