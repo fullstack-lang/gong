@@ -746,10 +746,10 @@ func (stage *Stage) StageBranchTask(task *Task) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _task := range task.Predecessors {
+	for _, _task := range task.SubTasks {
 		StageBranch(stage, _task)
 	}
-	for _, _task := range task.SubTasks {
+	for _, _task := range task.Predecessors {
 		StageBranch(stage, _task)
 	}
 	for _, _product := range task.Inputs {
@@ -1411,11 +1411,11 @@ func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _task := range taskFrom.Predecessors {
-		taskTo.Predecessors = append(taskTo.Predecessors, CopyBranchTask(mapOrigCopy, _task))
-	}
 	for _, _task := range taskFrom.SubTasks {
 		taskTo.SubTasks = append(taskTo.SubTasks, CopyBranchTask(mapOrigCopy, _task))
+	}
+	for _, _task := range taskFrom.Predecessors {
+		taskTo.Predecessors = append(taskTo.Predecessors, CopyBranchTask(mapOrigCopy, _task))
 	}
 	for _, _product := range taskFrom.Inputs {
 		taskTo.Inputs = append(taskTo.Inputs, CopyBranchProduct(mapOrigCopy, _product))
@@ -2017,10 +2017,10 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _task := range task.Predecessors {
+	for _, _task := range task.SubTasks {
 		UnstageBranch(stage, _task)
 	}
-	for _, _task := range task.SubTasks {
+	for _, _task := range task.Predecessors {
 		UnstageBranch(stage, _task)
 	}
 	for _, _product := range task.Inputs {
@@ -2407,13 +2407,13 @@ func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, insta
 		reference.ReferencedTask = stage.Tasks_reference[instance.ReferencedTask]
 	}
 	// insertion point for slice of pointers field
-	reference.Predecessors = reference.Predecessors[:0]
-	for _, _b := range instance.Predecessors {
-		reference.Predecessors = append(reference.Predecessors, stage.Tasks_reference[_b])
-	}
 	reference.SubTasks = reference.SubTasks[:0]
 	for _, _b := range instance.SubTasks {
 		reference.SubTasks = append(reference.SubTasks, stage.Tasks_reference[_b])
+	}
+	reference.Predecessors = reference.Predecessors[:0]
+	for _, _b := range instance.Predecessors {
+		reference.Predecessors = append(reference.Predecessors, stage.Tasks_reference[_b])
 	}
 	reference.Inputs = reference.Inputs[:0]
 	for _, _b := range instance.Inputs {
@@ -2892,13 +2892,6 @@ func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-	var _Predecessors []*Task
-	for _, _reference := range reference.Predecessors {
-		if _instance, ok := stage.Tasks_instance[_reference]; ok {
-			_Predecessors = append(_Predecessors, _instance)
-		}
-	}
-	reference.Predecessors = _Predecessors
 	var _SubTasks []*Task
 	for _, _reference := range reference.SubTasks {
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
@@ -2906,6 +2899,13 @@ func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.SubTasks = _SubTasks
+	var _Predecessors []*Task
+	for _, _reference := range reference.Predecessors {
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			_Predecessors = append(_Predecessors, _instance)
+		}
+	}
+	reference.Predecessors = _Predecessors
 	var _Inputs []*Product
 	for _, _reference := range reference.Inputs {
 		if _instance, ok := stage.Products_instance[_reference]; ok {
@@ -4355,6 +4355,30 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	if task.Name != taskOther.Name {
 		diffs = append(diffs, task.GongMarshallField(stage, "Name"))
 	}
+	if task.Description != taskOther.Description {
+		diffs = append(diffs, task.GongMarshallField(stage, "Description"))
+	}
+	SubTasksDifferent := false
+	if len(task.SubTasks) != len(taskOther.SubTasks) {
+		SubTasksDifferent = true
+	} else {
+		for i := range task.SubTasks {
+			if (task.SubTasks[i] == nil) != (taskOther.SubTasks[i] == nil) {
+				SubTasksDifferent = true
+				break
+			} else if task.SubTasks[i] != nil && taskOther.SubTasks[i] != nil {
+				// this is a pointer comparaison
+				if task.SubTasks[i] != taskOther.SubTasks[i] {
+					SubTasksDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubTasksDifferent {
+		ops := Diff(stage, task, taskOther, "SubTasks", taskOther.SubTasks, task.SubTasks)
+		diffs = append(diffs, ops)
+	}
 	if task.ComputedPrefix != taskOther.ComputedPrefix {
 		diffs = append(diffs, task.GongMarshallField(stage, "ComputedPrefix"))
 	}
@@ -4424,30 +4448,6 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	}
 	if task.IsMilestone != taskOther.IsMilestone {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsMilestone"))
-	}
-	if task.Description != taskOther.Description {
-		diffs = append(diffs, task.GongMarshallField(stage, "Description"))
-	}
-	SubTasksDifferent := false
-	if len(task.SubTasks) != len(taskOther.SubTasks) {
-		SubTasksDifferent = true
-	} else {
-		for i := range task.SubTasks {
-			if (task.SubTasks[i] == nil) != (taskOther.SubTasks[i] == nil) {
-				SubTasksDifferent = true
-				break
-			} else if task.SubTasks[i] != nil && taskOther.SubTasks[i] != nil {
-				// this is a pointer comparaison
-				if task.SubTasks[i] != taskOther.SubTasks[i] {
-					SubTasksDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SubTasksDifferent {
-		ops := Diff(stage, task, taskOther, "SubTasks", taskOther.SubTasks, task.SubTasks)
-		diffs = append(diffs, ops)
 	}
 	InputsDifferent := false
 	if len(task.Inputs) != len(taskOther.Inputs) {

@@ -419,9 +419,9 @@ type Stage struct {
 	Tasks_referenceOrder map[*Task]uint
 
 	// insertion point for slice of pointers maps
-	Task_Predecessors_reverseMap map[*Task]*Task
-
 	Task_SubTasks_reverseMap map[*Task]*Task
+
+	Task_Predecessors_reverseMap map[*Task]*Task
 
 	Task_Inputs_reverseMap map[*Product]*Task
 
@@ -4885,11 +4885,11 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&Task{
 			// Initialisation of associations
 			// field is initialized with an instance of Task with the name of the field
+			SubTasks: []*Task{{Name: "SubTasks"}},
+			// field is initialized with an instance of Task with the name of the field
 			ReferencedTask: &Task{Name: "ReferencedTask"},
 			// field is initialized with an instance of Task with the name of the field
 			Predecessors: []*Task{{Name: "Predecessors"}},
-			// field is initialized with an instance of Task with the name of the field
-			SubTasks: []*Task{{Name: "SubTasks"}},
 			// field is initialized with an instance of Product with the name of the field
 			Inputs: []*Product{{Name: "Inputs"}},
 			// field is initialized with an instance of Product with the name of the field
@@ -5811,18 +5811,18 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Task:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Predecessors":
-			res := make(map[*Task][]*Task)
-			for task := range stage.Tasks {
-				for _, task_ := range task.Predecessors {
-					res[task_] = append(res[task_], task)
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "SubTasks":
 			res := make(map[*Task][]*Task)
 			for task := range stage.Tasks {
 				for _, task_ := range task.SubTasks {
+					res[task_] = append(res[task_], task)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Predecessors":
+			res := make(map[*Task][]*Task)
+			for task := range stage.Tasks {
+				for _, task_ := range task.Predecessors {
 					res[task_] = append(res[task_], task)
 				}
 			}
@@ -6093,10 +6093,10 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "Tasks"
 		res = append(res, rf)
 		rf.GongstructName = "Task"
-		rf.Fieldname = "Predecessors"
+		rf.Fieldname = "SubTasks"
 		res = append(res, rf)
 		rf.GongstructName = "Task"
-		rf.Fieldname = "SubTasks"
+		rf.Fieldname = "Predecessors"
 		res = append(res, rf)
 		rf.GongstructName = "TaskGroup"
 		rf.Fieldname = "Tasks"
@@ -7064,6 +7064,15 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "SubTasks",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Task",
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -7129,15 +7138,6 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsMilestone",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "Description",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:                 "SubTasks",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Task",
 		},
 		{
 			Name:                 "Inputs",
@@ -8528,6 +8528,18 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	// string value of fields
 	case "Name":
 		res.valueString = task.Name
+	case "Description":
+		res.valueString = task.Description
+	case "SubTasks":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range task.SubTasks {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "ComputedPrefix":
 		res.valueString = task.ComputedPrefix
 	case "IsExpanded":
@@ -8593,18 +8605,6 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", task.IsMilestone)
 		res.valueBool = task.IsMilestone
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "Description":
-		res.valueString = task.Description
-	case "SubTasks":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range task.SubTasks {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
 	case "Inputs":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range task.Inputs {
@@ -9941,6 +9941,22 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 	// insertion point for per field code
 	case "Name":
 		task.Name = value.GetValueString()
+	case "Description":
+		task.Description = value.GetValueString()
+	case "SubTasks":
+		task.SubTasks = make([]*Task, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Tasks {
+					if stage.Task_stagedOrder[__instance__] == uint(id) {
+						task.SubTasks = append(task.SubTasks, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "ComputedPrefix":
 		task.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
@@ -9990,22 +10006,6 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		task.IsStartDateComputedFromPredecessors = value.GetValueBool()
 	case "IsMilestone":
 		task.IsMilestone = value.GetValueBool()
-	case "Description":
-		task.Description = value.GetValueString()
-	case "SubTasks":
-		task.SubTasks = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						task.SubTasks = append(task.SubTasks, __instance__)
-						break
-					}
-				}
-			}
-		}
 	case "Inputs":
 		task.Inputs = make([]*Product, 0)
 		ids := strings.Split(value.ids, ";")
