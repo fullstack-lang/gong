@@ -28,6 +28,10 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("CompositeStructName", instanceWithInferedType.CompositeStructName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("IsAccordionStart", instanceWithInferedType.IsAccordionStart, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsAccordionEnd", instanceWithInferedType.IsAccordionEnd, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		BasicFieldtoForm("Index", instanceWithInferedType.Index, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsTextArea", instanceWithInferedType.IsTextArea, instanceWithInferedType, probe.formStage, formGroup,
@@ -158,6 +162,10 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("CompositeStructName", instanceWithInferedType.CompositeStructName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("IsAccordionStart", instanceWithInferedType.IsAccordionStart, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsAccordionEnd", instanceWithInferedType.IsAccordionEnd, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		BasicFieldtoForm("BespokeTimeFormat", instanceWithInferedType.BespokeTimeFormat, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		formDivDivider := (&form.FormDiv{
@@ -240,6 +248,10 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("CompositeStructName", instanceWithInferedType.CompositeStructName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("IsAccordionStart", instanceWithInferedType.IsAccordionStart, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsAccordionEnd", instanceWithInferedType.IsAccordionEnd, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsType", instanceWithInferedType.IsType, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		formDivDivider := (&form.FormDiv{
@@ -267,6 +279,10 @@ func FillUpForm(
 		BasicFieldtoForm("Index", instanceWithInferedType.Index, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("CompositeStructName", instanceWithInferedType.CompositeStructName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsAccordionStart", instanceWithInferedType.IsAccordionStart, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsAccordionEnd", instanceWithInferedType.IsAccordionEnd, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",

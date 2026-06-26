@@ -472,6 +472,10 @@ func (u *GongBasicFieldUnmarshaller) UnmarshallField(stage *Stage, i GongstructI
 		instance.DeclaredType = GongExtractString(valueExpr)
 	case "CompositeStructName":
 		instance.CompositeStructName = GongExtractString(valueExpr)
+	case "IsAccordionStart":
+		instance.IsAccordionStart = GongExtractBool(valueExpr)
+	case "IsAccordionEnd":
+		instance.IsAccordionEnd = GongExtractBool(valueExpr)
 	case "Index":
 		instance.Index = GongExtractInt(valueExpr)
 	case "IsTextArea":
@@ -690,6 +694,10 @@ func (u *GongTimeFieldUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.Index = GongExtractInt(valueExpr)
 	case "CompositeStructName":
 		instance.CompositeStructName = GongExtractString(valueExpr)
+	case "IsAccordionStart":
+		instance.IsAccordionStart = GongExtractBool(valueExpr)
+	case "IsAccordionEnd":
+		instance.IsAccordionEnd = GongExtractBool(valueExpr)
 	case "BespokeTimeFormat":
 		instance.BespokeTimeFormat = GongExtractString(valueExpr)
 	}
@@ -819,6 +827,10 @@ func (u *PointerToGongStructFieldUnmarshaller) UnmarshallField(stage *Stage, i G
 		instance.Index = GongExtractInt(valueExpr)
 	case "CompositeStructName":
 		instance.CompositeStructName = GongExtractString(valueExpr)
+	case "IsAccordionStart":
+		instance.IsAccordionStart = GongExtractBool(valueExpr)
+	case "IsAccordionEnd":
+		instance.IsAccordionEnd = GongExtractBool(valueExpr)
 	case "IsType":
 		instance.IsType = GongExtractBool(valueExpr)
 	}
@@ -856,6 +868,10 @@ func (u *SliceOfPointerToGongStructFieldUnmarshaller) UnmarshallField(stage *Sta
 		instance.Index = GongExtractInt(valueExpr)
 	case "CompositeStructName":
 		instance.CompositeStructName = GongExtractString(valueExpr)
+	case "IsAccordionStart":
+		instance.IsAccordionStart = GongExtractBool(valueExpr)
+	case "IsAccordionEnd":
+		instance.IsAccordionEnd = GongExtractBool(valueExpr)
 	}
 	return nil
 }

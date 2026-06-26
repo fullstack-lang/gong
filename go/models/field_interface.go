@@ -1,5 +1,13 @@
 package models
 
+// common fields among fields (ah ah)
+type AbstractField struct {
+
+	// some field mark the start of an accordion //gong:accordion-start //gong:accordion-end
+	IsAccordionStart bool
+	IsAccordionEnd   bool
+}
+
 type FieldInterface interface {
 	GetName() string
 	GetIndex() int // get the field index with its belonging gongstruct
