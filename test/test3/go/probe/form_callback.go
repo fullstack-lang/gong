@@ -68,12 +68,12 @@ func (aFormCallback *AFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(a_.Name), formDiv)
 		case "Date":
 			FormDivBasicFieldToField(&(a_.Date), formDiv)
+		case "Duration":
+			FormDivBasicFieldToField(&(a_.Duration), formDiv)
 		case "FloatValue":
 			FormDivBasicFieldToField(&(a_.FloatValue), formDiv)
 		case "IntValue":
 			FormDivBasicFieldToField(&(a_.IntValue), formDiv)
-		case "Duration":
-			FormDivBasicFieldToField(&(a_.Duration), formDiv)
 		case "EnumString":
 			FormDivEnumStringFieldToField(&(a_.EnumString), formDiv)
 		case "EnumInt":

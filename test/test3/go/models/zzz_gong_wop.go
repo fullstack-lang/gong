@@ -16,11 +16,11 @@ type A_WOP struct {
 
 	Date time.Time
 
+	Duration time.Duration
+
 	FloatValue float64
 
 	IntValue int
-
-	Duration time.Duration
 
 	EnumString EnumTypeString
 
@@ -33,9 +33,9 @@ func (from *A) CopyBasicFields(to *A) {
 	// insertion point
 	to.Name = from.Name
 	to.Date = from.Date
+	to.Duration = from.Duration
 	to.FloatValue = from.FloatValue
 	to.IntValue = from.IntValue
-	to.Duration = from.Duration
 	to.EnumString = from.EnumString
 	to.EnumInt = from.EnumInt
 	to.UUID = from.UUID

@@ -285,14 +285,14 @@ func (a *A) GongDiff(stage *Stage, aOther *A) (diffs []string) {
 	if a.Date != aOther.Date {
 		diffs = append(diffs, a.GongMarshallField(stage, "Date"))
 	}
+	if a.Duration != aOther.Duration {
+		diffs = append(diffs, a.GongMarshallField(stage, "Duration"))
+	}
 	if a.FloatValue != aOther.FloatValue {
 		diffs = append(diffs, a.GongMarshallField(stage, "FloatValue"))
 	}
 	if a.IntValue != aOther.IntValue {
 		diffs = append(diffs, a.GongMarshallField(stage, "IntValue"))
-	}
-	if a.Duration != aOther.Duration {
-		diffs = append(diffs, a.GongMarshallField(stage, "Duration"))
 	}
 	if a.EnumString != aOther.EnumString {
 		diffs = append(diffs, a.GongMarshallField(stage, "EnumString"))

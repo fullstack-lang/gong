@@ -472,12 +472,12 @@ func (u *AUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName 
 				}
 			}
 		}
+	case "Duration":
+		instance.Duration = time.Duration(GongExtractInt(valueExpr))
 	case "FloatValue":
 		instance.FloatValue = GongExtractFloat(valueExpr)
 	case "IntValue":
 		instance.IntValue = GongExtractInt(valueExpr)
-	case "Duration":
-		instance.Duration = time.Duration(GongExtractInt(valueExpr))
 	case "EnumString":
 		GongUnmarshallEnum(&instance.EnumString, valueExpr)
 	case "EnumInt":

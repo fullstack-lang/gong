@@ -408,6 +408,21 @@
             ]
         },
         {
+            "label": "go - gong: go run gong read test3",
+            "type": "shell",
+            "options": {
+                "cwd": "./go/cmd/gong"
+            },
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "read",
+                "../../../test/test3/go/models"
+            ]
+        },
+        {
             "label": "go - gong: gong generate gong",
             "type": "shell",
             "options": {

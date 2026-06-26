@@ -30,6 +30,9 @@ func GenerateFieldParser(
 		var isBespokeHeight bool
 		var bespokeHeight int
 		var bespokeTimeFormat string
+		var isAccordionStart bool
+		var accordionName string
+		var isAccordionEnd bool
 		if field.Comment != nil {
 			for _, comment := range field.Comment.List {
 				if strings.Contains(comment.Text, "swagger:ignore") || strings.Contains(comment.Text, "gong:ignore") {
@@ -54,6 +57,18 @@ func GenerateFieldParser(
 				}
 				if strings.Contains(comment.Text, "gong:bespoketimeserializeformat") {
 					bespokeTimeFormat, _ = extractTimeFormat(comment.Text)
+				}
+				if strings.Contains(comment.Text, "gong:accordion-start") {
+					name, err := extractAccordionName(comment.Text)
+					if err == nil {
+						isAccordionStart = true
+						accordionName = name
+					} else {
+						isAccordionStart = true
+					}
+				}
+				if strings.Contains(comment.Text, "gong:accordion-end") {
+					isAccordionEnd = true
 				}
 			}
 		}
@@ -81,6 +96,18 @@ func GenerateFieldParser(
 				}
 				if strings.Contains(comment.Text, "gong:bespoketimeserializeformat") {
 					bespokeTimeFormat, _ = extractTimeFormat(comment.Text)
+				}
+				if strings.Contains(comment.Text, "gong:accordion-start") {
+					name, err := extractAccordionName(comment.Text)
+					if err == nil {
+						isAccordionStart = true
+						accordionName = name
+					} else {
+						isAccordionStart = true
+					}
+				}
+				if strings.Contains(comment.Text, "gong:accordion-end") {
+					isAccordionEnd = true
 				}
 			}
 		}
@@ -114,6 +141,7 @@ func GenerateFieldParser(
 		// type Hello struct {
 		//    X, Y int
 		// }
+		initialLen := len(owningGongstruct.Fields)
 		for _, fieldNameIdent := range field.Names {
 			fieldName := fieldNameIdent.Name
 			if prefix != "" {
@@ -318,6 +346,28 @@ func GenerateFieldParser(
 
 			default:
 				// log.Println("Field ", fieldName, " of struct ", owningGongstruct.Name, " is not a gong type")
+			}
+		}
+
+		// populate accordion fields for newly added fields
+		for i := initialLen; i < len(owningGongstruct.Fields); i++ {
+			switch f := owningGongstruct.Fields[i].(type) {
+			case *GongBasicField:
+				f.IsAccordionStart = isAccordionStart
+				f.AccordionName = accordionName
+				f.IsAccordionEnd = isAccordionEnd
+			case *GongTimeField:
+				f.IsAccordionStart = isAccordionStart
+				f.AccordionName = accordionName
+				f.IsAccordionEnd = isAccordionEnd
+			case *PointerToGongStructField:
+				f.IsAccordionStart = isAccordionStart
+				f.AccordionName = accordionName
+				f.IsAccordionEnd = isAccordionEnd
+			case *SliceOfPointerToGongStructField:
+				f.IsAccordionStart = isAccordionStart
+				f.AccordionName = accordionName
+				f.IsAccordionEnd = isAccordionEnd
 			}
 		}
 	}
