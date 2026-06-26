@@ -363,10 +363,10 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
       if (node.gongNode.BackgroundColor != "") {
         return node.gongNode.BackgroundColor
       } else {
-        return 'default'
+        return ''
       }
     }
-    return 'default'
+    return ''
   }
 
   getStyle(node: FlatNode): { 'font-style': string } {

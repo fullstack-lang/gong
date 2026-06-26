@@ -3,7 +3,7 @@
 }
 
 .custom-tree-node:hover {
-    background-color: #F8F8F8;
+    background-color: rgba(0, 0, 0, 0.04) !important;
     cursor: pointer;
 }
 
