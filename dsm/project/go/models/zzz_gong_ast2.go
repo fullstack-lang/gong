@@ -923,16 +923,6 @@ func (u *ProductUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "ComputedPrefix":
-		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
-	case "IsImport":
-		instance.IsImport = GongExtractBool(valueExpr)
-	case "ReferencedProduct":
-		GongUnmarshallPointer(&instance.ReferencedProduct, valueExpr, identifierMap)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
 	case "SubProducts":
@@ -941,6 +931,16 @@ func (u *ProductUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsProducersNodeExpanded = GongExtractBool(valueExpr)
 	case "IsConsumersNodeExpanded":
 		instance.IsConsumersNodeExpanded = GongExtractBool(valueExpr)
+	case "IsImport":
+		instance.IsImport = GongExtractBool(valueExpr)
+	case "ReferencedProduct":
+		GongUnmarshallPointer(&instance.ReferencedProduct, valueExpr, identifierMap)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	}
 	return nil
 }
@@ -1058,6 +1058,12 @@ func (u *ResourceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
+	case "Tasks":
+		GongUnmarshallSliceOfPointers(&instance.Tasks, valueExpr, identifierMap)
+	case "SubResources":
+		GongUnmarshallSliceOfPointers(&instance.SubResources, valueExpr, identifierMap)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
@@ -1068,12 +1074,6 @@ func (u *ResourceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		instance.IsImport = GongExtractBool(valueExpr)
 	case "ReferencedResource":
 		GongUnmarshallPointer(&instance.ReferencedResource, valueExpr, identifierMap)
-	case "Description":
-		instance.Description = GongExtractString(valueExpr)
-	case "Tasks":
-		GongUnmarshallSliceOfPointers(&instance.Tasks, valueExpr, identifierMap)
-	case "SubResources":
-		GongUnmarshallSliceOfPointers(&instance.SubResources, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1238,18 +1238,6 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Name = GongExtractString(valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
-	case "SubTasks":
-		GongUnmarshallSliceOfPointers(&instance.SubTasks, valueExpr, identifierMap)
-	case "ComputedPrefix":
-		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
-	case "IsImport":
-		instance.IsImport = GongExtractBool(valueExpr)
-	case "ReferencedTask":
-		GongUnmarshallPointer(&instance.ReferencedTask, valueExpr, identifierMap)
 	case "Start":
 		if call, ok := valueExpr.(*ast.CallExpr); ok {
 			if len(call.Args) == 2 {
@@ -1306,6 +1294,18 @@ func (u *TaskUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.XOffset = GongExtractFloat(valueExpr)
 	case "YOffset":
 		instance.YOffset = GongExtractFloat(valueExpr)
+	case "IsImport":
+		instance.IsImport = GongExtractBool(valueExpr)
+	case "ReferencedTask":
+		GongUnmarshallPointer(&instance.ReferencedTask, valueExpr, identifierMap)
+	case "SubTasks":
+		GongUnmarshallSliceOfPointers(&instance.SubTasks, valueExpr, identifierMap)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	}
 	return nil
 }

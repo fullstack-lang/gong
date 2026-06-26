@@ -325,31 +325,31 @@ type Product_WOP struct {
 
 	Name string
 
-	ComputedPrefix string
-
-	IsExpanded bool
-
-	LayoutDirection LayoutDirection
-
-	IsImport bool
-
 	Description string
 
 	IsProducersNodeExpanded bool
 
 	IsConsumersNodeExpanded bool
+
+	IsImport bool
+
+	ComputedPrefix string
+
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
 }
 
 func (from *Product) CopyBasicFields(to *Product) {
 	// insertion point
 	to.Name = from.Name
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
-	to.IsImport = from.IsImport
 	to.Description = from.Description
 	to.IsProducersNodeExpanded = from.IsProducersNodeExpanded
 	to.IsConsumersNodeExpanded = from.IsConsumersNodeExpanded
+	to.IsImport = from.IsImport
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 }
 
 type ProductCompositionShape_WOP struct {
@@ -418,6 +418,8 @@ type Resource_WOP struct {
 
 	Name string
 
+	Description string
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -425,18 +427,16 @@ type Resource_WOP struct {
 	LayoutDirection LayoutDirection
 
 	IsImport bool
-
-	Description string
 }
 
 func (from *Resource) CopyBasicFields(to *Resource) {
 	// insertion point
 	to.Name = from.Name
+	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.LayoutDirection = from.LayoutDirection
 	to.IsImport = from.IsImport
-	to.Description = from.Description
 }
 
 type ResourceCompositionShape_WOP struct {
@@ -536,14 +536,6 @@ type Task_WOP struct {
 
 	Description string
 
-	ComputedPrefix string
-
-	IsExpanded bool
-
-	LayoutDirection LayoutDirection
-
-	IsImport bool
-
 	Start time.Time
 
 	End time.Time
@@ -579,16 +571,20 @@ type Task_WOP struct {
 	XOffset float64
 
 	YOffset float64
+
+	IsImport bool
+
+	ComputedPrefix string
+
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
 }
 
 func (from *Task) CopyBasicFields(to *Task) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
-	to.ComputedPrefix = from.ComputedPrefix
-	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
-	to.IsImport = from.IsImport
 	to.Start = from.Start
 	to.End = from.End
 	to.DurationYears = from.DurationYears
@@ -607,6 +603,10 @@ func (from *Task) CopyBasicFields(to *Task) {
 	to.TextPosition = from.TextPosition
 	to.XOffset = from.XOffset
 	to.YOffset = from.YOffset
+	to.IsImport = from.IsImport
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 }
 
 type TaskCompositionShape_WOP struct {

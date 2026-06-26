@@ -238,67 +238,67 @@ func _(stage *models.Stage) {
 	__Library__00000002_.IsRootLibrary = false
 
 	__Product__00000000_.Name = `A`
-	__Product__00000000_.ComputedPrefix = `1`
-	__Product__00000000_.IsExpanded = false
-	__Product__00000000_.LayoutDirection = models.Vertical
-	__Product__00000000_.IsImport = false
 	__Product__00000000_.Description = ``
 	__Product__00000000_.IsProducersNodeExpanded = false
 	__Product__00000000_.IsConsumersNodeExpanded = false
+	__Product__00000000_.IsImport = false
+	__Product__00000000_.ComputedPrefix = `1`
+	__Product__00000000_.IsExpanded = false
+	__Product__00000000_.LayoutDirection = models.Vertical
 
 	__Product__00000001_.Name = `A.1`
-	__Product__00000001_.ComputedPrefix = `1.1`
-	__Product__00000001_.IsExpanded = false
-	__Product__00000001_.LayoutDirection = models.Vertical
-	__Product__00000001_.IsImport = false
 	__Product__00000001_.Description = ``
 	__Product__00000001_.IsProducersNodeExpanded = false
 	__Product__00000001_.IsConsumersNodeExpanded = false
+	__Product__00000001_.IsImport = false
+	__Product__00000001_.ComputedPrefix = `1.1`
+	__Product__00000001_.IsExpanded = false
+	__Product__00000001_.LayoutDirection = models.Vertical
 
 	__Product__00000002_.Name = `A.1.1`
-	__Product__00000002_.ComputedPrefix = `1.1.1`
-	__Product__00000002_.IsExpanded = false
-	__Product__00000002_.LayoutDirection = models.Vertical
-	__Product__00000002_.IsImport = false
 	__Product__00000002_.Description = ``
 	__Product__00000002_.IsProducersNodeExpanded = false
 	__Product__00000002_.IsConsumersNodeExpanded = false
+	__Product__00000002_.IsImport = false
+	__Product__00000002_.ComputedPrefix = `1.1.1`
+	__Product__00000002_.IsExpanded = false
+	__Product__00000002_.LayoutDirection = models.Vertical
 
 	__Product__00000003_.Name = `A.2`
-	__Product__00000003_.ComputedPrefix = `1.2`
-	__Product__00000003_.IsExpanded = false
-	__Product__00000003_.LayoutDirection = models.Vertical
-	__Product__00000003_.IsImport = false
 	__Product__00000003_.Description = ``
 	__Product__00000003_.IsProducersNodeExpanded = false
 	__Product__00000003_.IsConsumersNodeExpanded = false
+	__Product__00000003_.IsImport = false
+	__Product__00000003_.ComputedPrefix = `1.2`
+	__Product__00000003_.IsExpanded = false
+	__Product__00000003_.LayoutDirection = models.Vertical
 
 	__Product__00000004_.Name = `A.3`
-	__Product__00000004_.ComputedPrefix = `1.3`
-	__Product__00000004_.IsExpanded = false
-	__Product__00000004_.LayoutDirection = models.Vertical
-	__Product__00000004_.IsImport = false
 	__Product__00000004_.Description = ``
 	__Product__00000004_.IsProducersNodeExpanded = false
 	__Product__00000004_.IsConsumersNodeExpanded = false
+	__Product__00000004_.IsImport = false
+	__Product__00000004_.ComputedPrefix = `1.3`
+	__Product__00000004_.IsExpanded = false
+	__Product__00000004_.LayoutDirection = models.Vertical
 
 	__Product__00000005_.Name = ``
-	__Product__00000005_.ComputedPrefix = `1.4`
-	__Product__00000005_.IsExpanded = false
-	__Product__00000005_.LayoutDirection = models.Vertical
-	__Product__00000005_.IsImport = false
 	__Product__00000005_.Description = ``
 	__Product__00000005_.IsProducersNodeExpanded = false
 	__Product__00000005_.IsConsumersNodeExpanded = false
+	__Product__00000005_.IsImport = false
+	__Product__00000005_.ComputedPrefix = `1.4`
+	__Product__00000005_.IsExpanded = false
+	__Product__00000005_.LayoutDirection = models.Vertical
 
 	__Product__00000006_.Name = `LA1`
-	__Product__00000006_.ComputedPrefix = `1`
-	__Product__00000006_.IsExpanded = false
-	__Product__00000006_.LayoutDirection = models.Vertical
-	__Product__00000006_.IsImport = false
 	__Product__00000006_.Description = ``
 	__Product__00000006_.IsProducersNodeExpanded = false
 	__Product__00000006_.IsConsumersNodeExpanded = false
+	__Product__00000006_.IsImport = false
+	__Product__00000006_.ComputedPrefix = `1`
+	__Product__00000006_.IsExpanded = false
+	__Product__00000006_.LayoutDirection = models.Vertical
 
 	__ProductCompositionShape__00000001_.Name = `Default Diagram-A-A.1`
 	__ProductCompositionShape__00000001_.StartRatio = 0.500000
@@ -404,18 +404,18 @@ func _(stage *models.Stage) {
 	__ProductShape__00000007_.IsHidden = false
 
 	__Resource__00000000_.Name = `R1`
+	__Resource__00000000_.Description = ``
 	__Resource__00000000_.ComputedPrefix = `1`
 	__Resource__00000000_.IsExpanded = false
 	__Resource__00000000_.LayoutDirection = models.Vertical
 	__Resource__00000000_.IsImport = false
-	__Resource__00000000_.Description = ``
 
 	__Resource__00000001_.Name = `R1.1`
+	__Resource__00000001_.Description = ``
 	__Resource__00000001_.ComputedPrefix = `1.1`
 	__Resource__00000001_.IsExpanded = false
 	__Resource__00000001_.LayoutDirection = models.Vertical
 	__Resource__00000001_.IsImport = false
-	__Resource__00000001_.Description = ``
 
 	__ResourceCompositionShape__00000000_.Name = `Default Diagram-R1-R1.1`
 	__ResourceCompositionShape__00000000_.StartRatio = 0.500000
@@ -445,10 +445,6 @@ func _(stage *models.Stage) {
 
 	__Task__00000000_.Name = `W1`
 	__Task__00000000_.Description = ``
-	__Task__00000000_.ComputedPrefix = `1`
-	__Task__00000000_.IsExpanded = false
-	__Task__00000000_.LayoutDirection = models.Vertical
-	__Task__00000000_.IsImport = false
 	__Task__00000000_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000000_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000000_.DurationYears = 0.000000
@@ -467,13 +463,13 @@ func _(stage *models.Stage) {
 	__Task__00000000_.TextPosition = ""
 	__Task__00000000_.XOffset = 0.000000
 	__Task__00000000_.YOffset = 0.000000
+	__Task__00000000_.IsImport = false
+	__Task__00000000_.ComputedPrefix = `1`
+	__Task__00000000_.IsExpanded = false
+	__Task__00000000_.LayoutDirection = models.Vertical
 
 	__Task__00000001_.Name = `W1.1`
 	__Task__00000001_.Description = ``
-	__Task__00000001_.ComputedPrefix = `1.1`
-	__Task__00000001_.IsExpanded = false
-	__Task__00000001_.LayoutDirection = models.Vertical
-	__Task__00000001_.IsImport = false
 	__Task__00000001_.Start, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000001_.End, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Task__00000001_.DurationYears = 0.000000
@@ -492,6 +488,10 @@ func _(stage *models.Stage) {
 	__Task__00000001_.TextPosition = ""
 	__Task__00000001_.XOffset = 0.000000
 	__Task__00000001_.YOffset = 0.000000
+	__Task__00000001_.IsImport = false
+	__Task__00000001_.ComputedPrefix = `1.1`
+	__Task__00000001_.IsExpanded = false
+	__Task__00000001_.LayoutDirection = models.Vertical
 
 	__TaskCompositionShape__00000000_.Name = `Default Diagram-W1-W1.1`
 	__TaskCompositionShape__00000000_.StartRatio = 0.500000
@@ -553,13 +553,13 @@ func _(stage *models.Stage) {
 	__Library__00000001_.RootProducts = append(__Library__00000001_.RootProducts, __Product__00000006_)
 	__Library__00000001_.Diagrams = append(__Library__00000001_.Diagrams, __Diagram__00000001_)
 	__Library__00000002_.Diagrams = append(__Library__00000002_.Diagrams, __Diagram__00000002_)
-	__Product__00000000_.ReferencedProduct = nil
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000001_)
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000003_)
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000004_)
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000005_)
-	__Product__00000001_.ReferencedProduct = nil
+	__Product__00000000_.ReferencedProduct = nil
 	__Product__00000001_.SubProducts = append(__Product__00000001_.SubProducts, __Product__00000002_)
+	__Product__00000001_.ReferencedProduct = nil
 	__Product__00000002_.ReferencedProduct = nil
 	__Product__00000003_.ReferencedProduct = nil
 	__Product__00000004_.ReferencedProduct = nil
@@ -577,14 +577,14 @@ func _(stage *models.Stage) {
 	__ProductShape__00000005_.Product = __Product__00000004_
 	__ProductShape__00000006_.Product = __Product__00000005_
 	__ProductShape__00000007_.Product = __Product__00000006_
-	__Resource__00000000_.ReferencedResource = nil
 	__Resource__00000000_.SubResources = append(__Resource__00000000_.SubResources, __Resource__00000001_)
+	__Resource__00000000_.ReferencedResource = nil
 	__Resource__00000001_.ReferencedResource = nil
 	__ResourceCompositionShape__00000000_.Resource = __Resource__00000001_
 	__ResourceShape__00000000_.Resource = __Resource__00000000_
 	__ResourceShape__00000001_.Resource = __Resource__00000001_
-	__Task__00000000_.SubTasks = append(__Task__00000000_.SubTasks, __Task__00000001_)
 	__Task__00000000_.ReferencedTask = nil
+	__Task__00000000_.SubTasks = append(__Task__00000000_.SubTasks, __Task__00000001_)
 	__Task__00000001_.ReferencedTask = nil
 	__TaskCompositionShape__00000000_.Task = __Task__00000001_
 	__TaskShape__00000000_.Task = __Task__00000000_

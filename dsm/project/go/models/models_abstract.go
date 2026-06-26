@@ -23,14 +23,6 @@ type Task struct {
 	//gong:text width:300 height:300
 	Description string
 
-	SubTasks []*Task
-
-	LibraryAbstractFields
-	AbstractTypeFields
-
-	IsImport       bool
-	ReferencedTask *Task
-
 	Start time.Time
 	End   time.Time
 
@@ -80,6 +72,14 @@ type Task struct {
 	XOffset      float64
 	//gong:accordion-end
 	YOffset float64
+
+	IsImport       bool
+	ReferencedTask *Task
+
+	SubTasks []*Task
+
+	LibraryAbstractFields
+	AbstractTypeFields
 }
 
 // TextPositionEnum
@@ -139,12 +139,6 @@ const NoteSemantic = ""
 type Product struct {
 	Name string
 
-	LibraryAbstractFields
-	AbstractTypeFields
-
-	IsImport          bool
-	ReferencedProduct *Product
-
 	//gong:text width:300 height:300
 	Description string
 
@@ -165,16 +159,16 @@ type Product struct {
 	// a parentProduct is computed at each UX look. It can be null if the
 	// product is a root product or an orphaned product
 	parentProduct *Product
+
+	IsImport          bool
+	ReferencedProduct *Product
+
+	LibraryAbstractFields
+	AbstractTypeFields
 }
 
 type Resource struct {
 	Name string
-
-	LibraryAbstractFields
-	AbstractTypeFields
-
-	IsImport           bool
-	ReferencedResource *Resource
 
 	//gong:text width:300 height:300
 	Description string
@@ -188,6 +182,12 @@ type Resource struct {
 	// a parentResource is computed at each UX look. It can be null if the
 	// resource is a root resource or an orphaned resource
 	parentResource *Resource
+
+	LibraryAbstractFields
+	AbstractTypeFields
+
+	IsImport           bool
+	ReferencedResource *Resource
 }
 
 var (
