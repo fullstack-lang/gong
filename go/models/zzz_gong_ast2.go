@@ -704,6 +704,8 @@ func (u *GongTimeFieldUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF
 		instance.IsAccordionEnd = GongExtractBool(valueExpr)
 	case "BespokeTimeFormat":
 		instance.BespokeTimeFormat = GongExtractString(valueExpr)
+	case "TimeFormOnly":
+		instance.TimeFormOnly = GongExtractBool(valueExpr)
 	}
 	return nil
 }

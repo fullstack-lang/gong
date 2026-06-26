@@ -151,6 +151,8 @@ type GongTimeField_WOP struct {
 	IsAccordionEnd bool
 
 	BespokeTimeFormat string
+
+	TimeFormOnly bool
 }
 
 func (from *GongTimeField) CopyBasicFields(to *GongTimeField) {
@@ -162,6 +164,7 @@ func (from *GongTimeField) CopyBasicFields(to *GongTimeField) {
 	to.AccordionName = from.AccordionName
 	to.IsAccordionEnd = from.IsAccordionEnd
 	to.BespokeTimeFormat = from.BespokeTimeFormat
+	to.TimeFormOnly = from.TimeFormOnly
 }
 
 type MetaReference_WOP struct {

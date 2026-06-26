@@ -915,6 +915,8 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongtimefield_.IsAccordionEnd), formDiv)
 		case "BespokeTimeFormat":
 			FormDivBasicFieldToField(&(gongtimefield_.BespokeTimeFormat), formDiv)
+		case "TimeFormOnly":
+			FormDivBasicFieldToField(&(gongtimefield_.TimeFormOnly), formDiv)
 		case "GongStruct:GongTimeFields":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the GongStruct instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

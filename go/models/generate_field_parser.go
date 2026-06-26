@@ -33,6 +33,7 @@ func GenerateFieldParser(
 		var isAccordionStart bool
 		var accordionName string
 		var isAccordionEnd bool
+		var isTimeFormOnly bool
 		if field.Comment != nil {
 			for _, comment := range field.Comment.List {
 				if strings.Contains(comment.Text, "swagger:ignore") || strings.Contains(comment.Text, "gong:ignore") {
@@ -57,6 +58,9 @@ func GenerateFieldParser(
 				}
 				if strings.Contains(comment.Text, "gong:bespoketimeserializeformat") {
 					bespokeTimeFormat, _ = extractTimeFormat(comment.Text)
+				}
+				if strings.Contains(comment.Text, "gong:time-form-only") {
+					isTimeFormOnly = true
 				}
 				if strings.Contains(comment.Text, "gong:accordion-start") {
 					name, err := extractAccordionName(comment.Text)
@@ -96,6 +100,9 @@ func GenerateFieldParser(
 				}
 				if strings.Contains(comment.Text, "gong:bespoketimeserializeformat") {
 					bespokeTimeFormat, _ = extractTimeFormat(comment.Text)
+				}
+				if strings.Contains(comment.Text, "gong:time-form-only") {
+					isTimeFormOnly = true
 				}
 				if strings.Contains(comment.Text, "gong:accordion-start") {
 					name, err := extractAccordionName(comment.Text)
@@ -272,6 +279,7 @@ func GenerateFieldParser(
 									Index:               len(owningGongstruct.Fields),
 									CompositeStructName: compositeTypeStructName,
 									BespokeTimeFormat:   bespokeTimeFormat,
+									TimeFormOnly:        isTimeFormOnly,
 								}
 							owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
 						case "Duration":

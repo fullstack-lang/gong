@@ -3481,6 +3481,10 @@ func (gongtimefield *GongTimeField) GongGetFieldHeaders() (res []GongFieldHeader
 			Name:               "BespokeTimeFormat",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
+		{
+			Name:               "TimeFormOnly",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -3910,6 +3914,10 @@ func (gongtimefield *GongTimeField) GongGetFieldValue(fieldName string, stage *S
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "BespokeTimeFormat":
 		res.valueString = gongtimefield.BespokeTimeFormat
+	case "TimeFormOnly":
+		res.valueString = fmt.Sprintf("%t", gongtimefield.TimeFormOnly)
+		res.valueBool = gongtimefield.TimeFormOnly
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -4256,6 +4264,8 @@ func (gongtimefield *GongTimeField) GongSetFieldValue(fieldName string, value Go
 		gongtimefield.IsAccordionEnd = value.GetValueBool()
 	case "BespokeTimeFormat":
 		gongtimefield.BespokeTimeFormat = value.GetValueString()
+	case "TimeFormOnly":
+		gongtimefield.TimeFormOnly = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

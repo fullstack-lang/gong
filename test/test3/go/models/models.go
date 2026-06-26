@@ -22,6 +22,7 @@ type A struct {
 	Name string
 
 	//gong:accordion-start "Time fields"
+	//gong:time-form-only
 	Date time.Time
 
 	//gong:accordion-end

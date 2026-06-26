@@ -483,6 +483,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "AccordionName"))
 		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "IsAccordionEnd"))
 		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "BespokeTimeFormat"))
+		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "TimeFormOnly"))
 	}
 
 	metareferenceOrdered := []*MetaReference{}
@@ -1071,6 +1072,11 @@ func (gongtimefield *GongTimeField) GongMarshallField(stage *Stage, fieldName st
 		res = strings.ReplaceAll(res, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BespokeTimeFormat")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongtimefield.BespokeTimeFormat))
+	case "TimeFormOnly":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeFormOnly")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongtimefield.TimeFormOnly))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct GongTimeField", fieldName)
@@ -1410,6 +1416,7 @@ func (gongtimefield *GongTimeField) GongMarshallAllFields(stage *Stage) (initRes
 		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "AccordionName"))
 		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "IsAccordionEnd"))
 		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "BespokeTimeFormat"))
+		initializerStatements.WriteString(gongtimefield.GongMarshallField(stage, "TimeFormOnly"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
