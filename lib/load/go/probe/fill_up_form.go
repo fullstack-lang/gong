@@ -20,9 +20,9 @@ func FillUpForm(
 	case *models.FileToDownload:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, true, 600, false, 0)
+			false, true, 600, false, 0, false)
 		BasicFieldtoForm("Base64EncodedContent", instanceWithInferedType.Base64EncodedContent, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 2000)
+			true, true, 600, true, 2000, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -32,9 +32,9 @@ func FillUpForm(
 	case *models.FileToUpload:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, true, 600, false, 0)
+			false, true, 600, false, 0, false)
 		BasicFieldtoForm("Base64EncodedContent", instanceWithInferedType.Base64EncodedContent, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 2000)
+			true, true, 600, true, 2000, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -44,7 +44,7 @@ func FillUpForm(
 	case *models.Message:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 2000)
+			true, true, 600, true, 2000, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

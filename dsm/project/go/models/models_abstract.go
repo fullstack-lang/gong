@@ -23,8 +23,11 @@ type Task struct {
 	//gong:text width:300 height:300
 	Description string
 
+	//gong:time-form-only
 	Start time.Time
-	End   time.Time
+
+	//gong:time-form-only
+	End time.Time
 
 	//gong:accordion-start "Duration"
 	DurationYears  float64

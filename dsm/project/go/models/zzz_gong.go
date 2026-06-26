@@ -6156,31 +6156,6 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "ComputedPrefix",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
-		{
-			Name:               "IsChecked",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsEditable_",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsShowPrefix",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "DefaultBoxWidth",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -6189,141 +6164,16 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
+			Name:               "DateFormat",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
 			Name:               "Width",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "Height",
 			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:                 "Product_Shapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "ProductShape",
-		},
-		{
-			Name:                 "ProductsWhoseNodeIsExpanded",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Product",
-		},
-		{
-			Name:               "IsPBSNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "ProductComposition_Shapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "ProductCompositionShape",
-		},
-		{
-			Name:               "IsWBSNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "Task_Shapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "TaskShape",
-		},
-		{
-			Name:                 "TasksWhoseNodeIsExpanded",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Task",
-		},
-		{
-			Name:                 "TasksWhoseInputNodeIsExpanded",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Task",
-		},
-		{
-			Name:                 "TasksWhoseOutputNodeIsExpanded",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Task",
-		},
-		{
-			Name:               "IsTaskGroupsNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "TaskGroupShapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "TaskGroupShape",
-		},
-		{
-			Name:                 "TaskGroupsWhoseNodeIsExpanded",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "TaskGroup",
-		},
-		{
-			Name:               "DateFormat",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:                 "TaskComposition_Shapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "TaskCompositionShape",
-		},
-		{
-			Name:                 "TaskInputShapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "TaskInputShape",
-		},
-		{
-			Name:                 "TaskOutputShapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "TaskOutputShape",
-		},
-		{
-			Name:                 "Note_Shapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "NoteShape",
-		},
-		{
-			Name:                 "NotesWhoseNodeIsExpanded",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Note",
-		},
-		{
-			Name:               "IsNotesNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "NoteProductShapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "NoteProductShape",
-		},
-		{
-			Name:                 "NoteTaskShapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "NoteTaskShape",
-		},
-		{
-			Name:                 "NoteResourceShapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "NoteResourceShape",
-		},
-		{
-			Name:                 "Resource_Shapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "ResourceShape",
-		},
-		{
-			Name:                 "ResourcesWhoseNodeIsExpanded",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Resource",
-		},
-		{
-			Name:               "IsResourcesNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "ResourceComposition_Shapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "ResourceCompositionShape",
-		},
-		{
-			Name:                 "ResourceTaskShapes",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "ResourceTaskShape",
 		},
 		{
 			Name:               "IsTimeDiagram",
@@ -6437,6 +6287,156 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "AlignOnStartEndOnYearStart",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsEditable_",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsShowPrefix",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Product_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ProductShape",
+		},
+		{
+			Name:                 "ProductsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Product",
+		},
+		{
+			Name:               "IsPBSNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ProductComposition_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ProductCompositionShape",
+		},
+		{
+			Name:               "IsWBSNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "Task_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "TaskShape",
+		},
+		{
+			Name:                 "TasksWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Task",
+		},
+		{
+			Name:                 "TasksWhoseInputNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Task",
+		},
+		{
+			Name:                 "TasksWhoseOutputNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Task",
+		},
+		{
+			Name:               "IsTaskGroupsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "TaskGroupShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "TaskGroupShape",
+		},
+		{
+			Name:                 "TaskGroupsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "TaskGroup",
+		},
+		{
+			Name:                 "TaskComposition_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "TaskCompositionShape",
+		},
+		{
+			Name:                 "TaskInputShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "TaskInputShape",
+		},
+		{
+			Name:                 "TaskOutputShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "TaskOutputShape",
+		},
+		{
+			Name:                 "Note_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "NoteShape",
+		},
+		{
+			Name:                 "NotesWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Note",
+		},
+		{
+			Name:               "IsNotesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "NoteProductShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "NoteProductShape",
+		},
+		{
+			Name:                 "NoteTaskShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "NoteTaskShape",
+		},
+		{
+			Name:                 "NoteResourceShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "NoteResourceShape",
+		},
+		{
+			Name:                 "Resource_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ResourceShape",
+		},
+		{
+			Name:                 "ResourcesWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Resource",
+		},
+		{
+			Name:               "IsResourcesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ResourceComposition_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ResourceCompositionShape",
+		},
+		{
+			Name:                 "ResourceTaskShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ResourceTaskShape",
 		},
 	}
 	return
@@ -7502,27 +7502,6 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = diagram.Name
-	case "ComputedPrefix":
-		res.valueString = diagram.ComputedPrefix
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
-		res.valueBool = diagram.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := diagram.LayoutDirection
-		res.valueString = enum.ToCodeString()
-	case "IsChecked":
-		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
-		res.valueBool = diagram.IsChecked
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsEditable_":
-		res.valueString = fmt.Sprintf("%t", diagram.IsEditable_)
-		res.valueBool = diagram.IsEditable_
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsShowPrefix":
-		res.valueString = fmt.Sprintf("%t", diagram.IsShowPrefix)
-		res.valueBool = diagram.IsShowPrefix
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "DefaultBoxWidth":
 		res.valueString = fmt.Sprintf("%f", diagram.DefaultBoxWidth)
 		res.valueFloat = diagram.DefaultBoxWidth
@@ -7531,6 +7510,8 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%f", diagram.DefaultBoxHeigth)
 		res.valueFloat = diagram.DefaultBoxHeigth
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DateFormat":
+		res.valueString = diagram.DateFormat
 	case "Width":
 		res.valueString = fmt.Sprintf("%f", diagram.Width)
 		res.valueFloat = diagram.Width
@@ -7539,238 +7520,6 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%f", diagram.Height)
 		res.valueFloat = diagram.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Product_Shapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.Product_Shapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "ProductsWhoseNodeIsExpanded":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.ProductsWhoseNodeIsExpanded {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "IsPBSNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsPBSNodeExpanded)
-		res.valueBool = diagram.IsPBSNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ProductComposition_Shapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.ProductComposition_Shapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "IsWBSNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsWBSNodeExpanded)
-		res.valueBool = diagram.IsWBSNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "Task_Shapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.Task_Shapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "TasksWhoseNodeIsExpanded":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.TasksWhoseNodeIsExpanded {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "TasksWhoseInputNodeIsExpanded":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.TasksWhoseInputNodeIsExpanded {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "TasksWhoseOutputNodeIsExpanded":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.TasksWhoseOutputNodeIsExpanded {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "IsTaskGroupsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsTaskGroupsNodeExpanded)
-		res.valueBool = diagram.IsTaskGroupsNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "TaskGroupShapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.TaskGroupShapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "TaskGroupsWhoseNodeIsExpanded":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.TaskGroupsWhoseNodeIsExpanded {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "DateFormat":
-		res.valueString = diagram.DateFormat
-	case "TaskComposition_Shapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.TaskComposition_Shapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "TaskInputShapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.TaskInputShapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "TaskOutputShapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.TaskOutputShapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "Note_Shapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.Note_Shapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "NotesWhoseNodeIsExpanded":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.NotesWhoseNodeIsExpanded {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "IsNotesNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsNotesNodeExpanded)
-		res.valueBool = diagram.IsNotesNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "NoteProductShapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.NoteProductShapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "NoteTaskShapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.NoteTaskShapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "NoteResourceShapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.NoteResourceShapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "Resource_Shapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.Resource_Shapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "ResourcesWhoseNodeIsExpanded":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.ResourcesWhoseNodeIsExpanded {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "IsResourcesNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsResourcesNodeExpanded)
-		res.valueBool = diagram.IsResourcesNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ResourceComposition_Shapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.ResourceComposition_Shapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "ResourceTaskShapes":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range diagram.ResourceTaskShapes {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
 	case "IsTimeDiagram":
 		res.valueString = fmt.Sprintf("%t", diagram.IsTimeDiagram)
 		res.valueBool = diagram.IsTimeDiagram
@@ -7903,6 +7652,257 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.AlignOnStartEndOnYearStart)
 		res.valueBool = diagram.AlignOnStartEndOnYearStart
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = diagram.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
+		res.valueBool = diagram.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := diagram.LayoutDirection
+		res.valueString = enum.ToCodeString()
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
+		res.valueBool = diagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsEditable_":
+		res.valueString = fmt.Sprintf("%t", diagram.IsEditable_)
+		res.valueBool = diagram.IsEditable_
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsShowPrefix":
+		res.valueString = fmt.Sprintf("%t", diagram.IsShowPrefix)
+		res.valueBool = diagram.IsShowPrefix
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Product_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.Product_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ProductsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ProductsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsPBSNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsPBSNodeExpanded)
+		res.valueBool = diagram.IsPBSNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ProductComposition_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ProductComposition_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsWBSNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsWBSNodeExpanded)
+		res.valueBool = diagram.IsWBSNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Task_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.Task_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "TasksWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.TasksWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "TasksWhoseInputNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.TasksWhoseInputNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "TasksWhoseOutputNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.TasksWhoseOutputNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsTaskGroupsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsTaskGroupsNodeExpanded)
+		res.valueBool = diagram.IsTaskGroupsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "TaskGroupShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.TaskGroupShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "TaskGroupsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.TaskGroupsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "TaskComposition_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.TaskComposition_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "TaskInputShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.TaskInputShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "TaskOutputShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.TaskOutputShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Note_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.Note_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "NotesWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.NotesWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsNotesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsNotesNodeExpanded)
+		res.valueBool = diagram.IsNotesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "NoteProductShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.NoteProductShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "NoteTaskShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.NoteTaskShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "NoteResourceShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.NoteResourceShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Resource_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.Resource_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ResourcesWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ResourcesWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsResourcesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsResourcesNodeExpanded)
+		res.valueBool = diagram.IsResourcesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ResourceComposition_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ResourceComposition_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ResourceTaskShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ResourceTaskShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -8912,6 +8912,62 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 	// insertion point for per field code
 	case "Name":
 		diagram.Name = value.GetValueString()
+	case "DefaultBoxWidth":
+		diagram.DefaultBoxWidth = value.GetValueFloat()
+	case "DefaultBoxHeigth":
+		diagram.DefaultBoxHeigth = value.GetValueFloat()
+	case "DateFormat":
+		diagram.DateFormat = value.GetValueString()
+	case "Width":
+		diagram.Width = value.GetValueFloat()
+	case "Height":
+		diagram.Height = value.GetValueFloat()
+	case "IsTimeDiagram":
+		diagram.IsTimeDiagram = value.GetValueBool()
+	case "UseManualStartAndEndDates":
+		diagram.UseManualStartAndEndDates = value.GetValueBool()
+	case "TimeStep":
+		diagram.TimeStep = int(value.GetValueInt())
+	case "TimeStepScale":
+		diagram.TimeStepScale.FromCodeString(value.GetValueString())
+	case "LaneHeight":
+		diagram.LaneHeight = value.GetValueFloat()
+	case "RatioBarToLaneHeight":
+		diagram.RatioBarToLaneHeight = value.GetValueFloat()
+	case "YTopMargin":
+		diagram.YTopMargin = value.GetValueFloat()
+	case "XLeftText":
+		diagram.XLeftText = value.GetValueFloat()
+	case "TextHeight":
+		diagram.TextHeight = value.GetValueFloat()
+	case "XLeftLanes":
+		diagram.XLeftLanes = value.GetValueFloat()
+	case "XRightMargin":
+		diagram.XRightMargin = value.GetValueFloat()
+	case "ArrowLengthToTheRightOfStartBar":
+		diagram.ArrowLengthToTheRightOfStartBar = value.GetValueFloat()
+	case "ArrowTipLenght":
+		diagram.ArrowTipLenght = value.GetValueFloat()
+	case "TimeLine_Color":
+		diagram.TimeLine_Color = value.GetValueString()
+	case "TimeLine_FillOpacity":
+		diagram.TimeLine_FillOpacity = value.GetValueFloat()
+	case "TimeLine_Stroke":
+		diagram.TimeLine_Stroke = value.GetValueString()
+	case "TimeLine_StrokeWidth":
+		diagram.TimeLine_StrokeWidth = value.GetValueFloat()
+	case "DrawVerticalTimeLines":
+		diagram.DrawVerticalTimeLines = value.GetValueBool()
+	case "Group_Stroke":
+		diagram.Group_Stroke = value.GetValueString()
+	case "Group_StrokeWidth":
+		diagram.Group_StrokeWidth = value.GetValueFloat()
+	case "Group_StrokeDashArray":
+		diagram.Group_StrokeDashArray = value.GetValueString()
+	case "DateYOffset":
+		diagram.DateYOffset = value.GetValueFloat()
+	case "AlignOnStartEndOnYearStart":
+		diagram.AlignOnStartEndOnYearStart = value.GetValueBool()
 	case "ComputedPrefix":
 		diagram.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
@@ -8924,14 +8980,6 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.IsEditable_ = value.GetValueBool()
 	case "IsShowPrefix":
 		diagram.IsShowPrefix = value.GetValueBool()
-	case "DefaultBoxWidth":
-		diagram.DefaultBoxWidth = value.GetValueFloat()
-	case "DefaultBoxHeigth":
-		diagram.DefaultBoxHeigth = value.GetValueFloat()
-	case "Width":
-		diagram.Width = value.GetValueFloat()
-	case "Height":
-		diagram.Height = value.GetValueFloat()
 	case "Product_Shapes":
 		diagram.Product_Shapes = make([]*ProductShape, 0)
 		ids := strings.Split(value.ids, ";")
@@ -9064,8 +9112,6 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
-	case "DateFormat":
-		diagram.DateFormat = value.GetValueString()
 	case "TaskComposition_Shapes":
 		diagram.TaskComposition_Shapes = make([]*TaskCompositionShape, 0)
 		ids := strings.Split(value.ids, ";")
@@ -9238,52 +9284,6 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
-	case "IsTimeDiagram":
-		diagram.IsTimeDiagram = value.GetValueBool()
-	case "UseManualStartAndEndDates":
-		diagram.UseManualStartAndEndDates = value.GetValueBool()
-	case "TimeStep":
-		diagram.TimeStep = int(value.GetValueInt())
-	case "TimeStepScale":
-		diagram.TimeStepScale.FromCodeString(value.GetValueString())
-	case "LaneHeight":
-		diagram.LaneHeight = value.GetValueFloat()
-	case "RatioBarToLaneHeight":
-		diagram.RatioBarToLaneHeight = value.GetValueFloat()
-	case "YTopMargin":
-		diagram.YTopMargin = value.GetValueFloat()
-	case "XLeftText":
-		diagram.XLeftText = value.GetValueFloat()
-	case "TextHeight":
-		diagram.TextHeight = value.GetValueFloat()
-	case "XLeftLanes":
-		diagram.XLeftLanes = value.GetValueFloat()
-	case "XRightMargin":
-		diagram.XRightMargin = value.GetValueFloat()
-	case "ArrowLengthToTheRightOfStartBar":
-		diagram.ArrowLengthToTheRightOfStartBar = value.GetValueFloat()
-	case "ArrowTipLenght":
-		diagram.ArrowTipLenght = value.GetValueFloat()
-	case "TimeLine_Color":
-		diagram.TimeLine_Color = value.GetValueString()
-	case "TimeLine_FillOpacity":
-		diagram.TimeLine_FillOpacity = value.GetValueFloat()
-	case "TimeLine_Stroke":
-		diagram.TimeLine_Stroke = value.GetValueString()
-	case "TimeLine_StrokeWidth":
-		diagram.TimeLine_StrokeWidth = value.GetValueFloat()
-	case "DrawVerticalTimeLines":
-		diagram.DrawVerticalTimeLines = value.GetValueBool()
-	case "Group_Stroke":
-		diagram.Group_Stroke = value.GetValueString()
-	case "Group_StrokeWidth":
-		diagram.Group_StrokeWidth = value.GetValueFloat()
-	case "Group_StrokeDashArray":
-		diagram.Group_StrokeDashArray = value.GetValueString()
-	case "DateYOffset":
-		diagram.DateYOffset = value.GetValueFloat()
-	case "AlignOnStartEndOnYearStart":
-		diagram.AlignOnStartEndOnYearStart = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

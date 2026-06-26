@@ -78,7 +78,7 @@ map[ButtonImplSubTemplateId]string{
 
 	ButtonImplSubTmplBasicField: `
 		BasicFieldtoForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, probe.formStage, formGroup,
-			{{isTextArea}}, {{isBespokeWidth}}, {{bespokeWidth}}, {{isBespokeHeight}}, {{bespokeHeight}})`,
+			{{isTextArea}}, {{isBespokeWidth}}, {{bespokeWidth}}, {{isBespokeHeight}}, {{bespokeHeight}}, {{isTimeFormOnly}})`,
 	ButtonImplSubTmplBasicFieldEnumString: `
 		EnumTypeStringToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, probe.formStage, formGroup)`,
 	ButtonImplSubTmplBasicFieldEnumInt: `
@@ -194,7 +194,7 @@ func CodeGeneratorFillUpForm(
 								isBespokeHeight = "true"
 								bespokeHeight = field.BespokeHeight
 							}
-							fieldToFormCode += models.Replace6(
+							fieldToFormCode += models.Replace7(
 								ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplBasicField],
 								"{{FieldName}}", field.Name,
 								"{{isTextArea}}", isTextArea,
@@ -202,6 +202,7 @@ func CodeGeneratorFillUpForm(
 								"{{bespokeWidth}}", fmt.Sprintf("%d", bespokeWidth),
 								"{{isBespokeHeight}}", isBespokeHeight,
 								"{{bespokeHeight}}", fmt.Sprintf("%d", bespokeHeight),
+								"{{isTimeFormOnly}}", "false",
 							)
 						} else {
 							if field.GongEnum.Type == models.Int {
@@ -217,7 +218,7 @@ func CodeGeneratorFillUpForm(
 					default:
 					}
 				case *models.GongTimeField:
-					fieldToFormCode += models.Replace6(
+					fieldToFormCode += models.Replace7(
 						ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplBasicField],
 						"{{FieldName}}", field.Name,
 						"{{isTextArea}}", "false",
@@ -225,6 +226,7 @@ func CodeGeneratorFillUpForm(
 						"{{bespokeWidth}}", fmt.Sprintf("%d", 0),
 						"{{isBespokeHeight}}", "false",
 						"{{bespokeHeight}}", fmt.Sprintf("%d", 0),
+						"{{isTimeFormOnly}}", fmt.Sprintf("%t", field.TimeFormOnly),
 					)
 
 				case *models.PointerToGongStructField:

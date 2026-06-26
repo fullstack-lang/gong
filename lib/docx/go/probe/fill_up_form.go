@@ -20,7 +20,7 @@ func FillUpForm(
 	case *models.Body:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Paragraphs", instanceWithInferedType, &instanceWithInferedType.Paragraphs, formGroup, probe)
 		AssociationSliceToForm("Tables", instanceWithInferedType, &instanceWithInferedType.Tables, formGroup, probe)
 		AssociationFieldToForm("LastParagraph", instanceWithInferedType.LastParagraph, formGroup, probe)
@@ -33,7 +33,7 @@ func FillUpForm(
 	case *models.Document:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("File", instanceWithInferedType.File, formGroup, probe)
 		AssociationFieldToForm("Root", instanceWithInferedType.Root, formGroup, probe)
 		AssociationFieldToForm("Body", instanceWithInferedType.Body, formGroup, probe)
@@ -46,7 +46,7 @@ func FillUpForm(
 	case *models.Docx:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Files", instanceWithInferedType, &instanceWithInferedType.Files, formGroup, probe)
 		AssociationFieldToForm("Document", instanceWithInferedType.Document, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
@@ -58,7 +58,7 @@ func FillUpForm(
 	case *models.File:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -79,7 +79,7 @@ func FillUpForm(
 	case *models.Node:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Nodes", instanceWithInferedType, &instanceWithInferedType.Nodes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -101,14 +101,14 @@ func FillUpForm(
 	case *models.Paragraph:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Node", instanceWithInferedType.Node, formGroup, probe)
 		AssociationFieldToForm("ParagraphProperties", instanceWithInferedType.ParagraphProperties, formGroup, probe)
 		AssociationSliceToForm("Runes", instanceWithInferedType, &instanceWithInferedType.Runes, formGroup, probe)
 		BasicFieldtoForm("CollatedText", instanceWithInferedType.CollatedText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Next", instanceWithInferedType.Next, formGroup, probe)
 		AssociationFieldToForm("Previous", instanceWithInferedType.Previous, formGroup, probe)
 		AssociationFieldToForm("EnclosingBody", instanceWithInferedType.EnclosingBody, formGroup, probe)
@@ -144,9 +144,9 @@ func FillUpForm(
 	case *models.ParagraphProperties:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("ParagraphStyle", instanceWithInferedType.ParagraphStyle, formGroup, probe)
 		AssociationFieldToForm("Node", instanceWithInferedType.Node, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
@@ -158,12 +158,12 @@ func FillUpForm(
 	case *models.ParagraphStyle:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Node", instanceWithInferedType.Node, formGroup, probe)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ValAttr", instanceWithInferedType.ValAttr, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -173,9 +173,9 @@ func FillUpForm(
 	case *models.Rune:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Node", instanceWithInferedType.Node, formGroup, probe)
 		AssociationFieldToForm("Text", instanceWithInferedType.Text, formGroup, probe)
 		AssociationFieldToForm("RuneProperties", instanceWithInferedType.RuneProperties, formGroup, probe)
@@ -200,16 +200,16 @@ func FillUpForm(
 	case *models.RuneProperties:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Node", instanceWithInferedType.Node, formGroup, probe)
 		BasicFieldtoForm("IsBold", instanceWithInferedType.IsBold, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsStrike", instanceWithInferedType.IsStrike, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsItalic", instanceWithInferedType.IsItalic, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -219,10 +219,10 @@ func FillUpForm(
 	case *models.Table:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Node", instanceWithInferedType.Node, formGroup, probe)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("TableProperties", instanceWithInferedType.TableProperties, formGroup, probe)
 		AssociationSliceToForm("TableRows", instanceWithInferedType, &instanceWithInferedType.TableRows, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
@@ -245,9 +245,9 @@ func FillUpForm(
 	case *models.TableColumn:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Node", instanceWithInferedType.Node, formGroup, probe)
 		AssociationSliceToForm("Paragraphs", instanceWithInferedType, &instanceWithInferedType.Paragraphs, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
@@ -270,10 +270,10 @@ func FillUpForm(
 	case *models.TableProperties:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Node", instanceWithInferedType.Node, formGroup, probe)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("TableStyle", instanceWithInferedType.TableStyle, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -284,9 +284,9 @@ func FillUpForm(
 	case *models.TableRow:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Node", instanceWithInferedType.Node, formGroup, probe)
 		AssociationSliceToForm("TableColumns", instanceWithInferedType, &instanceWithInferedType.TableColumns, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
@@ -309,12 +309,12 @@ func FillUpForm(
 	case *models.TableStyle:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Node", instanceWithInferedType.Node, formGroup, probe)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Val", instanceWithInferedType.Val, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -324,12 +324,12 @@ func FillUpForm(
 	case *models.Text:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("Node", instanceWithInferedType.Node, formGroup, probe)
 		BasicFieldtoForm("PreserveWhiteSpace", instanceWithInferedType.PreserveWhiteSpace, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, false, 0, false, 0, false)
 		AssociationFieldToForm("EnclosingRune", instanceWithInferedType.EnclosingRune, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
