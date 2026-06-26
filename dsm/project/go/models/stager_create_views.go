@@ -22,18 +22,20 @@ func (stager *Stager) createViews() {
 	split.StageBranch(stager.splitStage, &split.View{
 		Name:           "Edit PBS/WBS (" + getPersistanceFile(stager) + ")",
 		Direction:      split.Horizontal,
+		IsSizeInPixel:  true,
 		IsSelectedView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Name:             "Sidebar with both trees",
 				ShowNameInHeader: false,
-				Size:             82,
+				IsAny:            true,
 				AsSplit: &split.AsSplit{
-					Name:      "as split",
-					Direction: split.Horizontal,
+					Name:          "as split",
+					IsSizeInPixel: true,
+					Direction:     split.Horizontal,
 					AsSplitAreas: []*split.AsSplitArea{
 						{
-							Size: 26,
+							Size: 525,
 							AsSplit: &split.AsSplit{
 								Direction: split.Vertical,
 								AsSplitAreas: []*split.AsSplitArea{
@@ -61,7 +63,7 @@ func (stager *Stager) createViews() {
 							},
 						},
 						{
-							Size: 74,
+							IsAny: true,
 							Svg: &split.Svg{
 								StackName: stager.svgStage.GetName(),
 							},
@@ -70,7 +72,7 @@ func (stager *Stager) createViews() {
 				},
 			},
 			{
-				Size: 18,
+				Size: 525,
 				Form: &split.Form{
 					StackName: stager.probeForm.GetFormStage().GetName(),
 				},
