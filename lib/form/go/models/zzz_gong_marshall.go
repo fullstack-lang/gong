@@ -326,6 +326,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(formdiv.GongMarshallField(stage, "FormEditAssocButton"))
 		pointersInitializesStatements.WriteString(formdiv.GongMarshallField(stage, "FormSortAssocButton"))
 		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "IsADivider"))
+		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "IsAStartAccordionGroup"))
+		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "AccordionGroupName"))
+		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "IsAEndAccordionGroup"))
 	}
 
 	formeditassocbuttonOrdered := []*FormEditAssocButton{}
@@ -628,6 +631,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "Label"))
+		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "TypeLabel"))
 		pointersInitializesStatements.WriteString(formgroup.GongMarshallField(stage, "FormDivs"))
 		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "HasSuppressButton"))
 		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "HasSuppressButtonBeenPressed"))
@@ -890,6 +894,21 @@ func (formdiv *FormDiv) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsADivider")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formdiv.IsADivider))
+	case "IsAStartAccordionGroup":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsAStartAccordionGroup")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formdiv.IsAStartAccordionGroup))
+	case "AccordionGroupName":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AccordionGroupName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formdiv.AccordionGroupName))
+	case "IsAEndAccordionGroup":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsAEndAccordionGroup")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formdiv.IsAEndAccordionGroup))
 
 	case "FormFields":
 		var sb strings.Builder
@@ -1373,6 +1392,11 @@ func (formgroup *FormGroup) GongMarshallField(stage *Stage, fieldName string) (r
 		res = strings.ReplaceAll(res, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Label")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formgroup.Label))
+	case "TypeLabel":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TypeLabel")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(formgroup.TypeLabel))
 	case "HasSuppressButton":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
@@ -1487,6 +1511,9 @@ func (formdiv *FormDiv) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		pointersInitializesStatements.WriteString(formdiv.GongMarshallField(stage, "FormEditAssocButton"))
 		pointersInitializesStatements.WriteString(formdiv.GongMarshallField(stage, "FormSortAssocButton"))
 		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "IsADivider"))
+		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "IsAStartAccordionGroup"))
+		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "AccordionGroupName"))
+		initializerStatements.WriteString(formdiv.GongMarshallField(stage, "IsAEndAccordionGroup"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -1639,6 +1666,7 @@ func (formgroup *FormGroup) GongMarshallAllFields(stage *Stage) (initRes string,
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "Label"))
+		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "TypeLabel"))
 		pointersInitializesStatements.WriteString(formgroup.GongMarshallField(stage, "FormDivs"))
 		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "HasSuppressButton"))
 		initializerStatements.WriteString(formgroup.GongMarshallField(stage, "HasSuppressButtonBeenPressed"))

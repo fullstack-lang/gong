@@ -50,6 +50,12 @@ func FillUpForm(
 		AssociationFieldToForm("FormSortAssocButton", instanceWithInferedType.FormSortAssocButton, formGroup, probe)
 		BasicFieldtoForm("IsADivider", instanceWithInferedType.IsADivider, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("IsAStartAccordionGroup", instanceWithInferedType.IsAStartAccordionGroup, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("AccordionGroupName", instanceWithInferedType.AccordionGroupName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsAEndAccordionGroup", instanceWithInferedType.IsAEndAccordionGroup, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -245,6 +251,8 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Label", instanceWithInferedType.Label, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("TypeLabel", instanceWithInferedType.TypeLabel, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("FormDivs", instanceWithInferedType, &instanceWithInferedType.FormDivs, formGroup, probe)
 		BasicFieldtoForm("HasSuppressButton", instanceWithInferedType.HasSuppressButton, instanceWithInferedType, probe.formStage, formGroup,

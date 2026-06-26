@@ -1,9 +1,10 @@
 package models
 
 type FormGroup struct {
-	Name     string
-	Label    string
-	FormDivs []*FormDiv
+	Name      string
+	Label     string
+	TypeLabel string
+	FormDivs  []*FormDiv
 
 	// If yes, a suppress button is present
 	HasSuppressButton bool

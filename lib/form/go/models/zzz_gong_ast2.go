@@ -505,6 +505,12 @@ func (u *FormDivUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		GongUnmarshallPointer(&instance.FormSortAssocButton, valueExpr, identifierMap)
 	case "IsADivider":
 		instance.IsADivider = GongExtractBool(valueExpr)
+	case "IsAStartAccordionGroup":
+		instance.IsAStartAccordionGroup = GongExtractBool(valueExpr)
+	case "AccordionGroupName":
+		instance.AccordionGroupName = GongExtractString(valueExpr)
+	case "IsAEndAccordionGroup":
+		instance.IsAEndAccordionGroup = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -897,6 +903,8 @@ func (u *FormGroupUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.Name = GongExtractString(valueExpr)
 	case "Label":
 		instance.Label = GongExtractString(valueExpr)
+	case "TypeLabel":
+		instance.TypeLabel = GongExtractString(valueExpr)
 	case "FormDivs":
 		GongUnmarshallSliceOfPointers(&instance.FormDivs, valueExpr, identifierMap)
 	case "HasSuppressButton":

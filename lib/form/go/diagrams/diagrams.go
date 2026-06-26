@@ -45,6 +45,7 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000014_ := (&models.AttributeShape{Name: `ToolTipText`}).Stage(stage)
 	__AttributeShape__00000015_ := (&models.AttributeShape{Name: `MatTooltipShowDelay`}).Stage(stage)
 	__AttributeShape__00000016_ := (&models.AttributeShape{Name: `Label`}).Stage(stage)
+	__AttributeShape__00000017_ := (&models.AttributeShape{Name: `IsADivider`}).Stage(stage)
 
 	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `Default`}).Stage(stage)
 
@@ -177,6 +178,12 @@ func _(stage *models.Stage) {
 	__AttributeShape__00000016_.Structname = `FormEditAssocButton`
 	__AttributeShape__00000016_.Fieldtypename = `string`
 
+	__AttributeShape__00000017_.Name = `IsADivider`
+	__AttributeShape__00000017_.IdentifierMeta = ref_models.FormDiv{}.IsADivider
+	__AttributeShape__00000017_.FieldTypeAsString = ``
+	__AttributeShape__00000017_.Structname = `FormDiv`
+	__AttributeShape__00000017_.Fieldtypename = `bool`
+
 	__Classdiagram__00000000_.Name = `Default`
 	__Classdiagram__00000000_.Description = ``
 	__Classdiagram__00000000_.IsIncludedInStaticWebSite = false
@@ -186,7 +193,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.IsInRenameMode = false
 	__Classdiagram__00000000_.IsExpanded = true
 	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
-	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,false,true,false,false,false,false,false,false,false,false,false,true]`
+	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,true,false,false,false,false,false,false,false,false,false,false,false,true]`
 	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
 	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
@@ -202,35 +209,35 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000000_.Y = 18.000000
 	__GongStructShape__00000000_.IdentifierMeta = ref_models.FormDiv{}
 	__GongStructShape__00000000_.Width = 240.000000
-	__GongStructShape__00000000_.Height = 63.000000
+	__GongStructShape__00000000_.Height = 143.000000
 	__GongStructShape__00000000_.IsSelected = false
 
 	__GongStructShape__00000001_.Name = `Default-CheckBox`
-	__GongStructShape__00000001_.X = 553.000000
-	__GongStructShape__00000001_.Y = 198.000000
+	__GongStructShape__00000001_.X = 624.000000
+	__GongStructShape__00000001_.Y = 197.000000
 	__GongStructShape__00000001_.IdentifierMeta = ref_models.CheckBox{}
 	__GongStructShape__00000001_.Width = 240.000000
 	__GongStructShape__00000001_.Height = 83.000000
 	__GongStructShape__00000001_.IsSelected = false
 
 	__GongStructShape__00000002_.Name = `Default-FormEditAssocButton`
-	__GongStructShape__00000002_.X = 551.000000
-	__GongStructShape__00000002_.Y = 385.000000
+	__GongStructShape__00000002_.X = 622.000000
+	__GongStructShape__00000002_.Y = 384.000000
 	__GongStructShape__00000002_.IdentifierMeta = ref_models.FormEditAssocButton{}
 	__GongStructShape__00000002_.Width = 240.000000
 	__GongStructShape__00000002_.Height = 203.000000
 	__GongStructShape__00000002_.IsSelected = false
 
 	__GongStructShape__00000003_.Name = `Default-FormField`
-	__GongStructShape__00000003_.X = 559.000000
-	__GongStructShape__00000003_.Y = 20.000000
+	__GongStructShape__00000003_.X = 619.000000
+	__GongStructShape__00000003_.Y = 19.000000
 	__GongStructShape__00000003_.IdentifierMeta = ref_models.FormField{}
-	__GongStructShape__00000003_.Width = 240.000000
+	__GongStructShape__00000003_.Width = 248.000000
 	__GongStructShape__00000003_.Height = 143.000000
 	__GongStructShape__00000003_.IsSelected = false
 
 	__GongStructShape__00000004_.Name = `Default-FormFieldDate`
-	__GongStructShape__00000004_.X = 966.000000
+	__GongStructShape__00000004_.X = 1122.000000
 	__GongStructShape__00000004_.Y = 531.000000
 	__GongStructShape__00000004_.IdentifierMeta = ref_models.FormFieldDate{}
 	__GongStructShape__00000004_.Width = 240.000000
@@ -238,7 +245,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000004_.IsSelected = false
 
 	__GongStructShape__00000005_.Name = `Default-FormFieldDateTime`
-	__GongStructShape__00000005_.X = 975.000000
+	__GongStructShape__00000005_.X = 1131.000000
 	__GongStructShape__00000005_.Y = 357.000000
 	__GongStructShape__00000005_.IdentifierMeta = ref_models.FormFieldDateTime{}
 	__GongStructShape__00000005_.Width = 240.000000
@@ -246,7 +253,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000005_.IsSelected = false
 
 	__GongStructShape__00000006_.Name = `Default-FormFieldFloat64`
-	__GongStructShape__00000006_.X = 976.000000
+	__GongStructShape__00000006_.X = 1132.000000
 	__GongStructShape__00000006_.Y = 604.000000
 	__GongStructShape__00000006_.IdentifierMeta = ref_models.FormFieldFloat64{}
 	__GongStructShape__00000006_.Width = 240.000000
@@ -254,7 +261,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000006_.IsSelected = false
 
 	__GongStructShape__00000007_.Name = `Default-FormFieldInt`
-	__GongStructShape__00000007_.X = 970.000000
+	__GongStructShape__00000007_.X = 1126.000000
 	__GongStructShape__00000007_.Y = 437.000000
 	__GongStructShape__00000007_.IdentifierMeta = ref_models.FormFieldInt{}
 	__GongStructShape__00000007_.Width = 240.000000
@@ -262,7 +269,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000007_.IsSelected = false
 
 	__GongStructShape__00000008_.Name = `Default-FormFieldSelect`
-	__GongStructShape__00000008_.X = 960.000000
+	__GongStructShape__00000008_.X = 1116.000000
 	__GongStructShape__00000008_.Y = 220.000000
 	__GongStructShape__00000008_.IdentifierMeta = ref_models.FormFieldSelect{}
 	__GongStructShape__00000008_.Width = 240.000000
@@ -270,7 +277,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000008_.IsSelected = false
 
 	__GongStructShape__00000009_.Name = `Default-FormFieldString`
-	__GongStructShape__00000009_.X = 956.000000
+	__GongStructShape__00000009_.X = 1112.000000
 	__GongStructShape__00000009_.Y = 140.000000
 	__GongStructShape__00000009_.IdentifierMeta = ref_models.FormFieldString{}
 	__GongStructShape__00000009_.Width = 240.000000
@@ -278,7 +285,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000009_.IsSelected = false
 
 	__GongStructShape__00000010_.Name = `Default-FormFieldTime`
-	__GongStructShape__00000010_.X = 955.000000
+	__GongStructShape__00000010_.X = 1111.000000
 	__GongStructShape__00000010_.Y = 44.000000
 	__GongStructShape__00000010_.IdentifierMeta = ref_models.FormFieldTime{}
 	__GongStructShape__00000010_.Width = 240.000000
@@ -286,23 +293,23 @@ func _(stage *models.Stage) {
 	__GongStructShape__00000010_.IsSelected = false
 
 	__GongStructShape__00000011_.Name = `Default-FormGroup`
-	__GongStructShape__00000011_.X = 74.000000
-	__GongStructShape__00000011_.Y = 237.000000
+	__GongStructShape__00000011_.X = 54.000000
+	__GongStructShape__00000011_.Y = 410.000000
 	__GongStructShape__00000011_.IdentifierMeta = ref_models.FormGroup{}
 	__GongStructShape__00000011_.Width = 296.000000
 	__GongStructShape__00000011_.Height = 103.000000
 	__GongStructShape__00000011_.IsSelected = false
 
 	__GongStructShape__00000012_.Name = `Default-FormSortAssocButton`
-	__GongStructShape__00000012_.X = 550.000000
-	__GongStructShape__00000012_.Y = 307.000000
+	__GongStructShape__00000012_.X = 621.000000
+	__GongStructShape__00000012_.Y = 306.000000
 	__GongStructShape__00000012_.IdentifierMeta = ref_models.FormSortAssocButton{}
 	__GongStructShape__00000012_.Width = 240.000000
 	__GongStructShape__00000012_.Height = 63.000000
 	__GongStructShape__00000012_.IsSelected = false
 
 	__GongStructShape__00000013_.Name = `Default-Option`
-	__GongStructShape__00000013_.X = 1321.000000
+	__GongStructShape__00000013_.X = 1477.000000
 	__GongStructShape__00000013_.Y = 235.000000
 	__GongStructShape__00000013_.IdentifierMeta = ref_models.Option{}
 	__GongStructShape__00000013_.Width = 240.000000
@@ -573,6 +580,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000013_)
 	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000000_)
 	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000000_
+	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000017_)
 	__GongStructShape__00000000_.LinkShapes = append(__GongStructShape__00000000_.LinkShapes, __LinkShape__00000000_)
 	__GongStructShape__00000000_.LinkShapes = append(__GongStructShape__00000000_.LinkShapes, __LinkShape__00000001_)
 	__GongStructShape__00000000_.LinkShapes = append(__GongStructShape__00000000_.LinkShapes, __LinkShape__00000002_)

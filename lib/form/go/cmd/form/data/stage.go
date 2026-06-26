@@ -40,6 +40,8 @@ func _(stage *models.Stage) {
 	__FormDiv__00000008_ := (&models.FormDiv{Name: `Select (cannot be set empty)`}).Stage(stage)
 	__FormDiv__00000009_ := (&models.FormDiv{Name: `Text Area`}).Stage(stage)
 	__FormDiv__00000010_ := (&models.FormDiv{Name: `Divider`}).Stage(stage)
+	__FormDiv__00000011_ := (&models.FormDiv{Name: `Accordion Group Start`}).Stage(stage)
+	__FormDiv__00000012_ := (&models.FormDiv{Name: `End of Accordion Group`}).Stage(stage)
 
 	__FormEditAssocButton__00000000_ := (&models.FormEditAssocButton{Name: `Edit Assoc`}).Stage(stage)
 
@@ -91,36 +93,81 @@ func _(stage *models.Stage) {
 
 	__FormDiv__00000000_.Name = `CheckBoxs`
 	__FormDiv__00000000_.IsADivider = false
+	__FormDiv__00000000_.IsAStartAccordionGroup = false
+	__FormDiv__00000000_.AccordionGroupName = ``
+	__FormDiv__00000000_.IsAEndAccordionGroup = false
 
 	__FormDiv__00000001_.Name = `Date - Time`
 	__FormDiv__00000001_.IsADivider = false
+	__FormDiv__00000001_.IsAStartAccordionGroup = false
+	__FormDiv__00000001_.AccordionGroupName = ``
+	__FormDiv__00000001_.IsAEndAccordionGroup = false
 
 	__FormDiv__00000002_.Name = `DateTime`
 	__FormDiv__00000002_.IsADivider = false
+	__FormDiv__00000002_.IsAStartAccordionGroup = false
+	__FormDiv__00000002_.AccordionGroupName = ``
+	__FormDiv__00000002_.IsAEndAccordionGroup = false
 
 	__FormDiv__00000003_.Name = `Edit Assoc`
 	__FormDiv__00000003_.IsADivider = false
+	__FormDiv__00000003_.IsAStartAccordionGroup = false
+	__FormDiv__00000003_.AccordionGroupName = ``
+	__FormDiv__00000003_.IsAEndAccordionGroup = false
 
 	__FormDiv__00000004_.Name = `Float64 - level of x`
 	__FormDiv__00000004_.IsADivider = false
+	__FormDiv__00000004_.IsAStartAccordionGroup = false
+	__FormDiv__00000004_.AccordionGroupName = ``
+	__FormDiv__00000004_.IsAEndAccordionGroup = false
 
 	__FormDiv__00000005_.Name = `Form Div First Name  - Name`
 	__FormDiv__00000005_.IsADivider = false
+	__FormDiv__00000005_.IsAStartAccordionGroup = false
+	__FormDiv__00000005_.AccordionGroupName = ``
+	__FormDiv__00000005_.IsAEndAccordionGroup = false
 
 	__FormDiv__00000006_.Name = `Int - Age`
 	__FormDiv__00000006_.IsADivider = false
+	__FormDiv__00000006_.IsAStartAccordionGroup = false
+	__FormDiv__00000006_.AccordionGroupName = ``
+	__FormDiv__00000006_.IsAEndAccordionGroup = false
 
 	__FormDiv__00000007_.Name = `Select (can be set empty)`
 	__FormDiv__00000007_.IsADivider = false
+	__FormDiv__00000007_.IsAStartAccordionGroup = false
+	__FormDiv__00000007_.AccordionGroupName = ``
+	__FormDiv__00000007_.IsAEndAccordionGroup = false
 
 	__FormDiv__00000008_.Name = `Select (cannot be set empty)`
 	__FormDiv__00000008_.IsADivider = false
+	__FormDiv__00000008_.IsAStartAccordionGroup = false
+	__FormDiv__00000008_.AccordionGroupName = ``
+	__FormDiv__00000008_.IsAEndAccordionGroup = false
 
 	__FormDiv__00000009_.Name = `Text Area`
 	__FormDiv__00000009_.IsADivider = false
+	__FormDiv__00000009_.IsAStartAccordionGroup = false
+	__FormDiv__00000009_.AccordionGroupName = ``
+	__FormDiv__00000009_.IsAEndAccordionGroup = false
 
 	__FormDiv__00000010_.Name = `Divider`
 	__FormDiv__00000010_.IsADivider = true
+	__FormDiv__00000010_.IsAStartAccordionGroup = false
+	__FormDiv__00000010_.AccordionGroupName = ``
+	__FormDiv__00000010_.IsAEndAccordionGroup = false
+
+	__FormDiv__00000011_.Name = `Accordion Group Start`
+	__FormDiv__00000011_.IsADivider = false
+	__FormDiv__00000011_.IsAStartAccordionGroup = true
+	__FormDiv__00000011_.AccordionGroupName = `The Time Fields`
+	__FormDiv__00000011_.IsAEndAccordionGroup = false
+
+	__FormDiv__00000012_.Name = `End of Accordion Group`
+	__FormDiv__00000012_.IsADivider = false
+	__FormDiv__00000012_.IsAStartAccordionGroup = false
+	__FormDiv__00000012_.AccordionGroupName = ``
+	__FormDiv__00000012_.IsAEndAccordionGroup = true
 
 	__FormEditAssocButton__00000000_.Name = `Edit Assoc`
 	__FormEditAssocButton__00000000_.Label = `Association to B`
@@ -280,7 +327,8 @@ second line`
 	__FormFieldTime__00000001_.Step = 1.000000
 
 	__FormGroup__00000000_.Name = `Form 1`
-	__FormGroup__00000000_.Label = `<FormGroup.Label>`
+	__FormGroup__00000000_.Label = `Instance`
+	__FormGroup__00000000_.TypeLabel = `TypeLabel`
 	__FormGroup__00000000_.HasSuppressButton = true
 	__FormGroup__00000000_.HasSuppressButtonBeenPressed = true
 
@@ -337,6 +385,10 @@ second line`
 	__FormDiv__00000009_.FormSortAssocButton = nil
 	__FormDiv__00000010_.FormEditAssocButton = nil
 	__FormDiv__00000010_.FormSortAssocButton = nil
+	__FormDiv__00000011_.FormEditAssocButton = nil
+	__FormDiv__00000011_.FormSortAssocButton = nil
+	__FormDiv__00000012_.FormEditAssocButton = nil
+	__FormDiv__00000012_.FormSortAssocButton = nil
 	__FormField__00000000_.FormFieldString = nil
 	__FormField__00000000_.FormFieldFloat64 = nil
 	__FormField__00000000_.FormFieldInt = __FormFieldInt__00000000_
@@ -425,10 +477,12 @@ second line`
 	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000009_)
 	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000000_)
 	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000010_)
+	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000011_)
 	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000001_)
-	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000003_)
 	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000002_)
+	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000012_)
 	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000004_)
+	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000003_)
 	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000006_)
 	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000005_)
 	__FormGroup__00000000_.FormDivs = append(__FormGroup__00000000_.FormDivs, __FormDiv__00000007_)

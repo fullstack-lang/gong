@@ -261,6 +261,12 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(formdiv_.FormSortAssocButton), formdivFormCallback.probe.stageOfInterest, formDiv)
 		case "IsADivider":
 			FormDivBasicFieldToField(&(formdiv_.IsADivider), formDiv)
+		case "IsAStartAccordionGroup":
+			FormDivBasicFieldToField(&(formdiv_.IsAStartAccordionGroup), formDiv)
+		case "AccordionGroupName":
+			FormDivBasicFieldToField(&(formdiv_.AccordionGroupName), formDiv)
+		case "IsAEndAccordionGroup":
+			FormDivBasicFieldToField(&(formdiv_.IsAEndAccordionGroup), formDiv)
 		case "FormGroup:FormDivs":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the FormGroup instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -1245,6 +1251,8 @@ func (formgroupFormCallback *FormGroupFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(formgroup_.Name), formDiv)
 		case "Label":
 			FormDivBasicFieldToField(&(formgroup_.Label), formDiv)
+		case "TypeLabel":
+			FormDivBasicFieldToField(&(formgroup_.TypeLabel), formDiv)
 		case "FormDivs":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.FormDiv](formgroupFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.FormDiv, 0)

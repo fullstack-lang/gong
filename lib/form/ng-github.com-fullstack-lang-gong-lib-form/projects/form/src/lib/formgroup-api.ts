@@ -13,6 +13,7 @@ export class FormGroupAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Label: string = ""
+	TypeLabel: string = ""
 	HasSuppressButton: boolean = false
 	HasSuppressButtonBeenPressed: boolean = false
 
