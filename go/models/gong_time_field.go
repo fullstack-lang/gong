@@ -6,6 +6,7 @@ type GongTimeField struct {
 	Index int
 
 	CompositeStructName string
+	AbstractField
 
 	//  is there is a magic gong code with bespoketimeserializeformat "2006-01-02"
 	// Date2 time.Time

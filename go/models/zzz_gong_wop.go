@@ -20,6 +20,10 @@ type GongBasicField_WOP struct {
 
 	CompositeStructName string
 
+	IsAccordionStart bool
+
+	IsAccordionEnd bool
+
 	Index int
 
 	IsTextArea bool
@@ -39,6 +43,8 @@ func (from *GongBasicField) CopyBasicFields(to *GongBasicField) {
 	to.BasicKindName = from.BasicKindName
 	to.DeclaredType = from.DeclaredType
 	to.CompositeStructName = from.CompositeStructName
+	to.IsAccordionStart = from.IsAccordionStart
+	to.IsAccordionEnd = from.IsAccordionEnd
 	to.Index = from.Index
 	to.IsTextArea = from.IsTextArea
 	to.IsBespokeWidth = from.IsBespokeWidth
@@ -135,6 +141,10 @@ type GongTimeField_WOP struct {
 
 	CompositeStructName string
 
+	IsAccordionStart bool
+
+	IsAccordionEnd bool
+
 	BespokeTimeFormat string
 }
 
@@ -143,6 +153,8 @@ func (from *GongTimeField) CopyBasicFields(to *GongTimeField) {
 	to.Name = from.Name
 	to.Index = from.Index
 	to.CompositeStructName = from.CompositeStructName
+	to.IsAccordionStart = from.IsAccordionStart
+	to.IsAccordionEnd = from.IsAccordionEnd
 	to.BespokeTimeFormat = from.BespokeTimeFormat
 }
 
@@ -228,6 +240,10 @@ type PointerToGongStructField_WOP struct {
 
 	CompositeStructName string
 
+	IsAccordionStart bool
+
+	IsAccordionEnd bool
+
 	IsType bool
 }
 
@@ -236,6 +252,8 @@ func (from *PointerToGongStructField) CopyBasicFields(to *PointerToGongStructFie
 	to.Name = from.Name
 	to.Index = from.Index
 	to.CompositeStructName = from.CompositeStructName
+	to.IsAccordionStart = from.IsAccordionStart
+	to.IsAccordionEnd = from.IsAccordionEnd
 	to.IsType = from.IsType
 }
 
@@ -247,6 +265,10 @@ type SliceOfPointerToGongStructField_WOP struct {
 	Index int
 
 	CompositeStructName string
+
+	IsAccordionStart bool
+
+	IsAccordionEnd bool
 }
 
 func (from *SliceOfPointerToGongStructField) CopyBasicFields(to *SliceOfPointerToGongStructField) {
@@ -254,6 +276,8 @@ func (from *SliceOfPointerToGongStructField) CopyBasicFields(to *SliceOfPointerT
 	to.Name = from.Name
 	to.Index = from.Index
 	to.CompositeStructName = from.CompositeStructName
+	to.IsAccordionStart = from.IsAccordionStart
+	to.IsAccordionEnd = from.IsAccordionEnd
 }
 
 // end of insertion point

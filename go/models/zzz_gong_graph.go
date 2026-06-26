@@ -1172,6 +1172,12 @@ func (gongbasicfield *GongBasicField) GongDiff(stage *Stage, gongbasicfieldOther
 	if gongbasicfield.CompositeStructName != gongbasicfieldOther.CompositeStructName {
 		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "CompositeStructName"))
 	}
+	if gongbasicfield.IsAccordionStart != gongbasicfieldOther.IsAccordionStart {
+		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "IsAccordionStart"))
+	}
+	if gongbasicfield.IsAccordionEnd != gongbasicfieldOther.IsAccordionEnd {
+		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "IsAccordionEnd"))
+	}
 	if gongbasicfield.Index != gongbasicfieldOther.Index {
 		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "Index"))
 	}
@@ -1412,6 +1418,12 @@ func (gongtimefield *GongTimeField) GongDiff(stage *Stage, gongtimefieldOther *G
 	if gongtimefield.CompositeStructName != gongtimefieldOther.CompositeStructName {
 		diffs = append(diffs, gongtimefield.GongMarshallField(stage, "CompositeStructName"))
 	}
+	if gongtimefield.IsAccordionStart != gongtimefieldOther.IsAccordionStart {
+		diffs = append(diffs, gongtimefield.GongMarshallField(stage, "IsAccordionStart"))
+	}
+	if gongtimefield.IsAccordionEnd != gongtimefieldOther.IsAccordionEnd {
+		diffs = append(diffs, gongtimefield.GongMarshallField(stage, "IsAccordionEnd"))
+	}
 	if gongtimefield.BespokeTimeFormat != gongtimefieldOther.BespokeTimeFormat {
 		diffs = append(diffs, gongtimefield.GongMarshallField(stage, "BespokeTimeFormat"))
 	}
@@ -1512,6 +1524,12 @@ func (pointertogongstructfield *PointerToGongStructField) GongDiff(stage *Stage,
 	if pointertogongstructfield.CompositeStructName != pointertogongstructfieldOther.CompositeStructName {
 		diffs = append(diffs, pointertogongstructfield.GongMarshallField(stage, "CompositeStructName"))
 	}
+	if pointertogongstructfield.IsAccordionStart != pointertogongstructfieldOther.IsAccordionStart {
+		diffs = append(diffs, pointertogongstructfield.GongMarshallField(stage, "IsAccordionStart"))
+	}
+	if pointertogongstructfield.IsAccordionEnd != pointertogongstructfieldOther.IsAccordionEnd {
+		diffs = append(diffs, pointertogongstructfield.GongMarshallField(stage, "IsAccordionEnd"))
+	}
 	if pointertogongstructfield.IsType != pointertogongstructfieldOther.IsType {
 		diffs = append(diffs, pointertogongstructfield.GongMarshallField(stage, "IsType"))
 	}
@@ -1538,6 +1556,12 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongDiff
 	}
 	if sliceofpointertogongstructfield.CompositeStructName != sliceofpointertogongstructfieldOther.CompositeStructName {
 		diffs = append(diffs, sliceofpointertogongstructfield.GongMarshallField(stage, "CompositeStructName"))
+	}
+	if sliceofpointertogongstructfield.IsAccordionStart != sliceofpointertogongstructfieldOther.IsAccordionStart {
+		diffs = append(diffs, sliceofpointertogongstructfield.GongMarshallField(stage, "IsAccordionStart"))
+	}
+	if sliceofpointertogongstructfield.IsAccordionEnd != sliceofpointertogongstructfieldOther.IsAccordionEnd {
+		diffs = append(diffs, sliceofpointertogongstructfield.GongMarshallField(stage, "IsAccordionEnd"))
 	}
 
 	return

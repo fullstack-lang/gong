@@ -3293,6 +3293,14 @@ func (gongbasicfield *GongBasicField) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsAccordionStart",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsAccordionEnd",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "Index",
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
@@ -3454,6 +3462,14 @@ func (gongtimefield *GongTimeField) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsAccordionStart",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsAccordionEnd",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "BespokeTimeFormat",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -3572,6 +3588,14 @@ func (pointertogongstructfield *PointerToGongStructField) GongGetFieldHeaders() 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "IsAccordionStart",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsAccordionEnd",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "IsType",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -3598,6 +3622,14 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetF
 		{
 			Name:               "CompositeStructName",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsAccordionStart",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsAccordionEnd",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -3675,6 +3707,14 @@ func (gongbasicfield *GongBasicField) GongGetFieldValue(fieldName string, stage 
 		res.valueString = gongbasicfield.DeclaredType
 	case "CompositeStructName":
 		res.valueString = gongbasicfield.CompositeStructName
+	case "IsAccordionStart":
+		res.valueString = fmt.Sprintf("%t", gongbasicfield.IsAccordionStart)
+		res.valueBool = gongbasicfield.IsAccordionStart
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsAccordionEnd":
+		res.valueString = fmt.Sprintf("%t", gongbasicfield.IsAccordionEnd)
+		res.valueBool = gongbasicfield.IsAccordionEnd
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Index":
 		res.valueString = fmt.Sprintf("%d", gongbasicfield.Index)
 		res.valueInt = gongbasicfield.Index
@@ -3840,6 +3880,14 @@ func (gongtimefield *GongTimeField) GongGetFieldValue(fieldName string, stage *S
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "CompositeStructName":
 		res.valueString = gongtimefield.CompositeStructName
+	case "IsAccordionStart":
+		res.valueString = fmt.Sprintf("%t", gongtimefield.IsAccordionStart)
+		res.valueBool = gongtimefield.IsAccordionStart
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsAccordionEnd":
+		res.valueString = fmt.Sprintf("%t", gongtimefield.IsAccordionEnd)
+		res.valueBool = gongtimefield.IsAccordionEnd
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "BespokeTimeFormat":
 		res.valueString = gongtimefield.BespokeTimeFormat
 	}
@@ -3915,6 +3963,14 @@ func (pointertogongstructfield *PointerToGongStructField) GongGetFieldValue(fiel
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "CompositeStructName":
 		res.valueString = pointertogongstructfield.CompositeStructName
+	case "IsAccordionStart":
+		res.valueString = fmt.Sprintf("%t", pointertogongstructfield.IsAccordionStart)
+		res.valueBool = pointertogongstructfield.IsAccordionStart
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsAccordionEnd":
+		res.valueString = fmt.Sprintf("%t", pointertogongstructfield.IsAccordionEnd)
+		res.valueBool = pointertogongstructfield.IsAccordionEnd
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsType":
 		res.valueString = fmt.Sprintf("%t", pointertogongstructfield.IsType)
 		res.valueBool = pointertogongstructfield.IsType
@@ -3940,6 +3996,14 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetF
 		res.GongFieldValueType = GongFieldValueTypeInt
 	case "CompositeStructName":
 		res.valueString = sliceofpointertogongstructfield.CompositeStructName
+	case "IsAccordionStart":
+		res.valueString = fmt.Sprintf("%t", sliceofpointertogongstructfield.IsAccordionStart)
+		res.valueBool = sliceofpointertogongstructfield.IsAccordionStart
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsAccordionEnd":
+		res.valueString = fmt.Sprintf("%t", sliceofpointertogongstructfield.IsAccordionEnd)
+		res.valueBool = sliceofpointertogongstructfield.IsAccordionEnd
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -3972,6 +4036,10 @@ func (gongbasicfield *GongBasicField) GongSetFieldValue(fieldName string, value 
 		gongbasicfield.DeclaredType = value.GetValueString()
 	case "CompositeStructName":
 		gongbasicfield.CompositeStructName = value.GetValueString()
+	case "IsAccordionStart":
+		gongbasicfield.IsAccordionStart = value.GetValueBool()
+	case "IsAccordionEnd":
+		gongbasicfield.IsAccordionEnd = value.GetValueBool()
 	case "Index":
 		gongbasicfield.Index = int(value.GetValueInt())
 	case "IsTextArea":
@@ -4154,6 +4222,10 @@ func (gongtimefield *GongTimeField) GongSetFieldValue(fieldName string, value Go
 		gongtimefield.Index = int(value.GetValueInt())
 	case "CompositeStructName":
 		gongtimefield.CompositeStructName = value.GetValueString()
+	case "IsAccordionStart":
+		gongtimefield.IsAccordionStart = value.GetValueBool()
+	case "IsAccordionEnd":
+		gongtimefield.IsAccordionEnd = value.GetValueBool()
 	case "BespokeTimeFormat":
 		gongtimefield.BespokeTimeFormat = value.GetValueString()
 	default:
@@ -4238,6 +4310,10 @@ func (pointertogongstructfield *PointerToGongStructField) GongSetFieldValue(fiel
 		pointertogongstructfield.Index = int(value.GetValueInt())
 	case "CompositeStructName":
 		pointertogongstructfield.CompositeStructName = value.GetValueString()
+	case "IsAccordionStart":
+		pointertogongstructfield.IsAccordionStart = value.GetValueBool()
+	case "IsAccordionEnd":
+		pointertogongstructfield.IsAccordionEnd = value.GetValueBool()
 	case "IsType":
 		pointertogongstructfield.IsType = value.GetValueBool()
 	default:
@@ -4266,6 +4342,10 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongSetF
 		sliceofpointertogongstructfield.Index = int(value.GetValueInt())
 	case "CompositeStructName":
 		sliceofpointertogongstructfield.CompositeStructName = value.GetValueString()
+	case "IsAccordionStart":
+		sliceofpointertogongstructfield.IsAccordionStart = value.GetValueBool()
+	case "IsAccordionEnd":
+		sliceofpointertogongstructfield.IsAccordionEnd = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

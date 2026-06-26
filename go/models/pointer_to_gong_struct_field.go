@@ -9,6 +9,7 @@ type PointerToGongStructField struct {
 	Index int
 
 	CompositeStructName string
+	AbstractField
 
 	// IsType denotes wether this association is to a type
 	//

@@ -13,6 +13,7 @@ type GongBasicField struct {
 	DeclaredType string    // "time.Duration" for instance (the underlying type being int64)
 
 	CompositeStructName string
+	AbstractField
 
 	Index int
 

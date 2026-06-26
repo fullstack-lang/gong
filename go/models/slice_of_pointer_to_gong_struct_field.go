@@ -9,6 +9,7 @@ type SliceOfPointerToGongStructField struct {
 	Index int
 
 	CompositeStructName string
+	AbstractField
 }
 
 func (sliceOfPointerToGongStructField *SliceOfPointerToGongStructField) GetIndex() int {

@@ -74,6 +74,10 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongbasicfield_.DeclaredType), formDiv)
 		case "CompositeStructName":
 			FormDivBasicFieldToField(&(gongbasicfield_.CompositeStructName), formDiv)
+		case "IsAccordionStart":
+			FormDivBasicFieldToField(&(gongbasicfield_.IsAccordionStart), formDiv)
+		case "IsAccordionEnd":
+			FormDivBasicFieldToField(&(gongbasicfield_.IsAccordionEnd), formDiv)
 		case "Index":
 			FormDivBasicFieldToField(&(gongbasicfield_.Index), formDiv)
 		case "IsTextArea":
@@ -901,6 +905,10 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongtimefield_.Index), formDiv)
 		case "CompositeStructName":
 			FormDivBasicFieldToField(&(gongtimefield_.CompositeStructName), formDiv)
+		case "IsAccordionStart":
+			FormDivBasicFieldToField(&(gongtimefield_.IsAccordionStart), formDiv)
+		case "IsAccordionEnd":
+			FormDivBasicFieldToField(&(gongtimefield_.IsAccordionEnd), formDiv)
 		case "BespokeTimeFormat":
 			FormDivBasicFieldToField(&(gongtimefield_.BespokeTimeFormat), formDiv)
 		case "GongStruct:GongTimeFields":
@@ -1222,6 +1230,10 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 			FormDivBasicFieldToField(&(pointertogongstructfield_.Index), formDiv)
 		case "CompositeStructName":
 			FormDivBasicFieldToField(&(pointertogongstructfield_.CompositeStructName), formDiv)
+		case "IsAccordionStart":
+			FormDivBasicFieldToField(&(pointertogongstructfield_.IsAccordionStart), formDiv)
+		case "IsAccordionEnd":
+			FormDivBasicFieldToField(&(pointertogongstructfield_.IsAccordionEnd), formDiv)
 		case "IsType":
 			FormDivBasicFieldToField(&(pointertogongstructfield_.IsType), formDiv)
 		case "GongStruct:PointerToGongStructFields":
@@ -1353,6 +1365,10 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 			FormDivBasicFieldToField(&(sliceofpointertogongstructfield_.Index), formDiv)
 		case "CompositeStructName":
 			FormDivBasicFieldToField(&(sliceofpointertogongstructfield_.CompositeStructName), formDiv)
+		case "IsAccordionStart":
+			FormDivBasicFieldToField(&(sliceofpointertogongstructfield_.IsAccordionStart), formDiv)
+		case "IsAccordionEnd":
+			FormDivBasicFieldToField(&(sliceofpointertogongstructfield_.IsAccordionEnd), formDiv)
 		case "GongStruct:SliceOfPointerToGongStructFields":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the GongStruct instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
