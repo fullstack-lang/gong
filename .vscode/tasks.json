@@ -210,6 +210,21 @@
             "group": "build"
         },
         {
+            "label": "dsm - project: go run . edit",
+            "type": "shell",
+            "options": {
+                "cwd": "./dsm/project/go/cmd/project"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                ".",
+                "edit",
+                "data/stage.go",
+            ],
+            "group": "build"
+        },
+        {
             "label": "dsm - reqif: gong generate",
             "type": "shell",
             "options": {
