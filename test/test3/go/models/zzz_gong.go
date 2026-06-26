@@ -1376,16 +1376,16 @@ func (a *A) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeDate,
 		},
 		{
+			Name:               "Duration",
+			GongFieldValueType: GongFieldValueTypeIntDuration,
+		},
+		{
 			Name:               "FloatValue",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "IntValue",
 			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "Duration",
-			GongFieldValueType: GongFieldValueTypeIntDuration,
 		},
 		{
 			Name:                 "EnumString",
@@ -1488,14 +1488,6 @@ func (a *A) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValu
 		res.valueString = a.Name
 	case "Date":
 		res.valueString = a.Date.String()
-	case "FloatValue":
-		res.valueString = fmt.Sprintf("%f", a.FloatValue)
-		res.valueFloat = a.FloatValue
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "IntValue":
-		res.valueString = fmt.Sprintf("%d", a.IntValue)
-		res.valueInt = a.IntValue
-		res.GongFieldValueType = GongFieldValueTypeInt
 	case "Duration":
 		if math.Abs(a.Duration.Hours()) >= 24 {
 			days := __Gong__Abs(int(int(a.Duration.Hours()) / 24))
@@ -1537,6 +1529,14 @@ func (a *A) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValu
 		} else {
 			res.valueString = fmt.Sprintf("%s\n", a.Duration.String())
 		}
+	case "FloatValue":
+		res.valueString = fmt.Sprintf("%f", a.FloatValue)
+		res.valueFloat = a.FloatValue
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IntValue":
+		res.valueString = fmt.Sprintf("%d", a.IntValue)
+		res.valueInt = a.IntValue
+		res.GongFieldValueType = GongFieldValueTypeInt
 	case "EnumString":
 		enum := a.EnumString
 		res.valueString = enum.ToCodeString()

@@ -295,9 +295,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(a.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(a.GongMarshallField(stage, "Date"))
+		initializerStatements.WriteString(a.GongMarshallField(stage, "Duration"))
 		initializerStatements.WriteString(a.GongMarshallField(stage, "FloatValue"))
 		initializerStatements.WriteString(a.GongMarshallField(stage, "IntValue"))
-		initializerStatements.WriteString(a.GongMarshallField(stage, "Duration"))
 		initializerStatements.WriteString(a.GongMarshallField(stage, "EnumString"))
 		initializerStatements.WriteString(a.GongMarshallField(stage, "EnumInt"))
 		pointersInitializesStatements.WriteString(a.GongMarshallField(stage, "B"))
@@ -415,6 +415,11 @@ func (a *A) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Date")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", a.Date.String())
+	case "Duration":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Duration")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", a.Duration))
 	case "FloatValue":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
@@ -425,11 +430,6 @@ func (a *A) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IntValue")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", a.IntValue))
-	case "Duration":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", a.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Duration")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", a.Duration))
 	case "EnumString":
 		if a.EnumString.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -514,9 +514,9 @@ func (a *A) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) 
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(a.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(a.GongMarshallField(stage, "Date"))
+		initializerStatements.WriteString(a.GongMarshallField(stage, "Duration"))
 		initializerStatements.WriteString(a.GongMarshallField(stage, "FloatValue"))
 		initializerStatements.WriteString(a.GongMarshallField(stage, "IntValue"))
-		initializerStatements.WriteString(a.GongMarshallField(stage, "Duration"))
 		initializerStatements.WriteString(a.GongMarshallField(stage, "EnumString"))
 		initializerStatements.WriteString(a.GongMarshallField(stage, "EnumInt"))
 		pointersInitializesStatements.WriteString(a.GongMarshallField(stage, "B"))

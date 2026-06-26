@@ -43,3 +43,13 @@ func extractTimeFormat(s string) (string, error) {
 	format := matches[1]
 	return format, nil
 }
+
+func extractAccordionName(s string) (string, error) {
+	re := regexp.MustCompile(`gong:accordion-start\s+"([^"]*)"`)
+	matches := re.FindStringSubmatch(s)
+	if len(matches) < 2 {
+		return "", fmt.Errorf("No accordion name found")
+	}
+	name := matches[1]
+	return name, nil
+}
