@@ -393,13 +393,19 @@
             "group": "build"
         },
         {
-            "label": "go - gong: go run gong",
+            "label": "go - gong: go run gong read",
             "type": "shell",
             "options": {
                 "cwd": "./go/cmd/gong"
             },
-            "command": "go run .",
-            "group": "build"
+            "command": "go",
+            "group": "build",
+            "args": [
+                "run",
+                ".",
+                "read",
+                "../../models"
+            ]
         },
         {
             "label": "go - gong: gong generate gong",
