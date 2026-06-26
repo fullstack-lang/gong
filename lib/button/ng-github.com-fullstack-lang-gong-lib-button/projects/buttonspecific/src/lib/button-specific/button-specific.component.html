@@ -9,90 +9,64 @@
         <div class="button-grid"
             [style.grid-template-columns]="'repeat(' + (group.NbColumns || 4) + ', 1fr)'">
             @for (button of group.Buttons; track button.ID) {
+                
 
             @switch (button.MatButtonType) {
-
                 @case ('matButton') {
                     @switch (button.MatButtonAppearance) {
                         @case ('filled') {
-                            <button mat-flat-button [color]="button.Color || 'primary'" (click)="onClick(button)"
-                                [disabled]="button.IsDisabled"
-                                >
+                            <button mat-flat-button [color]="button.Color || 'primary'" (click)="onClick(button)" [disabled]="button.IsDisabled" [matTooltip]="button.ToolTipText" [matTooltipPosition]="$any(button.ToolTipPosition)" [matTooltipDisabled]="!button.HasToolTip">
                                 <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                             </button>
                         }
                         @case ('elevated') {
-                            <button mat-raised-button [color]="button.Color || 'primary'" (click)="onClick(button)"
-                                [disabled]="button.IsDisabled"
-                                >
+                            <button mat-raised-button [color]="button.Color || 'primary'" (click)="onClick(button)" [disabled]="button.IsDisabled" [matTooltip]="button.ToolTipText" [matTooltipPosition]="$any(button.ToolTipPosition)" [matTooltipDisabled]="!button.HasToolTip">
                                 <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                             </button>
                         }
                         @case ('outlined') {
-                            <button mat-stroked-button [color]="button.Color || 'primary'" (click)="onClick(button)"
-                                [disabled]="button.IsDisabled"
-                                >
+                            <button mat-stroked-button [color]="button.Color || 'primary'" (click)="onClick(button)" [disabled]="button.IsDisabled" [matTooltip]="button.ToolTipText" [matTooltipPosition]="$any(button.ToolTipPosition)" [matTooltipDisabled]="!button.HasToolTip">
                                 <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                             </button>
                         }
                         @case ('tonal') {
-                            <button mat-flat-button class="mat-tonal-button" [color]="button.Color || 'primary'" (click)="onClick(button)"
-                                [disabled]="button.IsDisabled"
-                                >
+                            <button mat-flat-button class="mat-tonal-button" [color]="button.Color || 'primary'" (click)="onClick(button)" [disabled]="button.IsDisabled" [matTooltip]="button.ToolTipText" [matTooltipPosition]="$any(button.ToolTipPosition)" [matTooltipDisabled]="!button.HasToolTip">
                                 <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                             </button>
                         }
                         @default {
-                            <button mat-button [color]="button.Color || 'primary'" (click)="onClick(button)"
-                                [disabled]="button.IsDisabled"
-                                >
+                            <button mat-button [color]="button.Color || 'primary'" (click)="onClick(button)" [disabled]="button.IsDisabled" [matTooltip]="button.ToolTipText" [matTooltipPosition]="$any(button.ToolTipPosition)" [matTooltipDisabled]="!button.HasToolTip">
                                 <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                             </button>
                         }
                     }
                 }
-
                 @case ('matIconButton') {
-                    <button mat-icon-button [color]="button.Color || 'primary'" (click)="onClick(button)"
-                        [disabled]="button.IsDisabled"
-                        >
+                    <button mat-icon-button [color]="button.Color || 'primary'" (click)="onClick(button)" [disabled]="button.IsDisabled" [matTooltip]="button.ToolTipText" [matTooltipPosition]="$any(button.ToolTipPosition)" [matTooltipDisabled]="!button.HasToolTip">
                         <mat-icon>{{button.Icon}}</mat-icon>
                     </button>
                 }
-
                 @case ('matFab') {
-                    <button mat-fab [color]="button.Color || 'primary'" (click)="onClick(button)"
-                        [disabled]="button.IsDisabled"
-                        >
+                    <button mat-fab [color]="button.Color || 'primary'" (click)="onClick(button)" [disabled]="button.IsDisabled" [matTooltip]="button.ToolTipText" [matTooltipPosition]="$any(button.ToolTipPosition)" [matTooltipDisabled]="!button.HasToolTip">
                         <mat-icon>{{button.Icon}}</mat-icon>
                     </button>
                 }
-
                 @case ('matMiniFab') {
-                    <button mat-mini-fab [color]="button.Color || 'primary'" (click)="onClick(button)"
-                        [disabled]="button.IsDisabled"
-                        >
+                    <button mat-mini-fab [color]="button.Color || 'primary'" (click)="onClick(button)" [disabled]="button.IsDisabled" [matTooltip]="button.ToolTipText" [matTooltipPosition]="$any(button.ToolTipPosition)" [matTooltipDisabled]="!button.HasToolTip">
                         <mat-icon>{{button.Icon}}</mat-icon>
                     </button>
                 }
-
                 @case ('matFab extended') {
-                    <button mat-fab extended [color]="button.Color || 'primary'" (click)="onClick(button)"
-                        [disabled]="button.IsDisabled"
-                        >
+                    <button mat-fab extended [color]="button.Color || 'primary'" (click)="onClick(button)" [disabled]="button.IsDisabled" [matTooltip]="button.ToolTipText" [matTooltipPosition]="$any(button.ToolTipPosition)" [matTooltipDisabled]="!button.HasToolTip">
                         <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                     </button>
                 }
-                
                 @default {
-                    <button mat-button [color]="button.Color || 'primary'" (click)="onClick(button)"
-                        [disabled]="button.IsDisabled"
-                        >
+                    <button mat-button [color]="button.Color || 'primary'" (click)="onClick(button)" [disabled]="button.IsDisabled" [matTooltip]="button.ToolTipText" [matTooltipPosition]="$any(button.ToolTipPosition)" [matTooltipDisabled]="!button.HasToolTip">
                         <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                     </button>
                 }
             }
-
             }
         </div>
     </as-split-area>
@@ -106,12 +80,7 @@
         }
 
         <div style="padding: 10px;">
-            <mat-button-toggle-group 
-                name="fontStyle" 
-                aria-label="Font Style" 
-                [multiple]="!groupToogle.IsSingleSelector"
-                (change)="onGroupChange(groupToogle, $event)">
-
+            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [multiple]="!groupToogle.IsSingleSelector" (change)="onGroupChange(groupToogle, $event)">
                 @for (buttonToggle of groupToogle.ButtonToggles; track buttonToggle.ID) {
                     <mat-button-toggle [value]="buttonToggle.ID" [checked]="buttonToggle.IsChecked">
                         @if (buttonToggle.Icon) {

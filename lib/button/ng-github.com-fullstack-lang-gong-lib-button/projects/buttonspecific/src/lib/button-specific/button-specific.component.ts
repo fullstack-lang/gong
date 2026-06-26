@@ -8,6 +8,7 @@ import { AngularSplitModule } from 'angular-split';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonToggleModule, MatButtonToggleChange } from '@angular/material/button-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @Component({
@@ -18,6 +19,7 @@ import { MatButtonToggleModule, MatButtonToggleChange } from '@angular/material/
     MatButtonModule,
     MatIconModule,
     MatButtonToggleModule,
+    MatTooltipModule,
     NgTemplateOutlet,
   ],
   templateUrl: './button-specific.component.html',
