@@ -746,9 +746,6 @@ func (stage *Stage) StageBranchTask(task *Task) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _task := range task.SubTasks {
-		StageBranch(stage, _task)
-	}
 	for _, _task := range task.Predecessors {
 		StageBranch(stage, _task)
 	}
@@ -760,6 +757,9 @@ func (stage *Stage) StageBranchTask(task *Task) {
 	}
 	for _, _taskgroup := range task.TaskGroupsToDisplay {
 		StageBranch(stage, _taskgroup)
+	}
+	for _, _task := range task.SubTasks {
+		StageBranch(stage, _task)
 	}
 
 }
@@ -1411,9 +1411,6 @@ func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _task := range taskFrom.SubTasks {
-		taskTo.SubTasks = append(taskTo.SubTasks, CopyBranchTask(mapOrigCopy, _task))
-	}
 	for _, _task := range taskFrom.Predecessors {
 		taskTo.Predecessors = append(taskTo.Predecessors, CopyBranchTask(mapOrigCopy, _task))
 	}
@@ -1425,6 +1422,9 @@ func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 	}
 	for _, _taskgroup := range taskFrom.TaskGroupsToDisplay {
 		taskTo.TaskGroupsToDisplay = append(taskTo.TaskGroupsToDisplay, CopyBranchTaskGroup(mapOrigCopy, _taskgroup))
+	}
+	for _, _task := range taskFrom.SubTasks {
+		taskTo.SubTasks = append(taskTo.SubTasks, CopyBranchTask(mapOrigCopy, _task))
 	}
 
 	return
@@ -2017,9 +2017,6 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _task := range task.SubTasks {
-		UnstageBranch(stage, _task)
-	}
 	for _, _task := range task.Predecessors {
 		UnstageBranch(stage, _task)
 	}
@@ -2031,6 +2028,9 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 	}
 	for _, _taskgroup := range task.TaskGroupsToDisplay {
 		UnstageBranch(stage, _taskgroup)
+	}
+	for _, _task := range task.SubTasks {
+		UnstageBranch(stage, _task)
 	}
 
 }
@@ -2407,10 +2407,6 @@ func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, insta
 		reference.ReferencedTask = stage.Tasks_reference[instance.ReferencedTask]
 	}
 	// insertion point for slice of pointers field
-	reference.SubTasks = reference.SubTasks[:0]
-	for _, _b := range instance.SubTasks {
-		reference.SubTasks = append(reference.SubTasks, stage.Tasks_reference[_b])
-	}
 	reference.Predecessors = reference.Predecessors[:0]
 	for _, _b := range instance.Predecessors {
 		reference.Predecessors = append(reference.Predecessors, stage.Tasks_reference[_b])
@@ -2426,6 +2422,10 @@ func (reference *Task) GongReconstructPointersFromReferences(stage *Stage, insta
 	reference.TaskGroupsToDisplay = reference.TaskGroupsToDisplay[:0]
 	for _, _b := range instance.TaskGroupsToDisplay {
 		reference.TaskGroupsToDisplay = append(reference.TaskGroupsToDisplay, stage.TaskGroups_reference[_b])
+	}
+	reference.SubTasks = reference.SubTasks[:0]
+	for _, _b := range instance.SubTasks {
+		reference.SubTasks = append(reference.SubTasks, stage.Tasks_reference[_b])
 	}
 }
 
@@ -2892,13 +2892,6 @@ func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	// insertion point for slice of pointers fields
-	var _SubTasks []*Task
-	for _, _reference := range reference.SubTasks {
-		if _instance, ok := stage.Tasks_instance[_reference]; ok {
-			_SubTasks = append(_SubTasks, _instance)
-		}
-	}
-	reference.SubTasks = _SubTasks
 	var _Predecessors []*Task
 	for _, _reference := range reference.Predecessors {
 		if _instance, ok := stage.Tasks_instance[_reference]; ok {
@@ -2927,6 +2920,13 @@ func (reference *Task) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.TaskGroupsToDisplay = _TaskGroupsToDisplay
+	var _SubTasks []*Task
+	for _, _reference := range reference.SubTasks {
+		if _instance, ok := stage.Tasks_instance[_reference]; ok {
+			_SubTasks = append(_SubTasks, _instance)
+		}
+	}
+	reference.SubTasks = _SubTasks
 }
 
 func (reference *TaskCompositionShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -4027,25 +4027,6 @@ func (product *Product) GongDiff(stage *Stage, productOther *Product) (diffs []s
 	if product.Name != productOther.Name {
 		diffs = append(diffs, product.GongMarshallField(stage, "Name"))
 	}
-	if product.ComputedPrefix != productOther.ComputedPrefix {
-		diffs = append(diffs, product.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if product.IsExpanded != productOther.IsExpanded {
-		diffs = append(diffs, product.GongMarshallField(stage, "IsExpanded"))
-	}
-	if product.LayoutDirection != productOther.LayoutDirection {
-		diffs = append(diffs, product.GongMarshallField(stage, "LayoutDirection"))
-	}
-	if product.IsImport != productOther.IsImport {
-		diffs = append(diffs, product.GongMarshallField(stage, "IsImport"))
-	}
-	if (product.ReferencedProduct == nil) != (productOther.ReferencedProduct == nil) {
-		diffs = append(diffs, product.GongMarshallField(stage, "ReferencedProduct"))
-	} else if product.ReferencedProduct != nil && productOther.ReferencedProduct != nil {
-		if product.ReferencedProduct != productOther.ReferencedProduct {
-			diffs = append(diffs, product.GongMarshallField(stage, "ReferencedProduct"))
-		}
-	}
 	if product.Description != productOther.Description {
 		diffs = append(diffs, product.GongMarshallField(stage, "Description"))
 	}
@@ -4075,6 +4056,25 @@ func (product *Product) GongDiff(stage *Stage, productOther *Product) (diffs []s
 	}
 	if product.IsConsumersNodeExpanded != productOther.IsConsumersNodeExpanded {
 		diffs = append(diffs, product.GongMarshallField(stage, "IsConsumersNodeExpanded"))
+	}
+	if product.IsImport != productOther.IsImport {
+		diffs = append(diffs, product.GongMarshallField(stage, "IsImport"))
+	}
+	if (product.ReferencedProduct == nil) != (productOther.ReferencedProduct == nil) {
+		diffs = append(diffs, product.GongMarshallField(stage, "ReferencedProduct"))
+	} else if product.ReferencedProduct != nil && productOther.ReferencedProduct != nil {
+		if product.ReferencedProduct != productOther.ReferencedProduct {
+			diffs = append(diffs, product.GongMarshallField(stage, "ReferencedProduct"))
+		}
+	}
+	if product.ComputedPrefix != productOther.ComputedPrefix {
+		diffs = append(diffs, product.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if product.IsExpanded != productOther.IsExpanded {
+		diffs = append(diffs, product.GongMarshallField(stage, "IsExpanded"))
+	}
+	if product.LayoutDirection != productOther.LayoutDirection {
+		diffs = append(diffs, product.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	return
@@ -4162,25 +4162,6 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 	if resource.Name != resourceOther.Name {
 		diffs = append(diffs, resource.GongMarshallField(stage, "Name"))
 	}
-	if resource.ComputedPrefix != resourceOther.ComputedPrefix {
-		diffs = append(diffs, resource.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if resource.IsExpanded != resourceOther.IsExpanded {
-		diffs = append(diffs, resource.GongMarshallField(stage, "IsExpanded"))
-	}
-	if resource.LayoutDirection != resourceOther.LayoutDirection {
-		diffs = append(diffs, resource.GongMarshallField(stage, "LayoutDirection"))
-	}
-	if resource.IsImport != resourceOther.IsImport {
-		diffs = append(diffs, resource.GongMarshallField(stage, "IsImport"))
-	}
-	if (resource.ReferencedResource == nil) != (resourceOther.ReferencedResource == nil) {
-		diffs = append(diffs, resource.GongMarshallField(stage, "ReferencedResource"))
-	} else if resource.ReferencedResource != nil && resourceOther.ReferencedResource != nil {
-		if resource.ReferencedResource != resourceOther.ReferencedResource {
-			diffs = append(diffs, resource.GongMarshallField(stage, "ReferencedResource"))
-		}
-	}
 	if resource.Description != resourceOther.Description {
 		diffs = append(diffs, resource.GongMarshallField(stage, "Description"))
 	}
@@ -4225,6 +4206,25 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 	if SubResourcesDifferent {
 		ops := Diff(stage, resource, resourceOther, "SubResources", resourceOther.SubResources, resource.SubResources)
 		diffs = append(diffs, ops)
+	}
+	if resource.ComputedPrefix != resourceOther.ComputedPrefix {
+		diffs = append(diffs, resource.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if resource.IsExpanded != resourceOther.IsExpanded {
+		diffs = append(diffs, resource.GongMarshallField(stage, "IsExpanded"))
+	}
+	if resource.LayoutDirection != resourceOther.LayoutDirection {
+		diffs = append(diffs, resource.GongMarshallField(stage, "LayoutDirection"))
+	}
+	if resource.IsImport != resourceOther.IsImport {
+		diffs = append(diffs, resource.GongMarshallField(stage, "IsImport"))
+	}
+	if (resource.ReferencedResource == nil) != (resourceOther.ReferencedResource == nil) {
+		diffs = append(diffs, resource.GongMarshallField(stage, "ReferencedResource"))
+	} else if resource.ReferencedResource != nil && resourceOther.ReferencedResource != nil {
+		if resource.ReferencedResource != resourceOther.ReferencedResource {
+			diffs = append(diffs, resource.GongMarshallField(stage, "ReferencedResource"))
+		}
 	}
 
 	return
@@ -4357,46 +4357,6 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	}
 	if task.Description != taskOther.Description {
 		diffs = append(diffs, task.GongMarshallField(stage, "Description"))
-	}
-	SubTasksDifferent := false
-	if len(task.SubTasks) != len(taskOther.SubTasks) {
-		SubTasksDifferent = true
-	} else {
-		for i := range task.SubTasks {
-			if (task.SubTasks[i] == nil) != (taskOther.SubTasks[i] == nil) {
-				SubTasksDifferent = true
-				break
-			} else if task.SubTasks[i] != nil && taskOther.SubTasks[i] != nil {
-				// this is a pointer comparaison
-				if task.SubTasks[i] != taskOther.SubTasks[i] {
-					SubTasksDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if SubTasksDifferent {
-		ops := Diff(stage, task, taskOther, "SubTasks", taskOther.SubTasks, task.SubTasks)
-		diffs = append(diffs, ops)
-	}
-	if task.ComputedPrefix != taskOther.ComputedPrefix {
-		diffs = append(diffs, task.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if task.IsExpanded != taskOther.IsExpanded {
-		diffs = append(diffs, task.GongMarshallField(stage, "IsExpanded"))
-	}
-	if task.LayoutDirection != taskOther.LayoutDirection {
-		diffs = append(diffs, task.GongMarshallField(stage, "LayoutDirection"))
-	}
-	if task.IsImport != taskOther.IsImport {
-		diffs = append(diffs, task.GongMarshallField(stage, "IsImport"))
-	}
-	if (task.ReferencedTask == nil) != (taskOther.ReferencedTask == nil) {
-		diffs = append(diffs, task.GongMarshallField(stage, "ReferencedTask"))
-	} else if task.ReferencedTask != nil && taskOther.ReferencedTask != nil {
-		if task.ReferencedTask != taskOther.ReferencedTask {
-			diffs = append(diffs, task.GongMarshallField(stage, "ReferencedTask"))
-		}
 	}
 	if task.Start != taskOther.Start {
 		diffs = append(diffs, task.GongMarshallField(stage, "Start"))
@@ -4535,6 +4495,46 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	}
 	if task.YOffset != taskOther.YOffset {
 		diffs = append(diffs, task.GongMarshallField(stage, "YOffset"))
+	}
+	if task.IsImport != taskOther.IsImport {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsImport"))
+	}
+	if (task.ReferencedTask == nil) != (taskOther.ReferencedTask == nil) {
+		diffs = append(diffs, task.GongMarshallField(stage, "ReferencedTask"))
+	} else if task.ReferencedTask != nil && taskOther.ReferencedTask != nil {
+		if task.ReferencedTask != taskOther.ReferencedTask {
+			diffs = append(diffs, task.GongMarshallField(stage, "ReferencedTask"))
+		}
+	}
+	SubTasksDifferent := false
+	if len(task.SubTasks) != len(taskOther.SubTasks) {
+		SubTasksDifferent = true
+	} else {
+		for i := range task.SubTasks {
+			if (task.SubTasks[i] == nil) != (taskOther.SubTasks[i] == nil) {
+				SubTasksDifferent = true
+				break
+			} else if task.SubTasks[i] != nil && taskOther.SubTasks[i] != nil {
+				// this is a pointer comparaison
+				if task.SubTasks[i] != taskOther.SubTasks[i] {
+					SubTasksDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubTasksDifferent {
+		ops := Diff(stage, task, taskOther, "SubTasks", taskOther.SubTasks, task.SubTasks)
+		diffs = append(diffs, ops)
+	}
+	if task.ComputedPrefix != taskOther.ComputedPrefix {
+		diffs = append(diffs, task.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if task.IsExpanded != taskOther.IsExpanded {
+		diffs = append(diffs, task.GongMarshallField(stage, "IsExpanded"))
+	}
+	if task.LayoutDirection != taskOther.LayoutDirection {
+		diffs = append(diffs, task.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	return

@@ -2134,16 +2134,6 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(product_.Name), formDiv)
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(product_.ComputedPrefix), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(product_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(product_.LayoutDirection), formDiv)
-		case "IsImport":
-			FormDivBasicFieldToField(&(product_.IsImport), formDiv)
-		case "ReferencedProduct":
-			FormDivSelectFieldToField(&(product_.ReferencedProduct), productFormCallback.probe.stageOfInterest, formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(product_.Description), formDiv)
 		case "SubProducts":
@@ -2182,6 +2172,16 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(product_.IsProducersNodeExpanded), formDiv)
 		case "IsConsumersNodeExpanded":
 			FormDivBasicFieldToField(&(product_.IsConsumersNodeExpanded), formDiv)
+		case "IsImport":
+			FormDivBasicFieldToField(&(product_.IsImport), formDiv)
+		case "ReferencedProduct":
+			FormDivSelectFieldToField(&(product_.ReferencedProduct), productFormCallback.probe.stageOfInterest, formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(product_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(product_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(product_.LayoutDirection), formDiv)
 		case "Diagram:ProductsWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -2806,16 +2806,6 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(resource_.Name), formDiv)
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(resource_.ComputedPrefix), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(resource_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(resource_.LayoutDirection), formDiv)
-		case "IsImport":
-			FormDivBasicFieldToField(&(resource_.IsImport), formDiv)
-		case "ReferencedResource":
-			FormDivSelectFieldToField(&(resource_.ReferencedResource), resourceFormCallback.probe.stageOfInterest, formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(resource_.Description), formDiv)
 		case "Tasks":
@@ -2882,6 +2872,16 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 			resource_.SubResources = instanceSlice
 			resourceFormCallback.probe.UpdateSliceOfPointersCallback(resource_, "SubResources", &resource_.SubResources)
 
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(resource_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(resource_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(resource_.LayoutDirection), formDiv)
+		case "IsImport":
+			FormDivBasicFieldToField(&(resource_.IsImport), formDiv)
+		case "ReferencedResource":
+			FormDivSelectFieldToField(&(resource_.ReferencedResource), resourceFormCallback.probe.stageOfInterest, formDiv)
 		case "Diagram:ResourcesWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -3557,48 +3557,6 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(task_.Name), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(task_.Description), formDiv)
-		case "SubTasks":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](taskFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Task, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Task)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					taskFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Task](taskFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			task_.SubTasks = instanceSlice
-			taskFormCallback.probe.UpdateSliceOfPointersCallback(task_, "SubTasks", &task_.SubTasks)
-
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(task_.ComputedPrefix), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(task_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(task_.LayoutDirection), formDiv)
-		case "IsImport":
-			FormDivBasicFieldToField(&(task_.IsImport), formDiv)
-		case "ReferencedTask":
-			FormDivSelectFieldToField(&(task_.ReferencedTask), taskFormCallback.probe.stageOfInterest, formDiv)
 		case "Start":
 			FormDivBasicFieldToField(&(task_.Start), formDiv)
 		case "End":
@@ -3763,6 +3721,48 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(task_.XOffset), formDiv)
 		case "YOffset":
 			FormDivBasicFieldToField(&(task_.YOffset), formDiv)
+		case "IsImport":
+			FormDivBasicFieldToField(&(task_.IsImport), formDiv)
+		case "ReferencedTask":
+			FormDivSelectFieldToField(&(task_.ReferencedTask), taskFormCallback.probe.stageOfInterest, formDiv)
+		case "SubTasks":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](taskFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Task, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Task)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					taskFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](taskFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			task_.SubTasks = instanceSlice
+			taskFormCallback.probe.UpdateSliceOfPointersCallback(task_, "SubTasks", &task_.SubTasks)
+
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(task_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(task_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(task_.LayoutDirection), formDiv)
 		case "Diagram:TasksWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -4033,51 +4033,6 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 					}
 				}
 			}
-		case "Task:SubTasks":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Task instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Task instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Task](taskFormCallback.probe.stageOfInterest)
-			targetTaskIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetTaskIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Task instances and update their SubTasks slice
-			for _task := range *models.GetGongstructInstancesSetFromPointerType[*models.Task](taskFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _task)
-				
-				// if Task is selected
-				if targetTaskIDs[id] {
-					// ensure task_ is in _task.SubTasks
-					found := false
-					for _, _b := range _task.SubTasks {
-						if _b == task_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_task.SubTasks = append(_task.SubTasks, task_)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_task, "SubTasks", &_task.SubTasks)
-					}
-				} else {
-					// ensure task_ is NOT in _task.SubTasks
-					idx := slices.Index(_task.SubTasks, task_)
-					if idx != -1 {
-						_task.SubTasks = slices.Delete(_task.SubTasks, idx, idx+1)
-						taskFormCallback.probe.UpdateSliceOfPointersCallback(_task, "SubTasks", &_task.SubTasks)
-					}
-				}
-			}
 		case "Task:Predecessors":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Task instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -4120,6 +4075,51 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 					if idx != -1 {
 						_task.Predecessors = slices.Delete(_task.Predecessors, idx, idx+1)
 						taskFormCallback.probe.UpdateSliceOfPointersCallback(_task, "Predecessors", &_task.Predecessors)
+					}
+				}
+			}
+		case "Task:SubTasks":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Task instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Task instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](taskFormCallback.probe.stageOfInterest)
+			targetTaskIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetTaskIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Task instances and update their SubTasks slice
+			for _task := range *models.GetGongstructInstancesSetFromPointerType[*models.Task](taskFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(taskFormCallback.probe.stageOfInterest, _task)
+				
+				// if Task is selected
+				if targetTaskIDs[id] {
+					// ensure task_ is in _task.SubTasks
+					found := false
+					for _, _b := range _task.SubTasks {
+						if _b == task_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_task.SubTasks = append(_task.SubTasks, task_)
+						taskFormCallback.probe.UpdateSliceOfPointersCallback(_task, "SubTasks", &_task.SubTasks)
+					}
+				} else {
+					// ensure task_ is NOT in _task.SubTasks
+					idx := slices.Index(_task.SubTasks, task_)
+					if idx != -1 {
+						_task.SubTasks = slices.Delete(_task.SubTasks, idx, idx+1)
+						taskFormCallback.probe.UpdateSliceOfPointersCallback(_task, "SubTasks", &_task.SubTasks)
 					}
 				}
 			}

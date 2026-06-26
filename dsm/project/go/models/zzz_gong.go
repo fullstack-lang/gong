@@ -419,8 +419,6 @@ type Stage struct {
 	Tasks_referenceOrder map[*Task]uint
 
 	// insertion point for slice of pointers maps
-	Task_SubTasks_reverseMap map[*Task]*Task
-
 	Task_Predecessors_reverseMap map[*Task]*Task
 
 	Task_Inputs_reverseMap map[*Product]*Task
@@ -428,6 +426,8 @@ type Stage struct {
 	Task_Outputs_reverseMap map[*Product]*Task
 
 	Task_TaskGroupsToDisplay_reverseMap map[*TaskGroup]*Task
+
+	Task_SubTasks_reverseMap map[*Task]*Task
 
 	OnAfterTaskCreateCallback OnAfterCreateInterface[Task]
 	OnAfterTaskUpdateCallback OnAfterUpdateInterface[Task]
@@ -4835,9 +4835,9 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&Product{
 			// Initialisation of associations
 			// field is initialized with an instance of Product with the name of the field
-			ReferencedProduct: &Product{Name: "ReferencedProduct"},
-			// field is initialized with an instance of Product with the name of the field
 			SubProducts: []*Product{{Name: "SubProducts"}},
+			// field is initialized with an instance of Product with the name of the field
+			ReferencedProduct: &Product{Name: "ReferencedProduct"},
 		}).(*Type)
 	case ProductCompositionShape:
 		return any(&ProductCompositionShape{
@@ -4854,12 +4854,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Resource:
 		return any(&Resource{
 			// Initialisation of associations
-			// field is initialized with an instance of Resource with the name of the field
-			ReferencedResource: &Resource{Name: "ReferencedResource"},
 			// field is initialized with an instance of Task with the name of the field
 			Tasks: []*Task{{Name: "Tasks"}},
 			// field is initialized with an instance of Resource with the name of the field
 			SubResources: []*Resource{{Name: "SubResources"}},
+			// field is initialized with an instance of Resource with the name of the field
+			ReferencedResource: &Resource{Name: "ReferencedResource"},
 		}).(*Type)
 	case ResourceCompositionShape:
 		return any(&ResourceCompositionShape{
@@ -4885,10 +4885,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&Task{
 			// Initialisation of associations
 			// field is initialized with an instance of Task with the name of the field
-			SubTasks: []*Task{{Name: "SubTasks"}},
-			// field is initialized with an instance of Task with the name of the field
-			ReferencedTask: &Task{Name: "ReferencedTask"},
-			// field is initialized with an instance of Task with the name of the field
 			Predecessors: []*Task{{Name: "Predecessors"}},
 			// field is initialized with an instance of Product with the name of the field
 			Inputs: []*Product{{Name: "Inputs"}},
@@ -4896,6 +4892,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Outputs: []*Product{{Name: "Outputs"}},
 			// field is initialized with an instance of TaskGroup with the name of the field
 			TaskGroupsToDisplay: []*TaskGroup{{Name: "TaskGroupsToDisplay"}},
+			// field is initialized with an instance of Task with the name of the field
+			ReferencedTask: &Task{Name: "ReferencedTask"},
+			// field is initialized with an instance of Task with the name of the field
+			SubTasks: []*Task{{Name: "SubTasks"}},
 		}).(*Type)
 	case TaskCompositionShape:
 		return any(&TaskCompositionShape{
@@ -5811,14 +5811,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Task:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "SubTasks":
-			res := make(map[*Task][]*Task)
-			for task := range stage.Tasks {
-				for _, task_ := range task.SubTasks {
-					res[task_] = append(res[task_], task)
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "Predecessors":
 			res := make(map[*Task][]*Task)
 			for task := range stage.Tasks {
@@ -5848,6 +5840,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for task := range stage.Tasks {
 				for _, taskgroup_ := range task.TaskGroupsToDisplay {
 					res[taskgroup_] = append(res[taskgroup_], task)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "SubTasks":
+			res := make(map[*Task][]*Task)
+			for task := range stage.Tasks {
+				for _, task_ := range task.SubTasks {
+					res[task_] = append(res[task_], task)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -6093,10 +6093,10 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "Tasks"
 		res = append(res, rf)
 		rf.GongstructName = "Task"
-		rf.Fieldname = "SubTasks"
+		rf.Fieldname = "Predecessors"
 		res = append(res, rf)
 		rf.GongstructName = "Task"
-		rf.Fieldname = "Predecessors"
+		rf.Fieldname = "SubTasks"
 		res = append(res, rf)
 		rf.GongstructName = "TaskGroup"
 		rf.Fieldname = "Tasks"
@@ -6746,28 +6746,6 @@ func (product *Product) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "ComputedPrefix",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
-		{
-			Name:               "IsImport",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "ReferencedProduct",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Product",
-		},
-		{
 			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -6783,6 +6761,28 @@ func (product *Product) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsConsumersNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsImport",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ReferencedProduct",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Product",
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 	}
 	return
@@ -6883,6 +6883,20 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Tasks",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Task",
+		},
+		{
+			Name:                 "SubResources",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Resource",
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -6902,20 +6916,6 @@ func (resource *Resource) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:                 "ReferencedResource",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Resource",
-		},
-		{
-			Name:               "Description",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:                 "Tasks",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Task",
-		},
-		{
-			Name:                 "SubResources",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Resource",
 		},
 	}
@@ -7068,33 +7068,6 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "SubTasks",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Task",
-		},
-		{
-			Name:               "ComputedPrefix",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
-		{
-			Name:               "IsImport",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "ReferencedTask",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Task",
-		},
-		{
 			Name:               "Start",
 			GongFieldValueType: GongFieldValueTypeDate,
 		},
@@ -7187,6 +7160,33 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "YOffset",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsImport",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "ReferencedTask",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Task",
+		},
+		{
+			Name:                 "SubTasks",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Task",
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 	}
 	return
@@ -8229,25 +8229,6 @@ func (product *Product) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = product.Name
-	case "ComputedPrefix":
-		res.valueString = product.ComputedPrefix
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", product.IsExpanded)
-		res.valueBool = product.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := product.LayoutDirection
-		res.valueString = enum.ToCodeString()
-	case "IsImport":
-		res.valueString = fmt.Sprintf("%t", product.IsImport)
-		res.valueBool = product.IsImport
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ReferencedProduct":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if product.ReferencedProduct != nil {
-			res.valueString = product.ReferencedProduct.Name
-			res.ids = product.ReferencedProduct.GongGetUUID(stage)
-		}
 	case "Description":
 		res.valueString = product.Description
 	case "SubProducts":
@@ -8268,6 +8249,25 @@ func (product *Product) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", product.IsConsumersNodeExpanded)
 		res.valueBool = product.IsConsumersNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsImport":
+		res.valueString = fmt.Sprintf("%t", product.IsImport)
+		res.valueBool = product.IsImport
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ReferencedProduct":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if product.ReferencedProduct != nil {
+			res.valueString = product.ReferencedProduct.Name
+			res.ids = product.ReferencedProduct.GongGetUUID(stage)
+		}
+	case "ComputedPrefix":
+		res.valueString = product.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", product.IsExpanded)
+		res.valueBool = product.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := product.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -8356,25 +8356,6 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 	// string value of fields
 	case "Name":
 		res.valueString = resource.Name
-	case "ComputedPrefix":
-		res.valueString = resource.ComputedPrefix
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", resource.IsExpanded)
-		res.valueBool = resource.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := resource.LayoutDirection
-		res.valueString = enum.ToCodeString()
-	case "IsImport":
-		res.valueString = fmt.Sprintf("%t", resource.IsImport)
-		res.valueBool = resource.IsImport
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ReferencedResource":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if resource.ReferencedResource != nil {
-			res.valueString = resource.ReferencedResource.Name
-			res.ids = resource.ReferencedResource.GongGetUUID(stage)
-		}
 	case "Description":
 		res.valueString = resource.Description
 	case "Tasks":
@@ -8396,6 +8377,25 @@ func (resource *Resource) GongGetFieldValue(fieldName string, stage *Stage) (res
 			}
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ComputedPrefix":
+		res.valueString = resource.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", resource.IsExpanded)
+		res.valueBool = resource.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := resource.LayoutDirection
+		res.valueString = enum.ToCodeString()
+	case "IsImport":
+		res.valueString = fmt.Sprintf("%t", resource.IsImport)
+		res.valueBool = resource.IsImport
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ReferencedResource":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if resource.ReferencedResource != nil {
+			res.valueString = resource.ReferencedResource.Name
+			res.ids = resource.ReferencedResource.GongGetUUID(stage)
 		}
 	}
 	return
@@ -8530,35 +8530,6 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = task.Name
 	case "Description":
 		res.valueString = task.Description
-	case "SubTasks":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range task.SubTasks {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "ComputedPrefix":
-		res.valueString = task.ComputedPrefix
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", task.IsExpanded)
-		res.valueBool = task.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := task.LayoutDirection
-		res.valueString = enum.ToCodeString()
-	case "IsImport":
-		res.valueString = fmt.Sprintf("%t", task.IsImport)
-		res.valueBool = task.IsImport
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "ReferencedTask":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if task.ReferencedTask != nil {
-			res.valueString = task.ReferencedTask.Name
-			res.ids = task.ReferencedTask.GongGetUUID(stage)
-		}
 	case "Start":
 		res.valueString = task.Start.String()
 	case "End":
@@ -8665,6 +8636,35 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%f", task.YOffset)
 		res.valueFloat = task.YOffset
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsImport":
+		res.valueString = fmt.Sprintf("%t", task.IsImport)
+		res.valueBool = task.IsImport
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ReferencedTask":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if task.ReferencedTask != nil {
+			res.valueString = task.ReferencedTask.Name
+			res.ids = task.ReferencedTask.GongGetUUID(stage)
+		}
+	case "SubTasks":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range task.SubTasks {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "ComputedPrefix":
+		res.valueString = task.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", task.IsExpanded)
+		res.valueBool = task.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := task.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -9646,25 +9646,6 @@ func (product *Product) GongSetFieldValue(fieldName string, value GongFieldValue
 	// insertion point for per field code
 	case "Name":
 		product.Name = value.GetValueString()
-	case "ComputedPrefix":
-		product.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		product.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		product.LayoutDirection.FromCodeString(value.GetValueString())
-	case "IsImport":
-		product.IsImport = value.GetValueBool()
-	case "ReferencedProduct":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			product.ReferencedProduct = nil
-			for __instance__ := range stage.Products {
-				if stage.Product_stagedOrder[__instance__] == uint(id) {
-					product.ReferencedProduct = __instance__
-					break
-				}
-			}
-		}
 	case "Description":
 		product.Description = value.GetValueString()
 	case "SubProducts":
@@ -9685,6 +9666,25 @@ func (product *Product) GongSetFieldValue(fieldName string, value GongFieldValue
 		product.IsProducersNodeExpanded = value.GetValueBool()
 	case "IsConsumersNodeExpanded":
 		product.IsConsumersNodeExpanded = value.GetValueBool()
+	case "IsImport":
+		product.IsImport = value.GetValueBool()
+	case "ReferencedProduct":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			product.ReferencedProduct = nil
+			for __instance__ := range stage.Products {
+				if stage.Product_stagedOrder[__instance__] == uint(id) {
+					product.ReferencedProduct = __instance__
+					break
+				}
+			}
+		}
+	case "ComputedPrefix":
+		product.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		product.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		product.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -9766,25 +9766,6 @@ func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldVal
 	// insertion point for per field code
 	case "Name":
 		resource.Name = value.GetValueString()
-	case "ComputedPrefix":
-		resource.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		resource.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		resource.LayoutDirection.FromCodeString(value.GetValueString())
-	case "IsImport":
-		resource.IsImport = value.GetValueBool()
-	case "ReferencedResource":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			resource.ReferencedResource = nil
-			for __instance__ := range stage.Resources {
-				if stage.Resource_stagedOrder[__instance__] == uint(id) {
-					resource.ReferencedResource = __instance__
-					break
-				}
-			}
-		}
 	case "Description":
 		resource.Description = value.GetValueString()
 	case "Tasks":
@@ -9812,6 +9793,25 @@ func (resource *Resource) GongSetFieldValue(fieldName string, value GongFieldVal
 						resource.SubResources = append(resource.SubResources, __instance__)
 						break
 					}
+				}
+			}
+		}
+	case "ComputedPrefix":
+		resource.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		resource.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		resource.LayoutDirection.FromCodeString(value.GetValueString())
+	case "IsImport":
+		resource.IsImport = value.GetValueBool()
+	case "ReferencedResource":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			resource.ReferencedResource = nil
+			for __instance__ := range stage.Resources {
+				if stage.Resource_stagedOrder[__instance__] == uint(id) {
+					resource.ReferencedResource = __instance__
+					break
 				}
 			}
 		}
@@ -9943,39 +9943,6 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		task.Name = value.GetValueString()
 	case "Description":
 		task.Description = value.GetValueString()
-	case "SubTasks":
-		task.SubTasks = make([]*Task, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Tasks {
-					if stage.Task_stagedOrder[__instance__] == uint(id) {
-						task.SubTasks = append(task.SubTasks, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "ComputedPrefix":
-		task.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		task.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		task.LayoutDirection.FromCodeString(value.GetValueString())
-	case "IsImport":
-		task.IsImport = value.GetValueBool()
-	case "ReferencedTask":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			task.ReferencedTask = nil
-			for __instance__ := range stage.Tasks {
-				if stage.Task_stagedOrder[__instance__] == uint(id) {
-					task.ReferencedTask = __instance__
-					break
-				}
-			}
-		}
 	case "DurationYears":
 		task.DurationYears = value.GetValueFloat()
 	case "DurationMonths":
@@ -10064,6 +10031,39 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		task.XOffset = value.GetValueFloat()
 	case "YOffset":
 		task.YOffset = value.GetValueFloat()
+	case "IsImport":
+		task.IsImport = value.GetValueBool()
+	case "ReferencedTask":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			task.ReferencedTask = nil
+			for __instance__ := range stage.Tasks {
+				if stage.Task_stagedOrder[__instance__] == uint(id) {
+					task.ReferencedTask = __instance__
+					break
+				}
+			}
+		}
+	case "SubTasks":
+		task.SubTasks = make([]*Task, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Tasks {
+					if stage.Task_stagedOrder[__instance__] == uint(id) {
+						task.SubTasks = append(task.SubTasks, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "ComputedPrefix":
+		task.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		task.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		task.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
