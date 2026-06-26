@@ -476,6 +476,12 @@ func (u *ButtonUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		GongUnmarshallEnum(&instance.MatButtonType, valueExpr)
 	case "MatButtonAppearance":
 		GongUnmarshallEnum(&instance.MatButtonAppearance, valueExpr)
+	case "HasToolTip":
+		instance.HasToolTip = GongExtractBool(valueExpr)
+	case "ToolTipText":
+		instance.ToolTipText = GongExtractString(valueExpr)
+	case "ToolTipPosition":
+		GongUnmarshallEnum(&instance.ToolTipPosition, valueExpr)
 	}
 	return nil
 }

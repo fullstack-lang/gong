@@ -2021,6 +2021,19 @@ func (button *Button) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "MatButtonAppearance",
 		},
+		{
+			Name:               "HasToolTip",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ToolTipText",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "ToolTipPosition",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "ToolTipPositionEnum",
+		},
 	}
 	return
 }
@@ -2198,6 +2211,15 @@ func (button *Button) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	case "MatButtonAppearance":
 		enum := button.MatButtonAppearance
 		res.valueString = enum.ToCodeString()
+	case "HasToolTip":
+		res.valueString = fmt.Sprintf("%t", button.HasToolTip)
+		res.valueBool = button.HasToolTip
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ToolTipText":
+		res.valueString = button.ToolTipText
+	case "ToolTipPosition":
+		enum := button.ToolTipPosition
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -2329,6 +2351,12 @@ func (button *Button) GongSetFieldValue(fieldName string, value GongFieldValue, 
 		button.MatButtonType.FromCodeString(value.GetValueString())
 	case "MatButtonAppearance":
 		button.MatButtonAppearance.FromCodeString(value.GetValueString())
+	case "HasToolTip":
+		button.HasToolTip = value.GetValueBool()
+	case "ToolTipText":
+		button.ToolTipText = value.GetValueString()
+	case "ToolTipPosition":
+		button.ToolTipPosition.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

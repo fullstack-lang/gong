@@ -22,6 +22,9 @@ export class Button {
 	Color: string = ""
 	MatButtonType: string = ""
 	MatButtonAppearance: string = ""
+	HasToolTip: boolean = false
+	ToolTipText: string = ""
+	ToolTipPosition: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 
@@ -43,6 +46,9 @@ export function CopyButtonToButtonAPI(button: Button, buttonAPI: ButtonAPI) {
 	buttonAPI.Color = button.Color
 	buttonAPI.MatButtonType = button.MatButtonType
 	buttonAPI.MatButtonAppearance = button.MatButtonAppearance
+	buttonAPI.HasToolTip = button.HasToolTip
+	buttonAPI.ToolTipText = button.ToolTipText
+	buttonAPI.ToolTipPosition = button.ToolTipPosition
 
 	// insertion point for pointer fields encoding
 
@@ -67,6 +73,9 @@ export function CopyButtonAPIToButton(buttonAPI: ButtonAPI, button: Button, fron
 	button.Color = buttonAPI.Color
 	button.MatButtonType = buttonAPI.MatButtonType
 	button.MatButtonAppearance = buttonAPI.MatButtonAppearance
+	button.HasToolTip = buttonAPI.HasToolTip
+	button.ToolTipText = buttonAPI.ToolTipText
+	button.ToolTipPosition = buttonAPI.ToolTipPosition
 
 	// insertion point for pointer fields encoding
 

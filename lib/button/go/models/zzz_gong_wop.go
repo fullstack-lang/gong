@@ -25,6 +25,12 @@ type Button_WOP struct {
 	MatButtonType MatButtonType
 
 	MatButtonAppearance MatButtonAppearance
+
+	HasToolTip bool
+
+	ToolTipText string
+
+	ToolTipPosition ToolTipPositionEnum
 }
 
 func (from *Button) CopyBasicFields(to *Button) {
@@ -36,6 +42,9 @@ func (from *Button) CopyBasicFields(to *Button) {
 	to.Color = from.Color
 	to.MatButtonType = from.MatButtonType
 	to.MatButtonAppearance = from.MatButtonAppearance
+	to.HasToolTip = from.HasToolTip
+	to.ToolTipText = from.ToolTipText
+	to.ToolTipPosition = from.ToolTipPosition
 }
 
 type ButtonToggle_WOP struct {

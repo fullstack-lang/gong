@@ -588,6 +588,15 @@ func (button *Button) GongDiff(stage *Stage, buttonOther *Button) (diffs []strin
 	if button.MatButtonAppearance != buttonOther.MatButtonAppearance {
 		diffs = append(diffs, button.GongMarshallField(stage, "MatButtonAppearance"))
 	}
+	if button.HasToolTip != buttonOther.HasToolTip {
+		diffs = append(diffs, button.GongMarshallField(stage, "HasToolTip"))
+	}
+	if button.ToolTipText != buttonOther.ToolTipText {
+		diffs = append(diffs, button.GongMarshallField(stage, "ToolTipText"))
+	}
+	if button.ToolTipPosition != buttonOther.ToolTipPosition {
+		diffs = append(diffs, button.GongMarshallField(stage, "ToolTipPosition"))
+	}
 
 	return
 }

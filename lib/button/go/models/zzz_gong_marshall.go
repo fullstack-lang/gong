@@ -300,6 +300,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(button.GongMarshallField(stage, "Color"))
 		initializerStatements.WriteString(button.GongMarshallField(stage, "MatButtonType"))
 		initializerStatements.WriteString(button.GongMarshallField(stage, "MatButtonAppearance"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "HasToolTip"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipText"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipPosition"))
 	}
 
 	buttontoggleOrdered := []*ButtonToggle{}
@@ -575,6 +578,29 @@ func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res str
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MatButtonAppearance")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
+	case "HasToolTip":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasToolTip")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", button.HasToolTip))
+	case "ToolTipText":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(button.ToolTipText))
+	case "ToolTipPosition":
+		if button.ToolTipPosition.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipPosition")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+button.ToolTipPosition.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipPosition")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Button", fieldName)
@@ -735,6 +761,9 @@ func (button *Button) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 		initializerStatements.WriteString(button.GongMarshallField(stage, "Color"))
 		initializerStatements.WriteString(button.GongMarshallField(stage, "MatButtonType"))
 		initializerStatements.WriteString(button.GongMarshallField(stage, "MatButtonAppearance"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "HasToolTip"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipText"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipPosition"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

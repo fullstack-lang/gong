@@ -58,6 +58,9 @@ func _(stage *models.Stage) {
 	__Button__00000000_.Color = models.MatButtonPaletteTypePrimary
 	__Button__00000000_.MatButtonType = models.MatButtonTypeBasic
 	__Button__00000000_.MatButtonAppearance = models.MatButtonAppearanceElevated
+	__Button__00000000_.HasToolTip = true
+	__Button__00000000_.ToolTipText = `This is a tool tip`
+	__Button__00000000_.ToolTipPosition = models.Below
 
 	__Button__00000001_.Name = `Two`
 	__Button__00000001_.Label = `Two`
@@ -66,6 +69,9 @@ func _(stage *models.Stage) {
 	__Button__00000001_.Color = models.MatButtonPaletteTypeWarn
 	__Button__00000001_.MatButtonType = models.MatButtonTypeExtendedFab
 	__Button__00000001_.MatButtonAppearance = models.MatButtonAppearanceFilled
+	__Button__00000001_.HasToolTip = false
+	__Button__00000001_.ToolTipText = ``
+	__Button__00000001_.ToolTipPosition = ""
 
 	__Button__00000002_.Name = `Three`
 	__Button__00000002_.Label = `Three`
@@ -74,6 +80,9 @@ func _(stage *models.Stage) {
 	__Button__00000002_.Color = models.MatButtonPaletteTypeAccent
 	__Button__00000002_.MatButtonType = models.MatButtonTypeBasic
 	__Button__00000002_.MatButtonAppearance = models.MatButtonAppearanceFilled
+	__Button__00000002_.HasToolTip = false
+	__Button__00000002_.ToolTipText = ``
+	__Button__00000002_.ToolTipPosition = ""
 
 	__Button__00000003_.Name = `Four`
 	__Button__00000003_.Label = `Four`
@@ -82,6 +91,9 @@ func _(stage *models.Stage) {
 	__Button__00000003_.Color = models.MatButtonPaletteTypePrimary
 	__Button__00000003_.MatButtonType = models.MatButtonTypeExtendedFab
 	__Button__00000003_.MatButtonAppearance = models.MatButtonAppearanceElevated
+	__Button__00000003_.HasToolTip = false
+	__Button__00000003_.ToolTipText = ``
+	__Button__00000003_.ToolTipPosition = ""
 
 	__Button__00000004_.Name = `Five`
 	__Button__00000004_.Label = `Five`
@@ -90,6 +102,9 @@ func _(stage *models.Stage) {
 	__Button__00000004_.Color = ""
 	__Button__00000004_.MatButtonType = ""
 	__Button__00000004_.MatButtonAppearance = ""
+	__Button__00000004_.HasToolTip = false
+	__Button__00000004_.ToolTipText = ``
+	__Button__00000004_.ToolTipPosition = ""
 
 	__Button__00000005_.Name = `Un`
 	__Button__00000005_.Label = `Un`
@@ -98,6 +113,9 @@ func _(stage *models.Stage) {
 	__Button__00000005_.Color = ""
 	__Button__00000005_.MatButtonType = models.MatButtonTypeMiniFab
 	__Button__00000005_.MatButtonAppearance = models.MatButtonAppearanceOutlined
+	__Button__00000005_.HasToolTip = false
+	__Button__00000005_.ToolTipText = ``
+	__Button__00000005_.ToolTipPosition = ""
 
 	__ButtonToggle__00000000_.Name = `small`
 	__ButtonToggle__00000000_.Label = `small`

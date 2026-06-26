@@ -17,6 +17,9 @@ export class ButtonAPI {
 	Color: string = ""
 	MatButtonType: string = ""
 	MatButtonAppearance: string = ""
+	HasToolTip: boolean = false
+	ToolTipText: string = ""
+	ToolTipPosition: string = ""
 
 	// insertion point for other decls
 

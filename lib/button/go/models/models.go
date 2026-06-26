@@ -29,11 +29,24 @@ type Button struct {
 
 	MatButtonAppearance MatButtonAppearance
 
+	HasToolTip      bool
+	ToolTipText     string
+	ToolTipPosition ToolTipPositionEnum
+
 	// Deprecated
 	Proxy ButtonProxyInterface
 
 	OnClick func()
 }
+
+type ToolTipPositionEnum string
+
+const (
+	Below ToolTipPositionEnum = "below"
+	Above ToolTipPositionEnum = "above"
+	Left  ToolTipPositionEnum = "left"
+	Right ToolTipPositionEnum = "right"
+)
 
 type GroupToogle struct {
 	Name          string

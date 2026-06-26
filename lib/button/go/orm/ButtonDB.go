@@ -85,6 +85,16 @@ type ButtonDB struct {
 	// Declation for basic field buttonDB.MatButtonAppearance
 	MatButtonAppearance_Data sql.NullString
 
+	// Declation for basic field buttonDB.HasToolTip
+	// provide the sql storage for the boolan
+	HasToolTip_Data sql.NullBool
+
+	// Declation for basic field buttonDB.ToolTipText
+	ToolTipText_Data sql.NullString
+
+	// Declation for basic field buttonDB.ToolTipPosition
+	ToolTipPosition_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	ButtonPointersEncoding
@@ -120,6 +130,12 @@ type ButtonWOP struct {
 	MatButtonType models.MatButtonType `xlsx:"6"`
 
 	MatButtonAppearance models.MatButtonAppearance `xlsx:"7"`
+
+	HasToolTip bool `xlsx:"8"`
+
+	ToolTipText string `xlsx:"9"`
+
+	ToolTipPosition models.ToolTipPositionEnum `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -133,6 +149,9 @@ var Button_Fields = []string{
 	"Color",
 	"MatButtonType",
 	"MatButtonAppearance",
+	"HasToolTip",
+	"ToolTipText",
+	"ToolTipPosition",
 }
 
 type BackRepoButtonStruct struct {
@@ -428,6 +447,15 @@ func (buttonDB *ButtonDB) CopyBasicFieldsFromButton(button *models.Button) {
 
 	buttonDB.MatButtonAppearance_Data.String = button.MatButtonAppearance.ToString()
 	buttonDB.MatButtonAppearance_Data.Valid = true
+
+	buttonDB.HasToolTip_Data.Bool = button.HasToolTip
+	buttonDB.HasToolTip_Data.Valid = true
+
+	buttonDB.ToolTipText_Data.String = button.ToolTipText
+	buttonDB.ToolTipText_Data.Valid = true
+
+	buttonDB.ToolTipPosition_Data.String = button.ToolTipPosition.ToString()
+	buttonDB.ToolTipPosition_Data.Valid = true
 }
 
 // CopyBasicFieldsFromButton_WOP
@@ -454,6 +482,15 @@ func (buttonDB *ButtonDB) CopyBasicFieldsFromButton_WOP(button *models.Button_WO
 
 	buttonDB.MatButtonAppearance_Data.String = button.MatButtonAppearance.ToString()
 	buttonDB.MatButtonAppearance_Data.Valid = true
+
+	buttonDB.HasToolTip_Data.Bool = button.HasToolTip
+	buttonDB.HasToolTip_Data.Valid = true
+
+	buttonDB.ToolTipText_Data.String = button.ToolTipText
+	buttonDB.ToolTipText_Data.Valid = true
+
+	buttonDB.ToolTipPosition_Data.String = button.ToolTipPosition.ToString()
+	buttonDB.ToolTipPosition_Data.Valid = true
 }
 
 // CopyBasicFieldsFromButtonWOP
@@ -480,6 +517,15 @@ func (buttonDB *ButtonDB) CopyBasicFieldsFromButtonWOP(button *ButtonWOP) {
 
 	buttonDB.MatButtonAppearance_Data.String = button.MatButtonAppearance.ToString()
 	buttonDB.MatButtonAppearance_Data.Valid = true
+
+	buttonDB.HasToolTip_Data.Bool = button.HasToolTip
+	buttonDB.HasToolTip_Data.Valid = true
+
+	buttonDB.ToolTipText_Data.String = button.ToolTipText
+	buttonDB.ToolTipText_Data.Valid = true
+
+	buttonDB.ToolTipPosition_Data.String = button.ToolTipPosition.ToString()
+	buttonDB.ToolTipPosition_Data.Valid = true
 }
 
 // CopyBasicFieldsToButton
@@ -492,6 +538,9 @@ func (buttonDB *ButtonDB) CopyBasicFieldsToButton(button *models.Button) {
 	button.Color.FromString(buttonDB.Color_Data.String)
 	button.MatButtonType.FromString(buttonDB.MatButtonType_Data.String)
 	button.MatButtonAppearance.FromString(buttonDB.MatButtonAppearance_Data.String)
+	button.HasToolTip = buttonDB.HasToolTip_Data.Bool
+	button.ToolTipText = buttonDB.ToolTipText_Data.String
+	button.ToolTipPosition.FromString(buttonDB.ToolTipPosition_Data.String)
 }
 
 // CopyBasicFieldsToButton_WOP
@@ -504,6 +553,9 @@ func (buttonDB *ButtonDB) CopyBasicFieldsToButton_WOP(button *models.Button_WOP)
 	button.Color.FromString(buttonDB.Color_Data.String)
 	button.MatButtonType.FromString(buttonDB.MatButtonType_Data.String)
 	button.MatButtonAppearance.FromString(buttonDB.MatButtonAppearance_Data.String)
+	button.HasToolTip = buttonDB.HasToolTip_Data.Bool
+	button.ToolTipText = buttonDB.ToolTipText_Data.String
+	button.ToolTipPosition.FromString(buttonDB.ToolTipPosition_Data.String)
 }
 
 // CopyBasicFieldsToButtonWOP
@@ -517,6 +569,9 @@ func (buttonDB *ButtonDB) CopyBasicFieldsToButtonWOP(button *ButtonWOP) {
 	button.Color.FromString(buttonDB.Color_Data.String)
 	button.MatButtonType.FromString(buttonDB.MatButtonType_Data.String)
 	button.MatButtonAppearance.FromString(buttonDB.MatButtonAppearance_Data.String)
+	button.HasToolTip = buttonDB.HasToolTip_Data.Bool
+	button.ToolTipText = buttonDB.ToolTipText_Data.String
+	button.ToolTipPosition.FromString(buttonDB.ToolTipPosition_Data.String)
 }
 
 // Backup generates a json file from a slice of all ButtonDB instances in the backrepo

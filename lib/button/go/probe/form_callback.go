@@ -78,6 +78,12 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 			FormDivEnumStringFieldToField(&(button_.MatButtonType), formDiv)
 		case "MatButtonAppearance":
 			FormDivEnumStringFieldToField(&(button_.MatButtonAppearance), formDiv)
+		case "HasToolTip":
+			FormDivBasicFieldToField(&(button_.HasToolTip), formDiv)
+		case "ToolTipText":
+			FormDivBasicFieldToField(&(button_.ToolTipText), formDiv)
+		case "ToolTipPosition":
+			FormDivEnumStringFieldToField(&(button_.ToolTipPosition), formDiv)
 		case "Group:Buttons":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Group instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
