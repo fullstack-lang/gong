@@ -213,6 +213,48 @@ func (stager *Stager) enforce_semantic() {
 		}
 	}
 
+	{
+		rm := GetSliceOfPointersReverseMap[Diagram, NoteShape](GetAssociationName[Diagram]().Note_Shapes[0].Name, stager.stage)
+		for _, noteShape := range GetGongstrucsSorted[*NoteShape](stager.stage) {
+			if _, ok := rm[noteShape]; !ok {
+				noteShape.Unstage(stager.stage)
+				needCommit = true
+				continue
+			}
+			if noteShape.Note == nil {
+				noteShape.Unstage(stager.stage)
+				needCommit = true
+				continue
+			}
+			if noteShape.Name != noteShape.Note.Name+"-"+rm[noteShape][0].Name {
+				noteShape.Name = noteShape.Note.Name+"-"+rm[noteShape][0].Name
+				needCommit = true
+			}
+		}
+	}
+
+	{
+		rm := GetSliceOfPointersReverseMap[Diagram, NoteStateShape](GetAssociationName[Diagram]().NoteState_Shapes[0].Name, stager.stage)
+		for _, noteStateShape := range GetGongstrucsSorted[*NoteStateShape](stager.stage) {
+			if _, ok := rm[noteStateShape]; !ok {
+				noteStateShape.Unstage(stager.stage)
+				needCommit = true
+				continue
+			}
+		}
+	}
+
+	{
+		rm := GetSliceOfPointersReverseMap[Diagram, NoteTransitionShape](GetAssociationName[Diagram]().NoteTransition_Shapes[0].Name, stager.stage)
+		for _, noteTransitionShape := range GetGongstrucsSorted[*NoteTransitionShape](stager.stage) {
+			if _, ok := rm[noteTransitionShape]; !ok {
+				noteTransitionShape.Unstage(stager.stage)
+				needCommit = true
+				continue
+			}
+		}
+	}
+
 	if needCommit {
 		stager.stage.Clean()
 		stager.stage.CommitWithSuspendedCallbacks()

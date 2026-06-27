@@ -45,6 +45,13 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Diagram
 	// insertion point per field
+	stage.Diagram_NotesWhoseNodeIsExpanded_reverseMap = make(map[*Note]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _note := range diagram.NotesWhoseNodeIsExpanded {
+			stage.Diagram_NotesWhoseNodeIsExpanded_reverseMap[_note] = diagram
+		}
+	}
 	stage.Diagram_State_Shapes_reverseMap = make(map[*StateShape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
@@ -64,6 +71,27 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = diagram
 		for _, _transition_shape := range diagram.Transition_Shapes {
 			stage.Diagram_Transition_Shapes_reverseMap[_transition_shape] = diagram
+		}
+	}
+	stage.Diagram_Note_Shapes_reverseMap = make(map[*NoteShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _noteshape := range diagram.Note_Shapes {
+			stage.Diagram_Note_Shapes_reverseMap[_noteshape] = diagram
+		}
+	}
+	stage.Diagram_NoteState_Shapes_reverseMap = make(map[*NoteStateShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _notestateshape := range diagram.NoteState_Shapes {
+			stage.Diagram_NoteState_Shapes_reverseMap[_notestateshape] = diagram
+		}
+	}
+	stage.Diagram_NoteTransition_Shapes_reverseMap = make(map[*NoteTransitionShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _notetransitionshape := range diagram.NoteTransition_Shapes {
+			stage.Diagram_NoteTransition_Shapes_reverseMap[_notetransitionshape] = diagram
 		}
 	}
 
@@ -103,6 +131,20 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_StateMachinesWhoseNodeIsExpanded_reverseMap[_statemachine] = library
 		}
 	}
+	stage.Library_RootNotes_reverseMap = make(map[*Note]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _note := range library.RootNotes {
+			stage.Library_RootNotes_reverseMap[_note] = library
+		}
+	}
+	stage.Library_NotesWhoseNodeIsExpanded_reverseMap = make(map[*Note]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _note := range library.NotesWhoseNodeIsExpanded {
+			stage.Library_NotesWhoseNodeIsExpanded_reverseMap[_note] = library
+		}
+	}
 	stage.Library_SubLibrariesWhoseNodeIsExpanded_reverseMap = make(map[*Library]*Library)
 	for library := range stage.Librarys {
 		_ = library
@@ -115,6 +157,32 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per field
 
 	// Compute reverse map for named struct MessageType
+	// insertion point per field
+
+	// Compute reverse map for named struct Note
+	// insertion point per field
+	stage.Note_States_reverseMap = make(map[*State]*Note)
+	for note := range stage.Notes {
+		_ = note
+		for _, _state := range note.States {
+			stage.Note_States_reverseMap[_state] = note
+		}
+	}
+	stage.Note_Transitions_reverseMap = make(map[*Transition]*Note)
+	for note := range stage.Notes {
+		_ = note
+		for _, _transition := range note.Transitions {
+			stage.Note_Transitions_reverseMap[_transition] = note
+		}
+	}
+
+	// Compute reverse map for named struct NoteShape
+	// insertion point per field
+
+	// Compute reverse map for named struct NoteStateShape
+	// insertion point per field
+
+	// Compute reverse map for named struct NoteTransitionShape
 	// insertion point per field
 
 	// Compute reverse map for named struct Object
@@ -249,6 +317,22 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.Notes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.NoteShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.NoteStateShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.NoteTransitionShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Objects {
 		res = append(res, instance)
 	}
@@ -332,6 +416,30 @@ func (message *Message) GongCopy() GongstructIF {
 func (messagetype *MessageType) GongCopy() GongstructIF {
 	newInstance := new(MessageType)
 	messagetype.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (note *Note) GongCopy() GongstructIF {
+	newInstance := new(Note)
+	note.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (noteshape *NoteShape) GongCopy() GongstructIF {
+	newInstance := new(NoteShape)
+	noteshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (notestateshape *NoteStateShape) GongCopy() GongstructIF {
+	newInstance := new(NoteStateShape)
+	notestateshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (notetransitionshape *NoteTransitionShape) GongCopy() GongstructIF {
+	newInstance := new(NoteTransitionShape)
+	notetransitionshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -465,6 +573,46 @@ func (messagetype *MessageType) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(messagetype), uint64(GetOrderPointerGongstruct(stage, messagetype)))
+	return
+}
+
+func (note *Note) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(note).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(note), uint64(GetOrderPointerGongstruct(stage, note)))
+	return
+}
+
+func (noteshape *NoteShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(noteshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(noteshape), uint64(GetOrderPointerGongstruct(stage, noteshape)))
+	return
+}
+
+func (notestateshape *NoteStateShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(notestateshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(notestateshape), uint64(GetOrderPointerGongstruct(stage, notestateshape)))
+	return
+}
+
+func (notetransitionshape *NoteTransitionShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(notetransitionshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(notetransitionshape), uint64(GetOrderPointerGongstruct(stage, notetransitionshape)))
 	return
 }
 
@@ -1051,6 +1199,226 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(messagetypes_newInstances)
 	lenDeletedInstances += len(messagetypes_deletedInstances)
+	var notes_newInstances []*Note
+	var notes_deletedInstances []*Note
+
+	// parse all staged instances and check if they have a reference
+	for note := range stage.Notes {
+		if ref, ok := stage.Notes_reference[note]; !ok {
+			notes_newInstances = append(notes_newInstances, note)
+			newInstancesSlice = append(newInstancesSlice, note.GongMarshallIdentifier(stage))
+			if stage.Notes_referenceOrder == nil {
+				stage.Notes_referenceOrder = make(map[*Note]uint)
+			}
+			stage.Notes_referenceOrder[note] = stage.Note_stagedOrder[note]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, note.GongMarshallUnstaging(stage))
+			// delete(stage.Notes_referenceOrder, note)
+			fieldInitializers, pointersInitializations := note.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Note_stagedOrder[ref] = stage.Note_stagedOrder[note]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := note.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, note)
+			// delete(stage.Note_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if note.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", note.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Notes_reference {
+		instance := stage.Notes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Notes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			notes_deletedInstances = append(notes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(notes_newInstances)
+	lenDeletedInstances += len(notes_deletedInstances)
+	var noteshapes_newInstances []*NoteShape
+	var noteshapes_deletedInstances []*NoteShape
+
+	// parse all staged instances and check if they have a reference
+	for noteshape := range stage.NoteShapes {
+		if ref, ok := stage.NoteShapes_reference[noteshape]; !ok {
+			noteshapes_newInstances = append(noteshapes_newInstances, noteshape)
+			newInstancesSlice = append(newInstancesSlice, noteshape.GongMarshallIdentifier(stage))
+			if stage.NoteShapes_referenceOrder == nil {
+				stage.NoteShapes_referenceOrder = make(map[*NoteShape]uint)
+			}
+			stage.NoteShapes_referenceOrder[noteshape] = stage.NoteShape_stagedOrder[noteshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, noteshape.GongMarshallUnstaging(stage))
+			// delete(stage.NoteShapes_referenceOrder, noteshape)
+			fieldInitializers, pointersInitializations := noteshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.NoteShape_stagedOrder[ref] = stage.NoteShape_stagedOrder[noteshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := noteshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, noteshape)
+			// delete(stage.NoteShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if noteshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", noteshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.NoteShapes_reference {
+		instance := stage.NoteShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.NoteShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			noteshapes_deletedInstances = append(noteshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(noteshapes_newInstances)
+	lenDeletedInstances += len(noteshapes_deletedInstances)
+	var notestateshapes_newInstances []*NoteStateShape
+	var notestateshapes_deletedInstances []*NoteStateShape
+
+	// parse all staged instances and check if they have a reference
+	for notestateshape := range stage.NoteStateShapes {
+		if ref, ok := stage.NoteStateShapes_reference[notestateshape]; !ok {
+			notestateshapes_newInstances = append(notestateshapes_newInstances, notestateshape)
+			newInstancesSlice = append(newInstancesSlice, notestateshape.GongMarshallIdentifier(stage))
+			if stage.NoteStateShapes_referenceOrder == nil {
+				stage.NoteStateShapes_referenceOrder = make(map[*NoteStateShape]uint)
+			}
+			stage.NoteStateShapes_referenceOrder[notestateshape] = stage.NoteStateShape_stagedOrder[notestateshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, notestateshape.GongMarshallUnstaging(stage))
+			// delete(stage.NoteStateShapes_referenceOrder, notestateshape)
+			fieldInitializers, pointersInitializations := notestateshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.NoteStateShape_stagedOrder[ref] = stage.NoteStateShape_stagedOrder[notestateshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := notestateshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, notestateshape)
+			// delete(stage.NoteStateShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if notestateshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", notestateshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.NoteStateShapes_reference {
+		instance := stage.NoteStateShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.NoteStateShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			notestateshapes_deletedInstances = append(notestateshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(notestateshapes_newInstances)
+	lenDeletedInstances += len(notestateshapes_deletedInstances)
+	var notetransitionshapes_newInstances []*NoteTransitionShape
+	var notetransitionshapes_deletedInstances []*NoteTransitionShape
+
+	// parse all staged instances and check if they have a reference
+	for notetransitionshape := range stage.NoteTransitionShapes {
+		if ref, ok := stage.NoteTransitionShapes_reference[notetransitionshape]; !ok {
+			notetransitionshapes_newInstances = append(notetransitionshapes_newInstances, notetransitionshape)
+			newInstancesSlice = append(newInstancesSlice, notetransitionshape.GongMarshallIdentifier(stage))
+			if stage.NoteTransitionShapes_referenceOrder == nil {
+				stage.NoteTransitionShapes_referenceOrder = make(map[*NoteTransitionShape]uint)
+			}
+			stage.NoteTransitionShapes_referenceOrder[notetransitionshape] = stage.NoteTransitionShape_stagedOrder[notetransitionshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, notetransitionshape.GongMarshallUnstaging(stage))
+			// delete(stage.NoteTransitionShapes_referenceOrder, notetransitionshape)
+			fieldInitializers, pointersInitializations := notetransitionshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.NoteTransitionShape_stagedOrder[ref] = stage.NoteTransitionShape_stagedOrder[notetransitionshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := notetransitionshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, notetransitionshape)
+			// delete(stage.NoteTransitionShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if notetransitionshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", notetransitionshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.NoteTransitionShapes_reference {
+		instance := stage.NoteTransitionShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.NoteTransitionShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			notetransitionshapes_deletedInstances = append(notetransitionshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(notetransitionshapes_newInstances)
+	lenDeletedInstances += len(notetransitionshapes_deletedInstances)
 	var objects_newInstances []*Object
 	var objects_deletedInstances []*Object
 
@@ -1561,6 +1929,46 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.MessageTypes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Notes_reference = make(map[*Note]*Note)
+	stage.Notes_referenceOrder = make(map[*Note]uint) // diff Unstage needs the reference order
+	stage.Notes_instance = make(map[*Note]*Note)
+	for instance := range stage.Notes {
+		_copy := instance.GongCopy().(*Note)
+		stage.Notes_reference[instance] = _copy
+		stage.Notes_instance[_copy] = instance
+		stage.Notes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.NoteShapes_reference = make(map[*NoteShape]*NoteShape)
+	stage.NoteShapes_referenceOrder = make(map[*NoteShape]uint) // diff Unstage needs the reference order
+	stage.NoteShapes_instance = make(map[*NoteShape]*NoteShape)
+	for instance := range stage.NoteShapes {
+		_copy := instance.GongCopy().(*NoteShape)
+		stage.NoteShapes_reference[instance] = _copy
+		stage.NoteShapes_instance[_copy] = instance
+		stage.NoteShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.NoteStateShapes_reference = make(map[*NoteStateShape]*NoteStateShape)
+	stage.NoteStateShapes_referenceOrder = make(map[*NoteStateShape]uint) // diff Unstage needs the reference order
+	stage.NoteStateShapes_instance = make(map[*NoteStateShape]*NoteStateShape)
+	for instance := range stage.NoteStateShapes {
+		_copy := instance.GongCopy().(*NoteStateShape)
+		stage.NoteStateShapes_reference[instance] = _copy
+		stage.NoteStateShapes_instance[_copy] = instance
+		stage.NoteStateShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.NoteTransitionShapes_reference = make(map[*NoteTransitionShape]*NoteTransitionShape)
+	stage.NoteTransitionShapes_referenceOrder = make(map[*NoteTransitionShape]uint) // diff Unstage needs the reference order
+	stage.NoteTransitionShapes_instance = make(map[*NoteTransitionShape]*NoteTransitionShape)
+	for instance := range stage.NoteTransitionShapes {
+		_copy := instance.GongCopy().(*NoteTransitionShape)
+		stage.NoteTransitionShapes_reference[instance] = _copy
+		stage.NoteTransitionShapes_instance[_copy] = instance
+		stage.NoteTransitionShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Objects_reference = make(map[*Object]*Object)
 	stage.Objects_referenceOrder = make(map[*Object]uint) // diff Unstage needs the reference order
 	stage.Objects_instance = make(map[*Object]*Object)
@@ -1674,6 +2082,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.MessageTypes {
 		reference := stage.MessageTypes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Notes {
+		reference := stage.Notes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.NoteShapes {
+		reference := stage.NoteShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.NoteStateShapes {
+		reference := stage.NoteStateShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.NoteTransitionShapes {
+		reference := stage.NoteTransitionShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -1826,6 +2254,54 @@ func (messagetype *MessageType) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type MessageType was not staged and does not have a reference order", messagetype)
+		return 0
+	}
+}
+
+func (note *Note) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Note_stagedOrder[note]; ok {
+		return order
+	}
+	if order, ok := stage.Notes_referenceOrder[note]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Note was not staged and does not have a reference order", note)
+		return 0
+	}
+}
+
+func (noteshape *NoteShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.NoteShape_stagedOrder[noteshape]; ok {
+		return order
+	}
+	if order, ok := stage.NoteShapes_referenceOrder[noteshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type NoteShape was not staged and does not have a reference order", noteshape)
+		return 0
+	}
+}
+
+func (notestateshape *NoteStateShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.NoteStateShape_stagedOrder[notestateshape]; ok {
+		return order
+	}
+	if order, ok := stage.NoteStateShapes_referenceOrder[notestateshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type NoteStateShape was not staged and does not have a reference order", notestateshape)
+		return 0
+	}
+}
+
+func (notetransitionshape *NoteTransitionShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.NoteTransitionShape_stagedOrder[notetransitionshape]; ok {
+		return order
+	}
+	if order, ok := stage.NoteTransitionShapes_referenceOrder[notetransitionshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type NoteTransitionShape was not staged and does not have a reference order", notetransitionshape)
 		return 0
 	}
 }
@@ -2000,6 +2476,42 @@ func (messagetype *MessageType) GongGetReferenceIdentifier(stage *Stage) string 
 	return fmt.Sprintf("__%s__%08d_", messagetype.GongGetGongstructName(), messagetype.GongGetOrder(stage))
 }
 
+func (note *Note) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", note.GongGetGongstructName(), note.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (note *Note) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", note.GongGetGongstructName(), note.GongGetOrder(stage))
+}
+
+func (noteshape *NoteShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", noteshape.GongGetGongstructName(), noteshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (noteshape *NoteShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", noteshape.GongGetGongstructName(), noteshape.GongGetOrder(stage))
+}
+
+func (notestateshape *NoteStateShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", notestateshape.GongGetGongstructName(), notestateshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (notestateshape *NoteStateShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", notestateshape.GongGetGongstructName(), notestateshape.GongGetOrder(stage))
+}
+
+func (notetransitionshape *NoteTransitionShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", notetransitionshape.GongGetGongstructName(), notetransitionshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (notetransitionshape *NoteTransitionShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", notetransitionshape.GongGetGongstructName(), notetransitionshape.GongGetOrder(stage))
+}
+
 func (object *Object) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", object.GongGetGongstructName(), object.GongGetOrder(stage))
 }
@@ -2138,6 +2650,38 @@ func (messagetype *MessageType) GongMarshallIdentifier(stage *Stage) (decl strin
 	return
 }
 
+func (note *Note) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Note")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(note.Name))
+	return
+}
+
+func (noteshape *NoteShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(noteshape.Name))
+	return
+}
+
+func (notestateshape *NoteStateShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", notestateshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteStateShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notestateshape.Name))
+	return
+}
+
+func (notetransitionshape *NoteTransitionShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", notetransitionshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteTransitionShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notetransitionshape.Name))
+	return
+}
+
 func (object *Object) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", object.GongGetIdentifier(stage))
@@ -2246,6 +2790,30 @@ func (message *Message) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (messagetype *MessageType) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", messagetype.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (note *Note) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (noteshape *NoteShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", noteshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (notestateshape *NoteStateShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", notestateshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (notetransitionshape *NoteTransitionShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", notetransitionshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

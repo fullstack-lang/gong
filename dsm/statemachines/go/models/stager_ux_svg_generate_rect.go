@@ -391,3 +391,128 @@ func (p *ShapeRect_EtatProxy) RectUpdated(updatedRect *svg.Rect) {
 	}
 
 }
+
+func (stager *Stager) svgGenerateNoteRect(
+	diagram diagramInterface,
+	noteShape *NoteShape,
+	isSelected bool,
+	layer *svg.Layer,
+) *svg.Rect {
+
+	note := noteShape.Note
+
+	rect := new(svg.Rect)
+	rect.Name = note.Name
+	rect.Stroke = "#FBC02D"
+	rect.StrokeWidth = 1.0
+	rect.StrokeOpacity = 1
+	rect.Color = "#FFF9C4"
+	rect.FillOpacity = 1
+	rect.X = noteShape.X
+	rect.Y = noteShape.Y
+	rect.Width = noteShape.Width
+	rect.Height = noteShape.Height
+	rect.RX = 0
+
+	if !reflect.ValueOf(diagram).IsNil() {
+		if diagram.IsEditable() {
+			rect.CanHaveBottomHandle = true
+			rect.CanHaveLeftHandle = true
+			rect.CanHaveRightHandle = true
+			rect.CanHaveTopHandle = true
+
+			rect.CanMoveHorizontaly = true
+			rect.CanMoveVerticaly = true
+
+			rect.Impl = NewRectShape_NoteProxy(
+				&noteShape.RectShape,
+				note,
+				stager,
+			)
+			noteShape.receiver = noteShape
+		}
+	}
+
+	if isSelected {
+		rect.Stroke = svg.Red.ToString()
+		rect.StrokeWidth = 4
+	}
+
+	noteTitleText := new(svg.RectAnchoredText)
+	noteTitleText.Name = note.Name
+	content := "📝 " + note.Name
+
+	margin := 20.0
+	wrapWidth := rect.Width - margin
+	if wrapWidth > 0 {
+		content = strutils.WrapStringPreservingNewlines(content, int(wrapWidth/stager.architecture.NbPixPerCharacter))
+	}
+
+	noteTitleText.Content = content
+	noteTitleText.Stroke = svg.Black.ToString()
+	noteTitleText.StrokeWidth = 1
+	noteTitleText.StrokeOpacity = 1
+	noteTitleText.Color = svg.Black.ToString()
+	noteTitleText.FillOpacity = 1
+	noteTitleText.FontSize = "16px"
+	noteTitleText.FontWeight = "normal"
+	noteTitleText.FontStyle = "italic"
+	noteTitleText.RectAnchorType = svg.RECT_TOP_LEFT
+	noteTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
+	noteTitleText.X_Offset = 10
+	noteTitleText.Y_Offset = 20
+	rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, noteTitleText)
+
+	layer.Rects = append(layer.Rects, rect)
+
+	return rect
+}
+
+func NewRectShape_NoteProxy(
+	noteShapeInterface RectShapeInterface,
+	note *Note,
+	stager *Stager,
+) (proxy *ShapeRect_NoteProxy) {
+	proxy = new(ShapeRect_NoteProxy)
+	proxy.rectShapeInterface = noteShapeInterface
+	proxy.note = note
+	proxy.stager = stager
+	return
+}
+
+type ShapeRect_NoteProxy struct {
+	rectShapeInterface RectShapeInterface
+	note               *Note
+	stager             *Stager
+}
+
+// RectUpdated implements models.RectImplInterface.
+func (p *ShapeRect_NoteProxy) RectUpdated(updatedRect *svg.Rect) {
+	diffSize :=
+		p.rectShapeInterface.GetWidth() != updatedRect.Width ||
+			p.rectShapeInterface.GetHeight() != updatedRect.Height
+
+	diffPosition :=
+		p.rectShapeInterface.GetX() != updatedRect.X ||
+			p.rectShapeInterface.GetY() != updatedRect.Y
+
+	p.rectShapeInterface.SetX(updatedRect.X)
+	p.rectShapeInterface.SetY(updatedRect.Y)
+	p.rectShapeInterface.SetWidth(updatedRect.Width)
+	p.rectShapeInterface.SetHeight(updatedRect.Height)
+
+	if !diffSize && !diffPosition {
+		p.stager.stage.CommitWithSuspendedCallbacks()
+		p.stager.probeForm.FillUpFormFromGongstruct(p.note, "Note")
+		p.stager.ux_tree()
+	}
+
+	if diffPosition {
+		p.stager.stage.CommitWithSuspendedCallbacks()
+		p.stager.ux_tree()
+	}
+
+	if diffSize {
+		p.stager.stage.Commit()
+	}
+}

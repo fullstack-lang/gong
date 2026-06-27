@@ -34,7 +34,7 @@ func _(stage *models.Stage) {
 
 	__Activities__00000000_ := (&models.Activities{Name: `Test`}).Stage(stage)
 
-	__Architecture__00000000_ := (&models.Architecture{Name: `Gong UX loop Architecture`}).Stage(stage)
+	__Architecture__00000000_ := (&models.Architecture{Name: `Architecture`}).Stage(stage)
 
 	__Diagram__00000000_ := (&models.Diagram{Name: `UX Loop Diagram`}).Stage(stage)
 	__Diagram__00000003_ := (&models.Diagram{Name: `New Diagram`}).Stage(stage)
@@ -44,7 +44,19 @@ func _(stage *models.Stage) {
 	__Guard__00000002_ := (&models.Guard{Name: `a suppress action`}).Stage(stage)
 	__Guard__00000003_ := (&models.Guard{Name: `not a suppress action`}).Stage(stage)
 
-	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
+	__Library__00000000_ := (&models.Library{Name: `UX Loop`}).Stage(stage)
+
+	__Note__00000000_ := (&models.Note{Name: `Note on the UX Loop with a longer text.
+This diagram show the general principal of a DSM event loop.
+`}).Stage(stage)
+
+	__NoteShape__00000004_ := (&models.NoteShape{Name: `Note on the UX Loop with a longer text.
+This diagram show the general principal of a DSM event loop.
+-UX Loop Diagram`}).Stage(stage)
+
+	__NoteStateShape__00000004_ := (&models.NoteStateShape{Name: `Note on the UX Loop with a longer text.
+This diagram show the general principal of a DSM event loop.
+ to Probe Form`}).Stage(stage)
 
 	__Object__00000000_ := (&models.Object{Name: `01/MI DOF/ 2026-03-22 DEP/ 032139`}).Stage(stage)
 
@@ -122,18 +134,22 @@ func _(stage *models.Stage) {
 	__Activities__00000000_.Name = `Test`
 	__Activities__00000000_.Criticality = ""
 
-	__Architecture__00000000_.Name = `Gong UX loop Architecture`
+	__Architecture__00000000_.Name = `Architecture`
 	__Architecture__00000000_.NbPixPerCharacter = 8.000000
 
 	__Diagram__00000000_.Name = `UX Loop Diagram`
-	__Diagram__00000000_.IsChecked = false
-	__Diagram__00000000_.IsExpanded = false
+	__Diagram__00000000_.IsChecked = true
+	__Diagram__00000000_.IsExpanded = true
 	__Diagram__00000000_.IsEditable_ = true
+	__Diagram__00000000_.IsStatesNodeExpanded = true
+	__Diagram__00000000_.IsNotesNodeExpanded = true
 
 	__Diagram__00000003_.Name = `New Diagram`
-	__Diagram__00000003_.IsChecked = true
-	__Diagram__00000003_.IsExpanded = true
+	__Diagram__00000003_.IsChecked = false
+	__Diagram__00000003_.IsExpanded = false
 	__Diagram__00000003_.IsEditable_ = true
+	__Diagram__00000003_.IsStatesNodeExpanded = false
+	__Diagram__00000003_.IsNotesNodeExpanded = false
 
 	__Guard__00000000_.Name = `yes`
 
@@ -143,7 +159,7 @@ func _(stage *models.Stage) {
 
 	__Guard__00000003_.Name = `not a suppress action`
 
-	__Library__00000000_.Name = ``
+	__Library__00000000_.Name = `UX Loop`
 	__Library__00000000_.NbPixPerCharacter = 0.000000
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.ComputedPrefix = ``
@@ -151,8 +167,37 @@ func _(stage *models.Stage) {
 	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.IsStateMachinesNodeExpanded = true
-	__Library__00000000_.IsSubLibrariesNodeExpanded = false
+	__Library__00000000_.IsNotesNodeExpanded = false
+	__Library__00000000_.IsSubLibrariesNodeExpanded = true
 	__Library__00000000_.IsExpandedTmp = true
+
+	__Note__00000000_.Name = `Note on the UX Loop with a longer text.
+This diagram show the general principal of a DSM event loop.
+`
+	__Note__00000000_.ComputedPrefix = ``
+	__Note__00000000_.IsExpanded = false
+	__Note__00000000_.LayoutDirection = models.Vertical
+
+	__NoteShape__00000004_.Name = `Note on the UX Loop with a longer text.
+This diagram show the general principal of a DSM event loop.
+-UX Loop Diagram`
+	__NoteShape__00000004_.OverideLayoutDirection = false
+	__NoteShape__00000004_.LayoutDirection = models.Vertical
+	__NoteShape__00000004_.X = 64.000000
+	__NoteShape__00000004_.Y = -16.000000
+	__NoteShape__00000004_.Width = 200.000000
+	__NoteShape__00000004_.Height = 100.000000
+	__NoteShape__00000004_.IsHidden = false
+
+	__NoteStateShape__00000004_.Name = `Note on the UX Loop with a longer text.
+This diagram show the general principal of a DSM event loop.
+ to Probe Form`
+	__NoteStateShape__00000004_.StartRatio = 0.500000
+	__NoteStateShape__00000004_.EndRatio = 0.500000
+	__NoteStateShape__00000004_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__NoteStateShape__00000004_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__NoteStateShape__00000004_.CornerOffsetRatio = 1.200000
+	__NoteStateShape__00000004_.IsHidden = false
 
 	__Object__00000000_.Name = `01/MI DOF/ 2026-03-22 DEP/ 032139`
 	__Object__00000000_.IsSelected = true
@@ -449,6 +494,7 @@ func _(stage *models.Stage) {
 
 	// insertion point for setup of pointers
 	__Architecture__00000000_.StateMachines = append(__Architecture__00000000_.StateMachines, __StateMachine__00000000_)
+	__Diagram__00000000_.NotesWhoseNodeIsExpanded = append(__Diagram__00000000_.NotesWhoseNodeIsExpanded, __Note__00000000_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000011_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000000_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000001_)
@@ -474,9 +520,17 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000009_)
 	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000010_)
 	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000011_)
+	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000004_)
+	__Diagram__00000000_.NoteState_Shapes = append(__Diagram__00000000_.NoteState_Shapes, __NoteStateShape__00000004_)
 	__Diagram__00000003_.State_Shapes = append(__Diagram__00000003_.State_Shapes, __StateShape__00000013_)
+	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000001_)
 	__Library__00000000_.RootStateMachines = append(__Library__00000000_.RootStateMachines, __StateMachine__00000000_)
 	__Library__00000000_.StateMachinesWhoseNodeIsExpanded = append(__Library__00000000_.StateMachinesWhoseNodeIsExpanded, __StateMachine__00000000_)
+	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000000_)
+	__Note__00000000_.States = append(__Note__00000000_.States, __State__00000000_)
+	__NoteShape__00000004_.Note = __Note__00000000_
+	__NoteStateShape__00000004_.Note = __Note__00000000_
+	__NoteStateShape__00000004_.State = __State__00000000_
 	__Object__00000000_.State = __State__00000008_
 	__State__00000000_.Parent = nil
 	__State__00000000_.Diagrams = append(__State__00000000_.Diagrams, __Diagram__00000003_)

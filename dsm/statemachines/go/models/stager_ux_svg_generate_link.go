@@ -203,3 +203,43 @@ func CheckLinkShapeDiff(iface LinkShapeInterface, updatedLink *svg.Link) bool {
 
 	return foundDiff
 }
+
+func (stager *Stager) svgGenerateNoteLink(
+	startRect *svg.Rect,
+	endRect *svg.Rect,
+	linkShapeInterface LinkShapeInterface,
+	layer *svg.Layer) *svg.Link {
+
+	if startRect == nil || endRect == nil {
+		return nil
+	}
+
+	link := new(svg.Link)
+
+	link.Name = startRect.Name + " to " + endRect.Name
+
+	link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+	link.StartAnchorType = svg.ANCHOR_CENTER
+	link.EndAnchorType = svg.ANCHOR_CENTER
+	link.HasEndArrow = false
+
+	link.Start = startRect
+	link.StartOrientation = svg.OrientationType(linkShapeInterface.GetStartOrientation())
+	link.StartRatio = linkShapeInterface.GetStartRatio()
+
+	link.End = endRect
+	link.EndOrientation = svg.OrientationType(linkShapeInterface.GetEndOrientation())
+	link.EndRatio = linkShapeInterface.GetEndRatio()
+
+	link.CornerOffsetRatio = linkShapeInterface.GetCornerOffsetRatio()
+	link.CornerRadius = 5
+
+	link.StrokeDashArray = "5 5"
+	link.Stroke = "#9E9E9E"
+	link.StrokeWidth = 1.5
+	link.StrokeOpacity = 1.0
+
+	layer.Links = append(layer.Links, link)
+
+	return link
+}

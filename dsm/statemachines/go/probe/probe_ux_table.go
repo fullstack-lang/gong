@@ -42,6 +42,14 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Message](probe)
 	case "MessageType":
 		updateProbeTable[*models.MessageType](probe)
+	case "Note":
+		updateProbeTable[*models.Note](probe)
+	case "NoteShape":
+		updateProbeTable[*models.NoteShape](probe)
+	case "NoteStateShape":
+		updateProbeTable[*models.NoteStateShape](probe)
+	case "NoteTransitionShape":
+		updateProbeTable[*models.NoteTransitionShape](probe)
 	case "Object":
 		updateProbeTable[*models.Object](probe)
 	case "Role":

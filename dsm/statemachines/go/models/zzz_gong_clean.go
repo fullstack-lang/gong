@@ -66,9 +66,13 @@ func (architecture *Architecture) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Diagram
 func (diagram *Diagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &diagram.NotesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.State_Shapes) || modified
 	modified = GongCleanSlice(stage, &diagram.StatesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &diagram.Transition_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.Note_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.NoteState_Shapes) || modified
+	modified = GongCleanSlice(stage, &diagram.NoteTransition_Shapes) || modified
 	// insertion point per field
 	return
 }
@@ -94,6 +98,8 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &library.Diagrams) || modified
 	modified = GongCleanSlice(stage, &library.RootStateMachines) || modified
 	modified = GongCleanSlice(stage, &library.StateMachinesWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &library.RootNotes) || modified
+	modified = GongCleanSlice(stage, &library.NotesWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &library.SubLibrariesWhoseNodeIsExpanded) || modified
 	// insertion point per field
 	return
@@ -112,6 +118,41 @@ func (message *Message) GongClean(stage *Stage) (modified bool) {
 func (messagetype *MessageType) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Note
+func (note *Note) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &note.States) || modified
+	modified = GongCleanSlice(stage, &note.Transitions) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by NoteShape
+func (noteshape *NoteShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &noteshape.Note) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by NoteStateShape
+func (notestateshape *NoteStateShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &notestateshape.Note) || modified
+	modified = GongCleanPointer(stage, &notestateshape.State) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by NoteTransitionShape
+func (notetransitionshape *NoteTransitionShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	modified = GongCleanPointer(stage, &notetransitionshape.Note) || modified
+	modified = GongCleanPointer(stage, &notetransitionshape.Transition) || modified
 	return
 }
 
