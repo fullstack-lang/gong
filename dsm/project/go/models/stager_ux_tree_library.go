@@ -60,4 +60,22 @@ func (stager *Stager) treeLibrary(treeInstance *tree.Tree, library *Library, par
 	for _, subLibrary := range library.SubLibraries {
 		stager.treeLibrary(treeInstance, subLibrary, &libraryNode.Children)
 	}
+
+	// Move Add Diagram and Add Library buttons to a menu
+	var newButtons []*tree.Button
+	libraryNode.Menu = &tree.Menu{
+		Name: "Add",
+	}
+	for _, button := range libraryNode.Buttons {
+		if button.Name == "Add Diagram" || button.Name == "Add Library" {
+			libraryNode.Menu.Buttons = append(libraryNode.Menu.Buttons, button)
+		} else {
+			newButtons = append(newButtons, button)
+		}
+	}
+	// If menu is empty, remove it
+	if len(libraryNode.Menu.Buttons) == 0 {
+		libraryNode.Menu = nil
+	}
+	libraryNode.Buttons = newButtons
 }
