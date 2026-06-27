@@ -121,8 +121,8 @@ func (stager *Stager) treeStateMachines(
 
 	{
 		addButton := &tree.Button{
-			Name:            "Diagram Add" + " " + string(buttons.BUTTON_add_box),
-			Icon:            string(buttons.BUTTON_add_box),
+			Name:            "Diagram Add" + " " + string(buttons.BUTTON_add),
+			Icon:            string(buttons.BUTTON_add),
 			HasToolTip:      true,
 			ToolTipPosition: tree.Above,
 			ToolTipText:     "Add a Diagram to the state machine",
@@ -137,7 +137,10 @@ func (stager *Stager) treeStateMachines(
 				stager.stage.Commit()
 			},
 		}
-		stateMachineNode.Buttons = append(stateMachineNode.Buttons, addButton)
+		if stateMachineNode.Menu == nil {
+			stateMachineNode.Menu = &tree.Menu{Name: "Menu"}
+		}
+		stateMachineNode.Menu.Buttons = append(stateMachineNode.Menu.Buttons, addButton)
 	}
 
 	transitionsSet := *GetGongstructInstancesSet[Transition](stager.stage)
@@ -160,8 +163,11 @@ func (stager *Stager) treeStateMachines(
 		diagramNode.HasCheckboxButton = true
 		diagramNode.Impl = diagramProxy
 
+		if diagramNode.Menu == nil {
+			diagramNode.Menu = &tree.Menu{Name: "Menu"}
+		}
 		if !diagram.isInRenameMode {
-			diagramNode.Buttons = append(diagramNode.Buttons,
+			diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons,
 				&tree.Button{
 					Name: diagram.GetName() + " " + string(buttons.BUTTON_edit_note),
 					Icon: string(buttons.BUTTON_edit_note),
@@ -174,7 +180,7 @@ func (stager *Stager) treeStateMachines(
 					ToolTipPosition: tree.Above,
 				})
 		} else {
-			diagramNode.Buttons = append(diagramNode.Buttons,
+			diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons,
 				&tree.Button{
 					Name: diagram.GetName() + " " + string(buttons.BUTTON_edit_off),
 					Icon: string(buttons.BUTTON_edit_off),
@@ -187,6 +193,7 @@ func (stager *Stager) treeStateMachines(
 					ToolTipPosition: tree.Above,
 				})
 		}
+
 		{
 			copyButton := &tree.Button{
 				Name:            "Diagram Copy" + " " + string(buttons.BUTTON_copy_all),
@@ -202,12 +209,12 @@ func (stager *Stager) treeStateMachines(
 					proxy.ButtonUpdated(nil, nil, nil)
 				},
 			}
-			diagramNode.Buttons = append(diagramNode.Buttons, copyButton)
+			diagramNode.Menu.Buttons = append(diagramNode.Menu.Buttons, copyButton)
 		}
 		if diagram.IsChecked {
 			addButton := &tree.Button{
-				Name:            "Diagram Add" + " " + string(buttons.BUTTON_add_box),
-				Icon:            string(buttons.BUTTON_add_box),
+				Name:            "Diagram Add" + " " + string(buttons.BUTTON_add),
+				Icon:            string(buttons.BUTTON_add),
 				HasToolTip:      true,
 				ToolTipPosition: tree.Above,
 				ToolTipText:     "Add a State to the State Machine and add it to the diagram",
