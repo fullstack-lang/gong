@@ -22,4 +22,15 @@ type Library struct {
 	Diagrams []*Diagram
 
 	objects []AbstractType
+
+	// DSM specific fields
+	RootStateMachines               []*StateMachine
+	IsStateMachinesNodeExpanded     bool
+	StateMachinesWhoseNodeIsExpanded []*StateMachine
+
+	IsSubLibrariesNodeExpanded      bool
+	SubLibrariesWhoseNodeIsExpanded []*Library
+
+	// temporary persistance of the library expand status.
+	IsExpandedTmp bool
 }

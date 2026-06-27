@@ -109,6 +109,12 @@ type Library_WOP struct {
 	LayoutDirection LayoutDirection
 
 	IsRootLibrary bool
+
+	IsStateMachinesNodeExpanded bool
+
+	IsSubLibrariesNodeExpanded bool
+
+	IsExpandedTmp bool
 }
 
 func (from *Library) CopyBasicFields(to *Library) {
@@ -120,6 +126,9 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.IsExpanded = from.IsExpanded
 	to.LayoutDirection = from.LayoutDirection
 	to.IsRootLibrary = from.IsRootLibrary
+	to.IsStateMachinesNodeExpanded = from.IsStateMachinesNodeExpanded
+	to.IsSubLibrariesNodeExpanded = from.IsSubLibrariesNodeExpanded
+	to.IsExpandedTmp = from.IsExpandedTmp
 }
 
 type Message_WOP struct {
@@ -209,13 +218,19 @@ type StateMachine_WOP struct {
 
 	Name string
 
-	IsNodeExpanded bool
+	ComputedPrefix string
+
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
 }
 
 func (from *StateMachine) CopyBasicFields(to *StateMachine) {
 	// insertion point
 	to.Name = from.Name
-	to.IsNodeExpanded = from.IsNodeExpanded
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
 }
 
 type StateShape_WOP struct {

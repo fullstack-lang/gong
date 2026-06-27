@@ -62,7 +62,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.IsExpanded = false
 	__Diagram__00000001_.IsEditable_ = true
 	__StateMachine__00000001_.Name = `New StateMachine`
-	__StateMachine__00000001_.IsNodeExpanded = true
+	__StateMachine__00000001_.IsExpanded = true
 	__StateMachine__00000001_.States = append(__StateMachine__00000001_.States, __State__00000000_)
 	__StateMachine__00000001_.States = append(__StateMachine__00000001_.States, __State__00000001_)
 	__StateMachine__00000001_.Diagrams = append(__StateMachine__00000001_.Diagrams, __Diagram__00000000_)

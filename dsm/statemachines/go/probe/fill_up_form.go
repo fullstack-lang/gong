@@ -20,7 +20,7 @@ func FillUpForm(
 	case *models.Action:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		EnumTypeStringToForm("Criticality", instanceWithInferedType.Criticality, instanceWithInferedType, probe.formStage, formGroup)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -31,7 +31,7 @@ func FillUpForm(
 	case *models.Activities:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		EnumTypeStringToForm("Criticality", instanceWithInferedType.Criticality, instanceWithInferedType, probe.formStage, formGroup)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -53,11 +53,11 @@ func FillUpForm(
 	case *models.Architecture:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		AssociationSliceToForm("StateMachines", instanceWithInferedType, &instanceWithInferedType.StateMachines, formGroup, probe)
 		AssociationSliceToForm("Roles", instanceWithInferedType, &instanceWithInferedType.Roles, formGroup, probe)
 		BasicFieldtoForm("NbPixPerCharacter", instanceWithInferedType.NbPixPerCharacter, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -67,13 +67,13 @@ func FillUpForm(
 	case *models.Diagram:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsEditable_", instanceWithInferedType.IsEditable_, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		AssociationSliceToForm("State_Shapes", instanceWithInferedType, &instanceWithInferedType.State_Shapes, formGroup, probe)
 		AssociationSliceToForm("StatesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.StatesWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("Transition_Shapes", instanceWithInferedType, &instanceWithInferedType.Transition_Shapes, formGroup, probe)
@@ -130,7 +130,7 @@ func FillUpForm(
 	case *models.Guard:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -140,7 +140,7 @@ func FillUpForm(
 	case *models.Kill:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -150,20 +150,29 @@ func FillUpForm(
 	case *models.Library:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		AssociationSliceToForm("SubLibraries", instanceWithInferedType, &instanceWithInferedType.SubLibraries, formGroup, probe)
 		BasicFieldtoForm("NbPixPerCharacter", instanceWithInferedType.NbPixPerCharacter, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("LogoSVGFile", instanceWithInferedType.LogoSVGFile, instanceWithInferedType, probe.formStage, formGroup,
-			false, true, 600, true, 300, false)
+			false, true, 600, true, 300)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("IsRootLibrary", instanceWithInferedType.IsRootLibrary, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		AssociationSliceToForm("Diagrams", instanceWithInferedType, &instanceWithInferedType.Diagrams, formGroup, probe)
+		AssociationSliceToForm("RootStateMachines", instanceWithInferedType, &instanceWithInferedType.RootStateMachines, formGroup, probe)
+		BasicFieldtoForm("IsStateMachinesNodeExpanded", instanceWithInferedType.IsStateMachinesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationSliceToForm("StateMachinesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.StateMachinesWhoseNodeIsExpanded, formGroup, probe)
+		BasicFieldtoForm("IsSubLibrariesNodeExpanded", instanceWithInferedType.IsSubLibrariesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationSliceToForm("SubLibrariesWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.SubLibrariesWhoseNodeIsExpanded, formGroup, probe)
+		BasicFieldtoForm("IsExpandedTmp", instanceWithInferedType.IsExpandedTmp, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -180,13 +189,24 @@ func FillUpForm(
 					return owner.SubLibraries
 				})
 		}
+		{
+			AssociationReverseSliceToForm[*models.Library, *models.Library](
+				"Library",
+				"SubLibrariesWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.Library {
+					return owner.SubLibrariesWhoseNodeIsExpanded
+				})
+		}
 
 	case *models.Message:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsSelected", instanceWithInferedType.IsSelected, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		AssociationFieldToForm("MessageType", instanceWithInferedType.MessageType, formGroup, probe)
 		AssociationFieldToForm("OriginTransition", instanceWithInferedType.OriginTransition, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
@@ -209,9 +229,9 @@ func FillUpForm(
 	case *models.MessageType:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
-			true, true, 600, true, 300, false)
+			true, true, 600, true, 300)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -232,14 +252,14 @@ func FillUpForm(
 	case *models.Object:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		AssociationFieldToForm("State", instanceWithInferedType.State, formGroup, probe)
 		BasicFieldtoForm("IsSelected", instanceWithInferedType.IsSelected, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("Rank", instanceWithInferedType.Rank, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("DOF", instanceWithInferedType.DOF, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		AssociationSliceToForm("Messages", instanceWithInferedType, &instanceWithInferedType.Messages, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -250,9 +270,9 @@ func FillUpForm(
 	case *models.Role:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("Acronym", instanceWithInferedType.Acronym, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		AssociationSliceToForm("RolesWithSamePermissions", instanceWithInferedType, &instanceWithInferedType.RolesWithSamePermissions, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -296,14 +316,14 @@ func FillUpForm(
 	case *models.State:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, true, 600, false, 0, false)
+			false, true, 600, false, 0)
 		AssociationFieldToForm("Parent", instanceWithInferedType.Parent, formGroup, probe)
 		BasicFieldtoForm("IsDecisionNode", instanceWithInferedType.IsDecisionNode, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsFictious", instanceWithInferedType.IsFictious, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsEndState", instanceWithInferedType.IsEndState, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		AssociationSliceToForm("SubStates", instanceWithInferedType, &instanceWithInferedType.SubStates, formGroup, probe)
 		AssociationSliceToForm("Diagrams", instanceWithInferedType, &instanceWithInferedType.Diagrams, formGroup, probe)
 		AssociationFieldToForm("Entry", instanceWithInferedType.Entry, formGroup, probe)
@@ -351,9 +371,12 @@ func FillUpForm(
 	case *models.StateMachine:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("IsNodeExpanded", instanceWithInferedType.IsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationSliceToForm("States", instanceWithInferedType, &instanceWithInferedType.States, formGroup, probe)
 		AssociationSliceToForm("Diagrams", instanceWithInferedType, &instanceWithInferedType.Diagrams, formGroup, probe)
 		AssociationFieldToForm("InitialState", instanceWithInferedType.InitialState, formGroup, probe)
@@ -373,22 +396,44 @@ func FillUpForm(
 					return owner.StateMachines
 				})
 		}
+		{
+			AssociationReverseSliceToForm[*models.Library, *models.StateMachine](
+				"Library",
+				"RootStateMachines",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.StateMachine {
+					return owner.RootStateMachines
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.Library, *models.StateMachine](
+				"Library",
+				"StateMachinesWhoseNodeIsExpanded",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Library) []*models.StateMachine {
+					return owner.StateMachinesWhoseNodeIsExpanded
+				})
+		}
 
 	case *models.StateShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		AssociationFieldToForm("State", instanceWithInferedType.State, formGroup, probe)
 		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -409,7 +454,7 @@ func FillUpForm(
 	case *models.Transition:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, true, 600, false, 0, false)
+			false, true, 600, false, 0)
 		AssociationFieldToForm("Start", instanceWithInferedType.Start, formGroup, probe)
 		AssociationFieldToForm("End", instanceWithInferedType.End, formGroup, probe)
 		AssociationSliceToForm("RolesWithPermissions", instanceWithInferedType, &instanceWithInferedType.RolesWithPermissions, formGroup, probe)
@@ -425,18 +470,18 @@ func FillUpForm(
 	case *models.Transition_Shape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		AssociationFieldToForm("Transition", instanceWithInferedType.Transition, formGroup, probe)
 		BasicFieldtoForm("StartRatio", instanceWithInferedType.StartRatio, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("EndRatio", instanceWithInferedType.EndRatio, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		EnumTypeStringToForm("StartOrientation", instanceWithInferedType.StartOrientation, instanceWithInferedType, probe.formStage, formGroup)
 		EnumTypeStringToForm("EndOrientation", instanceWithInferedType.EndOrientation, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("CornerOffsetRatio", instanceWithInferedType.CornerOffsetRatio, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
