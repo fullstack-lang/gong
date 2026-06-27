@@ -76,12 +76,14 @@ func NewStager(
 	r *gin.Engine,
 	stage *Stage,
 	probeForm ProbeIF,
+	fileName string,
 ) (stager *Stager) {
 
 	stager = new(Stager)
 
 	stager.stage = stage
 	stager.probeForm = probeForm
+	stager.fileName = fileName
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component

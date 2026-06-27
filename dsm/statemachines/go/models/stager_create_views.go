@@ -4,9 +4,24 @@ import (
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 )
 
+func getFileName(stager *Stager) string {
+	if stager.stage.OnInitCommitCallback != nil {
+		return stager.fileName
+	} else {
+		return "no persistance"
+	}
+}
+
 func (stager *Stager) createViews() {
+	stager.splitStage.Reset()
+
+	tabTitle := &split.Title{
+		Name: "State Machines (" + getFileName(stager) + ")",
+	}
+	tabTitle.Stage(stager.splitStage)
+
 	split.StageBranch(stager.splitStage, &split.View{
-		Name:           "Edit view",
+		Name:           "Edit view (" + getFileName(stager) + ")",
 		IsSelectedView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
