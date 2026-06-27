@@ -151,7 +151,6 @@ func setCallbacksElementInDiagram[
 				compositionShape.SetCornerOffsetRatio((ratio-1.0)/2.0 + 1.0)
 			}
 			compositionShape.StageVoid(stager.stage)
-			stager.stage.Commit()
 		} else {
 			compositionShape.UnstageVoid(stager.stage)
 			idx := slices.Index(*compositionShapes, compositionShape)

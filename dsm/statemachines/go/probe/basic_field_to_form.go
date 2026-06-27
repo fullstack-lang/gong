@@ -12,7 +12,7 @@ import (
 
 func BasicFieldtoForm[TF models.GongtructBasicField](
 	fieldName string, field TF, instance models.GongstructIF, formStage *form.Stage, formGroup *form.FormGroup,
-	isTextArea bool, isBespokeWidth bool, bespokeWidth int, isBespokeHeight bool, bespokeHeight int, isTimeFormOnly bool,
+	isTextArea bool, isBespokeWidth bool, bespokeWidth int, isBespokeHeight bool, bespokeHeight int,
 ) {
 
 	switch fieldWithInterferedType := any(field).(type) {
@@ -57,7 +57,7 @@ func BasicFieldtoForm[TF models.GongtructBasicField](
 			}).Stage(formStage)
 			formFieldPartDate.FormFieldDate = formFieldDate
 		}
-		if !isTimeFormOnly {
+		{
 			formFieldPartTime := (&form.FormField{
 				Name:        fieldName + "Time",
 				Label:       fieldName + "Time",

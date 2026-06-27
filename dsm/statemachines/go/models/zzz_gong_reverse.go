@@ -102,6 +102,10 @@ func (inst *Library) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 			if _library, ok := stage.Library_SubLibraries_reverseMap[inst]; ok {
 				res = _library.Name
 			}
+		case "SubLibrariesWhoseNodeIsExpanded":
+			if _library, ok := stage.Library_SubLibrariesWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _library.Name
+			}
 		}
 	}
 	return
@@ -218,6 +222,17 @@ func (inst *StateMachine) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 		case "StateMachines":
 			if _architecture, ok := stage.Architecture_StateMachines_reverseMap[inst]; ok {
 				res = _architecture.Name
+			}
+		}
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootStateMachines":
+			if _library, ok := stage.Library_RootStateMachines_reverseMap[inst]; ok {
+				res = _library.Name
+			}
+		case "StateMachinesWhoseNodeIsExpanded":
+			if _library, ok := stage.Library_StateMachinesWhoseNodeIsExpanded_reverseMap[inst]; ok {
+				res = _library.Name
 			}
 		}
 	}
@@ -354,6 +369,8 @@ func (inst *Library) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 		switch reverseField.Fieldname {
 		case "SubLibraries":
 			res = stage.Library_SubLibraries_reverseMap[inst]
+		case "SubLibrariesWhoseNodeIsExpanded":
+			res = stage.Library_SubLibrariesWhoseNodeIsExpanded_reverseMap[inst]
 		}
 	}
 	return res
@@ -453,6 +470,13 @@ func (inst *StateMachine) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 		switch reverseField.Fieldname {
 		case "StateMachines":
 			res = stage.Architecture_StateMachines_reverseMap[inst]
+		}
+	case "Library":
+		switch reverseField.Fieldname {
+		case "RootStateMachines":
+			res = stage.Library_RootStateMachines_reverseMap[inst]
+		case "StateMachinesWhoseNodeIsExpanded":
+			res = stage.Library_StateMachinesWhoseNodeIsExpanded_reverseMap[inst]
 		}
 	}
 	return res

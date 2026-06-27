@@ -148,7 +148,7 @@ func _(stage *models.Stage) {
 	__Role__00000001_.Name = `Timer`
 	__Role__00000001_.Acronym = `Timer`
 	__StateMachine__00000000_.Name = `Traffic Lights FR`
-	__StateMachine__00000000_.IsNodeExpanded = true
+	__StateMachine__00000000_.IsExpanded = true
 	__StateMachine__00000000_.States = append(__StateMachine__00000000_.States, __State__00000000_)
 	__StateMachine__00000000_.States = append(__StateMachine__00000000_.States, __State__00000001_)
 	__StateMachine__00000000_.States = append(__StateMachine__00000000_.States, __State__00000002_)
@@ -158,7 +158,7 @@ func _(stage *models.Stage) {
 	__StateMachine__00000000_.Diagrams = append(__StateMachine__00000000_.Diagrams, __Diagram__00000000_)
 	__StateMachine__00000000_.InitialState = __State__00000000_
 	__StateMachine__00000001_.Name = `Traffic Light UK`
-	__StateMachine__00000001_.IsNodeExpanded = true
+	__StateMachine__00000001_.IsExpanded = true
 	__StateMachine__00000001_.States = append(__StateMachine__00000001_.States, __State__00000006_)
 	__StateMachine__00000001_.States = append(__StateMachine__00000001_.States, __State__00000007_)
 	__StateMachine__00000001_.States = append(__StateMachine__00000001_.States, __State__00000008_)

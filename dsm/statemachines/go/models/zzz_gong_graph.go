@@ -417,6 +417,15 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _diagram := range library.Diagrams {
 		StageBranch(stage, _diagram)
 	}
+	for _, _statemachine := range library.RootStateMachines {
+		StageBranch(stage, _statemachine)
+	}
+	for _, _statemachine := range library.StateMachinesWhoseNodeIsExpanded {
+		StageBranch(stage, _statemachine)
+	}
+	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
+		StageBranch(stage, _library)
+	}
 
 }
 
@@ -853,6 +862,15 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	for _, _diagram := range libraryFrom.Diagrams {
 		libraryTo.Diagrams = append(libraryTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
 	}
+	for _, _statemachine := range libraryFrom.RootStateMachines {
+		libraryTo.RootStateMachines = append(libraryTo.RootStateMachines, CopyBranchStateMachine(mapOrigCopy, _statemachine))
+	}
+	for _, _statemachine := range libraryFrom.StateMachinesWhoseNodeIsExpanded {
+		libraryTo.StateMachinesWhoseNodeIsExpanded = append(libraryTo.StateMachinesWhoseNodeIsExpanded, CopyBranchStateMachine(mapOrigCopy, _statemachine))
+	}
+	for _, _library := range libraryFrom.SubLibrariesWhoseNodeIsExpanded {
+		libraryTo.SubLibrariesWhoseNodeIsExpanded = append(libraryTo.SubLibrariesWhoseNodeIsExpanded, CopyBranchLibrary(mapOrigCopy, _library))
+	}
 
 	return
 }
@@ -1279,6 +1297,15 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _diagram := range library.Diagrams {
 		UnstageBranch(stage, _diagram)
 	}
+	for _, _statemachine := range library.RootStateMachines {
+		UnstageBranch(stage, _statemachine)
+	}
+	for _, _statemachine := range library.StateMachinesWhoseNodeIsExpanded {
+		UnstageBranch(stage, _statemachine)
+	}
+	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
+		UnstageBranch(stage, _library)
+	}
 
 }
 
@@ -1545,6 +1572,18 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.Diagrams {
 		reference.Diagrams = append(reference.Diagrams, stage.Diagrams_reference[_b])
 	}
+	reference.RootStateMachines = reference.RootStateMachines[:0]
+	for _, _b := range instance.RootStateMachines {
+		reference.RootStateMachines = append(reference.RootStateMachines, stage.StateMachines_reference[_b])
+	}
+	reference.StateMachinesWhoseNodeIsExpanded = reference.StateMachinesWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.StateMachinesWhoseNodeIsExpanded {
+		reference.StateMachinesWhoseNodeIsExpanded = append(reference.StateMachinesWhoseNodeIsExpanded, stage.StateMachines_reference[_b])
+	}
+	reference.SubLibrariesWhoseNodeIsExpanded = reference.SubLibrariesWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.SubLibrariesWhoseNodeIsExpanded {
+		reference.SubLibrariesWhoseNodeIsExpanded = append(reference.SubLibrariesWhoseNodeIsExpanded, stage.Librarys_reference[_b])
+	}
 }
 
 func (reference *Message) GongReconstructPointersFromReferences(stage *Stage, instance *Message) {
@@ -1751,6 +1790,27 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Diagrams = _Diagrams
+	var _RootStateMachines []*StateMachine
+	for _, _reference := range reference.RootStateMachines {
+		if _instance, ok := stage.StateMachines_instance[_reference]; ok {
+			_RootStateMachines = append(_RootStateMachines, _instance)
+		}
+	}
+	reference.RootStateMachines = _RootStateMachines
+	var _StateMachinesWhoseNodeIsExpanded []*StateMachine
+	for _, _reference := range reference.StateMachinesWhoseNodeIsExpanded {
+		if _instance, ok := stage.StateMachines_instance[_reference]; ok {
+			_StateMachinesWhoseNodeIsExpanded = append(_StateMachinesWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.StateMachinesWhoseNodeIsExpanded = _StateMachinesWhoseNodeIsExpanded
+	var _SubLibrariesWhoseNodeIsExpanded []*Library
+	for _, _reference := range reference.SubLibrariesWhoseNodeIsExpanded {
+		if _instance, ok := stage.Librarys_instance[_reference]; ok {
+			_SubLibrariesWhoseNodeIsExpanded = append(_SubLibrariesWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.SubLibrariesWhoseNodeIsExpanded = _SubLibrariesWhoseNodeIsExpanded
 }
 
 func (reference *Message) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2197,6 +2257,78 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		ops := Diff(stage, library, libraryOther, "Diagrams", libraryOther.Diagrams, library.Diagrams)
 		diffs = append(diffs, ops)
 	}
+	RootStateMachinesDifferent := false
+	if len(library.RootStateMachines) != len(libraryOther.RootStateMachines) {
+		RootStateMachinesDifferent = true
+	} else {
+		for i := range library.RootStateMachines {
+			if (library.RootStateMachines[i] == nil) != (libraryOther.RootStateMachines[i] == nil) {
+				RootStateMachinesDifferent = true
+				break
+			} else if library.RootStateMachines[i] != nil && libraryOther.RootStateMachines[i] != nil {
+				// this is a pointer comparaison
+				if library.RootStateMachines[i] != libraryOther.RootStateMachines[i] {
+					RootStateMachinesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootStateMachinesDifferent {
+		ops := Diff(stage, library, libraryOther, "RootStateMachines", libraryOther.RootStateMachines, library.RootStateMachines)
+		diffs = append(diffs, ops)
+	}
+	if library.IsStateMachinesNodeExpanded != libraryOther.IsStateMachinesNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsStateMachinesNodeExpanded"))
+	}
+	StateMachinesWhoseNodeIsExpandedDifferent := false
+	if len(library.StateMachinesWhoseNodeIsExpanded) != len(libraryOther.StateMachinesWhoseNodeIsExpanded) {
+		StateMachinesWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range library.StateMachinesWhoseNodeIsExpanded {
+			if (library.StateMachinesWhoseNodeIsExpanded[i] == nil) != (libraryOther.StateMachinesWhoseNodeIsExpanded[i] == nil) {
+				StateMachinesWhoseNodeIsExpandedDifferent = true
+				break
+			} else if library.StateMachinesWhoseNodeIsExpanded[i] != nil && libraryOther.StateMachinesWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if library.StateMachinesWhoseNodeIsExpanded[i] != libraryOther.StateMachinesWhoseNodeIsExpanded[i] {
+					StateMachinesWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if StateMachinesWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, library, libraryOther, "StateMachinesWhoseNodeIsExpanded", libraryOther.StateMachinesWhoseNodeIsExpanded, library.StateMachinesWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	if library.IsSubLibrariesNodeExpanded != libraryOther.IsSubLibrariesNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
+	}
+	SubLibrariesWhoseNodeIsExpandedDifferent := false
+	if len(library.SubLibrariesWhoseNodeIsExpanded) != len(libraryOther.SubLibrariesWhoseNodeIsExpanded) {
+		SubLibrariesWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range library.SubLibrariesWhoseNodeIsExpanded {
+			if (library.SubLibrariesWhoseNodeIsExpanded[i] == nil) != (libraryOther.SubLibrariesWhoseNodeIsExpanded[i] == nil) {
+				SubLibrariesWhoseNodeIsExpandedDifferent = true
+				break
+			} else if library.SubLibrariesWhoseNodeIsExpanded[i] != nil && libraryOther.SubLibrariesWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if library.SubLibrariesWhoseNodeIsExpanded[i] != libraryOther.SubLibrariesWhoseNodeIsExpanded[i] {
+					SubLibrariesWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubLibrariesWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, library, libraryOther, "SubLibrariesWhoseNodeIsExpanded", libraryOther.SubLibrariesWhoseNodeIsExpanded, library.SubLibrariesWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
+	if library.IsExpandedTmp != libraryOther.IsExpandedTmp {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsExpandedTmp"))
+	}
 
 	return
 }
@@ -2437,8 +2569,14 @@ func (statemachine *StateMachine) GongDiff(stage *Stage, statemachineOther *Stat
 	if statemachine.Name != statemachineOther.Name {
 		diffs = append(diffs, statemachine.GongMarshallField(stage, "Name"))
 	}
-	if statemachine.IsNodeExpanded != statemachineOther.IsNodeExpanded {
-		diffs = append(diffs, statemachine.GongMarshallField(stage, "IsNodeExpanded"))
+	if statemachine.ComputedPrefix != statemachineOther.ComputedPrefix {
+		diffs = append(diffs, statemachine.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if statemachine.IsExpanded != statemachineOther.IsExpanded {
+		diffs = append(diffs, statemachine.GongMarshallField(stage, "IsExpanded"))
+	}
+	if statemachine.LayoutDirection != statemachineOther.LayoutDirection {
+		diffs = append(diffs, statemachine.GongMarshallField(stage, "LayoutDirection"))
 	}
 	StatesDifferent := false
 	if len(statemachine.States) != len(statemachineOther.States) {

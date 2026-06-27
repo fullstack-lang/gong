@@ -89,6 +89,27 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Library_Diagrams_reverseMap[_diagram] = library
 		}
 	}
+	stage.Library_RootStateMachines_reverseMap = make(map[*StateMachine]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _statemachine := range library.RootStateMachines {
+			stage.Library_RootStateMachines_reverseMap[_statemachine] = library
+		}
+	}
+	stage.Library_StateMachinesWhoseNodeIsExpanded_reverseMap = make(map[*StateMachine]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _statemachine := range library.StateMachinesWhoseNodeIsExpanded {
+			stage.Library_StateMachinesWhoseNodeIsExpanded_reverseMap[_statemachine] = library
+		}
+	}
+	stage.Library_SubLibrariesWhoseNodeIsExpanded_reverseMap = make(map[*Library]*Library)
+	for library := range stage.Librarys {
+		_ = library
+		for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
+			stage.Library_SubLibrariesWhoseNodeIsExpanded_reverseMap[_library] = library
+		}
+	}
 
 	// Compute reverse map for named struct Message
 	// insertion point per field

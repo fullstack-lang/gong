@@ -1007,6 +1007,108 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			library_.Diagrams = instanceSlice
 			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "Diagrams", &library_.Diagrams)
 
+		case "RootStateMachines":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StateMachine](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.StateMachine, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.StateMachine)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.StateMachine](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.RootStateMachines = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootStateMachines", &library_.RootStateMachines)
+
+		case "IsStateMachinesNodeExpanded":
+			FormDivBasicFieldToField(&(library_.IsStateMachinesNodeExpanded), formDiv)
+		case "StateMachinesWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.StateMachine](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.StateMachine, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.StateMachine)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.StateMachine](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.StateMachinesWhoseNodeIsExpanded = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "StateMachinesWhoseNodeIsExpanded", &library_.StateMachinesWhoseNodeIsExpanded)
+
+		case "IsSubLibrariesNodeExpanded":
+			FormDivBasicFieldToField(&(library_.IsSubLibrariesNodeExpanded), formDiv)
+		case "SubLibrariesWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Library](libraryFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Library, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Library)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					libraryFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](libraryFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			library_.SubLibrariesWhoseNodeIsExpanded = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "SubLibrariesWhoseNodeIsExpanded", &library_.SubLibrariesWhoseNodeIsExpanded)
+
+		case "IsExpandedTmp":
+			FormDivBasicFieldToField(&(library_.IsExpandedTmp), formDiv)
 		case "Library:SubLibraries":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -1049,6 +1151,51 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 					if idx != -1 {
 						_library.SubLibraries = slices.Delete(_library.SubLibraries, idx, idx+1)
 						libraryFormCallback.probe.UpdateSliceOfPointersCallback(_library, "SubLibraries", &_library.SubLibraries)
+					}
+				}
+			}
+		case "Library:SubLibrariesWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Library instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](libraryFormCallback.probe.stageOfInterest)
+			targetLibraryIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetLibraryIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Library instances and update their SubLibrariesWhoseNodeIsExpanded slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](libraryFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(libraryFormCallback.probe.stageOfInterest, _library)
+				
+				// if Library is selected
+				if targetLibraryIDs[id] {
+					// ensure library_ is in _library.SubLibrariesWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _library.SubLibrariesWhoseNodeIsExpanded {
+						if _b == library_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_library.SubLibrariesWhoseNodeIsExpanded = append(_library.SubLibrariesWhoseNodeIsExpanded, library_)
+						libraryFormCallback.probe.UpdateSliceOfPointersCallback(_library, "SubLibrariesWhoseNodeIsExpanded", &_library.SubLibrariesWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure library_ is NOT in _library.SubLibrariesWhoseNodeIsExpanded
+					idx := slices.Index(_library.SubLibrariesWhoseNodeIsExpanded, library_)
+					if idx != -1 {
+						_library.SubLibrariesWhoseNodeIsExpanded = slices.Delete(_library.SubLibrariesWhoseNodeIsExpanded, idx, idx+1)
+						libraryFormCallback.probe.UpdateSliceOfPointersCallback(_library, "SubLibrariesWhoseNodeIsExpanded", &_library.SubLibrariesWhoseNodeIsExpanded)
 					}
 				}
 			}
@@ -2070,8 +2217,12 @@ func (statemachineFormCallback *StateMachineFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(statemachine_.Name), formDiv)
-		case "IsNodeExpanded":
-			FormDivBasicFieldToField(&(statemachine_.IsNodeExpanded), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(statemachine_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(statemachine_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(statemachine_.LayoutDirection), formDiv)
 		case "States":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.State](statemachineFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.State, 0)
@@ -2180,6 +2331,96 @@ func (statemachineFormCallback *StateMachineFormCallback) OnSave() {
 					if idx != -1 {
 						_architecture.StateMachines = slices.Delete(_architecture.StateMachines, idx, idx+1)
 						statemachineFormCallback.probe.UpdateSliceOfPointersCallback(_architecture, "StateMachines", &_architecture.StateMachines)
+					}
+				}
+			}
+		case "Library:RootStateMachines":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Library instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](statemachineFormCallback.probe.stageOfInterest)
+			targetLibraryIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetLibraryIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Library instances and update their RootStateMachines slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](statemachineFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(statemachineFormCallback.probe.stageOfInterest, _library)
+				
+				// if Library is selected
+				if targetLibraryIDs[id] {
+					// ensure statemachine_ is in _library.RootStateMachines
+					found := false
+					for _, _b := range _library.RootStateMachines {
+						if _b == statemachine_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_library.RootStateMachines = append(_library.RootStateMachines, statemachine_)
+						statemachineFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootStateMachines", &_library.RootStateMachines)
+					}
+				} else {
+					// ensure statemachine_ is NOT in _library.RootStateMachines
+					idx := slices.Index(_library.RootStateMachines, statemachine_)
+					if idx != -1 {
+						_library.RootStateMachines = slices.Delete(_library.RootStateMachines, idx, idx+1)
+						statemachineFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootStateMachines", &_library.RootStateMachines)
+					}
+				}
+			}
+		case "Library:StateMachinesWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Library instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Library](statemachineFormCallback.probe.stageOfInterest)
+			targetLibraryIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetLibraryIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Library instances and update their StateMachinesWhoseNodeIsExpanded slice
+			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](statemachineFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(statemachineFormCallback.probe.stageOfInterest, _library)
+				
+				// if Library is selected
+				if targetLibraryIDs[id] {
+					// ensure statemachine_ is in _library.StateMachinesWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _library.StateMachinesWhoseNodeIsExpanded {
+						if _b == statemachine_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_library.StateMachinesWhoseNodeIsExpanded = append(_library.StateMachinesWhoseNodeIsExpanded, statemachine_)
+						statemachineFormCallback.probe.UpdateSliceOfPointersCallback(_library, "StateMachinesWhoseNodeIsExpanded", &_library.StateMachinesWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure statemachine_ is NOT in _library.StateMachinesWhoseNodeIsExpanded
+					idx := slices.Index(_library.StateMachinesWhoseNodeIsExpanded, statemachine_)
+					if idx != -1 {
+						_library.StateMachinesWhoseNodeIsExpanded = slices.Delete(_library.StateMachinesWhoseNodeIsExpanded, idx, idx+1)
+						statemachineFormCallback.probe.UpdateSliceOfPointersCallback(_library, "StateMachinesWhoseNodeIsExpanded", &_library.StateMachinesWhoseNodeIsExpanded)
 					}
 				}
 			}

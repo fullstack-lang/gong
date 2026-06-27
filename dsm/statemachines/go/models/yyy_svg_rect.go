@@ -4,8 +4,8 @@ package models
 import (
 	"math/rand/v2"
 
-	"github.com/fullstack-lang/gong/lib/strutils"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
+	"github.com/fullstack-lang/gong/lib/strutils"
 )
 
 func newShapeToDiagram[AT AbstractType, CT interface {

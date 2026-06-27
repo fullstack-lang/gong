@@ -143,7 +143,7 @@ func _(stage *models.Stage) {
 	__Object__00000000_.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Object__00000000_.State = __State__00000008_
 	__StateMachine__00000000_.Name = `UX Loop`
-	__StateMachine__00000000_.IsNodeExpanded = true
+	__StateMachine__00000000_.IsExpanded = true
 	__StateMachine__00000000_.States = append(__StateMachine__00000000_.States, __State__00000000_)
 	__StateMachine__00000000_.States = append(__StateMachine__00000000_.States, __State__00000001_)
 	__StateMachine__00000000_.States = append(__StateMachine__00000000_.States, __State__00000002_)
@@ -565,5 +565,35 @@ func _(stage *models.Stage) {
 	// Form - Update Stage Of Interest
 	__StateShape__00000003_.X = 287.000000
 	__StateShape__00000003_.Width = 246.000000
+	stage.Commit()
+
+	__Library__00000000_ := (&models.Library{Name: ``}).Stage(stage)
+	__Library__00000000_.Name = ``
+	__Library__00000000_.NbPixPerCharacter = 0.000000
+	__Library__00000000_.LogoSVGFile = ``
+	__Library__00000000_.ComputedPrefix = ``
+	__Library__00000000_.IsExpanded = false
+	__Library__00000000_.LayoutDirection = models.Vertical
+	__Library__00000000_.IsRootLibrary = true
+	__Library__00000000_.IsStateMachinesNodeExpanded = false
+	__Library__00000000_.IsSubLibrariesNodeExpanded = false
+	__Library__00000000_.IsExpandedTmp = false
+	__Library__00000000_.RootStateMachines = append(__Library__00000000_.RootStateMachines, __StateMachine__00000000_)
+	stage.Commit()
+
+	//
+	__Library__00000000_.IsExpandedTmp = true
+	stage.Commit()
+
+	//
+	__Library__00000000_.IsStateMachinesNodeExpanded = true
+	stage.Commit()
+
+	//
+	__Library__00000000_.StateMachinesWhoseNodeIsExpanded = slices.Insert( __Library__00000000_.StateMachinesWhoseNodeIsExpanded, 0, __StateMachine__00000000_)
+	stage.Commit()
+
+	// UX Loop Diagram
+	__Diagram__00000000_.IsExpanded = false
 	stage.Commit()
 }

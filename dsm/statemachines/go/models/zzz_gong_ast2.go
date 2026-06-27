@@ -676,6 +676,18 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsRootLibrary = GongExtractBool(valueExpr)
 	case "Diagrams":
 		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
+	case "RootStateMachines":
+		GongUnmarshallSliceOfPointers(&instance.RootStateMachines, valueExpr, identifierMap)
+	case "IsStateMachinesNodeExpanded":
+		instance.IsStateMachinesNodeExpanded = GongExtractBool(valueExpr)
+	case "StateMachinesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.StateMachinesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsSubLibrariesNodeExpanded":
+		instance.IsSubLibrariesNodeExpanded = GongExtractBool(valueExpr)
+	case "SubLibrariesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.SubLibrariesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "IsExpandedTmp":
+		instance.IsExpandedTmp = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -896,8 +908,12 @@ func (u *StateMachineUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "IsNodeExpanded":
-		instance.IsNodeExpanded = GongExtractBool(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "States":
 		GongUnmarshallSliceOfPointers(&instance.States, valueExpr, identifierMap)
 	case "Diagrams":

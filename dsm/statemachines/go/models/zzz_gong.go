@@ -245,6 +245,12 @@ type Stage struct {
 
 	Library_Diagrams_reverseMap map[*Diagram]*Library
 
+	Library_RootStateMachines_reverseMap map[*StateMachine]*Library
+
+	Library_StateMachinesWhoseNodeIsExpanded_reverseMap map[*StateMachine]*Library
+
+	Library_SubLibrariesWhoseNodeIsExpanded_reverseMap map[*Library]*Library
+
 	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
 	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
 	OnAfterLibraryDeleteCallback OnAfterDeleteInterface[Library]
@@ -3822,6 +3828,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
 			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
+			// field is initialized with an instance of StateMachine with the name of the field
+			RootStateMachines: []*StateMachine{{Name: "RootStateMachines"}},
+			// field is initialized with an instance of StateMachine with the name of the field
+			StateMachinesWhoseNodeIsExpanded: []*StateMachine{{Name: "StateMachinesWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Library with the name of the field
+			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case Message:
 		return any(&Message{
@@ -4309,6 +4321,30 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "RootStateMachines":
+			res := make(map[*StateMachine][]*Library)
+			for library := range stage.Librarys {
+				for _, statemachine_ := range library.RootStateMachines {
+					res[statemachine_] = append(res[statemachine_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "StateMachinesWhoseNodeIsExpanded":
+			res := make(map[*StateMachine][]*Library)
+			for library := range stage.Librarys {
+				for _, statemachine_ := range library.StateMachinesWhoseNodeIsExpanded {
+					res[statemachine_] = append(res[statemachine_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "SubLibrariesWhoseNodeIsExpanded":
+			res := make(map[*Library][]*Library)
+			for library := range stage.Librarys {
+				for _, library_ := range library.SubLibrariesWhoseNodeIsExpanded {
+					res[library_] = append(res[library_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Message
 	case Message:
@@ -4534,6 +4570,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Library"
 		rf.Fieldname = "SubLibraries"
 		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "SubLibrariesWhoseNodeIsExpanded"
+		res = append(res, rf)
 	case *Message:
 		var rf ReverseField
 		_ = rf
@@ -4578,6 +4617,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Architecture"
 		rf.Fieldname = "StateMachines"
+		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "RootStateMachines"
+		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "StateMachinesWhoseNodeIsExpanded"
 		res = append(res, rf)
 	case *StateShape:
 		var rf ReverseField
@@ -4758,6 +4803,33 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Diagram",
 		},
+		{
+			Name:                 "RootStateMachines",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "StateMachine",
+		},
+		{
+			Name:               "IsStateMachinesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "StateMachinesWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "StateMachine",
+		},
+		{
+			Name:               "IsSubLibrariesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "SubLibrariesWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Library",
+		},
+		{
+			Name:               "IsExpandedTmp",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -4916,8 +4988,17 @@ func (statemachine *StateMachine) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "IsNodeExpanded",
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:                 "States",
@@ -5282,6 +5363,48 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "RootStateMachines":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootStateMachines {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsStateMachinesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsStateMachinesNodeExpanded)
+		res.valueBool = library.IsStateMachinesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "StateMachinesWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.StateMachinesWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsSubLibrariesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsSubLibrariesNodeExpanded)
+		res.valueBool = library.IsSubLibrariesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SubLibrariesWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.SubLibrariesWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsExpandedTmp":
+		res.valueString = fmt.Sprintf("%t", library.IsExpandedTmp)
+		res.valueBool = library.IsExpandedTmp
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -5452,10 +5575,15 @@ func (statemachine *StateMachine) GongGetFieldValue(fieldName string, stage *Sta
 	// string value of fields
 	case "Name":
 		res.valueString = statemachine.Name
-	case "IsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", statemachine.IsNodeExpanded)
-		res.valueBool = statemachine.IsNodeExpanded
+	case "ComputedPrefix":
+		res.valueString = statemachine.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", statemachine.IsExpanded)
+		res.valueBool = statemachine.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := statemachine.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	case "States":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range statemachine.States {
@@ -5814,6 +5942,54 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "RootStateMachines":
+		library.RootStateMachines = make([]*StateMachine, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.StateMachines {
+					if stage.StateMachine_stagedOrder[__instance__] == uint(id) {
+						library.RootStateMachines = append(library.RootStateMachines, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsStateMachinesNodeExpanded":
+		library.IsStateMachinesNodeExpanded = value.GetValueBool()
+	case "StateMachinesWhoseNodeIsExpanded":
+		library.StateMachinesWhoseNodeIsExpanded = make([]*StateMachine, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.StateMachines {
+					if stage.StateMachine_stagedOrder[__instance__] == uint(id) {
+						library.StateMachinesWhoseNodeIsExpanded = append(library.StateMachinesWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsSubLibrariesNodeExpanded":
+		library.IsSubLibrariesNodeExpanded = value.GetValueBool()
+	case "SubLibrariesWhoseNodeIsExpanded":
+		library.SubLibrariesWhoseNodeIsExpanded = make([]*Library, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Librarys {
+					if stage.Library_stagedOrder[__instance__] == uint(id) {
+						library.SubLibrariesWhoseNodeIsExpanded = append(library.SubLibrariesWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsExpandedTmp":
+		library.IsExpandedTmp = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -6032,8 +6208,12 @@ func (statemachine *StateMachine) GongSetFieldValue(fieldName string, value Gong
 	// insertion point for per field code
 	case "Name":
 		statemachine.Name = value.GetValueString()
-	case "IsNodeExpanded":
-		statemachine.IsNodeExpanded = value.GetValueBool()
+	case "ComputedPrefix":
+		statemachine.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		statemachine.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		statemachine.LayoutDirection.FromCodeString(value.GetValueString())
 	case "States":
 		statemachine.States = make([]*State, 0)
 		ids := strings.Split(value.ids, ";")

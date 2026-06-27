@@ -15,6 +15,16 @@ func (stager *Stager) enforce_semantic() {
 	stager.stage.Clean()
 	needCommit := false
 
+	if stager.enforceThereIsARootLibrary() {
+		needCommit = true
+	}
+
+	stager.enforceOwningLibraryAndObjects()
+
+	if stager.enforceOrphansAbstractElement() {
+		needCommit = true
+	}
+
 	// check that there is at least one architecture
 	// and that one can safely access stager.architecture
 	architectures := GetGongstrucsSorted[*Architecture](stager.stage)

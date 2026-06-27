@@ -120,13 +120,17 @@ type Action struct {
 type StateMachine struct {
 	Name string
 
-	IsNodeExpanded bool
+	LibraryAbstractFields
+	AbstractTypeFields
 
 	States   []*State
 	Diagrams []*Diagram
 
 	InitialState *State
 }
+
+var _ AbstractType = (*StateMachine)(nil)
+
 
 // Transition decribes authorized between states
 type Transition struct {
