@@ -69,6 +69,30 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.messagetype, probe)
 			}
+		case *NoteFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Note", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.note, probe)
+			}
+		case *NoteShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "NoteShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.noteshape, probe)
+			}
+		case *NoteStateShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "NoteStateShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.notestateshape, probe)
+			}
+		case *NoteTransitionShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "NoteTransitionShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.notetransitionshape, probe)
+			}
 		case *ObjectFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Object", true)
@@ -250,6 +274,58 @@ func FillUpFormFromGongstructName(
 		messagetype := new(models.MessageType)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(messagetype, formGroup, probe)
+	case "Note":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Note Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__NoteFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		note := new(models.Note)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(note, formGroup, probe)
+	case "NoteShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "NoteShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__NoteShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		noteshape := new(models.NoteShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(noteshape, formGroup, probe)
+	case "NoteStateShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "NoteStateShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__NoteStateShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		notestateshape := new(models.NoteStateShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(notestateshape, formGroup, probe)
+	case "NoteTransitionShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "NoteTransitionShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__NoteTransitionShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		notetransitionshape := new(models.NoteTransitionShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(notetransitionshape, formGroup, probe)
 	case "Object":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

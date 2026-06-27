@@ -22,20 +22,24 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		return
 	}
 
-	startStateShape, ok := stager.map_SvgRect_StateShape[frontSVG.StartRect]
-	if !ok {
-		log.Panic(frontSVG.StartRect.Name + "unknow actor state shape")
+	startStateShape, isStartState := stager.map_SvgRect_StateShape[frontSVG.StartRect]
+	startNoteShape, isStartNote := stager.map_SvgRect_NoteShape[frontSVG.StartRect]
+
+	if !isStartState && !isStartNote {
+		log.Panic(frontSVG.StartRect.Name + " unknown actor state or note shape")
 	}
 
-	endStateShape, ok := stager.map_SvgRect_StateShape[frontSVG.EndRect]
-	if !ok {
-		log.Panic(frontSVG.StartRect.Name + "unknow actor state shape")
+	endStateShape, isEndState := stager.map_SvgRect_StateShape[frontSVG.EndRect]
+	if !isEndState {
+		// Only supporting links ending in States for now via drag and drop
+		log.Panic(frontSVG.EndRect.Name + " unknown actor state shape")
 	}
 
-	transition := new(Transition).Stage(stager.stage)
-	transition.Name = startStateShape.State.Name + " to " + endStateShape.State.Name
-	transition.Start = startStateShape.State
-	transition.End = endStateShape.State
+	if isStartState && isEndState {
+		transition := new(Transition).Stage(stager.stage)
+		transition.Name = startStateShape.State.Name + " to " + endStateShape.State.Name
+		transition.Start = startStateShape.State
+		transition.End = endStateShape.State
 
 	transitionShape := new(Transition_Shape).Stage(stager.stage)
 	transitionShape.Name = startStateShape.State.Name + " to " + endStateShape.State.Name
@@ -46,10 +50,29 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 	transitionShape.StartRatio = 0.5
 	transitionShape.EndRatio = 0.5
 
-	stager.diagram.Transition_Shapes =
-		append(stager.diagram.Transition_Shapes, transitionShape)
+		stager.diagram.Transition_Shapes =
+			append(stager.diagram.Transition_Shapes, transitionShape)
 
-	stager.probeForm.FillUpFormFromGongstruct(transition, "Transition")
+		stager.probeForm.FillUpFormFromGongstruct(transition, "Transition")
+	} else if isStartNote && isEndState {
+		noteStateShape := new(NoteStateShape).Stage(stager.stage)
+		noteStateShape.Name = startNoteShape.Note.Name + " to " + endStateShape.State.Name
+		noteStateShape.Note = startNoteShape.Note
+		noteStateShape.State = endStateShape.State
+		noteStateShape.StartOrientation = ORIENTATION_HORIZONTAL
+		noteStateShape.EndOrientation = ORIENTATION_HORIZONTAL
+		noteStateShape.CornerOffsetRatio = 1.2
+		noteStateShape.StartRatio = 0.5
+		noteStateShape.EndRatio = 0.5
+
+		stager.diagram.NoteState_Shapes =
+			append(stager.diagram.NoteState_Shapes, noteStateShape)
+		
+		// also add the state to the note's state links
+		startNoteShape.Note.States = append(startNoteShape.Note.States, endStateShape.State)
+
+		stager.probeForm.FillUpFormFromGongstruct(noteStateShape, "NoteStateShape")
+	}
 
 	// commit to encode the result, this will generate a new SVG generation
 	stager.stage.Commit()

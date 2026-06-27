@@ -20,10 +20,18 @@ type Diagram struct {
 	IsEditable_    bool
 	isInRenameMode bool
 
+	IsStatesNodeExpanded      bool
+	IsNotesNodeExpanded       bool
+	NotesWhoseNodeIsExpanded  []*Note
+
 	State_Shapes              []*StateShape
 	StatesWhoseNodeIsExpanded []*State
 
 	Transition_Shapes []*Transition_Shape
+
+	Note_Shapes           []*NoteShape
+	NoteState_Shapes      []*NoteStateShape
+	NoteTransition_Shapes []*NoteTransitionShape
 }
 
 func (d *Diagram) IsEditable() bool {
@@ -131,6 +139,17 @@ type StateMachine struct {
 
 var _ AbstractType = (*StateMachine)(nil)
 
+// Note brings information to a diagram
+type Note struct {
+	//gong:text width:300 height:300
+	Name string
+
+	LibraryAbstractFields
+	AbstractTypeFields
+
+	States      []*State
+	Transitions []*Transition
+}
 
 // Transition decribes authorized between states
 type Transition struct {

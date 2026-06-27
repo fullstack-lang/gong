@@ -27,3 +27,43 @@ type Transition_Shape struct {
 
 	LinkShape
 }
+
+// NoteShape
+type NoteShape struct {
+	Name string
+	Note *Note
+
+	isExpanded bool
+	ConcreteTypeFields
+
+	RectShape
+}
+
+func (s *NoteShape) GetAbstractElement() AbstractType {
+	if s.Note == nil {
+		return nil
+	}
+	return s.Note
+}
+
+func (s *NoteShape) SetAbstractElement(abstractElement AbstractType) {
+	s.Note = abstractElement.(*Note)
+}
+
+type NoteStateShape struct {
+	Name string
+
+	Note  *Note
+	State *State
+
+	LinkShape
+}
+
+type NoteTransitionShape struct {
+	Name string
+
+	Note       *Note
+	Transition *Transition
+
+	LinkShape
+}

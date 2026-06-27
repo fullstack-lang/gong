@@ -567,12 +567,24 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "IsEditable_":
 		instance.IsEditable_ = GongExtractBool(valueExpr)
+	case "IsStatesNodeExpanded":
+		instance.IsStatesNodeExpanded = GongExtractBool(valueExpr)
+	case "IsNotesNodeExpanded":
+		instance.IsNotesNodeExpanded = GongExtractBool(valueExpr)
+	case "NotesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.NotesWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "State_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.State_Shapes, valueExpr, identifierMap)
 	case "StatesWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.StatesWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "Transition_Shapes":
 		GongUnmarshallSliceOfPointers(&instance.Transition_Shapes, valueExpr, identifierMap)
+	case "Note_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.Note_Shapes, valueExpr, identifierMap)
+	case "NoteState_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.NoteState_Shapes, valueExpr, identifierMap)
+	case "NoteTransition_Shapes":
+		GongUnmarshallSliceOfPointers(&instance.NoteTransition_Shapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -682,6 +694,12 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsStateMachinesNodeExpanded = GongExtractBool(valueExpr)
 	case "StateMachinesWhoseNodeIsExpanded":
 		GongUnmarshallSliceOfPointers(&instance.StateMachinesWhoseNodeIsExpanded, valueExpr, identifierMap)
+	case "RootNotes":
+		GongUnmarshallSliceOfPointers(&instance.RootNotes, valueExpr, identifierMap)
+	case "IsNotesNodeExpanded":
+		instance.IsNotesNodeExpanded = GongExtractBool(valueExpr)
+	case "NotesWhoseNodeIsExpanded":
+		GongUnmarshallSliceOfPointers(&instance.NotesWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "IsSubLibrariesNodeExpanded":
 		instance.IsSubLibrariesNodeExpanded = GongExtractBool(valueExpr)
 	case "SubLibrariesWhoseNodeIsExpanded":
@@ -754,6 +772,180 @@ func (u *MessageTypeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.Name = GongExtractString(valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type NoteUnmarshaller struct{}
+
+func (u *NoteUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Note)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Note)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "States":
+		GongUnmarshallSliceOfPointers(&instance.States, valueExpr, identifierMap)
+	case "Transitions":
+		GongUnmarshallSliceOfPointers(&instance.Transitions, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type NoteShapeUnmarshaller struct{}
+
+func (u *NoteShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(NoteShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *NoteShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*NoteShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Note":
+		GongUnmarshallPointer(&instance.Note, valueExpr, identifierMap)
+	case "OverideLayoutDirection":
+		instance.OverideLayoutDirection = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "X":
+		instance.X = GongExtractFloat(valueExpr)
+	case "Y":
+		instance.Y = GongExtractFloat(valueExpr)
+	case "Width":
+		instance.Width = GongExtractFloat(valueExpr)
+	case "Height":
+		instance.Height = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type NoteStateShapeUnmarshaller struct{}
+
+func (u *NoteStateShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(NoteStateShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *NoteStateShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*NoteStateShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Note":
+		GongUnmarshallPointer(&instance.Note, valueExpr, identifierMap)
+	case "State":
+		GongUnmarshallPointer(&instance.State, valueExpr, identifierMap)
+	case "StartRatio":
+		instance.StartRatio = GongExtractFloat(valueExpr)
+	case "EndRatio":
+		instance.EndRatio = GongExtractFloat(valueExpr)
+	case "StartOrientation":
+		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
+	case "EndOrientation":
+		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
+	case "CornerOffsetRatio":
+		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type NoteTransitionShapeUnmarshaller struct{}
+
+func (u *NoteTransitionShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(NoteTransitionShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *NoteTransitionShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*NoteTransitionShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Note":
+		GongUnmarshallPointer(&instance.Note, valueExpr, identifierMap)
+	case "Transition":
+		GongUnmarshallPointer(&instance.Transition, valueExpr, identifierMap)
+	case "StartRatio":
+		instance.StartRatio = GongExtractFloat(valueExpr)
+	case "EndRatio":
+		instance.EndRatio = GongExtractFloat(valueExpr)
+	case "StartOrientation":
+		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
+	case "EndOrientation":
+		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
+	case "CornerOffsetRatio":
+		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }

@@ -34,6 +34,18 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *MessageType:
 		ok = stage.IsStagedMessageType(target)
 
+	case *Note:
+		ok = stage.IsStagedNote(target)
+
+	case *NoteShape:
+		ok = stage.IsStagedNoteShape(target)
+
+	case *NoteStateShape:
+		ok = stage.IsStagedNoteStateShape(target)
+
+	case *NoteTransitionShape:
+		ok = stage.IsStagedNoteTransitionShape(target)
+
 	case *Object:
 		ok = stage.IsStagedObject(target)
 
@@ -91,6 +103,18 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *MessageType:
 		ok = stage.IsStagedMessageType(target)
+
+	case *Note:
+		ok = stage.IsStagedNote(target)
+
+	case *NoteShape:
+		ok = stage.IsStagedNoteShape(target)
+
+	case *NoteStateShape:
+		ok = stage.IsStagedNoteStateShape(target)
+
+	case *NoteTransitionShape:
+		ok = stage.IsStagedNoteTransitionShape(target)
 
 	case *Object:
 		ok = stage.IsStagedObject(target)
@@ -183,6 +207,34 @@ func (stage *Stage) IsStagedMessageType(messagetype *MessageType) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
+
+	_, ok = stage.Notes[note]
+
+	return
+}
+
+func (stage *Stage) IsStagedNoteShape(noteshape *NoteShape) (ok bool) {
+
+	_, ok = stage.NoteShapes[noteshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedNoteStateShape(notestateshape *NoteStateShape) (ok bool) {
+
+	_, ok = stage.NoteStateShapes[notestateshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedNoteTransitionShape(notetransitionshape *NoteTransitionShape) (ok bool) {
+
+	_, ok = stage.NoteTransitionShapes[notetransitionshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedObject(object *Object) (ok bool) {
 
 	_, ok = stage.Objects[object]
@@ -266,6 +318,18 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *MessageType:
 		stage.StageBranchMessageType(target)
+
+	case *Note:
+		stage.StageBranchNote(target)
+
+	case *NoteShape:
+		stage.StageBranchNoteShape(target)
+
+	case *NoteStateShape:
+		stage.StageBranchNoteStateShape(target)
+
+	case *NoteTransitionShape:
+		stage.StageBranchNoteTransitionShape(target)
 
 	case *Object:
 		stage.StageBranchObject(target)
@@ -357,6 +421,9 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _note := range diagram.NotesWhoseNodeIsExpanded {
+		StageBranch(stage, _note)
+	}
 	for _, _stateshape := range diagram.State_Shapes {
 		StageBranch(stage, _stateshape)
 	}
@@ -365,6 +432,15 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	}
 	for _, _transition_shape := range diagram.Transition_Shapes {
 		StageBranch(stage, _transition_shape)
+	}
+	for _, _noteshape := range diagram.Note_Shapes {
+		StageBranch(stage, _noteshape)
+	}
+	for _, _notestateshape := range diagram.NoteState_Shapes {
+		StageBranch(stage, _notestateshape)
+	}
+	for _, _notetransitionshape := range diagram.NoteTransition_Shapes {
+		StageBranch(stage, _notetransitionshape)
 	}
 
 }
@@ -423,6 +499,12 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _statemachine := range library.StateMachinesWhoseNodeIsExpanded {
 		StageBranch(stage, _statemachine)
 	}
+	for _, _note := range library.RootNotes {
+		StageBranch(stage, _note)
+	}
+	for _, _note := range library.NotesWhoseNodeIsExpanded {
+		StageBranch(stage, _note)
+	}
 	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
 		StageBranch(stage, _library)
 	}
@@ -460,6 +542,87 @@ func (stage *Stage) StageBranchMessageType(messagetype *MessageType) {
 	messagetype.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchNote(note *Note) {
+
+	// check if instance is already staged
+	if IsStaged(stage, note) {
+		return
+	}
+
+	note.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _state := range note.States {
+		StageBranch(stage, _state)
+	}
+	for _, _transition := range note.Transitions {
+		StageBranch(stage, _transition)
+	}
+
+}
+
+func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, noteshape) {
+		return
+	}
+
+	noteshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if noteshape.Note != nil {
+		StageBranch(stage, noteshape.Note)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchNoteStateShape(notestateshape *NoteStateShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, notestateshape) {
+		return
+	}
+
+	notestateshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if notestateshape.Note != nil {
+		StageBranch(stage, notestateshape.Note)
+	}
+	if notestateshape.State != nil {
+		StageBranch(stage, notestateshape.State)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchNoteTransitionShape(notetransitionshape *NoteTransitionShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, notetransitionshape) {
+		return
+	}
+
+	notetransitionshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if notetransitionshape.Note != nil {
+		StageBranch(stage, notetransitionshape.Note)
+	}
+	if notetransitionshape.Transition != nil {
+		StageBranch(stage, notetransitionshape.Transition)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -677,6 +840,22 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchMessageType(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Note:
+		toT := CopyBranchNote(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *NoteShape:
+		toT := CopyBranchNoteShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *NoteStateShape:
+		toT := CopyBranchNoteStateShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *NoteTransitionShape:
+		toT := CopyBranchNoteTransitionShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Object:
 		toT := CopyBranchObject(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -790,6 +969,9 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _note := range diagramFrom.NotesWhoseNodeIsExpanded {
+		diagramTo.NotesWhoseNodeIsExpanded = append(diagramTo.NotesWhoseNodeIsExpanded, CopyBranchNote(mapOrigCopy, _note))
+	}
 	for _, _stateshape := range diagramFrom.State_Shapes {
 		diagramTo.State_Shapes = append(diagramTo.State_Shapes, CopyBranchStateShape(mapOrigCopy, _stateshape))
 	}
@@ -798,6 +980,15 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	}
 	for _, _transition_shape := range diagramFrom.Transition_Shapes {
 		diagramTo.Transition_Shapes = append(diagramTo.Transition_Shapes, CopyBranchTransition_Shape(mapOrigCopy, _transition_shape))
+	}
+	for _, _noteshape := range diagramFrom.Note_Shapes {
+		diagramTo.Note_Shapes = append(diagramTo.Note_Shapes, CopyBranchNoteShape(mapOrigCopy, _noteshape))
+	}
+	for _, _notestateshape := range diagramFrom.NoteState_Shapes {
+		diagramTo.NoteState_Shapes = append(diagramTo.NoteState_Shapes, CopyBranchNoteStateShape(mapOrigCopy, _notestateshape))
+	}
+	for _, _notetransitionshape := range diagramFrom.NoteTransition_Shapes {
+		diagramTo.NoteTransition_Shapes = append(diagramTo.NoteTransition_Shapes, CopyBranchNoteTransitionShape(mapOrigCopy, _notetransitionshape))
 	}
 
 	return
@@ -868,6 +1059,12 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	for _, _statemachine := range libraryFrom.StateMachinesWhoseNodeIsExpanded {
 		libraryTo.StateMachinesWhoseNodeIsExpanded = append(libraryTo.StateMachinesWhoseNodeIsExpanded, CopyBranchStateMachine(mapOrigCopy, _statemachine))
 	}
+	for _, _note := range libraryFrom.RootNotes {
+		libraryTo.RootNotes = append(libraryTo.RootNotes, CopyBranchNote(mapOrigCopy, _note))
+	}
+	for _, _note := range libraryFrom.NotesWhoseNodeIsExpanded {
+		libraryTo.NotesWhoseNodeIsExpanded = append(libraryTo.NotesWhoseNodeIsExpanded, CopyBranchNote(mapOrigCopy, _note))
+	}
 	for _, _library := range libraryFrom.SubLibrariesWhoseNodeIsExpanded {
 		libraryTo.SubLibrariesWhoseNodeIsExpanded = append(libraryTo.SubLibrariesWhoseNodeIsExpanded, CopyBranchLibrary(mapOrigCopy, _library))
 	}
@@ -913,6 +1110,103 @@ func CopyBranchMessageType(mapOrigCopy map[any]any, messagetypeFrom *MessageType
 	messagetypeFrom.CopyBasicFields(messagetypeTo)
 
 	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
+
+	// noteFrom has already been copied
+	if _noteTo, ok := mapOrigCopy[noteFrom]; ok {
+		noteTo = _noteTo.(*Note)
+		return
+	}
+
+	noteTo = new(Note)
+	mapOrigCopy[noteFrom] = noteTo
+	noteFrom.CopyBasicFields(noteTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _state := range noteFrom.States {
+		noteTo.States = append(noteTo.States, CopyBranchState(mapOrigCopy, _state))
+	}
+	for _, _transition := range noteFrom.Transitions {
+		noteTo.Transitions = append(noteTo.Transitions, CopyBranchTransition(mapOrigCopy, _transition))
+	}
+
+	return
+}
+
+func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo *NoteShape) {
+
+	// noteshapeFrom has already been copied
+	if _noteshapeTo, ok := mapOrigCopy[noteshapeFrom]; ok {
+		noteshapeTo = _noteshapeTo.(*NoteShape)
+		return
+	}
+
+	noteshapeTo = new(NoteShape)
+	mapOrigCopy[noteshapeFrom] = noteshapeTo
+	noteshapeFrom.CopyBasicFields(noteshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if noteshapeFrom.Note != nil {
+		noteshapeTo.Note = CopyBranchNote(mapOrigCopy, noteshapeFrom.Note)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchNoteStateShape(mapOrigCopy map[any]any, notestateshapeFrom *NoteStateShape) (notestateshapeTo *NoteStateShape) {
+
+	// notestateshapeFrom has already been copied
+	if _notestateshapeTo, ok := mapOrigCopy[notestateshapeFrom]; ok {
+		notestateshapeTo = _notestateshapeTo.(*NoteStateShape)
+		return
+	}
+
+	notestateshapeTo = new(NoteStateShape)
+	mapOrigCopy[notestateshapeFrom] = notestateshapeTo
+	notestateshapeFrom.CopyBasicFields(notestateshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if notestateshapeFrom.Note != nil {
+		notestateshapeTo.Note = CopyBranchNote(mapOrigCopy, notestateshapeFrom.Note)
+	}
+	if notestateshapeFrom.State != nil {
+		notestateshapeTo.State = CopyBranchState(mapOrigCopy, notestateshapeFrom.State)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchNoteTransitionShape(mapOrigCopy map[any]any, notetransitionshapeFrom *NoteTransitionShape) (notetransitionshapeTo *NoteTransitionShape) {
+
+	// notetransitionshapeFrom has already been copied
+	if _notetransitionshapeTo, ok := mapOrigCopy[notetransitionshapeFrom]; ok {
+		notetransitionshapeTo = _notetransitionshapeTo.(*NoteTransitionShape)
+		return
+	}
+
+	notetransitionshapeTo = new(NoteTransitionShape)
+	mapOrigCopy[notetransitionshapeFrom] = notetransitionshapeTo
+	notetransitionshapeFrom.CopyBasicFields(notetransitionshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if notetransitionshapeFrom.Note != nil {
+		notetransitionshapeTo.Note = CopyBranchNote(mapOrigCopy, notetransitionshapeFrom.Note)
+	}
+	if notetransitionshapeFrom.Transition != nil {
+		notetransitionshapeTo.Transition = CopyBranchTransition(mapOrigCopy, notetransitionshapeFrom.Transition)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1147,6 +1441,18 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *MessageType:
 		stage.UnstageBranchMessageType(target)
 
+	case *Note:
+		stage.UnstageBranchNote(target)
+
+	case *NoteShape:
+		stage.UnstageBranchNoteShape(target)
+
+	case *NoteStateShape:
+		stage.UnstageBranchNoteStateShape(target)
+
+	case *NoteTransitionShape:
+		stage.UnstageBranchNoteTransitionShape(target)
+
 	case *Object:
 		stage.UnstageBranchObject(target)
 
@@ -1237,6 +1543,9 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _note := range diagram.NotesWhoseNodeIsExpanded {
+		UnstageBranch(stage, _note)
+	}
 	for _, _stateshape := range diagram.State_Shapes {
 		UnstageBranch(stage, _stateshape)
 	}
@@ -1245,6 +1554,15 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	}
 	for _, _transition_shape := range diagram.Transition_Shapes {
 		UnstageBranch(stage, _transition_shape)
+	}
+	for _, _noteshape := range diagram.Note_Shapes {
+		UnstageBranch(stage, _noteshape)
+	}
+	for _, _notestateshape := range diagram.NoteState_Shapes {
+		UnstageBranch(stage, _notestateshape)
+	}
+	for _, _notetransitionshape := range diagram.NoteTransition_Shapes {
+		UnstageBranch(stage, _notetransitionshape)
 	}
 
 }
@@ -1303,6 +1621,12 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _statemachine := range library.StateMachinesWhoseNodeIsExpanded {
 		UnstageBranch(stage, _statemachine)
 	}
+	for _, _note := range library.RootNotes {
+		UnstageBranch(stage, _note)
+	}
+	for _, _note := range library.NotesWhoseNodeIsExpanded {
+		UnstageBranch(stage, _note)
+	}
 	for _, _library := range library.SubLibrariesWhoseNodeIsExpanded {
 		UnstageBranch(stage, _library)
 	}
@@ -1340,6 +1664,87 @@ func (stage *Stage) UnstageBranchMessageType(messagetype *MessageType) {
 	messagetype.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchNote(note *Note) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, note) {
+		return
+	}
+
+	note.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _state := range note.States {
+		UnstageBranch(stage, _state)
+	}
+	for _, _transition := range note.Transitions {
+		UnstageBranch(stage, _transition)
+	}
+
+}
+
+func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, noteshape) {
+		return
+	}
+
+	noteshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if noteshape.Note != nil {
+		UnstageBranch(stage, noteshape.Note)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchNoteStateShape(notestateshape *NoteStateShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, notestateshape) {
+		return
+	}
+
+	notestateshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if notestateshape.Note != nil {
+		UnstageBranch(stage, notestateshape.Note)
+	}
+	if notestateshape.State != nil {
+		UnstageBranch(stage, notestateshape.State)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchNoteTransitionShape(notetransitionshape *NoteTransitionShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, notetransitionshape) {
+		return
+	}
+
+	notetransitionshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if notetransitionshape.Note != nil {
+		UnstageBranch(stage, notetransitionshape.Note)
+	}
+	if notetransitionshape.Transition != nil {
+		UnstageBranch(stage, notetransitionshape.Transition)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1537,6 +1942,10 @@ func (reference *Architecture) GongReconstructPointersFromReferences(stage *Stag
 func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, instance *Diagram) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
+	reference.NotesWhoseNodeIsExpanded = reference.NotesWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.NotesWhoseNodeIsExpanded {
+		reference.NotesWhoseNodeIsExpanded = append(reference.NotesWhoseNodeIsExpanded, stage.Notes_reference[_b])
+	}
 	reference.State_Shapes = reference.State_Shapes[:0]
 	for _, _b := range instance.State_Shapes {
 		reference.State_Shapes = append(reference.State_Shapes, stage.StateShapes_reference[_b])
@@ -1548,6 +1957,18 @@ func (reference *Diagram) GongReconstructPointersFromReferences(stage *Stage, in
 	reference.Transition_Shapes = reference.Transition_Shapes[:0]
 	for _, _b := range instance.Transition_Shapes {
 		reference.Transition_Shapes = append(reference.Transition_Shapes, stage.Transition_Shapes_reference[_b])
+	}
+	reference.Note_Shapes = reference.Note_Shapes[:0]
+	for _, _b := range instance.Note_Shapes {
+		reference.Note_Shapes = append(reference.Note_Shapes, stage.NoteShapes_reference[_b])
+	}
+	reference.NoteState_Shapes = reference.NoteState_Shapes[:0]
+	for _, _b := range instance.NoteState_Shapes {
+		reference.NoteState_Shapes = append(reference.NoteState_Shapes, stage.NoteStateShapes_reference[_b])
+	}
+	reference.NoteTransition_Shapes = reference.NoteTransition_Shapes[:0]
+	for _, _b := range instance.NoteTransition_Shapes {
+		reference.NoteTransition_Shapes = append(reference.NoteTransition_Shapes, stage.NoteTransitionShapes_reference[_b])
 	}
 }
 
@@ -1580,6 +2001,14 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.StateMachinesWhoseNodeIsExpanded {
 		reference.StateMachinesWhoseNodeIsExpanded = append(reference.StateMachinesWhoseNodeIsExpanded, stage.StateMachines_reference[_b])
 	}
+	reference.RootNotes = reference.RootNotes[:0]
+	for _, _b := range instance.RootNotes {
+		reference.RootNotes = append(reference.RootNotes, stage.Notes_reference[_b])
+	}
+	reference.NotesWhoseNodeIsExpanded = reference.NotesWhoseNodeIsExpanded[:0]
+	for _, _b := range instance.NotesWhoseNodeIsExpanded {
+		reference.NotesWhoseNodeIsExpanded = append(reference.NotesWhoseNodeIsExpanded, stage.Notes_reference[_b])
+	}
 	reference.SubLibrariesWhoseNodeIsExpanded = reference.SubLibrariesWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.SubLibrariesWhoseNodeIsExpanded {
 		reference.SubLibrariesWhoseNodeIsExpanded = append(reference.SubLibrariesWhoseNodeIsExpanded, stage.Librarys_reference[_b])
@@ -1599,6 +2028,49 @@ func (reference *Message) GongReconstructPointersFromReferences(stage *Stage, in
 
 func (reference *MessageType) GongReconstructPointersFromReferences(stage *Stage, instance *MessageType) {
 	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+	reference.States = reference.States[:0]
+	for _, _b := range instance.States {
+		reference.States = append(reference.States, stage.States_reference[_b])
+	}
+	reference.Transitions = reference.Transitions[:0]
+	for _, _b := range instance.Transitions {
+		reference.Transitions = append(reference.Transitions, stage.Transitions_reference[_b])
+	}
+}
+
+func (reference *NoteShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteShape) {
+	// insertion point for pointers field
+	if instance.Note != nil {
+		reference.Note = stage.Notes_reference[instance.Note]
+	}
+	// insertion point for slice of pointers field
+}
+
+func (reference *NoteStateShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteStateShape) {
+	// insertion point for pointers field
+	if instance.Note != nil {
+		reference.Note = stage.Notes_reference[instance.Note]
+	}
+	if instance.State != nil {
+		reference.State = stage.States_reference[instance.State]
+	}
+	// insertion point for slice of pointers field
+}
+
+func (reference *NoteTransitionShape) GongReconstructPointersFromReferences(stage *Stage, instance *NoteTransitionShape) {
+	// insertion point for pointers field
+	if instance.Note != nil {
+		reference.Note = stage.Notes_reference[instance.Note]
+	}
+	if instance.Transition != nil {
+		reference.Transition = stage.Transitions_reference[instance.Transition]
+	}
 	// insertion point for slice of pointers field
 }
 
@@ -1740,6 +2212,13 @@ func (reference *Architecture) GongReconstructPointersFromInstances(stage *Stage
 func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
+	var _NotesWhoseNodeIsExpanded []*Note
+	for _, _reference := range reference.NotesWhoseNodeIsExpanded {
+		if _instance, ok := stage.Notes_instance[_reference]; ok {
+			_NotesWhoseNodeIsExpanded = append(_NotesWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.NotesWhoseNodeIsExpanded = _NotesWhoseNodeIsExpanded
 	var _State_Shapes []*StateShape
 	for _, _reference := range reference.State_Shapes {
 		if _instance, ok := stage.StateShapes_instance[_reference]; ok {
@@ -1761,6 +2240,27 @@ func (reference *Diagram) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Transition_Shapes = _Transition_Shapes
+	var _Note_Shapes []*NoteShape
+	for _, _reference := range reference.Note_Shapes {
+		if _instance, ok := stage.NoteShapes_instance[_reference]; ok {
+			_Note_Shapes = append(_Note_Shapes, _instance)
+		}
+	}
+	reference.Note_Shapes = _Note_Shapes
+	var _NoteState_Shapes []*NoteStateShape
+	for _, _reference := range reference.NoteState_Shapes {
+		if _instance, ok := stage.NoteStateShapes_instance[_reference]; ok {
+			_NoteState_Shapes = append(_NoteState_Shapes, _instance)
+		}
+	}
+	reference.NoteState_Shapes = _NoteState_Shapes
+	var _NoteTransition_Shapes []*NoteTransitionShape
+	for _, _reference := range reference.NoteTransition_Shapes {
+		if _instance, ok := stage.NoteTransitionShapes_instance[_reference]; ok {
+			_NoteTransition_Shapes = append(_NoteTransition_Shapes, _instance)
+		}
+	}
+	reference.NoteTransition_Shapes = _NoteTransition_Shapes
 }
 
 func (reference *Guard) GongReconstructPointersFromInstances(stage *Stage) {
@@ -1804,6 +2304,20 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.StateMachinesWhoseNodeIsExpanded = _StateMachinesWhoseNodeIsExpanded
+	var _RootNotes []*Note
+	for _, _reference := range reference.RootNotes {
+		if _instance, ok := stage.Notes_instance[_reference]; ok {
+			_RootNotes = append(_RootNotes, _instance)
+		}
+	}
+	reference.RootNotes = _RootNotes
+	var _NotesWhoseNodeIsExpanded []*Note
+	for _, _reference := range reference.NotesWhoseNodeIsExpanded {
+		if _instance, ok := stage.Notes_instance[_reference]; ok {
+			_NotesWhoseNodeIsExpanded = append(_NotesWhoseNodeIsExpanded, _instance)
+		}
+	}
+	reference.NotesWhoseNodeIsExpanded = _NotesWhoseNodeIsExpanded
 	var _SubLibrariesWhoseNodeIsExpanded []*Library
 	for _, _reference := range reference.SubLibrariesWhoseNodeIsExpanded {
 		if _instance, ok := stage.Librarys_instance[_reference]; ok {
@@ -1832,6 +2346,70 @@ func (reference *Message) GongReconstructPointersFromInstances(stage *Stage) {
 
 func (reference *MessageType) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+	var _States []*State
+	for _, _reference := range reference.States {
+		if _instance, ok := stage.States_instance[_reference]; ok {
+			_States = append(_States, _instance)
+		}
+	}
+	reference.States = _States
+	var _Transitions []*Transition
+	for _, _reference := range reference.Transitions {
+		if _instance, ok := stage.Transitions_instance[_reference]; ok {
+			_Transitions = append(_Transitions, _instance)
+		}
+	}
+	reference.Transitions = _Transitions
+}
+
+func (reference *NoteShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.Note; _reference != nil {
+		reference.Note = nil
+		if _instance, ok := stage.Notes_instance[_reference]; ok {
+			reference.Note = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+}
+
+func (reference *NoteStateShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.Note; _reference != nil {
+		reference.Note = nil
+		if _instance, ok := stage.Notes_instance[_reference]; ok {
+			reference.Note = _instance
+		}
+	}
+	if _reference := reference.State; _reference != nil {
+		reference.State = nil
+		if _instance, ok := stage.States_instance[_reference]; ok {
+			reference.State = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
+}
+
+func (reference *NoteTransitionShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.Note; _reference != nil {
+		reference.Note = nil
+		if _instance, ok := stage.Notes_instance[_reference]; ok {
+			reference.Note = _instance
+		}
+	}
+	if _reference := reference.Transition; _reference != nil {
+		reference.Transition = nil
+		if _instance, ok := stage.Transitions_instance[_reference]; ok {
+			reference.Transition = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 }
 
@@ -2101,6 +2679,33 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.IsEditable_ != diagramOther.IsEditable_ {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsEditable_"))
 	}
+	if diagram.IsStatesNodeExpanded != diagramOther.IsStatesNodeExpanded {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsStatesNodeExpanded"))
+	}
+	if diagram.IsNotesNodeExpanded != diagramOther.IsNotesNodeExpanded {
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsNotesNodeExpanded"))
+	}
+	NotesWhoseNodeIsExpandedDifferent := false
+	if len(diagram.NotesWhoseNodeIsExpanded) != len(diagramOther.NotesWhoseNodeIsExpanded) {
+		NotesWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagram.NotesWhoseNodeIsExpanded {
+			if (diagram.NotesWhoseNodeIsExpanded[i] == nil) != (diagramOther.NotesWhoseNodeIsExpanded[i] == nil) {
+				NotesWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagram.NotesWhoseNodeIsExpanded[i] != nil && diagramOther.NotesWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if diagram.NotesWhoseNodeIsExpanded[i] != diagramOther.NotesWhoseNodeIsExpanded[i] {
+					NotesWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if NotesWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, diagram, diagramOther, "NotesWhoseNodeIsExpanded", diagramOther.NotesWhoseNodeIsExpanded, diagram.NotesWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
 	State_ShapesDifferent := false
 	if len(diagram.State_Shapes) != len(diagramOther.State_Shapes) {
 		State_ShapesDifferent = true
@@ -2162,6 +2767,69 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	}
 	if Transition_ShapesDifferent {
 		ops := Diff(stage, diagram, diagramOther, "Transition_Shapes", diagramOther.Transition_Shapes, diagram.Transition_Shapes)
+		diffs = append(diffs, ops)
+	}
+	Note_ShapesDifferent := false
+	if len(diagram.Note_Shapes) != len(diagramOther.Note_Shapes) {
+		Note_ShapesDifferent = true
+	} else {
+		for i := range diagram.Note_Shapes {
+			if (diagram.Note_Shapes[i] == nil) != (diagramOther.Note_Shapes[i] == nil) {
+				Note_ShapesDifferent = true
+				break
+			} else if diagram.Note_Shapes[i] != nil && diagramOther.Note_Shapes[i] != nil {
+				// this is a pointer comparaison
+				if diagram.Note_Shapes[i] != diagramOther.Note_Shapes[i] {
+					Note_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if Note_ShapesDifferent {
+		ops := Diff(stage, diagram, diagramOther, "Note_Shapes", diagramOther.Note_Shapes, diagram.Note_Shapes)
+		diffs = append(diffs, ops)
+	}
+	NoteState_ShapesDifferent := false
+	if len(diagram.NoteState_Shapes) != len(diagramOther.NoteState_Shapes) {
+		NoteState_ShapesDifferent = true
+	} else {
+		for i := range diagram.NoteState_Shapes {
+			if (diagram.NoteState_Shapes[i] == nil) != (diagramOther.NoteState_Shapes[i] == nil) {
+				NoteState_ShapesDifferent = true
+				break
+			} else if diagram.NoteState_Shapes[i] != nil && diagramOther.NoteState_Shapes[i] != nil {
+				// this is a pointer comparaison
+				if diagram.NoteState_Shapes[i] != diagramOther.NoteState_Shapes[i] {
+					NoteState_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if NoteState_ShapesDifferent {
+		ops := Diff(stage, diagram, diagramOther, "NoteState_Shapes", diagramOther.NoteState_Shapes, diagram.NoteState_Shapes)
+		diffs = append(diffs, ops)
+	}
+	NoteTransition_ShapesDifferent := false
+	if len(diagram.NoteTransition_Shapes) != len(diagramOther.NoteTransition_Shapes) {
+		NoteTransition_ShapesDifferent = true
+	} else {
+		for i := range diagram.NoteTransition_Shapes {
+			if (diagram.NoteTransition_Shapes[i] == nil) != (diagramOther.NoteTransition_Shapes[i] == nil) {
+				NoteTransition_ShapesDifferent = true
+				break
+			} else if diagram.NoteTransition_Shapes[i] != nil && diagramOther.NoteTransition_Shapes[i] != nil {
+				// this is a pointer comparaison
+				if diagram.NoteTransition_Shapes[i] != diagramOther.NoteTransition_Shapes[i] {
+					NoteTransition_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if NoteTransition_ShapesDifferent {
+		ops := Diff(stage, diagram, diagramOther, "NoteTransition_Shapes", diagramOther.NoteTransition_Shapes, diagram.NoteTransition_Shapes)
 		diffs = append(diffs, ops)
 	}
 
@@ -2302,6 +2970,51 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 		ops := Diff(stage, library, libraryOther, "StateMachinesWhoseNodeIsExpanded", libraryOther.StateMachinesWhoseNodeIsExpanded, library.StateMachinesWhoseNodeIsExpanded)
 		diffs = append(diffs, ops)
 	}
+	RootNotesDifferent := false
+	if len(library.RootNotes) != len(libraryOther.RootNotes) {
+		RootNotesDifferent = true
+	} else {
+		for i := range library.RootNotes {
+			if (library.RootNotes[i] == nil) != (libraryOther.RootNotes[i] == nil) {
+				RootNotesDifferent = true
+				break
+			} else if library.RootNotes[i] != nil && libraryOther.RootNotes[i] != nil {
+				// this is a pointer comparaison
+				if library.RootNotes[i] != libraryOther.RootNotes[i] {
+					RootNotesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootNotesDifferent {
+		ops := Diff(stage, library, libraryOther, "RootNotes", libraryOther.RootNotes, library.RootNotes)
+		diffs = append(diffs, ops)
+	}
+	if library.IsNotesNodeExpanded != libraryOther.IsNotesNodeExpanded {
+		diffs = append(diffs, library.GongMarshallField(stage, "IsNotesNodeExpanded"))
+	}
+	NotesWhoseNodeIsExpandedDifferent := false
+	if len(library.NotesWhoseNodeIsExpanded) != len(libraryOther.NotesWhoseNodeIsExpanded) {
+		NotesWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range library.NotesWhoseNodeIsExpanded {
+			if (library.NotesWhoseNodeIsExpanded[i] == nil) != (libraryOther.NotesWhoseNodeIsExpanded[i] == nil) {
+				NotesWhoseNodeIsExpandedDifferent = true
+				break
+			} else if library.NotesWhoseNodeIsExpanded[i] != nil && libraryOther.NotesWhoseNodeIsExpanded[i] != nil {
+				// this is a pointer comparaison
+				if library.NotesWhoseNodeIsExpanded[i] != libraryOther.NotesWhoseNodeIsExpanded[i] {
+					NotesWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if NotesWhoseNodeIsExpandedDifferent {
+		ops := Diff(stage, library, libraryOther, "NotesWhoseNodeIsExpanded", libraryOther.NotesWhoseNodeIsExpanded, library.NotesWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
+	}
 	if library.IsSubLibrariesNodeExpanded != libraryOther.IsSubLibrariesNodeExpanded {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
 	}
@@ -2370,6 +3083,193 @@ func (messagetype *MessageType) GongDiff(stage *Stage, messagetypeOther *Message
 	}
 	if messagetype.Description != messagetypeOther.Description {
 		diffs = append(diffs, messagetype.GongMarshallField(stage, "Description"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
+	// insertion point for field diffs
+	if note.Name != noteOther.Name {
+		diffs = append(diffs, note.GongMarshallField(stage, "Name"))
+	}
+	if note.ComputedPrefix != noteOther.ComputedPrefix {
+		diffs = append(diffs, note.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if note.IsExpanded != noteOther.IsExpanded {
+		diffs = append(diffs, note.GongMarshallField(stage, "IsExpanded"))
+	}
+	if note.LayoutDirection != noteOther.LayoutDirection {
+		diffs = append(diffs, note.GongMarshallField(stage, "LayoutDirection"))
+	}
+	StatesDifferent := false
+	if len(note.States) != len(noteOther.States) {
+		StatesDifferent = true
+	} else {
+		for i := range note.States {
+			if (note.States[i] == nil) != (noteOther.States[i] == nil) {
+				StatesDifferent = true
+				break
+			} else if note.States[i] != nil && noteOther.States[i] != nil {
+				// this is a pointer comparaison
+				if note.States[i] != noteOther.States[i] {
+					StatesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if StatesDifferent {
+		ops := Diff(stage, note, noteOther, "States", noteOther.States, note.States)
+		diffs = append(diffs, ops)
+	}
+	TransitionsDifferent := false
+	if len(note.Transitions) != len(noteOther.Transitions) {
+		TransitionsDifferent = true
+	} else {
+		for i := range note.Transitions {
+			if (note.Transitions[i] == nil) != (noteOther.Transitions[i] == nil) {
+				TransitionsDifferent = true
+				break
+			} else if note.Transitions[i] != nil && noteOther.Transitions[i] != nil {
+				// this is a pointer comparaison
+				if note.Transitions[i] != noteOther.Transitions[i] {
+					TransitionsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TransitionsDifferent {
+		ops := Diff(stage, note, noteOther, "Transitions", noteOther.Transitions, note.Transitions)
+		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (noteshape *NoteShape) GongDiff(stage *Stage, noteshapeOther *NoteShape) (diffs []string) {
+	// insertion point for field diffs
+	if noteshape.Name != noteshapeOther.Name {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Name"))
+	}
+	if (noteshape.Note == nil) != (noteshapeOther.Note == nil) {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Note"))
+	} else if noteshape.Note != nil && noteshapeOther.Note != nil {
+		if noteshape.Note != noteshapeOther.Note {
+			diffs = append(diffs, noteshape.GongMarshallField(stage, "Note"))
+		}
+	}
+	if noteshape.OverideLayoutDirection != noteshapeOther.OverideLayoutDirection {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "OverideLayoutDirection"))
+	}
+	if noteshape.LayoutDirection != noteshapeOther.LayoutDirection {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "LayoutDirection"))
+	}
+	if noteshape.X != noteshapeOther.X {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "X"))
+	}
+	if noteshape.Y != noteshapeOther.Y {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Y"))
+	}
+	if noteshape.Width != noteshapeOther.Width {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Width"))
+	}
+	if noteshape.Height != noteshapeOther.Height {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Height"))
+	}
+	if noteshape.IsHidden != noteshapeOther.IsHidden {
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (notestateshape *NoteStateShape) GongDiff(stage *Stage, notestateshapeOther *NoteStateShape) (diffs []string) {
+	// insertion point for field diffs
+	if notestateshape.Name != notestateshapeOther.Name {
+		diffs = append(diffs, notestateshape.GongMarshallField(stage, "Name"))
+	}
+	if (notestateshape.Note == nil) != (notestateshapeOther.Note == nil) {
+		diffs = append(diffs, notestateshape.GongMarshallField(stage, "Note"))
+	} else if notestateshape.Note != nil && notestateshapeOther.Note != nil {
+		if notestateshape.Note != notestateshapeOther.Note {
+			diffs = append(diffs, notestateshape.GongMarshallField(stage, "Note"))
+		}
+	}
+	if (notestateshape.State == nil) != (notestateshapeOther.State == nil) {
+		diffs = append(diffs, notestateshape.GongMarshallField(stage, "State"))
+	} else if notestateshape.State != nil && notestateshapeOther.State != nil {
+		if notestateshape.State != notestateshapeOther.State {
+			diffs = append(diffs, notestateshape.GongMarshallField(stage, "State"))
+		}
+	}
+	if notestateshape.StartRatio != notestateshapeOther.StartRatio {
+		diffs = append(diffs, notestateshape.GongMarshallField(stage, "StartRatio"))
+	}
+	if notestateshape.EndRatio != notestateshapeOther.EndRatio {
+		diffs = append(diffs, notestateshape.GongMarshallField(stage, "EndRatio"))
+	}
+	if notestateshape.StartOrientation != notestateshapeOther.StartOrientation {
+		diffs = append(diffs, notestateshape.GongMarshallField(stage, "StartOrientation"))
+	}
+	if notestateshape.EndOrientation != notestateshapeOther.EndOrientation {
+		diffs = append(diffs, notestateshape.GongMarshallField(stage, "EndOrientation"))
+	}
+	if notestateshape.CornerOffsetRatio != notestateshapeOther.CornerOffsetRatio {
+		diffs = append(diffs, notestateshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if notestateshape.IsHidden != notestateshapeOther.IsHidden {
+		diffs = append(diffs, notestateshape.GongMarshallField(stage, "IsHidden"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (notetransitionshape *NoteTransitionShape) GongDiff(stage *Stage, notetransitionshapeOther *NoteTransitionShape) (diffs []string) {
+	// insertion point for field diffs
+	if notetransitionshape.Name != notetransitionshapeOther.Name {
+		diffs = append(diffs, notetransitionshape.GongMarshallField(stage, "Name"))
+	}
+	if (notetransitionshape.Note == nil) != (notetransitionshapeOther.Note == nil) {
+		diffs = append(diffs, notetransitionshape.GongMarshallField(stage, "Note"))
+	} else if notetransitionshape.Note != nil && notetransitionshapeOther.Note != nil {
+		if notetransitionshape.Note != notetransitionshapeOther.Note {
+			diffs = append(diffs, notetransitionshape.GongMarshallField(stage, "Note"))
+		}
+	}
+	if (notetransitionshape.Transition == nil) != (notetransitionshapeOther.Transition == nil) {
+		diffs = append(diffs, notetransitionshape.GongMarshallField(stage, "Transition"))
+	} else if notetransitionshape.Transition != nil && notetransitionshapeOther.Transition != nil {
+		if notetransitionshape.Transition != notetransitionshapeOther.Transition {
+			diffs = append(diffs, notetransitionshape.GongMarshallField(stage, "Transition"))
+		}
+	}
+	if notetransitionshape.StartRatio != notetransitionshapeOther.StartRatio {
+		diffs = append(diffs, notetransitionshape.GongMarshallField(stage, "StartRatio"))
+	}
+	if notetransitionshape.EndRatio != notetransitionshapeOther.EndRatio {
+		diffs = append(diffs, notetransitionshape.GongMarshallField(stage, "EndRatio"))
+	}
+	if notetransitionshape.StartOrientation != notetransitionshapeOther.StartOrientation {
+		diffs = append(diffs, notetransitionshape.GongMarshallField(stage, "StartOrientation"))
+	}
+	if notetransitionshape.EndOrientation != notetransitionshapeOther.EndOrientation {
+		diffs = append(diffs, notetransitionshape.GongMarshallField(stage, "EndOrientation"))
+	}
+	if notetransitionshape.CornerOffsetRatio != notetransitionshapeOther.CornerOffsetRatio {
+		diffs = append(diffs, notetransitionshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if notetransitionshape.IsHidden != notetransitionshapeOther.IsHidden {
+		diffs = append(diffs, notetransitionshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return

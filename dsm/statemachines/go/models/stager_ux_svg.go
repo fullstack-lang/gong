@@ -29,6 +29,7 @@ func (stager *Stager) svg() {
 	stager.svgObject = svgObject
 
 	stager.map_SvgRect_StateShape = make(map[*svg.Rect]*StateShape)
+	stager.map_SvgRect_NoteShape = make(map[*svg.Rect]*NoteShape)
 	svgObject.OnUpdate = stager.onUpdateSVG
 
 	svgObject.Name = diagram.Name
@@ -99,6 +100,71 @@ func (stager *Stager) svg() {
 		stager.svgGenerateLink(
 			startRect, endRect,
 			&transtionShape.LinkShape, transition, layer, false)
+	}
+
+	map_Note_Rect := make(map[*Note]*svg.Rect)
+
+	for _, noteShape := range diagram.Note_Shapes {
+		if noteShape.GetIsHidden() {
+			continue
+		}
+
+		if noteShape.Note == nil {
+			continue
+		}
+		note := noteShape.Note
+
+		var isSelected bool
+		if selectedObject != nil {
+			isSelected = selectedObject.Name == note.Name // Simplification since Object doesn't have Note
+		}
+
+		rect := stager.svgGenerateNoteRect(
+			diagram,
+			noteShape,
+			isSelected,
+			layer)
+		map_Note_Rect[note] = rect
+		stager.map_SvgRect_NoteShape[rect] = noteShape
+	}
+
+	for _, noteStateShape := range diagram.NoteState_Shapes {
+		if noteStateShape.Note == nil || noteStateShape.State == nil {
+			continue
+		}
+
+		startRect := map_Note_Rect[noteStateShape.Note]
+		endRect := map_State_Rect[noteStateShape.State]
+
+		if startRect == nil || endRect == nil {
+			continue
+		}
+
+		stager.svgGenerateNoteLink(
+			startRect, endRect,
+			noteStateShape,
+			layer,
+		)
+	}
+
+	for _, noteTransitionShape := range diagram.NoteTransition_Shapes {
+		if noteTransitionShape.Note == nil || noteTransitionShape.Transition == nil {
+			continue
+		}
+
+		startRect := map_Note_Rect[noteTransitionShape.Note]
+		// Link to the transition's Start State since we can't link to a link
+		endRect := map_State_Rect[noteTransitionShape.Transition.Start]
+
+		if startRect == nil || endRect == nil {
+			continue
+		}
+
+		stager.svgGenerateNoteLink(
+			startRect, endRect,
+			noteTransitionShape,
+			layer,
+		)
 	}
 
 	svg.StageBranch(svgStage, svgObject)

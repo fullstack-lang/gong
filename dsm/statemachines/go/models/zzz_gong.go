@@ -190,11 +190,19 @@ type Stage struct {
 	Diagrams_referenceOrder map[*Diagram]uint
 
 	// insertion point for slice of pointers maps
+	Diagram_NotesWhoseNodeIsExpanded_reverseMap map[*Note]*Diagram
+
 	Diagram_State_Shapes_reverseMap map[*StateShape]*Diagram
 
 	Diagram_StatesWhoseNodeIsExpanded_reverseMap map[*State]*Diagram
 
 	Diagram_Transition_Shapes_reverseMap map[*Transition_Shape]*Diagram
+
+	Diagram_Note_Shapes_reverseMap map[*NoteShape]*Diagram
+
+	Diagram_NoteState_Shapes_reverseMap map[*NoteStateShape]*Diagram
+
+	Diagram_NoteTransition_Shapes_reverseMap map[*NoteTransitionShape]*Diagram
 
 	OnAfterDiagramCreateCallback OnAfterCreateInterface[Diagram]
 	OnAfterDiagramUpdateCallback OnAfterUpdateInterface[Diagram]
@@ -249,6 +257,10 @@ type Stage struct {
 
 	Library_StateMachinesWhoseNodeIsExpanded_reverseMap map[*StateMachine]*Library
 
+	Library_RootNotes_reverseMap map[*Note]*Library
+
+	Library_NotesWhoseNodeIsExpanded_reverseMap map[*Note]*Library
+
 	Library_SubLibrariesWhoseNodeIsExpanded_reverseMap map[*Library]*Library
 
 	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
@@ -285,6 +297,70 @@ type Stage struct {
 	OnAfterMessageTypeUpdateCallback OnAfterUpdateInterface[MessageType]
 	OnAfterMessageTypeDeleteCallback OnAfterDeleteInterface[MessageType]
 	OnAfterMessageTypeReadCallback   OnAfterReadInterface[MessageType]
+
+	Notes                map[*Note]struct{}
+	Notes_instance       map[*Note]*Note
+	Notes_mapString      map[string]*Note
+	NoteOrder            uint
+	Note_stagedOrder     map[*Note]uint
+	Note_orderStaged     map[uint]*Note
+	Notes_reference      map[*Note]*Note
+	Notes_referenceOrder map[*Note]uint
+
+	// insertion point for slice of pointers maps
+	Note_States_reverseMap map[*State]*Note
+
+	Note_Transitions_reverseMap map[*Transition]*Note
+
+	OnAfterNoteCreateCallback OnAfterCreateInterface[Note]
+	OnAfterNoteUpdateCallback OnAfterUpdateInterface[Note]
+	OnAfterNoteDeleteCallback OnAfterDeleteInterface[Note]
+	OnAfterNoteReadCallback   OnAfterReadInterface[Note]
+
+	NoteShapes                map[*NoteShape]struct{}
+	NoteShapes_instance       map[*NoteShape]*NoteShape
+	NoteShapes_mapString      map[string]*NoteShape
+	NoteShapeOrder            uint
+	NoteShape_stagedOrder     map[*NoteShape]uint
+	NoteShape_orderStaged     map[uint]*NoteShape
+	NoteShapes_reference      map[*NoteShape]*NoteShape
+	NoteShapes_referenceOrder map[*NoteShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterNoteShapeCreateCallback OnAfterCreateInterface[NoteShape]
+	OnAfterNoteShapeUpdateCallback OnAfterUpdateInterface[NoteShape]
+	OnAfterNoteShapeDeleteCallback OnAfterDeleteInterface[NoteShape]
+	OnAfterNoteShapeReadCallback   OnAfterReadInterface[NoteShape]
+
+	NoteStateShapes                map[*NoteStateShape]struct{}
+	NoteStateShapes_instance       map[*NoteStateShape]*NoteStateShape
+	NoteStateShapes_mapString      map[string]*NoteStateShape
+	NoteStateShapeOrder            uint
+	NoteStateShape_stagedOrder     map[*NoteStateShape]uint
+	NoteStateShape_orderStaged     map[uint]*NoteStateShape
+	NoteStateShapes_reference      map[*NoteStateShape]*NoteStateShape
+	NoteStateShapes_referenceOrder map[*NoteStateShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterNoteStateShapeCreateCallback OnAfterCreateInterface[NoteStateShape]
+	OnAfterNoteStateShapeUpdateCallback OnAfterUpdateInterface[NoteStateShape]
+	OnAfterNoteStateShapeDeleteCallback OnAfterDeleteInterface[NoteStateShape]
+	OnAfterNoteStateShapeReadCallback   OnAfterReadInterface[NoteStateShape]
+
+	NoteTransitionShapes                map[*NoteTransitionShape]struct{}
+	NoteTransitionShapes_instance       map[*NoteTransitionShape]*NoteTransitionShape
+	NoteTransitionShapes_mapString      map[string]*NoteTransitionShape
+	NoteTransitionShapeOrder            uint
+	NoteTransitionShape_stagedOrder     map[*NoteTransitionShape]uint
+	NoteTransitionShape_orderStaged     map[uint]*NoteTransitionShape
+	NoteTransitionShapes_reference      map[*NoteTransitionShape]*NoteTransitionShape
+	NoteTransitionShapes_referenceOrder map[*NoteTransitionShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterNoteTransitionShapeCreateCallback OnAfterCreateInterface[NoteTransitionShape]
+	OnAfterNoteTransitionShapeUpdateCallback OnAfterUpdateInterface[NoteTransitionShape]
+	OnAfterNoteTransitionShapeDeleteCallback OnAfterDeleteInterface[NoteTransitionShape]
+	OnAfterNoteTransitionShapeReadCallback   OnAfterReadInterface[NoteTransitionShape]
 
 	Objects                map[*Object]struct{}
 	Objects_instance       map[*Object]*Object
@@ -683,6 +759,22 @@ func (stage *Stage) Squash() {
 	stage.MessageTypes_instance = make(map[*MessageType]*MessageType)
 	stage.MessageTypes_referenceOrder = make(map[*MessageType]uint)
 
+	stage.Notes_reference = make(map[*Note]*Note)
+	stage.Notes_instance = make(map[*Note]*Note)
+	stage.Notes_referenceOrder = make(map[*Note]uint)
+
+	stage.NoteShapes_reference = make(map[*NoteShape]*NoteShape)
+	stage.NoteShapes_instance = make(map[*NoteShape]*NoteShape)
+	stage.NoteShapes_referenceOrder = make(map[*NoteShape]uint)
+
+	stage.NoteStateShapes_reference = make(map[*NoteStateShape]*NoteStateShape)
+	stage.NoteStateShapes_instance = make(map[*NoteStateShape]*NoteStateShape)
+	stage.NoteStateShapes_referenceOrder = make(map[*NoteStateShape]uint)
+
+	stage.NoteTransitionShapes_reference = make(map[*NoteTransitionShape]*NoteTransitionShape)
+	stage.NoteTransitionShapes_instance = make(map[*NoteTransitionShape]*NoteTransitionShape)
+	stage.NoteTransitionShapes_referenceOrder = make(map[*NoteTransitionShape]uint)
+
 	stage.Objects_reference = make(map[*Object]*Object)
 	stage.Objects_instance = make(map[*Object]*Object)
 	stage.Objects_referenceOrder = make(map[*Object]uint)
@@ -862,6 +954,62 @@ func (stage *Stage) recomputeOrders() {
 		stage.MessageTypeOrder = maxMessageTypeOrder + 1
 	} else {
 		stage.MessageTypeOrder = 0
+	}
+
+	var maxNoteOrder uint
+	var foundNote bool
+	for _, order := range stage.Note_stagedOrder {
+		if !foundNote || order > maxNoteOrder {
+			maxNoteOrder = order
+			foundNote = true
+		}
+	}
+	if foundNote {
+		stage.NoteOrder = maxNoteOrder + 1
+	} else {
+		stage.NoteOrder = 0
+	}
+
+	var maxNoteShapeOrder uint
+	var foundNoteShape bool
+	for _, order := range stage.NoteShape_stagedOrder {
+		if !foundNoteShape || order > maxNoteShapeOrder {
+			maxNoteShapeOrder = order
+			foundNoteShape = true
+		}
+	}
+	if foundNoteShape {
+		stage.NoteShapeOrder = maxNoteShapeOrder + 1
+	} else {
+		stage.NoteShapeOrder = 0
+	}
+
+	var maxNoteStateShapeOrder uint
+	var foundNoteStateShape bool
+	for _, order := range stage.NoteStateShape_stagedOrder {
+		if !foundNoteStateShape || order > maxNoteStateShapeOrder {
+			maxNoteStateShapeOrder = order
+			foundNoteStateShape = true
+		}
+	}
+	if foundNoteStateShape {
+		stage.NoteStateShapeOrder = maxNoteStateShapeOrder + 1
+	} else {
+		stage.NoteStateShapeOrder = 0
+	}
+
+	var maxNoteTransitionShapeOrder uint
+	var foundNoteTransitionShape bool
+	for _, order := range stage.NoteTransitionShape_stagedOrder {
+		if !foundNoteTransitionShape || order > maxNoteTransitionShapeOrder {
+			maxNoteTransitionShapeOrder = order
+			foundNoteTransitionShape = true
+		}
+	}
+	if foundNoteTransitionShape {
+		stage.NoteTransitionShapeOrder = maxNoteTransitionShapeOrder + 1
+	} else {
+		stage.NoteTransitionShapeOrder = 0
 	}
 
 	var maxObjectOrder uint
@@ -1149,6 +1297,62 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Note:
+		tmp := GetStructInstancesByOrder(stage.Notes, stage.Note_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Note implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *NoteShape:
+		tmp := GetStructInstancesByOrder(stage.NoteShapes, stage.NoteShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *NoteShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *NoteStateShape:
+		tmp := GetStructInstancesByOrder(stage.NoteStateShapes, stage.NoteStateShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *NoteStateShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *NoteTransitionShape:
+		tmp := GetStructInstancesByOrder(stage.NoteTransitionShapes, stage.NoteTransitionShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *NoteTransitionShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Object:
 		tmp := GetStructInstancesByOrder(stage.Objects, stage.Object_stagedOrder)
 
@@ -1294,6 +1498,14 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Messages, stage.Message_stagedOrder)
 	case "MessageType":
 		res = GetNamedStructInstances(stage.MessageTypes, stage.MessageType_stagedOrder)
+	case "Note":
+		res = GetNamedStructInstances(stage.Notes, stage.Note_stagedOrder)
+	case "NoteShape":
+		res = GetNamedStructInstances(stage.NoteShapes, stage.NoteShape_stagedOrder)
+	case "NoteStateShape":
+		res = GetNamedStructInstances(stage.NoteStateShapes, stage.NoteStateShape_stagedOrder)
+	case "NoteTransitionShape":
+		res = GetNamedStructInstances(stage.NoteTransitionShapes, stage.NoteTransitionShape_stagedOrder)
 	case "Object":
 		res = GetNamedStructInstances(stage.Objects, stage.Object_stagedOrder)
 	case "Role":
@@ -1395,6 +1607,14 @@ type BackRepoInterface interface {
 	CheckoutMessage(message *Message)
 	CommitMessageType(messagetype *MessageType)
 	CheckoutMessageType(messagetype *MessageType)
+	CommitNote(note *Note)
+	CheckoutNote(note *Note)
+	CommitNoteShape(noteshape *NoteShape)
+	CheckoutNoteShape(noteshape *NoteShape)
+	CommitNoteStateShape(notestateshape *NoteStateShape)
+	CheckoutNoteStateShape(notestateshape *NoteStateShape)
+	CommitNoteTransitionShape(notetransitionshape *NoteTransitionShape)
+	CheckoutNoteTransitionShape(notetransitionshape *NoteTransitionShape)
 	CommitObject(object *Object)
 	CheckoutObject(object *Object)
 	CommitRole(role *Role)
@@ -1441,6 +1661,18 @@ func NewStage(name string) (stage *Stage) {
 
 		MessageTypes:           make(map[*MessageType]struct{}),
 		MessageTypes_mapString: make(map[string]*MessageType),
+
+		Notes:           make(map[*Note]struct{}),
+		Notes_mapString: make(map[string]*Note),
+
+		NoteShapes:           make(map[*NoteShape]struct{}),
+		NoteShapes_mapString: make(map[string]*NoteShape),
+
+		NoteStateShapes:           make(map[*NoteStateShape]struct{}),
+		NoteStateShapes_mapString: make(map[string]*NoteStateShape),
+
+		NoteTransitionShapes:           make(map[*NoteTransitionShape]struct{}),
+		NoteTransitionShapes_mapString: make(map[string]*NoteTransitionShape),
 
 		Objects:           make(map[*Object]struct{}),
 		Objects_mapString: make(map[string]*Object),
@@ -1509,6 +1741,22 @@ func NewStage(name string) (stage *Stage) {
 		MessageType_orderStaged: make(map[uint]*MessageType),
 		MessageTypes_reference:  make(map[*MessageType]*MessageType),
 
+		Note_stagedOrder: make(map[*Note]uint),
+		Note_orderStaged: make(map[uint]*Note),
+		Notes_reference:  make(map[*Note]*Note),
+
+		NoteShape_stagedOrder: make(map[*NoteShape]uint),
+		NoteShape_orderStaged: make(map[uint]*NoteShape),
+		NoteShapes_reference:  make(map[*NoteShape]*NoteShape),
+
+		NoteStateShape_stagedOrder: make(map[*NoteStateShape]uint),
+		NoteStateShape_orderStaged: make(map[uint]*NoteStateShape),
+		NoteStateShapes_reference:  make(map[*NoteStateShape]*NoteStateShape),
+
+		NoteTransitionShape_stagedOrder: make(map[*NoteTransitionShape]uint),
+		NoteTransitionShape_orderStaged: make(map[uint]*NoteTransitionShape),
+		NoteTransitionShapes_reference:  make(map[*NoteTransitionShape]*NoteTransitionShape),
+
 		Object_stagedOrder: make(map[*Object]uint),
 		Object_orderStaged: make(map[uint]*Object),
 		Objects_reference:  make(map[*Object]*Object),
@@ -1557,6 +1805,14 @@ func NewStage(name string) (stage *Stage) {
 
 			"MessageType": &MessageTypeUnmarshaller{},
 
+			"Note": &NoteUnmarshaller{},
+
+			"NoteShape": &NoteShapeUnmarshaller{},
+
+			"NoteStateShape": &NoteStateShapeUnmarshaller{},
+
+			"NoteTransitionShape": &NoteTransitionShapeUnmarshaller{},
+
 			"Object": &ObjectUnmarshaller{},
 
 			"Role": &RoleUnmarshaller{},
@@ -1584,6 +1840,10 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Library"},
 			{name: "Message"},
 			{name: "MessageType"},
+			{name: "Note"},
+			{name: "NoteShape"},
+			{name: "NoteStateShape"},
+			{name: "NoteTransitionShape"},
 			{name: "Object"},
 			{name: "Role"},
 			{name: "State"},
@@ -1620,6 +1880,14 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Message_stagedOrder[instance]
 	case *MessageType:
 		return stage.MessageType_stagedOrder[instance]
+	case *Note:
+		return stage.Note_stagedOrder[instance]
+	case *NoteShape:
+		return stage.NoteShape_stagedOrder[instance]
+	case *NoteStateShape:
+		return stage.NoteStateShape_stagedOrder[instance]
+	case *NoteTransitionShape:
+		return stage.NoteTransitionShape_stagedOrder[instance]
 	case *Object:
 		return stage.Object_stagedOrder[instance]
 	case *Role:
@@ -1661,6 +1929,14 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.Message_orderStaged[order]).(Type)
 	case *MessageType:
 		return any(stage.MessageType_orderStaged[order]).(Type)
+	case *Note:
+		return any(stage.Note_orderStaged[order]).(Type)
+	case *NoteShape:
+		return any(stage.NoteShape_orderStaged[order]).(Type)
+	case *NoteStateShape:
+		return any(stage.NoteStateShape_orderStaged[order]).(Type)
+	case *NoteTransitionShape:
+		return any(stage.NoteTransitionShape_orderStaged[order]).(Type)
 	case *Object:
 		return any(stage.Object_orderStaged[order]).(Type)
 	case *Role:
@@ -1701,6 +1977,14 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.Message_stagedOrder[instance]
 	case *MessageType:
 		return stage.MessageType_stagedOrder[instance]
+	case *Note:
+		return stage.Note_stagedOrder[instance]
+	case *NoteShape:
+		return stage.NoteShape_stagedOrder[instance]
+	case *NoteStateShape:
+		return stage.NoteStateShape_stagedOrder[instance]
+	case *NoteTransitionShape:
+		return stage.NoteTransitionShape_stagedOrder[instance]
 	case *Object:
 		return stage.Object_stagedOrder[instance]
 	case *Role:
@@ -1789,6 +2073,10 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Message"] = len(stage.Messages)
 	stage.Map_GongStructName_InstancesNb["MessageType"] = len(stage.MessageTypes)
+	stage.Map_GongStructName_InstancesNb["Note"] = len(stage.Notes)
+	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
+	stage.Map_GongStructName_InstancesNb["NoteStateShape"] = len(stage.NoteStateShapes)
+	stage.Map_GongStructName_InstancesNb["NoteTransitionShape"] = len(stage.NoteTransitionShapes)
 	stage.Map_GongStructName_InstancesNb["Object"] = len(stage.Objects)
 	stage.Map_GongStructName_InstancesNb["Role"] = len(stage.Roles)
 	stage.Map_GongStructName_InstancesNb["State"] = len(stage.States)
@@ -2628,6 +2916,358 @@ func (messagetype *MessageType) SetName(name string) {
 	messagetype.Name = name
 }
 
+// Stage puts note to the model stage
+func (note *Note) Stage(stage *Stage) *Note {
+	if _, ok := stage.Notes[note]; !ok {
+		stage.Notes[note] = struct{}{}
+		stage.Note_stagedOrder[note] = stage.NoteOrder
+		stage.Note_orderStaged[stage.NoteOrder] = note
+		stage.NoteOrder++
+	}
+	stage.Notes_mapString[note.Name] = note
+
+	return note
+}
+
+// StagePreserveOrder puts note to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.NoteOrder
+// - update stage.NoteOrder accordingly
+func (note *Note) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Notes[note]; !ok {
+		stage.Notes[note] = struct{}{}
+
+		if order > stage.NoteOrder {
+			stage.NoteOrder = order
+		}
+		stage.Note_stagedOrder[note] = order
+		stage.Note_orderStaged[order] = note
+		stage.NoteOrder++
+	}
+	stage.Notes_mapString[note.Name] = note
+}
+
+// Unstage removes note off the model stage
+func (note *Note) Unstage(stage *Stage) *Note {
+	delete(stage.Notes, note)
+	// issue1150
+	// delete(stage.Note_stagedOrder, note)
+	delete(stage.Notes_mapString, note.Name)
+
+	return note
+}
+
+// UnstageVoid removes note off the model stage
+func (note *Note) UnstageVoid(stage *Stage) {
+	delete(stage.Notes, note)
+	// issue1150
+	// delete(stage.Note_stagedOrder, note)
+	delete(stage.Notes_mapString, note.Name)
+}
+
+// commit note to the back repo (if it is already staged)
+func (note *Note) Commit(stage *Stage) *Note {
+	if _, ok := stage.Notes[note]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitNote(note)
+		}
+	}
+	return note
+}
+
+func (note *Note) CommitVoid(stage *Stage) {
+	note.Commit(stage)
+}
+
+func (note *Note) StageVoid(stage *Stage) {
+	note.Stage(stage)
+}
+
+// Checkout note to the back repo (if it is already staged)
+func (note *Note) Checkout(stage *Stage) *Note {
+	if _, ok := stage.Notes[note]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutNote(note)
+		}
+	}
+	return note
+}
+
+// for satisfaction of GongStruct interface
+func (note *Note) GetName() (res string) {
+	return note.Name
+}
+
+// for satisfaction of GongStruct interface
+func (note *Note) SetName(name string) {
+	note.Name = name
+}
+
+// Stage puts noteshape to the model stage
+func (noteshape *NoteShape) Stage(stage *Stage) *NoteShape {
+	if _, ok := stage.NoteShapes[noteshape]; !ok {
+		stage.NoteShapes[noteshape] = struct{}{}
+		stage.NoteShape_stagedOrder[noteshape] = stage.NoteShapeOrder
+		stage.NoteShape_orderStaged[stage.NoteShapeOrder] = noteshape
+		stage.NoteShapeOrder++
+	}
+	stage.NoteShapes_mapString[noteshape.Name] = noteshape
+
+	return noteshape
+}
+
+// StagePreserveOrder puts noteshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.NoteShapeOrder
+// - update stage.NoteShapeOrder accordingly
+func (noteshape *NoteShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.NoteShapes[noteshape]; !ok {
+		stage.NoteShapes[noteshape] = struct{}{}
+
+		if order > stage.NoteShapeOrder {
+			stage.NoteShapeOrder = order
+		}
+		stage.NoteShape_stagedOrder[noteshape] = order
+		stage.NoteShape_orderStaged[order] = noteshape
+		stage.NoteShapeOrder++
+	}
+	stage.NoteShapes_mapString[noteshape.Name] = noteshape
+}
+
+// Unstage removes noteshape off the model stage
+func (noteshape *NoteShape) Unstage(stage *Stage) *NoteShape {
+	delete(stage.NoteShapes, noteshape)
+	// issue1150
+	// delete(stage.NoteShape_stagedOrder, noteshape)
+	delete(stage.NoteShapes_mapString, noteshape.Name)
+
+	return noteshape
+}
+
+// UnstageVoid removes noteshape off the model stage
+func (noteshape *NoteShape) UnstageVoid(stage *Stage) {
+	delete(stage.NoteShapes, noteshape)
+	// issue1150
+	// delete(stage.NoteShape_stagedOrder, noteshape)
+	delete(stage.NoteShapes_mapString, noteshape.Name)
+}
+
+// commit noteshape to the back repo (if it is already staged)
+func (noteshape *NoteShape) Commit(stage *Stage) *NoteShape {
+	if _, ok := stage.NoteShapes[noteshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitNoteShape(noteshape)
+		}
+	}
+	return noteshape
+}
+
+func (noteshape *NoteShape) CommitVoid(stage *Stage) {
+	noteshape.Commit(stage)
+}
+
+func (noteshape *NoteShape) StageVoid(stage *Stage) {
+	noteshape.Stage(stage)
+}
+
+// Checkout noteshape to the back repo (if it is already staged)
+func (noteshape *NoteShape) Checkout(stage *Stage) *NoteShape {
+	if _, ok := stage.NoteShapes[noteshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutNoteShape(noteshape)
+		}
+	}
+	return noteshape
+}
+
+// for satisfaction of GongStruct interface
+func (noteshape *NoteShape) GetName() (res string) {
+	return noteshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (noteshape *NoteShape) SetName(name string) {
+	noteshape.Name = name
+}
+
+// Stage puts notestateshape to the model stage
+func (notestateshape *NoteStateShape) Stage(stage *Stage) *NoteStateShape {
+	if _, ok := stage.NoteStateShapes[notestateshape]; !ok {
+		stage.NoteStateShapes[notestateshape] = struct{}{}
+		stage.NoteStateShape_stagedOrder[notestateshape] = stage.NoteStateShapeOrder
+		stage.NoteStateShape_orderStaged[stage.NoteStateShapeOrder] = notestateshape
+		stage.NoteStateShapeOrder++
+	}
+	stage.NoteStateShapes_mapString[notestateshape.Name] = notestateshape
+
+	return notestateshape
+}
+
+// StagePreserveOrder puts notestateshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.NoteStateShapeOrder
+// - update stage.NoteStateShapeOrder accordingly
+func (notestateshape *NoteStateShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.NoteStateShapes[notestateshape]; !ok {
+		stage.NoteStateShapes[notestateshape] = struct{}{}
+
+		if order > stage.NoteStateShapeOrder {
+			stage.NoteStateShapeOrder = order
+		}
+		stage.NoteStateShape_stagedOrder[notestateshape] = order
+		stage.NoteStateShape_orderStaged[order] = notestateshape
+		stage.NoteStateShapeOrder++
+	}
+	stage.NoteStateShapes_mapString[notestateshape.Name] = notestateshape
+}
+
+// Unstage removes notestateshape off the model stage
+func (notestateshape *NoteStateShape) Unstage(stage *Stage) *NoteStateShape {
+	delete(stage.NoteStateShapes, notestateshape)
+	// issue1150
+	// delete(stage.NoteStateShape_stagedOrder, notestateshape)
+	delete(stage.NoteStateShapes_mapString, notestateshape.Name)
+
+	return notestateshape
+}
+
+// UnstageVoid removes notestateshape off the model stage
+func (notestateshape *NoteStateShape) UnstageVoid(stage *Stage) {
+	delete(stage.NoteStateShapes, notestateshape)
+	// issue1150
+	// delete(stage.NoteStateShape_stagedOrder, notestateshape)
+	delete(stage.NoteStateShapes_mapString, notestateshape.Name)
+}
+
+// commit notestateshape to the back repo (if it is already staged)
+func (notestateshape *NoteStateShape) Commit(stage *Stage) *NoteStateShape {
+	if _, ok := stage.NoteStateShapes[notestateshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitNoteStateShape(notestateshape)
+		}
+	}
+	return notestateshape
+}
+
+func (notestateshape *NoteStateShape) CommitVoid(stage *Stage) {
+	notestateshape.Commit(stage)
+}
+
+func (notestateshape *NoteStateShape) StageVoid(stage *Stage) {
+	notestateshape.Stage(stage)
+}
+
+// Checkout notestateshape to the back repo (if it is already staged)
+func (notestateshape *NoteStateShape) Checkout(stage *Stage) *NoteStateShape {
+	if _, ok := stage.NoteStateShapes[notestateshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutNoteStateShape(notestateshape)
+		}
+	}
+	return notestateshape
+}
+
+// for satisfaction of GongStruct interface
+func (notestateshape *NoteStateShape) GetName() (res string) {
+	return notestateshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (notestateshape *NoteStateShape) SetName(name string) {
+	notestateshape.Name = name
+}
+
+// Stage puts notetransitionshape to the model stage
+func (notetransitionshape *NoteTransitionShape) Stage(stage *Stage) *NoteTransitionShape {
+	if _, ok := stage.NoteTransitionShapes[notetransitionshape]; !ok {
+		stage.NoteTransitionShapes[notetransitionshape] = struct{}{}
+		stage.NoteTransitionShape_stagedOrder[notetransitionshape] = stage.NoteTransitionShapeOrder
+		stage.NoteTransitionShape_orderStaged[stage.NoteTransitionShapeOrder] = notetransitionshape
+		stage.NoteTransitionShapeOrder++
+	}
+	stage.NoteTransitionShapes_mapString[notetransitionshape.Name] = notetransitionshape
+
+	return notetransitionshape
+}
+
+// StagePreserveOrder puts notetransitionshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.NoteTransitionShapeOrder
+// - update stage.NoteTransitionShapeOrder accordingly
+func (notetransitionshape *NoteTransitionShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.NoteTransitionShapes[notetransitionshape]; !ok {
+		stage.NoteTransitionShapes[notetransitionshape] = struct{}{}
+
+		if order > stage.NoteTransitionShapeOrder {
+			stage.NoteTransitionShapeOrder = order
+		}
+		stage.NoteTransitionShape_stagedOrder[notetransitionshape] = order
+		stage.NoteTransitionShape_orderStaged[order] = notetransitionshape
+		stage.NoteTransitionShapeOrder++
+	}
+	stage.NoteTransitionShapes_mapString[notetransitionshape.Name] = notetransitionshape
+}
+
+// Unstage removes notetransitionshape off the model stage
+func (notetransitionshape *NoteTransitionShape) Unstage(stage *Stage) *NoteTransitionShape {
+	delete(stage.NoteTransitionShapes, notetransitionshape)
+	// issue1150
+	// delete(stage.NoteTransitionShape_stagedOrder, notetransitionshape)
+	delete(stage.NoteTransitionShapes_mapString, notetransitionshape.Name)
+
+	return notetransitionshape
+}
+
+// UnstageVoid removes notetransitionshape off the model stage
+func (notetransitionshape *NoteTransitionShape) UnstageVoid(stage *Stage) {
+	delete(stage.NoteTransitionShapes, notetransitionshape)
+	// issue1150
+	// delete(stage.NoteTransitionShape_stagedOrder, notetransitionshape)
+	delete(stage.NoteTransitionShapes_mapString, notetransitionshape.Name)
+}
+
+// commit notetransitionshape to the back repo (if it is already staged)
+func (notetransitionshape *NoteTransitionShape) Commit(stage *Stage) *NoteTransitionShape {
+	if _, ok := stage.NoteTransitionShapes[notetransitionshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitNoteTransitionShape(notetransitionshape)
+		}
+	}
+	return notetransitionshape
+}
+
+func (notetransitionshape *NoteTransitionShape) CommitVoid(stage *Stage) {
+	notetransitionshape.Commit(stage)
+}
+
+func (notetransitionshape *NoteTransitionShape) StageVoid(stage *Stage) {
+	notetransitionshape.Stage(stage)
+}
+
+// Checkout notetransitionshape to the back repo (if it is already staged)
+func (notetransitionshape *NoteTransitionShape) Checkout(stage *Stage) *NoteTransitionShape {
+	if _, ok := stage.NoteTransitionShapes[notetransitionshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutNoteTransitionShape(notetransitionshape)
+		}
+	}
+	return notetransitionshape
+}
+
+// for satisfaction of GongStruct interface
+func (notetransitionshape *NoteTransitionShape) GetName() (res string) {
+	return notetransitionshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (notetransitionshape *NoteTransitionShape) SetName(name string) {
+	notetransitionshape.Name = name
+}
+
 // Stage puts object to the model stage
 func (object *Object) Stage(stage *Stage) *Object {
 	if _, ok := stage.Objects[object]; !ok {
@@ -3255,6 +3895,10 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMLibrary(Library *Library)
 	CreateORMMessage(Message *Message)
 	CreateORMMessageType(MessageType *MessageType)
+	CreateORMNote(Note *Note)
+	CreateORMNoteShape(NoteShape *NoteShape)
+	CreateORMNoteStateShape(NoteStateShape *NoteStateShape)
+	CreateORMNoteTransitionShape(NoteTransitionShape *NoteTransitionShape)
 	CreateORMObject(Object *Object)
 	CreateORMRole(Role *Role)
 	CreateORMState(State *State)
@@ -3274,6 +3918,10 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMLibrary(Library *Library)
 	DeleteORMMessage(Message *Message)
 	DeleteORMMessageType(MessageType *MessageType)
+	DeleteORMNote(Note *Note)
+	DeleteORMNoteShape(NoteShape *NoteShape)
+	DeleteORMNoteStateShape(NoteStateShape *NoteStateShape)
+	DeleteORMNoteTransitionShape(NoteTransitionShape *NoteTransitionShape)
 	DeleteORMObject(Object *Object)
 	DeleteORMRole(Role *Role)
 	DeleteORMState(State *State)
@@ -3328,6 +3976,26 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.MessageTypes_mapString = make(map[string]*MessageType)
 	stage.MessageType_stagedOrder = make(map[*MessageType]uint)
 	stage.MessageTypeOrder = 0
+
+	stage.Notes = make(map[*Note]struct{})
+	stage.Notes_mapString = make(map[string]*Note)
+	stage.Note_stagedOrder = make(map[*Note]uint)
+	stage.NoteOrder = 0
+
+	stage.NoteShapes = make(map[*NoteShape]struct{})
+	stage.NoteShapes_mapString = make(map[string]*NoteShape)
+	stage.NoteShape_stagedOrder = make(map[*NoteShape]uint)
+	stage.NoteShapeOrder = 0
+
+	stage.NoteStateShapes = make(map[*NoteStateShape]struct{})
+	stage.NoteStateShapes_mapString = make(map[string]*NoteStateShape)
+	stage.NoteStateShape_stagedOrder = make(map[*NoteStateShape]uint)
+	stage.NoteStateShapeOrder = 0
+
+	stage.NoteTransitionShapes = make(map[*NoteTransitionShape]struct{})
+	stage.NoteTransitionShapes_mapString = make(map[string]*NoteTransitionShape)
+	stage.NoteTransitionShape_stagedOrder = make(map[*NoteTransitionShape]uint)
+	stage.NoteTransitionShapeOrder = 0
 
 	stage.Objects = make(map[*Object]struct{})
 	stage.Objects_mapString = make(map[string]*Object)
@@ -3400,6 +4068,18 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.MessageTypes = nil
 	stage.MessageTypes_mapString = nil
 
+	stage.Notes = nil
+	stage.Notes_mapString = nil
+
+	stage.NoteShapes = nil
+	stage.NoteShapes_mapString = nil
+
+	stage.NoteStateShapes = nil
+	stage.NoteStateShapes_mapString = nil
+
+	stage.NoteTransitionShapes = nil
+	stage.NoteTransitionShapes_mapString = nil
+
 	stage.Objects = nil
 	stage.Objects_mapString = nil
 
@@ -3459,6 +4139,22 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for messagetype := range stage.MessageTypes {
 		messagetype.Unstage(stage)
+	}
+
+	for note := range stage.Notes {
+		note.Unstage(stage)
+	}
+
+	for noteshape := range stage.NoteShapes {
+		noteshape.Unstage(stage)
+	}
+
+	for notestateshape := range stage.NoteStateShapes {
+		notestateshape.Unstage(stage)
+	}
+
+	for notetransitionshape := range stage.NoteTransitionShapes {
+		notetransitionshape.Unstage(stage)
 	}
 
 	for object := range stage.Objects {
@@ -3583,6 +4279,14 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Messages).(*Type)
 	case map[*MessageType]any:
 		return any(&stage.MessageTypes).(*Type)
+	case map[*Note]any:
+		return any(&stage.Notes).(*Type)
+	case map[*NoteShape]any:
+		return any(&stage.NoteShapes).(*Type)
+	case map[*NoteStateShape]any:
+		return any(&stage.NoteStateShapes).(*Type)
+	case map[*NoteTransitionShape]any:
+		return any(&stage.NoteTransitionShapes).(*Type)
 	case map[*Object]any:
 		return any(&stage.Objects).(*Type)
 	case map[*Role]any:
@@ -3627,6 +4331,14 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Messages_mapString).(map[string]Type)
 	case *MessageType:
 		return any(stage.MessageTypes_mapString).(map[string]Type)
+	case *Note:
+		return any(stage.Notes_mapString).(map[string]Type)
+	case *NoteShape:
+		return any(stage.NoteShapes_mapString).(map[string]Type)
+	case *NoteStateShape:
+		return any(stage.NoteStateShapes_mapString).(map[string]Type)
+	case *NoteTransitionShape:
+		return any(stage.NoteTransitionShapes_mapString).(map[string]Type)
 	case *Object:
 		return any(stage.Objects_mapString).(map[string]Type)
 	case *Role:
@@ -3671,6 +4383,14 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Messages).(*map[*Type]struct{})
 	case MessageType:
 		return any(&stage.MessageTypes).(*map[*Type]struct{})
+	case Note:
+		return any(&stage.Notes).(*map[*Type]struct{})
+	case NoteShape:
+		return any(&stage.NoteShapes).(*map[*Type]struct{})
+	case NoteStateShape:
+		return any(&stage.NoteStateShapes).(*map[*Type]struct{})
+	case NoteTransitionShape:
+		return any(&stage.NoteTransitionShapes).(*map[*Type]struct{})
 	case Object:
 		return any(&stage.Objects).(*map[*Type]struct{})
 	case Role:
@@ -3715,6 +4435,14 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Messages).(*map[Type]struct{})
 	case *MessageType:
 		return any(&stage.MessageTypes).(*map[Type]struct{})
+	case *Note:
+		return any(&stage.Notes).(*map[Type]struct{})
+	case *NoteShape:
+		return any(&stage.NoteShapes).(*map[Type]struct{})
+	case *NoteStateShape:
+		return any(&stage.NoteStateShapes).(*map[Type]struct{})
+	case *NoteTransitionShape:
+		return any(&stage.NoteTransitionShapes).(*map[Type]struct{})
 	case *Object:
 		return any(&stage.Objects).(*map[Type]struct{})
 	case *Role:
@@ -3759,6 +4487,14 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Messages_mapString).(*map[string]*Type)
 	case MessageType:
 		return any(&stage.MessageTypes_mapString).(*map[string]*Type)
+	case Note:
+		return any(&stage.Notes_mapString).(*map[string]*Type)
+	case NoteShape:
+		return any(&stage.NoteShapes_mapString).(*map[string]*Type)
+	case NoteStateShape:
+		return any(&stage.NoteStateShapes_mapString).(*map[string]*Type)
+	case NoteTransitionShape:
+		return any(&stage.NoteTransitionShapes_mapString).(*map[string]*Type)
 	case Object:
 		return any(&stage.Objects_mapString).(*map[string]*Type)
 	case Role:
@@ -3806,12 +4542,20 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Diagram:
 		return any(&Diagram{
 			// Initialisation of associations
+			// field is initialized with an instance of Note with the name of the field
+			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of StateShape with the name of the field
 			State_Shapes: []*StateShape{{Name: "State_Shapes"}},
 			// field is initialized with an instance of State with the name of the field
 			StatesWhoseNodeIsExpanded: []*State{{Name: "StatesWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of Transition_Shape with the name of the field
 			Transition_Shapes: []*Transition_Shape{{Name: "Transition_Shapes"}},
+			// field is initialized with an instance of NoteShape with the name of the field
+			Note_Shapes: []*NoteShape{{Name: "Note_Shapes"}},
+			// field is initialized with an instance of NoteStateShape with the name of the field
+			NoteState_Shapes: []*NoteStateShape{{Name: "NoteState_Shapes"}},
+			// field is initialized with an instance of NoteTransitionShape with the name of the field
+			NoteTransition_Shapes: []*NoteTransitionShape{{Name: "NoteTransition_Shapes"}},
 		}).(*Type)
 	case Guard:
 		return any(&Guard{
@@ -3832,6 +4576,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RootStateMachines: []*StateMachine{{Name: "RootStateMachines"}},
 			// field is initialized with an instance of StateMachine with the name of the field
 			StateMachinesWhoseNodeIsExpanded: []*StateMachine{{Name: "StateMachinesWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Note with the name of the field
+			RootNotes: []*Note{{Name: "RootNotes"}},
+			// field is initialized with an instance of Note with the name of the field
+			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of Library with the name of the field
 			SubLibrariesWhoseNodeIsExpanded: []*Library{{Name: "SubLibrariesWhoseNodeIsExpanded"}},
 		}).(*Type)
@@ -3846,6 +4594,36 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case MessageType:
 		return any(&MessageType{
 			// Initialisation of associations
+		}).(*Type)
+	case Note:
+		return any(&Note{
+			// Initialisation of associations
+			// field is initialized with an instance of State with the name of the field
+			States: []*State{{Name: "States"}},
+			// field is initialized with an instance of Transition with the name of the field
+			Transitions: []*Transition{{Name: "Transitions"}},
+		}).(*Type)
+	case NoteShape:
+		return any(&NoteShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Note with the name of the field
+			Note: &Note{Name: "Note"},
+		}).(*Type)
+	case NoteStateShape:
+		return any(&NoteStateShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Note with the name of the field
+			Note: &Note{Name: "Note"},
+			// field is initialized with an instance of State with the name of the field
+			State: &State{Name: "State"},
+		}).(*Type)
+	case NoteTransitionShape:
+		return any(&NoteTransitionShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Note with the name of the field
+			Note: &Note{Name: "Note"},
+			// field is initialized with an instance of Transition with the name of the field
+			Transition: &Transition{Name: "Transition"},
 		}).(*Type)
 	case Object:
 		return any(&Object{
@@ -4010,6 +4788,111 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case MessageType:
 		switch fieldname {
 		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Note
+	case Note:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of NoteShape
+	case NoteShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Note":
+			res := make(map[*Note][]*NoteShape)
+			for noteshape := range stage.NoteShapes {
+				if noteshape.Note != nil {
+					note_ := noteshape.Note
+					var noteshapes []*NoteShape
+					_, ok := res[note_]
+					if ok {
+						noteshapes = res[note_]
+					} else {
+						noteshapes = make([]*NoteShape, 0)
+					}
+					noteshapes = append(noteshapes, noteshape)
+					res[note_] = noteshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of NoteStateShape
+	case NoteStateShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Note":
+			res := make(map[*Note][]*NoteStateShape)
+			for notestateshape := range stage.NoteStateShapes {
+				if notestateshape.Note != nil {
+					note_ := notestateshape.Note
+					var notestateshapes []*NoteStateShape
+					_, ok := res[note_]
+					if ok {
+						notestateshapes = res[note_]
+					} else {
+						notestateshapes = make([]*NoteStateShape, 0)
+					}
+					notestateshapes = append(notestateshapes, notestateshape)
+					res[note_] = notestateshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "State":
+			res := make(map[*State][]*NoteStateShape)
+			for notestateshape := range stage.NoteStateShapes {
+				if notestateshape.State != nil {
+					state_ := notestateshape.State
+					var notestateshapes []*NoteStateShape
+					_, ok := res[state_]
+					if ok {
+						notestateshapes = res[state_]
+					} else {
+						notestateshapes = make([]*NoteStateShape, 0)
+					}
+					notestateshapes = append(notestateshapes, notestateshape)
+					res[state_] = notestateshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of NoteTransitionShape
+	case NoteTransitionShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Note":
+			res := make(map[*Note][]*NoteTransitionShape)
+			for notetransitionshape := range stage.NoteTransitionShapes {
+				if notetransitionshape.Note != nil {
+					note_ := notetransitionshape.Note
+					var notetransitionshapes []*NoteTransitionShape
+					_, ok := res[note_]
+					if ok {
+						notetransitionshapes = res[note_]
+					} else {
+						notetransitionshapes = make([]*NoteTransitionShape, 0)
+					}
+					notetransitionshapes = append(notetransitionshapes, notetransitionshape)
+					res[note_] = notetransitionshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Transition":
+			res := make(map[*Transition][]*NoteTransitionShape)
+			for notetransitionshape := range stage.NoteTransitionShapes {
+				if notetransitionshape.Transition != nil {
+					transition_ := notetransitionshape.Transition
+					var notetransitionshapes []*NoteTransitionShape
+					_, ok := res[transition_]
+					if ok {
+						notetransitionshapes = res[transition_]
+					} else {
+						notetransitionshapes = make([]*NoteTransitionShape, 0)
+					}
+					notetransitionshapes = append(notetransitionshapes, notetransitionshape)
+					res[transition_] = notetransitionshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Object
 	case Object:
@@ -4266,6 +5149,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Diagram:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "NotesWhoseNodeIsExpanded":
+			res := make(map[*Note][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, note_ := range diagram.NotesWhoseNodeIsExpanded {
+					res[note_] = append(res[note_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "State_Shapes":
 			res := make(map[*StateShape][]*Diagram)
 			for diagram := range stage.Diagrams {
@@ -4287,6 +5178,30 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for diagram := range stage.Diagrams {
 				for _, transition_shape_ := range diagram.Transition_Shapes {
 					res[transition_shape_] = append(res[transition_shape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Note_Shapes":
+			res := make(map[*NoteShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, noteshape_ := range diagram.Note_Shapes {
+					res[noteshape_] = append(res[noteshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "NoteState_Shapes":
+			res := make(map[*NoteStateShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, notestateshape_ := range diagram.NoteState_Shapes {
+					res[notestateshape_] = append(res[notestateshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "NoteTransition_Shapes":
+			res := make(map[*NoteTransitionShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, notetransitionshape_ := range diagram.NoteTransition_Shapes {
+					res[notetransitionshape_] = append(res[notetransitionshape_], diagram)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -4337,6 +5252,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "RootNotes":
+			res := make(map[*Note][]*Library)
+			for library := range stage.Librarys {
+				for _, note_ := range library.RootNotes {
+					res[note_] = append(res[note_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "NotesWhoseNodeIsExpanded":
+			res := make(map[*Note][]*Library)
+			for library := range stage.Librarys {
+				for _, note_ := range library.NotesWhoseNodeIsExpanded {
+					res[note_] = append(res[note_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "SubLibrariesWhoseNodeIsExpanded":
 			res := make(map[*Library][]*Library)
 			for library := range stage.Librarys {
@@ -4353,6 +5284,42 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		}
 	// reverse maps of direct associations of MessageType
 	case MessageType:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Note
+	case Note:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "States":
+			res := make(map[*State][]*Note)
+			for note := range stage.Notes {
+				for _, state_ := range note.States {
+					res[state_] = append(res[state_], note)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Transitions":
+			res := make(map[*Transition][]*Note)
+			for note := range stage.Notes {
+				for _, transition_ := range note.Transitions {
+					res[transition_] = append(res[transition_], note)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of NoteShape
+	case NoteShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of NoteStateShape
+	case NoteStateShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of NoteTransitionShape
+	case NoteTransitionShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -4500,6 +5467,14 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Message"
 	case *MessageType:
 		res = "MessageType"
+	case *Note:
+		res = "Note"
+	case *NoteShape:
+		res = "NoteShape"
+	case *NoteStateShape:
+		res = "NoteStateShape"
+	case *NoteTransitionShape:
+		res = "NoteTransitionShape"
 	case *Object:
 		res = "Object"
 	case *Role:
@@ -4585,6 +5560,36 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Transition"
 		rf.Fieldname = "GeneratedMessages"
 		res = append(res, rf)
+	case *Note:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "NotesWhoseNodeIsExpanded"
+		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "RootNotes"
+		res = append(res, rf)
+		rf.GongstructName = "Library"
+		rf.Fieldname = "NotesWhoseNodeIsExpanded"
+		res = append(res, rf)
+	case *NoteShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "Note_Shapes"
+		res = append(res, rf)
+	case *NoteStateShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "NoteState_Shapes"
+		res = append(res, rf)
+	case *NoteTransitionShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "NoteTransition_Shapes"
+		res = append(res, rf)
 	case *Object:
 		var rf ReverseField
 		_ = rf
@@ -4605,6 +5610,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Diagram"
 		rf.Fieldname = "StatesWhoseNodeIsExpanded"
+		res = append(res, rf)
+		rf.GongstructName = "Note"
+		rf.Fieldname = "States"
 		res = append(res, rf)
 		rf.GongstructName = "State"
 		rf.Fieldname = "SubStates"
@@ -4633,6 +5641,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Transition:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Note"
+		rf.Fieldname = "Transitions"
+		res = append(res, rf)
 	case *Transition_Shape:
 		var rf ReverseField
 		_ = rf
@@ -4721,6 +5732,19 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "IsStatesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsNotesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "NotesWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Note",
+		},
+		{
 			Name:                 "State_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "StateShape",
@@ -4734,6 +5758,21 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Transition_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Transition_Shape",
+		},
+		{
+			Name:                 "Note_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "NoteShape",
+		},
+		{
+			Name:                 "NoteState_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "NoteStateShape",
+		},
+		{
+			Name:                 "NoteTransition_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "NoteTransitionShape",
 		},
 	}
 	return
@@ -4818,6 +5857,20 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "StateMachine",
 		},
 		{
+			Name:                 "RootNotes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Note",
+		},
+		{
+			Name:               "IsNotesNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "NotesWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Note",
+		},
+		{
 			Name:               "IsSubLibrariesNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -4869,6 +5922,179 @@ func (messagetype *MessageType) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
+			Name:                 "States",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "State",
+		},
+		{
+			Name:                 "Transitions",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Transition",
+		},
+	}
+	return
+}
+
+func (noteshape *NoteShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Note",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Note",
+		},
+		{
+			Name:               "OverideLayoutDirection",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
+			Name:               "X",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Y",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (notestateshape *NoteStateShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Note",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Note",
+		},
+		{
+			Name:                 "State",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "State",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "StartOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:                 "EndOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:               "CornerOffsetRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (notetransitionshape *NoteTransitionShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Note",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Note",
+		},
+		{
+			Name:                 "Transition",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Transition",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "StartOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:                 "EndOrientation",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "OrientationType",
+		},
+		{
+			Name:               "CornerOffsetRatio",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -5267,6 +6493,24 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.IsEditable_)
 		res.valueBool = diagram.IsEditable_
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsStatesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsStatesNodeExpanded)
+		res.valueBool = diagram.IsStatesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsNotesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsNotesNodeExpanded)
+		res.valueBool = diagram.IsNotesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "NotesWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.NotesWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "State_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.State_Shapes {
@@ -5290,6 +6534,36 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "Transition_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.Transition_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Note_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.Note_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "NoteState_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.NoteState_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "NoteTransition_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.NoteTransition_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -5387,6 +6661,30 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "RootNotes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootNotes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "IsNotesNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", library.IsNotesNodeExpanded)
+		res.valueBool = library.IsNotesNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "NotesWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.NotesWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	case "IsSubLibrariesNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", library.IsSubLibrariesNodeExpanded)
 		res.valueBool = library.IsSubLibrariesNodeExpanded
@@ -5441,6 +6739,172 @@ func (messagetype *MessageType) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = messagetype.Name
 	case "Description":
 		res.valueString = messagetype.Description
+	}
+	return
+}
+
+func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = note.Name
+	case "ComputedPrefix":
+		res.valueString = note.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", note.IsExpanded)
+		res.valueBool = note.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := note.LayoutDirection
+		res.valueString = enum.ToCodeString()
+	case "States":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range note.States {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Transitions":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range note.Transitions {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (noteshape *NoteShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = noteshape.Name
+	case "Note":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if noteshape.Note != nil {
+			res.valueString = noteshape.Note.Name
+			res.ids = noteshape.Note.GongGetUUID(stage)
+		}
+	case "OverideLayoutDirection":
+		res.valueString = fmt.Sprintf("%t", noteshape.OverideLayoutDirection)
+		res.valueBool = noteshape.OverideLayoutDirection
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := noteshape.LayoutDirection
+		res.valueString = enum.ToCodeString()
+	case "X":
+		res.valueString = fmt.Sprintf("%f", noteshape.X)
+		res.valueFloat = noteshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", noteshape.Y)
+		res.valueFloat = noteshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", noteshape.Width)
+		res.valueFloat = noteshape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", noteshape.Height)
+		res.valueFloat = noteshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", noteshape.IsHidden)
+		res.valueBool = noteshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (notestateshape *NoteStateShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = notestateshape.Name
+	case "Note":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if notestateshape.Note != nil {
+			res.valueString = notestateshape.Note.Name
+			res.ids = notestateshape.Note.GongGetUUID(stage)
+		}
+	case "State":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if notestateshape.State != nil {
+			res.valueString = notestateshape.State.Name
+			res.ids = notestateshape.State.GongGetUUID(stage)
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", notestateshape.StartRatio)
+		res.valueFloat = notestateshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", notestateshape.EndRatio)
+		res.valueFloat = notestateshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := notestateshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := notestateshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", notestateshape.CornerOffsetRatio)
+		res.valueFloat = notestateshape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", notestateshape.IsHidden)
+		res.valueBool = notestateshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (notetransitionshape *NoteTransitionShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = notetransitionshape.Name
+	case "Note":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if notetransitionshape.Note != nil {
+			res.valueString = notetransitionshape.Note.Name
+			res.ids = notetransitionshape.Note.GongGetUUID(stage)
+		}
+	case "Transition":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if notetransitionshape.Transition != nil {
+			res.valueString = notetransitionshape.Transition.Name
+			res.ids = notetransitionshape.Transition.GongGetUUID(stage)
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", notetransitionshape.StartRatio)
+		res.valueFloat = notetransitionshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", notetransitionshape.EndRatio)
+		res.valueFloat = notetransitionshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := notetransitionshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := notetransitionshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", notetransitionshape.CornerOffsetRatio)
+		res.valueFloat = notetransitionshape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", notetransitionshape.IsHidden)
+		res.valueBool = notetransitionshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -5827,6 +7291,24 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.IsExpanded = value.GetValueBool()
 	case "IsEditable_":
 		diagram.IsEditable_ = value.GetValueBool()
+	case "IsStatesNodeExpanded":
+		diagram.IsStatesNodeExpanded = value.GetValueBool()
+	case "IsNotesNodeExpanded":
+		diagram.IsNotesNodeExpanded = value.GetValueBool()
+	case "NotesWhoseNodeIsExpanded":
+		diagram.NotesWhoseNodeIsExpanded = make([]*Note, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Notes {
+					if stage.Note_stagedOrder[__instance__] == uint(id) {
+						diagram.NotesWhoseNodeIsExpanded = append(diagram.NotesWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "State_Shapes":
 		diagram.State_Shapes = make([]*StateShape, 0)
 		ids := strings.Split(value.ids, ";")
@@ -5864,6 +7346,48 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				for __instance__ := range stage.Transition_Shapes {
 					if stage.Transition_Shape_stagedOrder[__instance__] == uint(id) {
 						diagram.Transition_Shapes = append(diagram.Transition_Shapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Note_Shapes":
+		diagram.Note_Shapes = make([]*NoteShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.NoteShapes {
+					if stage.NoteShape_stagedOrder[__instance__] == uint(id) {
+						diagram.Note_Shapes = append(diagram.Note_Shapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "NoteState_Shapes":
+		diagram.NoteState_Shapes = make([]*NoteStateShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.NoteStateShapes {
+					if stage.NoteStateShape_stagedOrder[__instance__] == uint(id) {
+						diagram.NoteState_Shapes = append(diagram.NoteState_Shapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "NoteTransition_Shapes":
+		diagram.NoteTransition_Shapes = make([]*NoteTransitionShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.NoteTransitionShapes {
+					if stage.NoteTransitionShape_stagedOrder[__instance__] == uint(id) {
+						diagram.NoteTransition_Shapes = append(diagram.NoteTransition_Shapes, __instance__)
 						break
 					}
 				}
@@ -5972,6 +7496,36 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "RootNotes":
+		library.RootNotes = make([]*Note, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Notes {
+					if stage.Note_stagedOrder[__instance__] == uint(id) {
+						library.RootNotes = append(library.RootNotes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsNotesNodeExpanded":
+		library.IsNotesNodeExpanded = value.GetValueBool()
+	case "NotesWhoseNodeIsExpanded":
+		library.NotesWhoseNodeIsExpanded = make([]*Note, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Notes {
+					if stage.Note_stagedOrder[__instance__] == uint(id) {
+						library.NotesWhoseNodeIsExpanded = append(library.NotesWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "IsSubLibrariesNodeExpanded":
 		library.IsSubLibrariesNodeExpanded = value.GetValueBool()
 	case "SubLibrariesWhoseNodeIsExpanded":
@@ -6038,6 +7592,177 @@ func (messagetype *MessageType) GongSetFieldValue(fieldName string, value GongFi
 		messagetype.Name = value.GetValueString()
 	case "Description":
 		messagetype.Description = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		note.Name = value.GetValueString()
+	case "ComputedPrefix":
+		note.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		note.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		note.LayoutDirection.FromCodeString(value.GetValueString())
+	case "States":
+		note.States = make([]*State, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.States {
+					if stage.State_stagedOrder[__instance__] == uint(id) {
+						note.States = append(note.States, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Transitions":
+		note.Transitions = make([]*Transition, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Transitions {
+					if stage.Transition_stagedOrder[__instance__] == uint(id) {
+						note.Transitions = append(note.Transitions, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (noteshape *NoteShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		noteshape.Name = value.GetValueString()
+	case "Note":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			noteshape.Note = nil
+			for __instance__ := range stage.Notes {
+				if stage.Note_stagedOrder[__instance__] == uint(id) {
+					noteshape.Note = __instance__
+					break
+				}
+			}
+		}
+	case "OverideLayoutDirection":
+		noteshape.OverideLayoutDirection = value.GetValueBool()
+	case "LayoutDirection":
+		noteshape.LayoutDirection.FromCodeString(value.GetValueString())
+	case "X":
+		noteshape.X = value.GetValueFloat()
+	case "Y":
+		noteshape.Y = value.GetValueFloat()
+	case "Width":
+		noteshape.Width = value.GetValueFloat()
+	case "Height":
+		noteshape.Height = value.GetValueFloat()
+	case "IsHidden":
+		noteshape.IsHidden = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (notestateshape *NoteStateShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		notestateshape.Name = value.GetValueString()
+	case "Note":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			notestateshape.Note = nil
+			for __instance__ := range stage.Notes {
+				if stage.Note_stagedOrder[__instance__] == uint(id) {
+					notestateshape.Note = __instance__
+					break
+				}
+			}
+		}
+	case "State":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			notestateshape.State = nil
+			for __instance__ := range stage.States {
+				if stage.State_stagedOrder[__instance__] == uint(id) {
+					notestateshape.State = __instance__
+					break
+				}
+			}
+		}
+	case "StartRatio":
+		notestateshape.StartRatio = value.GetValueFloat()
+	case "EndRatio":
+		notestateshape.EndRatio = value.GetValueFloat()
+	case "StartOrientation":
+		notestateshape.StartOrientation.FromCodeString(value.GetValueString())
+	case "EndOrientation":
+		notestateshape.EndOrientation.FromCodeString(value.GetValueString())
+	case "CornerOffsetRatio":
+		notestateshape.CornerOffsetRatio = value.GetValueFloat()
+	case "IsHidden":
+		notestateshape.IsHidden = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (notetransitionshape *NoteTransitionShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		notetransitionshape.Name = value.GetValueString()
+	case "Note":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			notetransitionshape.Note = nil
+			for __instance__ := range stage.Notes {
+				if stage.Note_stagedOrder[__instance__] == uint(id) {
+					notetransitionshape.Note = __instance__
+					break
+				}
+			}
+		}
+	case "Transition":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			notetransitionshape.Transition = nil
+			for __instance__ := range stage.Transitions {
+				if stage.Transition_stagedOrder[__instance__] == uint(id) {
+					notetransitionshape.Transition = __instance__
+					break
+				}
+			}
+		}
+	case "StartRatio":
+		notetransitionshape.StartRatio = value.GetValueFloat()
+	case "EndRatio":
+		notetransitionshape.EndRatio = value.GetValueFloat()
+	case "StartOrientation":
+		notetransitionshape.StartOrientation.FromCodeString(value.GetValueString())
+	case "EndOrientation":
+		notetransitionshape.EndOrientation.FromCodeString(value.GetValueString())
+	case "CornerOffsetRatio":
+		notetransitionshape.CornerOffsetRatio = value.GetValueFloat()
+	case "IsHidden":
+		notetransitionshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -6452,6 +8177,22 @@ func (messagetype *MessageType) GongGetGongstructName() string {
 	return "MessageType"
 }
 
+func (note *Note) GongGetGongstructName() string {
+	return "Note"
+}
+
+func (noteshape *NoteShape) GongGetGongstructName() string {
+	return "NoteShape"
+}
+
+func (notestateshape *NoteStateShape) GongGetGongstructName() string {
+	return "NoteStateShape"
+}
+
+func (notetransitionshape *NoteTransitionShape) GongGetGongstructName() string {
+	return "NoteTransitionShape"
+}
+
 func (object *Object) GongGetGongstructName() string {
 	return "Object"
 }
@@ -6530,6 +8271,26 @@ func (stage *Stage) ResetMapStrings() {
 	stage.MessageTypes_mapString = make(map[string]*MessageType)
 	for messagetype := range stage.MessageTypes {
 		stage.MessageTypes_mapString[messagetype.Name] = messagetype
+	}
+
+	stage.Notes_mapString = make(map[string]*Note)
+	for note := range stage.Notes {
+		stage.Notes_mapString[note.Name] = note
+	}
+
+	stage.NoteShapes_mapString = make(map[string]*NoteShape)
+	for noteshape := range stage.NoteShapes {
+		stage.NoteShapes_mapString[noteshape.Name] = noteshape
+	}
+
+	stage.NoteStateShapes_mapString = make(map[string]*NoteStateShape)
+	for notestateshape := range stage.NoteStateShapes {
+		stage.NoteStateShapes_mapString[notestateshape.Name] = notestateshape
+	}
+
+	stage.NoteTransitionShapes_mapString = make(map[string]*NoteTransitionShape)
+	for notetransitionshape := range stage.NoteTransitionShapes {
+		stage.NoteTransitionShapes_mapString[notetransitionshape.Name] = notetransitionshape
 	}
 
 	stage.Objects_mapString = make(map[string]*Object)

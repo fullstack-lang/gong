@@ -61,6 +61,10 @@ type Diagram_WOP struct {
 	IsExpanded bool
 
 	IsEditable_ bool
+
+	IsStatesNodeExpanded bool
+
+	IsNotesNodeExpanded bool
 }
 
 func (from *Diagram) CopyBasicFields(to *Diagram) {
@@ -69,6 +73,8 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsChecked = from.IsChecked
 	to.IsExpanded = from.IsExpanded
 	to.IsEditable_ = from.IsEditable_
+	to.IsStatesNodeExpanded = from.IsStatesNodeExpanded
+	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 }
 
 type Guard_WOP struct {
@@ -112,6 +118,8 @@ type Library_WOP struct {
 
 	IsStateMachinesNodeExpanded bool
 
+	IsNotesNodeExpanded bool
+
 	IsSubLibrariesNodeExpanded bool
 
 	IsExpandedTmp bool
@@ -127,6 +135,7 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.LayoutDirection = from.LayoutDirection
 	to.IsRootLibrary = from.IsRootLibrary
 	to.IsStateMachinesNodeExpanded = from.IsStateMachinesNodeExpanded
+	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 	to.IsSubLibrariesNodeExpanded = from.IsSubLibrariesNodeExpanded
 	to.IsExpandedTmp = from.IsExpandedTmp
 }
@@ -157,6 +166,116 @@ func (from *MessageType) CopyBasicFields(to *MessageType) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
+}
+
+type Note_WOP struct {
+	// insertion point
+
+	Name string
+
+	ComputedPrefix string
+
+	IsExpanded bool
+
+	LayoutDirection LayoutDirection
+}
+
+func (from *Note) CopyBasicFields(to *Note) {
+	// insertion point
+	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.LayoutDirection = from.LayoutDirection
+}
+
+type NoteShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	OverideLayoutDirection bool
+
+	LayoutDirection LayoutDirection
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+
+	IsHidden bool
+}
+
+func (from *NoteShape) CopyBasicFields(to *NoteShape) {
+	// insertion point
+	to.Name = from.Name
+	to.OverideLayoutDirection = from.OverideLayoutDirection
+	to.LayoutDirection = from.LayoutDirection
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
+	to.IsHidden = from.IsHidden
+}
+
+type NoteStateShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+
+	IsHidden bool
+}
+
+func (from *NoteStateShape) CopyBasicFields(to *NoteStateShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
+}
+
+type NoteTransitionShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+
+	IsHidden bool
+}
+
+func (from *NoteTransitionShape) CopyBasicFields(to *NoteTransitionShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
 }
 
 type Object_WOP struct {

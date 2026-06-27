@@ -50,6 +50,7 @@ type Stager struct {
 	diagram                *Diagram
 	svgObject              *svg.SVG
 	map_SvgRect_StateShape map[*svg.Rect]*StateShape
+	map_SvgRect_NoteShape  map[*svg.Rect]*NoteShape
 
 	// DSM mandatory
 	// map to navigate from abstract elements to all diagrams where they are displayed
