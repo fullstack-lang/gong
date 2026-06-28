@@ -5110,6 +5110,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Port with the name of the field
 			Ports: []*Port{{Name: "Ports"}},
+			// field is initialized with an instance of System with the name of the field
+			TypeOfPart: &System{Name: "TypeOfPart"},
 			// field is initialized with an instance of ControlFlow with the name of the field
 			ControlFlows: []*ControlFlow{{Name: "ControlFlows"}},
 			// field is initialized with an instance of Port with the name of the field
@@ -5136,8 +5138,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Port:
 		return any(&Port{
 			// Initialisation of associations
-			// field is initialized with an instance of System with the name of the field
-			Type: &System{Name: "Type"},
 		}).(*Type)
 	case PortShape:
 		return any(&PortShape{
@@ -5572,6 +5572,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Part:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "TypeOfPart":
+			res := make(map[*System][]*Part)
+			for part := range stage.Parts {
+				if part.TypeOfPart != nil {
+					system_ := part.TypeOfPart
+					var parts []*Part
+					_, ok := res[system_]
+					if ok {
+						parts = res[system_]
+					} else {
+						parts = make([]*Part, 0)
+					}
+					parts = append(parts, part)
+					res[system_] = parts
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of PartAnchoredPath
 	case PartAnchoredPath:
@@ -5604,23 +5621,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Port:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Type":
-			res := make(map[*System][]*Port)
-			for port := range stage.Ports {
-				if port.Type != nil {
-					system_ := port.Type
-					var ports []*Port
-					_, ok := res[system_]
-					if ok {
-						ports = res[system_]
-					} else {
-						ports = make([]*Port, 0)
-					}
-					ports = append(ports, port)
-					res[system_] = ports
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of PortShape
 	case PortShape:
@@ -7331,26 +7331,18 @@ func (part *Part) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "ComputedPrefix",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
-		{
-			Name:               "IsPortsNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:                 "Ports",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Port",
+		},
+		{
+			Name:                 "TypeOfPart",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "System",
+		},
+		{
+			Name:               "IsPartNameNotSystemName",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:               "IsControlFlowsNodeExpanded",
@@ -7389,6 +7381,23 @@ func (part *Part) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "PartAnchoredPath",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "PartAnchoredPath",
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
+		},
+		{
+			Name:               "IsPortsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -7525,23 +7534,6 @@ func (port *Port) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "LayoutDirection",
 			GongFieldValueType:   GongFieldValueTypeInt,
 			TargetGongstructName: "LayoutDirection",
-		},
-		{
-			Name:               "IsStartPort",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:               "IsEndPort",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "Type",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "System",
-		},
-		{
-			Name:               "IsPortNameNotSystemName",
-			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -8721,19 +8713,6 @@ func (part *Part) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = part.Name
 	case "Description":
 		res.valueString = part.Description
-	case "ComputedPrefix":
-		res.valueString = part.ComputedPrefix
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", part.IsExpanded)
-		res.valueBool = part.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := part.LayoutDirection
-		res.valueString = enum.ToCodeString()
-	case "IsPortsNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", part.IsPortsNodeExpanded)
-		res.valueBool = part.IsPortsNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Ports":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range part.Ports {
@@ -8744,6 +8723,16 @@ func (part *Part) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "TypeOfPart":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if part.TypeOfPart != nil {
+			res.valueString = part.TypeOfPart.Name
+			res.ids = part.TypeOfPart.GongGetUUID(stage)
+		}
+	case "IsPartNameNotSystemName":
+		res.valueString = fmt.Sprintf("%t", part.IsPartNameNotSystemName)
+		res.valueBool = part.IsPartNameNotSystemName
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsControlFlowsNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", part.IsControlFlowsNodeExpanded)
 		res.valueBool = part.IsControlFlowsNodeExpanded
@@ -8812,6 +8801,19 @@ func (part *Part) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "ComputedPrefix":
+		res.valueString = part.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", part.IsExpanded)
+		res.valueBool = part.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := part.LayoutDirection
+		res.valueString = enum.ToCodeString()
+	case "IsPortsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", part.IsPortsNodeExpanded)
+		res.valueBool = part.IsPortsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -8923,24 +8925,6 @@ func (port *Port) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "LayoutDirection":
 		enum := port.LayoutDirection
 		res.valueString = enum.ToCodeString()
-	case "IsStartPort":
-		res.valueString = fmt.Sprintf("%t", port.IsStartPort)
-		res.valueBool = port.IsStartPort
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsEndPort":
-		res.valueString = fmt.Sprintf("%t", port.IsEndPort)
-		res.valueBool = port.IsEndPort
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "Type":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if port.Type != nil {
-			res.valueString = port.Type.Name
-			res.ids = port.Type.GongGetUUID(stage)
-		}
-	case "IsPortNameNotSystemName":
-		res.valueString = fmt.Sprintf("%t", port.IsPortNameNotSystemName)
-		res.valueBool = port.IsPortNameNotSystemName
-		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -10240,14 +10224,6 @@ func (part *Part) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		part.Name = value.GetValueString()
 	case "Description":
 		part.Description = value.GetValueString()
-	case "ComputedPrefix":
-		part.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		part.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		part.LayoutDirection.FromCodeString(value.GetValueString())
-	case "IsPortsNodeExpanded":
-		part.IsPortsNodeExpanded = value.GetValueBool()
 	case "Ports":
 		part.Ports = make([]*Port, 0)
 		ids := strings.Split(value.ids, ";")
@@ -10262,6 +10238,19 @@ func (part *Part) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
+	case "TypeOfPart":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			part.TypeOfPart = nil
+			for __instance__ := range stage.Systems {
+				if stage.System_stagedOrder[__instance__] == uint(id) {
+					part.TypeOfPart = __instance__
+					break
+				}
+			}
+		}
+	case "IsPartNameNotSystemName":
+		part.IsPartNameNotSystemName = value.GetValueBool()
 	case "IsControlFlowsNodeExpanded":
 		part.IsControlFlowsNodeExpanded = value.GetValueBool()
 	case "ControlFlows":
@@ -10350,6 +10339,14 @@ func (part *Part) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
+	case "ComputedPrefix":
+		part.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		part.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		part.LayoutDirection.FromCodeString(value.GetValueString())
+	case "IsPortsNodeExpanded":
+		part.IsPortsNodeExpanded = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10442,23 +10439,6 @@ func (port *Port) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		port.IsExpanded = value.GetValueBool()
 	case "LayoutDirection":
 		port.LayoutDirection.FromCodeString(value.GetValueString())
-	case "IsStartPort":
-		port.IsStartPort = value.GetValueBool()
-	case "IsEndPort":
-		port.IsEndPort = value.GetValueBool()
-	case "Type":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			port.Type = nil
-			for __instance__ := range stage.Systems {
-				if stage.System_stagedOrder[__instance__] == uint(id) {
-					port.Type = __instance__
-					break
-				}
-			}
-		}
-	case "IsPortNameNotSystemName":
-		port.IsPortNameNotSystemName = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

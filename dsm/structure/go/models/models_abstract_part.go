@@ -6,11 +6,13 @@ type Part struct {
 	//gong:text width:300 height:300
 	Description string
 
-	LibraryAbstractFields
-	AbstractTypeFields
+	Ports []*Port
 
-	IsPortsNodeExpanded bool
-	Ports               []*Port
+	// A part is an instance of a system within another system.
+	// This is an instance of the whole/part meta model pattern.
+	// by default, the part name is the system type name, but it can be overridden by the user.
+	TypeOfPart              *System
+	IsPartNameNotSystemName bool
 
 	IsControlFlowsNodeExpanded bool
 	ControlFlows               []*ControlFlow
@@ -28,6 +30,11 @@ type Part struct {
 	owningSystem *System
 
 	PartAnchoredPath []*PartAnchoredPath
+
+	LibraryAbstractFields
+	AbstractTypeFields
+
+	IsPortsNodeExpanded bool
 }
 
 var _ AbstractType = (*Part)(nil)

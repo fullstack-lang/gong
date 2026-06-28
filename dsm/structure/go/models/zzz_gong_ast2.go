@@ -1150,16 +1150,12 @@ func (u *PartUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.Name = GongExtractString(valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
-	case "ComputedPrefix":
-		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
-	case "IsPortsNodeExpanded":
-		instance.IsPortsNodeExpanded = GongExtractBool(valueExpr)
 	case "Ports":
 		GongUnmarshallSliceOfPointers(&instance.Ports, valueExpr, identifierMap)
+	case "TypeOfPart":
+		GongUnmarshallPointer(&instance.TypeOfPart, valueExpr, identifierMap)
+	case "IsPartNameNotSystemName":
+		instance.IsPartNameNotSystemName = GongExtractBool(valueExpr)
 	case "IsControlFlowsNodeExpanded":
 		instance.IsControlFlowsNodeExpanded = GongExtractBool(valueExpr)
 	case "ControlFlows":
@@ -1176,6 +1172,14 @@ func (u *PartUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		GongUnmarshallSliceOfPointers(&instance.PortWhoseInDataFlowsNodeIsExpanded, valueExpr, identifierMap)
 	case "PartAnchoredPath":
 		GongUnmarshallSliceOfPointers(&instance.PartAnchoredPath, valueExpr, identifierMap)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "IsPortsNodeExpanded":
+		instance.IsPortsNodeExpanded = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -1313,14 +1317,6 @@ func (u *PortUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "LayoutDirection":
 		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
-	case "IsStartPort":
-		instance.IsStartPort = GongExtractBool(valueExpr)
-	case "IsEndPort":
-		instance.IsEndPort = GongExtractBool(valueExpr)
-	case "Type":
-		GongUnmarshallPointer(&instance.Type, valueExpr, identifierMap)
-	case "IsPortNameNotSystemName":
-		instance.IsPortNameNotSystemName = GongExtractBool(valueExpr)
 	}
 	return nil
 }

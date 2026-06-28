@@ -781,6 +781,9 @@ func (stage *Stage) StageBranchPart(part *Part) {
 	part.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if part.TypeOfPart != nil {
+		StageBranch(stage, part.TypeOfPart)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _port := range part.Ports {
@@ -850,9 +853,6 @@ func (stage *Stage) StageBranchPort(port *Port) {
 	port.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if port.Type != nil {
-		StageBranch(stage, port.Type)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1504,6 +1504,9 @@ func CopyBranchPart(mapOrigCopy map[any]any, partFrom *Part) (partTo *Part) {
 	partFrom.CopyBasicFields(partTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if partFrom.TypeOfPart != nil {
+		partTo.TypeOfPart = CopyBranchSystem(mapOrigCopy, partFrom.TypeOfPart)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _port := range partFrom.Ports {
@@ -1585,9 +1588,6 @@ func CopyBranchPort(mapOrigCopy map[any]any, portFrom *Port) (portTo *Port) {
 	portFrom.CopyBasicFields(portTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if portFrom.Type != nil {
-		portTo.Type = CopyBranchSystem(mapOrigCopy, portFrom.Type)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -2171,6 +2171,9 @@ func (stage *Stage) UnstageBranchPart(part *Part) {
 	part.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if part.TypeOfPart != nil {
+		UnstageBranch(stage, part.TypeOfPart)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _port := range part.Ports {
@@ -2240,9 +2243,6 @@ func (stage *Stage) UnstageBranchPort(port *Port) {
 	port.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if port.Type != nil {
-		UnstageBranch(stage, port.Type)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -2621,6 +2621,9 @@ func (reference *NoteShape) GongReconstructPointersFromReferences(stage *Stage, 
 
 func (reference *Part) GongReconstructPointersFromReferences(stage *Stage, instance *Part) {
 	// insertion point for pointers field
+	if instance.TypeOfPart != nil {
+		reference.TypeOfPart = stage.Systems_reference[instance.TypeOfPart]
+	}
 	// insertion point for slice of pointers field
 	reference.Ports = reference.Ports[:0]
 	for _, _b := range instance.Ports {
@@ -2667,9 +2670,6 @@ func (reference *PartShape) GongReconstructPointersFromReferences(stage *Stage, 
 
 func (reference *Port) GongReconstructPointersFromReferences(stage *Stage, instance *Port) {
 	// insertion point for pointers field
-	if instance.Type != nil {
-		reference.Type = stage.Systems_reference[instance.Type]
-	}
 	// insertion point for slice of pointers field
 }
 
@@ -3185,6 +3185,12 @@ func (reference *NoteShape) GongReconstructPointersFromInstances(stage *Stage) {
 
 func (reference *Part) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
+	if _reference := reference.TypeOfPart; _reference != nil {
+		reference.TypeOfPart = nil
+		if _instance, ok := stage.Systems_instance[_reference]; ok {
+			reference.TypeOfPart = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 	var _Ports []*Port
 	for _, _reference := range reference.Ports {
@@ -3255,12 +3261,6 @@ func (reference *PartShape) GongReconstructPointersFromInstances(stage *Stage) {
 
 func (reference *Port) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
-	if _reference := reference.Type; _reference != nil {
-		reference.Type = nil
-		if _instance, ok := stage.Systems_instance[_reference]; ok {
-			reference.Type = _instance
-		}
-	}
 	// insertion point for slice of pointers fields
 }
 
@@ -4708,18 +4708,6 @@ func (part *Part) GongDiff(stage *Stage, partOther *Part) (diffs []string) {
 	if part.Description != partOther.Description {
 		diffs = append(diffs, part.GongMarshallField(stage, "Description"))
 	}
-	if part.ComputedPrefix != partOther.ComputedPrefix {
-		diffs = append(diffs, part.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if part.IsExpanded != partOther.IsExpanded {
-		diffs = append(diffs, part.GongMarshallField(stage, "IsExpanded"))
-	}
-	if part.LayoutDirection != partOther.LayoutDirection {
-		diffs = append(diffs, part.GongMarshallField(stage, "LayoutDirection"))
-	}
-	if part.IsPortsNodeExpanded != partOther.IsPortsNodeExpanded {
-		diffs = append(diffs, part.GongMarshallField(stage, "IsPortsNodeExpanded"))
-	}
 	PortsDifferent := false
 	if len(part.Ports) != len(partOther.Ports) {
 		PortsDifferent = true
@@ -4740,6 +4728,16 @@ func (part *Part) GongDiff(stage *Stage, partOther *Part) (diffs []string) {
 	if PortsDifferent {
 		ops := Diff(stage, part, partOther, "Ports", partOther.Ports, part.Ports)
 		diffs = append(diffs, ops)
+	}
+	if (part.TypeOfPart == nil) != (partOther.TypeOfPart == nil) {
+		diffs = append(diffs, part.GongMarshallField(stage, "TypeOfPart"))
+	} else if part.TypeOfPart != nil && partOther.TypeOfPart != nil {
+		if part.TypeOfPart != partOther.TypeOfPart {
+			diffs = append(diffs, part.GongMarshallField(stage, "TypeOfPart"))
+		}
+	}
+	if part.IsPartNameNotSystemName != partOther.IsPartNameNotSystemName {
+		diffs = append(diffs, part.GongMarshallField(stage, "IsPartNameNotSystemName"))
 	}
 	if part.IsControlFlowsNodeExpanded != partOther.IsControlFlowsNodeExpanded {
 		diffs = append(diffs, part.GongMarshallField(stage, "IsControlFlowsNodeExpanded"))
@@ -4873,6 +4871,18 @@ func (part *Part) GongDiff(stage *Stage, partOther *Part) (diffs []string) {
 		ops := Diff(stage, part, partOther, "PartAnchoredPath", partOther.PartAnchoredPath, part.PartAnchoredPath)
 		diffs = append(diffs, ops)
 	}
+	if part.ComputedPrefix != partOther.ComputedPrefix {
+		diffs = append(diffs, part.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if part.IsExpanded != partOther.IsExpanded {
+		diffs = append(diffs, part.GongMarshallField(stage, "IsExpanded"))
+	}
+	if part.LayoutDirection != partOther.LayoutDirection {
+		diffs = append(diffs, part.GongMarshallField(stage, "LayoutDirection"))
+	}
+	if part.IsPortsNodeExpanded != partOther.IsPortsNodeExpanded {
+		diffs = append(diffs, part.GongMarshallField(stage, "IsPortsNodeExpanded"))
+	}
 
 	return
 }
@@ -4984,22 +4994,6 @@ func (port *Port) GongDiff(stage *Stage, portOther *Port) (diffs []string) {
 	}
 	if port.LayoutDirection != portOther.LayoutDirection {
 		diffs = append(diffs, port.GongMarshallField(stage, "LayoutDirection"))
-	}
-	if port.IsStartPort != portOther.IsStartPort {
-		diffs = append(diffs, port.GongMarshallField(stage, "IsStartPort"))
-	}
-	if port.IsEndPort != portOther.IsEndPort {
-		diffs = append(diffs, port.GongMarshallField(stage, "IsEndPort"))
-	}
-	if (port.Type == nil) != (portOther.Type == nil) {
-		diffs = append(diffs, port.GongMarshallField(stage, "Type"))
-	} else if port.Type != nil && portOther.Type != nil {
-		if port.Type != portOther.Type {
-			diffs = append(diffs, port.GongMarshallField(stage, "Type"))
-		}
-	}
-	if port.IsPortNameNotSystemName != portOther.IsPortNameNotSystemName {
-		diffs = append(diffs, port.GongMarshallField(stage, "IsPortNameNotSystemName"))
 	}
 
 	return

@@ -81,12 +81,12 @@ func _(stage *models.Stage) {
 
 	__DataFlow__00000000_.Name = `"Port 1" to "Port 2"`
 	__DataFlow__00000000_.Description = ``
-	__DataFlow__00000000_.ComputedPrefix = ``
-	__DataFlow__00000000_.IsExpanded = false
-	__DataFlow__00000000_.LayoutDirection = models.Vertical
 	__DataFlow__00000000_.Type = models.DataFlow_Port2Port
 	__DataFlow__00000000_.Direction = models.DataFlow_BothWays
 	__DataFlow__00000000_.IsDatasNodeExpanded = false
+	__DataFlow__00000000_.ComputedPrefix = ``
+	__DataFlow__00000000_.IsExpanded = false
+	__DataFlow__00000000_.LayoutDirection = models.Vertical
 
 	__DataFlowShape__00000000_.Name = `"Port 1" to "Port 2"`
 	__DataFlowShape__00000000_.StartRatio = 0.500000
@@ -181,21 +181,23 @@ func _(stage *models.Stage) {
 
 	__Part__00000000_.Name = `P1`
 	__Part__00000000_.Description = ``
+	__Part__00000000_.IsPartNameNotSystemName = false
+	__Part__00000000_.IsControlFlowsNodeExpanded = false
+	__Part__00000000_.IsDataFlowsNodeExpanded = false
 	__Part__00000000_.ComputedPrefix = ``
 	__Part__00000000_.IsExpanded = false
 	__Part__00000000_.LayoutDirection = models.Vertical
 	__Part__00000000_.IsPortsNodeExpanded = true
-	__Part__00000000_.IsControlFlowsNodeExpanded = false
-	__Part__00000000_.IsDataFlowsNodeExpanded = false
 
 	__Part__00000001_.Name = `P2`
 	__Part__00000001_.Description = ``
+	__Part__00000001_.IsPartNameNotSystemName = false
+	__Part__00000001_.IsControlFlowsNodeExpanded = false
+	__Part__00000001_.IsDataFlowsNodeExpanded = false
 	__Part__00000001_.ComputedPrefix = ``
 	__Part__00000001_.IsExpanded = false
 	__Part__00000001_.LayoutDirection = models.Vertical
 	__Part__00000001_.IsPortsNodeExpanded = true
-	__Part__00000001_.IsControlFlowsNodeExpanded = false
-	__Part__00000001_.IsDataFlowsNodeExpanded = false
 
 	__PartAnchoredPath__00000000_.Name = `arrow`
 	__PartAnchoredPath__00000000_.Definition = `M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z`
@@ -234,27 +236,18 @@ func _(stage *models.Stage) {
 	__Port__00000000_.ComputedPrefix = ``
 	__Port__00000000_.IsExpanded = false
 	__Port__00000000_.LayoutDirection = models.Vertical
-	__Port__00000000_.IsStartPort = false
-	__Port__00000000_.IsEndPort = false
-	__Port__00000000_.IsPortNameNotSystemName = false
 
 	__Port__00000001_.Name = `Port 2`
 	__Port__00000001_.Description = ``
 	__Port__00000001_.ComputedPrefix = ``
 	__Port__00000001_.IsExpanded = false
 	__Port__00000001_.LayoutDirection = models.Vertical
-	__Port__00000001_.IsStartPort = false
-	__Port__00000001_.IsEndPort = false
-	__Port__00000001_.IsPortNameNotSystemName = false
 
 	__Port__00000002_.Name = `Port 3`
 	__Port__00000002_.Description = ``
 	__Port__00000002_.ComputedPrefix = ``
 	__Port__00000002_.IsExpanded = false
 	__Port__00000002_.LayoutDirection = models.Vertical
-	__Port__00000002_.IsStartPort = false
-	__Port__00000002_.IsEndPort = false
-	__Port__00000002_.IsPortNameNotSystemName = false
 
 	__PortShape__00000009_.Name = `Port 1-DiagramStructure`
 	__PortShape__00000009_.IsExpanded = false
@@ -325,11 +318,11 @@ func _(stage *models.Stage) {
 	__SystemShape__00000002_.IsHidden = false
 
 	// insertion point for setup of pointers
-	__DataFlow__00000000_.Datas = append(__DataFlow__00000000_.Datas, __Data__00000000_)
 	__DataFlow__00000000_.StartPort = __Port__00000000_
 	__DataFlow__00000000_.EndPort = __Port__00000001_
 	__DataFlow__00000000_.StartExternalPart = nil
 	__DataFlow__00000000_.EndExternalPart = nil
+	__DataFlow__00000000_.Datas = append(__DataFlow__00000000_.Datas, __Data__00000000_)
 	__DataFlowShape__00000000_.DataFlow = __DataFlow__00000000_
 	__DataShape__00000000_.Data = __Data__00000000_
 	__DataShape__00000000_.DataFlow = __DataFlow__00000000_
@@ -354,14 +347,13 @@ func _(stage *models.Stage) {
 	__NoteShape__00000000_.Note = __Note__00000000_
 	__Part__00000000_.Ports = append(__Part__00000000_.Ports, __Port__00000000_)
 	__Part__00000000_.Ports = append(__Part__00000000_.Ports, __Port__00000002_)
+	__Part__00000000_.TypeOfPart = nil
 	__Part__00000000_.PortWhoseOutDataFlowsNodeIsExpanded = append(__Part__00000000_.PortWhoseOutDataFlowsNodeIsExpanded, __Port__00000000_)
 	__Part__00000001_.Ports = append(__Part__00000001_.Ports, __Port__00000001_)
+	__Part__00000001_.TypeOfPart = nil
 	__Part__00000001_.PartAnchoredPath = append(__Part__00000001_.PartAnchoredPath, __PartAnchoredPath__00000000_)
 	__PartShape__00000007_.Part = __Part__00000001_
 	__PartShape__00000009_.Part = __Part__00000000_
-	__Port__00000000_.Type = nil
-	__Port__00000001_.Type = nil
-	__Port__00000002_.Type = nil
 	__PortShape__00000009_.Port = __Port__00000000_
 	__PortShape__00000010_.Port = __Port__00000001_
 	__PortShape__00000013_.Port = __Port__00000002_

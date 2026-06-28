@@ -206,6 +206,7 @@ func (part *Part) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &part.PortWhoseInDataFlowsNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &part.PartAnchoredPath) || modified
 	// insertion point per field
+	modified = GongCleanPointer(stage, &part.TypeOfPart) || modified
 	return
 }
 
@@ -228,7 +229,6 @@ func (partshape *PartShape) GongClean(stage *Stage) (modified bool) {
 func (port *Port) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
-	modified = GongCleanPointer(stage, &port.Type) || modified
 	return
 }
 

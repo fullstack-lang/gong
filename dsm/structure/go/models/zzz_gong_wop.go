@@ -416,6 +416,12 @@ type Part_WOP struct {
 
 	Description string
 
+	IsPartNameNotSystemName bool
+
+	IsControlFlowsNodeExpanded bool
+
+	IsDataFlowsNodeExpanded bool
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -423,22 +429,19 @@ type Part_WOP struct {
 	LayoutDirection LayoutDirection
 
 	IsPortsNodeExpanded bool
-
-	IsControlFlowsNodeExpanded bool
-
-	IsDataFlowsNodeExpanded bool
 }
 
 func (from *Part) CopyBasicFields(to *Part) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
+	to.IsPartNameNotSystemName = from.IsPartNameNotSystemName
+	to.IsControlFlowsNodeExpanded = from.IsControlFlowsNodeExpanded
+	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.LayoutDirection = from.LayoutDirection
 	to.IsPortsNodeExpanded = from.IsPortsNodeExpanded
-	to.IsControlFlowsNodeExpanded = from.IsControlFlowsNodeExpanded
-	to.IsDataFlowsNodeExpanded = from.IsDataFlowsNodeExpanded
 }
 
 type PartAnchoredPath_WOP struct {
@@ -535,12 +538,6 @@ type Port_WOP struct {
 	IsExpanded bool
 
 	LayoutDirection LayoutDirection
-
-	IsStartPort bool
-
-	IsEndPort bool
-
-	IsPortNameNotSystemName bool
 }
 
 func (from *Port) CopyBasicFields(to *Port) {
@@ -550,9 +547,6 @@ func (from *Port) CopyBasicFields(to *Port) {
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.LayoutDirection = from.LayoutDirection
-	to.IsStartPort = from.IsStartPort
-	to.IsEndPort = from.IsEndPort
-	to.IsPortNameNotSystemName = from.IsPortNameNotSystemName
 }
 
 type PortShape_WOP struct {
