@@ -243,7 +243,10 @@ func addCreateItemAndShapeButton[
 		newAbstractElement := processAbstractItemAddition(stager, conf.ItemButtonConfiguration, callbacks)
 
 		if conf.receivingDiagram != nil && conf.sliceForNewAddedShape != nil {
-			newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager.stage)
+			newShape := newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager.stage)
+			if addButton.ClientOnY != 0 {
+				newShape.SetY(addButton.ClientOnY)
+			}
 		}
 
 		if callbacks.OnBeforeCommit != nil {
@@ -302,6 +305,10 @@ func addCreateItemShapeAndLinkButton[
 
 		if conf.receivingDiagram != nil && conf.sliceForNewAddedShape != nil {
 			newShape := newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager.stage)
+
+			if addButton.ClientOnY != 0 {
+				newShape.SetY(addButton.ClientOnY)
+			}
 
 			var parentShape PCT
 			if conf.parentElement != nil {

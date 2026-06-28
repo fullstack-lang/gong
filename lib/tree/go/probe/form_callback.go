@@ -78,6 +78,10 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(button_.ToolTipText), formDiv)
 		case "ToolTipPosition":
 			FormDivEnumStringFieldToField(&(button_.ToolTipPosition), formDiv)
+		case "ClientOnX":
+			FormDivBasicFieldToField(&(button_.ClientOnX), formDiv)
+		case "ClientOnY":
+			FormDivBasicFieldToField(&(button_.ClientOnY), formDiv)
 		case "Menu:Buttons":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Menu instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

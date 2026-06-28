@@ -300,6 +300,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(button.GongMarshallField(stage, "HasToolTip"))
 		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipText"))
 		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipPosition"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "ClientOnX"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "ClientOnY"))
 	}
 
 	menuOrdered := []*Menu{}
@@ -575,6 +577,16 @@ func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res str
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipPosition")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
+	case "ClientOnX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ClientOnX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", button.ClientOnX))
+	case "ClientOnY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ClientOnY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", button.ClientOnY))
 
 	case "SVGIcon":
 		if button.SVGIcon != nil {
@@ -901,6 +913,8 @@ func (button *Button) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 		initializerStatements.WriteString(button.GongMarshallField(stage, "HasToolTip"))
 		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipText"))
 		initializerStatements.WriteString(button.GongMarshallField(stage, "ToolTipPosition"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "ClientOnX"))
+		initializerStatements.WriteString(button.GongMarshallField(stage, "ClientOnY"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

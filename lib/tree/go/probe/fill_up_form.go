@@ -20,17 +20,21 @@ func FillUpForm(
 	case *models.Button:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("Icon", instanceWithInferedType.Icon, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		AssociationFieldToForm("SVGIcon", instanceWithInferedType.SVGIcon, formGroup, probe)
 		BasicFieldtoForm("IsDisabled", instanceWithInferedType.IsDisabled, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("HasToolTip", instanceWithInferedType.HasToolTip, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("ToolTipText", instanceWithInferedType.ToolTipText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		EnumTypeStringToForm("ToolTipPosition", instanceWithInferedType.ToolTipPosition, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("ClientOnX", instanceWithInferedType.ClientOnX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("ClientOnY", instanceWithInferedType.ClientOnY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -62,7 +66,7 @@ func FillUpForm(
 	case *models.Menu:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		AssociationSliceToForm("Buttons", instanceWithInferedType, &instanceWithInferedType.Buttons, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -73,53 +77,53 @@ func FillUpForm(
 	case *models.Node:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsWithPrefix", instanceWithInferedType.IsWithPrefix, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("Prefix", instanceWithInferedType.Prefix, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		EnumTypeStringToForm("FontStyle", instanceWithInferedType.FontStyle, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("BackgroundColor", instanceWithInferedType.BackgroundColor, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("HasCheckboxButton", instanceWithInferedType.HasCheckboxButton, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsCheckboxDisabled", instanceWithInferedType.IsCheckboxDisabled, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("CheckboxHasToolTip", instanceWithInferedType.CheckboxHasToolTip, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("CheckboxToolTipText", instanceWithInferedType.CheckboxToolTipText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		EnumTypeStringToForm("CheckboxToolTipPosition", instanceWithInferedType.CheckboxToolTipPosition, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("HasSecondCheckboxButton", instanceWithInferedType.HasSecondCheckboxButton, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsSecondCheckboxChecked", instanceWithInferedType.IsSecondCheckboxChecked, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsSecondCheckboxDisabled", instanceWithInferedType.IsSecondCheckboxDisabled, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("SecondCheckboxHasToolTip", instanceWithInferedType.SecondCheckboxHasToolTip, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("SecondCheckboxToolTipText", instanceWithInferedType.SecondCheckboxToolTipText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		EnumTypeStringToForm("SecondCheckboxToolTipPosition", instanceWithInferedType.SecondCheckboxToolTipPosition, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("TextAfterSecondCheckbox", instanceWithInferedType.TextAfterSecondCheckbox, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("HasToolTip", instanceWithInferedType.HasToolTip, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("ToolTipText", instanceWithInferedType.ToolTipText, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		EnumTypeStringToForm("ToolTipPosition", instanceWithInferedType.ToolTipPosition, instanceWithInferedType, probe.formStage, formGroup)
 		BasicFieldtoForm("IsInEditMode", instanceWithInferedType.IsInEditMode, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsNodeClickable", instanceWithInferedType.IsNodeClickable, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("IsWithPreceedingIcon", instanceWithInferedType.IsWithPreceedingIcon, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		BasicFieldtoForm("PreceedingIcon", instanceWithInferedType.PreceedingIcon, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		AssociationFieldToForm("PreceedingSVGIcon", instanceWithInferedType.PreceedingSVGIcon, formGroup, probe)
 		AssociationSliceToForm("Children", instanceWithInferedType, &instanceWithInferedType.Children, formGroup, probe)
 		AssociationSliceToForm("Buttons", instanceWithInferedType, &instanceWithInferedType.Buttons, formGroup, probe)
@@ -155,9 +159,9 @@ func FillUpForm(
 	case *models.SVGIcon:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, true, 600, false, 0, false)
+			false, true, 600, false, 0)
 		BasicFieldtoForm("SVG", instanceWithInferedType.SVG, instanceWithInferedType, probe.formStage, formGroup,
-			false, true, 600, true, 300, false)
+			false, true, 600, true, 300)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -167,10 +171,10 @@ func FillUpForm(
 	case *models.Tree:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		AssociationSliceToForm("RootNodes", instanceWithInferedType, &instanceWithInferedType.RootNodes, formGroup, probe)
 		BasicFieldtoForm("HaveSearch", instanceWithInferedType.HaveSearch, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
+			false, false, 0, false, 0)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

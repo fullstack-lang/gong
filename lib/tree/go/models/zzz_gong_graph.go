@@ -646,6 +646,12 @@ func (button *Button) GongDiff(stage *Stage, buttonOther *Button) (diffs []strin
 	if button.ToolTipPosition != buttonOther.ToolTipPosition {
 		diffs = append(diffs, button.GongMarshallField(stage, "ToolTipPosition"))
 	}
+	if button.ClientOnX != buttonOther.ClientOnX {
+		diffs = append(diffs, button.GongMarshallField(stage, "ClientOnX"))
+	}
+	if button.ClientOnY != buttonOther.ClientOnY {
+		diffs = append(diffs, button.GongMarshallField(stage, "ClientOnY"))
+	}
 
 	return
 }

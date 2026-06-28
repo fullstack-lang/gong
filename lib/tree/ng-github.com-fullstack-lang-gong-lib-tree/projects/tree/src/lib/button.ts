@@ -22,6 +22,8 @@ export class Button {
 	HasToolTip: boolean = false
 	ToolTipText: string = ""
 	ToolTipPosition: string = ""
+	ClientOnX: number = 0
+	ClientOnY: number = 0
 
 	// insertion point for pointers and slices of pointers declarations
 	SVGIcon?: SVGIcon
@@ -44,6 +46,8 @@ export function CopyButtonToButtonAPI(button: Button, buttonAPI: ButtonAPI) {
 	buttonAPI.HasToolTip = button.HasToolTip
 	buttonAPI.ToolTipText = button.ToolTipText
 	buttonAPI.ToolTipPosition = button.ToolTipPosition
+	buttonAPI.ClientOnX = button.ClientOnX
+	buttonAPI.ClientOnY = button.ClientOnY
 
 	// insertion point for pointer fields encoding
 	buttonAPI.ButtonPointersEncoding.SVGIconID.Valid = true
@@ -74,6 +78,8 @@ export function CopyButtonAPIToButton(buttonAPI: ButtonAPI, button: Button, fron
 	button.HasToolTip = buttonAPI.HasToolTip
 	button.ToolTipText = buttonAPI.ToolTipText
 	button.ToolTipPosition = buttonAPI.ToolTipPosition
+	button.ClientOnX = buttonAPI.ClientOnX
+	button.ClientOnY = buttonAPI.ClientOnY
 
 	// insertion point for pointer fields encoding
 	button.SVGIcon = frontRepo.map_ID_SVGIcon.get(buttonAPI.ButtonPointersEncoding.SVGIconID.Int64)

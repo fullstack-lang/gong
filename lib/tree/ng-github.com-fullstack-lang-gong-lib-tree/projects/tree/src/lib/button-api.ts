@@ -17,6 +17,8 @@ export class ButtonAPI {
 	HasToolTip: boolean = false
 	ToolTipText: string = ""
 	ToolTipPosition: string = ""
+	ClientOnX: number = 0
+	ClientOnY: number = 0
 
 	// insertion point for other decls
 
