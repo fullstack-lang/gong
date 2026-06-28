@@ -18,7 +18,7 @@ func (stager *Stager) treePort(
 	portWhoseNodeIsExpanded *[]*Port,
 ) {
 	_, ok := diagramStructure.map_Port_PortShape[port]
-	portNode := &tree.Node{
+	node := &tree.Node{
 		Name:                    port.GetName(),
 		IsExpanded:              slices.Contains(*portWhoseNodeIsExpanded, port),
 		IsNodeClickable:         true,
@@ -34,11 +34,11 @@ func (stager *Stager) treePort(
 			return "Click to create a port shape for this port within this diagram"
 		}(),
 	}
-	parentNode.Children = append(parentNode.Children, portNode)
-	portNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, port, portWhoseNodeIsExpanded)
-	portNode.OnNameChange = stager.onNameChange(port)
-	portNode.OnClick = onNodeClicked(stager, port)
-	portNode.OnIsCheckedChanged = func(isChecked bool) {
+	parentNode.Children = append(parentNode.Children, node)
+	node.OnIsExpandedChange = onIsExpandedChangeSlice(stager, port, portWhoseNodeIsExpanded)
+	node.OnNameChange = stager.onNameChange(port)
+	node.OnClick = onNodeClicked(stager, port)
+	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
 			portShape := newShapeToDiagram(port, diagramStructure, &diagramStructure.Port_Shapes, stager, node.ClientOnY)
 
@@ -64,7 +64,7 @@ func (stager *Stager) treePort(
 		IsNodeClickable: true,
 		IsExpanded:      slices.Contains(part.PortWhoseOutControlFlowsNodeIsExpanded, port),
 	}
-	portNode.Children = append(portNode.Children, nodeOutControlFlows)
+	node.Children = append(node.Children, nodeOutControlFlows)
 	nodeOutControlFlows.OnIsExpandedChange = onIsExpandedChangeSlice(stager, port, &part.PortWhoseOutControlFlowsNodeIsExpanded)
 	for _, controlFlow := range port.outControlFlows {
 		stager.treeControlFlowsWithinPort(diagramStructure, controlFlow, nodeOutControlFlows)
@@ -75,7 +75,7 @@ func (stager *Stager) treePort(
 		IsNodeClickable: true,
 		IsExpanded:      slices.Contains(part.PortWhoseInControlFlowsNodeIsExpanded, port),
 	}
-	portNode.Children = append(portNode.Children, nodeInControlFlows)
+	node.Children = append(node.Children, nodeInControlFlows)
 	nodeInControlFlows.OnIsExpandedChange = onIsExpandedChangeSlice(stager, port, &part.PortWhoseInControlFlowsNodeIsExpanded)
 	for _, controlFlow := range port.inControlFlows {
 		stager.treeControlFlowsWithinPort(diagramStructure, controlFlow, nodeInControlFlows)
@@ -86,7 +86,7 @@ func (stager *Stager) treePort(
 		IsNodeClickable: true,
 		IsExpanded:      slices.Contains(part.PortWhoseOutDataFlowsNodeIsExpanded, port),
 	}
-	portNode.Children = append(portNode.Children, nodeOutDataFlows)
+	node.Children = append(node.Children, nodeOutDataFlows)
 	nodeOutDataFlows.OnIsExpandedChange = onIsExpandedChangeSlice(stager, port, &part.PortWhoseOutDataFlowsNodeIsExpanded)
 	for _, dataFlow := range port.outDataFlows {
 		stager.treeDataFlowsWithinDiagramStructureWithinPort(diagramStructure, dataFlow, nodeOutDataFlows)
@@ -97,7 +97,7 @@ func (stager *Stager) treePort(
 		IsNodeClickable: true,
 		IsExpanded:      slices.Contains(part.PortWhoseInDataFlowsNodeIsExpanded, port),
 	}
-	portNode.Children = append(portNode.Children, nodeInDataFlows)
+	node.Children = append(node.Children, nodeInDataFlows)
 	nodeInDataFlows.OnIsExpandedChange = onIsExpandedChangeSlice(stager, port, &part.PortWhoseInDataFlowsNodeIsExpanded)
 	for _, dataFlow := range port.inDataFlows {
 		stager.treeDataFlowsWithinDiagramStructureWithinPort(diagramStructure, dataFlow, nodeInDataFlows)

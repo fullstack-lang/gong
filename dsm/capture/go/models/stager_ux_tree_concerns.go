@@ -243,7 +243,7 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 		setCallbacksExpandableNode(stager, stakeholdersNode, concern, &diagram.ConcernsWhoseStakeholderNodeIsExpanded)
 
 		for _, stakeholder := range stakeholders {
-			n := &tree.Node{
+			node := &tree.Node{
 				Name:                    stakeholder.GetName(),
 				IsExpanded:              true,
 				IsNodeClickable:         true,
@@ -251,20 +251,20 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 				CheckboxToolTipPosition: tree.Right,
 				HasSecondCheckboxButton: true,
 			}
-			stakeholdersNode.Children = append(stakeholdersNode.Children, n)
+			stakeholdersNode.Children = append(stakeholdersNode.Children, node)
 
-			n.HasCheckboxButton = true
+			node.HasCheckboxButton = true
 
 			stakeholderShape, ok := diagram.map_Stakeholder_StakeholderShape[stakeholder]
-			n.IsChecked = ok
+			node.IsChecked = ok
 
 			if ok {
-				n.CheckboxToolTipText = "Uncheck to remove shape from diagram"
+				node.CheckboxToolTipText = "Uncheck to remove shape from diagram"
 			} else {
-				n.CheckboxToolTipText = "Check to add shape to diagram"
+				node.CheckboxToolTipText = "Check to add shape to diagram"
 			}
 
-			n.OnIsCheckedChanged = func(isChecked bool) {
+			node.OnIsCheckedChanged = func(isChecked bool) {
 				if isChecked {
 					newShapeToDiagram(stakeholder, diagram, &diagram.Stakeholder_Shapes, stager, node.ClientOnY)
 					addAssociationShapeToDiagram(stager, stakeholder, concern, &diagram.StakeholderConcernShapes)
@@ -278,19 +278,19 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 			if _, ok := diagram.map_Concern_ConcernShape[concern]; ok {
 				if _, ok := diagram.map_Stakeholder_StakeholderShape[stakeholder]; ok {
 
-					n.IsSecondCheckboxDisabled = false
+					node.IsSecondCheckboxDisabled = false
 
 					key := stakeholderConcernKey{Stakeholder: stakeholder, Concern: concern}
 					associationShape, ok := diagram.map_StakeholderConcernKey_StakeholderConcernShape[key]
-					n.IsSecondCheckboxChecked = ok
+					node.IsSecondCheckboxChecked = ok
 
 					if ok {
-						n.CheckboxToolTipText = "Uncheck to remove shape from diagram"
+						node.CheckboxToolTipText = "Uncheck to remove shape from diagram"
 					} else {
-						n.CheckboxToolTipText = "Check to add shape to diagram"
+						node.CheckboxToolTipText = "Check to add shape to diagram"
 					}
 
-					n.OnIsSecondCheckboxCheckedChanged = func(isChecked bool) {
+					node.OnIsSecondCheckboxCheckedChanged = func(isChecked bool) {
 						if isChecked {
 							addAssociationShapeToDiagram(stager, stakeholder, concern, &diagram.StakeholderConcernShapes)
 							stager.stage.Commit()

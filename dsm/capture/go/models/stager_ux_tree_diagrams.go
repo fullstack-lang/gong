@@ -21,7 +21,7 @@ func (stager *Stager) treeDiagramBSinDiagram(currentDiagram *Diagram, library *L
 			continue
 		}
 
-		n := &tree.Node{
+		node := &tree.Node{
 			Name:                    targetDiagram.GetName(),
 			IsExpanded:              true,
 			IsNodeClickable:         true,
@@ -29,18 +29,18 @@ func (stager *Stager) treeDiagramBSinDiagram(currentDiagram *Diagram, library *L
 			CheckboxHasToolTip:      true,
 			CheckboxToolTipPosition: tree.Right,
 		}
-		parentNode.Children = append(parentNode.Children, n)
+		parentNode.Children = append(parentNode.Children, node)
 
 		diagramShape, ok := currentDiagram.map_Diagram_DiagramShape[targetDiagram]
-		n.IsChecked = ok
+		node.IsChecked = ok
 
 		if ok {
-			n.CheckboxToolTipText = "Uncheck to remove DiagramShape from diagram"
+			node.CheckboxToolTipText = "Uncheck to remove DiagramShape from diagram"
 		} else {
-			n.CheckboxToolTipText = "Check to add DiagramShape to diagram"
+			node.CheckboxToolTipText = "Check to add DiagramShape to diagram"
 		}
 
-		n.OnIsCheckedChanged = func(isChecked bool) {
+		node.OnIsCheckedChanged = func(isChecked bool) {
 			if isChecked {
 				newShapeToDiagram(targetDiagram, currentDiagram, &currentDiagram.Diagram_Shapes, stager, node.ClientOnY)
 				stager.stage.Commit()
