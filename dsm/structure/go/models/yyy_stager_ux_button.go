@@ -14,6 +14,16 @@ import (
 	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 )
 
+func (stager *Stager) GetPkgName() string {
+	pkgPath := stager.stage.MetaPackageImportPath
+	pkgName := ""
+	parts := strings.Split(pkgPath, "/")
+	if len(parts) >= 3 {
+		pkgName = parts[len(parts)-3]
+	}
+	return pkgName
+}
+
 func (stager *Stager) button() {
 	buttonStage := stager.buttonStage
 	buttonStage.Reset()
@@ -94,13 +104,9 @@ func (stager *Stager) button() {
 
 			fileToDownload := new(load.FileToDownload)
 
+			pkgName := stager.GetPkgName()
+
 			if stager.fileName == "" {
-				pkgPath := stager.stage.MetaPackageImportPath
-				pkgName := ""
-				parts := strings.Split(pkgPath, "/")
-				if len(parts) >= 3 {
-					pkgName = parts[len(parts)-3]
-				}
 				stager.fileName = pkgName + "-" + stager.stage.GetName() + ".go"
 			}
 
@@ -121,7 +127,7 @@ func (stager *Stager) button() {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Launch Project App</title>
+    <title>Launch ` + pkgName + ` App</title>
     <style>
         body { font-family: sans-serif; display: flex; justify-content: center; margin-top: 50px; }
         button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
@@ -135,7 +141,7 @@ func (stager *Stager) button() {
         const fileXContent = "` + b64 + `";
         
         const fileXName = "` + cleanFileName + `";
-        const targetUrl = "https://fullstack-lang.github.io/gong/project-app-portable.html";
+        const targetUrl = "https://fullstack-lang.github.io/gong/` + pkgName + `-app-portable.html";
         const targetOrigin = "https://fullstack-lang.github.io"; 
 
         document.getElementById('launchBtn').addEventListener('click', () => {
