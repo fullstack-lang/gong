@@ -121,7 +121,11 @@ func (stager *Stager) button() {
 				return
 			}
 
-			b64 := base64.StdEncoding.EncodeToString([]byte(stageString))
+			// Escape the Go string for safe inclusion in a JavaScript template literal
+			jsGoCode := strings.ReplaceAll(stageString, "\\", "\\\\")
+			jsGoCode = strings.ReplaceAll(jsGoCode, "`", "\\`")
+			jsGoCode = strings.ReplaceAll(jsGoCode, "${", "\\${")
+			jsGoCode = strings.ReplaceAll(jsGoCode, "</script>", "<\\/script>")
 
 			htmlString := `<!DOCTYPE html>
 <html lang="en">
@@ -138,7 +142,15 @@ func (stager *Stager) button() {
     <button id="launchBtn">Open App and Process ` + cleanFileName + `</button>
 
     <script>
-        const fileXContent = "` + b64 + `";
+        const rawGoCode = ` + "`" + jsGoCode + "`" + `;
+        
+        // Base64 encode the UTF-8 string to pass it as fileData
+        const utf8Bytes = new TextEncoder().encode(rawGoCode);
+        let binary = '';
+        for (let i = 0; i < utf8Bytes.length; i++) {
+            binary += String.fromCharCode(utf8Bytes[i]);
+        }
+        const fileXContent = btoa(binary);
         
         const fileXName = "` + cleanFileName + `";
         const targetUrl = "https://fullstack-lang.github.io/gong/` + pkgName + `-app-portable.html";
