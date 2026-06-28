@@ -3778,14 +3778,6 @@ func (partFormCallback *PartFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(part_.Name), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(part_.Description), formDiv)
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(part_.ComputedPrefix), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(part_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(part_.LayoutDirection), formDiv)
-		case "IsPortsNodeExpanded":
-			FormDivBasicFieldToField(&(part_.IsPortsNodeExpanded), formDiv)
 		case "Ports":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Port](partFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Port, 0)
@@ -3818,6 +3810,10 @@ func (partFormCallback *PartFormCallback) OnSave() {
 			part_.Ports = instanceSlice
 			partFormCallback.probe.UpdateSliceOfPointersCallback(part_, "Ports", &part_.Ports)
 
+		case "TypeOfPart":
+			FormDivSelectFieldToField(&(part_.TypeOfPart), partFormCallback.probe.stageOfInterest, formDiv)
+		case "IsPartNameNotSystemName":
+			FormDivBasicFieldToField(&(part_.IsPartNameNotSystemName), formDiv)
 		case "IsControlFlowsNodeExpanded":
 			FormDivBasicFieldToField(&(part_.IsControlFlowsNodeExpanded), formDiv)
 		case "ControlFlows":
@@ -4014,6 +4010,14 @@ func (partFormCallback *PartFormCallback) OnSave() {
 			part_.PartAnchoredPath = instanceSlice
 			partFormCallback.probe.UpdateSliceOfPointersCallback(part_, "PartAnchoredPath", &part_.PartAnchoredPath)
 
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(part_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(part_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(part_.LayoutDirection), formDiv)
+		case "IsPortsNodeExpanded":
+			FormDivBasicFieldToField(&(part_.IsPortsNodeExpanded), formDiv)
 		case "DiagramStructure:PartWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -4793,14 +4797,6 @@ func (portFormCallback *PortFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(port_.IsExpanded), formDiv)
 		case "LayoutDirection":
 			FormDivEnumIntFieldToField(&(port_.LayoutDirection), formDiv)
-		case "IsStartPort":
-			FormDivBasicFieldToField(&(port_.IsStartPort), formDiv)
-		case "IsEndPort":
-			FormDivBasicFieldToField(&(port_.IsEndPort), formDiv)
-		case "Type":
-			FormDivSelectFieldToField(&(port_.Type), portFormCallback.probe.stageOfInterest, formDiv)
-		case "IsPortNameNotSystemName":
-			FormDivBasicFieldToField(&(port_.IsPortNameNotSystemName), formDiv)
 		case "DiagramStructure:PortsWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

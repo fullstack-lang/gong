@@ -118,30 +118,6 @@ func (stager *Stager) enforceDataFlowRules() (needCommit bool) {
 			continue
 		}
 
-		// Rule: A data flow must have an end port.
-
-		// Rule: A data flow cannot connect a start or an end port.
-		if dataFlow.Type == DataFlow_Port2Port &&
-			(dataFlow.StartPort.IsStartPort || dataFlow.StartPort.IsEndPort || dataFlow.EndPort.IsStartPort || dataFlow.EndPort.IsEndPort) {
-			dataFlow.UnstageVoid(stage)
-			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" connects to a start or end port, unstaging", dataFlow.GetName()))
-			}
-			needCommit = true
-			continue
-		}
-
-		// Rule: Start and end port cannot belong to the same part.
-		if dataFlow.Type == DataFlow_Port2Port &&
-			(dataFlow.StartPort.owningPart == dataFlow.EndPort.owningPart) {
-			dataFlow.UnstageVoid(stage)
-			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Data flow \"%s\" connects ports from the same part, unstaging", dataFlow.GetName()))
-			}
-			needCommit = true
-			continue
-		}
-
 		// enforce name to be "StartPortName to EndPortName" for Port2Port data flow
 		if dataFlow.Type == DataFlow_Port2Port {
 			expectedName := "\"" + dataFlow.StartPort.GetName() + "\"" + " to " + "\"" + dataFlow.EndPort.GetName() + "\""

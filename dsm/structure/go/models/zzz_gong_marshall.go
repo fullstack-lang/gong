@@ -798,11 +798,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(part.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "Description"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "LayoutDirection"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "IsPortsNodeExpanded"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "Ports"))
+		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "TypeOfPart"))
+		initializerStatements.WriteString(part.GongMarshallField(stage, "IsPartNameNotSystemName"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "IsControlFlowsNodeExpanded"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "ControlFlows"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PortWhoseOutControlFlowsNodeIsExpanded"))
@@ -811,6 +809,10 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PortWhoseOutDataFlowsNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PortWhoseInDataFlowsNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PartAnchoredPath"))
+		initializerStatements.WriteString(part.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(part.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(part.GongMarshallField(stage, "LayoutDirection"))
+		initializerStatements.WriteString(part.GongMarshallField(stage, "IsPortsNodeExpanded"))
 	}
 
 	partanchoredpathOrdered := []*PartAnchoredPath{}
@@ -914,10 +916,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(port.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(port.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(port.GongMarshallField(stage, "LayoutDirection"))
-		initializerStatements.WriteString(port.GongMarshallField(stage, "IsStartPort"))
-		initializerStatements.WriteString(port.GongMarshallField(stage, "IsEndPort"))
-		pointersInitializesStatements.WriteString(port.GongMarshallField(stage, "Type"))
-		initializerStatements.WriteString(port.GongMarshallField(stage, "IsPortNameNotSystemName"))
 	}
 
 	portshapeOrdered := []*PortShape{}
@@ -2661,6 +2659,21 @@ func (part *Part) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(part.Description))
+	case "IsPartNameNotSystemName":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPartNameNotSystemName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", part.IsPartNameNotSystemName))
+	case "IsControlFlowsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsControlFlowsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", part.IsControlFlowsNodeExpanded))
+	case "IsDataFlowsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDataFlowsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", part.IsDataFlowsNodeExpanded))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
@@ -2689,16 +2702,6 @@ func (part *Part) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPortsNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", part.IsPortsNodeExpanded))
-	case "IsControlFlowsNodeExpanded":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsControlFlowsNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", part.IsControlFlowsNodeExpanded))
-	case "IsDataFlowsNodeExpanded":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDataFlowsNodeExpanded")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", part.IsDataFlowsNodeExpanded))
 
 	case "Ports":
 		var sb strings.Builder
@@ -2710,6 +2713,19 @@ func (part *Part) GongMarshallField(stage *Stage, fieldName string) (res string)
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "TypeOfPart":
+		if part.TypeOfPart != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TypeOfPart")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", part.TypeOfPart.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TypeOfPart")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	case "ControlFlows":
 		var sb strings.Builder
 		for _, _controlflow := range part.ControlFlows {
@@ -2963,35 +2979,7 @@ func (port *Port) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
 		}
-	case "IsStartPort":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", port.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsStartPort")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", port.IsStartPort))
-	case "IsEndPort":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", port.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsEndPort")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", port.IsEndPort))
-	case "IsPortNameNotSystemName":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", port.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPortNameNotSystemName")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", port.IsPortNameNotSystemName))
 
-	case "Type":
-		if port.Type != nil {
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", port.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", port.Type.GongGetIdentifier(stage))
-		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", port.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
-		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Port", fieldName)
 	}
@@ -3616,11 +3604,9 @@ func (part *Part) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(part.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "Description"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "ComputedPrefix"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "LayoutDirection"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "IsPortsNodeExpanded"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "Ports"))
+		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "TypeOfPart"))
+		initializerStatements.WriteString(part.GongMarshallField(stage, "IsPartNameNotSystemName"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "IsControlFlowsNodeExpanded"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "ControlFlows"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PortWhoseOutControlFlowsNodeIsExpanded"))
@@ -3629,6 +3615,10 @@ func (part *Part) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PortWhoseOutDataFlowsNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PortWhoseInDataFlowsNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PartAnchoredPath"))
+		initializerStatements.WriteString(part.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(part.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(part.GongMarshallField(stage, "LayoutDirection"))
+		initializerStatements.WriteString(part.GongMarshallField(stage, "IsPortsNodeExpanded"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3687,10 +3677,6 @@ func (port *Port) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(port.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(port.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(port.GongMarshallField(stage, "LayoutDirection"))
-		initializerStatements.WriteString(port.GongMarshallField(stage, "IsStartPort"))
-		initializerStatements.WriteString(port.GongMarshallField(stage, "IsEndPort"))
-		pointersInitializesStatements.WriteString(port.GongMarshallField(stage, "Type"))
-		initializerStatements.WriteString(port.GongMarshallField(stage, "IsPortNameNotSystemName"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
