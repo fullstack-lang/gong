@@ -49,7 +49,6 @@ func _(stage *models.Stage) {
 	__Note__00000005_ := (&models.Note{Name: `For instance, a project DSM needs a Requirement DSM and a Statemachine DSM `}).Stage(stage)
 
 	__NoteProductShape__00000000_ := (&models.NoteProductShape{Name: `Default Diagram-Invariant : generated code never import a gong package -confusion between interface & generic code`}).Stage(stage)
-	__NoteProductShape__00000001_ := (&models.NoteProductShape{Name: `Default Diagram-For instance, a project DSM needs a Requirement DSM and a Statemachine DSM -Allows combination of DSM `}).Stage(stage)
 
 	__NoteShape__00000000_ := (&models.NoteShape{Name: `Default Diagram-Invariant : generated code never import a gong package `}).Stage(stage)
 	__NoteShape__00000001_ := (&models.NoteShape{Name: `Default Diagram-A typical DSM is "concept map", a tool to creates Noun, Verbs and directed relations between them. The visual diagram is very simple. `}).Stage(stage)
@@ -64,7 +63,7 @@ func _(stage *models.Stage) {
 `}).Stage(stage)
 	__NoteShape__00000003_ := (&models.NoteShape{Name: `Default Diagram-Default functions like Rename, Delete, ...`}).Stage(stage)
 	__NoteShape__00000004_ := (&models.NoteShape{Name: `Default Diagram-sqfsdqfqd`}).Stage(stage)
-	__NoteShape__00000005_ := (&models.NoteShape{Name: `Default Diagram-For instance, a project DSM needs a Requirement DSM and a Statemachine DSM `}).Stage(stage)
+	__NoteShape__00000007_ := (&models.NoteShape{Name: `Default Diagram-For instance, a project DSM needs a Requirement DSM and a Statemachine DSM `}).Stage(stage)
 
 	__Product__00000000_ := (&models.Product{Name: `Paint points`}).Stage(stage)
 	__Product__00000001_ := (&models.Product{Name: `lot of yyy files and no clear mental model `}).Stage(stage)
@@ -179,7 +178,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.DefaultBoxWidth = 250.000000
 	__Diagram__00000001_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000001_.DateFormat = ``
-	__Diagram__00000001_.Width = 1226.715499
+	__Diagram__00000001_.Width = 862.155913
 	__Diagram__00000001_.Height = 1514.000000
 	__Diagram__00000001_.IsTimeDiagram = false
 	__Diagram__00000001_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
@@ -283,14 +282,6 @@ func _(stage *models.Stage) {
 	__NoteProductShape__00000000_.CornerOffsetRatio = 1.680000
 	__NoteProductShape__00000000_.IsHidden = false
 
-	__NoteProductShape__00000001_.Name = `Default Diagram-For instance, a project DSM needs a Requirement DSM and a Statemachine DSM -Allows combination of DSM `
-	__NoteProductShape__00000001_.StartRatio = 0.500000
-	__NoteProductShape__00000001_.EndRatio = 0.500000
-	__NoteProductShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
-	__NoteProductShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
-	__NoteProductShape__00000001_.CornerOffsetRatio = 1.680000
-	__NoteProductShape__00000001_.IsHidden = false
-
 	__NoteShape__00000000_.Name = `Default Diagram-Invariant : generated code never import a gong package `
 	__NoteShape__00000000_.OverideLayoutDirection = false
 	__NoteShape__00000000_.LayoutDirection = models.Vertical
@@ -344,14 +335,14 @@ func _(stage *models.Stage) {
 	__NoteShape__00000004_.Height = 70.000000
 	__NoteShape__00000004_.IsHidden = false
 
-	__NoteShape__00000005_.Name = `Default Diagram-For instance, a project DSM needs a Requirement DSM and a Statemachine DSM `
-	__NoteShape__00000005_.OverideLayoutDirection = false
-	__NoteShape__00000005_.LayoutDirection = models.Vertical
-	__NoteShape__00000005_.X = 876.715499
-	__NoteShape__00000005_.Y = 171.000000
-	__NoteShape__00000005_.Width = 250.000000
-	__NoteShape__00000005_.Height = 70.000000
-	__NoteShape__00000005_.IsHidden = false
+	__NoteShape__00000007_.Name = `Default Diagram-For instance, a project DSM needs a Requirement DSM and a Statemachine DSM `
+	__NoteShape__00000007_.OverideLayoutDirection = false
+	__NoteShape__00000007_.LayoutDirection = models.Vertical
+	__NoteShape__00000007_.X = 127.450625
+	__NoteShape__00000007_.Y = 620.387352
+	__NoteShape__00000007_.Width = 250.000000
+	__NoteShape__00000007_.Height = 70.000000
+	__NoteShape__00000007_.IsHidden = false
 
 	__Product__00000000_.Name = `Paint points`
 	__Product__00000000_.Description = ``
@@ -909,8 +900,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.Note_Shapes = append(__Diagram__00000001_.Note_Shapes, __NoteShape__00000002_)
 	__Diagram__00000001_.Note_Shapes = append(__Diagram__00000001_.Note_Shapes, __NoteShape__00000003_)
 	__Diagram__00000001_.Note_Shapes = append(__Diagram__00000001_.Note_Shapes, __NoteShape__00000004_)
-	__Diagram__00000001_.Note_Shapes = append(__Diagram__00000001_.Note_Shapes, __NoteShape__00000005_)
-	__Diagram__00000001_.NoteProductShapes = append(__Diagram__00000001_.NoteProductShapes, __NoteProductShape__00000001_)
+	__Diagram__00000001_.Note_Shapes = append(__Diagram__00000001_.Note_Shapes, __NoteShape__00000007_)
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000001_)
 	__Library__00000000_.RootProducts = append(__Library__00000000_.RootProducts, __Product__00000000_)
 	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000000_)
@@ -926,14 +916,12 @@ func _(stage *models.Stage) {
 	__Note__00000005_.Products = append(__Note__00000005_.Products, __Product__00000023_)
 	__NoteProductShape__00000000_.Note = __Note__00000000_
 	__NoteProductShape__00000000_.Product = __Product__00000004_
-	__NoteProductShape__00000001_.Note = __Note__00000005_
-	__NoteProductShape__00000001_.Product = __Product__00000023_
 	__NoteShape__00000000_.Note = __Note__00000000_
 	__NoteShape__00000001_.Note = __Note__00000001_
 	__NoteShape__00000002_.Note = __Note__00000002_
 	__NoteShape__00000003_.Note = __Note__00000003_
 	__NoteShape__00000004_.Note = __Note__00000004_
-	__NoteShape__00000005_.Note = __Note__00000005_
+	__NoteShape__00000007_.Note = __Note__00000005_
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000001_)
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000002_)
 	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000003_)
