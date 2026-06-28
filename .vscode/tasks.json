@@ -371,7 +371,7 @@
             "label": "dsm - xsd: gong generate xsd",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/dsm/xsd/go/models"
+                "cwd": "${workspaceFolder}/app/xsd/go/models"
             },
             "command": "gong",
             "group": "build",
