@@ -20,9 +20,9 @@ type Diagram struct {
 	IsEditable_    bool
 	isInRenameMode bool
 
-	IsStatesNodeExpanded      bool
-	IsNotesNodeExpanded       bool
-	NotesWhoseNodeIsExpanded  []*Note
+	IsStatesNodeExpanded     bool
+	IsNotesNodeExpanded      bool
+	NotesWhoseNodeIsExpanded []*Note
 
 	State_Shapes              []*StateShape
 	StatesWhoseNodeIsExpanded []*State
@@ -91,16 +91,16 @@ type State struct {
 	// When there are SubStates, the State is composite
 	SubStates []*State
 
-	// Diagrams where a state is present is exported
-	// in the XL file
-	Diagrams []*Diagram
-
 	Entry      *Action
 	Activities []*Activities
 	Exit       *Action
 
 	// nodes can be edited
 	isInRenameMode bool
+
+	// Diagrams where a state is present is exported
+	// in the XL file
+	Diagrams []*Diagram
 }
 
 func (state *State) IsComposite() bool {

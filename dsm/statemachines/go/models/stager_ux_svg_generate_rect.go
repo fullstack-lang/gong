@@ -85,14 +85,36 @@ func (stager *Stager) svgGenerateRect(
 
 		stateTitleText.FontSize = "16px"
 		stateTitleText.X_Offset = 0
-		stateTitleText.Y_Offset = 0
-		stateTitleText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+		
+		if state.Entry != nil || len(state.Activities) > 0 || state.Exit != nil {
+			stateTitleText.Y_Offset = 15
+			stateTitleText.RectAnchorType = svg.RECT_TOP
+		} else {
+			stateTitleText.Y_Offset = 0
+			stateTitleText.RectAnchorType = svg.RECT_CENTER_MIDDLE
+		}
+
 		stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
 
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, stateTitleText)
 	}
 
-	currentY_Offset := stateTitleText.Y_Offset + float64(HeightBetween2AttributeShapes*(2+strings.Count(stateTitleText.Content, "\n")))
+	lineYOffset := stateTitleText.Y_Offset + float64(HeightBetween2AttributeShapes*(1+strings.Count(stateTitleText.Content, "\n")))
+	
+	if state.Entry != nil || len(state.Activities) > 0 || state.Exit != nil {
+		line := new(svg.RectAnchoredPath)
+		line.Name = "Separator"
+		line.Definition = fmt.Sprintf("M 0 0 L %f 0", stateShape.Width)
+		line.X_Offset = 0
+		line.Y_Offset = lineYOffset - 5 // a little bit above the first element
+		line.RectAnchorType = svg.RECT_TOP_LEFT
+		line.Stroke = svg.Black.ToString()
+		line.StrokeWidth = 1
+		line.StrokeOpacity = 1
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, line)
+	}
+
+	currentY_Offset := lineYOffset + 10 // Start text 10px below the line
 
 	x_offset := 10.0 // on the left of the state
 
