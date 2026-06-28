@@ -480,6 +480,15 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 		link.Stroke = "#4CAF50"
 		link.StrokeWidth = 1.5
 
+		link.StartArrowSize = link.EndArrowSize
+		switch dataFlowShape.DataFlow.Direction {
+		case DataFlow_BothWays:
+			link.HasStartArrow = true
+		case DataFlow_Backward:
+			link.HasEndArrow = false
+			link.HasStartArrow = true
+		}
+
 		nbDataShapes := len(dataFlowShape.dataShapes)
 		for idx, dataShape := range dataFlowShape.dataShapes {
 			data := dataShape.Data
