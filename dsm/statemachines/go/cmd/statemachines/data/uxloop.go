@@ -183,8 +183,8 @@ This diagram show the general principal of a DSM event loop.
 -UX Loop Diagram`
 	__NoteShape__00000004_.OverideLayoutDirection = false
 	__NoteShape__00000004_.LayoutDirection = models.Vertical
-	__NoteShape__00000004_.X = 64.000000
-	__NoteShape__00000004_.Y = -16.000000
+	__NoteShape__00000004_.X = 437.000000
+	__NoteShape__00000004_.Y = 41.000000
 	__NoteShape__00000004_.Width = 200.000000
 	__NoteShape__00000004_.Height = 100.000000
 	__NoteShape__00000004_.IsHidden = false
@@ -296,17 +296,17 @@ This diagram show the general principal of a DSM event loop.
 	__StateShape__00000002_.IsHidden = false
 
 	__StateShape__00000003_.Name = `Form - Update Stage Of Interest`
-	__StateShape__00000003_.X = 287.000000
-	__StateShape__00000003_.Y = 402.999985
+	__StateShape__00000003_.X = 277.000000
+	__StateShape__00000003_.Y = 389.999985
 	__StateShape__00000003_.Width = 246.000000
-	__StateShape__00000003_.Height = 104.000031
+	__StateShape__00000003_.Height = 135.000031
 	__StateShape__00000003_.IsHidden = false
 
 	__StateShape__00000004_.Name = `Enforce Model Semantic`
 	__StateShape__00000004_.X = 332.000000
 	__StateShape__00000004_.Y = 629.000015
 	__StateShape__00000004_.Width = 646.000000
-	__StateShape__00000004_.Height = 82.000000
+	__StateShape__00000004_.Height = 99.000000
 	__StateShape__00000004_.IsHidden = false
 
 	__StateShape__00000005_.Name = `Update Probe Form`
@@ -361,8 +361,8 @@ This diagram show the general principal of a DSM event loop.
 	__StateShape__00000012_.Name = `Clean Stage`
 	__StateShape__00000012_.X = 740.000000
 	__StateShape__00000012_.Y = 409.000000
-	__StateShape__00000012_.Width = 200.000000
-	__StateShape__00000012_.Height = 87.000000
+	__StateShape__00000012_.Width = 279.000000
+	__StateShape__00000012_.Height = 90.000000
 	__StateShape__00000012_.IsHidden = false
 
 	__StateShape__00000013_.Name = `Probe Form`
@@ -477,7 +477,7 @@ This diagram show the general principal of a DSM event loop.
 	__Transition_Shape__00000009_.IsHidden = false
 
 	__Transition_Shape__00000010_.Name = `Clean Stage to Enforce Model Semantic`
-	__Transition_Shape__00000010_.StartRatio = 0.786415
+	__Transition_Shape__00000010_.StartRatio = 0.607534
 	__Transition_Shape__00000010_.EndRatio = 0.887435
 	__Transition_Shape__00000010_.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000010_.EndOrientation = models.ORIENTATION_VERTICAL
@@ -523,7 +523,6 @@ This diagram show the general principal of a DSM event loop.
 	__Diagram__00000000_.Note_Shapes = append(__Diagram__00000000_.Note_Shapes, __NoteShape__00000004_)
 	__Diagram__00000000_.NoteState_Shapes = append(__Diagram__00000000_.NoteState_Shapes, __NoteStateShape__00000004_)
 	__Diagram__00000003_.State_Shapes = append(__Diagram__00000003_.State_Shapes, __StateShape__00000013_)
-	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000001_)
 	__Library__00000000_.RootStateMachines = append(__Library__00000000_.RootStateMachines, __StateMachine__00000000_)
 	__Library__00000000_.StateMachinesWhoseNodeIsExpanded = append(__Library__00000000_.StateMachinesWhoseNodeIsExpanded, __StateMachine__00000000_)
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000000_)
