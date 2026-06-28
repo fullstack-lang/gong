@@ -4721,6 +4721,15 @@ func (svg *SVG) GongDiff(stage *Stage, svgOther *SVG) (diffs []string) {
 	if svg.IsControlBannerHidden != svgOther.IsControlBannerHidden {
 		diffs = append(diffs, svg.GongMarshallField(stage, "IsControlBannerHidden"))
 	}
+	if svg.PanX != svgOther.PanX {
+		diffs = append(diffs, svg.GongMarshallField(stage, "PanX"))
+	}
+	if svg.PanY != svgOther.PanY {
+		diffs = append(diffs, svg.GongMarshallField(stage, "PanY"))
+	}
+	if svg.Zoom != svgOther.Zoom {
+		diffs = append(diffs, svg.GongMarshallField(stage, "Zoom"))
+	}
 	if svg.OverrideWidth != svgOther.OverrideWidth {
 		diffs = append(diffs, svg.GongMarshallField(stage, "OverrideWidth"))
 	}

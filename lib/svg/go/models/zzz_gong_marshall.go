@@ -1138,6 +1138,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(svg.GongMarshallField(stage, "IsSVGBackEndFileGenerated"))
 		initializerStatements.WriteString(svg.GongMarshallField(stage, "DefaultDirectoryForGeneratedImages"))
 		initializerStatements.WriteString(svg.GongMarshallField(stage, "IsControlBannerHidden"))
+		initializerStatements.WriteString(svg.GongMarshallField(stage, "PanX"))
+		initializerStatements.WriteString(svg.GongMarshallField(stage, "PanY"))
+		initializerStatements.WriteString(svg.GongMarshallField(stage, "Zoom"))
 		initializerStatements.WriteString(svg.GongMarshallField(stage, "OverrideWidth"))
 		initializerStatements.WriteString(svg.GongMarshallField(stage, "OverriddenWidth"))
 		initializerStatements.WriteString(svg.GongMarshallField(stage, "OverrideHeight"))
@@ -3654,6 +3657,21 @@ func (svg *SVG) GongMarshallField(stage *Stage, fieldName string) (res string) {
 		res = strings.ReplaceAll(res, "{{Identifier}}", svg.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsControlBannerHidden")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", svg.IsControlBannerHidden))
+	case "PanX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", svg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PanX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", svg.PanX))
+	case "PanY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", svg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PanY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", svg.PanY))
+	case "Zoom":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", svg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Zoom")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", svg.Zoom))
 	case "OverrideWidth":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", svg.GongGetIdentifier(stage))
@@ -4391,6 +4409,9 @@ func (svg *SVG) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes stri
 		initializerStatements.WriteString(svg.GongMarshallField(stage, "IsSVGBackEndFileGenerated"))
 		initializerStatements.WriteString(svg.GongMarshallField(stage, "DefaultDirectoryForGeneratedImages"))
 		initializerStatements.WriteString(svg.GongMarshallField(stage, "IsControlBannerHidden"))
+		initializerStatements.WriteString(svg.GongMarshallField(stage, "PanX"))
+		initializerStatements.WriteString(svg.GongMarshallField(stage, "PanY"))
+		initializerStatements.WriteString(svg.GongMarshallField(stage, "Zoom"))
 		initializerStatements.WriteString(svg.GongMarshallField(stage, "OverrideWidth"))
 		initializerStatements.WriteString(svg.GongMarshallField(stage, "OverriddenWidth"))
 		initializerStatements.WriteString(svg.GongMarshallField(stage, "OverrideHeight"))

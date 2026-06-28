@@ -7911,6 +7911,18 @@ func (svg *SVG) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "PanX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "PanY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Zoom",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "OverrideWidth",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -9474,6 +9486,18 @@ func (svg *SVG) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 		res.valueString = fmt.Sprintf("%t", svg.IsControlBannerHidden)
 		res.valueBool = svg.IsControlBannerHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "PanX":
+		res.valueString = fmt.Sprintf("%f", svg.PanX)
+		res.valueFloat = svg.PanX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "PanY":
+		res.valueString = fmt.Sprintf("%f", svg.PanY)
+		res.valueFloat = svg.PanY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Zoom":
+		res.valueString = fmt.Sprintf("%f", svg.Zoom)
+		res.valueFloat = svg.Zoom
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "OverrideWidth":
 		res.valueString = fmt.Sprintf("%t", svg.OverrideWidth)
 		res.valueBool = svg.OverrideWidth
@@ -10908,6 +10932,12 @@ func (svg *SVG) GongSetFieldValue(fieldName string, value GongFieldValue, stage 
 		svg.DefaultDirectoryForGeneratedImages = value.GetValueString()
 	case "IsControlBannerHidden":
 		svg.IsControlBannerHidden = value.GetValueBool()
+	case "PanX":
+		svg.PanX = value.GetValueFloat()
+	case "PanY":
+		svg.PanY = value.GetValueFloat()
+	case "Zoom":
+		svg.Zoom = value.GetValueFloat()
 	case "OverrideWidth":
 		svg.OverrideWidth = value.GetValueBool()
 	case "OverriddenWidth":

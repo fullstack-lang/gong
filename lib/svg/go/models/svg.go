@@ -42,6 +42,12 @@ type SVG struct {
 	// it can be usefull if one does not need to control the zoom, shift x and shift y, ...
 	IsControlBannerHidden bool
 
+	PanX float64
+	PanY float64
+	Zoom float64
+
+	OnTransformChange func(panX, panY, zoom float64)
+
 	// default width is 3000, but it can be overrriden
 	OverrideWidth   bool
 	OverriddenWidth float64
@@ -53,6 +59,10 @@ type SVG struct {
 
 // OnAfterUpdate, notice that rect == stagedRect
 func (svg *SVG) OnAfterUpdate(stage *Stage, _, frontSVG *SVG) {
+
+	svg.PanX = frontSVG.PanX
+	svg.PanY = frontSVG.PanY
+	svg.Zoom = frontSVG.Zoom
 
 	if svg.Impl != nil {
 		svg.Impl.SVGUpdated(frontSVG)

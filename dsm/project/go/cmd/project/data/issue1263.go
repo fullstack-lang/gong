@@ -82,7 +82,6 @@ func _(stage *models.Stage) {
 	__Product__00000016_ := (&models.Product{Name: `creates a DSM in les than 1/2 hour`}).Stage(stage)
 	__Product__00000017_ := (&models.Product{Name: `Provides cleans abstraction for the development of the tree`}).Stage(stage)
 	__Product__00000018_ := (&models.Product{Name: `Abstraction for semantic rules`}).Stage(stage)
-	__Product__00000021_ := (&models.Product{Name: ``}).Stage(stage)
 
 	__ProductCompositionShape__00000000_ := (&models.ProductCompositionShape{Name: `Default Diagram-Paint points-lot of yyy files and no clear mental model `}).Stage(stage)
 	__ProductCompositionShape__00000001_ := (&models.ProductCompositionShape{Name: `Default Diagram-Paint points-lot of stager is a hybrid concept`}).Stage(stage)
@@ -121,7 +120,6 @@ func _(stage *models.Stage) {
 	__ProductShape__00000016_ := (&models.ProductShape{Name: `Default Diagram-creates a DSM in les than 1/2 hour`}).Stage(stage)
 	__ProductShape__00000017_ := (&models.ProductShape{Name: `Default Diagram-Provides cleans abstraction for the development of the tree`}).Stage(stage)
 	__ProductShape__00000018_ := (&models.ProductShape{Name: `Default Diagram-Abstraction for semantic rules`}).Stage(stage)
-	__ProductShape__00000021_ := (&models.ProductShape{Name: `Default Diagram-`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -498,15 +496,6 @@ func _(stage *models.Stage) {
 	__Product__00000018_.IsExpanded = false
 	__Product__00000018_.LayoutDirection = models.Vertical
 
-	__Product__00000021_.Name = ``
-	__Product__00000021_.Description = ``
-	__Product__00000021_.IsProducersNodeExpanded = false
-	__Product__00000021_.IsConsumersNodeExpanded = false
-	__Product__00000021_.IsImport = false
-	__Product__00000021_.ComputedPrefix = `2`
-	__Product__00000021_.IsExpanded = false
-	__Product__00000021_.LayoutDirection = models.Vertical
-
 	__ProductCompositionShape__00000000_.Name = `Default Diagram-Paint points-lot of yyy files and no clear mental model `
 	__ProductCompositionShape__00000000_.StartRatio = 0.500000
 	__ProductCompositionShape__00000000_.EndRatio = 0.500000
@@ -814,15 +803,6 @@ func _(stage *models.Stage) {
 	__ProductShape__00000018_.Height = 70.000000
 	__ProductShape__00000018_.IsHidden = false
 
-	__ProductShape__00000021_.Name = `Default Diagram-`
-	__ProductShape__00000021_.OverideLayoutDirection = false
-	__ProductShape__00000021_.LayoutDirection = models.Vertical
-	__ProductShape__00000021_.X = 165.528247
-	__ProductShape__00000021_.Y = 616.000000
-	__ProductShape__00000021_.Width = 250.000000
-	__ProductShape__00000021_.Height = 70.000000
-	__ProductShape__00000021_.IsHidden = false
-
 	// insertion point for setup of pointers
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000000_)
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000001_)
@@ -864,7 +844,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.Product_Shapes = append(__Diagram__00000001_.Product_Shapes, __ProductShape__00000016_)
 	__Diagram__00000001_.Product_Shapes = append(__Diagram__00000001_.Product_Shapes, __ProductShape__00000017_)
 	__Diagram__00000001_.Product_Shapes = append(__Diagram__00000001_.Product_Shapes, __ProductShape__00000018_)
-	__Diagram__00000001_.Product_Shapes = append(__Diagram__00000001_.Product_Shapes, __ProductShape__00000021_)
 	__Diagram__00000001_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000001_.ProductsWhoseNodeIsExpanded, __Product__00000016_)
 	__Diagram__00000001_.ProductComposition_Shapes = append(__Diagram__00000001_.ProductComposition_Shapes, __ProductCompositionShape__00000014_)
 	__Diagram__00000001_.ProductComposition_Shapes = append(__Diagram__00000001_.ProductComposition_Shapes, __ProductCompositionShape__00000015_)
@@ -878,7 +857,6 @@ func _(stage *models.Stage) {
 	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
 	__Library__00000001_.RootProducts = append(__Library__00000001_.RootProducts, __Product__00000015_)
-	__Library__00000001_.RootProducts = append(__Library__00000001_.RootProducts, __Product__00000021_)
 	__Library__00000001_.Notes = append(__Library__00000001_.Notes, __Note__00000001_)
 	__Library__00000001_.Notes = append(__Library__00000001_.Notes, __Note__00000002_)
 	__Library__00000001_.Notes = append(__Library__00000001_.Notes, __Note__00000003_)
@@ -928,7 +906,6 @@ func _(stage *models.Stage) {
 	__Product__00000016_.ReferencedProduct = nil
 	__Product__00000017_.ReferencedProduct = nil
 	__Product__00000018_.ReferencedProduct = nil
-	__Product__00000021_.ReferencedProduct = nil
 	__ProductCompositionShape__00000000_.Product = __Product__00000001_
 	__ProductCompositionShape__00000001_.Product = __Product__00000002_
 	__ProductCompositionShape__00000002_.Product = __Product__00000003_
@@ -965,5 +942,4 @@ func _(stage *models.Stage) {
 	__ProductShape__00000016_.Product = __Product__00000016_
 	__ProductShape__00000017_.Product = __Product__00000017_
 	__ProductShape__00000018_.Product = __Product__00000018_
-	__ProductShape__00000021_.Product = __Product__00000021_
 }
