@@ -57,6 +57,15 @@
             "problemMatcher": []
         },
         {
+            "label": "go install gong & gong generate --dsm go/models in all dsm projects",
+            "dependsOn": [
+                "go - gong: go install gong",
+                "gong generate --dsm go/models in all dsm projects but project, xsd & reqif"
+            ],
+            "dependsOrder": "sequence",
+            "group": "build"
+        },
+        {
             "label": "clean all",
             "type": "shell",
             "command": "go clean -x -i ./... && find . -name \"*debug*.exe\" -exec rm -rf {} +",
