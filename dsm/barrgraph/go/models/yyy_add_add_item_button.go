@@ -243,7 +243,13 @@ func addCreateItemAndShapeButton[
 		newAbstractElement := processAbstractItemAddition(stager, conf.ItemButtonConfiguration, callbacks)
 
 		if conf.receivingDiagram != nil && conf.sliceForNewAddedShape != nil {
-			newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager.stage)
+			newShape := newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager.stage)
+			if addButton.ClientOnY != 0 {
+				zoom := stager.GetSvgObject().Zoom
+				if zoom == 0 { zoom = 1.0 }
+				panY := stager.GetSvgObject().PanY
+				newShape.SetY((addButton.ClientOnY - panY) / zoom)
+			}
 		}
 
 		if callbacks.OnBeforeCommit != nil {
@@ -302,6 +308,13 @@ func addCreateItemShapeAndLinkButton[
 
 		if conf.receivingDiagram != nil && conf.sliceForNewAddedShape != nil {
 			newShape := newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager.stage)
+
+			if addButton.ClientOnY != 0 {
+				zoom := stager.GetSvgObject().Zoom
+				if zoom == 0 { zoom = 1.0 }
+				panY := stager.GetSvgObject().PanY
+				newShape.SetY((addButton.ClientOnY - panY) / zoom)
+			}
 
 			var parentShape PCT
 			if conf.parentElement != nil {

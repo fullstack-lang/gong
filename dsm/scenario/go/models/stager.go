@@ -96,3 +96,7 @@ type BeforeCommitImplementation struct {
 func (c *BeforeCommitImplementation) BeforeCommit(stage *Stage) {
 
 }
+
+func (stager *Stager) GetSvgObject() *svg.SVG {
+	return stager.svgObject
+}
