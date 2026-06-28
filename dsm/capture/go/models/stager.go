@@ -92,3 +92,7 @@ func NewStager(
 
 	return
 }
+
+func (stager *Stager) GetSvgObject() *svg.SVG {
+	return stager.svgObject
+}

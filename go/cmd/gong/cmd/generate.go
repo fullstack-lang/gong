@@ -74,6 +74,38 @@ var generateCmd = &cobra.Command{
 			pkgPath = "."
 		}
 
+		if dsm {
+			// remove all existing yyy files before parsing the models
+			existingFiles, err := os.ReadDir(pkgPath)
+			if err == nil {
+				for _, file := range existingFiles {
+					if !file.IsDir() && strings.HasPrefix(file.Name(), "yyy_") {
+						os.Remove(filepath.Join(pkgPath, file.Name()))
+					}
+				}
+			}
+
+			entries, err := dsm_models.YYYFiles.ReadDir(".")
+			if err != nil {
+				log.Fatalf("failed reading embedded dsm files: %v", err)
+			}
+			for _, entry := range entries {
+				if entry.IsDir() {
+					continue
+				}
+				content, err := dsm_models.YYYFiles.ReadFile(entry.Name())
+				if err != nil {
+					log.Fatalf("failed reading embedded file %s: %v", entry.Name(), err)
+				}
+				destPath := filepath.Join(pkgPath, entry.Name())
+				err = os.WriteFile(destPath, content, 0o644)
+				if err != nil {
+					log.Fatalf("failed writing file %s: %v", destPath, err)
+				}
+				// log.Printf("copied %s to %s", entry.Name(), destPath)
+			}
+		}
+
 		// remove gong generated files
 		golang.RemoveGeneratedGongFilesButDocs(pkgPath)
 
@@ -328,38 +360,7 @@ var generateCmd = &cobra.Command{
 
 		golang.GeneratesGoCode(modelPkg, pkgPath, skipCoder, dbLite, skipSerialize, skipStager, stackHeight, withProbe)
 
-		// copy dsm files if flag is set, potentially overwriting generated files
-		if dsm {
-			// remove all existing yyy files before copying the embedded ones
-			existingFiles, err := os.ReadDir(pkgPath)
-			if err == nil {
-				for _, file := range existingFiles {
-					if !file.IsDir() && strings.HasPrefix(file.Name(), "yyy_") {
-						os.Remove(filepath.Join(pkgPath, file.Name()))
-					}
-				}
-			}
-
-			entries, err := dsm_models.YYYFiles.ReadDir(".")
-			if err != nil {
-				log.Fatalf("failed reading embedded dsm files: %v", err)
-			}
-			for _, entry := range entries {
-				if entry.IsDir() {
-					continue
-				}
-				content, err := dsm_models.YYYFiles.ReadFile(entry.Name())
-				if err != nil {
-					log.Fatalf("failed reading embedded file %s: %v", entry.Name(), err)
-				}
-				destPath := filepath.Join(pkgPath, entry.Name())
-				err = os.WriteFile(destPath, content, 0o644)
-				if err != nil {
-					log.Fatalf("failed writing file %s: %v", destPath, err)
-				}
-				// log.Printf("copied %s to %s", entry.Name(), destPath)
-			}
-		}
+		// The copying of yyy files has been moved to the beginning of the command
 
 		// since go mod vendor brings angular dependencies into the vendor directory
 		// the go mod vendor command has to be issued before the ng build command

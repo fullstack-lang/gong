@@ -142,3 +142,7 @@ func (o *OnAfterKillCreateCallback) OnAfterCreate(stage *Stage, instance *Kill) 
 type OnInitCommitFromBackCallback struct {
 	stager *Stager
 }
+
+func (stager *Stager) GetSvgObject() *svg.SVG {
+	return stager.svgObject
+}

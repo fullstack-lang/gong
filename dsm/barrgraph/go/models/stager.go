@@ -101,3 +101,7 @@ func (stager *Stager) GetAsSplitArea() (asSplitArea *split.AsSplitArea) {
 func (stager *Stager) GetGongtreeStage() *tree.Stage {
 	return stager.treeStage
 }
+
+func (stager *Stager) GetSvgObject() *svg.SVG {
+	return stager.svgObject
+}
