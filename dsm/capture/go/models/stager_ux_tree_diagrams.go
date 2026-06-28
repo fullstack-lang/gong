@@ -42,7 +42,7 @@ func (stager *Stager) treeDiagramBSinDiagram(currentDiagram *Diagram, library *L
 
 		n.OnIsCheckedChanged = func(isChecked bool) {
 			if isChecked {
-				newShapeToDiagram(targetDiagram, currentDiagram, &currentDiagram.Diagram_Shapes, stager.stage)
+				newShapeToDiagram(targetDiagram, currentDiagram, &currentDiagram.Diagram_Shapes, stager, node.ClientOnY)
 				stager.stage.Commit()
 			} else {
 				diagramShape.UnstageVoid(stager.stage)

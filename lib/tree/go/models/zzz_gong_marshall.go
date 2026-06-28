@@ -376,6 +376,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(node.GongMarshallField(stage, "HasToolTip"))
 		initializerStatements.WriteString(node.GongMarshallField(stage, "ToolTipText"))
 		initializerStatements.WriteString(node.GongMarshallField(stage, "ToolTipPosition"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "ClientOnY"))
 		initializerStatements.WriteString(node.GongMarshallField(stage, "IsInEditMode"))
 		initializerStatements.WriteString(node.GongMarshallField(stage, "IsNodeClickable"))
 		initializerStatements.WriteString(node.GongMarshallField(stage, "IsWithPreceedingIcon"))
@@ -777,6 +778,11 @@ func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipPosition")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
+	case "ClientOnY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ClientOnY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", node.ClientOnY))
 	case "IsInEditMode":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
@@ -959,6 +965,7 @@ func (node *Node) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(node.GongMarshallField(stage, "HasToolTip"))
 		initializerStatements.WriteString(node.GongMarshallField(stage, "ToolTipText"))
 		initializerStatements.WriteString(node.GongMarshallField(stage, "ToolTipPosition"))
+		initializerStatements.WriteString(node.GongMarshallField(stage, "ClientOnY"))
 		initializerStatements.WriteString(node.GongMarshallField(stage, "IsInEditMode"))
 		initializerStatements.WriteString(node.GongMarshallField(stage, "IsNodeClickable"))
 		initializerStatements.WriteString(node.GongMarshallField(stage, "IsWithPreceedingIcon"))

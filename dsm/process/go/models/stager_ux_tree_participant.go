@@ -83,7 +83,7 @@ func (stager *Stager) treeParticipants(
 			if shape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
-			shape = newShapeToDiagram(participant, diagramProcess, &diagramProcess.Participant_Shapes, stage)
+			shape = newShapeToDiagram(participant, diagramProcess, &diagramProcess.Participant_Shapes, stager, node.ClientOnY)
 
 			stage.Commit()
 			return

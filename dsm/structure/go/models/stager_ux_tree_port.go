@@ -40,7 +40,7 @@ func (stager *Stager) treePort(
 	portNode.OnClick = onNodeClicked(stager, port)
 	portNode.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
-			portShape := newShapeToDiagram(port, diagramStructure, &diagramStructure.Port_Shapes, stager.stage)
+			portShape := newShapeToDiagram(port, diagramStructure, &diagramStructure.Port_Shapes, stager, node.ClientOnY)
 
 			// default position on the left of the part shape
 			portShape.X = partShape.X - defaultPortWidth/2

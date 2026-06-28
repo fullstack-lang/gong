@@ -16,16 +16,30 @@ func newShapeToDiagram[AT AbstractType, CT interface {
 	abstractElement AT,
 	diagram DiagramIF,
 	shapes *[]CT,
-	stage *Stage,
+	stager *Stager,
+	clientOnY float64,
 ) CT {
 	shape := CT(new(S))
-	shape.StageVoid(stage)
+	shape.StageVoid(stager.stage)
 	shape.SetAbstractElement(abstractElement)
 	shape.SetName(abstractElement.GetName() + "-" + diagram.GetName())
 	shape.SetHeight(diagram.GetDefaultBoxHeigth())
 	shape.SetWidth(diagram.GetDefaultBoxWidth())
-	shape.SetX(100 + rand.Float64()*100.0)
-	shape.SetY(100 + rand.Float64()*100.0)
+
+	zoom := stager.GetSvgObject().Zoom
+	if zoom == 0 {
+		zoom = 1.0
+	}
+	panX := stager.GetSvgObject().PanX
+	panY := stager.GetSvgObject().PanY
+
+	shape.SetX((100 + panX)/zoom + rand.Float64()*100.0)
+
+	if clientOnY != 0 {
+		shape.SetY((clientOnY + panY) / zoom)
+	} else {
+		shape.SetY((100 + panY)/zoom + rand.Float64()*100.0)
+	}
 	*shapes = append(*shapes, shape)
 
 	return shape

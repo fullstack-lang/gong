@@ -758,6 +758,9 @@ func (node *Node) GongDiff(stage *Stage, nodeOther *Node) (diffs []string) {
 	if node.ToolTipPosition != nodeOther.ToolTipPosition {
 		diffs = append(diffs, node.GongMarshallField(stage, "ToolTipPosition"))
 	}
+	if node.ClientOnY != nodeOther.ClientOnY {
+		diffs = append(diffs, node.GongMarshallField(stage, "ClientOnY"))
+	}
 	if node.IsInEditMode != nodeOther.IsInEditMode {
 		diffs = append(diffs, node.GongMarshallField(stage, "IsInEditMode"))
 	}

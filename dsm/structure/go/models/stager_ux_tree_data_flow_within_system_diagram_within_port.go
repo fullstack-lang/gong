@@ -119,7 +119,7 @@ func (stager *Stager) treeDataFlowsWithinDiagramStructureWithinPort(
 			if dataFlowShape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
-			// shape = newShapeToDiagram(dataflow, diagramStructure, &diagramStructure.DataFlowShapes, stage)
+			// shape = newShapeToDiagram(dataflow, diagramStructure, &diagramStructure.DataFlowShapes, stager, node.ClientOnY)
 			// addAssociationShapeToDiagram(stager, dataflow.Start, dataflow.End, &diagramStructure.DataFlowShapes)
 			dataFlowShape := (&DataFlowShape{
 				DataFlow: dataFlow,

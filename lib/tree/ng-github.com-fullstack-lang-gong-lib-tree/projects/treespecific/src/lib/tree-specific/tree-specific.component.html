@@ -34,8 +34,7 @@
                     <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" 
                                  [disabled]="node.gongNode.IsCheckboxDisabled" 
                                  [checked]="node.gongNode.IsChecked" 
-                                 (change)="toggleNodeCheckbox(node)"
-                                 (click)="$event.stopPropagation()">
+                                 (click)="toggleNodeCheckbox(node, $event); $event.stopPropagation()">
                     </mat-checkbox>
                 </span>
             }
@@ -81,8 +80,7 @@
                     <mat-checkbox [id]="'checkbox-' + node.gongNode.Name" 
                                  [disabled]="node.gongNode.IsSecondCheckboxDisabled" 
                                  [checked]="node.gongNode.IsSecondCheckboxChecked" 
-                                 (change)="toggleNodeSecondCheckbox(node)"
-                                 (click)="$event.stopPropagation()">
+                                 (click)="toggleNodeSecondCheckbox(node, $event); $event.stopPropagation()">
                     </mat-checkbox>
                 </span>
             }

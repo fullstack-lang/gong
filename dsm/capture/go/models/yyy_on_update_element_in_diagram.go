@@ -43,7 +43,7 @@ func setCallbacksElementInDiagram[
 			if shape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
-			shape = newShapeToDiagram(element, diagram, shapes, stager.stage)
+			shape = newShapeToDiagram(element, diagram, shapes, stager, node.ClientOnY)
 			shapesMap[element] = shape
 
 			if parentElement != nil {
@@ -199,7 +199,7 @@ func setCallbacksElementInDiagramWithoutLink[
 			if shape != nil {
 				log.Panic("adding a shape to an already existing shape")
 			}
-			shape = newShapeToDiagram(element, diagram, shapes, stager.stage)
+			shape = newShapeToDiagram(element, diagram, shapes, stager, node.ClientOnY)
 			shapesMap[element] = shape
 			stager.stage.Commit()
 		} else {

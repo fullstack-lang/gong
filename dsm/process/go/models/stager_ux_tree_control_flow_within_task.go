@@ -84,7 +84,7 @@ func (stager *Stager) treeControlFlowsWithinTask(
 			if shape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
-			// shape = newShapeToDiagram(controlflow, diagramProcess, &diagramProcess.ControlFlowShapes, stage)
+			// shape = newShapeToDiagram(controlflow, diagramProcess, &diagramProcess.ControlFlowShapes, stager, node.ClientOnY)
 			// addAssociationShapeToDiagram(stager, controlflow.Start, controlflow.End, &diagramProcess.ControlFlowShapes)
 			controlFlowShape := (&ControlFlowShape{
 				ControlFlow: controlFlow,

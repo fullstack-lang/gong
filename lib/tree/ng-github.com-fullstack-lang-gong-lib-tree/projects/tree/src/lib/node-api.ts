@@ -35,6 +35,7 @@ export class NodeAPI {
 	HasToolTip: boolean = false
 	ToolTipText: string = ""
 	ToolTipPosition: string = ""
+	ClientOnY: number = 0
 	IsInEditMode: boolean = false
 	IsNodeClickable: boolean = false
 	IsWithPreceedingIcon: boolean = false

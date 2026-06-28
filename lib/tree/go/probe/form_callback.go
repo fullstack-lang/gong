@@ -402,6 +402,8 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(node_.ToolTipText), formDiv)
 		case "ToolTipPosition":
 			FormDivEnumStringFieldToField(&(node_.ToolTipPosition), formDiv)
+		case "ClientOnY":
+			FormDivBasicFieldToField(&(node_.ClientOnY), formDiv)
 		case "IsInEditMode":
 			FormDivBasicFieldToField(&(node_.IsInEditMode), formDiv)
 		case "IsNodeClickable":

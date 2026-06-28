@@ -63,7 +63,7 @@ func (stager *Stager) treeExternalParts(
 			if shape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
-			shape = newShapeToDiagram(externalPart, diagramStructure, &diagramStructure.ExternalPart_Shapes, stage)
+			shape = newShapeToDiagram(externalPart, diagramStructure, &diagramStructure.ExternalPart_Shapes, stager, node.ClientOnY)
 
 			stage.Commit()
 			return

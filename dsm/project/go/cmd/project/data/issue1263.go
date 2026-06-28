@@ -85,6 +85,9 @@ func _(stage *models.Stage) {
 	__Product__00000017_ := (&models.Product{Name: `Provides cleans abstraction for the development of the tree`}).Stage(stage)
 	__Product__00000018_ := (&models.Product{Name: `Abstraction for semantic rules`}).Stage(stage)
 	__Product__00000023_ := (&models.Product{Name: `Allows combination of DSM `}).Stage(stage)
+	__Product__00000024_ := (&models.Product{Name: ``}).Stage(stage)
+	__Product__00000025_ := (&models.Product{Name: ``}).Stage(stage)
+	__Product__00000026_ := (&models.Product{Name: `sss`}).Stage(stage)
 
 	__ProductCompositionShape__00000000_ := (&models.ProductCompositionShape{Name: `Default Diagram-Paint points-lot of yyy files and no clear mental model `}).Stage(stage)
 	__ProductCompositionShape__00000001_ := (&models.ProductCompositionShape{Name: `Default Diagram-Paint points-lot of stager is a hybrid concept`}).Stage(stage)
@@ -103,7 +106,7 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000014_ := (&models.ProductCompositionShape{Name: `Default Diagram-Goals-creates a DSM in les than 1/2 hour`}).Stage(stage)
 	__ProductCompositionShape__00000015_ := (&models.ProductCompositionShape{Name: `Default Diagram-creates a DSM in les than 1/2 hour-Provides cleans abstraction for the development of the tree`}).Stage(stage)
 	__ProductCompositionShape__00000017_ := (&models.ProductCompositionShape{Name: `Default Diagram-creates a DSM in les than 1/2 hour-Abstraction for semantic rules`}).Stage(stage)
-	__ProductCompositionShape__00000018_ := (&models.ProductCompositionShape{Name: `Default Diagram-Goals-Allows combination of DSM `}).Stage(stage)
+	__ProductCompositionShape__00000020_ := (&models.ProductCompositionShape{Name: `Default Diagram-Goals-Allows combination of DSM `}).Stage(stage)
 
 	__ProductShape__00000000_ := (&models.ProductShape{Name: `Default Diagram-Paint points`}).Stage(stage)
 	__ProductShape__00000001_ := (&models.ProductShape{Name: `Default Diagram-lot of yyy files and no clear mental model `}).Stage(stage)
@@ -124,7 +127,8 @@ func _(stage *models.Stage) {
 	__ProductShape__00000016_ := (&models.ProductShape{Name: `Default Diagram-creates a DSM in les than 1/2 hour`}).Stage(stage)
 	__ProductShape__00000017_ := (&models.ProductShape{Name: `Default Diagram-Provides cleans abstraction for the development of the tree`}).Stage(stage)
 	__ProductShape__00000018_ := (&models.ProductShape{Name: `Default Diagram-Abstraction for semantic rules`}).Stage(stage)
-	__ProductShape__00000023_ := (&models.ProductShape{Name: `Default Diagram-Allows combination of DSM `}).Stage(stage)
+	__ProductShape__00000025_ := (&models.ProductShape{Name: `Default Diagram-Allows combination of DSM `}).Stage(stage)
+	__ProductShape__00000028_ := (&models.ProductShape{Name: `Default Diagram-sss`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -178,7 +182,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.DefaultBoxWidth = 250.000000
 	__Diagram__00000001_.DefaultBoxHeigth = 70.000000
 	__Diagram__00000001_.DateFormat = ``
-	__Diagram__00000001_.Width = 862.155913
+	__Diagram__00000001_.Width = 1335.155913
 	__Diagram__00000001_.Height = 1514.000000
 	__Diagram__00000001_.IsTimeDiagram = false
 	__Diagram__00000001_.ComputedStart, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
@@ -294,8 +298,8 @@ func _(stage *models.Stage) {
 	__NoteShape__00000001_.Name = `Default Diagram-A typical DSM is "concept map", a tool to creates Noun, Verbs and directed relations between them. The visual diagram is very simple. `
 	__NoteShape__00000001_.OverideLayoutDirection = false
 	__NoteShape__00000001_.LayoutDirection = models.Vertical
-	__NoteShape__00000001_.X = 49.625303
-	__NoteShape__00000001_.Y = 471.810898
+	__NoteShape__00000001_.X = 522.625303
+	__NoteShape__00000001_.Y = 472.810898
 	__NoteShape__00000001_.Width = 250.000000
 	__NoteShape__00000001_.Height = 122.000000
 	__NoteShape__00000001_.IsHidden = false
@@ -311,8 +315,8 @@ func _(stage *models.Stage) {
 `
 	__NoteShape__00000002_.OverideLayoutDirection = false
 	__NoteShape__00000002_.LayoutDirection = models.Vertical
-	__NoteShape__00000002_.X = 512.155913
-	__NoteShape__00000002_.Y = 36.256246
+	__NoteShape__00000002_.X = 985.155913
+	__NoteShape__00000002_.Y = 37.256246
 	__NoteShape__00000002_.Width = 250.000000
 	__NoteShape__00000002_.Height = 163.000000
 	__NoteShape__00000002_.IsHidden = false
@@ -320,8 +324,8 @@ func _(stage *models.Stage) {
 	__NoteShape__00000003_.Name = `Default Diagram-Default functions like Rename, Delete, ...`
 	__NoteShape__00000003_.OverideLayoutDirection = false
 	__NoteShape__00000003_.LayoutDirection = models.Vertical
-	__NoteShape__00000003_.X = 477.184253
-	__NoteShape__00000003_.Y = 478.000000
+	__NoteShape__00000003_.X = 950.184253
+	__NoteShape__00000003_.Y = 479.000000
 	__NoteShape__00000003_.Width = 250.000000
 	__NoteShape__00000003_.Height = 70.000000
 	__NoteShape__00000003_.IsHidden = false
@@ -338,8 +342,8 @@ func _(stage *models.Stage) {
 	__NoteShape__00000007_.Name = `Default Diagram-For instance, a project DSM needs a Requirement DSM and a Statemachine DSM `
 	__NoteShape__00000007_.OverideLayoutDirection = false
 	__NoteShape__00000007_.LayoutDirection = models.Vertical
-	__NoteShape__00000007_.X = 127.450625
-	__NoteShape__00000007_.Y = 620.387352
+	__NoteShape__00000007_.X = 600.450625
+	__NoteShape__00000007_.Y = 621.387352
 	__NoteShape__00000007_.Width = 250.000000
 	__NoteShape__00000007_.Height = 70.000000
 	__NoteShape__00000007_.IsHidden = false
@@ -524,6 +528,33 @@ func _(stage *models.Stage) {
 	__Product__00000023_.IsExpanded = false
 	__Product__00000023_.LayoutDirection = models.Vertical
 
+	__Product__00000024_.Name = ``
+	__Product__00000024_.Description = ``
+	__Product__00000024_.IsProducersNodeExpanded = false
+	__Product__00000024_.IsConsumersNodeExpanded = false
+	__Product__00000024_.IsImport = false
+	__Product__00000024_.ComputedPrefix = `2`
+	__Product__00000024_.IsExpanded = false
+	__Product__00000024_.LayoutDirection = models.Vertical
+
+	__Product__00000025_.Name = ``
+	__Product__00000025_.Description = ``
+	__Product__00000025_.IsProducersNodeExpanded = false
+	__Product__00000025_.IsConsumersNodeExpanded = false
+	__Product__00000025_.IsImport = false
+	__Product__00000025_.ComputedPrefix = `3`
+	__Product__00000025_.IsExpanded = false
+	__Product__00000025_.LayoutDirection = models.Vertical
+
+	__Product__00000026_.Name = `sss`
+	__Product__00000026_.Description = ``
+	__Product__00000026_.IsProducersNodeExpanded = false
+	__Product__00000026_.IsConsumersNodeExpanded = false
+	__Product__00000026_.IsImport = false
+	__Product__00000026_.ComputedPrefix = `4`
+	__Product__00000026_.IsExpanded = false
+	__Product__00000026_.LayoutDirection = models.Vertical
+
 	__ProductCompositionShape__00000000_.Name = `Default Diagram-Paint points-lot of yyy files and no clear mental model `
 	__ProductCompositionShape__00000000_.StartRatio = 0.500000
 	__ProductCompositionShape__00000000_.EndRatio = 0.500000
@@ -660,13 +691,13 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000017_.CornerOffsetRatio = 1.500000
 	__ProductCompositionShape__00000017_.IsHidden = false
 
-	__ProductCompositionShape__00000018_.Name = `Default Diagram-Goals-Allows combination of DSM `
-	__ProductCompositionShape__00000018_.StartRatio = 0.500000
-	__ProductCompositionShape__00000018_.EndRatio = 0.500000
-	__ProductCompositionShape__00000018_.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000018_.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000018_.CornerOffsetRatio = 1.500000
-	__ProductCompositionShape__00000018_.IsHidden = false
+	__ProductCompositionShape__00000020_.Name = `Default Diagram-Goals-Allows combination of DSM `
+	__ProductCompositionShape__00000020_.StartRatio = 0.500000
+	__ProductCompositionShape__00000020_.EndRatio = 0.500000
+	__ProductCompositionShape__00000020_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000020_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000020_.CornerOffsetRatio = 1.500000
+	__ProductCompositionShape__00000020_.IsHidden = false
 
 	__ProductShape__00000000_.Name = `Default Diagram-Paint points`
 	__ProductShape__00000000_.OverideLayoutDirection = false
@@ -806,8 +837,8 @@ func _(stage *models.Stage) {
 	__ProductShape__00000015_.Name = `Default Diagram-Goals`
 	__ProductShape__00000015_.OverideLayoutDirection = false
 	__ProductShape__00000015_.LayoutDirection = models.Vertical
-	__ProductShape__00000015_.X = 50.000000
-	__ProductShape__00000015_.Y = 50.000000
+	__ProductShape__00000015_.X = 523.000000
+	__ProductShape__00000015_.Y = 51.000000
 	__ProductShape__00000015_.Width = 250.000000
 	__ProductShape__00000015_.Height = 70.000000
 	__ProductShape__00000015_.IsHidden = false
@@ -815,8 +846,8 @@ func _(stage *models.Stage) {
 	__ProductShape__00000016_.Name = `Default Diagram-creates a DSM in les than 1/2 hour`
 	__ProductShape__00000016_.OverideLayoutDirection = false
 	__ProductShape__00000016_.LayoutDirection = models.Vertical
-	__ProductShape__00000016_.X = 50.000000
-	__ProductShape__00000016_.Y = 190.000000
+	__ProductShape__00000016_.X = 523.000000
+	__ProductShape__00000016_.Y = 191.000000
 	__ProductShape__00000016_.Width = 250.000000
 	__ProductShape__00000016_.Height = 70.000000
 	__ProductShape__00000016_.IsHidden = false
@@ -824,8 +855,8 @@ func _(stage *models.Stage) {
 	__ProductShape__00000017_.Name = `Default Diagram-Provides cleans abstraction for the development of the tree`
 	__ProductShape__00000017_.OverideLayoutDirection = false
 	__ProductShape__00000017_.LayoutDirection = models.Vertical
-	__ProductShape__00000017_.X = 225.000000
-	__ProductShape__00000017_.Y = 275.000000
+	__ProductShape__00000017_.X = 698.000000
+	__ProductShape__00000017_.Y = 276.000000
 	__ProductShape__00000017_.Width = 250.000000
 	__ProductShape__00000017_.Height = 70.000000
 	__ProductShape__00000017_.IsHidden = false
@@ -833,20 +864,29 @@ func _(stage *models.Stage) {
 	__ProductShape__00000018_.Name = `Default Diagram-Abstraction for semantic rules`
 	__ProductShape__00000018_.OverideLayoutDirection = false
 	__ProductShape__00000018_.LayoutDirection = models.Vertical
-	__ProductShape__00000018_.X = 225.000000
-	__ProductShape__00000018_.Y = 360.000000
+	__ProductShape__00000018_.X = 698.000000
+	__ProductShape__00000018_.Y = 361.000000
 	__ProductShape__00000018_.Width = 250.000000
 	__ProductShape__00000018_.Height = 70.000000
 	__ProductShape__00000018_.IsHidden = false
 
-	__ProductShape__00000023_.Name = `Default Diagram-Allows combination of DSM `
-	__ProductShape__00000023_.OverideLayoutDirection = false
-	__ProductShape__00000023_.LayoutDirection = models.Vertical
-	__ProductShape__00000023_.X = 350.000000
-	__ProductShape__00000023_.Y = 190.000000
-	__ProductShape__00000023_.Width = 250.000000
-	__ProductShape__00000023_.Height = 70.000000
-	__ProductShape__00000023_.IsHidden = false
+	__ProductShape__00000025_.Name = `Default Diagram-Allows combination of DSM `
+	__ProductShape__00000025_.OverideLayoutDirection = false
+	__ProductShape__00000025_.LayoutDirection = models.Vertical
+	__ProductShape__00000025_.X = 823.000000
+	__ProductShape__00000025_.Y = 191.000000
+	__ProductShape__00000025_.Width = 250.000000
+	__ProductShape__00000025_.Height = 70.000000
+	__ProductShape__00000025_.IsHidden = false
+
+	__ProductShape__00000028_.Name = `Default Diagram-sss`
+	__ProductShape__00000028_.OverideLayoutDirection = false
+	__ProductShape__00000028_.LayoutDirection = models.Vertical
+	__ProductShape__00000028_.X = 169.084049
+	__ProductShape__00000028_.Y = 764.000000
+	__ProductShape__00000028_.Width = 250.000000
+	__ProductShape__00000028_.Height = 70.000000
+	__ProductShape__00000028_.IsHidden = false
 
 	// insertion point for setup of pointers
 	__Diagram__00000000_.Product_Shapes = append(__Diagram__00000000_.Product_Shapes, __ProductShape__00000000_)
@@ -889,13 +929,13 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.Product_Shapes = append(__Diagram__00000001_.Product_Shapes, __ProductShape__00000016_)
 	__Diagram__00000001_.Product_Shapes = append(__Diagram__00000001_.Product_Shapes, __ProductShape__00000017_)
 	__Diagram__00000001_.Product_Shapes = append(__Diagram__00000001_.Product_Shapes, __ProductShape__00000018_)
-	__Diagram__00000001_.Product_Shapes = append(__Diagram__00000001_.Product_Shapes, __ProductShape__00000023_)
+	__Diagram__00000001_.Product_Shapes = append(__Diagram__00000001_.Product_Shapes, __ProductShape__00000025_)
+	__Diagram__00000001_.Product_Shapes = append(__Diagram__00000001_.Product_Shapes, __ProductShape__00000028_)
 	__Diagram__00000001_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000001_.ProductsWhoseNodeIsExpanded, __Product__00000016_)
-	__Diagram__00000001_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000001_.ProductsWhoseNodeIsExpanded, __Product__00000015_)
 	__Diagram__00000001_.ProductComposition_Shapes = append(__Diagram__00000001_.ProductComposition_Shapes, __ProductCompositionShape__00000014_)
 	__Diagram__00000001_.ProductComposition_Shapes = append(__Diagram__00000001_.ProductComposition_Shapes, __ProductCompositionShape__00000015_)
 	__Diagram__00000001_.ProductComposition_Shapes = append(__Diagram__00000001_.ProductComposition_Shapes, __ProductCompositionShape__00000017_)
-	__Diagram__00000001_.ProductComposition_Shapes = append(__Diagram__00000001_.ProductComposition_Shapes, __ProductCompositionShape__00000018_)
+	__Diagram__00000001_.ProductComposition_Shapes = append(__Diagram__00000001_.ProductComposition_Shapes, __ProductCompositionShape__00000020_)
 	__Diagram__00000001_.Note_Shapes = append(__Diagram__00000001_.Note_Shapes, __NoteShape__00000001_)
 	__Diagram__00000001_.Note_Shapes = append(__Diagram__00000001_.Note_Shapes, __NoteShape__00000002_)
 	__Diagram__00000001_.Note_Shapes = append(__Diagram__00000001_.Note_Shapes, __NoteShape__00000003_)
@@ -906,6 +946,9 @@ func _(stage *models.Stage) {
 	__Library__00000000_.Notes = append(__Library__00000000_.Notes, __Note__00000000_)
 	__Library__00000000_.Diagrams = append(__Library__00000000_.Diagrams, __Diagram__00000000_)
 	__Library__00000001_.RootProducts = append(__Library__00000001_.RootProducts, __Product__00000015_)
+	__Library__00000001_.RootProducts = append(__Library__00000001_.RootProducts, __Product__00000024_)
+	__Library__00000001_.RootProducts = append(__Library__00000001_.RootProducts, __Product__00000025_)
+	__Library__00000001_.RootProducts = append(__Library__00000001_.RootProducts, __Product__00000026_)
 	__Library__00000001_.Notes = append(__Library__00000001_.Notes, __Note__00000001_)
 	__Library__00000001_.Notes = append(__Library__00000001_.Notes, __Note__00000002_)
 	__Library__00000001_.Notes = append(__Library__00000001_.Notes, __Note__00000003_)
@@ -960,6 +1003,9 @@ func _(stage *models.Stage) {
 	__Product__00000017_.ReferencedProduct = nil
 	__Product__00000018_.ReferencedProduct = nil
 	__Product__00000023_.ReferencedProduct = nil
+	__Product__00000024_.ReferencedProduct = nil
+	__Product__00000025_.ReferencedProduct = nil
+	__Product__00000026_.ReferencedProduct = nil
 	__ProductCompositionShape__00000000_.Product = __Product__00000001_
 	__ProductCompositionShape__00000001_.Product = __Product__00000002_
 	__ProductCompositionShape__00000002_.Product = __Product__00000003_
@@ -977,7 +1023,7 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000014_.Product = __Product__00000016_
 	__ProductCompositionShape__00000015_.Product = __Product__00000017_
 	__ProductCompositionShape__00000017_.Product = __Product__00000018_
-	__ProductCompositionShape__00000018_.Product = __Product__00000023_
+	__ProductCompositionShape__00000020_.Product = __Product__00000023_
 	__ProductShape__00000000_.Product = __Product__00000000_
 	__ProductShape__00000001_.Product = __Product__00000001_
 	__ProductShape__00000002_.Product = __Product__00000002_
@@ -997,5 +1043,6 @@ func _(stage *models.Stage) {
 	__ProductShape__00000016_.Product = __Product__00000016_
 	__ProductShape__00000017_.Product = __Product__00000017_
 	__ProductShape__00000018_.Product = __Product__00000018_
-	__ProductShape__00000023_.Product = __Product__00000023_
+	__ProductShape__00000025_.Product = __Product__00000023_
+	__ProductShape__00000028_.Product = __Product__00000026_
 }
