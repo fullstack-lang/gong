@@ -63,7 +63,7 @@ func (stager *Stager) createViews() {
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name:      "Edit PBS/WBS",
+		Name:      "Edit PBS/WBS with Probe",
 		Direction: split.Horizontal,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{

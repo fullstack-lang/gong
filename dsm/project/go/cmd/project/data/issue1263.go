@@ -42,6 +42,7 @@ func _(stage *models.Stage) {
 - semantic rules
 - a Tree
 - a SVG
+- a definition of views : standard + probe
 
 `}).Stage(stage)
 	__Note__00000003_ := (&models.Note{Name: `Default functions like Rename, Delete, ...`}).Stage(stage)
@@ -59,6 +60,7 @@ func _(stage *models.Stage) {
 - semantic rules
 - a Tree
 - a SVG
+- a definition of views : standard + probe
 
 `}).Stage(stage)
 	__NoteShape__00000003_ := (&models.NoteShape{Name: `Default Diagram-Default functions like Rename, Delete, ...`}).Stage(stage)
@@ -257,6 +259,7 @@ func _(stage *models.Stage) {
 - semantic rules
 - a Tree
 - a SVG
+- a definition of views : standard + probe
 
 `
 	__Note__00000002_.ComputedPrefix = `2`
@@ -311,6 +314,7 @@ func _(stage *models.Stage) {
 - semantic rules
 - a Tree
 - a SVG
+- a definition of views : standard + probe
 
 `
 	__NoteShape__00000002_.OverideLayoutDirection = false
