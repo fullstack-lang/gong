@@ -4,7 +4,6 @@ package main
 
 import (
 	"log"
-	"syscall/js"
 
 	"github.com/fullstack-lang/gong/dsm/project/go/level1stack"
 	"github.com/fullstack-lang/gong/dsm/project/go/models"
@@ -42,8 +41,6 @@ func main() {
 
 	// Expose the HTTP and Socket bridges to the Angular frontend
 	wasmregistry.SetupWasmHooks(stack.R)
-
-
 
 	select {} // Keep the WASM instance running indefinitely
 }
