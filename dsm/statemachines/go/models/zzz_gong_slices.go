@@ -214,18 +214,18 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.State_SubStates_reverseMap[_state] = state
 		}
 	}
-	stage.State_Diagrams_reverseMap = make(map[*Diagram]*State)
-	for state := range stage.States {
-		_ = state
-		for _, _diagram := range state.Diagrams {
-			stage.State_Diagrams_reverseMap[_diagram] = state
-		}
-	}
 	stage.State_Activities_reverseMap = make(map[*Activities]*State)
 	for state := range stage.States {
 		_ = state
 		for _, _activities := range state.Activities {
 			stage.State_Activities_reverseMap[_activities] = state
+		}
+	}
+	stage.State_Diagrams_reverseMap = make(map[*Diagram]*State)
+	for state := range stage.States {
+		_ = state
+		for _, _diagram := range state.Diagrams {
+			stage.State_Diagrams_reverseMap[_diagram] = state
 		}
 	}
 

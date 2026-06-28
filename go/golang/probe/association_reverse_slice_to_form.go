@@ -82,7 +82,7 @@ type OnReverseAssocEditon[OwnerType models.PointerToGongstruct, FieldType models
 
 func NewOnReverseAssocEditon[OwnerType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
 	reverseFieldOwnerTypeName string,
-	reverseFieldName          string,
+	reverseFieldName string,
 	instance FieldType,
 	probe *Probe,
 ) (onAssocEdition *OnReverseAssocEditon[OwnerType, FieldType]) {

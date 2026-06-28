@@ -16,19 +16,19 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
 	form_fullstack "github.com/fullstack-lang/gong/lib/form/go/fullstack"
-	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
 	split_fullstack "github.com/fullstack-lang/gong/lib/split/go/fullstack"
 	table_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	tree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
+	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
 	doc "github.com/fullstack-lang/gong/lib/doc/go/models"
 	form "github.com/fullstack-lang/gong/lib/form/go/models"
-	load "github.com/fullstack-lang/gong/lib/load/go/models"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	table "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
+	load "github.com/fullstack-lang/gong/lib/load/go/models"
 
 	"github.com/fullstack-lang/gong/app/xsd/tests/reqif/go/models"
 
@@ -47,7 +47,7 @@ type Probe struct {
 	splitStage             *split.Stage
 	loadStage              *load.Stage
 
-	fileName string
+	fileName               string
 
 	// AsSplit to be used if one need only the data editor
 	dataEditor *split.AsSplit
@@ -106,6 +106,8 @@ func (probe *Probe) RefreshNavigationTree() {
 func (probe *Probe) GetProbeLoadStageName() string {
 	return probe.stageOfInterest.GetProbeLoadStageName()
 }
+
+
 
 func NewProbe(
 	r *gin.Engine,

@@ -763,10 +763,10 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(state.GongMarshallField(stage, "IsFictious"))
 		initializerStatements.WriteString(state.GongMarshallField(stage, "IsEndState"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "SubStates"))
-		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Diagrams"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Entry"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Activities"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Exit"))
+		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Diagrams"))
 	}
 
 	statemachineOrdered := []*StateMachine{}
@@ -1991,16 +1991,6 @@ func (state *State) GongMarshallField(stage *Stage, fieldName string) (res strin
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
-	case "Diagrams":
-		var sb strings.Builder
-		for _, _diagram := range state.Diagrams {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", state.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Diagrams")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagram.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
 	case "Entry":
 		if state.Entry != nil {
 			res = PointerFieldInitStatement
@@ -2037,6 +2027,16 @@ func (state *State) GongMarshallField(stage *Stage, fieldName string) (res strin
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Exit")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "Diagrams":
+		var sb strings.Builder
+		for _, _diagram := range state.Diagrams {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", state.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Diagrams")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _diagram.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct State", fieldName)
 	}
@@ -2576,10 +2576,10 @@ func (state *State) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(state.GongMarshallField(stage, "IsFictious"))
 		initializerStatements.WriteString(state.GongMarshallField(stage, "IsEndState"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "SubStates"))
-		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Diagrams"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Entry"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Activities"))
 		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Exit"))
+		pointersInitializesStatements.WriteString(state.GongMarshallField(stage, "Diagrams"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -2834,38 +2834,6 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 			state_.SubStates = instanceSlice
 			stateFormCallback.probe.UpdateSliceOfPointersCallback(state_, "SubStates", &state_.SubStates)
 
-		case "Diagrams":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](stateFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Diagram, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Diagram)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					stateFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](stateFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			state_.Diagrams = instanceSlice
-			stateFormCallback.probe.UpdateSliceOfPointersCallback(state_, "Diagrams", &state_.Diagrams)
-
 		case "Entry":
 			FormDivSelectFieldToField(&(state_.Entry), stateFormCallback.probe.stageOfInterest, formDiv)
 		case "Activities":
@@ -2902,6 +2870,38 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 
 		case "Exit":
 			FormDivSelectFieldToField(&(state_.Exit), stateFormCallback.probe.stageOfInterest, formDiv)
+		case "Diagrams":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](stateFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Diagram, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Diagram)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					stateFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](stateFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			state_.Diagrams = instanceSlice
+			stateFormCallback.probe.UpdateSliceOfPointersCallback(state_, "Diagrams", &state_.Diagrams)
+
 		case "Diagram:StatesWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

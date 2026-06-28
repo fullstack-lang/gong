@@ -408,9 +408,9 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	State_SubStates_reverseMap map[*State]*State
 
-	State_Diagrams_reverseMap map[*Diagram]*State
-
 	State_Activities_reverseMap map[*Activities]*State
+
+	State_Diagrams_reverseMap map[*Diagram]*State
 
 	OnAfterStateCreateCallback OnAfterCreateInterface[State]
 	OnAfterStateUpdateCallback OnAfterUpdateInterface[State]
@@ -4646,14 +4646,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Parent: &State{Name: "Parent"},
 			// field is initialized with an instance of State with the name of the field
 			SubStates: []*State{{Name: "SubStates"}},
-			// field is initialized with an instance of Diagram with the name of the field
-			Diagrams: []*Diagram{{Name: "Diagrams"}},
 			// field is initialized with an instance of Action with the name of the field
 			Entry: &Action{Name: "Entry"},
 			// field is initialized with an instance of Activities with the name of the field
 			Activities: []*Activities{{Name: "Activities"}},
 			// field is initialized with an instance of Action with the name of the field
 			Exit: &Action{Name: "Exit"},
+			// field is initialized with an instance of Diagram with the name of the field
+			Diagrams: []*Diagram{{Name: "Diagrams"}},
 		}).(*Type)
 	case StateMachine:
 		return any(&StateMachine{
@@ -5361,19 +5361,19 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "Diagrams":
-			res := make(map[*Diagram][]*State)
-			for state := range stage.States {
-				for _, diagram_ := range state.Diagrams {
-					res[diagram_] = append(res[diagram_], state)
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "Activities":
 			res := make(map[*Activities][]*State)
 			for state := range stage.States {
 				for _, activities_ := range state.Activities {
 					res[activities_] = append(res[activities_], state)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Diagrams":
+			res := make(map[*Diagram][]*State)
+			for state := range stage.States {
+				for _, diagram_ := range state.Diagrams {
+					res[diagram_] = append(res[diagram_], state)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -6183,11 +6183,6 @@ func (state *State) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "State",
 		},
 		{
-			Name:                 "Diagrams",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Diagram",
-		},
-		{
 			Name:                 "Entry",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Action",
@@ -6201,6 +6196,11 @@ func (state *State) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Exit",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Action",
+		},
+		{
+			Name:                 "Diagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Diagram",
 		},
 	}
 	return
@@ -6998,16 +6998,6 @@ func (state *State) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "Diagrams":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range state.Diagrams {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
 	case "Entry":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if state.Entry != nil {
@@ -7029,6 +7019,16 @@ func (state *State) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		if state.Exit != nil {
 			res.valueString = state.Exit.Name
 			res.ids = state.Exit.GongGetUUID(stage)
+		}
+	case "Diagrams":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range state.Diagrams {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
 		}
 	}
 	return
@@ -7872,20 +7872,6 @@ func (state *State) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				}
 			}
 		}
-	case "Diagrams":
-		state.Diagrams = make([]*Diagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Diagrams {
-					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
-						state.Diagrams = append(state.Diagrams, __instance__)
-						break
-					}
-				}
-			}
-		}
 	case "Entry":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -7919,6 +7905,20 @@ func (state *State) GongSetFieldValue(fieldName string, value GongFieldValue, st
 				if stage.Action_stagedOrder[__instance__] == uint(id) {
 					state.Exit = __instance__
 					break
+				}
+			}
+		}
+	case "Diagrams":
+		state.Diagrams = make([]*Diagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Diagrams {
+					if stage.Diagram_stagedOrder[__instance__] == uint(id) {
+						state.Diagrams = append(state.Diagrams, __instance__)
+						break
+					}
 				}
 			}
 		}

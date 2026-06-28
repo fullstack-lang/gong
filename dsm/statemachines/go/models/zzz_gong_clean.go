@@ -177,8 +177,8 @@ func (role *Role) GongClean(stage *Stage) (modified bool) {
 func (state *State) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &state.SubStates) || modified
-	modified = GongCleanSlice(stage, &state.Diagrams) || modified
 	modified = GongCleanSlice(stage, &state.Activities) || modified
+	modified = GongCleanSlice(stage, &state.Diagrams) || modified
 	// insertion point per field
 	modified = GongCleanPointer(stage, &state.Parent) || modified
 	modified = GongCleanPointer(stage, &state.Entry) || modified
