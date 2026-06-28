@@ -43,55 +43,7 @@ func main() {
 	// Expose the HTTP and Socket bridges to the Angular frontend
 	wasmregistry.SetupWasmHooks(stack.R)
 
-	// Add event listener for postMessage to handle injected files
-	js.Global().Call("eval", `
-(function() {
-    let fileProcessed = false;
-    window.addEventListener('message', (event) => {
-        console.log("main_wasm.go: received message event:", event.data ? event.data.action : "unknown");
-        if (event.data && event.data.action === 'PROCESS_INJECTED_FILE') {
-            if (fileProcessed) {
-                // Already processed, just send ACK again in case it was missed
-                if (event.source) {
-                    event.source.postMessage({ action: 'FILE_PROCESSED' }, event.origin);
-                }
-                return;
-            }
-            fileProcessed = true; // Prevent duplicate processing
 
-            const fileContent = event.data.fileData;
-            const fileName = event.data.fileName;
-            
-            const byteCharacters = atob(fileContent);
-            const byteNumbers = new Array(byteCharacters.length);
-            for (let i = 0; i < byteCharacters.length; i++) {
-                byteNumbers[i] = byteCharacters.charCodeAt(i);
-            }
-            const byteArray = new Uint8Array(byteNumbers);
-            const injectedFile = new File([byteArray], fileName, { type: "text/plain" });
-
-            const tryDrop = () => {
-                const fileInput = document.querySelector('input[type="file"]');
-                if (fileInput) {
-                    const dataTransfer = new DataTransfer();
-                    dataTransfer.items.add(injectedFile);
-                    fileInput.files = dataTransfer.files;
-                    const changeEvent = new Event('change', { bubbles: true });
-                    fileInput.dispatchEvent(changeEvent);
-                    console.log("File successfully injected into the input element!");
-                    if (event.source) {
-                        event.source.postMessage({ action: 'FILE_PROCESSED' }, event.origin);
-                    }
-                } else {
-                    console.log("file input not found, retrying in 500ms...");
-                    setTimeout(tryDrop, 500);
-                }
-            };
-            tryDrop();
-        }
-    });
-})();
-	`)
 
 	select {} // Keep the WASM instance running indefinitely
 }
