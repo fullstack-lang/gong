@@ -40,6 +40,7 @@ export class Node {
 	HasToolTip: boolean = false
 	ToolTipText: string = ""
 	ToolTipPosition: string = ""
+	ClientOnY: number = 0
 	IsInEditMode: boolean = false
 	IsNodeClickable: boolean = false
 	IsWithPreceedingIcon: boolean = false
@@ -86,6 +87,7 @@ export function CopyNodeToNodeAPI(node: Node, nodeAPI: NodeAPI) {
 	nodeAPI.HasToolTip = node.HasToolTip
 	nodeAPI.ToolTipText = node.ToolTipText
 	nodeAPI.ToolTipPosition = node.ToolTipPosition
+	nodeAPI.ClientOnY = node.ClientOnY
 	nodeAPI.IsInEditMode = node.IsInEditMode
 	nodeAPI.IsNodeClickable = node.IsNodeClickable
 	nodeAPI.IsWithPreceedingIcon = node.IsWithPreceedingIcon
@@ -153,6 +155,7 @@ export function CopyNodeAPIToNode(nodeAPI: NodeAPI, node: Node, frontRepo: Front
 	node.HasToolTip = nodeAPI.HasToolTip
 	node.ToolTipText = nodeAPI.ToolTipText
 	node.ToolTipPosition = nodeAPI.ToolTipPosition
+	node.ClientOnY = nodeAPI.ClientOnY
 	node.IsInEditMode = nodeAPI.IsInEditMode
 	node.IsNodeClickable = nodeAPI.IsNodeClickable
 	node.IsWithPreceedingIcon = nodeAPI.IsWithPreceedingIcon

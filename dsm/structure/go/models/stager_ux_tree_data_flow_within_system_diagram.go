@@ -118,7 +118,7 @@ func (stager *Stager) treeDataFlowsWithinSystemDiagram(
 			if dataFlowShape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
-			// shape = newShapeToDiagram(controlflow, diagramStructure, &diagramStructure.ControlFlowShapes, stage)
+			// shape = newShapeToDiagram(controlflow, diagramStructure, &diagramStructure.ControlFlowShapes, stager, node.ClientOnY)
 			// addAssociationShapeToDiagram(stager, controlflow.Start, controlflow.End, &diagramStructure.ControlFlowShapes)
 			dataFlowShape := (&DataFlowShape{
 				DataFlow: dataFlow,

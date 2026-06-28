@@ -582,6 +582,8 @@ func (u *NodeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.ToolTipText = GongExtractString(valueExpr)
 	case "ToolTipPosition":
 		GongUnmarshallEnum(&instance.ToolTipPosition, valueExpr)
+	case "ClientOnY":
+		instance.ClientOnY = GongExtractFloat(valueExpr)
 	case "IsInEditMode":
 		instance.IsInEditMode = GongExtractBool(valueExpr)
 	case "IsNodeClickable":

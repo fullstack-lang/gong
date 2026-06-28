@@ -266,7 +266,10 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
   }
 
   // toggling behavior is controlled from the back
-  toggleNodeCheckbox(node: FlatNode): void {
+  toggleNodeCheckbox(node: FlatNode, event: MouseEvent): void {
+    if (event) {
+        node.gongNode.ClientOnY = event.clientY
+    }
     node.gongNode.IsChecked = !node.gongNode.IsChecked
     this.gongtreeNodeService.updateFront(node.gongNode, this.Name).subscribe(
       gongtreeNode => {
@@ -276,7 +279,10 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
   }
 
   // toggling behavior is controlled from the back
-  toggleNodeSecondCheckbox(node: FlatNode): void {
+  toggleNodeSecondCheckbox(node: FlatNode, event: MouseEvent): void {
+    if (event) {
+        node.gongNode.ClientOnY = event.clientY
+    }
     node.gongNode.IsSecondCheckboxChecked = !node.gongNode.IsSecondCheckboxChecked
     this.gongtreeNodeService.updateFront(node.gongNode, this.Name).subscribe(
       gongtreeNode => {

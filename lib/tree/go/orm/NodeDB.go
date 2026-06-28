@@ -154,6 +154,9 @@ type NodeDB struct {
 	// Declation for basic field nodeDB.ToolTipPosition
 	ToolTipPosition_Data sql.NullString
 
+	// Declation for basic field nodeDB.ClientOnY
+	ClientOnY_Data sql.NullFloat64
+
 	// Declation for basic field nodeDB.IsInEditMode
 	// provide the sql storage for the boolan
 	IsInEditMode_Data sql.NullBool
@@ -235,13 +238,15 @@ type NodeWOP struct {
 
 	ToolTipPosition models.ToolTipPositionEnum `xlsx:"22"`
 
-	IsInEditMode bool `xlsx:"23"`
+	ClientOnY float64 `xlsx:"23"`
 
-	IsNodeClickable bool `xlsx:"24"`
+	IsInEditMode bool `xlsx:"24"`
 
-	IsWithPreceedingIcon bool `xlsx:"25"`
+	IsNodeClickable bool `xlsx:"25"`
 
-	PreceedingIcon string `xlsx:"26"`
+	IsWithPreceedingIcon bool `xlsx:"26"`
+
+	PreceedingIcon string `xlsx:"27"`
 	// insertion for WOP pointer fields
 }
 
@@ -270,6 +275,7 @@ var Node_Fields = []string{
 	"HasToolTip",
 	"ToolTipText",
 	"ToolTipPosition",
+	"ClientOnY",
 	"IsInEditMode",
 	"IsNodeClickable",
 	"IsWithPreceedingIcon",
@@ -735,6 +741,9 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNode(node *models.Node) {
 	nodeDB.ToolTipPosition_Data.String = node.ToolTipPosition.ToString()
 	nodeDB.ToolTipPosition_Data.Valid = true
 
+	nodeDB.ClientOnY_Data.Float64 = node.ClientOnY
+	nodeDB.ClientOnY_Data.Valid = true
+
 	nodeDB.IsInEditMode_Data.Bool = node.IsInEditMode
 	nodeDB.IsInEditMode_Data.Valid = true
 
@@ -817,6 +826,9 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNode_WOP(node *models.Node_WOP) {
 
 	nodeDB.ToolTipPosition_Data.String = node.ToolTipPosition.ToString()
 	nodeDB.ToolTipPosition_Data.Valid = true
+
+	nodeDB.ClientOnY_Data.Float64 = node.ClientOnY
+	nodeDB.ClientOnY_Data.Valid = true
 
 	nodeDB.IsInEditMode_Data.Bool = node.IsInEditMode
 	nodeDB.IsInEditMode_Data.Valid = true
@@ -901,6 +913,9 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNodeWOP(node *NodeWOP) {
 	nodeDB.ToolTipPosition_Data.String = node.ToolTipPosition.ToString()
 	nodeDB.ToolTipPosition_Data.Valid = true
 
+	nodeDB.ClientOnY_Data.Float64 = node.ClientOnY
+	nodeDB.ClientOnY_Data.Valid = true
+
 	nodeDB.IsInEditMode_Data.Bool = node.IsInEditMode
 	nodeDB.IsInEditMode_Data.Valid = true
 
@@ -939,6 +954,7 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNode(node *models.Node) {
 	node.HasToolTip = nodeDB.HasToolTip_Data.Bool
 	node.ToolTipText = nodeDB.ToolTipText_Data.String
 	node.ToolTipPosition.FromString(nodeDB.ToolTipPosition_Data.String)
+	node.ClientOnY = nodeDB.ClientOnY_Data.Float64
 	node.IsInEditMode = nodeDB.IsInEditMode_Data.Bool
 	node.IsNodeClickable = nodeDB.IsNodeClickable_Data.Bool
 	node.IsWithPreceedingIcon = nodeDB.IsWithPreceedingIcon_Data.Bool
@@ -970,6 +986,7 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNode_WOP(node *models.Node_WOP) {
 	node.HasToolTip = nodeDB.HasToolTip_Data.Bool
 	node.ToolTipText = nodeDB.ToolTipText_Data.String
 	node.ToolTipPosition.FromString(nodeDB.ToolTipPosition_Data.String)
+	node.ClientOnY = nodeDB.ClientOnY_Data.Float64
 	node.IsInEditMode = nodeDB.IsInEditMode_Data.Bool
 	node.IsNodeClickable = nodeDB.IsNodeClickable_Data.Bool
 	node.IsWithPreceedingIcon = nodeDB.IsWithPreceedingIcon_Data.Bool
@@ -1002,6 +1019,7 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNodeWOP(node *NodeWOP) {
 	node.HasToolTip = nodeDB.HasToolTip_Data.Bool
 	node.ToolTipText = nodeDB.ToolTipText_Data.String
 	node.ToolTipPosition.FromString(nodeDB.ToolTipPosition_Data.String)
+	node.ClientOnY = nodeDB.ClientOnY_Data.Float64
 	node.IsInEditMode = nodeDB.IsInEditMode_Data.Bool
 	node.IsNodeClickable = nodeDB.IsNodeClickable_Data.Bool
 	node.IsWithPreceedingIcon = nodeDB.IsWithPreceedingIcon_Data.Bool

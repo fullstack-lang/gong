@@ -2201,6 +2201,10 @@ func (node *Node) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "ToolTipPositionEnum",
 		},
 		{
+			Name:               "ClientOnY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:               "IsInEditMode",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -2460,6 +2464,10 @@ func (node *Node) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	case "ToolTipPosition":
 		enum := node.ToolTipPosition
 		res.valueString = enum.ToCodeString()
+	case "ClientOnY":
+		res.valueString = fmt.Sprintf("%f", node.ClientOnY)
+		res.valueFloat = node.ClientOnY
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "IsInEditMode":
 		res.valueString = fmt.Sprintf("%t", node.IsInEditMode)
 		res.valueBool = node.IsInEditMode
@@ -2658,6 +2666,8 @@ func (node *Node) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		node.ToolTipText = value.GetValueString()
 	case "ToolTipPosition":
 		node.ToolTipPosition.FromCodeString(value.GetValueString())
+	case "ClientOnY":
+		node.ClientOnY = value.GetValueFloat()
 	case "IsInEditMode":
 		node.IsInEditMode = value.GetValueBool()
 	case "IsNodeClickable":

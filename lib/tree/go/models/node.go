@@ -57,6 +57,8 @@ type Node struct {
 	ToolTipText     string
 	ToolTipPosition ToolTipPositionEnum
 
+	ClientOnY float64
+
 	// in case the user wants to change the name of the node
 	IsInEditMode bool
 
@@ -80,6 +82,8 @@ type Node struct {
 
 // OnAfterUpdate, notice that node == stagedNode
 func (node *Node) OnAfterUpdate(stage *Stage, _, frontNode *Node) {
+
+	node.ClientOnY = frontNode.ClientOnY
 
 	if frontNode.IsExpanded != node.IsExpanded && node.OnIsExpandedChange != nil {
 		node.OnIsExpandedChange(frontNode.IsExpanded)

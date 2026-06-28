@@ -266,7 +266,7 @@ func (stager *Stager) treeConcernBSinDiagram(diagram *Diagram, concern *Concern,
 
 			n.OnIsCheckedChanged = func(isChecked bool) {
 				if isChecked {
-					newShapeToDiagram(stakeholder, diagram, &diagram.Stakeholder_Shapes, stager.stage)
+					newShapeToDiagram(stakeholder, diagram, &diagram.Stakeholder_Shapes, stager, node.ClientOnY)
 					addAssociationShapeToDiagram(stager, stakeholder, concern, &diagram.StakeholderConcernShapes)
 					stager.stage.Commit()
 				} else {

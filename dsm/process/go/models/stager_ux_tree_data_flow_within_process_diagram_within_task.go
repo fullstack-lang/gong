@@ -119,7 +119,7 @@ func (stager *Stager) treeDataFlowsWithinDiagramProcessWithinTask(
 			if dataFlowShape != nil {
 				log.Panic("adding a shape to an already product shape")
 			}
-			// shape = newShapeToDiagram(dataflow, diagramProcess, &diagramProcess.DataFlowShapes, stage)
+			// shape = newShapeToDiagram(dataflow, diagramProcess, &diagramProcess.DataFlowShapes, stager, node.ClientOnY)
 			// addAssociationShapeToDiagram(stager, dataflow.Start, dataflow.End, &diagramProcess.DataFlowShapes)
 			dataFlowShape := (&DataFlowShape{
 				DataFlow: dataFlow,

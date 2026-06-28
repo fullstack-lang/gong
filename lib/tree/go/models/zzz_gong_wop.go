@@ -99,6 +99,8 @@ type Node_WOP struct {
 
 	ToolTipPosition ToolTipPositionEnum
 
+	ClientOnY float64
+
 	IsInEditMode bool
 
 	IsNodeClickable bool
@@ -132,6 +134,7 @@ func (from *Node) CopyBasicFields(to *Node) {
 	to.HasToolTip = from.HasToolTip
 	to.ToolTipText = from.ToolTipText
 	to.ToolTipPosition = from.ToolTipPosition
+	to.ClientOnY = from.ClientOnY
 	to.IsInEditMode = from.IsInEditMode
 	to.IsNodeClickable = from.IsNodeClickable
 	to.IsWithPreceedingIcon = from.IsWithPreceedingIcon

@@ -243,13 +243,7 @@ func addCreateItemAndShapeButton[
 		newAbstractElement := processAbstractItemAddition(stager, conf.ItemButtonConfiguration, callbacks)
 
 		if conf.receivingDiagram != nil && conf.sliceForNewAddedShape != nil {
-			newShape := newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager.stage)
-			if addButton.ClientOnY != 0 {
-				zoom := stager.GetSvgObject().Zoom
-				if zoom == 0 { zoom = 1.0 }
-				panY := stager.GetSvgObject().PanY
-				newShape.SetY((addButton.ClientOnY - panY) / zoom)
-			}
+			newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager, addButton.ClientOnY)
 		}
 
 		if callbacks.OnBeforeCommit != nil {
@@ -307,14 +301,7 @@ func addCreateItemShapeAndLinkButton[
 		newAbstractElement := processAbstractItemAddition(stager, conf.ItemButtonConfiguration, callbacks)
 
 		if conf.receivingDiagram != nil && conf.sliceForNewAddedShape != nil {
-			newShape := newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager.stage)
-
-			if addButton.ClientOnY != 0 {
-				zoom := stager.GetSvgObject().Zoom
-				if zoom == 0 { zoom = 1.0 }
-				panY := stager.GetSvgObject().PanY
-				newShape.SetY((addButton.ClientOnY - panY) / zoom)
-			}
+			newShape := newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager, addButton.ClientOnY)
 
 			var parentShape PCT
 			if conf.parentElement != nil {
