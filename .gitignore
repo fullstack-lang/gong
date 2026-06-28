@@ -68,10 +68,10 @@ dsm/project/go/cmd/project/project
 pkg/docx/go/cmd/docx/docx
 dsm/barrgraph/go/cmd/barrgraph/barrgraph
 dsm/barrgraph/go/cmd/barrgraph/barrgraph-linux-amd64
-dsm/xsd/go/cmd/xsd/xsd
-dsm/xsd/tests/books/go/cmd/books/books
-dsm/xsd/tests/musicxml/go/cmd/musicxml/musicxml
-dsm/xsd/tests/reqif/go/cmd/reqif/reqif
+app/xsd/go/cmd/xsd/xsd
+app/xsd/tests/books/go/cmd/books/books
+app/xsd/tests/musicxml/go/cmd/musicxml/musicxml
+app/xsd/tests/reqif/go/cmd/reqif/reqif
 app/reqif/go/cmd/reqif/gongreqif.log
 app/reqif/go/cmd/reqif/reqif
 dsm/barrgraph/go/cmd/site

@@ -451,8 +451,8 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "cwd": "${workspaceFolder}/dsm/xsd/tests/books",
-            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd2gong",
+            "cwd": "${workspaceFolder}/app/xsd/tests/books",
+            "program": "${workspaceFolder}/app/xsd/go/cmd/xsd2gong",
             "args": [
                 "generate",
                 "./books.xsd",
@@ -466,7 +466,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "cwd": "${workspaceFolder}/dsm/xsd/tests/books/go/models",
+            "cwd": "${workspaceFolder}/app/xsd/tests/books/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
@@ -478,8 +478,8 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "cwd": "${workspaceFolder}/dsm/xsd/tests/books/go/cmd/books",
-            "program": "${workspaceFolder}/dsm/xsd/tests/books/go/cmd/books",
+            "cwd": "${workspaceFolder}/app/xsd/tests/books/go/cmd/books",
+            "program": "${workspaceFolder}/app/xsd/tests/books/go/cmd/books",
             "args": [
                 "../../../books.xml"
             ]
@@ -489,7 +489,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd",
+            "program": "${workspaceFolder}/app/xsd/go/cmd/xsd",
             "args": [
                 "edit",
                 "data/stage.go"
@@ -500,8 +500,8 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "cwd": "${workspaceFolder}/dsm/xsd/tests/musicxml",
-            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd2gong",
+            "cwd": "${workspaceFolder}/app/xsd/tests/musicxml",
+            "program": "${workspaceFolder}/app/xsd/go/cmd/xsd2gong",
             "args": [
                 "generate",
                 "./musicxml.xsd",
@@ -515,7 +515,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "cwd": "${workspaceFolder}/dsm/xsd/tests/musicxml/go/models",
+            "cwd": "${workspaceFolder}/app/xsd/tests/musicxml/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
@@ -527,8 +527,8 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "cwd": "${workspaceFolder}/dsm/xsd/tests/reqif",
-            "program": "${workspaceFolder}/dsm/xsd/go/cmd/xsd2gong",
+            "cwd": "${workspaceFolder}/app/xsd/tests/reqif",
+            "program": "${workspaceFolder}/app/xsd/go/cmd/xsd2gong",
             "args": [
                 "generate",
                 "./dtc-11-04-05.xsd",
@@ -542,7 +542,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "cwd": "${workspaceFolder}/dsm/xsd/tests/reqif/go/models",
+            "cwd": "${workspaceFolder}/app/xsd/tests/reqif/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
