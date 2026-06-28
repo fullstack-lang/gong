@@ -5,9 +5,9 @@
         <div class="group-header">
           <mat-icon>description</mat-icon>
           <div class="header-text-container">
-            <span class="header-label">{{selectedFormGroup.Label}}</span>
+            <span class="header-label" [title]="selectedFormGroup.Label">{{selectedFormGroup.Label}}</span>
             @if (selectedFormGroup.TypeLabel) {
-              <span class="header-type-label">{{selectedFormGroup.TypeLabel}}</span>
+              <span class="header-type-label" [title]="selectedFormGroup.TypeLabel">{{selectedFormGroup.TypeLabel}}</span>
             }
           </div>
         </div>
