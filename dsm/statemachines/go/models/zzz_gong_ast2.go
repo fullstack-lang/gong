@@ -1063,14 +1063,14 @@ func (u *StateUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.IsEndState = GongExtractBool(valueExpr)
 	case "SubStates":
 		GongUnmarshallSliceOfPointers(&instance.SubStates, valueExpr, identifierMap)
-	case "Diagrams":
-		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
 	case "Entry":
 		GongUnmarshallPointer(&instance.Entry, valueExpr, identifierMap)
 	case "Activities":
 		GongUnmarshallSliceOfPointers(&instance.Activities, valueExpr, identifierMap)
 	case "Exit":
 		GongUnmarshallPointer(&instance.Exit, valueExpr, identifierMap)
+	case "Diagrams":
+		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
 	}
 	return nil
 }

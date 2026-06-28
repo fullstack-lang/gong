@@ -691,11 +691,11 @@ func (stage *Stage) StageBranchState(state *State) {
 	for _, _state := range state.SubStates {
 		StageBranch(stage, _state)
 	}
-	for _, _diagram := range state.Diagrams {
-		StageBranch(stage, _diagram)
-	}
 	for _, _activities := range state.Activities {
 		StageBranch(stage, _activities)
+	}
+	for _, _diagram := range state.Diagrams {
+		StageBranch(stage, _diagram)
 	}
 
 }
@@ -1287,11 +1287,11 @@ func CopyBranchState(mapOrigCopy map[any]any, stateFrom *State) (stateTo *State)
 	for _, _state := range stateFrom.SubStates {
 		stateTo.SubStates = append(stateTo.SubStates, CopyBranchState(mapOrigCopy, _state))
 	}
-	for _, _diagram := range stateFrom.Diagrams {
-		stateTo.Diagrams = append(stateTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
-	}
 	for _, _activities := range stateFrom.Activities {
 		stateTo.Activities = append(stateTo.Activities, CopyBranchActivities(mapOrigCopy, _activities))
+	}
+	for _, _diagram := range stateFrom.Diagrams {
+		stateTo.Diagrams = append(stateTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
 	}
 
 	return
@@ -1813,11 +1813,11 @@ func (stage *Stage) UnstageBranchState(state *State) {
 	for _, _state := range state.SubStates {
 		UnstageBranch(stage, _state)
 	}
-	for _, _diagram := range state.Diagrams {
-		UnstageBranch(stage, _diagram)
-	}
 	for _, _activities := range state.Activities {
 		UnstageBranch(stage, _activities)
+	}
+	for _, _diagram := range state.Diagrams {
+		UnstageBranch(stage, _diagram)
 	}
 
 }
@@ -2111,13 +2111,13 @@ func (reference *State) GongReconstructPointersFromReferences(stage *Stage, inst
 	for _, _b := range instance.SubStates {
 		reference.SubStates = append(reference.SubStates, stage.States_reference[_b])
 	}
-	reference.Diagrams = reference.Diagrams[:0]
-	for _, _b := range instance.Diagrams {
-		reference.Diagrams = append(reference.Diagrams, stage.Diagrams_reference[_b])
-	}
 	reference.Activities = reference.Activities[:0]
 	for _, _b := range instance.Activities {
 		reference.Activities = append(reference.Activities, stage.Activitiess_reference[_b])
+	}
+	reference.Diagrams = reference.Diagrams[:0]
+	for _, _b := range instance.Diagrams {
+		reference.Diagrams = append(reference.Diagrams, stage.Diagrams_reference[_b])
 	}
 }
 
@@ -2471,13 +2471,6 @@ func (reference *State) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.SubStates = _SubStates
-	var _Diagrams []*Diagram
-	for _, _reference := range reference.Diagrams {
-		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
-			_Diagrams = append(_Diagrams, _instance)
-		}
-	}
-	reference.Diagrams = _Diagrams
 	var _Activities []*Activities
 	for _, _reference := range reference.Activities {
 		if _instance, ok := stage.Activitiess_instance[_reference]; ok {
@@ -2485,6 +2478,13 @@ func (reference *State) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Activities = _Activities
+	var _Diagrams []*Diagram
+	for _, _reference := range reference.Diagrams {
+		if _instance, ok := stage.Diagrams_instance[_reference]; ok {
+			_Diagrams = append(_Diagrams, _instance)
+		}
+	}
+	reference.Diagrams = _Diagrams
 }
 
 func (reference *StateMachine) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3402,27 +3402,6 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 		ops := Diff(stage, state, stateOther, "SubStates", stateOther.SubStates, state.SubStates)
 		diffs = append(diffs, ops)
 	}
-	DiagramsDifferent := false
-	if len(state.Diagrams) != len(stateOther.Diagrams) {
-		DiagramsDifferent = true
-	} else {
-		for i := range state.Diagrams {
-			if (state.Diagrams[i] == nil) != (stateOther.Diagrams[i] == nil) {
-				DiagramsDifferent = true
-				break
-			} else if state.Diagrams[i] != nil && stateOther.Diagrams[i] != nil {
-				// this is a pointer comparaison
-				if state.Diagrams[i] != stateOther.Diagrams[i] {
-					DiagramsDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DiagramsDifferent {
-		ops := Diff(stage, state, stateOther, "Diagrams", stateOther.Diagrams, state.Diagrams)
-		diffs = append(diffs, ops)
-	}
 	if (state.Entry == nil) != (stateOther.Entry == nil) {
 		diffs = append(diffs, state.GongMarshallField(stage, "Entry"))
 	} else if state.Entry != nil && stateOther.Entry != nil {
@@ -3457,6 +3436,27 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 		if state.Exit != stateOther.Exit {
 			diffs = append(diffs, state.GongMarshallField(stage, "Exit"))
 		}
+	}
+	DiagramsDifferent := false
+	if len(state.Diagrams) != len(stateOther.Diagrams) {
+		DiagramsDifferent = true
+	} else {
+		for i := range state.Diagrams {
+			if (state.Diagrams[i] == nil) != (stateOther.Diagrams[i] == nil) {
+				DiagramsDifferent = true
+				break
+			} else if state.Diagrams[i] != nil && stateOther.Diagrams[i] != nil {
+				// this is a pointer comparaison
+				if state.Diagrams[i] != stateOther.Diagrams[i] {
+					DiagramsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DiagramsDifferent {
+		ops := Diff(stage, state, stateOther, "Diagrams", stateOther.Diagrams, state.Diagrams)
+		diffs = append(diffs, ops)
 	}
 
 	return

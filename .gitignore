@@ -111,3 +111,8 @@ test/test1/go/cmd/test1/test1
 
 dsm/statemachines/go/statemachines
 dsm/statemachines/go/cmd/statemachines/main.wasm
+app/reqif/go/cmd/reqif/reqif
+app/xsd/tests/reqif/go/cmd/reqif/reqif
+app/xsd/tests/musicxml/go/cmd/musicxml/musicxml
+app/xsd/tests/books/go/cmd/books/books
+app/xsd/go/cmd/xsd/xsd

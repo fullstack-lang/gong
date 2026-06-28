@@ -133,7 +133,7 @@ func (booktypeFormCallback *BookTypeFormCallback) OnSave() {
 			// 3. Iterate over all Books instances and update their Book slice
 			for _books := range *models.GetGongstructInstancesSetFromPointerType[*models.Books](booktypeFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(booktypeFormCallback.probe.stageOfInterest, _books)
-
+				
 				// if Books is selected
 				if targetBooksIDs[id] {
 					// ensure booktype_ is in _books.Book
@@ -406,7 +406,7 @@ func (creditFormCallback *CreditFormCallback) OnSave() {
 			// 3. Iterate over all BookType instances and update their Credit slice
 			for _booktype := range *models.GetGongstructInstancesSetFromPointerType[*models.BookType](creditFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(creditFormCallback.probe.stageOfInterest, _booktype)
-
+				
 				// if BookType is selected
 				if targetBookTypeIDs[id] {
 					// ensure credit_ is in _booktype.Credit
@@ -533,7 +533,7 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			// 3. Iterate over all Credit instances and update their Link slice
 			for _credit := range *models.GetGongstructInstancesSetFromPointerType[*models.Credit](linkFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(linkFormCallback.probe.stageOfInterest, _credit)
-
+				
 				// if Credit is selected
 				if targetCreditIDs[id] {
 					// ensure link_ is in _credit.Link
