@@ -1669,6 +1669,12 @@ func (u *SVGUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNam
 		instance.DefaultDirectoryForGeneratedImages = GongExtractString(valueExpr)
 	case "IsControlBannerHidden":
 		instance.IsControlBannerHidden = GongExtractBool(valueExpr)
+	case "PanX":
+		instance.PanX = GongExtractFloat(valueExpr)
+	case "PanY":
+		instance.PanY = GongExtractFloat(valueExpr)
+	case "Zoom":
+		instance.Zoom = GongExtractFloat(valueExpr)
 	case "OverrideWidth":
 		instance.OverrideWidth = GongExtractBool(valueExpr)
 	case "OverriddenWidth":

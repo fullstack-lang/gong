@@ -4925,6 +4925,12 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(svg_.DefaultDirectoryForGeneratedImages), formDiv)
 		case "IsControlBannerHidden":
 			FormDivBasicFieldToField(&(svg_.IsControlBannerHidden), formDiv)
+		case "PanX":
+			FormDivBasicFieldToField(&(svg_.PanX), formDiv)
+		case "PanY":
+			FormDivBasicFieldToField(&(svg_.PanY), formDiv)
+		case "Zoom":
+			FormDivBasicFieldToField(&(svg_.Zoom), formDiv)
 		case "OverrideWidth":
 			FormDivBasicFieldToField(&(svg_.OverrideWidth), formDiv)
 		case "OverriddenWidth":

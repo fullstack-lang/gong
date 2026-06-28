@@ -245,7 +245,10 @@ func addCreateItemAndShapeButton[
 		if conf.receivingDiagram != nil && conf.sliceForNewAddedShape != nil {
 			newShape := newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager.stage)
 			if addButton.ClientOnY != 0 {
-				newShape.SetY(addButton.ClientOnY)
+				zoom := stager.svgObject.Zoom
+				if zoom == 0 { zoom = 1.0 }
+				panY := stager.svgObject.PanY
+				newShape.SetY((addButton.ClientOnY - panY) / zoom)
 			}
 		}
 
@@ -307,7 +310,10 @@ func addCreateItemShapeAndLinkButton[
 			newShape := newShapeToDiagram(newAbstractElement, conf.receivingDiagram, conf.sliceForNewAddedShape, stager.stage)
 
 			if addButton.ClientOnY != 0 {
-				newShape.SetY(addButton.ClientOnY)
+				zoom := stager.svgObject.Zoom
+				if zoom == 0 { zoom = 1.0 }
+				panY := stager.svgObject.PanY
+				newShape.SetY((addButton.ClientOnY - panY) / zoom)
 			}
 
 			var parentShape PCT

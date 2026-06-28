@@ -24,6 +24,9 @@ export class SVG {
 	IsSVGBackEndFileGenerated: boolean = false
 	DefaultDirectoryForGeneratedImages: string = ""
 	IsControlBannerHidden: boolean = false
+	PanX: number = 0
+	PanY: number = 0
+	Zoom: number = 0
 	OverrideWidth: boolean = false
 	OverriddenWidth: number = 0
 	OverrideHeight: boolean = false
@@ -54,6 +57,9 @@ export function CopySVGToSVGAPI(svg: SVG, svgAPI: SVGAPI) {
 	svgAPI.IsSVGBackEndFileGenerated = svg.IsSVGBackEndFileGenerated
 	svgAPI.DefaultDirectoryForGeneratedImages = svg.DefaultDirectoryForGeneratedImages
 	svgAPI.IsControlBannerHidden = svg.IsControlBannerHidden
+	svgAPI.PanX = svg.PanX
+	svgAPI.PanY = svg.PanY
+	svgAPI.Zoom = svg.Zoom
 	svgAPI.OverrideWidth = svg.OverrideWidth
 	svgAPI.OverriddenWidth = svg.OverriddenWidth
 	svgAPI.OverrideHeight = svg.OverrideHeight
@@ -101,6 +107,9 @@ export function CopySVGAPIToSVG(svgAPI: SVGAPI, svg: SVG, frontRepo: FrontRepo) 
 	svg.IsSVGBackEndFileGenerated = svgAPI.IsSVGBackEndFileGenerated
 	svg.DefaultDirectoryForGeneratedImages = svgAPI.DefaultDirectoryForGeneratedImages
 	svg.IsControlBannerHidden = svgAPI.IsControlBannerHidden
+	svg.PanX = svgAPI.PanX
+	svg.PanY = svgAPI.PanY
+	svg.Zoom = svgAPI.Zoom
 	svg.OverrideWidth = svgAPI.OverrideWidth
 	svg.OverriddenWidth = svgAPI.OverriddenWidth
 	svg.OverrideHeight = svgAPI.OverrideHeight

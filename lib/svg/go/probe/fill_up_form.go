@@ -1147,6 +1147,12 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsControlBannerHidden", instanceWithInferedType.IsControlBannerHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("PanX", instanceWithInferedType.PanX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("PanY", instanceWithInferedType.PanY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Zoom", instanceWithInferedType.Zoom, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("OverrideWidth", instanceWithInferedType.OverrideWidth, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("OverriddenWidth", instanceWithInferedType.OverriddenWidth, instanceWithInferedType, probe.formStage, formGroup,

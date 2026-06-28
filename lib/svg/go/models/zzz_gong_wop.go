@@ -1001,6 +1001,12 @@ type SVG_WOP struct {
 
 	IsControlBannerHidden bool
 
+	PanX float64
+
+	PanY float64
+
+	Zoom float64
+
 	OverrideWidth bool
 
 	OverriddenWidth float64
@@ -1019,6 +1025,9 @@ func (from *SVG) CopyBasicFields(to *SVG) {
 	to.IsSVGBackEndFileGenerated = from.IsSVGBackEndFileGenerated
 	to.DefaultDirectoryForGeneratedImages = from.DefaultDirectoryForGeneratedImages
 	to.IsControlBannerHidden = from.IsControlBannerHidden
+	to.PanX = from.PanX
+	to.PanY = from.PanY
+	to.Zoom = from.Zoom
 	to.OverrideWidth = from.OverrideWidth
 	to.OverriddenWidth = from.OverriddenWidth
 	to.OverrideHeight = from.OverrideHeight

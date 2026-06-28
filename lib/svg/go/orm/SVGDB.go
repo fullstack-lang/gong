@@ -99,6 +99,15 @@ type SVGDB struct {
 	// provide the sql storage for the boolan
 	IsControlBannerHidden_Data sql.NullBool
 
+	// Declation for basic field svgDB.PanX
+	PanX_Data sql.NullFloat64
+
+	// Declation for basic field svgDB.PanY
+	PanY_Data sql.NullFloat64
+
+	// Declation for basic field svgDB.Zoom
+	Zoom_Data sql.NullFloat64
+
 	// Declation for basic field svgDB.OverrideWidth
 	// provide the sql storage for the boolan
 	OverrideWidth_Data sql.NullBool
@@ -149,13 +158,19 @@ type SVGWOP struct {
 
 	IsControlBannerHidden bool `xlsx:"7"`
 
-	OverrideWidth bool `xlsx:"8"`
+	PanX float64 `xlsx:"8"`
 
-	OverriddenWidth float64 `xlsx:"9"`
+	PanY float64 `xlsx:"9"`
 
-	OverrideHeight bool `xlsx:"10"`
+	Zoom float64 `xlsx:"10"`
 
-	OverriddenHeight float64 `xlsx:"11"`
+	OverrideWidth bool `xlsx:"11"`
+
+	OverriddenWidth float64 `xlsx:"12"`
+
+	OverrideHeight bool `xlsx:"13"`
+
+	OverriddenHeight float64 `xlsx:"14"`
 	// insertion for WOP pointer fields
 }
 
@@ -169,6 +184,9 @@ var SVG_Fields = []string{
 	"IsSVGBackEndFileGenerated",
 	"DefaultDirectoryForGeneratedImages",
 	"IsControlBannerHidden",
+	"PanX",
+	"PanY",
+	"Zoom",
 	"OverrideWidth",
 	"OverriddenWidth",
 	"OverrideHeight",
@@ -562,6 +580,15 @@ func (svgDB *SVGDB) CopyBasicFieldsFromSVG(svg *models.SVG) {
 	svgDB.IsControlBannerHidden_Data.Bool = svg.IsControlBannerHidden
 	svgDB.IsControlBannerHidden_Data.Valid = true
 
+	svgDB.PanX_Data.Float64 = svg.PanX
+	svgDB.PanX_Data.Valid = true
+
+	svgDB.PanY_Data.Float64 = svg.PanY
+	svgDB.PanY_Data.Valid = true
+
+	svgDB.Zoom_Data.Float64 = svg.Zoom
+	svgDB.Zoom_Data.Valid = true
+
 	svgDB.OverrideWidth_Data.Bool = svg.OverrideWidth
 	svgDB.OverrideWidth_Data.Valid = true
 
@@ -599,6 +626,15 @@ func (svgDB *SVGDB) CopyBasicFieldsFromSVG_WOP(svg *models.SVG_WOP) {
 
 	svgDB.IsControlBannerHidden_Data.Bool = svg.IsControlBannerHidden
 	svgDB.IsControlBannerHidden_Data.Valid = true
+
+	svgDB.PanX_Data.Float64 = svg.PanX
+	svgDB.PanX_Data.Valid = true
+
+	svgDB.PanY_Data.Float64 = svg.PanY
+	svgDB.PanY_Data.Valid = true
+
+	svgDB.Zoom_Data.Float64 = svg.Zoom
+	svgDB.Zoom_Data.Valid = true
 
 	svgDB.OverrideWidth_Data.Bool = svg.OverrideWidth
 	svgDB.OverrideWidth_Data.Valid = true
@@ -638,6 +674,15 @@ func (svgDB *SVGDB) CopyBasicFieldsFromSVGWOP(svg *SVGWOP) {
 	svgDB.IsControlBannerHidden_Data.Bool = svg.IsControlBannerHidden
 	svgDB.IsControlBannerHidden_Data.Valid = true
 
+	svgDB.PanX_Data.Float64 = svg.PanX
+	svgDB.PanX_Data.Valid = true
+
+	svgDB.PanY_Data.Float64 = svg.PanY
+	svgDB.PanY_Data.Valid = true
+
+	svgDB.Zoom_Data.Float64 = svg.Zoom
+	svgDB.Zoom_Data.Valid = true
+
 	svgDB.OverrideWidth_Data.Bool = svg.OverrideWidth
 	svgDB.OverrideWidth_Data.Valid = true
 
@@ -661,6 +706,9 @@ func (svgDB *SVGDB) CopyBasicFieldsToSVG(svg *models.SVG) {
 	svg.IsSVGBackEndFileGenerated = svgDB.IsSVGBackEndFileGenerated_Data.Bool
 	svg.DefaultDirectoryForGeneratedImages = svgDB.DefaultDirectoryForGeneratedImages_Data.String
 	svg.IsControlBannerHidden = svgDB.IsControlBannerHidden_Data.Bool
+	svg.PanX = svgDB.PanX_Data.Float64
+	svg.PanY = svgDB.PanY_Data.Float64
+	svg.Zoom = svgDB.Zoom_Data.Float64
 	svg.OverrideWidth = svgDB.OverrideWidth_Data.Bool
 	svg.OverriddenWidth = svgDB.OverriddenWidth_Data.Float64
 	svg.OverrideHeight = svgDB.OverrideHeight_Data.Bool
@@ -677,6 +725,9 @@ func (svgDB *SVGDB) CopyBasicFieldsToSVG_WOP(svg *models.SVG_WOP) {
 	svg.IsSVGBackEndFileGenerated = svgDB.IsSVGBackEndFileGenerated_Data.Bool
 	svg.DefaultDirectoryForGeneratedImages = svgDB.DefaultDirectoryForGeneratedImages_Data.String
 	svg.IsControlBannerHidden = svgDB.IsControlBannerHidden_Data.Bool
+	svg.PanX = svgDB.PanX_Data.Float64
+	svg.PanY = svgDB.PanY_Data.Float64
+	svg.Zoom = svgDB.Zoom_Data.Float64
 	svg.OverrideWidth = svgDB.OverrideWidth_Data.Bool
 	svg.OverriddenWidth = svgDB.OverriddenWidth_Data.Float64
 	svg.OverrideHeight = svgDB.OverrideHeight_Data.Bool
@@ -694,6 +745,9 @@ func (svgDB *SVGDB) CopyBasicFieldsToSVGWOP(svg *SVGWOP) {
 	svg.IsSVGBackEndFileGenerated = svgDB.IsSVGBackEndFileGenerated_Data.Bool
 	svg.DefaultDirectoryForGeneratedImages = svgDB.DefaultDirectoryForGeneratedImages_Data.String
 	svg.IsControlBannerHidden = svgDB.IsControlBannerHidden_Data.Bool
+	svg.PanX = svgDB.PanX_Data.Float64
+	svg.PanY = svgDB.PanY_Data.Float64
+	svg.Zoom = svgDB.Zoom_Data.Float64
 	svg.OverrideWidth = svgDB.OverrideWidth_Data.Bool
 	svg.OverriddenWidth = svgDB.OverriddenWidth_Data.Float64
 	svg.OverrideHeight = svgDB.OverrideHeight_Data.Bool

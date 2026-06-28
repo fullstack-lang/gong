@@ -1395,6 +1395,11 @@ if (this.State == StateEnumType.RECTS_DRAGGING) {
  */
   onTransformChange(): void {
     this.changeDetectorRef.detectChanges();
+
+    this.svg.PanX = this.shiftX;
+    this.svg.PanY = this.shiftY;
+    this.svg.Zoom = this.zoom;
+    this.svgService.updateFront(this.svg, this.Name).subscribe();
   }
 
   generatesSVGInTheBack(arg0: boolean) {
