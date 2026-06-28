@@ -2077,6 +2077,14 @@ func (button *Button) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "ToolTipPositionEnum",
 		},
+		{
+			Name:               "ClientOnX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ClientOnY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
 	}
 	return
 }
@@ -2348,6 +2356,14 @@ func (button *Button) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	case "ToolTipPosition":
 		enum := button.ToolTipPosition
 		res.valueString = enum.ToCodeString()
+	case "ClientOnX":
+		res.valueString = fmt.Sprintf("%f", button.ClientOnX)
+		res.valueFloat = button.ClientOnX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ClientOnY":
+		res.valueString = fmt.Sprintf("%f", button.ClientOnY)
+		res.valueFloat = button.ClientOnY
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -2560,6 +2576,10 @@ func (button *Button) GongSetFieldValue(fieldName string, value GongFieldValue, 
 		button.ToolTipText = value.GetValueString()
 	case "ToolTipPosition":
 		button.ToolTipPosition.FromCodeString(value.GetValueString())
+	case "ClientOnX":
+		button.ClientOnX = value.GetValueFloat()
+	case "ClientOnY":
+		button.ClientOnY = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

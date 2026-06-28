@@ -21,9 +21,8 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 	// insertion point
 	case *models.Button:
 		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "Button",
+			Name:  formName,
+			Label: "Button Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__ButtonFormCallback(
 			instancesTyped,
@@ -34,9 +33,8 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Menu:
 		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "Menu",
+			Name:  formName,
+			Label: "Menu Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__MenuFormCallback(
 			instancesTyped,
@@ -47,9 +45,8 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Node:
 		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "Node",
+			Name:  formName,
+			Label: "Node Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__NodeFormCallback(
 			instancesTyped,
@@ -60,9 +57,8 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.SVGIcon:
 		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "SVGIcon",
+			Name:  formName,
+			Label: "SVGIcon Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__SVGIconFormCallback(
 			instancesTyped,
@@ -73,9 +69,8 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Tree:
 		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "Tree",
+			Name:  formName,
+			Label: "Tree Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__TreeFormCallback(
 			instancesTyped,

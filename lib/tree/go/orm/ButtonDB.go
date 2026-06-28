@@ -87,6 +87,12 @@ type ButtonDB struct {
 	// Declation for basic field buttonDB.ToolTipPosition
 	ToolTipPosition_Data sql.NullString
 
+	// Declation for basic field buttonDB.ClientOnX
+	ClientOnX_Data sql.NullFloat64
+
+	// Declation for basic field buttonDB.ClientOnY
+	ClientOnY_Data sql.NullFloat64
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	ButtonPointersEncoding
@@ -120,6 +126,10 @@ type ButtonWOP struct {
 	ToolTipText string `xlsx:"5"`
 
 	ToolTipPosition models.ToolTipPositionEnum `xlsx:"6"`
+
+	ClientOnX float64 `xlsx:"7"`
+
+	ClientOnY float64 `xlsx:"8"`
 	// insertion for WOP pointer fields
 }
 
@@ -132,6 +142,8 @@ var Button_Fields = []string{
 	"HasToolTip",
 	"ToolTipText",
 	"ToolTipPosition",
+	"ClientOnX",
+	"ClientOnY",
 }
 
 type BackRepoButtonStruct struct {
@@ -457,6 +469,12 @@ func (buttonDB *ButtonDB) CopyBasicFieldsFromButton(button *models.Button) {
 
 	buttonDB.ToolTipPosition_Data.String = button.ToolTipPosition.ToString()
 	buttonDB.ToolTipPosition_Data.Valid = true
+
+	buttonDB.ClientOnX_Data.Float64 = button.ClientOnX
+	buttonDB.ClientOnX_Data.Valid = true
+
+	buttonDB.ClientOnY_Data.Float64 = button.ClientOnY
+	buttonDB.ClientOnY_Data.Valid = true
 }
 
 // CopyBasicFieldsFromButton_WOP
@@ -480,6 +498,12 @@ func (buttonDB *ButtonDB) CopyBasicFieldsFromButton_WOP(button *models.Button_WO
 
 	buttonDB.ToolTipPosition_Data.String = button.ToolTipPosition.ToString()
 	buttonDB.ToolTipPosition_Data.Valid = true
+
+	buttonDB.ClientOnX_Data.Float64 = button.ClientOnX
+	buttonDB.ClientOnX_Data.Valid = true
+
+	buttonDB.ClientOnY_Data.Float64 = button.ClientOnY
+	buttonDB.ClientOnY_Data.Valid = true
 }
 
 // CopyBasicFieldsFromButtonWOP
@@ -503,6 +527,12 @@ func (buttonDB *ButtonDB) CopyBasicFieldsFromButtonWOP(button *ButtonWOP) {
 
 	buttonDB.ToolTipPosition_Data.String = button.ToolTipPosition.ToString()
 	buttonDB.ToolTipPosition_Data.Valid = true
+
+	buttonDB.ClientOnX_Data.Float64 = button.ClientOnX
+	buttonDB.ClientOnX_Data.Valid = true
+
+	buttonDB.ClientOnY_Data.Float64 = button.ClientOnY
+	buttonDB.ClientOnY_Data.Valid = true
 }
 
 // CopyBasicFieldsToButton
@@ -514,6 +544,8 @@ func (buttonDB *ButtonDB) CopyBasicFieldsToButton(button *models.Button) {
 	button.HasToolTip = buttonDB.HasToolTip_Data.Bool
 	button.ToolTipText = buttonDB.ToolTipText_Data.String
 	button.ToolTipPosition.FromString(buttonDB.ToolTipPosition_Data.String)
+	button.ClientOnX = buttonDB.ClientOnX_Data.Float64
+	button.ClientOnY = buttonDB.ClientOnY_Data.Float64
 }
 
 // CopyBasicFieldsToButton_WOP
@@ -525,6 +557,8 @@ func (buttonDB *ButtonDB) CopyBasicFieldsToButton_WOP(button *models.Button_WOP)
 	button.HasToolTip = buttonDB.HasToolTip_Data.Bool
 	button.ToolTipText = buttonDB.ToolTipText_Data.String
 	button.ToolTipPosition.FromString(buttonDB.ToolTipPosition_Data.String)
+	button.ClientOnX = buttonDB.ClientOnX_Data.Float64
+	button.ClientOnY = buttonDB.ClientOnY_Data.Float64
 }
 
 // CopyBasicFieldsToButtonWOP
@@ -537,6 +571,8 @@ func (buttonDB *ButtonDB) CopyBasicFieldsToButtonWOP(button *ButtonWOP) {
 	button.HasToolTip = buttonDB.HasToolTip_Data.Bool
 	button.ToolTipText = buttonDB.ToolTipText_Data.String
 	button.ToolTipPosition.FromString(buttonDB.ToolTipPosition_Data.String)
+	button.ClientOnX = buttonDB.ClientOnX_Data.Float64
+	button.ClientOnY = buttonDB.ClientOnY_Data.Float64
 }
 
 // Backup generates a json file from a slice of all ButtonDB instances in the backrepo

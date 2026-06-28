@@ -23,6 +23,10 @@ type Button_WOP struct {
 	ToolTipText string
 
 	ToolTipPosition ToolTipPositionEnum
+
+	ClientOnX float64
+
+	ClientOnY float64
 }
 
 func (from *Button) CopyBasicFields(to *Button) {
@@ -33,6 +37,8 @@ func (from *Button) CopyBasicFields(to *Button) {
 	to.HasToolTip = from.HasToolTip
 	to.ToolTipText = from.ToolTipText
 	to.ToolTipPosition = from.ToolTipPosition
+	to.ClientOnX = from.ClientOnX
+	to.ClientOnY = from.ClientOnY
 }
 
 type Menu_WOP struct {

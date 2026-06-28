@@ -476,6 +476,10 @@ func (u *ButtonUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		instance.ToolTipText = GongExtractString(valueExpr)
 	case "ToolTipPosition":
 		GongUnmarshallEnum(&instance.ToolTipPosition, valueExpr)
+	case "ClientOnX":
+		instance.ClientOnX = GongExtractFloat(valueExpr)
+	case "ClientOnY":
+		instance.ClientOnY = GongExtractFloat(valueExpr)
 	}
 	return nil
 }

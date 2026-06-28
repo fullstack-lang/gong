@@ -19,6 +19,10 @@ type Button struct {
 	HasToolTip      bool
 	ToolTipText     string
 	ToolTipPosition ToolTipPositionEnum
+
+	// ClientOnX and ClientOnY are populated by the frontend when the button is clicked
+	ClientOnX float64
+	ClientOnY float64
 }
 
 type ToolTipPositionEnum string
@@ -36,6 +40,9 @@ type ButtonImplInterface interface {
 }
 
 func (button *Button) OnAfterUpdate(stage *Stage, _, frontButton *Button) {
+	button.ClientOnX = frontButton.ClientOnX
+	button.ClientOnY = frontButton.ClientOnY
+	
 	if button.Impl != nil {
 		button.Impl.ButtonUpdated(stage, button, frontButton)
 	}

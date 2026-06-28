@@ -285,11 +285,15 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
     )
   }
 
-  onButtonClick(event: Event, node: FlatNode, button: tree.Button) {
+  onButtonClick(event: MouseEvent, node: FlatNode, button: tree.Button) {
 
     console.log("onButtonClick", button.Name)
     // Stop the click event from propagating to the parent node
     event.stopPropagation();
+
+    // Use ClientOnX and ClientOnY directly
+    button.ClientOnX = event.clientX
+    button.ClientOnY = event.clientY
 
     this.gongtreeButtonService.updateFront(button, this.Name).subscribe(
       gongtreeButton => {
