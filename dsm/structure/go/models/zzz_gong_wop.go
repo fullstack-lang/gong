@@ -122,26 +122,29 @@ type DataFlow_WOP struct {
 
 	Description string
 
+	Type DataFlowType
+
+	Direction DataFlowDirection
+
+	IsDatasNodeExpanded bool
+
 	ComputedPrefix string
 
 	IsExpanded bool
 
 	LayoutDirection LayoutDirection
-
-	Type DataFlowType
-
-	IsDatasNodeExpanded bool
 }
 
 func (from *DataFlow) CopyBasicFields(to *DataFlow) {
 	// insertion point
 	to.Name = from.Name
 	to.Description = from.Description
+	to.Type = from.Type
+	to.Direction = from.Direction
+	to.IsDatasNodeExpanded = from.IsDatasNodeExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.LayoutDirection = from.LayoutDirection
-	to.Type = from.Type
-	to.IsDatasNodeExpanded = from.IsDatasNodeExpanded
 }
 
 type DataFlowShape_WOP struct {

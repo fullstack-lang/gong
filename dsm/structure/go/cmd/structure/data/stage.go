@@ -85,6 +85,7 @@ func _(stage *models.Stage) {
 	__DataFlow__00000000_.IsExpanded = false
 	__DataFlow__00000000_.LayoutDirection = models.Vertical
 	__DataFlow__00000000_.Type = models.DataFlow_Port2Port
+	__DataFlow__00000000_.Direction = models.DataFlow_BothWays
 	__DataFlow__00000000_.IsDatasNodeExpanded = false
 
 	__DataFlowShape__00000000_.Name = `"Port 1" to "Port 2"`
@@ -110,7 +111,7 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.Width = 1652.999939
 	__DiagramStructure__00000000_.Height = 1326.999985
 	__DiagramStructure__00000000_.IsSystemsNodeExpanded = false
-	__DiagramStructure__00000000_.IsPartsNodeExpanded = true
+	__DiagramStructure__00000000_.IsPartsNodeExpanded = false
 	__DiagramStructure__00000000_.IsExternalPartsNodeExpanded = false
 	__DiagramStructure__00000000_.IsNotesNodeExpanded = true
 

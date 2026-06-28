@@ -657,18 +657,6 @@ func (u *DataFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "Datas":
-		GongUnmarshallSliceOfPointers(&instance.Datas, valueExpr, identifierMap)
-	case "Description":
-		instance.Description = GongExtractString(valueExpr)
-	case "ComputedPrefix":
-		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
 	case "StartPort":
 		GongUnmarshallPointer(&instance.StartPort, valueExpr, identifierMap)
 	case "EndPort":
@@ -677,8 +665,22 @@ func (u *DataFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		GongUnmarshallPointer(&instance.StartExternalPart, valueExpr, identifierMap)
 	case "EndExternalPart":
 		GongUnmarshallPointer(&instance.EndExternalPart, valueExpr, identifierMap)
+	case "Datas":
+		GongUnmarshallSliceOfPointers(&instance.Datas, valueExpr, identifierMap)
+	case "Description":
+		instance.Description = GongExtractString(valueExpr)
+	case "Type":
+		GongUnmarshallEnum(&instance.Type, valueExpr)
+	case "Direction":
+		GongUnmarshallEnum(&instance.Direction, valueExpr)
 	case "IsDatasNodeExpanded":
 		instance.IsDatasNodeExpanded = GongExtractBool(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "LayoutDirection":
+		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	}
 	return nil
 }

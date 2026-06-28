@@ -4972,8 +4972,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case DataFlow:
 		return any(&DataFlow{
 			// Initialisation of associations
-			// field is initialized with an instance of Data with the name of the field
-			Datas: []*Data{{Name: "Datas"}},
 			// field is initialized with an instance of Port with the name of the field
 			StartPort: &Port{Name: "StartPort"},
 			// field is initialized with an instance of Port with the name of the field
@@ -4982,6 +4980,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			StartExternalPart: &Part{Name: "StartExternalPart"},
 			// field is initialized with an instance of Part with the name of the field
 			EndExternalPart: &Part{Name: "EndExternalPart"},
+			// field is initialized with an instance of Data with the name of the field
+			Datas: []*Data{{Name: "Datas"}},
 		}).(*Type)
 	case DataFlowShape:
 		return any(&DataFlowShape{
@@ -6708,33 +6708,6 @@ func (dataflow *DataFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Datas",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Data",
-		},
-		{
-			Name:               "Description",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "ComputedPrefix",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
-		{
-			Name:                 "Type",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "DataFlowType",
-		},
-		{
 			Name:                 "StartPort",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Port",
@@ -6755,8 +6728,40 @@ func (dataflow *DataFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Part",
 		},
 		{
+			Name:                 "Datas",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Data",
+		},
+		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:                 "Type",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "DataFlowType",
+		},
+		{
+			Name:                 "Direction",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "DataFlowDirection",
+		},
+		{
 			Name:               "IsDatasNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 	}
 	return
@@ -7945,30 +7950,6 @@ func (dataflow *DataFlow) GongGetFieldValue(fieldName string, stage *Stage) (res
 	// string value of fields
 	case "Name":
 		res.valueString = dataflow.Name
-	case "Datas":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range dataflow.Datas {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
-	case "Description":
-		res.valueString = dataflow.Description
-	case "ComputedPrefix":
-		res.valueString = dataflow.ComputedPrefix
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", dataflow.IsExpanded)
-		res.valueBool = dataflow.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := dataflow.LayoutDirection
-		res.valueString = enum.ToCodeString()
-	case "Type":
-		enum := dataflow.Type
-		res.valueString = enum.ToCodeString()
 	case "StartPort":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if dataflow.StartPort != nil {
@@ -7993,10 +7974,37 @@ func (dataflow *DataFlow) GongGetFieldValue(fieldName string, stage *Stage) (res
 			res.valueString = dataflow.EndExternalPart.Name
 			res.ids = dataflow.EndExternalPart.GongGetUUID(stage)
 		}
+	case "Datas":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range dataflow.Datas {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "Description":
+		res.valueString = dataflow.Description
+	case "Type":
+		enum := dataflow.Type
+		res.valueString = enum.ToCodeString()
+	case "Direction":
+		enum := dataflow.Direction
+		res.valueString = enum.ToCodeString()
 	case "IsDatasNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", dataflow.IsDatasNodeExpanded)
 		res.valueBool = dataflow.IsDatasNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = dataflow.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", dataflow.IsExpanded)
+		res.valueBool = dataflow.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := dataflow.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -9334,30 +9342,6 @@ func (dataflow *DataFlow) GongSetFieldValue(fieldName string, value GongFieldVal
 	// insertion point for per field code
 	case "Name":
 		dataflow.Name = value.GetValueString()
-	case "Datas":
-		dataflow.Datas = make([]*Data, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Datas {
-					if stage.Data_stagedOrder[__instance__] == uint(id) {
-						dataflow.Datas = append(dataflow.Datas, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "Description":
-		dataflow.Description = value.GetValueString()
-	case "ComputedPrefix":
-		dataflow.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		dataflow.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		dataflow.LayoutDirection.FromCodeString(value.GetValueString())
-	case "Type":
-		dataflow.Type.FromCodeString(value.GetValueString())
 	case "StartPort":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -9402,8 +9386,34 @@ func (dataflow *DataFlow) GongSetFieldValue(fieldName string, value GongFieldVal
 				}
 			}
 		}
+	case "Datas":
+		dataflow.Datas = make([]*Data, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Datas {
+					if stage.Data_stagedOrder[__instance__] == uint(id) {
+						dataflow.Datas = append(dataflow.Datas, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Description":
+		dataflow.Description = value.GetValueString()
+	case "Type":
+		dataflow.Type.FromCodeString(value.GetValueString())
+	case "Direction":
+		dataflow.Direction.FromCodeString(value.GetValueString())
 	case "IsDatasNodeExpanded":
 		dataflow.IsDatasNodeExpanded = value.GetValueBool()
+	case "ComputedPrefix":
+		dataflow.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		dataflow.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		dataflow.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

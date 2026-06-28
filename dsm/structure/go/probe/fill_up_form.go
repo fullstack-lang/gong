@@ -207,21 +207,22 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		AssociationFieldToForm("StartPort", instanceWithInferedType.StartPort, formGroup, probe)
+		AssociationFieldToForm("EndPort", instanceWithInferedType.EndPort, formGroup, probe)
+		AssociationFieldToForm("StartExternalPart", instanceWithInferedType.StartExternalPart, formGroup, probe)
+		AssociationFieldToForm("EndExternalPart", instanceWithInferedType.EndExternalPart, formGroup, probe)
 		AssociationSliceToForm("Datas", instanceWithInferedType, &instanceWithInferedType.Datas, formGroup, probe)
 		BasicFieldtoForm("Description", instanceWithInferedType.Description, instanceWithInferedType, probe.formStage, formGroup,
 			true, false, 0, false, 0, false)
+		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("Direction", instanceWithInferedType.Direction, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("IsDatasNodeExpanded", instanceWithInferedType.IsDatasNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("Type", instanceWithInferedType.Type, instanceWithInferedType, probe.formStage, formGroup)
-		AssociationFieldToForm("StartPort", instanceWithInferedType.StartPort, formGroup, probe)
-		AssociationFieldToForm("EndPort", instanceWithInferedType.EndPort, formGroup, probe)
-		AssociationFieldToForm("StartExternalPart", instanceWithInferedType.StartExternalPart, formGroup, probe)
-		AssociationFieldToForm("EndExternalPart", instanceWithInferedType.EndExternalPart, formGroup, probe)
-		BasicFieldtoForm("IsDatasNodeExpanded", instanceWithInferedType.IsDatasNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,

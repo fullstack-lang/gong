@@ -2,6 +2,96 @@
 package models
 
 // insertion point of enum utility functions
+// Utility function for DataFlowDirection
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (dataflowdirection DataFlowDirection) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch dataflowdirection {
+	// insertion code per enum code
+	case DataFlow_Forward:
+		res = "Forward"
+	case DataFlow_Backward:
+		res = "Backward"
+	case DataFlow_BothWays:
+		res = "BothWays"
+	}
+	return
+}
+
+func (dataflowdirection *DataFlowDirection) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "Forward":
+		*dataflowdirection = DataFlow_Forward
+		return
+	case "Backward":
+		*dataflowdirection = DataFlow_Backward
+		return
+	case "BothWays":
+		*dataflowdirection = DataFlow_BothWays
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (dataflowdirection *DataFlowDirection) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "DataFlow_Forward":
+		*dataflowdirection = DataFlow_Forward
+	case "DataFlow_Backward":
+		*dataflowdirection = DataFlow_Backward
+	case "DataFlow_BothWays":
+		*dataflowdirection = DataFlow_BothWays
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (dataflowdirection *DataFlowDirection) ToCodeString() (res string) {
+
+	switch *dataflowdirection {
+	// insertion code per enum code
+	case DataFlow_Forward:
+		res = "DataFlow_Forward"
+	case DataFlow_Backward:
+		res = "DataFlow_Backward"
+	case DataFlow_BothWays:
+		res = "DataFlow_BothWays"
+	}
+	return
+}
+
+func (dataflowdirection DataFlowDirection) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "DataFlow_Forward")
+	res = append(res, "DataFlow_Backward")
+	res = append(res, "DataFlow_BothWays")
+
+	return
+}
+
+func (dataflowdirection DataFlowDirection) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "Forward")
+	res = append(res, "Backward")
+	res = append(res, "BothWays")
+
+	return
+}
+
 // Utility function for DataFlowType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -11,11 +101,11 @@ func (dataflowtype DataFlowType) ToString() (res string) {
 	switch dataflowtype {
 	// insertion code per enum code
 	case DataFlow_Port2Port:
-		res = "DataFlow_Port2Port"
+		res = "Port2Port"
 	case DataFlow_ExternalPart2Port:
-		res = "DataFlow_ExternalPart2Port"
+		res = "ExternalPart2Port"
 	case DataFlow_Port2ExternalPart:
-		res = "DataFlow_Port2ExternalPart"
+		res = "Port2ExternalPart"
 	}
 	return
 }
@@ -24,13 +114,13 @@ func (dataflowtype *DataFlowType) FromString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "DataFlow_Port2Port":
+	case "Port2Port":
 		*dataflowtype = DataFlow_Port2Port
 		return
-	case "DataFlow_ExternalPart2Port":
+	case "ExternalPart2Port":
 		*dataflowtype = DataFlow_ExternalPart2Port
 		return
-	case "DataFlow_Port2ExternalPart":
+	case "Port2ExternalPart":
 		*dataflowtype = DataFlow_Port2ExternalPart
 		return
 	default:
@@ -85,9 +175,9 @@ func (dataflowtype DataFlowType) CodeValues() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "DataFlow_Port2Port")
-	res = append(res, "DataFlow_ExternalPart2Port")
-	res = append(res, "DataFlow_Port2ExternalPart")
+	res = append(res, "Port2Port")
+	res = append(res, "ExternalPart2Port")
+	res = append(res, "Port2ExternalPart")
 
 	return
 }

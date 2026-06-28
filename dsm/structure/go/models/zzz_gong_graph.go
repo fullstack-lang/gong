@@ -3515,42 +3515,6 @@ func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs
 	if dataflow.Name != dataflowOther.Name {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "Name"))
 	}
-	DatasDifferent := false
-	if len(dataflow.Datas) != len(dataflowOther.Datas) {
-		DatasDifferent = true
-	} else {
-		for i := range dataflow.Datas {
-			if (dataflow.Datas[i] == nil) != (dataflowOther.Datas[i] == nil) {
-				DatasDifferent = true
-				break
-			} else if dataflow.Datas[i] != nil && dataflowOther.Datas[i] != nil {
-				// this is a pointer comparaison
-				if dataflow.Datas[i] != dataflowOther.Datas[i] {
-					DatasDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if DatasDifferent {
-		ops := Diff(stage, dataflow, dataflowOther, "Datas", dataflowOther.Datas, dataflow.Datas)
-		diffs = append(diffs, ops)
-	}
-	if dataflow.Description != dataflowOther.Description {
-		diffs = append(diffs, dataflow.GongMarshallField(stage, "Description"))
-	}
-	if dataflow.ComputedPrefix != dataflowOther.ComputedPrefix {
-		diffs = append(diffs, dataflow.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if dataflow.IsExpanded != dataflowOther.IsExpanded {
-		diffs = append(diffs, dataflow.GongMarshallField(stage, "IsExpanded"))
-	}
-	if dataflow.LayoutDirection != dataflowOther.LayoutDirection {
-		diffs = append(diffs, dataflow.GongMarshallField(stage, "LayoutDirection"))
-	}
-	if dataflow.Type != dataflowOther.Type {
-		diffs = append(diffs, dataflow.GongMarshallField(stage, "Type"))
-	}
 	if (dataflow.StartPort == nil) != (dataflowOther.StartPort == nil) {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "StartPort"))
 	} else if dataflow.StartPort != nil && dataflowOther.StartPort != nil {
@@ -3579,8 +3543,47 @@ func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs
 			diffs = append(diffs, dataflow.GongMarshallField(stage, "EndExternalPart"))
 		}
 	}
+	DatasDifferent := false
+	if len(dataflow.Datas) != len(dataflowOther.Datas) {
+		DatasDifferent = true
+	} else {
+		for i := range dataflow.Datas {
+			if (dataflow.Datas[i] == nil) != (dataflowOther.Datas[i] == nil) {
+				DatasDifferent = true
+				break
+			} else if dataflow.Datas[i] != nil && dataflowOther.Datas[i] != nil {
+				// this is a pointer comparaison
+				if dataflow.Datas[i] != dataflowOther.Datas[i] {
+					DatasDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DatasDifferent {
+		ops := Diff(stage, dataflow, dataflowOther, "Datas", dataflowOther.Datas, dataflow.Datas)
+		diffs = append(diffs, ops)
+	}
+	if dataflow.Description != dataflowOther.Description {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "Description"))
+	}
+	if dataflow.Type != dataflowOther.Type {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "Type"))
+	}
+	if dataflow.Direction != dataflowOther.Direction {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "Direction"))
+	}
 	if dataflow.IsDatasNodeExpanded != dataflowOther.IsDatasNodeExpanded {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
+	}
+	if dataflow.ComputedPrefix != dataflowOther.ComputedPrefix {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if dataflow.IsExpanded != dataflowOther.IsExpanded {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "IsExpanded"))
+	}
+	if dataflow.LayoutDirection != dataflowOther.LayoutDirection {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	return

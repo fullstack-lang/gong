@@ -909,6 +909,14 @@ func (dataflowFormCallback *DataFlowFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(dataflow_.Name), formDiv)
+		case "StartPort":
+			FormDivSelectFieldToField(&(dataflow_.StartPort), dataflowFormCallback.probe.stageOfInterest, formDiv)
+		case "EndPort":
+			FormDivSelectFieldToField(&(dataflow_.EndPort), dataflowFormCallback.probe.stageOfInterest, formDiv)
+		case "StartExternalPart":
+			FormDivSelectFieldToField(&(dataflow_.StartExternalPart), dataflowFormCallback.probe.stageOfInterest, formDiv)
+		case "EndExternalPart":
+			FormDivSelectFieldToField(&(dataflow_.EndExternalPart), dataflowFormCallback.probe.stageOfInterest, formDiv)
 		case "Datas":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Data](dataflowFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Data, 0)
@@ -943,24 +951,18 @@ func (dataflowFormCallback *DataFlowFormCallback) OnSave() {
 
 		case "Description":
 			FormDivBasicFieldToField(&(dataflow_.Description), formDiv)
+		case "Type":
+			FormDivEnumStringFieldToField(&(dataflow_.Type), formDiv)
+		case "Direction":
+			FormDivEnumStringFieldToField(&(dataflow_.Direction), formDiv)
+		case "IsDatasNodeExpanded":
+			FormDivBasicFieldToField(&(dataflow_.IsDatasNodeExpanded), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(dataflow_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(dataflow_.IsExpanded), formDiv)
 		case "LayoutDirection":
 			FormDivEnumIntFieldToField(&(dataflow_.LayoutDirection), formDiv)
-		case "Type":
-			FormDivEnumStringFieldToField(&(dataflow_.Type), formDiv)
-		case "StartPort":
-			FormDivSelectFieldToField(&(dataflow_.StartPort), dataflowFormCallback.probe.stageOfInterest, formDiv)
-		case "EndPort":
-			FormDivSelectFieldToField(&(dataflow_.EndPort), dataflowFormCallback.probe.stageOfInterest, formDiv)
-		case "StartExternalPart":
-			FormDivSelectFieldToField(&(dataflow_.StartExternalPart), dataflowFormCallback.probe.stageOfInterest, formDiv)
-		case "EndExternalPart":
-			FormDivSelectFieldToField(&(dataflow_.EndExternalPart), dataflowFormCallback.probe.stageOfInterest, formDiv)
-		case "IsDatasNodeExpanded":
-			FormDivBasicFieldToField(&(dataflow_.IsDatasNodeExpanded), formDiv)
 		case "DiagramStructure:DataFlowsWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
