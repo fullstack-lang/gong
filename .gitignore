@@ -72,8 +72,8 @@ dsm/xsd/go/cmd/xsd/xsd
 dsm/xsd/tests/books/go/cmd/books/books
 dsm/xsd/tests/musicxml/go/cmd/musicxml/musicxml
 dsm/xsd/tests/reqif/go/cmd/reqif/reqif
-dsm/reqif/go/cmd/reqif/gongreqif.log
-dsm/reqif/go/cmd/reqif/reqif
+app/reqif/go/cmd/reqif/gongreqif.log
+app/reqif/go/cmd/reqif/reqif
 dsm/barrgraph/go/cmd/site
 
 dsm/process/go/cmd/process/process

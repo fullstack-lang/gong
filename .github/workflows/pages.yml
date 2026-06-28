@@ -44,7 +44,7 @@ jobs:
 
       - name: Build reqif portable app
         run: |
-          cd dsm/reqif/go/cmd/reqif
+          cd app/reqif/go/cmd/reqif
           gong portable
           cp reqif-app-portable.html ../../../../../public-site/
           

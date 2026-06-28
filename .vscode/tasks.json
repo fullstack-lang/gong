@@ -237,7 +237,7 @@
             "label": "dsm - reqif: gong generate",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/dsm/reqif/go/models"
+                "cwd": "${workspaceFolder}/app/reqif/go/models"
             },
             "command": "gong",
             "group": "build",
@@ -250,7 +250,7 @@
             "label": "dsm - reqif: gong portable",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/dsm/reqif"
+                "cwd": "${workspaceFolder}/app/reqif"
             },
             "command": "gong",
             "group": "build",
@@ -263,7 +263,7 @@
             "label": "dsm - reqif: go run . edit",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/dsm/reqif/go/cmd/reqif"
+                "cwd": "${workspaceFolder}/app/reqif/go/cmd/reqif"
             },
             "command": "go run",
             "group": "build",
