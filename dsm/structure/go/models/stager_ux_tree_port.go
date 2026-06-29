@@ -3,6 +3,7 @@ package models
 import (
 	"slices"
 
+	buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
@@ -57,6 +58,26 @@ func (stager *Stager) treePort(
 			diagramStructure.Port_Shapes = slices.Delete(diagramStructure.Port_Shapes, idx, idx+1)
 		}
 		stager.stage.Commit()
+	}
+
+	if ok {
+		portShape := diagramStructure.map_Port_PortShape[port]
+		visibilityButton := &tree.Button{
+			Name:            diagramStructure.GetName(),
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				portShape.SetIsHidden(!portShape.GetIsHidden())
+				stager.stage.Commit()
+			},
+		}
+		if portShape.GetIsHidden() {
+			visibilityButton.Icon = string(buttons.BUTTON_visibility)
+			visibilityButton.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, visibilityButton)
 	}
 
 	nodeOutControlFlows := &tree.Node{
