@@ -454,12 +454,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "EndExternalPart"))
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "Datas"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Description"))
-		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Type"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Direction"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "LayoutDirection"))
+		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Type"))
 	}
 
 	dataflowshapeOrdered := []*DataFlowShape{}
@@ -1631,19 +1631,6 @@ func (dataflow *DataFlow) GongMarshallField(stage *Stage, fieldName string) (res
 		res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(dataflow.Description))
-	case "Type":
-		if dataflow.Type.ToCodeString() != "" {
-			res = StringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+dataflow.Type.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = StringEnumInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
-		}
 	case "Direction":
 		if dataflow.Direction.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -1684,6 +1671,19 @@ func (dataflow *DataFlow) GongMarshallField(stage *Stage, fieldName string) (res
 			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
+		}
+	case "Type":
+		if dataflow.Type.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+dataflow.Type.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
 		}
 
 	case "StartPort":
@@ -3552,12 +3552,12 @@ func (dataflow *DataFlow) GongMarshallAllFields(stage *Stage) (initRes string, p
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "EndExternalPart"))
 		pointersInitializesStatements.WriteString(dataflow.GongMarshallField(stage, "Datas"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Description"))
-		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Type"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Direction"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "LayoutDirection"))
+		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Type"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

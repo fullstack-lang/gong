@@ -11,9 +11,10 @@ var (
 type DataFlowDirection string
 
 var (
-	DataFlow_Forward  DataFlowDirection = "Forward"
-	DataFlow_Backward DataFlowDirection = "Backward"
-	DataFlow_BothWays DataFlowDirection = "BothWays"
+	Unspecified DataFlowDirection = "Unspecified"
+	Forward     DataFlowDirection = "Forward"
+	Backward    DataFlowDirection = "Backward"
+	BothWays    DataFlowDirection = "BothWays"
 )
 
 type DataFlow struct {
@@ -30,13 +31,15 @@ type DataFlow struct {
 	//gong:text width:300 height:300
 	Description string
 
-	Type      DataFlowType
 	Direction DataFlowDirection
 
 	IsDatasNodeExpanded bool
 
 	LibraryAbstractFields
 	AbstractTypeFields
+
+	// unused for the moment
+	Type DataFlowType
 }
 
 var _ AbstractType = (*DataFlow)(nil)

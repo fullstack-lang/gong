@@ -85,19 +85,19 @@ func _(stage *models.Stage) {
 
 	__DataFlow__00000000_.Name = `"Port 1" to "Port 2"`
 	__DataFlow__00000000_.Description = ``
-	__DataFlow__00000000_.Type = models.DataFlow_Port2Port
-	__DataFlow__00000000_.Direction = models.DataFlow_BothWays
+	__DataFlow__00000000_.Direction = models.Unspecified
 	__DataFlow__00000000_.IsDatasNodeExpanded = false
 	__DataFlow__00000000_.ComputedPrefix = ``
 	__DataFlow__00000000_.IsExpanded = false
 	__DataFlow__00000000_.LayoutDirection = models.Vertical
+	__DataFlow__00000000_.Type = models.DataFlow_Port2Port
 
 	__DataFlowShape__00000000_.Name = `"Port 1" to "Port 2"`
 	__DataFlowShape__00000000_.StartRatio = 0.500000
 	__DataFlowShape__00000000_.EndRatio = 0.539216
 	__DataFlowShape__00000000_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__DataFlowShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__DataFlowShape__00000000_.CornerOffsetRatio = 1.500000
+	__DataFlowShape__00000000_.CornerOffsetRatio = 2.803797
 	__DataFlowShape__00000000_.IsHidden = false
 
 	__DataShape__00000000_.Name = `D1`
@@ -281,7 +281,7 @@ func _(stage *models.Stage) {
 	__PortShape__00000010_.Name = `-DiagramStructure`
 	__PortShape__00000010_.IsExpanded = false
 	__PortShape__00000010_.X = 711.000000
-	__PortShape__00000010_.Y = 602.999985
+	__PortShape__00000010_.Y = 493.999985
 	__PortShape__00000010_.Width = 112.000000
 	__PortShape__00000010_.Height = 34.000000
 	__PortShape__00000010_.IsHidden = false

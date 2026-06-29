@@ -3725,9 +3725,6 @@ func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs
 	if dataflow.Description != dataflowOther.Description {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "Description"))
 	}
-	if dataflow.Type != dataflowOther.Type {
-		diffs = append(diffs, dataflow.GongMarshallField(stage, "Type"))
-	}
 	if dataflow.Direction != dataflowOther.Direction {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "Direction"))
 	}
@@ -3742,6 +3739,9 @@ func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs
 	}
 	if dataflow.LayoutDirection != dataflowOther.LayoutDirection {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "LayoutDirection"))
+	}
+	if dataflow.Type != dataflowOther.Type {
+		diffs = append(diffs, dataflow.GongMarshallField(stage, "Type"))
 	}
 
 	return

@@ -525,9 +525,11 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 
 		link.StartArrowSize = link.EndArrowSize
 		switch dataFlowShape.DataFlow.Direction {
-		case DataFlow_BothWays:
+		case Unspecified:
+			link.HasEndArrow = false
+		case BothWays:
 			link.HasStartArrow = true
-		case DataFlow_Backward:
+		case Backward:
 			link.HasEndArrow = false
 			link.HasStartArrow = true
 		}

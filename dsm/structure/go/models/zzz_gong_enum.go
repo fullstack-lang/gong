@@ -10,11 +10,13 @@ func (dataflowdirection DataFlowDirection) ToString() (res string) {
 	// migration of former implementation of enum
 	switch dataflowdirection {
 	// insertion code per enum code
-	case DataFlow_Forward:
+	case Unspecified:
+		res = "Unspecified"
+	case Forward:
 		res = "Forward"
-	case DataFlow_Backward:
+	case Backward:
 		res = "Backward"
-	case DataFlow_BothWays:
+	case BothWays:
 		res = "BothWays"
 	}
 	return
@@ -24,14 +26,17 @@ func (dataflowdirection *DataFlowDirection) FromString(input string) (err error)
 
 	switch input {
 	// insertion code per enum code
+	case "Unspecified":
+		*dataflowdirection = Unspecified
+		return
 	case "Forward":
-		*dataflowdirection = DataFlow_Forward
+		*dataflowdirection = Forward
 		return
 	case "Backward":
-		*dataflowdirection = DataFlow_Backward
+		*dataflowdirection = Backward
 		return
 	case "BothWays":
-		*dataflowdirection = DataFlow_BothWays
+		*dataflowdirection = BothWays
 		return
 	default:
 		return errUnkownEnum
@@ -42,12 +47,14 @@ func (dataflowdirection *DataFlowDirection) FromCodeString(input string) (err er
 
 	switch input {
 	// insertion code per enum code
-	case "DataFlow_Forward":
-		*dataflowdirection = DataFlow_Forward
-	case "DataFlow_Backward":
-		*dataflowdirection = DataFlow_Backward
-	case "DataFlow_BothWays":
-		*dataflowdirection = DataFlow_BothWays
+	case "Unspecified":
+		*dataflowdirection = Unspecified
+	case "Forward":
+		*dataflowdirection = Forward
+	case "Backward":
+		*dataflowdirection = Backward
+	case "BothWays":
+		*dataflowdirection = BothWays
 	default:
 		err = errUnkownEnum
 	}
@@ -58,12 +65,14 @@ func (dataflowdirection *DataFlowDirection) ToCodeString() (res string) {
 
 	switch *dataflowdirection {
 	// insertion code per enum code
-	case DataFlow_Forward:
-		res = "DataFlow_Forward"
-	case DataFlow_Backward:
-		res = "DataFlow_Backward"
-	case DataFlow_BothWays:
-		res = "DataFlow_BothWays"
+	case Unspecified:
+		res = "Unspecified"
+	case Forward:
+		res = "Forward"
+	case Backward:
+		res = "Backward"
+	case BothWays:
+		res = "BothWays"
 	}
 	return
 }
@@ -73,9 +82,10 @@ func (dataflowdirection DataFlowDirection) Codes() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "DataFlow_Forward")
-	res = append(res, "DataFlow_Backward")
-	res = append(res, "DataFlow_BothWays")
+	res = append(res, "Unspecified")
+	res = append(res, "Forward")
+	res = append(res, "Backward")
+	res = append(res, "BothWays")
 
 	return
 }
@@ -85,6 +95,7 @@ func (dataflowdirection DataFlowDirection) CodeValues() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
+	res = append(res, "Unspecified")
 	res = append(res, "Forward")
 	res = append(res, "Backward")
 	res = append(res, "BothWays")
