@@ -586,6 +586,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsNotesNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "NotePortShapes"))
+		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "NotePartShapes"))
 	}
 
 	externalpartshapeOrdered := []*ExternalPartShape{}
@@ -703,8 +704,44 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "LayoutDirection"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "IsPartsNodeExpanded"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Parts"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsPortsNodeExpanded"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Ports"))
+	}
+
+	notepartshapeOrdered := []*NotePartShape{}
+	for notepartshape := range stage.NotePartShapes {
+		notepartshapeOrdered = append(notepartshapeOrdered, notepartshape)
+	}
+	sort.Slice(notepartshapeOrdered[:], func(i, j int) bool {
+		notepartshapei := notepartshapeOrdered[i]
+		notepartshapej := notepartshapeOrdered[j]
+		notepartshapei_order, oki := stage.NotePartShape_stagedOrder[notepartshapei]
+		notepartshapej_order, okj := stage.NotePartShape_stagedOrder[notepartshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return notepartshapei_order < notepartshapej_order
+	})
+	if len(notepartshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, notepartshape := range notepartshapeOrdered {
+
+		identifiersDecl.WriteString(notepartshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(notepartshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(notepartshape.GongMarshallField(stage, "Note"))
+		pointersInitializesStatements.WriteString(notepartshape.GongMarshallField(stage, "Part"))
+		initializerStatements.WriteString(notepartshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(notepartshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(notepartshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(notepartshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(notepartshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(notepartshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	noteportshapeOrdered := []*NotePortShape{}
@@ -1150,6 +1187,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, note := range noteOrdered {
 		_ = note
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, notepartshape := range notepartshapeOrdered {
+		_ = notepartshape
 		var setPointerField string
 		_ = setPointerField
 
@@ -2156,6 +2201,16 @@ func (diagramstructure *DiagramStructure) GongMarshallField(stage *Stage, fieldN
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "NotePartShapes":
+		var sb strings.Builder
+		for _, _notepartshape := range diagramstructure.NotePartShapes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", diagramstructure.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "NotePartShapes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _notepartshape.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct DiagramStructure", fieldName)
 	}
@@ -2484,12 +2539,27 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
 		}
+	case "IsPartsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPartsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", note.IsPartsNodeExpanded))
 	case "IsPortsNodeExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPortsNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", note.IsPortsNodeExpanded))
 
+	case "Parts":
+		var sb strings.Builder
+		for _, _part := range note.Parts {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", note.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Parts")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _part.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	case "Ports":
 		var sb strings.Builder
 		for _, _port := range note.Ports {
@@ -2502,6 +2572,93 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Note", fieldName)
+	}
+	return
+}
+
+func (notepartshape *NotePartShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", notepartshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(notepartshape.Name))
+	case "StartRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", notepartshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", notepartshape.StartRatio))
+	case "EndRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", notepartshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", notepartshape.EndRatio))
+	case "StartOrientation":
+		if notepartshape.StartOrientation.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", notepartshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+notepartshape.StartOrientation.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", notepartshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StartOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "EndOrientation":
+		if notepartshape.EndOrientation.ToCodeString() != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", notepartshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+notepartshape.EndOrientation.ToCodeString())
+		} else {
+			// in case of empty enum, we need to unstage the previous value
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", notepartshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndOrientation")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "\"\"")
+		}
+	case "CornerOffsetRatio":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", notepartshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CornerOffsetRatio")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", notepartshape.CornerOffsetRatio))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", notepartshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", notepartshape.IsHidden))
+
+	case "Note":
+		if notepartshape.Note != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", notepartshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", notepartshape.Note.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", notepartshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Note")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	case "Part":
+		if notepartshape.Part != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", notepartshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Part")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", notepartshape.Part.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", notepartshape.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Part")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct NotePartShape", fieldName)
 	}
 	return
 }
@@ -3482,6 +3639,7 @@ func (diagramstructure *DiagramStructure) GongMarshallAllFields(stage *Stage) (i
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsNotesNodeExpanded"))
 		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "NotePortShapes"))
+		pointersInitializesStatements.WriteString(diagramstructure.GongMarshallField(stage, "NotePartShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3554,8 +3712,29 @@ func (note *Note) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "LayoutDirection"))
+		initializerStatements.WriteString(note.GongMarshallField(stage, "IsPartsNodeExpanded"))
+		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Parts"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsPortsNodeExpanded"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Ports"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (notepartshape *NotePartShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(notepartshape.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(notepartshape.GongMarshallField(stage, "Note"))
+		pointersInitializesStatements.WriteString(notepartshape.GongMarshallField(stage, "Part"))
+		initializerStatements.WriteString(notepartshape.GongMarshallField(stage, "StartRatio"))
+		initializerStatements.WriteString(notepartshape.GongMarshallField(stage, "EndRatio"))
+		initializerStatements.WriteString(notepartshape.GongMarshallField(stage, "StartOrientation"))
+		initializerStatements.WriteString(notepartshape.GongMarshallField(stage, "EndOrientation"))
+		initializerStatements.WriteString(notepartshape.GongMarshallField(stage, "CornerOffsetRatio"))
+		initializerStatements.WriteString(notepartshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

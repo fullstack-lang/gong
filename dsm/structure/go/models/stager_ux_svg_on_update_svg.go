@@ -27,6 +27,8 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		ASSOCIATION_TYPE_PORT_PORT          associationType = "PortPort"
 		ASSOCIATION_TYPE_EXTERNAL_PART_PORT associationType = "ExternalPartPort"
 		ASSOCIATION_TYPE_PORT_EXTERNAL_PART associationType = "PortExternalPart"
+		ASSOCIATION_TYPE_NOTE_PART          associationType = "NotePart"
+		ASSOCIATION_TYPE_NOTE_PORT          associationType = "NotePort"
 	)
 
 	var assocType associationType
@@ -52,6 +54,20 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		if endPortShape, ok := diagramStructure.map_SvgRect_PortShape[endRect]; ok {
 			assocType = ASSOCIATION_TYPE_EXTERNAL_PART_PORT
 			sourceAbstratctElement = startExternalPartShape.Part
+			targetAbstractElement = endPortShape.Port
+		}
+	}
+	if startNoteShape, ok := diagramStructure.map_SvgRect_NoteShape[startRect]; ok {
+		if endPart, ok := diagramStructure.map_SvgRect_Part[endRect]; ok {
+			assocType = ASSOCIATION_TYPE_NOTE_PART
+			sourceAbstratctElement = startNoteShape.Note
+			targetAbstractElement = endPart
+		}
+	}
+	if startNoteShape, ok := diagramStructure.map_SvgRect_NoteShape[startRect]; ok {
+		if endPortShape, ok := diagramStructure.map_SvgRect_PortShape[endRect]; ok {
+			assocType = ASSOCIATION_TYPE_NOTE_PORT
+			sourceAbstratctElement = startNoteShape.Note
 			targetAbstractElement = endPortShape.Port
 		}
 	}
@@ -165,6 +181,18 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 		dataFlowShape.SetStartRatio(0.5)
 		dataFlowShape.SetEndRatio(0.5)
 		diagramStructure.DataFlow_Shapes = append(diagramStructure.DataFlow_Shapes, dataFlowShape)
+	case ASSOCIATION_TYPE_NOTE_PART:
+		note := sourceAbstratctElement.(*Note)
+		part := targetAbstractElement.(*Part)
+
+		note.Parts = append(note.Parts, part)
+		addAssociationShapeToDiagram(stager, note, part, &diagramStructure.NotePartShapes)
+	case ASSOCIATION_TYPE_NOTE_PORT:
+		note := sourceAbstratctElement.(*Note)
+		port := targetAbstractElement.(*Port)
+
+		note.Ports = append(note.Ports, port)
+		addAssociationShapeToDiagram(stager, note, port, &diagramStructure.NotePortShapes)
 	}
 
 	// commit to encode the result, this will generate a new SVG generation

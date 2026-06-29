@@ -2328,6 +2328,38 @@ func (diagramstructureFormCallback *DiagramStructureFormCallback) OnSave() {
 			diagramstructure_.NotePortShapes = instanceSlice
 			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "NotePortShapes", &diagramstructure_.NotePortShapes)
 
+		case "NotePartShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.NotePartShape](diagramstructureFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.NotePartShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.NotePartShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramstructureFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.NotePartShape](diagramstructureFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagramstructure_.NotePartShapes = instanceSlice
+			diagramstructureFormCallback.probe.UpdateSliceOfPointersCallback(diagramstructure_, "NotePartShapes", &diagramstructure_.NotePartShapes)
+
 		case "System:DiagramStructures":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the System instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -3255,6 +3287,40 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(note_.IsExpanded), formDiv)
 		case "LayoutDirection":
 			FormDivEnumIntFieldToField(&(note_.LayoutDirection), formDiv)
+		case "IsPartsNodeExpanded":
+			FormDivBasicFieldToField(&(note_.IsPartsNodeExpanded), formDiv)
+		case "Parts":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Part](noteFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Part, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Part)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					noteFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Part](noteFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			note_.Parts = instanceSlice
+			noteFormCallback.probe.UpdateSliceOfPointersCallback(note_, "Parts", &note_.Parts)
+
 		case "IsPortsNodeExpanded":
 			FormDivBasicFieldToField(&(note_.IsPortsNodeExpanded), formDiv)
 		case "Ports":
@@ -3454,6 +3520,145 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 	}
 
 	noteFormCallback.probe.ux_tree()
+}
+func __gong__New__NotePartShapeFormCallback(
+	notepartshape *models.NotePartShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (notepartshapeFormCallback *NotePartShapeFormCallback) {
+	notepartshapeFormCallback = new(NotePartShapeFormCallback)
+	notepartshapeFormCallback.probe = probe
+	notepartshapeFormCallback.notepartshape = notepartshape
+	notepartshapeFormCallback.formGroup = formGroup
+
+	notepartshapeFormCallback.CreationMode = (notepartshape == nil)
+
+	return
+}
+
+type NotePartShapeFormCallback struct {
+	notepartshape *models.NotePartShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (notepartshapeFormCallback *NotePartShapeFormCallback) OnSave() {
+	notepartshapeFormCallback.probe.stageOfInterest.Lock()
+	defer notepartshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("NotePartShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	notepartshapeFormCallback.probe.formStage.Checkout()
+
+	if notepartshapeFormCallback.notepartshape == nil {
+		notepartshapeFormCallback.notepartshape = new(models.NotePartShape).Stage(notepartshapeFormCallback.probe.stageOfInterest)
+	}
+	notepartshape_ := notepartshapeFormCallback.notepartshape
+	_ = notepartshape_
+
+	for _, formDiv := range notepartshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(notepartshape_.Name), formDiv)
+		case "Note":
+			FormDivSelectFieldToField(&(notepartshape_.Note), notepartshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "Part":
+			FormDivSelectFieldToField(&(notepartshape_.Part), notepartshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "StartRatio":
+			FormDivBasicFieldToField(&(notepartshape_.StartRatio), formDiv)
+		case "EndRatio":
+			FormDivBasicFieldToField(&(notepartshape_.EndRatio), formDiv)
+		case "StartOrientation":
+			FormDivEnumStringFieldToField(&(notepartshape_.StartOrientation), formDiv)
+		case "EndOrientation":
+			FormDivEnumStringFieldToField(&(notepartshape_.EndOrientation), formDiv)
+		case "CornerOffsetRatio":
+			FormDivBasicFieldToField(&(notepartshape_.CornerOffsetRatio), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(notepartshape_.IsHidden), formDiv)
+		case "DiagramStructure:NotePartShapes":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target DiagramStructure instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.DiagramStructure](notepartshapeFormCallback.probe.stageOfInterest)
+			targetDiagramStructureIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetDiagramStructureIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all DiagramStructure instances and update their NotePartShapes slice
+			for _diagramstructure := range *models.GetGongstructInstancesSetFromPointerType[*models.DiagramStructure](notepartshapeFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(notepartshapeFormCallback.probe.stageOfInterest, _diagramstructure)
+				
+				// if DiagramStructure is selected
+				if targetDiagramStructureIDs[id] {
+					// ensure notepartshape_ is in _diagramstructure.NotePartShapes
+					found := false
+					for _, _b := range _diagramstructure.NotePartShapes {
+						if _b == notepartshape_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_diagramstructure.NotePartShapes = append(_diagramstructure.NotePartShapes, notepartshape_)
+						notepartshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "NotePartShapes", &_diagramstructure.NotePartShapes)
+					}
+				} else {
+					// ensure notepartshape_ is NOT in _diagramstructure.NotePartShapes
+					idx := slices.Index(_diagramstructure.NotePartShapes, notepartshape_)
+					if idx != -1 {
+						_diagramstructure.NotePartShapes = slices.Delete(_diagramstructure.NotePartShapes, idx, idx+1)
+						notepartshapeFormCallback.probe.UpdateSliceOfPointersCallback(_diagramstructure, "NotePartShapes", &_diagramstructure.NotePartShapes)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if notepartshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		notepartshape_.Unstage(notepartshapeFormCallback.probe.stageOfInterest)
+	}
+
+	notepartshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.NotePartShape](
+		notepartshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if notepartshapeFormCallback.CreationMode || notepartshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		notepartshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(notepartshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__NotePartShapeFormCallback(
+			nil,
+			notepartshapeFormCallback.probe,
+			newFormGroup,
+		)
+		notepartshape := new(models.NotePartShape)
+		FillUpForm(notepartshape, newFormGroup, notepartshapeFormCallback.probe)
+		notepartshapeFormCallback.probe.formStage.Commit()
+	}
+
+	notepartshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__NotePortShapeFormCallback(
 	noteportshape *models.NotePortShape,
@@ -4240,6 +4445,51 @@ func (partFormCallback *PartFormCallback) OnSave() {
 					if idx != -1 {
 						_library.PartsWhoseNodeIsExpanded = slices.Delete(_library.PartsWhoseNodeIsExpanded, idx, idx+1)
 						partFormCallback.probe.UpdateSliceOfPointersCallback(_library, "PartsWhoseNodeIsExpanded", &_library.PartsWhoseNodeIsExpanded)
+					}
+				}
+			}
+		case "Note:Parts":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Note instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Note instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Note](partFormCallback.probe.stageOfInterest)
+			targetNoteIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetNoteIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Note instances and update their Parts slice
+			for _note := range *models.GetGongstructInstancesSetFromPointerType[*models.Note](partFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(partFormCallback.probe.stageOfInterest, _note)
+				
+				// if Note is selected
+				if targetNoteIDs[id] {
+					// ensure part_ is in _note.Parts
+					found := false
+					for _, _b := range _note.Parts {
+						if _b == part_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_note.Parts = append(_note.Parts, part_)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_note, "Parts", &_note.Parts)
+					}
+				} else {
+					// ensure part_ is NOT in _note.Parts
+					idx := slices.Index(_note.Parts, part_)
+					if idx != -1 {
+						_note.Parts = slices.Delete(_note.Parts, idx, idx+1)
+						partFormCallback.probe.UpdateSliceOfPointersCallback(_note, "Parts", &_note.Parts)
 					}
 				}
 			}

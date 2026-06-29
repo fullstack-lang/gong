@@ -109,11 +109,15 @@ type DiagramStructure struct {
 
 	Note_Shapes              []*NoteShape
 	map_Note_NoteShape       map[*Note]*NoteShape
+	map_SvgRect_NoteShape    map[*svg.Rect]*NoteShape
 	NotesWhoseNodeIsExpanded []*Note
 	IsNotesNodeExpanded      bool
 
 	NotePortShapes         []*NotePortShape
 	map_Note_NotePortShape map[notePortKey]*NotePortShape
+
+	NotePartShapes         []*NotePartShape
+	map_Note_NotePartShape map[notePartKey]*NotePartShape
 }
 
 func (d *DiagramStructure) IsEditable() bool {

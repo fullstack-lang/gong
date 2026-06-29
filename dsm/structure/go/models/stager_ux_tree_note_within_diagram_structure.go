@@ -94,7 +94,7 @@ func (stager *Stager) treeNoteWithinDiagramStructure(
 			Note: note,
 			Port: port,
 		}
-		_, ok := diagramStructure.map_Note_NotePortShape[notePortKey]
+		notePortShape, ok := diagramStructure.map_Note_NotePortShape[notePortKey]
 		nodePort := &tree.Node{
 			Name:                    port.GetName(),
 			HasCheckboxButton:       true,
@@ -121,7 +121,63 @@ func (stager *Stager) treeNoteWithinDiagramStructure(
 				stage.Commit()
 				return
 			}
+			if !isChecked && ok {
+				notePortShape.UnstageVoid(stage)
+				stage.Commit()
+				return
+			}
 		}
 		portsNode.Children = append(portsNode.Children, nodePort)
+	}
+
+	// parts relarted to the note
+	partsNode := &tree.Node{
+		Name:            "Parts",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      note.IsPartsNodeExpanded,
+		IsNodeClickable: true,
+	}
+	noteNode.Children = append(noteNode.Children, partsNode)
+	partsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&note.IsPartsNodeExpanded)
+
+	for _, part := range note.Parts {
+		notePartKey := notePartKey{
+			Note: note,
+			Part: part,
+		}
+		notePartShape, ok := diagramStructure.map_Note_NotePartShape[notePartKey]
+		nodePart := &tree.Node{
+			Name:                    part.GetName(),
+			HasCheckboxButton:       true,
+			IsChecked:               ok,
+			CheckboxHasToolTip:      true,
+			CheckboxToolTipPosition: tree.Left,
+			CheckboxToolTipText: func() string {
+				if ok {
+					return "Click to remove the note part shape"
+				}
+				return "Click to create a note part shape for this part within this diagram"
+			}(),
+			IsNodeClickable: true,
+		}
+		nodePart.OnIsCheckedChanged = func(isChecked bool) {
+			if isChecked && !ok {
+				notePartShape := (&NotePartShape{
+					Name:      part.GetName() + " shape",
+					Part:      part,
+					Note:      note,
+					LinkShape: LinkShape{},
+				}).Stage(stager.stage)
+				diagramStructure.NotePartShapes = append(diagramStructure.NotePartShapes, notePartShape)
+				stage.Commit()
+				return
+			}
+			if !isChecked && ok {
+				notePartShape.UnstageVoid(stage)
+				stage.Commit()
+				return
+			}
+		}
+		partsNode.Children = append(partsNode.Children, nodePart)
 	}
 }

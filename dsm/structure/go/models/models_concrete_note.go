@@ -59,3 +59,42 @@ func (s *NotePortShape) SetAbstractStartElement(abstractElement AbstractType) {
 }
 
 var _ AssociationConcreteType = (*NotePortShape)(nil)
+
+type notePartKey struct {
+	Note *Note
+	Part *Part
+}
+
+type NotePartShape struct {
+	Name string
+
+	Note *Note
+
+	Part *Part
+
+	LinkShape
+}
+
+func (s *NotePartShape) GetAbstractEndElement() AbstractType {
+	if s.Part == nil {
+		return nil
+	}
+	return s.Part
+}
+
+func (s *NotePartShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.Part = abstractElement.(*Part)
+}
+
+func (s *NotePartShape) GetAbstractStartElement() AbstractType {
+	if s.Note == nil {
+		return nil
+	}
+	return s.Note
+}
+
+func (s *NotePartShape) SetAbstractStartElement(abstractElement AbstractType) {
+	s.Note = abstractElement.(*Note)
+}
+
+var _ AssociationConcreteType = (*NotePartShape)(nil)
