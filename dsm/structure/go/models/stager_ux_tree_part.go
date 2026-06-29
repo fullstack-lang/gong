@@ -136,7 +136,14 @@ func (stager *Stager) treeParts(
 		receivingDiagram:      diagramStructure,
 		sliceForNewAddedShape: &diagramStructure.Port_Shapes,
 	}
-	addCreateItemAndShapeButton(stager, conf)
+	callback := addCreateItemAndShapeButton(stager, conf)
+
+	callback.OnBeforeCommit = func() {
+		// the added shape must (?) be the last item
+		newShape := diagramStructure.Port_Shapes[len(diagramStructure.Port_Shapes)-1]
+		newShape.SetWidth(defaultPortWidth)
+		newShape.SetHeight(defaultPortHeight)
+	}
 
 	controlflowsNode := &tree.Node{
 		Name:            "ControlFlows",
