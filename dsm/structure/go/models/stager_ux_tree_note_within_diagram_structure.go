@@ -127,6 +127,24 @@ func (stager *Stager) treeNoteWithinDiagramStructure(
 				return
 			}
 		}
+		if ok {
+			visibilityButton := &tree.Button{
+				Name:            diagramStructure.GetName(),
+				Icon:            string(buttons.BUTTON_visibility_off),
+				ToolTipText:     "Hide from diagram",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					notePortShape.SetIsHidden(!notePortShape.GetIsHidden())
+					stage.Commit()
+				},
+			}
+			if notePortShape.GetIsHidden() {
+				visibilityButton.Icon = string(buttons.BUTTON_visibility)
+				visibilityButton.ToolTipText = "Show on diagram"
+			}
+			nodePort.Buttons = append(nodePort.Buttons, visibilityButton)
+		}
 		portsNode.Children = append(portsNode.Children, nodePort)
 	}
 
@@ -177,6 +195,24 @@ func (stager *Stager) treeNoteWithinDiagramStructure(
 				stage.Commit()
 				return
 			}
+		}
+		if ok {
+			visibilityButton := &tree.Button{
+				Name:            diagramStructure.GetName(),
+				Icon:            string(buttons.BUTTON_visibility_off),
+				ToolTipText:     "Hide from diagram",
+				HasToolTip:      true,
+				ToolTipPosition: tree.Right,
+				OnClick: func() {
+					notePartShape.SetIsHidden(!notePartShape.GetIsHidden())
+					stage.Commit()
+				},
+			}
+			if notePartShape.GetIsHidden() {
+				visibilityButton.Icon = string(buttons.BUTTON_visibility)
+				visibilityButton.ToolTipText = "Show on diagram"
+			}
+			nodePart.Buttons = append(nodePart.Buttons, visibilityButton)
 		}
 		partsNode.Children = append(partsNode.Children, nodePart)
 	}
