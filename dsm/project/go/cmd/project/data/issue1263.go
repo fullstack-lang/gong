@@ -257,9 +257,12 @@ func _(stage *models.Stage) {
 - concrete concepts
 - library organisation with the root object
 - semantic rules
-- a Tree
+- a Tree (idealy, a hierarchy of conf
+like what is done in create views )
 - a SVG
 - a definition of views : standard + probe
+- a stager that orchestrate the DSM lifecycle 
+
 
 `
 	__Note__00000002_.ComputedPrefix = `2`
