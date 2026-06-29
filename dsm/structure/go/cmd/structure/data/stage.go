@@ -196,8 +196,8 @@ func _(stage *models.Stage) {
 	__NotePortShape__00000001_.IsHidden = false
 
 	__NoteShape__00000000_.Name = `Note on the diagram that show that there is wrapping shape`
-	__NoteShape__00000000_.X = 183.203176
-	__NoteShape__00000000_.Y = 132.642074
+	__NoteShape__00000000_.X = 207.203176
+	__NoteShape__00000000_.Y = 116.642074
 	__NoteShape__00000000_.Width = 202.000000
 	__NoteShape__00000000_.Height = 70.000000
 	__NoteShape__00000000_.IsHidden = false
@@ -240,8 +240,8 @@ func _(stage *models.Stage) {
 
 	__PartShape__00000007_.Name = `P2-DiagramStructure`
 	__PartShape__00000007_.IsExpanded = false
-	__PartShape__00000007_.X = 767.000000
-	__PartShape__00000007_.Y = 438.999985
+	__PartShape__00000007_.X = 847.000000
+	__PartShape__00000007_.Y = 388.999985
 	__PartShape__00000007_.Width = 329.000000
 	__PartShape__00000007_.Height = 282.000000
 	__PartShape__00000007_.IsHidden = false
@@ -288,17 +288,17 @@ func _(stage *models.Stage) {
 
 	__PortShape__00000010_.Name = `-DiagramStructure`
 	__PortShape__00000010_.IsExpanded = false
-	__PortShape__00000010_.X = 711.000000
-	__PortShape__00000010_.Y = 493.999985
+	__PortShape__00000010_.X = 791.000000
+	__PortShape__00000010_.Y = 443.999985
 	__PortShape__00000010_.Width = 112.000000
 	__PortShape__00000010_.Height = 34.000000
 	__PortShape__00000010_.IsHidden = false
 
 	__PortShape__00000013_.Name = `Port 3-DiagramStructure`
 	__PortShape__00000013_.IsExpanded = false
-	__PortShape__00000013_.X = 183.000000
+	__PortShape__00000013_.X = 175.500000
 	__PortShape__00000013_.Y = 340.397861
-	__PortShape__00000013_.Width = 40.000000
+	__PortShape__00000013_.Width = 55.000000
 	__PortShape__00000013_.Height = 40.000000
 	__PortShape__00000013_.IsHidden = false
 

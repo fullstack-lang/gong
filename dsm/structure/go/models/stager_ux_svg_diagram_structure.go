@@ -236,13 +236,18 @@ func (stager *Stager) drawPartShapes(diagramStructure *DiagramStructure, layer *
 	// make every part shape an obstable for the others
 	for _, partShape1 := range diagramStructure.Part_Shapes {
 		rect1 := diagramStructure.map_Part_Rect[partShape1.Part]
+		if rect1 == nil {
+			continue
+		}
 
 		for _, partShape2 := range diagramStructure.Part_Shapes {
 			rect2 := diagramStructure.map_Part_Rect[partShape2.Part]
+			if rect2 == nil {
+				continue
+			}
 
 			if partShape1 != partShape2 {
 				rect1.Obstacles = append(rect1.Obstacles, rect2)
-				rect2.Obstacles = append(rect2.Obstacles, rect1)
 			}
 		}
 	}
