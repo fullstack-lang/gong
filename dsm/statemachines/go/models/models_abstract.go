@@ -77,7 +77,7 @@ type Role struct {
 }
 
 type State struct {
-	//gong:width 600
+	//gong:text width:300 height:300
 	Name string
 
 	Parent *State
@@ -126,15 +126,16 @@ type Action struct {
 }
 
 type StateMachine struct {
+	//gong:text width:300 height:300
 	Name string
 
-	LibraryAbstractFields
-	AbstractTypeFields
+	InitialState *State
 
 	States   []*State
 	Diagrams []*Diagram
 
-	InitialState *State
+	LibraryAbstractFields
+	AbstractTypeFields
 }
 
 var _ AbstractType = (*StateMachine)(nil)

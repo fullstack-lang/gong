@@ -3,6 +3,8 @@ package models
 import split "github.com/fullstack-lang/gong/lib/split/go/models"
 
 func (stager *Stager) createViews() {
+	stager.splitStage.Reset()
+
 	split.StageBranch(stager.splitStage, &split.View{
 		Name: "tree & diagram",
 

@@ -1100,18 +1100,18 @@ func (u *StateMachineUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "InitialState":
+		GongUnmarshallPointer(&instance.InitialState, valueExpr, identifierMap)
+	case "States":
+		GongUnmarshallSliceOfPointers(&instance.States, valueExpr, identifierMap)
+	case "Diagrams":
+		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "LayoutDirection":
 		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
-	case "States":
-		GongUnmarshallSliceOfPointers(&instance.States, valueExpr, identifierMap)
-	case "Diagrams":
-		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
-	case "InitialState":
-		GongUnmarshallPointer(&instance.InitialState, valueExpr, identifierMap)
 	}
 	return nil
 }
