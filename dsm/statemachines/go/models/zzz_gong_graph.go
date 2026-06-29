@@ -3469,14 +3469,12 @@ func (statemachine *StateMachine) GongDiff(stage *Stage, statemachineOther *Stat
 	if statemachine.Name != statemachineOther.Name {
 		diffs = append(diffs, statemachine.GongMarshallField(stage, "Name"))
 	}
-	if statemachine.ComputedPrefix != statemachineOther.ComputedPrefix {
-		diffs = append(diffs, statemachine.GongMarshallField(stage, "ComputedPrefix"))
-	}
-	if statemachine.IsExpanded != statemachineOther.IsExpanded {
-		diffs = append(diffs, statemachine.GongMarshallField(stage, "IsExpanded"))
-	}
-	if statemachine.LayoutDirection != statemachineOther.LayoutDirection {
-		diffs = append(diffs, statemachine.GongMarshallField(stage, "LayoutDirection"))
+	if (statemachine.InitialState == nil) != (statemachineOther.InitialState == nil) {
+		diffs = append(diffs, statemachine.GongMarshallField(stage, "InitialState"))
+	} else if statemachine.InitialState != nil && statemachineOther.InitialState != nil {
+		if statemachine.InitialState != statemachineOther.InitialState {
+			diffs = append(diffs, statemachine.GongMarshallField(stage, "InitialState"))
+		}
 	}
 	StatesDifferent := false
 	if len(statemachine.States) != len(statemachineOther.States) {
@@ -3520,12 +3518,14 @@ func (statemachine *StateMachine) GongDiff(stage *Stage, statemachineOther *Stat
 		ops := Diff(stage, statemachine, statemachineOther, "Diagrams", statemachineOther.Diagrams, statemachine.Diagrams)
 		diffs = append(diffs, ops)
 	}
-	if (statemachine.InitialState == nil) != (statemachineOther.InitialState == nil) {
-		diffs = append(diffs, statemachine.GongMarshallField(stage, "InitialState"))
-	} else if statemachine.InitialState != nil && statemachineOther.InitialState != nil {
-		if statemachine.InitialState != statemachineOther.InitialState {
-			diffs = append(diffs, statemachine.GongMarshallField(stage, "InitialState"))
-		}
+	if statemachine.ComputedPrefix != statemachineOther.ComputedPrefix {
+		diffs = append(diffs, statemachine.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if statemachine.IsExpanded != statemachineOther.IsExpanded {
+		diffs = append(diffs, statemachine.GongMarshallField(stage, "IsExpanded"))
+	}
+	if statemachine.LayoutDirection != statemachineOther.LayoutDirection {
+		diffs = append(diffs, statemachine.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	return

@@ -3160,12 +3160,8 @@ func (statemachineFormCallback *StateMachineFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(statemachine_.Name), formDiv)
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(statemachine_.ComputedPrefix), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(statemachine_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(statemachine_.LayoutDirection), formDiv)
+		case "InitialState":
+			FormDivSelectFieldToField(&(statemachine_.InitialState), statemachineFormCallback.probe.stageOfInterest, formDiv)
 		case "States":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.State](statemachineFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.State, 0)
@@ -3230,8 +3226,12 @@ func (statemachineFormCallback *StateMachineFormCallback) OnSave() {
 			statemachine_.Diagrams = instanceSlice
 			statemachineFormCallback.probe.UpdateSliceOfPointersCallback(statemachine_, "Diagrams", &statemachine_.Diagrams)
 
-		case "InitialState":
-			FormDivSelectFieldToField(&(statemachine_.InitialState), statemachineFormCallback.probe.stageOfInterest, formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(statemachine_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(statemachine_.IsExpanded), formDiv)
+		case "LayoutDirection":
+			FormDivEnumIntFieldToField(&(statemachine_.LayoutDirection), formDiv)
 		case "Architecture:StateMachines":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Architecture instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

@@ -793,12 +793,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "InitialState"))
+		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "States"))
+		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "Diagrams"))
 		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "LayoutDirection"))
-		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "States"))
-		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "Diagrams"))
-		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "InitialState"))
 	}
 
 	stateshapeOrdered := []*StateShape{}
@@ -2075,6 +2075,19 @@ func (statemachine *StateMachine) GongMarshallField(stage *Stage, fieldName stri
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
 		}
 
+	case "InitialState":
+		if statemachine.InitialState != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", statemachine.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "InitialState")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", statemachine.InitialState.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", statemachine.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "InitialState")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	case "States":
 		var sb strings.Builder
 		for _, _state := range statemachine.States {
@@ -2095,19 +2108,6 @@ func (statemachine *StateMachine) GongMarshallField(stage *Stage, fieldName stri
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
-	case "InitialState":
-		if statemachine.InitialState != nil {
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", statemachine.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "InitialState")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", statemachine.InitialState.GongGetIdentifier(stage))
-		} else {
-			// in case of nil pointer, we need to unstage the previous value
-			res = PointerFieldInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", statemachine.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "InitialState")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
-		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct StateMachine", fieldName)
 	}
@@ -2591,12 +2591,12 @@ func (statemachine *StateMachine) GongMarshallAllFields(stage *Stage) (initRes s
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "Name"))
+		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "InitialState"))
+		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "States"))
+		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "Diagrams"))
 		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "LayoutDirection"))
-		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "States"))
-		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "Diagrams"))
-		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "InitialState"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

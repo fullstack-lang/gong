@@ -391,6 +391,27 @@
             ]
         },
         {
+            "name": "dsm - statemachines: go run . edit",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/statemachines/go/cmd/statemachines",
+            "args": [
+                "edit",
+            ]
+        },
+        {
+            "name": "dsm - statemachines: go run . edit data/foo.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/statemachines/go/cmd/statemachines",
+            "args": [
+                "edit",
+                "data/foo.go"
+            ]
+        },
+        {
             "name": "dsm - statemachines: go run . edit data/massive_probe_edit.go",
             "type": "go",
             "request": "launch",

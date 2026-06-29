@@ -4659,11 +4659,11 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&StateMachine{
 			// Initialisation of associations
 			// field is initialized with an instance of State with the name of the field
+			InitialState: &State{Name: "InitialState"},
+			// field is initialized with an instance of State with the name of the field
 			States: []*State{{Name: "States"}},
 			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
-			// field is initialized with an instance of State with the name of the field
-			InitialState: &State{Name: "InitialState"},
 		}).(*Type)
 	case StateShape:
 		return any(&StateShape{
@@ -6214,17 +6214,9 @@ func (statemachine *StateMachine) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "ComputedPrefix",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
+			Name:                 "InitialState",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "State",
 		},
 		{
 			Name:                 "States",
@@ -6237,9 +6229,17 @@ func (statemachine *StateMachine) GongGetFieldHeaders() (res []GongFieldHeader) 
 			TargetGongstructName: "Diagram",
 		},
 		{
-			Name:                 "InitialState",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "State",
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "LayoutDirection",
+			GongFieldValueType:   GongFieldValueTypeInt,
+			TargetGongstructName: "LayoutDirection",
 		},
 	}
 	return
@@ -7039,15 +7039,12 @@ func (statemachine *StateMachine) GongGetFieldValue(fieldName string, stage *Sta
 	// string value of fields
 	case "Name":
 		res.valueString = statemachine.Name
-	case "ComputedPrefix":
-		res.valueString = statemachine.ComputedPrefix
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", statemachine.IsExpanded)
-		res.valueBool = statemachine.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := statemachine.LayoutDirection
-		res.valueString = enum.ToCodeString()
+	case "InitialState":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if statemachine.InitialState != nil {
+			res.valueString = statemachine.InitialState.Name
+			res.ids = statemachine.InitialState.GongGetUUID(stage)
+		}
 	case "States":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range statemachine.States {
@@ -7068,12 +7065,15 @@ func (statemachine *StateMachine) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
-	case "InitialState":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if statemachine.InitialState != nil {
-			res.valueString = statemachine.InitialState.Name
-			res.ids = statemachine.InitialState.GongGetUUID(stage)
-		}
+	case "ComputedPrefix":
+		res.valueString = statemachine.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", statemachine.IsExpanded)
+		res.valueBool = statemachine.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LayoutDirection":
+		enum := statemachine.LayoutDirection
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -7933,12 +7933,17 @@ func (statemachine *StateMachine) GongSetFieldValue(fieldName string, value Gong
 	// insertion point for per field code
 	case "Name":
 		statemachine.Name = value.GetValueString()
-	case "ComputedPrefix":
-		statemachine.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		statemachine.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		statemachine.LayoutDirection.FromCodeString(value.GetValueString())
+	case "InitialState":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			statemachine.InitialState = nil
+			for __instance__ := range stage.States {
+				if stage.State_stagedOrder[__instance__] == uint(id) {
+					statemachine.InitialState = __instance__
+					break
+				}
+			}
+		}
 	case "States":
 		statemachine.States = make([]*State, 0)
 		ids := strings.Split(value.ids, ";")
@@ -7967,17 +7972,12 @@ func (statemachine *StateMachine) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
-	case "InitialState":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			statemachine.InitialState = nil
-			for __instance__ := range stage.States {
-				if stage.State_stagedOrder[__instance__] == uint(id) {
-					statemachine.InitialState = __instance__
-					break
-				}
-			}
-		}
+	case "ComputedPrefix":
+		statemachine.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		statemachine.IsExpanded = value.GetValueBool()
+	case "LayoutDirection":
+		statemachine.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

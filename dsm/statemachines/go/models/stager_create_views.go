@@ -8,7 +8,7 @@ func getFileName(stager *Stager) string {
 	if stager.stage.OnInitCommitCallback != nil {
 		return stager.fileName
 	} else {
-		return "no persistance"
+		return "\"" + stager.fileName + "\", can be saved by download only"
 	}
 }
 
@@ -101,7 +101,6 @@ func (stager *Stager) createViews() {
 											StackName: stager.probeForm.GetFormStage().GetName(),
 										},
 									},
-
 								},
 							},
 						},
@@ -112,7 +111,7 @@ func (stager *Stager) createViews() {
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name: "Model view",
+		Name: "Edit + Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Name:             "Main view area",
