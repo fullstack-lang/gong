@@ -60,10 +60,12 @@ func _(stage *models.Stage) {
 	__Port__00000000_ := (&models.Port{Name: `Port 1`}).Stage(stage)
 	__Port__00000001_ := (&models.Port{Name: `Port 2`}).Stage(stage)
 	__Port__00000002_ := (&models.Port{Name: `Port 3`}).Stage(stage)
+	__Port__00000003_ := (&models.Port{Name: ``}).Stage(stage)
 
 	__PortShape__00000009_ := (&models.PortShape{Name: `Port 1-DiagramStructure`}).Stage(stage)
 	__PortShape__00000010_ := (&models.PortShape{Name: `-DiagramStructure`}).Stage(stage)
 	__PortShape__00000013_ := (&models.PortShape{Name: `Port 3-DiagramStructure`}).Stage(stage)
+	__PortShape__00000016_ := (&models.PortShape{Name: `-DiagramStructure`}).Stage(stage)
 
 	__System__00000000_ := (&models.System{Name: `System 1`}).Stage(stage)
 	__System__00000001_ := (&models.System{Name: ``}).Stage(stage)
@@ -115,7 +117,7 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.Width = 1652.999939
 	__DiagramStructure__00000000_.Height = 1326.999985
 	__DiagramStructure__00000000_.IsSystemsNodeExpanded = false
-	__DiagramStructure__00000000_.IsPartsNodeExpanded = false
+	__DiagramStructure__00000000_.IsPartsNodeExpanded = true
 	__DiagramStructure__00000000_.IsExternalPartsNodeExpanded = false
 	__DiagramStructure__00000000_.IsNotesNodeExpanded = true
 
@@ -270,6 +272,12 @@ func _(stage *models.Stage) {
 	__Port__00000002_.IsExpanded = false
 	__Port__00000002_.LayoutDirection = models.Vertical
 
+	__Port__00000003_.Name = ``
+	__Port__00000003_.Description = ``
+	__Port__00000003_.ComputedPrefix = ``
+	__Port__00000003_.IsExpanded = false
+	__Port__00000003_.LayoutDirection = models.Vertical
+
 	__PortShape__00000009_.Name = `Port 1-DiagramStructure`
 	__PortShape__00000009_.IsExpanded = false
 	__PortShape__00000009_.X = 419.000000
@@ -289,10 +297,18 @@ func _(stage *models.Stage) {
 	__PortShape__00000013_.Name = `Port 3-DiagramStructure`
 	__PortShape__00000013_.IsExpanded = false
 	__PortShape__00000013_.X = 183.000000
-	__PortShape__00000013_.Y = 405.397861
+	__PortShape__00000013_.Y = 340.397861
 	__PortShape__00000013_.Width = 40.000000
 	__PortShape__00000013_.Height = 40.000000
 	__PortShape__00000013_.IsHidden = false
+
+	__PortShape__00000016_.Name = `-DiagramStructure`
+	__PortShape__00000016_.IsExpanded = false
+	__PortShape__00000016_.X = 183.000000
+	__PortShape__00000016_.Y = 405.397861
+	__PortShape__00000016_.Width = 40.000000
+	__PortShape__00000016_.Height = 40.000000
+	__PortShape__00000016_.IsHidden = false
 
 	__System__00000000_.Name = `System 1`
 	__System__00000000_.Description = ``
@@ -355,6 +371,7 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.Port_Shapes = append(__DiagramStructure__00000000_.Port_Shapes, __PortShape__00000009_)
 	__DiagramStructure__00000000_.Port_Shapes = append(__DiagramStructure__00000000_.Port_Shapes, __PortShape__00000010_)
 	__DiagramStructure__00000000_.Port_Shapes = append(__DiagramStructure__00000000_.Port_Shapes, __PortShape__00000013_)
+	__DiagramStructure__00000000_.Port_Shapes = append(__DiagramStructure__00000000_.Port_Shapes, __PortShape__00000016_)
 	__DiagramStructure__00000000_.DataFlow_Shapes = append(__DiagramStructure__00000000_.DataFlow_Shapes, __DataFlowShape__00000000_)
 	__DiagramStructure__00000000_.Data_Shapes = append(__DiagramStructure__00000000_.Data_Shapes, __DataShape__00000000_)
 	__DiagramStructure__00000000_.Note_Shapes = append(__DiagramStructure__00000000_.Note_Shapes, __NoteShape__00000000_)
@@ -377,6 +394,7 @@ func _(stage *models.Stage) {
 	__NoteShape__00000000_.Note = __Note__00000000_
 	__Part__00000000_.Ports = append(__Part__00000000_.Ports, __Port__00000000_)
 	__Part__00000000_.Ports = append(__Part__00000000_.Ports, __Port__00000002_)
+	__Part__00000000_.Ports = append(__Part__00000000_.Ports, __Port__00000003_)
 	__Part__00000000_.TypeOfPart = nil
 	__Part__00000000_.PortWhoseOutDataFlowsNodeIsExpanded = append(__Part__00000000_.PortWhoseOutDataFlowsNodeIsExpanded, __Port__00000000_)
 	__Part__00000001_.Ports = append(__Part__00000001_.Ports, __Port__00000001_)
@@ -387,6 +405,7 @@ func _(stage *models.Stage) {
 	__PortShape__00000009_.Port = __Port__00000000_
 	__PortShape__00000010_.Port = __Port__00000001_
 	__PortShape__00000013_.Port = __Port__00000002_
+	__PortShape__00000016_.Port = __Port__00000003_
 	__System__00000000_.DiagramStructures = append(__System__00000000_.DiagramStructures, __DiagramStructure__00000000_)
 	__System__00000000_.DiagramStructures = append(__System__00000000_.DiagramStructures, __DiagramStructure__00000002_)
 	__System__00000000_.DiagramStructureWhoseNodeIsExpanded = append(__System__00000000_.DiagramStructureWhoseNodeIsExpanded, __DiagramStructure__00000000_)
