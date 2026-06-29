@@ -7004,11 +7004,6 @@ func (dataflow *DataFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:                 "Type",
-			GongFieldValueType:   GongFieldValueTypeString,
-			TargetGongstructName: "DataFlowType",
-		},
-		{
 			Name:                 "Direction",
 			GongFieldValueType:   GongFieldValueTypeString,
 			TargetGongstructName: "DataFlowDirection",
@@ -7029,6 +7024,11 @@ func (dataflow *DataFlow) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "LayoutDirection",
 			GongFieldValueType:   GongFieldValueTypeInt,
 			TargetGongstructName: "LayoutDirection",
+		},
+		{
+			Name:                 "Type",
+			GongFieldValueType:   GongFieldValueTypeString,
+			TargetGongstructName: "DataFlowType",
 		},
 	}
 	return
@@ -8306,9 +8306,6 @@ func (dataflow *DataFlow) GongGetFieldValue(fieldName string, stage *Stage) (res
 		}
 	case "Description":
 		res.valueString = dataflow.Description
-	case "Type":
-		enum := dataflow.Type
-		res.valueString = enum.ToCodeString()
 	case "Direction":
 		enum := dataflow.Direction
 		res.valueString = enum.ToCodeString()
@@ -8324,6 +8321,9 @@ func (dataflow *DataFlow) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "LayoutDirection":
 		enum := dataflow.LayoutDirection
+		res.valueString = enum.ToCodeString()
+	case "Type":
+		enum := dataflow.Type
 		res.valueString = enum.ToCodeString()
 	}
 	return
@@ -9781,8 +9781,6 @@ func (dataflow *DataFlow) GongSetFieldValue(fieldName string, value GongFieldVal
 		}
 	case "Description":
 		dataflow.Description = value.GetValueString()
-	case "Type":
-		dataflow.Type.FromCodeString(value.GetValueString())
 	case "Direction":
 		dataflow.Direction.FromCodeString(value.GetValueString())
 	case "IsDatasNodeExpanded":
@@ -9793,6 +9791,8 @@ func (dataflow *DataFlow) GongSetFieldValue(fieldName string, value GongFieldVal
 		dataflow.IsExpanded = value.GetValueBool()
 	case "LayoutDirection":
 		dataflow.LayoutDirection.FromCodeString(value.GetValueString())
+	case "Type":
+		dataflow.Type.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

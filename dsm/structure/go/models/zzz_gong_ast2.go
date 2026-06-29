@@ -669,8 +669,6 @@ func (u *DataFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		GongUnmarshallSliceOfPointers(&instance.Datas, valueExpr, identifierMap)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
-	case "Type":
-		GongUnmarshallEnum(&instance.Type, valueExpr)
 	case "Direction":
 		GongUnmarshallEnum(&instance.Direction, valueExpr)
 	case "IsDatasNodeExpanded":
@@ -681,6 +679,8 @@ func (u *DataFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "LayoutDirection":
 		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "Type":
+		GongUnmarshallEnum(&instance.Type, valueExpr)
 	}
 	return nil
 }

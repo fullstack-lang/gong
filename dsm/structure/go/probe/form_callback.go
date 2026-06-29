@@ -951,8 +951,6 @@ func (dataflowFormCallback *DataFlowFormCallback) OnSave() {
 
 		case "Description":
 			FormDivBasicFieldToField(&(dataflow_.Description), formDiv)
-		case "Type":
-			FormDivEnumStringFieldToField(&(dataflow_.Type), formDiv)
 		case "Direction":
 			FormDivEnumStringFieldToField(&(dataflow_.Direction), formDiv)
 		case "IsDatasNodeExpanded":
@@ -963,6 +961,8 @@ func (dataflowFormCallback *DataFlowFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(dataflow_.IsExpanded), formDiv)
 		case "LayoutDirection":
 			FormDivEnumIntFieldToField(&(dataflow_.LayoutDirection), formDiv)
+		case "Type":
+			FormDivEnumStringFieldToField(&(dataflow_.Type), formDiv)
 		case "DiagramStructure:DataFlowsWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
