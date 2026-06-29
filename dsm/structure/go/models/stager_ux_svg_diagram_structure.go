@@ -50,6 +50,7 @@ func (stager *Stager) generateSvgObject(diagramStructure *DiagramStructure) *svg
 	diagramStructure.map_SvgRect_PortShape = make(map[*svg.Rect]*PortShape)
 	diagramStructure.map_SvgRect_ExternalPartShape = map[*svg.Rect]*ExternalPartShape{}
 	diagramStructure.map_SvgRect_Part = map[*svg.Rect]*Part{}
+	diagramStructure.map_SvgRect_NoteShape = map[*svg.Rect]*NoteShape{}
 
 	// // to implement association between abstract elements by mouse drag
 	// svgImpl := &svgProxy{
@@ -78,6 +79,7 @@ func (stager *Stager) generateSvgObject(diagramStructure *DiagramStructure) *svg
 	stager.drawDataFlowShapes(diagramStructure, layer)
 	map_Note_Rect := stager.drawNoteShapes(diagramStructure, layer)
 	stager.drawNotePortShapes(diagramStructure, layer, map_Note_Rect)
+	stager.drawNotePartShapes(diagramStructure, layer, map_Note_Rect)
 
 	return svgObject
 }
@@ -435,6 +437,47 @@ func (stager *Stager) drawControlFlowShapes(diagramStructure *DiagramStructure, 
 	}
 }
 
+func (stager *Stager) drawNotePartShapes(diagramStructure *DiagramStructure, layer *svg.Layer, map_Note_Rect map[*Note]*svg.Rect) {
+	for _, notePartShape := range diagramStructure.NotePartShapes {
+		if notePartShape.GetIsHidden() {
+			continue
+		}
+
+		startNote := notePartShape.Note
+		endPart := notePartShape.Part
+
+		if startNote == nil || endPart == nil {
+			continue
+		}
+
+		startRect := map_Note_Rect[startNote]
+		endRect := diagramStructure.map_Part_Rect[endPart]
+
+		if startRect == nil || endRect == nil {
+			continue
+		}
+
+		link := svgAssociationLink(
+			stager,
+			startRect, endRect,
+			notePartShape,
+			startNote,
+			layer,
+			false)
+
+		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+		link.StartAnchorType = svg.ANCHOR_CENTER
+		link.EndAnchorType = svg.ANCHOR_CENTER
+		link.HasEndArrow = false
+
+		link.Presentation.StrokeDashArray = "5,5"
+		link.Stroke = "#9E9E9E"
+		link.StrokeWidth = 1.5
+
+		_ = link
+	}
+}
+
 func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, layer *svg.Layer) {
 	for _, dataFlowShape := range diagramStructure.DataFlow_Shapes {
 		if dataFlowShape.GetIsHidden() {
@@ -558,6 +601,7 @@ func (stager *Stager) drawNoteShapes(diagramStructure *DiagramStructure, layer *
 			layer)
 
 		map_Note_Rect[noteShape.Note] = rect
+		diagramStructure.map_SvgRect_NoteShape[rect] = noteShape
 
 		rect.RX = 0
 		rect.Color = "#FFF9C4"

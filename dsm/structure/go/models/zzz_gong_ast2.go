@@ -864,6 +864,8 @@ func (u *DiagramStructureUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.IsNotesNodeExpanded = GongExtractBool(valueExpr)
 	case "NotePortShapes":
 		GongUnmarshallSliceOfPointers(&instance.NotePortShapes, valueExpr, identifierMap)
+	case "NotePartShapes":
+		GongUnmarshallSliceOfPointers(&instance.NotePartShapes, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -1029,10 +1031,59 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "LayoutDirection":
 		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
+	case "IsPartsNodeExpanded":
+		instance.IsPartsNodeExpanded = GongExtractBool(valueExpr)
+	case "Parts":
+		GongUnmarshallSliceOfPointers(&instance.Parts, valueExpr, identifierMap)
 	case "IsPortsNodeExpanded":
 		instance.IsPortsNodeExpanded = GongExtractBool(valueExpr)
 	case "Ports":
 		GongUnmarshallSliceOfPointers(&instance.Ports, valueExpr, identifierMap)
+	}
+	return nil
+}
+
+type NotePartShapeUnmarshaller struct{}
+
+func (u *NotePartShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(NotePartShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *NotePartShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*NotePartShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "Note":
+		GongUnmarshallPointer(&instance.Note, valueExpr, identifierMap)
+	case "Part":
+		GongUnmarshallPointer(&instance.Part, valueExpr, identifierMap)
+	case "StartRatio":
+		instance.StartRatio = GongExtractFloat(valueExpr)
+	case "EndRatio":
+		instance.EndRatio = GongExtractFloat(valueExpr)
+	case "StartOrientation":
+		GongUnmarshallEnum(&instance.StartOrientation, valueExpr)
+	case "EndOrientation":
+		GongUnmarshallEnum(&instance.EndOrientation, valueExpr)
+	case "CornerOffsetRatio":
+		instance.CornerOffsetRatio = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }

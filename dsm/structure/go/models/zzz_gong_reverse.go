@@ -260,6 +260,22 @@ func (inst *Note) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	return
 }
 
+func (inst *NotePartShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramStructure":
+		switch reverseField.Fieldname {
+		case "NotePartShapes":
+			if _diagramstructure, ok := stage.DiagramStructure_NotePartShapes_reverseMap[inst]; ok {
+				res = _diagramstructure.Name
+			}
+		}
+	}
+	return
+}
+
 func (inst *NotePortShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -321,6 +337,13 @@ func (inst *Part) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 		case "PartsWhoseNodeIsExpanded":
 			if _library, ok := stage.Library_PartsWhoseNodeIsExpanded_reverseMap[inst]; ok {
 				res = _library.Name
+			}
+		}
+	case "Note":
+		switch reverseField.Fieldname {
+		case "Parts":
+			if _note, ok := stage.Note_Parts_reverseMap[inst]; ok {
+				res = _note.Name
 			}
 		}
 	case "System":
@@ -732,6 +755,20 @@ func (inst *Note) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 	return res
 }
 
+func (inst *NotePartShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	case "DiagramStructure":
+		switch reverseField.Fieldname {
+		case "NotePartShapes":
+			res = stage.DiagramStructure_NotePartShapes_reverseMap[inst]
+		}
+	}
+	return res
+}
+
 func (inst *NotePortShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -780,6 +817,11 @@ func (inst *Part) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 		switch reverseField.Fieldname {
 		case "PartsWhoseNodeIsExpanded":
 			res = stage.Library_PartsWhoseNodeIsExpanded_reverseMap[inst]
+		}
+	case "Note":
+		switch reverseField.Fieldname {
+		case "Parts":
+			res = stage.Note_Parts_reverseMap[inst]
 		}
 	case "System":
 		switch reverseField.Fieldname {

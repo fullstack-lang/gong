@@ -53,6 +53,15 @@ func (stager *Stager) enforceStagerMaps() {
 			}
 			diagramStructure.map_Note_NotePortShape[key] = notePortShape
 		}
+
+		diagramStructure.map_Note_NotePartShape = make(map[notePartKey]*NotePartShape)
+		for _, notePartShape := range diagramStructure.NotePartShapes {
+			key := notePartKey{
+				Note: notePartShape.Note,
+				Part: notePartShape.Part,
+			}
+			diagramStructure.map_Note_NotePartShape[key] = notePartShape
+		}
 	}
 
 	stager.rm_Data_DataFlows = GetSliceOfPointersReverseMap[DataFlow, Data](GetAssociationName[DataFlow]().Datas[0].Name, stager.stage)

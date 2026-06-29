@@ -54,6 +54,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterNoteCreateCallback != nil {
 			stage.OnAfterNoteCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *NotePartShape:
+		if stage.OnAfterNotePartShapeCreateCallback != nil {
+			stage.OnAfterNotePartShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *NotePortShape:
 		if stage.OnAfterNotePortShapeCreateCallback != nil {
 			stage.OnAfterNotePortShapeCreateCallback.OnAfterCreate(stage, target)
@@ -167,6 +171,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Note)
 		if stage.OnAfterNoteUpdateCallback != nil {
 			stage.OnAfterNoteUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *NotePartShape:
+		newTarget := any(new).(*NotePartShape)
+		if stage.OnAfterNotePartShapeUpdateCallback != nil {
+			stage.OnAfterNotePartShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *NotePortShape:
 		newTarget := any(new).(*NotePortShape)
@@ -288,6 +297,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Note)
 			stage.OnAfterNoteDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *NotePartShape:
+		if stage.OnAfterNotePartShapeDeleteCallback != nil {
+			staged := any(staged).(*NotePartShape)
+			stage.OnAfterNotePartShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *NotePortShape:
 		if stage.OnAfterNotePortShapeDeleteCallback != nil {
 			staged := any(staged).(*NotePortShape)
@@ -396,6 +410,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterNoteReadCallback != nil {
 			stage.OnAfterNoteReadCallback.OnAfterRead(stage, target)
 		}
+	case *NotePartShape:
+		if stage.OnAfterNotePartShapeReadCallback != nil {
+			stage.OnAfterNotePartShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *NotePortShape:
 		if stage.OnAfterNotePortShapeReadCallback != nil {
 			stage.OnAfterNotePortShapeReadCallback.OnAfterRead(stage, target)
@@ -471,6 +489,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *Note:
 		stage.OnAfterNoteUpdateCallback = any(callback).(OnAfterUpdateInterface[Note])
+	case *NotePartShape:
+		stage.OnAfterNotePartShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NotePartShape])
 	case *NotePortShape:
 		stage.OnAfterNotePortShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NotePortShape])
 	case *NoteShape:
@@ -522,6 +542,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *Note:
 		stage.OnAfterNoteCreateCallback = any(callback).(OnAfterCreateInterface[Note])
+	case *NotePartShape:
+		stage.OnAfterNotePartShapeCreateCallback = any(callback).(OnAfterCreateInterface[NotePartShape])
 	case *NotePortShape:
 		stage.OnAfterNotePortShapeCreateCallback = any(callback).(OnAfterCreateInterface[NotePortShape])
 	case *NoteShape:
@@ -573,6 +595,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *Note:
 		stage.OnAfterNoteDeleteCallback = any(callback).(OnAfterDeleteInterface[Note])
+	case *NotePartShape:
+		stage.OnAfterNotePartShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NotePartShape])
 	case *NotePortShape:
 		stage.OnAfterNotePortShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NotePortShape])
 	case *NoteShape:
@@ -624,6 +648,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *Note:
 		stage.OnAfterNoteReadCallback = any(callback).(OnAfterReadInterface[Note])
+	case *NotePartShape:
+		stage.OnAfterNotePartShapeReadCallback = any(callback).(OnAfterReadInterface[NotePartShape])
 	case *NotePortShape:
 		stage.OnAfterNotePortShapeReadCallback = any(callback).(OnAfterReadInterface[NotePortShape])
 	case *NoteShape:

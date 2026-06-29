@@ -43,6 +43,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Note:
 		ok = stage.IsStagedNote(target)
 
+	case *NotePartShape:
+		ok = stage.IsStagedNotePartShape(target)
+
 	case *NotePortShape:
 		ok = stage.IsStagedNotePortShape(target)
 
@@ -118,6 +121,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Note:
 		ok = stage.IsStagedNote(target)
+
+	case *NotePartShape:
+		ok = stage.IsStagedNotePartShape(target)
 
 	case *NotePortShape:
 		ok = stage.IsStagedNotePortShape(target)
@@ -240,6 +246,13 @@ func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedNotePartShape(notepartshape *NotePartShape) (ok bool) {
+
+	_, ok = stage.NotePartShapes[notepartshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedNotePortShape(noteportshape *NotePortShape) (ok bool) {
 
 	_, ok = stage.NotePortShapes[noteportshape]
@@ -353,6 +366,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Note:
 		stage.StageBranchNote(target)
+
+	case *NotePartShape:
+		stage.StageBranchNotePartShape(target)
 
 	case *NotePortShape:
 		stage.StageBranchNotePortShape(target)
@@ -639,6 +655,9 @@ func (stage *Stage) StageBranchDiagramStructure(diagramstructure *DiagramStructu
 	for _, _noteportshape := range diagramstructure.NotePortShapes {
 		StageBranch(stage, _noteportshape)
 	}
+	for _, _notepartshape := range diagramstructure.NotePartShapes {
+		StageBranch(stage, _notepartshape)
+	}
 
 }
 
@@ -726,9 +745,33 @@ func (stage *Stage) StageBranchNote(note *Note) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _part := range note.Parts {
+		StageBranch(stage, _part)
+	}
 	for _, _port := range note.Ports {
 		StageBranch(stage, _port)
 	}
+
+}
+
+func (stage *Stage) StageBranchNotePartShape(notepartshape *NotePartShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, notepartshape) {
+		return
+	}
+
+	notepartshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if notepartshape.Note != nil {
+		StageBranch(stage, notepartshape.Note)
+	}
+	if notepartshape.Part != nil {
+		StageBranch(stage, notepartshape.Part)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -1005,6 +1048,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Note:
 		toT := CopyBranchNote(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *NotePartShape:
+		toT := CopyBranchNotePartShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *NotePortShape:
@@ -1338,6 +1385,9 @@ func CopyBranchDiagramStructure(mapOrigCopy map[any]any, diagramstructureFrom *D
 	for _, _noteportshape := range diagramstructureFrom.NotePortShapes {
 		diagramstructureTo.NotePortShapes = append(diagramstructureTo.NotePortShapes, CopyBranchNotePortShape(mapOrigCopy, _noteportshape))
 	}
+	for _, _notepartshape := range diagramstructureFrom.NotePartShapes {
+		diagramstructureTo.NotePartShapes = append(diagramstructureTo.NotePartShapes, CopyBranchNotePartShape(mapOrigCopy, _notepartshape))
+	}
 
 	return
 }
@@ -1437,9 +1487,37 @@ func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _part := range noteFrom.Parts {
+		noteTo.Parts = append(noteTo.Parts, CopyBranchPart(mapOrigCopy, _part))
+	}
 	for _, _port := range noteFrom.Ports {
 		noteTo.Ports = append(noteTo.Ports, CopyBranchPort(mapOrigCopy, _port))
 	}
+
+	return
+}
+
+func CopyBranchNotePartShape(mapOrigCopy map[any]any, notepartshapeFrom *NotePartShape) (notepartshapeTo *NotePartShape) {
+
+	// notepartshapeFrom has already been copied
+	if _notepartshapeTo, ok := mapOrigCopy[notepartshapeFrom]; ok {
+		notepartshapeTo = _notepartshapeTo.(*NotePartShape)
+		return
+	}
+
+	notepartshapeTo = new(NotePartShape)
+	mapOrigCopy[notepartshapeFrom] = notepartshapeTo
+	notepartshapeFrom.CopyBasicFields(notepartshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if notepartshapeFrom.Note != nil {
+		notepartshapeTo.Note = CopyBranchNote(mapOrigCopy, notepartshapeFrom.Note)
+	}
+	if notepartshapeFrom.Part != nil {
+		notepartshapeTo.Part = CopyBranchPart(mapOrigCopy, notepartshapeFrom.Part)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -1744,6 +1822,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Note:
 		stage.UnstageBranchNote(target)
 
+	case *NotePartShape:
+		stage.UnstageBranchNotePartShape(target)
+
 	case *NotePortShape:
 		stage.UnstageBranchNotePortShape(target)
 
@@ -2029,6 +2110,9 @@ func (stage *Stage) UnstageBranchDiagramStructure(diagramstructure *DiagramStruc
 	for _, _noteportshape := range diagramstructure.NotePortShapes {
 		UnstageBranch(stage, _noteportshape)
 	}
+	for _, _notepartshape := range diagramstructure.NotePartShapes {
+		UnstageBranch(stage, _notepartshape)
+	}
 
 }
 
@@ -2116,9 +2200,33 @@ func (stage *Stage) UnstageBranchNote(note *Note) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _part := range note.Parts {
+		UnstageBranch(stage, _part)
+	}
 	for _, _port := range note.Ports {
 		UnstageBranch(stage, _port)
 	}
+
+}
+
+func (stage *Stage) UnstageBranchNotePartShape(notepartshape *NotePartShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, notepartshape) {
+		return
+	}
+
+	notepartshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if notepartshape.Note != nil {
+		UnstageBranch(stage, notepartshape.Note)
+	}
+	if notepartshape.Part != nil {
+		UnstageBranch(stage, notepartshape.Part)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -2524,6 +2632,10 @@ func (reference *DiagramStructure) GongReconstructPointersFromReferences(stage *
 	for _, _b := range instance.NotePortShapes {
 		reference.NotePortShapes = append(reference.NotePortShapes, stage.NotePortShapes_reference[_b])
 	}
+	reference.NotePartShapes = reference.NotePartShapes[:0]
+	for _, _b := range instance.NotePartShapes {
+		reference.NotePartShapes = append(reference.NotePartShapes, stage.NotePartShapes_reference[_b])
+	}
 }
 
 func (reference *ExternalPartShape) GongReconstructPointersFromReferences(stage *Stage, instance *ExternalPartShape) {
@@ -2594,10 +2706,25 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 func (reference *Note) GongReconstructPointersFromReferences(stage *Stage, instance *Note) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
+	reference.Parts = reference.Parts[:0]
+	for _, _b := range instance.Parts {
+		reference.Parts = append(reference.Parts, stage.Parts_reference[_b])
+	}
 	reference.Ports = reference.Ports[:0]
 	for _, _b := range instance.Ports {
 		reference.Ports = append(reference.Ports, stage.Ports_reference[_b])
 	}
+}
+
+func (reference *NotePartShape) GongReconstructPointersFromReferences(stage *Stage, instance *NotePartShape) {
+	// insertion point for pointers field
+	if instance.Note != nil {
+		reference.Note = stage.Notes_reference[instance.Note]
+	}
+	if instance.Part != nil {
+		reference.Part = stage.Parts_reference[instance.Part]
+	}
+	// insertion point for slice of pointers field
 }
 
 func (reference *NotePortShape) GongReconstructPointersFromReferences(stage *Stage, instance *NotePortShape) {
@@ -3034,6 +3161,13 @@ func (reference *DiagramStructure) GongReconstructPointersFromInstances(stage *S
 		}
 	}
 	reference.NotePortShapes = _NotePortShapes
+	var _NotePartShapes []*NotePartShape
+	for _, _reference := range reference.NotePartShapes {
+		if _instance, ok := stage.NotePartShapes_instance[_reference]; ok {
+			_NotePartShapes = append(_NotePartShapes, _instance)
+		}
+	}
+	reference.NotePartShapes = _NotePartShapes
 }
 
 func (reference *ExternalPartShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -3146,6 +3280,13 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
+	var _Parts []*Part
+	for _, _reference := range reference.Parts {
+		if _instance, ok := stage.Parts_instance[_reference]; ok {
+			_Parts = append(_Parts, _instance)
+		}
+	}
+	reference.Parts = _Parts
 	var _Ports []*Port
 	for _, _reference := range reference.Ports {
 		if _instance, ok := stage.Ports_instance[_reference]; ok {
@@ -3153,6 +3294,23 @@ func (reference *Note) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Ports = _Ports
+}
+
+func (reference *NotePartShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	if _reference := reference.Note; _reference != nil {
+		reference.Note = nil
+		if _instance, ok := stage.Notes_instance[_reference]; ok {
+			reference.Note = _instance
+		}
+	}
+	if _reference := reference.Part; _reference != nil {
+		reference.Part = nil
+		if _instance, ok := stage.Parts_instance[_reference]; ok {
+			reference.Part = _instance
+		}
+	}
+	// insertion point for slice of pointers fields
 }
 
 func (reference *NotePortShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -4206,6 +4364,27 @@ func (diagramstructure *DiagramStructure) GongDiff(stage *Stage, diagramstructur
 		ops := Diff(stage, diagramstructure, diagramstructureOther, "NotePortShapes", diagramstructureOther.NotePortShapes, diagramstructure.NotePortShapes)
 		diffs = append(diffs, ops)
 	}
+	NotePartShapesDifferent := false
+	if len(diagramstructure.NotePartShapes) != len(diagramstructureOther.NotePartShapes) {
+		NotePartShapesDifferent = true
+	} else {
+		for i := range diagramstructure.NotePartShapes {
+			if (diagramstructure.NotePartShapes[i] == nil) != (diagramstructureOther.NotePartShapes[i] == nil) {
+				NotePartShapesDifferent = true
+				break
+			} else if diagramstructure.NotePartShapes[i] != nil && diagramstructureOther.NotePartShapes[i] != nil {
+				// this is a pointer comparaison
+				if diagramstructure.NotePartShapes[i] != diagramstructureOther.NotePartShapes[i] {
+					NotePartShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if NotePartShapesDifferent {
+		ops := Diff(stage, diagramstructure, diagramstructureOther, "NotePartShapes", diagramstructureOther.NotePartShapes, diagramstructure.NotePartShapes)
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -4594,6 +4773,30 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	if note.LayoutDirection != noteOther.LayoutDirection {
 		diffs = append(diffs, note.GongMarshallField(stage, "LayoutDirection"))
 	}
+	if note.IsPartsNodeExpanded != noteOther.IsPartsNodeExpanded {
+		diffs = append(diffs, note.GongMarshallField(stage, "IsPartsNodeExpanded"))
+	}
+	PartsDifferent := false
+	if len(note.Parts) != len(noteOther.Parts) {
+		PartsDifferent = true
+	} else {
+		for i := range note.Parts {
+			if (note.Parts[i] == nil) != (noteOther.Parts[i] == nil) {
+				PartsDifferent = true
+				break
+			} else if note.Parts[i] != nil && noteOther.Parts[i] != nil {
+				// this is a pointer comparaison
+				if note.Parts[i] != noteOther.Parts[i] {
+					PartsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PartsDifferent {
+		ops := Diff(stage, note, noteOther, "Parts", noteOther.Parts, note.Parts)
+		diffs = append(diffs, ops)
+	}
 	if note.IsPortsNodeExpanded != noteOther.IsPortsNodeExpanded {
 		diffs = append(diffs, note.GongMarshallField(stage, "IsPortsNodeExpanded"))
 	}
@@ -4617,6 +4820,49 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	if PortsDifferent {
 		ops := Diff(stage, note, noteOther, "Ports", noteOther.Ports, note.Ports)
 		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (notepartshape *NotePartShape) GongDiff(stage *Stage, notepartshapeOther *NotePartShape) (diffs []string) {
+	// insertion point for field diffs
+	if notepartshape.Name != notepartshapeOther.Name {
+		diffs = append(diffs, notepartshape.GongMarshallField(stage, "Name"))
+	}
+	if (notepartshape.Note == nil) != (notepartshapeOther.Note == nil) {
+		diffs = append(diffs, notepartshape.GongMarshallField(stage, "Note"))
+	} else if notepartshape.Note != nil && notepartshapeOther.Note != nil {
+		if notepartshape.Note != notepartshapeOther.Note {
+			diffs = append(diffs, notepartshape.GongMarshallField(stage, "Note"))
+		}
+	}
+	if (notepartshape.Part == nil) != (notepartshapeOther.Part == nil) {
+		diffs = append(diffs, notepartshape.GongMarshallField(stage, "Part"))
+	} else if notepartshape.Part != nil && notepartshapeOther.Part != nil {
+		if notepartshape.Part != notepartshapeOther.Part {
+			diffs = append(diffs, notepartshape.GongMarshallField(stage, "Part"))
+		}
+	}
+	if notepartshape.StartRatio != notepartshapeOther.StartRatio {
+		diffs = append(diffs, notepartshape.GongMarshallField(stage, "StartRatio"))
+	}
+	if notepartshape.EndRatio != notepartshapeOther.EndRatio {
+		diffs = append(diffs, notepartshape.GongMarshallField(stage, "EndRatio"))
+	}
+	if notepartshape.StartOrientation != notepartshapeOther.StartOrientation {
+		diffs = append(diffs, notepartshape.GongMarshallField(stage, "StartOrientation"))
+	}
+	if notepartshape.EndOrientation != notepartshapeOther.EndOrientation {
+		diffs = append(diffs, notepartshape.GongMarshallField(stage, "EndOrientation"))
+	}
+	if notepartshape.CornerOffsetRatio != notepartshapeOther.CornerOffsetRatio {
+		diffs = append(diffs, notepartshape.GongMarshallField(stage, "CornerOffsetRatio"))
+	}
+	if notepartshape.IsHidden != notepartshapeOther.IsHidden {
+		diffs = append(diffs, notepartshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return

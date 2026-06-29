@@ -16,6 +16,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	reachableDataShapes := make(map[*DataShape]struct{})
 	reachableNoteShapes := make(map[*NoteShape]struct{})
 	reachableNotePortShapes := make(map[*NotePortShape]struct{})
+	reachableNotePartShapes := make(map[*NotePartShape]struct{})
 
 	for _, diagram := range GetGongstrucsSorted[*DiagramStructure](stager.stage) {
 		collectShapes(diagram.System_Shapes, reachableSystemShapes)
@@ -27,6 +28,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 		collectShapes(diagram.Data_Shapes, reachableDataShapes)
 		collectShapes(diagram.Note_Shapes, reachableNoteShapes)
 		collectShapes(diagram.NotePortShapes, reachableNotePortShapes)
+		collectShapes(diagram.NotePartShapes, reachableNotePartShapes)
 	}
 
 	// 2. unstage shapes that are not attached to a diagram
@@ -39,6 +41,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	needCommit = unstageUnreachableOrphans(stager, reachableDataShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableNoteShapes) || needCommit
 	needCommit = unstageUnreachableOrphans(stager, reachableNotePortShapes) || needCommit
+	needCommit = unstageUnreachableOrphans(stager, reachableNotePartShapes) || needCommit
 
 	return
 }

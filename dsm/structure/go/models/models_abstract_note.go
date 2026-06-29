@@ -10,6 +10,9 @@ type Note struct {
 	LibraryAbstractFields
 	AbstractTypeFields
 
+	IsPartsNodeExpanded bool
+	Parts               []*Part
+
 	IsPortsNodeExpanded bool
 	Ports               []*Port
 }

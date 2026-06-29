@@ -396,6 +396,7 @@ func FillUpForm(
 		BasicFieldtoForm("IsNotesNodeExpanded", instanceWithInferedType.IsNotesNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("NotePortShapes", instanceWithInferedType, &instanceWithInferedType.NotePortShapes, formGroup, probe)
+		AssociationSliceToForm("NotePartShapes", instanceWithInferedType, &instanceWithInferedType.NotePartShapes, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -543,6 +544,9 @@ func FillUpForm(
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		EnumTypeIntToForm("LayoutDirection", instanceWithInferedType.LayoutDirection, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("IsPartsNodeExpanded", instanceWithInferedType.IsPartsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("Parts", instanceWithInferedType, &instanceWithInferedType.Parts, formGroup, probe)
 		BasicFieldtoForm("IsPortsNodeExpanded", instanceWithInferedType.IsPortsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		AssociationSliceToForm("Ports", instanceWithInferedType, &instanceWithInferedType.Ports, formGroup, probe)
@@ -582,6 +586,39 @@ func FillUpForm(
 				probe,
 				func(owner *models.Library) []*models.Note {
 					return owner.NotesWhoseNodeIsExpanded
+				})
+		}
+
+	case *models.NotePartShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationFieldToForm("Note", instanceWithInferedType.Note, formGroup, probe)
+		AssociationFieldToForm("Part", instanceWithInferedType.Part, formGroup, probe)
+		BasicFieldtoForm("StartRatio", instanceWithInferedType.StartRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("EndRatio", instanceWithInferedType.EndRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		EnumTypeStringToForm("StartOrientation", instanceWithInferedType.StartOrientation, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("EndOrientation", instanceWithInferedType.EndOrientation, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("CornerOffsetRatio", instanceWithInferedType.CornerOffsetRatio, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.DiagramStructure, *models.NotePartShape](
+				"DiagramStructure",
+				"NotePartShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.DiagramStructure) []*models.NotePartShape {
+					return owner.NotePartShapes
 				})
 		}
 
@@ -735,6 +772,17 @@ func FillUpForm(
 				probe,
 				func(owner *models.Library) []*models.Part {
 					return owner.PartsWhoseNodeIsExpanded
+				})
+		}
+		{
+			AssociationReverseSliceToForm[*models.Note, *models.Part](
+				"Note",
+				"Parts",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.Note) []*models.Part {
+					return owner.Parts
 				})
 		}
 		{

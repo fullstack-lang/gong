@@ -43,6 +43,10 @@ func _(stage *models.Stage) {
 
 	__Note__00000000_ := (&models.Note{Name: `Note on the diagram that show that there is wrapping`}).Stage(stage)
 
+	__NotePartShape__00000001_ := (&models.NotePartShape{Name: `P1 shape`}).Stage(stage)
+
+	__NotePortShape__00000001_ := (&models.NotePortShape{Name: `Port 1 shape`}).Stage(stage)
+
 	__NoteShape__00000000_ := (&models.NoteShape{Name: `Note on the diagram that show that there is wrapping shape`}).Stage(stage)
 
 	__Part__00000000_ := (&models.Part{Name: `P1`}).Stage(stage)
@@ -170,11 +174,28 @@ func _(stage *models.Stage) {
 	__Note__00000000_.ComputedPrefix = ``
 	__Note__00000000_.IsExpanded = false
 	__Note__00000000_.LayoutDirection = models.Vertical
-	__Note__00000000_.IsPortsNodeExpanded = false
+	__Note__00000000_.IsPartsNodeExpanded = true
+	__Note__00000000_.IsPortsNodeExpanded = true
+
+	__NotePartShape__00000001_.Name = `P1 shape`
+	__NotePartShape__00000001_.StartRatio = 0.000000
+	__NotePartShape__00000001_.EndRatio = 0.000000
+	__NotePartShape__00000001_.StartOrientation = ""
+	__NotePartShape__00000001_.EndOrientation = ""
+	__NotePartShape__00000001_.CornerOffsetRatio = 0.000000
+	__NotePartShape__00000001_.IsHidden = false
+
+	__NotePortShape__00000001_.Name = `Port 1 shape`
+	__NotePortShape__00000001_.StartRatio = 0.000000
+	__NotePortShape__00000001_.EndRatio = 0.000000
+	__NotePortShape__00000001_.StartOrientation = ""
+	__NotePortShape__00000001_.EndOrientation = ""
+	__NotePortShape__00000001_.CornerOffsetRatio = 0.000000
+	__NotePortShape__00000001_.IsHidden = false
 
 	__NoteShape__00000000_.Name = `Note on the diagram that show that there is wrapping shape`
-	__NoteShape__00000000_.X = 212.203176
-	__NoteShape__00000000_.Y = 145.642074
+	__NoteShape__00000000_.X = 183.203176
+	__NoteShape__00000000_.Y = 132.642074
 	__NoteShape__00000000_.Width = 202.000000
 	__NoteShape__00000000_.Height = 70.000000
 	__NoteShape__00000000_.IsHidden = false
@@ -337,6 +358,9 @@ func _(stage *models.Stage) {
 	__DiagramStructure__00000000_.DataFlow_Shapes = append(__DiagramStructure__00000000_.DataFlow_Shapes, __DataFlowShape__00000000_)
 	__DiagramStructure__00000000_.Data_Shapes = append(__DiagramStructure__00000000_.Data_Shapes, __DataShape__00000000_)
 	__DiagramStructure__00000000_.Note_Shapes = append(__DiagramStructure__00000000_.Note_Shapes, __NoteShape__00000000_)
+	__DiagramStructure__00000000_.NotesWhoseNodeIsExpanded = append(__DiagramStructure__00000000_.NotesWhoseNodeIsExpanded, __Note__00000000_)
+	__DiagramStructure__00000000_.NotePortShapes = append(__DiagramStructure__00000000_.NotePortShapes, __NotePortShape__00000001_)
+	__DiagramStructure__00000000_.NotePartShapes = append(__DiagramStructure__00000000_.NotePartShapes, __NotePartShape__00000001_)
 	__DiagramStructure__00000001_.System_Shapes = append(__DiagramStructure__00000001_.System_Shapes, __SystemShape__00000001_)
 	__DiagramStructure__00000002_.System_Shapes = append(__DiagramStructure__00000002_.System_Shapes, __SystemShape__00000002_)
 	__Library__00000000_.RootSystemes = append(__Library__00000000_.RootSystemes, __System__00000000_)
@@ -344,6 +368,12 @@ func _(stage *models.Stage) {
 	__Library__00000000_.RootDataFlows = append(__Library__00000000_.RootDataFlows, __DataFlow__00000000_)
 	__Library__00000000_.RootDatas = append(__Library__00000000_.RootDatas, __Data__00000000_)
 	__Library__00000000_.RootNotes = append(__Library__00000000_.RootNotes, __Note__00000000_)
+	__Note__00000000_.Parts = append(__Note__00000000_.Parts, __Part__00000000_)
+	__Note__00000000_.Ports = append(__Note__00000000_.Ports, __Port__00000000_)
+	__NotePartShape__00000001_.Note = __Note__00000000_
+	__NotePartShape__00000001_.Part = __Part__00000000_
+	__NotePortShape__00000001_.Note = __Note__00000000_
+	__NotePortShape__00000001_.Port = __Port__00000000_
 	__NoteShape__00000000_.Note = __Note__00000000_
 	__Part__00000000_.Ports = append(__Part__00000000_.Ports, __Port__00000000_)
 	__Part__00000000_.Ports = append(__Part__00000000_.Ports, __Port__00000002_)

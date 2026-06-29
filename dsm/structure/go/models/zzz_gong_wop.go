@@ -341,6 +341,8 @@ type Note_WOP struct {
 
 	LayoutDirection LayoutDirection
 
+	IsPartsNodeExpanded bool
+
 	IsPortsNodeExpanded bool
 }
 
@@ -351,7 +353,37 @@ func (from *Note) CopyBasicFields(to *Note) {
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.LayoutDirection = from.LayoutDirection
+	to.IsPartsNodeExpanded = from.IsPartsNodeExpanded
 	to.IsPortsNodeExpanded = from.IsPortsNodeExpanded
+}
+
+type NotePartShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+
+	IsHidden bool
+}
+
+func (from *NotePartShape) CopyBasicFields(to *NotePartShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+	to.IsHidden = from.IsHidden
 }
 
 type NotePortShape_WOP struct {
