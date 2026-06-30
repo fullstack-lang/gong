@@ -125,8 +125,8 @@ func _(stage *models.Stage) {
 	__StateMachine__00000000_.LayoutDirection = models.Vertical
 
 	__StateShape__00000000_.Name = `Start State, with a long name to show that there is a layout issue`
-	__StateShape__00000000_.X = 609.000000
-	__StateShape__00000000_.Y = 126.000000
+	__StateShape__00000000_.X = 608.000000
+	__StateShape__00000000_.Y = 123.000000
 	__StateShape__00000000_.Width = 200.000000
 	__StateShape__00000000_.Height = 20.000000
 	__StateShape__00000000_.IsHidden = false
@@ -147,9 +147,9 @@ func _(stage *models.Stage) {
 	__StateShape__00000002_.IsHidden = false
 
 	__StateShape__00000003_.Name = `End state, Start State, with a long name to show that there is a layout issue fdsfqdsfqs sf sdqf `
-	__StateShape__00000003_.X = 445.000000
-	__StateShape__00000003_.Y = 361.000000
-	__StateShape__00000003_.Width = 108.000000
+	__StateShape__00000003_.X = 366.000000
+	__StateShape__00000003_.Y = 358.000000
+	__StateShape__00000003_.Width = 186.000000
 	__StateShape__00000003_.Height = 36.000000
 	__StateShape__00000003_.IsHidden = false
 

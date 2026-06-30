@@ -183,11 +183,36 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 			rect4Bar.CanMoveHorizontaly = false
 
 			// connects the call on rect to the bar
-			barImpl := new(BarImpl)
-			barImpl.Bar = bar
-			barImpl.GanttToRender = gantt
-			barImpl.GongganttStage = gongganttStage
-			rect4Bar.Impl = barImpl
+			rect4Bar.OnUpdate = func(updatedRect *gongsvg_models.Rect) {
+				var someethingChanged bool
+				newStart := XtoDate(
+					gantt.XLeftLanes,
+					updatedRect.X,
+					gantt.XRightMargin,
+					gantt.ComputedStart,
+					gantt.ComputedEnd)
+
+				newEnd := XtoDate(
+					gantt.XLeftLanes,
+					updatedRect.X+updatedRect.Width,
+					gantt.XRightMargin,
+					gantt.ComputedStart,
+					gantt.ComputedEnd)
+
+				diffStart := bar.Start.Sub(newStart)
+				diffEnd := bar.End.Sub(newEnd)
+
+				someethingChanged = diffStart.Abs() > 0 || diffEnd.Abs() > 0
+
+				bar.Start = newStart
+				bar.End = newEnd
+
+				if someethingChanged {
+					log.Println(diffStart, diffEnd)
+					bar.Commit(gongganttStage)
+					gongganttStage.Commit()
+				}
+			}
 
 			var barToDisplay = *bar
 

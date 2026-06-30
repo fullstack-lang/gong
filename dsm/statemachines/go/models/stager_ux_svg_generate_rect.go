@@ -229,144 +229,7 @@ func (stager *Stager) svgGenerateRect(
 		currentY_Offset += float64(HeightBetween2AttributeShapes * (1 + strings.Count(text.Content, "\n")))
 	}
 
-	if state.IsDecisionNode {
-		stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
-		stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
-
-		diamond := new(svg.RectAnchoredPath)
-		diamond.Stroke = svg.Black.ToString()
-		diamond.StrokeWidth = 2
-		diamond.StrokeOpacity = 1
-		diamond.ScalePropotionnally = true
-		diamond.AppliedScaling = 1
-
-		diamond.Definition = "M 25 0 L 50 25 L 25 50 L 0 25 Z"
-		diamond.X_Offset = -50
-		diamond.Y_Offset = -25
-		stateTitleText.X_Offset = -25
-		diamond.RectAnchorType = svg.RECT_RIGHT
-		rect.Height = 50
-		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, diamond)
-
-		rect.StrokeOpacity = 0.0
-		rect.FillOpacity = 0.0
-		// force size
-		rect.CanHaveBottomHandle = false
-		rect.CanHaveTopHandle = false
-
-		if isSelected {
-			rect.Color = svg.Lightblue.ToString()
-			rect.FillOpacity = 0.6
-		}
-	}
-
-	if isStartState {
-		stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
-		stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
-		stateTitleText.DominantBaseline = svg.DominantBaselineCentral
-		stateTitleText.WhiteSpace = svg.WhiteSpaceEnumPre
-		stateTitleText.X_Offset = 0
-		stateTitleText.Y_Offset = 0
-
-		if isSelected {
-			circle := new(svg.RectAnchoredPath)
-
-			circle.Color = svg.Lightblue.ToString()
-			circle.FillOpacity = 0.6
-
-			circle.Definition = fmt.Sprintf("M %f 0 A %f %f 0 0 1 %f %f A %f %f 0 0 1 %f 0 Z",
-				bigRadius, bigRadius, bigRadius, bigRadius, 2*bigRadius, bigRadius, bigRadius, bigRadius)
-			circle.X_Offset = -bigRadius
-			circle.Y_Offset = -bigRadius
-			circle.RectAnchorType = svg.RECT_RIGHT
-			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, circle)
-		}
-
-		circle := new(svg.RectAnchoredPath)
-		circle.Stroke = svg.Black.ToString()
-		circle.StrokeWidth = 2
-		circle.StrokeOpacity = 1
-
-		circle.Color = svg.Black.ToString()
-		circle.FillOpacity = 1.0
-
-		// force size
-		rect.CanHaveBottomHandle = false
-		rect.CanHaveTopHandle = false
-
-		// we allow resizing for the sake of the text width
-		if rect.Width < 2*smallRadius {
-			rect.Width = 2 * smallRadius
-		}
-		rect.Height = 2 * smallRadius
-
-		circle.Definition = fmt.Sprintf("M %f 0 A %f %f 0 0 1 %f %f A %f %f 0 0 1 %f 0 Z",
-			smallRadius, smallRadius, smallRadius, smallRadius, 2*smallRadius, smallRadius, smallRadius, smallRadius)
-		circle.X_Offset = -smallRadius
-		circle.Y_Offset = -smallRadius
-		circle.RectAnchorType = svg.RECT_RIGHT
-		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, circle)
-
-		rect.StrokeOpacity = 0.0
-		rect.FillOpacity = 0.0
-	}
-
-	if state.IsEndState {
-		stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
-		stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
-		stateTitleText.DominantBaseline = svg.DominantBaselineCentral
-		stateTitleText.WhiteSpace = svg.WhiteSpaceEnumPre
-		stateTitleText.X_Offset = 0
-		stateTitleText.Y_Offset = 0
-
-		rect.CanHaveBottomHandle = false
-		rect.CanHaveTopHandle = false
-		if rect.Width < 2*bigRadius {
-			rect.Width = 2 * bigRadius
-		}
-		rect.Height = 2 * bigRadius
-
-		{
-			circle := new(svg.RectAnchoredPath)
-
-			circle.Stroke = svg.Black.ToString()
-			circle.StrokeWidth = 1
-			circle.StrokeOpacity = 1.0
-
-			circle.Definition = fmt.Sprintf("M %f 0 A %f %f 0 0 1 %f %f A %f %f 0 0 1 %f 0 Z",
-				bigRadius, bigRadius, bigRadius, bigRadius, 2*bigRadius, bigRadius, bigRadius, bigRadius)
-			circle.X_Offset = -2 * bigRadius
-			circle.Y_Offset = -bigRadius
-			circle.RectAnchorType = svg.RECT_RIGHT
-			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, circle)
-
-			if isSelected {
-				circle.Color = svg.Lightblue.ToString()
-				circle.FillOpacity = 0.6
-			}
-		}
-
-		{
-			circle := new(svg.RectAnchoredPath)
-			circle.Stroke = svg.Black.ToString()
-			circle.StrokeWidth = 2
-			circle.StrokeOpacity = 1
-
-			circle.Color = svg.Black.ToString()
-			circle.FillOpacity = 1.0
-
-			circle.Definition = fmt.Sprintf("M %f 0 A %f %f 0 0 1 %f %f A %f %f 0 0 1 %f 0 Z",
-				smallRadius, smallRadius, smallRadius, smallRadius, 2*smallRadius, smallRadius, smallRadius, smallRadius)
-			circle.X_Offset = -smallRadius - bigRadius
-			circle.Y_Offset = -smallRadius
-			circle.RectAnchorType = svg.RECT_RIGHT
-			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, circle)
-		}
-
-		rect.StrokeOpacity = 0.0
-		rect.FillOpacity = 0.0
-
-	}
+	stager.addIconToState(rect, stateTitleText, state, isStartState, isSelected)
 
 	if state.IsFictious {
 		rect.StrokeDashArray = "5 5"
@@ -468,3 +331,123 @@ func (stager *Stager) svgGenerateNoteRect(
 }
 
 
+
+func (stager *Stager) addIconToState(
+	rect *svg.Rect,
+	stateTitleText *svg.RectAnchoredText,
+	state *State,
+	isStartState bool,
+	isSelected bool,
+) {
+	if !state.IsDecisionNode && !isStartState && !state.IsEndState {
+		return
+	}
+
+	stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
+	stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
+	stateTitleText.DominantBaseline = svg.DominantBaselineCentral
+	stateTitleText.WhiteSpace = svg.WhiteSpaceEnumPre
+	stateTitleText.X_Offset = 0
+	stateTitleText.Y_Offset = 0
+
+	rect.CanHaveBottomHandle = false
+	rect.CanHaveTopHandle = false
+
+	if state.IsDecisionNode {
+		diamond := new(svg.RectAnchoredPath)
+		diamond.Stroke = svg.Black.ToString()
+		diamond.StrokeWidth = 2
+		diamond.StrokeOpacity = 1
+		diamond.ScalePropotionnally = true
+		diamond.AppliedScaling = 1
+
+		diamond.Definition = "M 25 0 L 50 25 L 25 50 L 0 25 Z"
+		diamond.X_Offset = -50
+		diamond.Y_Offset = -25
+		stateTitleText.X_Offset = -25
+		diamond.RectAnchorType = svg.RECT_RIGHT
+		rect.Height = 50
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, diamond)
+	}
+
+	if isStartState {
+		if isSelected {
+			circle := new(svg.RectAnchoredPath)
+
+			circle.Color = svg.Lightblue.ToString()
+			circle.FillOpacity = 0.6
+
+			circle.Definition = fmt.Sprintf("M %f 0 A %f %f 0 0 1 %f %f A %f %f 0 0 1 %f 0 Z",
+				bigRadius, bigRadius, bigRadius, bigRadius, 2*bigRadius, bigRadius, bigRadius, bigRadius)
+			circle.X_Offset = -bigRadius
+			circle.Y_Offset = -bigRadius
+			circle.RectAnchorType = svg.RECT_RIGHT
+			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, circle)
+		}
+
+		circle := new(svg.RectAnchoredPath)
+		circle.Stroke = svg.Black.ToString()
+		circle.StrokeWidth = 2
+		circle.StrokeOpacity = 1
+
+		circle.Color = svg.Black.ToString()
+		circle.FillOpacity = 1.0
+
+		// we allow resizing for the sake of the text width
+		if rect.Width < 2*smallRadius {
+			rect.Width = 2 * smallRadius
+		}
+		rect.Height = 2 * smallRadius
+
+		circle.Definition = fmt.Sprintf("M %f 0 A %f %f 0 0 1 %f %f A %f %f 0 0 1 %f 0 Z",
+			smallRadius, smallRadius, smallRadius, smallRadius, 2*smallRadius, smallRadius, smallRadius, smallRadius)
+		circle.X_Offset = -smallRadius
+		circle.Y_Offset = -smallRadius
+		circle.RectAnchorType = svg.RECT_RIGHT
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, circle)
+	}
+
+	if state.IsEndState {
+		if rect.Width < 2*bigRadius {
+			rect.Width = 2 * bigRadius
+		}
+		rect.Height = 2 * bigRadius
+
+		{
+			circle := new(svg.RectAnchoredPath)
+
+			circle.Stroke = svg.Black.ToString()
+			circle.StrokeWidth = 1
+			circle.StrokeOpacity = 1.0
+
+			circle.Definition = fmt.Sprintf("M %f 0 A %f %f 0 0 1 %f %f A %f %f 0 0 1 %f 0 Z",
+				bigRadius, bigRadius, bigRadius, bigRadius, 2*bigRadius, bigRadius, bigRadius, bigRadius)
+			circle.X_Offset = -2 * bigRadius
+			circle.Y_Offset = -bigRadius
+			circle.RectAnchorType = svg.RECT_RIGHT
+			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, circle)
+
+			if isSelected {
+				circle.Color = svg.Lightblue.ToString()
+				circle.FillOpacity = 0.6
+			}
+		}
+
+		{
+			circle := new(svg.RectAnchoredPath)
+			circle.Stroke = svg.Black.ToString()
+			circle.StrokeWidth = 2
+			circle.StrokeOpacity = 1
+
+			circle.Color = svg.Black.ToString()
+			circle.FillOpacity = 1.0
+
+			circle.Definition = fmt.Sprintf("M %f 0 A %f %f 0 0 1 %f %f A %f %f 0 0 1 %f 0 Z",
+				smallRadius, smallRadius, smallRadius, smallRadius, 2*smallRadius, smallRadius, smallRadius, smallRadius)
+			circle.X_Offset = -smallRadius - bigRadius
+			circle.Y_Offset = -smallRadius
+			circle.RectAnchorType = svg.RECT_RIGHT
+			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, circle)
+		}
+	}
+}
