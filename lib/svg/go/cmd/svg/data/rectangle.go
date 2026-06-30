@@ -89,6 +89,7 @@ Line 2`}).Stage(stage)
 	__RectAnchoredText__00000004_ := (&models.RectAnchoredText{Name: `Start`}).Stage(stage)
 	__RectAnchoredText__00000005_ := (&models.RectAnchoredText{Name: `End`}).Stage(stage)
 	__RectAnchoredText__00000006_ := (&models.RectAnchoredText{Name: ``}).Stage(stage)
+	__RectAnchoredText__00000007_ := (&models.RectAnchoredText{Name: `Rect LEFT MIDDLE`}).Stage(stage)
 
 	__SVG__00000000_ := (&models.SVG{Name: `SVG`}).Stage(stage)
 
@@ -1260,6 +1261,35 @@ line 3`
 	__RectAnchoredText__00000006_.URLPath = ``
 	__RectAnchoredText__00000006_.URLTarget = ""
 
+	__RectAnchoredText__00000007_.Name = `Rect LEFT MIDDLE`
+	__RectAnchoredText__00000007_.Content = `Rect LEFT MIDDLE
+Rect LEFT MIDDLE
+Rect LEFT MIDDLE
+Rect LEFT MIDDLE
+Rect LEFT MIDDLE`
+	__RectAnchoredText__00000007_.FontWeight = ``
+	__RectAnchoredText__00000007_.FontSize = ``
+	__RectAnchoredText__00000007_.FontStyle = ``
+	__RectAnchoredText__00000007_.LetterSpacing = ``
+	__RectAnchoredText__00000007_.FontFamily = ``
+	__RectAnchoredText__00000007_.WhiteSpace = ""
+	__RectAnchoredText__00000007_.X_Offset = 0.000000
+	__RectAnchoredText__00000007_.Y_Offset = 0.000000
+	__RectAnchoredText__00000007_.RectAnchorType = models.RECT_LEFT_MIDDLE
+	__RectAnchoredText__00000007_.TextAnchorType = models.TEXT_ANCHOR_START
+	__RectAnchoredText__00000007_.DominantBaseline = ""
+	__RectAnchoredText__00000007_.WritingMode = ""
+	__RectAnchoredText__00000007_.Color = `red`
+	__RectAnchoredText__00000007_.FillOpacity = 1.000000
+	__RectAnchoredText__00000007_.Stroke = `red`
+	__RectAnchoredText__00000007_.StrokeOpacity = 1.000000
+	__RectAnchoredText__00000007_.StrokeWidth = 1.000000
+	__RectAnchoredText__00000007_.StrokeDashArray = ``
+	__RectAnchoredText__00000007_.StrokeDashArrayWhenSelected = ``
+	__RectAnchoredText__00000007_.Transform = ``
+	__RectAnchoredText__00000007_.URLPath = ``
+	__RectAnchoredText__00000007_.URLTarget = ""
+
 	__SVG__00000000_.Name = `SVG`
 	__SVG__00000000_.DrawingState = models.NOT_DRAWING_LINK
 	__SVG__00000000_.IsEditable = true
@@ -1267,6 +1297,9 @@ line 3`
 	__SVG__00000000_.IsSVGBackEndFileGenerated = false
 	__SVG__00000000_.DefaultDirectoryForGeneratedImages = `../../diagrams/images`
 	__SVG__00000000_.IsControlBannerHidden = false
+	__SVG__00000000_.PanX = 0.000000
+	__SVG__00000000_.PanY = 0.000000
+	__SVG__00000000_.Zoom = 0.000000
 	__SVG__00000000_.OverrideWidth = true
 	__SVG__00000000_.OverriddenWidth = 2000.000000
 	__SVG__00000000_.OverrideHeight = false
@@ -1661,6 +1694,7 @@ line 3`
 	__Rect__00000000_.RectAnchoredPaths = append(__Rect__00000000_.RectAnchoredPaths, __RectAnchoredPath__00000001_)
 	__Rect__00000001_.EnclosingRect = nil
 	__Rect__00000001_.AnchoredTo = nil
+	__Rect__00000001_.RectAnchoredTexts = append(__Rect__00000001_.RectAnchoredTexts, __RectAnchoredText__00000007_)
 	__Rect__00000002_.EnclosingRect = nil
 	__Rect__00000002_.AnchoredTo = nil
 	__Rect__00000002_.RectAnchoredRects = append(__Rect__00000002_.RectAnchoredRects, __RectAnchoredRect__00000000_)

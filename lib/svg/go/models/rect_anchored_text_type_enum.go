@@ -22,4 +22,5 @@ const (
 
 	// text middle axis aligned with the rect middle axis
 	RECT_CENTER_MIDDLE RectAnchorType = "RECT_CENTER_MIDDLE"
+	RECT_LEFT_MIDDLE   RectAnchorType = "RECT_LEFT_MIDDLE"
 )
