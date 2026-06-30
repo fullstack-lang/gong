@@ -2,21 +2,21 @@
 
 ## System Engineering DSM
 
-- [Capture](https://fullstack-lang.github.io/gong/capture-app-portable.html)
-- [Structure](https://fullstack-lang.github.io/gong/structure-app-portable.html)
-- [Scenario](https://fullstack-lang.github.io/gong/scenario-app-portable.html)
-- [Process](https://fullstack-lang.github.io/gong/process-app-portable.html)
-- [Statemachines](https://fullstack-lang.github.io/gong/statemachines-app-portable.html)
-- [Project](https://fullstack-lang.github.io/gong/project-app-portable.html)
-- [Reqif](https://fullstack-lang.github.io/gong/reqif-app-portable.html)
+- [Capture](https://fullstack-lang.github.io/gong/capture-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/capture-app-portable.zip))
+- [Structure](https://fullstack-lang.github.io/gong/structure-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/structure-app-portable.zip))
+- [Scenario](https://fullstack-lang.github.io/gong/scenario-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/scenario-app-portable.zip))
+- [Process](https://fullstack-lang.github.io/gong/process-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/process-app-portable.zip))
+- [Statemachines](https://fullstack-lang.github.io/gong/statemachines-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/statemachines-app-portable.zip))
+- [Project](https://fullstack-lang.github.io/gong/project-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/project-app-portable.zip))
+- [Reqif](https://fullstack-lang.github.io/gong/reqif-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/reqif-app-portable.zip))
 
 ## Technical DSM
 
-- [SVG](https://fullstack-lang.github.io/gong/svg-app-portable.html)
+- [SVG](https://fullstack-lang.github.io/gong/svg-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/svg-app-portable.zip))
 
 ## For fun
 
-- [Barrgraph](https://fullstack-lang.github.io/gong/barrgraph-app-portable.html)
+- [Barrgraph](https://fullstack-lang.github.io/gong/barrgraph-app-portable.html) ([Download zip](https://fullstack-lang.github.io/gong/barrgraph-app-portable.zip))
 
 # 2. Why Gong ?
 

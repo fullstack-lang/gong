@@ -41,48 +41,56 @@ jobs:
           cd dsm/process/go/cmd/process
           gong portable
           cp process-app-portable.html ../../../../../public-site/
+          zip ../../../../../public-site/process-app-portable.zip process-app-portable.html
 
       - name: Build reqif portable app
         run: |
           cd app/reqif/go/cmd/reqif
           gong portable
           cp reqif-app-portable.html ../../../../../public-site/
+          zip ../../../../../public-site/reqif-app-portable.zip reqif-app-portable.html
           
       - name: Build statemachines portable app
         run: |
           cd dsm/statemachines/go/cmd/statemachines
           gong portable
           cp statemachines-app-portable.html ../../../../../public-site/
+          zip ../../../../../public-site/statemachines-app-portable.zip statemachines-app-portable.html
           
       - name: Build barrgraph portable app
         run: |
           cd dsm/barrgraph/go/cmd/barrgraph
           gong portable
           cp barrgraph-app-portable.html ../../../../../public-site/
+          zip ../../../../../public-site/barrgraph-app-portable.zip barrgraph-app-portable.html
 
       - name: Build capture portable app
         run: |
           cd dsm/capture/go/cmd/capture
           gong portable
           cp capture-app-portable.html ../../../../../public-site/
+          zip ../../../../../public-site/capture-app-portable.zip capture-app-portable.html
 
       - name: Build structure portable app
         run: |
           cd dsm/structure/go/cmd/structure
           gong portable
           cp structure-app-portable.html ../../../../../public-site/
+          zip ../../../../../public-site/structure-app-portable.zip structure-app-portable.html
 
       - name: Build scenario portable app
         run: |
           cd dsm/scenario/go/cmd/scenario
           gong portable
           cp scenario-app-portable.html ../../../../../public-site/
+          zip ../../../../../public-site/scenario-app-portable.zip scenario-app-portable.html
           
       - name: Build project portable app
         run: |
           cd dsm/project/go/cmd/project
           gong portable
           cp project-app-portable.html ../../../../../public-site/
+          zip ../../../../../public-site/project-app-portable.zip project-app-portable.html
 
 
       - name: Build svg portable app
@@ -90,6 +98,7 @@ jobs:
           cd lib/svg/go/cmd/svg
           gong portable
           cp svg-app-portable.html ../../../../../public-site/
+          zip ../../../../../public-site/svg-app-portable.zip svg-app-portable.html
 
           
       - name: Setup Pages
