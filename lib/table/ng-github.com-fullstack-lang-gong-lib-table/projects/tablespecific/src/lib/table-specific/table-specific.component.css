@@ -199,3 +199,9 @@ mat-dialog-container .container {
     white-space: pre-wrap;
     /* Preserve newlines and wrap text */
 }
+
+/* 12. FIX: Remove horizontal lines between rows */
+.mat-mdc-cell,
+.mat-mdc-header-cell {
+    border-bottom: none !important;
+}
