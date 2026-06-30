@@ -71,6 +71,7 @@ type Rect struct {
 
 	OnUpdate func(updatedRect *Rect)
 
+	// preferably uses thoses instead than on Update
 	OnSelect func()
 	OnMove   func(x, y float64)
 	OnResize func(x, y, width, height float64)
