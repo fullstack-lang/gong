@@ -83,13 +83,31 @@ func (stager *Stager) svgGenerateRect(
 		// rect.FillOpacity = 0.3
 	}
 
+	availableWidth := rect.Width
+	if state.IsDecisionNode {
+		marginForIcon := 40.0
+		availableWidth = rect.Width - marginForIcon
+	} else if state.IsEndState {
+		marginForIcon := 25.0
+		availableWidth = rect.Width - marginForIcon
+	} else if isStartState {
+		marginForIcon := 10.0
+		availableWidth = rect.Width - marginForIcon
+	}
+
+	if availableWidth < 0 {
+		availableWidth = 0
+	}
+
 	stateTitleText := new(svg.RectAnchoredText)
 	{
 		stateTitleText.Name = state.Name
 		stateTitleText.Content = state.Name
 
-		if rect.Width > 0 {
-			stateTitleText.Content = strutils.WrapString(stateShape.State.Name, int(rect.Width/stager.architecture.NbPixPerCharacter))
+		if availableWidth > 0 {
+			stateTitleText.Content = strutils.WrapString(stateShape.State.Name, int(availableWidth/stager.architecture.NbPixPerCharacter))
+		} else {
+			stateTitleText.Content = strutils.WrapString(stateShape.State.Name, 1)
 		}
 		stateTitleText.Stroke = svg.Black.ToString()
 		stateTitleText.StrokeWidth = 1
@@ -138,8 +156,10 @@ func (stager *Stager) svgGenerateRect(
 		text.Name = action.Name
 		content := "/entry " + action.Name
 
-		if rect.Width > 0 {
-			content = strutils.WrapString(content, int(rect.Width/stager.architecture.NbPixPerCharacter))
+		if availableWidth > 0 {
+			content = strutils.WrapString(content, int(availableWidth/stager.architecture.NbPixPerCharacter))
+		} else {
+			content = strutils.WrapString(content, 1)
 		}
 		text.Content = content
 		text.Stroke = svg.Black.ToString()
@@ -171,8 +191,10 @@ func (stager *Stager) svgGenerateRect(
 		text.Name = activity.Name
 		content := "/do " + activity.Name
 
-		if rect.Width > 0 {
-			content = strutils.WrapString(content, int(rect.Width/stager.architecture.NbPixPerCharacter))
+		if availableWidth > 0 {
+			content = strutils.WrapString(content, int(availableWidth/stager.architecture.NbPixPerCharacter))
+		} else {
+			content = strutils.WrapString(content, 1)
 		}
 		text.Content = content
 		text.Stroke = svg.Black.ToString()
@@ -204,8 +226,10 @@ func (stager *Stager) svgGenerateRect(
 		text.Name = action.Name
 		content := "/exit " + action.Name
 
-		if rect.Width > 0 {
-			content = strutils.WrapString(content, int(rect.Width/stager.architecture.NbPixPerCharacter))
+		if availableWidth > 0 {
+			content = strutils.WrapString(content, int(availableWidth/stager.architecture.NbPixPerCharacter))
+		} else {
+			content = strutils.WrapString(content, 1)
 		}
 		text.Content = content
 		text.Stroke = svg.Black.ToString()
@@ -338,6 +362,8 @@ func (stager *Stager) addIconToState(
 	if !state.IsDecisionNode && !isStartState && !state.IsEndState {
 		return
 	}
+
+	rect.StrokeOpacity = 0
 
 	stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
 	if state.Entry != nil || len(state.Activities) > 0 || state.Exit != nil {
