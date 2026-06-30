@@ -18,38 +18,7 @@ const (
 	DIRECTION_RIGHT  Direction = "RIGHT"
 )
 
-// RectImplAxisHandle meets the interface of RectImplInterface
-type RectImplAxisHandle struct {
-	diagram   *Diagram
-	stage     *Stage
-	direction Direction
-}
 
-func (stager *Stager) NewRectImplAxisHandle(
-	diagram *Diagram,
-	direction Direction,
-) *RectImplAxisHandle {
-	return &RectImplAxisHandle{
-		diagram:   diagram,
-		stage:     stager.stage,
-		direction: direction,
-	}
-}
-
-func (rectImpl *RectImplAxisHandle) RectUpdated(updatedRect *gongsvg_models.Rect) {
-	switch rectImpl.direction {
-	case DIRECTION_TOP:
-		rectImpl.diagram.VerticalAxis_Top_Y = updatedRect.Y + axisHandleBorderLength
-	case DIRECTION_BOTTOM:
-		rectImpl.diagram.VerticalAxis_Bottom_Y = updatedRect.Y
-	case DIRECTION_LEFT:
-		rectImpl.diagram.AxisOrign_X = updatedRect.X + axisHandleBorderLength
-		rectImpl.diagram.AxisOrign_Y = updatedRect.Y + axisHandleBorderLength/2.0
-	case DIRECTION_RIGHT:
-		rectImpl.diagram.HorizontalAxis_Right_X = updatedRect.X
-	}
-	rectImpl.stage.Commit()
-}
 
 func (stager *Stager) drawVerticalAxis(
 	diagram *Diagram,
@@ -70,7 +39,10 @@ func (stager *Stager) drawVerticalAxis(
 		verticalAxisTopRect.StrokeOpacity = 1
 		verticalAxisTopRect.IsSelectable = true
 		verticalAxisTopRect.CanMoveVerticaly = true
-		verticalAxisTopRect.Impl = stager.NewRectImplAxisHandle(diagram, DIRECTION_TOP)
+		verticalAxisTopRect.OnMove = func(x, y float64) {
+			diagram.VerticalAxis_Top_Y = y + axisHandleBorderLength
+			stager.stage.Commit()
+		}
 	}
 
 	verticalAxisBottomRect := new(gongsvg_models.Rect)
@@ -86,7 +58,10 @@ func (stager *Stager) drawVerticalAxis(
 		verticalAxisBottomRect.StrokeWidth = verticalAxisTopRect.StrokeWidth
 		verticalAxisBottomRect.StrokeOpacity = 1
 		verticalAxisBottomRect.CanMoveVerticaly = true
-		verticalAxisBottomRect.Impl = stager.NewRectImplAxisHandle(diagram, DIRECTION_BOTTOM)
+		verticalAxisBottomRect.OnMove = func(x, y float64) {
+			diagram.VerticalAxis_Bottom_Y = y
+			stager.stage.Commit()
+		}
 	}
 
 	verticalAxis := new(gongsvg_models.Link)
@@ -131,7 +106,11 @@ func (stager *Stager) drawHorizontalAxis(
 		horizontalAxisLeftHandle.IsSelectable = true
 		horizontalAxisLeftHandle.CanMoveHorizontaly = true
 		horizontalAxisLeftHandle.CanMoveVerticaly = true
-		horizontalAxisLeftHandle.Impl = stager.NewRectImplAxisHandle(diagram, DIRECTION_LEFT)
+		horizontalAxisLeftHandle.OnMove = func(x, y float64) {
+			diagram.AxisOrign_X = x + axisHandleBorderLength
+			diagram.AxisOrign_Y = y + axisHandleBorderLength/2.0
+			stager.stage.Commit()
+		}
 	}
 
 	horizontalAxisRightHandle := new(gongsvg_models.Rect)
@@ -147,7 +126,10 @@ func (stager *Stager) drawHorizontalAxis(
 		horizontalAxisRightHandle.StrokeWidth = horizontalAxisLeftHandle.StrokeWidth
 		horizontalAxisRightHandle.StrokeOpacity = 1
 		horizontalAxisRightHandle.CanMoveHorizontaly = true
-		horizontalAxisRightHandle.Impl = stager.NewRectImplAxisHandle(diagram, DIRECTION_RIGHT)
+		horizontalAxisRightHandle.OnMove = func(x, y float64) {
+			diagram.HorizontalAxis_Right_X = x
+			stager.stage.Commit()
+		}
 	}
 
 	horizontalAxis := new(gongsvg_models.Link)

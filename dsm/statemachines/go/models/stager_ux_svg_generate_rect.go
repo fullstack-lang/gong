@@ -51,11 +51,25 @@ func (stager *Stager) svgGenerateRect(
 			rect.CanMoveHorizontaly = true
 			rect.CanMoveVerticaly = true
 
-			rect.Impl = NewRectShape_EtatProxy(
-				&stateShape.RectShape,
-				state,
-				stager,
-			)
+			rect.OnSelect = func() {
+				stager.stage.CommitWithSuspendedCallbacks()
+				stager.probeForm.FillUpFormFromGongstruct(state, "State")
+				stager.ux_tree()
+			}
+			rect.OnMove = func(x, y float64) {
+				stateShape.X = x
+				stateShape.Y = y
+				// Issue #7, this will allow multiple rect to be moved together
+				stager.stage.CommitWithSuspendedCallbacks()
+				stager.ux_tree()
+			}
+			rect.OnResize = func(x, y, width, height float64) {
+				stateShape.X = x
+				stateShape.Y = y
+				stateShape.Width = width
+				stateShape.Height = height
+				stager.stage.Commit()
+			}
 			// for allowing later Stage() on the rect shape
 			stateShape.receiver = stateShape
 		}
@@ -362,57 +376,7 @@ func (stager *Stager) svgGenerateRect(
 	return rect
 }
 
-func NewRectShape_EtatProxy(
-	stateShapeInterface RectShapeInterface,
-	state *State,
-	stager *Stager,
-) (proxy *ShapeRect_EtatProxy) {
-	proxy = new(ShapeRect_EtatProxy)
-	proxy.rectShapeInterface = stateShapeInterface
-	proxy.state = state
-	proxy.stager = stager
-	return
-}
 
-type ShapeRect_EtatProxy struct {
-	rectShapeInterface RectShapeInterface
-	state              *State
-	stager             *Stager
-}
-
-// RectUpdated implements models.RectImplInterface.
-func (p *ShapeRect_EtatProxy) RectUpdated(updatedRect *svg.Rect) {
-
-	diffSize :=
-		p.rectShapeInterface.GetWidth() != updatedRect.Width ||
-			p.rectShapeInterface.GetHeight() != updatedRect.Height
-
-	diffPosition :=
-		p.rectShapeInterface.GetX() != updatedRect.X ||
-			p.rectShapeInterface.GetY() != updatedRect.Y
-
-	p.rectShapeInterface.SetX(updatedRect.X)
-	p.rectShapeInterface.SetY(updatedRect.Y)
-	p.rectShapeInterface.SetWidth(updatedRect.Width)
-	p.rectShapeInterface.SetHeight(updatedRect.Height)
-
-	if !diffSize && !diffPosition {
-		p.stager.stage.CommitWithSuspendedCallbacks()
-		p.stager.probeForm.FillUpFormFromGongstruct(p.state, "State")
-		p.stager.ux_tree()
-	}
-
-	if diffPosition {
-		// Issue #7, this will allow multiple rect to be moved together
-		p.stager.stage.CommitWithSuspendedCallbacks()
-		p.stager.ux_tree()
-	}
-
-	if diffSize {
-		p.stager.stage.Commit()
-	}
-
-}
 
 func (stager *Stager) svgGenerateNoteRect(
 	diagram diagramInterface,
@@ -446,11 +410,24 @@ func (stager *Stager) svgGenerateNoteRect(
 			rect.CanMoveHorizontaly = true
 			rect.CanMoveVerticaly = true
 
-			rect.Impl = NewRectShape_NoteProxy(
-				&noteShape.RectShape,
-				note,
-				stager,
-			)
+			rect.OnSelect = func() {
+				stager.stage.CommitWithSuspendedCallbacks()
+				stager.probeForm.FillUpFormFromGongstruct(note, "Note")
+				stager.ux_tree()
+			}
+			rect.OnMove = func(x, y float64) {
+				noteShape.X = x
+				noteShape.Y = y
+				stager.stage.CommitWithSuspendedCallbacks()
+				stager.ux_tree()
+			}
+			rect.OnResize = func(x, y, width, height float64) {
+				noteShape.X = x
+				noteShape.Y = y
+				noteShape.Width = width
+				noteShape.Height = height
+				stager.stage.Commit()
+			}
 			noteShape.receiver = noteShape
 		}
 	}
@@ -490,51 +467,4 @@ func (stager *Stager) svgGenerateNoteRect(
 	return rect
 }
 
-func NewRectShape_NoteProxy(
-	noteShapeInterface RectShapeInterface,
-	note *Note,
-	stager *Stager,
-) (proxy *ShapeRect_NoteProxy) {
-	proxy = new(ShapeRect_NoteProxy)
-	proxy.rectShapeInterface = noteShapeInterface
-	proxy.note = note
-	proxy.stager = stager
-	return
-}
 
-type ShapeRect_NoteProxy struct {
-	rectShapeInterface RectShapeInterface
-	note               *Note
-	stager             *Stager
-}
-
-// RectUpdated implements models.RectImplInterface.
-func (p *ShapeRect_NoteProxy) RectUpdated(updatedRect *svg.Rect) {
-	diffSize :=
-		p.rectShapeInterface.GetWidth() != updatedRect.Width ||
-			p.rectShapeInterface.GetHeight() != updatedRect.Height
-
-	diffPosition :=
-		p.rectShapeInterface.GetX() != updatedRect.X ||
-			p.rectShapeInterface.GetY() != updatedRect.Y
-
-	p.rectShapeInterface.SetX(updatedRect.X)
-	p.rectShapeInterface.SetY(updatedRect.Y)
-	p.rectShapeInterface.SetWidth(updatedRect.Width)
-	p.rectShapeInterface.SetHeight(updatedRect.Height)
-
-	if !diffSize && !diffPosition {
-		p.stager.stage.CommitWithSuspendedCallbacks()
-		p.stager.probeForm.FillUpFormFromGongstruct(p.note, "Note")
-		p.stager.ux_tree()
-	}
-
-	if diffPosition {
-		p.stager.stage.CommitWithSuspendedCallbacks()
-		p.stager.ux_tree()
-	}
-
-	if diffSize {
-		p.stager.stage.Commit()
-	}
-}
