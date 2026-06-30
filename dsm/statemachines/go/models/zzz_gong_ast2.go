@@ -1106,6 +1106,8 @@ func (u *StateMachineUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		GongUnmarshallSliceOfPointers(&instance.States, valueExpr, identifierMap)
 	case "Diagrams":
 		GongUnmarshallSliceOfPointers(&instance.Diagrams, valueExpr, identifierMap)
+	case "IsWithTransitionNameAutonamticalyGenerated":
+		instance.IsWithTransitionNameAutonamticalyGenerated = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":

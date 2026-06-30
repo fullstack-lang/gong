@@ -134,6 +134,8 @@ type StateMachine struct {
 	States   []*State
 	Diagrams []*Diagram
 
+	IsWithTransitionNameAutonamticalyGenerated bool
+
 	LibraryAbstractFields
 	AbstractTypeFields
 }

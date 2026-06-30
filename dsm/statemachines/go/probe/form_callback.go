@@ -3226,6 +3226,8 @@ func (statemachineFormCallback *StateMachineFormCallback) OnSave() {
 			statemachine_.Diagrams = instanceSlice
 			statemachineFormCallback.probe.UpdateSliceOfPointersCallback(statemachine_, "Diagrams", &statemachine_.Diagrams)
 
+		case "IsWithTransitionNameAutonamticalyGenerated":
+			FormDivBasicFieldToField(&(statemachine_.IsWithTransitionNameAutonamticalyGenerated), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(statemachine_.ComputedPrefix), formDiv)
 		case "IsExpanded":

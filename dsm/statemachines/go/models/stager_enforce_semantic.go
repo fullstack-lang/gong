@@ -100,11 +100,6 @@ func (stager *Stager) enforce_semantic() {
 		}
 	}
 
-	for _, transition := range GetGongstrucsSorted[*Transition](stager.stage) {
-		_ = transition
-		// transition.Name = transition.Start.Name + " to " + transition.End.Name
-		// needCommit = true
-	}
 
 	// object have a diagrams fields that is used in the XL export
 	stager.map_state_stateMachine = make(map[*State]*StateMachine)
@@ -136,6 +131,18 @@ func (stager *Stager) enforce_semantic() {
 		slices.SortFunc(state.Diagrams, func(a, b *Diagram) int {
 			return cmp.Compare(a.Name, b.Name)
 		})
+	}
+
+	for _, transition := range GetGongstrucsSorted[*Transition](stager.stage) {
+		if stateMachine, ok := stager.map_state_stateMachine[transition.Start]; ok {
+			if stateMachine.IsWithTransitionNameAutonamticalyGenerated {
+				generatedName := transition.Start.Name + " to " + transition.End.Name
+				if transition.Name != generatedName {
+					transition.Name = generatedName
+					needCommit = true
+				}
+			}
+		}
 	}
 
 	stager.map_diagram_stateMachine = make(map[*Diagram]*StateMachine)
