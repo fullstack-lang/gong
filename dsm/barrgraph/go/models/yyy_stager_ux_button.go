@@ -77,7 +77,7 @@ func (stager *Stager) button() {
 
 			fileToDownload.Name = time.Now().Format("20060102 1504 ") + cleanFileName
 
-			stageString, err := stager.stage.MarshallToString(stager.stage.MetaPackageImportPath, "models")
+			stageString, err := stager.stage.MarshallToString(stager.stage.MetaPackageImportPath, "main")
 			if err != nil {
 				log.Println("Error serializing stage: " + err.Error())
 				return
@@ -115,7 +115,7 @@ func (stager *Stager) button() {
 
 			fileToDownload.Name = time.Now().Format("20060102 1504 ") + cleanFileName + ".html"
 
-			stageString, err := stager.stage.MarshallToString(stager.stage.MetaPackageImportPath, "models")
+			stageString, err := stager.stage.MarshallToString(stager.stage.MetaPackageImportPath, "main")
 			if err != nil {
 				log.Println("Error serializing stage: " + err.Error())
 				return
