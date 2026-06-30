@@ -69,6 +69,10 @@ mat-form-field {
   min-width: 0;
 }
 
+.group-header mat-icon {
+  flex-shrink: 0;
+}
+
 .header-text-container {
   display: flex;
   flex-direction: column;

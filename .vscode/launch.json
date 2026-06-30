@@ -412,6 +412,17 @@
             ]
         },
         {
+            "name": "dsm - statemachines: go run . edit data/issue1366.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/statemachines/go/cmd/statemachines",
+            "args": [
+                "edit",
+                "data/issue1366.go"
+            ]
+        },
+        {
             "name": "dsm - statemachines: go run . edit data/massive_probe_edit.go",
             "type": "go",
             "request": "launch",
