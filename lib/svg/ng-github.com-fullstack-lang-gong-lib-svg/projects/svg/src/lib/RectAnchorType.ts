@@ -14,6 +14,7 @@ export enum RectAnchorType {
 	RECT_RIGHT = "RECT_RIGHT",
 	RECT_CENTER = "RECT_CENTER",
 	RECT_CENTER_MIDDLE = "RECT_CENTER_MIDDLE",
+	RECT_LEFT_MIDDLE = "RECT_LEFT_MIDDLE",
 }
 
 export interface RectAnchorTypeSelect {
@@ -35,4 +36,5 @@ export const RectAnchorTypeList: RectAnchorTypeSelect[] = [ // insertion point
 	{ value: RectAnchorType.RECT_RIGHT, viewValue: "RECT_RIGHT" },
 	{ value: RectAnchorType.RECT_CENTER, viewValue: "RECT_CENTER" },
 	{ value: RectAnchorType.RECT_CENTER_MIDDLE, viewValue: "RECT_CENTER_MIDDLE" },
+	{ value: RectAnchorType.RECT_LEFT_MIDDLE, viewValue: "RECT_LEFT_MIDDLE" },
 ];

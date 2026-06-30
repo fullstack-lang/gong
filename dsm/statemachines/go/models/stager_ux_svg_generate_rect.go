@@ -99,7 +99,7 @@ func (stager *Stager) svgGenerateRect(
 
 		stateTitleText.FontSize = "16px"
 		stateTitleText.X_Offset = 0
-		
+
 		if state.Entry != nil || len(state.Activities) > 0 || state.Exit != nil {
 			stateTitleText.Y_Offset = 15
 			stateTitleText.RectAnchorType = svg.RECT_TOP
@@ -114,7 +114,7 @@ func (stager *Stager) svgGenerateRect(
 	}
 
 	lineYOffset := stateTitleText.Y_Offset + float64(HeightBetween2AttributeShapes*(1+strings.Count(stateTitleText.Content, "\n")))
-	
+
 	if state.Entry != nil || len(state.Activities) > 0 || state.Exit != nil {
 		line := new(svg.RectAnchoredPath)
 		line.Name = "Separator"
@@ -239,8 +239,6 @@ func (stager *Stager) svgGenerateRect(
 	return rect
 }
 
-
-
 func (stager *Stager) svgGenerateNoteRect(
 	diagram diagramInterface,
 	noteShape *NoteShape,
@@ -330,8 +328,6 @@ func (stager *Stager) svgGenerateNoteRect(
 	return rect
 }
 
-
-
 func (stager *Stager) addIconToState(
 	rect *svg.Rect,
 	stateTitleText *svg.RectAnchoredText,
@@ -344,11 +340,16 @@ func (stager *Stager) addIconToState(
 	}
 
 	stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
-	stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
+	if state.Entry != nil || len(state.Activities) > 0 || state.Exit != nil {
+		stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
+		stateTitleText.Y_Offset = 15
+	} else {
+		stateTitleText.RectAnchorType = svg.RECT_LEFT_MIDDLE
+		stateTitleText.Y_Offset = 0
+	}
 	stateTitleText.DominantBaseline = svg.DominantBaselineCentral
 	stateTitleText.WhiteSpace = svg.WhiteSpaceEnumPre
-	stateTitleText.X_Offset = 0
-	stateTitleText.Y_Offset = 0
+	stateTitleText.X_Offset = 10
 
 	rect.CanHaveBottomHandle = false
 	rect.CanHaveTopHandle = false
@@ -364,7 +365,6 @@ func (stager *Stager) addIconToState(
 		diamond.Definition = "M 25 0 L 50 25 L 25 50 L 0 25 Z"
 		diamond.X_Offset = -50
 		diamond.Y_Offset = -25
-		stateTitleText.X_Offset = -25
 		diamond.RectAnchorType = svg.RECT_RIGHT
 		rect.Height = 50
 		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, diamond)
