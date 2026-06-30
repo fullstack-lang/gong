@@ -37,7 +37,7 @@ func _(stage *models.Stage) {
 	__State__00000001_ := (&models.State{Name: `Decision node, with a long name to show that there is a layout issue`}).Stage(stage)
 	__State__00000002_ := (&models.State{Name: `A standard state, Start State, with a long name to show that there is no layout issue with the kind of state
 `}).Stage(stage)
-	__State__00000003_ := (&models.State{Name: `End state, Start State, with a long name to show that there is a layout issue`}).Stage(stage)
+	__State__00000003_ := (&models.State{Name: `End state, Start State, with a long name to show that there is a layout issue fdsfqdsfqs sf sdqf `}).Stage(stage)
 	__State__00000004_ := (&models.State{Name: `A standard state, Start State, with a long name to show that there is no layout issue with the kind of state
 
 `}).Stage(stage)
@@ -48,7 +48,7 @@ func _(stage *models.Stage) {
 	__StateShape__00000001_ := (&models.StateShape{Name: `Decision node, with a long name to show that there is a layout issue`}).Stage(stage)
 	__StateShape__00000002_ := (&models.StateShape{Name: `A standard state, Start State, with a long name to show that there is no layout issue with the kind of state
 `}).Stage(stage)
-	__StateShape__00000003_ := (&models.StateShape{Name: `End state, Start State, with a long name to show that there is a layout issue`}).Stage(stage)
+	__StateShape__00000003_ := (&models.StateShape{Name: `End state, Start State, with a long name to show that there is a layout issue fdsfqdsfqs sf sdqf `}).Stage(stage)
 	__StateShape__00000004_ := (&models.StateShape{Name: `A standard state, Start State, with a long name to show that there is no layout issue with the kind of state
 
 `}).Stage(stage)
@@ -56,7 +56,7 @@ func _(stage *models.Stage) {
 	__Transition__00000000_ := (&models.Transition{Name: ``}).Stage(stage)
 	__Transition__00000003_ := (&models.Transition{Name: ``}).Stage(stage)
 	__Transition__00000004_ := (&models.Transition{Name: ``}).Stage(stage)
-	__Transition__00000005_ := (&models.Transition{Name: `Transition`}).Stage(stage)
+	__Transition__00000005_ := (&models.Transition{Name: ``}).Stage(stage)
 
 	__Transition_Shape__00000000_ := (&models.Transition_Shape{Name: `Start State, with a long name to show that there is a layout issue to Decision node, with a long name to show that there is a layout issue`}).Stage(stage)
 	__Transition_Shape__00000003_ := (&models.Transition_Shape{Name: `Decision node, with a long name to show that there is a layout issue to End state, Start State, with a long name to show that there is a layout issue`}).Stage(stage)
@@ -106,7 +106,7 @@ func _(stage *models.Stage) {
 	__State__00000002_.IsFictious = false
 	__State__00000002_.IsEndState = false
 
-	__State__00000003_.Name = `End state, Start State, with a long name to show that there is a layout issue`
+	__State__00000003_.Name = `End state, Start State, with a long name to show that there is a layout issue fdsfqdsfqs sf sdqf `
 	__State__00000003_.IsDecisionNode = false
 	__State__00000003_.IsFictious = false
 	__State__00000003_.IsEndState = true
@@ -125,31 +125,31 @@ func _(stage *models.Stage) {
 	__StateMachine__00000000_.LayoutDirection = models.Vertical
 
 	__StateShape__00000000_.Name = `Start State, with a long name to show that there is a layout issue`
-	__StateShape__00000000_.X = 640.000000
+	__StateShape__00000000_.X = 641.000000
 	__StateShape__00000000_.Y = 123.000000
-	__StateShape__00000000_.Width = 187.000000
+	__StateShape__00000000_.Width = 20.000000
 	__StateShape__00000000_.Height = 20.000000
 	__StateShape__00000000_.IsHidden = false
 
 	__StateShape__00000001_.Name = `Decision node, with a long name to show that there is a layout issue`
-	__StateShape__00000001_.X = 408.000000
-	__StateShape__00000001_.Y = 283.000000
-	__StateShape__00000001_.Width = 200.000000
+	__StateShape__00000001_.X = 456.000000
+	__StateShape__00000001_.Y = 225.000000
+	__StateShape__00000001_.Width = 50.000000
 	__StateShape__00000001_.Height = 50.000000
 	__StateShape__00000001_.IsHidden = false
 
 	__StateShape__00000002_.Name = `A standard state, Start State, with a long name to show that there is no layout issue with the kind of state
 `
-	__StateShape__00000002_.X = 207.000000
-	__StateShape__00000002_.Y = 546.000000
+	__StateShape__00000002_.X = 63.000000
+	__StateShape__00000002_.Y = 617.000000
 	__StateShape__00000002_.Width = 200.000000
 	__StateShape__00000002_.Height = 118.000000
 	__StateShape__00000002_.IsHidden = false
 
-	__StateShape__00000003_.Name = `End state, Start State, with a long name to show that there is a layout issue`
-	__StateShape__00000003_.X = 303.000000
-	__StateShape__00000003_.Y = 437.000000
-	__StateShape__00000003_.Width = 200.000000
+	__StateShape__00000003_.Name = `End state, Start State, with a long name to show that there is a layout issue fdsfqdsfqs sf sdqf `
+	__StateShape__00000003_.X = 263.000000
+	__StateShape__00000003_.Y = 365.000000
+	__StateShape__00000003_.Width = 36.000000
 	__StateShape__00000003_.Height = 36.000000
 	__StateShape__00000003_.IsHidden = false
 
@@ -168,10 +168,10 @@ func _(stage *models.Stage) {
 
 	__Transition__00000004_.Name = ``
 
-	__Transition__00000005_.Name = `Transition`
+	__Transition__00000005_.Name = ``
 
 	__Transition_Shape__00000000_.Name = `Start State, with a long name to show that there is a layout issue to Decision node, with a long name to show that there is a layout issue`
-	__Transition_Shape__00000000_.StartRatio = 0.500000
+	__Transition_Shape__00000000_.StartRatio = 0.550488
 	__Transition_Shape__00000000_.EndRatio = 0.867510
 	__Transition_Shape__00000000_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
@@ -179,11 +179,11 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000000_.IsHidden = false
 
 	__Transition_Shape__00000003_.Name = `Decision node, with a long name to show that there is a layout issue to End state, Start State, with a long name to show that there is a layout issue`
-	__Transition_Shape__00000003_.StartRatio = 0.420195
+	__Transition_Shape__00000003_.StartRatio = 0.460195
 	__Transition_Shape__00000003_.EndRatio = 0.500000
 	__Transition_Shape__00000003_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__00000003_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Transition_Shape__00000003_.CornerOffsetRatio = -0.947490
+	__Transition_Shape__00000003_.CornerOffsetRatio = -1.869961
 	__Transition_Shape__00000003_.IsHidden = false
 
 	__Transition_Shape__00000004_.Name = `A standard state, Start State, with a long name to show that there is no layout issue with the kind of state
@@ -198,11 +198,11 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000004_.IsHidden = false
 
 	__Transition_Shape__00000005_.Name = `Transition-New Diagram`
-	__Transition_Shape__00000005_.StartRatio = 0.500000
+	__Transition_Shape__00000005_.StartRatio = 0.444716
 	__Transition_Shape__00000005_.EndRatio = 0.500000
 	__Transition_Shape__00000005_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__00000005_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Transition_Shape__00000005_.CornerOffsetRatio = 1.200000
+	__Transition_Shape__00000005_.CornerOffsetRatio = -3.319390
 	__Transition_Shape__00000005_.IsHidden = false
 
 	// insertion point for setup of pointers
@@ -264,6 +264,7 @@ func _(stage *models.Stage) {
 	__Transition__00000005_.Start = __State__00000003_
 	__Transition__00000005_.End = __State__00000004_
 	__Transition__00000005_.Guard = nil
+	__Transition__00000005_.Diagrams = append(__Transition__00000005_.Diagrams, __Diagram__00000000_)
 	__Transition_Shape__00000000_.Transition = __Transition__00000000_
 	__Transition_Shape__00000003_.Transition = __Transition__00000003_
 	__Transition_Shape__00000004_.Transition = __Transition__00000004_
