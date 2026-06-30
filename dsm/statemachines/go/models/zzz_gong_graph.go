@@ -3518,6 +3518,9 @@ func (statemachine *StateMachine) GongDiff(stage *Stage, statemachineOther *Stat
 		ops := Diff(stage, statemachine, statemachineOther, "Diagrams", statemachineOther.Diagrams, statemachine.Diagrams)
 		diffs = append(diffs, ops)
 	}
+	if statemachine.IsWithTransitionNameAutonamticalyGenerated != statemachineOther.IsWithTransitionNameAutonamticalyGenerated {
+		diffs = append(diffs, statemachine.GongMarshallField(stage, "IsWithTransitionNameAutonamticalyGenerated"))
+	}
 	if statemachine.ComputedPrefix != statemachineOther.ComputedPrefix {
 		diffs = append(diffs, statemachine.GongMarshallField(stage, "ComputedPrefix"))
 	}

@@ -6229,6 +6229,10 @@ func (statemachine *StateMachine) GongGetFieldHeaders() (res []GongFieldHeader) 
 			TargetGongstructName: "Diagram",
 		},
 		{
+			Name:               "IsWithTransitionNameAutonamticalyGenerated",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
 			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -7065,6 +7069,10 @@ func (statemachine *StateMachine) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	case "IsWithTransitionNameAutonamticalyGenerated":
+		res.valueString = fmt.Sprintf("%t", statemachine.IsWithTransitionNameAutonamticalyGenerated)
+		res.valueBool = statemachine.IsWithTransitionNameAutonamticalyGenerated
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "ComputedPrefix":
 		res.valueString = statemachine.ComputedPrefix
 	case "IsExpanded":
@@ -7972,6 +7980,8 @@ func (statemachine *StateMachine) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
+	case "IsWithTransitionNameAutonamticalyGenerated":
+		statemachine.IsWithTransitionNameAutonamticalyGenerated = value.GetValueBool()
 	case "ComputedPrefix":
 		statemachine.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":

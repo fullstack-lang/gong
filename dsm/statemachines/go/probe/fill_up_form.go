@@ -549,6 +549,8 @@ func FillUpForm(
 		AssociationFieldToForm("InitialState", instanceWithInferedType.InitialState, formGroup, probe)
 		AssociationSliceToForm("States", instanceWithInferedType, &instanceWithInferedType.States, formGroup, probe)
 		AssociationSliceToForm("Diagrams", instanceWithInferedType, &instanceWithInferedType.Diagrams, formGroup, probe)
+		BasicFieldtoForm("IsWithTransitionNameAutonamticalyGenerated", instanceWithInferedType.IsWithTransitionNameAutonamticalyGenerated, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,

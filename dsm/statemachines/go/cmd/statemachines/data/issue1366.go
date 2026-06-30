@@ -56,6 +56,7 @@ func _(stage *models.Stage) {
 	__Transition__00000000_ := (&models.Transition{Name: ``}).Stage(stage)
 	__Transition__00000003_ := (&models.Transition{Name: ``}).Stage(stage)
 	__Transition__00000004_ := (&models.Transition{Name: ``}).Stage(stage)
+	__Transition__00000005_ := (&models.Transition{Name: `Transition`}).Stage(stage)
 
 	__Transition_Shape__00000000_ := (&models.Transition_Shape{Name: `Start State, with a long name to show that there is a layout issue to Decision node, with a long name to show that there is a layout issue`}).Stage(stage)
 	__Transition_Shape__00000003_ := (&models.Transition_Shape{Name: `Decision node, with a long name to show that there is a layout issue to End state, Start State, with a long name to show that there is a layout issue`}).Stage(stage)
@@ -63,6 +64,7 @@ func _(stage *models.Stage) {
  to A standard state, Start State, with a long name to show that there is no layout issue with the kind of state
 
 `}).Stage(stage)
+	__Transition_Shape__00000005_ := (&models.Transition_Shape{Name: `Transition-New Diagram`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -117,6 +119,7 @@ func _(stage *models.Stage) {
 	__State__00000004_.IsEndState = false
 
 	__StateMachine__00000000_.Name = `Dummy`
+	__StateMachine__00000000_.IsWithTransitionNameAutonamticalyGenerated = false
 	__StateMachine__00000000_.ComputedPrefix = ``
 	__StateMachine__00000000_.IsExpanded = false
 	__StateMachine__00000000_.LayoutDirection = models.Vertical
@@ -165,6 +168,8 @@ func _(stage *models.Stage) {
 
 	__Transition__00000004_.Name = ``
 
+	__Transition__00000005_.Name = `Transition`
+
 	__Transition_Shape__00000000_.Name = `Start State, with a long name to show that there is a layout issue to Decision node, with a long name to show that there is a layout issue`
 	__Transition_Shape__00000000_.StartRatio = 0.500000
 	__Transition_Shape__00000000_.EndRatio = 0.867510
@@ -192,6 +197,14 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000004_.CornerOffsetRatio = 1.200000
 	__Transition_Shape__00000004_.IsHidden = false
 
+	__Transition_Shape__00000005_.Name = `Transition-New Diagram`
+	__Transition_Shape__00000005_.StartRatio = 0.500000
+	__Transition_Shape__00000005_.EndRatio = 0.500000
+	__Transition_Shape__00000005_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Transition_Shape__00000005_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Transition_Shape__00000005_.CornerOffsetRatio = 1.200000
+	__Transition_Shape__00000005_.IsHidden = false
+
 	// insertion point for setup of pointers
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000000_)
 	__Diagram__00000000_.State_Shapes = append(__Diagram__00000000_.State_Shapes, __StateShape__00000001_)
@@ -201,6 +214,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000000_)
 	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000003_)
 	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000004_)
+	__Diagram__00000000_.Transition_Shapes = append(__Diagram__00000000_.Transition_Shapes, __Transition_Shape__00000005_)
 	__Library__00000000_.RootStateMachines = append(__Library__00000000_.RootStateMachines, __StateMachine__00000000_)
 	__Library__00000000_.StateMachinesWhoseNodeIsExpanded = append(__Library__00000000_.StateMachinesWhoseNodeIsExpanded, __StateMachine__00000000_)
 	__State__00000000_.Parent = nil
@@ -246,7 +260,12 @@ func _(stage *models.Stage) {
 	__Transition__00000004_.Start = __State__00000002_
 	__Transition__00000004_.End = __State__00000004_
 	__Transition__00000004_.Guard = nil
+	__Transition__00000004_.Diagrams = append(__Transition__00000004_.Diagrams, __Diagram__00000000_)
+	__Transition__00000005_.Start = __State__00000003_
+	__Transition__00000005_.End = __State__00000004_
+	__Transition__00000005_.Guard = nil
 	__Transition_Shape__00000000_.Transition = __Transition__00000000_
 	__Transition_Shape__00000003_.Transition = __Transition__00000003_
 	__Transition_Shape__00000004_.Transition = __Transition__00000004_
+	__Transition_Shape__00000005_.Transition = __Transition__00000005_
 }

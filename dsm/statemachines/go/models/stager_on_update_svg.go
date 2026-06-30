@@ -37,18 +37,25 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 
 	if isStartState && isEndState {
 		transition := new(Transition).Stage(stager.stage)
-		transition.Name = startStateShape.State.Name + " to " + endStateShape.State.Name
+
+		transition.Name = ""
+		if stateMachine, ok := stager.map_diagram_stateMachine[stager.diagram]; ok {
+			if stateMachine.IsWithTransitionNameAutonamticalyGenerated {
+				transition.Name = startStateShape.State.Name + " to " + endStateShape.State.Name
+			}
+		}
+
 		transition.Start = startStateShape.State
 		transition.End = endStateShape.State
 
-	transitionShape := new(Transition_Shape).Stage(stager.stage)
-	transitionShape.Name = startStateShape.State.Name + " to " + endStateShape.State.Name
-	transitionShape.Transition = transition
-	transitionShape.StartOrientation = ORIENTATION_HORIZONTAL
-	transitionShape.EndOrientation = ORIENTATION_HORIZONTAL
-	transitionShape.CornerOffsetRatio = 1.2
-	transitionShape.StartRatio = 0.5
-	transitionShape.EndRatio = 0.5
+		transitionShape := new(Transition_Shape).Stage(stager.stage)
+		transitionShape.Name = transition.Name + "-" + stager.diagram.Name
+		transitionShape.Transition = transition
+		transitionShape.StartOrientation = ORIENTATION_HORIZONTAL
+		transitionShape.EndOrientation = ORIENTATION_HORIZONTAL
+		transitionShape.CornerOffsetRatio = 1.2
+		transitionShape.StartRatio = 0.5
+		transitionShape.EndRatio = 0.5
 
 		stager.diagram.Transition_Shapes =
 			append(stager.diagram.Transition_Shapes, transitionShape)
@@ -67,7 +74,7 @@ func (stager *Stager) onUpdateSVG(frontSVG *svg.SVG) {
 
 		stager.diagram.NoteState_Shapes =
 			append(stager.diagram.NoteState_Shapes, noteStateShape)
-		
+
 		// also add the state to the note's state links
 		startNoteShape.Note.States = append(startNoteShape.Note.States, endStateShape.State)
 

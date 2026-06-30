@@ -337,6 +337,8 @@ type StateMachine_WOP struct {
 
 	Name string
 
+	IsWithTransitionNameAutonamticalyGenerated bool
+
 	ComputedPrefix string
 
 	IsExpanded bool
@@ -347,6 +349,7 @@ type StateMachine_WOP struct {
 func (from *StateMachine) CopyBasicFields(to *StateMachine) {
 	// insertion point
 	to.Name = from.Name
+	to.IsWithTransitionNameAutonamticalyGenerated = from.IsWithTransitionNameAutonamticalyGenerated
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.LayoutDirection = from.LayoutDirection

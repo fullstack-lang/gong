@@ -796,6 +796,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "InitialState"))
 		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "States"))
 		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "Diagrams"))
+		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "IsWithTransitionNameAutonamticalyGenerated"))
 		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "LayoutDirection"))
@@ -2051,6 +2052,11 @@ func (statemachine *StateMachine) GongMarshallField(stage *Stage, fieldName stri
 		res = strings.ReplaceAll(res, "{{Identifier}}", statemachine.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(statemachine.Name))
+	case "IsWithTransitionNameAutonamticalyGenerated":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", statemachine.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithTransitionNameAutonamticalyGenerated")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", statemachine.IsWithTransitionNameAutonamticalyGenerated))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", statemachine.GongGetIdentifier(stage))
@@ -2594,6 +2600,7 @@ func (statemachine *StateMachine) GongMarshallAllFields(stage *Stage) (initRes s
 		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "InitialState"))
 		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "States"))
 		pointersInitializesStatements.WriteString(statemachine.GongMarshallField(stage, "Diagrams"))
+		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "IsWithTransitionNameAutonamticalyGenerated"))
 		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(statemachine.GongMarshallField(stage, "LayoutDirection"))
