@@ -142,6 +142,15 @@ func (inst *Table) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Reve
 	return
 }
 
+func (inst *Threejs) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *Title) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -316,6 +325,15 @@ func (inst *Svg) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFie
 }
 
 func (inst *Table) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *Threejs) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

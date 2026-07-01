@@ -21,6 +21,7 @@ const NpmPackageJsonTemplate = `{
         "vendor/github.com/fullstack-lang/gong/lib/tone/ng-github.com-fullstack-lang-gong-lib-tone",
         "vendor/github.com/fullstack-lang/gong/lib/tree/ng-github.com-fullstack-lang-gong-lib-tree",
         "vendor/github.com/fullstack-lang/gong/lib/xlsx/ng-github.com-fullstack-lang-gong-lib-xlsx",
+        "vendor/github.com/fullstack-lang/gong/lib/threejs/ng-github.com-fullstack-lang-gong-lib-threejs",
         "vendor/github.com/fullstack-lang/gong/ng-github.com-fullstack-lang-gong",
         ""
     ]

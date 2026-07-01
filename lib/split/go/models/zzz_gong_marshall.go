@@ -340,6 +340,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Table"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Tone"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Tree"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Threejs"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Xlsx"))
 		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "HasDiv"))
 		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "DivStyle"))
@@ -675,6 +676,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(table.GongMarshallField(stage, "StackName"))
 	}
 
+	threejsOrdered := []*Threejs{}
+	for threejs := range stage.Threejss {
+		threejsOrdered = append(threejsOrdered, threejs)
+	}
+	sort.Slice(threejsOrdered[:], func(i, j int) bool {
+		threejsi := threejsOrdered[i]
+		threejsj := threejsOrdered[j]
+		threejsi_order, oki := stage.Threejs_stagedOrder[threejsi]
+		threejsj_order, okj := stage.Threejs_stagedOrder[threejsj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return threejsi_order < threejsj_order
+	})
+	if len(threejsOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, threejs := range threejsOrdered {
+
+		identifiersDecl.WriteString(threejs.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(threejs.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(threejs.GongMarshallField(stage, "StackName"))
+	}
+
 	titleOrdered := []*Title{}
 	for title := range stage.Titles {
 		titleOrdered = append(titleOrdered, title)
@@ -923,6 +951,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, table := range tableOrdered {
 		_ = table
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, threejs := range threejsOrdered {
+		_ = threejs
 		var setPointerField string
 		_ = setPointerField
 
@@ -1266,6 +1302,19 @@ func (assplitarea *AsSplitArea) GongMarshallField(stage *Stage, fieldName string
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Tree")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "Threejs":
+		if assplitarea.Threejs != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Threejs")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", assplitarea.Threejs.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", assplitarea.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Threejs")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	case "Xlsx":
 		if assplitarea.Xlsx != nil {
 			res = PointerFieldInitStatement
@@ -1555,6 +1604,26 @@ func (table *Table) GongMarshallField(stage *Stage, fieldName string) (res strin
 	return
 }
 
+func (threejs *Threejs) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", threejs.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(threejs.Name))
+	case "StackName":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", threejs.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(threejs.StackName))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Threejs", fieldName)
+	}
+	return
+}
+
 func (title *Title) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -1736,6 +1805,7 @@ func (assplitarea *AsSplitArea) GongMarshallAllFields(stage *Stage) (initRes str
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Table"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Tone"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Tree"))
+		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Threejs"))
 		pointersInitializesStatements.WriteString(assplitarea.GongMarshallField(stage, "Xlsx"))
 		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "HasDiv"))
 		initializerStatements.WriteString(assplitarea.GongMarshallField(stage, "DivStyle"))
@@ -1889,6 +1959,18 @@ func (table *Table) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(table.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(table.GongMarshallField(stage, "StackName"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (threejs *Threejs) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(threejs.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(threejs.GongMarshallField(stage, "StackName"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

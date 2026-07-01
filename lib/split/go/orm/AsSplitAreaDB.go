@@ -99,6 +99,10 @@ type AsSplitAreaPointersEncoding struct {
 	// This field is generated into another field to enable AS ONE association
 	TreeID sql.NullInt64
 
+	// field Threejs is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	ThreejsID sql.NullInt64
+
 	// field Xlsx is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	XlsxID sql.NullInt64
@@ -453,6 +457,18 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseTwoInstance(bac
 		} else {
 			assplitareaDB.TreeID.Int64 = 0
 			assplitareaDB.TreeID.Valid = true
+		}
+
+		// commit pointer value assplitarea.Threejs translates to updating the assplitarea.ThreejsID
+		assplitareaDB.ThreejsID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.Threejs != nil {
+			if ThreejsId, ok := backRepo.BackRepoThreejs.Map_ThreejsPtr_ThreejsDBID[assplitarea.Threejs]; ok {
+				assplitareaDB.ThreejsID.Int64 = int64(ThreejsId)
+				assplitareaDB.ThreejsID.Valid = true
+			}
+		} else {
+			assplitareaDB.ThreejsID.Int64 = 0
+			assplitareaDB.ThreejsID.Valid = true
 		}
 
 		// commit pointer value assplitarea.Xlsx translates to updating the assplitarea.XlsxID
@@ -828,6 +844,27 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			}
 		} else {
 			assplitarea.Tree = nil
+		}
+	}
+
+	// Threejs field
+	{
+		id := assplitareaDB.ThreejsID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoThreejs.Map_ThreejsDBID_ThreejsPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.Threejs, unknown pointer id", id)
+				assplitarea.Threejs = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.Threejs == nil || assplitarea.Threejs != tmp {
+					assplitarea.Threejs = tmp
+				}
+			}
+		} else {
+			assplitarea.Threejs = nil
 		}
 	}
 
@@ -1209,6 +1246,12 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) RestorePhaseTwo() {
 		if assplitareaDB.TreeID.Int64 != 0 {
 			assplitareaDB.TreeID.Int64 = int64(BackRepoTreeid_atBckpTime_newID[uint(assplitareaDB.TreeID.Int64)])
 			assplitareaDB.TreeID.Valid = true
+		}
+
+		// reindexing Threejs field
+		if assplitareaDB.ThreejsID.Int64 != 0 {
+			assplitareaDB.ThreejsID.Int64 = int64(BackRepoThreejsid_atBckpTime_newID[uint(assplitareaDB.ThreejsID.Int64)])
+			assplitareaDB.ThreejsID.Valid = true
 		}
 
 		// reindexing Xlsx field

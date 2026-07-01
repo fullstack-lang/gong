@@ -533,6 +533,8 @@ func (u *AsSplitAreaUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		GongUnmarshallPointer(&instance.Tone, valueExpr, identifierMap)
 	case "Tree":
 		GongUnmarshallPointer(&instance.Tree, valueExpr, identifierMap)
+	case "Threejs":
+		GongUnmarshallPointer(&instance.Threejs, valueExpr, identifierMap)
 	case "Xlsx":
 		GongUnmarshallPointer(&instance.Xlsx, valueExpr, identifierMap)
 	case "HasDiv":
@@ -916,6 +918,37 @@ func (u *TableUnmarshaller) Initialize(stage *Stage, identifier string, instance
 
 func (u *TableUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
 	instance := i.(*Table)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "StackName":
+		instance.StackName = GongExtractString(valueExpr)
+	}
+	return nil
+}
+
+type ThreejsUnmarshaller struct{}
+
+func (u *ThreejsUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Threejs)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *ThreejsUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Threejs)
 	_ = instance
 	switch fieldName {
 	// insertion point per field

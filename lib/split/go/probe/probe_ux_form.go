@@ -99,6 +99,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.table, probe)
 			}
+		case *ThreejsFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "Threejs", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.threejs, probe)
+			}
 		case *TitleFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Title", true)
@@ -333,6 +339,19 @@ func FillUpFormFromGongstructName(
 		table := new(models.Table)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(table, formGroup, probe)
+	case "Threejs":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Threejs Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ThreejsFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		threejs := new(models.Threejs)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(threejs, formGroup, probe)
 	case "Title":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

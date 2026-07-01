@@ -214,6 +214,8 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(assplitarea_.Tone), assplitareaFormCallback.probe.stageOfInterest, formDiv)
 		case "Tree":
 			FormDivSelectFieldToField(&(assplitarea_.Tree), assplitareaFormCallback.probe.stageOfInterest, formDiv)
+		case "Threejs":
+			FormDivSelectFieldToField(&(assplitarea_.Threejs), assplitareaFormCallback.probe.stageOfInterest, formDiv)
 		case "Xlsx":
 			FormDivSelectFieldToField(&(assplitarea_.Xlsx), assplitareaFormCallback.probe.stageOfInterest, formDiv)
 		case "HasDiv":
@@ -1312,6 +1314,86 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 	}
 
 	tableFormCallback.probe.ux_tree()
+}
+func __gong__New__ThreejsFormCallback(
+	threejs *models.Threejs,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (threejsFormCallback *ThreejsFormCallback) {
+	threejsFormCallback = new(ThreejsFormCallback)
+	threejsFormCallback.probe = probe
+	threejsFormCallback.threejs = threejs
+	threejsFormCallback.formGroup = formGroup
+
+	threejsFormCallback.CreationMode = (threejs == nil)
+
+	return
+}
+
+type ThreejsFormCallback struct {
+	threejs *models.Threejs
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (threejsFormCallback *ThreejsFormCallback) OnSave() {
+	threejsFormCallback.probe.stageOfInterest.Lock()
+	defer threejsFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ThreejsFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	threejsFormCallback.probe.formStage.Checkout()
+
+	if threejsFormCallback.threejs == nil {
+		threejsFormCallback.threejs = new(models.Threejs).Stage(threejsFormCallback.probe.stageOfInterest)
+	}
+	threejs_ := threejsFormCallback.threejs
+	_ = threejs_
+
+	for _, formDiv := range threejsFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(threejs_.Name), formDiv)
+		case "StackName":
+			FormDivBasicFieldToField(&(threejs_.StackName), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if threejsFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		threejs_.Unstage(threejsFormCallback.probe.stageOfInterest)
+	}
+
+	threejsFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Threejs](
+		threejsFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if threejsFormCallback.CreationMode || threejsFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		threejsFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(threejsFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ThreejsFormCallback(
+			nil,
+			threejsFormCallback.probe,
+			newFormGroup,
+		)
+		threejs := new(models.Threejs)
+		FillUpForm(threejs, newFormGroup, threejsFormCallback.probe)
+		threejsFormCallback.probe.formStage.Commit()
+	}
+
+	threejsFormCallback.probe.ux_tree()
 }
 func __gong__New__TitleFormCallback(
 	title *models.Title,
