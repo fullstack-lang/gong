@@ -76,6 +76,10 @@ type DBLite struct {
 
 	nextIDTableDB uint
 
+	threejsDBs map[uint]*ThreejsDB
+
+	nextIDThreejsDB uint
+
 	titleDBs map[uint]*TitleDB
 
 	nextIDTitleDB uint
@@ -129,6 +133,8 @@ func NewDBLite() *DBLite {
 		svgDBs: make(map[uint]*SvgDB),
 
 		tableDBs: make(map[uint]*TableDB),
+
+		threejsDBs: make(map[uint]*ThreejsDB),
 
 		titleDBs: make(map[uint]*TitleDB),
 
@@ -209,6 +215,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDTableDB++
 		v.ID = db.nextIDTableDB
 		db.tableDBs[v.ID] = v
+	case *ThreejsDB:
+		db.nextIDThreejsDB++
+		v.ID = db.nextIDThreejsDB
+		db.threejsDBs[v.ID] = v
 	case *TitleDB:
 		db.nextIDTitleDB++
 		v.ID = db.nextIDTitleDB
@@ -285,6 +295,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.svgDBs, v.ID)
 	case *TableDB:
 		delete(db.tableDBs, v.ID)
+	case *ThreejsDB:
+		delete(db.threejsDBs, v.ID)
 	case *TitleDB:
 		delete(db.titleDBs, v.ID)
 	case *ToneDB:
@@ -354,6 +366,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *TableDB:
 		db.tableDBs[v.ID] = v
+		return db, nil
+	case *ThreejsDB:
+		db.threejsDBs[v.ID] = v
 		return db, nil
 	case *TitleDB:
 		db.titleDBs[v.ID] = v
@@ -469,6 +484,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Table github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *ThreejsDB:
+		if existing, ok := db.threejsDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Threejs github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *TitleDB:
 		if existing, ok := db.titleDBs[v.ID]; ok {
@@ -595,6 +616,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]TableDB:
 		*ptr = make([]TableDB, 0, len(db.tableDBs))
 		for _, v := range db.tableDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]ThreejsDB:
+		*ptr = make([]ThreejsDB, 0, len(db.threejsDBs))
+		for _, v := range db.threejsDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -800,6 +827,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		tableDB, _ := instanceDB.(*TableDB)
 		*tableDB = *tmp
+
+	case *ThreejsDB:
+		tmp, ok := db.threejsDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Threejs Unkown entry %d", i))
+		}
+
+		threejsDB, _ := instanceDB.(*ThreejsDB)
+		*threejsDB = *tmp
 
 	case *TitleDB:
 		tmp, ok := db.titleDBs[uint(i)]

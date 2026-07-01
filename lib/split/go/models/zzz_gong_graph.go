@@ -49,6 +49,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Table:
 		ok = stage.IsStagedTable(target)
 
+	case *Threejs:
+		ok = stage.IsStagedThreejs(target)
+
 	case *Title:
 		ok = stage.IsStagedTitle(target)
 
@@ -115,6 +118,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Table:
 		ok = stage.IsStagedTable(target)
+
+	case *Threejs:
+		ok = stage.IsStagedThreejs(target)
 
 	case *Title:
 		ok = stage.IsStagedTitle(target)
@@ -236,6 +242,13 @@ func (stage *Stage) IsStagedTable(table *Table) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedThreejs(threejs *Threejs) (ok bool) {
+
+	_, ok = stage.Threejss[threejs]
+
+	return
+}
+
 func (stage *Stage) IsStagedTitle(title *Title) (ok bool) {
 
 	_, ok = stage.Titles[title]
@@ -321,6 +334,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Table:
 		stage.StageBranchTable(target)
 
+	case *Threejs:
+		stage.StageBranchThreejs(target)
+
 	case *Title:
 		stage.StageBranchTitle(target)
 
@@ -405,6 +421,9 @@ func (stage *Stage) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	}
 	if assplitarea.Tree != nil {
 		StageBranch(stage, assplitarea.Tree)
+	}
+	if assplitarea.Threejs != nil {
+		StageBranch(stage, assplitarea.Threejs)
 	}
 	if assplitarea.Xlsx != nil {
 		StageBranch(stage, assplitarea.Xlsx)
@@ -594,6 +613,21 @@ func (stage *Stage) StageBranchTable(table *Table) {
 
 }
 
+func (stage *Stage) StageBranchThreejs(threejs *Threejs) {
+
+	// check if instance is already staged
+	if IsStaged(stage, threejs) {
+		return
+	}
+
+	threejs.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchTitle(title *Title) {
 
 	// check if instance is already staged
@@ -739,6 +773,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchTable(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Threejs:
+		toT := CopyBranchThreejs(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Title:
 		toT := CopyBranchTitle(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -836,6 +874,9 @@ func CopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea
 	}
 	if assplitareaFrom.Tree != nil {
 		assplitareaTo.Tree = CopyBranchTree(mapOrigCopy, assplitareaFrom.Tree)
+	}
+	if assplitareaFrom.Threejs != nil {
+		assplitareaTo.Threejs = CopyBranchThreejs(mapOrigCopy, assplitareaFrom.Threejs)
 	}
 	if assplitareaFrom.Xlsx != nil {
 		assplitareaTo.Xlsx = CopyBranchXlsx(mapOrigCopy, assplitareaFrom.Xlsx)
@@ -1074,6 +1115,25 @@ func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table)
 	return
 }
 
+func CopyBranchThreejs(mapOrigCopy map[any]any, threejsFrom *Threejs) (threejsTo *Threejs) {
+
+	// threejsFrom has already been copied
+	if _threejsTo, ok := mapOrigCopy[threejsFrom]; ok {
+		threejsTo = _threejsTo.(*Threejs)
+		return
+	}
+
+	threejsTo = new(Threejs)
+	mapOrigCopy[threejsFrom] = threejsTo
+	threejsFrom.CopyBasicFields(threejsTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchTitle(mapOrigCopy map[any]any, titleFrom *Title) (titleTo *Title) {
 
 	// titleFrom has already been copied
@@ -1222,6 +1282,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Table:
 		stage.UnstageBranchTable(target)
 
+	case *Threejs:
+		stage.UnstageBranchThreejs(target)
+
 	case *Title:
 		stage.UnstageBranchTitle(target)
 
@@ -1306,6 +1369,9 @@ func (stage *Stage) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	}
 	if assplitarea.Tree != nil {
 		UnstageBranch(stage, assplitarea.Tree)
+	}
+	if assplitarea.Threejs != nil {
+		UnstageBranch(stage, assplitarea.Threejs)
 	}
 	if assplitarea.Xlsx != nil {
 		UnstageBranch(stage, assplitarea.Xlsx)
@@ -1495,6 +1561,21 @@ func (stage *Stage) UnstageBranchTable(table *Table) {
 
 }
 
+func (stage *Stage) UnstageBranchThreejs(threejs *Threejs) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, threejs) {
+		return
+	}
+
+	threejs.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchTitle(title *Title) {
 
 	// check if instance is already staged
@@ -1621,6 +1702,9 @@ func (reference *AsSplitArea) GongReconstructPointersFromReferences(stage *Stage
 	if instance.Tree != nil {
 		reference.Tree = stage.Trees_reference[instance.Tree]
 	}
+	if instance.Threejs != nil {
+		reference.Threejs = stage.Threejss_reference[instance.Threejs]
+	}
 	if instance.Xlsx != nil {
 		reference.Xlsx = stage.Xlsxs_reference[instance.Xlsx]
 	}
@@ -1683,6 +1767,11 @@ func (reference *Svg) GongReconstructPointersFromReferences(stage *Stage, instan
 }
 
 func (reference *Table) GongReconstructPointersFromReferences(stage *Stage, instance *Table) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *Threejs) GongReconstructPointersFromReferences(stage *Stage, instance *Threejs) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -1803,6 +1892,12 @@ func (reference *AsSplitArea) GongReconstructPointersFromInstances(stage *Stage)
 			reference.Tree = _instance
 		}
 	}
+	if _reference := reference.Threejs; _reference != nil {
+		reference.Threejs = nil
+		if _instance, ok := stage.Threejss_instance[_reference]; ok {
+			reference.Threejs = _instance
+		}
+	}
 	if _reference := reference.Xlsx; _reference != nil {
 		reference.Xlsx = nil
 		if _instance, ok := stage.Xlsxs_instance[_reference]; ok {
@@ -1868,6 +1963,11 @@ func (reference *Svg) GongReconstructPointersFromInstances(stage *Stage) {
 }
 
 func (reference *Table) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *Threejs) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -2047,6 +2147,13 @@ func (assplitarea *AsSplitArea) GongDiff(stage *Stage, assplitareaOther *AsSplit
 	} else if assplitarea.Tree != nil && assplitareaOther.Tree != nil {
 		if assplitarea.Tree != assplitareaOther.Tree {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Tree"))
+		}
+	}
+	if (assplitarea.Threejs == nil) != (assplitareaOther.Threejs == nil) {
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Threejs"))
+	} else if assplitarea.Threejs != nil && assplitareaOther.Threejs != nil {
+		if assplitarea.Threejs != assplitareaOther.Threejs {
+			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Threejs"))
 		}
 	}
 	if (assplitarea.Xlsx == nil) != (assplitareaOther.Xlsx == nil) {
@@ -2247,6 +2354,20 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 	}
 	if table.StackName != tableOther.StackName {
 		diffs = append(diffs, table.GongMarshallField(stage, "StackName"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (threejs *Threejs) GongDiff(stage *Stage, threejsOther *Threejs) (diffs []string) {
+	// insertion point for field diffs
+	if threejs.Name != threejsOther.Name {
+		diffs = append(diffs, threejs.GongMarshallField(stage, "Name"))
+	}
+	if threejs.StackName != threejsOther.StackName {
+		diffs = append(diffs, threejs.GongMarshallField(stage, "StackName"))
 	}
 
 	return

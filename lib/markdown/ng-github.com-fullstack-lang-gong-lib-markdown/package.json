@@ -25,13 +25,19 @@
     "rxjs": "~7.8.0",
     "tone": "^15.1.22",
     "tslib": "^2.3.0",
-    "zone.js": "~0.15.0"
+    "zone.js": "~0.15.0",
+    "three": "^0.184.0",
+    "angular-three": "^4.2.2",
+    "angular-three-soba": "^4.2.2",
+    "camera-controls": "^2.10.1",
+    "maath": "^0.10.8"
   },
   "devDependencies": {
     "@angular/build": "^20.3.13",
     "@angular/cli": "^20.3.13",
     "@angular/compiler-cli": "^20.3.15",
     "ng-packagr": "^20.3.2",
-    "typescript": "~5.9.3"
+    "typescript": "~5.9.3",
+    "@types/three": "^0.184.1"
   }
 }

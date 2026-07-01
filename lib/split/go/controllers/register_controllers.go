@@ -154,6 +154,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/tables/:id", GetController().UpdateTable)
 		v1.DELETE("/v1/tables/:id", GetController().DeleteTable)
 
+		v1.GET("/v1/threejss", GetController().GetThreejss)
+		v1.GET("/v1/threejss/:id", GetController().GetThreejs)
+		v1.POST("/v1/threejss", GetController().PostThreejs)
+		v1.PATCH("/v1/threejss/:id", GetController().UpdateThreejs)
+		v1.PUT("/v1/threejss/:id", GetController().UpdateThreejs)
+		v1.DELETE("/v1/threejss/:id", GetController().DeleteThreejs)
+
 		v1.GET("/v1/titles", GetController().GetTitles)
 		v1.GET("/v1/titles/:id", GetController().GetTitle)
 		v1.POST("/v1/titles", GetController().PostTitle)

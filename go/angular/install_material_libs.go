@@ -78,6 +78,11 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 			"tone",
 			"ngx-markdown@20",
 			"material-symbols",
+			"three",
+			"angular-three",
+			"angular-three-soba",
+			"camera-controls",
+			"maath",
 			"--legacy-peer-deps")
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Installing some packages\n")

@@ -343,6 +343,21 @@ type Stage struct {
 	OnAfterTableDeleteCallback OnAfterDeleteInterface[Table]
 	OnAfterTableReadCallback   OnAfterReadInterface[Table]
 
+	Threejss                map[*Threejs]struct{}
+	Threejss_instance       map[*Threejs]*Threejs
+	Threejss_mapString      map[string]*Threejs
+	ThreejsOrder            uint
+	Threejs_stagedOrder     map[*Threejs]uint
+	Threejs_orderStaged     map[uint]*Threejs
+	Threejss_reference      map[*Threejs]*Threejs
+	Threejss_referenceOrder map[*Threejs]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterThreejsCreateCallback OnAfterCreateInterface[Threejs]
+	OnAfterThreejsUpdateCallback OnAfterUpdateInterface[Threejs]
+	OnAfterThreejsDeleteCallback OnAfterDeleteInterface[Threejs]
+	OnAfterThreejsReadCallback   OnAfterReadInterface[Threejs]
+
 	Titles                map[*Title]struct{}
 	Titles_instance       map[*Title]*Title
 	Titles_mapString      map[string]*Title
@@ -712,6 +727,10 @@ func (stage *Stage) Squash() {
 	stage.Tables_instance = make(map[*Table]*Table)
 	stage.Tables_referenceOrder = make(map[*Table]uint)
 
+	stage.Threejss_reference = make(map[*Threejs]*Threejs)
+	stage.Threejss_instance = make(map[*Threejs]*Threejs)
+	stage.Threejss_referenceOrder = make(map[*Threejs]uint)
+
 	stage.Titles_reference = make(map[*Title]*Title)
 	stage.Titles_instance = make(map[*Title]*Title)
 	stage.Titles_referenceOrder = make(map[*Title]uint)
@@ -953,6 +972,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.TableOrder = maxTableOrder + 1
 	} else {
 		stage.TableOrder = 0
+	}
+
+	var maxThreejsOrder uint
+	var foundThreejs bool
+	for _, order := range stage.Threejs_stagedOrder {
+		if !foundThreejs || order > maxThreejsOrder {
+			maxThreejsOrder = order
+			foundThreejs = true
+		}
+	}
+	if foundThreejs {
+		stage.ThreejsOrder = maxThreejsOrder + 1
+	} else {
+		stage.ThreejsOrder = 0
 	}
 
 	var maxTitleOrder uint
@@ -1282,6 +1315,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *Threejs:
+		tmp := GetStructInstancesByOrder(stage.Threejss, stage.Threejs_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Threejs implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Title:
 		tmp := GetStructInstancesByOrder(stage.Titles, stage.Title_stagedOrder)
 
@@ -1409,6 +1456,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Svgs, stage.Svg_stagedOrder)
 	case "Table":
 		res = GetNamedStructInstances(stage.Tables, stage.Table_stagedOrder)
+	case "Threejs":
+		res = GetNamedStructInstances(stage.Threejss, stage.Threejs_stagedOrder)
 	case "Title":
 		res = GetNamedStructInstances(stage.Titles, stage.Title_stagedOrder)
 	case "Tone":
@@ -1516,6 +1565,8 @@ type BackRepoInterface interface {
 	CheckoutSvg(svg *Svg)
 	CommitTable(table *Table)
 	CheckoutTable(table *Table)
+	CommitThreejs(threejs *Threejs)
+	CheckoutThreejs(threejs *Threejs)
 	CommitTitle(title *Title)
 	CheckoutTitle(title *Title)
 	CommitTone(tone *Tone)
@@ -1573,6 +1624,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Tables:           make(map[*Table]struct{}),
 		Tables_mapString: make(map[string]*Table),
+
+		Threejss:           make(map[*Threejs]struct{}),
+		Threejss_mapString: make(map[string]*Threejs),
 
 		Titles:           make(map[*Title]struct{}),
 		Titles_mapString: make(map[string]*Title),
@@ -1655,6 +1709,10 @@ func NewStage(name string) (stage *Stage) {
 		Table_orderStaged: make(map[uint]*Table),
 		Tables_reference:  make(map[*Table]*Table),
 
+		Threejs_stagedOrder: make(map[*Threejs]uint),
+		Threejs_orderStaged: make(map[uint]*Threejs),
+		Threejss_reference:  make(map[*Threejs]*Threejs),
+
 		Title_stagedOrder: make(map[*Title]uint),
 		Title_orderStaged: make(map[uint]*Title),
 		Titles_reference:  make(map[*Title]*Title),
@@ -1705,6 +1763,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"Table": &TableUnmarshaller{},
 
+			"Threejs": &ThreejsUnmarshaller{},
+
 			"Title": &TitleUnmarshaller{},
 
 			"Tone": &ToneUnmarshaller{},
@@ -1733,6 +1793,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Split"},
 			{name: "Svg"},
 			{name: "Table"},
+			{name: "Threejs"},
 			{name: "Title"},
 			{name: "Tone"},
 			{name: "Tree"},
@@ -1777,6 +1838,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Svg_stagedOrder[instance]
 	case *Table:
 		return stage.Table_stagedOrder[instance]
+	case *Threejs:
+		return stage.Threejs_stagedOrder[instance]
 	case *Title:
 		return stage.Title_stagedOrder[instance]
 	case *Tone:
@@ -1824,6 +1887,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.Svg_orderStaged[order]).(Type)
 	case *Table:
 		return any(stage.Table_orderStaged[order]).(Type)
+	case *Threejs:
+		return any(stage.Threejs_orderStaged[order]).(Type)
 	case *Title:
 		return any(stage.Title_orderStaged[order]).(Type)
 	case *Tone:
@@ -1870,6 +1935,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.Svg_stagedOrder[instance]
 	case *Table:
 		return stage.Table_stagedOrder[instance]
+	case *Threejs:
+		return stage.Threejs_stagedOrder[instance]
 	case *Title:
 		return stage.Title_stagedOrder[instance]
 	case *Tone:
@@ -1959,6 +2026,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Split"] = len(stage.Splits)
 	stage.Map_GongStructName_InstancesNb["Svg"] = len(stage.Svgs)
 	stage.Map_GongStructName_InstancesNb["Table"] = len(stage.Tables)
+	stage.Map_GongStructName_InstancesNb["Threejs"] = len(stage.Threejss)
 	stage.Map_GongStructName_InstancesNb["Title"] = len(stage.Titles)
 	stage.Map_GongStructName_InstancesNb["Tone"] = len(stage.Tones)
 	stage.Map_GongStructName_InstancesNb["Tree"] = len(stage.Trees)
@@ -3236,6 +3304,94 @@ func (table *Table) SetName(name string) {
 	table.Name = name
 }
 
+// Stage puts threejs to the model stage
+func (threejs *Threejs) Stage(stage *Stage) *Threejs {
+	if _, ok := stage.Threejss[threejs]; !ok {
+		stage.Threejss[threejs] = struct{}{}
+		stage.Threejs_stagedOrder[threejs] = stage.ThreejsOrder
+		stage.Threejs_orderStaged[stage.ThreejsOrder] = threejs
+		stage.ThreejsOrder++
+	}
+	stage.Threejss_mapString[threejs.Name] = threejs
+
+	return threejs
+}
+
+// StagePreserveOrder puts threejs to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ThreejsOrder
+// - update stage.ThreejsOrder accordingly
+func (threejs *Threejs) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Threejss[threejs]; !ok {
+		stage.Threejss[threejs] = struct{}{}
+
+		if order > stage.ThreejsOrder {
+			stage.ThreejsOrder = order
+		}
+		stage.Threejs_stagedOrder[threejs] = order
+		stage.Threejs_orderStaged[order] = threejs
+		stage.ThreejsOrder++
+	}
+	stage.Threejss_mapString[threejs.Name] = threejs
+}
+
+// Unstage removes threejs off the model stage
+func (threejs *Threejs) Unstage(stage *Stage) *Threejs {
+	delete(stage.Threejss, threejs)
+	// issue1150
+	// delete(stage.Threejs_stagedOrder, threejs)
+	delete(stage.Threejss_mapString, threejs.Name)
+
+	return threejs
+}
+
+// UnstageVoid removes threejs off the model stage
+func (threejs *Threejs) UnstageVoid(stage *Stage) {
+	delete(stage.Threejss, threejs)
+	// issue1150
+	// delete(stage.Threejs_stagedOrder, threejs)
+	delete(stage.Threejss_mapString, threejs.Name)
+}
+
+// commit threejs to the back repo (if it is already staged)
+func (threejs *Threejs) Commit(stage *Stage) *Threejs {
+	if _, ok := stage.Threejss[threejs]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitThreejs(threejs)
+		}
+	}
+	return threejs
+}
+
+func (threejs *Threejs) CommitVoid(stage *Stage) {
+	threejs.Commit(stage)
+}
+
+func (threejs *Threejs) StageVoid(stage *Stage) {
+	threejs.Stage(stage)
+}
+
+// Checkout threejs to the back repo (if it is already staged)
+func (threejs *Threejs) Checkout(stage *Stage) *Threejs {
+	if _, ok := stage.Threejss[threejs]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutThreejs(threejs)
+		}
+	}
+	return threejs
+}
+
+// for satisfaction of GongStruct interface
+func (threejs *Threejs) GetName() (res string) {
+	return threejs.Name
+}
+
+// for satisfaction of GongStruct interface
+func (threejs *Threejs) SetName(name string) {
+	threejs.Name = name
+}
+
 // Stage puts title to the model stage
 func (title *Title) Stage(stage *Stage) *Title {
 	if _, ok := stage.Titles[title]; !ok {
@@ -3692,6 +3848,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMSplit(Split *Split)
 	CreateORMSvg(Svg *Svg)
 	CreateORMTable(Table *Table)
+	CreateORMThreejs(Threejs *Threejs)
 	CreateORMTitle(Title *Title)
 	CreateORMTone(Tone *Tone)
 	CreateORMTree(Tree *Tree)
@@ -3714,6 +3871,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMSplit(Split *Split)
 	DeleteORMSvg(Svg *Svg)
 	DeleteORMTable(Table *Table)
+	DeleteORMThreejs(Threejs *Threejs)
 	DeleteORMTitle(Title *Title)
 	DeleteORMTone(Tone *Tone)
 	DeleteORMTree(Tree *Tree)
@@ -3792,6 +3950,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Table_stagedOrder = make(map[*Table]uint)
 	stage.TableOrder = 0
 
+	stage.Threejss = make(map[*Threejs]struct{})
+	stage.Threejss_mapString = make(map[string]*Threejs)
+	stage.Threejs_stagedOrder = make(map[*Threejs]uint)
+	stage.ThreejsOrder = 0
+
 	stage.Titles = make(map[*Title]struct{})
 	stage.Titles_mapString = make(map[string]*Title)
 	stage.Title_stagedOrder = make(map[*Title]uint)
@@ -3868,6 +4031,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Tables = nil
 	stage.Tables_mapString = nil
 
+	stage.Threejss = nil
+	stage.Threejss_mapString = nil
+
 	stage.Titles = nil
 	stage.Titles_mapString = nil
 
@@ -3941,6 +4107,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for table := range stage.Tables {
 		table.Unstage(stage)
+	}
+
+	for threejs := range stage.Threejss {
+		threejs.Unstage(stage)
 	}
 
 	for title := range stage.Titles {
@@ -4067,6 +4237,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Svgs).(*Type)
 	case map[*Table]any:
 		return any(&stage.Tables).(*Type)
+	case map[*Threejs]any:
+		return any(&stage.Threejss).(*Type)
 	case map[*Title]any:
 		return any(&stage.Titles).(*Type)
 	case map[*Tone]any:
@@ -4117,6 +4289,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Svgs_mapString).(map[string]Type)
 	case *Table:
 		return any(stage.Tables_mapString).(map[string]Type)
+	case *Threejs:
+		return any(stage.Threejss_mapString).(map[string]Type)
 	case *Title:
 		return any(stage.Titles_mapString).(map[string]Type)
 	case *Tone:
@@ -4167,6 +4341,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Svgs).(*map[*Type]struct{})
 	case Table:
 		return any(&stage.Tables).(*map[*Type]struct{})
+	case Threejs:
+		return any(&stage.Threejss).(*map[*Type]struct{})
 	case Title:
 		return any(&stage.Titles).(*map[*Type]struct{})
 	case Tone:
@@ -4217,6 +4393,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Svgs).(*map[Type]struct{})
 	case *Table:
 		return any(&stage.Tables).(*map[Type]struct{})
+	case *Threejs:
+		return any(&stage.Threejss).(*map[Type]struct{})
 	case *Title:
 		return any(&stage.Titles).(*map[Type]struct{})
 	case *Tone:
@@ -4267,6 +4445,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Svgs_mapString).(*map[string]*Type)
 	case Table:
 		return any(&stage.Tables_mapString).(*map[string]*Type)
+	case Threejs:
+		return any(&stage.Threejss_mapString).(*map[string]*Type)
 	case Title:
 		return any(&stage.Titles_mapString).(*map[string]*Type)
 	case Tone:
@@ -4324,6 +4504,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Tone: &Tone{Name: "Tone"},
 			// field is initialized with an instance of Tree with the name of the field
 			Tree: &Tree{Name: "Tree"},
+			// field is initialized with an instance of Threejs with the name of the field
+			Threejs: &Threejs{Name: "Threejs"},
 			// field is initialized with an instance of Xlsx with the name of the field
 			Xlsx: &Xlsx{Name: "Xlsx"},
 		}).(*Type)
@@ -4373,6 +4555,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case Table:
 		return any(&Table{
+			// Initialisation of associations
+		}).(*Type)
+	case Threejs:
+		return any(&Threejs{
 			// Initialisation of associations
 		}).(*Type)
 	case Title:
@@ -4627,6 +4813,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Threejs":
+			res := make(map[*Threejs][]*AsSplitArea)
+			for assplitarea := range stage.AsSplitAreas {
+				if assplitarea.Threejs != nil {
+					threejs_ := assplitarea.Threejs
+					var assplitareas []*AsSplitArea
+					_, ok := res[threejs_]
+					if ok {
+						assplitareas = res[threejs_]
+					} else {
+						assplitareas = make([]*AsSplitArea, 0)
+					}
+					assplitareas = append(assplitareas, assplitarea)
+					res[threejs_] = assplitareas
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Xlsx":
 			res := make(map[*Xlsx][]*AsSplitArea)
 			for assplitarea := range stage.AsSplitAreas {
@@ -4702,6 +4905,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of Table
 	case Table:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Threejs
+	case Threejs:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -4823,6 +5031,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Threejs
+	case Threejs:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Title
 	case Title:
 		switch fieldname {
@@ -4895,6 +5108,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Svg"
 	case *Table:
 		res = "Table"
+	case *Threejs:
+		res = "Threejs"
 	case *Title:
 		res = "Title"
 	case *Tone:
@@ -4968,6 +5183,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case *Table:
+		var rf ReverseField
+		_ = rf
+	case *Threejs:
 		var rf ReverseField
 		_ = rf
 	case *Title:
@@ -5101,6 +5319,11 @@ func (assplitarea *AsSplitArea) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Tree",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Tree",
+		},
+		{
+			Name:                 "Threejs",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Threejs",
 		},
 		{
 			Name:                 "Xlsx",
@@ -5309,6 +5532,21 @@ func (svg *Svg) GongGetFieldHeaders() (res []GongFieldHeader) {
 }
 
 func (table *Table) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "StackName",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (threejs *Threejs) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -5602,6 +5840,12 @@ func (assplitarea *AsSplitArea) GongGetFieldValue(fieldName string, stage *Stage
 			res.valueString = assplitarea.Tree.Name
 			res.ids = assplitarea.Tree.GongGetUUID(stage)
 		}
+	case "Threejs":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if assplitarea.Threejs != nil {
+			res.valueString = assplitarea.Threejs.Name
+			res.ids = assplitarea.Threejs.GongGetUUID(stage)
+		}
 	case "Xlsx":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if assplitarea.Xlsx != nil {
@@ -5766,6 +6010,17 @@ func (table *Table) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = table.Name
 	case "StackName":
 		res.valueString = table.StackName
+	}
+	return
+}
+
+func (threejs *Threejs) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = threejs.Name
+	case "StackName":
+		res.valueString = threejs.StackName
 	}
 	return
 }
@@ -6040,6 +6295,17 @@ func (assplitarea *AsSplitArea) GongSetFieldValue(fieldName string, value GongFi
 				}
 			}
 		}
+	case "Threejs":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			assplitarea.Threejs = nil
+			for __instance__ := range stage.Threejss {
+				if stage.Threejs_stagedOrder[__instance__] == uint(id) {
+					assplitarea.Threejs = __instance__
+					break
+				}
+			}
+		}
 	case "Xlsx":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -6229,6 +6495,19 @@ func (table *Table) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	return nil
 }
 
+func (threejs *Threejs) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		threejs.Name = value.GetValueString()
+	case "StackName":
+		threejs.StackName = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (title *Title) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -6379,6 +6658,10 @@ func (table *Table) GongGetGongstructName() string {
 	return "Table"
 }
 
+func (threejs *Threejs) GongGetGongstructName() string {
+	return "Threejs"
+}
+
 func (title *Title) GongGetGongstructName() string {
 	return "Title"
 }
@@ -6474,6 +6757,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Tables_mapString = make(map[string]*Table)
 	for table := range stage.Tables {
 		stage.Tables_mapString[table.Name] = table
+	}
+
+	stage.Threejss_mapString = make(map[string]*Threejs)
+	for threejs := range stage.Threejss {
+		stage.Threejss_mapString[threejs.Name] = threejs
 	}
 
 	stage.Titles_mapString = make(map[string]*Title)
