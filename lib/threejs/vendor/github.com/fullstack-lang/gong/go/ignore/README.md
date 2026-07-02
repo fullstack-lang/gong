@@ -1,1 +1,0 @@
-This package provides simple functions for parsing and using a gitignore like file dedicated to go files in a directory.
