@@ -21,7 +21,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^20.1.8",
+    "@angular/animations": "^20.3.0",
     "@angular/cdk": "^20.2.14",
     "@angular/common": "^20.3.0",
     "@angular/compiler": "^20.3.0",
@@ -38,7 +38,7 @@
     "material-symbols": "^0.45.1",
     "ngx-markdown": "^20.1.0",
     "rxjs": "~7.8.0",
-    "three": "^0.184.0",
+    "three": "^0.182.0",
     "tone": "^15.1.22",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
@@ -47,7 +47,7 @@
     "@angular/build": "^20.3.13",
     "@angular/cli": "^20.3.13",
     "@angular/compiler-cli": "^20.3.0",
-    "@types/three": "^0.184.1",
+    "@types/three": "^0.182.0",
     "ng-packagr": "^20.3.0",
     "typescript": "~5.9.2"
   }

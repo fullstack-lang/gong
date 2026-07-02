@@ -31,9 +31,17 @@ func NewStager(
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name: "Data Probe & Data Model",
+		Name:      "Data Probe & Data Model",
+		Direction: split.Vertical,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
+				Size: 50,
+				Threejs: &split.Threejs{
+					StackName: "threejs",
+				},
+			},
+			{
+				Size: 50,
 				Split: &split.Split{
 					StackName: stage.GetProbeSplitStageName(),
 				},
@@ -59,4 +67,3 @@ type BeforeCommitImplementation struct {
 func (c *BeforeCommitImplementation) BeforeCommit(stage *Stage) {
 
 }
-

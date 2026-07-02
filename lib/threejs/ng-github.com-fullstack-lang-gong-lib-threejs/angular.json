@@ -96,20 +96,20 @@
       },
       "sourceRoot": "src"
     },
-    "gong-lib-threejs": {
+    "threejs": {
       "projectType": "library",
-      "root": "projects/gong-lib-threejs",
-      "sourceRoot": "projects/gong-lib-threejs/src",
+      "root": "projects/threejs",
+      "sourceRoot": "projects/threejs/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
           "configurations": {
             "production": {
-              "tsConfig": "projects/gong-lib-threejs/tsconfig.lib.prod.json"
+              "tsConfig": "projects/threejs/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/gong-lib-threejs/tsconfig.lib.json"
+              "tsConfig": "projects/threejs/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -117,7 +117,7 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "tsConfig": "projects/gong-lib-threejs/tsconfig.spec.json",
+            "tsConfig": "projects/threejs/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
@@ -126,20 +126,20 @@
         }
       }
     },
-    "gong-lib-threejsspecific": {
+    "threejsspecific": {
       "projectType": "library",
-      "root": "projects/gong-lib-threejsspecific",
-      "sourceRoot": "projects/gong-lib-threejsspecific/src",
+      "root": "projects/threejsspecific",
+      "sourceRoot": "projects/threejsspecific/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
           "configurations": {
             "production": {
-              "tsConfig": "projects/gong-lib-threejsspecific/tsconfig.lib.prod.json"
+              "tsConfig": "projects/threejsspecific/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/gong-lib-threejsspecific/tsconfig.lib.json"
+              "tsConfig": "projects/threejsspecific/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -147,7 +147,7 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "tsConfig": "projects/gong-lib-threejsspecific/tsconfig.spec.json",
+            "tsConfig": "projects/threejsspecific/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
