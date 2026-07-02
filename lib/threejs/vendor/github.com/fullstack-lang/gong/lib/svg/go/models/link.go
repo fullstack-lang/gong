@@ -1,0 +1,355 @@
+package models
+
+import (
+	"fmt"
+	"math"
+	"strings"
+)
+
+type Link struct {
+	Name string
+
+	Type LinkType
+
+	// IsBezierCurve, if true will draw the link as a bezier curve instead of segments
+	IsBezierCurve bool
+
+	Start           *Rect
+	StartAnchorType AnchorType
+
+	End           *Rect
+	EndAnchorType AnchorType
+
+	// if link type is floating orthogonal ratio, from 0 to 1,
+	// where the anchor starts on the edge (horizontal / vertical)
+	StartOrientation OrientationType
+	StartRatio       float64
+	EndOrientation   OrientationType
+	EndRatio         float64
+
+	// in case StartOrientation is the same as EndOrientation,
+	// there is a perpendicular line that reach the corner at
+	// CornerOffsetRatio
+	CornerOffsetRatio float64
+
+	// corner radius
+	CornerRadius float64
+
+	// End Arrows
+	HasEndArrow  bool
+	EndArrowSize float64
+
+	// for aesthetic reasons, it can be usefull to have the
+	// arrow tip to stop at an offset EndArrowOffset from the target
+	EndArrowOffset float64
+
+	// Start Arrows
+	HasStartArrow  bool
+	StartArrowSize float64
+
+	// for aesthetic reasons, it can be usefull to have the
+	// arrow tip to stop at an offset StartArrowOffset from the target
+	StartArrowOffset float64
+
+	// to be displayed at the start
+	TextAtArrowStart []*LinkAnchoredText
+
+	// to be displayed at the end
+	TextAtArrowEnd []*LinkAnchoredText
+
+	// to be displayed at the corner (only for ORTHOGONAL links)
+	TextAtCorner []*LinkAnchoredText
+
+	// to be displayed at the start
+	PathAtArrowStart []*LinkAnchoredPath
+
+	// to be displayed at the end
+	PathAtArrowEnd []*LinkAnchoredPath
+
+	// to be displayed at the corner (only for ORTHOGONAL links)
+	PathAtCorner []*LinkAnchoredPath
+
+	// for non floating orthogonal anchors
+	ControlPoints []*ControlPoint
+
+	Presentation
+
+	Impl LinkImplInterface
+
+	OnUpdate func(updatedLink *Link)
+
+	OnSelect func()
+	OnChange func(updatedLink *Link)
+
+	MouseEvent
+}
+
+func (link *Link) OnAfterUpdate(stage *Stage, _, frontLink *Link) {
+	if link.Impl != nil {
+		link.Impl.LinkUpdated(frontLink)
+	}
+
+	diff := link.StartRatio != frontLink.StartRatio ||
+		link.EndRatio != frontLink.EndRatio ||
+		link.StartOrientation != frontLink.StartOrientation ||
+		link.EndOrientation != frontLink.EndOrientation ||
+		link.CornerOffsetRatio != frontLink.CornerOffsetRatio
+
+	if !diff {
+		if link.OnSelect != nil {
+			link.OnSelect()
+		}
+	} else {
+		if link.OnChange != nil {
+			link.OnChange(frontLink)
+		}
+	}
+
+	if link.OnUpdate != nil {
+		link.OnUpdate(frontLink)
+	}
+}
+
+func (link *Link) generateSegments() []Segment {
+	if link.Start == nil || link.End == nil {
+		return []Segment{}
+	}
+	startRect, endRect := link.Start, link.End
+	startDirection, endDirection := link.StartOrientation, link.EndOrientation
+	startRatio, endRatio := link.StartRatio, link.EndRatio
+	cornerOffsetRatio, cornerRadius := link.CornerOffsetRatio, link.CornerRadius
+	segments := []Segment{}
+
+	if startDirection == ORIENTATION_HORIZONTAL && endDirection == ORIENTATION_VERTICAL {
+		c1Y := startRect.Y + startRatio*startRect.Height
+		c1X := endRect.X + endRatio*endRect.Width
+		c1 := createPoint(c1X, c1Y)
+		s1 := generatePointRectSegment(c1, startRect, startDirection, cornerRadius, 0, true, StartSegment)
+		s2 := generatePointRectSegment(c1, endRect, endDirection, cornerRadius, 1, false, EndSegment)
+		segments = append(segments, s1, s2)
+
+	} else if startDirection == ORIENTATION_VERTICAL && endDirection == ORIENTATION_HORIZONTAL {
+		c1X := startRect.X + startRatio*startRect.Width
+		c1Y := endRect.Y + endRatio*endRect.Height
+		c1 := createPoint(c1X, c1Y)
+		s1 := generatePointRectSegment(c1, startRect, startDirection, cornerRadius, 0, true, StartSegment)
+		s2 := generatePointRectSegment(c1, endRect, endDirection, cornerRadius, 1, false, EndSegment)
+		segments = append(segments, s1, s2)
+
+	} else if startDirection == ORIENTATION_HORIZONTAL && endDirection == ORIENTATION_HORIZONTAL {
+		c1X := startRect.X + cornerOffsetRatio*startRect.Width
+		c1Y := startRect.Y + startRatio*startRect.Height
+		c1 := createPoint(c1X, c1Y)
+		c2X := c1X
+		c2Y := endRect.Y + endRatio*endRect.Height
+		c2 := createPoint(c2X, c2Y)
+		s1 := generatePointRectSegment(c1, startRect, startDirection, cornerRadius, 0, true, StartSegment)
+		s2 := generatePointPointSegment(c1, c2, ORIENTATION_VERTICAL, cornerRadius, 1)
+		s3 := generatePointRectSegment(c2, endRect, endDirection, cornerRadius, 2, false, EndSegment)
+		if math.Abs(c1Y-c2Y) <= 2*cornerRadius && cornerRadius > 0 {
+			c2a := createPoint(c2X, c1Y)
+			s1 = generatePointRectSegment(c1, startRect, startDirection, 0, 0, true, StartSegment)
+			s2 = generatePointPointSegment(c1, c2a, ORIENTATION_HORIZONTAL, 0, 1)
+			s3 = generatePointRectSegment(c2a, endRect, endDirection, 0, 2, false, EndSegment)
+		}
+		segments = append(segments, s1, s2, s3)
+
+	} else if startDirection == ORIENTATION_VERTICAL && endDirection == ORIENTATION_VERTICAL {
+		c1X := startRect.X + startRatio*startRect.Width
+		c1Y := startRect.Y + cornerOffsetRatio*startRect.Height
+		c1 := createPoint(c1X, c1Y)
+		c2X := endRect.X + endRatio*endRect.Width
+		c2Y := c1Y
+		c2 := createPoint(c2X, c2Y)
+		s1 := generatePointRectSegment(c1, startRect, startDirection, cornerRadius, 0, true, StartSegment)
+		s2 := generatePointPointSegment(c1, c2, ORIENTATION_HORIZONTAL, cornerRadius, 1)
+		s3 := generatePointRectSegment(c2, endRect, endDirection, cornerRadius, 2, false, EndSegment)
+		if math.Abs(c1X-c2X) <= 2*cornerRadius && cornerRadius > 0 {
+			c2a := createPoint(c1X, c2Y)
+			s1 = generatePointRectSegment(c1, startRect, startDirection, 0, 0, true, StartSegment)
+			s2 = generatePointPointSegment(c1, c2a, ORIENTATION_VERTICAL, 0, 1)
+			s3 = generatePointRectSegment(c2a, endRect, endDirection, 0, 2, false, EndSegment)
+		}
+		segments = append(segments, s1, s2, s3)
+	}
+	return segments
+}
+
+type LinkImplProxy struct {
+	OnLinkUpdated func(updatedLink *Link)
+}
+
+func (linkImplProxy *LinkImplProxy) LinkUpdated(updatedLink *Link) {
+	if linkImplProxy.OnLinkUpdated != nil {
+		linkImplProxy.OnLinkUpdated(updatedLink)
+	}
+}
+
+func (linkImplProxy *LinkImplProxy) LinkUpdatedWithMouseEvent(updatedLink *Link, mouseEvent *Gong__MouseEvent) {
+	linkImplProxy.LinkUpdated(updatedLink)
+}
+
+func (link *Link) WriteSVGEndArrow(sb *strings.Builder, segment *Segment) {
+	const ratio = 0.707106781 / 2 // (1/sqrt(2)) / 2
+
+	arrowSize := link.EndArrowSize
+	if segment.Type == StartSegment {
+		arrowSize = link.StartArrowSize
+	}
+	if arrowSize == 0 {
+		arrowSize = link.EndArrowSize
+	}
+
+	tipX := segment.EndPointWithoutRadius.X
+	tipY := segment.EndPointWithoutRadius.Y
+
+	dxSeg := tipX - segment.StartPointWithoutRadius.X
+	dySeg := tipY - segment.StartPointWithoutRadius.Y
+	length := math.Sqrt(dxSeg*dxSeg + dySeg*dySeg)
+
+	if length == 0 {
+		return
+	}
+
+	ux := dxSeg / length
+	uy := dySeg / length
+
+	nx := -uy
+	ny := ux
+
+	offset := link.StrokeWidth * ratio
+
+	firstStartX := tipX - offset*ux + offset*nx
+	firstStartY := tipY - offset*uy + offset*ny
+
+	secondStartX := tipX - offset*ux - offset*nx
+	secondStartY := tipY - offset*uy - offset*ny
+
+	firstTipX := tipX - arrowSize*ux + arrowSize*nx
+	firstTipY := tipY - arrowSize*uy + arrowSize*ny
+
+	secondTipX := tipX - arrowSize*ux - arrowSize*nx
+	secondTipY := tipY - arrowSize*uy - arrowSize*ny
+
+	sb.WriteString(fmt.Sprintf("	<path d=\"M %f %f L %f %f M %f %f L %f %f\"",
+		firstStartX,
+		firstStartY,
+		firstTipX,
+		firstTipY,
+
+		secondStartX,
+		secondStartY,
+		secondTipX,
+		secondTipY))
+
+	link.Presentation.WriteSVG(sb)
+	sb.WriteString(" />\n")
+}
+
+func (link *Link) WriteSVGArcPath(sb *strings.Builder, segment, nextSegment *Segment) {
+	if link.Type == LINK_TYPE_LINE_WITH_CONTROL_POINTS {
+		cornerX := segment.EndPointWithoutRadius.X
+		cornerY := segment.EndPointWithoutRadius.Y
+		startX := segment.EndPoint.X
+		startY := segment.EndPoint.Y
+		endX := nextSegment.StartPoint.X
+		endY := nextSegment.StartPoint.Y
+
+		sb.WriteString(fmt.Sprintf("	<path d=\"M %f %f Q %f %f %f %f\"",
+			startX, startY,
+			cornerX, cornerY,
+			endX, endY))
+
+		link.Presentation.WriteSVG(sb)
+		sb.WriteString(" />\n")
+		return
+	}
+
+	// The TypeScript version uses constant startDegree and endDegree,
+	// which means startRadians and endRadians are also constant.
+	// However, largeArcFlag depends on these, so we keep the calculation
+	// for clarity, even though it's currently fixed.
+	const startDegree = 180.0
+	const endDegree = 270.0
+	// const startRadians = (startDegree * math.Pi) / 180.0 // Not directly used in path string
+	// const endRadians = (endDegree * math.Pi) / 180.0 // Not directly used in path string
+
+	startX := segment.EndPoint.X
+	startY := segment.EndPoint.Y
+	endX := nextSegment.StartPoint.X
+	endY := nextSegment.StartPoint.Y
+
+	largeArcFlag := 0
+	if (endDegree - startDegree) > 180.0 { // Or endDegree - startDegree <= 180 ? 0 : 1
+		largeArcFlag = 1
+	}
+
+	sweepFlag := 0
+
+	switch segment.Orientation {
+	case ORIENTATION_HORIZONTAL:
+		segmentDirection := 0
+		if segment.EndPoint.X > segment.StartPoint.X {
+			segmentDirection = 1
+		} else {
+			segmentDirection = -1
+		}
+
+		cornerDirection := 0
+		if segment.EndPoint.Y < nextSegment.StartPoint.Y {
+			cornerDirection = 1
+		} else {
+			cornerDirection = -1
+		}
+
+		if segmentDirection*cornerDirection == 1 {
+			sweepFlag = 1
+		} else {
+			sweepFlag = 0
+		}
+
+	case ORIENTATION_VERTICAL:
+		segmentDirection := 0
+		if segment.EndPoint.Y > segment.StartPoint.Y {
+			segmentDirection = 1
+		} else {
+			segmentDirection = -1
+		}
+
+		cornerDirection := 0
+		if segment.EndPoint.X < nextSegment.StartPoint.X { // Corrected based on typical SVG arc logic (clockwise/counter-clockwise)
+			cornerDirection = 1
+		} else {
+			cornerDirection = -1
+		}
+
+		// This logic for sweepFlag in vertical orientation seems to be swapped compared to horizontal
+		// in the original TS. If the visual output is correct with the TS code,
+		// then this translation maintains that logic.
+		if segmentDirection*cornerDirection == 1 {
+			sweepFlag = 0
+		} else {
+			sweepFlag = 1
+		}
+	}
+
+	// Ensure link.CornerRadius is available and has a sensible value.
+	// If link.CornerRadius could be zero, SVG arc with 0 radius is problematic.
+	// The original TS code doesn't show a default or handling for 0.
+	cornerRadius := link.CornerRadius
+	if cornerRadius <= 0 {
+		// Default to a small radius if not set or invalid, or handle as an error
+		// For now, let's assume it's always positive as in the TS
+		// For a straight line instead of an arc if radius is 0, one might use L command
+		// return fmt.Sprintf("M %f %f L %f %f", startX, startY, endX, endY)
+	}
+
+	sb.WriteString(fmt.Sprintf("	<path d=\"M %f %f A %f %f 0 %d %d %f %f\"",
+		startX, startY,
+		cornerRadius, cornerRadius, /* rx, ry */
+		largeArcFlag, sweepFlag,
+		endX, endY))
+
+	link.Presentation.WriteSVG(sb)
+	sb.WriteString(" />\n")
+}

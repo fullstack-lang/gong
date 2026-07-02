@@ -1,0 +1,1357 @@
+// generated code - do not edit
+package models
+
+import (
+	"crypto/sha256"
+	"encoding/binary"
+	"fmt"
+	"log"
+	"sort"
+	"strings"
+	"time"
+)
+
+var (
+	__GongSliceTemplate_time__dummyDeclaration time.Duration
+	_                                          = __GongSliceTemplate_time__dummyDeclaration
+)
+
+// ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
+// Its complexity is in O(n)O(p) where p is the number of pointers
+func (stage *Stage) ComputeReverseMaps() {
+	// insertion point per named struct
+	// Compute reverse map for named struct AttributeShape
+	// insertion point per field
+
+	// Compute reverse map for named struct Classdiagram
+	// insertion point per field
+	stage.Classdiagram_GongStructShapes_reverseMap = make(map[*GongStructShape]*Classdiagram)
+	for classdiagram := range stage.Classdiagrams {
+		_ = classdiagram
+		for _, _gongstructshape := range classdiagram.GongStructShapes {
+			stage.Classdiagram_GongStructShapes_reverseMap[_gongstructshape] = classdiagram
+		}
+	}
+	stage.Classdiagram_GongEnumShapes_reverseMap = make(map[*GongEnumShape]*Classdiagram)
+	for classdiagram := range stage.Classdiagrams {
+		_ = classdiagram
+		for _, _gongenumshape := range classdiagram.GongEnumShapes {
+			stage.Classdiagram_GongEnumShapes_reverseMap[_gongenumshape] = classdiagram
+		}
+	}
+	stage.Classdiagram_GongNoteShapes_reverseMap = make(map[*GongNoteShape]*Classdiagram)
+	for classdiagram := range stage.Classdiagrams {
+		_ = classdiagram
+		for _, _gongnoteshape := range classdiagram.GongNoteShapes {
+			stage.Classdiagram_GongNoteShapes_reverseMap[_gongnoteshape] = classdiagram
+		}
+	}
+
+	// Compute reverse map for named struct DiagramPackage
+	// insertion point per field
+	stage.DiagramPackage_Classdiagrams_reverseMap = make(map[*Classdiagram]*DiagramPackage)
+	for diagrampackage := range stage.DiagramPackages {
+		_ = diagrampackage
+		for _, _classdiagram := range diagrampackage.Classdiagrams {
+			stage.DiagramPackage_Classdiagrams_reverseMap[_classdiagram] = diagrampackage
+		}
+	}
+
+	// Compute reverse map for named struct GongEnumShape
+	// insertion point per field
+	stage.GongEnumShape_GongEnumValueShapes_reverseMap = make(map[*GongEnumValueShape]*GongEnumShape)
+	for gongenumshape := range stage.GongEnumShapes {
+		_ = gongenumshape
+		for _, _gongenumvalueshape := range gongenumshape.GongEnumValueShapes {
+			stage.GongEnumShape_GongEnumValueShapes_reverseMap[_gongenumvalueshape] = gongenumshape
+		}
+	}
+
+	// Compute reverse map for named struct GongEnumValueShape
+	// insertion point per field
+
+	// Compute reverse map for named struct GongNoteLinkShape
+	// insertion point per field
+
+	// Compute reverse map for named struct GongNoteShape
+	// insertion point per field
+	stage.GongNoteShape_GongNoteLinkShapes_reverseMap = make(map[*GongNoteLinkShape]*GongNoteShape)
+	for gongnoteshape := range stage.GongNoteShapes {
+		_ = gongnoteshape
+		for _, _gongnotelinkshape := range gongnoteshape.GongNoteLinkShapes {
+			stage.GongNoteShape_GongNoteLinkShapes_reverseMap[_gongnotelinkshape] = gongnoteshape
+		}
+	}
+
+	// Compute reverse map for named struct GongStructShape
+	// insertion point per field
+	stage.GongStructShape_AttributeShapes_reverseMap = make(map[*AttributeShape]*GongStructShape)
+	for gongstructshape := range stage.GongStructShapes {
+		_ = gongstructshape
+		for _, _attributeshape := range gongstructshape.AttributeShapes {
+			stage.GongStructShape_AttributeShapes_reverseMap[_attributeshape] = gongstructshape
+		}
+	}
+	stage.GongStructShape_LinkShapes_reverseMap = make(map[*LinkShape]*GongStructShape)
+	for gongstructshape := range stage.GongStructShapes {
+		_ = gongstructshape
+		for _, _linkshape := range gongstructshape.LinkShapes {
+			stage.GongStructShape_LinkShapes_reverseMap[_linkshape] = gongstructshape
+		}
+	}
+
+	// Compute reverse map for named struct LinkShape
+	// insertion point per field
+
+	// end of insertion point per named struct
+}
+
+func (stage *Stage) GetInstances() (res []GongstructIF) {
+	// insertion point per named struct
+	for instance := range stage.AttributeShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Classdiagrams {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.DiagramPackages {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GongEnumShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GongEnumValueShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GongNoteLinkShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GongNoteShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GongStructShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.LinkShapes {
+		res = append(res, instance)
+	}
+
+	return
+}
+
+// insertion point per named struct
+func (attributeshape *AttributeShape) GongCopy() GongstructIF {
+	newInstance := new(AttributeShape)
+	attributeshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (classdiagram *Classdiagram) GongCopy() GongstructIF {
+	newInstance := new(Classdiagram)
+	classdiagram.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (diagrampackage *DiagramPackage) GongCopy() GongstructIF {
+	newInstance := new(DiagramPackage)
+	diagrampackage.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (gongenumshape *GongEnumShape) GongCopy() GongstructIF {
+	newInstance := new(GongEnumShape)
+	gongenumshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (gongenumvalueshape *GongEnumValueShape) GongCopy() GongstructIF {
+	newInstance := new(GongEnumValueShape)
+	gongenumvalueshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (gongnotelinkshape *GongNoteLinkShape) GongCopy() GongstructIF {
+	newInstance := new(GongNoteLinkShape)
+	gongnotelinkshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (gongnoteshape *GongNoteShape) GongCopy() GongstructIF {
+	newInstance := new(GongNoteShape)
+	gongnoteshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (gongstructshape *GongStructShape) GongCopy() GongstructIF {
+	newInstance := new(GongStructShape)
+	gongstructshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (linkshape *LinkShape) GongCopy() GongstructIF {
+	newInstance := new(LinkShape)
+	linkshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+// insertion point per named struct
+func (attributeshape *AttributeShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(attributeshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(attributeshape), uint64(GetOrderPointerGongstruct(stage, attributeshape)))
+	return
+}
+
+func (classdiagram *Classdiagram) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(classdiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(classdiagram), uint64(GetOrderPointerGongstruct(stage, classdiagram)))
+	return
+}
+
+func (diagrampackage *DiagramPackage) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(diagrampackage).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(diagrampackage), uint64(GetOrderPointerGongstruct(stage, diagrampackage)))
+	return
+}
+
+func (gongenumshape *GongEnumShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(gongenumshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongenumshape), uint64(GetOrderPointerGongstruct(stage, gongenumshape)))
+	return
+}
+
+func (gongenumvalueshape *GongEnumValueShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(gongenumvalueshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongenumvalueshape), uint64(GetOrderPointerGongstruct(stage, gongenumvalueshape)))
+	return
+}
+
+func (gongnotelinkshape *GongNoteLinkShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(gongnotelinkshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongnotelinkshape), uint64(GetOrderPointerGongstruct(stage, gongnotelinkshape)))
+	return
+}
+
+func (gongnoteshape *GongNoteShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(gongnoteshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongnoteshape), uint64(GetOrderPointerGongstruct(stage, gongnoteshape)))
+	return
+}
+
+func (gongstructshape *GongStructShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(gongstructshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gongstructshape), uint64(GetOrderPointerGongstruct(stage, gongstructshape)))
+	return
+}
+
+func (linkshape *LinkShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(linkshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(linkshape), uint64(GetOrderPointerGongstruct(stage, linkshape)))
+	return
+}
+
+func (stage *Stage) ComputeForwardAndBackwardCommits() {
+	var lenNewInstances int
+	var lenModifiedInstances int
+	var lenDeletedInstances int
+
+	var newInstancesSlice []string
+	var fieldsEditSlice []string
+	var deletedInstancesSlice []string
+
+	var newInstancesReverseSlice []string
+	var fieldsEditReverseSlice []string
+	var deletedInstancesReverseSlice []string
+
+	// first clean the staging area to remove non staged instances
+	// from pointers fields and slices of pointers fields
+	stage.Clean()
+
+	// insertion point per named struct
+	var attributeshapes_newInstances []*AttributeShape
+	var attributeshapes_deletedInstances []*AttributeShape
+
+	// parse all staged instances and check if they have a reference
+	for attributeshape := range stage.AttributeShapes {
+		if ref, ok := stage.AttributeShapes_reference[attributeshape]; !ok {
+			attributeshapes_newInstances = append(attributeshapes_newInstances, attributeshape)
+			newInstancesSlice = append(newInstancesSlice, attributeshape.GongMarshallIdentifier(stage))
+			if stage.AttributeShapes_referenceOrder == nil {
+				stage.AttributeShapes_referenceOrder = make(map[*AttributeShape]uint)
+			}
+			stage.AttributeShapes_referenceOrder[attributeshape] = stage.AttributeShape_stagedOrder[attributeshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, attributeshape.GongMarshallUnstaging(stage))
+			// delete(stage.AttributeShapes_referenceOrder, attributeshape)
+			fieldInitializers, pointersInitializations := attributeshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.AttributeShape_stagedOrder[ref] = stage.AttributeShape_stagedOrder[attributeshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := attributeshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, attributeshape)
+			// delete(stage.AttributeShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if attributeshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", attributeshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.AttributeShapes_reference {
+		instance := stage.AttributeShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.AttributeShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			attributeshapes_deletedInstances = append(attributeshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(attributeshapes_newInstances)
+	lenDeletedInstances += len(attributeshapes_deletedInstances)
+	var classdiagrams_newInstances []*Classdiagram
+	var classdiagrams_deletedInstances []*Classdiagram
+
+	// parse all staged instances and check if they have a reference
+	for classdiagram := range stage.Classdiagrams {
+		if ref, ok := stage.Classdiagrams_reference[classdiagram]; !ok {
+			classdiagrams_newInstances = append(classdiagrams_newInstances, classdiagram)
+			newInstancesSlice = append(newInstancesSlice, classdiagram.GongMarshallIdentifier(stage))
+			if stage.Classdiagrams_referenceOrder == nil {
+				stage.Classdiagrams_referenceOrder = make(map[*Classdiagram]uint)
+			}
+			stage.Classdiagrams_referenceOrder[classdiagram] = stage.Classdiagram_stagedOrder[classdiagram]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, classdiagram.GongMarshallUnstaging(stage))
+			// delete(stage.Classdiagrams_referenceOrder, classdiagram)
+			fieldInitializers, pointersInitializations := classdiagram.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Classdiagram_stagedOrder[ref] = stage.Classdiagram_stagedOrder[classdiagram]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := classdiagram.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, classdiagram)
+			// delete(stage.Classdiagram_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if classdiagram.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", classdiagram.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Classdiagrams_reference {
+		instance := stage.Classdiagrams_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Classdiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			classdiagrams_deletedInstances = append(classdiagrams_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(classdiagrams_newInstances)
+	lenDeletedInstances += len(classdiagrams_deletedInstances)
+	var diagrampackages_newInstances []*DiagramPackage
+	var diagrampackages_deletedInstances []*DiagramPackage
+
+	// parse all staged instances and check if they have a reference
+	for diagrampackage := range stage.DiagramPackages {
+		if ref, ok := stage.DiagramPackages_reference[diagrampackage]; !ok {
+			diagrampackages_newInstances = append(diagrampackages_newInstances, diagrampackage)
+			newInstancesSlice = append(newInstancesSlice, diagrampackage.GongMarshallIdentifier(stage))
+			if stage.DiagramPackages_referenceOrder == nil {
+				stage.DiagramPackages_referenceOrder = make(map[*DiagramPackage]uint)
+			}
+			stage.DiagramPackages_referenceOrder[diagrampackage] = stage.DiagramPackage_stagedOrder[diagrampackage]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, diagrampackage.GongMarshallUnstaging(stage))
+			// delete(stage.DiagramPackages_referenceOrder, diagrampackage)
+			fieldInitializers, pointersInitializations := diagrampackage.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.DiagramPackage_stagedOrder[ref] = stage.DiagramPackage_stagedOrder[diagrampackage]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := diagrampackage.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, diagrampackage)
+			// delete(stage.DiagramPackage_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if diagrampackage.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", diagrampackage.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.DiagramPackages_reference {
+		instance := stage.DiagramPackages_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.DiagramPackages[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			diagrampackages_deletedInstances = append(diagrampackages_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(diagrampackages_newInstances)
+	lenDeletedInstances += len(diagrampackages_deletedInstances)
+	var gongenumshapes_newInstances []*GongEnumShape
+	var gongenumshapes_deletedInstances []*GongEnumShape
+
+	// parse all staged instances and check if they have a reference
+	for gongenumshape := range stage.GongEnumShapes {
+		if ref, ok := stage.GongEnumShapes_reference[gongenumshape]; !ok {
+			gongenumshapes_newInstances = append(gongenumshapes_newInstances, gongenumshape)
+			newInstancesSlice = append(newInstancesSlice, gongenumshape.GongMarshallIdentifier(stage))
+			if stage.GongEnumShapes_referenceOrder == nil {
+				stage.GongEnumShapes_referenceOrder = make(map[*GongEnumShape]uint)
+			}
+			stage.GongEnumShapes_referenceOrder[gongenumshape] = stage.GongEnumShape_stagedOrder[gongenumshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, gongenumshape.GongMarshallUnstaging(stage))
+			// delete(stage.GongEnumShapes_referenceOrder, gongenumshape)
+			fieldInitializers, pointersInitializations := gongenumshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.GongEnumShape_stagedOrder[ref] = stage.GongEnumShape_stagedOrder[gongenumshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := gongenumshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, gongenumshape)
+			// delete(stage.GongEnumShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if gongenumshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gongenumshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.GongEnumShapes_reference {
+		instance := stage.GongEnumShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GongEnumShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			gongenumshapes_deletedInstances = append(gongenumshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(gongenumshapes_newInstances)
+	lenDeletedInstances += len(gongenumshapes_deletedInstances)
+	var gongenumvalueshapes_newInstances []*GongEnumValueShape
+	var gongenumvalueshapes_deletedInstances []*GongEnumValueShape
+
+	// parse all staged instances and check if they have a reference
+	for gongenumvalueshape := range stage.GongEnumValueShapes {
+		if ref, ok := stage.GongEnumValueShapes_reference[gongenumvalueshape]; !ok {
+			gongenumvalueshapes_newInstances = append(gongenumvalueshapes_newInstances, gongenumvalueshape)
+			newInstancesSlice = append(newInstancesSlice, gongenumvalueshape.GongMarshallIdentifier(stage))
+			if stage.GongEnumValueShapes_referenceOrder == nil {
+				stage.GongEnumValueShapes_referenceOrder = make(map[*GongEnumValueShape]uint)
+			}
+			stage.GongEnumValueShapes_referenceOrder[gongenumvalueshape] = stage.GongEnumValueShape_stagedOrder[gongenumvalueshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, gongenumvalueshape.GongMarshallUnstaging(stage))
+			// delete(stage.GongEnumValueShapes_referenceOrder, gongenumvalueshape)
+			fieldInitializers, pointersInitializations := gongenumvalueshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.GongEnumValueShape_stagedOrder[ref] = stage.GongEnumValueShape_stagedOrder[gongenumvalueshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := gongenumvalueshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, gongenumvalueshape)
+			// delete(stage.GongEnumValueShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if gongenumvalueshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gongenumvalueshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.GongEnumValueShapes_reference {
+		instance := stage.GongEnumValueShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GongEnumValueShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			gongenumvalueshapes_deletedInstances = append(gongenumvalueshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(gongenumvalueshapes_newInstances)
+	lenDeletedInstances += len(gongenumvalueshapes_deletedInstances)
+	var gongnotelinkshapes_newInstances []*GongNoteLinkShape
+	var gongnotelinkshapes_deletedInstances []*GongNoteLinkShape
+
+	// parse all staged instances and check if they have a reference
+	for gongnotelinkshape := range stage.GongNoteLinkShapes {
+		if ref, ok := stage.GongNoteLinkShapes_reference[gongnotelinkshape]; !ok {
+			gongnotelinkshapes_newInstances = append(gongnotelinkshapes_newInstances, gongnotelinkshape)
+			newInstancesSlice = append(newInstancesSlice, gongnotelinkshape.GongMarshallIdentifier(stage))
+			if stage.GongNoteLinkShapes_referenceOrder == nil {
+				stage.GongNoteLinkShapes_referenceOrder = make(map[*GongNoteLinkShape]uint)
+			}
+			stage.GongNoteLinkShapes_referenceOrder[gongnotelinkshape] = stage.GongNoteLinkShape_stagedOrder[gongnotelinkshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, gongnotelinkshape.GongMarshallUnstaging(stage))
+			// delete(stage.GongNoteLinkShapes_referenceOrder, gongnotelinkshape)
+			fieldInitializers, pointersInitializations := gongnotelinkshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.GongNoteLinkShape_stagedOrder[ref] = stage.GongNoteLinkShape_stagedOrder[gongnotelinkshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := gongnotelinkshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, gongnotelinkshape)
+			// delete(stage.GongNoteLinkShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if gongnotelinkshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gongnotelinkshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.GongNoteLinkShapes_reference {
+		instance := stage.GongNoteLinkShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GongNoteLinkShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			gongnotelinkshapes_deletedInstances = append(gongnotelinkshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(gongnotelinkshapes_newInstances)
+	lenDeletedInstances += len(gongnotelinkshapes_deletedInstances)
+	var gongnoteshapes_newInstances []*GongNoteShape
+	var gongnoteshapes_deletedInstances []*GongNoteShape
+
+	// parse all staged instances and check if they have a reference
+	for gongnoteshape := range stage.GongNoteShapes {
+		if ref, ok := stage.GongNoteShapes_reference[gongnoteshape]; !ok {
+			gongnoteshapes_newInstances = append(gongnoteshapes_newInstances, gongnoteshape)
+			newInstancesSlice = append(newInstancesSlice, gongnoteshape.GongMarshallIdentifier(stage))
+			if stage.GongNoteShapes_referenceOrder == nil {
+				stage.GongNoteShapes_referenceOrder = make(map[*GongNoteShape]uint)
+			}
+			stage.GongNoteShapes_referenceOrder[gongnoteshape] = stage.GongNoteShape_stagedOrder[gongnoteshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, gongnoteshape.GongMarshallUnstaging(stage))
+			// delete(stage.GongNoteShapes_referenceOrder, gongnoteshape)
+			fieldInitializers, pointersInitializations := gongnoteshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.GongNoteShape_stagedOrder[ref] = stage.GongNoteShape_stagedOrder[gongnoteshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := gongnoteshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, gongnoteshape)
+			// delete(stage.GongNoteShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if gongnoteshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gongnoteshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.GongNoteShapes_reference {
+		instance := stage.GongNoteShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GongNoteShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			gongnoteshapes_deletedInstances = append(gongnoteshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(gongnoteshapes_newInstances)
+	lenDeletedInstances += len(gongnoteshapes_deletedInstances)
+	var gongstructshapes_newInstances []*GongStructShape
+	var gongstructshapes_deletedInstances []*GongStructShape
+
+	// parse all staged instances and check if they have a reference
+	for gongstructshape := range stage.GongStructShapes {
+		if ref, ok := stage.GongStructShapes_reference[gongstructshape]; !ok {
+			gongstructshapes_newInstances = append(gongstructshapes_newInstances, gongstructshape)
+			newInstancesSlice = append(newInstancesSlice, gongstructshape.GongMarshallIdentifier(stage))
+			if stage.GongStructShapes_referenceOrder == nil {
+				stage.GongStructShapes_referenceOrder = make(map[*GongStructShape]uint)
+			}
+			stage.GongStructShapes_referenceOrder[gongstructshape] = stage.GongStructShape_stagedOrder[gongstructshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, gongstructshape.GongMarshallUnstaging(stage))
+			// delete(stage.GongStructShapes_referenceOrder, gongstructshape)
+			fieldInitializers, pointersInitializations := gongstructshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.GongStructShape_stagedOrder[ref] = stage.GongStructShape_stagedOrder[gongstructshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := gongstructshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, gongstructshape)
+			// delete(stage.GongStructShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if gongstructshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gongstructshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.GongStructShapes_reference {
+		instance := stage.GongStructShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GongStructShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			gongstructshapes_deletedInstances = append(gongstructshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(gongstructshapes_newInstances)
+	lenDeletedInstances += len(gongstructshapes_deletedInstances)
+	var linkshapes_newInstances []*LinkShape
+	var linkshapes_deletedInstances []*LinkShape
+
+	// parse all staged instances and check if they have a reference
+	for linkshape := range stage.LinkShapes {
+		if ref, ok := stage.LinkShapes_reference[linkshape]; !ok {
+			linkshapes_newInstances = append(linkshapes_newInstances, linkshape)
+			newInstancesSlice = append(newInstancesSlice, linkshape.GongMarshallIdentifier(stage))
+			if stage.LinkShapes_referenceOrder == nil {
+				stage.LinkShapes_referenceOrder = make(map[*LinkShape]uint)
+			}
+			stage.LinkShapes_referenceOrder[linkshape] = stage.LinkShape_stagedOrder[linkshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, linkshape.GongMarshallUnstaging(stage))
+			// delete(stage.LinkShapes_referenceOrder, linkshape)
+			fieldInitializers, pointersInitializations := linkshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.LinkShape_stagedOrder[ref] = stage.LinkShape_stagedOrder[linkshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := linkshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, linkshape)
+			// delete(stage.LinkShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if linkshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", linkshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.LinkShapes_reference {
+		instance := stage.LinkShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.LinkShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			linkshapes_deletedInstances = append(linkshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(linkshapes_newInstances)
+	lenDeletedInstances += len(linkshapes_deletedInstances)
+
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
+
+		// sort the stmt to have reproductible forward/backward commit
+		sort.Strings(newInstancesSlice)
+		newInstancesStmt := strings.Join(newInstancesSlice, "")
+		sort.Strings(fieldsEditSlice)
+		fieldsEditStmt := strings.Join(fieldsEditSlice, "")
+		sort.Strings(deletedInstancesSlice)
+		deletedInstancesStmt := strings.Join(deletedInstancesSlice, "")
+
+		sort.Strings(newInstancesReverseSlice)
+		newInstancesReverseStmt := strings.Join(newInstancesReverseSlice, "")
+		sort.Strings(fieldsEditReverseSlice)
+		fieldsEditReverseStmt := strings.Join(fieldsEditReverseSlice, "")
+		sort.Strings(deletedInstancesReverseSlice)
+		deletedInstancesReverseStmt := strings.Join(deletedInstancesReverseSlice, "")
+
+		forwardCommit := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
+		forwardCommit += "\n\tstage.Commit()"
+		stage.forwardCommits = append(stage.forwardCommits, forwardCommit)
+
+		backwardCommit := deletedInstancesReverseStmt + fieldsEditReverseStmt + newInstancesReverseStmt
+		backwardCommit += "\n\tstage.Commit()"
+		// append to the end of the backward commits slice
+		stage.backwardCommits = append(stage.backwardCommits, backwardCommit)
+		stage.modified = true
+	} else {
+		stage.modified = false
+	}
+}
+
+// ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
+func (stage *Stage) ComputeReferenceAndOrders() {
+	// insertion point per named struct
+	stage.AttributeShapes_reference = make(map[*AttributeShape]*AttributeShape)
+	stage.AttributeShapes_referenceOrder = make(map[*AttributeShape]uint) // diff Unstage needs the reference order
+	stage.AttributeShapes_instance = make(map[*AttributeShape]*AttributeShape)
+	for instance := range stage.AttributeShapes {
+		_copy := instance.GongCopy().(*AttributeShape)
+		stage.AttributeShapes_reference[instance] = _copy
+		stage.AttributeShapes_instance[_copy] = instance
+		stage.AttributeShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.Classdiagrams_reference = make(map[*Classdiagram]*Classdiagram)
+	stage.Classdiagrams_referenceOrder = make(map[*Classdiagram]uint) // diff Unstage needs the reference order
+	stage.Classdiagrams_instance = make(map[*Classdiagram]*Classdiagram)
+	for instance := range stage.Classdiagrams {
+		_copy := instance.GongCopy().(*Classdiagram)
+		stage.Classdiagrams_reference[instance] = _copy
+		stage.Classdiagrams_instance[_copy] = instance
+		stage.Classdiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.DiagramPackages_reference = make(map[*DiagramPackage]*DiagramPackage)
+	stage.DiagramPackages_referenceOrder = make(map[*DiagramPackage]uint) // diff Unstage needs the reference order
+	stage.DiagramPackages_instance = make(map[*DiagramPackage]*DiagramPackage)
+	for instance := range stage.DiagramPackages {
+		_copy := instance.GongCopy().(*DiagramPackage)
+		stage.DiagramPackages_reference[instance] = _copy
+		stage.DiagramPackages_instance[_copy] = instance
+		stage.DiagramPackages_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.GongEnumShapes_reference = make(map[*GongEnumShape]*GongEnumShape)
+	stage.GongEnumShapes_referenceOrder = make(map[*GongEnumShape]uint) // diff Unstage needs the reference order
+	stage.GongEnumShapes_instance = make(map[*GongEnumShape]*GongEnumShape)
+	for instance := range stage.GongEnumShapes {
+		_copy := instance.GongCopy().(*GongEnumShape)
+		stage.GongEnumShapes_reference[instance] = _copy
+		stage.GongEnumShapes_instance[_copy] = instance
+		stage.GongEnumShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.GongEnumValueShapes_reference = make(map[*GongEnumValueShape]*GongEnumValueShape)
+	stage.GongEnumValueShapes_referenceOrder = make(map[*GongEnumValueShape]uint) // diff Unstage needs the reference order
+	stage.GongEnumValueShapes_instance = make(map[*GongEnumValueShape]*GongEnumValueShape)
+	for instance := range stage.GongEnumValueShapes {
+		_copy := instance.GongCopy().(*GongEnumValueShape)
+		stage.GongEnumValueShapes_reference[instance] = _copy
+		stage.GongEnumValueShapes_instance[_copy] = instance
+		stage.GongEnumValueShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.GongNoteLinkShapes_reference = make(map[*GongNoteLinkShape]*GongNoteLinkShape)
+	stage.GongNoteLinkShapes_referenceOrder = make(map[*GongNoteLinkShape]uint) // diff Unstage needs the reference order
+	stage.GongNoteLinkShapes_instance = make(map[*GongNoteLinkShape]*GongNoteLinkShape)
+	for instance := range stage.GongNoteLinkShapes {
+		_copy := instance.GongCopy().(*GongNoteLinkShape)
+		stage.GongNoteLinkShapes_reference[instance] = _copy
+		stage.GongNoteLinkShapes_instance[_copy] = instance
+		stage.GongNoteLinkShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.GongNoteShapes_reference = make(map[*GongNoteShape]*GongNoteShape)
+	stage.GongNoteShapes_referenceOrder = make(map[*GongNoteShape]uint) // diff Unstage needs the reference order
+	stage.GongNoteShapes_instance = make(map[*GongNoteShape]*GongNoteShape)
+	for instance := range stage.GongNoteShapes {
+		_copy := instance.GongCopy().(*GongNoteShape)
+		stage.GongNoteShapes_reference[instance] = _copy
+		stage.GongNoteShapes_instance[_copy] = instance
+		stage.GongNoteShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.GongStructShapes_reference = make(map[*GongStructShape]*GongStructShape)
+	stage.GongStructShapes_referenceOrder = make(map[*GongStructShape]uint) // diff Unstage needs the reference order
+	stage.GongStructShapes_instance = make(map[*GongStructShape]*GongStructShape)
+	for instance := range stage.GongStructShapes {
+		_copy := instance.GongCopy().(*GongStructShape)
+		stage.GongStructShapes_reference[instance] = _copy
+		stage.GongStructShapes_instance[_copy] = instance
+		stage.GongStructShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.LinkShapes_reference = make(map[*LinkShape]*LinkShape)
+	stage.LinkShapes_referenceOrder = make(map[*LinkShape]uint) // diff Unstage needs the reference order
+	stage.LinkShapes_instance = make(map[*LinkShape]*LinkShape)
+	for instance := range stage.LinkShapes {
+		_copy := instance.GongCopy().(*LinkShape)
+		stage.LinkShapes_reference[instance] = _copy
+		stage.LinkShapes_instance[_copy] = instance
+		stage.LinkShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	// insertion point per named struct
+	for instance := range stage.AttributeShapes {
+		reference := stage.AttributeShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Classdiagrams {
+		reference := stage.Classdiagrams_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.DiagramPackages {
+		reference := stage.DiagramPackages_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.GongEnumShapes {
+		reference := stage.GongEnumShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.GongEnumValueShapes {
+		reference := stage.GongEnumValueShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.GongNoteLinkShapes {
+		reference := stage.GongNoteLinkShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.GongNoteShapes {
+		reference := stage.GongNoteShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.GongStructShapes {
+		reference := stage.GongStructShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.LinkShapes {
+		reference := stage.LinkShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	stage.recomputeOrders()
+}
+
+// GongGetOrder returns the order of the instance in the staging area
+// This order is set at staging time, and reflects the order of creation of the instances
+// in the staging area
+// It is used when rendering slices of GongstructIF to keep a deterministic order
+// which is important for frontends such as web frontends
+// to avoid unnecessary re-renderings
+// insertion point per named struct
+func (attributeshape *AttributeShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.AttributeShape_stagedOrder[attributeshape]; ok {
+		return order
+	}
+	if order, ok := stage.AttributeShapes_referenceOrder[attributeshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type AttributeShape was not staged and does not have a reference order", attributeshape)
+		return 0
+	}
+}
+
+func (classdiagram *Classdiagram) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Classdiagram_stagedOrder[classdiagram]; ok {
+		return order
+	}
+	if order, ok := stage.Classdiagrams_referenceOrder[classdiagram]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Classdiagram was not staged and does not have a reference order", classdiagram)
+		return 0
+	}
+}
+
+func (diagrampackage *DiagramPackage) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.DiagramPackage_stagedOrder[diagrampackage]; ok {
+		return order
+	}
+	if order, ok := stage.DiagramPackages_referenceOrder[diagrampackage]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type DiagramPackage was not staged and does not have a reference order", diagrampackage)
+		return 0
+	}
+}
+
+func (gongenumshape *GongEnumShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.GongEnumShape_stagedOrder[gongenumshape]; ok {
+		return order
+	}
+	if order, ok := stage.GongEnumShapes_referenceOrder[gongenumshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type GongEnumShape was not staged and does not have a reference order", gongenumshape)
+		return 0
+	}
+}
+
+func (gongenumvalueshape *GongEnumValueShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.GongEnumValueShape_stagedOrder[gongenumvalueshape]; ok {
+		return order
+	}
+	if order, ok := stage.GongEnumValueShapes_referenceOrder[gongenumvalueshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type GongEnumValueShape was not staged and does not have a reference order", gongenumvalueshape)
+		return 0
+	}
+}
+
+func (gongnotelinkshape *GongNoteLinkShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.GongNoteLinkShape_stagedOrder[gongnotelinkshape]; ok {
+		return order
+	}
+	if order, ok := stage.GongNoteLinkShapes_referenceOrder[gongnotelinkshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type GongNoteLinkShape was not staged and does not have a reference order", gongnotelinkshape)
+		return 0
+	}
+}
+
+func (gongnoteshape *GongNoteShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.GongNoteShape_stagedOrder[gongnoteshape]; ok {
+		return order
+	}
+	if order, ok := stage.GongNoteShapes_referenceOrder[gongnoteshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type GongNoteShape was not staged and does not have a reference order", gongnoteshape)
+		return 0
+	}
+}
+
+func (gongstructshape *GongStructShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.GongStructShape_stagedOrder[gongstructshape]; ok {
+		return order
+	}
+	if order, ok := stage.GongStructShapes_referenceOrder[gongstructshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type GongStructShape was not staged and does not have a reference order", gongstructshape)
+		return 0
+	}
+}
+
+func (linkshape *LinkShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.LinkShape_stagedOrder[linkshape]; ok {
+		return order
+	}
+	if order, ok := stage.LinkShapes_referenceOrder[linkshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type LinkShape was not staged and does not have a reference order", linkshape)
+		return 0
+	}
+}
+
+// GongGetIdentifier returns a unique identifier of the instance in the staging area
+// This identifier is composed of the Gongstruct name and the order of the instance
+// in the staging area
+// It is used to identify instances across sessions
+// insertion point per named struct
+func (attributeshape *AttributeShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", attributeshape.GongGetGongstructName(), attributeshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (attributeshape *AttributeShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", attributeshape.GongGetGongstructName(), attributeshape.GongGetOrder(stage))
+}
+
+func (classdiagram *Classdiagram) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", classdiagram.GongGetGongstructName(), classdiagram.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (classdiagram *Classdiagram) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", classdiagram.GongGetGongstructName(), classdiagram.GongGetOrder(stage))
+}
+
+func (diagrampackage *DiagramPackage) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", diagrampackage.GongGetGongstructName(), diagrampackage.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (diagrampackage *DiagramPackage) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", diagrampackage.GongGetGongstructName(), diagrampackage.GongGetOrder(stage))
+}
+
+func (gongenumshape *GongEnumShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gongenumshape.GongGetGongstructName(), gongenumshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (gongenumshape *GongEnumShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gongenumshape.GongGetGongstructName(), gongenumshape.GongGetOrder(stage))
+}
+
+func (gongenumvalueshape *GongEnumValueShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gongenumvalueshape.GongGetGongstructName(), gongenumvalueshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (gongenumvalueshape *GongEnumValueShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gongenumvalueshape.GongGetGongstructName(), gongenumvalueshape.GongGetOrder(stage))
+}
+
+func (gongnotelinkshape *GongNoteLinkShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gongnotelinkshape.GongGetGongstructName(), gongnotelinkshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (gongnotelinkshape *GongNoteLinkShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gongnotelinkshape.GongGetGongstructName(), gongnotelinkshape.GongGetOrder(stage))
+}
+
+func (gongnoteshape *GongNoteShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gongnoteshape.GongGetGongstructName(), gongnoteshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (gongnoteshape *GongNoteShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gongnoteshape.GongGetGongstructName(), gongnoteshape.GongGetOrder(stage))
+}
+
+func (gongstructshape *GongStructShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gongstructshape.GongGetGongstructName(), gongstructshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (gongstructshape *GongStructShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gongstructshape.GongGetGongstructName(), gongstructshape.GongGetOrder(stage))
+}
+
+func (linkshape *LinkShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", linkshape.GongGetGongstructName(), linkshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (linkshape *LinkShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", linkshape.GongGetGongstructName(), linkshape.GongGetOrder(stage))
+}
+
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct
+func (attributeshape *AttributeShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", attributeshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AttributeShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(attributeshape.Name))
+	return
+}
+
+func (classdiagram *Classdiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", classdiagram.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Classdiagram")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(classdiagram.Name))
+	return
+}
+
+func (diagrampackage *DiagramPackage) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagrampackage.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DiagramPackage")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(diagrampackage.Name))
+	return
+}
+
+func (gongenumshape *GongEnumShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenumshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongEnumShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongenumshape.Name))
+	return
+}
+
+func (gongenumvalueshape *GongEnumValueShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenumvalueshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongEnumValueShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongenumvalueshape.Name))
+	return
+}
+
+func (gongnotelinkshape *GongNoteLinkShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongnotelinkshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongNoteLinkShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongnotelinkshape.Name))
+	return
+}
+
+func (gongnoteshape *GongNoteShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongnoteshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongNoteShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongnoteshape.Name))
+	return
+}
+
+func (gongstructshape *GongStructShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongstructshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongStructShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gongstructshape.Name))
+	return
+}
+
+func (linkshape *LinkShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", linkshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "LinkShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(linkshape.Name))
+	return
+}
+
+// insertion point for unstaging
+func (attributeshape *AttributeShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", attributeshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (classdiagram *Classdiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", classdiagram.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (diagrampackage *DiagramPackage) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagrampackage.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (gongenumshape *GongEnumShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenumshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (gongenumvalueshape *GongEnumValueShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongenumvalueshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (gongnotelinkshape *GongNoteLinkShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongnotelinkshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (gongnoteshape *GongNoteShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongnoteshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (gongstructshape *GongStructShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gongstructshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (linkshape *LinkShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", linkshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func IntToLetters(number int32) (letters string) {
+	number--
+	if firstLetter := number / 26; firstLetter > 0 {
+		letters += IntToLetters(firstLetter)
+		letters += string('A' + number%26)
+	} else {
+		letters += string('A' + number)
+	}
+
+	return
+}
+
+// GenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
+func GenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
+	// 1. Create a deterministic hash from the inputs using SHA-256
+	h := sha256.New()
+
+	// Write the string to the hash
+	h.Write([]byte(seedStr))
+
+	// Write the integer to the hash (using BigEndian to ensure consistency across architectures)
+	intBytes := make([]byte, 8)
+	binary.BigEndian.PutUint64(intBytes, seedInt)
+	h.Write(intBytes)
+
+	// 2. Extract the first 16 bytes from our resulting hash
+	hashBytes := h.Sum(nil)
+	uuid := make([]byte, 16)
+	copy(uuid, hashBytes[:16])
+
+	// 3. Set the Version to 4 (0100 in binary)
+	// We take the 7th byte, clear the top 4 bits with & 0x0f, and set the top bits to 0100 with | 0x40
+	uuid[6] = (uuid[6] & 0x0f) | 0x40
+
+	// 4. Set the Variant to RFC4122 (10 in binary)
+	// We take the 9th byte, clear the top 2 bits with & 0x3f, and set the top bits to 10 with | 0x80
+	uuid[8] = (uuid[8] & 0x3f) | 0x80
+
+	// 5. Format and return the byte array as a standard UUID string
+	return fmt.Sprintf("%08x-%04x-%04x-%04x-%012x",
+		uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:16])
+}
+
+// end of template

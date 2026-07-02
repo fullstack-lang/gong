@@ -1,0 +1,486 @@
+package diagrams
+
+import (
+	"slices"
+	"time"
+
+	"github.com/fullstack-lang/gong/lib/doc/go/models"
+	// injection point for ident package import declaration
+	ref_models "github.com/fullstack-lang/gong/lib/threejs/go/models"
+)
+
+// generated in order to avoid error in the package import
+// if there are no elements in the stage to marshall
+var (
+	_ time.Time
+	_ = slices.Index[[]int, int]
+)
+
+// _ point for meta package dummy declaration
+var _ ref_models.Stage
+
+// When parsed, those maps will help with the renaming process
+var _ map[string]any = map[string]any{
+	// injection point for docLink to identifiers{{EntriesDocLinkStringDocLinkIdentifier}}
+}
+
+// function will stage objects
+func _(stage *models.Stage) {
+
+	// insertion point for declaration of instances to stage
+
+	__AttributeShape__00000000_ := (&models.AttributeShape{Name: `Name`}).Stage(stage)
+	__AttributeShape__00000001_ := (&models.AttributeShape{Name: `Name`}).Stage(stage)
+	__AttributeShape__00000002_ := (&models.AttributeShape{Name: `X`}).Stage(stage)
+	__AttributeShape__00000003_ := (&models.AttributeShape{Name: `Y`}).Stage(stage)
+	__AttributeShape__00000004_ := (&models.AttributeShape{Name: `Z`}).Stage(stage)
+
+	__Classdiagram__00000000_ := (&models.Classdiagram{Name: `Default`}).Stage(stage)
+
+	__DiagramPackage__00000000_ := (&models.DiagramPackage{Name: `Diagram Package created the 2026-06-15T03:45:55Z`}).Stage(stage)
+
+	__GongStructShape__00000000_ := (&models.GongStructShape{Name: `Default-Canvas`}).Stage(stage)
+	__GongStructShape__00000001_ := (&models.GongStructShape{Name: `Default-BoxGeometry`}).Stage(stage)
+	__GongStructShape__00000002_ := (&models.GongStructShape{Name: `Default-AmbiantLight`}).Stage(stage)
+	__GongStructShape__00000003_ := (&models.GongStructShape{Name: `Default-DirectionalLight`}).Stage(stage)
+	__GongStructShape__00000004_ := (&models.GongStructShape{Name: `Default-Mesh`}).Stage(stage)
+	__GongStructShape__00000005_ := (&models.GongStructShape{Name: `Default-MeshMaterialBasic`}).Stage(stage)
+	__GongStructShape__00000006_ := (&models.GongStructShape{Name: `Default-MeshPhysicalMaterial`}).Stage(stage)
+	__GongStructShape__00000007_ := (&models.GongStructShape{Name: `Default-PlaneGeometry`}).Stage(stage)
+	__GongStructShape__00000008_ := (&models.GongStructShape{Name: `Default-SphereGeometry`}).Stage(stage)
+	__GongStructShape__00000009_ := (&models.GongStructShape{Name: `Default-TorusGeometry`}).Stage(stage)
+	__GongStructShape__00000010_ := (&models.GongStructShape{Name: `Default-TubeGeometry`}).Stage(stage)
+	__GongStructShape__00000011_ := (&models.GongStructShape{Name: `Default-CylinderGeometry`}).Stage(stage)
+	__GongStructShape__00000012_ := (&models.GongStructShape{Name: `Default-ExtrudeGeometry`}).Stage(stage)
+
+	__LinkShape__00000000_ := (&models.LinkShape{Name: `AmbiantLight`}).Stage(stage)
+	__LinkShape__00000001_ := (&models.LinkShape{Name: `DirectionalLights`}).Stage(stage)
+	__LinkShape__00000002_ := (&models.LinkShape{Name: `Meshs`}).Stage(stage)
+	__LinkShape__00000003_ := (&models.LinkShape{Name: `BoxGeometry`}).Stage(stage)
+	__LinkShape__00000004_ := (&models.LinkShape{Name: `MeshMaterialBasic`}).Stage(stage)
+	__LinkShape__00000005_ := (&models.LinkShape{Name: `MeshPhysicalMaterial`}).Stage(stage)
+	__LinkShape__00000006_ := (&models.LinkShape{Name: `SphereGeometry`}).Stage(stage)
+	__LinkShape__00000007_ := (&models.LinkShape{Name: `TorusGeometry`}).Stage(stage)
+	__LinkShape__00000008_ := (&models.LinkShape{Name: `PlaneGeometry`}).Stage(stage)
+	__LinkShape__00000009_ := (&models.LinkShape{Name: `TubeGeometry`}).Stage(stage)
+	__LinkShape__00000010_ := (&models.LinkShape{Name: `ExtrudeGeometry`}).Stage(stage)
+	__LinkShape__00000011_ := (&models.LinkShape{Name: `CylinderGeometry`}).Stage(stage)
+
+	// insertion point for initialization of values
+
+	__AttributeShape__00000000_.Name = `Name`
+	__AttributeShape__00000000_.IdentifierMeta = ref_models.Canvas{}.Name
+	__AttributeShape__00000000_.FieldTypeAsString = ``
+	__AttributeShape__00000000_.Structname = `Canvas`
+	__AttributeShape__00000000_.Fieldtypename = `string`
+
+	__AttributeShape__00000001_.Name = `Name`
+	__AttributeShape__00000001_.IdentifierMeta = ref_models.Mesh{}.Name
+	__AttributeShape__00000001_.FieldTypeAsString = ``
+	__AttributeShape__00000001_.Structname = `Mesh`
+	__AttributeShape__00000001_.Fieldtypename = `string`
+
+	__AttributeShape__00000002_.Name = `X`
+	__AttributeShape__00000002_.IdentifierMeta = ref_models.Mesh{}.X
+	__AttributeShape__00000002_.FieldTypeAsString = ``
+	__AttributeShape__00000002_.Structname = `Mesh`
+	__AttributeShape__00000002_.Fieldtypename = `float64`
+
+	__AttributeShape__00000003_.Name = `Y`
+	__AttributeShape__00000003_.IdentifierMeta = ref_models.Mesh{}.Y
+	__AttributeShape__00000003_.FieldTypeAsString = ``
+	__AttributeShape__00000003_.Structname = `Mesh`
+	__AttributeShape__00000003_.Fieldtypename = `float64`
+
+	__AttributeShape__00000004_.Name = `Z`
+	__AttributeShape__00000004_.IdentifierMeta = ref_models.Mesh{}.Z
+	__AttributeShape__00000004_.FieldTypeAsString = ``
+	__AttributeShape__00000004_.Structname = `Mesh`
+	__AttributeShape__00000004_.Fieldtypename = `float64`
+
+	__Classdiagram__00000000_.Name = `Default`
+	__Classdiagram__00000000_.Description = ``
+	__Classdiagram__00000000_.IsIncludedInStaticWebSite = false
+	__Classdiagram__00000000_.ShowNbInstances = true
+	__Classdiagram__00000000_.ShowMultiplicity = true
+	__Classdiagram__00000000_.ShowLinkNames = true
+	__Classdiagram__00000000_.IsInRenameMode = false
+	__Classdiagram__00000000_.IsExpanded = true
+	__Classdiagram__00000000_.NodeGongStructsIsExpanded = true
+	__Classdiagram__00000000_.NodeGongStructNodeExpansion = `[false,false,true,false,false,false,true]`
+	__Classdiagram__00000000_.NodeGongEnumsIsExpanded = false
+	__Classdiagram__00000000_.NodeGongEnumNodeExpansion = ``
+	__Classdiagram__00000000_.NodeGongNotesIsExpanded = false
+	__Classdiagram__00000000_.NodeGongNoteNodeExpansion = ``
+
+	__DiagramPackage__00000000_.Name = `Diagram Package created the 2026-06-15T03:45:55Z`
+	__DiagramPackage__00000000_.Path = ``
+	__DiagramPackage__00000000_.GongModelPath = ``
+	__DiagramPackage__00000000_.AbsolutePathToDiagramPackage = ``
+
+	__GongStructShape__00000000_.Name = `Default-Canvas`
+	__GongStructShape__00000000_.X = 117.000000
+	__GongStructShape__00000000_.Y = 89.000000
+	__GongStructShape__00000000_.IdentifierMeta = ref_models.Canvas{}
+	__GongStructShape__00000000_.Width = 240.000000
+	__GongStructShape__00000000_.Height = 83.000000
+	__GongStructShape__00000000_.IsSelected = false
+
+	__GongStructShape__00000001_.Name = `Default-BoxGeometry`
+	__GongStructShape__00000001_.X = 1113.000000
+	__GongStructShape__00000001_.Y = 83.000000
+	__GongStructShape__00000001_.IdentifierMeta = ref_models.BoxGeometry{}
+	__GongStructShape__00000001_.Width = 240.000000
+	__GongStructShape__00000001_.Height = 63.000000
+	__GongStructShape__00000001_.IsSelected = false
+
+	__GongStructShape__00000002_.Name = `Default-AmbiantLight`
+	__GongStructShape__00000002_.X = 626.000000
+	__GongStructShape__00000002_.Y = 93.000000
+	__GongStructShape__00000002_.IdentifierMeta = ref_models.AmbiantLight{}
+	__GongStructShape__00000002_.Width = 240.000000
+	__GongStructShape__00000002_.Height = 63.000000
+	__GongStructShape__00000002_.IsSelected = false
+
+	__GongStructShape__00000003_.Name = `Default-DirectionalLight`
+	__GongStructShape__00000003_.X = 620.000000
+	__GongStructShape__00000003_.Y = 184.000000
+	__GongStructShape__00000003_.IdentifierMeta = ref_models.DirectionalLight{}
+	__GongStructShape__00000003_.Width = 240.000000
+	__GongStructShape__00000003_.Height = 63.000000
+	__GongStructShape__00000003_.IsSelected = false
+
+	__GongStructShape__00000004_.Name = `Default-Mesh`
+	__GongStructShape__00000004_.X = 609.000000
+	__GongStructShape__00000004_.Y = 267.000000
+	__GongStructShape__00000004_.IdentifierMeta = ref_models.Mesh{}
+	__GongStructShape__00000004_.Width = 240.000000
+	__GongStructShape__00000004_.Height = 143.000000
+	__GongStructShape__00000004_.IsSelected = false
+
+	__GongStructShape__00000005_.Name = `Default-MeshMaterialBasic`
+	__GongStructShape__00000005_.X = 161.000000
+	__GongStructShape__00000005_.Y = 510.000000
+	__GongStructShape__00000005_.IdentifierMeta = ref_models.MeshMaterialBasic{}
+	__GongStructShape__00000005_.Width = 240.000000
+	__GongStructShape__00000005_.Height = 63.000000
+	__GongStructShape__00000005_.IsSelected = false
+
+	__GongStructShape__00000006_.Name = `Default-MeshPhysicalMaterial`
+	__GongStructShape__00000006_.X = 165.000000
+	__GongStructShape__00000006_.Y = 428.000000
+	__GongStructShape__00000006_.IdentifierMeta = ref_models.MeshPhysicalMaterial{}
+	__GongStructShape__00000006_.Width = 240.000000
+	__GongStructShape__00000006_.Height = 63.000000
+	__GongStructShape__00000006_.IsSelected = false
+
+	__GongStructShape__00000007_.Name = `Default-PlaneGeometry`
+	__GongStructShape__00000007_.X = 1108.000000
+	__GongStructShape__00000007_.Y = 354.000000
+	__GongStructShape__00000007_.IdentifierMeta = ref_models.PlaneGeometry{}
+	__GongStructShape__00000007_.Width = 240.000000
+	__GongStructShape__00000007_.Height = 63.000000
+	__GongStructShape__00000007_.IsSelected = false
+
+	__GongStructShape__00000008_.Name = `Default-SphereGeometry`
+	__GongStructShape__00000008_.X = 1110.000000
+	__GongStructShape__00000008_.Y = 451.000000
+	__GongStructShape__00000008_.IdentifierMeta = ref_models.SphereGeometry{}
+	__GongStructShape__00000008_.Width = 240.000000
+	__GongStructShape__00000008_.Height = 63.000000
+	__GongStructShape__00000008_.IsSelected = false
+
+	__GongStructShape__00000009_.Name = `Default-TorusGeometry`
+	__GongStructShape__00000009_.X = 1107.000000
+	__GongStructShape__00000009_.Y = 538.000000
+	__GongStructShape__00000009_.IdentifierMeta = ref_models.TorusGeometry{}
+	__GongStructShape__00000009_.Width = 240.000000
+	__GongStructShape__00000009_.Height = 63.000000
+	__GongStructShape__00000009_.IsSelected = false
+
+	__GongStructShape__00000010_.Name = `Default-TubeGeometry`
+	__GongStructShape__00000010_.X = 1113.000000
+	__GongStructShape__00000010_.Y = 625.000000
+	__GongStructShape__00000010_.IdentifierMeta = ref_models.TubeGeometry{}
+	__GongStructShape__00000010_.Width = 240.000000
+	__GongStructShape__00000010_.Height = 63.000000
+	__GongStructShape__00000010_.IsSelected = false
+
+	__GongStructShape__00000011_.Name = `Default-CylinderGeometry`
+	__GongStructShape__00000011_.X = 1104.000000
+	__GongStructShape__00000011_.Y = 174.000000
+	__GongStructShape__00000011_.IdentifierMeta = ref_models.CylinderGeometry{}
+	__GongStructShape__00000011_.Width = 240.000000
+	__GongStructShape__00000011_.Height = 63.000000
+	__GongStructShape__00000011_.IsSelected = false
+
+	__GongStructShape__00000012_.Name = `Default-ExtrudeGeometry`
+	__GongStructShape__00000012_.X = 1112.000000
+	__GongStructShape__00000012_.Y = 267.000000
+	__GongStructShape__00000012_.IdentifierMeta = ref_models.ExtrudeGeometry{}
+	__GongStructShape__00000012_.Width = 240.000000
+	__GongStructShape__00000012_.Height = 63.000000
+	__GongStructShape__00000012_.IsSelected = false
+
+	__LinkShape__00000000_.Name = `AmbiantLight`
+	__LinkShape__00000000_.IdentifierMeta = ref_models.Canvas{}.AmbiantLight
+	__LinkShape__00000000_.FieldTypeIdentifierMeta = ref_models.AmbiantLight{}
+	__LinkShape__00000000_.FieldOffsetX = 0.000000
+	__LinkShape__00000000_.FieldOffsetY = 0.000000
+	__LinkShape__00000000_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000000_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000000_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000000_.SourceMultiplicity = models.MANY
+	__LinkShape__00000000_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000000_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000000_.X = 680.500000
+	__LinkShape__00000000_.Y = 132.000000
+	__LinkShape__00000000_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000000_.StartRatio = 0.500000
+	__LinkShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000000_.EndRatio = 0.500000
+	__LinkShape__00000000_.CornerOffsetRatio = 1.380000
+
+	__LinkShape__00000001_.Name = `DirectionalLights`
+	__LinkShape__00000001_.IdentifierMeta = ref_models.Canvas{}.DirectionalLights
+	__LinkShape__00000001_.FieldTypeIdentifierMeta = ref_models.DirectionalLight{}
+	__LinkShape__00000001_.FieldOffsetX = 0.000000
+	__LinkShape__00000001_.FieldOffsetY = 0.000000
+	__LinkShape__00000001_.TargetMultiplicity = models.MANY
+	__LinkShape__00000001_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000001_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000001_.SourceMultiplicity = models.MANY
+	__LinkShape__00000001_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000001_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000001_.X = 680.000000
+	__LinkShape__00000001_.Y = 181.500000
+	__LinkShape__00000001_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000001_.StartRatio = 0.500000
+	__LinkShape__00000001_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000001_.EndRatio = 0.500000
+	__LinkShape__00000001_.CornerOffsetRatio = 1.380000
+
+	__LinkShape__00000002_.Name = `Meshs`
+	__LinkShape__00000002_.IdentifierMeta = ref_models.Canvas{}.Meshs
+	__LinkShape__00000002_.FieldTypeIdentifierMeta = ref_models.Mesh{}
+	__LinkShape__00000002_.FieldOffsetX = 0.000000
+	__LinkShape__00000002_.FieldOffsetY = 0.000000
+	__LinkShape__00000002_.TargetMultiplicity = models.MANY
+	__LinkShape__00000002_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000002_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000002_.SourceMultiplicity = models.MANY
+	__LinkShape__00000002_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000002_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000002_.X = 727.000000
+	__LinkShape__00000002_.Y = 225.500000
+	__LinkShape__00000002_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000002_.StartRatio = 0.500000
+	__LinkShape__00000002_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000002_.EndRatio = 0.500000
+	__LinkShape__00000002_.CornerOffsetRatio = 1.380000
+
+	__LinkShape__00000003_.Name = `BoxGeometry`
+	__LinkShape__00000003_.IdentifierMeta = ref_models.Mesh{}.BoxGeometry
+	__LinkShape__00000003_.FieldTypeIdentifierMeta = ref_models.BoxGeometry{}
+	__LinkShape__00000003_.FieldOffsetX = 0.000000
+	__LinkShape__00000003_.FieldOffsetY = 0.000000
+	__LinkShape__00000003_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000003_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000003_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000003_.SourceMultiplicity = models.MANY
+	__LinkShape__00000003_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000003_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000003_.X = 1243.000000
+	__LinkShape__00000003_.Y = 353.000000
+	__LinkShape__00000003_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000003_.StartRatio = 0.500150
+	__LinkShape__00000003_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000003_.EndRatio = 0.500000
+	__LinkShape__00000003_.CornerOffsetRatio = 1.374772
+
+	__LinkShape__00000004_.Name = `MeshMaterialBasic`
+	__LinkShape__00000004_.IdentifierMeta = ref_models.Mesh{}.MeshMaterialBasic
+	__LinkShape__00000004_.FieldTypeIdentifierMeta = ref_models.MeshMaterialBasic{}
+	__LinkShape__00000004_.FieldOffsetX = 0.000000
+	__LinkShape__00000004_.FieldOffsetY = 0.000000
+	__LinkShape__00000004_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000004_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000004_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000004_.SourceMultiplicity = models.MANY
+	__LinkShape__00000004_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000004_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000004_.X = 764.000000
+	__LinkShape__00000004_.Y = 490.500000
+	__LinkShape__00000004_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000004_.StartRatio = 0.520605
+	__LinkShape__00000004_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000004_.EndRatio = 0.500000
+	__LinkShape__00000004_.CornerOffsetRatio = 1.038612
+
+	__LinkShape__00000005_.Name = `MeshPhysicalMaterial`
+	__LinkShape__00000005_.IdentifierMeta = ref_models.Mesh{}.MeshPhysicalMaterial
+	__LinkShape__00000005_.FieldTypeIdentifierMeta = ref_models.MeshPhysicalMaterial{}
+	__LinkShape__00000005_.FieldOffsetX = 0.000000
+	__LinkShape__00000005_.FieldOffsetY = 0.000000
+	__LinkShape__00000005_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000005_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000005_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000005_.SourceMultiplicity = models.MANY
+	__LinkShape__00000005_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000005_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000005_.X = 761.500000
+	__LinkShape__00000005_.Y = 434.000000
+	__LinkShape__00000005_.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__00000005_.StartRatio = 0.520605
+	__LinkShape__00000005_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000005_.EndRatio = 0.500000
+	__LinkShape__00000005_.CornerOffsetRatio = 1.136514
+
+	__LinkShape__00000006_.Name = `SphereGeometry`
+	__LinkShape__00000006_.IdentifierMeta = ref_models.Mesh{}.SphereGeometry
+	__LinkShape__00000006_.FieldTypeIdentifierMeta = ref_models.SphereGeometry{}
+	__LinkShape__00000006_.FieldOffsetX = 0.000000
+	__LinkShape__00000006_.FieldOffsetY = 0.000000
+	__LinkShape__00000006_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000006_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000006_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000006_.SourceMultiplicity = models.MANY
+	__LinkShape__00000006_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000006_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000006_.X = 1219.500000
+	__LinkShape__00000006_.Y = 430.500000
+	__LinkShape__00000006_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000006_.StartRatio = 0.500000
+	__LinkShape__00000006_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000006_.EndRatio = 0.500000
+	__LinkShape__00000006_.CornerOffsetRatio = 1.380000
+
+	__LinkShape__00000007_.Name = `TorusGeometry`
+	__LinkShape__00000007_.IdentifierMeta = ref_models.Mesh{}.TorusGeometry
+	__LinkShape__00000007_.FieldTypeIdentifierMeta = ref_models.TorusGeometry{}
+	__LinkShape__00000007_.FieldOffsetX = 0.000000
+	__LinkShape__00000007_.FieldOffsetY = 0.000000
+	__LinkShape__00000007_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000007_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000007_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000007_.SourceMultiplicity = models.MANY
+	__LinkShape__00000007_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000007_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000007_.X = 1218.000000
+	__LinkShape__00000007_.Y = 474.000000
+	__LinkShape__00000007_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000007_.StartRatio = 0.500000
+	__LinkShape__00000007_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000007_.EndRatio = 0.500000
+	__LinkShape__00000007_.CornerOffsetRatio = 1.380000
+
+	__LinkShape__00000008_.Name = `PlaneGeometry`
+	__LinkShape__00000008_.IdentifierMeta = ref_models.Mesh{}.PlaneGeometry
+	__LinkShape__00000008_.FieldTypeIdentifierMeta = ref_models.PlaneGeometry{}
+	__LinkShape__00000008_.FieldOffsetX = 0.000000
+	__LinkShape__00000008_.FieldOffsetY = 0.000000
+	__LinkShape__00000008_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000008_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000008_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000008_.SourceMultiplicity = models.MANY
+	__LinkShape__00000008_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000008_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000008_.X = 1218.500000
+	__LinkShape__00000008_.Y = 382.000000
+	__LinkShape__00000008_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000008_.StartRatio = 0.500000
+	__LinkShape__00000008_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000008_.EndRatio = 0.500000
+	__LinkShape__00000008_.CornerOffsetRatio = 1.380000
+
+	__LinkShape__00000009_.Name = `TubeGeometry`
+	__LinkShape__00000009_.IdentifierMeta = ref_models.Mesh{}.TubeGeometry
+	__LinkShape__00000009_.FieldTypeIdentifierMeta = ref_models.TubeGeometry{}
+	__LinkShape__00000009_.FieldOffsetX = 0.000000
+	__LinkShape__00000009_.FieldOffsetY = 0.000000
+	__LinkShape__00000009_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000009_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000009_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000009_.SourceMultiplicity = models.MANY
+	__LinkShape__00000009_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000009_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000009_.X = 1221.000000
+	__LinkShape__00000009_.Y = 517.500000
+	__LinkShape__00000009_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000009_.StartRatio = 0.500000
+	__LinkShape__00000009_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000009_.EndRatio = 0.500000
+	__LinkShape__00000009_.CornerOffsetRatio = 1.380000
+
+	__LinkShape__00000010_.Name = `ExtrudeGeometry`
+	__LinkShape__00000010_.IdentifierMeta = ref_models.Mesh{}.ExtrudeGeometry
+	__LinkShape__00000010_.FieldTypeIdentifierMeta = ref_models.ExtrudeGeometry{}
+	__LinkShape__00000010_.FieldOffsetX = 0.000000
+	__LinkShape__00000010_.FieldOffsetY = 0.000000
+	__LinkShape__00000010_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000010_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000010_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000010_.SourceMultiplicity = models.MANY
+	__LinkShape__00000010_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000010_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000010_.X = 1220.500000
+	__LinkShape__00000010_.Y = 338.500000
+	__LinkShape__00000010_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000010_.StartRatio = 0.500000
+	__LinkShape__00000010_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000010_.EndRatio = 0.500000
+	__LinkShape__00000010_.CornerOffsetRatio = 1.380000
+
+	__LinkShape__00000011_.Name = `CylinderGeometry`
+	__LinkShape__00000011_.IdentifierMeta = ref_models.Mesh{}.CylinderGeometry
+	__LinkShape__00000011_.FieldTypeIdentifierMeta = ref_models.CylinderGeometry{}
+	__LinkShape__00000011_.FieldOffsetX = 0.000000
+	__LinkShape__00000011_.FieldOffsetY = 0.000000
+	__LinkShape__00000011_.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__00000011_.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__00000011_.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__00000011_.SourceMultiplicity = models.MANY
+	__LinkShape__00000011_.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__00000011_.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__00000011_.X = 1216.500000
+	__LinkShape__00000011_.Y = 292.000000
+	__LinkShape__00000011_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000011_.StartRatio = 0.500000
+	__LinkShape__00000011_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__00000011_.EndRatio = 0.500000
+	__LinkShape__00000011_.CornerOffsetRatio = 1.380000
+
+	// insertion point for setup of pointers
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000000_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000001_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000002_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000003_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000004_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000005_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000006_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000007_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000008_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000009_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000010_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000011_)
+	__Classdiagram__00000000_.GongStructShapes = append(__Classdiagram__00000000_.GongStructShapes, __GongStructShape__00000012_)
+	__DiagramPackage__00000000_.Classdiagrams = append(__DiagramPackage__00000000_.Classdiagrams, __Classdiagram__00000000_)
+	__DiagramPackage__00000000_.SelectedClassdiagram = __Classdiagram__00000000_
+	__GongStructShape__00000000_.AttributeShapes = append(__GongStructShape__00000000_.AttributeShapes, __AttributeShape__00000000_)
+	__GongStructShape__00000000_.LinkShapes = append(__GongStructShape__00000000_.LinkShapes, __LinkShape__00000000_)
+	__GongStructShape__00000000_.LinkShapes = append(__GongStructShape__00000000_.LinkShapes, __LinkShape__00000001_)
+	__GongStructShape__00000000_.LinkShapes = append(__GongStructShape__00000000_.LinkShapes, __LinkShape__00000002_)
+	__GongStructShape__00000004_.AttributeShapes = append(__GongStructShape__00000004_.AttributeShapes, __AttributeShape__00000001_)
+	__GongStructShape__00000004_.AttributeShapes = append(__GongStructShape__00000004_.AttributeShapes, __AttributeShape__00000002_)
+	__GongStructShape__00000004_.AttributeShapes = append(__GongStructShape__00000004_.AttributeShapes, __AttributeShape__00000003_)
+	__GongStructShape__00000004_.AttributeShapes = append(__GongStructShape__00000004_.AttributeShapes, __AttributeShape__00000004_)
+	__GongStructShape__00000004_.LinkShapes = append(__GongStructShape__00000004_.LinkShapes, __LinkShape__00000003_)
+	__GongStructShape__00000004_.LinkShapes = append(__GongStructShape__00000004_.LinkShapes, __LinkShape__00000004_)
+	__GongStructShape__00000004_.LinkShapes = append(__GongStructShape__00000004_.LinkShapes, __LinkShape__00000005_)
+	__GongStructShape__00000004_.LinkShapes = append(__GongStructShape__00000004_.LinkShapes, __LinkShape__00000006_)
+	__GongStructShape__00000004_.LinkShapes = append(__GongStructShape__00000004_.LinkShapes, __LinkShape__00000007_)
+	__GongStructShape__00000004_.LinkShapes = append(__GongStructShape__00000004_.LinkShapes, __LinkShape__00000008_)
+	__GongStructShape__00000004_.LinkShapes = append(__GongStructShape__00000004_.LinkShapes, __LinkShape__00000009_)
+	__GongStructShape__00000004_.LinkShapes = append(__GongStructShape__00000004_.LinkShapes, __LinkShape__00000010_)
+	__GongStructShape__00000004_.LinkShapes = append(__GongStructShape__00000004_.LinkShapes, __LinkShape__00000011_)
+}

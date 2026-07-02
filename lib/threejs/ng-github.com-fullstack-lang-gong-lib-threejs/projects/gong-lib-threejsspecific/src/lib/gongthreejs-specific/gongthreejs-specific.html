@@ -1,0 +1,63 @@
+<p>gong-lib-threejs-specific works!</p>
+<div style="height: 50vh; width: 100%;">
+  <ngt-canvas [camera]="{ position: [15, 15, 15] }" shadows>
+    <ng-template canvasContent>
+      @if (canvasSingloton?.AmbiantLight) {
+        <ngt-ambient-light [intensity]="canvasSingloton!.AmbiantLight!.Intensity" />
+      }
+
+      @for (light of canvasSingloton?.DirectionalLights; track light.Name) {
+        <ngt-directional-light 
+          [position]="[light.X, light.Y, light.Z]" 
+          [castShadow]="light.IsWithCastShadow" 
+          [intensity]="light.Intensity" />
+      }
+
+      @for (mesh of canvasSingloton?.Meshs; track mesh.Name) {
+        <ngt-mesh [position]="[mesh.X, mesh.Y, mesh.Z]" castShadow receiveShadow>
+          
+          @if (mesh.BoxGeometry) {
+            <ngt-box-geometry *args="[mesh.BoxGeometry.Width, mesh.BoxGeometry.Height, mesh.BoxGeometry.Depth]" />
+          }
+          @if (mesh.CylinderGeometry) {
+            <ngt-cylinder-geometry *args="[mesh.CylinderGeometry.RadiusTop, mesh.CylinderGeometry.RadiusBottom, mesh.CylinderGeometry.Height, mesh.CylinderGeometry.RadialSegments]" />
+          }
+          @if (mesh.SphereGeometry) {
+            <ngt-sphere-geometry *args="[mesh.SphereGeometry.Radius, mesh.SphereGeometry.WidthSegments, mesh.SphereGeometry.HeightSegments]" />
+          }
+          @if (mesh.TorusGeometry) {
+            <ngt-torus-geometry *args="[mesh.TorusGeometry.Radius, mesh.TorusGeometry.Tube, mesh.TorusGeometry.RadialSegments, mesh.TorusGeometry.TubularSegments]" />
+          }
+          @if (mesh.PlaneGeometry) {
+            <ngt-plane-geometry *args="[mesh.PlaneGeometry.Width, mesh.PlaneGeometry.Height, mesh.PlaneGeometry.WidthSegments, mesh.PlaneGeometry.HeightSegments]" />
+          }
+          @if (mesh.TubeGeometry) {
+            <ngt-tube-geometry *args="[getCurve(mesh.TubeGeometry.Path), mesh.TubeGeometry.TubularSegments, mesh.TubeGeometry.Radius, mesh.TubeGeometry.RadialSegments, mesh.TubeGeometry.Closed]" />
+          }
+          @if (mesh.ExtrudeGeometry) {
+            <ngt-extrude-geometry *args="getExtrudeArgs(mesh.ExtrudeGeometry)" />
+          }
+
+          @if (!mesh.BoxGeometry && !mesh.CylinderGeometry && !mesh.SphereGeometry && !mesh.TorusGeometry && !mesh.PlaneGeometry && !mesh.TubeGeometry && !mesh.ExtrudeGeometry) {
+            <!-- Using box geometry as fallback since Geometry isn't linked in Mesh struct yet -->
+            <ngt-box-geometry *args="[2, 2, 2]" />
+          }
+          
+          @if (mesh.MeshMaterialBasic) {
+            <ngt-mesh-basic-material [color]="mesh.MeshMaterialBasic.Color" />
+          }
+          
+          @if (mesh.MeshPhysicalMaterial) {
+            <ngt-mesh-physical-material 
+              [color]="mesh.MeshPhysicalMaterial.Color"
+              [transparent]="mesh.MeshPhysicalMaterial.Transparent"
+              [opacity]="mesh.MeshPhysicalMaterial.Opacity"
+              [wireframe]="mesh.MeshPhysicalMaterial.Wireframe" />
+          }
+        </ngt-mesh>
+      }
+
+      <ngts-orbit-controls />
+    </ng-template>
+  </ngt-canvas>
+</div>
