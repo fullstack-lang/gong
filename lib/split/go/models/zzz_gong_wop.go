@@ -244,6 +244,20 @@ func (from *Table) CopyBasicFields(to *Table) {
 	to.StackName = from.StackName
 }
 
+type Threejs_WOP struct {
+	// insertion point
+
+	Name string
+
+	StackName string
+}
+
+func (from *Threejs) CopyBasicFields(to *Threejs) {
+	// insertion point
+	to.Name = from.Name
+	to.StackName = from.StackName
+}
+
 type Title_WOP struct {
 	// insertion point
 

@@ -11,6 +11,7 @@ import { SvgAPI } from './svg-api'
 import { TableAPI } from './table-api'
 import { ToneAPI } from './tone-api'
 import { TreeAPI } from './tree-api'
+import { ThreejsAPI } from './threejs-api'
 import { XlsxAPI } from './xlsx-api'
 
 // usefull for managing pointer ID values that can be nullable
@@ -63,6 +64,8 @@ export class AsSplitAreaPointersEncoding {
 	ToneID: NullInt64 = new NullInt64 // if pointer is null, Tone.ID = 0
 
 	TreeID: NullInt64 = new NullInt64 // if pointer is null, Tree.ID = 0
+
+	ThreejsID: NullInt64 = new NullInt64 // if pointer is null, Threejs.ID = 0
 
 	XlsxID: NullInt64 = new NullInt64 // if pointer is null, Xlsx.ID = 0
 

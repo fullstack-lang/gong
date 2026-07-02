@@ -62,6 +62,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterTableCreateCallback != nil {
 			stage.OnAfterTableCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Threejs:
+		if stage.OnAfterThreejsCreateCallback != nil {
+			stage.OnAfterThreejsCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Title:
 		if stage.OnAfterTitleCreateCallback != nil {
 			stage.OnAfterTitleCreateCallback.OnAfterCreate(stage, target)
@@ -165,6 +169,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Table)
 		if stage.OnAfterTableUpdateCallback != nil {
 			stage.OnAfterTableUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Threejs:
+		newTarget := any(new).(*Threejs)
+		if stage.OnAfterThreejsUpdateCallback != nil {
+			stage.OnAfterThreejsUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Title:
 		newTarget := any(new).(*Title)
@@ -271,6 +280,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Table)
 			stage.OnAfterTableDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Threejs:
+		if stage.OnAfterThreejsDeleteCallback != nil {
+			staged := any(staged).(*Threejs)
+			stage.OnAfterThreejsDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Title:
 		if stage.OnAfterTitleDeleteCallback != nil {
 			staged := any(staged).(*Title)
@@ -362,6 +376,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterTableReadCallback != nil {
 			stage.OnAfterTableReadCallback.OnAfterRead(stage, target)
 		}
+	case *Threejs:
+		if stage.OnAfterThreejsReadCallback != nil {
+			stage.OnAfterThreejsReadCallback.OnAfterRead(stage, target)
+		}
 	case *Title:
 		if stage.OnAfterTitleReadCallback != nil {
 			stage.OnAfterTitleReadCallback.OnAfterRead(stage, target)
@@ -421,6 +439,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterSvgUpdateCallback = any(callback).(OnAfterUpdateInterface[Svg])
 	case *Table:
 		stage.OnAfterTableUpdateCallback = any(callback).(OnAfterUpdateInterface[Table])
+	case *Threejs:
+		stage.OnAfterThreejsUpdateCallback = any(callback).(OnAfterUpdateInterface[Threejs])
 	case *Title:
 		stage.OnAfterTitleUpdateCallback = any(callback).(OnAfterUpdateInterface[Title])
 	case *Tone:
@@ -466,6 +486,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterSvgCreateCallback = any(callback).(OnAfterCreateInterface[Svg])
 	case *Table:
 		stage.OnAfterTableCreateCallback = any(callback).(OnAfterCreateInterface[Table])
+	case *Threejs:
+		stage.OnAfterThreejsCreateCallback = any(callback).(OnAfterCreateInterface[Threejs])
 	case *Title:
 		stage.OnAfterTitleCreateCallback = any(callback).(OnAfterCreateInterface[Title])
 	case *Tone:
@@ -511,6 +533,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterSvgDeleteCallback = any(callback).(OnAfterDeleteInterface[Svg])
 	case *Table:
 		stage.OnAfterTableDeleteCallback = any(callback).(OnAfterDeleteInterface[Table])
+	case *Threejs:
+		stage.OnAfterThreejsDeleteCallback = any(callback).(OnAfterDeleteInterface[Threejs])
 	case *Title:
 		stage.OnAfterTitleDeleteCallback = any(callback).(OnAfterDeleteInterface[Title])
 	case *Tone:
@@ -556,6 +580,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterSvgReadCallback = any(callback).(OnAfterReadInterface[Svg])
 	case *Table:
 		stage.OnAfterTableReadCallback = any(callback).(OnAfterReadInterface[Table])
+	case *Threejs:
+		stage.OnAfterThreejsReadCallback = any(callback).(OnAfterReadInterface[Threejs])
 	case *Title:
 		stage.OnAfterTitleReadCallback = any(callback).(OnAfterReadInterface[Title])
 	case *Tone:

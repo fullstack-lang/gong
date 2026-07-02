@@ -1,0 +1,60 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      // with gong, some angular standalone component are imported from other stacks
+      "@vendored_components/*": [
+        "../vendor/*", // path for stack at the root of the module
+        "../../vendor/*", // path for stack within 1 level of the module
+        "../../../vendor/*", // path for stack within 2 levels of the module
+        "../../../../../../*", // path with gong internal lib and test libraries
+        "../../../../*", // path when compile gong ng
+
+      ],
+      "threejs": [
+        "./dist/threejs"
+      ],
+      "threejsspecific": [
+        "./dist/threejsspecific"
+      ]
+    },
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve"
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "typeCheckHostBindings": true,
+    "strictTemplates": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./projects/threejs/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/threejs/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/threejsspecific/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/threejsspecific/tsconfig.spec.json"
+    }
+  ]
+}

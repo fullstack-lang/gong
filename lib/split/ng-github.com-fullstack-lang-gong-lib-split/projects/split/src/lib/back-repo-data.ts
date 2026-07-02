@@ -29,6 +29,8 @@ import { SvgAPI } from './svg-api'
 
 import { TableAPI } from './table-api'
 
+import { ThreejsAPI } from './threejs-api'
+
 import { TitleAPI } from './title-api'
 
 import { ToneAPI } from './tone-api'
@@ -69,6 +71,8 @@ export class BackRepoData {
 	SvgAPIs = new Array<SvgAPI>()
 
 	TableAPIs = new Array<TableAPI>()
+
+	ThreejsAPIs = new Array<ThreejsAPI>()
 
 	TitleAPIs = new Array<TitleAPI>()
 
@@ -113,6 +117,8 @@ export class BackRepoData {
 		this.SvgAPIs = data?.SvgAPIs || [];
 
 		this.TableAPIs = data?.TableAPIs || [];
+
+		this.ThreejsAPIs = data?.ThreejsAPIs || [];
 
 		this.TitleAPIs = data?.TitleAPIs || [];
 

@@ -14,6 +14,7 @@ import (
 	_ "github.com/fullstack-lang/gong/lib/table/ng-github.com-fullstack-lang-gong-lib-table"
 	_ "github.com/fullstack-lang/gong/lib/tone/ng-github.com-fullstack-lang-gong-lib-tone"
 	_ "github.com/fullstack-lang/gong/lib/tree/ng-github.com-fullstack-lang-gong-lib-tree"
+	_ "github.com/fullstack-lang/gong/lib/threejs"
 )
 
 // View is the top structuring eleement of the split component
@@ -81,6 +82,7 @@ type AsSplitArea struct {
 	Table    *Table
 	Tone     *Tone
 	Tree     *Tree
+	Threejs  *Threejs
 	Xlsx     *Xlsx
 
 	HasDiv   bool
@@ -135,6 +137,11 @@ type Table struct {
 }
 
 type Tone struct {
+	Name      string // name of the stack
+	StackName string
+}
+
+type Threejs struct {
 	Name      string // name of the stack
 	StackName string
 }
