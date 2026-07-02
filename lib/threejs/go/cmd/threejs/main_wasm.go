@@ -6,8 +6,9 @@ import (
 	"log"
 
 	"github.com/fullstack-lang/gong/lib/wasmregistry"
-	"github.com/fullstack-lang/gong/lib/threejs/go/level1stack"
 	"github.com/fullstack-lang/gong/lib/threejs/go/models"
+	threejs_stack "github.com/fullstack-lang/gong/lib/threejs/go/stack"
+	threejs_static "github.com/fullstack-lang/gong/lib/threejs/go/static"
 )
 
 func main() {
@@ -21,10 +22,12 @@ func main() {
 	marshallOnCommit := ""
 	embeddedDiagrams := true
 
+	r := threejs_static.ServeStaticFiles(false)
+
 	// setup
-	// - model level1 stack with its probe
+	// - model stack with its probe
 	// - unmarshall/marshall go file with stage data
-	stack := level1stack.NewLevel1StackDelta("threejs", unmarshallFromCode, marshallOnCommit, true, embeddedDiagrams, true)
+	stack := threejs_stack.NewStack(r, "threejs", unmarshallFromCode, marshallOnCommit, "", embeddedDiagrams, true)
 	stack.Stage.SetGongMarshallingMode(models.GongMarshallingAppendCommit)
 	stack.Stage.SetIsWithGenesisCommit(true) // the genesis commit is the first commit of the stage, it is the one that contains the initial data. It cannot be rollbacked.
 
@@ -33,13 +36,13 @@ func main() {
 
 	// initiates the UX loop
 	models.NewStager(
-		stack.R,
+		r,
 		stack.Stage,
 		stack.Probe,
 	)
 
 	// Expose the HTTP and Socket bridges to the Angular frontend
-	wasmregistry.SetupWasmHooks(stack.R)
+	wasmregistry.SetupWasmHooks(r)
 
 	select {} // Keep the WASM instance running indefinitely
 }
