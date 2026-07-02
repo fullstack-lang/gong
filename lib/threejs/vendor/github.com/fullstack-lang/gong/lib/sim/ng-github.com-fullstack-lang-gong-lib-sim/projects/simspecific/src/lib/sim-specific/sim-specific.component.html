@@ -1,0 +1,86 @@
+<mat-toolbar *ngIf="engine">
+    <mat-toolbar-row>
+        <span>{{ simulationTitle }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span class="example-spacer status-indicator" [ngStyle]="
+            {
+                'color': engine.State === 'PAUSED' ? 
+                'grey' : ( engine.State === 'RUNNING' ? 'green': 'red'),
+                'width': '5ch'
+                }">{{ engine.State }}</span>
+        <button mat-button class="button" (click)='fireEventTillStateChange()' 
+                matTooltip="fire events till at least one state changes">
+            <mat-icon>
+                skip_next
+            </mat-icon>
+        </button>
+        <button mat-button class="button" (click)='fireEvent()' matTooltip="fire one event">
+            <mat-icon>
+                chevron_right
+            </mat-icon>
+        </button>
+        <button mat-button class="button" matTooltip="not yet implemented">
+            <mat-icon>
+                fast_forward
+            </mat-icon>
+        </button>
+        <button (click)='reset()' class="button" matTooltip="reset simulation" mat-button>
+            <mat-icon>
+                first_page
+            </mat-icon>
+        </button>
+        <button (click)='play()' class="button" matTooltip="run simulation" mat-button>
+            <mat-icon>
+                play_arrow
+            </mat-icon>
+        </button>
+        <button (click)='pause()' class="button" matTooltip="pause simulation" mat-button>
+            <mat-icon>
+                pause
+            </mat-icon>
+        </button>
+
+        <span class="example-spacer"></span>
+
+        <span class="example-spacer"></span>
+        <mat-icon>
+            speed
+        </mat-icon> &nbsp; &nbsp; {{ engine.Speed }}&nbsp;x&nbsp;&nbsp;
+        <button class="button" (click)='increaseSpeed100percent()' matTooltip="increase Speed 100 percent" mat-button>
+            <mat-icon>
+                add_circle_outline
+            </mat-icon>
+        </button>
+        <button class="button" (click)='decreaseSpeed50percent()' matTooltip="decrease Speed 50 percent" mat-button>
+            <mat-icon>
+                remove_circle_outline
+            </mat-icon>
+        </button>
+        <button class="button" (click)='publishAdvance10Minutes()' matTooltip="advance 10 minutes" mat-button>
+            <mat-icon>
+                forward_10
+            </mat-icon>
+        </button>
+        <span class="example-spacer">&nbsp;&nbsp;
+        </span>
+        <mat-icon>
+            schedule
+        </mat-icon>
+        <span class="example-spacer">&nbsp;&nbsp;
+        </span>
+        <span class="example-spacer"></span> {{ engine.CurrentTime }}
+        <span class="example-spacer">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span>
+        <mat-icon>
+            alarm_on
+        </mat-icon>
+        <span class="example-spacer">&nbsp;&nbsp;
+        </span>
+        <span class="example-spacer"></span> {{ engine.EndTime }}
+        <button (click)='publishAgentStates()' matTooltip="publish agent states" mat-button>
+            <mat-icon>
+                publish
+            </mat-icon>
+        </button>
+
+    </mat-toolbar-row>
+</mat-toolbar>

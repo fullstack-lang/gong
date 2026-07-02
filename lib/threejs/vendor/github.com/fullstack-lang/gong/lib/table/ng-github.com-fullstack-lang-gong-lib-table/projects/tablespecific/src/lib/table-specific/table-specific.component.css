@@ -1,0 +1,201 @@
+/* CSS Fixes for table-specific.component.css */
+
+/* 1. MAIN FIX: Proper container height and scrolling */
+.container {
+    height: 100%;
+    width: 100%;
+    min-width: 500px;
+    max-width: 90vw;
+    max-height: 90vh;
+    /* Limit height to 90% of viewport */
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    /* Stack toolbar and table vertically */
+    resize: both;
+}
+
+/* 2. FIX: Make table container scrollable while keeping toolbar fixed */
+.table-container {
+    flex: 1;
+    /* Take remaining space after toolbar */
+    overflow: auto;
+    /* Enable scrolling for table content */
+    min-height: 0;
+    /* Important: Allow flexbox to shrink below content size */
+}
+
+
+/* --- NEW: PROFESSIONAL TOOLBAR STYLES --- */
+.toolbar {
+    display: flex;
+    align-items: center;
+    /* Vertically center all items */
+    justify-content: space-between;
+    padding: 0 8px 0 16px;
+    /* More padding on left, less on right for paginator */
+    height: 64px;
+    /* Standard Material Design toolbar height */
+    flex-shrink: 0;
+    background-color: white;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.left-toolbar,
+.right-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* Space between items within a section */
+}
+
+/* Style for the improved filter field */
+.toolbar mat-form-field {
+    width: 250px;
+}
+
+.toolbar .mat-mdc-form-field {
+    height: 56px;
+    /* Helps with alignment in the 64px toolbar */
+}
+
+/* Visual separator between button groups */
+.toolbar-separator {
+    width: 1px;
+    height: 32px;
+    background-color: #e0e0e0;
+    margin: 0 8px;
+}
+
+/* --- END NEW TOOLBAR STYLES --- */
+
+
+/* 4. FIX: Table styling for better scrolling */
+.table {
+    width: 100%;
+    /* Remove any fixed height that might interfere */
+}
+
+/* 5. FIX: Sticky header for table */
+.mat-mdc-header-row {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background-color: white;
+}
+
+/* 6. FIX: Paginator styling */
+.mat-mdc-paginator {
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+    border-top: 1px solid #e0e0e0;
+    z-index: 5;
+}
+
+/* 7. FIX: Row hover effects */
+.my-button:hover {
+    animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.mat-mdc-header-cell {
+    font-weight: bold;
+}
+
+.mat-mdc-row {
+    background-color: white;
+}
+
+.table .mat-mdc-row:hover {
+    background-color: #F8F8F8;
+    cursor: pointer;
+}
+
+/* 8. DIALOG-SPECIFIC: When used in dialog, ensure proper sizing */
+mat-dialog-container .container {
+    max-height: 90vh;
+    /* Slightly smaller in dialog */
+    min-height: 400px;
+    /* Minimum height for usability */
+}
+
+/* 9. FIX: Ensure sticky columns work with scrolling */
+.sticky-column {
+    position: sticky;
+    left: 0;
+    background-color: white;
+    z-index: 2;
+    border-right: 1px solid #e0e0e0;
+}
+
+/* 10. FIX: Loading and empty state styling */
+.no-data {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
+
+/* 11. RESPONSIVE: Adjust for smaller screens */
+@media (max-height: 600px) {
+    .container {
+        max-height: 80vh;
+    }
+
+    mat-dialog-container .container {
+        max-height: 70vh;
+        min-height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .toolbar {
+        height: auto;
+        min-height: 64px;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 8px;
+    }
+
+    .left-toolbar,
+    .right-toolbar {
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .right-toolbar {
+        justify-content: center;
+    }
+}
+
+/* NEW: Style for truncated text in table cells */
+.truncate-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
+
+/* Style for wrapping newlines - only applied when isAssociationsWrapping is true */
+.wrap-newlines {
+    white-space: pre-wrap;
+    /* Preserve newlines and wrap text */
+}

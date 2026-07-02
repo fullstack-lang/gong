@@ -1,0 +1,83 @@
+// insertion point for imports
+import { ConditionAPI } from './condition-api'
+import { AnimateAPI } from './animate-api'
+import { RectAnchoredTextAPI } from './rectanchoredtext-api'
+import { RectAnchoredRectAPI } from './rectanchoredrect-api'
+import { RectAnchoredPathAPI } from './rectanchoredpath-api'
+import { RectAnchoredPngImageAPI } from './rectanchoredpngimage-api'
+
+// usefull for managing pointer ID values that can be nullable
+import { NullInt64 } from './null-int64'
+
+export class RectAPI {
+
+	static GONGSTRUCT_NAME = "Rect"
+
+	ID: number = 0
+
+	// insertion point for basic fields declarations
+	Name: string = ""
+	X: number = 0
+	Y: number = 0
+	Width: number = 0
+	Height: number = 0
+	RX: number = 0
+	Color: string = ""
+	FillOpacity: number = 0
+	Stroke: string = ""
+	StrokeOpacity: number = 0
+	StrokeWidth: number = 0
+	StrokeDashArray: string = ""
+	StrokeDashArrayWhenSelected: string = ""
+	Transform: string = ""
+	IsSelectable: boolean = false
+	IsSelected: boolean = false
+	CanHaveLeftHandle: boolean = false
+	HasLeftHandle: boolean = false
+	CanHaveRightHandle: boolean = false
+	HasRightHandle: boolean = false
+	CanHaveTopHandle: boolean = false
+	HasTopHandle: boolean = false
+	IsScalingProportionally: boolean = false
+	CanHaveBottomHandle: boolean = false
+	HasBottomHandle: boolean = false
+	CanMoveHorizontaly: boolean = false
+	CanMoveVerticaly: boolean = false
+	ChangeColorWhenHovered: boolean = false
+	ColorWhenHovered: string = ""
+	OriginalColor: string = ""
+	FillOpacityWhenHovered: number = 0
+	OriginalFillOpacity: number = 0
+	HasToolTip: boolean = false
+	ToolTipText: string = ""
+	ToolTipPosition: string = ""
+	MouseX: number = 0
+	MouseY: number = 0
+	MouseEventKey: string = ""
+	URLPath: string = ""
+	URLTarget: string = ""
+
+	// insertion point for other decls
+
+	RectPointersEncoding: RectPointersEncoding = new RectPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
+}
+
+export class RectPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	Peers: number[] = []
+	EnclosingRectID: NullInt64 = new NullInt64 // if pointer is null, EnclosingRect.ID = 0
+
+	Obstacles: number[] = []
+	AnchoredToID: NullInt64 = new NullInt64 // if pointer is null, AnchoredTo.ID = 0
+
+	HoveringTrigger: number[] = []
+	DisplayConditions: number[] = []
+	Animations: number[] = []
+	RectAnchoredTexts: number[] = []
+	RectAnchoredRects: number[] = []
+	RectAnchoredPaths: number[] = []
+	RectAnchoredPngImages: number[] = []
+}

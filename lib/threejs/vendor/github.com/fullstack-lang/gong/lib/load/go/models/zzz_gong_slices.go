@@ -1,0 +1,533 @@
+// generated code - do not edit
+package models
+
+import (
+	"crypto/sha256"
+	"encoding/binary"
+	"fmt"
+	"log"
+	"sort"
+	"strings"
+	"time"
+)
+
+var (
+	__GongSliceTemplate_time__dummyDeclaration time.Duration
+	_                                          = __GongSliceTemplate_time__dummyDeclaration
+)
+
+// ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
+// Its complexity is in O(n)O(p) where p is the number of pointers
+func (stage *Stage) ComputeReverseMaps() {
+	// insertion point per named struct
+	// Compute reverse map for named struct FileToDownload
+	// insertion point per field
+
+	// Compute reverse map for named struct FileToUpload
+	// insertion point per field
+
+	// Compute reverse map for named struct Message
+	// insertion point per field
+
+	// end of insertion point per named struct
+}
+
+func (stage *Stage) GetInstances() (res []GongstructIF) {
+	// insertion point per named struct
+	for instance := range stage.FileToDownloads {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.FileToUploads {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Messages {
+		res = append(res, instance)
+	}
+
+	return
+}
+
+// insertion point per named struct
+func (filetodownload *FileToDownload) GongCopy() GongstructIF {
+	newInstance := new(FileToDownload)
+	filetodownload.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (filetoupload *FileToUpload) GongCopy() GongstructIF {
+	newInstance := new(FileToUpload)
+	filetoupload.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (message *Message) GongCopy() GongstructIF {
+	newInstance := new(Message)
+	message.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+// insertion point per named struct
+func (filetodownload *FileToDownload) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(filetodownload).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(filetodownload), uint64(GetOrderPointerGongstruct(stage, filetodownload)))
+	return
+}
+
+func (filetoupload *FileToUpload) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(filetoupload).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(filetoupload), uint64(GetOrderPointerGongstruct(stage, filetoupload)))
+	return
+}
+
+func (message *Message) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(message).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(message), uint64(GetOrderPointerGongstruct(stage, message)))
+	return
+}
+
+func (stage *Stage) ComputeForwardAndBackwardCommits() {
+	var lenNewInstances int
+	var lenModifiedInstances int
+	var lenDeletedInstances int
+
+	var newInstancesSlice []string
+	var fieldsEditSlice []string
+	var deletedInstancesSlice []string
+
+	var newInstancesReverseSlice []string
+	var fieldsEditReverseSlice []string
+	var deletedInstancesReverseSlice []string
+
+	// first clean the staging area to remove non staged instances
+	// from pointers fields and slices of pointers fields
+	stage.Clean()
+
+	// insertion point per named struct
+	var filetodownloads_newInstances []*FileToDownload
+	var filetodownloads_deletedInstances []*FileToDownload
+
+	// parse all staged instances and check if they have a reference
+	for filetodownload := range stage.FileToDownloads {
+		if ref, ok := stage.FileToDownloads_reference[filetodownload]; !ok {
+			filetodownloads_newInstances = append(filetodownloads_newInstances, filetodownload)
+			newInstancesSlice = append(newInstancesSlice, filetodownload.GongMarshallIdentifier(stage))
+			if stage.FileToDownloads_referenceOrder == nil {
+				stage.FileToDownloads_referenceOrder = make(map[*FileToDownload]uint)
+			}
+			stage.FileToDownloads_referenceOrder[filetodownload] = stage.FileToDownload_stagedOrder[filetodownload]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, filetodownload.GongMarshallUnstaging(stage))
+			// delete(stage.FileToDownloads_referenceOrder, filetodownload)
+			fieldInitializers, pointersInitializations := filetodownload.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.FileToDownload_stagedOrder[ref] = stage.FileToDownload_stagedOrder[filetodownload]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := filetodownload.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, filetodownload)
+			// delete(stage.FileToDownload_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if filetodownload.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", filetodownload.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.FileToDownloads_reference {
+		instance := stage.FileToDownloads_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FileToDownloads[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			filetodownloads_deletedInstances = append(filetodownloads_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(filetodownloads_newInstances)
+	lenDeletedInstances += len(filetodownloads_deletedInstances)
+	var filetouploads_newInstances []*FileToUpload
+	var filetouploads_deletedInstances []*FileToUpload
+
+	// parse all staged instances and check if they have a reference
+	for filetoupload := range stage.FileToUploads {
+		if ref, ok := stage.FileToUploads_reference[filetoupload]; !ok {
+			filetouploads_newInstances = append(filetouploads_newInstances, filetoupload)
+			newInstancesSlice = append(newInstancesSlice, filetoupload.GongMarshallIdentifier(stage))
+			if stage.FileToUploads_referenceOrder == nil {
+				stage.FileToUploads_referenceOrder = make(map[*FileToUpload]uint)
+			}
+			stage.FileToUploads_referenceOrder[filetoupload] = stage.FileToUpload_stagedOrder[filetoupload]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, filetoupload.GongMarshallUnstaging(stage))
+			// delete(stage.FileToUploads_referenceOrder, filetoupload)
+			fieldInitializers, pointersInitializations := filetoupload.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.FileToUpload_stagedOrder[ref] = stage.FileToUpload_stagedOrder[filetoupload]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := filetoupload.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, filetoupload)
+			// delete(stage.FileToUpload_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if filetoupload.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", filetoupload.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.FileToUploads_reference {
+		instance := stage.FileToUploads_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.FileToUploads[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			filetouploads_deletedInstances = append(filetouploads_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(filetouploads_newInstances)
+	lenDeletedInstances += len(filetouploads_deletedInstances)
+	var messages_newInstances []*Message
+	var messages_deletedInstances []*Message
+
+	// parse all staged instances and check if they have a reference
+	for message := range stage.Messages {
+		if ref, ok := stage.Messages_reference[message]; !ok {
+			messages_newInstances = append(messages_newInstances, message)
+			newInstancesSlice = append(newInstancesSlice, message.GongMarshallIdentifier(stage))
+			if stage.Messages_referenceOrder == nil {
+				stage.Messages_referenceOrder = make(map[*Message]uint)
+			}
+			stage.Messages_referenceOrder[message] = stage.Message_stagedOrder[message]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, message.GongMarshallUnstaging(stage))
+			// delete(stage.Messages_referenceOrder, message)
+			fieldInitializers, pointersInitializations := message.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Message_stagedOrder[ref] = stage.Message_stagedOrder[message]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := message.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, message)
+			// delete(stage.Message_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if message.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", message.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Messages_reference {
+		instance := stage.Messages_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Messages[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			messages_deletedInstances = append(messages_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(messages_newInstances)
+	lenDeletedInstances += len(messages_deletedInstances)
+
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
+
+		// sort the stmt to have reproductible forward/backward commit
+		sort.Strings(newInstancesSlice)
+		newInstancesStmt := strings.Join(newInstancesSlice, "")
+		sort.Strings(fieldsEditSlice)
+		fieldsEditStmt := strings.Join(fieldsEditSlice, "")
+		sort.Strings(deletedInstancesSlice)
+		deletedInstancesStmt := strings.Join(deletedInstancesSlice, "")
+
+		sort.Strings(newInstancesReverseSlice)
+		newInstancesReverseStmt := strings.Join(newInstancesReverseSlice, "")
+		sort.Strings(fieldsEditReverseSlice)
+		fieldsEditReverseStmt := strings.Join(fieldsEditReverseSlice, "")
+		sort.Strings(deletedInstancesReverseSlice)
+		deletedInstancesReverseStmt := strings.Join(deletedInstancesReverseSlice, "")
+
+		forwardCommit := newInstancesStmt + fieldsEditStmt + deletedInstancesStmt
+		forwardCommit += "\n\tstage.Commit()"
+		stage.forwardCommits = append(stage.forwardCommits, forwardCommit)
+
+		backwardCommit := deletedInstancesReverseStmt + fieldsEditReverseStmt + newInstancesReverseStmt
+		backwardCommit += "\n\tstage.Commit()"
+		// append to the end of the backward commits slice
+		stage.backwardCommits = append(stage.backwardCommits, backwardCommit)
+		stage.modified = true
+	} else {
+		stage.modified = false
+	}
+}
+
+// ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
+func (stage *Stage) ComputeReferenceAndOrders() {
+	// insertion point per named struct
+	stage.FileToDownloads_reference = make(map[*FileToDownload]*FileToDownload)
+	stage.FileToDownloads_referenceOrder = make(map[*FileToDownload]uint) // diff Unstage needs the reference order
+	stage.FileToDownloads_instance = make(map[*FileToDownload]*FileToDownload)
+	for instance := range stage.FileToDownloads {
+		_copy := instance.GongCopy().(*FileToDownload)
+		stage.FileToDownloads_reference[instance] = _copy
+		stage.FileToDownloads_instance[_copy] = instance
+		stage.FileToDownloads_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.FileToUploads_reference = make(map[*FileToUpload]*FileToUpload)
+	stage.FileToUploads_referenceOrder = make(map[*FileToUpload]uint) // diff Unstage needs the reference order
+	stage.FileToUploads_instance = make(map[*FileToUpload]*FileToUpload)
+	for instance := range stage.FileToUploads {
+		_copy := instance.GongCopy().(*FileToUpload)
+		stage.FileToUploads_reference[instance] = _copy
+		stage.FileToUploads_instance[_copy] = instance
+		stage.FileToUploads_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.Messages_reference = make(map[*Message]*Message)
+	stage.Messages_referenceOrder = make(map[*Message]uint) // diff Unstage needs the reference order
+	stage.Messages_instance = make(map[*Message]*Message)
+	for instance := range stage.Messages {
+		_copy := instance.GongCopy().(*Message)
+		stage.Messages_reference[instance] = _copy
+		stage.Messages_instance[_copy] = instance
+		stage.Messages_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	// insertion point per named struct
+	for instance := range stage.FileToDownloads {
+		reference := stage.FileToDownloads_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.FileToUploads {
+		reference := stage.FileToUploads_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Messages {
+		reference := stage.Messages_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	stage.recomputeOrders()
+}
+
+// GongGetOrder returns the order of the instance in the staging area
+// This order is set at staging time, and reflects the order of creation of the instances
+// in the staging area
+// It is used when rendering slices of GongstructIF to keep a deterministic order
+// which is important for frontends such as web frontends
+// to avoid unnecessary re-renderings
+// insertion point per named struct
+func (filetodownload *FileToDownload) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.FileToDownload_stagedOrder[filetodownload]; ok {
+		return order
+	}
+	if order, ok := stage.FileToDownloads_referenceOrder[filetodownload]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type FileToDownload was not staged and does not have a reference order", filetodownload)
+		return 0
+	}
+}
+
+func (filetoupload *FileToUpload) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.FileToUpload_stagedOrder[filetoupload]; ok {
+		return order
+	}
+	if order, ok := stage.FileToUploads_referenceOrder[filetoupload]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type FileToUpload was not staged and does not have a reference order", filetoupload)
+		return 0
+	}
+}
+
+func (message *Message) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Message_stagedOrder[message]; ok {
+		return order
+	}
+	if order, ok := stage.Messages_referenceOrder[message]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Message was not staged and does not have a reference order", message)
+		return 0
+	}
+}
+
+// GongGetIdentifier returns a unique identifier of the instance in the staging area
+// This identifier is composed of the Gongstruct name and the order of the instance
+// in the staging area
+// It is used to identify instances across sessions
+// insertion point per named struct
+func (filetodownload *FileToDownload) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", filetodownload.GongGetGongstructName(), filetodownload.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (filetodownload *FileToDownload) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", filetodownload.GongGetGongstructName(), filetodownload.GongGetOrder(stage))
+}
+
+func (filetoupload *FileToUpload) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", filetoupload.GongGetGongstructName(), filetoupload.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (filetoupload *FileToUpload) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", filetoupload.GongGetGongstructName(), filetoupload.GongGetOrder(stage))
+}
+
+func (message *Message) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", message.GongGetGongstructName(), message.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (message *Message) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", message.GongGetGongstructName(), message.GongGetOrder(stage))
+}
+
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct
+func (filetodownload *FileToDownload) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FileToDownload")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(filetodownload.Name))
+	return
+}
+
+func (filetoupload *FileToUpload) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetoupload.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FileToUpload")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(filetoupload.Name))
+	return
+}
+
+func (message *Message) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", message.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Message")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(message.Name))
+	return
+}
+
+// insertion point for unstaging
+func (filetodownload *FileToDownload) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetodownload.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (filetoupload *FileToUpload) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetoupload.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (message *Message) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", message.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func IntToLetters(number int32) (letters string) {
+	number--
+	if firstLetter := number / 26; firstLetter > 0 {
+		letters += IntToLetters(firstLetter)
+		letters += string('A' + number%26)
+	} else {
+		letters += string('A' + number)
+	}
+
+	return
+}
+
+// GenerateReproducibleUUIDv4 creates a deterministic UUIDv4 based on a string and a positive integer.
+func GenerateReproducibleUUIDv4(seedStr string, seedInt uint64) string {
+	// 1. Create a deterministic hash from the inputs using SHA-256
+	h := sha256.New()
+
+	// Write the string to the hash
+	h.Write([]byte(seedStr))
+
+	// Write the integer to the hash (using BigEndian to ensure consistency across architectures)
+	intBytes := make([]byte, 8)
+	binary.BigEndian.PutUint64(intBytes, seedInt)
+	h.Write(intBytes)
+
+	// 2. Extract the first 16 bytes from our resulting hash
+	hashBytes := h.Sum(nil)
+	uuid := make([]byte, 16)
+	copy(uuid, hashBytes[:16])
+
+	// 3. Set the Version to 4 (0100 in binary)
+	// We take the 7th byte, clear the top 4 bits with & 0x0f, and set the top bits to 0100 with | 0x40
+	uuid[6] = (uuid[6] & 0x0f) | 0x40
+
+	// 4. Set the Variant to RFC4122 (10 in binary)
+	// We take the 9th byte, clear the top 2 bits with & 0x3f, and set the top bits to 10 with | 0x80
+	uuid[8] = (uuid[8] & 0x3f) | 0x80
+
+	// 5. Format and return the byte array as a standard UUID string
+	return fmt.Sprintf("%08x-%04x-%04x-%04x-%012x",
+		uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:16])
+}
+
+// end of template

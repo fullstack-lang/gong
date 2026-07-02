@@ -1,0 +1,47 @@
+package models
+
+type CellIcon struct {
+	Name string
+
+	// reference of the material icon (ex "home", "delete", "edit")
+	Icon string
+
+	// needs confirmation ? (for instance if the icon is a delete icon)
+	NeedsConfirmation   bool
+	ConfirmationMessage string
+
+	// swagger:ignore
+	Impl CellIconImplInterface
+
+	OnClick func()
+}
+
+type CellIconImplInterface interface {
+
+	// CellIconUpdated function is called each time a CellIcon is modified
+	CellIconUpdated(stage *Stage, cellIcon, updatedCellIcon *CellIcon)
+}
+
+func (cellIcon *CellIcon) OnAfterUpdate(stage *Stage, stagedInstance, frontCellIcon *CellIcon) {
+
+	if cellIcon.Impl != nil {
+		cellIcon.Impl.CellIconUpdated(stage, cellIcon, frontCellIcon)
+	}
+	if cellIcon.OnClick != nil {
+		cellIcon.OnClick()
+	}
+}
+
+type CellIconUpdatedFunc func(stage *Stage, cellIcon *CellIcon, updatedCellIcon *CellIcon)
+
+// Generic Proxy that implements models.CellImplInterface
+type FunctionalCellIconProxy struct {
+	OnUpdated CellIconUpdatedFunc
+}
+
+// Implement the interface method
+func (p *FunctionalCellIconProxy) CellIconUpdated(stage *Stage, cellIcon *CellIcon, updatedCellIcon *CellIcon) {
+	if p.OnUpdated != nil {
+		p.OnUpdated(stage, cellIcon, updatedCellIcon)
+	}
+}

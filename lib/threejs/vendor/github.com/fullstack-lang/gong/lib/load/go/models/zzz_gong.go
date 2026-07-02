@@ -1,0 +1,1744 @@
+// generated code - do not edit
+package models
+
+import (
+	"cmp"
+	"embed"
+	"errors"
+	"fmt"
+	"log"
+	"math"
+	"slices"
+	"sort"
+	"strings"
+	"sync"
+	"time"
+
+	load_go "github.com/fullstack-lang/gong/lib/load/go"
+)
+
+// can be used for
+//
+//	days := __Gong__Abs(int(int(inferedInstance.ComputedDuration.Hours()) / 24))
+func __Gong__Abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
+}
+
+var (
+	_ = __Gong__Abs
+	_ = strings.Clone("")
+)
+
+const (
+	ProbeTreeSidebarSuffix           = ":sidebar of the probe"
+	ProbeNavigationTreeSidebarSuffix = ":sidebar of the probe, navigation"
+	ProbeTableSuffix                 = ":table of the probe"
+	ProbeNotificationTableSuffix     = ":notification table of the probe"
+	ProbeFormSuffix                  = ":form of the probe"
+	ProbeSplitSuffix                 = ":probe of the probe"
+	ProbeLoadSuffix                  = ":load of the probe"
+)
+
+type GongMarshallingMode string
+
+const (
+	// the whole stage is generated at each marshall. This is the default
+	GongMarshallingNormal GongMarshallingMode = "GongMarshallingNormal"
+
+	// only the last commit is append to the marshall file
+	GongMarshallingAppendCommit GongMarshallingMode = "GongMarshallingAppendCommit"
+)
+
+func (stage *Stage) GetProbeTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeNavigationTreeSidebarStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNavigationTreeSidebarSuffix
+}
+
+func (stage *Stage) GetProbeFormStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeFormSuffix
+}
+
+func (stage *Stage) GetProbeTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
+}
+
+func (stage *Stage) GetProbeSplitStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeSplitSuffix
+}
+
+func (stage *Stage) GetProbeLoadStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeLoadSuffix
+}
+
+// errUnkownEnum is returns when a value cannot match enum values
+var (
+	errUnkownEnum = errors.New("unkown enum")
+	_             = errUnkownEnum
+)
+
+// needed to avoid when fmt package is not needed by generated code
+var __dummy__fmt_variable fmt.Scanner
+
+var _ = __dummy__fmt_variable
+
+// idem for math package when not need by generated code
+var __dummy_math_variable = math.E
+
+var _ = __dummy_math_variable
+
+// swagger:ignore
+type __void any
+
+// needed for creating set of instances in the stage
+var (
+	__member __void
+	_        = __member
+)
+
+// GongStructInterface is the interface met by GongStructs
+// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
+type GongStructInterface interface {
+	GetName() (res string)
+	// GetID() (res int)
+	// GetFields() (res []string)
+	// GetFieldStringValue(fieldName string) (res string)
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
+}
+
+// Stage enables storage of staged instances
+type Stage struct {
+	name string
+
+	// isInDeltaMode is true when the stage is used to compute difference between
+	// succesive commit
+	isInDeltaMode bool
+
+	// gongMarshallingMode set the marshalling mode
+	gongMarshallingMode GongMarshallingMode
+	// some stages have semantic rules that forbids them to be empty
+	// like for git, the commit #0 (genesis commit) cannot be rolled back
+	isWithGenesisCommit bool
+
+	// insertion point for definition of arrays registering instances
+	FileToDownloads                map[*FileToDownload]struct{}
+	FileToDownloads_instance       map[*FileToDownload]*FileToDownload
+	FileToDownloads_mapString      map[string]*FileToDownload
+	FileToDownloadOrder            uint
+	FileToDownload_stagedOrder     map[*FileToDownload]uint
+	FileToDownload_orderStaged     map[uint]*FileToDownload
+	FileToDownloads_reference      map[*FileToDownload]*FileToDownload
+	FileToDownloads_referenceOrder map[*FileToDownload]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterFileToDownloadCreateCallback OnAfterCreateInterface[FileToDownload]
+	OnAfterFileToDownloadUpdateCallback OnAfterUpdateInterface[FileToDownload]
+	OnAfterFileToDownloadDeleteCallback OnAfterDeleteInterface[FileToDownload]
+	OnAfterFileToDownloadReadCallback   OnAfterReadInterface[FileToDownload]
+
+	FileToUploads                map[*FileToUpload]struct{}
+	FileToUploads_instance       map[*FileToUpload]*FileToUpload
+	FileToUploads_mapString      map[string]*FileToUpload
+	FileToUploadOrder            uint
+	FileToUpload_stagedOrder     map[*FileToUpload]uint
+	FileToUpload_orderStaged     map[uint]*FileToUpload
+	FileToUploads_reference      map[*FileToUpload]*FileToUpload
+	FileToUploads_referenceOrder map[*FileToUpload]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterFileToUploadCreateCallback OnAfterCreateInterface[FileToUpload]
+	OnAfterFileToUploadUpdateCallback OnAfterUpdateInterface[FileToUpload]
+	OnAfterFileToUploadDeleteCallback OnAfterDeleteInterface[FileToUpload]
+	OnAfterFileToUploadReadCallback   OnAfterReadInterface[FileToUpload]
+
+	Messages                map[*Message]struct{}
+	Messages_instance       map[*Message]*Message
+	Messages_mapString      map[string]*Message
+	MessageOrder            uint
+	Message_stagedOrder     map[*Message]uint
+	Message_orderStaged     map[uint]*Message
+	Messages_reference      map[*Message]*Message
+	Messages_referenceOrder map[*Message]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterMessageCreateCallback OnAfterCreateInterface[Message]
+	OnAfterMessageUpdateCallback OnAfterUpdateInterface[Message]
+	OnAfterMessageDeleteCallback OnAfterDeleteInterface[Message]
+	OnAfterMessageReadCallback   OnAfterReadInterface[Message]
+
+	AllModelsStructCreateCallback AllModelsStructCreateInterface
+
+	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
+
+	BackRepo BackRepoInterface
+
+	// if set will be called before each commit to the back repo
+	OnInitCommitCallback          OnInitCommitInterface
+	OnInitCommitFromFrontCallback OnInitCommitInterface
+	OnInitCommitFromBackCallback  OnInitCommitInterface
+
+	// Private slices to hold the registered hooks
+	beforeCommitHooks []func(stage *Stage)
+	afterCommitHooks  []func(stage *Stage)
+
+	// store the number of instance per gongstruct
+	Map_GongStructName_InstancesNb map[string]int
+
+	// store meta package import
+	MetaPackageImportPath  string
+	MetaPackageImportAlias string
+
+	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
+	// map to enable docLink renaming when an identifier is renamed
+	Map_DocLink_Renaming map[string]GONG__Identifier
+	// the to be removed stops here
+
+	// store the stage order of each instance in order to
+	// preserve this order when serializing them
+	// insertion point for order fields declaration
+	// end of insertion point
+
+	NamedStructs []*NamedStruct
+
+	// GongUnmarshallers is the registry of all model unmarshallers
+	GongUnmarshallers map[string]ModelUnmarshaller
+
+	// probeIF is the interface to the probe that allows log
+	// commit event to the probe
+	probeIF ProbeIF
+
+	forwardCommits  []string
+	backwardCommits []string
+
+	// when navigating the commit history
+	// navigationMode is set to Navigating
+	navigationMode gongStageNavigationMode
+	commitsBehind  int // the number of commits the stage is behind the front of the history
+
+	isApplyingBackwardCommit bool
+	isApplyingForwardCommit  bool
+	isSquashing              bool
+
+	modified bool
+
+	lock sync.RWMutex
+}
+
+func (s *Stage) SetGongMarshallingMode(mode GongMarshallingMode) {
+	s.gongMarshallingMode = mode
+}
+
+func (s *Stage) GetGongMarshallingMode() GongMarshallingMode {
+	return s.gongMarshallingMode
+}
+
+func (s *Stage) SetIsWithGenesisCommit(isWithGenesisCommit bool) {
+	s.isWithGenesisCommit = isWithGenesisCommit
+}
+
+func (s *Stage) GetIsWithGenesisCommit() bool {
+	return s.isWithGenesisCommit
+}
+
+// RegisterBeforeCommit adds a hook that runs before the commit happens
+func (s *Stage) RegisterBeforeCommit(hook func(stage *Stage)) {
+	s.beforeCommitHooks = append(s.beforeCommitHooks, hook)
+}
+
+// RegisterAfterCommit adds a hook that runs after the commit succeeds
+func (s *Stage) RegisterAfterCommit(hook func(stage *Stage)) {
+	s.afterCommitHooks = append(s.afterCommitHooks, hook)
+}
+
+type gongStageNavigationMode string
+
+const (
+	GongNavigationModeNormal gongStageNavigationMode = "Normal"
+	// when the mode is navigating, each commit backward and forward
+	// it is possible to go apply the nbCommitsBackward forward commits
+	GongNavigationModeNavigating gongStageNavigationMode = "Navigating"
+)
+
+// ApplyBackwardCommit applies the commit before the current one
+func (stage *Stage) ApplyBackwardCommit() error {
+	if len(stage.backwardCommits) == 0 {
+		return errors.New("no backward commit to apply")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
+		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
+	if stage.isWithGenesisCommit && stage.commitsBehind >= len(stage.backwardCommits)-1 {
+		return errors.New("cannot rollback genesis commit")
+	}
+
+	if stage.commitsBehind >= len(stage.backwardCommits) {
+		return errors.New("no more backward commit to apply")
+	}
+
+	commitToApply := stage.backwardCommits[len(stage.backwardCommits)-1-stage.commitsBehind]
+
+	// umarshall the backward commit to the stage
+
+	// the parsing of the commit will call the UX update
+	// therefore, it is important to stage.commitsBehind before because it is used in the
+	// UX
+	stage.commitsBehind++
+	stage.isApplyingBackwardCommit = true
+	err := GongParseAstString(stage, commitToApply, true)
+	stage.isApplyingBackwardCommit = false
+	if err != nil {
+		log.Println("error during ApplyBackwardCommit: ", err)
+		return err
+	}
+
+	stage.ComputeReferenceAndOrders()
+
+	return nil
+}
+
+func (stage *Stage) GetForwardCommits() []string {
+	return stage.forwardCommits
+}
+
+func (stage *Stage) GetBackwardCommits() []string {
+	return stage.backwardCommits
+}
+
+func (stage *Stage) ApplyForwardCommit() error {
+	if stage.navigationMode == GongNavigationModeNormal && stage.commitsBehind != 0 {
+		return errors.New("in navigation mode normal, cannot have commitsBehind != 0")
+	}
+
+	if stage.commitsBehind == 0 {
+		return errors.New("no more forward commit to apply")
+	}
+
+	if stage.navigationMode == GongNavigationModeNormal {
+		stage.navigationMode = GongNavigationModeNavigating
+	}
+
+	commitToApply := stage.forwardCommits[len(stage.forwardCommits)-1-stage.commitsBehind+1]
+
+	// the parsing of the commit will call the UX update
+	// therefore, it is important to stage.commitsBehind before because it is used in the
+	// UX
+	stage.commitsBehind--
+	stage.isApplyingForwardCommit = true
+	err := GongParseAstString(stage, commitToApply, true)
+	stage.isApplyingForwardCommit = false
+	if err != nil {
+		log.Println("error during ApplyForwardCommit: ", err)
+		return err
+	}
+	stage.ComputeReferenceAndOrders()
+
+	return nil
+}
+
+func (stage *Stage) GetCommitsBehind() int {
+	return stage.commitsBehind
+}
+
+func (stage *Stage) Lock() {
+	stage.lock.Lock()
+}
+
+func (stage *Stage) Unlock() {
+	stage.lock.Unlock()
+}
+
+func (stage *Stage) RLock() {
+	stage.lock.RLock()
+}
+
+func (stage *Stage) RUnlock() {
+	stage.lock.RUnlock()
+}
+
+// ResetHard removes the more recent
+// commitsBehind forward/backward Commits from the
+// stage
+func (stage *Stage) ResetHard() {
+	newCommitsLen := len(stage.forwardCommits) - stage.GetCommitsBehind()
+
+	stage.forwardCommits = stage.forwardCommits[:newCommitsLen]
+	stage.backwardCommits = stage.backwardCommits[:newCommitsLen]
+	stage.commitsBehind = 0
+	stage.navigationMode = GongNavigationModeNormal
+
+	stage.ComputeInstancesNb()
+	if stage.OnInitCommitCallback != nil {
+		stage.OnInitCommitCallback.BeforeCommit(stage)
+	}
+	if stage.OnInitCommitFromBackCallback != nil {
+		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
+}
+
+// Squash removes all commits and marshals the stage as a single commit
+func (stage *Stage) Squash() {
+	stage.forwardCommits = stage.forwardCommits[:0]
+	stage.backwardCommits = stage.backwardCommits[:0]
+	stage.commitsBehind = 0
+	stage.navigationMode = GongNavigationModeNormal
+
+	stage.modified = true
+	stage.isSquashing = true
+
+	// insertion point for clear references
+	stage.FileToDownloads_reference = make(map[*FileToDownload]*FileToDownload)
+	stage.FileToDownloads_instance = make(map[*FileToDownload]*FileToDownload)
+	stage.FileToDownloads_referenceOrder = make(map[*FileToDownload]uint)
+
+	stage.FileToUploads_reference = make(map[*FileToUpload]*FileToUpload)
+	stage.FileToUploads_instance = make(map[*FileToUpload]*FileToUpload)
+	stage.FileToUploads_referenceOrder = make(map[*FileToUpload]uint)
+
+	stage.Messages_reference = make(map[*Message]*Message)
+	stage.Messages_instance = make(map[*Message]*Message)
+	stage.Messages_referenceOrder = make(map[*Message]uint)
+
+	stage.ComputeInstancesNb()
+	if stage.OnInitCommitCallback != nil {
+		stage.OnInitCommitCallback.BeforeCommit(stage)
+	}
+	if stage.OnInitCommitFromBackCallback != nil {
+		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
+
+	stage.isSquashing = false
+}
+
+// recomputeOrders recomputes the next order for each struct
+// this is necessary because the order might have been incremented
+// during the commits that have been discarded
+// insertion point for max order recomputation
+func (stage *Stage) recomputeOrders() {
+	// insertion point for max order recomputation
+	var maxFileToDownloadOrder uint
+	var foundFileToDownload bool
+	for _, order := range stage.FileToDownload_stagedOrder {
+		if !foundFileToDownload || order > maxFileToDownloadOrder {
+			maxFileToDownloadOrder = order
+			foundFileToDownload = true
+		}
+	}
+	if foundFileToDownload {
+		stage.FileToDownloadOrder = maxFileToDownloadOrder + 1
+	} else {
+		stage.FileToDownloadOrder = 0
+	}
+
+	var maxFileToUploadOrder uint
+	var foundFileToUpload bool
+	for _, order := range stage.FileToUpload_stagedOrder {
+		if !foundFileToUpload || order > maxFileToUploadOrder {
+			maxFileToUploadOrder = order
+			foundFileToUpload = true
+		}
+	}
+	if foundFileToUpload {
+		stage.FileToUploadOrder = maxFileToUploadOrder + 1
+	} else {
+		stage.FileToUploadOrder = 0
+	}
+
+	var maxMessageOrder uint
+	var foundMessage bool
+	for _, order := range stage.Message_stagedOrder {
+		if !foundMessage || order > maxMessageOrder {
+			maxMessageOrder = order
+			foundMessage = true
+		}
+	}
+	if foundMessage {
+		stage.MessageOrder = maxMessageOrder + 1
+	} else {
+		stage.MessageOrder = 0
+	}
+
+	// end of insertion point for max order recomputation
+}
+
+func (stage *Stage) SetDeltaMode(inDeltaMode bool) {
+	stage.isInDeltaMode = inDeltaMode
+}
+
+func (stage *Stage) IsInDeltaMode() bool {
+	return stage.isInDeltaMode
+}
+
+func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+	stage.probeIF = probeIF
+}
+
+func (stage *Stage) GetProbeIF() ProbeIF {
+	if stage.probeIF == nil {
+		return nil
+	}
+
+	return stage.probeIF
+}
+
+// GetNamedStructs implements models.ProbebStage.
+func (stage *Stage) GetNamedStructsNames() (res []string) {
+	for _, namedStruct := range stage.NamedStructs {
+		res = append(res, namedStruct.name)
+	}
+
+	return
+}
+
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
+	orderedSet := []T{}
+	for instance := range set {
+		orderedSet = append(orderedSet, instance)
+	}
+	sort.Slice(orderedSet[:], func(i, j int) bool {
+		instancei := orderedSet[i]
+		instancej := orderedSet[j]
+		i_order, oki := order[instancei]
+		j_order, okj := order[instancej]
+		if !oki || !okj {
+			log.Fatalf("GetNamedStructInstances: pointer not found")
+		}
+		return i_order < j_order
+	})
+
+	for _, instance := range orderedSet {
+		res = append(res, instance.GetName())
+	}
+
+	return
+}
+
+// GetStructInstancesByOrderAuto returns a slice of generic pointers to gongstructs
+// ordered by their order in the stage.
+func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
+	var t T
+	switch any(t).(type) {
+	// insertion point for case
+	case *FileToDownload:
+		tmp := GetStructInstancesByOrder(stage.FileToDownloads, stage.FileToDownload_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *FileToDownload implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *FileToUpload:
+		tmp := GetStructInstancesByOrder(stage.FileToUploads, stage.FileToUpload_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *FileToUpload implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Message:
+		tmp := GetStructInstancesByOrder(stage.Messages, stage.Message_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Message implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+
+	}
+	return
+}
+
+func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
+	orderedSet := []T{}
+	for instance := range set {
+		orderedSet = append(orderedSet, instance)
+	}
+	sort.Slice(orderedSet[:], func(i, j int) bool {
+		instancei := orderedSet[i]
+		instancej := orderedSet[j]
+		i_order, oki := order[instancei]
+		j_order, okj := order[instancej]
+		if !oki || !okj {
+			log.Fatalf("GetNamedStructInstances: pointer not found")
+		}
+		return i_order < j_order
+	})
+
+	res = append(res, orderedSet...)
+
+	return
+}
+
+func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
+	switch namedStructName {
+	// insertion point for case
+	case "FileToDownload":
+		res = GetNamedStructInstances(stage.FileToDownloads, stage.FileToDownload_stagedOrder)
+	case "FileToUpload":
+		res = GetNamedStructInstances(stage.FileToUploads, stage.FileToUpload_stagedOrder)
+	case "Message":
+		res = GetNamedStructInstances(stage.Messages, stage.Message_stagedOrder)
+	}
+
+	return
+}
+
+type NamedStruct struct {
+	name string
+}
+
+func (namedStruct *NamedStruct) GetName() string {
+	return namedStruct.name
+}
+
+func (stage *Stage) GetType() string {
+	return "github.com/fullstack-lang/gong/lib/load/go/models"
+}
+
+func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
+	return stage.Map_GongStructName_InstancesNb
+}
+
+func (stage *Stage) GetModelsEmbededDir() embed.FS {
+	return load_go.GoModelsDir
+}
+
+func (stage *Stage) GetDigramsEmbededDir() embed.FS {
+	return load_go.GoDiagramsDir
+}
+
+type GONG__Identifier struct {
+	Ident string
+	Type  GONG__ExpressionType
+}
+
+type OnInitCommitInterface interface {
+	BeforeCommit(stage *Stage)
+}
+
+// OnAfterCreateInterface callback when an instance is updated from the front
+type OnAfterCreateInterface[Type Gongstruct] interface {
+	OnAfterCreate(stage *Stage,
+		instance *Type)
+}
+
+// OnAfterReadInterface callback when an instance is updated from the front
+type OnAfterReadInterface[Type Gongstruct] interface {
+	OnAfterRead(stage *Stage,
+		instance *Type)
+}
+
+// OnAfterUpdateInterface callback when an instance is updated from the front
+type OnAfterUpdateInterface[Type Gongstruct] interface {
+	OnAfterUpdate(stage *Stage, old, new *Type)
+}
+
+// OnAfterDeleteInterface callback when an instance is updated from the front
+type OnAfterDeleteInterface[Type Gongstruct] interface {
+	OnAfterDelete(stage *Stage,
+		staged, front *Type)
+}
+
+type BackRepoInterface interface {
+	Commit(stage *Stage)
+	Checkout(stage *Stage)
+	Backup(stage *Stage, dirPath string)
+	Restore(stage *Stage, dirPath string)
+	BackupXL(stage *Stage, dirPath string)
+	RestoreXL(stage *Stage, dirPath string)
+	// insertion point for Commit and Checkout signatures
+	CommitFileToDownload(filetodownload *FileToDownload)
+	CheckoutFileToDownload(filetodownload *FileToDownload)
+	CommitFileToUpload(filetoupload *FileToUpload)
+	CheckoutFileToUpload(filetoupload *FileToUpload)
+	CommitMessage(message *Message)
+	CheckoutMessage(message *Message)
+	GetLastCommitFromBackNb() uint
+	GetLastPushFromFrontNb() uint
+}
+
+func NewStage(name string) (stage *Stage) {
+	stage = &Stage{ // insertion point for array initiatialisation
+		FileToDownloads:           make(map[*FileToDownload]struct{}),
+		FileToDownloads_mapString: make(map[string]*FileToDownload),
+
+		FileToUploads:           make(map[*FileToUpload]struct{}),
+		FileToUploads_mapString: make(map[string]*FileToUpload),
+
+		Messages:           make(map[*Message]struct{}),
+		Messages_mapString: make(map[string]*Message),
+
+		// end of insertion point
+		Map_GongStructName_InstancesNb: make(map[string]int),
+
+		name: name,
+
+		// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
+		Map_DocLink_Renaming: make(map[string]GONG__Identifier),
+		// the to be removed stops here
+
+		// insertion point for order map initialisations
+		FileToDownload_stagedOrder: make(map[*FileToDownload]uint),
+		FileToDownload_orderStaged: make(map[uint]*FileToDownload),
+		FileToDownloads_reference:  make(map[*FileToDownload]*FileToDownload),
+
+		FileToUpload_stagedOrder: make(map[*FileToUpload]uint),
+		FileToUpload_orderStaged: make(map[uint]*FileToUpload),
+		FileToUploads_reference:  make(map[*FileToUpload]*FileToUpload),
+
+		Message_stagedOrder: make(map[*Message]uint),
+		Message_orderStaged: make(map[uint]*Message),
+		Messages_reference:  make(map[*Message]*Message),
+
+		// end of insertion point
+		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+			"FileToDownload": &FileToDownloadUnmarshaller{},
+
+			"FileToUpload": &FileToUploadUnmarshaller{},
+
+			"Message": &MessageUnmarshaller{},
+
+			// end of insertion point
+		},
+
+		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			{name: "FileToDownload"},
+			{name: "FileToUpload"},
+			{name: "Message"},
+		}, // end of insertion point
+
+		navigationMode: GongNavigationModeNormal,
+	}
+
+	return
+}
+
+func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *FileToDownload:
+		return stage.FileToDownload_stagedOrder[instance]
+	case *FileToUpload:
+		return stage.FileToUpload_stagedOrder[instance]
+	case *Message:
+		return stage.Message_stagedOrder[instance]
+	default:
+		return 0 // should not happen
+	}
+}
+
+func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint) (res Type) {
+	var t Type
+	switch any(t).(type) {
+	// insertion point for order map initialisations
+	case *FileToDownload:
+		return any(stage.FileToDownload_orderStaged[order]).(Type)
+	case *FileToUpload:
+		return any(stage.FileToUpload_orderStaged[order]).(Type)
+	case *Message:
+		return any(stage.Message_orderStaged[order]).(Type)
+	default:
+		return // should not happen
+	}
+}
+
+func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
+	switch instance := any(instance).(type) {
+	// insertion point for order map initialisations
+	case *FileToDownload:
+		return stage.FileToDownload_stagedOrder[instance]
+	case *FileToUpload:
+		return stage.FileToUpload_stagedOrder[instance]
+	case *Message:
+		return stage.Message_stagedOrder[instance]
+	default:
+		return 0 // should not happen
+	}
+}
+
+func (stage *Stage) GetName() string {
+	return stage.name
+}
+
+func (stage *Stage) CommitWithSuspendedCallbacks() {
+	tmp := stage.OnInitCommitFromBackCallback
+	stage.OnInitCommitFromBackCallback = nil
+	tmp2 := stage.beforeCommitHooks
+	stage.beforeCommitHooks = nil
+	tmp3 := stage.afterCommitHooks
+	stage.afterCommitHooks = nil
+	stage.Commit()
+	stage.OnInitCommitFromBackCallback = tmp
+	stage.beforeCommitHooks = tmp2
+	stage.afterCommitHooks = tmp3
+}
+
+func (stage *Stage) Commit() {
+	stage.ComputeReverseMaps()
+
+	if stage.OnInitCommitCallback != nil {
+		stage.OnInitCommitCallback.BeforeCommit(stage)
+	}
+	if stage.OnInitCommitFromBackCallback != nil {
+		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
+	// 1. Run all Before Commit hooks
+	for _, hook := range stage.beforeCommitHooks {
+		hook(stage)
+	}
+
+	if stage.BackRepo != nil {
+		stage.BackRepo.Commit(stage)
+	}
+	stage.ComputeInstancesNb()
+
+	// if a commit is applied when in navigation mode
+	// this will reset the commits behind and swith the
+	// naviagation
+	if stage.isInDeltaMode && stage.navigationMode == GongNavigationModeNavigating && stage.GetCommitsBehind() > 0 {
+		stage.ResetHard()
+	}
+
+	if stage.IsInDeltaMode() {
+		stage.ComputeForwardAndBackwardCommits()
+		stage.ComputeReferenceAndOrders()
+		if stage.probeIF != nil {
+			stage.probeIF.RefreshNavigationTree()
+		}
+	}
+
+	// 2. Run all After Commit hooks
+	for _, hook := range stage.afterCommitHooks {
+		hook(stage)
+	}
+}
+
+func (stage *Stage) ComputeInstancesNb() {
+	// insertion point for computing the map of number of instances per gongstruct
+	stage.Map_GongStructName_InstancesNb["FileToDownload"] = len(stage.FileToDownloads)
+	stage.Map_GongStructName_InstancesNb["FileToUpload"] = len(stage.FileToUploads)
+	stage.Map_GongStructName_InstancesNb["Message"] = len(stage.Messages)
+}
+
+func (stage *Stage) Checkout() {
+	if stage.BackRepo != nil {
+		stage.BackRepo.Checkout(stage)
+	}
+
+	stage.ComputeReverseMaps()
+	stage.ComputeInstancesNb()
+}
+
+// backup generates backup files in the dirPath
+func (stage *Stage) Backup(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.Backup(stage, dirPath)
+	}
+}
+
+// Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
+func (stage *Stage) Restore(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.Restore(stage, dirPath)
+	}
+}
+
+// backup generates backup files in the dirPath
+func (stage *Stage) BackupXL(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.BackupXL(stage, dirPath)
+	}
+}
+
+// Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
+func (stage *Stage) RestoreXL(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.RestoreXL(stage, dirPath)
+	}
+}
+
+// insertion point for cumulative sub template with model space calls
+// Stage puts filetodownload to the model stage
+func (filetodownload *FileToDownload) Stage(stage *Stage) *FileToDownload {
+	if _, ok := stage.FileToDownloads[filetodownload]; !ok {
+		stage.FileToDownloads[filetodownload] = struct{}{}
+		stage.FileToDownload_stagedOrder[filetodownload] = stage.FileToDownloadOrder
+		stage.FileToDownload_orderStaged[stage.FileToDownloadOrder] = filetodownload
+		stage.FileToDownloadOrder++
+	}
+	stage.FileToDownloads_mapString[filetodownload.Name] = filetodownload
+
+	return filetodownload
+}
+
+// StagePreserveOrder puts filetodownload to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FileToDownloadOrder
+// - update stage.FileToDownloadOrder accordingly
+func (filetodownload *FileToDownload) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.FileToDownloads[filetodownload]; !ok {
+		stage.FileToDownloads[filetodownload] = struct{}{}
+
+		if order > stage.FileToDownloadOrder {
+			stage.FileToDownloadOrder = order
+		}
+		stage.FileToDownload_stagedOrder[filetodownload] = order
+		stage.FileToDownload_orderStaged[order] = filetodownload
+		stage.FileToDownloadOrder++
+	}
+	stage.FileToDownloads_mapString[filetodownload.Name] = filetodownload
+}
+
+// Unstage removes filetodownload off the model stage
+func (filetodownload *FileToDownload) Unstage(stage *Stage) *FileToDownload {
+	delete(stage.FileToDownloads, filetodownload)
+	// issue1150
+	// delete(stage.FileToDownload_stagedOrder, filetodownload)
+	delete(stage.FileToDownloads_mapString, filetodownload.Name)
+
+	return filetodownload
+}
+
+// UnstageVoid removes filetodownload off the model stage
+func (filetodownload *FileToDownload) UnstageVoid(stage *Stage) {
+	delete(stage.FileToDownloads, filetodownload)
+	// issue1150
+	// delete(stage.FileToDownload_stagedOrder, filetodownload)
+	delete(stage.FileToDownloads_mapString, filetodownload.Name)
+}
+
+// commit filetodownload to the back repo (if it is already staged)
+func (filetodownload *FileToDownload) Commit(stage *Stage) *FileToDownload {
+	if _, ok := stage.FileToDownloads[filetodownload]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitFileToDownload(filetodownload)
+		}
+	}
+	return filetodownload
+}
+
+func (filetodownload *FileToDownload) CommitVoid(stage *Stage) {
+	filetodownload.Commit(stage)
+}
+
+func (filetodownload *FileToDownload) StageVoid(stage *Stage) {
+	filetodownload.Stage(stage)
+}
+
+// Checkout filetodownload to the back repo (if it is already staged)
+func (filetodownload *FileToDownload) Checkout(stage *Stage) *FileToDownload {
+	if _, ok := stage.FileToDownloads[filetodownload]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutFileToDownload(filetodownload)
+		}
+	}
+	return filetodownload
+}
+
+// for satisfaction of GongStruct interface
+func (filetodownload *FileToDownload) GetName() (res string) {
+	return filetodownload.Name
+}
+
+// for satisfaction of GongStruct interface
+func (filetodownload *FileToDownload) SetName(name string) {
+	filetodownload.Name = name
+}
+
+// Stage puts filetoupload to the model stage
+func (filetoupload *FileToUpload) Stage(stage *Stage) *FileToUpload {
+	if _, ok := stage.FileToUploads[filetoupload]; !ok {
+		stage.FileToUploads[filetoupload] = struct{}{}
+		stage.FileToUpload_stagedOrder[filetoupload] = stage.FileToUploadOrder
+		stage.FileToUpload_orderStaged[stage.FileToUploadOrder] = filetoupload
+		stage.FileToUploadOrder++
+	}
+	stage.FileToUploads_mapString[filetoupload.Name] = filetoupload
+
+	return filetoupload
+}
+
+// StagePreserveOrder puts filetoupload to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FileToUploadOrder
+// - update stage.FileToUploadOrder accordingly
+func (filetoupload *FileToUpload) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.FileToUploads[filetoupload]; !ok {
+		stage.FileToUploads[filetoupload] = struct{}{}
+
+		if order > stage.FileToUploadOrder {
+			stage.FileToUploadOrder = order
+		}
+		stage.FileToUpload_stagedOrder[filetoupload] = order
+		stage.FileToUpload_orderStaged[order] = filetoupload
+		stage.FileToUploadOrder++
+	}
+	stage.FileToUploads_mapString[filetoupload.Name] = filetoupload
+}
+
+// Unstage removes filetoupload off the model stage
+func (filetoupload *FileToUpload) Unstage(stage *Stage) *FileToUpload {
+	delete(stage.FileToUploads, filetoupload)
+	// issue1150
+	// delete(stage.FileToUpload_stagedOrder, filetoupload)
+	delete(stage.FileToUploads_mapString, filetoupload.Name)
+
+	return filetoupload
+}
+
+// UnstageVoid removes filetoupload off the model stage
+func (filetoupload *FileToUpload) UnstageVoid(stage *Stage) {
+	delete(stage.FileToUploads, filetoupload)
+	// issue1150
+	// delete(stage.FileToUpload_stagedOrder, filetoupload)
+	delete(stage.FileToUploads_mapString, filetoupload.Name)
+}
+
+// commit filetoupload to the back repo (if it is already staged)
+func (filetoupload *FileToUpload) Commit(stage *Stage) *FileToUpload {
+	if _, ok := stage.FileToUploads[filetoupload]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitFileToUpload(filetoupload)
+		}
+	}
+	return filetoupload
+}
+
+func (filetoupload *FileToUpload) CommitVoid(stage *Stage) {
+	filetoupload.Commit(stage)
+}
+
+func (filetoupload *FileToUpload) StageVoid(stage *Stage) {
+	filetoupload.Stage(stage)
+}
+
+// Checkout filetoupload to the back repo (if it is already staged)
+func (filetoupload *FileToUpload) Checkout(stage *Stage) *FileToUpload {
+	if _, ok := stage.FileToUploads[filetoupload]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutFileToUpload(filetoupload)
+		}
+	}
+	return filetoupload
+}
+
+// for satisfaction of GongStruct interface
+func (filetoupload *FileToUpload) GetName() (res string) {
+	return filetoupload.Name
+}
+
+// for satisfaction of GongStruct interface
+func (filetoupload *FileToUpload) SetName(name string) {
+	filetoupload.Name = name
+}
+
+// Stage puts message to the model stage
+func (message *Message) Stage(stage *Stage) *Message {
+	if _, ok := stage.Messages[message]; !ok {
+		stage.Messages[message] = struct{}{}
+		stage.Message_stagedOrder[message] = stage.MessageOrder
+		stage.Message_orderStaged[stage.MessageOrder] = message
+		stage.MessageOrder++
+	}
+	stage.Messages_mapString[message.Name] = message
+
+	return message
+}
+
+// StagePreserveOrder puts message to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.MessageOrder
+// - update stage.MessageOrder accordingly
+func (message *Message) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Messages[message]; !ok {
+		stage.Messages[message] = struct{}{}
+
+		if order > stage.MessageOrder {
+			stage.MessageOrder = order
+		}
+		stage.Message_stagedOrder[message] = order
+		stage.Message_orderStaged[order] = message
+		stage.MessageOrder++
+	}
+	stage.Messages_mapString[message.Name] = message
+}
+
+// Unstage removes message off the model stage
+func (message *Message) Unstage(stage *Stage) *Message {
+	delete(stage.Messages, message)
+	// issue1150
+	// delete(stage.Message_stagedOrder, message)
+	delete(stage.Messages_mapString, message.Name)
+
+	return message
+}
+
+// UnstageVoid removes message off the model stage
+func (message *Message) UnstageVoid(stage *Stage) {
+	delete(stage.Messages, message)
+	// issue1150
+	// delete(stage.Message_stagedOrder, message)
+	delete(stage.Messages_mapString, message.Name)
+}
+
+// commit message to the back repo (if it is already staged)
+func (message *Message) Commit(stage *Stage) *Message {
+	if _, ok := stage.Messages[message]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitMessage(message)
+		}
+	}
+	return message
+}
+
+func (message *Message) CommitVoid(stage *Stage) {
+	message.Commit(stage)
+}
+
+func (message *Message) StageVoid(stage *Stage) {
+	message.Stage(stage)
+}
+
+// Checkout message to the back repo (if it is already staged)
+func (message *Message) Checkout(stage *Stage) *Message {
+	if _, ok := stage.Messages[message]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutMessage(message)
+		}
+	}
+	return message
+}
+
+// for satisfaction of GongStruct interface
+func (message *Message) GetName() (res string) {
+	return message.Name
+}
+
+// for satisfaction of GongStruct interface
+func (message *Message) SetName(name string) {
+	message.Name = name
+}
+
+// swagger:ignore
+type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
+	CreateORMFileToDownload(FileToDownload *FileToDownload)
+	CreateORMFileToUpload(FileToUpload *FileToUpload)
+	CreateORMMessage(Message *Message)
+}
+
+type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
+	DeleteORMFileToDownload(FileToDownload *FileToDownload)
+	DeleteORMFileToUpload(FileToUpload *FileToUpload)
+	DeleteORMMessage(Message *Message)
+}
+
+func (stage *Stage) Reset() { // insertion point for array reset
+	stage.FileToDownloads = make(map[*FileToDownload]struct{})
+	stage.FileToDownloads_mapString = make(map[string]*FileToDownload)
+	stage.FileToDownload_stagedOrder = make(map[*FileToDownload]uint)
+	stage.FileToDownloadOrder = 0
+
+	stage.FileToUploads = make(map[*FileToUpload]struct{})
+	stage.FileToUploads_mapString = make(map[string]*FileToUpload)
+	stage.FileToUpload_stagedOrder = make(map[*FileToUpload]uint)
+	stage.FileToUploadOrder = 0
+
+	stage.Messages = make(map[*Message]struct{})
+	stage.Messages_mapString = make(map[string]*Message)
+	stage.Message_stagedOrder = make(map[*Message]uint)
+	stage.MessageOrder = 0
+
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().ResetNotifications()
+	}
+	if stage.IsInDeltaMode() {
+		stage.ComputeReferenceAndOrders()
+	}
+}
+
+func (stage *Stage) Nil() { // insertion point for array nil
+	stage.FileToDownloads = nil
+	stage.FileToDownloads_mapString = nil
+
+	stage.FileToUploads = nil
+	stage.FileToUploads_mapString = nil
+
+	stage.Messages = nil
+	stage.Messages_mapString = nil
+
+	// end of insertion point for array nil
+}
+
+func (stage *Stage) Unstage() { // insertion point for array nil
+	for filetodownload := range stage.FileToDownloads {
+		filetodownload.Unstage(stage)
+	}
+
+	for filetoupload := range stage.FileToUploads {
+		filetoupload.Unstage(stage)
+	}
+
+	for message := range stage.Messages {
+		message.Unstage(stage)
+	}
+
+	// end of insertion point for array nil
+}
+
+// Gongstruct is the type parameter for generated generic function that allows
+// - access to staged instances
+// - navigation between staged instances by going backward association links between gongstruct
+// - full refactoring of Gongstruct identifiers / fields
+type Gongstruct interface{}
+
+type GongtructBasicField interface {
+	int | float64 | bool | string | time.Time | time.Duration
+}
+
+// Gongstruct is the type parameter for generated generic function that allows
+// - access to staged instances
+// - navigation between staged instances by going backward association links between gongstruct
+// - full refactoring of Gongstruct identifiers / fields
+type GongstructIF interface {
+	GetName() string
+	SetName(string)
+	CommitVoid(*Stage)
+	StageVoid(*Stage)
+	UnstageVoid(stage *Stage)
+	GongGetFieldHeaders() []GongFieldHeader
+	GongClean(stage *Stage) (modified bool)
+	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
+	GongGetOrder(stage *Stage) uint
+	GongGetReferenceIdentifier(stage *Stage) string
+	GongGetIdentifier(stage *Stage) string
+	GongCopy() GongstructIF
+	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
+	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
+	GongGetUUID(stage *Stage) string
+}
+type PointerToGongstruct interface {
+	GongstructIF
+	comparable
+}
+
+func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
+	return cmp.Compare(a.GetName(), b.GetName())
+}
+
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
+	for key := range set {
+		sortedSlice = append(sortedSlice, key)
+	}
+	slices.SortFunc(sortedSlice, CompareGongstructByName)
+
+	return
+}
+
+func GetGongstrucsSorted[T PointerToGongstruct](stage *Stage) (sortedSlice []T) {
+	set := GetGongstructInstancesSetFromPointerType[T](stage)
+	sortedSlice = SortGongstructSetByName(*set)
+
+	return
+}
+
+type GongstructSet interface {
+	map[any]any
+}
+
+type GongstructMapString interface {
+	map[any]any
+}
+
+// GongGetSet returns the set staged GongstructType instances
+// it is usefull because it allows refactoring of gong struct identifier
+func GongGetSet[Type GongstructSet](stage *Stage) *Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case map[*FileToDownload]any:
+		return any(&stage.FileToDownloads).(*Type)
+	case map[*FileToUpload]any:
+		return any(&stage.FileToUploads).(*Type)
+	case map[*Message]any:
+		return any(&stage.Messages).(*Type)
+	default:
+		return nil
+	}
+}
+
+// GongGetMap returns the map of staged Gonstruct instance by their name
+// Can be usefull if names are unique
+func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case *FileToDownload:
+		return any(stage.FileToDownloads_mapString).(map[string]Type)
+	case *FileToUpload:
+		return any(stage.FileToUploads_mapString).(map[string]Type)
+	case *Message:
+		return any(stage.Messages_mapString).(map[string]Type)
+	default:
+		return nil
+	}
+}
+
+// GetGongstructInstancesSet returns the set staged GongstructType instances
+// it is usefull because it allows refactoring of gongstruct identifier
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case FileToDownload:
+		return any(&stage.FileToDownloads).(*map[*Type]struct{})
+	case FileToUpload:
+		return any(&stage.FileToUploads).(*map[*Type]struct{})
+	case Message:
+		return any(&stage.Messages).(*map[*Type]struct{})
+	default:
+		return nil
+	}
+}
+
+// GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
+// it is usefull because it allows refactoring of gongstruct identifier
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case *FileToDownload:
+		return any(&stage.FileToDownloads).(*map[Type]struct{})
+	case *FileToUpload:
+		return any(&stage.FileToUploads).(*map[Type]struct{})
+	case *Message:
+		return any(&stage.Messages).(*map[Type]struct{})
+	default:
+		return nil
+	}
+}
+
+// GetGongstructInstancesMap returns the map of staged GongstructType instances
+// it is usefull because it allows refactoring of gongstruct identifier
+func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case FileToDownload:
+		return any(&stage.FileToDownloads_mapString).(*map[string]*Type)
+	case FileToUpload:
+		return any(&stage.FileToUploads_mapString).(*map[string]*Type)
+	case Message:
+		return any(&stage.Messages_mapString).(*map[string]*Type)
+	default:
+		return nil
+	}
+}
+
+// GetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GetAssociationName[Type Gongstruct]() *Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for instance with special fields
+	case FileToDownload:
+		return any(&FileToDownload{
+			// Initialisation of associations
+		}).(*Type)
+	case FileToUpload:
+		return any(&FileToUpload{
+			// Initialisation of associations
+		}).(*Type)
+	case Message:
+		return any(&Message{
+			// Initialisation of associations
+		}).(*Type)
+	default:
+		return nil
+	}
+}
+
+// GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
+// associations (0..1) that is a pointer from one staged Gongstruct (type Start)
+// instances to another (type End)
+//
+// The function provides a map with keys as instances of End and values to arrays of *Start
+// the map is construed by iterating over all Start instances and populationg keys with End instances
+// and values with slice of Start instances
+func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+	var ret Start
+
+	switch any(ret).(type) {
+	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of FileToDownload
+	case FileToDownload:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of FileToUpload
+	case FileToUpload:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Message
+	case Message:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	}
+	return nil
+}
+
+// GetSliceOfPointersReverseMap allows backtrack navigation of any Start.Fieldname
+// associations (0..N) between one staged Gongstruct instances and many others
+//
+// The function provides a map with keys as instances of End and values to *Start instances
+// the map is construed by iterating over all Start instances and populating keys with End instances
+// and values with the Start instances
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *Stage) map[*End][]*Start {
+	var ret Start
+
+	switch any(ret).(type) {
+	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of FileToDownload
+	case FileToDownload:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of FileToUpload
+	case FileToUpload:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Message
+	case Message:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	}
+	return nil
+}
+
+// GetPointerToGongstructName returns the name of the Gongstruct
+// this can be usefull if one want program robust to refactoring
+func GetPointerToGongstructName[Type GongstructIF]() (res string) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct name
+	case *FileToDownload:
+		res = "FileToDownload"
+	case *FileToUpload:
+		res = "FileToUpload"
+	case *Message:
+		res = "Message"
+	}
+	return res
+}
+
+type ReverseField struct {
+	GongstructName string
+	Fieldname      string
+}
+
+func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
+	res = make([]ReverseField, 0)
+
+	var ret Type
+
+	switch any(ret).(type) {
+
+	// insertion point for generic get gongstruct name
+	case *FileToDownload:
+		var rf ReverseField
+		_ = rf
+	case *FileToUpload:
+		var rf ReverseField
+		_ = rf
+	case *Message:
+		var rf ReverseField
+		_ = rf
+	}
+	return
+}
+
+// insertion point for get fields header method
+func (filetodownload *FileToDownload) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Base64EncodedContent",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (filetoupload *FileToUpload) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "Base64EncodedContent",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+func (message *Message) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+	}
+	return
+}
+
+// GetFieldsFromPointer return the array of the fields
+func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
+	var ret Type
+	return ret.GongGetFieldHeaders()
+}
+
+type GongFieldValueType string
+
+const (
+	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
+	GongFieldValueTypeIntDuration     GongFieldValueType = "GongFieldValueTypeIntDuration"
+	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
+	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
+	GongFieldValueTypeDate            GongFieldValueType = "GongFieldValueTypeDate"
+	GongFieldValueTypeBasicKind       GongFieldValueType = "GongFieldValueTypeBasicKind"
+	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
+	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
+)
+
+type GongFieldValue struct {
+	GongFieldValueType
+	valueString string
+	valueInt    int
+	valueFloat  float64
+	valueBool   bool
+
+	// in case of a pointer, the ID of the pointed element
+	// in case of a slice of pointers, the IDs, separated by semi columbs
+	ids string
+}
+
+type GongFieldHeader struct {
+	Name string
+	GongFieldValueType
+	TargetGongstructName string
+}
+
+func (gongValueField *GongFieldValue) GetValueString() string {
+	return gongValueField.valueString
+}
+
+func (gongValueField *GongFieldValue) GetValueInt() int {
+	return gongValueField.valueInt
+}
+
+func (gongValueField *GongFieldValue) GetValueFloat() float64 {
+	return gongValueField.valueFloat
+}
+
+func (gongValueField *GongFieldValue) GetValueBool() bool {
+	return gongValueField.valueBool
+}
+
+// insertion point for generic get gongstruct field value
+func (filetodownload *FileToDownload) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = filetodownload.Name
+	case "Base64EncodedContent":
+		res.valueString = filetodownload.Base64EncodedContent
+	}
+	return
+}
+
+func (filetoupload *FileToUpload) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = filetoupload.Name
+	case "Base64EncodedContent":
+		res.valueString = filetoupload.Base64EncodedContent
+	}
+	return
+}
+
+func (message *Message) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = message.Name
+	}
+	return
+}
+
+func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
+	res = instance.GongGetFieldValue(fieldName, stage)
+	return
+}
+
+// insertion point for generic set gongstruct field value
+func (filetodownload *FileToDownload) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		filetodownload.Name = value.GetValueString()
+	case "Base64EncodedContent":
+		filetodownload.Base64EncodedContent = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (filetoupload *FileToUpload) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		filetoupload.Name = value.GetValueString()
+	case "Base64EncodedContent":
+		filetoupload.Base64EncodedContent = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (message *Message) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		message.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
+	return instance.GongSetFieldValue(fieldName, value, stage)
+}
+
+// insertion point for generic get gongstruct name
+func (filetodownload *FileToDownload) GongGetGongstructName() string {
+	return "FileToDownload"
+}
+
+func (filetoupload *FileToUpload) GongGetGongstructName() string {
+	return "FileToUpload"
+}
+
+func (message *Message) GongGetGongstructName() string {
+	return "Message"
+}
+
+func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
+	res = instance.GongGetGongstructName()
+	return
+}
+
+func (stage *Stage) ResetMapStrings() {
+	// insertion point for generic get gongstruct name
+	stage.FileToDownloads_mapString = make(map[string]*FileToDownload)
+	for filetodownload := range stage.FileToDownloads {
+		stage.FileToDownloads_mapString[filetodownload.Name] = filetodownload
+	}
+
+	stage.FileToUploads_mapString = make(map[string]*FileToUpload)
+	for filetoupload := range stage.FileToUploads {
+		stage.FileToUploads_mapString[filetoupload.Name] = filetoupload
+	}
+
+	stage.Messages_mapString = make(map[string]*Message)
+	for message := range stage.Messages {
+		stage.Messages_mapString[message.Name] = message
+	}
+
+	// end of insertion point for generic get gongstruct name
+}
+
+// Last line of the template
