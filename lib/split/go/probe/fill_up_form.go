@@ -57,6 +57,7 @@ func FillUpForm(
 		AssociationFieldToForm("Table", instanceWithInferedType.Table, formGroup, probe)
 		AssociationFieldToForm("Tone", instanceWithInferedType.Tone, formGroup, probe)
 		AssociationFieldToForm("Tree", instanceWithInferedType.Tree, formGroup, probe)
+		AssociationFieldToForm("Threejs", instanceWithInferedType.Threejs, formGroup, probe)
 		AssociationFieldToForm("Xlsx", instanceWithInferedType.Xlsx, formGroup, probe)
 		BasicFieldtoForm("HasDiv", instanceWithInferedType.HasDiv, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -235,6 +236,18 @@ func FillUpForm(
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
 	case *models.Table:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("StackName", instanceWithInferedType.StackName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.Threejs:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)

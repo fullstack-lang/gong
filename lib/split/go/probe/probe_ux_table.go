@@ -52,6 +52,8 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.Svg](probe)
 	case "Table":
 		updateProbeTable[*models.Table](probe)
+	case "Threejs":
+		updateProbeTable[*models.Threejs](probe)
 	case "Title":
 		updateProbeTable[*models.Title](probe)
 	case "Tone":

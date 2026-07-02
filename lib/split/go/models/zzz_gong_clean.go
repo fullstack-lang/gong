@@ -64,6 +64,7 @@ func (assplitarea *AsSplitArea) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &assplitarea.Table) || modified
 	modified = GongCleanPointer(stage, &assplitarea.Tone) || modified
 	modified = GongCleanPointer(stage, &assplitarea.Tree) || modified
+	modified = GongCleanPointer(stage, &assplitarea.Threejs) || modified
 	modified = GongCleanPointer(stage, &assplitarea.Xlsx) || modified
 	return
 }
@@ -147,6 +148,13 @@ func (svg *Svg) GongClean(stage *Stage) (modified bool) {
 
 // Clean garbage collect unstaged instances that are referenced by Table
 func (table *Table) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by Threejs
+func (threejs *Threejs) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return

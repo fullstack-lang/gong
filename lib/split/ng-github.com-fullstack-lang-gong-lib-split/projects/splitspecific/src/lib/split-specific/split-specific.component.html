@@ -132,6 +132,9 @@
     @if (area.Tree) {
         <lib-tree-specific [Name]="area.Tree.StackName"></lib-tree-specific>
     }
+    @if (area.Threejs) {
+        <lib-threejs-specific [Name]="area.Threejs.StackName"></lib-threejs-specific>
+    }
     @if (area.AsSplit) {
         <as-split [direction]="area.AsSplit.Direction" [unit]="area.AsSplit.IsSizeInPixel ? 'pixel' : 'percent'" [gutterSize]="area.AsSplit.IsWithCustomGutterSize ? area.AsSplit.GutterSize : null">
             @for (asSplitArea of area.AsSplit.AsSplitAreas; track asSplitArea) {

@@ -397,7 +397,7 @@
             "mode": "auto",
             "program": "${workspaceFolder}/dsm/statemachines/go/cmd/statemachines",
             "args": [
-                "edit",
+                "edit"
             ]
         },
         {
@@ -1114,6 +1114,17 @@
             ]
         },
         {
+            "name": "lib - threejs: go run . edit data/stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/threejs/go/cmd/threejs",
+            "args": [
+                "edit",
+                "data/stage.go",
+            ]
+        },
+        {
             "name": "lib - tone: Launch Chrome (tone) on 4200",
             "request": "launch",
             "type": "chrome",
@@ -1638,6 +1649,14 @@
             "args": [
                 "generate"
             ]
+        },
+        {
+            "name": "lib - threejs: Launch Chrome (threejs) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/threejs/ng-github.com-fullstack-lang-gong-lib-threejs",
+            "sourceMaps": true
         }
     ]
 }

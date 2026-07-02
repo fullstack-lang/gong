@@ -132,9 +132,9 @@ func _(stage *models.Stage) {
 	__StateShape__00000000_.IsHidden = false
 
 	__StateShape__00000001_.Name = `Decision node, with a long name to show that there is a layout issue`
-	__StateShape__00000001_.X = 661.000000
-	__StateShape__00000001_.Y = 240.000000
-	__StateShape__00000001_.Width = 262.000000
+	__StateShape__00000001_.X = 611.000000
+	__StateShape__00000001_.Y = 244.000000
+	__StateShape__00000001_.Width = 223.000000
 	__StateShape__00000001_.Height = 50.000000
 	__StateShape__00000001_.IsHidden = false
 
@@ -147,17 +147,17 @@ func _(stage *models.Stage) {
 	__StateShape__00000002_.IsHidden = false
 
 	__StateShape__00000003_.Name = `End state, Start State, with a long name to show that there is a layout issue fdsfqdsfqs sf sdqf `
-	__StateShape__00000003_.X = 414.000000
-	__StateShape__00000003_.Y = 380.000000
-	__StateShape__00000003_.Width = 248.000000
+	__StateShape__00000003_.X = 410.000000
+	__StateShape__00000003_.Y = 381.000000
+	__StateShape__00000003_.Width = 251.000000
 	__StateShape__00000003_.Height = 36.000000
 	__StateShape__00000003_.IsHidden = false
 
 	__StateShape__00000004_.Name = `A standard state, Start State, with a long name to show that there is no layout issue with the kind of state
 
 `
-	__StateShape__00000004_.X = 631.000000
-	__StateShape__00000004_.Y = 529.000000
+	__StateShape__00000004_.X = 713.000000
+	__StateShape__00000004_.Y = 535.000000
 	__StateShape__00000004_.Width = 200.000000
 	__StateShape__00000004_.Height = 122.000000
 	__StateShape__00000004_.IsHidden = false
@@ -172,7 +172,7 @@ func _(stage *models.Stage) {
 
 	__Transition_Shape__00000000_.Name = `Start State, with a long name to show that there is a layout issue to Decision node, with a long name to show that there is a layout issue`
 	__Transition_Shape__00000000_.StartRatio = 0.997510
-	__Transition_Shape__00000000_.EndRatio = 0.559168
+	__Transition_Shape__00000000_.EndRatio = 0.867722
 	__Transition_Shape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000000_.CornerOffsetRatio = 1.950488

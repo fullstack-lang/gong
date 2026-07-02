@@ -93,13 +93,13 @@
             "label": "dsm - barrgraph: go run . edit",
             "type": "shell",
             "options": {
-                "cwd": "dsm/barrgraph/go/cmd/barrgraph",
+                "cwd": "dsm/barrgraph/go/cmd/barrgraph"
             },
             "command": "go",
             "args": [
                 "run",
                 ".",
-                "edit",
+                "edit"
             ],
             "group": "build"
         },
@@ -143,13 +143,13 @@
             "label": "dsm - capture: go run . edit",
             "type": "shell",
             "options": {
-                "cwd": "dsm/capture/go/cmd/capture",
+                "cwd": "dsm/capture/go/cmd/capture"
             },
             "command": "go",
             "args": [
                 "run",
                 ".",
-                "edit",
+                "edit"
             ],
             "group": "build"
         },
@@ -237,7 +237,7 @@
                 "run",
                 ".",
                 "edit",
-                "data/stage.go",
+                "data/stage.go"
             ],
             "group": "build"
         },
@@ -310,7 +310,7 @@
                 "run",
                 ".",
                 "edit",
-                "data/stage.go",
+                "data/stage.go"
             ],
             "group": "build"
         },
@@ -1530,6 +1530,35 @@
             "args": [
                 "serve",
                 "--host=127.0.0.1"
+            ]
+        },
+        {
+            "label": "lib - threejs: gong generate threejs",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib/threejs"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--skipNpmWorkspaces",
+                "--stack-height=4",
+                "go/models"
+            ]
+        },
+        {
+            "label": "lib - threejs: ng serve threejs",
+            "type": "shell",
+            "options": {
+                "cwd": "lib/threejs/ng-github.com-fullstack-lang-gong-lib-threejs"
+            },
+            "command": "ng",
+            "group": "build",
+            "args": [
+                "serve",
+                ""
             ]
         }
     ]

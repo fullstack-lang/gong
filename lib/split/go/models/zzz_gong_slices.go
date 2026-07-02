@@ -69,6 +69,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct Table
 	// insertion point per field
 
+	// Compute reverse map for named struct Threejs
+	// insertion point per field
+
 	// Compute reverse map for named struct Title
 	// insertion point per field
 
@@ -149,6 +152,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.Tables {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Threejss {
 		res = append(res, instance)
 	}
 
@@ -257,6 +264,12 @@ func (svg *Svg) GongCopy() GongstructIF {
 func (table *Table) GongCopy() GongstructIF {
 	newInstance := new(Table)
 	table.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (threejs *Threejs) GongCopy() GongstructIF {
+	newInstance := new(Threejs)
+	threejs.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -428,6 +441,16 @@ func (table *Table) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(table), uint64(GetOrderPointerGongstruct(stage, table)))
+	return
+}
+
+func (threejs *Threejs) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(threejs).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(threejs), uint64(GetOrderPointerGongstruct(stage, threejs)))
 	return
 }
 
@@ -1269,6 +1292,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(tables_newInstances)
 	lenDeletedInstances += len(tables_deletedInstances)
+	var threejss_newInstances []*Threejs
+	var threejss_deletedInstances []*Threejs
+
+	// parse all staged instances and check if they have a reference
+	for threejs := range stage.Threejss {
+		if ref, ok := stage.Threejss_reference[threejs]; !ok {
+			threejss_newInstances = append(threejss_newInstances, threejs)
+			newInstancesSlice = append(newInstancesSlice, threejs.GongMarshallIdentifier(stage))
+			if stage.Threejss_referenceOrder == nil {
+				stage.Threejss_referenceOrder = make(map[*Threejs]uint)
+			}
+			stage.Threejss_referenceOrder[threejs] = stage.Threejs_stagedOrder[threejs]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, threejs.GongMarshallUnstaging(stage))
+			// delete(stage.Threejss_referenceOrder, threejs)
+			fieldInitializers, pointersInitializations := threejs.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.Threejs_stagedOrder[ref] = stage.Threejs_stagedOrder[threejs]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := threejs.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, threejs)
+			// delete(stage.Threejs_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if threejs.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", threejs.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.Threejss_reference {
+		instance := stage.Threejss_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.Threejss[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			threejss_deletedInstances = append(threejss_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(threejss_newInstances)
+	lenDeletedInstances += len(threejss_deletedInstances)
 	var titles_newInstances []*Title
 	var titles_deletedInstances []*Title
 
@@ -1719,6 +1797,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Tables_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.Threejss_reference = make(map[*Threejs]*Threejs)
+	stage.Threejss_referenceOrder = make(map[*Threejs]uint) // diff Unstage needs the reference order
+	stage.Threejss_instance = make(map[*Threejs]*Threejs)
+	for instance := range stage.Threejss {
+		_copy := instance.GongCopy().(*Threejs)
+		stage.Threejss_reference[instance] = _copy
+		stage.Threejss_instance[_copy] = instance
+		stage.Threejss_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Titles_reference = make(map[*Title]*Title)
 	stage.Titles_referenceOrder = make(map[*Title]uint) // diff Unstage needs the reference order
 	stage.Titles_instance = make(map[*Title]*Title)
@@ -1837,6 +1925,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.Tables {
 		reference := stage.Tables_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.Threejss {
+		reference := stage.Threejss_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -2043,6 +2136,18 @@ func (table *Table) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (threejs *Threejs) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.Threejs_stagedOrder[threejs]; ok {
+		return order
+	}
+	if order, ok := stage.Threejss_referenceOrder[threejs]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type Threejs was not staged and does not have a reference order", threejs)
+		return 0
+	}
+}
+
 func (title *Title) GongGetOrder(stage *Stage) uint {
 	if order, ok := stage.Title_stagedOrder[title]; ok {
 		return order
@@ -2234,6 +2339,15 @@ func (table *Table) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", table.GongGetGongstructName(), table.GongGetOrder(stage))
 }
 
+func (threejs *Threejs) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", threejs.GongGetGongstructName(), threejs.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (threejs *Threejs) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", threejs.GongGetGongstructName(), threejs.GongGetOrder(stage))
+}
+
 func (title *Title) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", title.GongGetGongstructName(), title.GongGetOrder(stage))
 }
@@ -2394,6 +2508,14 @@ func (table *Table) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (threejs *Threejs) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", threejs.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Threejs")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(threejs.Name))
+	return
+}
+
 func (title *Title) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", title.GongGetIdentifier(stage))
@@ -2516,6 +2638,12 @@ func (svg *Svg) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (table *Table) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", table.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (threejs *Threejs) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", threejs.GongGetReferenceIdentifier(stage))
 	return
 }
 

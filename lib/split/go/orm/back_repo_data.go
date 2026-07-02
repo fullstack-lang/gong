@@ -32,6 +32,8 @@ type BackRepoData struct {
 
 	TableAPIs []*TableAPI
 
+	ThreejsAPIs []*ThreejsAPI
+
 	TitleAPIs []*TitleAPI
 
 	ToneAPIs []*ToneAPI
@@ -191,6 +193,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		tableDB.CopyBasicFieldsToTable_WOP(&tableAPI.Table_WOP)
 
 		backRepoData.TableAPIs = append(backRepoData.TableAPIs, &tableAPI)
+	}
+
+	for _, threejsDB := range backRepo.BackRepoThreejs.Map_ThreejsDBID_ThreejsDB {
+
+		var threejsAPI ThreejsAPI
+		threejsAPI.ID = threejsDB.ID
+		threejsAPI.ThreejsPointersEncoding = threejsDB.ThreejsPointersEncoding
+		threejsDB.CopyBasicFieldsToThreejs_WOP(&threejsAPI.Threejs_WOP)
+
+		backRepoData.ThreejsAPIs = append(backRepoData.ThreejsAPIs, &threejsAPI)
 	}
 
 	for _, titleDB := range backRepo.BackRepoTitle.Map_TitleDBID_TitleDB {

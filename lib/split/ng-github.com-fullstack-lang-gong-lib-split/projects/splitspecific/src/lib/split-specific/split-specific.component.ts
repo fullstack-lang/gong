@@ -22,6 +22,7 @@ import { SvgSpecificComponent } from '../../../../../../../svg/ng-github.com-ful
 import { TableSpecificComponent } from '../../../../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/table-specific/table-specific.component'
 import { ToneSpecificComponent } from '../../../../../../../tone/ng-github.com-fullstack-lang-gong-lib-tone/projects/tonespecific/src/lib/tone-specific/tone-specific.component'
 import { TreeSpecificComponent } from '../../../../../../../tree/ng-github.com-fullstack-lang-gong-lib-tree/projects/treespecific/src/lib/tree-specific/tree-specific.component'
+import { GongthreejsSpecific } from '../../../../../../../threejs/ng-github.com-fullstack-lang-gong-lib-threejs/projects/threejsspecific/src/lib/gongthreejs-specific/gongthreejs-specific'
 
 // to set the title of the application
 import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
@@ -46,6 +47,7 @@ import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
     TableSpecificComponent,
     ToneSpecificComponent,
     TreeSpecificComponent,
+    GongthreejsSpecific,
 
   ],
   templateUrl: './split-specific.component.html',
