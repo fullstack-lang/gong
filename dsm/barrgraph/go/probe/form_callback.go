@@ -294,7 +294,7 @@ func (artistFormCallback *ArtistFormCallback) OnSave() {
 		case "IsDead":
 			FormDivBasicFieldToField(&(artist_.IsDead), formDiv)
 		case "DateOfDeath":
-			FormDivBasicFieldToField(&(artist_.DateOfDeath), formDiv)
+			FormDivTimeFieldToField(&(artist_.DateOfDeath), formDiv, false)
 		case "Place":
 			FormDivSelectFieldToField(&(artist_.Place), artistFormCallback.probe.stageOfInterest, formDiv)
 		}
@@ -892,9 +892,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		case "IsInfluenceCategoryHidden":
 			FormDivBasicFieldToField(&(diagram_.IsInfluenceCategoryHidden), formDiv)
 		case "StartDate":
-			FormDivBasicFieldToField(&(diagram_.StartDate), formDiv)
+			FormDivTimeFieldToField(&(diagram_.StartDate), formDiv, false)
 		case "EndDate":
-			FormDivBasicFieldToField(&(diagram_.EndDate), formDiv)
+			FormDivTimeFieldToField(&(diagram_.EndDate), formDiv, false)
 		case "NbYearsForIntervals":
 			FormDivBasicFieldToField(&(diagram_.NbYearsForIntervals), formDiv)
 		case "XMargin":
@@ -1631,7 +1631,7 @@ func (movementFormCallback *MovementFormCallback) OnSave() {
 		case "LayoutDirection":
 			FormDivEnumIntFieldToField(&(movement_.LayoutDirection), formDiv)
 		case "Date":
-			FormDivBasicFieldToField(&(movement_.Date), formDiv)
+			FormDivTimeFieldToField(&(movement_.Date), formDiv, false)
 		case "HideDate":
 			FormDivBasicFieldToField(&(movement_.HideDate), formDiv)
 		case "Places":

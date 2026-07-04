@@ -67,7 +67,7 @@ func (aFormCallback *AFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(a_.Name), formDiv)
 		case "Date":
-			FormDivBasicFieldToField(&(a_.Date), formDiv)
+			FormDivTimeFieldToField(&(a_.Date), formDiv, true)
 		case "Duration":
 			FormDivBasicFieldToField(&(a_.Duration), formDiv)
 		case "FloatValue":

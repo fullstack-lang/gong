@@ -79,17 +79,17 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		case "IsTimeDiagram":
 			FormDivBasicFieldToField(&(diagram_.IsTimeDiagram), formDiv)
 		case "ComputedStart":
-			FormDivBasicFieldToField(&(diagram_.ComputedStart), formDiv)
+			FormDivTimeFieldToField(&(diagram_.ComputedStart), formDiv, false)
 		case "ComputedEnd":
-			FormDivBasicFieldToField(&(diagram_.ComputedEnd), formDiv)
+			FormDivTimeFieldToField(&(diagram_.ComputedEnd), formDiv, false)
 		case "ComputedDuration":
 			FormDivBasicFieldToField(&(diagram_.ComputedDuration), formDiv)
 		case "UseManualStartAndEndDates":
 			FormDivBasicFieldToField(&(diagram_.UseManualStartAndEndDates), formDiv)
 		case "ManualStart":
-			FormDivBasicFieldToField(&(diagram_.ManualStart), formDiv)
+			FormDivTimeFieldToField(&(diagram_.ManualStart), formDiv, false)
 		case "ManualEnd":
-			FormDivBasicFieldToField(&(diagram_.ManualEnd), formDiv)
+			FormDivTimeFieldToField(&(diagram_.ManualEnd), formDiv, false)
 		case "TimeStep":
 			FormDivBasicFieldToField(&(diagram_.TimeStep), formDiv)
 		case "TimeStepScale":
@@ -3558,9 +3558,9 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 		case "Description":
 			FormDivBasicFieldToField(&(task_.Description), formDiv)
 		case "Start":
-			FormDivBasicFieldToField(&(task_.Start), formDiv)
+			FormDivTimeFieldToField(&(task_.Start), formDiv, true)
 		case "End":
-			FormDivBasicFieldToField(&(task_.End), formDiv)
+			FormDivTimeFieldToField(&(task_.End), formDiv, true)
 		case "DurationYears":
 			FormDivBasicFieldToField(&(task_.DurationYears), formDiv)
 		case "DurationMonths":
