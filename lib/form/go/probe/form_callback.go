@@ -634,7 +634,7 @@ func (formfielddateFormCallback *FormFieldDateFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(formfielddate_.Name), formDiv)
 		case "Value":
-			FormDivBasicFieldToField(&(formfielddate_.Value), formDiv)
+			FormDivTimeFieldToField(&(formfielddate_.Value), formDiv, false)
 		}
 	}
 
@@ -714,7 +714,7 @@ func (formfielddatetimeFormCallback *FormFieldDateTimeFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(formfielddatetime_.Name), formDiv)
 		case "Value":
-			FormDivBasicFieldToField(&(formfielddatetime_.Value), formDiv)
+			FormDivTimeFieldToField(&(formfielddatetime_.Value), formDiv, false)
 		}
 	}
 
@@ -1168,7 +1168,7 @@ func (formfieldtimeFormCallback *FormFieldTimeFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(formfieldtime_.Name), formDiv)
 		case "Value":
-			FormDivBasicFieldToField(&(formfieldtime_.Value), formDiv)
+			FormDivTimeFieldToField(&(formfieldtime_.Value), formDiv, false)
 		case "Step":
 			FormDivBasicFieldToField(&(formfieldtime_.Step), formDiv)
 		}

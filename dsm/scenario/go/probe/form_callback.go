@@ -1513,9 +1513,9 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 		case "HorizontalAxis_Right_X":
 			FormDivBasicFieldToField(&(diagram_.HorizontalAxis_Right_X), formDiv)
 		case "Start":
-			FormDivBasicFieldToField(&(diagram_.Start), formDiv)
+			FormDivTimeFieldToField(&(diagram_.Start), formDiv, false)
 		case "End":
-			FormDivBasicFieldToField(&(diagram_.End), formDiv)
+			FormDivTimeFieldToField(&(diagram_.End), formDiv, false)
 		case "NumberOfYearsBetweenTicks":
 			FormDivBasicFieldToField(&(diagram_.NumberOfYearsBetweenTicks), formDiv)
 		case "Scenario:Diagrams":
@@ -3399,9 +3399,9 @@ func (parameterFormCallback *ParameterFormCallback) OnSave() {
 		case "IsResponse":
 			FormDivBasicFieldToField(&(parameter_.IsResponse), formDiv)
 		case "Start":
-			FormDivBasicFieldToField(&(parameter_.Start), formDiv)
+			FormDivTimeFieldToField(&(parameter_.Start), formDiv, false)
 		case "End":
-			FormDivBasicFieldToField(&(parameter_.End), formDiv)
+			FormDivTimeFieldToField(&(parameter_.End), formDiv, false)
 		case "Force":
 			FormDivBasicFieldToField(&(parameter_.Force), formDiv)
 		case "GroupUse":
@@ -4539,7 +4539,7 @@ func (positionFormCallback *PositionFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(position_.Name), formDiv)
 		case "Date":
-			FormDivBasicFieldToField(&(position_.Date), formDiv)
+			FormDivTimeFieldToField(&(position_.Date), formDiv, false)
 		case "Ordinate":
 			FormDivBasicFieldToField(&(position_.Ordinate), formDiv)
 		case "ComputedPrefix":

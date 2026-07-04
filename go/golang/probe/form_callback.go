@@ -129,6 +129,7 @@ type FormCallbackSubTemplateId int
 
 const (
 	FormCallbackSubTmplBasicField FormCallbackSubTemplateId = iota
+	FormCallbackSubTmplTimeField
 	FormCallbackSubTmplBasicFieldEnumString
 	FormCallbackSubTmplBasicFieldEnumInt
 	FormCallbackSubTmplPointerToStruct
@@ -142,6 +143,9 @@ map[FormCallbackSubTemplateId]string{
 	FormCallbackSubTmplBasicField: `
 		case "{{FieldName}}":
 			FormDivBasicFieldToField(&({{structname}}_.{{FieldName}}), formDiv)`,
+	FormCallbackSubTmplTimeField: `
+		case "{{FieldName}}":
+			FormDivTimeFieldToField(&({{structname}}_.{{FieldName}}), formDiv, {{isTimeFormOnly}})`,
 	FormCallbackSubTmplBasicFieldEnumString: `
 		case "{{FieldName}}":
 			FormDivEnumStringFieldToField(&({{structname}}_.{{FieldName}}), formDiv)`,
@@ -290,9 +294,10 @@ func CodeGeneratorModelFormCallback(
 					default:
 					}
 				case *models.GongTimeField:
-					fieldToFormCode += models.Replace1(
-						FormCallbackFileFieldFieldSubTemplateCode[FormCallbackSubTmplBasicField],
-						"{{FieldName}}", field.Name)
+					fieldToFormCode += models.Replace2(
+						FormCallbackFileFieldFieldSubTemplateCode[FormCallbackSubTmplTimeField],
+						"{{FieldName}}", field.Name,
+						"{{isTimeFormOnly}}", fmt.Sprintf("%t", field.TimeFormOnly))
 				case *models.PointerToGongStructField:
 					fieldToFormCode += models.Replace1(
 						FormCallbackFileFieldFieldSubTemplateCode[FormCallbackSubTmplPointerToStruct],

@@ -26,16 +26,7 @@ func FormDivBasicFieldToField[TF models.GongtructBasicField](field *TF, formDiv 
 	case *float64:
 		value := formDiv.FormFields[0].FormFieldFloat64.Value
 		*fieldWithInterferedType = value
-	case *time.Time:
-		date := formDiv.FormFields[0].FormFieldDate.Value
 
-		// in the angular form div, the time.Time is show twice, once for the Date and once for the Time
-		// construing the date back, one needs to truncate the date, otherwise
-		// hours, minutes, seconds and nanoseconds would be added twice
-		date = date.Truncate(24 * time.Hour)
-
-		time := formDiv.FormFields[1].FormFieldTime.Value
-		*fieldWithInterferedType = addTimeComponents(date, time)
 	case *time.Duration:
 		isNeg := formDiv.CheckBoxs[0].Value
 
@@ -54,6 +45,22 @@ func FormDivBasicFieldToField[TF models.GongtructBasicField](field *TF, formDiv 
 			*fieldWithInterferedType = -*fieldWithInterferedType
 		}
 
+	}
+}
+
+func FormDivTimeFieldToField(field *time.Time, formDiv *form.FormDiv, isTimeFormOnly bool) {
+	date := formDiv.FormFields[0].FormFieldDate.Value
+
+	// in the angular form div, the time.Time is show twice, once for the Date and once for the Time
+	// construing the date back, one needs to truncate the date, otherwise
+	// hours, minutes, seconds and nanoseconds would be added twice
+	date = date.Truncate(24 * time.Hour)
+
+	if !isTimeFormOnly {
+		time := formDiv.FormFields[1].FormFieldTime.Value
+		*field = addTimeComponents(date, time)
+	} else {
+		*field = date
 	}
 }
 

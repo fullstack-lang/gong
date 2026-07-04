@@ -198,9 +198,9 @@ func (barFormCallback *BarFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(bar_.Name), formDiv)
 		case "Start":
-			FormDivBasicFieldToField(&(bar_.Start), formDiv)
+			FormDivTimeFieldToField(&(bar_.Start), formDiv, false)
 		case "End":
-			FormDivBasicFieldToField(&(bar_.End), formDiv)
+			FormDivTimeFieldToField(&(bar_.End), formDiv, false)
 		case "ComputedDuration":
 			FormDivBasicFieldToField(&(bar_.ComputedDuration), formDiv)
 		case "OptionnalColor":
@@ -337,17 +337,17 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(gantt_.Name), formDiv)
 		case "ComputedStart":
-			FormDivBasicFieldToField(&(gantt_.ComputedStart), formDiv)
+			FormDivTimeFieldToField(&(gantt_.ComputedStart), formDiv, false)
 		case "ComputedEnd":
-			FormDivBasicFieldToField(&(gantt_.ComputedEnd), formDiv)
+			FormDivTimeFieldToField(&(gantt_.ComputedEnd), formDiv, false)
 		case "ComputedDuration":
 			FormDivBasicFieldToField(&(gantt_.ComputedDuration), formDiv)
 		case "UseManualStartAndEndDates":
 			FormDivBasicFieldToField(&(gantt_.UseManualStartAndEndDates), formDiv)
 		case "ManualStart":
-			FormDivBasicFieldToField(&(gantt_.ManualStart), formDiv)
+			FormDivTimeFieldToField(&(gantt_.ManualStart), formDiv, false)
 		case "ManualEnd":
-			FormDivBasicFieldToField(&(gantt_.ManualEnd), formDiv)
+			FormDivTimeFieldToField(&(gantt_.ManualEnd), formDiv, false)
 		case "LaneHeight":
 			FormDivBasicFieldToField(&(gantt_.LaneHeight), formDiv)
 		case "RatioBarToLaneHeight":
@@ -1073,7 +1073,7 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 		case "Name":
 			FormDivBasicFieldToField(&(milestone_.Name), formDiv)
 		case "Date":
-			FormDivBasicFieldToField(&(milestone_.Date), formDiv)
+			FormDivTimeFieldToField(&(milestone_.Date), formDiv, false)
 		case "DisplayVerticalBar":
 			FormDivBasicFieldToField(&(milestone_.DisplayVerticalBar), formDiv)
 		case "LanesToDisplay":

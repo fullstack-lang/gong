@@ -2436,7 +2436,7 @@ func (objectFormCallback *ObjectFormCallback) OnSave() {
 		case "Rank":
 			FormDivBasicFieldToField(&(object_.Rank), formDiv)
 		case "DOF":
-			FormDivBasicFieldToField(&(object_.DOF), formDiv)
+			FormDivTimeFieldToField(&(object_.DOF), formDiv, false)
 		case "Messages":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Message](objectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Message, 0)
