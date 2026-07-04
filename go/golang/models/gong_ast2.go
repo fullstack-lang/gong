@@ -27,6 +27,7 @@ import (
 	"log"
 	"path/filepath"
 	"regexp"
+	"runtime/debug"
 	"slices"
 	"strconv"
 	"strings"
@@ -113,6 +114,26 @@ func GongParseAstString(stage *Stage, blob string, preserveOrder bool) error {
 
 // ParseAstFileFromAst traverses the AST and stages instances using the Unmarshaller registry
 func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
+
+	var fileModuleVersion string
+	for _, commentGroup := range inFile.Comments {
+		for _, comment := range commentGroup.List {
+			if strings.HasPrefix(comment.Text, "// go module version: ") {
+				fileModuleVersion = strings.TrimPrefix(comment.Text, "// go module version: ")
+			}
+		}
+	}
+
+	var parserModuleVersion string
+	if buildInfo, ok := debug.ReadBuildInfo(); ok {
+		parserModuleVersion = buildInfo.Main.Version
+	}
+
+	if fileModuleVersion != "" && parserModuleVersion != "" && fileModuleVersion != parserModuleVersion {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().AddNotification(time.Now(), fmt.Sprintf("Warning: file module version '%s' does not match parser module version '%s'", fileModuleVersion, parserModuleVersion))
+		}
+	}
 
 	// 1. Remove Global Variables: Use a local map to track variable names to instances
 	identifierMap := make(map[string]GongstructIF)
