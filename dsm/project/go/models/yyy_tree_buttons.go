@@ -1049,8 +1049,8 @@ func (stager *Stager) button() {
         const fileXContent = btoa(binary);
         
         const fileXName = "` + cleanFileName + `";
-        const targetUrl = "https://fullstack-lang.github.io/gong/` + pkgName + `-app-portable.html";
-        const targetOrigin = "https://fullstack-lang.github.io"; 
+        const targetUrl = "` + pkgName + `-app-portable.html";
+        const targetOrigin = "*"; 
 
         document.getElementById('launchBtn').addEventListener('click', () => {
             const appWindow = window.open(targetUrl, '_blank');
