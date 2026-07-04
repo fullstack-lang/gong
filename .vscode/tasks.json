@@ -52,13 +52,35 @@
         {
             "label": "gong generate --dsm go/models in all dsm projects but project, xsd & reqif",
             "type": "shell",
-            "command": "for p in barrgraph capture process scenario statemachines structure; do cd C:/Users/tpeugeot/go/src/github.com/fullstack-lang/gong/dsm/$p && gong generate --dsm go/models; done",
-            "options": {
-                "shell": {
-                    "executable": "bash.exe",
-                    "args": [
-                        "-c"
-                    ]
+            "command": "for p in barrgraph capture process scenario statemachines structure; do cd ${workspaceFolder}/dsm/$p && gong generate --dsm go/models; done",
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "bash.exe",
+                        "args": [
+                            "-c"
+                        ]
+                    }
+                }
+            },
+            "osx": {
+                "options": {
+                    "shell": {
+                        "executable": "bash",
+                        "args": [
+                            "-c"
+                        ]
+                    }
+                }
+            },
+            "linux": {
+                "options": {
+                    "shell": {
+                        "executable": "bash",
+                        "args": [
+                            "-c"
+                        ]
+                    }
                 }
             },
             "group": "build",
