@@ -84,8 +84,6 @@ type Diagram_WOP struct {
 
 	IsExpanded bool
 
-	LayoutDirection LayoutDirection
-
 	IsChecked bool
 
 	IsEditable_ bool
@@ -141,7 +139,6 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.AlignOnStartEndOnYearStart = from.AlignOnStartEndOnYearStart
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
 	to.IsShowPrefix = from.IsShowPrefix
@@ -165,8 +162,6 @@ type Library_WOP struct {
 
 	IsExpanded bool
 
-	LayoutDirection LayoutDirection
-
 	IsRootLibrary bool
 }
 
@@ -177,7 +172,6 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.LogoSVGFile = from.LogoSVGFile
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 	to.IsRootLibrary = from.IsRootLibrary
 }
 
@@ -646,8 +640,6 @@ type TaskGroup_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *TaskGroup) CopyBasicFields(to *TaskGroup) {
@@ -655,7 +647,6 @@ func (from *TaskGroup) CopyBasicFields(to *TaskGroup) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type TaskGroupShape_WOP struct {

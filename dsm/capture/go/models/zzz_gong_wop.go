@@ -17,8 +17,6 @@ type AnalysisNeed_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *AnalysisNeed) CopyBasicFields(to *AnalysisNeed) {
@@ -26,7 +24,6 @@ func (from *AnalysisNeed) CopyBasicFields(to *AnalysisNeed) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type Concept_WOP struct {
@@ -37,8 +34,6 @@ type Concept_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *Concept) CopyBasicFields(to *Concept) {
@@ -46,7 +41,6 @@ func (from *Concept) CopyBasicFields(to *Concept) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type ConceptShape_WOP struct {
@@ -91,8 +85,6 @@ type Concern_WOP struct {
 
 	IsExpanded bool
 
-	LayoutDirection LayoutDirection
-
 	Description string
 
 	IsInputsNodeExpanded bool
@@ -111,7 +103,6 @@ func (from *Concern) CopyBasicFields(to *Concern) {
 	to.Priority = from.Priority
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 	to.Description = from.Description
 	to.IsInputsNodeExpanded = from.IsInputsNodeExpanded
 	to.IsOutputsNodeExpanded = from.IsOutputsNodeExpanded
@@ -264,8 +255,6 @@ type Deliverable_WOP struct {
 
 	IsExpanded bool
 
-	LayoutDirection LayoutDirection
-
 	Description string
 
 	IsProducersNodeExpanded bool
@@ -278,7 +267,6 @@ func (from *Deliverable) CopyBasicFields(to *Deliverable) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 	to.Description = from.Description
 	to.IsProducersNodeExpanded = from.IsProducersNodeExpanded
 	to.IsConsumersNodeExpanded = from.IsConsumersNodeExpanded
@@ -380,8 +368,6 @@ type Diagram_WOP struct {
 
 	IsExpanded bool
 
-	LayoutDirection LayoutDirection
-
 	IsChecked bool
 
 	IsEditable_ bool
@@ -416,7 +402,6 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
 	to.ShowPrefix = from.ShowPrefix
@@ -473,8 +458,6 @@ type Library_WOP struct {
 
 	IsExpanded bool
 
-	LayoutDirection LayoutDirection
-
 	NbPixPerCharacter float64
 }
 
@@ -484,7 +467,6 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.IsRootLibrary = from.IsRootLibrary
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 	to.NbPixPerCharacter = from.NbPixPerCharacter
 }
 
@@ -496,8 +478,6 @@ type Note_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *Note) CopyBasicFields(to *Note) {
@@ -505,7 +485,6 @@ func (from *Note) CopyBasicFields(to *Note) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type NoteDeliverableShape_WOP struct {
@@ -632,8 +611,6 @@ type Requirement_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *Requirement) CopyBasicFields(to *Requirement) {
@@ -641,7 +618,6 @@ func (from *Requirement) CopyBasicFields(to *Requirement) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type RequirementShape_WOP struct {
@@ -684,8 +660,6 @@ type Stakeholder_WOP struct {
 
 	IsExpanded bool
 
-	LayoutDirection LayoutDirection
-
 	Description string
 }
 
@@ -695,7 +669,6 @@ func (from *Stakeholder) CopyBasicFields(to *Stakeholder) {
 	to.IDAirbus = from.IDAirbus
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 	to.Description = from.Description
 }
 

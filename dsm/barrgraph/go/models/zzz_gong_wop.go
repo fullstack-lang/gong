@@ -17,8 +17,6 @@ type ArtefactType_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *ArtefactType) CopyBasicFields(to *ArtefactType) {
@@ -26,7 +24,6 @@ func (from *ArtefactType) CopyBasicFields(to *ArtefactType) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type ArtefactTypeShape_WOP struct {
@@ -64,8 +61,6 @@ type Artist_WOP struct {
 
 	IsExpanded bool
 
-	LayoutDirection LayoutDirection
-
 	IsDead bool
 
 	DateOfDeath time.Time
@@ -76,7 +71,6 @@ func (from *Artist) CopyBasicFields(to *Artist) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 	to.IsDead = from.IsDead
 	to.DateOfDeath = from.DateOfDeath
 }
@@ -170,8 +164,6 @@ type Diagram_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 
 	IsChecked bool
 
@@ -349,7 +341,6 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 	to.IsChecked = from.IsChecked
 	to.IsEditable = from.IsEditable
 	to.IsNodeExpanded = from.IsNodeExpanded
@@ -446,8 +437,6 @@ type Influence_WOP struct {
 
 	IsExpanded bool
 
-	LayoutDirection LayoutDirection
-
 	IsHypothtical bool
 }
 
@@ -456,7 +445,6 @@ func (from *Influence) CopyBasicFields(to *Influence) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 	to.IsHypothtical = from.IsHypothtical
 }
 
@@ -485,8 +473,6 @@ type Library_WOP struct {
 
 	IsExpanded bool
 
-	LayoutDirection LayoutDirection
-
 	IsRootLibrary bool
 
 	IsSubLibrariesNodeExpanded bool
@@ -504,7 +490,6 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 	to.IsRootLibrary = from.IsRootLibrary
 	to.IsSubLibrariesNodeExpanded = from.IsSubLibrariesNodeExpanded
 	to.NbPixPerCharacter = from.NbPixPerCharacter
@@ -520,8 +505,6 @@ type Movement_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 
 	Date time.Time
 
@@ -547,7 +530,6 @@ func (from *Movement) CopyBasicFields(to *Movement) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 	to.Date = from.Date
 	to.HideDate = from.HideDate
 	to.HasTaxonomicFilter = from.HasTaxonomicFilter

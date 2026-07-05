@@ -135,52 +135,42 @@ func _(stage *models.Stage) {
 	__Concept__00000000_.Name = `Gap`
 	__Concept__00000000_.ComputedPrefix = ``
 	__Concept__00000000_.IsExpanded = false
-	__Concept__00000000_.LayoutDirection = models.Vertical
 
 	__Concept__00000001_.Name = `Function`
 	__Concept__00000001_.ComputedPrefix = ``
 	__Concept__00000001_.IsExpanded = false
-	__Concept__00000001_.LayoutDirection = models.Vertical
 
 	__Concept__00000002_.Name = `Operational Scenario`
 	__Concept__00000002_.ComputedPrefix = ``
 	__Concept__00000002_.IsExpanded = false
-	__Concept__00000002_.LayoutDirection = models.Vertical
 
 	__Concept__00000003_.Name = `Mission Requirement`
 	__Concept__00000003_.ComputedPrefix = ``
 	__Concept__00000003_.IsExpanded = false
-	__Concept__00000003_.LayoutDirection = models.Vertical
 
 	__Concept__00000004_.Name = `Stakeholder Concept`
 	__Concept__00000004_.ComputedPrefix = ``
 	__Concept__00000004_.IsExpanded = false
-	__Concept__00000004_.LayoutDirection = models.Vertical
 
 	__Concept__00000005_.Name = `Problem`
 	__Concept__00000005_.ComputedPrefix = ``
 	__Concept__00000005_.IsExpanded = false
-	__Concept__00000005_.LayoutDirection = models.Vertical
 
 	__Concept__00000006_.Name = `Opportunity`
 	__Concept__00000006_.ComputedPrefix = ``
 	__Concept__00000006_.IsExpanded = false
-	__Concept__00000006_.LayoutDirection = models.Vertical
 
 	__Concept__00000007_.Name = `Solution Class`
 	__Concept__00000007_.ComputedPrefix = ``
 	__Concept__00000007_.IsExpanded = false
-	__Concept__00000007_.LayoutDirection = models.Vertical
 
 	__Concept__00000008_.Name = `Risk`
 	__Concept__00000008_.ComputedPrefix = ``
 	__Concept__00000008_.IsExpanded = false
-	__Concept__00000008_.LayoutDirection = models.Vertical
 
 	__Concept__00000009_.Name = `Benefit`
 	__Concept__00000009_.ComputedPrefix = ``
 	__Concept__00000009_.IsExpanded = false
-	__Concept__00000009_.LayoutDirection = models.Vertical
 
 	__ConceptShape__00000000_.Name = `-Default Diagram`
 	__ConceptShape__00000000_.IsExpanded = false
@@ -267,7 +257,6 @@ func _(stage *models.Stage) {
 	__Concern__00000000_.Priority = ""
 	__Concern__00000000_.ComputedPrefix = `1`
 	__Concern__00000000_.IsExpanded = false
-	__Concern__00000000_.LayoutDirection = models.Vertical
 	__Concern__00000000_.Description = ``
 	__Concern__00000000_.IsInputsNodeExpanded = false
 	__Concern__00000000_.IsOutputsNodeExpanded = false
@@ -279,7 +268,6 @@ func _(stage *models.Stage) {
 	__Concern__00000001_.Priority = ""
 	__Concern__00000001_.ComputedPrefix = `2`
 	__Concern__00000001_.IsExpanded = false
-	__Concern__00000001_.LayoutDirection = models.Vertical
 	__Concern__00000001_.Description = ``
 	__Concern__00000001_.IsInputsNodeExpanded = false
 	__Concern__00000001_.IsOutputsNodeExpanded = false
@@ -291,7 +279,6 @@ func _(stage *models.Stage) {
 	__Concern__00000002_.Priority = ""
 	__Concern__00000002_.ComputedPrefix = `3`
 	__Concern__00000002_.IsExpanded = false
-	__Concern__00000002_.LayoutDirection = models.Vertical
 	__Concern__00000002_.Description = ``
 	__Concern__00000002_.IsInputsNodeExpanded = false
 	__Concern__00000002_.IsOutputsNodeExpanded = false
@@ -303,7 +290,6 @@ func _(stage *models.Stage) {
 	__Concern__00000003_.Priority = ""
 	__Concern__00000003_.ComputedPrefix = `4`
 	__Concern__00000003_.IsExpanded = false
-	__Concern__00000003_.LayoutDirection = models.Vertical
 	__Concern__00000003_.Description = ``
 	__Concern__00000003_.IsInputsNodeExpanded = false
 	__Concern__00000003_.IsOutputsNodeExpanded = false
@@ -315,7 +301,6 @@ func _(stage *models.Stage) {
 	__Concern__00000004_.Priority = ""
 	__Concern__00000004_.ComputedPrefix = `5`
 	__Concern__00000004_.IsExpanded = false
-	__Concern__00000004_.LayoutDirection = models.Vertical
 	__Concern__00000004_.Description = ``
 	__Concern__00000004_.IsInputsNodeExpanded = false
 	__Concern__00000004_.IsOutputsNodeExpanded = false
@@ -461,7 +446,6 @@ func _(stage *models.Stage) {
 	__Deliverable__00000000_.Name = `Gap Analysis`
 	__Deliverable__00000000_.ComputedPrefix = `1`
 	__Deliverable__00000000_.IsExpanded = false
-	__Deliverable__00000000_.LayoutDirection = models.Vertical
 	__Deliverable__00000000_.Description = ``
 	__Deliverable__00000000_.IsProducersNodeExpanded = false
 	__Deliverable__00000000_.IsConsumersNodeExpanded = false
@@ -469,7 +453,6 @@ func _(stage *models.Stage) {
 	__Deliverable__00000001_.Name = `OpsCon`
 	__Deliverable__00000001_.ComputedPrefix = `2`
 	__Deliverable__00000001_.IsExpanded = false
-	__Deliverable__00000001_.LayoutDirection = models.Vertical
 	__Deliverable__00000001_.Description = ``
 	__Deliverable__00000001_.IsProducersNodeExpanded = false
 	__Deliverable__00000001_.IsConsumersNodeExpanded = false
@@ -477,7 +460,6 @@ func _(stage *models.Stage) {
 	__Deliverable__00000002_.Name = `Mission Requirements`
 	__Deliverable__00000002_.ComputedPrefix = `3`
 	__Deliverable__00000002_.IsExpanded = false
-	__Deliverable__00000002_.LayoutDirection = models.Vertical
 	__Deliverable__00000002_.Description = ``
 	__Deliverable__00000002_.IsProducersNodeExpanded = false
 	__Deliverable__00000002_.IsConsumersNodeExpanded = false
@@ -485,7 +467,6 @@ func _(stage *models.Stage) {
 	__Deliverable__00000003_.Name = `Stakeholder Map`
 	__Deliverable__00000003_.ComputedPrefix = `4`
 	__Deliverable__00000003_.IsExpanded = false
-	__Deliverable__00000003_.LayoutDirection = models.Vertical
 	__Deliverable__00000003_.Description = ``
 	__Deliverable__00000003_.IsProducersNodeExpanded = false
 	__Deliverable__00000003_.IsConsumersNodeExpanded = false
@@ -493,7 +474,6 @@ func _(stage *models.Stage) {
 	__Deliverable__00000004_.Name = `Problem or Opportunity Statement`
 	__Deliverable__00000004_.ComputedPrefix = `5`
 	__Deliverable__00000004_.IsExpanded = false
-	__Deliverable__00000004_.LayoutDirection = models.Vertical
 	__Deliverable__00000004_.Description = ``
 	__Deliverable__00000004_.IsProducersNodeExpanded = false
 	__Deliverable__00000004_.IsConsumersNodeExpanded = false
@@ -501,7 +481,6 @@ func _(stage *models.Stage) {
 	__Deliverable__00000005_.Name = `Alternative Solution Classes`
 	__Deliverable__00000005_.ComputedPrefix = `6`
 	__Deliverable__00000005_.IsExpanded = false
-	__Deliverable__00000005_.LayoutDirection = models.Vertical
 	__Deliverable__00000005_.Description = ``
 	__Deliverable__00000005_.IsProducersNodeExpanded = false
 	__Deliverable__00000005_.IsConsumersNodeExpanded = false
@@ -509,7 +488,6 @@ func _(stage *models.Stage) {
 	__Deliverable__00000006_.Name = `Business Case`
 	__Deliverable__00000006_.ComputedPrefix = `7`
 	__Deliverable__00000006_.IsExpanded = false
-	__Deliverable__00000006_.LayoutDirection = models.Vertical
 	__Deliverable__00000006_.Description = ``
 	__Deliverable__00000006_.IsProducersNodeExpanded = false
 	__Deliverable__00000006_.IsConsumersNodeExpanded = false
@@ -653,7 +631,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Name = `Default Diagram`
 	__Diagram__00000000_.ComputedPrefix = `1`
 	__Diagram__00000000_.IsExpanded = true
-	__Diagram__00000000_.LayoutDirection = models.Vertical
 	__Diagram__00000000_.IsChecked = true
 	__Diagram__00000000_.IsEditable_ = false
 	__Diagram__00000000_.ShowPrefix = false
@@ -672,42 +649,36 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = true
-	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 
 	__Stakeholder__00000000_.Name = `Mission Analyst`
 	__Stakeholder__00000000_.IDAirbus = ``
 	__Stakeholder__00000000_.ComputedPrefix = `1`
 	__Stakeholder__00000000_.IsExpanded = false
-	__Stakeholder__00000000_.LayoutDirection = models.Vertical
 	__Stakeholder__00000000_.Description = ``
 
 	__Stakeholder__00000001_.Name = `Enterprise Architect`
 	__Stakeholder__00000001_.IDAirbus = ``
 	__Stakeholder__00000001_.ComputedPrefix = `2`
 	__Stakeholder__00000001_.IsExpanded = false
-	__Stakeholder__00000001_.LayoutDirection = models.Vertical
 	__Stakeholder__00000001_.Description = ``
 
 	__Stakeholder__00000002_.Name = `Lead System Engineer`
 	__Stakeholder__00000002_.IDAirbus = ``
 	__Stakeholder__00000002_.ComputedPrefix = `3`
 	__Stakeholder__00000002_.IsExpanded = false
-	__Stakeholder__00000002_.LayoutDirection = models.Vertical
 	__Stakeholder__00000002_.Description = ``
 
 	__Stakeholder__00000003_.Name = `Executive Sponsor`
 	__Stakeholder__00000003_.IDAirbus = ``
 	__Stakeholder__00000003_.ComputedPrefix = `4`
 	__Stakeholder__00000003_.IsExpanded = false
-	__Stakeholder__00000003_.LayoutDirection = models.Vertical
 	__Stakeholder__00000003_.Description = ``
 
 	__Stakeholder__00000004_.Name = `Business Analyst`
 	__Stakeholder__00000004_.IDAirbus = ``
 	__Stakeholder__00000004_.ComputedPrefix = `5`
 	__Stakeholder__00000004_.IsExpanded = false
-	__Stakeholder__00000004_.LayoutDirection = models.Vertical
 	__Stakeholder__00000004_.Description = ``
 
 	__StakeholderConcernShape__00000000_.Name = `Mission Analyst to Understand Environment & Mission`

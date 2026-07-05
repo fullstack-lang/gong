@@ -326,8 +326,6 @@ func (controlflowFormCallback *ControlFlowFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(controlflow_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(controlflow_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(controlflow_.LayoutDirection), formDiv)
 		case "Start":
 			FormDivSelectFieldToField(&(controlflow_.Start), controlflowFormCallback.probe.stageOfInterest, formDiv)
 		case "End":
@@ -645,8 +643,6 @@ func (dataFormCallback *DataFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(data_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(data_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(data_.LayoutDirection), formDiv)
 		case "SVG_Path":
 			FormDivBasicFieldToField(&(data_.SVG_Path), formDiv)
 		case "InverseAppliedScaling":
@@ -959,8 +955,6 @@ func (dataflowFormCallback *DataFlowFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(dataflow_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(dataflow_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(dataflow_.LayoutDirection), formDiv)
 		case "Type":
 			FormDivEnumStringFieldToField(&(dataflow_.Type), formDiv)
 		case "DiagramStructure:DataFlowsWhoseNodeIsExpanded":
@@ -1536,8 +1530,6 @@ func (diagramstructureFormCallback *DiagramStructureFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagramstructure_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(diagramstructure_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(diagramstructure_.LayoutDirection), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(diagramstructure_.IsChecked), formDiv)
 		case "IsEditable_":
@@ -2673,8 +2665,6 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(library_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(library_.LayoutDirection), formDiv)
 		case "IsRootLibrary":
 			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
 		case "SubLibraries":
@@ -3285,8 +3275,6 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(note_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(note_.LayoutDirection), formDiv)
 		case "IsPartsNodeExpanded":
 			FormDivBasicFieldToField(&(note_.IsPartsNodeExpanded), formDiv)
 		case "Parts":
@@ -4219,8 +4207,6 @@ func (partFormCallback *PartFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(part_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(part_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(part_.LayoutDirection), formDiv)
 		case "IsPortsNodeExpanded":
 			FormDivBasicFieldToField(&(part_.IsPortsNodeExpanded), formDiv)
 		case "DiagramStructure:PartWhoseNodeIsExpanded":
@@ -5045,8 +5031,6 @@ func (portFormCallback *PortFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(port_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(port_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(port_.LayoutDirection), formDiv)
 		case "DiagramStructure:PortsWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the DiagramStructure instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -5585,8 +5569,6 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(resource_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(resource_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(resource_.LayoutDirection), formDiv)
 		case "SVG_Path":
 			FormDivBasicFieldToField(&(resource_.SVG_Path), formDiv)
 		case "InverseAppliedScaling":
@@ -5810,8 +5792,6 @@ func (systemFormCallback *SystemFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(system_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(system_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(system_.LayoutDirection), formDiv)
 		case "SVG_Path":
 			FormDivBasicFieldToField(&(system_.SVG_Path), formDiv)
 		case "InverseAppliedScaling":

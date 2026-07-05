@@ -75,14 +75,18 @@ func numberNodes[T interface {
 		// if the node is a leaf, it has a width of 1
 		// otherwise, it is the sum of the width of its children
 		children := getChildren(node)
-		if len(children) == 0 {
-			node.SetComputedWidth(1)
-		} else {
-			width := 0
-			for _, subNode := range children {
-				width += subNode.GetComputedWidth()
+		if treeNode, ok := any(node).(TreeAbstractType); ok {
+			if len(children) == 0 {
+				treeNode.SetComputedWidth(1)
+			} else {
+				width := 0
+				for _, subNode := range children {
+					if subTreeNode, ok := any(subNode).(TreeAbstractType); ok {
+						width += subTreeNode.GetComputedWidth()
+					}
+				}
+				treeNode.SetComputedWidth(width)
 			}
-			node.SetComputedWidth(width)
 		}
 
 		index++

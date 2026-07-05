@@ -8038,11 +8038,6 @@ func (actorstate *ActorState) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
 	}
 	return
 }
@@ -8112,11 +8107,6 @@ func (actorstatetransition *ActorStateTransition) GongGetFieldHeaders() (res []G
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 	}
 	return
@@ -8228,11 +8218,6 @@ func (analysis *Analysis) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
 	}
 	return
 }
@@ -8274,11 +8259,6 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "IsChecked",
@@ -8422,11 +8402,6 @@ func (document *Document) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
 	}
 	return
 }
@@ -8465,11 +8440,6 @@ func (evolutiondirection *EvolutionDirection) GongGetFieldHeaders() (res []GongF
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 	}
 	return
@@ -8537,11 +8507,6 @@ func (geoobject *GeoObject) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
 	}
 	return
 }
@@ -8582,11 +8547,6 @@ func (group *Group) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
 	}
 	return
 }
@@ -8625,11 +8585,6 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "IsRootLibrary",
@@ -8688,11 +8643,6 @@ func (mapobject *MapObject) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 	}
 	return
@@ -8768,11 +8718,6 @@ func (parameter *Parameter) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
 	}
 	return
 }
@@ -8796,11 +8741,6 @@ func (parametercategory *ParameterCategory) GongGetFieldHeaders() (res []GongFie
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 	}
 	return
@@ -8895,11 +8835,6 @@ func (parametersaggregate *ParametersAggregate) GongGetFieldHeaders() (res []Gon
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
 	}
 	return
 }
@@ -8968,11 +8903,6 @@ func (position *Position) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
 	}
 	return
 }
@@ -9001,11 +8931,6 @@ func (repository *Repository) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 	}
 	return
@@ -9084,11 +9009,6 @@ func (scenario *Scenario) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
 	}
 	return
 }
@@ -9107,11 +9027,6 @@ func (user *User) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 	}
 	return
@@ -9177,11 +9092,6 @@ func (workspace *Workspace) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 	}
 	return
@@ -9262,9 +9172,6 @@ func (actorstate *ActorState) GongGetFieldValue(fieldName string, stage *Stage) 
 		res.valueString = fmt.Sprintf("%t", actorstate.IsExpanded)
 		res.valueBool = actorstate.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := actorstate.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -9337,9 +9244,6 @@ func (actorstatetransition *ActorStateTransition) GongGetFieldValue(fieldName st
 		res.valueString = fmt.Sprintf("%t", actorstatetransition.IsExpanded)
 		res.valueBool = actorstatetransition.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := actorstatetransition.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -9470,9 +9374,6 @@ func (analysis *Analysis) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = fmt.Sprintf("%t", analysis.IsExpanded)
 		res.valueBool = analysis.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := analysis.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -9509,9 +9410,6 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
 		res.valueBool = diagram.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := diagram.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
 		res.valueBool = diagram.IsChecked
@@ -9699,9 +9597,6 @@ func (document *Document) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = fmt.Sprintf("%t", document.IsExpanded)
 		res.valueBool = document.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := document.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -9734,9 +9629,6 @@ func (evolutiondirection *EvolutionDirection) GongGetFieldValue(fieldName string
 		res.valueString = fmt.Sprintf("%t", evolutiondirection.IsExpanded)
 		res.valueBool = evolutiondirection.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := evolutiondirection.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -9796,9 +9688,6 @@ func (geoobject *GeoObject) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", geoobject.IsExpanded)
 		res.valueBool = geoobject.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := geoobject.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -9839,9 +9728,6 @@ func (group *Group) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%t", group.IsExpanded)
 		res.valueBool = group.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := group.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -9874,9 +9760,6 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", library.IsExpanded)
 		res.valueBool = library.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := library.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "IsRootLibrary":
 		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
 		res.valueBool = library.IsRootLibrary
@@ -9944,9 +9827,6 @@ func (mapobject *MapObject) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", mapobject.IsExpanded)
 		res.valueBool = mapobject.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := mapobject.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -10023,9 +9903,6 @@ func (parameter *Parameter) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", parameter.IsExpanded)
 		res.valueBool = parameter.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := parameter.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -10051,9 +9928,6 @@ func (parametercategory *ParameterCategory) GongGetFieldValue(fieldName string, 
 		res.valueString = fmt.Sprintf("%t", parametercategory.IsExpanded)
 		res.valueBool = parametercategory.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := parametercategory.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -10140,9 +10014,6 @@ func (parametersaggregate *ParametersAggregate) GongGetFieldValue(fieldName stri
 		res.valueString = fmt.Sprintf("%t", parametersaggregate.IsExpanded)
 		res.valueBool = parametersaggregate.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := parametersaggregate.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -10202,9 +10073,6 @@ func (position *Position) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = fmt.Sprintf("%t", position.IsExpanded)
 		res.valueBool = position.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := position.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -10240,9 +10108,6 @@ func (repository *Repository) GongGetFieldValue(fieldName string, stage *Stage) 
 		res.valueString = fmt.Sprintf("%t", repository.IsExpanded)
 		res.valueBool = repository.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := repository.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -10344,9 +10209,6 @@ func (scenario *Scenario) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = fmt.Sprintf("%t", scenario.IsExpanded)
 		res.valueBool = scenario.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := scenario.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -10362,9 +10224,6 @@ func (user *User) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", user.IsExpanded)
 		res.valueBool = user.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := user.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -10431,9 +10290,6 @@ func (workspace *Workspace) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", workspace.IsExpanded)
 		res.valueBool = workspace.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := workspace.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -10459,8 +10315,6 @@ func (actorstate *ActorState) GongSetFieldValue(fieldName string, value GongFiel
 		actorstate.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		actorstate.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		actorstate.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10544,8 +10398,6 @@ func (actorstatetransition *ActorStateTransition) GongSetFieldValue(fieldName st
 		actorstatetransition.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		actorstatetransition.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		actorstatetransition.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10695,8 +10547,6 @@ func (analysis *Analysis) GongSetFieldValue(fieldName string, value GongFieldVal
 		analysis.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		analysis.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		analysis.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10729,8 +10579,6 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		diagram.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		diagram.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsChecked":
 		diagram.IsChecked = value.GetValueBool()
 	case "IsShowPrefix":
@@ -10930,8 +10778,6 @@ func (document *Document) GongSetFieldValue(fieldName string, value GongFieldVal
 		document.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		document.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		document.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -10971,8 +10817,6 @@ func (evolutiondirection *EvolutionDirection) GongSetFieldValue(fieldName string
 		evolutiondirection.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		evolutiondirection.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		evolutiondirection.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11031,8 +10875,6 @@ func (geoobject *GeoObject) GongSetFieldValue(fieldName string, value GongFieldV
 		geoobject.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		geoobject.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		geoobject.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11084,8 +10926,6 @@ func (group *Group) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		group.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		group.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		group.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11125,8 +10965,6 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		library.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		library.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsRootLibrary":
 		library.IsRootLibrary = value.GetValueBool()
 	case "Analyses":
@@ -11196,8 +11034,6 @@ func (mapobject *MapObject) GongSetFieldValue(fieldName string, value GongFieldV
 		mapobject.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		mapobject.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		mapobject.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11285,8 +11121,6 @@ func (parameter *Parameter) GongSetFieldValue(fieldName string, value GongFieldV
 		parameter.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		parameter.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		parameter.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11316,8 +11150,6 @@ func (parametercategory *ParameterCategory) GongSetFieldValue(fieldName string, 
 		parametercategory.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		parametercategory.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		parametercategory.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11409,8 +11241,6 @@ func (parametersaggregate *ParametersAggregate) GongSetFieldValue(fieldName stri
 		parametersaggregate.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		parametersaggregate.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		parametersaggregate.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11462,8 +11292,6 @@ func (position *Position) GongSetFieldValue(fieldName string, value GongFieldVal
 		position.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		position.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		position.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11507,8 +11335,6 @@ func (repository *Repository) GongSetFieldValue(fieldName string, value GongFiel
 		repository.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		repository.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		repository.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11622,8 +11448,6 @@ func (scenario *Scenario) GongSetFieldValue(fieldName string, value GongFieldVal
 		scenario.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		scenario.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		scenario.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11639,8 +11463,6 @@ func (user *User) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		user.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		user.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		user.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11744,8 +11566,6 @@ func (workspace *Workspace) GongSetFieldValue(fieldName string, value GongFieldV
 		workspace.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		workspace.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		workspace.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

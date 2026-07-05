@@ -128,31 +128,26 @@ func _(stage *models.Stage) {
 	__ControlFlow__00000000_.Description = ``
 	__ControlFlow__00000000_.ComputedPrefix = ``
 	__ControlFlow__00000000_.IsExpanded = false
-	__ControlFlow__00000000_.LayoutDirection = models.Vertical
 
 	__ControlFlow__00000001_.Name = `"Validate and Accept" to "Distribute ATS Messages"`
 	__ControlFlow__00000001_.Description = ``
 	__ControlFlow__00000001_.ComputedPrefix = ``
 	__ControlFlow__00000001_.IsExpanded = false
-	__ControlFlow__00000001_.LayoutDirection = models.Vertical
 
 	__ControlFlow__00000002_.Name = `"Ingest Flight Data" to "Log Flight Movement"`
 	__ControlFlow__00000002_.Description = ``
 	__ControlFlow__00000002_.ComputedPrefix = ``
 	__ControlFlow__00000002_.IsExpanded = false
-	__ControlFlow__00000002_.LayoutDirection = models.Vertical
 
 	__ControlFlow__00000003_.Name = `"" to "Submit Flight Plan"`
 	__ControlFlow__00000003_.Description = ``
 	__ControlFlow__00000003_.ComputedPrefix = ``
 	__ControlFlow__00000003_.IsExpanded = false
-	__ControlFlow__00000003_.LayoutDirection = models.Vertical
 
 	__ControlFlow__00000004_.Name = `"Log Flight Movement" to "End"`
 	__ControlFlow__00000004_.Description = ``
 	__ControlFlow__00000004_.ComputedPrefix = ``
 	__ControlFlow__00000004_.IsExpanded = false
-	__ControlFlow__00000004_.LayoutDirection = models.Vertical
 
 	__ControlFlowShape__00000000_.Name = `"Submit Flight Plan" to "Manage Operational Changes"`
 	__ControlFlowShape__00000000_.StartRatio = 0.449246
@@ -199,7 +194,6 @@ func _(stage *models.Stage) {
 	__Data__00000000_.Description = `Filed Flight Plan Message`
 	__Data__00000000_.ComputedPrefix = ``
 	__Data__00000000_.IsExpanded = false
-	__Data__00000000_.LayoutDirection = models.Vertical
 	__Data__00000000_.SVG_Path = ``
 	__Data__00000000_.InverseAppliedScaling = 0.000000
 
@@ -208,7 +202,6 @@ func _(stage *models.Stage) {
 	__Data__00000001_.Description = `Modification Message`
 	__Data__00000001_.ComputedPrefix = ``
 	__Data__00000001_.IsExpanded = false
-	__Data__00000001_.LayoutDirection = models.Vertical
 	__Data__00000001_.SVG_Path = ``
 	__Data__00000001_.InverseAppliedScaling = 0.000000
 
@@ -217,7 +210,6 @@ func _(stage *models.Stage) {
 	__Data__00000002_.Description = `Flight Plan Cancellation Message`
 	__Data__00000002_.ComputedPrefix = ``
 	__Data__00000002_.IsExpanded = false
-	__Data__00000002_.LayoutDirection = models.Vertical
 	__Data__00000002_.SVG_Path = ``
 	__Data__00000002_.InverseAppliedScaling = 0.000000
 
@@ -226,7 +218,6 @@ func _(stage *models.Stage) {
 	__Data__00000003_.Description = `Delay Message`
 	__Data__00000003_.ComputedPrefix = ``
 	__Data__00000003_.IsExpanded = false
-	__Data__00000003_.LayoutDirection = models.Vertical
 	__Data__00000003_.SVG_Path = ``
 	__Data__00000003_.InverseAppliedScaling = 0.000000
 
@@ -235,7 +226,6 @@ func _(stage *models.Stage) {
 	__Data__00000004_.Description = `Departure Message`
 	__Data__00000004_.ComputedPrefix = ``
 	__Data__00000004_.IsExpanded = false
-	__Data__00000004_.LayoutDirection = models.Vertical
 	__Data__00000004_.SVG_Path = ``
 	__Data__00000004_.InverseAppliedScaling = 0.000000
 
@@ -244,7 +234,6 @@ func _(stage *models.Stage) {
 	__Data__00000005_.Description = `Arrival Message`
 	__Data__00000005_.ComputedPrefix = ``
 	__Data__00000005_.IsExpanded = false
-	__Data__00000005_.LayoutDirection = models.Vertical
 	__Data__00000005_.SVG_Path = ``
 	__Data__00000005_.InverseAppliedScaling = 0.000000
 
@@ -253,7 +242,6 @@ func _(stage *models.Stage) {
 	__Data__00000006_.Description = ``
 	__Data__00000006_.ComputedPrefix = ``
 	__Data__00000006_.IsExpanded = false
-	__Data__00000006_.LayoutDirection = models.Vertical
 	__Data__00000006_.SVG_Path = ``
 	__Data__00000006_.InverseAppliedScaling = 0.000000
 
@@ -262,7 +250,6 @@ func _(stage *models.Stage) {
 	__Data__00000007_.Description = ``
 	__Data__00000007_.ComputedPrefix = ``
 	__Data__00000007_.IsExpanded = false
-	__Data__00000007_.LayoutDirection = models.Vertical
 	__Data__00000007_.SVG_Path = ``
 	__Data__00000007_.InverseAppliedScaling = 0.000000
 
@@ -271,7 +258,6 @@ func _(stage *models.Stage) {
 	__Data__00000008_.Description = ``
 	__Data__00000008_.ComputedPrefix = ``
 	__Data__00000008_.IsExpanded = false
-	__Data__00000008_.LayoutDirection = models.Vertical
 	__Data__00000008_.SVG_Path = ``
 	__Data__00000008_.InverseAppliedScaling = 0.000000
 
@@ -279,7 +265,6 @@ func _(stage *models.Stage) {
 	__DataFlow__00000000_.Description = ``
 	__DataFlow__00000000_.ComputedPrefix = ``
 	__DataFlow__00000000_.IsExpanded = false
-	__DataFlow__00000000_.LayoutDirection = models.Vertical
 	__DataFlow__00000000_.Type = models.DataFlow_Task2Task
 	__DataFlow__00000000_.IsDatasNodeExpanded = false
 
@@ -287,7 +272,6 @@ func _(stage *models.Stage) {
 	__DataFlow__00000001_.Description = ``
 	__DataFlow__00000001_.ComputedPrefix = ``
 	__DataFlow__00000001_.IsExpanded = false
-	__DataFlow__00000001_.LayoutDirection = models.Vertical
 	__DataFlow__00000001_.Type = models.DataFlow_Task2Task
 	__DataFlow__00000001_.IsDatasNodeExpanded = false
 
@@ -295,7 +279,6 @@ func _(stage *models.Stage) {
 	__DataFlow__00000002_.Description = ``
 	__DataFlow__00000002_.ComputedPrefix = ``
 	__DataFlow__00000002_.IsExpanded = false
-	__DataFlow__00000002_.LayoutDirection = models.Vertical
 	__DataFlow__00000002_.Type = models.DataFlow_Task2Task
 	__DataFlow__00000002_.IsDatasNodeExpanded = false
 
@@ -303,7 +286,6 @@ func _(stage *models.Stage) {
 	__DataFlow__00000003_.Description = ``
 	__DataFlow__00000003_.ComputedPrefix = ``
 	__DataFlow__00000003_.IsExpanded = false
-	__DataFlow__00000003_.LayoutDirection = models.Vertical
 	__DataFlow__00000003_.Type = models.DataFlow_Task2Task
 	__DataFlow__00000003_.IsDatasNodeExpanded = false
 
@@ -311,7 +293,6 @@ func _(stage *models.Stage) {
 	__DataFlow__00000004_.Description = ``
 	__DataFlow__00000004_.ComputedPrefix = ``
 	__DataFlow__00000004_.IsExpanded = false
-	__DataFlow__00000004_.LayoutDirection = models.Vertical
 	__DataFlow__00000004_.Type = models.DataFlow_Task2Task
 	__DataFlow__00000004_.IsDatasNodeExpanded = false
 
@@ -381,7 +362,6 @@ func _(stage *models.Stage) {
 	__DiagramProcess__00000000_.Description = ``
 	__DiagramProcess__00000000_.ComputedPrefix = ``
 	__DiagramProcess__00000000_.IsExpanded = false
-	__DiagramProcess__00000000_.LayoutDirection = models.Vertical
 	__DiagramProcess__00000000_.IsChecked = true
 	__DiagramProcess__00000000_.IsEditable_ = true
 	__DiagramProcess__00000000_.IsShowPrefix = false
@@ -407,7 +387,6 @@ func _(stage *models.Stage) {
 	__Library__00000000_.Description = `Modeling of message exchanges handled by the ATS Reporting Office (ARO)`
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = false
-	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.IsSubLibrariesNodeExpanded = false
 	__Library__00000000_.NbPixPerCharacter = 8.000000
@@ -426,7 +405,6 @@ func _(stage *models.Stage) {
 	__Participant__00000000_.IsProcessesNodeExpanded = false
 	__Participant__00000000_.ComputedPrefix = ``
 	__Participant__00000000_.IsExpanded = false
-	__Participant__00000000_.LayoutDirection = models.Vertical
 	__Participant__00000000_.IsTasksNodeExpanded = true
 	__Participant__00000000_.IsControlFlowsNodeExpanded = false
 	__Participant__00000000_.IsDataFlowsNodeExpanded = false
@@ -438,7 +416,6 @@ func _(stage *models.Stage) {
 	__Participant__00000001_.IsProcessesNodeExpanded = false
 	__Participant__00000001_.ComputedPrefix = ``
 	__Participant__00000001_.IsExpanded = false
-	__Participant__00000001_.LayoutDirection = models.Vertical
 	__Participant__00000001_.IsTasksNodeExpanded = true
 	__Participant__00000001_.IsControlFlowsNodeExpanded = false
 	__Participant__00000001_.IsDataFlowsNodeExpanded = false
@@ -450,7 +427,6 @@ func _(stage *models.Stage) {
 	__Participant__00000002_.IsProcessesNodeExpanded = false
 	__Participant__00000002_.ComputedPrefix = ``
 	__Participant__00000002_.IsExpanded = false
-	__Participant__00000002_.LayoutDirection = models.Vertical
 	__Participant__00000002_.IsTasksNodeExpanded = true
 	__Participant__00000002_.IsControlFlowsNodeExpanded = false
 	__Participant__00000002_.IsDataFlowsNodeExpanded = false
@@ -462,7 +438,6 @@ func _(stage *models.Stage) {
 	__Participant__00000003_.IsProcessesNodeExpanded = false
 	__Participant__00000003_.ComputedPrefix = ``
 	__Participant__00000003_.IsExpanded = false
-	__Participant__00000003_.LayoutDirection = models.Vertical
 	__Participant__00000003_.IsTasksNodeExpanded = false
 	__Participant__00000003_.IsControlFlowsNodeExpanded = false
 	__Participant__00000003_.IsDataFlowsNodeExpanded = false
@@ -498,7 +473,6 @@ func _(stage *models.Stage) {
 	__Process__00000000_.Description = `Process governing the submission, validation, modification, and distribution of ATS messages via the ARO.`
 	__Process__00000000_.ComputedPrefix = ``
 	__Process__00000000_.IsExpanded = false
-	__Process__00000000_.LayoutDirection = models.Vertical
 	__Process__00000000_.SVG_Path = ``
 	__Process__00000000_.InverseAppliedScaling = 0.000000
 	__Process__00000000_.IsSubProcessNodeExpanded = false

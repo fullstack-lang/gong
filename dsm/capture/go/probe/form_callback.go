@@ -70,8 +70,6 @@ func (analysisneedFormCallback *AnalysisNeedFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(analysisneed_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(analysisneed_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(analysisneed_.LayoutDirection), formDiv)
 		case "Library:AnalysisNeeds":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -199,8 +197,6 @@ func (conceptFormCallback *ConceptFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(concept_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(concept_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(concept_.LayoutDirection), formDiv)
 		case "Tools":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Tool](conceptFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Tool, 0)
@@ -681,8 +677,6 @@ func (concernFormCallback *ConcernFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(concern_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(concern_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(concern_.LayoutDirection), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(concern_.Description), formDiv)
 		case "SubConcerns":
@@ -2490,8 +2484,6 @@ func (deliverableFormCallback *DeliverableFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(deliverable_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(deliverable_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(deliverable_.LayoutDirection), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(deliverable_.Description), formDiv)
 		case "SubDeliverables":
@@ -3436,8 +3428,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(diagram_.LayoutDirection), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(diagram_.IsChecked), formDiv)
 		case "IsEditable_":
@@ -4737,8 +4727,6 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(library_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(library_.LayoutDirection), formDiv)
 		case "RootDeliverables":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Deliverable](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Deliverable, 0)
@@ -5156,8 +5144,6 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(note_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(note_.LayoutDirection), formDiv)
 		case "Deliverables":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Deliverable](noteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Deliverable, 0)
@@ -6076,8 +6062,6 @@ func (requirementFormCallback *RequirementFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(requirement_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(requirement_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(requirement_.LayoutDirection), formDiv)
 		case "SupportLevels":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.SupportLevel](requirementFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.SupportLevel, 0)
@@ -6498,8 +6482,6 @@ func (stakeholderFormCallback *StakeholderFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(stakeholder_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(stakeholder_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(stakeholder_.LayoutDirection), formDiv)
 		case "Description":
 			FormDivBasicFieldToField(&(stakeholder_.Description), formDiv)
 		case "Concerns":

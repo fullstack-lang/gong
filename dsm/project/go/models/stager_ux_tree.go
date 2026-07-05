@@ -37,38 +37,40 @@ func addLayoutButtons[AT interface {
 	concreteShape CT,
 	hasConcreteShape bool,
 ) {
-	toggleAbstractLayoutButton := &tree.Button{
-		Name: "Toggle Abstract Layout Direction to " + func() string {
-			if abstractElement.GetLayoutDirection() == Vertical {
-				return "Horizontal"
-			} else {
-				return "Vertical"
-			}
-		}(),
-		HasToolTip:      true,
-		ToolTipPosition: tree.Above,
-		OnClick: func() {
-			if abstractElement.GetLayoutDirection() == Vertical {
-				abstractElement.SetLayoutDirection(Horizontal)
-			} else {
-				abstractElement.SetLayoutDirection(Vertical)
-			}
-			stager.stage.Commit()
-		},
-	}
+	if treeNode, ok := any(abstractElement).(TreeAbstractType); ok {
+		toggleAbstractLayoutButton := &tree.Button{
+			Name: "Toggle Abstract Layout Direction to " + func() string {
+				if treeNode.GetLayoutDirection() == Vertical {
+					return "Horizontal"
+				} else {
+					return "Vertical"
+				}
+			}(),
+			HasToolTip:      true,
+			ToolTipPosition: tree.Above,
+			OnClick: func() {
+				if treeNode.GetLayoutDirection() == Vertical {
+					treeNode.SetLayoutDirection(Horizontal)
+				} else {
+					treeNode.SetLayoutDirection(Vertical)
+				}
+				stager.stage.Commit()
+			},
+		}
 
-	if abstractElement.GetLayoutDirection() == Vertical {
-		toggleAbstractLayoutButton.Icon = string(buttons.BUTTON_swap_horiz)
-		toggleAbstractLayoutButton.ToolTipText = "Set layout to Horizontal"
-	} else {
-		toggleAbstractLayoutButton.Icon = string(buttons.BUTTON_swap_vert)
-		toggleAbstractLayoutButton.ToolTipText = "Set layout to Vertical"
-	}
+		if treeNode.GetLayoutDirection() == Vertical {
+			toggleAbstractLayoutButton.Icon = string(buttons.BUTTON_swap_horiz)
+			toggleAbstractLayoutButton.ToolTipText = "Set layout to Horizontal"
+		} else {
+			toggleAbstractLayoutButton.Icon = string(buttons.BUTTON_swap_vert)
+			toggleAbstractLayoutButton.ToolTipText = "Set layout to Vertical"
+		}
 
-	if node.Menu == nil {
-		node.Menu = &tree.Menu{Name: "Menu"}
+		if node.Menu == nil {
+			node.Menu = &tree.Menu{Name: "Menu"}
+		}
+		node.Menu.Buttons = append(node.Menu.Buttons, toggleAbstractLayoutButton)
 	}
-	node.Menu.Buttons = append(node.Menu.Buttons, toggleAbstractLayoutButton)
 
 	if hasConcreteShape {
 		toggleLayoutButton := &tree.Button{

@@ -489,8 +489,6 @@ func (u *AnalysisNeedUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	}
 	return nil
 }
@@ -524,8 +522,6 @@ func (u *ConceptUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "Tools":
 		GongUnmarshallSliceOfPointers(&instance.Tools, valueExpr, identifierMap)
 	}
@@ -608,8 +604,6 @@ func (u *ConcernUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
 	case "SubConcerns":
@@ -878,8 +872,6 @@ func (u *DeliverableUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
 	case "SubDeliverables":
@@ -1058,8 +1050,6 @@ func (u *DiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "IsEditable_":
@@ -1226,8 +1216,6 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "RootDeliverables":
 		GongUnmarshallSliceOfPointers(&instance.RootDeliverables, valueExpr, identifierMap)
 	case "RootConcerns":
@@ -1281,8 +1269,6 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "Deliverables":
 		GongUnmarshallSliceOfPointers(&instance.Deliverables, valueExpr, identifierMap)
 	case "Tasks":
@@ -1506,8 +1492,6 @@ func (u *RequirementUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "SupportLevels":
 		GongUnmarshallSliceOfPointers(&instance.SupportLevels, valueExpr, identifierMap)
 	case "Concepts":
@@ -1590,8 +1574,6 @@ func (u *StakeholderUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "Description":
 		instance.Description = GongExtractString(valueExpr)
 	case "Concerns":

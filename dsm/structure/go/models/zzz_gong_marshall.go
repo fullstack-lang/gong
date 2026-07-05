@@ -362,7 +362,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "LayoutDirection"))
 		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "Start"))
 		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "End"))
 	}
@@ -428,7 +427,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(data.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(data.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "SVG_Path"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "InverseAppliedScaling"))
 	}
@@ -467,7 +465,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Type"))
 	}
 
@@ -559,7 +556,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsEditable_"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsShowPrefix"))
@@ -659,7 +655,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(library.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(library.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
@@ -712,7 +707,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(note.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(note.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsPartsNodeExpanded"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Parts"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsPortsNodeExpanded"))
@@ -857,7 +851,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PartAnchoredPath"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "IsPortsNodeExpanded"))
 	}
 
@@ -961,7 +954,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(port.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(port.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(port.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(port.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	portshapeOrdered := []*PortShape{}
@@ -1025,7 +1017,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(resource.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "SVG_Path"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "InverseAppliedScaling"))
 	}
@@ -1057,7 +1048,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(system.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(system.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "SVG_Path"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "InverseAppliedScaling"))
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "DiagramStructures"))
@@ -1449,19 +1439,6 @@ func (controlflow *ControlFlow) GongMarshallField(stage *Stage, fieldName string
 		res = strings.ReplaceAll(res, "{{Identifier}}", controlflow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", controlflow.IsExpanded))
-	case "LayoutDirection":
-		if controlflow.LayoutDirection.ToCodeString() != "" {
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", controlflow.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+controlflow.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", controlflow.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
 
 	case "Start":
 		if controlflow.Start != nil {
@@ -1597,19 +1574,6 @@ func (data *Data) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", data.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", data.IsExpanded))
-	case "LayoutDirection":
-		if data.LayoutDirection.ToCodeString() != "" {
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", data.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+data.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", data.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
 	case "SVG_Path":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", data.GongGetIdentifier(stage))
@@ -1668,19 +1632,6 @@ func (dataflow *DataFlow) GongMarshallField(stage *Stage, fieldName string) (res
 		res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", dataflow.IsExpanded))
-	case "LayoutDirection":
-		if dataflow.LayoutDirection.ToCodeString() != "" {
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+dataflow.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", dataflow.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
 	case "Type":
 		if dataflow.Type.ToCodeString() != "" {
 			res = StringEnumInitStatement
@@ -1901,19 +1852,6 @@ func (diagramstructure *DiagramStructure) GongMarshallField(stage *Stage, fieldN
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramstructure.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagramstructure.IsExpanded))
-	case "LayoutDirection":
-		if diagramstructure.LayoutDirection.ToCodeString() != "" {
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", diagramstructure.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+diagramstructure.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", diagramstructure.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
 	case "IsChecked":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", diagramstructure.GongGetIdentifier(stage))
@@ -2312,19 +2250,6 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", library.IsExpanded))
-	case "LayoutDirection":
-		if library.LayoutDirection.ToCodeString() != "" {
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+library.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
 	case "IsRootLibrary":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", library.GongGetIdentifier(stage))
@@ -2535,19 +2460,6 @@ func (note *Note) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", note.IsExpanded))
-	case "LayoutDirection":
-		if note.LayoutDirection.ToCodeString() != "" {
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+note.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
 	case "IsPartsNodeExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", note.GongGetIdentifier(stage))
@@ -2850,19 +2762,6 @@ func (part *Part) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", part.IsExpanded))
-	case "LayoutDirection":
-		if part.LayoutDirection.ToCodeString() != "" {
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+part.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
 	case "IsPortsNodeExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", part.GongGetIdentifier(stage))
@@ -3132,19 +3031,6 @@ func (port *Port) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", port.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", port.IsExpanded))
-	case "LayoutDirection":
-		if port.LayoutDirection.ToCodeString() != "" {
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", port.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+port.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", port.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Port", fieldName)
@@ -3238,19 +3124,6 @@ func (resource *Resource) GongMarshallField(stage *Stage, fieldName string) (res
 		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", resource.IsExpanded))
-	case "LayoutDirection":
-		if resource.LayoutDirection.ToCodeString() != "" {
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+resource.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
 	case "SVG_Path":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", resource.GongGetIdentifier(stage))
@@ -3291,19 +3164,6 @@ func (system *System) GongMarshallField(stage *Stage, fieldName string) (res str
 		res = strings.ReplaceAll(res, "{{Identifier}}", system.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", system.IsExpanded))
-	case "LayoutDirection":
-		if system.LayoutDirection.ToCodeString() != "" {
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", system.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+system.LayoutDirection.ToCodeString())
-		} else {
-			// in case of empty enum, we need to unstage the previous value
-			res = NumberInitStatement
-			res = strings.ReplaceAll(res, "{{Identifier}}", system.GongGetIdentifier(stage))
-			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutDirection")
-			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "0")
-		}
 	case "SVG_Path":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", system.GongGetIdentifier(stage))
@@ -3505,7 +3365,6 @@ func (controlflow *ControlFlow) GongMarshallAllFields(stage *Stage) (initRes str
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(controlflow.GongMarshallField(stage, "LayoutDirection"))
 		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "Start"))
 		pointersInitializesStatements.WriteString(controlflow.GongMarshallField(stage, "End"))
 	}
@@ -3541,7 +3400,6 @@ func (data *Data) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(data.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(data.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "SVG_Path"))
 		initializerStatements.WriteString(data.GongMarshallField(stage, "InverseAppliedScaling"))
 	}
@@ -3565,7 +3423,6 @@ func (dataflow *DataFlow) GongMarshallAllFields(stage *Stage) (initRes string, p
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "IsDatasNodeExpanded"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(dataflow.GongMarshallField(stage, "Type"))
 	}
 	initRes = initializerStatements.String()
@@ -3612,7 +3469,6 @@ func (diagramstructure *DiagramStructure) GongMarshallAllFields(stage *Stage) (i
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsEditable_"))
 		initializerStatements.WriteString(diagramstructure.GongMarshallField(stage, "IsShowPrefix"))
@@ -3682,7 +3538,6 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(library.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(library.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
 		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "SubLibraries"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsSubLibrariesNodeExpanded"))
@@ -3720,7 +3575,6 @@ func (note *Note) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(note.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(note.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsPartsNodeExpanded"))
 		pointersInitializesStatements.WriteString(note.GongMarshallField(stage, "Parts"))
 		initializerStatements.WriteString(note.GongMarshallField(stage, "IsPortsNodeExpanded"))
@@ -3805,7 +3659,6 @@ func (part *Part) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		pointersInitializesStatements.WriteString(part.GongMarshallField(stage, "PartAnchoredPath"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(part.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(part.GongMarshallField(stage, "IsPortsNodeExpanded"))
 	}
 	initRes = initializerStatements.String()
@@ -3864,7 +3717,6 @@ func (port *Port) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes st
 		initializerStatements.WriteString(port.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(port.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(port.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(port.GongMarshallField(stage, "LayoutDirection"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -3898,7 +3750,6 @@ func (resource *Resource) GongMarshallAllFields(stage *Stage) (initRes string, p
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(resource.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "SVG_Path"))
 		initializerStatements.WriteString(resource.GongMarshallField(stage, "InverseAppliedScaling"))
 	}
@@ -3915,7 +3766,6 @@ func (system *System) GongMarshallAllFields(stage *Stage) (initRes string, ptrRe
 		initializerStatements.WriteString(system.GongMarshallField(stage, "Description"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "IsExpanded"))
-		initializerStatements.WriteString(system.GongMarshallField(stage, "LayoutDirection"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "SVG_Path"))
 		initializerStatements.WriteString(system.GongMarshallField(stage, "InverseAppliedScaling"))
 		pointersInitializesStatements.WriteString(system.GongMarshallField(stage, "DiagramStructures"))

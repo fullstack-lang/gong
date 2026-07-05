@@ -1103,8 +1103,6 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(library_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(library_.LayoutDirection), formDiv)
 		case "IsRootLibrary":
 			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
 		case "Diagrams":
@@ -1733,8 +1731,6 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(note_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(note_.LayoutDirection), formDiv)
 		case "States":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.State](noteFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.State, 0)
@@ -3232,8 +3228,6 @@ func (statemachineFormCallback *StateMachineFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(statemachine_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(statemachine_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(statemachine_.LayoutDirection), formDiv)
 		case "Architecture:StateMachines":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Architecture instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

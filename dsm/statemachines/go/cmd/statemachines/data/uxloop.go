@@ -164,7 +164,6 @@ This diagram show the general principal of a DSM event loop.
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = false
-	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.IsStateMachinesNodeExpanded = true
 	__Library__00000000_.IsNotesNodeExpanded = false
@@ -176,7 +175,6 @@ This diagram show the general principal of a DSM event loop.
 `
 	__Note__00000000_.ComputedPrefix = ``
 	__Note__00000000_.IsExpanded = false
-	__Note__00000000_.LayoutDirection = models.Vertical
 
 	__NoteShape__00000004_.Name = `Note on the UX Loop with a longer text.
 This diagram show the general principal of a DSM event loop.
@@ -273,7 +271,6 @@ This diagram show the general principal of a DSM event loop.
 	__StateMachine__00000000_.IsWithTransitionNameAutonamticalyGenerated = false
 	__StateMachine__00000000_.ComputedPrefix = ``
 	__StateMachine__00000000_.IsExpanded = true
-	__StateMachine__00000000_.LayoutDirection = models.Vertical
 
 	__StateShape__00000000_.Name = `Probe Form`
 	__StateShape__00000000_.X = 171.000000

@@ -3695,9 +3695,6 @@ func (actorstate *ActorState) GongDiff(stage *Stage, actorstateOther *ActorState
 	if actorstate.IsExpanded != actorstateOther.IsExpanded {
 		diffs = append(diffs, actorstate.GongMarshallField(stage, "IsExpanded"))
 	}
-	if actorstate.LayoutDirection != actorstateOther.LayoutDirection {
-		diffs = append(diffs, actorstate.GongMarshallField(stage, "LayoutDirection"))
-	}
 
 	return
 }
@@ -3782,9 +3779,6 @@ func (actorstatetransition *ActorStateTransition) GongDiff(stage *Stage, actorst
 	}
 	if actorstatetransition.IsExpanded != actorstatetransitionOther.IsExpanded {
 		diffs = append(diffs, actorstatetransition.GongMarshallField(stage, "IsExpanded"))
-	}
-	if actorstatetransition.LayoutDirection != actorstatetransitionOther.LayoutDirection {
-		diffs = append(diffs, actorstatetransition.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	return
@@ -3970,9 +3964,6 @@ func (analysis *Analysis) GongDiff(stage *Stage, analysisOther *Analysis) (diffs
 	if analysis.IsExpanded != analysisOther.IsExpanded {
 		diffs = append(diffs, analysis.GongMarshallField(stage, "IsExpanded"))
 	}
-	if analysis.LayoutDirection != analysisOther.LayoutDirection {
-		diffs = append(diffs, analysis.GongMarshallField(stage, "LayoutDirection"))
-	}
 
 	return
 }
@@ -4009,9 +4000,6 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	}
 	if diagram.IsExpanded != diagramOther.IsExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsExpanded"))
-	}
-	if diagram.LayoutDirection != diagramOther.LayoutDirection {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if diagram.IsChecked != diagramOther.IsChecked {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsChecked"))
@@ -4312,9 +4300,6 @@ func (document *Document) GongDiff(stage *Stage, documentOther *Document) (diffs
 	if document.IsExpanded != documentOther.IsExpanded {
 		diffs = append(diffs, document.GongMarshallField(stage, "IsExpanded"))
 	}
-	if document.LayoutDirection != documentOther.LayoutDirection {
-		diffs = append(diffs, document.GongMarshallField(stage, "LayoutDirection"))
-	}
 
 	return
 }
@@ -4352,9 +4337,6 @@ func (evolutiondirection *EvolutionDirection) GongDiff(stage *Stage, evolutiondi
 	}
 	if evolutiondirection.IsExpanded != evolutiondirectionOther.IsExpanded {
 		diffs = append(diffs, evolutiondirection.GongMarshallField(stage, "IsExpanded"))
-	}
-	if evolutiondirection.LayoutDirection != evolutiondirectionOther.LayoutDirection {
-		diffs = append(diffs, evolutiondirection.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	return
@@ -4417,9 +4399,6 @@ func (geoobject *GeoObject) GongDiff(stage *Stage, geoobjectOther *GeoObject) (d
 	if geoobject.IsExpanded != geoobjectOther.IsExpanded {
 		diffs = append(diffs, geoobject.GongMarshallField(stage, "IsExpanded"))
 	}
-	if geoobject.LayoutDirection != geoobjectOther.LayoutDirection {
-		diffs = append(diffs, geoobject.GongMarshallField(stage, "LayoutDirection"))
-	}
 
 	return
 }
@@ -4476,9 +4455,6 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 	if group.IsExpanded != groupOther.IsExpanded {
 		diffs = append(diffs, group.GongMarshallField(stage, "IsExpanded"))
 	}
-	if group.LayoutDirection != groupOther.LayoutDirection {
-		diffs = append(diffs, group.GongMarshallField(stage, "LayoutDirection"))
-	}
 
 	return
 }
@@ -4516,9 +4492,6 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	}
 	if library.IsExpanded != libraryOther.IsExpanded {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
-	}
-	if library.LayoutDirection != libraryOther.LayoutDirection {
-		diffs = append(diffs, library.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if library.IsRootLibrary != libraryOther.IsRootLibrary {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
@@ -4617,9 +4590,6 @@ func (mapobject *MapObject) GongDiff(stage *Stage, mapobjectOther *MapObject) (d
 	}
 	if mapobject.IsExpanded != mapobjectOther.IsExpanded {
 		diffs = append(diffs, mapobject.GongMarshallField(stage, "IsExpanded"))
-	}
-	if mapobject.LayoutDirection != mapobjectOther.LayoutDirection {
-		diffs = append(diffs, mapobject.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	return
@@ -4737,9 +4707,6 @@ func (parameter *Parameter) GongDiff(stage *Stage, parameterOther *Parameter) (d
 	if parameter.IsExpanded != parameterOther.IsExpanded {
 		diffs = append(diffs, parameter.GongMarshallField(stage, "IsExpanded"))
 	}
-	if parameter.LayoutDirection != parameterOther.LayoutDirection {
-		diffs = append(diffs, parameter.GongMarshallField(stage, "LayoutDirection"))
-	}
 
 	return
 }
@@ -4777,9 +4744,6 @@ func (parametercategory *ParameterCategory) GongDiff(stage *Stage, parametercate
 	}
 	if parametercategory.IsExpanded != parametercategoryOther.IsExpanded {
 		diffs = append(diffs, parametercategory.GongMarshallField(stage, "IsExpanded"))
-	}
-	if parametercategory.LayoutDirection != parametercategoryOther.LayoutDirection {
-		diffs = append(diffs, parametercategory.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	return
@@ -4882,9 +4846,6 @@ func (parametersaggregate *ParametersAggregate) GongDiff(stage *Stage, parameter
 	if parametersaggregate.IsExpanded != parametersaggregateOther.IsExpanded {
 		diffs = append(diffs, parametersaggregate.GongMarshallField(stage, "IsExpanded"))
 	}
-	if parametersaggregate.LayoutDirection != parametersaggregateOther.LayoutDirection {
-		diffs = append(diffs, parametersaggregate.GongMarshallField(stage, "LayoutDirection"))
-	}
 
 	return
 }
@@ -4944,9 +4905,6 @@ func (position *Position) GongDiff(stage *Stage, positionOther *Position) (diffs
 	if position.IsExpanded != positionOther.IsExpanded {
 		diffs = append(diffs, position.GongMarshallField(stage, "IsExpanded"))
 	}
-	if position.LayoutDirection != positionOther.LayoutDirection {
-		diffs = append(diffs, position.GongMarshallField(stage, "LayoutDirection"))
-	}
 
 	return
 }
@@ -5005,9 +4963,6 @@ func (repository *Repository) GongDiff(stage *Stage, repositoryOther *Repository
 	}
 	if repository.IsExpanded != repositoryOther.IsExpanded {
 		diffs = append(diffs, repository.GongMarshallField(stage, "IsExpanded"))
-	}
-	if repository.LayoutDirection != repositoryOther.LayoutDirection {
-		diffs = append(diffs, repository.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	return
@@ -5173,9 +5128,6 @@ func (scenario *Scenario) GongDiff(stage *Stage, scenarioOther *Scenario) (diffs
 	if scenario.IsExpanded != scenarioOther.IsExpanded {
 		diffs = append(diffs, scenario.GongMarshallField(stage, "IsExpanded"))
 	}
-	if scenario.LayoutDirection != scenarioOther.LayoutDirection {
-		diffs = append(diffs, scenario.GongMarshallField(stage, "LayoutDirection"))
-	}
 
 	return
 }
@@ -5192,9 +5144,6 @@ func (user *User) GongDiff(stage *Stage, userOther *User) (diffs []string) {
 	}
 	if user.IsExpanded != userOther.IsExpanded {
 		diffs = append(diffs, user.GongMarshallField(stage, "IsExpanded"))
-	}
-	if user.LayoutDirection != userOther.LayoutDirection {
-		diffs = append(diffs, user.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	return
@@ -5272,9 +5221,6 @@ func (workspace *Workspace) GongDiff(stage *Stage, workspaceOther *Workspace) (d
 	}
 	if workspace.IsExpanded != workspaceOther.IsExpanded {
 		diffs = append(diffs, workspace.GongMarshallField(stage, "IsExpanded"))
-	}
-	if workspace.LayoutDirection != workspaceOther.LayoutDirection {
-		diffs = append(diffs, workspace.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	return

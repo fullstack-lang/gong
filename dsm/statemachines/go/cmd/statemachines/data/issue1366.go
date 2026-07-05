@@ -83,7 +83,6 @@ func _(stage *models.Stage) {
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = false
-	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.IsStateMachinesNodeExpanded = true
 	__Library__00000000_.IsNotesNodeExpanded = false
@@ -122,7 +121,6 @@ func _(stage *models.Stage) {
 	__StateMachine__00000000_.IsWithTransitionNameAutonamticalyGenerated = false
 	__StateMachine__00000000_.ComputedPrefix = ``
 	__StateMachine__00000000_.IsExpanded = false
-	__StateMachine__00000000_.LayoutDirection = models.Vertical
 
 	__StateShape__00000000_.Name = `Start State, with a long name to show that there is a layout issue`
 	__StateShape__00000000_.X = 608.000000
