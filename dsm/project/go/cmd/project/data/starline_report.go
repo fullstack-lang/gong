@@ -554,7 +554,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000001_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000001_.ComputedPrefix = `1`
 	__Diagram__00000001_.IsExpanded = false
-	__Diagram__00000001_.LayoutDirection = models.Vertical
 	__Diagram__00000001_.IsChecked = false
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsShowPrefix = true
@@ -600,7 +599,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000002_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000002_.ComputedPrefix = `2`
 	__Diagram__00000002_.IsExpanded = true
-	__Diagram__00000002_.LayoutDirection = models.Vertical
 	__Diagram__00000002_.IsChecked = true
 	__Diagram__00000002_.IsEditable_ = true
 	__Diagram__00000002_.IsShowPrefix = true
@@ -646,7 +644,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000003_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000003_.ComputedPrefix = `3`
 	__Diagram__00000003_.IsExpanded = true
-	__Diagram__00000003_.LayoutDirection = models.Vertical
 	__Diagram__00000003_.IsChecked = false
 	__Diagram__00000003_.IsEditable_ = true
 	__Diagram__00000003_.IsShowPrefix = true
@@ -692,7 +689,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000004_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000004_.ComputedPrefix = `4`
 	__Diagram__00000004_.IsExpanded = false
-	__Diagram__00000004_.LayoutDirection = models.Vertical
 	__Diagram__00000004_.IsChecked = false
 	__Diagram__00000004_.IsEditable_ = true
 	__Diagram__00000004_.IsShowPrefix = true
@@ -738,7 +734,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000005_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000005_.ComputedPrefix = `5`
 	__Diagram__00000005_.IsExpanded = false
-	__Diagram__00000005_.LayoutDirection = models.Vertical
 	__Diagram__00000005_.IsChecked = false
 	__Diagram__00000005_.IsEditable_ = true
 	__Diagram__00000005_.IsShowPrefix = true
@@ -784,7 +779,6 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Diagram__00000006_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000006_.ComputedPrefix = `6`
 	__Diagram__00000006_.IsExpanded = false
-	__Diagram__00000006_.LayoutDirection = models.Vertical
 	__Diagram__00000006_.IsChecked = false
 	__Diagram__00000006_.IsEditable_ = true
 	__Diagram__00000006_.IsShowPrefix = false
@@ -799,105 +793,86 @@ Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads
 	__Library__00000000_.LogoSVGFile = `<?xml version="1.0"?> <svg width="508.204" height="141.732" xmlns="http://www.w3.org/2000/svg"> <path fill="#DB362D" d="M91.991,104.699c1.576,5.961,4.119,8.266,8.613,8.266c4.659,0,7.102-2.799,7.102-8.266V3.2h29.184v101.499 c0,14.307-1.856,20.506-9.11,27.762c-5.228,5.229-14.871,9.271-27.047,9.271c-9.837,0-19.25-3.256-25.253-9.27 c-5.263-5.273-8.154-10.689-12.672-27.764L44.9,37.033c-1.577-5.961-4.119-8.265-8.613-8.265c-4.66,0-7.103,2.798-7.103,8.265 v101.5H0v-101.5C0,22.727,1.857,16.527,9.111,9.271C14.337,4.044,23.981,0,36.158,0c9.837,0,19.25,3.257,25.253,9.27 c5.263,5.273,8.154,10.689,12.672,27.764L91.991,104.699z"/>  <path fill="#DB362D" d="M478.038,138.533L444.334,33.096c-0.372-1.164-0.723-2.152-1.263-2.811 c-0.926-1.127-2.207-1.719-3.931-1.719c-1.723,0-3.004,0.592-3.931,1.719c-0.539,0.658-0.891,1.646-1.262,2.811l-33.703,105.437 h-30.167l36.815-115.177c1.918-6,4.66-11.094,8.139-14.488C421.002,3.047,428.038,0,439.141,0s18.14,3.047,24.109,8.867 c3.479,3.395,6.221,8.488,8.14,14.488l36.814,115.177H478.038z"/>  <path fill="#DB362D" d="M328.878,138.533c19.12,0,28.446-4.062,35.814-11.389c8.153-8.105,12.053-16.973,12.053-30.213 c0-11.699-4.283-22.535-10.804-29.019c-8.526-8.479-19.116-11.151-36.384-11.151L305.37,56.76c-9.242,0-12.925-1.117-15.839-3.98 c-2.001-1.964-2.939-4.885-2.939-8.328c0-3.559,0.857-7.074,3.303-9.475c2.171-2.131,5.13-3.109,10.816-3.109h69.903V3.2H306.05 c-19.12,0-28.445,4.063-35.814,11.389c-8.152,8.105-12.053,16.972-12.053,30.212c0,11.701,4.283,22.536,10.804,29.019 c8.527,8.479,19.116,11.152,36.384,11.152l24.188,0.002c9.242,0,12.925,1.115,15.839,3.979c2.001,1.965,2.939,4.885,2.939,8.328 c0,3.559-0.857,7.074-3.302,9.475c-2.172,2.131-5.131,3.109-10.817,3.109h-72.094l-27.651-86.509 c-1.918-6-4.66-11.094-8.139-14.488C220.363,3.047,213.327,0,202.224,0s-18.14,3.047-24.108,8.867 c-3.48,3.395-6.221,8.488-8.139,14.488l-36.815,115.177h30.166l33.704-105.437c0.372-1.164,0.723-2.152,1.263-2.811 c0.926-1.127,2.208-1.719,3.931-1.719s3.004,0.592,3.931,1.719c0.54,0.658,0.891,1.646,1.262,2.811l33.704,105.437H328.878z"/> </svg>`
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = true
-	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.IsRootLibrary = true
 
 	__Note__00000000_.Name = `CFT ended in march 2025`
 	__Note__00000000_.ComputedPrefix = `1`
 	__Note__00000000_.IsExpanded = false
-	__Note__00000000_.LayoutDirection = models.Vertical
 
 	__Note__00000001_.Name = `A thorough review of the STAR report is advised (p14)
 `
 	__Note__00000001_.ComputedPrefix = `2`
 	__Note__00000001_.IsExpanded = false
-	__Note__00000001_.LayoutDirection = models.Vertical
 
 	__Note__00000002_.Name = `NASA utilized a firm fixed price contracting type for CCtCap. 
 
 This was a significant shift from the cost-plus contracting for traditional NASA builds of developmental vehicles. These shifts signified that CCP was not only positioned to be an innovative, first-of-its kind program for NASA, but how it interacted with new and traditional space flight industry providers was setup to be significantly distinct and different.  `
 	__Note__00000002_.ComputedPrefix = `3`
 	__Note__00000002_.IsExpanded = false
-	__Note__00000002_.LayoutDirection = models.Vertical
 
 	__Note__00000003_.Name = `The CCP 1100 series of requirements were deliberately written at a higher-level, leaving room for provider innovation but there was also room for incorrect/inadequate interpretation by the providers. `
 	__Note__00000003_.ComputedPrefix = `4`
 	__Note__00000003_.IsExpanded = false
-	__Note__00000003_.LayoutDirection = models.Vertical
 
 	__Note__00000004_.Name = `The Commercial Provider focused on meeting contractual requirement language resulting in insufficient demonstration across the components/system and ground/flight. `
 	__Note__00000004_.ComputedPrefix = `5`
 	__Note__00000004_.IsExpanded = false
-	__Note__00000004_.LayoutDirection = models.Vertical
 
 	__Note__00000005_.Name = `Suppliers’ build quality/variability issues can be hard to exonerate for service modules, which is hardware that is disposed of during re-entry. `
 	__Note__00000005_.ComputedPrefix = `6`
 	__Note__00000005_.IsExpanded = false
-	__Note__00000005_.LayoutDirection = models.Vertical
 
 	__Note__00000006_.Name = `The Aerojet Rocketdyne (AR) thermal model included the effects of jet firings, but these effects were not validated by ground testing.
 
 Boeing thermal model did not include the effects of jet firings before CFT. `
 	__Note__00000006_.ComputedPrefix = `7`
 	__Note__00000006_.IsExpanded = false
-	__Note__00000006_.LayoutDirection = models.Vertical
 
 	__Note__00000007_.Name = `The thruster performance from OFT1 & OFT2 experienced greater than expected temperatures and continuing to operate lead to a false sense of security of the thruster capability/performance. `
 	__Note__00000007_.ComputedPrefix = `8`
 	__Note__00000007_.IsExpanded = false
-	__Note__00000007_.LayoutDirection = models.Vertical
 
 	__Note__00000008_.Name = `Flight instrumentation locations for thermal sensors were limited and in different locations than the locations for RCS Thruster ground firings. `
 	__Note__00000008_.ComputedPrefix = `9`
 	__Note__00000008_.IsExpanded = false
-	__Note__00000008_.LayoutDirection = models.Vertical
 
 	__Note__00000009_.Name = `OFT1 & OFT2 investigations did not include RCS/OMAC thruster firings and fault trees were not validated through subsequent ground testing. `
 	__Note__00000009_.ComputedPrefix = `10`
 	__Note__00000009_.IsExpanded = false
-	__Note__00000009_.LayoutDirection = models.Vertical
 
 	__Note__00000010_.Name = `For OFT2, NASA/Boeing did not have tools to measure thruster degradation, simply treated the thruster as failed/operational. `
 	__Note__00000010_.ComputedPrefix = `11`
 	__Note__00000010_.IsExpanded = false
-	__Note__00000010_.LayoutDirection = models.Vertical
 
 	__Note__00000011_.Name = `Pc (Chamber Pressure).To know if a thruster is actually firing, the spacecraft's computer looks at the pressure sensor inside the combustion chamber (the Pc telemetry). If the pressure shoots up to the expected level, it means combustion is happening and the thruster is pushing. If the pressure stays low or at zero, it assumes the thruster failed.`
 	__Note__00000011_.ComputedPrefix = `12`
 	__Note__00000011_.IsExpanded = false
-	__Note__00000011_.LayoutDirection = models.Vertical
 
 	__Note__00000012_.Name = `Pc transducer failed but the engine was able to restart. Boing confidence in the harxware robustness`
 	__Note__00000012_.ComputedPrefix = `13`
 	__Note__00000012_.IsExpanded = false
-	__Note__00000012_.LayoutDirection = models.Vertical
 
 	__Note__00000013_.Name = `The leading theory for the proximate cause of the CM RCS failure during the CFT is the formulation of carbazic acid, which corrodes stainless steel. The reaction between carbazic acid and stainless steel creates corrosion particulates in the thruster propellant valve, preventing it from opening. `
 	__Note__00000013_.ComputedPrefix = `14`
 	__Note__00000013_.IsExpanded = false
-	__Note__00000013_.LayoutDirection = models.Vertical
 
 	__Note__00000014_.Name = `Thruster health is monitored via chamber pressure and Fuel/Oxydizer injector temperatures`
 	__Note__00000014_.ComputedPrefix = `15`
 	__Note__00000014_.IsExpanded = false
-	__Note__00000014_.LayoutDirection = models.Vertical
 
 	__Note__00000015_.Name = `Commanded pulse lengths are neither recorded nor downlinked near real time with telemetry
 
 This complicates efforts to understand what went wrong with SM RCS jets when data suggests that pulse length is correlated to observed soakback temperatures.  `
 	__Note__00000015_.ComputedPrefix = `16`
 	__Note__00000015_.IsExpanded = false
-	__Note__00000015_.LayoutDirection = models.Vertical
 
 	__Note__00000016_.Name = `Many thruster pulses are less  FDIR in the  The FMCs see chamber pressure over a data bus from the  but the chamber pressure is only sent to the ground with a sample rate for recording every  limiting insight into thruster performance. This does not meet Nyquist Criterion for capturing the chamber pressure signal. As a result, aliasing effects may occur for pulses shorter than  where high-frequency components of the pressure signal are misrepresented or lost, further complicating accurate reconstruction of thruster behavior.  `
 	__Note__00000016_.ComputedPrefix = `17`
 	__Note__00000016_.IsExpanded = false
-	__Note__00000016_.LayoutDirection = models.Vertical
 
 	__Note__00000017_.Name = ` S2A2 failed at 9050 m (GMT 14:00) and B1A3 failed at 526m (GMT 14:57).`
 	__Note__00000017_.ComputedPrefix = `18`
 	__Note__00000017_.IsExpanded = false
-	__Note__00000017_.LayoutDirection = models.Vertical
 
 	__Note__00000018_.Name = `At the conclusion of the hotfire, when thruster is demonstrated, a jet is reenabled with jet-fail FDIR inhibited. Through this sequence, four of five jets were recovered. Spacecraft 6DOF control was reestablished in all axes. T
 
@@ -906,7 +881,6 @@ he spacecraft was moded back to auto and the rendezvous/dock was completed.  Whi
 Whaou.`
 	__Note__00000018_.ComputedPrefix = `19`
 	__Note__00000018_.IsExpanded = false
-	__Note__00000018_.LayoutDirection = models.Vertical
 
 	__Note__00000019_.Name = ` degraded performance was still observed. This testing demonstrated the issue was not purely transient.
 
@@ -915,21 +889,18 @@ It should have been done before ?!
  In addition to demonstrating transient degradation during high heating, the test program demonstrated an unrecoverable cumulative degradation that was potentially indicative of the observed performance of CFT. `
 	__Note__00000019_.ComputedPrefix = `20`
 	__Note__00000019_.IsExpanded = false
-	__Note__00000019_.LayoutDirection = models.Vertical
 
 	__Note__00000020_.Name = `B1.3.3.1.1.1 Heat identifies that excessive heating could cause the poppet to extrude, reducing flow. Poppet extrusion was observed in the post-test tear down of the WSTF (White Sands Test Facility) thruster unit.
 
 The initial heating was caused by the internal doghouse temperatures (addressed in C4.1 Thermal) and the follow-on heating induced by B1.3.3.1.4.2 RCS Thermal Soakback. This caused excessive temperatures beyond the capability of the thruster softgoods, causing the Teflon poppet to extrude. The evidence supports this being a contributor to the thruster fail-offs.`
 	__Note__00000020_.ComputedPrefix = `21`
 	__Note__00000020_.IsExpanded = false
-	__Note__00000020_.LayoutDirection = models.Vertical
 
 	__Note__00000021_.Name = `B1.3.3.1.4.2 RCS Thermal Soakback identifies the possibility that structure of the RCS thruster
 retains heat, and the heat is unable to be dissipated from the firings of the thrusters, causing the
 propellants to heat rapidly. `
 	__Note__00000021_.ComputedPrefix = `22`
 	__Note__00000021_.IsExpanded = false
-	__Note__00000021_.LayoutDirection = models.Vertical
 
 	__Note__00000022_.Name = `Intermediate Cause 5: Inadequate Thruster Thermal Models
 
@@ -950,14 +921,12 @@ environment upon the RCS thrusters, specifically the aft thrusters with the long
 and very close proximity to the OMAC thrusters`
 	__Note__00000022_.ComputedPrefix = `23`
 	__Note__00000022_.IsExpanded = false
-	__Note__00000022_.LayoutDirection = models.Vertical
 
 	__Note__00000023_.Name = `Intermediate Cause 6: Insufficient Thruster Qualification
 
 SM RCS Thruster Qualification did not cover the flight envelope for temperature and duty cycle (TLYF).`
 	__Note__00000023_.ComputedPrefix = `24`
 	__Note__00000023_.IsExpanded = false
-	__Note__00000023_.LayoutDirection = models.Vertical
 
 	__Note__00000024_.Name = `Multiple groups, prior to CTF, discussed the lack of mission representative operational duty cycle testing for SM RCS engines.. This concern is one that has been tracked since prior to OFT1 and is specifically reviewed in this intermediate cause because it is widely accepted that operational duty cycle is a primary driver of hardware temperature. NASA Engineering and the CCP Spacecraft Office have consistently identified this qualification gap and recommended additional testing, however it was not incorporated into the pursued plans for risk assessments between flights.
 
@@ -985,7 +954,6 @@ The qualification gap risk was addressed in April 2023 during PCB-23-100 (CFT: S
 The OFT-2 IFA related to valve/injector assembly temperature measurements exceeding qualification limits, which were categorized as an Unexplained Anomaly (UA). The directive acknowledged that these exceedances were attributed to specific operational duty cycles. Consequently, the thermal risk was accepted as a 2x5 risk for potential jet failure. Despite this, engineering teams and the Engineering Review Board (ERB-23-0045-R2) emphasized the importance of testing SM RCS thrusters using flight-like duty cycles.`
 	__Note__00000024_.ComputedPrefix = `25`
 	__Note__00000024_.IsExpanded = false
-	__Note__00000024_.LayoutDirection = models.Vertical
 
 	__Note__00000025_.Name = `Organizational Factor 1: Insufficient Anomaly Resolution Process Multiple RCS thruster failures occurred on OFT 1 and OFT 2. While fault trees were developed, due diligence to reach direct and root cause was not performed and adequate block closure rationale was often incomplete.
 
@@ -994,7 +962,6 @@ Note : Anomaly Reports (AR) were closed.
 Organizational Factor 2: Mischaracterization of Risk in thruster Qual Gaps leads to Flawed Flight Rationale. The thermal risk for Starliner’s SM RCS thrusters was mischaracterized due to reliance on simple models and inadequate qualification testing that failed to replicate mission-representative conditions. Despite clear evidence of thermal soakback and temperature exceedances, risk acceptance proceeded without resolving key environment and duty cycle concerns.`
 	__Note__00000025_.ComputedPrefix = `26`
 	__Note__00000025_.IsExpanded = false
-	__Note__00000025_.LayoutDirection = models.Vertical
 
 	__NoteProductShape__00000000_.Name = `PIT focus-A thorough review of the STAR report is advised (p14)
 - Starliner Tests and Anomalies Review (STAR) Investigation Report`

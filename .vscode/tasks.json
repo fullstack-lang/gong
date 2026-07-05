@@ -50,7 +50,7 @@
             "group": "build"
         },
         {
-            "label": "gong generate --dsm go/models in all dsm projects but project, xsd & reqif",
+            "label": "gong generate --dsm go/models in all dsm projects but project",
             "type": "shell",
             "command": "for p in barrgraph capture process scenario statemachines structure; do cd ${workspaceFolder}/dsm/$p && gong generate --dsm go/models; done",
             "windows": {
@@ -90,7 +90,7 @@
             "label": "go install gong & gong generate --dsm go/models in all dsm projects",
             "dependsOn": [
                 "go - gong: go install gong",
-                "gong generate --dsm go/models in all dsm projects but project, xsd & reqif"
+                "gong generate --dsm go/models in all dsm projects but project"
             ],
             "dependsOrder": "sequence",
             "group": "build"

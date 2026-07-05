@@ -3577,9 +3577,6 @@ func (controlflow *ControlFlow) GongDiff(stage *Stage, controlflowOther *Control
 	if controlflow.IsExpanded != controlflowOther.IsExpanded {
 		diffs = append(diffs, controlflow.GongMarshallField(stage, "IsExpanded"))
 	}
-	if controlflow.LayoutDirection != controlflowOther.LayoutDirection {
-		diffs = append(diffs, controlflow.GongMarshallField(stage, "LayoutDirection"))
-	}
 	if (controlflow.Start == nil) != (controlflowOther.Start == nil) {
 		diffs = append(diffs, controlflow.GongMarshallField(stage, "Start"))
 	} else if controlflow.Start != nil && controlflowOther.Start != nil {
@@ -3652,9 +3649,6 @@ func (data *Data) GongDiff(stage *Stage, dataOther *Data) (diffs []string) {
 	}
 	if data.IsExpanded != dataOther.IsExpanded {
 		diffs = append(diffs, data.GongMarshallField(stage, "IsExpanded"))
-	}
-	if data.LayoutDirection != dataOther.LayoutDirection {
-		diffs = append(diffs, data.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if data.SVG_Path != dataOther.SVG_Path {
 		diffs = append(diffs, data.GongMarshallField(stage, "SVG_Path"))
@@ -3736,9 +3730,6 @@ func (dataflow *DataFlow) GongDiff(stage *Stage, dataflowOther *DataFlow) (diffs
 	}
 	if dataflow.IsExpanded != dataflowOther.IsExpanded {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "IsExpanded"))
-	}
-	if dataflow.LayoutDirection != dataflowOther.LayoutDirection {
-		diffs = append(diffs, dataflow.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if dataflow.Type != dataflowOther.Type {
 		diffs = append(diffs, dataflow.GongMarshallField(stage, "Type"))
@@ -3823,9 +3814,6 @@ func (diagramstructure *DiagramStructure) GongDiff(stage *Stage, diagramstructur
 	}
 	if diagramstructure.IsExpanded != diagramstructureOther.IsExpanded {
 		diffs = append(diffs, diagramstructure.GongMarshallField(stage, "IsExpanded"))
-	}
-	if diagramstructure.LayoutDirection != diagramstructureOther.LayoutDirection {
-		diffs = append(diffs, diagramstructure.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if diagramstructure.IsChecked != diagramstructureOther.IsChecked {
 		diffs = append(diffs, diagramstructure.GongMarshallField(stage, "IsChecked"))
@@ -4444,9 +4432,6 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.IsExpanded != libraryOther.IsExpanded {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
 	}
-	if library.LayoutDirection != libraryOther.LayoutDirection {
-		diffs = append(diffs, library.GongMarshallField(stage, "LayoutDirection"))
-	}
 	if library.IsRootLibrary != libraryOther.IsRootLibrary {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
 	}
@@ -4769,9 +4754,6 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	}
 	if note.IsExpanded != noteOther.IsExpanded {
 		diffs = append(diffs, note.GongMarshallField(stage, "IsExpanded"))
-	}
-	if note.LayoutDirection != noteOther.LayoutDirection {
-		diffs = append(diffs, note.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if note.IsPartsNodeExpanded != noteOther.IsPartsNodeExpanded {
 		diffs = append(diffs, note.GongMarshallField(stage, "IsPartsNodeExpanded"))
@@ -5123,9 +5105,6 @@ func (part *Part) GongDiff(stage *Stage, partOther *Part) (diffs []string) {
 	if part.IsExpanded != partOther.IsExpanded {
 		diffs = append(diffs, part.GongMarshallField(stage, "IsExpanded"))
 	}
-	if part.LayoutDirection != partOther.LayoutDirection {
-		diffs = append(diffs, part.GongMarshallField(stage, "LayoutDirection"))
-	}
 	if part.IsPortsNodeExpanded != partOther.IsPortsNodeExpanded {
 		diffs = append(diffs, part.GongMarshallField(stage, "IsPortsNodeExpanded"))
 	}
@@ -5238,9 +5217,6 @@ func (port *Port) GongDiff(stage *Stage, portOther *Port) (diffs []string) {
 	if port.IsExpanded != portOther.IsExpanded {
 		diffs = append(diffs, port.GongMarshallField(stage, "IsExpanded"))
 	}
-	if port.LayoutDirection != portOther.LayoutDirection {
-		diffs = append(diffs, port.GongMarshallField(stage, "LayoutDirection"))
-	}
 
 	return
 }
@@ -5300,9 +5276,6 @@ func (resource *Resource) GongDiff(stage *Stage, resourceOther *Resource) (diffs
 	if resource.IsExpanded != resourceOther.IsExpanded {
 		diffs = append(diffs, resource.GongMarshallField(stage, "IsExpanded"))
 	}
-	if resource.LayoutDirection != resourceOther.LayoutDirection {
-		diffs = append(diffs, resource.GongMarshallField(stage, "LayoutDirection"))
-	}
 	if resource.SVG_Path != resourceOther.SVG_Path {
 		diffs = append(diffs, resource.GongMarshallField(stage, "SVG_Path"))
 	}
@@ -5328,9 +5301,6 @@ func (system *System) GongDiff(stage *Stage, systemOther *System) (diffs []strin
 	}
 	if system.IsExpanded != systemOther.IsExpanded {
 		diffs = append(diffs, system.GongMarshallField(stage, "IsExpanded"))
-	}
-	if system.LayoutDirection != systemOther.LayoutDirection {
-		diffs = append(diffs, system.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if system.SVG_Path != systemOther.SVG_Path {
 		diffs = append(diffs, system.GongMarshallField(stage, "SVG_Path"))

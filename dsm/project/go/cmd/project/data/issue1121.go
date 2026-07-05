@@ -143,7 +143,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000000_.ComputedPrefix = `1`
 	__Diagram__00000000_.IsExpanded = false
-	__Diagram__00000000_.LayoutDirection = models.Vertical
 	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsShowPrefix = false
@@ -189,7 +188,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000001_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000001_.ComputedPrefix = `1`
 	__Diagram__00000001_.IsExpanded = true
-	__Diagram__00000001_.LayoutDirection = models.Vertical
 	__Diagram__00000001_.IsChecked = false
 	__Diagram__00000001_.IsEditable_ = true
 	__Diagram__00000001_.IsShowPrefix = false
@@ -235,7 +233,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000002_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000002_.ComputedPrefix = `2`
 	__Diagram__00000002_.IsExpanded = true
-	__Diagram__00000002_.LayoutDirection = models.Vertical
 	__Diagram__00000002_.IsChecked = false
 	__Diagram__00000002_.IsEditable_ = true
 	__Diagram__00000002_.IsShowPrefix = false
@@ -281,7 +278,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000004_.AlignOnStartEndOnYearStart = false
 	__Diagram__00000004_.ComputedPrefix = `1`
 	__Diagram__00000004_.IsExpanded = true
-	__Diagram__00000004_.LayoutDirection = models.Vertical
 	__Diagram__00000004_.IsChecked = true
 	__Diagram__00000004_.IsEditable_ = true
 	__Diagram__00000004_.IsShowPrefix = false
@@ -296,7 +292,6 @@ func _(stage *models.Stage) {
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = true
-	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.IsRootLibrary = true
 
 	__Library__00000001_.Name = `Montly diagram`
@@ -304,7 +299,6 @@ func _(stage *models.Stage) {
 	__Library__00000001_.LogoSVGFile = ``
 	__Library__00000001_.ComputedPrefix = ``
 	__Library__00000001_.IsExpanded = false
-	__Library__00000001_.LayoutDirection = models.Vertical
 	__Library__00000001_.IsRootLibrary = false
 
 	__Library__00000002_.Name = `time line`
@@ -312,13 +306,11 @@ func _(stage *models.Stage) {
 	__Library__00000002_.LogoSVGFile = ``
 	__Library__00000002_.ComputedPrefix = ``
 	__Library__00000002_.IsExpanded = true
-	__Library__00000002_.LayoutDirection = models.Vertical
 	__Library__00000002_.IsRootLibrary = false
 
 	__Note__00000000_.Name = `Note on new year`
 	__Note__00000000_.ComputedPrefix = `1`
 	__Note__00000000_.IsExpanded = false
-	__Note__00000000_.LayoutDirection = models.Vertical
 
 	__NoteShape__00000000_.Name = `Default Diagram-Note on new year`
 	__NoteShape__00000000_.OverideLayoutDirection = false

@@ -124,7 +124,6 @@ func _(stage *models.Stage) {
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = false
-	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.IsStateMachinesNodeExpanded = false
 	__Library__00000000_.IsNotesNodeExpanded = false
@@ -219,12 +218,10 @@ func _(stage *models.Stage) {
 	__StateMachine__00000000_.Name = `Traffic Lights FR`
 	__StateMachine__00000000_.ComputedPrefix = ``
 	__StateMachine__00000000_.IsExpanded = true
-	__StateMachine__00000000_.LayoutDirection = models.Vertical
 
 	__StateMachine__00000001_.Name = `Traffic Light UK`
 	__StateMachine__00000001_.ComputedPrefix = ``
 	__StateMachine__00000001_.IsExpanded = true
-	__StateMachine__00000001_.LayoutDirection = models.Vertical
 
 	__StateShape__00000000_.Name = `Red FR`
 	__StateShape__00000000_.X = 453.000000

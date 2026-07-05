@@ -76,8 +76,6 @@ func (actorstateFormCallback *ActorStateFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(actorstate_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(actorstate_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(actorstate_.LayoutDirection), formDiv)
 		case "Diagram:ActorStatesWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -421,8 +419,6 @@ func (actorstatetransitionFormCallback *ActorStateTransitionFormCallback) OnSave
 			FormDivBasicFieldToField(&(actorstatetransition_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(actorstatetransition_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(actorstatetransition_.LayoutDirection), formDiv)
 		case "Diagram:ActorStateTransitionsWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -904,8 +900,6 @@ func (analysisFormCallback *AnalysisFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(analysis_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(analysis_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(analysis_.LayoutDirection), formDiv)
 		case "Library:Analyses":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -1162,8 +1156,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(diagram_.LayoutDirection), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(diagram_.IsChecked), formDiv)
 		case "IsShowPrefix":
@@ -1677,8 +1669,6 @@ func (documentFormCallback *DocumentFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(document_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(document_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(document_.LayoutDirection), formDiv)
 		}
 	}
 
@@ -1888,8 +1878,6 @@ func (evolutiondirectionFormCallback *EvolutionDirectionFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(evolutiondirection_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(evolutiondirection_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(evolutiondirection_.LayoutDirection), formDiv)
 		case "Diagram:EvolutionDirectionsWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -2275,8 +2263,6 @@ func (geoobjectFormCallback *GeoObjectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(geoobject_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(geoobject_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(geoobject_.LayoutDirection), formDiv)
 		}
 	}
 
@@ -2606,8 +2592,6 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(group_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(group_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(group_.LayoutDirection), formDiv)
 		}
 	}
 
@@ -2907,8 +2891,6 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(library_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(library_.LayoutDirection), formDiv)
 		case "IsRootLibrary":
 			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
 		case "Analyses":
@@ -3189,8 +3171,6 @@ func (mapobjectFormCallback *MapObjectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(mapobject_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(mapobject_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(mapobject_.LayoutDirection), formDiv)
 		}
 	}
 
@@ -3506,8 +3486,6 @@ func (parameterFormCallback *ParameterFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(parameter_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(parameter_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(parameter_.LayoutDirection), formDiv)
 		case "ActorStateTransition:Justifications":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the ActorStateTransition instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -3802,8 +3780,6 @@ func (parametercategoryFormCallback *ParameterCategoryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(parametercategory_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(parametercategory_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(parametercategory_.LayoutDirection), formDiv)
 		}
 	}
 
@@ -4231,8 +4207,6 @@ func (parametersaggregateFormCallback *ParametersAggregateFormCallback) OnSave()
 			FormDivBasicFieldToField(&(parametersaggregate_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(parametersaggregate_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(parametersaggregate_.LayoutDirection), formDiv)
 		case "Diagram:ParametersAggregatesWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Diagram instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -4546,8 +4520,6 @@ func (positionFormCallback *PositionFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(position_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(position_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(position_.LayoutDirection), formDiv)
 		}
 	}
 
@@ -4694,8 +4666,6 @@ func (repositoryFormCallback *RepositoryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(repository_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(repository_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(repository_.LayoutDirection), formDiv)
 		}
 	}
 
@@ -4984,8 +4954,6 @@ func (scenarioFormCallback *ScenarioFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(scenario_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(scenario_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(scenario_.LayoutDirection), formDiv)
 		case "Analysis:Scenarios":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Analysis instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -5113,8 +5081,6 @@ func (userFormCallback *UserFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(user_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(user_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(user_.LayoutDirection), formDiv)
 		}
 	}
 
@@ -5334,8 +5300,6 @@ func (workspaceFormCallback *WorkspaceFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(workspace_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(workspace_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(workspace_.LayoutDirection), formDiv)
 		}
 	}
 

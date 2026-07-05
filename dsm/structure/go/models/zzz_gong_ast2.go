@@ -557,8 +557,6 @@ func (u *ControlFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, 
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "Start":
 		GongUnmarshallPointer(&instance.Start, valueExpr, identifierMap)
 	case "End":
@@ -643,8 +641,6 @@ func (u *DataUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "SVG_Path":
 		instance.SVG_Path = GongExtractString(valueExpr)
 	case "InverseAppliedScaling":
@@ -698,8 +694,6 @@ func (u *DataFlowUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "Type":
 		GongUnmarshallEnum(&instance.Type, valueExpr)
 	}
@@ -813,8 +807,6 @@ func (u *DiagramStructureUnmarshaller) UnmarshallField(stage *Stage, i Gongstruc
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "IsEditable_":
@@ -967,8 +959,6 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "IsRootLibrary":
 		instance.IsRootLibrary = GongExtractBool(valueExpr)
 	case "SubLibraries":
@@ -1050,8 +1040,6 @@ func (u *NoteUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "IsPartsNodeExpanded":
 		instance.IsPartsNodeExpanded = GongExtractBool(valueExpr)
 	case "Parts":
@@ -1248,8 +1236,6 @@ func (u *PartUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "IsPortsNodeExpanded":
 		instance.IsPortsNodeExpanded = GongExtractBool(valueExpr)
 	}
@@ -1387,8 +1373,6 @@ func (u *PortUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	}
 	return nil
 }
@@ -1469,8 +1453,6 @@ func (u *ResourceUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fie
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "SVG_Path":
 		instance.SVG_Path = GongExtractString(valueExpr)
 	case "InverseAppliedScaling":
@@ -1510,8 +1492,6 @@ func (u *SystemUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, field
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
-	case "LayoutDirection":
-		GongUnmarshallEnum(&instance.LayoutDirection, valueExpr)
 	case "SVG_Path":
 		instance.SVG_Path = GongExtractString(valueExpr)
 	case "InverseAppliedScaling":

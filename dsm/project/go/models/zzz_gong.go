@@ -6297,11 +6297,6 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
-		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -6469,11 +6464,6 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "IsRootLibrary",
@@ -7250,11 +7240,6 @@ func (taskgroup *TaskGroup) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
-		{
 			Name:                 "Tasks",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Task",
@@ -7658,9 +7643,6 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
 		res.valueBool = diagram.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := diagram.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
 		res.valueBool = diagram.IsChecked
@@ -7934,9 +7916,6 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", library.IsExpanded)
 		res.valueBool = library.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := library.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "IsRootLibrary":
 		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
 		res.valueBool = library.IsRootLibrary
@@ -8717,9 +8696,6 @@ func (taskgroup *TaskGroup) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", taskgroup.IsExpanded)
 		res.valueBool = taskgroup.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := taskgroup.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "Tasks":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range taskgroup.Tasks {
@@ -8972,8 +8948,6 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		diagram.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		diagram.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsChecked":
 		diagram.IsChecked = value.GetValueBool()
 	case "IsEditable_":
@@ -9317,8 +9291,6 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		library.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		library.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsRootLibrary":
 		library.IsRootLibrary = value.GetValueBool()
 	case "RootProducts":
@@ -10113,8 +10085,6 @@ func (taskgroup *TaskGroup) GongSetFieldValue(fieldName string, value GongFieldV
 		taskgroup.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		taskgroup.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		taskgroup.LayoutDirection.FromCodeString(value.GetValueString())
 	case "Tasks":
 		taskgroup.Tasks = make([]*Task, 0)
 		ids := strings.Split(value.ids, ";")

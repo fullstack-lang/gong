@@ -5829,11 +5829,6 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
-		{
 			Name:               "IsRootLibrary",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -5941,11 +5936,6 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:                 "States",
@@ -6239,11 +6229,6 @@ func (statemachine *StateMachine) GongGetFieldHeaders() (res []GongFieldHeader) 
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 	}
 	return
@@ -6624,9 +6609,6 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", library.IsExpanded)
 		res.valueBool = library.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := library.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "IsRootLibrary":
 		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
 		res.valueBool = library.IsRootLibrary
@@ -6758,9 +6740,6 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", note.IsExpanded)
 		res.valueBool = note.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := note.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "States":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range note.States {
@@ -7079,9 +7058,6 @@ func (statemachine *StateMachine) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", statemachine.IsExpanded)
 		res.valueBool = statemachine.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := statemachine.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -7456,8 +7432,6 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		library.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		library.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsRootLibrary":
 		library.IsRootLibrary = value.GetValueBool()
 	case "Diagrams":
@@ -7615,8 +7589,6 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		note.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		note.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		note.LayoutDirection.FromCodeString(value.GetValueString())
 	case "States":
 		note.States = make([]*State, 0)
 		ids := strings.Split(value.ids, ";")
@@ -7986,8 +7958,6 @@ func (statemachine *StateMachine) GongSetFieldValue(fieldName string, value Gong
 		statemachine.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		statemachine.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		statemachine.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

@@ -3121,9 +3121,6 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	if diagram.IsExpanded != diagramOther.IsExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsExpanded"))
 	}
-	if diagram.LayoutDirection != diagramOther.LayoutDirection {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "LayoutDirection"))
-	}
 	if diagram.IsChecked != diagramOther.IsChecked {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -3632,9 +3629,6 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	}
 	if library.IsExpanded != libraryOther.IsExpanded {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
-	}
-	if library.LayoutDirection != libraryOther.LayoutDirection {
-		diffs = append(diffs, library.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if library.IsRootLibrary != libraryOther.IsRootLibrary {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
@@ -4588,9 +4582,6 @@ func (taskgroup *TaskGroup) GongDiff(stage *Stage, taskgroupOther *TaskGroup) (d
 	}
 	if taskgroup.IsExpanded != taskgroupOther.IsExpanded {
 		diffs = append(diffs, taskgroup.GongMarshallField(stage, "IsExpanded"))
-	}
-	if taskgroup.LayoutDirection != taskgroupOther.LayoutDirection {
-		diffs = append(diffs, taskgroup.GongMarshallField(stage, "LayoutDirection"))
 	}
 	TasksDifferent := false
 	if len(taskgroup.Tasks) != len(taskgroupOther.Tasks) {

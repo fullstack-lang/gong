@@ -128,37 +128,30 @@ func _(stage *models.Stage) {
 	__ArtefactType__00000000_.Name = `History Painting`
 	__ArtefactType__00000000_.ComputedPrefix = ``
 	__ArtefactType__00000000_.IsExpanded = false
-	__ArtefactType__00000000_.LayoutDirection = models.Vertical
 
 	__ArtefactType__00000001_.Name = `Portraiture`
 	__ArtefactType__00000001_.ComputedPrefix = ``
 	__ArtefactType__00000001_.IsExpanded = false
-	__ArtefactType__00000001_.LayoutDirection = models.Vertical
 
 	__ArtefactType__00000002_.Name = `Genre Painting`
 	__ArtefactType__00000002_.ComputedPrefix = ``
 	__ArtefactType__00000002_.IsExpanded = false
-	__ArtefactType__00000002_.LayoutDirection = models.Vertical
 
 	__ArtefactType__00000003_.Name = `Landscape Painting`
 	__ArtefactType__00000003_.ComputedPrefix = ``
 	__ArtefactType__00000003_.IsExpanded = false
-	__ArtefactType__00000003_.LayoutDirection = models.Vertical
 
 	__ArtefactType__00000004_.Name = `Protestantism`
 	__ArtefactType__00000004_.ComputedPrefix = ``
 	__ArtefactType__00000004_.IsExpanded = false
-	__ArtefactType__00000004_.LayoutDirection = models.Vertical
 
 	__ArtefactType__00000005_.Name = `Catholicism`
 	__ArtefactType__00000005_.ComputedPrefix = ``
 	__ArtefactType__00000005_.IsExpanded = false
-	__ArtefactType__00000005_.LayoutDirection = models.Vertical
 
 	__ArtefactType__00000006_.Name = `Eighty Years' War`
 	__ArtefactType__00000006_.ComputedPrefix = ``
 	__ArtefactType__00000006_.IsExpanded = false
-	__ArtefactType__00000006_.LayoutDirection = models.Vertical
 
 	__ArtefactTypeShape__00000000_.Name = ``
 	__ArtefactTypeShape__00000000_.X = 168.000000
@@ -212,42 +205,36 @@ func _(stage *models.Stage) {
 	__Artist__00000000_.Name = `Frans Hals`
 	__Artist__00000000_.ComputedPrefix = ``
 	__Artist__00000000_.IsExpanded = false
-	__Artist__00000000_.LayoutDirection = models.Vertical
 	__Artist__00000000_.IsDead = true
 	__Artist__00000000_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1666-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000001_.Name = `Rembrandt van Rijn`
 	__Artist__00000001_.ComputedPrefix = ``
 	__Artist__00000001_.IsExpanded = false
-	__Artist__00000001_.LayoutDirection = models.Vertical
 	__Artist__00000001_.IsDead = true
 	__Artist__00000001_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1669-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000002_.Name = `Johannes Vermeer`
 	__Artist__00000002_.ComputedPrefix = ``
 	__Artist__00000002_.IsExpanded = false
-	__Artist__00000002_.LayoutDirection = models.Vertical
 	__Artist__00000002_.IsDead = true
 	__Artist__00000002_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1675-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000003_.Name = `Jan Steen`
 	__Artist__00000003_.ComputedPrefix = ``
 	__Artist__00000003_.IsExpanded = false
-	__Artist__00000003_.LayoutDirection = models.Vertical
 	__Artist__00000003_.IsDead = true
 	__Artist__00000003_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1679-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000004_.Name = `Pieter de Hooch`
 	__Artist__00000004_.ComputedPrefix = ``
 	__Artist__00000004_.IsExpanded = false
-	__Artist__00000004_.LayoutDirection = models.Vertical
 	__Artist__00000004_.IsDead = true
 	__Artist__00000004_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1684-01-01 00:00:00 +0000 UTC")
 
 	__Artist__00000005_.Name = `Jacob van Ruisdael`
 	__Artist__00000005_.ComputedPrefix = ``
 	__Artist__00000005_.IsExpanded = false
-	__Artist__00000005_.LayoutDirection = models.Vertical
 	__Artist__00000005_.IsDead = true
 	__Artist__00000005_.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1682-01-01 00:00:00 +0000 UTC")
 
@@ -371,7 +358,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Name = `Netherland   Golden    Century`
 	__Diagram__00000000_.ComputedPrefix = ``
 	__Diagram__00000000_.IsExpanded = false
-	__Diagram__00000000_.LayoutDirection = models.Vertical
 	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000000_.IsEditable = false
 	__Diagram__00000000_.IsNodeExpanded = true
@@ -461,115 +447,96 @@ func _(stage *models.Stage) {
 	__Influence__00000000_.Name = `Haarlem Mannerism to Pre-Rembrandtists`
 	__Influence__00000000_.ComputedPrefix = ``
 	__Influence__00000000_.IsExpanded = false
-	__Influence__00000000_.LayoutDirection = models.Vertical
 	__Influence__00000000_.IsHypothtical = false
 
 	__Influence__00000001_.Name = `Pre-Rembrandtists to Rembrandt van Rijn`
 	__Influence__00000001_.ComputedPrefix = ``
 	__Influence__00000001_.IsExpanded = false
-	__Influence__00000001_.LayoutDirection = models.Vertical
 	__Influence__00000001_.IsHypothtical = false
 
 	__Influence__00000002_.Name = `Dutch Caravaggisti to Rembrandt van Rijn`
 	__Influence__00000002_.ComputedPrefix = ``
 	__Influence__00000002_.IsExpanded = false
-	__Influence__00000002_.LayoutDirection = models.Vertical
 	__Influence__00000002_.IsHypothtical = false
 
 	__Influence__00000003_.Name = `Haarlem Mannerism to Frans Hals`
 	__Influence__00000003_.ComputedPrefix = ``
 	__Influence__00000003_.IsExpanded = false
-	__Influence__00000003_.LayoutDirection = models.Vertical
 	__Influence__00000003_.IsHypothtical = false
 
 	__Influence__00000004_.Name = `Frans Hals to Jan Steen`
 	__Influence__00000004_.ComputedPrefix = ``
 	__Influence__00000004_.IsExpanded = false
-	__Influence__00000004_.LayoutDirection = models.Vertical
 	__Influence__00000004_.IsHypothtical = false
 
 	__Influence__00000005_.Name = `Rembrandt van Rijn to Delft School`
 	__Influence__00000005_.ComputedPrefix = ``
 	__Influence__00000005_.IsExpanded = false
-	__Influence__00000005_.LayoutDirection = models.Vertical
 	__Influence__00000005_.IsHypothtical = false
 
 	__Influence__00000006_.Name = `Delft School to Johannes Vermeer`
 	__Influence__00000006_.ComputedPrefix = ``
 	__Influence__00000006_.IsExpanded = false
-	__Influence__00000006_.LayoutDirection = models.Vertical
 	__Influence__00000006_.IsHypothtical = false
 
 	__Influence__00000007_.Name = `Delft School to Pieter de Hooch`
 	__Influence__00000007_.ComputedPrefix = ``
 	__Influence__00000007_.IsExpanded = false
-	__Influence__00000007_.LayoutDirection = models.Vertical
 	__Influence__00000007_.IsHypothtical = false
 
 	__Influence__00000008_.Name = `Catholicism to Dutch Caravaggisti`
 	__Influence__00000008_.ComputedPrefix = ``
 	__Influence__00000008_.IsExpanded = false
-	__Influence__00000008_.LayoutDirection = models.Vertical
 	__Influence__00000008_.IsHypothtical = false
 
 	__Influence__00000009_.Name = `Eighty Years' War to Protestantism`
 	__Influence__00000009_.ComputedPrefix = ``
 	__Influence__00000009_.IsExpanded = false
-	__Influence__00000009_.LayoutDirection = models.Vertical
 	__Influence__00000009_.IsHypothtical = false
 
 	__Influence__00000010_.Name = `Eighty Years' War to Catholicism`
 	__Influence__00000010_.ComputedPrefix = ``
 	__Influence__00000010_.IsExpanded = false
-	__Influence__00000010_.LayoutDirection = models.Vertical
 	__Influence__00000010_.IsHypothtical = false
 
 	__Influence__00000011_.Name = `Protestantism to Portraiture`
 	__Influence__00000011_.ComputedPrefix = ``
 	__Influence__00000011_.IsExpanded = false
-	__Influence__00000011_.LayoutDirection = models.Vertical
 	__Influence__00000011_.IsHypothtical = false
 
 	__Influence__00000012_.Name = `Protestantism to Genre Painting`
 	__Influence__00000012_.ComputedPrefix = ``
 	__Influence__00000012_.IsExpanded = false
-	__Influence__00000012_.LayoutDirection = models.Vertical
 	__Influence__00000012_.IsHypothtical = false
 
 	__Influence__00000013_.Name = `Protestantism to Landscape Painting`
 	__Influence__00000013_.ComputedPrefix = ``
 	__Influence__00000013_.IsExpanded = false
-	__Influence__00000013_.LayoutDirection = models.Vertical
 	__Influence__00000013_.IsHypothtical = false
 
 	__Influence__00000014_.Name = `Portraiture to Frans Hals`
 	__Influence__00000014_.ComputedPrefix = ``
 	__Influence__00000014_.IsExpanded = false
-	__Influence__00000014_.LayoutDirection = models.Vertical
 	__Influence__00000014_.IsHypothtical = false
 
 	__Influence__00000015_.Name = `History Painting to Pre-Rembrandtists`
 	__Influence__00000015_.ComputedPrefix = ``
 	__Influence__00000015_.IsExpanded = false
-	__Influence__00000015_.LayoutDirection = models.Vertical
 	__Influence__00000015_.IsHypothtical = false
 
 	__Influence__00000016_.Name = `Landscape Painting to Jacob van Ruisdael`
 	__Influence__00000016_.ComputedPrefix = ``
 	__Influence__00000016_.IsExpanded = false
-	__Influence__00000016_.LayoutDirection = models.Vertical
 	__Influence__00000016_.IsHypothtical = false
 
 	__Influence__00000017_.Name = `Genre Painting to Jan Steen`
 	__Influence__00000017_.ComputedPrefix = ``
 	__Influence__00000017_.IsExpanded = false
-	__Influence__00000017_.LayoutDirection = models.Vertical
 	__Influence__00000017_.IsHypothtical = false
 
 	__Influence__00000018_.Name = `Eighty Years' War to Landscape Painting`
 	__Influence__00000018_.ComputedPrefix = ``
 	__Influence__00000018_.IsExpanded = false
-	__Influence__00000018_.LayoutDirection = models.Vertical
 	__Influence__00000018_.IsHypothtical = false
 
 	__InfluenceShape__00000000_.Name = `Haarlem Mannerism to Pre-Rembrandtists`
@@ -632,7 +599,6 @@ func _(stage *models.Stage) {
 	__Movement__00000000_.Name = `Haarlem Mannerism`
 	__Movement__00000000_.ComputedPrefix = ``
 	__Movement__00000000_.IsExpanded = false
-	__Movement__00000000_.LayoutDirection = models.Vertical
 	__Movement__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1585-01-01 00:00:00 +0000 UTC")
 	__Movement__00000000_.HideDate = false
 	__Movement__00000000_.HasTaxonomicFilter = false
@@ -646,7 +612,6 @@ func _(stage *models.Stage) {
 	__Movement__00000001_.Name = `Pre-Rembrandtists`
 	__Movement__00000001_.ComputedPrefix = ``
 	__Movement__00000001_.IsExpanded = false
-	__Movement__00000001_.LayoutDirection = models.Vertical
 	__Movement__00000001_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1610-01-01 00:00:00 +0000 UTC")
 	__Movement__00000001_.HideDate = false
 	__Movement__00000001_.HasTaxonomicFilter = false
@@ -660,7 +625,6 @@ func _(stage *models.Stage) {
 	__Movement__00000002_.Name = `Dutch Caravaggisti`
 	__Movement__00000002_.ComputedPrefix = ``
 	__Movement__00000002_.IsExpanded = false
-	__Movement__00000002_.LayoutDirection = models.Vertical
 	__Movement__00000002_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1620-01-01 00:00:00 +0000 UTC")
 	__Movement__00000002_.HideDate = false
 	__Movement__00000002_.HasTaxonomicFilter = false
@@ -674,7 +638,6 @@ func _(stage *models.Stage) {
 	__Movement__00000003_.Name = `Delft School`
 	__Movement__00000003_.ComputedPrefix = ``
 	__Movement__00000003_.IsExpanded = false
-	__Movement__00000003_.LayoutDirection = models.Vertical
 	__Movement__00000003_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1650-01-01 00:00:00 +0000 UTC")
 	__Movement__00000003_.HideDate = false
 	__Movement__00000003_.HasTaxonomicFilter = false

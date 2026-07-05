@@ -51,7 +51,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Name = `D1`
 	__Diagram__00000000_.ComputedPrefix = `1`
 	__Diagram__00000000_.IsExpanded = false
-	__Diagram__00000000_.LayoutDirection = models.Vertical
 	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.IsShowPrefix = false
@@ -97,7 +96,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000007_.Name = `Default Diagram copy`
 	__Diagram__00000007_.ComputedPrefix = `2`
 	__Diagram__00000007_.IsExpanded = true
-	__Diagram__00000007_.LayoutDirection = models.Vertical
 	__Diagram__00000007_.IsChecked = true
 	__Diagram__00000007_.IsEditable_ = true
 	__Diagram__00000007_.IsShowPrefix = false
@@ -145,13 +143,11 @@ func _(stage *models.Stage) {
 	__Library__00000000_.LogoSVGFile = ``
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = true
-	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.IsRootLibrary = true
 
 	__Note__00000000_.Name = ``
 	__Note__00000000_.ComputedPrefix = `1`
 	__Note__00000000_.IsExpanded = false
-	__Note__00000000_.LayoutDirection = models.Vertical
 
 	__NoteShape__00000000_.Name = `D1-`
 	__NoteShape__00000000_.OverideLayoutDirection = false

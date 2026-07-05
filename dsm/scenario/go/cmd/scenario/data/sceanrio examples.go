@@ -205,7 +205,6 @@ func _(stage *models.Stage) {
 	__ActorState__00000000_.Probability = ""
 	__ActorState__00000000_.ComputedPrefix = ``
 	__ActorState__00000000_.IsExpanded = false
-	__ActorState__00000000_.LayoutDirection = models.Vertical
 
 	__ActorState__00000001_.Name = `A2`
 	__ActorState__00000001_.Description = ``
@@ -213,7 +212,6 @@ func _(stage *models.Stage) {
 	__ActorState__00000001_.Probability = ""
 	__ActorState__00000001_.ComputedPrefix = ``
 	__ActorState__00000001_.IsExpanded = false
-	__ActorState__00000001_.LayoutDirection = models.Vertical
 
 	__ActorState__00000002_.Name = `Political Personality of Soviet Power is amenable to liberal economy`
 	__ActorState__00000002_.Description = ``
@@ -221,7 +219,6 @@ func _(stage *models.Stage) {
 	__ActorState__00000002_.Probability = ""
 	__ActorState__00000002_.ComputedPrefix = ``
 	__ActorState__00000002_.IsExpanded = false
-	__ActorState__00000002_.LayoutDirection = models.Vertical
 
 	__ActorState__00000003_.Name = `Political Personality of Soviet Power is dictatorial`
 	__ActorState__00000003_.Description = ``
@@ -229,7 +226,6 @@ func _(stage *models.Stage) {
 	__ActorState__00000003_.Probability = ""
 	__ActorState__00000003_.ComputedPrefix = ``
 	__ActorState__00000003_.IsExpanded = false
-	__ActorState__00000003_.LayoutDirection = models.Vertical
 
 	__ActorState__00000004_.Name = `Political Personality of Soviet Power is paranoïd`
 	__ActorState__00000004_.Description = ``
@@ -237,7 +233,6 @@ func _(stage *models.Stage) {
 	__ActorState__00000004_.Probability = ""
 	__ActorState__00000004_.ComputedPrefix = ``
 	__ActorState__00000004_.IsExpanded = false
-	__ActorState__00000004_.LayoutDirection = models.Vertical
 
 	__ActorState__00000005_.Name = `Political Personality of Soviet is nebulous, visionary and impractical`
 	__ActorState__00000005_.Description = ``
@@ -245,7 +240,6 @@ func _(stage *models.Stage) {
 	__ActorState__00000005_.Probability = ""
 	__ActorState__00000005_.ComputedPrefix = ``
 	__ActorState__00000005_.IsExpanded = false
-	__ActorState__00000005_.LayoutDirection = models.Vertical
 
 	__ActorState__00000006_.Name = `Rick is cynical`
 	__ActorState__00000006_.Description = ``
@@ -253,7 +247,6 @@ func _(stage *models.Stage) {
 	__ActorState__00000006_.Probability = models.PERCENT_100
 	__ActorState__00000006_.ComputedPrefix = ``
 	__ActorState__00000006_.IsExpanded = false
-	__ActorState__00000006_.LayoutDirection = models.Vertical
 
 	__ActorState__00000007_.Name = `Rick is empathetic`
 	__ActorState__00000007_.Description = ``
@@ -261,7 +254,6 @@ func _(stage *models.Stage) {
 	__ActorState__00000007_.Probability = models.PERCENT_75
 	__ActorState__00000007_.ComputedPrefix = ``
 	__ActorState__00000007_.IsExpanded = false
-	__ActorState__00000007_.LayoutDirection = models.Vertical
 
 	__ActorState__00000008_.Name = `Student 0%`
 	__ActorState__00000008_.Description = ``
@@ -269,7 +261,6 @@ func _(stage *models.Stage) {
 	__ActorState__00000008_.Probability = models.PERCENT_100
 	__ActorState__00000008_.ComputedPrefix = ``
 	__ActorState__00000008_.IsExpanded = false
-	__ActorState__00000008_.LayoutDirection = models.Vertical
 
 	__ActorState__00000009_.Name = `Student 5%`
 	__ActorState__00000009_.Description = ``
@@ -277,7 +268,6 @@ func _(stage *models.Stage) {
 	__ActorState__00000009_.Probability = models.PERCENT_75
 	__ActorState__00000009_.ComputedPrefix = ``
 	__ActorState__00000009_.IsExpanded = false
-	__ActorState__00000009_.LayoutDirection = models.Vertical
 
 	__ActorStateShape__00000004_.Name = `A1`
 	__ActorStateShape__00000004_.X = 96.000000
@@ -366,42 +356,34 @@ func _(stage *models.Stage) {
 	__ActorStateTransition__00000000_.Name = ``
 	__ActorStateTransition__00000000_.ComputedPrefix = ``
 	__ActorStateTransition__00000000_.IsExpanded = false
-	__ActorStateTransition__00000000_.LayoutDirection = models.Vertical
 
 	__ActorStateTransition__00000001_.Name = `A1 to A2`
 	__ActorStateTransition__00000001_.ComputedPrefix = ``
 	__ActorStateTransition__00000001_.IsExpanded = false
-	__ActorStateTransition__00000001_.LayoutDirection = models.Vertical
 
 	__ActorStateTransition__00000002_.Name = `A1 to A2`
 	__ActorStateTransition__00000002_.ComputedPrefix = ``
 	__ActorStateTransition__00000002_.IsExpanded = false
-	__ActorStateTransition__00000002_.LayoutDirection = models.Vertical
 
 	__ActorStateTransition__00000003_.Name = `Political Personality of Soviet Power is dictatorial to PoliticalPersonality ofSoviet Power is amenable to liberal economy`
 	__ActorStateTransition__00000003_.ComputedPrefix = ``
 	__ActorStateTransition__00000003_.IsExpanded = false
-	__ActorStateTransition__00000003_.LayoutDirection = models.Vertical
 
 	__ActorStateTransition__00000004_.Name = `PoliticalPersonality ofSoviet Power is amenable to liberal economy to Political Personality of Soviet Power is paranoïd`
 	__ActorStateTransition__00000004_.ComputedPrefix = ``
 	__ActorStateTransition__00000004_.IsExpanded = false
-	__ActorStateTransition__00000004_.LayoutDirection = models.Vertical
 
 	__ActorStateTransition__00000005_.Name = `Rick is cynical to Rick is empathic`
 	__ActorStateTransition__00000005_.ComputedPrefix = ``
 	__ActorStateTransition__00000005_.IsExpanded = false
-	__ActorStateTransition__00000005_.LayoutDirection = models.Vertical
 
 	__ActorStateTransition__00000006_.Name = `Student 0% to Student 5%`
 	__ActorStateTransition__00000006_.ComputedPrefix = ``
 	__ActorStateTransition__00000006_.IsExpanded = false
-	__ActorStateTransition__00000006_.LayoutDirection = models.Vertical
 
 	__ActorStateTransition__00000007_.Name = `Student 5% to Student 15%`
 	__ActorStateTransition__00000007_.ComputedPrefix = ``
 	__ActorStateTransition__00000007_.IsExpanded = false
-	__ActorStateTransition__00000007_.LayoutDirection = models.Vertical
 
 	__ActorStateTransitionShape__00000000_.Name = ``
 	__ActorStateTransitionShape__00000000_.X = 0.000000
@@ -462,7 +444,6 @@ With a swedish girl
 	__Analysis__00000000_.IsMapUseNodeExpanded = false
 	__Analysis__00000000_.ComputedPrefix = ``
 	__Analysis__00000000_.IsExpanded = true
-	__Analysis__00000000_.LayoutDirection = models.Vertical
 
 	__Analysis__00000001_.Name = `Horizon(s) analysis`
 	__Analysis__00000001_.Description = ``
@@ -472,7 +453,6 @@ With a swedish girl
 	__Analysis__00000001_.IsMapUseNodeExpanded = false
 	__Analysis__00000001_.ComputedPrefix = ``
 	__Analysis__00000001_.IsExpanded = false
-	__Analysis__00000001_.LayoutDirection = models.Vertical
 
 	__Analysis__00000002_.Name = `Kennan's Long Telegram`
 	__Analysis__00000002_.Description = `Content can be found at https://nsarchive2.gwu.edu/coldwar/documents/episode-1/kennan.htm
@@ -488,7 +468,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Analysis__00000002_.IsMapUseNodeExpanded = false
 	__Analysis__00000002_.ComputedPrefix = ``
 	__Analysis__00000002_.IsExpanded = false
-	__Analysis__00000002_.LayoutDirection = models.Vertical
 
 	__Analysis__00000003_.Name = `US Elections`
 	__Analysis__00000003_.Description = ``
@@ -498,7 +477,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Analysis__00000003_.IsMapUseNodeExpanded = false
 	__Analysis__00000003_.ComputedPrefix = ``
 	__Analysis__00000003_.IsExpanded = false
-	__Analysis__00000003_.LayoutDirection = models.Vertical
 
 	__ControlPointShape__00000000_.Name = `Control Point Shape in  0`
 	__ControlPointShape__00000000_.X_Relative = 0.116622
@@ -683,7 +661,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Diagram__00000000_.Name = `Ilsa's trajectory`
 	__Diagram__00000000_.ComputedPrefix = ``
 	__Diagram__00000000_.IsExpanded = false
-	__Diagram__00000000_.LayoutDirection = models.Vertical
 	__Diagram__00000000_.IsChecked = false
 	__Diagram__00000000_.IsShowPrefix = false
 	__Diagram__00000000_.Description = ``
@@ -705,7 +682,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Diagram__00000001_.Name = `New Diagram`
 	__Diagram__00000001_.ComputedPrefix = ``
 	__Diagram__00000001_.IsExpanded = false
-	__Diagram__00000001_.LayoutDirection = models.Vertical
 	__Diagram__00000001_.IsChecked = false
 	__Diagram__00000001_.IsShowPrefix = false
 	__Diagram__00000001_.Description = ``
@@ -727,7 +703,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Diagram__00000002_.Name = `New Diagram`
 	__Diagram__00000002_.ComputedPrefix = ``
 	__Diagram__00000002_.IsExpanded = false
-	__Diagram__00000002_.LayoutDirection = models.Vertical
 	__Diagram__00000002_.IsChecked = false
 	__Diagram__00000002_.IsShowPrefix = false
 	__Diagram__00000002_.Description = ``
@@ -749,7 +724,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Diagram__00000003_.Name = `Reference penetration forcast`
 	__Diagram__00000003_.ComputedPrefix = ``
 	__Diagram__00000003_.IsExpanded = false
-	__Diagram__00000003_.LayoutDirection = models.Vertical
 	__Diagram__00000003_.IsChecked = false
 	__Diagram__00000003_.IsShowPrefix = false
 	__Diagram__00000003_.Description = ``
@@ -771,7 +745,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Diagram__00000004_.Name = `Rick's Trajectory`
 	__Diagram__00000004_.ComputedPrefix = ``
 	__Diagram__00000004_.IsExpanded = false
-	__Diagram__00000004_.LayoutDirection = models.Vertical
 	__Diagram__00000004_.IsChecked = true
 	__Diagram__00000004_.IsShowPrefix = false
 	__Diagram__00000004_.Description = ``
@@ -794,49 +767,41 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__EvolutionDirection__00000000_.Description = ``
 	__EvolutionDirection__00000000_.ComputedPrefix = ``
 	__EvolutionDirection__00000000_.IsExpanded = false
-	__EvolutionDirection__00000000_.LayoutDirection = models.Vertical
 
 	__EvolutionDirection__00000001_.Name = `Cynical`
 	__EvolutionDirection__00000001_.Description = ``
 	__EvolutionDirection__00000001_.ComputedPrefix = ``
 	__EvolutionDirection__00000001_.IsExpanded = false
-	__EvolutionDirection__00000001_.LayoutDirection = models.Vertical
 
 	__EvolutionDirection__00000002_.Name = `Democratic`
 	__EvolutionDirection__00000002_.Description = ``
 	__EvolutionDirection__00000002_.ComputedPrefix = ``
 	__EvolutionDirection__00000002_.IsExpanded = false
-	__EvolutionDirection__00000002_.LayoutDirection = models.Vertical
 
 	__EvolutionDirection__00000003_.Name = `Dictactorship`
 	__EvolutionDirection__00000003_.Description = ``
 	__EvolutionDirection__00000003_.ComputedPrefix = ``
 	__EvolutionDirection__00000003_.IsExpanded = false
-	__EvolutionDirection__00000003_.LayoutDirection = models.Vertical
 
 	__EvolutionDirection__00000004_.Name = `Empathetic`
 	__EvolutionDirection__00000004_.Description = ``
 	__EvolutionDirection__00000004_.ComputedPrefix = ``
 	__EvolutionDirection__00000004_.IsExpanded = false
-	__EvolutionDirection__00000004_.LayoutDirection = models.Vertical
 
 	__EvolutionDirection__00000005_.Name = `High Penetration`
 	__EvolutionDirection__00000005_.Description = ``
 	__EvolutionDirection__00000005_.ComputedPrefix = ``
 	__EvolutionDirection__00000005_.IsExpanded = false
-	__EvolutionDirection__00000005_.LayoutDirection = models.Vertical
 
 	__EvolutionDirection__00000006_.Name = `Low Penetration`
 	__EvolutionDirection__00000006_.Description = ``
 	__EvolutionDirection__00000006_.ComputedPrefix = ``
 	__EvolutionDirection__00000006_.IsExpanded = false
-	__EvolutionDirection__00000006_.LayoutDirection = models.Vertical
 
 	__EvolutionDirection__00000007_.Name = `Top`
 	__EvolutionDirection__00000007_.Description = ``
 	__EvolutionDirection__00000007_.ComputedPrefix = ``
 	__EvolutionDirection__00000007_.IsExpanded = false
-	__EvolutionDirection__00000007_.LayoutDirection = models.Vertical
 
 	__EvolutionDirectionShape__00000000_.Name = `Bottom`
 	__EvolutionDirectionShape__00000000_.X = 45.000000
@@ -912,7 +877,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Library__00000000_.Description = ``
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = false
-	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.IsAnalysesNodeExpanded = false
 	__Library__00000000_.IsSubLibrariesNodeExpanded = false
@@ -929,7 +893,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000000_.Tag = ``
 	__Parameter__00000000_.ComputedPrefix = ``
 	__Parameter__00000000_.IsExpanded = false
-	__Parameter__00000000_.LayoutDirection = models.Vertical
 
 	__Parameter__00000001_.Name = `Anti-tsarist rationalization`
 	__Parameter__00000001_.Description = ``
@@ -940,7 +903,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000001_.Tag = ``
 	__Parameter__00000001_.ComputedPrefix = ``
 	__Parameter__00000001_.IsExpanded = false
-	__Parameter__00000001_.LayoutDirection = models.Vertical
 
 	__Parameter__00000002_.Name = `Blogs`
 	__Parameter__00000002_.Description = ``
@@ -951,7 +913,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000002_.Tag = ``
 	__Parameter__00000002_.ComputedPrefix = ``
 	__Parameter__00000002_.IsExpanded = false
-	__Parameter__00000002_.LayoutDirection = models.Vertical
 
 	__Parameter__00000003_.Name = `Capitalism --> Imperialism -> War `
 	__Parameter__00000003_.Description = ``
@@ -962,7 +923,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000003_.Tag = ``
 	__Parameter__00000003_.ComputedPrefix = ``
 	__Parameter__00000003_.IsExpanded = false
-	__Parameter__00000003_.LayoutDirection = models.Vertical
 
 	__Parameter__00000004_.Name = `Communists are a tiny portion of the population`
 	__Parameter__00000004_.Description = ``
@@ -973,7 +933,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000004_.Tag = ``
 	__Parameter__00000004_.ComputedPrefix = ``
 	__Parameter__00000004_.IsExpanded = false
-	__Parameter__00000004_.LayoutDirection = models.Vertical
 
 	__Parameter__00000005_.Name = `Conservatisme`
 	__Parameter__00000005_.Description = ``
@@ -984,7 +943,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000005_.Tag = ``
 	__Parameter__00000005_.ComputedPrefix = ``
 	__Parameter__00000005_.IsExpanded = false
-	__Parameter__00000005_.LayoutDirection = models.Vertical
 
 	__Parameter__00000006_.Name = `Ilsa is back in his life ...`
 	__Parameter__00000006_.Description = ``
@@ -995,7 +953,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000006_.Tag = ``
 	__Parameter__00000006_.ComputedPrefix = ``
 	__Parameter__00000006_.IsExpanded = false
-	__Parameter__00000006_.LayoutDirection = models.Vertical
 
 	__Parameter__00000007_.Name = `Interventions`
 	__Parameter__00000007_.Description = ``
@@ -1006,7 +963,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000007_.Tag = ``
 	__Parameter__00000007_.ComputedPrefix = ``
 	__Parameter__00000007_.IsExpanded = false
-	__Parameter__00000007_.LayoutDirection = models.Vertical
 
 	__Parameter__00000008_.Name = `Lenin's Need to protect proletarians from all countries`
 	__Parameter__00000008_.Description = ``
@@ -1017,7 +973,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000008_.Tag = ``
 	__Parameter__00000008_.ComputedPrefix = ``
 	__Parameter__00000008_.IsExpanded = false
-	__Parameter__00000008_.LayoutDirection = models.Vertical
 
 	__Parameter__00000009_.Name = `Mysteriously gloomy`
 	__Parameter__00000009_.Description = ``
@@ -1028,7 +983,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000009_.Tag = ``
 	__Parameter__00000009_.ComputedPrefix = ``
 	__Parameter__00000009_.IsExpanded = false
-	__Parameter__00000009_.LayoutDirection = models.Vertical
 
 	__Parameter__00000010_.Name = `P1`
 	__Parameter__00000010_.Description = ``
@@ -1039,7 +993,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000010_.Tag = ``
 	__Parameter__00000010_.ComputedPrefix = ``
 	__Parameter__00000010_.IsExpanded = false
-	__Parameter__00000010_.LayoutDirection = models.Vertical
 
 	__Parameter__00000011_.Name = `P2`
 	__Parameter__00000011_.Description = ``
@@ -1050,7 +1003,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000011_.Tag = ``
 	__Parameter__00000011_.ComputedPrefix = ``
 	__Parameter__00000011_.IsExpanded = false
-	__Parameter__00000011_.LayoutDirection = models.Vertical
 
 	__Parameter__00000012_.Name = `Paranoïd view of foreign powers (self sustained)`
 	__Parameter__00000012_.Description = ``
@@ -1061,7 +1013,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000012_.Tag = ``
 	__Parameter__00000012_.ComputedPrefix = ``
 	__Parameter__00000012_.IsExpanded = false
-	__Parameter__00000012_.LayoutDirection = models.Vertical
 
 	__Parameter__00000013_.Name = `Publications`
 	__Parameter__00000013_.Description = ``
@@ -1072,7 +1023,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000013_.Tag = ``
 	__Parameter__00000013_.ComputedPrefix = ``
 	__Parameter__00000013_.IsExpanded = false
-	__Parameter__00000013_.LayoutDirection = models.Vertical
 
 	__Parameter__00000014_.Name = `Rejection of early war communism`
 	__Parameter__00000014_.Description = ``
@@ -1083,7 +1033,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000014_.Tag = ``
 	__Parameter__00000014_.ComputedPrefix = ``
 	__Parameter__00000014_.IsExpanded = false
-	__Parameter__00000014_.LayoutDirection = models.Vertical
 
 	__Parameter__00000015_.Name = `Russian Asiatic attraction to imperialism`
 	__Parameter__00000015_.Description = ``
@@ -1094,7 +1043,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000015_.Tag = ``
 	__Parameter__00000015_.ComputedPrefix = ``
 	__Parameter__00000015_.IsExpanded = false
-	__Parameter__00000015_.LayoutDirection = models.Vertical
 
 	__Parameter__00000016_.Name = `Siloviki's incitation to maintain internal oppression`
 	__Parameter__00000016_.Description = ``
@@ -1105,7 +1053,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000016_.Tag = ``
 	__Parameter__00000016_.ComputedPrefix = ``
 	__Parameter__00000016_.IsExpanded = false
-	__Parameter__00000016_.LayoutDirection = models.Vertical
 
 	__Parameter__00000017_.Name = `Stalin's intolerance to power sharing`
 	__Parameter__00000017_.Description = ``
@@ -1116,7 +1063,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Parameter__00000017_.Tag = ``
 	__Parameter__00000017_.ComputedPrefix = ``
 	__Parameter__00000017_.IsExpanded = false
-	__Parameter__00000017_.LayoutDirection = models.Vertical
 
 	__ParameterShape__00000000_.Name = `Blogs`
 	__ParameterShape__00000000_.Direction = models.DIRECTION_UP
@@ -1294,35 +1240,30 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__ParametersAggregate__00000000_.Description = ``
 	__ParametersAggregate__00000000_.ComputedPrefix = ``
 	__ParametersAggregate__00000000_.IsExpanded = false
-	__ParametersAggregate__00000000_.LayoutDirection = models.Vertical
 
 	__ParametersAggregate__00000001_.Name = `Circumstances`
 	__ParametersAggregate__00000001_.Tag = ``
 	__ParametersAggregate__00000001_.Description = ``
 	__ParametersAggregate__00000001_.ComputedPrefix = ``
 	__ParametersAggregate__00000001_.IsExpanded = false
-	__ParametersAggregate__00000001_.LayoutDirection = models.Vertical
 
 	__ParametersAggregate__00000002_.Name = `Evangelisation`
 	__ParametersAggregate__00000002_.Tag = ``
 	__ParametersAggregate__00000002_.Description = ``
 	__ParametersAggregate__00000002_.ComputedPrefix = ``
 	__ParametersAggregate__00000002_.IsExpanded = false
-	__ParametersAggregate__00000002_.LayoutDirection = models.Vertical
 
 	__ParametersAggregate__00000003_.Name = `Marxian ideology`
 	__ParametersAggregate__00000003_.Tag = ``
 	__ParametersAggregate__00000003_.Description = ``
 	__ParametersAggregate__00000003_.ComputedPrefix = ``
 	__ParametersAggregate__00000003_.IsExpanded = false
-	__ParametersAggregate__00000003_.LayoutDirection = models.Vertical
 
 	__ParametersAggregate__00000004_.Name = `P1+P2`
 	__ParametersAggregate__00000004_.Tag = ``
 	__ParametersAggregate__00000004_.Description = ``
 	__ParametersAggregate__00000004_.ComputedPrefix = ``
 	__ParametersAggregate__00000004_.IsExpanded = false
-	__ParametersAggregate__00000004_.LayoutDirection = models.Vertical
 
 	__ParametersAggregateShape__00000000_.Name = ``
 	__ParametersAggregateShape__00000000_.Direction = ""
@@ -1366,7 +1307,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Scenario__00000000_.IsParametersAggretatesNodeExpanded = false
 	__Scenario__00000000_.ComputedPrefix = ``
 	__Scenario__00000000_.IsExpanded = false
-	__Scenario__00000000_.LayoutDirection = models.Vertical
 
 	__Scenario__00000001_.Name = `Nicky Halley trajectory`
 	__Scenario__00000001_.Description = ``
@@ -1378,7 +1318,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Scenario__00000001_.IsParametersAggretatesNodeExpanded = false
 	__Scenario__00000001_.ComputedPrefix = ``
 	__Scenario__00000001_.IsExpanded = false
-	__Scenario__00000001_.LayoutDirection = models.Vertical
 
 	__Scenario__00000002_.Name = `Penetration Forcast`
 	__Scenario__00000002_.Description = ``
@@ -1390,7 +1329,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Scenario__00000002_.IsParametersAggretatesNodeExpanded = false
 	__Scenario__00000002_.ComputedPrefix = ``
 	__Scenario__00000002_.IsExpanded = false
-	__Scenario__00000002_.LayoutDirection = models.Vertical
 
 	__Scenario__00000003_.Name = `Scenario avec intervention sociale concertée`
 	__Scenario__00000003_.Description = ``
@@ -1402,7 +1340,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Scenario__00000003_.IsParametersAggretatesNodeExpanded = false
 	__Scenario__00000003_.ComputedPrefix = ``
 	__Scenario__00000003_.IsExpanded = false
-	__Scenario__00000003_.LayoutDirection = models.Vertical
 
 	__Scenario__00000004_.Name = `Scénario d'évolution multi domaines sans intervention`
 	__Scenario__00000004_.Description = ``
@@ -1414,7 +1351,6 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Scenario__00000004_.IsParametersAggretatesNodeExpanded = false
 	__Scenario__00000004_.ComputedPrefix = ``
 	__Scenario__00000004_.IsExpanded = false
-	__Scenario__00000004_.LayoutDirection = models.Vertical
 
 	__Scenario__00000005_.Name = `The Movie`
 	__Scenario__00000005_.Description = ``
@@ -1426,12 +1362,10 @@ Kennan composed the long telegram to respond to inquiries about the implications
 	__Scenario__00000005_.IsParametersAggretatesNodeExpanded = false
 	__Scenario__00000005_.ComputedPrefix = ``
 	__Scenario__00000005_.IsExpanded = true
-	__Scenario__00000005_.LayoutDirection = models.Vertical
 
 	__Workspace__00000000_.Name = `Default`
 	__Workspace__00000000_.ComputedPrefix = ``
 	__Workspace__00000000_.IsExpanded = false
-	__Workspace__00000000_.LayoutDirection = models.Vertical
 
 	// insertion point for setup of pointers
 	__ActorStateShape__00000004_.ActorState = __ActorState__00000000_

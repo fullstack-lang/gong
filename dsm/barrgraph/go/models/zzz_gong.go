@@ -3882,11 +3882,6 @@ func (artefacttype *ArtefactType) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
 	}
 	return
 }
@@ -3941,11 +3936,6 @@ func (artist *Artist) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "IsDead",
@@ -4086,11 +4076,6 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "IsChecked",
@@ -4495,11 +4480,6 @@ func (influence *Influence) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
-		{
 			Name:                 "SourceMovement",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Movement",
@@ -4582,11 +4562,6 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
-		{
 			Name:               "IsRootLibrary",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -4634,11 +4609,6 @@ func (movement *Movement) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "Date",
@@ -4798,9 +4768,6 @@ func (artefacttype *ArtefactType) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", artefacttype.IsExpanded)
 		res.valueBool = artefacttype.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := artefacttype.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -4851,9 +4818,6 @@ func (artist *Artist) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 		res.valueString = fmt.Sprintf("%t", artist.IsExpanded)
 		res.valueBool = artist.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := artist.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "IsDead":
 		res.valueString = fmt.Sprintf("%t", artist.IsDead)
 		res.valueBool = artist.IsDead
@@ -4981,9 +4945,6 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
 		res.valueBool = diagram.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := diagram.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
 		res.valueBool = diagram.IsChecked
@@ -5284,9 +5245,6 @@ func (influence *Influence) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", influence.IsExpanded)
 		res.valueBool = influence.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := influence.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "SourceMovement":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if influence.SourceMovement != nil {
@@ -5373,9 +5331,6 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", library.IsExpanded)
 		res.valueBool = library.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := library.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "IsRootLibrary":
 		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
 		res.valueBool = library.IsRootLibrary
@@ -5429,9 +5384,6 @@ func (movement *Movement) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = fmt.Sprintf("%t", movement.IsExpanded)
 		res.valueBool = movement.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := movement.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "Date":
 		res.valueString = movement.Date.String()
 	case "HideDate":
@@ -5533,8 +5485,6 @@ func (artefacttype *ArtefactType) GongSetFieldValue(fieldName string, value Gong
 		artefacttype.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		artefacttype.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		artefacttype.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -5582,8 +5532,6 @@ func (artist *Artist) GongSetFieldValue(fieldName string, value GongFieldValue, 
 		artist.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		artist.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		artist.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsDead":
 		artist.IsDead = value.GetValueBool()
 	case "Place":
@@ -5699,8 +5647,6 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		diagram.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		diagram.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsChecked":
 		diagram.IsChecked = value.GetValueBool()
 	case "MovementShapes":
@@ -5938,8 +5884,6 @@ func (influence *Influence) GongSetFieldValue(fieldName string, value GongFieldV
 		influence.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		influence.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		influence.LayoutDirection.FromCodeString(value.GetValueString())
 	case "SourceMovement":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -6063,8 +6007,6 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		library.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		library.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsRootLibrary":
 		library.IsRootLibrary = value.GetValueBool()
 	case "SubLibraries":
@@ -6118,8 +6060,6 @@ func (movement *Movement) GongSetFieldValue(fieldName string, value GongFieldVal
 		movement.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		movement.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		movement.LayoutDirection.FromCodeString(value.GetValueString())
 	case "HideDate":
 		movement.HideDate = value.GetValueBool()
 	case "Places":

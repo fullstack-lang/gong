@@ -123,17 +123,14 @@ func _(stage *models.Stage) {
 	__Concept__00000000_.Name = `State Machine`
 	__Concept__00000000_.ComputedPrefix = ``
 	__Concept__00000000_.IsExpanded = false
-	__Concept__00000000_.LayoutDirection = models.Vertical
 
 	__Concept__00000001_.Name = `Transitons`
 	__Concept__00000001_.ComputedPrefix = ``
 	__Concept__00000001_.IsExpanded = false
-	__Concept__00000001_.LayoutDirection = models.Vertical
 
 	__Concept__00000002_.Name = `Transition with message generation`
 	__Concept__00000002_.ComputedPrefix = ``
 	__Concept__00000002_.IsExpanded = false
-	__Concept__00000002_.LayoutDirection = models.Vertical
 
 	__ConceptShape__00000000_.Name = `-Default Diagram`
 	__ConceptShape__00000000_.IsExpanded = false
@@ -164,7 +161,6 @@ func _(stage *models.Stage) {
 	__Concern__00000000_.Priority = ""
 	__Concern__00000000_.ComputedPrefix = `1`
 	__Concern__00000000_.IsExpanded = false
-	__Concern__00000000_.LayoutDirection = models.Vertical
 	__Concern__00000000_.Description = ``
 	__Concern__00000000_.IsInputsNodeExpanded = false
 	__Concern__00000000_.IsOutputsNodeExpanded = false
@@ -176,7 +172,6 @@ func _(stage *models.Stage) {
 	__Concern__00000001_.Priority = ""
 	__Concern__00000001_.ComputedPrefix = `2`
 	__Concern__00000001_.IsExpanded = false
-	__Concern__00000001_.LayoutDirection = models.Vertical
 	__Concern__00000001_.Description = ``
 	__Concern__00000001_.IsInputsNodeExpanded = false
 	__Concern__00000001_.IsOutputsNodeExpanded = false
@@ -188,7 +183,6 @@ func _(stage *models.Stage) {
 	__Concern__00000002_.Priority = ""
 	__Concern__00000002_.ComputedPrefix = `1.1`
 	__Concern__00000002_.IsExpanded = false
-	__Concern__00000002_.LayoutDirection = models.Vertical
 	__Concern__00000002_.Description = ``
 	__Concern__00000002_.IsInputsNodeExpanded = false
 	__Concern__00000002_.IsOutputsNodeExpanded = false
@@ -200,7 +194,6 @@ func _(stage *models.Stage) {
 	__Concern__00000003_.Priority = ""
 	__Concern__00000003_.ComputedPrefix = `3`
 	__Concern__00000003_.IsExpanded = false
-	__Concern__00000003_.LayoutDirection = models.Vertical
 	__Concern__00000003_.Description = ``
 	__Concern__00000003_.IsInputsNodeExpanded = false
 	__Concern__00000003_.IsOutputsNodeExpanded = false
@@ -212,7 +205,6 @@ func _(stage *models.Stage) {
 	__Concern__00000004_.Priority = ""
 	__Concern__00000004_.ComputedPrefix = `3.1`
 	__Concern__00000004_.IsExpanded = false
-	__Concern__00000004_.LayoutDirection = models.Vertical
 	__Concern__00000004_.Description = ``
 	__Concern__00000004_.IsInputsNodeExpanded = false
 	__Concern__00000004_.IsOutputsNodeExpanded = false
@@ -224,7 +216,6 @@ func _(stage *models.Stage) {
 	__Concern__00000005_.Priority = ""
 	__Concern__00000005_.ComputedPrefix = `3.2`
 	__Concern__00000005_.IsExpanded = false
-	__Concern__00000005_.LayoutDirection = models.Vertical
 	__Concern__00000005_.Description = ``
 	__Concern__00000005_.IsInputsNodeExpanded = false
 	__Concern__00000005_.IsOutputsNodeExpanded = false
@@ -386,7 +377,6 @@ func _(stage *models.Stage) {
 	__Deliverable__00000000_.Name = `CONOPS`
 	__Deliverable__00000000_.ComputedPrefix = `1`
 	__Deliverable__00000000_.IsExpanded = false
-	__Deliverable__00000000_.LayoutDirection = models.Vertical
 	__Deliverable__00000000_.Description = ``
 	__Deliverable__00000000_.IsProducersNodeExpanded = false
 	__Deliverable__00000000_.IsConsumersNodeExpanded = false
@@ -394,7 +384,6 @@ func _(stage *models.Stage) {
 	__Deliverable__00000001_.Name = `Structured CONOPS`
 	__Deliverable__00000001_.ComputedPrefix = `2`
 	__Deliverable__00000001_.IsExpanded = false
-	__Deliverable__00000001_.LayoutDirection = models.Vertical
 	__Deliverable__00000001_.Description = ``
 	__Deliverable__00000001_.IsProducersNodeExpanded = false
 	__Deliverable__00000001_.IsConsumersNodeExpanded = false
@@ -402,7 +391,6 @@ func _(stage *models.Stage) {
 	__Deliverable__00000002_.Name = `Scénarios`
 	__Deliverable__00000002_.ComputedPrefix = `2.1`
 	__Deliverable__00000002_.IsExpanded = false
-	__Deliverable__00000002_.LayoutDirection = models.Vertical
 	__Deliverable__00000002_.Description = ``
 	__Deliverable__00000002_.IsProducersNodeExpanded = false
 	__Deliverable__00000002_.IsConsumersNodeExpanded = false
@@ -410,7 +398,6 @@ func _(stage *models.Stage) {
 	__Deliverable__00000003_.Name = `Structured Business Objects Lifecycle`
 	__Deliverable__00000003_.ComputedPrefix = `2.2`
 	__Deliverable__00000003_.IsExpanded = false
-	__Deliverable__00000003_.LayoutDirection = models.Vertical
 	__Deliverable__00000003_.Description = ``
 	__Deliverable__00000003_.IsProducersNodeExpanded = false
 	__Deliverable__00000003_.IsConsumersNodeExpanded = false
@@ -418,7 +405,6 @@ func _(stage *models.Stage) {
 	__Deliverable__00000004_.Name = `Messages generated during the CONOPS`
 	__Deliverable__00000004_.ComputedPrefix = `1.1`
 	__Deliverable__00000004_.IsExpanded = false
-	__Deliverable__00000004_.LayoutDirection = models.Vertical
 	__Deliverable__00000004_.Description = ``
 	__Deliverable__00000004_.IsProducersNodeExpanded = false
 	__Deliverable__00000004_.IsConsumersNodeExpanded = false
@@ -426,7 +412,6 @@ func _(stage *models.Stage) {
 	__Deliverable__00000005_.Name = `Messages generated during the lifecyle`
 	__Deliverable__00000005_.ComputedPrefix = `2.2.1`
 	__Deliverable__00000005_.IsExpanded = false
-	__Deliverable__00000005_.LayoutDirection = models.Vertical
 	__Deliverable__00000005_.Description = ``
 	__Deliverable__00000005_.IsProducersNodeExpanded = false
 	__Deliverable__00000005_.IsConsumersNodeExpanded = false
@@ -434,7 +419,6 @@ func _(stage *models.Stage) {
 	__Deliverable__00000006_.Name = `MBSE Tool`
 	__Deliverable__00000006_.ComputedPrefix = `3`
 	__Deliverable__00000006_.IsExpanded = false
-	__Deliverable__00000006_.LayoutDirection = models.Vertical
 	__Deliverable__00000006_.Description = ``
 	__Deliverable__00000006_.IsProducersNodeExpanded = false
 	__Deliverable__00000006_.IsConsumersNodeExpanded = false
@@ -554,7 +538,6 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_.Name = `Default Diagram`
 	__Diagram__00000000_.ComputedPrefix = `1`
 	__Diagram__00000000_.IsExpanded = true
-	__Diagram__00000000_.LayoutDirection = models.Vertical
 	__Diagram__00000000_.IsChecked = true
 	__Diagram__00000000_.IsEditable_ = true
 	__Diagram__00000000_.ShowPrefix = false
@@ -574,13 +557,11 @@ func _(stage *models.Stage) {
 	__Library__00000000_.IsRootLibrary = true
 	__Library__00000000_.ComputedPrefix = ``
 	__Library__00000000_.IsExpanded = true
-	__Library__00000000_.LayoutDirection = models.Vertical
 	__Library__00000000_.NbPixPerCharacter = 8.000000
 
 	__Note__00000001_.Name = `The System of Interest is an operational Messaging Application `
 	__Note__00000001_.ComputedPrefix = `1`
 	__Note__00000001_.IsExpanded = false
-	__Note__00000001_.LayoutDirection = models.Vertical
 
 	__NoteShape__00000001_.Name = `-Default Diagram`
 	__NoteShape__00000001_.IsExpanded = false
@@ -602,28 +583,24 @@ func _(stage *models.Stage) {
 	__Stakeholder__00000000_.IDAirbus = ``
 	__Stakeholder__00000000_.ComputedPrefix = `1`
 	__Stakeholder__00000000_.IsExpanded = false
-	__Stakeholder__00000000_.LayoutDirection = models.Vertical
 	__Stakeholder__00000000_.Description = ``
 
 	__Stakeholder__00000001_.Name = `System Architect`
 	__Stakeholder__00000001_.IDAirbus = ``
 	__Stakeholder__00000001_.ComputedPrefix = `2`
 	__Stakeholder__00000001_.IsExpanded = false
-	__Stakeholder__00000001_.LayoutDirection = models.Vertical
 	__Stakeholder__00000001_.Description = ``
 
 	__Stakeholder__00000002_.Name = `Tool Developper`
 	__Stakeholder__00000002_.IDAirbus = ``
 	__Stakeholder__00000002_.ComputedPrefix = `3`
 	__Stakeholder__00000002_.IsExpanded = false
-	__Stakeholder__00000002_.LayoutDirection = models.Vertical
 	__Stakeholder__00000002_.Description = ``
 
 	__Stakeholder__00000003_.Name = `Model Developper`
 	__Stakeholder__00000003_.IDAirbus = ``
 	__Stakeholder__00000003_.ComputedPrefix = `4`
 	__Stakeholder__00000003_.IsExpanded = false
-	__Stakeholder__00000003_.LayoutDirection = models.Vertical
 	__Stakeholder__00000003_.Description = ``
 
 	__StakeholderConcernShape__00000000_.Name = `End User to share his CONOPS with stakeholders`

@@ -326,8 +326,6 @@ func (controlflowFormCallback *ControlFlowFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(controlflow_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(controlflow_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(controlflow_.LayoutDirection), formDiv)
 		case "Start":
 			FormDivSelectFieldToField(&(controlflow_.Start), controlflowFormCallback.probe.stageOfInterest, formDiv)
 		case "End":
@@ -645,8 +643,6 @@ func (dataFormCallback *DataFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(data_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(data_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(data_.LayoutDirection), formDiv)
 		case "SVG_Path":
 			FormDivBasicFieldToField(&(data_.SVG_Path), formDiv)
 		case "InverseAppliedScaling":
@@ -947,8 +943,6 @@ func (dataflowFormCallback *DataFlowFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(dataflow_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(dataflow_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(dataflow_.LayoutDirection), formDiv)
 		case "Type":
 			FormDivEnumStringFieldToField(&(dataflow_.Type), formDiv)
 		case "StartTask":
@@ -1534,8 +1528,6 @@ func (diagramprocessFormCallback *DiagramProcessFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagramprocess_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(diagramprocess_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(diagramprocess_.LayoutDirection), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(diagramprocess_.IsChecked), formDiv)
 		case "IsEditable_":
@@ -2639,8 +2631,6 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(library_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(library_.LayoutDirection), formDiv)
 		case "IsRootLibrary":
 			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
 		case "SubLibraries":
@@ -3251,8 +3241,6 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(note_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(note_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(note_.LayoutDirection), formDiv)
 		case "IsTasksNodeExpanded":
 			FormDivBasicFieldToField(&(note_.IsTasksNodeExpanded), formDiv)
 		case "Tasks":
@@ -3850,8 +3838,6 @@ func (participantFormCallback *ParticipantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(participant_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(participant_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(participant_.LayoutDirection), formDiv)
 		case "IsTasksNodeExpanded":
 			FormDivBasicFieldToField(&(participant_.IsTasksNodeExpanded), formDiv)
 		case "Tasks":
@@ -4678,8 +4664,6 @@ func (processFormCallback *ProcessFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(process_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(process_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(process_.LayoutDirection), formDiv)
 		case "SVG_Path":
 			FormDivBasicFieldToField(&(process_.SVG_Path), formDiv)
 		case "InverseAppliedScaling":
@@ -5437,8 +5421,6 @@ func (resourceFormCallback *ResourceFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(resource_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(resource_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(resource_.LayoutDirection), formDiv)
 		case "SVG_Path":
 			FormDivBasicFieldToField(&(resource_.SVG_Path), formDiv)
 		case "InverseAppliedScaling":
@@ -5707,8 +5689,6 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(task_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(task_.IsExpanded), formDiv)
-		case "LayoutDirection":
-			FormDivEnumIntFieldToField(&(task_.LayoutDirection), formDiv)
 		case "IsStartTask":
 			FormDivBasicFieldToField(&(task_.IsStartTask), formDiv)
 		case "IsEndTask":

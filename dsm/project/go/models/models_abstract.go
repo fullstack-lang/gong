@@ -11,6 +11,7 @@ type Note struct {
 
 	LibraryAbstractFields
 	AbstractTypeFields
+	TreeAbstractTypeFields
 
 	Products  []*Product
 	Tasks     []*Task
@@ -83,6 +84,7 @@ type Task struct {
 
 	LibraryAbstractFields
 	AbstractTypeFields
+	TreeAbstractTypeFields
 }
 
 // TextPositionEnum
@@ -168,6 +170,7 @@ type Product struct {
 
 	LibraryAbstractFields
 	AbstractTypeFields
+	TreeAbstractTypeFields
 }
 
 type Resource struct {
@@ -188,6 +191,7 @@ type Resource struct {
 
 	LibraryAbstractFields
 	AbstractTypeFields
+	TreeAbstractTypeFields
 
 	IsImport           bool
 	ReferencedResource *Resource

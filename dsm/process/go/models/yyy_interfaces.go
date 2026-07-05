@@ -7,11 +7,16 @@ type AbstractType interface {
 	SetIsExpanded(bool)
 	GetComputedPrefix() string
 	SetComputedPrefix(string)
-	GetComputedWidth() int
-	SetComputedWidth(int)
-	SetComputedPrefixInt([]int)
 	GetIsInRenameMode() bool
 	SetIsInRenameMode(bool)
+	SetComputedPrefixInt([]int)
+}
+
+type TreeAbstractType interface {
+	AbstractType
+
+	GetComputedWidth() int
+	SetComputedWidth(int)
 
 	GetLayoutDirection() LayoutDirection
 	SetLayoutDirection(LayoutDirection)
@@ -32,7 +37,9 @@ type AbstractTypeFields struct {
 	// nodes can be edited
 	isInRenameMode bool
 	IsExpanded     bool // to be made private once in production (no need to persist)
+}
 
+type TreeAbstractTypeFields struct {
 	// When the full PBS is displayed, the computedWidth is the number of node
 	// aligned below. A leaf node has a computedWidth of 1
 	computedWidth int
@@ -41,21 +48,23 @@ type AbstractTypeFields struct {
 	LayoutDirection LayoutDirection
 }
 
-func (r *AbstractTypeFields) GetLayoutDirection() LayoutDirection {
+func (r *TreeAbstractTypeFields) GetLayoutDirection() LayoutDirection {
 	return r.LayoutDirection
 }
 
-func (r *AbstractTypeFields) SetLayoutDirection(d LayoutDirection) {
+func (r *TreeAbstractTypeFields) SetLayoutDirection(d LayoutDirection) {
 	r.LayoutDirection = d
 }
 
-func (r *AbstractTypeFields) GetComputedWidth() int {
+func (r *TreeAbstractTypeFields) GetComputedWidth() int {
 	return r.computedWidth
 }
 
-func (r *AbstractTypeFields) SetComputedWidth(w int) {
+func (r *TreeAbstractTypeFields) SetComputedWidth(w int) {
 	r.computedWidth = w
 }
+
+
 
 func (r *AbstractTypeFields) SetComputedPrefixInt(p []int) {
 	r.computedPrefix = p

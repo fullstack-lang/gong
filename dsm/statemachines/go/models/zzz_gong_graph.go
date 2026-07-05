@@ -2898,9 +2898,6 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.IsExpanded != libraryOther.IsExpanded {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
 	}
-	if library.LayoutDirection != libraryOther.LayoutDirection {
-		diffs = append(diffs, library.GongMarshallField(stage, "LayoutDirection"))
-	}
 	if library.IsRootLibrary != libraryOther.IsRootLibrary {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
 	}
@@ -3100,9 +3097,6 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	}
 	if note.IsExpanded != noteOther.IsExpanded {
 		diffs = append(diffs, note.GongMarshallField(stage, "IsExpanded"))
-	}
-	if note.LayoutDirection != noteOther.LayoutDirection {
-		diffs = append(diffs, note.GongMarshallField(stage, "LayoutDirection"))
 	}
 	StatesDifferent := false
 	if len(note.States) != len(noteOther.States) {
@@ -3526,9 +3520,6 @@ func (statemachine *StateMachine) GongDiff(stage *Stage, statemachineOther *Stat
 	}
 	if statemachine.IsExpanded != statemachineOther.IsExpanded {
 		diffs = append(diffs, statemachine.GongMarshallField(stage, "IsExpanded"))
-	}
-	if statemachine.LayoutDirection != statemachineOther.LayoutDirection {
-		diffs = append(diffs, statemachine.GongMarshallField(stage, "LayoutDirection"))
 	}
 
 	return

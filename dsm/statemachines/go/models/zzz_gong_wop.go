@@ -112,8 +112,6 @@ type Library_WOP struct {
 
 	IsExpanded bool
 
-	LayoutDirection LayoutDirection
-
 	IsRootLibrary bool
 
 	IsStateMachinesNodeExpanded bool
@@ -132,7 +130,6 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.LogoSVGFile = from.LogoSVGFile
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 	to.IsRootLibrary = from.IsRootLibrary
 	to.IsStateMachinesNodeExpanded = from.IsStateMachinesNodeExpanded
 	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
@@ -176,8 +173,6 @@ type Note_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *Note) CopyBasicFields(to *Note) {
@@ -185,7 +180,6 @@ func (from *Note) CopyBasicFields(to *Note) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type NoteShape_WOP struct {
@@ -342,8 +336,6 @@ type StateMachine_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *StateMachine) CopyBasicFields(to *StateMachine) {
@@ -352,7 +344,6 @@ func (from *StateMachine) CopyBasicFields(to *StateMachine) {
 	to.IsWithTransitionNameAutonamticalyGenerated = from.IsWithTransitionNameAutonamticalyGenerated
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type StateShape_WOP struct {

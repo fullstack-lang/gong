@@ -8138,11 +8138,6 @@ func (analysisneed *AnalysisNeed) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
 	}
 	return
 }
@@ -8161,11 +8156,6 @@ func (concept *Concept) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:                 "Tools",
@@ -8239,11 +8229,6 @@ func (concern *Concern) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "Description",
@@ -8520,11 +8505,6 @@ func (deliverable *Deliverable) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
-		{
 			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeString,
 		},
@@ -8703,11 +8683,6 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "IsChecked",
@@ -8979,11 +8954,6 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
-		{
 			Name:                 "RootDeliverables",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Deliverable",
@@ -9050,11 +9020,6 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:                 "Deliverables",
@@ -9287,11 +9252,6 @@ func (requirement *Requirement) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
-		},
-		{
 			Name:                 "SupportLevels",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "SupportLevel",
@@ -9363,11 +9323,6 @@ func (stakeholder *Stakeholder) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
-			Name:                 "LayoutDirection",
-			GongFieldValueType:   GongFieldValueTypeInt,
-			TargetGongstructName: "LayoutDirection",
 		},
 		{
 			Name:               "Description",
@@ -9619,9 +9574,6 @@ func (analysisneed *AnalysisNeed) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", analysisneed.IsExpanded)
 		res.valueBool = analysisneed.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := analysisneed.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -9637,9 +9589,6 @@ func (concept *Concept) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", concept.IsExpanded)
 		res.valueBool = concept.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := concept.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "Tools":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range concept.Tools {
@@ -9709,9 +9658,6 @@ func (concern *Concern) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", concern.IsExpanded)
 		res.valueBool = concern.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := concern.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "Description":
 		res.valueString = concern.Description
 	case "SubConcerns":
@@ -9997,9 +9943,6 @@ func (deliverable *Deliverable) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = fmt.Sprintf("%t", deliverable.IsExpanded)
 		res.valueBool = deliverable.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := deliverable.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "Description":
 		res.valueString = deliverable.Description
 	case "SubDeliverables":
@@ -10184,9 +10127,6 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
 		res.valueBool = diagram.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := diagram.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
 		res.valueBool = diagram.IsChecked
@@ -10601,9 +10541,6 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", library.IsExpanded)
 		res.valueBool = library.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := library.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "RootDeliverables":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range library.RootDeliverables {
@@ -10713,9 +10650,6 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", note.IsExpanded)
 		res.valueBool = note.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := note.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "Deliverables":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range note.Deliverables {
@@ -10959,9 +10893,6 @@ func (requirement *Requirement) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = fmt.Sprintf("%t", requirement.IsExpanded)
 		res.valueBool = requirement.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := requirement.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "SupportLevels":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range requirement.SupportLevels {
@@ -11038,9 +10969,6 @@ func (stakeholder *Stakeholder) GongGetFieldValue(fieldName string, stage *Stage
 		res.valueString = fmt.Sprintf("%t", stakeholder.IsExpanded)
 		res.valueBool = stakeholder.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "LayoutDirection":
-		enum := stakeholder.LayoutDirection
-		res.valueString = enum.ToCodeString()
 	case "Description":
 		res.valueString = stakeholder.Description
 	case "Concerns":
@@ -11245,8 +11173,6 @@ func (analysisneed *AnalysisNeed) GongSetFieldValue(fieldName string, value Gong
 		analysisneed.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		analysisneed.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		analysisneed.LayoutDirection.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -11262,8 +11188,6 @@ func (concept *Concept) GongSetFieldValue(fieldName string, value GongFieldValue
 		concept.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		concept.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		concept.LayoutDirection.FromCodeString(value.GetValueString())
 	case "Tools":
 		concept.Tools = make([]*Tool, 0)
 		ids := strings.Split(value.ids, ";")
@@ -11331,8 +11255,6 @@ func (concern *Concern) GongSetFieldValue(fieldName string, value GongFieldValue
 		concern.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		concern.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		concern.LayoutDirection.FromCodeString(value.GetValueString())
 	case "Description":
 		concern.Description = value.GetValueString()
 	case "SubConcerns":
@@ -11631,8 +11553,6 @@ func (deliverable *Deliverable) GongSetFieldValue(fieldName string, value GongFi
 		deliverable.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		deliverable.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		deliverable.LayoutDirection.FromCodeString(value.GetValueString())
 	case "Description":
 		deliverable.Description = value.GetValueString()
 	case "SubDeliverables":
@@ -11823,8 +11743,6 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		diagram.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		diagram.LayoutDirection.FromCodeString(value.GetValueString())
 	case "IsChecked":
 		diagram.IsChecked = value.GetValueBool()
 	case "IsEditable_":
@@ -12324,8 +12242,6 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		library.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		library.LayoutDirection.FromCodeString(value.GetValueString())
 	case "RootDeliverables":
 		library.RootDeliverables = make([]*Deliverable, 0)
 		ids := strings.Split(value.ids, ";")
@@ -12469,8 +12385,6 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		note.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		note.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		note.LayoutDirection.FromCodeString(value.GetValueString())
 	case "Deliverables":
 		note.Deliverables = make([]*Deliverable, 0)
 		ids := strings.Split(value.ids, ";")
@@ -12739,8 +12653,6 @@ func (requirement *Requirement) GongSetFieldValue(fieldName string, value GongFi
 		requirement.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		requirement.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		requirement.LayoutDirection.FromCodeString(value.GetValueString())
 	case "SupportLevels":
 		requirement.SupportLevels = make([]*SupportLevel, 0)
 		ids := strings.Split(value.ids, ";")
@@ -12820,8 +12732,6 @@ func (stakeholder *Stakeholder) GongSetFieldValue(fieldName string, value GongFi
 		stakeholder.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		stakeholder.IsExpanded = value.GetValueBool()
-	case "LayoutDirection":
-		stakeholder.LayoutDirection.FromCodeString(value.GetValueString())
 	case "Description":
 		stakeholder.Description = value.GetValueString()
 	case "Concerns":

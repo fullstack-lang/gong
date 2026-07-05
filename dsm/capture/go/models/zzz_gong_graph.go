@@ -4174,9 +4174,6 @@ func (analysisneed *AnalysisNeed) GongDiff(stage *Stage, analysisneedOther *Anal
 	if analysisneed.IsExpanded != analysisneedOther.IsExpanded {
 		diffs = append(diffs, analysisneed.GongMarshallField(stage, "IsExpanded"))
 	}
-	if analysisneed.LayoutDirection != analysisneedOther.LayoutDirection {
-		diffs = append(diffs, analysisneed.GongMarshallField(stage, "LayoutDirection"))
-	}
 
 	return
 }
@@ -4193,9 +4190,6 @@ func (concept *Concept) GongDiff(stage *Stage, conceptOther *Concept) (diffs []s
 	}
 	if concept.IsExpanded != conceptOther.IsExpanded {
 		diffs = append(diffs, concept.GongMarshallField(stage, "IsExpanded"))
-	}
-	if concept.LayoutDirection != conceptOther.LayoutDirection {
-		diffs = append(diffs, concept.GongMarshallField(stage, "LayoutDirection"))
 	}
 	ToolsDifferent := false
 	if len(concept.Tools) != len(conceptOther.Tools) {
@@ -4276,9 +4270,6 @@ func (concern *Concern) GongDiff(stage *Stage, concernOther *Concern) (diffs []s
 	}
 	if concern.IsExpanded != concernOther.IsExpanded {
 		diffs = append(diffs, concern.GongMarshallField(stage, "IsExpanded"))
-	}
-	if concern.LayoutDirection != concernOther.LayoutDirection {
-		diffs = append(diffs, concern.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if concern.Description != concernOther.Description {
 		diffs = append(diffs, concern.GongMarshallField(stage, "Description"))
@@ -4637,9 +4628,6 @@ func (deliverable *Deliverable) GongDiff(stage *Stage, deliverableOther *Deliver
 	if deliverable.IsExpanded != deliverableOther.IsExpanded {
 		diffs = append(diffs, deliverable.GongMarshallField(stage, "IsExpanded"))
 	}
-	if deliverable.LayoutDirection != deliverableOther.LayoutDirection {
-		diffs = append(diffs, deliverable.GongMarshallField(stage, "LayoutDirection"))
-	}
 	if deliverable.Description != deliverableOther.Description {
 		diffs = append(diffs, deliverable.GongMarshallField(stage, "Description"))
 	}
@@ -4864,9 +4852,6 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 	}
 	if diagram.IsExpanded != diagramOther.IsExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsExpanded"))
-	}
-	if diagram.LayoutDirection != diagramOther.LayoutDirection {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if diagram.IsChecked != diagramOther.IsChecked {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsChecked"))
@@ -5596,9 +5581,6 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.IsExpanded != libraryOther.IsExpanded {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsExpanded"))
 	}
-	if library.LayoutDirection != libraryOther.LayoutDirection {
-		diffs = append(diffs, library.GongMarshallField(stage, "LayoutDirection"))
-	}
 	RootDeliverablesDifferent := false
 	if len(library.RootDeliverables) != len(libraryOther.RootDeliverables) {
 		RootDeliverablesDifferent = true
@@ -5807,9 +5789,6 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	}
 	if note.IsExpanded != noteOther.IsExpanded {
 		diffs = append(diffs, note.GongMarshallField(stage, "IsExpanded"))
-	}
-	if note.LayoutDirection != noteOther.LayoutDirection {
-		diffs = append(diffs, note.GongMarshallField(stage, "LayoutDirection"))
 	}
 	DeliverablesDifferent := false
 	if len(note.Deliverables) != len(noteOther.Deliverables) {
@@ -6119,9 +6098,6 @@ func (requirement *Requirement) GongDiff(stage *Stage, requirementOther *Require
 	if requirement.IsExpanded != requirementOther.IsExpanded {
 		diffs = append(diffs, requirement.GongMarshallField(stage, "IsExpanded"))
 	}
-	if requirement.LayoutDirection != requirementOther.LayoutDirection {
-		diffs = append(diffs, requirement.GongMarshallField(stage, "LayoutDirection"))
-	}
 	SupportLevelsDifferent := false
 	if len(requirement.SupportLevels) != len(requirementOther.SupportLevels) {
 		SupportLevelsDifferent = true
@@ -6219,9 +6195,6 @@ func (stakeholder *Stakeholder) GongDiff(stage *Stage, stakeholderOther *Stakeho
 	}
 	if stakeholder.IsExpanded != stakeholderOther.IsExpanded {
 		diffs = append(diffs, stakeholder.GongMarshallField(stage, "IsExpanded"))
-	}
-	if stakeholder.LayoutDirection != stakeholderOther.LayoutDirection {
-		diffs = append(diffs, stakeholder.GongMarshallField(stage, "LayoutDirection"))
 	}
 	if stakeholder.Description != stakeholderOther.Description {
 		diffs = append(diffs, stakeholder.GongMarshallField(stage, "Description"))

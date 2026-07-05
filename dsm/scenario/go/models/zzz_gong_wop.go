@@ -23,8 +23,6 @@ type ActorState_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *ActorState) CopyBasicFields(to *ActorState) {
@@ -35,7 +33,6 @@ func (from *ActorState) CopyBasicFields(to *ActorState) {
 	to.Probability = from.Probability
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type ActorStateShape_WOP struct {
@@ -72,8 +69,6 @@ type ActorStateTransition_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *ActorStateTransition) CopyBasicFields(to *ActorStateTransition) {
@@ -81,7 +76,6 @@ func (from *ActorStateTransition) CopyBasicFields(to *ActorStateTransition) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type ActorStateTransitionShape_WOP struct {
@@ -128,8 +122,6 @@ type Analysis_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *Analysis) CopyBasicFields(to *Analysis) {
@@ -142,7 +134,6 @@ func (from *Analysis) CopyBasicFields(to *Analysis) {
 	to.IsMapUseNodeExpanded = from.IsMapUseNodeExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type ControlPointShape_WOP struct {
@@ -173,8 +164,6 @@ type Diagram_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 
 	IsChecked bool
 
@@ -216,7 +205,6 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 	to.IsChecked = from.IsChecked
 	to.IsShowPrefix = from.IsShowPrefix
 	to.Description = from.Description
@@ -244,8 +232,6 @@ type Document_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *Document) CopyBasicFields(to *Document) {
@@ -253,7 +239,6 @@ func (from *Document) CopyBasicFields(to *Document) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type DocumentUse_WOP struct {
@@ -277,8 +262,6 @@ type EvolutionDirection_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *EvolutionDirection) CopyBasicFields(to *EvolutionDirection) {
@@ -287,7 +270,6 @@ func (from *EvolutionDirection) CopyBasicFields(to *EvolutionDirection) {
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type EvolutionDirectionShape_WOP struct {
@@ -335,8 +317,6 @@ type GeoObject_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *GeoObject) CopyBasicFields(to *GeoObject) {
@@ -344,7 +324,6 @@ func (from *GeoObject) CopyBasicFields(to *GeoObject) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type GeoObjectUse_WOP struct {
@@ -366,8 +345,6 @@ type Group_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *Group) CopyBasicFields(to *Group) {
@@ -375,7 +352,6 @@ func (from *Group) CopyBasicFields(to *Group) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type GroupUse_WOP struct {
@@ -400,8 +376,6 @@ type Library_WOP struct {
 
 	IsExpanded bool
 
-	LayoutDirection LayoutDirection
-
 	IsRootLibrary bool
 
 	IsAnalysesNodeExpanded bool
@@ -421,7 +395,6 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 	to.IsRootLibrary = from.IsRootLibrary
 	to.IsAnalysesNodeExpanded = from.IsAnalysesNodeExpanded
 	to.IsSubLibrariesNodeExpanded = from.IsSubLibrariesNodeExpanded
@@ -438,8 +411,6 @@ type MapObject_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *MapObject) CopyBasicFields(to *MapObject) {
@@ -447,7 +418,6 @@ func (from *MapObject) CopyBasicFields(to *MapObject) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type MapObjectUse_WOP struct {
@@ -481,8 +451,6 @@ type Parameter_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *Parameter) CopyBasicFields(to *Parameter) {
@@ -496,7 +464,6 @@ func (from *Parameter) CopyBasicFields(to *Parameter) {
 	to.Tag = from.Tag
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type ParameterCategory_WOP struct {
@@ -507,8 +474,6 @@ type ParameterCategory_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *ParameterCategory) CopyBasicFields(to *ParameterCategory) {
@@ -516,7 +481,6 @@ func (from *ParameterCategory) CopyBasicFields(to *ParameterCategory) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type ParameterCategoryUse_WOP struct {
@@ -574,8 +538,6 @@ type ParametersAggregate_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *ParametersAggregate) CopyBasicFields(to *ParametersAggregate) {
@@ -585,7 +547,6 @@ func (from *ParametersAggregate) CopyBasicFields(to *ParametersAggregate) {
 	to.Description = from.Description
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type ParametersAggregateShape_WOP struct {
@@ -629,8 +590,6 @@ type Position_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *Position) CopyBasicFields(to *Position) {
@@ -640,7 +599,6 @@ func (from *Position) CopyBasicFields(to *Position) {
 	to.Ordinate = from.Ordinate
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type Repository_WOP struct {
@@ -651,8 +609,6 @@ type Repository_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *Repository) CopyBasicFields(to *Repository) {
@@ -660,7 +616,6 @@ func (from *Repository) CopyBasicFields(to *Repository) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type Scenario_WOP struct {
@@ -685,8 +640,6 @@ type Scenario_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *Scenario) CopyBasicFields(to *Scenario) {
@@ -701,7 +654,6 @@ func (from *Scenario) CopyBasicFields(to *Scenario) {
 	to.IsParametersAggretatesNodeExpanded = from.IsParametersAggretatesNodeExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type User_WOP struct {
@@ -712,8 +664,6 @@ type User_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *User) CopyBasicFields(to *User) {
@@ -721,7 +671,6 @@ func (from *User) CopyBasicFields(to *User) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 type UserUse_WOP struct {
@@ -743,8 +692,6 @@ type Workspace_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
-
-	LayoutDirection LayoutDirection
 }
 
 func (from *Workspace) CopyBasicFields(to *Workspace) {
@@ -752,7 +699,6 @@ func (from *Workspace) CopyBasicFields(to *Workspace) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
-	to.LayoutDirection = from.LayoutDirection
 }
 
 // end of insertion point
