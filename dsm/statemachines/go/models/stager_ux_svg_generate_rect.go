@@ -85,13 +85,13 @@ func (stager *Stager) svgGenerateRect(
 
 	availableWidth := rect.Width
 	if state.IsDecisionNode {
-		marginForIcon := 40.0
+		marginForIcon := 70.0
 		availableWidth = rect.Width - marginForIcon
 	} else if state.IsEndState {
-		marginForIcon := 25.0
+		marginForIcon := 40.0
 		availableWidth = rect.Width - marginForIcon
 	} else if isStartState {
-		marginForIcon := 10.0
+		marginForIcon := 20.0
 		availableWidth = rect.Width - marginForIcon
 	}
 
