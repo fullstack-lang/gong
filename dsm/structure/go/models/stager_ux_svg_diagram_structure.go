@@ -528,6 +528,10 @@ func (stager *Stager) drawDataFlowShapes(diagramStructure *DiagramStructure, lay
 		link.Stroke = "#4CAF50"
 		link.StrokeWidth = 1.5
 
+		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+		link.StartAnchorType = svg.ANCHOR_CENTER
+		link.EndAnchorType = svg.ANCHOR_CENTER
+
 		link.StartArrowSize = link.EndArrowSize
 		switch dataFlowShape.DataFlow.Direction {
 		case Unspecified:
