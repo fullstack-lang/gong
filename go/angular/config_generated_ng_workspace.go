@@ -177,7 +177,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 		// npm install
 		if true {
 			start := time.Now()
-			cmd := exec.Command("npm", "i")
+			cmd := exec.Command("npm", "i", "--legacy-peer-deps")
 			cmd.Dir = modelPkg.NgWorkspacePath
 			log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 

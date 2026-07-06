@@ -83,6 +83,8 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 			"angular-three-soba",
 			"camera-controls",
 			"maath",
+			"ngxtension",
+			"three-stdlib",
 			"--legacy-peer-deps")
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Installing some packages\n")
