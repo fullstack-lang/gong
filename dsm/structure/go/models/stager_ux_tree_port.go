@@ -39,6 +39,29 @@ func (stager *Stager) treePort(
 	node.OnIsExpandedChange = onIsExpandedChangeSlice(stager, port, portWhoseNodeIsExpanded)
 	node.OnNameChange = stager.onNameChange(port)
 	node.OnClick = onNodeClicked(stager, port)
+
+	addRenameButton(port, node, stager)
+	deleteButton := &tree.Button{
+		Name:            "Delete",
+		Icon:            string(buttons.BUTTON_delete),
+		ToolTipText:     "Delete the port",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Above,
+		OnClick: func() {
+			part.Ports = slices.DeleteFunc(part.Ports, func(p *Port) bool { return p == port })
+			port.Unstage(stager.stage)
+			if portShape, ok := diagramStructure.map_Port_PortShape[port]; ok {
+				portShape.UnstageVoid(stager.stage)
+				diagramStructure.Port_Shapes = slices.DeleteFunc(diagramStructure.Port_Shapes, func(ps *PortShape) bool { return ps == portShape })
+			}
+			stager.stage.Commit()
+		},
+	}
+	if node.Menu == nil {
+		node.Menu = &tree.Menu{Name: "Menu"}
+	}
+	node.Menu.Buttons = append(node.Menu.Buttons, deleteButton)
+
 	node.OnIsCheckedChanged = func(isChecked bool) {
 		if isChecked {
 			portShape := newShapeToDiagram(port, diagramStructure, &diagramStructure.Port_Shapes, stager, node.ClientOnY)

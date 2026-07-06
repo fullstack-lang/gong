@@ -24,6 +24,27 @@ func (stager *Stager) treePartWithinLibrary(
 
 	addRenameButton(part, partNode, stager)
 
+	deleteButton := &tree.Button{
+		Name:            "Delete",
+		Icon:            string(buttons.BUTTON_delete),
+		ToolTipText:     "Delete the part",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Above,
+		OnClick: func() {
+			system := part.GetOwningSystem()
+			if system != nil {
+				system.Parts = slices.DeleteFunc(system.Parts, func(p *Part) bool { return p == part })
+				system.ExternalParts = slices.DeleteFunc(system.ExternalParts, func(p *Part) bool { return p == part })
+			}
+			part.Unstage(stager.stage)
+			stager.stage.Commit()
+		},
+	}
+	if partNode.Menu == nil {
+		partNode.Menu = &tree.Menu{Name: "Menu"}
+	}
+	partNode.Menu.Buttons = append(partNode.Menu.Buttons, deleteButton)
+
 	partNode.OnNameChange = stager.onNameChange(part)
 	partNode.OnIsExpandedChange = onIsExpandedChangeSlice(stager, part, &library.PartsWhoseNodeIsExpanded)
 	partNode.OnClick = onNodeClicked(stager, part)
@@ -56,6 +77,31 @@ func (stager *Stager) treeParts(
 	}
 	parentNode.Children = append(parentNode.Children, node)
 	addRenameButton(part, node, stager)
+
+	deleteButton := &tree.Button{
+		Name:            "Delete",
+		Icon:            string(buttons.BUTTON_delete),
+		ToolTipText:     "Delete the part",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Above,
+		OnClick: func() {
+			system := part.GetOwningSystem()
+			if system != nil {
+				system.Parts = slices.DeleteFunc(system.Parts, func(p *Part) bool { return p == part })
+				system.ExternalParts = slices.DeleteFunc(system.ExternalParts, func(p *Part) bool { return p == part })
+			}
+			part.Unstage(stager.stage)
+			if partShape, ok := diagramStructure.map_Part_PartShape[part]; ok {
+				partShape.UnstageVoid(stager.stage)
+				diagramStructure.Part_Shapes = slices.DeleteFunc(diagramStructure.Part_Shapes, func(ps *PartShape) bool { return ps == partShape })
+			}
+			stager.stage.Commit()
+		},
+	}
+	if node.Menu == nil {
+		node.Menu = &tree.Menu{Name: "Menu"}
+	}
+	node.Menu.Buttons = append(node.Menu.Buttons, deleteButton)
 
 	if partShape, ok = diagramStructure.map_Part_PartShape[part]; ok {
 		node.IsChecked = true
