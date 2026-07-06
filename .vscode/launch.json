@@ -2,6 +2,150 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "app - reqif: `",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/app/reqif/go/cmd/reqif",
+            "buildFlags": "-v",
+            "args": [
+                "--embedded-diagrams=false"
+            ]
+        },
+        {
+            "name": "app - reqif: drone.reqif`",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/app/reqif/go/cmd/reqif",
+            "buildFlags": "-v",
+            "args": [
+                "--embedded-diagrams=false",
+                "-pathToReqifFile",
+                "samples/ReqIF for Wheeled Tennis Ball Drone.reqif",
+                "-pathToRenderingConf",
+                "samples/reqif samples_ReqIF for Wheeled Tennis Ball Drone-renderingConf.go1"
+            ]
+        },
+        {
+            "name": "app - reqif: drone.reqifz`",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/app/reqif/go/cmd/reqif",
+            "buildFlags": "-v",
+            "args": [
+                "--embedded-diagrams=false",
+                "-pathToReqifFile",
+                "samples/ReqIF for Wheeled Tennis Ball Drone.reqifz",
+                "-pathToRenderingConf",
+                "samples/reqif samples_ReqIF for Wheeled Tennis Ball Drone-renderingConf.go1"
+            ]
+        },
+        {
+            "name": "app - xsd: books generate models.go from books.xsd",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/app/xsd/tests/books",
+            "program": "${workspaceFolder}/app/xsd/go/cmd/xsd2gong",
+            "args": [
+                "generate",
+                "./books.xsd",
+                "-v",
+                "-o",
+                "./go/models/models.go"
+            ]
+        },
+        {
+            "name": "app - xsd: books gong generate test on books --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/app/xsd/tests/books/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "name": "app - xsd: books reads books.xml",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/app/xsd/tests/books/go/cmd/books",
+            "program": "${workspaceFolder}/app/xsd/tests/books/go/cmd/books",
+            "args": [
+                "../../../books.xml"
+            ]
+        },
+        {
+            "name": "app - xsd: go run . edit data/stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/app/xsd/go/cmd/xsd",
+            "args": [
+                "edit",
+                "data/stage.go"
+            ]
+        },
+        {
+            "name": "app - xsd: musicxml generate models.go from musicxml.xsd",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/app/xsd/tests/musicxml",
+            "program": "${workspaceFolder}/app/xsd/go/cmd/xsd2gong",
+            "args": [
+                "generate",
+                "./musicxml.xsd",
+                "-v",
+                "-o",
+                "./go/models/models.go"
+            ]
+        },
+        {
+            "name": "app - xsd: musicxml gong generate test on musicxml --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/app/xsd/tests/musicxml/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
+            "name": "app - xsd: reqif generate models.go from dtc-11-04-05.xsd",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/app/xsd/tests/reqif",
+            "program": "${workspaceFolder}/app/xsd/go/cmd/xsd2gong",
+            "args": [
+                "generate",
+                "./dtc-11-04-05.xsd",
+                "-v",
+                "-o",
+                "./go/models/models.go"
+            ]
+        },
+        {
+            "name": "app - xsd: reqif gong generate reqif on reqif --stack-height=0",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}/app/xsd/tests/reqif/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands"
+            ]
+        },
+        {
             "name": "dsm - barrgraph: go run aviva stool",
             "type": "go",
             "request": "launch",
@@ -339,47 +483,6 @@
             ]
         },
         {
-            "name": "dsm - reqif: `",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "program": "${workspaceFolder}/app/reqif/go/cmd/reqif",
-            "buildFlags": "-v",
-            "args": [
-                "--embedded-diagrams=false"
-            ]
-        },
-        {
-            "name": "dsm - reqif: drone.reqif`",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "program": "${workspaceFolder}/app/reqif/go/cmd/reqif",
-            "buildFlags": "-v",
-            "args": [
-                "--embedded-diagrams=false",
-                "-pathToReqifFile",
-                "samples/ReqIF for Wheeled Tennis Ball Drone.reqif",
-                "-pathToRenderingConf",
-                "samples/reqif samples_ReqIF for Wheeled Tennis Ball Drone-renderingConf.go1"
-            ]
-        },
-        {
-            "name": "dsm - reqif: drone.reqifz`",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "program": "${workspaceFolder}/app/reqif/go/cmd/reqif",
-            "buildFlags": "-v",
-            "args": [
-                "--embedded-diagrams=false",
-                "-pathToReqifFile",
-                "samples/ReqIF for Wheeled Tennis Ball Drone.reqifz",
-                "-pathToRenderingConf",
-                "samples/reqif samples_ReqIF for Wheeled Tennis Ball Drone-renderingConf.go1"
-            ]
-        },
-        {
             "name": "dsm - scenario: go run",
             "type": "go",
             "request": "launch",
@@ -476,109 +579,6 @@
             "args": [
                 "edit",
                 "data/stage.go"
-            ]
-        },
-        {
-            "name": "dsm - xsd: books generate models.go from books.xsd",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/app/xsd/tests/books",
-            "program": "${workspaceFolder}/app/xsd/go/cmd/xsd2gong",
-            "args": [
-                "generate",
-                "./books.xsd",
-                "-v",
-                "-o",
-                "./go/models/models.go"
-            ]
-        },
-        {
-            "name": "dsm - xsd: books gong generate test on books --stack-height=0",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "cwd": "${workspaceFolder}/app/xsd/tests/books/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands"
-            ]
-        },
-        {
-            "name": "dsm - xsd: books reads books.xml",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "cwd": "${workspaceFolder}/app/xsd/tests/books/go/cmd/books",
-            "program": "${workspaceFolder}/app/xsd/tests/books/go/cmd/books",
-            "args": [
-                "../../../books.xml"
-            ]
-        },
-        {
-            "name": "dsm - xsd: go run . edit data/stage.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/app/xsd/go/cmd/xsd",
-            "args": [
-                "edit",
-                "data/stage.go"
-            ]
-        },
-        {
-            "name": "dsm - xsd: musicxml generate models.go from musicxml.xsd",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/app/xsd/tests/musicxml",
-            "program": "${workspaceFolder}/app/xsd/go/cmd/xsd2gong",
-            "args": [
-                "generate",
-                "./musicxml.xsd",
-                "-v",
-                "-o",
-                "./go/models/models.go"
-            ]
-        },
-        {
-            "name": "dsm - xsd: musicxml gong generate test on musicxml --stack-height=0",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "cwd": "${workspaceFolder}/app/xsd/tests/musicxml/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands"
-            ]
-        },
-        {
-            "name": "dsm - xsd: reqif generate models.go from dtc-11-04-05.xsd",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/app/xsd/tests/reqif",
-            "program": "${workspaceFolder}/app/xsd/go/cmd/xsd2gong",
-            "args": [
-                "generate",
-                "./dtc-11-04-05.xsd",
-                "-v",
-                "-o",
-                "./go/models/models.go"
-            ]
-        },
-        {
-            "name": "dsm - xsd: reqif gong generate reqif on reqif --stack-height=0",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "cwd": "${workspaceFolder}/app/xsd/tests/reqif/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands"
             ]
         },
         {
