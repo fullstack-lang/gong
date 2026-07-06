@@ -31,13 +31,6 @@ var (
 	_ = slices.Index[[]int, int]
 )
 
-// _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
-
-// When parsed, those maps will help with the renaming process
-var _ map[string]any = map[string]any{
-	// injection point for docLink to identifiers{{EntriesDocLinkStringDocLinkIdentifier}}
-}
-
 // function will stage objects
 func _(stage *models.Stage) {
 
