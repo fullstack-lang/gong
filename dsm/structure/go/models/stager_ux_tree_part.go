@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"log"
 	"slices"
 
@@ -143,6 +144,10 @@ func (stager *Stager) treeParts(
 		newShape := diagramStructure.Port_Shapes[len(diagramStructure.Port_Shapes)-1]
 		newShape.SetWidth(defaultPortWidth)
 		newShape.SetHeight(defaultPortHeight)
+
+		port := callback.createdItem
+		port.SetName(fmt.Sprintf("P%d", len(part.Ports)))
+		port.SetIsInRenameMode(false)
 	}
 
 	controlflowsNode := &tree.Node{
