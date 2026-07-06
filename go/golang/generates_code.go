@@ -582,23 +582,32 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		filepath.Join(pkgPath, "../probe/form_div_field.go"),
 		probe.FormDivToFieldTemplate)
 
+	probeCmdName := "probe"
+	probeCmdMainFile := filepath.Join(pkgPath, "../probe/cmd", probeCmdName, "main.go")
+	
+	// Create directory for probe cmd
+	os.MkdirAll(filepath.Dir(probeCmdMainFile), os.ModePerm)
+
+	// Create .gitignore to ignore the compiled binary
+	gitignorePath := filepath.Join(pkgPath, "../probe/cmd", probeCmdName, ".gitignore")
+	os.WriteFile(gitignorePath, []byte("probe\nprobe.exe\n"), os.ModePerm)
+
 	if stackHeight == 0 {
-		probeCmdName := "probe"
-		probeCmdMainFile := filepath.Join(pkgPath, "../probe/cmd", probeCmdName, "main.go")
-		
-		// Create directory for probe cmd
-		os.MkdirAll(filepath.Dir(probeCmdMainFile), os.ModePerm)
-
-		// Create .gitignore to ignore the compiled binary
-		gitignorePath := filepath.Join(pkgPath, "../probe/cmd", probeCmdName, ".gitignore")
-		os.WriteFile(gitignorePath, []byte("probe\nprobe.exe\n"), os.ModePerm)
-
 		gong_models.SimpleCodeGenerator(
 			modelPkg,
 			modelPkg.Name,
 			modelPkg.PkgPath,
 			probeCmdMainFile,
 			strings.ReplaceAll(probe.ProbeCmdMainTemplate, "{{ProbeCmdName}}", probeCmdName),
+			map[string]string{},
+		)
+	} else {
+		gong_models.SimpleCodeGenerator(
+			modelPkg,
+			modelPkg.Name,
+			modelPkg.PkgPath,
+			probeCmdMainFile,
+			strings.ReplaceAll(probe.ProbeCmdMainTemplateFullStack, "{{ProbeCmdName}}", probeCmdName),
 			map[string]string{},
 		)
 	}
