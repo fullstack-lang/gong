@@ -32,7 +32,7 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsRootLibrary", instanceWithInferedType.IsRootLibrary, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationSliceToForm("RootPlants", instanceWithInferedType, &instanceWithInferedType.RootPlants, formGroup, probe)
+		AssociationSliceToForm("Plants", instanceWithInferedType, &instanceWithInferedType.Plants, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -78,12 +78,12 @@ func FillUpForm(
 		{
 			AssociationReverseSliceToForm[*models.Library, *models.Plant](
 				"Library",
-				"RootPlants",
+				"Plants",
 				instanceWithInferedType,
 				formGroup,
 				probe,
 				func(owner *models.Library) []*models.Plant {
-					return owner.RootPlants
+					return owner.Plants
 				})
 		}
 

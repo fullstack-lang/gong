@@ -314,7 +314,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootPlants"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Plants"))
 	}
 
 	plantOrdered := []*Plant{}
@@ -466,12 +466,12 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
-	case "RootPlants":
+	case "Plants":
 		var sb strings.Builder
-		for _, _plant := range library.RootPlants {
+		for _, _plant := range library.Plants {
 			tmp := SliceOfPointersFieldInitStatement
 			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootPlants")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Plants")
 			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _plant.GongGetIdentifier(stage))
 			sb.WriteString(tmp)
 		}
@@ -550,7 +550,7 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
-		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootPlants"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "Plants"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
