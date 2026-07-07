@@ -143,7 +143,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Library_SubLibraries_reverseMap map[*Library]*Library
 
-	Library_RootPlants_reverseMap map[*Plant]*Library
+	Library_Plants_reverseMap map[*Plant]*Library
 
 	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
 	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
@@ -1237,7 +1237,7 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
 			// field is initialized with an instance of Plant with the name of the field
-			RootPlants: []*Plant{{Name: "RootPlants"}},
+			Plants: []*Plant{{Name: "Plants"}},
 		}).(*Type)
 	case Plant:
 		return any(&Plant{
@@ -1297,10 +1297,10 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "RootPlants":
+		case "Plants":
 			res := make(map[*Plant][]*Library)
 			for library := range stage.Librarys {
-				for _, plant_ := range library.RootPlants {
+				for _, plant_ := range library.Plants {
 					res[plant_] = append(res[plant_], library)
 				}
 			}
@@ -1353,7 +1353,7 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Library"
-		rf.Fieldname = "RootPlants"
+		rf.Fieldname = "Plants"
 		res = append(res, rf)
 	}
 	return
@@ -1393,7 +1393,7 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "RootPlants",
+			Name:                 "Plants",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Plant",
 		},
@@ -1530,9 +1530,9 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
 		res.valueBool = library.IsRootLibrary
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "RootPlants":
+	case "Plants":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range library.RootPlants {
+		for idx, __instance__ := range library.Plants {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -1618,15 +1618,15 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.IsExpanded = value.GetValueBool()
 	case "IsRootLibrary":
 		library.IsRootLibrary = value.GetValueBool()
-	case "RootPlants":
-		library.RootPlants = make([]*Plant, 0)
+	case "Plants":
+		library.Plants = make([]*Plant, 0)
 		ids := strings.Split(value.ids, ";")
 		for _, idStr := range ids {
 			var id int
 			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
 				for __instance__ := range stage.Plants {
 					if stage.Plant_stagedOrder[__instance__] == uint(id) {
-						library.RootPlants = append(library.RootPlants, __instance__)
+						library.Plants = append(library.Plants, __instance__)
 						break
 					}
 				}

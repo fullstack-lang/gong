@@ -108,7 +108,7 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(library_.IsExpanded), formDiv)
 		case "IsRootLibrary":
 			FormDivBasicFieldToField(&(library_.IsRootLibrary), formDiv)
-		case "RootPlants":
+		case "Plants":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Plant](libraryFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Plant, 0)
 
@@ -137,8 +137,8 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			library_.RootPlants = instanceSlice
-			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "RootPlants", &library_.RootPlants)
+			library_.Plants = instanceSlice
+			libraryFormCallback.probe.UpdateSliceOfPointersCallback(library_, "Plants", &library_.Plants)
 
 		case "Library:SubLibraries":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
@@ -279,7 +279,7 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(plant_.IsExpanded), formDiv)
-		case "Library:RootPlants":
+		case "Library:Plants":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 			if err != nil {
@@ -297,30 +297,30 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 				}
 			}
 
-			// 3. Iterate over all Library instances and update their RootPlants slice
+			// 3. Iterate over all Library instances and update their Plants slice
 			for _library := range *models.GetGongstructInstancesSetFromPointerType[*models.Library](plantFormCallback.probe.stageOfInterest) {
 				id := models.GetOrderPointerGongstruct(plantFormCallback.probe.stageOfInterest, _library)
 				
 				// if Library is selected
 				if targetLibraryIDs[id] {
-					// ensure plant_ is in _library.RootPlants
+					// ensure plant_ is in _library.Plants
 					found := false
-					for _, _b := range _library.RootPlants {
+					for _, _b := range _library.Plants {
 						if _b == plant_ {
 							found = true
 							break
 						}
 					}
 					if !found {
-						_library.RootPlants = append(_library.RootPlants, plant_)
-						plantFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootPlants", &_library.RootPlants)
+						_library.Plants = append(_library.Plants, plant_)
+						plantFormCallback.probe.UpdateSliceOfPointersCallback(_library, "Plants", &_library.Plants)
 					}
 				} else {
-					// ensure plant_ is NOT in _library.RootPlants
-					idx := slices.Index(_library.RootPlants, plant_)
+					// ensure plant_ is NOT in _library.Plants
+					idx := slices.Index(_library.Plants, plant_)
 					if idx != -1 {
-						_library.RootPlants = slices.Delete(_library.RootPlants, idx, idx+1)
-						plantFormCallback.probe.UpdateSliceOfPointersCallback(_library, "RootPlants", &_library.RootPlants)
+						_library.Plants = slices.Delete(_library.Plants, idx, idx+1)
+						plantFormCallback.probe.UpdateSliceOfPointersCallback(_library, "Plants", &_library.Plants)
 					}
 				}
 			}

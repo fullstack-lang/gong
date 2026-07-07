@@ -102,7 +102,7 @@ func _(stage *models.Stage) {
 	__LinkShape__00000000_.CornerOffsetRatio = 1.954984
 
 	__LinkShape__00000001_.Name = `RootPlants`
-	__LinkShape__00000001_.IdentifierMeta = ref_models.Library{}.RootPlants
+	__LinkShape__00000001_.IdentifierMeta = ref_models.Library{}.Plants
 	__LinkShape__00000001_.FieldTypeIdentifierMeta = ref_models.Plant{}
 	__LinkShape__00000001_.FieldOffsetX = 0.000000
 	__LinkShape__00000001_.FieldOffsetY = 0.000000

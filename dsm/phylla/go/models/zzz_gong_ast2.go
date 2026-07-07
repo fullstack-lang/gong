@@ -497,8 +497,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "IsRootLibrary":
 		instance.IsRootLibrary = GongExtractBool(valueExpr)
-	case "RootPlants":
-		GongUnmarshallSliceOfPointers(&instance.RootPlants, valueExpr, identifierMap)
+	case "Plants":
+		GongUnmarshallSliceOfPointers(&instance.Plants, valueExpr, identifierMap)
 	}
 	return nil
 }

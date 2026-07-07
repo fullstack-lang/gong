@@ -6,12 +6,12 @@ func (stager *Stager) enforceOrphansAbstractElement() (needCommit bool) {
 		func() []*Plant {
 			roots := make([]*Plant, 0)
 			for _, library := range GetGongstrucsSorted[*Library](stager.stage) {
-				roots = append(roots, library.RootPlants...)
+				roots = append(roots, library.Plants...)
 			}
 			return roots
 		},
 		func(plant *Plant) {
-			plant.GetOwningLibrary().RootPlants = append(plant.GetOwningLibrary().RootPlants, plant)
+			plant.GetOwningLibrary().Plants = append(plant.GetOwningLibrary().Plants, plant)
 		},
 		func(plant *Plant) []*Plant {
 			return []*Plant{}
