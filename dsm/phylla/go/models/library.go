@@ -19,4 +19,7 @@ type Library struct {
 	IsRootLibrary bool
 
 	objects []AbstractType
+
+	// DSM specific
+	RootPlants []*Plant
 }

@@ -497,6 +497,8 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "IsRootLibrary":
 		instance.IsRootLibrary = GongExtractBool(valueExpr)
+	case "RootPlants":
+		GongUnmarshallSliceOfPointers(&instance.RootPlants, valueExpr, identifierMap)
 	}
 	return nil
 }
@@ -526,6 +528,22 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
+	case "N":
+		instance.N = GongExtractInt(valueExpr)
+	case "M":
+		instance.M = GongExtractInt(valueExpr)
+	case "Z":
+		instance.Z = GongExtractInt(valueExpr)
+	case "InsideAngle":
+		instance.InsideAngle = GongExtractFloat(valueExpr)
+	case "ShiftToNearestCircle":
+		instance.ShiftToNearestCircle = GongExtractInt(valueExpr)
+	case "SideLength":
+		instance.SideLength = GongExtractFloat(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
 	}
 	return nil
 }

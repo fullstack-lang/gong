@@ -11,7 +11,6 @@ func getPersistanceFile(stager *Stager) string {
 }
 
 func (stager *Stager) createViews() {
-	stage := stager.stage
 	stager.splitStage.Reset()
 
 	tabTitle := &split.Title{
@@ -81,52 +80,6 @@ func (stager *Stager) createViews() {
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name:      "Edit PBS/WBS with Probe",
-		Direction: split.Horizontal,
-		RootAsSplitAreas: []*split.AsSplitArea{
-			{
-				Name:             "Sidebar with both trees",
-				ShowNameInHeader: false,
-				Size:             62,
-				AsSplit: &split.AsSplit{
-					Name:      "as split",
-					Direction: split.Horizontal,
-					AsSplitAreas: []*split.AsSplitArea{
-						{
-							Size: 38,
-							AsSplit: &split.AsSplit{
-								Direction: split.Vertical,
-								AsSplitAreas: []*split.AsSplitArea{
-									{
-										Name:             "Libraries",
-										Size:             100,
-										ShowNameInHeader: false,
-										Tree: &split.Tree{
-											StackName: stager.treeStage.GetName(),
-										},
-									},
-								},
-							},
-						},
-						{
-							Size: 62,
-							Form: &split.Form{
-								StackName: stager.probeForm.GetFormStage().GetName(),
-							},
-						},
-					},
-				},
-			},
-			{
-				Size: 38,
-				Split: &split.Split{
-					StackName: stage.GetProbeSplitStageName(),
-				},
-			},
-		},
-	})
-
-	split.StageBranch(stager.splitStage, &split.View{
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -138,82 +91,7 @@ func (stager *Stager) createViews() {
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name:      "All",
-		Direction: split.Horizontal,
-		RootAsSplitAreas: []*split.AsSplitArea{
-			{
-				Name:             "Sidebar with both trees",
-				ShowNameInHeader: false,
-				Size:             35,
-				AsSplit: &split.AsSplit{
-					Name:      "as split",
-					Direction: split.Horizontal,
-					AsSplitAreas: []*split.AsSplitArea{
-						{
-							Size: 50,
-							AsSplit: &split.AsSplit{
-								Direction: split.Vertical,
-								AsSplitAreas: []*split.AsSplitArea{
-									{
-										Name:             "Bottom",
-										Size:             100,
-										ShowNameInHeader: false,
-										Tree: &split.Tree{
-											StackName: stager.treeStage.GetName(),
-										},
-									},
-								},
-							},
-						},
-						{
-							Size: 50,
-							Svg: &split.Svg{
-								StackName: stager.svgStage.GetName(),
-							},
-						},
-					},
-				},
-			},
-			{
-				Size: 65,
-				Split: &split.Split{
-					StackName: stage.GetProbeSplitStageName(),
-				},
-			},
-		},
-	})
-
-	split.StageBranch(stager.splitStage, &split.View{
-		Name: "Load / Download / Buttons",
-		RootAsSplitAreas: []*split.AsSplitArea{
-			{
-				Name:             "Load  Buttons Download",
-				ShowNameInHeader: false,
-				Size:             35,
-				AsSplit: &split.AsSplit{
-					Name:      "as split",
-					Direction: split.Horizontal,
-					AsSplitAreas: []*split.AsSplitArea{
-						{
-							Size: 50,
-							Load: &split.Load{
-								StackName: stager.loadStage.GetName(),
-							},
-						},
-						{
-							Size: 50,
-							Button: &split.Button{
-								StackName: stager.buttonStage.GetName(),
-							},
-						},
-					},
-				},
-			},
-		},
-	})
-
-	split.StageBranch(stager.splitStage, &split.View{
-		Name:            "Tree Product Probe",
+		Name:            "Tree Probe",
 		IsSecondaryView: true,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{

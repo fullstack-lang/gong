@@ -39,11 +39,35 @@ type Plant_WOP struct {
 	// insertion point
 
 	Name string
+
+	N int
+
+	M int
+
+	Z int
+
+	InsideAngle float64
+
+	ShiftToNearestCircle int
+
+	SideLength float64
+
+	ComputedPrefix string
+
+	IsExpanded bool
 }
 
 func (from *Plant) CopyBasicFields(to *Plant) {
 	// insertion point
 	to.Name = from.Name
+	to.N = from.N
+	to.M = from.M
+	to.Z = from.Z
+	to.InsideAngle = from.InsideAngle
+	to.ShiftToNearestCircle = from.ShiftToNearestCircle
+	to.SideLength = from.SideLength
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
 }
 
 // end of insertion point
