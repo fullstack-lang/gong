@@ -176,6 +176,20 @@
             "group": "build"
         },
         {
+            "label": "dsm - phylla: gong generate --dsm",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/dsm/phylla/go/models"
+            },
+            "command": "gong",
+            "group": "build",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--dsm"
+            ]
+        },
+        {
             "label": "dsm - process: gong generate --dsm",
             "type": "shell",
             "options": {
@@ -199,7 +213,7 @@
             "group": "build"
         },
         {
-            "label": "dsm - process: go run . edit -embeddedDiagrams=false -port=8090 data/icao4444.go",
+            "label": "dsm - process: go run . edit --embedded-diagrams=false -port=8090 data/icao4444.go",
             "type": "shell",
             "options": {
                 "cwd": "./dsm/process/go/cmd/process"
@@ -209,7 +223,7 @@
                 "run",
                 ".",
                 "edit",
-                "-embeddedDiagrams=false",
+                "--embedded-diagrams=false",
                 "-port=8090",
                 "data/icao4444.go"
             ],

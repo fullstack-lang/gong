@@ -23,7 +23,7 @@ var editCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(editCmd)
-	editCmd.Flags().BoolVar(&embeddedDiagrams, "embeddedDiagrams", false, "parse/analysis go/models and go/embeddedDiagrams")
+	editCmd.Flags().BoolVar(&embeddedDiagrams, "embedded-diagrams", false, "parse/analysis go/models and go/embeddedDiagrams")
 	editCmd.Flags().IntVar(&port, "port", 8080, "port server")
 }
 `

@@ -81,7 +81,7 @@ var rootCmd = &cobra.Command{
 
 func main() {
 	rootCmd.AddCommand(editCmd)
-	rootCmd.PersistentFlags().BoolVar(&embeddedDiagrams, "embeddedDiagrams", true, "parse/analysis go/models and go/embeddedDiagrams")
+	rootCmd.PersistentFlags().BoolVar(&embeddedDiagrams, "embedded-diagrams", true, "parse/analysis go/models and go/embeddedDiagrams")
 	rootCmd.PersistentFlags().IntVar(&port, "port", 8080, "port server")
 
 	if err := rootCmd.Execute(); err != nil {

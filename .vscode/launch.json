@@ -266,6 +266,18 @@
             ]
         },
         {
+            "name": "dsm - phylla: go run stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/phylla/go/cmd/phylla",
+            "args": [
+                "edit",
+                "--embedded-diagrams=false",
+                "data/stage.go"
+            ]
+        },
+        {
             "name": "dsm - process : merge",
             "type": "go",
             "request": "launch",
@@ -664,7 +676,7 @@
             ]
         },
         {
-            "name": "lib - doc: go run . edit data/stage.go --out data/stage -embeddedDiagrams=true",
+            "name": "lib - doc: go run . edit data/stage.go --out data/stage --embedded-diagrams=true",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -723,7 +735,7 @@
             "sourceMaps": true
         },
         {
-            "name": "lib - form: go run . edit data/stage.go --out data/stage -embeddedDiagrams=true",
+            "name": "lib - form: go run . edit data/stage.go --out data/stage --embedded-diagrams=true",
             "type": "go",
             "request": "launch",
             "mode": "auto",
