@@ -5,12 +5,14 @@ package models
 import (
 	"github.com/gin-gonic/gin"
 
-	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
+	button "github.com/fullstack-lang/gong/lib/button/go/models"
+	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
 
-	tree_stack "github.com/fullstack-lang/gong/lib/tree/go/stack"
+	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
+	load "github.com/fullstack-lang/gong/lib/load/go/models"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
-	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 
 	ssg_stack "github.com/fullstack-lang/gong/lib/ssg/go/level1stack"
 	ssg "github.com/fullstack-lang/gong/lib/ssg/go/models"
@@ -18,11 +20,8 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
 
-	load "github.com/fullstack-lang/gong/lib/load/go/models"
-	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
-
-	button "github.com/fullstack-lang/gong/lib/button/go/models"
-	button_stack "github.com/fullstack-lang/gong/lib/button/go/stack"
+	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
+	tree_stack "github.com/fullstack-lang/gong/lib/tree/go/stack"
 )
 
 type Stager struct {
@@ -34,7 +33,6 @@ type Stager struct {
 	svgStage    *svg.Stage
 	ssgStage    *ssg.Stage
 	loadStage   *load.Stage
-	fileName    string // fileName is used to store the name of the file to load or save
 	buttonStage *button.Stage
 
 	productToLibrary map[*Product]*Library
@@ -48,6 +46,10 @@ type Stager struct {
 	// DSM mandatory
 	// map to navigate from abstract elements to all diagrams where they are displayed
 	map_Element_Diagrams map[AbstractType][]DiagramIF
+
+	// DSM mandatory
+	fileName string // fileName is used to store the name of the file to load or save
+
 }
 
 func NewStager(

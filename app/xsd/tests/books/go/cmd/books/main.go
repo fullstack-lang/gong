@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	embeddedDiagrams = flag.Bool("embeddedDiagrams", false, "parse/analysis go/models and go/embeddedDiagrams")
+	embeddedDiagrams = flag.Bool("embedded-diagrams", false, "parse/analysis go/models and go/embeddedDiagrams")
 
 	port = flag.Int("port", 8080, "port server")
 )
