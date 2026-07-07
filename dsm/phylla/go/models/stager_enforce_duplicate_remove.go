@@ -1,0 +1,39 @@
+package models
+
+import "time"
+
+// enforceDuplicateRemove parses all associations between AbstractType
+// and deletes duplicates within these associations
+func (stager *Stager) enforceDuplicateRemove() (needCommit bool) {
+	stage := stager.stage
+
+	needCommit = removeDuplicatesSlice(stager, &stager.getRootLibrary().SubLibraries) || needCommit
+
+	for library := range *GetGongstructInstancesSetFromPointerType[*Library](stage) {
+		needCommit = removeDuplicatesSlice(stager, &library.RootPlants) || needCommit
+	}
+
+	return
+}
+
+// removeDuplicatesSlice is a generic helper that removes duplicate pointers from a slice.
+// It keeps the first occurrence of each element and preserves order.
+// It returns true if any duplicates were removed.
+func removeDuplicatesSlice[T PointerToGongstruct](stager *Stager, slicePtr *[]T) bool {
+	keys := make(map[T]bool)
+	list := []T{}
+	changed := false
+	for _, entry := range *slicePtr {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			list = append(list, entry)
+		} else {
+			changed = true
+			stager.probeForm.AddNotification(time.Now(), "Removed duplicate entry from slice: "+entry.GetName())
+		}
+	}
+	if changed {
+		*slicePtr = list
+	}
+	return changed
+}

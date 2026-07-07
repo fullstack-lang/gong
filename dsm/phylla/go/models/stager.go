@@ -21,6 +21,7 @@ import (
 	tree_stack "github.com/fullstack-lang/gong/lib/tree/go/stack"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
+	svg_stack "github.com/fullstack-lang/gong/lib/svg/go/stack"
 )
 
 type Stager struct {
@@ -65,26 +66,25 @@ func NewStager(
 
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
+	stager.svgStage = svg_stack.NewStack(r, "", "", "", "", true, true).Stage
+
 	stager.treeStage = tree_stack.NewStack(r, "", "", "", "", true, true).Stage
 
-	split.StageBranch(stager.splitStage, &split.View{
-		Name: "Data Probe & Data Model",
-		RootAsSplitAreas: []*split.AsSplitArea{
-			{
-				Split: &split.Split{
-					StackName: stage.GetProbeSplitStageName(),
-				},
-			},
-		},
-	})
+	stager.createViews()
 
-	stager.splitStage.Commit()
-
-	callbacks := &BeforeCommitImplementation{
-		stager: stager,
+	beforeCommit := func(stage *Stage) {
+		stager.enforceSemantic()
 	}
-	stager.stage.OnInitCommitFromBackCallback = callbacks
-	callbacks.BeforeCommit(stage)
+	afterCommit := func(stage *Stage) {
+		stager.ux_tree() // DSM mandatory name, to be changed
+		stager.button()
+		stager.load()
+	}
+
+	stager.stage.RegisterBeforeCommit(beforeCommit)
+	stager.stage.RegisterAfterCommit(afterCommit)
+	beforeCommit(stager.stage)
+	afterCommit(stager.stage)
 
 	return
 }

@@ -29,11 +29,11 @@ type Stager struct {
 	splitStage *split.Stage
 	probeForm  ProbeIF
 
-	treeStage   *tree.Stage // "treeStage" is the DSM mandatory name (to be changed)
-	svgStage    *svg.Stage
-	ssgStage    *ssg.Stage
-	loadStage   *load.Stage
 	buttonStage *button.Stage
+	loadStage   *load.Stage
+	ssgStage    *ssg.Stage
+	svgStage    *svg.Stage
+	treeStage   *tree.Stage // "treeStage" is the DSM mandatory name (to be changed)
 
 	productToLibrary map[*Product]*Library
 	taskToLibrary    map[*Task]*Library

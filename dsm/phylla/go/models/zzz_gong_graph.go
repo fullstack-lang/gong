@@ -85,6 +85,9 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 	for _, _library := range library.SubLibraries {
 		StageBranch(stage, _library)
 	}
+	for _, _plant := range library.RootPlants {
+		StageBranch(stage, _plant)
+	}
 
 }
 
@@ -147,6 +150,9 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	for _, _library := range libraryFrom.SubLibraries {
 		libraryTo.SubLibraries = append(libraryTo.SubLibraries, CopyBranchLibrary(mapOrigCopy, _library))
 	}
+	for _, _plant := range libraryFrom.RootPlants {
+		libraryTo.RootPlants = append(libraryTo.RootPlants, CopyBranchPlant(mapOrigCopy, _plant))
+	}
 
 	return
 }
@@ -205,6 +211,9 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 	for _, _library := range library.SubLibraries {
 		UnstageBranch(stage, _library)
 	}
+	for _, _plant := range library.RootPlants {
+		UnstageBranch(stage, _plant)
+	}
 
 }
 
@@ -231,6 +240,10 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.SubLibraries {
 		reference.SubLibraries = append(reference.SubLibraries, stage.Librarys_reference[_b])
 	}
+	reference.RootPlants = reference.RootPlants[:0]
+	for _, _b := range instance.RootPlants {
+		reference.RootPlants = append(reference.RootPlants, stage.Plants_reference[_b])
+	}
 }
 
 func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, instance *Plant) {
@@ -249,6 +262,13 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.SubLibraries = _SubLibraries
+	var _RootPlants []*Plant
+	for _, _reference := range reference.RootPlants {
+		if _instance, ok := stage.Plants_instance[_reference]; ok {
+			_RootPlants = append(_RootPlants, _instance)
+		}
+	}
+	reference.RootPlants = _RootPlants
 }
 
 func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
@@ -300,6 +320,27 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if library.IsRootLibrary != libraryOther.IsRootLibrary {
 		diffs = append(diffs, library.GongMarshallField(stage, "IsRootLibrary"))
 	}
+	RootPlantsDifferent := false
+	if len(library.RootPlants) != len(libraryOther.RootPlants) {
+		RootPlantsDifferent = true
+	} else {
+		for i := range library.RootPlants {
+			if (library.RootPlants[i] == nil) != (libraryOther.RootPlants[i] == nil) {
+				RootPlantsDifferent = true
+				break
+			} else if library.RootPlants[i] != nil && libraryOther.RootPlants[i] != nil {
+				// this is a pointer comparaison
+				if library.RootPlants[i] != libraryOther.RootPlants[i] {
+					RootPlantsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootPlantsDifferent {
+		ops := Diff(stage, library, libraryOther, "RootPlants", libraryOther.RootPlants, library.RootPlants)
+		diffs = append(diffs, ops)
+	}
 
 	return
 }
@@ -310,6 +351,30 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	// insertion point for field diffs
 	if plant.Name != plantOther.Name {
 		diffs = append(diffs, plant.GongMarshallField(stage, "Name"))
+	}
+	if plant.N != plantOther.N {
+		diffs = append(diffs, plant.GongMarshallField(stage, "N"))
+	}
+	if plant.M != plantOther.M {
+		diffs = append(diffs, plant.GongMarshallField(stage, "M"))
+	}
+	if plant.Z != plantOther.Z {
+		diffs = append(diffs, plant.GongMarshallField(stage, "Z"))
+	}
+	if plant.InsideAngle != plantOther.InsideAngle {
+		diffs = append(diffs, plant.GongMarshallField(stage, "InsideAngle"))
+	}
+	if plant.ShiftToNearestCircle != plantOther.ShiftToNearestCircle {
+		diffs = append(diffs, plant.GongMarshallField(stage, "ShiftToNearestCircle"))
+	}
+	if plant.SideLength != plantOther.SideLength {
+		diffs = append(diffs, plant.GongMarshallField(stage, "SideLength"))
+	}
+	if plant.ComputedPrefix != plantOther.ComputedPrefix {
+		diffs = append(diffs, plant.GongMarshallField(stage, "ComputedPrefix"))
+	}
+	if plant.IsExpanded != plantOther.IsExpanded {
+		diffs = append(diffs, plant.GongMarshallField(stage, "IsExpanded"))
 	}
 
 	return

@@ -314,6 +314,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootPlants"))
 	}
 
 	plantOrdered := []*Plant{}
@@ -340,6 +341,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString("\n")
 		// Insertion point for basic fields value assignment
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "N"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "M"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "Z"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "InsideAngle"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "ShiftToNearestCircle"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "SideLength"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
 	}
 
 	// insertion initialization of objects to stage
@@ -457,6 +466,16 @@ func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res s
 			sb.WriteString(tmp)
 		}
 		res = sb.String()
+	case "RootPlants":
+		var sb strings.Builder
+		for _, _plant := range library.RootPlants {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", library.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootPlants")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _plant.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Library", fieldName)
 	}
@@ -471,6 +490,46 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plant.Name))
+	case "N":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "N")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.N))
+	case "M":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "M")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.M))
+	case "Z":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Z")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.Z))
+	case "InsideAngle":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "InsideAngle")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.InsideAngle))
+	case "ShiftToNearestCircle":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShiftToNearestCircle")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.ShiftToNearestCircle))
+	case "SideLength":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SideLength")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.SideLength))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plant.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant.IsExpanded))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Plant", fieldName)
@@ -491,6 +550,7 @@ func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptr
 		initializerStatements.WriteString(library.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(library.GongMarshallField(stage, "IsRootLibrary"))
+		pointersInitializesStatements.WriteString(library.GongMarshallField(stage, "RootPlants"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -502,6 +562,14 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 	var pointersInitializesStatements strings.Builder
 	{ // Insertion point for basic fields value assignment
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "N"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "M"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "Z"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "InsideAngle"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "ShiftToNearestCircle"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "SideLength"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

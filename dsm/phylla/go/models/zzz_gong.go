@@ -143,6 +143,8 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Library_SubLibraries_reverseMap map[*Library]*Library
 
+	Library_RootPlants_reverseMap map[*Plant]*Library
+
 	OnAfterLibraryCreateCallback OnAfterCreateInterface[Library]
 	OnAfterLibraryUpdateCallback OnAfterUpdateInterface[Library]
 	OnAfterLibraryDeleteCallback OnAfterDeleteInterface[Library]
@@ -1234,6 +1236,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Library with the name of the field
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
+			// field is initialized with an instance of Plant with the name of the field
+			RootPlants: []*Plant{{Name: "RootPlants"}},
 		}).(*Type)
 	case Plant:
 		return any(&Plant{
@@ -1293,6 +1297,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "RootPlants":
+			res := make(map[*Plant][]*Library)
+			for library := range stage.Librarys {
+				for _, plant_ := range library.RootPlants {
+					res[plant_] = append(res[plant_], library)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Plant
 	case Plant:
@@ -1340,6 +1352,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Plant:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Library"
+		rf.Fieldname = "RootPlants"
+		res = append(res, rf)
 	}
 	return
 }
@@ -1377,6 +1392,11 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsRootLibrary",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:                 "RootPlants",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Plant",
+		},
 	}
 	return
 }
@@ -1387,6 +1407,38 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "N",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "M",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "Z",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "InsideAngle",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ShiftToNearestCircle",
+			GongFieldValueType: GongFieldValueTypeInt,
+		},
+		{
+			Name:               "SideLength",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -1478,6 +1530,16 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", library.IsRootLibrary)
 		res.valueBool = library.IsRootLibrary
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "RootPlants":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range library.RootPlants {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
 	}
 	return
 }
@@ -1487,6 +1549,36 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	// string value of fields
 	case "Name":
 		res.valueString = plant.Name
+	case "N":
+		res.valueString = fmt.Sprintf("%d", plant.N)
+		res.valueInt = plant.N
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "M":
+		res.valueString = fmt.Sprintf("%d", plant.M)
+		res.valueInt = plant.M
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Z":
+		res.valueString = fmt.Sprintf("%d", plant.Z)
+		res.valueInt = plant.Z
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "InsideAngle":
+		res.valueString = fmt.Sprintf("%f", plant.InsideAngle)
+		res.valueFloat = plant.InsideAngle
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ShiftToNearestCircle":
+		res.valueString = fmt.Sprintf("%d", plant.ShiftToNearestCircle)
+		res.valueInt = plant.ShiftToNearestCircle
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "SideLength":
+		res.valueString = fmt.Sprintf("%f", plant.SideLength)
+		res.valueFloat = plant.SideLength
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ComputedPrefix":
+		res.valueString = plant.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", plant.IsExpanded)
+		res.valueBool = plant.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -1526,6 +1618,20 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 		library.IsExpanded = value.GetValueBool()
 	case "IsRootLibrary":
 		library.IsRootLibrary = value.GetValueBool()
+	case "RootPlants":
+		library.RootPlants = make([]*Plant, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Plants {
+					if stage.Plant_stagedOrder[__instance__] == uint(id) {
+						library.RootPlants = append(library.RootPlants, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -1537,6 +1643,22 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	// insertion point for per field code
 	case "Name":
 		plant.Name = value.GetValueString()
+	case "N":
+		plant.N = int(value.GetValueInt())
+	case "M":
+		plant.M = int(value.GetValueInt())
+	case "Z":
+		plant.Z = int(value.GetValueInt())
+	case "InsideAngle":
+		plant.InsideAngle = value.GetValueFloat()
+	case "ShiftToNearestCircle":
+		plant.ShiftToNearestCircle = int(value.GetValueInt())
+	case "SideLength":
+		plant.SideLength = value.GetValueFloat()
+	case "ComputedPrefix":
+		plant.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		plant.IsExpanded = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

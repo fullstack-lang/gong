@@ -11,13 +11,14 @@ func (stager *Stager) enforceOwningLibraryAndObjects() {
 	}
 
 	// redeem objects without owning libraries
-	for _, instance := range stage.GetInstances() {
+	instances := stage.GetInstances()
+	for _, instance := range instances {
 		if abstractObject, ok := instance.(interface {
 			AbstractType
 			LibraryOwnedType
 		}); ok {
-			if abstractObject.GetOwningLibrary() == nil && abstractObject != any(stager.GetRootLibrary()) {
-				abstractObject.SetOwningLibrary(stager.GetRootLibrary())
+			if abstractObject.GetOwningLibrary() == nil && abstractObject != any(stager.getRootLibrary()) {
+				abstractObject.SetOwningLibrary(stager.getRootLibrary())
 				abstractObject.GetOwningLibrary().objects = append(abstractObject.GetOwningLibrary().objects, abstractObject)
 			}
 		}
