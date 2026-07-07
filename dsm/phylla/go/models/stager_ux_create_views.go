@@ -19,10 +19,71 @@ func (stager *Stager) createViews() {
 	tabTitle.Stage(stager.splitStage)
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name:           "Edit PBS/WBS (" + getPersistanceFile(stager) + ")",
+		Name:           "Tree - SVG - Slider (" + getPersistanceFile(stager) + ")",
 		Direction:      split.Horizontal,
 		IsSizeInPixel:  true,
 		IsSelectedView: true,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Name:             "Sidebar with both trees",
+				ShowNameInHeader: false,
+				IsAny:            true,
+				AsSplit: &split.AsSplit{
+					Name:          "as split",
+					IsSizeInPixel: true,
+					Direction:     split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						{
+							Size: 525,
+							AsSplit: &split.AsSplit{
+								Direction: split.Vertical,
+								AsSplitAreas: []*split.AsSplitArea{
+									{
+										Name:             "Libraries",
+										Size:             80,
+										ShowNameInHeader: false,
+										Tree: &split.Tree{
+											StackName: stager.treeStage.GetName(),
+										},
+									},
+									{
+										Size: 10,
+										Load: &split.Load{
+											StackName: stager.loadStage.GetName(),
+										},
+									},
+									{
+										Size: 10,
+										Button: &split.Button{
+											StackName: stager.buttonStage.GetName(),
+										},
+									},
+								},
+							},
+						},
+						{
+							IsAny: true,
+							Svg: &split.Svg{
+								StackName: stager.svgStage.GetName(),
+							},
+						},
+					},
+				},
+			},
+			{
+				Size: 525,
+				Slider: &split.Slider{
+					StackName: stager.sliderStage.GetName(),
+				},
+			},
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
+		Name:           "Tree - SVG - Form (" + getPersistanceFile(stager) + ")",
+		Direction:      split.Horizontal,
+		IsSizeInPixel:  true,
+		IsSelectedView: false,
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Name:             "Sidebar with both trees",

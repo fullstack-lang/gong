@@ -15,6 +15,9 @@ func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node) {
 
 	plantNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plant.IsExpanded)
 	plantNode.OnNameChange = stager.onNameChange(plant)
-	plantNode.OnClick = onNodeClicked(stager, plant)
-
+	plantNode.OnClick = func(frontNode *tree.Node) {
+		stager.probeForm.FillUpFormFromGongstruct(plant, GetPointerToGongstructName[*Plant]())
+		stager.selectedPlant = plant
+		stager.stage.Commit()
+	}
 }
