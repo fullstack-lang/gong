@@ -11,6 +11,9 @@ import (
 	load_fullstack "github.com/fullstack-lang/gong/lib/load/go/fullstack"
 	load "github.com/fullstack-lang/gong/lib/load/go/models"
 
+	slider "github.com/fullstack-lang/gong/lib/slider/go/models"
+	slider_stack "github.com/fullstack-lang/gong/lib/slider/go/stack"
+
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 
@@ -31,11 +34,10 @@ type Stager struct {
 
 	buttonStage *button.Stage // "buttonStage" is the DSM mandatory name (to be changed)
 	loadStage   *load.Stage   // mandatory
-
-	treeStage *tree.Stage // "treeStage" is the DSM mandatory name (to be changed)
-	ssgStage  *ssg.Stage  // mandatory
-
-	svgStage *svg.Stage
+	treeStage   *tree.Stage   // "treeStage" is the DSM mandatory name (to be changed)
+	sliderStage *slider.Stage
+	ssgStage    *ssg.Stage // mandatory
+	svgStage    *svg.Stage
 
 	svgObject *svg.SVG
 
@@ -46,6 +48,13 @@ type Stager struct {
 	// DSM mandatory
 	fileName        string // fileName is used to store the name of the file to load or save
 	persistanceFile string
+
+	// DSM specific
+	// the plant that is currently selected for the form
+	selectedPlant *Plant
+
+	// maps
+	m_Plant_Library map[*Plant]*Library
 }
 
 func NewStager(
@@ -63,7 +72,7 @@ func NewStager(
 	// that do not develop their specific angular component
 	stager.buttonStage = button_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.loadStage, _ = load_fullstack.NewStackInstance(r, "")
-
+	stager.sliderStage = slider_stack.NewStack(r, "", "", "", "", true, true).Stage
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 	stager.ssgStage = ssg_stack.NewLevel1Stack("", "", "", true, true).Stage
 	stager.svgStage = svg_stack.NewStack(r, "", "", "", "", true, true).Stage
@@ -79,6 +88,7 @@ func NewStager(
 		stager.ux_tree() // DSM mandatory name, to be changed
 		stager.button()
 		stager.load()
+		stager.ux_slider()
 	}
 
 	stager.stage.RegisterBeforeCommit(beforeCommit)
@@ -99,4 +109,12 @@ func (c *BeforeCommitImplementation) BeforeCommit(stage *Stage) {
 
 func (stager *Stager) GetSvgObject() *svg.SVG {
 	return stager.svgObject
+}
+
+func (stager *Stager) GetCurrentPlant() *Plant {
+	return stager.selectedPlant
+}
+
+func (stager *Stager) GetSliderStage() *slider.Stage {
+	return stager.sliderStage
 }
