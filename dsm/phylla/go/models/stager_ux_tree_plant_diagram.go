@@ -67,6 +67,25 @@ func (stager *Stager) treePlantDiagram(
 		visibilityButton.ToolTipText = "Show on diagram"
 	}
 	axesShapeNode.Buttons = append(axesShapeNode.Buttons, visibilityButton)
+
+	handleVisibilityButton := &tree.Button{
+		Name:            "Hide Handle",
+		Icon:            string(buttons.BUTTON_visibility_off),
+		ToolTipText:     "Hide handles",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+		OnClick: func() {
+			axesShape.SetIsWithHiddenHandle(!axesShape.GetIsWithHiddenHandle())
+			stager.stage.Commit()
+		},
+	}
+	if axesShape.GetIsWithHiddenHandle() {
+		handleVisibilityButton.Icon = string(buttons.BUTTON_visibility)
+		handleVisibilityButton.Name = "Show Handle"
+		handleVisibilityButton.ToolTipText = "Show handles"
+	}
+	axesShapeNode.Buttons = append(axesShapeNode.Buttons, handleVisibilityButton)
+
 	plantDiagramNode.Children = append(plantDiagramNode.Children, axesShapeNode)
 
 }

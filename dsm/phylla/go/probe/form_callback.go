@@ -72,6 +72,8 @@ func (axesshapeFormCallback *AxesShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(axesshape_.LengthY), formDiv)
 		case "IsHidden":
 			FormDivBasicFieldToField(&(axesshape_.IsHidden), formDiv)
+		case "IsWithHiddenHandle":
+			FormDivBasicFieldToField(&(axesshape_.IsWithHiddenHandle), formDiv)
 		}
 	}
 

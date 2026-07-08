@@ -52,17 +52,24 @@ func (plantDiagram *PlantDiagram) draw(stager *Stager, layer *svg.Layer) {
 		return
 	}
 
+	handleSize := float64(AxisHandleBorderLength)
+	if plantDiagram.AxesShape.GetIsWithHiddenHandle() {
+		handleSize = 0.0
+	}
+
 	verticalAxisTopHandle := new(svg.Rect)
 	verticalAxisTopHandle.Name = "Vertical axis bottom handle"
-	layer.Rects = append(layer.Rects, verticalAxisTopHandle)
-	verticalAxisTopHandle.X = plantDiagram.OriginX - AxisHandleBorderLength/2.0
-	verticalAxisTopHandle.Y = plantDiagram.OriginY - plantDiagram.AxesShape.LengthY - AxisHandleBorderLength
-	verticalAxisTopHandle.Width = AxisHandleBorderLength
-	verticalAxisTopHandle.Height = AxisHandleBorderLength
+	if !plantDiagram.AxesShape.GetIsWithHiddenHandle() {
+		layer.Rects = append(layer.Rects, verticalAxisTopHandle)
+	}
+	verticalAxisTopHandle.X = plantDiagram.OriginX - handleSize/2.0
+	verticalAxisTopHandle.Y = plantDiagram.OriginY - plantDiagram.AxesShape.LengthY - handleSize
+	verticalAxisTopHandle.Width = handleSize
+	verticalAxisTopHandle.Height = handleSize
 	verticalAxisTopHandle.CanMoveVerticaly = true
 	verticalAxisTopHandle.CanMoveHorizontaly = true
 	verticalAxisTopHandle.OnMove = func(x, y float64) {
-		plantDiagram.AxesShape.LengthY = plantDiagram.OriginY - y - AxisHandleBorderLength
+		plantDiagram.AxesShape.LengthY = plantDiagram.OriginY - y - handleSize
 		stager.stage.Commit()
 	}
 
@@ -72,17 +79,19 @@ func (plantDiagram *PlantDiagram) draw(stager *Stager, layer *svg.Layer) {
 
 	verticalAxisBottomHandle := new(svg.Rect)
 	verticalAxisBottomHandle.Name = "Vertical axis top handle"
-	layer.Rects = append(layer.Rects, verticalAxisBottomHandle)
+	if !plantDiagram.AxesShape.GetIsWithHiddenHandle() {
+		layer.Rects = append(layer.Rects, verticalAxisBottomHandle)
+	}
 
-	verticalAxisBottomHandle.X = plantDiagram.OriginX - AxisHandleBorderLength/2.0
-	verticalAxisBottomHandle.Y = plantDiagram.OriginY - AxisHandleBorderLength
-	verticalAxisBottomHandle.Width = AxisHandleBorderLength
-	verticalAxisBottomHandle.Height = AxisHandleBorderLength
+	verticalAxisBottomHandle.X = plantDiagram.OriginX - handleSize/2.0
+	verticalAxisBottomHandle.Y = plantDiagram.OriginY - handleSize
+	verticalAxisBottomHandle.Width = handleSize
+	verticalAxisBottomHandle.Height = handleSize
 	verticalAxisBottomHandle.CanMoveVerticaly = true
 	verticalAxisBottomHandle.CanMoveHorizontaly = true
 	verticalAxisBottomHandle.OnMove = func(x, y float64) {
-		plantDiagram.OriginX = x + AxisHandleBorderLength/2.0
-		plantDiagram.OriginY = y + AxisHandleBorderLength
+		plantDiagram.OriginX = x + handleSize/2.0
+		plantDiagram.OriginY = y + handleSize
 		stager.stage.Commit() // the top handle will move with the commit
 	}
 
@@ -113,15 +122,17 @@ func (plantDiagram *PlantDiagram) draw(stager *Stager, layer *svg.Layer) {
 
 	horizontalAxisRightHandle := new(svg.Rect)
 	horizontalAxisRightHandle.Name = "Horizontal axis right handle"
-	layer.Rects = append(layer.Rects, horizontalAxisRightHandle)
-	horizontalAxisRightHandle.X = plantDiagram.OriginX + plantDiagram.AxesShape.LengthX - AxisHandleBorderLength/2.0
-	horizontalAxisRightHandle.Y = plantDiagram.OriginY - AxisHandleBorderLength
-	horizontalAxisRightHandle.Width = AxisHandleBorderLength
-	horizontalAxisRightHandle.Height = AxisHandleBorderLength
+	if !plantDiagram.AxesShape.GetIsWithHiddenHandle() {
+		layer.Rects = append(layer.Rects, horizontalAxisRightHandle)
+	}
+	horizontalAxisRightHandle.X = plantDiagram.OriginX + plantDiagram.AxesShape.LengthX - handleSize/2.0
+	horizontalAxisRightHandle.Y = plantDiagram.OriginY - handleSize
+	horizontalAxisRightHandle.Width = handleSize
+	horizontalAxisRightHandle.Height = handleSize
 	horizontalAxisRightHandle.CanMoveHorizontaly = true
 	horizontalAxisRightHandle.CanMoveVerticaly = true
 	horizontalAxisRightHandle.OnMove = func(x, y float64) {
-		plantDiagram.AxesShape.LengthX = x - plantDiagram.OriginX + AxisHandleBorderLength/2.0
+		plantDiagram.AxesShape.LengthX = x - plantDiagram.OriginX + handleSize/2.0
 		stager.stage.Commit()
 	}
 

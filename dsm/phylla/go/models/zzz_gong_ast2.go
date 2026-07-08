@@ -491,6 +491,8 @@ func (u *AxesShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 		instance.LengthY = GongExtractFloat(valueExpr)
 	case "IsHidden":
 		instance.IsHidden = GongExtractBool(valueExpr)
+	case "IsWithHiddenHandle":
+		instance.IsWithHiddenHandle = GongExtractBool(valueExpr)
 	}
 	return nil
 }

@@ -19,6 +19,8 @@ type AxesShape_WOP struct {
 	LengthY float64
 
 	IsHidden bool
+
+	IsWithHiddenHandle bool
 }
 
 func (from *AxesShape) CopyBasicFields(to *AxesShape) {
@@ -27,6 +29,7 @@ func (from *AxesShape) CopyBasicFields(to *AxesShape) {
 	to.LengthX = from.LengthX
 	to.LengthY = from.LengthY
 	to.IsHidden = from.IsHidden
+	to.IsWithHiddenHandle = from.IsWithHiddenHandle
 }
 
 type Library_WOP struct {
