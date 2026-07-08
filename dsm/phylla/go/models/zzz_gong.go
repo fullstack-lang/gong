@@ -160,10 +160,29 @@ type Stage struct {
 	Plants_referenceOrder map[*Plant]uint
 
 	// insertion point for slice of pointers maps
+	Plant_PlantDiagramsWhoseNodeIsExpanded_reverseMap map[*PlantDiagram]*Plant
+
+	Plant_PlantDiagrams_reverseMap map[*PlantDiagram]*Plant
+
 	OnAfterPlantCreateCallback OnAfterCreateInterface[Plant]
 	OnAfterPlantUpdateCallback OnAfterUpdateInterface[Plant]
 	OnAfterPlantDeleteCallback OnAfterDeleteInterface[Plant]
 	OnAfterPlantReadCallback   OnAfterReadInterface[Plant]
+
+	PlantDiagrams                map[*PlantDiagram]struct{}
+	PlantDiagrams_instance       map[*PlantDiagram]*PlantDiagram
+	PlantDiagrams_mapString      map[string]*PlantDiagram
+	PlantDiagramOrder            uint
+	PlantDiagram_stagedOrder     map[*PlantDiagram]uint
+	PlantDiagram_orderStaged     map[uint]*PlantDiagram
+	PlantDiagrams_reference      map[*PlantDiagram]*PlantDiagram
+	PlantDiagrams_referenceOrder map[*PlantDiagram]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPlantDiagramCreateCallback OnAfterCreateInterface[PlantDiagram]
+	OnAfterPlantDiagramUpdateCallback OnAfterUpdateInterface[PlantDiagram]
+	OnAfterPlantDiagramDeleteCallback OnAfterDeleteInterface[PlantDiagram]
+	OnAfterPlantDiagramReadCallback   OnAfterReadInterface[PlantDiagram]
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -409,6 +428,10 @@ func (stage *Stage) Squash() {
 	stage.Plants_instance = make(map[*Plant]*Plant)
 	stage.Plants_referenceOrder = make(map[*Plant]uint)
 
+	stage.PlantDiagrams_reference = make(map[*PlantDiagram]*PlantDiagram)
+	stage.PlantDiagrams_instance = make(map[*PlantDiagram]*PlantDiagram)
+	stage.PlantDiagrams_referenceOrder = make(map[*PlantDiagram]uint)
+
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
 		stage.OnInitCommitCallback.BeforeCommit(stage)
@@ -462,6 +485,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.PlantOrder = maxPlantOrder + 1
 	} else {
 		stage.PlantOrder = 0
+	}
+
+	var maxPlantDiagramOrder uint
+	var foundPlantDiagram bool
+	for _, order := range stage.PlantDiagram_stagedOrder {
+		if !foundPlantDiagram || order > maxPlantDiagramOrder {
+			maxPlantDiagramOrder = order
+			foundPlantDiagram = true
+		}
+	}
+	if foundPlantDiagram {
+		stage.PlantDiagramOrder = maxPlantDiagramOrder + 1
+	} else {
+		stage.PlantDiagramOrder = 0
 	}
 
 	// end of insertion point for max order recomputation
@@ -553,6 +590,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *PlantDiagram:
+		tmp := GetStructInstancesByOrder(stage.PlantDiagrams, stage.PlantDiagram_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PlantDiagram implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 
 	}
 	return
@@ -586,6 +637,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
 	case "Plant":
 		res = GetNamedStructInstances(stage.Plants, stage.Plant_stagedOrder)
+	case "PlantDiagram":
+		res = GetNamedStructInstances(stage.PlantDiagrams, stage.PlantDiagram_stagedOrder)
 	}
 
 	return
@@ -659,6 +712,8 @@ type BackRepoInterface interface {
 	CheckoutLibrary(library *Library)
 	CommitPlant(plant *Plant)
 	CheckoutPlant(plant *Plant)
+	CommitPlantDiagram(plantdiagram *PlantDiagram)
+	CheckoutPlantDiagram(plantdiagram *PlantDiagram)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -670,6 +725,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Plants:           make(map[*Plant]struct{}),
 		Plants_mapString: make(map[string]*Plant),
+
+		PlantDiagrams:           make(map[*PlantDiagram]struct{}),
+		PlantDiagrams_mapString: make(map[string]*PlantDiagram),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -689,11 +747,17 @@ func NewStage(name string) (stage *Stage) {
 		Plant_orderStaged: make(map[uint]*Plant),
 		Plants_reference:  make(map[*Plant]*Plant),
 
+		PlantDiagram_stagedOrder: make(map[*PlantDiagram]uint),
+		PlantDiagram_orderStaged: make(map[uint]*PlantDiagram),
+		PlantDiagrams_reference:  make(map[*PlantDiagram]*PlantDiagram),
+
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"Library": &LibraryUnmarshaller{},
 
 			"Plant": &PlantUnmarshaller{},
+
+			"PlantDiagram": &PlantDiagramUnmarshaller{},
 
 			// end of insertion point
 		},
@@ -701,6 +765,7 @@ func NewStage(name string) (stage *Stage) {
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Library"},
 			{name: "Plant"},
+			{name: "PlantDiagram"},
 		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
@@ -716,6 +781,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Library_stagedOrder[instance]
 	case *Plant:
 		return stage.Plant_stagedOrder[instance]
+	case *PlantDiagram:
+		return stage.PlantDiagram_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -729,6 +796,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.Library_orderStaged[order]).(Type)
 	case *Plant:
 		return any(stage.Plant_orderStaged[order]).(Type)
+	case *PlantDiagram:
+		return any(stage.PlantDiagram_orderStaged[order]).(Type)
 	default:
 		return // should not happen
 	}
@@ -741,6 +810,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.Library_stagedOrder[instance]
 	case *Plant:
 		return stage.Plant_stagedOrder[instance]
+	case *PlantDiagram:
+		return stage.PlantDiagram_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -808,6 +879,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Plant"] = len(stage.Plants)
+	stage.Map_GongStructName_InstancesNb["PlantDiagram"] = len(stage.PlantDiagrams)
 }
 
 func (stage *Stage) Checkout() {
@@ -1024,15 +1096,105 @@ func (plant *Plant) SetName(name string) {
 	plant.Name = name
 }
 
+// Stage puts plantdiagram to the model stage
+func (plantdiagram *PlantDiagram) Stage(stage *Stage) *PlantDiagram {
+	if _, ok := stage.PlantDiagrams[plantdiagram]; !ok {
+		stage.PlantDiagrams[plantdiagram] = struct{}{}
+		stage.PlantDiagram_stagedOrder[plantdiagram] = stage.PlantDiagramOrder
+		stage.PlantDiagram_orderStaged[stage.PlantDiagramOrder] = plantdiagram
+		stage.PlantDiagramOrder++
+	}
+	stage.PlantDiagrams_mapString[plantdiagram.Name] = plantdiagram
+
+	return plantdiagram
+}
+
+// StagePreserveOrder puts plantdiagram to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PlantDiagramOrder
+// - update stage.PlantDiagramOrder accordingly
+func (plantdiagram *PlantDiagram) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PlantDiagrams[plantdiagram]; !ok {
+		stage.PlantDiagrams[plantdiagram] = struct{}{}
+
+		if order > stage.PlantDiagramOrder {
+			stage.PlantDiagramOrder = order
+		}
+		stage.PlantDiagram_stagedOrder[plantdiagram] = order
+		stage.PlantDiagram_orderStaged[order] = plantdiagram
+		stage.PlantDiagramOrder++
+	}
+	stage.PlantDiagrams_mapString[plantdiagram.Name] = plantdiagram
+}
+
+// Unstage removes plantdiagram off the model stage
+func (plantdiagram *PlantDiagram) Unstage(stage *Stage) *PlantDiagram {
+	delete(stage.PlantDiagrams, plantdiagram)
+	// issue1150
+	// delete(stage.PlantDiagram_stagedOrder, plantdiagram)
+	delete(stage.PlantDiagrams_mapString, plantdiagram.Name)
+
+	return plantdiagram
+}
+
+// UnstageVoid removes plantdiagram off the model stage
+func (plantdiagram *PlantDiagram) UnstageVoid(stage *Stage) {
+	delete(stage.PlantDiagrams, plantdiagram)
+	// issue1150
+	// delete(stage.PlantDiagram_stagedOrder, plantdiagram)
+	delete(stage.PlantDiagrams_mapString, plantdiagram.Name)
+}
+
+// commit plantdiagram to the back repo (if it is already staged)
+func (plantdiagram *PlantDiagram) Commit(stage *Stage) *PlantDiagram {
+	if _, ok := stage.PlantDiagrams[plantdiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPlantDiagram(plantdiagram)
+		}
+	}
+	return plantdiagram
+}
+
+func (plantdiagram *PlantDiagram) CommitVoid(stage *Stage) {
+	plantdiagram.Commit(stage)
+}
+
+func (plantdiagram *PlantDiagram) StageVoid(stage *Stage) {
+	plantdiagram.Stage(stage)
+}
+
+// Checkout plantdiagram to the back repo (if it is already staged)
+func (plantdiagram *PlantDiagram) Checkout(stage *Stage) *PlantDiagram {
+	if _, ok := stage.PlantDiagrams[plantdiagram]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPlantDiagram(plantdiagram)
+		}
+	}
+	return plantdiagram
+}
+
+// for satisfaction of GongStruct interface
+func (plantdiagram *PlantDiagram) GetName() (res string) {
+	return plantdiagram.Name
+}
+
+// for satisfaction of GongStruct interface
+func (plantdiagram *PlantDiagram) SetName(name string) {
+	plantdiagram.Name = name
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMLibrary(Library *Library)
 	CreateORMPlant(Plant *Plant)
+	CreateORMPlantDiagram(PlantDiagram *PlantDiagram)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMLibrary(Library *Library)
 	DeleteORMPlant(Plant *Plant)
+	DeleteORMPlantDiagram(PlantDiagram *PlantDiagram)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1045,6 +1207,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Plants_mapString = make(map[string]*Plant)
 	stage.Plant_stagedOrder = make(map[*Plant]uint)
 	stage.PlantOrder = 0
+
+	stage.PlantDiagrams = make(map[*PlantDiagram]struct{})
+	stage.PlantDiagrams_mapString = make(map[string]*PlantDiagram)
+	stage.PlantDiagram_stagedOrder = make(map[*PlantDiagram]uint)
+	stage.PlantDiagramOrder = 0
 
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
@@ -1061,6 +1228,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Plants = nil
 	stage.Plants_mapString = nil
 
+	stage.PlantDiagrams = nil
+	stage.PlantDiagrams_mapString = nil
+
 	// end of insertion point for array nil
 }
 
@@ -1071,6 +1241,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for plant := range stage.Plants {
 		plant.Unstage(stage)
+	}
+
+	for plantdiagram := range stage.PlantDiagrams {
+		plantdiagram.Unstage(stage)
 	}
 
 	// end of insertion point for array nil
@@ -1153,6 +1327,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Librarys).(*Type)
 	case map[*Plant]any:
 		return any(&stage.Plants).(*Type)
+	case map[*PlantDiagram]any:
+		return any(&stage.PlantDiagrams).(*Type)
 	default:
 		return nil
 	}
@@ -1169,6 +1345,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Librarys_mapString).(map[string]Type)
 	case *Plant:
 		return any(stage.Plants_mapString).(map[string]Type)
+	case *PlantDiagram:
+		return any(stage.PlantDiagrams_mapString).(map[string]Type)
 	default:
 		return nil
 	}
@@ -1185,6 +1363,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Librarys).(*map[*Type]struct{})
 	case Plant:
 		return any(&stage.Plants).(*map[*Type]struct{})
+	case PlantDiagram:
+		return any(&stage.PlantDiagrams).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -1201,6 +1381,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Librarys).(*map[Type]struct{})
 	case *Plant:
 		return any(&stage.Plants).(*map[Type]struct{})
+	case *PlantDiagram:
+		return any(&stage.PlantDiagrams).(*map[Type]struct{})
 	default:
 		return nil
 	}
@@ -1217,6 +1399,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
 	case Plant:
 		return any(&stage.Plants_mapString).(*map[string]*Type)
+	case PlantDiagram:
+		return any(&stage.PlantDiagrams_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -1241,6 +1425,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case Plant:
 		return any(&Plant{
+			// Initialisation of associations
+			// field is initialized with an instance of PlantDiagram with the name of the field
+			PlantDiagramsWhoseNodeIsExpanded: []*PlantDiagram{{Name: "PlantDiagramsWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of PlantDiagram with the name of the field
+			PlantDiagrams: []*PlantDiagram{{Name: "PlantDiagrams"}},
+		}).(*Type)
+	case PlantDiagram:
+		return any(&PlantDiagram{
 			// Initialisation of associations
 		}).(*Type)
 	default:
@@ -1267,6 +1459,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of Plant
 	case Plant:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PlantDiagram
+	case PlantDiagram:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -1310,6 +1507,27 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Plant:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "PlantDiagramsWhoseNodeIsExpanded":
+			res := make(map[*PlantDiagram][]*Plant)
+			for plant := range stage.Plants {
+				for _, plantdiagram_ := range plant.PlantDiagramsWhoseNodeIsExpanded {
+					res[plantdiagram_] = append(res[plantdiagram_], plant)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "PlantDiagrams":
+			res := make(map[*PlantDiagram][]*Plant)
+			for plant := range stage.Plants {
+				for _, plantdiagram_ := range plant.PlantDiagrams {
+					res[plantdiagram_] = append(res[plantdiagram_], plant)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of PlantDiagram
+	case PlantDiagram:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	}
 	return nil
@@ -1326,6 +1544,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Library"
 	case *Plant:
 		res = "Plant"
+	case *PlantDiagram:
+		res = "PlantDiagram"
 	}
 	return res
 }
@@ -1354,6 +1574,15 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Library"
 		rf.Fieldname = "Plants"
+		res = append(res, rf)
+	case *PlantDiagram:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Plant"
+		rf.Fieldname = "PlantDiagramsWhoseNodeIsExpanded"
+		res = append(res, rf)
+		rf.GongstructName = "Plant"
+		rf.Fieldname = "PlantDiagrams"
 		res = append(res, rf)
 	}
 	return
@@ -1431,6 +1660,39 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "SideLength",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "IsPlantDiagramsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:                 "PlantDiagramsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "PlantDiagram",
+		},
+		{
+			Name:                 "PlantDiagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "PlantDiagram",
+		},
+	}
+	return
+}
+
+func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
 			Name:               "ComputedPrefix",
@@ -1579,6 +1841,45 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%t", plant.IsExpanded)
 		res.valueBool = plant.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsPlantDiagramsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", plant.IsPlantDiagramsNodeExpanded)
+		res.valueBool = plant.IsPlantDiagramsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "PlantDiagramsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range plant.PlantDiagramsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	case "PlantDiagrams":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range plant.PlantDiagrams {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += __instance__.GongGetUUID(stage)
+		}
+	}
+	return
+}
+
+func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = plantdiagram.Name
+	case "ComputedPrefix":
+		res.valueString = plantdiagram.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsExpanded)
+		res.valueBool = plantdiagram.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -1659,6 +1960,51 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		plant.IsExpanded = value.GetValueBool()
+	case "IsPlantDiagramsNodeExpanded":
+		plant.IsPlantDiagramsNodeExpanded = value.GetValueBool()
+	case "PlantDiagramsWhoseNodeIsExpanded":
+		plant.PlantDiagramsWhoseNodeIsExpanded = make([]*PlantDiagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.PlantDiagrams {
+					if stage.PlantDiagram_stagedOrder[__instance__] == uint(id) {
+						plant.PlantDiagramsWhoseNodeIsExpanded = append(plant.PlantDiagramsWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "PlantDiagrams":
+		plant.PlantDiagrams = make([]*PlantDiagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.PlantDiagrams {
+					if stage.PlantDiagram_stagedOrder[__instance__] == uint(id) {
+						plant.PlantDiagrams = append(plant.PlantDiagrams, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		plantdiagram.Name = value.GetValueString()
+	case "ComputedPrefix":
+		plantdiagram.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		plantdiagram.IsExpanded = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -1678,6 +2024,10 @@ func (plant *Plant) GongGetGongstructName() string {
 	return "Plant"
 }
 
+func (plantdiagram *PlantDiagram) GongGetGongstructName() string {
+	return "PlantDiagram"
+}
+
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()
 	return
@@ -1693,6 +2043,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Plants_mapString = make(map[string]*Plant)
 	for plant := range stage.Plants {
 		stage.Plants_mapString[plant.Name] = plant
+	}
+
+	stage.PlantDiagrams_mapString = make(map[string]*PlantDiagram)
+	for plantdiagram := range stage.PlantDiagrams {
+		stage.PlantDiagrams_mapString[plantdiagram.Name] = plantdiagram
 	}
 
 	// end of insertion point for generic get gongstruct name

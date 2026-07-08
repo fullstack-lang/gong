@@ -43,6 +43,12 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			plant.Name = "New Plant"
 		}
 	}
+	for _, plantDiagram := range GetGongstrucsSorted[*PlantDiagram](stager.stage) {
+		if plantDiagram.Name == "" {
+			needCommit = true
+			plantDiagram.Name = "New Plant Diagram"
+		}
+	}
 
 	return
 }

@@ -52,6 +52,15 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 // Clean garbage collect unstaged instances that are referenced by Plant
 func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
+	modified = GongCleanSlice(stage, &plant.PlantDiagramsWhoseNodeIsExpanded) || modified
+	modified = GongCleanSlice(stage, &plant.PlantDiagrams) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by PlantDiagram
+func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
 	// insertion point per field
 	return
 }
