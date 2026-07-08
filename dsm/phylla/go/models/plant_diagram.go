@@ -8,7 +8,8 @@ type PlantDiagram struct {
 	OriginX float64
 	OriginY float64
 
-	AxesShape *AxesShape
+	AxesShape         *AxesShape
+	GrowthVectorShape *GrowthVectorShape
 
 	IsChecked bool
 }

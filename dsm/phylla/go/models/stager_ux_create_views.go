@@ -14,7 +14,7 @@ func (stager *Stager) createViews() {
 	stager.splitStage.Reset()
 
 	tabTitle := &split.Title{
-		Name: "Project (" + getPersistanceFile(stager) + ")",
+		Name: "Phylla (" + getPersistanceFile(stager) + ")",
 	}
 	tabTitle.Stage(stager.splitStage)
 

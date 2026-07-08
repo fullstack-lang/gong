@@ -105,6 +105,90 @@ func (axesshapeFormCallback *AxesShapeFormCallback) OnSave() {
 
 	axesshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__GrowthVectorShapeFormCallback(
+	growthvectorshape *models.GrowthVectorShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (growthvectorshapeFormCallback *GrowthVectorShapeFormCallback) {
+	growthvectorshapeFormCallback = new(GrowthVectorShapeFormCallback)
+	growthvectorshapeFormCallback.probe = probe
+	growthvectorshapeFormCallback.growthvectorshape = growthvectorshape
+	growthvectorshapeFormCallback.formGroup = formGroup
+
+	growthvectorshapeFormCallback.CreationMode = (growthvectorshape == nil)
+
+	return
+}
+
+type GrowthVectorShapeFormCallback struct {
+	growthvectorshape *models.GrowthVectorShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (growthvectorshapeFormCallback *GrowthVectorShapeFormCallback) OnSave() {
+	growthvectorshapeFormCallback.probe.stageOfInterest.Lock()
+	defer growthvectorshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("GrowthVectorShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	growthvectorshapeFormCallback.probe.formStage.Checkout()
+
+	if growthvectorshapeFormCallback.growthvectorshape == nil {
+		growthvectorshapeFormCallback.growthvectorshape = new(models.GrowthVectorShape).Stage(growthvectorshapeFormCallback.probe.stageOfInterest)
+	}
+	growthvectorshape_ := growthvectorshapeFormCallback.growthvectorshape
+	_ = growthvectorshape_
+
+	for _, formDiv := range growthvectorshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(growthvectorshape_.Name), formDiv)
+		case "AngleDegree":
+			FormDivBasicFieldToField(&(growthvectorshape_.AngleDegree), formDiv)
+		case "Length":
+			FormDivBasicFieldToField(&(growthvectorshape_.Length), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(growthvectorshape_.IsHidden), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if growthvectorshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		growthvectorshape_.Unstage(growthvectorshapeFormCallback.probe.stageOfInterest)
+	}
+
+	growthvectorshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.GrowthVectorShape](
+		growthvectorshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if growthvectorshapeFormCallback.CreationMode || growthvectorshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		growthvectorshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(growthvectorshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__GrowthVectorShapeFormCallback(
+			nil,
+			growthvectorshapeFormCallback.probe,
+			newFormGroup,
+		)
+		growthvectorshape := new(models.GrowthVectorShape)
+		FillUpForm(growthvectorshape, newFormGroup, growthvectorshapeFormCallback.probe)
+		growthvectorshapeFormCallback.probe.formStage.Commit()
+	}
+
+	growthvectorshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__LibraryFormCallback(
 	library *models.Library,
 	probe *Probe,
@@ -564,6 +648,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.OriginY), formDiv)
 		case "AxesShape":
 			FormDivSelectFieldToField(&(plantdiagram_.AxesShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "GrowthVectorShape":
+			FormDivSelectFieldToField(&(plantdiagram_.GrowthVectorShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "Plant:PlantDiagramsWhoseNodeIsExpanded":
