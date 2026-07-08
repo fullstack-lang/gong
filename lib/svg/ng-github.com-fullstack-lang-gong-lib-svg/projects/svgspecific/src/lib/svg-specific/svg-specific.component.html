@@ -192,7 +192,8 @@
             [attr.stroke]="polygone.Stroke"
             [attr.stroke-opacity]="polygone.StrokeOpacity"
             [attr.stroke-width]="polygone.StrokeWidth"
-            [attr.stroke-dasharray]="polygone.StrokeDashArray" />
+            [attr.stroke-dasharray]="polygone.StrokeDashArray"
+            [attr.transform]="polygone.Transform" />
           @for(animate of polygone.Animates; track $index) {
             <animate 
               [attr.attributeName]="animate.AttributeName" 
@@ -212,6 +213,7 @@
             [attr.stroke-opacity]="polyline.StrokeOpacity"
             [attr.stroke-width]="polyline.StrokeWidth"
             [attr.stroke-dasharray]="polyline.StrokeDashArray"
+            [attr.transform]="polyline.Transform"
           />
           @for(animate of polyline.Animates; track $index) {
             <animate 

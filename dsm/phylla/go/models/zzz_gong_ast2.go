@@ -682,10 +682,6 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	// insertion point per field
 	case "Name":
 		instance.Name = GongExtractString(valueExpr)
-	case "ComputedPrefix":
-		instance.ComputedPrefix = GongExtractString(valueExpr)
-	case "IsExpanded":
-		instance.IsExpanded = GongExtractBool(valueExpr)
 	case "OriginX":
 		instance.OriginX = GongExtractFloat(valueExpr)
 	case "OriginY":
@@ -698,8 +694,18 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		GongUnmarshallPointer(&instance.GrowthVectorShape, valueExpr, identifierMap)
 	case "GridPathShape":
 		GongUnmarshallPointer(&instance.GridPathShape, valueExpr, identifierMap)
+	case "RotatedReferenceRhombus":
+		GongUnmarshallPointer(&instance.RotatedReferenceRhombus, valueExpr, identifierMap)
+	case "RotatedGrowthVectorShape":
+		GongUnmarshallPointer(&instance.RotatedGrowthVectorShape, valueExpr, identifierMap)
+	case "RotatedGridPathShape":
+		GongUnmarshallPointer(&instance.RotatedGridPathShape, valueExpr, identifierMap)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
+	case "ComputedPrefix":
+		instance.ComputedPrefix = GongExtractString(valueExpr)
+	case "IsExpanded":
+		instance.IsExpanded = GongExtractBool(valueExpr)
 	}
 	return nil
 }

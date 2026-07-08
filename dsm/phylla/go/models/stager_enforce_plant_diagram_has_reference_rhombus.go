@@ -28,7 +28,7 @@ func (stager *Stager) enforcePlantDiagramHasReferenceRhombus() (needCommit bool)
 	for referenceRhombus := range *GetGongstructInstancesSetFromPointerType[*ReferenceRhombus](stage) {
 		hasOwner := false
 		for plantDiagram := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stage) {
-			if plantDiagram.ReferenceRhombus == referenceRhombus {
+			if plantDiagram.ReferenceRhombus == referenceRhombus || plantDiagram.RotatedReferenceRhombus == referenceRhombus {
 				hasOwner = true
 				break
 			}

@@ -47,6 +47,16 @@ func (stager *Stager) enforceComputeGrowthVectorShape() (needCommit bool) {
 					needCommit = true
 				}
 			}
+			if plantDiagram.RotatedGrowthVectorShape != nil {
+				if plantDiagram.RotatedGrowthVectorShape.AngleDegree != 0 ||
+					plantDiagram.RotatedGrowthVectorShape.Length != computedLength {
+
+					plantDiagram.RotatedGrowthVectorShape.AngleDegree = 0
+					plantDiagram.RotatedGrowthVectorShape.Length = computedLength
+
+					needCommit = true
+				}
+			}
 		}
 	}
 
