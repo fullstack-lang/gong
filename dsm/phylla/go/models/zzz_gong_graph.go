@@ -680,6 +680,12 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsExpanded != plantdiagramOther.IsExpanded {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsExpanded"))
 	}
+	if plantdiagram.OriginX != plantdiagramOther.OriginX {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "OriginX"))
+	}
+	if plantdiagram.OriginY != plantdiagramOther.OriginY {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "OriginY"))
+	}
 	if (plantdiagram.AxesShape == nil) != (plantdiagramOther.AxesShape == nil) {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "AxesShape"))
 	} else if plantdiagram.AxesShape != nil && plantdiagramOther.AxesShape != nil {

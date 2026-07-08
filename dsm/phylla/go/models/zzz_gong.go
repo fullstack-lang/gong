@@ -1944,6 +1944,14 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
+			Name:               "OriginX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "OriginY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
 			Name:                 "AxesShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "AxesShape",
@@ -2151,6 +2159,14 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsExpanded)
 		res.valueBool = plantdiagram.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "OriginX":
+		res.valueString = fmt.Sprintf("%f", plantdiagram.OriginX)
+		res.valueFloat = plantdiagram.OriginX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "OriginY":
+		res.valueString = fmt.Sprintf("%f", plantdiagram.OriginY)
+		res.valueFloat = plantdiagram.OriginY
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "AxesShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plantdiagram.AxesShape != nil {
@@ -2303,6 +2319,10 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		plantdiagram.IsExpanded = value.GetValueBool()
+	case "OriginX":
+		plantdiagram.OriginX = value.GetValueFloat()
+	case "OriginY":
+		plantdiagram.OriginY = value.GetValueFloat()
 	case "AxesShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {

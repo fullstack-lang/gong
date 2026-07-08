@@ -89,6 +89,7 @@ func NewStager(
 		stager.button()
 		stager.load()
 		stager.ux_slider()
+		stager.ux_svg_plant_diagram()
 	}
 
 	stager.stage.RegisterBeforeCommit(beforeCommit)

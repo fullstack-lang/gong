@@ -102,6 +102,10 @@ type PlantDiagram_WOP struct {
 
 	IsExpanded bool
 
+	OriginX float64
+
+	OriginY float64
+
 	IsChecked bool
 }
 
@@ -110,6 +114,8 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
+	to.OriginX = from.OriginX
+	to.OriginY = from.OriginY
 	to.IsChecked = from.IsChecked
 }
 
