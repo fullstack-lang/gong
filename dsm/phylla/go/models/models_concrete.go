@@ -15,3 +15,11 @@ type AxesShape struct {
 
 	Shape
 }
+
+func (s *AxesShape) SetIsHidden(isHidden bool) {
+	s.IsHidden = isHidden
+}
+
+func (s *AxesShape) GetIsHidden() bool {
+	return s.IsHidden
+}
