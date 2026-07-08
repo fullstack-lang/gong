@@ -105,6 +105,86 @@ func (axesshapeFormCallback *AxesShapeFormCallback) OnSave() {
 
 	axesshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__CircleGridShapeFormCallback(
+	circlegridshape *models.CircleGridShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (circlegridshapeFormCallback *CircleGridShapeFormCallback) {
+	circlegridshapeFormCallback = new(CircleGridShapeFormCallback)
+	circlegridshapeFormCallback.probe = probe
+	circlegridshapeFormCallback.circlegridshape = circlegridshape
+	circlegridshapeFormCallback.formGroup = formGroup
+
+	circlegridshapeFormCallback.CreationMode = (circlegridshape == nil)
+
+	return
+}
+
+type CircleGridShapeFormCallback struct {
+	circlegridshape *models.CircleGridShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (circlegridshapeFormCallback *CircleGridShapeFormCallback) OnSave() {
+	circlegridshapeFormCallback.probe.stageOfInterest.Lock()
+	defer circlegridshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("CircleGridShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	circlegridshapeFormCallback.probe.formStage.Checkout()
+
+	if circlegridshapeFormCallback.circlegridshape == nil {
+		circlegridshapeFormCallback.circlegridshape = new(models.CircleGridShape).Stage(circlegridshapeFormCallback.probe.stageOfInterest)
+	}
+	circlegridshape_ := circlegridshapeFormCallback.circlegridshape
+	_ = circlegridshape_
+
+	for _, formDiv := range circlegridshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(circlegridshape_.Name), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(circlegridshape_.IsHidden), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if circlegridshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		circlegridshape_.Unstage(circlegridshapeFormCallback.probe.stageOfInterest)
+	}
+
+	circlegridshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.CircleGridShape](
+		circlegridshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if circlegridshapeFormCallback.CreationMode || circlegridshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		circlegridshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(circlegridshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__CircleGridShapeFormCallback(
+			nil,
+			circlegridshapeFormCallback.probe,
+			newFormGroup,
+		)
+		circlegridshape := new(models.CircleGridShape)
+		FillUpForm(circlegridshape, newFormGroup, circlegridshapeFormCallback.probe)
+		circlegridshapeFormCallback.probe.formStage.Commit()
+	}
+
+	circlegridshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__GridPathShapeFormCallback(
 	gridpathshape *models.GridPathShape,
 	probe *Probe,
@@ -466,6 +546,86 @@ func (libraryFormCallback *LibraryFormCallback) OnSave() {
 
 	libraryFormCallback.probe.ux_tree()
 }
+func __gong__New__NextCircleShapeFormCallback(
+	nextcircleshape *models.NextCircleShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (nextcircleshapeFormCallback *NextCircleShapeFormCallback) {
+	nextcircleshapeFormCallback = new(NextCircleShapeFormCallback)
+	nextcircleshapeFormCallback.probe = probe
+	nextcircleshapeFormCallback.nextcircleshape = nextcircleshape
+	nextcircleshapeFormCallback.formGroup = formGroup
+
+	nextcircleshapeFormCallback.CreationMode = (nextcircleshape == nil)
+
+	return
+}
+
+type NextCircleShapeFormCallback struct {
+	nextcircleshape *models.NextCircleShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (nextcircleshapeFormCallback *NextCircleShapeFormCallback) OnSave() {
+	nextcircleshapeFormCallback.probe.stageOfInterest.Lock()
+	defer nextcircleshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("NextCircleShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	nextcircleshapeFormCallback.probe.formStage.Checkout()
+
+	if nextcircleshapeFormCallback.nextcircleshape == nil {
+		nextcircleshapeFormCallback.nextcircleshape = new(models.NextCircleShape).Stage(nextcircleshapeFormCallback.probe.stageOfInterest)
+	}
+	nextcircleshape_ := nextcircleshapeFormCallback.nextcircleshape
+	_ = nextcircleshape_
+
+	for _, formDiv := range nextcircleshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(nextcircleshape_.Name), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(nextcircleshape_.IsHidden), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if nextcircleshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		nextcircleshape_.Unstage(nextcircleshapeFormCallback.probe.stageOfInterest)
+	}
+
+	nextcircleshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.NextCircleShape](
+		nextcircleshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if nextcircleshapeFormCallback.CreationMode || nextcircleshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		nextcircleshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(nextcircleshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__NextCircleShapeFormCallback(
+			nil,
+			nextcircleshapeFormCallback.probe,
+			newFormGroup,
+		)
+		nextcircleshape := new(models.NextCircleShape)
+		FillUpForm(nextcircleshape, newFormGroup, nextcircleshapeFormCallback.probe)
+		nextcircleshapeFormCallback.probe.formStage.Commit()
+	}
+
+	nextcircleshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__PlantFormCallback(
 	plant *models.Plant,
 	probe *Probe,
@@ -736,6 +896,12 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.RotatedGrowthVectorShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "RotatedGridPathShape":
 			FormDivSelectFieldToField(&(plantdiagram_.RotatedGridPathShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "RotatedRhombusGridShape":
+			FormDivSelectFieldToField(&(plantdiagram_.RotatedRhombusGridShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "RotatedCircleGridShape":
+			FormDivSelectFieldToField(&(plantdiagram_.RotatedCircleGridShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "RotatedNextCircleShape":
+			FormDivSelectFieldToField(&(plantdiagram_.RotatedNextCircleShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":
@@ -942,4 +1108,84 @@ func (referencerhombusFormCallback *ReferenceRhombusFormCallback) OnSave() {
 	}
 
 	referencerhombusFormCallback.probe.ux_tree()
+}
+func __gong__New__RhombusGridShapeFormCallback(
+	rhombusgridshape *models.RhombusGridShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (rhombusgridshapeFormCallback *RhombusGridShapeFormCallback) {
+	rhombusgridshapeFormCallback = new(RhombusGridShapeFormCallback)
+	rhombusgridshapeFormCallback.probe = probe
+	rhombusgridshapeFormCallback.rhombusgridshape = rhombusgridshape
+	rhombusgridshapeFormCallback.formGroup = formGroup
+
+	rhombusgridshapeFormCallback.CreationMode = (rhombusgridshape == nil)
+
+	return
+}
+
+type RhombusGridShapeFormCallback struct {
+	rhombusgridshape *models.RhombusGridShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (rhombusgridshapeFormCallback *RhombusGridShapeFormCallback) OnSave() {
+	rhombusgridshapeFormCallback.probe.stageOfInterest.Lock()
+	defer rhombusgridshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("RhombusGridShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	rhombusgridshapeFormCallback.probe.formStage.Checkout()
+
+	if rhombusgridshapeFormCallback.rhombusgridshape == nil {
+		rhombusgridshapeFormCallback.rhombusgridshape = new(models.RhombusGridShape).Stage(rhombusgridshapeFormCallback.probe.stageOfInterest)
+	}
+	rhombusgridshape_ := rhombusgridshapeFormCallback.rhombusgridshape
+	_ = rhombusgridshape_
+
+	for _, formDiv := range rhombusgridshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(rhombusgridshape_.Name), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(rhombusgridshape_.IsHidden), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if rhombusgridshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rhombusgridshape_.Unstage(rhombusgridshapeFormCallback.probe.stageOfInterest)
+	}
+
+	rhombusgridshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.RhombusGridShape](
+		rhombusgridshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if rhombusgridshapeFormCallback.CreationMode || rhombusgridshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		rhombusgridshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(rhombusgridshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__RhombusGridShapeFormCallback(
+			nil,
+			rhombusgridshapeFormCallback.probe,
+			newFormGroup,
+		)
+		rhombusgridshape := new(models.RhombusGridShape)
+		FillUpForm(rhombusgridshape, newFormGroup, rhombusgridshapeFormCallback.probe)
+		rhombusgridshapeFormCallback.probe.formStage.Commit()
+	}
+
+	rhombusgridshapeFormCallback.probe.ux_tree()
 }

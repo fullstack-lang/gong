@@ -32,6 +32,20 @@ func (from *AxesShape) CopyBasicFields(to *AxesShape) {
 	to.IsWithHiddenHandle = from.IsWithHiddenHandle
 }
 
+type CircleGridShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsHidden bool
+}
+
+func (from *CircleGridShape) CopyBasicFields(to *CircleGridShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsHidden = from.IsHidden
+}
+
 type GridPathShape_WOP struct {
 	// insertion point
 
@@ -90,6 +104,20 @@ func (from *Library) CopyBasicFields(to *Library) {
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsRootLibrary = from.IsRootLibrary
+}
+
+type NextCircleShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsHidden bool
+}
+
+func (from *NextCircleShape) CopyBasicFields(to *NextCircleShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsHidden = from.IsHidden
 }
 
 type Plant_WOP struct {
@@ -165,6 +193,20 @@ type ReferenceRhombus_WOP struct {
 }
 
 func (from *ReferenceRhombus) CopyBasicFields(to *ReferenceRhombus) {
+	// insertion point
+	to.Name = from.Name
+	to.IsHidden = from.IsHidden
+}
+
+type RhombusGridShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsHidden bool
+}
+
+func (from *RhombusGridShape) CopyBasicFields(to *RhombusGridShape) {
 	// insertion point
 	to.Name = from.Name
 	to.IsHidden = from.IsHidden

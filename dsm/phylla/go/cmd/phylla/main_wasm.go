@@ -5,9 +5,9 @@ package main
 import (
 	"log"
 
-	"github.com/fullstack-lang/gong/lib/wasmregistry"
 	"github.com/fullstack-lang/gong/dsm/phylla/go/level1stack"
 	"github.com/fullstack-lang/gong/dsm/phylla/go/models"
+	"github.com/fullstack-lang/gong/lib/wasmregistry"
 )
 
 func main() {

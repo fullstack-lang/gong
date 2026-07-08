@@ -26,18 +26,24 @@ func (probe *Probe) ux_table() {
 	// insertion point
 	case "AxesShape":
 		updateProbeTable[*models.AxesShape](probe)
+	case "CircleGridShape":
+		updateProbeTable[*models.CircleGridShape](probe)
 	case "GridPathShape":
 		updateProbeTable[*models.GridPathShape](probe)
 	case "GrowthVectorShape":
 		updateProbeTable[*models.GrowthVectorShape](probe)
 	case "Library":
 		updateProbeTable[*models.Library](probe)
+	case "NextCircleShape":
+		updateProbeTable[*models.NextCircleShape](probe)
 	case "Plant":
 		updateProbeTable[*models.Plant](probe)
 	case "PlantDiagram":
 		updateProbeTable[*models.PlantDiagram](probe)
 	case "ReferenceRhombus":
 		updateProbeTable[*models.ReferenceRhombus](probe)
+	case "RhombusGridShape":
+		updateProbeTable[*models.RhombusGridShape](probe)
 	}
 }
 
