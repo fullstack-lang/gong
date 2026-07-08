@@ -2136,16 +2136,16 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeInt,
 		},
 		{
-			Name:               "InsideAngle",
+			Name:               "RhombusInsideAngle",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "RhombusSideLength",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "ShiftToNearestCircle",
 			GongFieldValueType: GongFieldValueTypeInt,
-		},
-		{
-			Name:               "SideLength",
-			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "ComputedPrefix",
@@ -2377,18 +2377,18 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%d", plant.Z)
 		res.valueInt = plant.Z
 		res.GongFieldValueType = GongFieldValueTypeInt
-	case "InsideAngle":
-		res.valueString = fmt.Sprintf("%f", plant.InsideAngle)
-		res.valueFloat = plant.InsideAngle
+	case "RhombusInsideAngle":
+		res.valueString = fmt.Sprintf("%f", plant.RhombusInsideAngle)
+		res.valueFloat = plant.RhombusInsideAngle
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RhombusSideLength":
+		res.valueString = fmt.Sprintf("%f", plant.RhombusSideLength)
+		res.valueFloat = plant.RhombusSideLength
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "ShiftToNearestCircle":
 		res.valueString = fmt.Sprintf("%d", plant.ShiftToNearestCircle)
 		res.valueInt = plant.ShiftToNearestCircle
 		res.GongFieldValueType = GongFieldValueTypeInt
-	case "SideLength":
-		res.valueString = fmt.Sprintf("%f", plant.SideLength)
-		res.valueFloat = plant.SideLength
-		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "ComputedPrefix":
 		res.valueString = plant.ComputedPrefix
 	case "IsExpanded":
@@ -2564,12 +2564,12 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.M = int(value.GetValueInt())
 	case "Z":
 		plant.Z = int(value.GetValueInt())
-	case "InsideAngle":
-		plant.InsideAngle = value.GetValueFloat()
+	case "RhombusInsideAngle":
+		plant.RhombusInsideAngle = value.GetValueFloat()
+	case "RhombusSideLength":
+		plant.RhombusSideLength = value.GetValueFloat()
 	case "ShiftToNearestCircle":
 		plant.ShiftToNearestCircle = int(value.GetValueInt())
-	case "SideLength":
-		plant.SideLength = value.GetValueFloat()
 	case "ComputedPrefix":
 		plant.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":

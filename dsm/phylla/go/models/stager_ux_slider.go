@@ -34,11 +34,11 @@ func (stager *Stager) ux_slider() {
 			group1.Sliders,
 			m.NewSlider(
 				stager,
-				"Side Length",
+				"Rhombus Side Length",
 				5,
 				300,
 				5,
-				&plant.SideLength,
+				&plant.RhombusSideLength,
 			),
 		)
 
@@ -46,11 +46,11 @@ func (stager *Stager) ux_slider() {
 			group1.Sliders,
 			m.NewSlider(
 				stager,
-				"Inside Angle",
+				"Rhombus Inside Angle",
 				60,
 				120,
 				1,
-				&plant.InsideAngle,
+				&plant.RhombusInsideAngle,
 			),
 		)
 

@@ -88,4 +88,34 @@ func (stager *Stager) treePlantDiagram(
 
 	plantDiagramNode.Children = append(plantDiagramNode.Children, axesShapeNode)
 
+	growthVectorShape := plantDiagram.GrowthVectorShape
+	if growthVectorShape != nil {
+		growthVectorShapeNode := &tree.Node{
+			Name:            growthVectorShape.Name,
+			IsNodeClickable: true,
+		}
+		growthVectorShapeNode.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(growthVectorShape, GetPointerToGongstructName[*GrowthVectorShape]())
+			stager.stage.Commit()
+		}
+		gvVisibilityButton := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				growthVectorShape.SetIsHidden(!growthVectorShape.GetIsHidden())
+				stager.stage.Commit()
+			},
+		}
+		if growthVectorShape.GetIsHidden() {
+			gvVisibilityButton.Icon = string(buttons.BUTTON_visibility)
+			gvVisibilityButton.Name = "Show"
+			gvVisibilityButton.ToolTipText = "Show on diagram"
+		}
+		growthVectorShapeNode.Buttons = append(growthVectorShapeNode.Buttons, gvVisibilityButton)
+
+		plantDiagramNode.Children = append(plantDiagramNode.Children, growthVectorShapeNode)
+	}
 }

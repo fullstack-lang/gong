@@ -3,22 +3,23 @@ package models
 type Plant struct {
 	Name string
 
+	// N is the number of steps to take along the first main path (up and to the right)
+	// on the unrolled lattice of the plant's surface to reach the next leaf in the genetic spiral.
 	N int
+	// M is the number of steps to take along the second main path (up and to the left)
+	// on the unrolled lattice of the plant's surface to reach the next leaf in the genetic spiral.
 	M int
 	Z int // number of rhombus
 
-	// InsideAngle is set by the user. It represents the angle in degree of the diamond (rhombus) at the origin 0,0.
-	// Together with the spiral indices (N and M) and the SideLength, this angle determines
-	// the Cartesian X and Y coordinates of the plant's GrowthVector (or Initial Axis).
-	// The GrowthVector represents the fundamental geometrical shift (the growth step)
-	// from one leaf/cell to the next corresponding cell in the repeating spiral pattern.
-	InsideAngle float64
+	// RhombusInsideAngle is set by the user. It represents the inside angle (in degrees) of the
+	// fundamental diamond (rhombus) shape that makes up the grid of leaves on the plant's surface.
+	// This angle determines the geometric direction of the two main lattice paths (up-right and up-left).
+	RhombusInsideAngle float64
 
-	// SideLength is set by the user. It represents the length of the side of the
-	// fundamental diamond (rhombus) shape that tiles the surface of the plant.
-	// Like InsideAngle, it is a key parameter in computing the exact Cartesian coordinates
-	// (length and angle) of the GrowthVector.
-	SideLength float64
+	// RhombusSideLength is set by the user. It represents the physical length of the side of the
+	// fundamental diamond (rhombus) shape. It acts as the scale or distance for each step
+	// taken along the lattice paths.
+	RhombusSideLength float64
 
 	// how many circle to go around for the front curve
 	// the front curve goes from one circle to the nearest

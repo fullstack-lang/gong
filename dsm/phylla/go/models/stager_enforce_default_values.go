@@ -34,9 +34,9 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			needCommit = true
 			plant.Z = 5
 		}
-		if plant.SideLength == 0.0 {
+		if plant.RhombusSideLength == 0.0 {
 			needCommit = true
-			plant.SideLength = 100.0
+			plant.RhombusSideLength = 100.0
 		}
 		if plant.Name == "" {
 			needCommit = true

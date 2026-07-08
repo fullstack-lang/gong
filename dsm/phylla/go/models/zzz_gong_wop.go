@@ -89,11 +89,11 @@ type Plant_WOP struct {
 
 	Z int
 
-	InsideAngle float64
+	RhombusInsideAngle float64
+
+	RhombusSideLength float64
 
 	ShiftToNearestCircle int
-
-	SideLength float64
 
 	ComputedPrefix string
 
@@ -108,9 +108,9 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.N = from.N
 	to.M = from.M
 	to.Z = from.Z
-	to.InsideAngle = from.InsideAngle
+	to.RhombusInsideAngle = from.RhombusInsideAngle
+	to.RhombusSideLength = from.RhombusSideLength
 	to.ShiftToNearestCircle = from.ShiftToNearestCircle
-	to.SideLength = from.SideLength
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsPlantDiagramsNodeExpanded = from.IsPlantDiagramsNodeExpanded

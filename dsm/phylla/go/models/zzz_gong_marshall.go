@@ -403,9 +403,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "N"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "M"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "Z"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "InsideAngle"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "RhombusInsideAngle"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "RhombusSideLength"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ShiftToNearestCircle"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "SideLength"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsPlantDiagramsNodeExpanded"))
@@ -689,21 +689,21 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Z")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.Z))
-	case "InsideAngle":
+	case "RhombusInsideAngle":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "InsideAngle")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.InsideAngle))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RhombusInsideAngle")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RhombusInsideAngle))
+	case "RhombusSideLength":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RhombusSideLength")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.RhombusSideLength))
 	case "ShiftToNearestCircle":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ShiftToNearestCircle")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.ShiftToNearestCircle))
-	case "SideLength":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SideLength")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", plant.SideLength))
 	case "ComputedPrefix":
 		res = StringInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
@@ -869,9 +869,9 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "N"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "M"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "Z"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "InsideAngle"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "RhombusInsideAngle"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "RhombusSideLength"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ShiftToNearestCircle"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "SideLength"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsPlantDiagramsNodeExpanded"))
