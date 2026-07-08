@@ -8,10 +8,6 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
-type coord struct {
-	x, y float64
-}
-
 func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 	if plantDiagram.RotatedRhombusGridShape == nil || plantDiagram.RotatedRhombusGridShape.IsHidden {
 		return
@@ -21,45 +17,45 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 	sinHalf := math.Sin(insideAngleRad / 2.0)
 	cosHalf := math.Cos(insideAngleRad / 2.0)
 	sideLength := plant.RhombusSideLength
+	angleRad := plantDiagram.GrowthVectorShape.AngleDegree * math.Pi / 180.0
 
-	deltaY := float64(plant.N)*sideLength*sinHalf + float64(plant.M)*sideLength*sinHalf
-	deltaX := float64(plant.N)*sideLength*cosHalf - float64(plant.M)*sideLength*cosHalf
+	for i := 0; i <= plant.N; i++ {
+		for j := 0; j <= plant.M; j++ {
+			rawX := float64(i)*sideLength*cosHalf - float64(j)*sideLength*cosHalf
+			rawY := float64(i)*sideLength*sinHalf + float64(j)*sideLength*sinHalf
 
-	L := plantDiagram.AxesShape.LengthX
+			// Rotation by -angleRad to find the Cartesian Y coordinate of the center in the rotated frame
+			rotY := rawX*math.Sin(-angleRad) + rawY*math.Cos(-angleRad)
+			if rotY < -0.00001 {
+				continue // discard shapes below the growth vector axis
+			}
 
-	for i := 0; i < plant.Z; i++ {
-		rawX := float64(i) * deltaX
-		rawY := float64(i) * deltaY
+			// Center of the rhombus
+			cx := plantDiagram.OriginX + rawX
+			cy := plantDiagram.OriginY - rawY
 
-		var wrappedX float64
-		if L > 0 {
-			wrappedX = math.Mod(math.Mod(rawX, L)+L, L)
-		} else {
-			wrappedX = rawX
+			// Vertices relative to the center
+			v0x := cx - sideLength*cosHalf
+			v0y := cy
+			v1x := cx
+			v1y := cy - sideLength*sinHalf
+			v2x := cx + sideLength*cosHalf
+			v2y := cy
+			v3x := cx
+			v3y := cy + sideLength*sinHalf
+
+			polygon := new(svg.Polygone).Stage(stager.svgStage)
+			layer.Polygones = append(layer.Polygones, polygon)
+			polygon.Name = fmt.Sprintf("%s-%d-%d", plantDiagram.RotatedRhombusGridShape.Name, i, j)
+			polygon.Points = fmt.Sprintf("%f,%f %f,%f %f,%f %f,%f", v0x, v0y, v1x, v1y, v2x, v2y, v3x, v3y)
+
+			polygon.Presentation.Stroke = "darkgreen"
+			polygon.Presentation.StrokeWidth = 1.0
+			polygon.Presentation.StrokeOpacity = 1.0
+			polygon.Presentation.Color = "lightblue"
+			polygon.Presentation.FillOpacity = 0.2
+			polygon.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.GrowthVectorShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
 		}
-
-		cx := plantDiagram.OriginX + wrappedX
-		cy := plantDiagram.OriginY - rawY
-
-		v0x := cx
-		v0y := cy
-		v1x := cx + sideLength*cosHalf
-		v1y := cy - sideLength*sinHalf
-		v2x := cx + 2.0*sideLength*cosHalf
-		v2y := cy
-		v3x := cx + sideLength*cosHalf
-		v3y := cy + sideLength*sinHalf
-
-		polygon := new(svg.Polygone).Stage(stager.svgStage)
-		layer.Polygones = append(layer.Polygones, polygon)
-		polygon.Name = fmt.Sprintf("%s-%d", plantDiagram.RotatedRhombusGridShape.Name, i)
-		polygon.Points = fmt.Sprintf("%f,%f %f,%f %f,%f %f,%f", v0x, v0y, v1x, v1y, v2x, v2y, v3x, v3y)
-
-		polygon.Presentation.Stroke = "darkgreen" // From screenshot
-		polygon.Presentation.StrokeWidth = 1.0
-		polygon.Presentation.StrokeOpacity = 1.0
-		polygon.Presentation.Color = "lightblue"
-		polygon.Presentation.FillOpacity = 0.2 // slight fill like the screenshot
 	}
 }
 
@@ -72,44 +68,42 @@ func (plantDiagram *PlantDiagram) drawRotatedCircleGridShape(stager *Stager, lay
 	sinHalf := math.Sin(insideAngleRad / 2.0)
 	cosHalf := math.Cos(insideAngleRad / 2.0)
 	sideLength := plant.RhombusSideLength
-
-	deltaY := float64(plant.N)*sideLength*sinHalf + float64(plant.M)*sideLength*sinHalf
-	deltaX := float64(plant.N)*sideLength*cosHalf - float64(plant.M)*sideLength*cosHalf
-
-	L := plantDiagram.AxesShape.LengthX
 	radius := sideLength * math.Sin(insideAngleRad) / 2.0
+	angleRad := plantDiagram.GrowthVectorShape.AngleDegree * math.Pi / 180.0
 
-	for i := 0; i < plant.Z; i++ {
-		rawX := float64(i) * deltaX
-		rawY := float64(i) * deltaY
+	for i := 0; i <= plant.N; i++ {
+		for j := 0; j <= plant.M; j++ {
+			rawX := float64(i)*sideLength*cosHalf - float64(j)*sideLength*cosHalf
+			rawY := float64(i)*sideLength*sinHalf + float64(j)*sideLength*sinHalf
 
-		var wrappedX float64
-		if L > 0 {
-			wrappedX = math.Mod(math.Mod(rawX, L)+L, L)
-		} else {
-			wrappedX = rawX
+			rotY := rawX*math.Sin(-angleRad) + rawY*math.Cos(-angleRad)
+			if rotY < -0.00001 {
+				continue
+			}
+
+			// Center of the circle
+			cx := plantDiagram.OriginX + rawX
+			cy := plantDiagram.OriginY - rawY
+
+			circle := new(svg.Circle).Stage(stager.svgStage)
+			layer.Circles = append(layer.Circles, circle)
+			circle.Name = fmt.Sprintf("%s-%d-%d", plantDiagram.RotatedCircleGridShape.Name, i, j)
+			circle.CX = cx
+			circle.CY = cy
+			circle.Radius = radius
+			circle.Presentation.Stroke = "lightblue"
+			circle.Presentation.StrokeWidth = 2.0
+			circle.Presentation.StrokeOpacity = 1.0
+			circle.Presentation.Color = "white"
+			circle.Presentation.FillOpacity = 0.0
+			circle.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.GrowthVectorShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
 		}
-
-		// left vertex
-		cx := plantDiagram.OriginX + wrappedX
-		cy := plantDiagram.OriginY - rawY
-
-		// circle center is rhombus center
-		circleX := cx + sideLength*cosHalf
-		circleY := cy
-
-		circle := new(svg.Circle).Stage(stager.svgStage)
-		layer.Circles = append(layer.Circles, circle)
-		circle.Name = fmt.Sprintf("%s-%d", plantDiagram.RotatedCircleGridShape.Name, i)
-		circle.CX = circleX
-		circle.CY = circleY
-		circle.Radius = radius
-		circle.Presentation.Stroke = "lightblue" // From screenshot, circles are blueish or greenish
-		circle.Presentation.StrokeWidth = 2.0
-		circle.Presentation.StrokeOpacity = 1.0
-		circle.Presentation.Color = "white"
-		circle.Presentation.FillOpacity = 0.0
 	}
+}
+
+type rotatedCircleData struct {
+	circleX, circleY float64
+	rotY             float64
 }
 
 func (plantDiagram *PlantDiagram) drawRotatedNextCircleShape(stager *Stager, layer *svg.Layer, plant *Plant) {
@@ -121,52 +115,46 @@ func (plantDiagram *PlantDiagram) drawRotatedNextCircleShape(stager *Stager, lay
 	sinHalf := math.Sin(insideAngleRad / 2.0)
 	cosHalf := math.Cos(insideAngleRad / 2.0)
 	sideLength := plant.RhombusSideLength
-
-	deltaY := float64(plant.N)*sideLength*sinHalf + float64(plant.M)*sideLength*sinHalf
-	deltaX := float64(plant.N)*sideLength*cosHalf - float64(plant.M)*sideLength*cosHalf
-
-	L := plantDiagram.AxesShape.LengthX
 	radius := sideLength * math.Sin(insideAngleRad) / 2.0
+	angleRad := plantDiagram.GrowthVectorShape.AngleDegree * math.Pi / 180.0
 
-	var circles []coord
-	for i := 0; i < plant.Z; i++ {
-		rawX := float64(i) * deltaX
-		rawY := float64(i) * deltaY
+	var circles []rotatedCircleData
 
-		var wrappedX float64
-		if L > 0 {
-			wrappedX = math.Mod(math.Mod(rawX, L)+L, L)
-		} else {
-			wrappedX = rawX
+	for i := 0; i <= plant.N; i++ {
+		for j := 0; j <= plant.M; j++ {
+			rawX := float64(i)*sideLength*cosHalf - float64(j)*sideLength*cosHalf
+			rawY := float64(i)*sideLength*sinHalf + float64(j)*sideLength*sinHalf
+
+			rotY := rawX*math.Sin(-angleRad) + rawY*math.Cos(-angleRad)
+			if rotY < -0.00001 {
+				continue
+			}
+
+			cx := plantDiagram.OriginX + rawX
+			cy := plantDiagram.OriginY - rawY
+
+			circles = append(circles, rotatedCircleData{circleX: cx, circleY: cy, rotY: rotY})
 		}
-
-		cx := plantDiagram.OriginX + wrappedX
-		cy := plantDiagram.OriginY - rawY
-		circleX := cx + sideLength*cosHalf
-		circleY := cy
-		circles = append(circles, coord{x: circleX, y: circleY})
 	}
 
 	if len(circles) < 3 {
-		return // not enough circles to pick the 3rd one
+		return
 	}
 
 	sort.Slice(circles, func(i, j int) bool {
-		return circles[i].y > circles[j].y
+		return circles[i].rotY < circles[j].rotY
 	})
-
-	circleX := circles[2].x
-	circleY := circles[2].y
 
 	circle := new(svg.Circle).Stage(stager.svgStage)
 	layer.Circles = append(layer.Circles, circle)
 	circle.Name = plantDiagram.RotatedNextCircleShape.Name
-	circle.CX = circleX
-	circle.CY = circleY
+	circle.CX = circles[2].circleX
+	circle.CY = circles[2].circleY
 	circle.Radius = radius
 	circle.Presentation.Stroke = "yellow"
 	circle.Presentation.StrokeWidth = 4.0
 	circle.Presentation.StrokeOpacity = 1.0
 	circle.Presentation.Color = "none"
 	circle.Presentation.FillOpacity = 0.0
+	circle.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.GrowthVectorShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
 }

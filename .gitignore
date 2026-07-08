@@ -119,3 +119,4 @@ app/xsd/go/cmd/xsd/xsd
 dsm/statemachines/go/cmd/statemachines/data/foo.go
 lib/threejs/go/cmd/threejs/threejs
 dsm/phylla/go/cmd/phylla/phylla
+dsm/phylla/go/cmd/phylla/out.go
