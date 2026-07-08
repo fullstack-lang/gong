@@ -472,6 +472,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(plantdiagram_.IsExpanded), formDiv)
+		case "IsChecked":
+			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "Plant:PlantDiagramsWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Plant instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

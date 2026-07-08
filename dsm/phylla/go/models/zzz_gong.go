@@ -1702,6 +1702,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -1880,6 +1884,10 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsExpanded)
 		res.valueBool = plantdiagram.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsChecked)
+		res.valueBool = plantdiagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -2005,6 +2013,8 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		plantdiagram.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		plantdiagram.IsExpanded = value.GetValueBool()
+	case "IsChecked":
+		plantdiagram.IsChecked = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

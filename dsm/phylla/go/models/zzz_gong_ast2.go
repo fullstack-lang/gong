@@ -583,6 +583,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "IsChecked":
+		instance.IsChecked = GongExtractBool(valueExpr)
 	}
 	return nil
 }

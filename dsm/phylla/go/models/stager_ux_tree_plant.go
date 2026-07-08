@@ -21,6 +21,18 @@ func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node) {
 		stager.stage.Commit()
 	}
 
+	confPlants := ItemButtonConfiguration[
+		PlantDiagram, *PlantDiagram, // AT, PAT (Added Element)
+		Plant, *Plant, // ParentAT, PParentAT (Parent Element)
+	]{
+		parentNode:                         plantNode,
+		sliceForNewAddedItem:               &plant.PlantDiagrams,
+		isParentNodeExpandedByAddOperation: true,
+		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
+		parentNodeExpansionBooleanValue:    &plant.IsExpanded,
+	}
+	addCreateItemButton(stager, confPlants)
+
 	// Add Plant Diagram Button
 	diagramsNode := &tree.Node{
 		Name:            "Plant Diagrams",
