@@ -282,16 +282,34 @@ func (plantDiagram *PlantDiagram) drawGridPathShape(stager *Stager, layer *svg.L
 	currY := plantDiagram.OriginY
 	points = append(points, fmt.Sprintf("%f,%f", currX, currY))
 
-	for i := 0; i < plant.N; i++ {
+	addCircle := func(x, y float64, stepIndex int, path string) {
+		circle := new(svg.Circle)
+		layer.Circles = append(layer.Circles, circle)
+		circle.Name = fmt.Sprintf("%s-%s-step-%d", plantDiagram.GridPathShape.Name, path, stepIndex)
+		circle.CX = x
+		circle.CY = y
+		circle.Radius = 4.0
+		circle.Presentation.Stroke = "red"
+		circle.Presentation.StrokeWidth = 1.0
+		circle.Presentation.StrokeOpacity = 1.0
+		circle.Presentation.Color = "white"
+		circle.Presentation.FillOpacity = 1.0
+	}
+
+	addCircle(currX, currY, 0, "start")
+
+	for i := 1; i <= plant.N; i++ {
 		currX += v1x
 		currY += v1y
 		points = append(points, fmt.Sprintf("%f,%f", currX, currY))
+		addCircle(currX, currY, i, "N")
 	}
 
-	for i := 0; i < plant.M; i++ {
+	for i := 1; i <= plant.M; i++ {
 		currX += v2x
 		currY += v2y
 		points = append(points, fmt.Sprintf("%f,%f", currX, currY))
+		addCircle(currX, currY, i, "M")
 	}
 
 	polyline.Points = strings.Join(points, " ")
