@@ -2722,12 +2722,16 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			GrowthVectorShape: &GrowthVectorShape{Name: "GrowthVectorShape"},
 			// field is initialized with an instance of GridPathShape with the name of the field
 			GridPathShape: &GridPathShape{Name: "GridPathShape"},
+			// field is initialized with an instance of RhombusGridShape with the name of the field
+			RhombusGridShape: &RhombusGridShape{Name: "RhombusGridShape"},
 			// field is initialized with an instance of ReferenceRhombus with the name of the field
 			RotatedReferenceRhombus: &ReferenceRhombus{Name: "RotatedReferenceRhombus"},
 			// field is initialized with an instance of GrowthVectorShape with the name of the field
 			RotatedGrowthVectorShape: &GrowthVectorShape{Name: "RotatedGrowthVectorShape"},
 			// field is initialized with an instance of GridPathShape with the name of the field
 			RotatedGridPathShape: &GridPathShape{Name: "RotatedGridPathShape"},
+			// field is initialized with an instance of RhombusGridShape with the name of the field
+			RotatedRhombusGridShape: &RhombusGridShape{Name: "RotatedRhombusGridShape"},
 		}).(*Type)
 	case ReferenceRhombus:
 		return any(&ReferenceRhombus{
@@ -2861,6 +2865,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "RhombusGridShape":
+			res := make(map[*RhombusGridShape][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.RhombusGridShape != nil {
+					rhombusgridshape_ := plantdiagram.RhombusGridShape
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[rhombusgridshape_]
+					if ok {
+						plantdiagrams = res[rhombusgridshape_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[rhombusgridshape_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "RotatedReferenceRhombus":
 			res := make(map[*ReferenceRhombus][]*PlantDiagram)
 			for plantdiagram := range stage.PlantDiagrams {
@@ -2909,6 +2930,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					plantdiagrams = append(plantdiagrams, plantdiagram)
 					res[gridpathshape_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RotatedRhombusGridShape":
+			res := make(map[*RhombusGridShape][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.RotatedRhombusGridShape != nil {
+					rhombusgridshape_ := plantdiagram.RotatedRhombusGridShape
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[rhombusgridshape_]
+					if ok {
+						plantdiagrams = res[rhombusgridshape_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[rhombusgridshape_] = plantdiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -3340,6 +3378,11 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			TargetGongstructName: "GridPathShape",
 		},
 		{
+			Name:                 "RhombusGridShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "RhombusGridShape",
+		},
+		{
 			Name:                 "RotatedReferenceRhombus",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "ReferenceRhombus",
@@ -3353,6 +3396,11 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:                 "RotatedGridPathShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "GridPathShape",
+		},
+		{
+			Name:                 "RotatedRhombusGridShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "RhombusGridShape",
 		},
 		{
 			Name:               "IsChecked",
@@ -3681,6 +3729,12 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = plantdiagram.GridPathShape.Name
 			res.ids = plantdiagram.GridPathShape.GongGetUUID(stage)
 		}
+	case "RhombusGridShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.RhombusGridShape != nil {
+			res.valueString = plantdiagram.RhombusGridShape.Name
+			res.ids = plantdiagram.RhombusGridShape.GongGetUUID(stage)
+		}
 	case "RotatedReferenceRhombus":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plantdiagram.RotatedReferenceRhombus != nil {
@@ -3698,6 +3752,12 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 		if plantdiagram.RotatedGridPathShape != nil {
 			res.valueString = plantdiagram.RotatedGridPathShape.Name
 			res.ids = plantdiagram.RotatedGridPathShape.GongGetUUID(stage)
+		}
+	case "RotatedRhombusGridShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.RotatedRhombusGridShape != nil {
+			res.valueString = plantdiagram.RotatedRhombusGridShape.Name
+			res.ids = plantdiagram.RotatedRhombusGridShape.GongGetUUID(stage)
 		}
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsChecked)
@@ -3977,6 +4037,17 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
+	case "RhombusGridShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.RhombusGridShape = nil
+			for __instance__ := range stage.RhombusGridShapes {
+				if stage.RhombusGridShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.RhombusGridShape = __instance__
+					break
+				}
+			}
+		}
 	case "RotatedReferenceRhombus":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -4006,6 +4077,17 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 			for __instance__ := range stage.GridPathShapes {
 				if stage.GridPathShape_stagedOrder[__instance__] == uint(id) {
 					plantdiagram.RotatedGridPathShape = __instance__
+					break
+				}
+			}
+		}
+	case "RotatedRhombusGridShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.RotatedRhombusGridShape = nil
+			for __instance__ := range stage.RhombusGridShapes {
+				if stage.RhombusGridShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.RotatedRhombusGridShape = __instance__
 					break
 				}
 			}

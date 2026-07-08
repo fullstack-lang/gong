@@ -888,12 +888,16 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.GrowthVectorShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "GridPathShape":
 			FormDivSelectFieldToField(&(plantdiagram_.GridPathShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "RhombusGridShape":
+			FormDivSelectFieldToField(&(plantdiagram_.RhombusGridShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "RotatedReferenceRhombus":
 			FormDivSelectFieldToField(&(plantdiagram_.RotatedReferenceRhombus), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "RotatedGrowthVectorShape":
 			FormDivSelectFieldToField(&(plantdiagram_.RotatedGrowthVectorShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "RotatedGridPathShape":
 			FormDivSelectFieldToField(&(plantdiagram_.RotatedGridPathShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "RotatedRhombusGridShape":
+			FormDivSelectFieldToField(&(plantdiagram_.RotatedRhombusGridShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "ComputedPrefix":

@@ -180,6 +180,36 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, gridPathShapeNode)
 	}
 
+	rhombusGridShape := plantDiagram.RhombusGridShape
+	if rhombusGridShape != nil {
+		node := &tree.Node{
+			Name:            rhombusGridShape.Name,
+			IsNodeClickable: true,
+		}
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(rhombusGridShape, GetPointerToGongstructName[*RhombusGridShape]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				rhombusGridShape.SetIsHidden(!rhombusGridShape.GetIsHidden())
+				stager.stage.Commit()
+			},
+		}
+		if rhombusGridShape.GetIsHidden() {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
 	rotatedReferenceRhombus := plantDiagram.RotatedReferenceRhombus
 	if rotatedReferenceRhombus != nil {
 		node := &tree.Node{
@@ -262,6 +292,36 @@ func (stager *Stager) treePlantDiagram(
 			},
 		}
 		if rotatedGridPathShape.GetIsHidden() {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
+	rotatedRhombusGridShape := plantDiagram.RotatedRhombusGridShape
+	if rotatedRhombusGridShape != nil {
+		node := &tree.Node{
+			Name:            rotatedRhombusGridShape.Name,
+			IsNodeClickable: true,
+		}
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(rotatedRhombusGridShape, GetPointerToGongstructName[*RhombusGridShape]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				rotatedRhombusGridShape.SetIsHidden(!rotatedRhombusGridShape.GetIsHidden())
+				stager.stage.Commit()
+			},
+		}
+		if rotatedRhombusGridShape.GetIsHidden() {
 			btn.Icon = string(buttons.BUTTON_visibility)
 			btn.Name = "Show"
 			btn.ToolTipText = "Show on diagram"

@@ -58,9 +58,11 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawGrowthVectorShape(stager, layer)
 	plantDiagram.drawReferenceRhombus(stager, layer, plant)
 	plantDiagram.drawGridPathShape(stager, layer, plant)
+	plantDiagram.drawRhombusGridShape(stager, layer, plant)
 	plantDiagram.drawRotatedGrowthVectorShape(stager, layer)
 	plantDiagram.drawRotatedReferenceRhombus(stager, layer, plant)
 	plantDiagram.drawRotatedGridPathShape(stager, layer, plant)
+	plantDiagram.drawRotatedRhombusGridShape(stager, layer, plant)
 
 
 	return
@@ -457,4 +459,108 @@ func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer
 	}
 
 	polyline.Points = strings.Join(points, " ")
+}
+
+func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+
+	if plantDiagram.RhombusGridShape == nil || plantDiagram.RhombusGridShape.IsHidden {
+		return
+	}
+
+	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
+	length := plant.RhombusSideLength
+
+	// SVG Y-axis is inverted
+	v1x := length * math.Cos(angleRad/2.0)
+	v1y := -length * math.Sin(angleRad/2.0)
+
+	v2x := -length * math.Cos(angleRad/2.0)
+	v2y := -length * math.Sin(angleRad/2.0)
+
+	for i := 0; i < plant.N; i++ {
+		for j := 0; j < plant.M; j++ {
+			polygon := new(svg.Polygone)
+			layer.Polygones = append(layer.Polygones, polygon)
+
+			polygon.Name = fmt.Sprintf("%s-%d-%d", plantDiagram.RhombusGridShape.Name, i, j)
+
+			// Vertices for the rhombus at (i, j)
+			v0x := plantDiagram.OriginX + float64(i)*v1x + float64(j)*v2x
+			v0y := plantDiagram.OriginY + float64(i)*v1y + float64(j)*v2y
+
+			v1_vertex_x := v0x + v1x
+			v1_vertex_y := v0y + v1y
+
+			v2_vertex_x := v0x + v1x + v2x
+			v2_vertex_y := v0y + v1y + v2y
+
+			v3_vertex_x := v0x + v2x
+			v3_vertex_y := v0y + v2y
+
+			polygon.Points = fmt.Sprintf("%f,%f %f,%f %f,%f %f,%f",
+				v0x, v0y,
+				v1_vertex_x, v1_vertex_y,
+				v2_vertex_x, v2_vertex_y,
+				v3_vertex_x, v3_vertex_y)
+
+			polygon.Presentation.Stroke = "blue"
+			polygon.Presentation.StrokeWidth = 1.0
+			polygon.Presentation.StrokeOpacity = 0.5
+			polygon.Presentation.Color = "lightblue"
+			polygon.Presentation.FillOpacity = 0.2
+		}
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+
+	if plantDiagram.RotatedRhombusGridShape == nil || plantDiagram.RotatedRhombusGridShape.IsHidden {
+		return
+	}
+
+	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
+	length := plant.RhombusSideLength
+
+	// SVG Y-axis is inverted
+	v1x := length * math.Cos(angleRad/2.0)
+	v1y := -length * math.Sin(angleRad/2.0)
+
+	v2x := -length * math.Cos(angleRad/2.0)
+	v2y := -length * math.Sin(angleRad/2.0)
+
+	for i := 0; i < plant.N; i++ {
+		for j := 0; j < plant.M; j++ {
+			polygon := new(svg.Polygone)
+			layer.Polygones = append(layer.Polygones, polygon)
+
+			polygon.Name = fmt.Sprintf("%s-%d-%d", plantDiagram.RotatedRhombusGridShape.Name, i, j)
+
+			// Vertices for the rhombus at (i, j)
+			v0x := plantDiagram.OriginX + float64(i)*v1x + float64(j)*v2x
+			v0y := plantDiagram.OriginY + float64(i)*v1y + float64(j)*v2y
+
+			v1_vertex_x := v0x + v1x
+			v1_vertex_y := v0y + v1y
+
+			v2_vertex_x := v0x + v1x + v2x
+			v2_vertex_y := v0y + v1y + v2y
+
+			v3_vertex_x := v0x + v2x
+			v3_vertex_y := v0y + v2y
+
+			polygon.Points = fmt.Sprintf("%f,%f %f,%f %f,%f %f,%f",
+				v0x, v0y,
+				v1_vertex_x, v1_vertex_y,
+				v2_vertex_x, v2_vertex_y,
+				v3_vertex_x, v3_vertex_y)
+
+			polygon.Presentation.Stroke = "darkblue"
+			polygon.Presentation.StrokeWidth = 1.0
+			polygon.Presentation.StrokeOpacity = 0.5
+			polygon.Presentation.Color = "lightblue"
+			polygon.Presentation.FillOpacity = 0.1
+			polygon.Presentation.StrokeDashArray = "5, 5"
+			polygon.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.GrowthVectorShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
+		}
+	}
 }

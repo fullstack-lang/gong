@@ -10,9 +10,11 @@ type PlantDiagram struct {
 	ReferenceRhombus         *ReferenceRhombus
 	GrowthVectorShape        *GrowthVectorShape
 	GridPathShape            *GridPathShape
+	RhombusGridShape         *RhombusGridShape
 	RotatedReferenceRhombus  *ReferenceRhombus
 	RotatedGrowthVectorShape *GrowthVectorShape
 	RotatedGridPathShape     *GridPathShape
+	RotatedRhombusGridShape  *RhombusGridShape
 
 
 	IsChecked bool
