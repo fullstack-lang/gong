@@ -142,4 +142,18 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.IsChecked = from.IsChecked
 }
 
+type ReferenceRhombus_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsHidden bool
+}
+
+func (from *ReferenceRhombus) CopyBasicFields(to *ReferenceRhombus) {
+	// insertion point
+	to.Name = from.Name
+	to.IsHidden = from.IsHidden
+}
+
 // end of insertion point

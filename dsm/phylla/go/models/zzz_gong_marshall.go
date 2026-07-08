@@ -442,8 +442,36 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginX"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginY"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "AxesShape"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "ReferenceRhombus"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "GrowthVectorShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
+	}
+
+	referencerhombusOrdered := []*ReferenceRhombus{}
+	for referencerhombus := range stage.ReferenceRhombuss {
+		referencerhombusOrdered = append(referencerhombusOrdered, referencerhombus)
+	}
+	sort.Slice(referencerhombusOrdered[:], func(i, j int) bool {
+		referencerhombusi := referencerhombusOrdered[i]
+		referencerhombusj := referencerhombusOrdered[j]
+		referencerhombusi_order, oki := stage.ReferenceRhombus_stagedOrder[referencerhombusi]
+		referencerhombusj_order, okj := stage.ReferenceRhombus_stagedOrder[referencerhombusj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return referencerhombusi_order < referencerhombusj_order
+	})
+	if len(referencerhombusOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, referencerhombus := range referencerhombusOrdered {
+
+		identifiersDecl.WriteString(referencerhombus.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(referencerhombus.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(referencerhombus.GongMarshallField(stage, "IsHidden"))
 	}
 
 	// insertion initialization of objects to stage
@@ -481,6 +509,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, plantdiagram := range plantdiagramOrdered {
 		_ = plantdiagram
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, referencerhombus := range referencerhombusOrdered {
+		_ = referencerhombus
 		var setPointerField string
 		_ = setPointerField
 
@@ -793,6 +829,19 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AxesShape")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "ReferenceRhombus":
+		if plantdiagram.ReferenceRhombus != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ReferenceRhombus")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantdiagram.ReferenceRhombus.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ReferenceRhombus")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	case "GrowthVectorShape":
 		if plantdiagram.GrowthVectorShape != nil {
 			res = PointerFieldInitStatement
@@ -808,6 +857,26 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PlantDiagram", fieldName)
+	}
+	return
+}
+
+func (referencerhombus *ReferenceRhombus) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", referencerhombus.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(referencerhombus.Name))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", referencerhombus.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", referencerhombus.IsHidden))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ReferenceRhombus", fieldName)
 	}
 	return
 }
@@ -893,8 +962,21 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginX"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginY"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "AxesShape"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "ReferenceRhombus"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "GrowthVectorShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (referencerhombus *ReferenceRhombus) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(referencerhombus.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(referencerhombus.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -45,6 +45,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.plantdiagram, probe)
 			}
+		case *ReferenceRhombusFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "ReferenceRhombus", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.referencerhombus, probe)
+			}
 		}
 	}
 }
@@ -132,6 +138,19 @@ func FillUpFormFromGongstructName(
 		plantdiagram := new(models.PlantDiagram)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(plantdiagram, formGroup, probe)
+	case "ReferenceRhombus":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ReferenceRhombus Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ReferenceRhombusFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		referencerhombus := new(models.ReferenceRhombus)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(referencerhombus, formGroup, probe)
 	}
 	formStage.Commit()
 }

@@ -88,6 +88,36 @@ func (stager *Stager) treePlantDiagram(
 
 	plantDiagramNode.Children = append(plantDiagramNode.Children, axesShapeNode)
 
+	referenceRhombus := plantDiagram.ReferenceRhombus
+	if referenceRhombus != nil {
+		referenceRhombusNode := &tree.Node{
+			Name:            referenceRhombus.Name,
+			IsNodeClickable: true,
+		}
+		referenceRhombusNode.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(referenceRhombus, GetPointerToGongstructName[*ReferenceRhombus]())
+			stager.stage.Commit()
+		}
+		rrVisibilityButton := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				referenceRhombus.SetIsHidden(!referenceRhombus.GetIsHidden())
+				stager.stage.Commit()
+			},
+		}
+		if referenceRhombus.GetIsHidden() {
+			rrVisibilityButton.Icon = string(buttons.BUTTON_visibility)
+			rrVisibilityButton.Name = "Show"
+			rrVisibilityButton.ToolTipText = "Show on diagram"
+		}
+		referenceRhombusNode.Buttons = append(referenceRhombusNode.Buttons, rrVisibilityButton)
+
+		plantDiagramNode.Children = append(plantDiagramNode.Children, referenceRhombusNode)
+	}
 	growthVectorShape := plantDiagram.GrowthVectorShape
 	if growthVectorShape != nil {
 		growthVectorShapeNode := &tree.Node{

@@ -9,6 +9,7 @@ type PlantDiagram struct {
 	OriginY float64
 
 	AxesShape         *AxesShape
+	ReferenceRhombus  *ReferenceRhombus
 	GrowthVectorShape *GrowthVectorShape
 
 	IsChecked bool

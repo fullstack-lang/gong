@@ -34,6 +34,24 @@ func (s *AxesShape) GetIsWithHiddenHandle() bool {
 	return s.IsWithHiddenHandle
 }
 
+// ReferenceRhombus of a plant,
+//
+// each plant has one ReferenceRhombus
+// the direction and distance of new cell growth.
+type ReferenceRhombus struct {
+	Name string
+
+	Shape
+}
+
+func (s *ReferenceRhombus) SetIsHidden(isHidden bool) {
+	s.IsHidden = isHidden
+}
+
+func (s *ReferenceRhombus) GetIsHidden() bool {
+	return s.IsHidden
+}
+
 // GrowthVectorShape of a plant,
 //
 // each plant has one GrowthVectorShape

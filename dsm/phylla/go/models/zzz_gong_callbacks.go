@@ -26,6 +26,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterPlantDiagramCreateCallback != nil {
 			stage.OnAfterPlantDiagramCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *ReferenceRhombus:
+		if stage.OnAfterReferenceRhombusCreateCallback != nil {
+			stage.OnAfterReferenceRhombusCreateCallback.OnAfterCreate(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -65,6 +69,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterPlantDiagramUpdateCallback != nil {
 			stage.OnAfterPlantDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *ReferenceRhombus:
+		newTarget := any(new).(*ReferenceRhombus)
+		if stage.OnAfterReferenceRhombusUpdateCallback != nil {
+			stage.OnAfterReferenceRhombusUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	default:
 		_ = oldTarget
 	}
@@ -100,6 +109,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*PlantDiagram)
 			stage.OnAfterPlantDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *ReferenceRhombus:
+		if stage.OnAfterReferenceRhombusDeleteCallback != nil {
+			staged := any(staged).(*ReferenceRhombus)
+			stage.OnAfterReferenceRhombusDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	default:
 		_ = front
 	}
@@ -130,6 +144,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterPlantDiagramReadCallback != nil {
 			stage.OnAfterPlantDiagramReadCallback.OnAfterRead(stage, target)
 		}
+	case *ReferenceRhombus:
+		if stage.OnAfterReferenceRhombusReadCallback != nil {
+			stage.OnAfterReferenceRhombusReadCallback.OnAfterRead(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -151,6 +169,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPlantUpdateCallback = any(callback).(OnAfterUpdateInterface[Plant])
 	case *PlantDiagram:
 		stage.OnAfterPlantDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[PlantDiagram])
+	case *ReferenceRhombus:
+		stage.OnAfterReferenceRhombusUpdateCallback = any(callback).(OnAfterUpdateInterface[ReferenceRhombus])
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -168,6 +188,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPlantCreateCallback = any(callback).(OnAfterCreateInterface[Plant])
 	case *PlantDiagram:
 		stage.OnAfterPlantDiagramCreateCallback = any(callback).(OnAfterCreateInterface[PlantDiagram])
+	case *ReferenceRhombus:
+		stage.OnAfterReferenceRhombusCreateCallback = any(callback).(OnAfterCreateInterface[ReferenceRhombus])
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -185,6 +207,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterPlantDeleteCallback = any(callback).(OnAfterDeleteInterface[Plant])
 	case *PlantDiagram:
 		stage.OnAfterPlantDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[PlantDiagram])
+	case *ReferenceRhombus:
+		stage.OnAfterReferenceRhombusDeleteCallback = any(callback).(OnAfterDeleteInterface[ReferenceRhombus])
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -202,5 +226,7 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterPlantReadCallback = any(callback).(OnAfterReadInterface[Plant])
 	case *PlantDiagram:
 		stage.OnAfterPlantDiagramReadCallback = any(callback).(OnAfterReadInterface[PlantDiagram])
+	case *ReferenceRhombus:
+		stage.OnAfterReferenceRhombusReadCallback = any(callback).(OnAfterReadInterface[ReferenceRhombus])
 	}
 }
