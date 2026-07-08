@@ -32,6 +32,20 @@ func (from *AxesShape) CopyBasicFields(to *AxesShape) {
 	to.IsWithHiddenHandle = from.IsWithHiddenHandle
 }
 
+type GridPathShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsHidden bool
+}
+
+func (from *GridPathShape) CopyBasicFields(to *GridPathShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsHidden = from.IsHidden
+}
+
 type GrowthVectorShape_WOP struct {
 	// insertion point
 

@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"math"
+	"strings"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
@@ -56,6 +57,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawAxes(stager, layer)
 	plantDiagram.drawGrowthVectorShape(stager, layer)
 	plantDiagram.drawReferenceRhombus(stager, layer, plant)
+	plantDiagram.drawGridPathShape(stager, layer, plant)
 
 	return
 }
@@ -248,4 +250,49 @@ func (plantDiagram *PlantDiagram) drawReferenceRhombus(stager *Stager, layer *sv
 	polygon.Presentation.StrokeOpacity = 1.0
 	polygon.Presentation.Color = "lightblue"
 	polygon.Presentation.FillOpacity = 0.5
+}
+
+func (plantDiagram *PlantDiagram) drawGridPathShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+
+	if plantDiagram.GridPathShape == nil || plantDiagram.GridPathShape.IsHidden {
+		return
+	}
+
+	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
+	length := plant.RhombusSideLength
+
+	// SVG Y-axis is inverted
+	v1x := length * math.Cos(angleRad/2.0)
+	v1y := -length * math.Sin(angleRad/2.0)
+
+	v2x := -length * math.Cos(angleRad/2.0)
+	v2y := -length * math.Sin(angleRad/2.0)
+
+	polyline := new(svg.Polyline)
+	layer.Polylines = append(layer.Polylines, polyline)
+
+	polyline.Name = plantDiagram.GridPathShape.Name
+	polyline.Presentation.Stroke = "red"
+	polyline.Presentation.StrokeWidth = 2.0
+	polyline.Presentation.StrokeOpacity = 1.0
+	polyline.Presentation.FillOpacity = 0.0
+
+	var points []string
+	currX := plantDiagram.OriginX
+	currY := plantDiagram.OriginY
+	points = append(points, fmt.Sprintf("%f,%f", currX, currY))
+
+	for i := 0; i < plant.N; i++ {
+		currX += v1x
+		currY += v1y
+		points = append(points, fmt.Sprintf("%f,%f", currX, currY))
+	}
+
+	for i := 0; i < plant.M; i++ {
+		currX += v2x
+		currY += v2y
+		points = append(points, fmt.Sprintf("%f,%f", currX, currY))
+	}
+
+	polyline.Points = strings.Join(points, " ")
 }

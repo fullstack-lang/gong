@@ -148,4 +148,35 @@ func (stager *Stager) treePlantDiagram(
 
 		plantDiagramNode.Children = append(plantDiagramNode.Children, growthVectorShapeNode)
 	}
+
+	gridPathShape := plantDiagram.GridPathShape
+	if gridPathShape != nil {
+		gridPathShapeNode := &tree.Node{
+			Name:            gridPathShape.Name,
+			IsNodeClickable: true,
+		}
+		gridPathShapeNode.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(gridPathShape, GetPointerToGongstructName[*GridPathShape]())
+			stager.stage.Commit()
+		}
+		gpVisibilityButton := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				gridPathShape.SetIsHidden(!gridPathShape.GetIsHidden())
+				stager.stage.Commit()
+			},
+		}
+		if gridPathShape.GetIsHidden() {
+			gpVisibilityButton.Icon = string(buttons.BUTTON_visibility)
+			gpVisibilityButton.Name = "Show"
+			gpVisibilityButton.ToolTipText = "Show on diagram"
+		}
+		gridPathShapeNode.Buttons = append(gridPathShapeNode.Buttons, gpVisibilityButton)
+
+		plantDiagramNode.Children = append(plantDiagramNode.Children, gridPathShapeNode)
+	}
 }
