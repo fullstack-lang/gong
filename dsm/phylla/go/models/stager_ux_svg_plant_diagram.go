@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"math"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
@@ -19,11 +20,22 @@ func (stager *Stager) ux_svg_plant_diagram() {
 		}
 	}
 
-	if plantDiagram == nil {
+	var plant *Plant
+	if plantDiagram != nil {
+		for p_ := range *GetGongstructInstancesSet[Plant](stager.stage) {
+			for _, d_ := range p_.PlantDiagrams {
+				if d_ == plantDiagram {
+					plant = p_
+				}
+			}
+		}
+	}
+
+	if plantDiagram == nil || plant == nil {
 		stager.svgStage.Commit()
 		return
 	}
-	svgObject := stager.generateSvgObject(plantDiagram)
+	svgObject := stager.generateSvgObject(plantDiagram, plant)
 
 	svg.StageBranch(stager.svgStage, svgObject)
 	stager.svgObject = svgObject
@@ -31,7 +43,7 @@ func (stager *Stager) ux_svg_plant_diagram() {
 	stager.svgStage.Commit()
 }
 
-func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram) (svg_ *svg.SVG) {
+func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant) (svg_ *svg.SVG) {
 
 	svg_ = new(svg.SVG)
 	svg_.Name = "Plant Diagram" // or any name, if name is an attribute.
@@ -43,6 +55,7 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram) (svg_ *svg.S
 	// creation of 2 transparant rects, one at each ends of the vertical
 	plantDiagram.drawAxes(stager, layer)
 	plantDiagram.drawGrowthVectorShape(stager, layer)
+	plantDiagram.drawReferenceRhombus(stager, layer, plant)
 
 	return
 }
@@ -193,4 +206,46 @@ func (plantDiagram *PlantDiagram) drawGrowthVectorShape(stager *Stager, layer *s
 	line.Presentation.Stroke = "green"
 	line.Presentation.StrokeWidth = 2.0
 	line.Presentation.StrokeOpacity = 1.0
+}
+
+func (plantDiagram *PlantDiagram) drawReferenceRhombus(stager *Stager, layer *svg.Layer, plant *Plant) {
+
+	if plantDiagram.ReferenceRhombus == nil || plantDiagram.ReferenceRhombus.IsHidden {
+		return
+	}
+
+	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
+	length := plant.RhombusSideLength
+
+	// Vertices
+	v0x := plantDiagram.OriginX
+	v0y := plantDiagram.OriginY
+
+	// Top vertex (SVG y-axis is inverted)
+	v1x := v0x + length*math.Cos(angleRad/2.0)
+	v1y := v0y - length*math.Sin(angleRad/2.0)
+
+	// Right vertex
+	v2x := v0x + 2.0*length*math.Cos(angleRad/2.0)
+	v2y := v0y
+
+	// Bottom vertex
+	v3x := v0x + length*math.Cos(angleRad/2.0)
+	v3y := v0y + length*math.Sin(angleRad/2.0)
+
+	polygon := new(svg.Polygone)
+	layer.Polygones = append(layer.Polygones, polygon)
+
+	polygon.Name = plantDiagram.ReferenceRhombus.Name
+	polygon.Points = fmt.Sprintf("%f,%f %f,%f %f,%f %f,%f",
+		v0x, v0y,
+		v1x, v1y,
+		v2x, v2y,
+		v3x, v3y)
+
+	polygon.Presentation.Stroke = "blue"
+	polygon.Presentation.StrokeWidth = 2.0
+	polygon.Presentation.StrokeOpacity = 1.0
+	polygon.Presentation.Color = "lightblue"
+	polygon.Presentation.FillOpacity = 0.5
 }

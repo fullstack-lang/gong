@@ -22,6 +22,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *PlantDiagram:
 		ok = stage.IsStagedPlantDiagram(target)
 
+	case *ReferenceRhombus:
+		ok = stage.IsStagedReferenceRhombus(target)
+
 	default:
 		_ = target
 	}
@@ -46,6 +49,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *PlantDiagram:
 		ok = stage.IsStagedPlantDiagram(target)
+
+	case *ReferenceRhombus:
+		ok = stage.IsStagedReferenceRhombus(target)
 
 	default:
 		_ = target
@@ -89,6 +95,13 @@ func (stage *Stage) IsStagedPlantDiagram(plantdiagram *PlantDiagram) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedReferenceRhombus(referencerhombus *ReferenceRhombus) (ok bool) {
+
+	_, ok = stage.ReferenceRhombuss[referencerhombus]
+
+	return
+}
+
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -111,6 +124,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *PlantDiagram:
 		stage.StageBranchPlantDiagram(target)
+
+	case *ReferenceRhombus:
+		stage.StageBranchReferenceRhombus(target)
 
 	default:
 		_ = target
@@ -203,9 +219,27 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.AxesShape != nil {
 		StageBranch(stage, plantdiagram.AxesShape)
 	}
+	if plantdiagram.ReferenceRhombus != nil {
+		StageBranch(stage, plantdiagram.ReferenceRhombus)
+	}
 	if plantdiagram.GrowthVectorShape != nil {
 		StageBranch(stage, plantdiagram.GrowthVectorShape)
 	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchReferenceRhombus(referencerhombus *ReferenceRhombus) {
+
+	// check if instance is already staged
+	if IsStaged(stage, referencerhombus) {
+		return
+	}
+
+	referencerhombus.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -240,6 +274,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *PlantDiagram:
 		toT := CopyBranchPlantDiagram(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ReferenceRhombus:
+		toT := CopyBranchReferenceRhombus(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -353,9 +391,31 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	if plantdiagramFrom.AxesShape != nil {
 		plantdiagramTo.AxesShape = CopyBranchAxesShape(mapOrigCopy, plantdiagramFrom.AxesShape)
 	}
+	if plantdiagramFrom.ReferenceRhombus != nil {
+		plantdiagramTo.ReferenceRhombus = CopyBranchReferenceRhombus(mapOrigCopy, plantdiagramFrom.ReferenceRhombus)
+	}
 	if plantdiagramFrom.GrowthVectorShape != nil {
 		plantdiagramTo.GrowthVectorShape = CopyBranchGrowthVectorShape(mapOrigCopy, plantdiagramFrom.GrowthVectorShape)
 	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchReferenceRhombus(mapOrigCopy map[any]any, referencerhombusFrom *ReferenceRhombus) (referencerhombusTo *ReferenceRhombus) {
+
+	// referencerhombusFrom has already been copied
+	if _referencerhombusTo, ok := mapOrigCopy[referencerhombusFrom]; ok {
+		referencerhombusTo = _referencerhombusTo.(*ReferenceRhombus)
+		return
+	}
+
+	referencerhombusTo = new(ReferenceRhombus)
+	mapOrigCopy[referencerhombusFrom] = referencerhombusTo
+	referencerhombusFrom.CopyBasicFields(referencerhombusTo)
+
+	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -384,6 +444,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *PlantDiagram:
 		stage.UnstageBranchPlantDiagram(target)
+
+	case *ReferenceRhombus:
+		stage.UnstageBranchReferenceRhombus(target)
 
 	default:
 		_ = target
@@ -476,9 +539,27 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.AxesShape != nil {
 		UnstageBranch(stage, plantdiagram.AxesShape)
 	}
+	if plantdiagram.ReferenceRhombus != nil {
+		UnstageBranch(stage, plantdiagram.ReferenceRhombus)
+	}
 	if plantdiagram.GrowthVectorShape != nil {
 		UnstageBranch(stage, plantdiagram.GrowthVectorShape)
 	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchReferenceRhombus(referencerhombus *ReferenceRhombus) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, referencerhombus) {
+		return
+	}
+
+	referencerhombus.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -526,9 +607,17 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	if instance.AxesShape != nil {
 		reference.AxesShape = stage.AxesShapes_reference[instance.AxesShape]
 	}
+	if instance.ReferenceRhombus != nil {
+		reference.ReferenceRhombus = stage.ReferenceRhombuss_reference[instance.ReferenceRhombus]
+	}
 	if instance.GrowthVectorShape != nil {
 		reference.GrowthVectorShape = stage.GrowthVectorShapes_reference[instance.GrowthVectorShape]
 	}
+	// insertion point for slice of pointers field
+}
+
+func (reference *ReferenceRhombus) GongReconstructPointersFromReferences(stage *Stage, instance *ReferenceRhombus) {
+	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
 
@@ -589,12 +678,23 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 			reference.AxesShape = _instance
 		}
 	}
+	if _reference := reference.ReferenceRhombus; _reference != nil {
+		reference.ReferenceRhombus = nil
+		if _instance, ok := stage.ReferenceRhombuss_instance[_reference]; ok {
+			reference.ReferenceRhombus = _instance
+		}
+	}
 	if _reference := reference.GrowthVectorShape; _reference != nil {
 		reference.GrowthVectorShape = nil
 		if _instance, ok := stage.GrowthVectorShapes_instance[_reference]; ok {
 			reference.GrowthVectorShape = _instance
 		}
 	}
+	// insertion point for slice of pointers fields
+}
+
+func (reference *ReferenceRhombus) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
 
@@ -816,6 +916,13 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "AxesShape"))
 		}
 	}
+	if (plantdiagram.ReferenceRhombus == nil) != (plantdiagramOther.ReferenceRhombus == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "ReferenceRhombus"))
+	} else if plantdiagram.ReferenceRhombus != nil && plantdiagramOther.ReferenceRhombus != nil {
+		if plantdiagram.ReferenceRhombus != plantdiagramOther.ReferenceRhombus {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "ReferenceRhombus"))
+		}
+	}
 	if (plantdiagram.GrowthVectorShape == nil) != (plantdiagramOther.GrowthVectorShape == nil) {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "GrowthVectorShape"))
 	} else if plantdiagram.GrowthVectorShape != nil && plantdiagramOther.GrowthVectorShape != nil {
@@ -825,6 +932,20 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsChecked"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (referencerhombus *ReferenceRhombus) GongDiff(stage *Stage, referencerhombusOther *ReferenceRhombus) (diffs []string) {
+	// insertion point for field diffs
+	if referencerhombus.Name != referencerhombusOther.Name {
+		diffs = append(diffs, referencerhombus.GongMarshallField(stage, "Name"))
+	}
+	if referencerhombus.IsHidden != referencerhombusOther.IsHidden {
+		diffs = append(diffs, referencerhombus.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return

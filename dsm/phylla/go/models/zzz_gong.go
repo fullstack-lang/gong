@@ -214,6 +214,21 @@ type Stage struct {
 	OnAfterPlantDiagramDeleteCallback OnAfterDeleteInterface[PlantDiagram]
 	OnAfterPlantDiagramReadCallback   OnAfterReadInterface[PlantDiagram]
 
+	ReferenceRhombuss                map[*ReferenceRhombus]struct{}
+	ReferenceRhombuss_instance       map[*ReferenceRhombus]*ReferenceRhombus
+	ReferenceRhombuss_mapString      map[string]*ReferenceRhombus
+	ReferenceRhombusOrder            uint
+	ReferenceRhombus_stagedOrder     map[*ReferenceRhombus]uint
+	ReferenceRhombus_orderStaged     map[uint]*ReferenceRhombus
+	ReferenceRhombuss_reference      map[*ReferenceRhombus]*ReferenceRhombus
+	ReferenceRhombuss_referenceOrder map[*ReferenceRhombus]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterReferenceRhombusCreateCallback OnAfterCreateInterface[ReferenceRhombus]
+	OnAfterReferenceRhombusUpdateCallback OnAfterUpdateInterface[ReferenceRhombus]
+	OnAfterReferenceRhombusDeleteCallback OnAfterDeleteInterface[ReferenceRhombus]
+	OnAfterReferenceRhombusReadCallback   OnAfterReadInterface[ReferenceRhombus]
+
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -470,6 +485,10 @@ func (stage *Stage) Squash() {
 	stage.PlantDiagrams_instance = make(map[*PlantDiagram]*PlantDiagram)
 	stage.PlantDiagrams_referenceOrder = make(map[*PlantDiagram]uint)
 
+	stage.ReferenceRhombuss_reference = make(map[*ReferenceRhombus]*ReferenceRhombus)
+	stage.ReferenceRhombuss_instance = make(map[*ReferenceRhombus]*ReferenceRhombus)
+	stage.ReferenceRhombuss_referenceOrder = make(map[*ReferenceRhombus]uint)
+
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
 		stage.OnInitCommitCallback.BeforeCommit(stage)
@@ -565,6 +584,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.PlantDiagramOrder = maxPlantDiagramOrder + 1
 	} else {
 		stage.PlantDiagramOrder = 0
+	}
+
+	var maxReferenceRhombusOrder uint
+	var foundReferenceRhombus bool
+	for _, order := range stage.ReferenceRhombus_stagedOrder {
+		if !foundReferenceRhombus || order > maxReferenceRhombusOrder {
+			maxReferenceRhombusOrder = order
+			foundReferenceRhombus = true
+		}
+	}
+	if foundReferenceRhombus {
+		stage.ReferenceRhombusOrder = maxReferenceRhombusOrder + 1
+	} else {
+		stage.ReferenceRhombusOrder = 0
 	}
 
 	// end of insertion point for max order recomputation
@@ -698,6 +731,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *ReferenceRhombus:
+		tmp := GetStructInstancesByOrder(stage.ReferenceRhombuss, stage.ReferenceRhombus_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ReferenceRhombus implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 
 	}
 	return
@@ -737,6 +784,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Plants, stage.Plant_stagedOrder)
 	case "PlantDiagram":
 		res = GetNamedStructInstances(stage.PlantDiagrams, stage.PlantDiagram_stagedOrder)
+	case "ReferenceRhombus":
+		res = GetNamedStructInstances(stage.ReferenceRhombuss, stage.ReferenceRhombus_stagedOrder)
 	}
 
 	return
@@ -816,6 +865,8 @@ type BackRepoInterface interface {
 	CheckoutPlant(plant *Plant)
 	CommitPlantDiagram(plantdiagram *PlantDiagram)
 	CheckoutPlantDiagram(plantdiagram *PlantDiagram)
+	CommitReferenceRhombus(referencerhombus *ReferenceRhombus)
+	CheckoutReferenceRhombus(referencerhombus *ReferenceRhombus)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -836,6 +887,9 @@ func NewStage(name string) (stage *Stage) {
 
 		PlantDiagrams:           make(map[*PlantDiagram]struct{}),
 		PlantDiagrams_mapString: make(map[string]*PlantDiagram),
+
+		ReferenceRhombuss:           make(map[*ReferenceRhombus]struct{}),
+		ReferenceRhombuss_mapString: make(map[string]*ReferenceRhombus),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -867,6 +921,10 @@ func NewStage(name string) (stage *Stage) {
 		PlantDiagram_orderStaged: make(map[uint]*PlantDiagram),
 		PlantDiagrams_reference:  make(map[*PlantDiagram]*PlantDiagram),
 
+		ReferenceRhombus_stagedOrder: make(map[*ReferenceRhombus]uint),
+		ReferenceRhombus_orderStaged: make(map[uint]*ReferenceRhombus),
+		ReferenceRhombuss_reference:  make(map[*ReferenceRhombus]*ReferenceRhombus),
+
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"AxesShape": &AxesShapeUnmarshaller{},
@@ -879,6 +937,8 @@ func NewStage(name string) (stage *Stage) {
 
 			"PlantDiagram": &PlantDiagramUnmarshaller{},
 
+			"ReferenceRhombus": &ReferenceRhombusUnmarshaller{},
+
 			// end of insertion point
 		},
 
@@ -888,6 +948,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Library"},
 			{name: "Plant"},
 			{name: "PlantDiagram"},
+			{name: "ReferenceRhombus"},
 		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
@@ -909,6 +970,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.Plant_stagedOrder[instance]
 	case *PlantDiagram:
 		return stage.PlantDiagram_stagedOrder[instance]
+	case *ReferenceRhombus:
+		return stage.ReferenceRhombus_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -928,6 +991,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.Plant_orderStaged[order]).(Type)
 	case *PlantDiagram:
 		return any(stage.PlantDiagram_orderStaged[order]).(Type)
+	case *ReferenceRhombus:
+		return any(stage.ReferenceRhombus_orderStaged[order]).(Type)
 	default:
 		return // should not happen
 	}
@@ -946,6 +1011,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.Plant_stagedOrder[instance]
 	case *PlantDiagram:
 		return stage.PlantDiagram_stagedOrder[instance]
+	case *ReferenceRhombus:
+		return stage.ReferenceRhombus_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1016,6 +1083,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Plant"] = len(stage.Plants)
 	stage.Map_GongStructName_InstancesNb["PlantDiagram"] = len(stage.PlantDiagrams)
+	stage.Map_GongStructName_InstancesNb["ReferenceRhombus"] = len(stage.ReferenceRhombuss)
 }
 
 func (stage *Stage) Checkout() {
@@ -1496,6 +1564,94 @@ func (plantdiagram *PlantDiagram) SetName(name string) {
 	plantdiagram.Name = name
 }
 
+// Stage puts referencerhombus to the model stage
+func (referencerhombus *ReferenceRhombus) Stage(stage *Stage) *ReferenceRhombus {
+	if _, ok := stage.ReferenceRhombuss[referencerhombus]; !ok {
+		stage.ReferenceRhombuss[referencerhombus] = struct{}{}
+		stage.ReferenceRhombus_stagedOrder[referencerhombus] = stage.ReferenceRhombusOrder
+		stage.ReferenceRhombus_orderStaged[stage.ReferenceRhombusOrder] = referencerhombus
+		stage.ReferenceRhombusOrder++
+	}
+	stage.ReferenceRhombuss_mapString[referencerhombus.Name] = referencerhombus
+
+	return referencerhombus
+}
+
+// StagePreserveOrder puts referencerhombus to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ReferenceRhombusOrder
+// - update stage.ReferenceRhombusOrder accordingly
+func (referencerhombus *ReferenceRhombus) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ReferenceRhombuss[referencerhombus]; !ok {
+		stage.ReferenceRhombuss[referencerhombus] = struct{}{}
+
+		if order > stage.ReferenceRhombusOrder {
+			stage.ReferenceRhombusOrder = order
+		}
+		stage.ReferenceRhombus_stagedOrder[referencerhombus] = order
+		stage.ReferenceRhombus_orderStaged[order] = referencerhombus
+		stage.ReferenceRhombusOrder++
+	}
+	stage.ReferenceRhombuss_mapString[referencerhombus.Name] = referencerhombus
+}
+
+// Unstage removes referencerhombus off the model stage
+func (referencerhombus *ReferenceRhombus) Unstage(stage *Stage) *ReferenceRhombus {
+	delete(stage.ReferenceRhombuss, referencerhombus)
+	// issue1150
+	// delete(stage.ReferenceRhombus_stagedOrder, referencerhombus)
+	delete(stage.ReferenceRhombuss_mapString, referencerhombus.Name)
+
+	return referencerhombus
+}
+
+// UnstageVoid removes referencerhombus off the model stage
+func (referencerhombus *ReferenceRhombus) UnstageVoid(stage *Stage) {
+	delete(stage.ReferenceRhombuss, referencerhombus)
+	// issue1150
+	// delete(stage.ReferenceRhombus_stagedOrder, referencerhombus)
+	delete(stage.ReferenceRhombuss_mapString, referencerhombus.Name)
+}
+
+// commit referencerhombus to the back repo (if it is already staged)
+func (referencerhombus *ReferenceRhombus) Commit(stage *Stage) *ReferenceRhombus {
+	if _, ok := stage.ReferenceRhombuss[referencerhombus]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitReferenceRhombus(referencerhombus)
+		}
+	}
+	return referencerhombus
+}
+
+func (referencerhombus *ReferenceRhombus) CommitVoid(stage *Stage) {
+	referencerhombus.Commit(stage)
+}
+
+func (referencerhombus *ReferenceRhombus) StageVoid(stage *Stage) {
+	referencerhombus.Stage(stage)
+}
+
+// Checkout referencerhombus to the back repo (if it is already staged)
+func (referencerhombus *ReferenceRhombus) Checkout(stage *Stage) *ReferenceRhombus {
+	if _, ok := stage.ReferenceRhombuss[referencerhombus]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutReferenceRhombus(referencerhombus)
+		}
+	}
+	return referencerhombus
+}
+
+// for satisfaction of GongStruct interface
+func (referencerhombus *ReferenceRhombus) GetName() (res string) {
+	return referencerhombus.Name
+}
+
+// for satisfaction of GongStruct interface
+func (referencerhombus *ReferenceRhombus) SetName(name string) {
+	referencerhombus.Name = name
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAxesShape(AxesShape *AxesShape)
@@ -1503,6 +1659,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMLibrary(Library *Library)
 	CreateORMPlant(Plant *Plant)
 	CreateORMPlantDiagram(PlantDiagram *PlantDiagram)
+	CreateORMReferenceRhombus(ReferenceRhombus *ReferenceRhombus)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
@@ -1511,6 +1668,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMLibrary(Library *Library)
 	DeleteORMPlant(Plant *Plant)
 	DeleteORMPlantDiagram(PlantDiagram *PlantDiagram)
+	DeleteORMReferenceRhombus(ReferenceRhombus *ReferenceRhombus)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1539,6 +1697,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.PlantDiagram_stagedOrder = make(map[*PlantDiagram]uint)
 	stage.PlantDiagramOrder = 0
 
+	stage.ReferenceRhombuss = make(map[*ReferenceRhombus]struct{})
+	stage.ReferenceRhombuss_mapString = make(map[string]*ReferenceRhombus)
+	stage.ReferenceRhombus_stagedOrder = make(map[*ReferenceRhombus]uint)
+	stage.ReferenceRhombusOrder = 0
+
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
@@ -1563,6 +1726,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.PlantDiagrams = nil
 	stage.PlantDiagrams_mapString = nil
 
+	stage.ReferenceRhombuss = nil
+	stage.ReferenceRhombuss_mapString = nil
+
 	// end of insertion point for array nil
 }
 
@@ -1585,6 +1751,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for plantdiagram := range stage.PlantDiagrams {
 		plantdiagram.Unstage(stage)
+	}
+
+	for referencerhombus := range stage.ReferenceRhombuss {
+		referencerhombus.Unstage(stage)
 	}
 
 	// end of insertion point for array nil
@@ -1673,6 +1843,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Plants).(*Type)
 	case map[*PlantDiagram]any:
 		return any(&stage.PlantDiagrams).(*Type)
+	case map[*ReferenceRhombus]any:
+		return any(&stage.ReferenceRhombuss).(*Type)
 	default:
 		return nil
 	}
@@ -1695,6 +1867,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Plants_mapString).(map[string]Type)
 	case *PlantDiagram:
 		return any(stage.PlantDiagrams_mapString).(map[string]Type)
+	case *ReferenceRhombus:
+		return any(stage.ReferenceRhombuss_mapString).(map[string]Type)
 	default:
 		return nil
 	}
@@ -1717,6 +1891,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Plants).(*map[*Type]struct{})
 	case PlantDiagram:
 		return any(&stage.PlantDiagrams).(*map[*Type]struct{})
+	case ReferenceRhombus:
+		return any(&stage.ReferenceRhombuss).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -1739,6 +1915,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Plants).(*map[Type]struct{})
 	case *PlantDiagram:
 		return any(&stage.PlantDiagrams).(*map[Type]struct{})
+	case *ReferenceRhombus:
+		return any(&stage.ReferenceRhombuss).(*map[Type]struct{})
 	default:
 		return nil
 	}
@@ -1761,6 +1939,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Plants_mapString).(*map[string]*Type)
 	case PlantDiagram:
 		return any(&stage.PlantDiagrams_mapString).(*map[string]*Type)
+	case ReferenceRhombus:
+		return any(&stage.ReferenceRhombuss_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -1804,8 +1984,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of AxesShape with the name of the field
 			AxesShape: &AxesShape{Name: "AxesShape"},
+			// field is initialized with an instance of ReferenceRhombus with the name of the field
+			ReferenceRhombus: &ReferenceRhombus{Name: "ReferenceRhombus"},
 			// field is initialized with an instance of GrowthVectorShape with the name of the field
 			GrowthVectorShape: &GrowthVectorShape{Name: "GrowthVectorShape"},
+		}).(*Type)
+	case ReferenceRhombus:
+		return any(&ReferenceRhombus{
+			// Initialisation of associations
 		}).(*Type)
 	default:
 		return nil
@@ -1865,6 +2051,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ReferenceRhombus":
+			res := make(map[*ReferenceRhombus][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.ReferenceRhombus != nil {
+					referencerhombus_ := plantdiagram.ReferenceRhombus
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[referencerhombus_]
+					if ok {
+						plantdiagrams = res[referencerhombus_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[referencerhombus_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "GrowthVectorShape":
 			res := make(map[*GrowthVectorShape][]*PlantDiagram)
 			for plantdiagram := range stage.PlantDiagrams {
@@ -1882,6 +2085,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of ReferenceRhombus
+	case ReferenceRhombus:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	}
 	return nil
@@ -1955,6 +2163,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of ReferenceRhombus
+	case ReferenceRhombus:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	}
 	return nil
 }
@@ -1976,6 +2189,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Plant"
 	case *PlantDiagram:
 		res = "PlantDiagram"
+	case *ReferenceRhombus:
+		res = "ReferenceRhombus"
 	}
 	return res
 }
@@ -2020,6 +2235,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Plant"
 		rf.Fieldname = "PlantDiagrams"
 		res = append(res, rf)
+	case *ReferenceRhombus:
+		var rf ReverseField
+		_ = rf
 	}
 	return
 }
@@ -2202,12 +2420,32 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			TargetGongstructName: "AxesShape",
 		},
 		{
+			Name:                 "ReferenceRhombus",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ReferenceRhombus",
+		},
+		{
 			Name:                 "GrowthVectorShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "GrowthVectorShape",
 		},
 		{
 			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (referencerhombus *ReferenceRhombus) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
@@ -2448,6 +2686,12 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = plantdiagram.AxesShape.Name
 			res.ids = plantdiagram.AxesShape.GongGetUUID(stage)
 		}
+	case "ReferenceRhombus":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.ReferenceRhombus != nil {
+			res.valueString = plantdiagram.ReferenceRhombus.Name
+			res.ids = plantdiagram.ReferenceRhombus.GongGetUUID(stage)
+		}
 	case "GrowthVectorShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plantdiagram.GrowthVectorShape != nil {
@@ -2457,6 +2701,19 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsChecked)
 		res.valueBool = plantdiagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (referencerhombus *ReferenceRhombus) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = referencerhombus.Name
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", referencerhombus.IsHidden)
+		res.valueBool = referencerhombus.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
@@ -2634,6 +2891,17 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
+	case "ReferenceRhombus":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.ReferenceRhombus = nil
+			for __instance__ := range stage.ReferenceRhombuss {
+				if stage.ReferenceRhombus_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.ReferenceRhombus = __instance__
+					break
+				}
+			}
+		}
 	case "GrowthVectorShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -2647,6 +2915,19 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 		}
 	case "IsChecked":
 		plantdiagram.IsChecked = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (referencerhombus *ReferenceRhombus) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		referencerhombus.Name = value.GetValueString()
+	case "IsHidden":
+		referencerhombus.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -2676,6 +2957,10 @@ func (plant *Plant) GongGetGongstructName() string {
 
 func (plantdiagram *PlantDiagram) GongGetGongstructName() string {
 	return "PlantDiagram"
+}
+
+func (referencerhombus *ReferenceRhombus) GongGetGongstructName() string {
+	return "ReferenceRhombus"
 }
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
@@ -2708,6 +2993,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.PlantDiagrams_mapString = make(map[string]*PlantDiagram)
 	for plantdiagram := range stage.PlantDiagrams {
 		stage.PlantDiagrams_mapString[plantdiagram.Name] = plantdiagram
+	}
+
+	stage.ReferenceRhombuss_mapString = make(map[string]*ReferenceRhombus)
+	for referencerhombus := range stage.ReferenceRhombuss {
+		stage.ReferenceRhombuss_mapString[referencerhombus.Name] = referencerhombus
 	}
 
 	// end of insertion point for generic get gongstruct name

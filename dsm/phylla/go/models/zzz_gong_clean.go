@@ -77,7 +77,15 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = GongCleanPointer(stage, &plantdiagram.AxesShape) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.ReferenceRhombus) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.GrowthVectorShape) || modified
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by ReferenceRhombus
+func (referencerhombus *ReferenceRhombus) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
 	return
 }
 

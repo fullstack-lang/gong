@@ -648,6 +648,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.OriginY), formDiv)
 		case "AxesShape":
 			FormDivSelectFieldToField(&(plantdiagram_.AxesShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "ReferenceRhombus":
+			FormDivSelectFieldToField(&(plantdiagram_.ReferenceRhombus), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthVectorShape":
 			FormDivSelectFieldToField(&(plantdiagram_.GrowthVectorShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsChecked":
@@ -772,4 +774,84 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 	}
 
 	plantdiagramFormCallback.probe.ux_tree()
+}
+func __gong__New__ReferenceRhombusFormCallback(
+	referencerhombus *models.ReferenceRhombus,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (referencerhombusFormCallback *ReferenceRhombusFormCallback) {
+	referencerhombusFormCallback = new(ReferenceRhombusFormCallback)
+	referencerhombusFormCallback.probe = probe
+	referencerhombusFormCallback.referencerhombus = referencerhombus
+	referencerhombusFormCallback.formGroup = formGroup
+
+	referencerhombusFormCallback.CreationMode = (referencerhombus == nil)
+
+	return
+}
+
+type ReferenceRhombusFormCallback struct {
+	referencerhombus *models.ReferenceRhombus
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (referencerhombusFormCallback *ReferenceRhombusFormCallback) OnSave() {
+	referencerhombusFormCallback.probe.stageOfInterest.Lock()
+	defer referencerhombusFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ReferenceRhombusFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	referencerhombusFormCallback.probe.formStage.Checkout()
+
+	if referencerhombusFormCallback.referencerhombus == nil {
+		referencerhombusFormCallback.referencerhombus = new(models.ReferenceRhombus).Stage(referencerhombusFormCallback.probe.stageOfInterest)
+	}
+	referencerhombus_ := referencerhombusFormCallback.referencerhombus
+	_ = referencerhombus_
+
+	for _, formDiv := range referencerhombusFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(referencerhombus_.Name), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(referencerhombus_.IsHidden), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if referencerhombusFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		referencerhombus_.Unstage(referencerhombusFormCallback.probe.stageOfInterest)
+	}
+
+	referencerhombusFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ReferenceRhombus](
+		referencerhombusFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if referencerhombusFormCallback.CreationMode || referencerhombusFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		referencerhombusFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(referencerhombusFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ReferenceRhombusFormCallback(
+			nil,
+			referencerhombusFormCallback.probe,
+			newFormGroup,
+		)
+		referencerhombus := new(models.ReferenceRhombus)
+		FillUpForm(referencerhombus, newFormGroup, referencerhombusFormCallback.probe)
+		referencerhombusFormCallback.probe.formStage.Commit()
+	}
+
+	referencerhombusFormCallback.probe.ux_tree()
 }
