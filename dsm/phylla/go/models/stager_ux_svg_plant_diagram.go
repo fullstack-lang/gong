@@ -55,11 +55,12 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 
 	// creation of 2 transparant rects, one at each ends of the vertical
 	plantDiagram.drawAxes(stager, layer)
-	plantDiagram.drawGrowthVectorShape(stager, layer)
+	plantDiagram.drawPlantCircumferenceShape(stager, layer)
 	plantDiagram.drawReferenceRhombus(stager, layer, plant)
 	plantDiagram.drawGridPathShape(stager, layer, plant)
 	plantDiagram.drawRhombusGridShape(stager, layer, plant)
-	plantDiagram.drawRotatedGrowthVectorShape(stager, layer)
+	plantDiagram.drawExplanationTextShape(stager, layer)
+	plantDiagram.drawRotatedPlantCircumferenceShape(stager, layer)
 	plantDiagram.drawRotatedReferenceRhombus(stager, layer, plant)
 	plantDiagram.drawRotatedGridPathShape(stager, layer, plant)
 	plantDiagram.drawRotatedRhombusGridShape(stager, layer, plant)
@@ -191,14 +192,42 @@ func (plantDiagram *PlantDiagram) drawAxes(stager *Stager, layer *svg.Layer) {
 		horizontalAxisRightHandle)
 }
 
-func (plantDiagram *PlantDiagram) drawGrowthVectorShape(stager *Stager, layer *svg.Layer) {
-
-	if plantDiagram.GrowthVectorShape.IsHidden {
+func (plantDiagram *PlantDiagram) drawExplanationTextShape(stager *Stager, layer *svg.Layer) {
+	if plantDiagram.ExplanationTextShape == nil || plantDiagram.ExplanationTextShape.IsHidden {
 		return
 	}
 
-	angleRad := plantDiagram.GrowthVectorShape.AngleDegree * math.Pi / 180.0
-	length := plantDiagram.GrowthVectorShape.Length
+	lines := []string{
+		"this diagram is the construction of the growth curve.",
+		"First, we know that the plant circonference will cross all spirals",
+		"constructing the spirals starts with the reference rombus grid that represents",
+		"the N spiral in one direction and the M spiral in the other direction.",
+	}
+
+	startY := plantDiagram.OriginY + 50.0 // Below the origin
+	startX := plantDiagram.OriginX + 50.0
+
+	for i, lineText := range lines {
+		text := new(svg.Text)
+		layer.Texts = append(layer.Texts, text)
+		text.Name = fmt.Sprintf("%s-line-%d", plantDiagram.ExplanationTextShape.Name, i)
+		text.Content = lineText
+		text.X = startX
+		text.Y = startY + float64(i)*20.0
+		text.Presentation.FillOpacity = 1.0
+		text.Presentation.Color = "black"
+		text.TextAttributes.FontSize = "14"
+	}
+}
+
+func (plantDiagram *PlantDiagram) drawPlantCircumferenceShape(stager *Stager, layer *svg.Layer) {
+
+	if plantDiagram.PlantCircumferenceShape.IsHidden {
+		return
+	}
+
+	angleRad := plantDiagram.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+	length := plantDiagram.PlantCircumferenceShape.Length
 
 	endX := plantDiagram.OriginX + length*math.Cos(angleRad)
 	endY := plantDiagram.OriginY - length*math.Sin(angleRad) // minus because SVG y-axis is inverted
@@ -206,7 +235,7 @@ func (plantDiagram *PlantDiagram) drawGrowthVectorShape(stager *Stager, layer *s
 	line := new(svg.Line)
 	layer.Lines = append(layer.Lines, line)
 
-	line.Name = plantDiagram.GrowthVectorShape.Name
+	line.Name = plantDiagram.PlantCircumferenceShape.Name
 	line.X1 = plantDiagram.OriginX
 	line.Y1 = plantDiagram.OriginY
 	line.X2 = endX
@@ -321,14 +350,14 @@ func (plantDiagram *PlantDiagram) drawGridPathShape(stager *Stager, layer *svg.L
 	polyline.Points = strings.Join(points, " ")
 }
 
-func (plantDiagram *PlantDiagram) drawRotatedGrowthVectorShape(stager *Stager, layer *svg.Layer) {
+func (plantDiagram *PlantDiagram) drawRotatedPlantCircumferenceShape(stager *Stager, layer *svg.Layer) {
 
-	if plantDiagram.RotatedGrowthVectorShape == nil || plantDiagram.RotatedGrowthVectorShape.IsHidden {
+	if plantDiagram.RotatedPlantCircumferenceShape == nil || plantDiagram.RotatedPlantCircumferenceShape.IsHidden {
 		return
 	}
 
-	angleRad := plantDiagram.RotatedGrowthVectorShape.AngleDegree * math.Pi / 180.0
-	length := plantDiagram.RotatedGrowthVectorShape.Length
+	angleRad := plantDiagram.RotatedPlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+	length := plantDiagram.RotatedPlantCircumferenceShape.Length
 
 	// SVG Y-axis is inverted
 	endX := plantDiagram.OriginX + length*math.Cos(angleRad)
@@ -337,7 +366,7 @@ func (plantDiagram *PlantDiagram) drawRotatedGrowthVectorShape(stager *Stager, l
 	line := new(svg.Line)
 	layer.Lines = append(layer.Lines, line)
 
-	line.Name = plantDiagram.RotatedGrowthVectorShape.Name
+	line.Name = plantDiagram.RotatedPlantCircumferenceShape.Name
 	line.X1 = plantDiagram.OriginX
 	line.Y1 = plantDiagram.OriginY
 	line.X2 = endX
@@ -392,7 +421,7 @@ func (plantDiagram *PlantDiagram) drawRotatedReferenceRhombus(stager *Stager, la
 	polygon.Presentation.StrokeDashArray = "5, 5"
 
 	// Add rotation transform
-	polygon.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.GrowthVectorShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
+	polygon.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
 }
 
 func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer *svg.Layer, plant *Plant) {
@@ -420,7 +449,7 @@ func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer
 	polyline.Presentation.StrokeOpacity = 1.0
 	polyline.Presentation.FillOpacity = 0.0
 	polyline.Presentation.StrokeDashArray = "5, 5"
-	polyline.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.GrowthVectorShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
+	polyline.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
 
 	var points []string
 	currX := plantDiagram.OriginX
@@ -439,7 +468,7 @@ func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer
 		circle.Presentation.StrokeOpacity = 1.0
 		circle.Presentation.Color = "white"
 		circle.Presentation.FillOpacity = 1.0
-		circle.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.GrowthVectorShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
+		circle.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
 	}
 
 	addCircle(currX, currY, 0, "start")
@@ -560,7 +589,7 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 			polygon.Presentation.Color = "lightblue"
 			polygon.Presentation.FillOpacity = 0.1
 			polygon.Presentation.StrokeDashArray = "5, 5"
-			polygon.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.GrowthVectorShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
+			polygon.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
 		}
 	}
 }

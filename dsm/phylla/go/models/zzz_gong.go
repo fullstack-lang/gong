@@ -161,6 +161,21 @@ type Stage struct {
 	OnAfterCircleGridShapeDeleteCallback OnAfterDeleteInterface[CircleGridShape]
 	OnAfterCircleGridShapeReadCallback   OnAfterReadInterface[CircleGridShape]
 
+	ExplanationTextShapes                map[*ExplanationTextShape]struct{}
+	ExplanationTextShapes_instance       map[*ExplanationTextShape]*ExplanationTextShape
+	ExplanationTextShapes_mapString      map[string]*ExplanationTextShape
+	ExplanationTextShapeOrder            uint
+	ExplanationTextShape_stagedOrder     map[*ExplanationTextShape]uint
+	ExplanationTextShape_orderStaged     map[uint]*ExplanationTextShape
+	ExplanationTextShapes_reference      map[*ExplanationTextShape]*ExplanationTextShape
+	ExplanationTextShapes_referenceOrder map[*ExplanationTextShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterExplanationTextShapeCreateCallback OnAfterCreateInterface[ExplanationTextShape]
+	OnAfterExplanationTextShapeUpdateCallback OnAfterUpdateInterface[ExplanationTextShape]
+	OnAfterExplanationTextShapeDeleteCallback OnAfterDeleteInterface[ExplanationTextShape]
+	OnAfterExplanationTextShapeReadCallback   OnAfterReadInterface[ExplanationTextShape]
+
 	GridPathShapes                map[*GridPathShape]struct{}
 	GridPathShapes_instance       map[*GridPathShape]*GridPathShape
 	GridPathShapes_mapString      map[string]*GridPathShape
@@ -175,21 +190,6 @@ type Stage struct {
 	OnAfterGridPathShapeUpdateCallback OnAfterUpdateInterface[GridPathShape]
 	OnAfterGridPathShapeDeleteCallback OnAfterDeleteInterface[GridPathShape]
 	OnAfterGridPathShapeReadCallback   OnAfterReadInterface[GridPathShape]
-
-	GrowthVectorShapes                map[*GrowthVectorShape]struct{}
-	GrowthVectorShapes_instance       map[*GrowthVectorShape]*GrowthVectorShape
-	GrowthVectorShapes_mapString      map[string]*GrowthVectorShape
-	GrowthVectorShapeOrder            uint
-	GrowthVectorShape_stagedOrder     map[*GrowthVectorShape]uint
-	GrowthVectorShape_orderStaged     map[uint]*GrowthVectorShape
-	GrowthVectorShapes_reference      map[*GrowthVectorShape]*GrowthVectorShape
-	GrowthVectorShapes_referenceOrder map[*GrowthVectorShape]uint
-
-	// insertion point for slice of pointers maps
-	OnAfterGrowthVectorShapeCreateCallback OnAfterCreateInterface[GrowthVectorShape]
-	OnAfterGrowthVectorShapeUpdateCallback OnAfterUpdateInterface[GrowthVectorShape]
-	OnAfterGrowthVectorShapeDeleteCallback OnAfterDeleteInterface[GrowthVectorShape]
-	OnAfterGrowthVectorShapeReadCallback   OnAfterReadInterface[GrowthVectorShape]
 
 	Librarys                map[*Library]struct{}
 	Librarys_instance       map[*Library]*Library
@@ -243,6 +243,21 @@ type Stage struct {
 	OnAfterPlantUpdateCallback OnAfterUpdateInterface[Plant]
 	OnAfterPlantDeleteCallback OnAfterDeleteInterface[Plant]
 	OnAfterPlantReadCallback   OnAfterReadInterface[Plant]
+
+	PlantCircumferenceShapes                map[*PlantCircumferenceShape]struct{}
+	PlantCircumferenceShapes_instance       map[*PlantCircumferenceShape]*PlantCircumferenceShape
+	PlantCircumferenceShapes_mapString      map[string]*PlantCircumferenceShape
+	PlantCircumferenceShapeOrder            uint
+	PlantCircumferenceShape_stagedOrder     map[*PlantCircumferenceShape]uint
+	PlantCircumferenceShape_orderStaged     map[uint]*PlantCircumferenceShape
+	PlantCircumferenceShapes_reference      map[*PlantCircumferenceShape]*PlantCircumferenceShape
+	PlantCircumferenceShapes_referenceOrder map[*PlantCircumferenceShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterPlantCircumferenceShapeCreateCallback OnAfterCreateInterface[PlantCircumferenceShape]
+	OnAfterPlantCircumferenceShapeUpdateCallback OnAfterUpdateInterface[PlantCircumferenceShape]
+	OnAfterPlantCircumferenceShapeDeleteCallback OnAfterDeleteInterface[PlantCircumferenceShape]
+	OnAfterPlantCircumferenceShapeReadCallback   OnAfterReadInterface[PlantCircumferenceShape]
 
 	PlantDiagrams                map[*PlantDiagram]struct{}
 	PlantDiagrams_instance       map[*PlantDiagram]*PlantDiagram
@@ -533,13 +548,13 @@ func (stage *Stage) Squash() {
 	stage.CircleGridShapes_instance = make(map[*CircleGridShape]*CircleGridShape)
 	stage.CircleGridShapes_referenceOrder = make(map[*CircleGridShape]uint)
 
+	stage.ExplanationTextShapes_reference = make(map[*ExplanationTextShape]*ExplanationTextShape)
+	stage.ExplanationTextShapes_instance = make(map[*ExplanationTextShape]*ExplanationTextShape)
+	stage.ExplanationTextShapes_referenceOrder = make(map[*ExplanationTextShape]uint)
+
 	stage.GridPathShapes_reference = make(map[*GridPathShape]*GridPathShape)
 	stage.GridPathShapes_instance = make(map[*GridPathShape]*GridPathShape)
 	stage.GridPathShapes_referenceOrder = make(map[*GridPathShape]uint)
-
-	stage.GrowthVectorShapes_reference = make(map[*GrowthVectorShape]*GrowthVectorShape)
-	stage.GrowthVectorShapes_instance = make(map[*GrowthVectorShape]*GrowthVectorShape)
-	stage.GrowthVectorShapes_referenceOrder = make(map[*GrowthVectorShape]uint)
 
 	stage.Librarys_reference = make(map[*Library]*Library)
 	stage.Librarys_instance = make(map[*Library]*Library)
@@ -552,6 +567,10 @@ func (stage *Stage) Squash() {
 	stage.Plants_reference = make(map[*Plant]*Plant)
 	stage.Plants_instance = make(map[*Plant]*Plant)
 	stage.Plants_referenceOrder = make(map[*Plant]uint)
+
+	stage.PlantCircumferenceShapes_reference = make(map[*PlantCircumferenceShape]*PlantCircumferenceShape)
+	stage.PlantCircumferenceShapes_instance = make(map[*PlantCircumferenceShape]*PlantCircumferenceShape)
+	stage.PlantCircumferenceShapes_referenceOrder = make(map[*PlantCircumferenceShape]uint)
 
 	stage.PlantDiagrams_reference = make(map[*PlantDiagram]*PlantDiagram)
 	stage.PlantDiagrams_instance = make(map[*PlantDiagram]*PlantDiagram)
@@ -620,6 +639,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.CircleGridShapeOrder = 0
 	}
 
+	var maxExplanationTextShapeOrder uint
+	var foundExplanationTextShape bool
+	for _, order := range stage.ExplanationTextShape_stagedOrder {
+		if !foundExplanationTextShape || order > maxExplanationTextShapeOrder {
+			maxExplanationTextShapeOrder = order
+			foundExplanationTextShape = true
+		}
+	}
+	if foundExplanationTextShape {
+		stage.ExplanationTextShapeOrder = maxExplanationTextShapeOrder + 1
+	} else {
+		stage.ExplanationTextShapeOrder = 0
+	}
+
 	var maxGridPathShapeOrder uint
 	var foundGridPathShape bool
 	for _, order := range stage.GridPathShape_stagedOrder {
@@ -632,20 +665,6 @@ func (stage *Stage) recomputeOrders() {
 		stage.GridPathShapeOrder = maxGridPathShapeOrder + 1
 	} else {
 		stage.GridPathShapeOrder = 0
-	}
-
-	var maxGrowthVectorShapeOrder uint
-	var foundGrowthVectorShape bool
-	for _, order := range stage.GrowthVectorShape_stagedOrder {
-		if !foundGrowthVectorShape || order > maxGrowthVectorShapeOrder {
-			maxGrowthVectorShapeOrder = order
-			foundGrowthVectorShape = true
-		}
-	}
-	if foundGrowthVectorShape {
-		stage.GrowthVectorShapeOrder = maxGrowthVectorShapeOrder + 1
-	} else {
-		stage.GrowthVectorShapeOrder = 0
 	}
 
 	var maxLibraryOrder uint
@@ -688,6 +707,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.PlantOrder = maxPlantOrder + 1
 	} else {
 		stage.PlantOrder = 0
+	}
+
+	var maxPlantCircumferenceShapeOrder uint
+	var foundPlantCircumferenceShape bool
+	for _, order := range stage.PlantCircumferenceShape_stagedOrder {
+		if !foundPlantCircumferenceShape || order > maxPlantCircumferenceShapeOrder {
+			maxPlantCircumferenceShapeOrder = order
+			foundPlantCircumferenceShape = true
+		}
+	}
+	if foundPlantCircumferenceShape {
+		stage.PlantCircumferenceShapeOrder = maxPlantCircumferenceShapeOrder + 1
+	} else {
+		stage.PlantCircumferenceShapeOrder = 0
 	}
 
 	var maxPlantDiagramOrder uint
@@ -821,6 +854,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *ExplanationTextShape:
+		tmp := GetStructInstancesByOrder(stage.ExplanationTextShapes, stage.ExplanationTextShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *ExplanationTextShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *GridPathShape:
 		tmp := GetStructInstancesByOrder(stage.GridPathShapes, stage.GridPathShape_stagedOrder)
 
@@ -832,20 +879,6 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *GridPathShape implements.
-			res = append(res, any(v).(T))
-		}
-		return res
-	case *GrowthVectorShape:
-		tmp := GetStructInstancesByOrder(stage.GrowthVectorShapes, stage.GrowthVectorShape_stagedOrder)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *GrowthVectorShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -888,6 +921,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *Plant implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *PlantCircumferenceShape:
+		tmp := GetStructInstancesByOrder(stage.PlantCircumferenceShapes, stage.PlantCircumferenceShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *PlantCircumferenceShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -966,16 +1013,18 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.AxesShapes, stage.AxesShape_stagedOrder)
 	case "CircleGridShape":
 		res = GetNamedStructInstances(stage.CircleGridShapes, stage.CircleGridShape_stagedOrder)
+	case "ExplanationTextShape":
+		res = GetNamedStructInstances(stage.ExplanationTextShapes, stage.ExplanationTextShape_stagedOrder)
 	case "GridPathShape":
 		res = GetNamedStructInstances(stage.GridPathShapes, stage.GridPathShape_stagedOrder)
-	case "GrowthVectorShape":
-		res = GetNamedStructInstances(stage.GrowthVectorShapes, stage.GrowthVectorShape_stagedOrder)
 	case "Library":
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
 	case "NextCircleShape":
 		res = GetNamedStructInstances(stage.NextCircleShapes, stage.NextCircleShape_stagedOrder)
 	case "Plant":
 		res = GetNamedStructInstances(stage.Plants, stage.Plant_stagedOrder)
+	case "PlantCircumferenceShape":
+		res = GetNamedStructInstances(stage.PlantCircumferenceShapes, stage.PlantCircumferenceShape_stagedOrder)
 	case "PlantDiagram":
 		res = GetNamedStructInstances(stage.PlantDiagrams, stage.PlantDiagram_stagedOrder)
 	case "ReferenceRhombus":
@@ -1055,16 +1104,18 @@ type BackRepoInterface interface {
 	CheckoutAxesShape(axesshape *AxesShape)
 	CommitCircleGridShape(circlegridshape *CircleGridShape)
 	CheckoutCircleGridShape(circlegridshape *CircleGridShape)
+	CommitExplanationTextShape(explanationtextshape *ExplanationTextShape)
+	CheckoutExplanationTextShape(explanationtextshape *ExplanationTextShape)
 	CommitGridPathShape(gridpathshape *GridPathShape)
 	CheckoutGridPathShape(gridpathshape *GridPathShape)
-	CommitGrowthVectorShape(growthvectorshape *GrowthVectorShape)
-	CheckoutGrowthVectorShape(growthvectorshape *GrowthVectorShape)
 	CommitLibrary(library *Library)
 	CheckoutLibrary(library *Library)
 	CommitNextCircleShape(nextcircleshape *NextCircleShape)
 	CheckoutNextCircleShape(nextcircleshape *NextCircleShape)
 	CommitPlant(plant *Plant)
 	CheckoutPlant(plant *Plant)
+	CommitPlantCircumferenceShape(plantcircumferenceshape *PlantCircumferenceShape)
+	CheckoutPlantCircumferenceShape(plantcircumferenceshape *PlantCircumferenceShape)
 	CommitPlantDiagram(plantdiagram *PlantDiagram)
 	CheckoutPlantDiagram(plantdiagram *PlantDiagram)
 	CommitReferenceRhombus(referencerhombus *ReferenceRhombus)
@@ -1083,11 +1134,11 @@ func NewStage(name string) (stage *Stage) {
 		CircleGridShapes:           make(map[*CircleGridShape]struct{}),
 		CircleGridShapes_mapString: make(map[string]*CircleGridShape),
 
+		ExplanationTextShapes:           make(map[*ExplanationTextShape]struct{}),
+		ExplanationTextShapes_mapString: make(map[string]*ExplanationTextShape),
+
 		GridPathShapes:           make(map[*GridPathShape]struct{}),
 		GridPathShapes_mapString: make(map[string]*GridPathShape),
-
-		GrowthVectorShapes:           make(map[*GrowthVectorShape]struct{}),
-		GrowthVectorShapes_mapString: make(map[string]*GrowthVectorShape),
 
 		Librarys:           make(map[*Library]struct{}),
 		Librarys_mapString: make(map[string]*Library),
@@ -1097,6 +1148,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Plants:           make(map[*Plant]struct{}),
 		Plants_mapString: make(map[string]*Plant),
+
+		PlantCircumferenceShapes:           make(map[*PlantCircumferenceShape]struct{}),
+		PlantCircumferenceShapes_mapString: make(map[string]*PlantCircumferenceShape),
 
 		PlantDiagrams:           make(map[*PlantDiagram]struct{}),
 		PlantDiagrams_mapString: make(map[string]*PlantDiagram),
@@ -1125,13 +1179,13 @@ func NewStage(name string) (stage *Stage) {
 		CircleGridShape_orderStaged: make(map[uint]*CircleGridShape),
 		CircleGridShapes_reference:  make(map[*CircleGridShape]*CircleGridShape),
 
+		ExplanationTextShape_stagedOrder: make(map[*ExplanationTextShape]uint),
+		ExplanationTextShape_orderStaged: make(map[uint]*ExplanationTextShape),
+		ExplanationTextShapes_reference:  make(map[*ExplanationTextShape]*ExplanationTextShape),
+
 		GridPathShape_stagedOrder: make(map[*GridPathShape]uint),
 		GridPathShape_orderStaged: make(map[uint]*GridPathShape),
 		GridPathShapes_reference:  make(map[*GridPathShape]*GridPathShape),
-
-		GrowthVectorShape_stagedOrder: make(map[*GrowthVectorShape]uint),
-		GrowthVectorShape_orderStaged: make(map[uint]*GrowthVectorShape),
-		GrowthVectorShapes_reference:  make(map[*GrowthVectorShape]*GrowthVectorShape),
 
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
@@ -1144,6 +1198,10 @@ func NewStage(name string) (stage *Stage) {
 		Plant_stagedOrder: make(map[*Plant]uint),
 		Plant_orderStaged: make(map[uint]*Plant),
 		Plants_reference:  make(map[*Plant]*Plant),
+
+		PlantCircumferenceShape_stagedOrder: make(map[*PlantCircumferenceShape]uint),
+		PlantCircumferenceShape_orderStaged: make(map[uint]*PlantCircumferenceShape),
+		PlantCircumferenceShapes_reference:  make(map[*PlantCircumferenceShape]*PlantCircumferenceShape),
 
 		PlantDiagram_stagedOrder: make(map[*PlantDiagram]uint),
 		PlantDiagram_orderStaged: make(map[uint]*PlantDiagram),
@@ -1163,15 +1221,17 @@ func NewStage(name string) (stage *Stage) {
 
 			"CircleGridShape": &CircleGridShapeUnmarshaller{},
 
-			"GridPathShape": &GridPathShapeUnmarshaller{},
+			"ExplanationTextShape": &ExplanationTextShapeUnmarshaller{},
 
-			"GrowthVectorShape": &GrowthVectorShapeUnmarshaller{},
+			"GridPathShape": &GridPathShapeUnmarshaller{},
 
 			"Library": &LibraryUnmarshaller{},
 
 			"NextCircleShape": &NextCircleShapeUnmarshaller{},
 
 			"Plant": &PlantUnmarshaller{},
+
+			"PlantCircumferenceShape": &PlantCircumferenceShapeUnmarshaller{},
 
 			"PlantDiagram": &PlantDiagramUnmarshaller{},
 
@@ -1185,11 +1245,12 @@ func NewStage(name string) (stage *Stage) {
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "AxesShape"},
 			{name: "CircleGridShape"},
+			{name: "ExplanationTextShape"},
 			{name: "GridPathShape"},
-			{name: "GrowthVectorShape"},
 			{name: "Library"},
 			{name: "NextCircleShape"},
 			{name: "Plant"},
+			{name: "PlantCircumferenceShape"},
 			{name: "PlantDiagram"},
 			{name: "ReferenceRhombus"},
 			{name: "RhombusGridShape"},
@@ -1208,16 +1269,18 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.AxesShape_stagedOrder[instance]
 	case *CircleGridShape:
 		return stage.CircleGridShape_stagedOrder[instance]
+	case *ExplanationTextShape:
+		return stage.ExplanationTextShape_stagedOrder[instance]
 	case *GridPathShape:
 		return stage.GridPathShape_stagedOrder[instance]
-	case *GrowthVectorShape:
-		return stage.GrowthVectorShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *NextCircleShape:
 		return stage.NextCircleShape_stagedOrder[instance]
 	case *Plant:
 		return stage.Plant_stagedOrder[instance]
+	case *PlantCircumferenceShape:
+		return stage.PlantCircumferenceShape_stagedOrder[instance]
 	case *PlantDiagram:
 		return stage.PlantDiagram_stagedOrder[instance]
 	case *ReferenceRhombus:
@@ -1237,16 +1300,18 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 		return any(stage.AxesShape_orderStaged[order]).(Type)
 	case *CircleGridShape:
 		return any(stage.CircleGridShape_orderStaged[order]).(Type)
+	case *ExplanationTextShape:
+		return any(stage.ExplanationTextShape_orderStaged[order]).(Type)
 	case *GridPathShape:
 		return any(stage.GridPathShape_orderStaged[order]).(Type)
-	case *GrowthVectorShape:
-		return any(stage.GrowthVectorShape_orderStaged[order]).(Type)
 	case *Library:
 		return any(stage.Library_orderStaged[order]).(Type)
 	case *NextCircleShape:
 		return any(stage.NextCircleShape_orderStaged[order]).(Type)
 	case *Plant:
 		return any(stage.Plant_orderStaged[order]).(Type)
+	case *PlantCircumferenceShape:
+		return any(stage.PlantCircumferenceShape_orderStaged[order]).(Type)
 	case *PlantDiagram:
 		return any(stage.PlantDiagram_orderStaged[order]).(Type)
 	case *ReferenceRhombus:
@@ -1265,16 +1330,18 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.AxesShape_stagedOrder[instance]
 	case *CircleGridShape:
 		return stage.CircleGridShape_stagedOrder[instance]
+	case *ExplanationTextShape:
+		return stage.ExplanationTextShape_stagedOrder[instance]
 	case *GridPathShape:
 		return stage.GridPathShape_stagedOrder[instance]
-	case *GrowthVectorShape:
-		return stage.GrowthVectorShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *NextCircleShape:
 		return stage.NextCircleShape_stagedOrder[instance]
 	case *Plant:
 		return stage.Plant_stagedOrder[instance]
+	case *PlantCircumferenceShape:
+		return stage.PlantCircumferenceShape_stagedOrder[instance]
 	case *PlantDiagram:
 		return stage.PlantDiagram_stagedOrder[instance]
 	case *ReferenceRhombus:
@@ -1348,11 +1415,12 @@ func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["AxesShape"] = len(stage.AxesShapes)
 	stage.Map_GongStructName_InstancesNb["CircleGridShape"] = len(stage.CircleGridShapes)
+	stage.Map_GongStructName_InstancesNb["ExplanationTextShape"] = len(stage.ExplanationTextShapes)
 	stage.Map_GongStructName_InstancesNb["GridPathShape"] = len(stage.GridPathShapes)
-	stage.Map_GongStructName_InstancesNb["GrowthVectorShape"] = len(stage.GrowthVectorShapes)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["NextCircleShape"] = len(stage.NextCircleShapes)
 	stage.Map_GongStructName_InstancesNb["Plant"] = len(stage.Plants)
+	stage.Map_GongStructName_InstancesNb["PlantCircumferenceShape"] = len(stage.PlantCircumferenceShapes)
 	stage.Map_GongStructName_InstancesNb["PlantDiagram"] = len(stage.PlantDiagrams)
 	stage.Map_GongStructName_InstancesNb["ReferenceRhombus"] = len(stage.ReferenceRhombuss)
 	stage.Map_GongStructName_InstancesNb["RhombusGridShape"] = len(stage.RhombusGridShapes)
@@ -1572,6 +1640,94 @@ func (circlegridshape *CircleGridShape) SetName(name string) {
 	circlegridshape.Name = name
 }
 
+// Stage puts explanationtextshape to the model stage
+func (explanationtextshape *ExplanationTextShape) Stage(stage *Stage) *ExplanationTextShape {
+	if _, ok := stage.ExplanationTextShapes[explanationtextshape]; !ok {
+		stage.ExplanationTextShapes[explanationtextshape] = struct{}{}
+		stage.ExplanationTextShape_stagedOrder[explanationtextshape] = stage.ExplanationTextShapeOrder
+		stage.ExplanationTextShape_orderStaged[stage.ExplanationTextShapeOrder] = explanationtextshape
+		stage.ExplanationTextShapeOrder++
+	}
+	stage.ExplanationTextShapes_mapString[explanationtextshape.Name] = explanationtextshape
+
+	return explanationtextshape
+}
+
+// StagePreserveOrder puts explanationtextshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ExplanationTextShapeOrder
+// - update stage.ExplanationTextShapeOrder accordingly
+func (explanationtextshape *ExplanationTextShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.ExplanationTextShapes[explanationtextshape]; !ok {
+		stage.ExplanationTextShapes[explanationtextshape] = struct{}{}
+
+		if order > stage.ExplanationTextShapeOrder {
+			stage.ExplanationTextShapeOrder = order
+		}
+		stage.ExplanationTextShape_stagedOrder[explanationtextshape] = order
+		stage.ExplanationTextShape_orderStaged[order] = explanationtextshape
+		stage.ExplanationTextShapeOrder++
+	}
+	stage.ExplanationTextShapes_mapString[explanationtextshape.Name] = explanationtextshape
+}
+
+// Unstage removes explanationtextshape off the model stage
+func (explanationtextshape *ExplanationTextShape) Unstage(stage *Stage) *ExplanationTextShape {
+	delete(stage.ExplanationTextShapes, explanationtextshape)
+	// issue1150
+	// delete(stage.ExplanationTextShape_stagedOrder, explanationtextshape)
+	delete(stage.ExplanationTextShapes_mapString, explanationtextshape.Name)
+
+	return explanationtextshape
+}
+
+// UnstageVoid removes explanationtextshape off the model stage
+func (explanationtextshape *ExplanationTextShape) UnstageVoid(stage *Stage) {
+	delete(stage.ExplanationTextShapes, explanationtextshape)
+	// issue1150
+	// delete(stage.ExplanationTextShape_stagedOrder, explanationtextshape)
+	delete(stage.ExplanationTextShapes_mapString, explanationtextshape.Name)
+}
+
+// commit explanationtextshape to the back repo (if it is already staged)
+func (explanationtextshape *ExplanationTextShape) Commit(stage *Stage) *ExplanationTextShape {
+	if _, ok := stage.ExplanationTextShapes[explanationtextshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitExplanationTextShape(explanationtextshape)
+		}
+	}
+	return explanationtextshape
+}
+
+func (explanationtextshape *ExplanationTextShape) CommitVoid(stage *Stage) {
+	explanationtextshape.Commit(stage)
+}
+
+func (explanationtextshape *ExplanationTextShape) StageVoid(stage *Stage) {
+	explanationtextshape.Stage(stage)
+}
+
+// Checkout explanationtextshape to the back repo (if it is already staged)
+func (explanationtextshape *ExplanationTextShape) Checkout(stage *Stage) *ExplanationTextShape {
+	if _, ok := stage.ExplanationTextShapes[explanationtextshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutExplanationTextShape(explanationtextshape)
+		}
+	}
+	return explanationtextshape
+}
+
+// for satisfaction of GongStruct interface
+func (explanationtextshape *ExplanationTextShape) GetName() (res string) {
+	return explanationtextshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (explanationtextshape *ExplanationTextShape) SetName(name string) {
+	explanationtextshape.Name = name
+}
+
 // Stage puts gridpathshape to the model stage
 func (gridpathshape *GridPathShape) Stage(stage *Stage) *GridPathShape {
 	if _, ok := stage.GridPathShapes[gridpathshape]; !ok {
@@ -1658,94 +1814,6 @@ func (gridpathshape *GridPathShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (gridpathshape *GridPathShape) SetName(name string) {
 	gridpathshape.Name = name
-}
-
-// Stage puts growthvectorshape to the model stage
-func (growthvectorshape *GrowthVectorShape) Stage(stage *Stage) *GrowthVectorShape {
-	if _, ok := stage.GrowthVectorShapes[growthvectorshape]; !ok {
-		stage.GrowthVectorShapes[growthvectorshape] = struct{}{}
-		stage.GrowthVectorShape_stagedOrder[growthvectorshape] = stage.GrowthVectorShapeOrder
-		stage.GrowthVectorShape_orderStaged[stage.GrowthVectorShapeOrder] = growthvectorshape
-		stage.GrowthVectorShapeOrder++
-	}
-	stage.GrowthVectorShapes_mapString[growthvectorshape.Name] = growthvectorshape
-
-	return growthvectorshape
-}
-
-// StagePreserveOrder puts growthvectorshape to the model stage, and if the astrtuct
-// was not staged before:
-//
-// - force the order if the order is equal or greater than the stage.GrowthVectorShapeOrder
-// - update stage.GrowthVectorShapeOrder accordingly
-func (growthvectorshape *GrowthVectorShape) StagePreserveOrder(stage *Stage, order uint) {
-	if _, ok := stage.GrowthVectorShapes[growthvectorshape]; !ok {
-		stage.GrowthVectorShapes[growthvectorshape] = struct{}{}
-
-		if order > stage.GrowthVectorShapeOrder {
-			stage.GrowthVectorShapeOrder = order
-		}
-		stage.GrowthVectorShape_stagedOrder[growthvectorshape] = order
-		stage.GrowthVectorShape_orderStaged[order] = growthvectorshape
-		stage.GrowthVectorShapeOrder++
-	}
-	stage.GrowthVectorShapes_mapString[growthvectorshape.Name] = growthvectorshape
-}
-
-// Unstage removes growthvectorshape off the model stage
-func (growthvectorshape *GrowthVectorShape) Unstage(stage *Stage) *GrowthVectorShape {
-	delete(stage.GrowthVectorShapes, growthvectorshape)
-	// issue1150
-	// delete(stage.GrowthVectorShape_stagedOrder, growthvectorshape)
-	delete(stage.GrowthVectorShapes_mapString, growthvectorshape.Name)
-
-	return growthvectorshape
-}
-
-// UnstageVoid removes growthvectorshape off the model stage
-func (growthvectorshape *GrowthVectorShape) UnstageVoid(stage *Stage) {
-	delete(stage.GrowthVectorShapes, growthvectorshape)
-	// issue1150
-	// delete(stage.GrowthVectorShape_stagedOrder, growthvectorshape)
-	delete(stage.GrowthVectorShapes_mapString, growthvectorshape.Name)
-}
-
-// commit growthvectorshape to the back repo (if it is already staged)
-func (growthvectorshape *GrowthVectorShape) Commit(stage *Stage) *GrowthVectorShape {
-	if _, ok := stage.GrowthVectorShapes[growthvectorshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitGrowthVectorShape(growthvectorshape)
-		}
-	}
-	return growthvectorshape
-}
-
-func (growthvectorshape *GrowthVectorShape) CommitVoid(stage *Stage) {
-	growthvectorshape.Commit(stage)
-}
-
-func (growthvectorshape *GrowthVectorShape) StageVoid(stage *Stage) {
-	growthvectorshape.Stage(stage)
-}
-
-// Checkout growthvectorshape to the back repo (if it is already staged)
-func (growthvectorshape *GrowthVectorShape) Checkout(stage *Stage) *GrowthVectorShape {
-	if _, ok := stage.GrowthVectorShapes[growthvectorshape]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutGrowthVectorShape(growthvectorshape)
-		}
-	}
-	return growthvectorshape
-}
-
-// for satisfaction of GongStruct interface
-func (growthvectorshape *GrowthVectorShape) GetName() (res string) {
-	return growthvectorshape.Name
-}
-
-// for satisfaction of GongStruct interface
-func (growthvectorshape *GrowthVectorShape) SetName(name string) {
-	growthvectorshape.Name = name
 }
 
 // Stage puts library to the model stage
@@ -2010,6 +2078,94 @@ func (plant *Plant) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (plant *Plant) SetName(name string) {
 	plant.Name = name
+}
+
+// Stage puts plantcircumferenceshape to the model stage
+func (plantcircumferenceshape *PlantCircumferenceShape) Stage(stage *Stage) *PlantCircumferenceShape {
+	if _, ok := stage.PlantCircumferenceShapes[plantcircumferenceshape]; !ok {
+		stage.PlantCircumferenceShapes[plantcircumferenceshape] = struct{}{}
+		stage.PlantCircumferenceShape_stagedOrder[plantcircumferenceshape] = stage.PlantCircumferenceShapeOrder
+		stage.PlantCircumferenceShape_orderStaged[stage.PlantCircumferenceShapeOrder] = plantcircumferenceshape
+		stage.PlantCircumferenceShapeOrder++
+	}
+	stage.PlantCircumferenceShapes_mapString[plantcircumferenceshape.Name] = plantcircumferenceshape
+
+	return plantcircumferenceshape
+}
+
+// StagePreserveOrder puts plantcircumferenceshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PlantCircumferenceShapeOrder
+// - update stage.PlantCircumferenceShapeOrder accordingly
+func (plantcircumferenceshape *PlantCircumferenceShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.PlantCircumferenceShapes[plantcircumferenceshape]; !ok {
+		stage.PlantCircumferenceShapes[plantcircumferenceshape] = struct{}{}
+
+		if order > stage.PlantCircumferenceShapeOrder {
+			stage.PlantCircumferenceShapeOrder = order
+		}
+		stage.PlantCircumferenceShape_stagedOrder[plantcircumferenceshape] = order
+		stage.PlantCircumferenceShape_orderStaged[order] = plantcircumferenceshape
+		stage.PlantCircumferenceShapeOrder++
+	}
+	stage.PlantCircumferenceShapes_mapString[plantcircumferenceshape.Name] = plantcircumferenceshape
+}
+
+// Unstage removes plantcircumferenceshape off the model stage
+func (plantcircumferenceshape *PlantCircumferenceShape) Unstage(stage *Stage) *PlantCircumferenceShape {
+	delete(stage.PlantCircumferenceShapes, plantcircumferenceshape)
+	// issue1150
+	// delete(stage.PlantCircumferenceShape_stagedOrder, plantcircumferenceshape)
+	delete(stage.PlantCircumferenceShapes_mapString, plantcircumferenceshape.Name)
+
+	return plantcircumferenceshape
+}
+
+// UnstageVoid removes plantcircumferenceshape off the model stage
+func (plantcircumferenceshape *PlantCircumferenceShape) UnstageVoid(stage *Stage) {
+	delete(stage.PlantCircumferenceShapes, plantcircumferenceshape)
+	// issue1150
+	// delete(stage.PlantCircumferenceShape_stagedOrder, plantcircumferenceshape)
+	delete(stage.PlantCircumferenceShapes_mapString, plantcircumferenceshape.Name)
+}
+
+// commit plantcircumferenceshape to the back repo (if it is already staged)
+func (plantcircumferenceshape *PlantCircumferenceShape) Commit(stage *Stage) *PlantCircumferenceShape {
+	if _, ok := stage.PlantCircumferenceShapes[plantcircumferenceshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPlantCircumferenceShape(plantcircumferenceshape)
+		}
+	}
+	return plantcircumferenceshape
+}
+
+func (plantcircumferenceshape *PlantCircumferenceShape) CommitVoid(stage *Stage) {
+	plantcircumferenceshape.Commit(stage)
+}
+
+func (plantcircumferenceshape *PlantCircumferenceShape) StageVoid(stage *Stage) {
+	plantcircumferenceshape.Stage(stage)
+}
+
+// Checkout plantcircumferenceshape to the back repo (if it is already staged)
+func (plantcircumferenceshape *PlantCircumferenceShape) Checkout(stage *Stage) *PlantCircumferenceShape {
+	if _, ok := stage.PlantCircumferenceShapes[plantcircumferenceshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPlantCircumferenceShape(plantcircumferenceshape)
+		}
+	}
+	return plantcircumferenceshape
+}
+
+// for satisfaction of GongStruct interface
+func (plantcircumferenceshape *PlantCircumferenceShape) GetName() (res string) {
+	return plantcircumferenceshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (plantcircumferenceshape *PlantCircumferenceShape) SetName(name string) {
+	plantcircumferenceshape.Name = name
 }
 
 // Stage puts plantdiagram to the model stage
@@ -2280,11 +2436,12 @@ func (rhombusgridshape *RhombusGridShape) SetName(name string) {
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAxesShape(AxesShape *AxesShape)
 	CreateORMCircleGridShape(CircleGridShape *CircleGridShape)
+	CreateORMExplanationTextShape(ExplanationTextShape *ExplanationTextShape)
 	CreateORMGridPathShape(GridPathShape *GridPathShape)
-	CreateORMGrowthVectorShape(GrowthVectorShape *GrowthVectorShape)
 	CreateORMLibrary(Library *Library)
 	CreateORMNextCircleShape(NextCircleShape *NextCircleShape)
 	CreateORMPlant(Plant *Plant)
+	CreateORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
 	CreateORMPlantDiagram(PlantDiagram *PlantDiagram)
 	CreateORMReferenceRhombus(ReferenceRhombus *ReferenceRhombus)
 	CreateORMRhombusGridShape(RhombusGridShape *RhombusGridShape)
@@ -2293,11 +2450,12 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMAxesShape(AxesShape *AxesShape)
 	DeleteORMCircleGridShape(CircleGridShape *CircleGridShape)
+	DeleteORMExplanationTextShape(ExplanationTextShape *ExplanationTextShape)
 	DeleteORMGridPathShape(GridPathShape *GridPathShape)
-	DeleteORMGrowthVectorShape(GrowthVectorShape *GrowthVectorShape)
 	DeleteORMLibrary(Library *Library)
 	DeleteORMNextCircleShape(NextCircleShape *NextCircleShape)
 	DeleteORMPlant(Plant *Plant)
+	DeleteORMPlantCircumferenceShape(PlantCircumferenceShape *PlantCircumferenceShape)
 	DeleteORMPlantDiagram(PlantDiagram *PlantDiagram)
 	DeleteORMReferenceRhombus(ReferenceRhombus *ReferenceRhombus)
 	DeleteORMRhombusGridShape(RhombusGridShape *RhombusGridShape)
@@ -2314,15 +2472,15 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.CircleGridShape_stagedOrder = make(map[*CircleGridShape]uint)
 	stage.CircleGridShapeOrder = 0
 
+	stage.ExplanationTextShapes = make(map[*ExplanationTextShape]struct{})
+	stage.ExplanationTextShapes_mapString = make(map[string]*ExplanationTextShape)
+	stage.ExplanationTextShape_stagedOrder = make(map[*ExplanationTextShape]uint)
+	stage.ExplanationTextShapeOrder = 0
+
 	stage.GridPathShapes = make(map[*GridPathShape]struct{})
 	stage.GridPathShapes_mapString = make(map[string]*GridPathShape)
 	stage.GridPathShape_stagedOrder = make(map[*GridPathShape]uint)
 	stage.GridPathShapeOrder = 0
-
-	stage.GrowthVectorShapes = make(map[*GrowthVectorShape]struct{})
-	stage.GrowthVectorShapes_mapString = make(map[string]*GrowthVectorShape)
-	stage.GrowthVectorShape_stagedOrder = make(map[*GrowthVectorShape]uint)
-	stage.GrowthVectorShapeOrder = 0
 
 	stage.Librarys = make(map[*Library]struct{})
 	stage.Librarys_mapString = make(map[string]*Library)
@@ -2338,6 +2496,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Plants_mapString = make(map[string]*Plant)
 	stage.Plant_stagedOrder = make(map[*Plant]uint)
 	stage.PlantOrder = 0
+
+	stage.PlantCircumferenceShapes = make(map[*PlantCircumferenceShape]struct{})
+	stage.PlantCircumferenceShapes_mapString = make(map[string]*PlantCircumferenceShape)
+	stage.PlantCircumferenceShape_stagedOrder = make(map[*PlantCircumferenceShape]uint)
+	stage.PlantCircumferenceShapeOrder = 0
 
 	stage.PlantDiagrams = make(map[*PlantDiagram]struct{})
 	stage.PlantDiagrams_mapString = make(map[string]*PlantDiagram)
@@ -2369,11 +2532,11 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.CircleGridShapes = nil
 	stage.CircleGridShapes_mapString = nil
 
+	stage.ExplanationTextShapes = nil
+	stage.ExplanationTextShapes_mapString = nil
+
 	stage.GridPathShapes = nil
 	stage.GridPathShapes_mapString = nil
-
-	stage.GrowthVectorShapes = nil
-	stage.GrowthVectorShapes_mapString = nil
 
 	stage.Librarys = nil
 	stage.Librarys_mapString = nil
@@ -2383,6 +2546,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.Plants = nil
 	stage.Plants_mapString = nil
+
+	stage.PlantCircumferenceShapes = nil
+	stage.PlantCircumferenceShapes_mapString = nil
 
 	stage.PlantDiagrams = nil
 	stage.PlantDiagrams_mapString = nil
@@ -2405,12 +2571,12 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		circlegridshape.Unstage(stage)
 	}
 
-	for gridpathshape := range stage.GridPathShapes {
-		gridpathshape.Unstage(stage)
+	for explanationtextshape := range stage.ExplanationTextShapes {
+		explanationtextshape.Unstage(stage)
 	}
 
-	for growthvectorshape := range stage.GrowthVectorShapes {
-		growthvectorshape.Unstage(stage)
+	for gridpathshape := range stage.GridPathShapes {
+		gridpathshape.Unstage(stage)
 	}
 
 	for library := range stage.Librarys {
@@ -2423,6 +2589,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for plant := range stage.Plants {
 		plant.Unstage(stage)
+	}
+
+	for plantcircumferenceshape := range stage.PlantCircumferenceShapes {
+		plantcircumferenceshape.Unstage(stage)
 	}
 
 	for plantdiagram := range stage.PlantDiagrams {
@@ -2517,16 +2687,18 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.AxesShapes).(*Type)
 	case map[*CircleGridShape]any:
 		return any(&stage.CircleGridShapes).(*Type)
+	case map[*ExplanationTextShape]any:
+		return any(&stage.ExplanationTextShapes).(*Type)
 	case map[*GridPathShape]any:
 		return any(&stage.GridPathShapes).(*Type)
-	case map[*GrowthVectorShape]any:
-		return any(&stage.GrowthVectorShapes).(*Type)
 	case map[*Library]any:
 		return any(&stage.Librarys).(*Type)
 	case map[*NextCircleShape]any:
 		return any(&stage.NextCircleShapes).(*Type)
 	case map[*Plant]any:
 		return any(&stage.Plants).(*Type)
+	case map[*PlantCircumferenceShape]any:
+		return any(&stage.PlantCircumferenceShapes).(*Type)
 	case map[*PlantDiagram]any:
 		return any(&stage.PlantDiagrams).(*Type)
 	case map[*ReferenceRhombus]any:
@@ -2549,16 +2721,18 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.AxesShapes_mapString).(map[string]Type)
 	case *CircleGridShape:
 		return any(stage.CircleGridShapes_mapString).(map[string]Type)
+	case *ExplanationTextShape:
+		return any(stage.ExplanationTextShapes_mapString).(map[string]Type)
 	case *GridPathShape:
 		return any(stage.GridPathShapes_mapString).(map[string]Type)
-	case *GrowthVectorShape:
-		return any(stage.GrowthVectorShapes_mapString).(map[string]Type)
 	case *Library:
 		return any(stage.Librarys_mapString).(map[string]Type)
 	case *NextCircleShape:
 		return any(stage.NextCircleShapes_mapString).(map[string]Type)
 	case *Plant:
 		return any(stage.Plants_mapString).(map[string]Type)
+	case *PlantCircumferenceShape:
+		return any(stage.PlantCircumferenceShapes_mapString).(map[string]Type)
 	case *PlantDiagram:
 		return any(stage.PlantDiagrams_mapString).(map[string]Type)
 	case *ReferenceRhombus:
@@ -2581,16 +2755,18 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.AxesShapes).(*map[*Type]struct{})
 	case CircleGridShape:
 		return any(&stage.CircleGridShapes).(*map[*Type]struct{})
+	case ExplanationTextShape:
+		return any(&stage.ExplanationTextShapes).(*map[*Type]struct{})
 	case GridPathShape:
 		return any(&stage.GridPathShapes).(*map[*Type]struct{})
-	case GrowthVectorShape:
-		return any(&stage.GrowthVectorShapes).(*map[*Type]struct{})
 	case Library:
 		return any(&stage.Librarys).(*map[*Type]struct{})
 	case NextCircleShape:
 		return any(&stage.NextCircleShapes).(*map[*Type]struct{})
 	case Plant:
 		return any(&stage.Plants).(*map[*Type]struct{})
+	case PlantCircumferenceShape:
+		return any(&stage.PlantCircumferenceShapes).(*map[*Type]struct{})
 	case PlantDiagram:
 		return any(&stage.PlantDiagrams).(*map[*Type]struct{})
 	case ReferenceRhombus:
@@ -2613,16 +2789,18 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.AxesShapes).(*map[Type]struct{})
 	case *CircleGridShape:
 		return any(&stage.CircleGridShapes).(*map[Type]struct{})
+	case *ExplanationTextShape:
+		return any(&stage.ExplanationTextShapes).(*map[Type]struct{})
 	case *GridPathShape:
 		return any(&stage.GridPathShapes).(*map[Type]struct{})
-	case *GrowthVectorShape:
-		return any(&stage.GrowthVectorShapes).(*map[Type]struct{})
 	case *Library:
 		return any(&stage.Librarys).(*map[Type]struct{})
 	case *NextCircleShape:
 		return any(&stage.NextCircleShapes).(*map[Type]struct{})
 	case *Plant:
 		return any(&stage.Plants).(*map[Type]struct{})
+	case *PlantCircumferenceShape:
+		return any(&stage.PlantCircumferenceShapes).(*map[Type]struct{})
 	case *PlantDiagram:
 		return any(&stage.PlantDiagrams).(*map[Type]struct{})
 	case *ReferenceRhombus:
@@ -2645,16 +2823,18 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.AxesShapes_mapString).(*map[string]*Type)
 	case CircleGridShape:
 		return any(&stage.CircleGridShapes_mapString).(*map[string]*Type)
+	case ExplanationTextShape:
+		return any(&stage.ExplanationTextShapes_mapString).(*map[string]*Type)
 	case GridPathShape:
 		return any(&stage.GridPathShapes_mapString).(*map[string]*Type)
-	case GrowthVectorShape:
-		return any(&stage.GrowthVectorShapes_mapString).(*map[string]*Type)
 	case Library:
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
 	case NextCircleShape:
 		return any(&stage.NextCircleShapes_mapString).(*map[string]*Type)
 	case Plant:
 		return any(&stage.Plants_mapString).(*map[string]*Type)
+	case PlantCircumferenceShape:
+		return any(&stage.PlantCircumferenceShapes_mapString).(*map[string]*Type)
 	case PlantDiagram:
 		return any(&stage.PlantDiagrams_mapString).(*map[string]*Type)
 	case ReferenceRhombus:
@@ -2683,12 +2863,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&CircleGridShape{
 			// Initialisation of associations
 		}).(*Type)
-	case GridPathShape:
-		return any(&GridPathShape{
+	case ExplanationTextShape:
+		return any(&ExplanationTextShape{
 			// Initialisation of associations
 		}).(*Type)
-	case GrowthVectorShape:
-		return any(&GrowthVectorShape{
+	case GridPathShape:
+		return any(&GridPathShape{
 			// Initialisation of associations
 		}).(*Type)
 	case Library:
@@ -2711,6 +2891,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of PlantDiagram with the name of the field
 			PlantDiagrams: []*PlantDiagram{{Name: "PlantDiagrams"}},
 		}).(*Type)
+	case PlantCircumferenceShape:
+		return any(&PlantCircumferenceShape{
+			// Initialisation of associations
+		}).(*Type)
 	case PlantDiagram:
 		return any(&PlantDiagram{
 			// Initialisation of associations
@@ -2718,16 +2902,18 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			AxesShape: &AxesShape{Name: "AxesShape"},
 			// field is initialized with an instance of ReferenceRhombus with the name of the field
 			ReferenceRhombus: &ReferenceRhombus{Name: "ReferenceRhombus"},
-			// field is initialized with an instance of GrowthVectorShape with the name of the field
-			GrowthVectorShape: &GrowthVectorShape{Name: "GrowthVectorShape"},
+			// field is initialized with an instance of PlantCircumferenceShape with the name of the field
+			PlantCircumferenceShape: &PlantCircumferenceShape{Name: "PlantCircumferenceShape"},
 			// field is initialized with an instance of GridPathShape with the name of the field
 			GridPathShape: &GridPathShape{Name: "GridPathShape"},
 			// field is initialized with an instance of RhombusGridShape with the name of the field
 			RhombusGridShape: &RhombusGridShape{Name: "RhombusGridShape"},
+			// field is initialized with an instance of ExplanationTextShape with the name of the field
+			ExplanationTextShape: &ExplanationTextShape{Name: "ExplanationTextShape"},
 			// field is initialized with an instance of ReferenceRhombus with the name of the field
 			RotatedReferenceRhombus: &ReferenceRhombus{Name: "RotatedReferenceRhombus"},
-			// field is initialized with an instance of GrowthVectorShape with the name of the field
-			RotatedGrowthVectorShape: &GrowthVectorShape{Name: "RotatedGrowthVectorShape"},
+			// field is initialized with an instance of PlantCircumferenceShape with the name of the field
+			RotatedPlantCircumferenceShape: &PlantCircumferenceShape{Name: "RotatedPlantCircumferenceShape"},
 			// field is initialized with an instance of GridPathShape with the name of the field
 			RotatedGridPathShape: &GridPathShape{Name: "RotatedGridPathShape"},
 			// field is initialized with an instance of RhombusGridShape with the name of the field
@@ -2768,13 +2954,13 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of GridPathShape
-	case GridPathShape:
+	// reverse maps of direct associations of ExplanationTextShape
+	case ExplanationTextShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of GrowthVectorShape
-	case GrowthVectorShape:
+	// reverse maps of direct associations of GridPathShape
+	case GridPathShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -2790,6 +2976,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of Plant
 	case Plant:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PlantCircumferenceShape
+	case PlantCircumferenceShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -2831,20 +3022,20 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "GrowthVectorShape":
-			res := make(map[*GrowthVectorShape][]*PlantDiagram)
+		case "PlantCircumferenceShape":
+			res := make(map[*PlantCircumferenceShape][]*PlantDiagram)
 			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.GrowthVectorShape != nil {
-					growthvectorshape_ := plantdiagram.GrowthVectorShape
+				if plantdiagram.PlantCircumferenceShape != nil {
+					plantcircumferenceshape_ := plantdiagram.PlantCircumferenceShape
 					var plantdiagrams []*PlantDiagram
-					_, ok := res[growthvectorshape_]
+					_, ok := res[plantcircumferenceshape_]
 					if ok {
-						plantdiagrams = res[growthvectorshape_]
+						plantdiagrams = res[plantcircumferenceshape_]
 					} else {
 						plantdiagrams = make([]*PlantDiagram, 0)
 					}
 					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[growthvectorshape_] = plantdiagrams
+					res[plantcircumferenceshape_] = plantdiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -2882,6 +3073,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "ExplanationTextShape":
+			res := make(map[*ExplanationTextShape][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.ExplanationTextShape != nil {
+					explanationtextshape_ := plantdiagram.ExplanationTextShape
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[explanationtextshape_]
+					if ok {
+						plantdiagrams = res[explanationtextshape_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[explanationtextshape_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "RotatedReferenceRhombus":
 			res := make(map[*ReferenceRhombus][]*PlantDiagram)
 			for plantdiagram := range stage.PlantDiagrams {
@@ -2899,20 +3107,20 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
-		case "RotatedGrowthVectorShape":
-			res := make(map[*GrowthVectorShape][]*PlantDiagram)
+		case "RotatedPlantCircumferenceShape":
+			res := make(map[*PlantCircumferenceShape][]*PlantDiagram)
 			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.RotatedGrowthVectorShape != nil {
-					growthvectorshape_ := plantdiagram.RotatedGrowthVectorShape
+				if plantdiagram.RotatedPlantCircumferenceShape != nil {
+					plantcircumferenceshape_ := plantdiagram.RotatedPlantCircumferenceShape
 					var plantdiagrams []*PlantDiagram
-					_, ok := res[growthvectorshape_]
+					_, ok := res[plantcircumferenceshape_]
 					if ok {
-						plantdiagrams = res[growthvectorshape_]
+						plantdiagrams = res[plantcircumferenceshape_]
 					} else {
 						plantdiagrams = make([]*PlantDiagram, 0)
 					}
 					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[growthvectorshape_] = plantdiagrams
+					res[plantcircumferenceshape_] = plantdiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -2986,13 +3194,13 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of GridPathShape
-	case GridPathShape:
+	// reverse maps of direct associations of ExplanationTextShape
+	case ExplanationTextShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of GrowthVectorShape
-	case GrowthVectorShape:
+	// reverse maps of direct associations of GridPathShape
+	case GridPathShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -3043,6 +3251,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of PlantCircumferenceShape
+	case PlantCircumferenceShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of PlantDiagram
 	case PlantDiagram:
 		switch fieldname {
@@ -3073,16 +3286,18 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "AxesShape"
 	case *CircleGridShape:
 		res = "CircleGridShape"
+	case *ExplanationTextShape:
+		res = "ExplanationTextShape"
 	case *GridPathShape:
 		res = "GridPathShape"
-	case *GrowthVectorShape:
-		res = "GrowthVectorShape"
 	case *Library:
 		res = "Library"
 	case *NextCircleShape:
 		res = "NextCircleShape"
 	case *Plant:
 		res = "Plant"
+	case *PlantCircumferenceShape:
+		res = "PlantCircumferenceShape"
 	case *PlantDiagram:
 		res = "PlantDiagram"
 	case *ReferenceRhombus:
@@ -3112,10 +3327,10 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *CircleGridShape:
 		var rf ReverseField
 		_ = rf
-	case *GridPathShape:
+	case *ExplanationTextShape:
 		var rf ReverseField
 		_ = rf
-	case *GrowthVectorShape:
+	case *GridPathShape:
 		var rf ReverseField
 		_ = rf
 	case *Library:
@@ -3133,6 +3348,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Library"
 		rf.Fieldname = "Plants"
 		res = append(res, rf)
+	case *PlantCircumferenceShape:
+		var rf ReverseField
+		_ = rf
 	case *PlantDiagram:
 		var rf ReverseField
 		_ = rf
@@ -3195,7 +3413,7 @@ func (circlegridshape *CircleGridShape) GongGetFieldHeaders() (res []GongFieldHe
 	return
 }
 
-func (gridpathshape *GridPathShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (explanationtextshape *ExplanationTextShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -3210,20 +3428,12 @@ func (gridpathshape *GridPathShape) GongGetFieldHeaders() (res []GongFieldHeader
 	return
 }
 
-func (growthvectorshape *GrowthVectorShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+func (gridpathshape *GridPathShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "AngleDegree",
-			GongFieldValueType: GongFieldValueTypeFloat,
-		},
-		{
-			Name:               "Length",
-			GongFieldValueType: GongFieldValueTypeFloat,
 		},
 		{
 			Name:               "IsHidden",
@@ -3342,6 +3552,29 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 	return
 }
 
+func (plantcircumferenceshape *PlantCircumferenceShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "AngleDegree",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Length",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
 func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -3368,9 +3601,9 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			TargetGongstructName: "ReferenceRhombus",
 		},
 		{
-			Name:                 "GrowthVectorShape",
+			Name:                 "PlantCircumferenceShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "GrowthVectorShape",
+			TargetGongstructName: "PlantCircumferenceShape",
 		},
 		{
 			Name:                 "GridPathShape",
@@ -3383,14 +3616,19 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			TargetGongstructName: "RhombusGridShape",
 		},
 		{
+			Name:                 "ExplanationTextShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ExplanationTextShape",
+		},
+		{
 			Name:                 "RotatedReferenceRhombus",
 			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "ReferenceRhombus",
 		},
 		{
-			Name:                 "RotatedGrowthVectorShape",
+			Name:                 "RotatedPlantCircumferenceShape",
 			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "GrowthVectorShape",
+			TargetGongstructName: "PlantCircumferenceShape",
 		},
 		{
 			Name:                 "RotatedGridPathShape",
@@ -3541,6 +3779,19 @@ func (circlegridshape *CircleGridShape) GongGetFieldValue(fieldName string, stag
 	return
 }
 
+func (explanationtextshape *ExplanationTextShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = explanationtextshape.Name
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", explanationtextshape.IsHidden)
+		res.valueBool = explanationtextshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
 func (gridpathshape *GridPathShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -3549,27 +3800,6 @@ func (gridpathshape *GridPathShape) GongGetFieldValue(fieldName string, stage *S
 	case "IsHidden":
 		res.valueString = fmt.Sprintf("%t", gridpathshape.IsHidden)
 		res.valueBool = gridpathshape.IsHidden
-		res.GongFieldValueType = GongFieldValueTypeBool
-	}
-	return
-}
-
-func (growthvectorshape *GrowthVectorShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = growthvectorshape.Name
-	case "AngleDegree":
-		res.valueString = fmt.Sprintf("%f", growthvectorshape.AngleDegree)
-		res.valueFloat = growthvectorshape.AngleDegree
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "Length":
-		res.valueString = fmt.Sprintf("%f", growthvectorshape.Length)
-		res.valueFloat = growthvectorshape.Length
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "IsHidden":
-		res.valueString = fmt.Sprintf("%t", growthvectorshape.IsHidden)
-		res.valueBool = growthvectorshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
@@ -3692,6 +3922,27 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 	return
 }
 
+func (plantcircumferenceshape *PlantCircumferenceShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = plantcircumferenceshape.Name
+	case "AngleDegree":
+		res.valueString = fmt.Sprintf("%f", plantcircumferenceshape.AngleDegree)
+		res.valueFloat = plantcircumferenceshape.AngleDegree
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Length":
+		res.valueString = fmt.Sprintf("%f", plantcircumferenceshape.Length)
+		res.valueFloat = plantcircumferenceshape.Length
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", plantcircumferenceshape.IsHidden)
+		res.valueBool = plantcircumferenceshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
 func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -3717,11 +3968,11 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = plantdiagram.ReferenceRhombus.Name
 			res.ids = plantdiagram.ReferenceRhombus.GongGetUUID(stage)
 		}
-	case "GrowthVectorShape":
+	case "PlantCircumferenceShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.GrowthVectorShape != nil {
-			res.valueString = plantdiagram.GrowthVectorShape.Name
-			res.ids = plantdiagram.GrowthVectorShape.GongGetUUID(stage)
+		if plantdiagram.PlantCircumferenceShape != nil {
+			res.valueString = plantdiagram.PlantCircumferenceShape.Name
+			res.ids = plantdiagram.PlantCircumferenceShape.GongGetUUID(stage)
 		}
 	case "GridPathShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -3735,17 +3986,23 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = plantdiagram.RhombusGridShape.Name
 			res.ids = plantdiagram.RhombusGridShape.GongGetUUID(stage)
 		}
+	case "ExplanationTextShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.ExplanationTextShape != nil {
+			res.valueString = plantdiagram.ExplanationTextShape.Name
+			res.ids = plantdiagram.ExplanationTextShape.GongGetUUID(stage)
+		}
 	case "RotatedReferenceRhombus":
 		res.GongFieldValueType = GongFieldValueTypePointer
 		if plantdiagram.RotatedReferenceRhombus != nil {
 			res.valueString = plantdiagram.RotatedReferenceRhombus.Name
 			res.ids = plantdiagram.RotatedReferenceRhombus.GongGetUUID(stage)
 		}
-	case "RotatedGrowthVectorShape":
+	case "RotatedPlantCircumferenceShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.RotatedGrowthVectorShape != nil {
-			res.valueString = plantdiagram.RotatedGrowthVectorShape.Name
-			res.ids = plantdiagram.RotatedGrowthVectorShape.GongGetUUID(stage)
+		if plantdiagram.RotatedPlantCircumferenceShape != nil {
+			res.valueString = plantdiagram.RotatedPlantCircumferenceShape.Name
+			res.ids = plantdiagram.RotatedPlantCircumferenceShape.GongGetUUID(stage)
 		}
 	case "RotatedGridPathShape":
 		res.GongFieldValueType = GongFieldValueTypePointer
@@ -3837,6 +4094,19 @@ func (circlegridshape *CircleGridShape) GongSetFieldValue(fieldName string, valu
 	return nil
 }
 
+func (explanationtextshape *ExplanationTextShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		explanationtextshape.Name = value.GetValueString()
+	case "IsHidden":
+		explanationtextshape.IsHidden = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (gridpathshape *GridPathShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -3844,23 +4114,6 @@ func (gridpathshape *GridPathShape) GongSetFieldValue(fieldName string, value Go
 		gridpathshape.Name = value.GetValueString()
 	case "IsHidden":
 		gridpathshape.IsHidden = value.GetValueBool()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (growthvectorshape *GrowthVectorShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		growthvectorshape.Name = value.GetValueString()
-	case "AngleDegree":
-		growthvectorshape.AngleDegree = value.GetValueFloat()
-	case "Length":
-		growthvectorshape.Length = value.GetValueFloat()
-	case "IsHidden":
-		growthvectorshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -3984,6 +4237,23 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 	return nil
 }
 
+func (plantcircumferenceshape *PlantCircumferenceShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		plantcircumferenceshape.Name = value.GetValueString()
+	case "AngleDegree":
+		plantcircumferenceshape.AngleDegree = value.GetValueFloat()
+	case "Length":
+		plantcircumferenceshape.Length = value.GetValueFloat()
+	case "IsHidden":
+		plantcircumferenceshape.IsHidden = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -4015,13 +4285,13 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
-	case "GrowthVectorShape":
+	case "PlantCircumferenceShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.GrowthVectorShape = nil
-			for __instance__ := range stage.GrowthVectorShapes {
-				if stage.GrowthVectorShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.GrowthVectorShape = __instance__
+			plantdiagram.PlantCircumferenceShape = nil
+			for __instance__ := range stage.PlantCircumferenceShapes {
+				if stage.PlantCircumferenceShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.PlantCircumferenceShape = __instance__
 					break
 				}
 			}
@@ -4048,6 +4318,17 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
+	case "ExplanationTextShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.ExplanationTextShape = nil
+			for __instance__ := range stage.ExplanationTextShapes {
+				if stage.ExplanationTextShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.ExplanationTextShape = __instance__
+					break
+				}
+			}
+		}
 	case "RotatedReferenceRhombus":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
@@ -4059,13 +4340,13 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
-	case "RotatedGrowthVectorShape":
+	case "RotatedPlantCircumferenceShape":
 		var id int
 		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.RotatedGrowthVectorShape = nil
-			for __instance__ := range stage.GrowthVectorShapes {
-				if stage.GrowthVectorShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.RotatedGrowthVectorShape = __instance__
+			plantdiagram.RotatedPlantCircumferenceShape = nil
+			for __instance__ := range stage.PlantCircumferenceShapes {
+				if stage.PlantCircumferenceShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.RotatedPlantCircumferenceShape = __instance__
 					break
 				}
 			}
@@ -4143,12 +4424,12 @@ func (circlegridshape *CircleGridShape) GongGetGongstructName() string {
 	return "CircleGridShape"
 }
 
-func (gridpathshape *GridPathShape) GongGetGongstructName() string {
-	return "GridPathShape"
+func (explanationtextshape *ExplanationTextShape) GongGetGongstructName() string {
+	return "ExplanationTextShape"
 }
 
-func (growthvectorshape *GrowthVectorShape) GongGetGongstructName() string {
-	return "GrowthVectorShape"
+func (gridpathshape *GridPathShape) GongGetGongstructName() string {
+	return "GridPathShape"
 }
 
 func (library *Library) GongGetGongstructName() string {
@@ -4161,6 +4442,10 @@ func (nextcircleshape *NextCircleShape) GongGetGongstructName() string {
 
 func (plant *Plant) GongGetGongstructName() string {
 	return "Plant"
+}
+
+func (plantcircumferenceshape *PlantCircumferenceShape) GongGetGongstructName() string {
+	return "PlantCircumferenceShape"
 }
 
 func (plantdiagram *PlantDiagram) GongGetGongstructName() string {
@@ -4192,14 +4477,14 @@ func (stage *Stage) ResetMapStrings() {
 		stage.CircleGridShapes_mapString[circlegridshape.Name] = circlegridshape
 	}
 
+	stage.ExplanationTextShapes_mapString = make(map[string]*ExplanationTextShape)
+	for explanationtextshape := range stage.ExplanationTextShapes {
+		stage.ExplanationTextShapes_mapString[explanationtextshape.Name] = explanationtextshape
+	}
+
 	stage.GridPathShapes_mapString = make(map[string]*GridPathShape)
 	for gridpathshape := range stage.GridPathShapes {
 		stage.GridPathShapes_mapString[gridpathshape.Name] = gridpathshape
-	}
-
-	stage.GrowthVectorShapes_mapString = make(map[string]*GrowthVectorShape)
-	for growthvectorshape := range stage.GrowthVectorShapes {
-		stage.GrowthVectorShapes_mapString[growthvectorshape.Name] = growthvectorshape
 	}
 
 	stage.Librarys_mapString = make(map[string]*Library)
@@ -4215,6 +4500,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Plants_mapString = make(map[string]*Plant)
 	for plant := range stage.Plants {
 		stage.Plants_mapString[plant.Name] = plant
+	}
+
+	stage.PlantCircumferenceShapes_mapString = make(map[string]*PlantCircumferenceShape)
+	for plantcircumferenceshape := range stage.PlantCircumferenceShapes {
+		stage.PlantCircumferenceShapes_mapString[plantcircumferenceshape.Name] = plantcircumferenceshape
 	}
 
 	stage.PlantDiagrams_mapString = make(map[string]*PlantDiagram)

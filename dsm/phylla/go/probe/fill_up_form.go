@@ -47,7 +47,7 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
-	case *models.GridPathShape:
+	case *models.ExplanationTextShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -59,13 +59,9 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
-	case *models.GrowthVectorShape:
+	case *models.GridPathShape:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("AngleDegree", instanceWithInferedType.AngleDegree, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0, false)
-		BasicFieldtoForm("Length", instanceWithInferedType.Length, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
@@ -159,6 +155,22 @@ func FillUpForm(
 				})
 		}
 
+	case *models.PlantCircumferenceShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("AngleDegree", instanceWithInferedType.AngleDegree, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Length", instanceWithInferedType.Length, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsHidden", instanceWithInferedType.IsHidden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
 	case *models.PlantDiagram:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -169,11 +181,12 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		AssociationFieldToForm("AxesShape", instanceWithInferedType.AxesShape, formGroup, probe)
 		AssociationFieldToForm("ReferenceRhombus", instanceWithInferedType.ReferenceRhombus, formGroup, probe)
-		AssociationFieldToForm("GrowthVectorShape", instanceWithInferedType.GrowthVectorShape, formGroup, probe)
+		AssociationFieldToForm("PlantCircumferenceShape", instanceWithInferedType.PlantCircumferenceShape, formGroup, probe)
 		AssociationFieldToForm("GridPathShape", instanceWithInferedType.GridPathShape, formGroup, probe)
 		AssociationFieldToForm("RhombusGridShape", instanceWithInferedType.RhombusGridShape, formGroup, probe)
+		AssociationFieldToForm("ExplanationTextShape", instanceWithInferedType.ExplanationTextShape, formGroup, probe)
 		AssociationFieldToForm("RotatedReferenceRhombus", instanceWithInferedType.RotatedReferenceRhombus, formGroup, probe)
-		AssociationFieldToForm("RotatedGrowthVectorShape", instanceWithInferedType.RotatedGrowthVectorShape, formGroup, probe)
+		AssociationFieldToForm("RotatedPlantCircumferenceShape", instanceWithInferedType.RotatedPlantCircumferenceShape, formGroup, probe)
 		AssociationFieldToForm("RotatedGridPathShape", instanceWithInferedType.RotatedGridPathShape, formGroup, probe)
 		AssociationFieldToForm("RotatedRhombusGridShape", instanceWithInferedType.RotatedRhombusGridShape, formGroup, probe)
 		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,

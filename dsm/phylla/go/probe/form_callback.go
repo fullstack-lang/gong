@@ -185,6 +185,86 @@ func (circlegridshapeFormCallback *CircleGridShapeFormCallback) OnSave() {
 
 	circlegridshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__ExplanationTextShapeFormCallback(
+	explanationtextshape *models.ExplanationTextShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (explanationtextshapeFormCallback *ExplanationTextShapeFormCallback) {
+	explanationtextshapeFormCallback = new(ExplanationTextShapeFormCallback)
+	explanationtextshapeFormCallback.probe = probe
+	explanationtextshapeFormCallback.explanationtextshape = explanationtextshape
+	explanationtextshapeFormCallback.formGroup = formGroup
+
+	explanationtextshapeFormCallback.CreationMode = (explanationtextshape == nil)
+
+	return
+}
+
+type ExplanationTextShapeFormCallback struct {
+	explanationtextshape *models.ExplanationTextShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (explanationtextshapeFormCallback *ExplanationTextShapeFormCallback) OnSave() {
+	explanationtextshapeFormCallback.probe.stageOfInterest.Lock()
+	defer explanationtextshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("ExplanationTextShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	explanationtextshapeFormCallback.probe.formStage.Checkout()
+
+	if explanationtextshapeFormCallback.explanationtextshape == nil {
+		explanationtextshapeFormCallback.explanationtextshape = new(models.ExplanationTextShape).Stage(explanationtextshapeFormCallback.probe.stageOfInterest)
+	}
+	explanationtextshape_ := explanationtextshapeFormCallback.explanationtextshape
+	_ = explanationtextshape_
+
+	for _, formDiv := range explanationtextshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(explanationtextshape_.Name), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(explanationtextshape_.IsHidden), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if explanationtextshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		explanationtextshape_.Unstage(explanationtextshapeFormCallback.probe.stageOfInterest)
+	}
+
+	explanationtextshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ExplanationTextShape](
+		explanationtextshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if explanationtextshapeFormCallback.CreationMode || explanationtextshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		explanationtextshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(explanationtextshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ExplanationTextShapeFormCallback(
+			nil,
+			explanationtextshapeFormCallback.probe,
+			newFormGroup,
+		)
+		explanationtextshape := new(models.ExplanationTextShape)
+		FillUpForm(explanationtextshape, newFormGroup, explanationtextshapeFormCallback.probe)
+		explanationtextshapeFormCallback.probe.formStage.Commit()
+	}
+
+	explanationtextshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__GridPathShapeFormCallback(
 	gridpathshape *models.GridPathShape,
 	probe *Probe,
@@ -264,90 +344,6 @@ func (gridpathshapeFormCallback *GridPathShapeFormCallback) OnSave() {
 	}
 
 	gridpathshapeFormCallback.probe.ux_tree()
-}
-func __gong__New__GrowthVectorShapeFormCallback(
-	growthvectorshape *models.GrowthVectorShape,
-	probe *Probe,
-	formGroup *form.FormGroup,
-) (growthvectorshapeFormCallback *GrowthVectorShapeFormCallback) {
-	growthvectorshapeFormCallback = new(GrowthVectorShapeFormCallback)
-	growthvectorshapeFormCallback.probe = probe
-	growthvectorshapeFormCallback.growthvectorshape = growthvectorshape
-	growthvectorshapeFormCallback.formGroup = formGroup
-
-	growthvectorshapeFormCallback.CreationMode = (growthvectorshape == nil)
-
-	return
-}
-
-type GrowthVectorShapeFormCallback struct {
-	growthvectorshape *models.GrowthVectorShape
-
-	// If the form call is called on the creation of a new instnace
-	CreationMode bool
-
-	probe *Probe
-
-	formGroup *form.FormGroup
-}
-
-func (growthvectorshapeFormCallback *GrowthVectorShapeFormCallback) OnSave() {
-	growthvectorshapeFormCallback.probe.stageOfInterest.Lock()
-	defer growthvectorshapeFormCallback.probe.stageOfInterest.Unlock()
-
-	// log.Println("GrowthVectorShapeFormCallback, OnSave")
-
-	// checkout formStage to have the form group on the stage synchronized with the
-	// back repo (and front repo)
-	growthvectorshapeFormCallback.probe.formStage.Checkout()
-
-	if growthvectorshapeFormCallback.growthvectorshape == nil {
-		growthvectorshapeFormCallback.growthvectorshape = new(models.GrowthVectorShape).Stage(growthvectorshapeFormCallback.probe.stageOfInterest)
-	}
-	growthvectorshape_ := growthvectorshapeFormCallback.growthvectorshape
-	_ = growthvectorshape_
-
-	for _, formDiv := range growthvectorshapeFormCallback.formGroup.FormDivs {
-		switch formDiv.Name {
-		// insertion point per field
-		case "Name":
-			FormDivBasicFieldToField(&(growthvectorshape_.Name), formDiv)
-		case "AngleDegree":
-			FormDivBasicFieldToField(&(growthvectorshape_.AngleDegree), formDiv)
-		case "Length":
-			FormDivBasicFieldToField(&(growthvectorshape_.Length), formDiv)
-		case "IsHidden":
-			FormDivBasicFieldToField(&(growthvectorshape_.IsHidden), formDiv)
-		}
-	}
-
-	// manage the suppress operation
-	if growthvectorshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		growthvectorshape_.Unstage(growthvectorshapeFormCallback.probe.stageOfInterest)
-	}
-
-	growthvectorshapeFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.GrowthVectorShape](
-		growthvectorshapeFormCallback.probe,
-	)
-
-	// display a new form by reset the form stage
-	if growthvectorshapeFormCallback.CreationMode || growthvectorshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		growthvectorshapeFormCallback.probe.formStage.Reset()
-		newFormGroup := (&form.FormGroup{
-			Name: FormName,
-		}).Stage(growthvectorshapeFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__GrowthVectorShapeFormCallback(
-			nil,
-			growthvectorshapeFormCallback.probe,
-			newFormGroup,
-		)
-		growthvectorshape := new(models.GrowthVectorShape)
-		FillUpForm(growthvectorshape, newFormGroup, growthvectorshapeFormCallback.probe)
-		growthvectorshapeFormCallback.probe.formStage.Commit()
-	}
-
-	growthvectorshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__LibraryFormCallback(
 	library *models.Library,
@@ -829,6 +825,90 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 
 	plantFormCallback.probe.ux_tree()
 }
+func __gong__New__PlantCircumferenceShapeFormCallback(
+	plantcircumferenceshape *models.PlantCircumferenceShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (plantcircumferenceshapeFormCallback *PlantCircumferenceShapeFormCallback) {
+	plantcircumferenceshapeFormCallback = new(PlantCircumferenceShapeFormCallback)
+	plantcircumferenceshapeFormCallback.probe = probe
+	plantcircumferenceshapeFormCallback.plantcircumferenceshape = plantcircumferenceshape
+	plantcircumferenceshapeFormCallback.formGroup = formGroup
+
+	plantcircumferenceshapeFormCallback.CreationMode = (plantcircumferenceshape == nil)
+
+	return
+}
+
+type PlantCircumferenceShapeFormCallback struct {
+	plantcircumferenceshape *models.PlantCircumferenceShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (plantcircumferenceshapeFormCallback *PlantCircumferenceShapeFormCallback) OnSave() {
+	plantcircumferenceshapeFormCallback.probe.stageOfInterest.Lock()
+	defer plantcircumferenceshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PlantCircumferenceShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	plantcircumferenceshapeFormCallback.probe.formStage.Checkout()
+
+	if plantcircumferenceshapeFormCallback.plantcircumferenceshape == nil {
+		plantcircumferenceshapeFormCallback.plantcircumferenceshape = new(models.PlantCircumferenceShape).Stage(plantcircumferenceshapeFormCallback.probe.stageOfInterest)
+	}
+	plantcircumferenceshape_ := plantcircumferenceshapeFormCallback.plantcircumferenceshape
+	_ = plantcircumferenceshape_
+
+	for _, formDiv := range plantcircumferenceshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(plantcircumferenceshape_.Name), formDiv)
+		case "AngleDegree":
+			FormDivBasicFieldToField(&(plantcircumferenceshape_.AngleDegree), formDiv)
+		case "Length":
+			FormDivBasicFieldToField(&(plantcircumferenceshape_.Length), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(plantcircumferenceshape_.IsHidden), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if plantcircumferenceshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		plantcircumferenceshape_.Unstage(plantcircumferenceshapeFormCallback.probe.stageOfInterest)
+	}
+
+	plantcircumferenceshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PlantCircumferenceShape](
+		plantcircumferenceshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if plantcircumferenceshapeFormCallback.CreationMode || plantcircumferenceshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		plantcircumferenceshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(plantcircumferenceshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PlantCircumferenceShapeFormCallback(
+			nil,
+			plantcircumferenceshapeFormCallback.probe,
+			newFormGroup,
+		)
+		plantcircumferenceshape := new(models.PlantCircumferenceShape)
+		FillUpForm(plantcircumferenceshape, newFormGroup, plantcircumferenceshapeFormCallback.probe)
+		plantcircumferenceshapeFormCallback.probe.formStage.Commit()
+	}
+
+	plantcircumferenceshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__PlantDiagramFormCallback(
 	plantdiagram *models.PlantDiagram,
 	probe *Probe,
@@ -884,16 +964,18 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.AxesShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "ReferenceRhombus":
 			FormDivSelectFieldToField(&(plantdiagram_.ReferenceRhombus), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "GrowthVectorShape":
-			FormDivSelectFieldToField(&(plantdiagram_.GrowthVectorShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "PlantCircumferenceShape":
+			FormDivSelectFieldToField(&(plantdiagram_.PlantCircumferenceShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "GridPathShape":
 			FormDivSelectFieldToField(&(plantdiagram_.GridPathShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "RhombusGridShape":
 			FormDivSelectFieldToField(&(plantdiagram_.RhombusGridShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "ExplanationTextShape":
+			FormDivSelectFieldToField(&(plantdiagram_.ExplanationTextShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "RotatedReferenceRhombus":
 			FormDivSelectFieldToField(&(plantdiagram_.RotatedReferenceRhombus), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
-		case "RotatedGrowthVectorShape":
-			FormDivSelectFieldToField(&(plantdiagram_.RotatedGrowthVectorShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "RotatedPlantCircumferenceShape":
+			FormDivSelectFieldToField(&(plantdiagram_.RotatedPlantCircumferenceShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "RotatedGridPathShape":
 			FormDivSelectFieldToField(&(plantdiagram_.RotatedGridPathShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "RotatedRhombusGridShape":

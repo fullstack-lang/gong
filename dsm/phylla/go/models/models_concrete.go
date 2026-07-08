@@ -52,11 +52,10 @@ func (s *ReferenceRhombus) GetIsHidden() bool {
 	return s.IsHidden
 }
 
-// GrowthVectorShape of a plant,
+// PlantCircumferenceShape of a plant,
 //
-// each plant has one GrowthVectorShape
-// the direction and distance of new cell growth.
-type GrowthVectorShape struct {
+// each plant has one PlantCircumferenceShape
+type PlantCircumferenceShape struct {
 	Name string
 
 	AngleDegree float64
@@ -65,18 +64,18 @@ type GrowthVectorShape struct {
 	Shape
 }
 
-func (s *GrowthVectorShape) SetIsHidden(isHidden bool) {
+func (s *PlantCircumferenceShape) SetIsHidden(isHidden bool) {
 	s.IsHidden = isHidden
 }
 
-func (s *GrowthVectorShape) GetIsHidden() bool {
+func (s *PlantCircumferenceShape) GetIsHidden() bool {
 	return s.IsHidden
 }
 
 // GridPathShape of a plant,
 //
 // each plant has one GridPathShape to visualize the
-// N and M steps along the grid to reach the GrowthVector.
+// N and M steps along the grid to reach the PlantCircumference.
 type GridPathShape struct {
 	Name string
 
@@ -133,5 +132,20 @@ func (s *NextCircleShape) SetIsHidden(isHidden bool) {
 }
 
 func (s *NextCircleShape) GetIsHidden() bool {
+	return s.IsHidden
+}
+
+// ExplanationTextShape of a plant,
+type ExplanationTextShape struct {
+	Name string
+
+	Shape
+}
+
+func (s *ExplanationTextShape) SetIsHidden(isHidden bool) {
+	s.IsHidden = isHidden
+}
+
+func (s *ExplanationTextShape) GetIsHidden() bool {
 	return s.IsHidden
 }
