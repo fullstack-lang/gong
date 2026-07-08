@@ -677,8 +677,6 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.N), formDiv)
 		case "M":
 			FormDivBasicFieldToField(&(plant_.M), formDiv)
-		case "Z":
-			FormDivBasicFieldToField(&(plant_.Z), formDiv)
 		case "RhombusInsideAngle":
 			FormDivBasicFieldToField(&(plant_.RhombusInsideAngle), formDiv)
 		case "RhombusSideLength":

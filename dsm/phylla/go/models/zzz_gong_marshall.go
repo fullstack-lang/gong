@@ -483,7 +483,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "N"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "M"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "Z"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RhombusInsideAngle"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RhombusSideLength"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ShiftToNearestCircle"))
@@ -924,11 +923,6 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "M")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.M))
-	case "Z":
-		res = NumberInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Z")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", plant.Z))
 	case "RhombusInsideAngle":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
@@ -1249,7 +1243,6 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "Name"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "N"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "M"))
-		initializerStatements.WriteString(plant.GongMarshallField(stage, "Z"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RhombusInsideAngle"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "RhombusSideLength"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ShiftToNearestCircle"))

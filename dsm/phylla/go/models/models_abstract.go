@@ -1,15 +1,19 @@
 package models
 
+// Plant
+// In botanical phyllotaxy, N and M denote a contact parastichy pair, which represents
+// the number of visible spirals winding in opposite directions around a plant's central
+// axis. By standard convention, N and M are consecutive Fibonacci numbers ordered such
+// that N < M (e.g., 8 and 13). These variables do not strictly dictate clockwise or
+// counter-clockwise directions; rather, they quantify the two opposing sets of spirals.
+// Depending on the specific chirality (handedness) of the plant specimen, N may
+// represent the number of clockwise spirals while M represents the counter-clockwise
+// spirals, or vice versa.
 type Plant struct {
 	Name string
 
-	// N is the number of steps to take along the first main path (up and to the right)
-	// on the unrolled lattice of the plant's surface to reach the next leaf in the genetic spiral.
 	N int
-	// M is the number of steps to take along the second main path (up and to the left)
-	// on the unrolled lattice of the plant's surface to reach the next leaf in the genetic spiral.
 	M int
-	Z int // number of rhombus
 
 	// RhombusInsideAngle is set by the user. It represents the inside angle (in degrees) of the
 	// fundamental diamond (rhombus) shape that makes up the grid of leaves on the plant's surface.
