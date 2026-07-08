@@ -460,6 +460,39 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 }
 
 // insertion point per named struct
+type AxesUnmarshaller struct{}
+
+func (u *AxesUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(Axes)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *AxesUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*Axes)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "LengthX":
+		instance.LengthX = GongExtractFloat(valueExpr)
+	case "LengthY":
+		instance.LengthY = GongExtractFloat(valueExpr)
+	}
+	return nil
+}
+
 type LibraryUnmarshaller struct{}
 
 func (u *LibraryUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -540,6 +573,8 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.ShiftToNearestCircle = GongExtractInt(valueExpr)
 	case "SideLength":
 		instance.SideLength = GongExtractFloat(valueExpr)
+	case "Axes":
+		GongUnmarshallPointer(&instance.Axes, valueExpr, identifierMap)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":

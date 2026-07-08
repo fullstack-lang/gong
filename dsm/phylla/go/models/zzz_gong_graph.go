@@ -7,6 +7,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *Axes:
+		ok = stage.IsStagedAxes(target)
+
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
 
@@ -26,6 +29,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *Axes:
+		ok = stage.IsStagedAxes(target)
+
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
 
@@ -42,6 +48,13 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
+func (stage *Stage) IsStagedAxes(axes *Axes) (ok bool) {
+
+	_, ok = stage.Axess[axes]
+
+	return
+}
+
 func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
 
 	_, ok = stage.Librarys[library]
@@ -71,6 +84,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
+	case *Axes:
+		stage.StageBranchAxes(target)
+
 	case *Library:
 		stage.StageBranchLibrary(target)
 
@@ -86,6 +102,21 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct
+func (stage *Stage) StageBranchAxes(axes *Axes) {
+
+	// check if instance is already staged
+	if IsStaged(stage, axes) {
+		return
+	}
+
+	axes.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
@@ -117,6 +148,9 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	plant.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if plant.Axes != nil {
+		StageBranch(stage, plant.Axes)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plant.PlantDiagramsWhoseNodeIsExpanded {
@@ -154,6 +188,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
+	case *Axes:
+		toT := CopyBranchAxes(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Library:
 		toT := CopyBranchLibrary(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -173,6 +211,25 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
+func CopyBranchAxes(mapOrigCopy map[any]any, axesFrom *Axes) (axesTo *Axes) {
+
+	// axesFrom has already been copied
+	if _axesTo, ok := mapOrigCopy[axesFrom]; ok {
+		axesTo = _axesTo.(*Axes)
+		return
+	}
+
+	axesTo = new(Axes)
+	mapOrigCopy[axesFrom] = axesTo
+	axesFrom.CopyBasicFields(axesTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo *Library) {
 
 	// libraryFrom has already been copied
@@ -211,6 +268,9 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	plantFrom.CopyBasicFields(plantTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if plantFrom.Axes != nil {
+		plantTo.Axes = CopyBranchAxes(mapOrigCopy, plantFrom.Axes)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plantFrom.PlantDiagramsWhoseNodeIsExpanded {
@@ -250,6 +310,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
+	case *Axes:
+		stage.UnstageBranchAxes(target)
+
 	case *Library:
 		stage.UnstageBranchLibrary(target)
 
@@ -265,6 +328,21 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
+func (stage *Stage) UnstageBranchAxes(axes *Axes) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, axes) {
+		return
+	}
+
+	axes.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 	// check if instance is already staged
@@ -296,6 +374,9 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	plant.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if plant.Axes != nil {
+		UnstageBranch(stage, plant.Axes)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _plantdiagram := range plant.PlantDiagramsWhoseNodeIsExpanded {
@@ -323,6 +404,11 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 }
 
 // insertion point for pointer reconstruction from references
+func (reference *Axes) GongReconstructPointersFromReferences(stage *Stage, instance *Axes) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, instance *Library) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
@@ -338,6 +424,9 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 
 func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, instance *Plant) {
 	// insertion point for pointers field
+	if instance.Axes != nil {
+		reference.Axes = stage.Axess_reference[instance.Axes]
+	}
 	// insertion point for slice of pointers field
 	reference.PlantDiagramsWhoseNodeIsExpanded = reference.PlantDiagramsWhoseNodeIsExpanded[:0]
 	for _, _b := range instance.PlantDiagramsWhoseNodeIsExpanded {
@@ -355,6 +444,11 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 }
 
 // insertion point for pointer reconstruction from instances
+func (reference *Axes) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
 func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
@@ -376,6 +470,12 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 
 func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
+	if _reference := reference.Axes; _reference != nil {
+		reference.Axes = nil
+		if _instance, ok := stage.Axess_instance[_reference]; ok {
+			reference.Axes = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 	var _PlantDiagramsWhoseNodeIsExpanded []*PlantDiagram
 	for _, _reference := range reference.PlantDiagramsWhoseNodeIsExpanded {
@@ -399,6 +499,23 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 }
 
 // insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (axes *Axes) GongDiff(stage *Stage, axesOther *Axes) (diffs []string) {
+	// insertion point for field diffs
+	if axes.Name != axesOther.Name {
+		diffs = append(diffs, axes.GongMarshallField(stage, "Name"))
+	}
+	if axes.LengthX != axesOther.LengthX {
+		diffs = append(diffs, axes.GongMarshallField(stage, "LengthX"))
+	}
+	if axes.LengthY != axesOther.LengthY {
+		diffs = append(diffs, axes.GongMarshallField(stage, "LengthY"))
+	}
+
+	return
+}
+
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
 func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []string) {
@@ -491,6 +608,13 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	}
 	if plant.SideLength != plantOther.SideLength {
 		diffs = append(diffs, plant.GongMarshallField(stage, "SideLength"))
+	}
+	if (plant.Axes == nil) != (plantOther.Axes == nil) {
+		diffs = append(diffs, plant.GongMarshallField(stage, "Axes"))
+	} else if plant.Axes != nil && plantOther.Axes != nil {
+		if plant.Axes != plantOther.Axes {
+			diffs = append(diffs, plant.GongMarshallField(stage, "Axes"))
+		}
 	}
 	if plant.ComputedPrefix != plantOther.ComputedPrefix {
 		diffs = append(diffs, plant.GongMarshallField(stage, "ComputedPrefix"))

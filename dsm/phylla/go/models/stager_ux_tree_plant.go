@@ -30,6 +30,7 @@ func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node) {
 		isParentNodeExpandedByAddOperation: true,
 		parentNodeExpansionType:            parentNodeExpansionTypeByBooleanValue,
 		parentNodeExpansionBooleanValue:    &plant.IsExpanded,
+		IsButtonInMenu:                     true,
 	}
 	addCreateItemButton(stager, confPlants)
 

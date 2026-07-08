@@ -9,6 +9,23 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point
+type Axes_WOP struct {
+	// insertion point
+
+	Name string
+
+	LengthX float64
+
+	LengthY float64
+}
+
+func (from *Axes) CopyBasicFields(to *Axes) {
+	// insertion point
+	to.Name = from.Name
+	to.LengthX = from.LengthX
+	to.LengthY = from.LengthY
+}
+
 type Library_WOP struct {
 	// insertion point
 

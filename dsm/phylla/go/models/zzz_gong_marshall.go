@@ -284,6 +284,34 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	_ = setValueField
 
 	// insertion initialization of objects to stage
+	axesOrdered := []*Axes{}
+	for axes := range stage.Axess {
+		axesOrdered = append(axesOrdered, axes)
+	}
+	sort.Slice(axesOrdered[:], func(i, j int) bool {
+		axesi := axesOrdered[i]
+		axesj := axesOrdered[j]
+		axesi_order, oki := stage.Axes_stagedOrder[axesi]
+		axesj_order, okj := stage.Axes_stagedOrder[axesj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return axesi_order < axesj_order
+	})
+	if len(axesOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, axes := range axesOrdered {
+
+		identifiersDecl.WriteString(axes.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(axes.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(axes.GongMarshallField(stage, "LengthX"))
+		initializerStatements.WriteString(axes.GongMarshallField(stage, "LengthY"))
+	}
+
 	libraryOrdered := []*Library{}
 	for library := range stage.Librarys {
 		libraryOrdered = append(libraryOrdered, library)
@@ -347,6 +375,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "InsideAngle"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ShiftToNearestCircle"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "SideLength"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "Axes"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsPlantDiagramsNodeExpanded"))
@@ -384,6 +413,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 
 	// insertion initialization of objects to stage
+	for _, axes := range axesOrdered {
+		_ = axes
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
 	for _, library := range libraryOrdered {
 		_ = library
 		var setPointerField string
@@ -462,6 +499,31 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 }
 
 // insertion point for marshall field methods
+func (axes *Axes) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", axes.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(axes.Name))
+	case "LengthX":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", axes.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LengthX")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", axes.LengthX))
+	case "LengthY":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", axes.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LengthY")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", axes.LengthY))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Axes", fieldName)
+	}
+	return
+}
+
 func (library *Library) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -576,6 +638,19 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPlantDiagramsNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant.IsPlantDiagramsNodeExpanded))
 
+	case "Axes":
+		if plant.Axes != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Axes")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plant.Axes.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Axes")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	case "PlantDiagramsWhoseNodeIsExpanded":
 		var sb strings.Builder
 		for _, _plantdiagram := range plant.PlantDiagramsWhoseNodeIsExpanded {
@@ -633,6 +708,19 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 }
 
 // insertion point for marshall all fields methods
+func (axes *Axes) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(axes.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(axes.GongMarshallField(stage, "LengthX"))
+		initializerStatements.WriteString(axes.GongMarshallField(stage, "LengthY"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
 func (library *Library) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
 
 	var initializerStatements strings.Builder
@@ -663,6 +751,7 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "InsideAngle"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ShiftToNearestCircle"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "SideLength"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "Axes"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsPlantDiagramsNodeExpanded"))
