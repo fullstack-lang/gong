@@ -19,13 +19,13 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 
 	switch instancesTyped := any(instance).(type) {
 	// insertion point
-	case *models.Axes:
+	case *models.AxesShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
 			Label:     instancesTyped.GetName(),
-			TypeLabel: "Axes",
+			TypeLabel: "AxesShape",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__AxesFormCallback(
+		formGroup.OnSave = __gong__New__AxesShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

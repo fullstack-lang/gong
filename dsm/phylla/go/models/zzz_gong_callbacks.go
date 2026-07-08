@@ -6,9 +6,9 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
-	case *Axes:
-		if stage.OnAfterAxesCreateCallback != nil {
-			stage.OnAfterAxesCreateCallback.OnAfterCreate(stage, target)
+	case *AxesShape:
+		if stage.OnAfterAxesShapeCreateCallback != nil {
+			stage.OnAfterAxesShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *Library:
 		if stage.OnAfterLibraryCreateCallback != nil {
@@ -36,10 +36,10 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
-	case *Axes:
-		newTarget := any(new).(*Axes)
-		if stage.OnAfterAxesUpdateCallback != nil {
-			stage.OnAfterAxesUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *AxesShape:
+		newTarget := any(new).(*AxesShape)
+		if stage.OnAfterAxesShapeUpdateCallback != nil {
+			stage.OnAfterAxesShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Library:
 		newTarget := any(new).(*Library)
@@ -66,10 +66,10 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
-	case *Axes:
-		if stage.OnAfterAxesDeleteCallback != nil {
-			staged := any(staged).(*Axes)
-			stage.OnAfterAxesDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *AxesShape:
+		if stage.OnAfterAxesShapeDeleteCallback != nil {
+			staged := any(staged).(*AxesShape)
+			stage.OnAfterAxesShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Library:
 		if stage.OnAfterLibraryDeleteCallback != nil {
@@ -96,9 +96,9 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
-	case *Axes:
-		if stage.OnAfterAxesReadCallback != nil {
-			stage.OnAfterAxesReadCallback.OnAfterRead(stage, target)
+	case *AxesShape:
+		if stage.OnAfterAxesShapeReadCallback != nil {
+			stage.OnAfterAxesShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *Library:
 		if stage.OnAfterLibraryReadCallback != nil {
@@ -123,8 +123,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
-	case *Axes:
-		stage.OnAfterAxesUpdateCallback = any(callback).(OnAfterUpdateInterface[Axes])
+	case *AxesShape:
+		stage.OnAfterAxesShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[AxesShape])
 	case *Library:
 		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *Plant:
@@ -138,8 +138,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
-	case *Axes:
-		stage.OnAfterAxesCreateCallback = any(callback).(OnAfterCreateInterface[Axes])
+	case *AxesShape:
+		stage.OnAfterAxesShapeCreateCallback = any(callback).(OnAfterCreateInterface[AxesShape])
 	case *Library:
 		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *Plant:
@@ -153,8 +153,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
-	case *Axes:
-		stage.OnAfterAxesDeleteCallback = any(callback).(OnAfterDeleteInterface[Axes])
+	case *AxesShape:
+		stage.OnAfterAxesShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[AxesShape])
 	case *Library:
 		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *Plant:
@@ -168,8 +168,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	var instance Type
 	switch any(instance).(type) {
 	// insertion point
-	case *Axes:
-		stage.OnAfterAxesReadCallback = any(callback).(OnAfterReadInterface[Axes])
+	case *AxesShape:
+		stage.OnAfterAxesShapeReadCallback = any(callback).(OnAfterReadInterface[AxesShape])
 	case *Library:
 		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *Plant:

@@ -15,11 +15,11 @@ func (probe *Probe) ux_form() {
 	}
 	if formGroup != nil {
 		switch onSave := formGroup.OnSave.(type) { // insertion point
-		case *AxesFormCallback:
+		case *AxesShapeFormCallback:
 			if onSave.CreationMode {
-				FillUpFormFromGongstructName(probe, "Axes", true)
+				FillUpFormFromGongstructName(probe, "AxesShape", true)
 			} else {
-				FillUpFormFromGongstruct(onSave.axes, probe)
+				FillUpFormFromGongstruct(onSave.axesshape, probe)
 			}
 		case *LibraryFormCallback:
 			if onSave.CreationMode {
@@ -61,19 +61,19 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
-	case "Axes":
+	case "AxesShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
-			Label: prefix + "Axes Form",
+			Label: prefix + "AxesShape Form",
 		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__AxesFormCallback(
+		formGroup.OnSave = __gong__New__AxesShapeFormCallback(
 			nil,
 			probe,
 			formGroup,
 		)
-		axes := new(models.Axes)
+		axesshape := new(models.AxesShape)
 		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(axes, formGroup, probe)
+		FillUpForm(axesshape, formGroup, probe)
 	case "Library":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

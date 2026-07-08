@@ -460,10 +460,10 @@ func GongUnmarshallEnum[T interface{ FromCodeString(string) error }](
 }
 
 // insertion point per named struct
-type AxesUnmarshaller struct{}
+type AxesShapeUnmarshaller struct{}
 
-func (u *AxesUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(Axes)
+func (u *AxesShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(AxesShape)
 	instance.Name = instanceName
 	if !preserveOrder {
 		instance.Stage(stage)
@@ -478,8 +478,8 @@ func (u *AxesUnmarshaller) Initialize(stage *Stage, identifier string, instanceN
 	return instance, nil
 }
 
-func (u *AxesUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*Axes)
+func (u *AxesShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*AxesShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field
@@ -489,6 +489,8 @@ func (u *AxesUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldNa
 		instance.LengthX = GongExtractFloat(valueExpr)
 	case "LengthY":
 		instance.LengthY = GongExtractFloat(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
 	}
 	return nil
 }
@@ -573,8 +575,6 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.ShiftToNearestCircle = GongExtractInt(valueExpr)
 	case "SideLength":
 		instance.SideLength = GongExtractFloat(valueExpr)
-	case "Axes":
-		GongUnmarshallPointer(&instance.Axes, valueExpr, identifierMap)
 	case "ComputedPrefix":
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
@@ -618,6 +618,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "AxesShape":
+		GongUnmarshallPointer(&instance.AxesShape, valueExpr, identifierMap)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	}

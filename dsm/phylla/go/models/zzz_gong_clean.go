@@ -40,8 +40,8 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element *T) (modified
 }
 
 // insertion point per named struct
-// Clean garbage collect unstaged instances that are referenced by Axes
-func (axes *Axes) GongClean(stage *Stage) (modified bool) {
+// Clean garbage collect unstaged instances that are referenced by AxesShape
+func (axesshape *AxesShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return
@@ -62,7 +62,6 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanSlice(stage, &plant.PlantDiagramsWhoseNodeIsExpanded) || modified
 	modified = GongCleanSlice(stage, &plant.PlantDiagrams) || modified
 	// insertion point per field
-	modified = GongCleanPointer(stage, &plant.Axes) || modified
 	return
 }
 
@@ -70,6 +69,7 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
+	modified = GongCleanPointer(stage, &plantdiagram.AxesShape) || modified
 	return
 }
 

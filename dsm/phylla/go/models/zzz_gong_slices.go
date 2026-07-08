@@ -20,7 +20,7 @@ var (
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
-	// Compute reverse map for named struct Axes
+	// Compute reverse map for named struct AxesShape
 	// insertion point per field
 
 	// Compute reverse map for named struct Library
@@ -65,7 +65,7 @@ func (stage *Stage) ComputeReverseMaps() {
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 	// insertion point per named struct
-	for instance := range stage.Axess {
+	for instance := range stage.AxesShapes {
 		res = append(res, instance)
 	}
 
@@ -85,9 +85,9 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct
-func (axes *Axes) GongCopy() GongstructIF {
-	newInstance := new(Axes)
-	axes.CopyBasicFields(newInstance)
+func (axesshape *AxesShape) GongCopy() GongstructIF {
+	newInstance := new(AxesShape)
+	axesshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -110,13 +110,13 @@ func (plantdiagram *PlantDiagram) GongCopy() GongstructIF {
 }
 
 // insertion point per named struct
-func (axes *Axes) GongGetUUID(stage *Stage) (uuid string) {
+func (axesshape *AxesShape) GongGetUUID(stage *Stage) (uuid string) {
 
-	if __gong__, ok := any(axes).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+	if __gong__, ok := any(axesshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
 		return __gong__.GongGetUUIDCustom(stage)
 	}
 
-	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(axes), uint64(GetOrderPointerGongstruct(stage, axes)))
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(axesshape), uint64(GetOrderPointerGongstruct(stage, axesshape)))
 	return
 }
 
@@ -168,32 +168,32 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	stage.Clean()
 
 	// insertion point per named struct
-	var axess_newInstances []*Axes
-	var axess_deletedInstances []*Axes
+	var axesshapes_newInstances []*AxesShape
+	var axesshapes_deletedInstances []*AxesShape
 
 	// parse all staged instances and check if they have a reference
-	for axes := range stage.Axess {
-		if ref, ok := stage.Axess_reference[axes]; !ok {
-			axess_newInstances = append(axess_newInstances, axes)
-			newInstancesSlice = append(newInstancesSlice, axes.GongMarshallIdentifier(stage))
-			if stage.Axess_referenceOrder == nil {
-				stage.Axess_referenceOrder = make(map[*Axes]uint)
+	for axesshape := range stage.AxesShapes {
+		if ref, ok := stage.AxesShapes_reference[axesshape]; !ok {
+			axesshapes_newInstances = append(axesshapes_newInstances, axesshape)
+			newInstancesSlice = append(newInstancesSlice, axesshape.GongMarshallIdentifier(stage))
+			if stage.AxesShapes_referenceOrder == nil {
+				stage.AxesShapes_referenceOrder = make(map[*AxesShape]uint)
 			}
-			stage.Axess_referenceOrder[axes] = stage.Axes_stagedOrder[axes]
-			newInstancesReverseSlice = append(newInstancesReverseSlice, axes.GongMarshallUnstaging(stage))
-			// delete(stage.Axess_referenceOrder, axes)
-			fieldInitializers, pointersInitializations := axes.GongMarshallAllFields(stage)
+			stage.AxesShapes_referenceOrder[axesshape] = stage.AxesShape_stagedOrder[axesshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, axesshape.GongMarshallUnstaging(stage))
+			// delete(stage.AxesShapes_referenceOrder, axesshape)
+			fieldInitializers, pointersInitializations := axesshape.GongMarshallAllFields(stage)
 			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
 		} else {
-			stage.Axes_stagedOrder[ref] = stage.Axes_stagedOrder[axes]
+			stage.AxesShape_stagedOrder[ref] = stage.AxesShape_stagedOrder[axesshape]
 			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
-			diffs := axes.GongDiff(stage, ref)
-			reverseDiffs := ref.GongDiff(stage, axes)
-			// delete(stage.Axes_stagedOrder, ref)
+			diffs := axesshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, axesshape)
+			// delete(stage.AxesShape_stagedOrder, ref)
 			if len(diffs) > 0 {
 				var fieldsEdit string
-				if axes.GetName() != "" {
-					fieldsEdit += fmt.Sprintf("\n\t// %s", axes.GetName())
+				if axesshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", axesshape.GetName())
 				} else {
 					fieldsEdit += "\n\t//"
 				}
@@ -210,10 +210,10 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 	}
 
 	// parse all reference instances and check if they are still staged
-	for _, ref := range stage.Axess_reference {
-		instance := stage.Axess_instance[ref]    // get the instance corresponding to the reference
-		if _, ok := stage.Axess[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
-			axess_deletedInstances = append(axess_deletedInstances, ref)
+	for _, ref := range stage.AxesShapes_reference {
+		instance := stage.AxesShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.AxesShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			axesshapes_deletedInstances = append(axesshapes_deletedInstances, ref)
 			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
 			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
 			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
@@ -221,8 +221,8 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 		}
 	}
 
-	lenNewInstances += len(axess_newInstances)
-	lenDeletedInstances += len(axess_deletedInstances)
+	lenNewInstances += len(axesshapes_newInstances)
+	lenDeletedInstances += len(axesshapes_deletedInstances)
 	var librarys_newInstances []*Library
 	var librarys_deletedInstances []*Library
 
@@ -423,14 +423,14 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 // ComputeReferenceAndOrders will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReferenceAndOrders() {
 	// insertion point per named struct
-	stage.Axess_reference = make(map[*Axes]*Axes)
-	stage.Axess_referenceOrder = make(map[*Axes]uint) // diff Unstage needs the reference order
-	stage.Axess_instance = make(map[*Axes]*Axes)
-	for instance := range stage.Axess {
-		_copy := instance.GongCopy().(*Axes)
-		stage.Axess_reference[instance] = _copy
-		stage.Axess_instance[_copy] = instance
-		stage.Axess_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	stage.AxesShapes_reference = make(map[*AxesShape]*AxesShape)
+	stage.AxesShapes_referenceOrder = make(map[*AxesShape]uint) // diff Unstage needs the reference order
+	stage.AxesShapes_instance = make(map[*AxesShape]*AxesShape)
+	for instance := range stage.AxesShapes {
+		_copy := instance.GongCopy().(*AxesShape)
+		stage.AxesShapes_reference[instance] = _copy
+		stage.AxesShapes_instance[_copy] = instance
+		stage.AxesShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
 	stage.Librarys_reference = make(map[*Library]*Library)
@@ -464,8 +464,8 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 	}
 
 	// insertion point per named struct
-	for instance := range stage.Axess {
-		reference := stage.Axess_reference[instance]
+	for instance := range stage.AxesShapes {
+		reference := stage.AxesShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -494,14 +494,14 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 // which is important for frontends such as web frontends
 // to avoid unnecessary re-renderings
 // insertion point per named struct
-func (axes *Axes) GongGetOrder(stage *Stage) uint {
-	if order, ok := stage.Axes_stagedOrder[axes]; ok {
+func (axesshape *AxesShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.AxesShape_stagedOrder[axesshape]; ok {
 		return order
 	}
-	if order, ok := stage.Axess_referenceOrder[axes]; ok {
+	if order, ok := stage.AxesShapes_referenceOrder[axesshape]; ok {
 		return order
 	} else {
-		log.Printf("instance %p of type Axes was not staged and does not have a reference order", axes)
+		log.Printf("instance %p of type AxesShape was not staged and does not have a reference order", axesshape)
 		return 0
 	}
 }
@@ -547,13 +547,13 @@ func (plantdiagram *PlantDiagram) GongGetOrder(stage *Stage) uint {
 // in the staging area
 // It is used to identify instances across sessions
 // insertion point per named struct
-func (axes *Axes) GongGetIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", axes.GongGetGongstructName(), axes.GongGetOrder(stage))
+func (axesshape *AxesShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", axesshape.GongGetGongstructName(), axesshape.GongGetOrder(stage))
 }
 
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
-func (axes *Axes) GongGetReferenceIdentifier(stage *Stage) string {
-	return fmt.Sprintf("__%s__%08d_", axes.GongGetGongstructName(), axes.GongGetOrder(stage))
+func (axesshape *AxesShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", axesshape.GongGetGongstructName(), axesshape.GongGetOrder(stage))
 }
 
 func (library *Library) GongGetIdentifier(stage *Stage) string {
@@ -586,11 +586,11 @@ func (plantdiagram *PlantDiagram) GongGetReferenceIdentifier(stage *Stage) strin
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
-func (axes *Axes) GongMarshallIdentifier(stage *Stage) (decl string) {
+func (axesshape *AxesShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", axes.GongGetIdentifier(stage))
-	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Axes")
-	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(axes.Name))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", axesshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AxesShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(axesshape.Name))
 	return
 }
 
@@ -619,9 +619,9 @@ func (plantdiagram *PlantDiagram) GongMarshallIdentifier(stage *Stage) (decl str
 }
 
 // insertion point for unstaging
-func (axes *Axes) GongMarshallUnstaging(stage *Stage) (decl string) {
+func (axesshape *AxesShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
-	decl = strings.ReplaceAll(decl, "{{Identifier}}", axes.GongGetReferenceIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", axesshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

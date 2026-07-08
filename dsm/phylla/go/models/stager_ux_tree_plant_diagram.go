@@ -1,19 +1,16 @@
 package models
 
 import (
-	"slices"
-
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
 func (stager *Stager) treePlantDiagram(
 	plantDiagram *PlantDiagram,
 	parentNodes *[]*tree.Node,
-	plantDiagramsWhoseNodeIsExpanded *[]*PlantDiagram,
 ) {
 	plantDiagramNode := &tree.Node{
 		Name:              plantDiagram.Name,
-		IsExpanded:        slices.Contains(*plantDiagramsWhoseNodeIsExpanded, plantDiagram),
+		IsExpanded:        plantDiagram.IsExpanded,
 		IsNodeClickable:   true,
 		HasCheckboxButton: true,
 		IsChecked:         plantDiagram.IsChecked,
@@ -43,4 +40,15 @@ func (stager *Stager) treePlantDiagram(
 		stager.stage.Commit()
 	}
 
+	if plantDiagram.AxesShape != nil {
+		axesNode := &tree.Node{
+			Name:            plantDiagram.AxesShape.Name,
+			IsNodeClickable: true,
+		}
+		axesNode.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(plantDiagram.AxesShape, GetPointerToGongstructName[*AxesShape]())
+			stager.stage.Commit()
+		}
+		plantDiagramNode.Children = append(plantDiagramNode.Children, axesNode)
+	}
 }

@@ -1,1 +1,17 @@
 package models
+
+type Shape struct {
+	IsHidden bool
+}
+
+// AxesShape of a plant
+//
+// each plant has one AxesShape button
+type AxesShape struct {
+	Name string
+
+	LengthX float64
+	LengthY float64
+
+	Shape
+}

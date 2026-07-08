@@ -49,6 +49,16 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			plantDiagram.Name = "New Plant Diagram"
 		}
 	}
+	for _, axesShape := range GetGongstrucsSorted[*AxesShape](stager.stage) {
+		if axesShape.LengthX == 0.0 {
+			needCommit = true
+			axesShape.LengthX = 1.0
+		}
+		if axesShape.LengthY == 0.0 {
+			needCommit = true
+			axesShape.LengthY = 1.0
+		}
+	}
 
 	return
 }

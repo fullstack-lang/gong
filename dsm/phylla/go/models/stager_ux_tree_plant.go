@@ -46,6 +46,6 @@ func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node) {
 	diagramsNode.OnClick = onNodeClicked(stager, plant)
 
 	for _, plantDiagram := range plant.PlantDiagrams {
-		stager.treePlantDiagram(plantDiagram, &diagramsNode.Children, &plant.PlantDiagramsWhoseNodeIsExpanded)
+		stager.treePlantDiagram(plantDiagram, &diagramsNode.Children)
 	}
 }

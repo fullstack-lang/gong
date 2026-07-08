@@ -19,7 +19,7 @@ func (stager *Stager) createViews() {
 	tabTitle.Stage(stager.splitStage)
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name:           "Tree - SVG - Slider (" + getPersistanceFile(stager) + ")",
+		Name:           "Tree - SVG - Form (" + getPersistanceFile(stager) + ")",
 		Direction:      split.Horizontal,
 		IsSizeInPixel:  true,
 		IsSelectedView: true,
@@ -72,15 +72,15 @@ func (stager *Stager) createViews() {
 			},
 			{
 				Size: 525,
-				Slider: &split.Slider{
-					StackName: stager.sliderStage.GetName(),
+				Form: &split.Form{
+					StackName: stager.probeForm.GetFormStage().GetName(),
 				},
 			},
 		},
 	})
 
 	split.StageBranch(stager.splitStage, &split.View{
-		Name:           "Tree - SVG - Form (" + getPersistanceFile(stager) + ")",
+		Name:           "Tree - SVG - Slider (" + getPersistanceFile(stager) + ")",
 		Direction:      split.Horizontal,
 		IsSizeInPixel:  true,
 		IsSelectedView: false,
@@ -133,8 +133,8 @@ func (stager *Stager) createViews() {
 			},
 			{
 				Size: 525,
-				Form: &split.Form{
-					StackName: stager.probeForm.GetFormStage().GetName(),
+				Slider: &split.Slider{
+					StackName: stager.sliderStage.GetName(),
 				},
 			},
 		},
