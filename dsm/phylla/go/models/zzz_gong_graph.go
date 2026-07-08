@@ -346,15 +346,6 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.RotatedGridPathShape != nil {
 		StageBranch(stage, plantdiagram.RotatedGridPathShape)
 	}
-	if plantdiagram.RotatedRhombusGridShape != nil {
-		StageBranch(stage, plantdiagram.RotatedRhombusGridShape)
-	}
-	if plantdiagram.RotatedCircleGridShape != nil {
-		StageBranch(stage, plantdiagram.RotatedCircleGridShape)
-	}
-	if plantdiagram.RotatedNextCircleShape != nil {
-		StageBranch(stage, plantdiagram.RotatedNextCircleShape)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -627,15 +618,6 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	if plantdiagramFrom.RotatedGridPathShape != nil {
 		plantdiagramTo.RotatedGridPathShape = CopyBranchGridPathShape(mapOrigCopy, plantdiagramFrom.RotatedGridPathShape)
 	}
-	if plantdiagramFrom.RotatedRhombusGridShape != nil {
-		plantdiagramTo.RotatedRhombusGridShape = CopyBranchRhombusGridShape(mapOrigCopy, plantdiagramFrom.RotatedRhombusGridShape)
-	}
-	if plantdiagramFrom.RotatedCircleGridShape != nil {
-		plantdiagramTo.RotatedCircleGridShape = CopyBranchCircleGridShape(mapOrigCopy, plantdiagramFrom.RotatedCircleGridShape)
-	}
-	if plantdiagramFrom.RotatedNextCircleShape != nil {
-		plantdiagramTo.RotatedNextCircleShape = CopyBranchNextCircleShape(mapOrigCopy, plantdiagramFrom.RotatedNextCircleShape)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -872,15 +854,6 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.RotatedGridPathShape != nil {
 		UnstageBranch(stage, plantdiagram.RotatedGridPathShape)
 	}
-	if plantdiagram.RotatedRhombusGridShape != nil {
-		UnstageBranch(stage, plantdiagram.RotatedRhombusGridShape)
-	}
-	if plantdiagram.RotatedCircleGridShape != nil {
-		UnstageBranch(stage, plantdiagram.RotatedCircleGridShape)
-	}
-	if plantdiagram.RotatedNextCircleShape != nil {
-		UnstageBranch(stage, plantdiagram.RotatedNextCircleShape)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -990,15 +963,6 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	}
 	if instance.RotatedGridPathShape != nil {
 		reference.RotatedGridPathShape = stage.GridPathShapes_reference[instance.RotatedGridPathShape]
-	}
-	if instance.RotatedRhombusGridShape != nil {
-		reference.RotatedRhombusGridShape = stage.RhombusGridShapes_reference[instance.RotatedRhombusGridShape]
-	}
-	if instance.RotatedCircleGridShape != nil {
-		reference.RotatedCircleGridShape = stage.CircleGridShapes_reference[instance.RotatedCircleGridShape]
-	}
-	if instance.RotatedNextCircleShape != nil {
-		reference.RotatedNextCircleShape = stage.NextCircleShapes_reference[instance.RotatedNextCircleShape]
 	}
 	// insertion point for slice of pointers field
 }
@@ -1119,24 +1083,6 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 		reference.RotatedGridPathShape = nil
 		if _instance, ok := stage.GridPathShapes_instance[_reference]; ok {
 			reference.RotatedGridPathShape = _instance
-		}
-	}
-	if _reference := reference.RotatedRhombusGridShape; _reference != nil {
-		reference.RotatedRhombusGridShape = nil
-		if _instance, ok := stage.RhombusGridShapes_instance[_reference]; ok {
-			reference.RotatedRhombusGridShape = _instance
-		}
-	}
-	if _reference := reference.RotatedCircleGridShape; _reference != nil {
-		reference.RotatedCircleGridShape = nil
-		if _instance, ok := stage.CircleGridShapes_instance[_reference]; ok {
-			reference.RotatedCircleGridShape = _instance
-		}
-	}
-	if _reference := reference.RotatedNextCircleShape; _reference != nil {
-		reference.RotatedNextCircleShape = nil
-		if _instance, ok := stage.NextCircleShapes_instance[_reference]; ok {
-			reference.RotatedNextCircleShape = _instance
 		}
 	}
 	// insertion point for slice of pointers fields
@@ -1446,27 +1392,6 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	} else if plantdiagram.RotatedGridPathShape != nil && plantdiagramOther.RotatedGridPathShape != nil {
 		if plantdiagram.RotatedGridPathShape != plantdiagramOther.RotatedGridPathShape {
 			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedGridPathShape"))
-		}
-	}
-	if (plantdiagram.RotatedRhombusGridShape == nil) != (plantdiagramOther.RotatedRhombusGridShape == nil) {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedRhombusGridShape"))
-	} else if plantdiagram.RotatedRhombusGridShape != nil && plantdiagramOther.RotatedRhombusGridShape != nil {
-		if plantdiagram.RotatedRhombusGridShape != plantdiagramOther.RotatedRhombusGridShape {
-			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedRhombusGridShape"))
-		}
-	}
-	if (plantdiagram.RotatedCircleGridShape == nil) != (plantdiagramOther.RotatedCircleGridShape == nil) {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedCircleGridShape"))
-	} else if plantdiagram.RotatedCircleGridShape != nil && plantdiagramOther.RotatedCircleGridShape != nil {
-		if plantdiagram.RotatedCircleGridShape != plantdiagramOther.RotatedCircleGridShape {
-			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedCircleGridShape"))
-		}
-	}
-	if (plantdiagram.RotatedNextCircleShape == nil) != (plantdiagramOther.RotatedNextCircleShape == nil) {
-		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedNextCircleShape"))
-	} else if plantdiagram.RotatedNextCircleShape != nil && plantdiagramOther.RotatedNextCircleShape != nil {
-		if plantdiagram.RotatedNextCircleShape != plantdiagramOther.RotatedNextCircleShape {
-			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedNextCircleShape"))
 		}
 	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {

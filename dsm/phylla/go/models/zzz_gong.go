@@ -2728,12 +2728,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RotatedGrowthVectorShape: &GrowthVectorShape{Name: "RotatedGrowthVectorShape"},
 			// field is initialized with an instance of GridPathShape with the name of the field
 			RotatedGridPathShape: &GridPathShape{Name: "RotatedGridPathShape"},
-			// field is initialized with an instance of RhombusGridShape with the name of the field
-			RotatedRhombusGridShape: &RhombusGridShape{Name: "RotatedRhombusGridShape"},
-			// field is initialized with an instance of CircleGridShape with the name of the field
-			RotatedCircleGridShape: &CircleGridShape{Name: "RotatedCircleGridShape"},
-			// field is initialized with an instance of NextCircleShape with the name of the field
-			RotatedNextCircleShape: &NextCircleShape{Name: "RotatedNextCircleShape"},
 		}).(*Type)
 	case ReferenceRhombus:
 		return any(&ReferenceRhombus{
@@ -2915,57 +2909,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					plantdiagrams = append(plantdiagrams, plantdiagram)
 					res[gridpathshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "RotatedRhombusGridShape":
-			res := make(map[*RhombusGridShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.RotatedRhombusGridShape != nil {
-					rhombusgridshape_ := plantdiagram.RotatedRhombusGridShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[rhombusgridshape_]
-					if ok {
-						plantdiagrams = res[rhombusgridshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[rhombusgridshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "RotatedCircleGridShape":
-			res := make(map[*CircleGridShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.RotatedCircleGridShape != nil {
-					circlegridshape_ := plantdiagram.RotatedCircleGridShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[circlegridshape_]
-					if ok {
-						plantdiagrams = res[circlegridshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[circlegridshape_] = plantdiagrams
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "RotatedNextCircleShape":
-			res := make(map[*NextCircleShape][]*PlantDiagram)
-			for plantdiagram := range stage.PlantDiagrams {
-				if plantdiagram.RotatedNextCircleShape != nil {
-					nextcircleshape_ := plantdiagram.RotatedNextCircleShape
-					var plantdiagrams []*PlantDiagram
-					_, ok := res[nextcircleshape_]
-					if ok {
-						plantdiagrams = res[nextcircleshape_]
-					} else {
-						plantdiagrams = make([]*PlantDiagram, 0)
-					}
-					plantdiagrams = append(plantdiagrams, plantdiagram)
-					res[nextcircleshape_] = plantdiagrams
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -3416,21 +3359,6 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			TargetGongstructName: "GridPathShape",
 		},
 		{
-			Name:                 "RotatedRhombusGridShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "RhombusGridShape",
-		},
-		{
-			Name:                 "RotatedCircleGridShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "CircleGridShape",
-		},
-		{
-			Name:                 "RotatedNextCircleShape",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "NextCircleShape",
-		},
-		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -3779,24 +3707,6 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = plantdiagram.RotatedGridPathShape.Name
 			res.ids = plantdiagram.RotatedGridPathShape.GongGetUUID(stage)
 		}
-	case "RotatedRhombusGridShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.RotatedRhombusGridShape != nil {
-			res.valueString = plantdiagram.RotatedRhombusGridShape.Name
-			res.ids = plantdiagram.RotatedRhombusGridShape.GongGetUUID(stage)
-		}
-	case "RotatedCircleGridShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.RotatedCircleGridShape != nil {
-			res.valueString = plantdiagram.RotatedCircleGridShape.Name
-			res.ids = plantdiagram.RotatedCircleGridShape.GongGetUUID(stage)
-		}
-	case "RotatedNextCircleShape":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if plantdiagram.RotatedNextCircleShape != nil {
-			res.valueString = plantdiagram.RotatedNextCircleShape.Name
-			res.ids = plantdiagram.RotatedNextCircleShape.GongGetUUID(stage)
-		}
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsChecked)
 		res.valueBool = plantdiagram.IsChecked
@@ -4106,39 +4016,6 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 			for __instance__ := range stage.GridPathShapes {
 				if stage.GridPathShape_stagedOrder[__instance__] == uint(id) {
 					plantdiagram.RotatedGridPathShape = __instance__
-					break
-				}
-			}
-		}
-	case "RotatedRhombusGridShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.RotatedRhombusGridShape = nil
-			for __instance__ := range stage.RhombusGridShapes {
-				if stage.RhombusGridShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.RotatedRhombusGridShape = __instance__
-					break
-				}
-			}
-		}
-	case "RotatedCircleGridShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.RotatedCircleGridShape = nil
-			for __instance__ := range stage.CircleGridShapes {
-				if stage.CircleGridShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.RotatedCircleGridShape = __instance__
-					break
-				}
-			}
-		}
-	case "RotatedNextCircleShape":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			plantdiagram.RotatedNextCircleShape = nil
-			for __instance__ := range stage.NextCircleShapes {
-				if stage.NextCircleShape_stagedOrder[__instance__] == uint(id) {
-					plantdiagram.RotatedNextCircleShape = __instance__
 					break
 				}
 			}

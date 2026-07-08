@@ -13,9 +13,7 @@ type PlantDiagram struct {
 	RotatedReferenceRhombus  *ReferenceRhombus
 	RotatedGrowthVectorShape *GrowthVectorShape
 	RotatedGridPathShape     *GridPathShape
-	RotatedRhombusGridShape  *RhombusGridShape
-	RotatedCircleGridShape   *CircleGridShape
-	RotatedNextCircleShape   *NextCircleShape
+
 
 	IsChecked bool
 	AbstractTypeFields
