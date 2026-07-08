@@ -67,6 +67,7 @@ type ItemButtonConfiguration[
 	parentNodeExpansionBooleanValue    *bool
 	parentNodeExpansionSliceEncoding   *[]PParentAT
 	parentElement                      PParentAT
+	IsButtonInMenu                     bool
 }
 
 // ---------------------------------------------------------
@@ -202,7 +203,14 @@ func addCreateItemButton[
 		HasToolTip:      true,
 		ToolTipPosition: tree.Right,
 	}
-	conf.parentNode.Buttons = append([]*tree.Button{addButton}, conf.parentNode.Buttons...)
+	if conf.IsButtonInMenu {
+		if conf.parentNode.Menu == nil {
+			conf.parentNode.Menu = &tree.Menu{Name: "Add"}
+		}
+		conf.parentNode.Menu.Buttons = append([]*tree.Button{addButton}, conf.parentNode.Menu.Buttons...)
+	} else {
+		conf.parentNode.Buttons = append([]*tree.Button{addButton}, conf.parentNode.Buttons...)
+	}
 
 	addButton.OnClick = func() {
 		processAbstractItemAddition(stager, conf, callbacks)
@@ -249,7 +257,14 @@ func addCreateItemAndShapeButton[
 		HasToolTip:      true,
 		ToolTipPosition: tree.Right,
 	}
-	conf.parentNode.Buttons = append([]*tree.Button{addButton}, conf.parentNode.Buttons...)
+	if conf.IsButtonInMenu {
+		if conf.parentNode.Menu == nil {
+			conf.parentNode.Menu = &tree.Menu{Name: "Add"}
+		}
+		conf.parentNode.Menu.Buttons = append([]*tree.Button{addButton}, conf.parentNode.Menu.Buttons...)
+	} else {
+		conf.parentNode.Buttons = append([]*tree.Button{addButton}, conf.parentNode.Buttons...)
+	}
 
 	addButton.OnClick = func() {
 		newAbstractElement := processAbstractItemAddition(stager, conf.ItemButtonConfiguration, callbacks)
@@ -307,7 +322,14 @@ func addCreateItemShapeAndLinkButton[
 		HasToolTip:      true,
 		ToolTipPosition: tree.Right,
 	}
-	conf.parentNode.Buttons = append([]*tree.Button{addButton}, conf.parentNode.Buttons...)
+	if conf.IsButtonInMenu {
+		if conf.parentNode.Menu == nil {
+			conf.parentNode.Menu = &tree.Menu{Name: "Add"}
+		}
+		conf.parentNode.Menu.Buttons = append([]*tree.Button{addButton}, conf.parentNode.Menu.Buttons...)
+	} else {
+		conf.parentNode.Buttons = append([]*tree.Button{addButton}, conf.parentNode.Buttons...)
+	}
 
 	addButton.OnClick = func() {
 		newAbstractElement := processAbstractItemAddition(stager, conf.ItemButtonConfiguration, callbacks)
