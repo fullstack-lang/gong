@@ -45,6 +45,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.ExplanationTextShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "ExplanationTextShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ExplanationTextShapeFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.GridPathShape:
 		formGroup := (&form.FormGroup{
 			Name:      formName,
@@ -52,19 +65,6 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "GridPathShape",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GridPathShapeFormCallback(
-			instancesTyped,
-			probe,
-			formGroup,
-		)
-		formGroup.HasSuppressButton = true
-		FillUpForm(instancesTyped, formGroup, probe)
-	case *models.GrowthVectorShape:
-		formGroup := (&form.FormGroup{
-			Name:      formName,
-			Label:     instancesTyped.GetName(),
-			TypeLabel: "GrowthVectorShape",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__GrowthVectorShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,
@@ -104,6 +104,19 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *form.S
 			TypeLabel: "Plant",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__PlantFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.PlantCircumferenceShape:
+		formGroup := (&form.FormGroup{
+			Name:      formName,
+			Label:     instancesTyped.GetName(),
+			TypeLabel: "PlantCircumferenceShape",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PlantCircumferenceShapeFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

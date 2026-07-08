@@ -118,14 +118,14 @@ func (stager *Stager) treePlantDiagram(
 
 		plantDiagramNode.Children = append(plantDiagramNode.Children, referenceRhombusNode)
 	}
-	growthVectorShape := plantDiagram.GrowthVectorShape
-	if growthVectorShape != nil {
-		growthVectorShapeNode := &tree.Node{
-			Name:            growthVectorShape.Name,
+	plantCircumferenceShape := plantDiagram.PlantCircumferenceShape
+	if plantCircumferenceShape != nil {
+		plantCircumferenceShapeNode := &tree.Node{
+			Name:            plantCircumferenceShape.Name,
 			IsNodeClickable: true,
 		}
-		growthVectorShapeNode.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(growthVectorShape, GetPointerToGongstructName[*GrowthVectorShape]())
+		plantCircumferenceShapeNode.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(plantCircumferenceShape, GetPointerToGongstructName[*PlantCircumferenceShape]())
 			stager.stage.Commit()
 		}
 		gvVisibilityButton := &tree.Button{
@@ -135,18 +135,18 @@ func (stager *Stager) treePlantDiagram(
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 			OnClick: func() {
-				growthVectorShape.SetIsHidden(!growthVectorShape.GetIsHidden())
+				plantCircumferenceShape.SetIsHidden(!plantCircumferenceShape.GetIsHidden())
 				stager.stage.Commit()
 			},
 		}
-		if growthVectorShape.GetIsHidden() {
+		if plantCircumferenceShape.GetIsHidden() {
 			gvVisibilityButton.Icon = string(buttons.BUTTON_visibility)
 			gvVisibilityButton.Name = "Show"
 			gvVisibilityButton.ToolTipText = "Show on diagram"
 		}
-		growthVectorShapeNode.Buttons = append(growthVectorShapeNode.Buttons, gvVisibilityButton)
+		plantCircumferenceShapeNode.Buttons = append(plantCircumferenceShapeNode.Buttons, gvVisibilityButton)
 
-		plantDiagramNode.Children = append(plantDiagramNode.Children, growthVectorShapeNode)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, plantCircumferenceShapeNode)
 	}
 
 	gridPathShape := plantDiagram.GridPathShape
@@ -210,6 +210,36 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
+	explanationTextShape := plantDiagram.ExplanationTextShape
+	if explanationTextShape != nil {
+		node := &tree.Node{
+			Name:            explanationTextShape.Name,
+			IsNodeClickable: true,
+		}
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(explanationTextShape, GetPointerToGongstructName[*ExplanationTextShape]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				explanationTextShape.SetIsHidden(!explanationTextShape.GetIsHidden())
+				stager.stage.Commit()
+			},
+		}
+		if explanationTextShape.GetIsHidden() {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
 	rotatedReferenceRhombus := plantDiagram.RotatedReferenceRhombus
 	if rotatedReferenceRhombus != nil {
 		node := &tree.Node{
@@ -240,14 +270,14 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-	rotatedGrowthVectorShape := plantDiagram.RotatedGrowthVectorShape
-	if rotatedGrowthVectorShape != nil {
+	rotatedPlantCircumferenceShape := plantDiagram.RotatedPlantCircumferenceShape
+	if rotatedPlantCircumferenceShape != nil {
 		node := &tree.Node{
-			Name:            rotatedGrowthVectorShape.Name,
+			Name:            rotatedPlantCircumferenceShape.Name,
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(rotatedGrowthVectorShape, GetPointerToGongstructName[*GrowthVectorShape]())
+			stager.probeForm.FillUpFormFromGongstruct(rotatedPlantCircumferenceShape, GetPointerToGongstructName[*PlantCircumferenceShape]())
 			stager.stage.Commit()
 		}
 		btn := &tree.Button{
@@ -257,11 +287,11 @@ func (stager *Stager) treePlantDiagram(
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 			OnClick: func() {
-				rotatedGrowthVectorShape.SetIsHidden(!rotatedGrowthVectorShape.GetIsHidden())
+				rotatedPlantCircumferenceShape.SetIsHidden(!rotatedPlantCircumferenceShape.GetIsHidden())
 				stager.stage.Commit()
 			},
 		}
-		if rotatedGrowthVectorShape.GetIsHidden() {
+		if rotatedPlantCircumferenceShape.GetIsHidden() {
 			btn.Icon = string(buttons.BUTTON_visibility)
 			btn.Name = "Show"
 			btn.ToolTipText = "Show on diagram"

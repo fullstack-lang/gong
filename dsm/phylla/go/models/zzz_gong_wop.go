@@ -46,6 +46,20 @@ func (from *CircleGridShape) CopyBasicFields(to *CircleGridShape) {
 	to.IsHidden = from.IsHidden
 }
 
+type ExplanationTextShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsHidden bool
+}
+
+func (from *ExplanationTextShape) CopyBasicFields(to *ExplanationTextShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsHidden = from.IsHidden
+}
+
 type GridPathShape_WOP struct {
 	// insertion point
 
@@ -57,26 +71,6 @@ type GridPathShape_WOP struct {
 func (from *GridPathShape) CopyBasicFields(to *GridPathShape) {
 	// insertion point
 	to.Name = from.Name
-	to.IsHidden = from.IsHidden
-}
-
-type GrowthVectorShape_WOP struct {
-	// insertion point
-
-	Name string
-
-	AngleDegree float64
-
-	Length float64
-
-	IsHidden bool
-}
-
-func (from *GrowthVectorShape) CopyBasicFields(to *GrowthVectorShape) {
-	// insertion point
-	to.Name = from.Name
-	to.AngleDegree = from.AngleDegree
-	to.Length = from.Length
 	to.IsHidden = from.IsHidden
 }
 
@@ -153,6 +147,26 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 	to.IsPlantDiagramsNodeExpanded = from.IsPlantDiagramsNodeExpanded
+}
+
+type PlantCircumferenceShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	AngleDegree float64
+
+	Length float64
+
+	IsHidden bool
+}
+
+func (from *PlantCircumferenceShape) CopyBasicFields(to *PlantCircumferenceShape) {
+	// insertion point
+	to.Name = from.Name
+	to.AngleDegree = from.AngleDegree
+	to.Length = from.Length
+	to.IsHidden = from.IsHidden
 }
 
 type PlantDiagram_WOP struct {

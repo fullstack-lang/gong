@@ -14,13 +14,13 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterCircleGridShapeCreateCallback != nil {
 			stage.OnAfterCircleGridShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *ExplanationTextShape:
+		if stage.OnAfterExplanationTextShapeCreateCallback != nil {
+			stage.OnAfterExplanationTextShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *GridPathShape:
 		if stage.OnAfterGridPathShapeCreateCallback != nil {
 			stage.OnAfterGridPathShapeCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *GrowthVectorShape:
-		if stage.OnAfterGrowthVectorShapeCreateCallback != nil {
-			stage.OnAfterGrowthVectorShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *Library:
 		if stage.OnAfterLibraryCreateCallback != nil {
@@ -33,6 +33,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Plant:
 		if stage.OnAfterPlantCreateCallback != nil {
 			stage.OnAfterPlantCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *PlantCircumferenceShape:
+		if stage.OnAfterPlantCircumferenceShapeCreateCallback != nil {
+			stage.OnAfterPlantCircumferenceShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *PlantDiagram:
 		if stage.OnAfterPlantDiagramCreateCallback != nil {
@@ -70,15 +74,15 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterCircleGridShapeUpdateCallback != nil {
 			stage.OnAfterCircleGridShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *ExplanationTextShape:
+		newTarget := any(new).(*ExplanationTextShape)
+		if stage.OnAfterExplanationTextShapeUpdateCallback != nil {
+			stage.OnAfterExplanationTextShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *GridPathShape:
 		newTarget := any(new).(*GridPathShape)
 		if stage.OnAfterGridPathShapeUpdateCallback != nil {
 			stage.OnAfterGridPathShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *GrowthVectorShape:
-		newTarget := any(new).(*GrowthVectorShape)
-		if stage.OnAfterGrowthVectorShapeUpdateCallback != nil {
-			stage.OnAfterGrowthVectorShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Library:
 		newTarget := any(new).(*Library)
@@ -94,6 +98,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Plant)
 		if stage.OnAfterPlantUpdateCallback != nil {
 			stage.OnAfterPlantUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *PlantCircumferenceShape:
+		newTarget := any(new).(*PlantCircumferenceShape)
+		if stage.OnAfterPlantCircumferenceShapeUpdateCallback != nil {
+			stage.OnAfterPlantCircumferenceShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *PlantDiagram:
 		newTarget := any(new).(*PlantDiagram)
@@ -130,15 +139,15 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*CircleGridShape)
 			stage.OnAfterCircleGridShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *ExplanationTextShape:
+		if stage.OnAfterExplanationTextShapeDeleteCallback != nil {
+			staged := any(staged).(*ExplanationTextShape)
+			stage.OnAfterExplanationTextShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *GridPathShape:
 		if stage.OnAfterGridPathShapeDeleteCallback != nil {
 			staged := any(staged).(*GridPathShape)
 			stage.OnAfterGridPathShapeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *GrowthVectorShape:
-		if stage.OnAfterGrowthVectorShapeDeleteCallback != nil {
-			staged := any(staged).(*GrowthVectorShape)
-			stage.OnAfterGrowthVectorShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Library:
 		if stage.OnAfterLibraryDeleteCallback != nil {
@@ -154,6 +163,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 		if stage.OnAfterPlantDeleteCallback != nil {
 			staged := any(staged).(*Plant)
 			stage.OnAfterPlantDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *PlantCircumferenceShape:
+		if stage.OnAfterPlantCircumferenceShapeDeleteCallback != nil {
+			staged := any(staged).(*PlantCircumferenceShape)
+			stage.OnAfterPlantCircumferenceShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *PlantDiagram:
 		if stage.OnAfterPlantDiagramDeleteCallback != nil {
@@ -188,13 +202,13 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterCircleGridShapeReadCallback != nil {
 			stage.OnAfterCircleGridShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *ExplanationTextShape:
+		if stage.OnAfterExplanationTextShapeReadCallback != nil {
+			stage.OnAfterExplanationTextShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *GridPathShape:
 		if stage.OnAfterGridPathShapeReadCallback != nil {
 			stage.OnAfterGridPathShapeReadCallback.OnAfterRead(stage, target)
-		}
-	case *GrowthVectorShape:
-		if stage.OnAfterGrowthVectorShapeReadCallback != nil {
-			stage.OnAfterGrowthVectorShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *Library:
 		if stage.OnAfterLibraryReadCallback != nil {
@@ -207,6 +221,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Plant:
 		if stage.OnAfterPlantReadCallback != nil {
 			stage.OnAfterPlantReadCallback.OnAfterRead(stage, target)
+		}
+	case *PlantCircumferenceShape:
+		if stage.OnAfterPlantCircumferenceShapeReadCallback != nil {
+			stage.OnAfterPlantCircumferenceShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *PlantDiagram:
 		if stage.OnAfterPlantDiagramReadCallback != nil {
@@ -235,16 +253,18 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterAxesShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[AxesShape])
 	case *CircleGridShape:
 		stage.OnAfterCircleGridShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[CircleGridShape])
+	case *ExplanationTextShape:
+		stage.OnAfterExplanationTextShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ExplanationTextShape])
 	case *GridPathShape:
 		stage.OnAfterGridPathShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GridPathShape])
-	case *GrowthVectorShape:
-		stage.OnAfterGrowthVectorShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GrowthVectorShape])
 	case *Library:
 		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *NextCircleShape:
 		stage.OnAfterNextCircleShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NextCircleShape])
 	case *Plant:
 		stage.OnAfterPlantUpdateCallback = any(callback).(OnAfterUpdateInterface[Plant])
+	case *PlantCircumferenceShape:
+		stage.OnAfterPlantCircumferenceShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[PlantCircumferenceShape])
 	case *PlantDiagram:
 		stage.OnAfterPlantDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[PlantDiagram])
 	case *ReferenceRhombus:
@@ -262,16 +282,18 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterAxesShapeCreateCallback = any(callback).(OnAfterCreateInterface[AxesShape])
 	case *CircleGridShape:
 		stage.OnAfterCircleGridShapeCreateCallback = any(callback).(OnAfterCreateInterface[CircleGridShape])
+	case *ExplanationTextShape:
+		stage.OnAfterExplanationTextShapeCreateCallback = any(callback).(OnAfterCreateInterface[ExplanationTextShape])
 	case *GridPathShape:
 		stage.OnAfterGridPathShapeCreateCallback = any(callback).(OnAfterCreateInterface[GridPathShape])
-	case *GrowthVectorShape:
-		stage.OnAfterGrowthVectorShapeCreateCallback = any(callback).(OnAfterCreateInterface[GrowthVectorShape])
 	case *Library:
 		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *NextCircleShape:
 		stage.OnAfterNextCircleShapeCreateCallback = any(callback).(OnAfterCreateInterface[NextCircleShape])
 	case *Plant:
 		stage.OnAfterPlantCreateCallback = any(callback).(OnAfterCreateInterface[Plant])
+	case *PlantCircumferenceShape:
+		stage.OnAfterPlantCircumferenceShapeCreateCallback = any(callback).(OnAfterCreateInterface[PlantCircumferenceShape])
 	case *PlantDiagram:
 		stage.OnAfterPlantDiagramCreateCallback = any(callback).(OnAfterCreateInterface[PlantDiagram])
 	case *ReferenceRhombus:
@@ -289,16 +311,18 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterAxesShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[AxesShape])
 	case *CircleGridShape:
 		stage.OnAfterCircleGridShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[CircleGridShape])
+	case *ExplanationTextShape:
+		stage.OnAfterExplanationTextShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ExplanationTextShape])
 	case *GridPathShape:
 		stage.OnAfterGridPathShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GridPathShape])
-	case *GrowthVectorShape:
-		stage.OnAfterGrowthVectorShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GrowthVectorShape])
 	case *Library:
 		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *NextCircleShape:
 		stage.OnAfterNextCircleShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NextCircleShape])
 	case *Plant:
 		stage.OnAfterPlantDeleteCallback = any(callback).(OnAfterDeleteInterface[Plant])
+	case *PlantCircumferenceShape:
+		stage.OnAfterPlantCircumferenceShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[PlantCircumferenceShape])
 	case *PlantDiagram:
 		stage.OnAfterPlantDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[PlantDiagram])
 	case *ReferenceRhombus:
@@ -316,16 +340,18 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterAxesShapeReadCallback = any(callback).(OnAfterReadInterface[AxesShape])
 	case *CircleGridShape:
 		stage.OnAfterCircleGridShapeReadCallback = any(callback).(OnAfterReadInterface[CircleGridShape])
+	case *ExplanationTextShape:
+		stage.OnAfterExplanationTextShapeReadCallback = any(callback).(OnAfterReadInterface[ExplanationTextShape])
 	case *GridPathShape:
 		stage.OnAfterGridPathShapeReadCallback = any(callback).(OnAfterReadInterface[GridPathShape])
-	case *GrowthVectorShape:
-		stage.OnAfterGrowthVectorShapeReadCallback = any(callback).(OnAfterReadInterface[GrowthVectorShape])
 	case *Library:
 		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *NextCircleShape:
 		stage.OnAfterNextCircleShapeReadCallback = any(callback).(OnAfterReadInterface[NextCircleShape])
 	case *Plant:
 		stage.OnAfterPlantReadCallback = any(callback).(OnAfterReadInterface[Plant])
+	case *PlantCircumferenceShape:
+		stage.OnAfterPlantCircumferenceShapeReadCallback = any(callback).(OnAfterReadInterface[PlantCircumferenceShape])
 	case *PlantDiagram:
 		stage.OnAfterPlantDiagramReadCallback = any(callback).(OnAfterReadInterface[PlantDiagram])
 	case *ReferenceRhombus:

@@ -6,15 +6,16 @@ type PlantDiagram struct {
 	OriginX float64
 	OriginY float64
 
-	AxesShape                *AxesShape
-	ReferenceRhombus         *ReferenceRhombus
-	GrowthVectorShape        *GrowthVectorShape
-	GridPathShape            *GridPathShape
-	RhombusGridShape         *RhombusGridShape
-	RotatedReferenceRhombus  *ReferenceRhombus
-	RotatedGrowthVectorShape *GrowthVectorShape
-	RotatedGridPathShape     *GridPathShape
-	RotatedRhombusGridShape  *RhombusGridShape
+	AxesShape                      *AxesShape
+	ReferenceRhombus               *ReferenceRhombus
+	PlantCircumferenceShape        *PlantCircumferenceShape
+	GridPathShape                  *GridPathShape
+	RhombusGridShape               *RhombusGridShape
+	ExplanationTextShape           *ExplanationTextShape
+	RotatedReferenceRhombus        *ReferenceRhombus
+	RotatedPlantCircumferenceShape *PlantCircumferenceShape
+	RotatedGridPathShape           *GridPathShape
+	RotatedRhombusGridShape        *RhombusGridShape
 
 
 	IsChecked bool

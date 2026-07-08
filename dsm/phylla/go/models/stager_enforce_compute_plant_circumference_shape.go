@@ -4,9 +4,9 @@ import (
 	"math"
 )
 
-// enforceComputeGrowthVectorShape computes the AngleDegree and Length of the GrowthVectorShape
+// enforceComputePlantCircumferenceShape computes the AngleDegree and Length of the PlantCircumferenceShape
 // for each PlantDiagram based on its owning Plant's properties (N, M, InsideAngle, SideLength).
-func (stager *Stager) enforceComputeGrowthVectorShape() (needCommit bool) {
+func (stager *Stager) enforceComputePlantCircumferenceShape() (needCommit bool) {
 	stage := stager.stage
 
 	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
@@ -37,22 +37,22 @@ func (stager *Stager) enforceComputeGrowthVectorShape() (needCommit bool) {
 		computedLength := math.Sqrt(x*x + y*y)
 
 		for _, plantDiagram := range plant.PlantDiagrams {
-			if plantDiagram.GrowthVectorShape != nil {
-				if plantDiagram.GrowthVectorShape.AngleDegree != computedAngleDegree ||
-					plantDiagram.GrowthVectorShape.Length != computedLength {
+			if plantDiagram.PlantCircumferenceShape != nil {
+				if plantDiagram.PlantCircumferenceShape.AngleDegree != computedAngleDegree ||
+					plantDiagram.PlantCircumferenceShape.Length != computedLength {
 
-					plantDiagram.GrowthVectorShape.AngleDegree = computedAngleDegree
-					plantDiagram.GrowthVectorShape.Length = computedLength
+					plantDiagram.PlantCircumferenceShape.AngleDegree = computedAngleDegree
+					plantDiagram.PlantCircumferenceShape.Length = computedLength
 
 					needCommit = true
 				}
 			}
-			if plantDiagram.RotatedGrowthVectorShape != nil {
-				if plantDiagram.RotatedGrowthVectorShape.AngleDegree != 0 ||
-					plantDiagram.RotatedGrowthVectorShape.Length != computedLength {
+			if plantDiagram.RotatedPlantCircumferenceShape != nil {
+				if plantDiagram.RotatedPlantCircumferenceShape.AngleDegree != 0 ||
+					plantDiagram.RotatedPlantCircumferenceShape.Length != computedLength {
 
-					plantDiagram.RotatedGrowthVectorShape.AngleDegree = 0
-					plantDiagram.RotatedGrowthVectorShape.Length = computedLength
+					plantDiagram.RotatedPlantCircumferenceShape.AngleDegree = 0
+					plantDiagram.RotatedPlantCircumferenceShape.Length = computedLength
 
 					needCommit = true
 				}

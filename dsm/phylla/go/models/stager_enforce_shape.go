@@ -99,12 +99,12 @@ func (stager *Stager) enforceGridPathShapeName() (needCommit bool) {
 	)
 }
 
-// enforceGrowthVectorShapeName ensures that the name of the GrowthVectorShape matches its owning PlantDiagram
-func (stager *Stager) enforceGrowthVectorShapeName() (needCommit bool) {
-	return enforcePlantDiagramShapeName[*GrowthVectorShape](
+// enforcePlantCircumferenceShapeName ensures that the name of the PlantCircumferenceShape matches its owning PlantDiagram
+func (stager *Stager) enforcePlantCircumferenceShapeName() (needCommit bool) {
+	return enforcePlantDiagramShapeName[*PlantCircumferenceShape](
 		stager,
-		func(pd *PlantDiagram) *GrowthVectorShape { return pd.GrowthVectorShape },
-		"GrowthVectorShape",
+		func(pd *PlantDiagram) *PlantCircumferenceShape { return pd.PlantCircumferenceShape },
+		"PlantCircumferenceShape",
 	)
 }
 
@@ -148,17 +148,31 @@ func (stager *Stager) enforcePlantDiagramHasRhombusGridShape() (needCommit bool)
 	)
 }
 
-// enforcePlantDiagramHasGrowthVectorShape ensures that each PlantDiagram has one and only one GrowthVectorShape that belong to it
-func (stager *Stager) enforcePlantDiagramHasGrowthVectorShape() (needCommit bool) {
-	return enforcePlantDiagramHasShape[*GrowthVectorShape](
+// enforcePlantDiagramHasExplanationTextShape ensures that each PlantDiagram has one and only one ExplanationTextShape that belong to it
+func (stager *Stager) enforcePlantDiagramHasExplanationTextShape() (needCommit bool) {
+	return enforcePlantDiagramHasShape[*ExplanationTextShape](
 		stager,
-		func() *GrowthVectorShape { return new(GrowthVectorShape) },
-		func(pd *PlantDiagram) *GrowthVectorShape { return pd.GrowthVectorShape },
-		func(pd *PlantDiagram, shape *GrowthVectorShape) { pd.GrowthVectorShape = shape },
-		func(pd *PlantDiagram, shape *GrowthVectorShape) bool {
-			return pd.GrowthVectorShape == shape || pd.RotatedGrowthVectorShape == shape
+		func() *ExplanationTextShape { return new(ExplanationTextShape) },
+		func(pd *PlantDiagram) *ExplanationTextShape { return pd.ExplanationTextShape },
+		func(pd *PlantDiagram, shape *ExplanationTextShape) { pd.ExplanationTextShape = shape },
+		func(pd *PlantDiagram, shape *ExplanationTextShape) bool {
+			return pd.ExplanationTextShape == shape
 		},
-		"GrowthVectorShape",
+		"ExplanationTextShape",
+	)
+}
+
+// enforcePlantDiagramHasPlantCircumferenceShape ensures that each PlantDiagram has one and only one PlantCircumferenceShape that belong to it
+func (stager *Stager) enforcePlantDiagramHasPlantCircumferenceShape() (needCommit bool) {
+	return enforcePlantDiagramHasShape[*PlantCircumferenceShape](
+		stager,
+		func() *PlantCircumferenceShape { return new(PlantCircumferenceShape) },
+		func(pd *PlantDiagram) *PlantCircumferenceShape { return pd.PlantCircumferenceShape },
+		func(pd *PlantDiagram, shape *PlantCircumferenceShape) { pd.PlantCircumferenceShape = shape },
+		func(pd *PlantDiagram, shape *PlantCircumferenceShape) bool {
+			return pd.PlantCircumferenceShape == shape || pd.RotatedPlantCircumferenceShape == shape
+		},
+		"PlantCircumferenceShape",
 	)
 }
 
@@ -189,15 +203,15 @@ func (stager *Stager) enforcePlantDiagramHasRotatedShapes() (needCommit bool) {
 		"RotatedReferenceRhombus",
 	)
 
-	n2 := enforcePlantDiagramHasShape[*GrowthVectorShape](
+	n2 := enforcePlantDiagramHasShape[*PlantCircumferenceShape](
 		stager,
-		func() *GrowthVectorShape { return new(GrowthVectorShape) },
-		func(pd *PlantDiagram) *GrowthVectorShape { return pd.RotatedGrowthVectorShape },
-		func(pd *PlantDiagram, shape *GrowthVectorShape) { pd.RotatedGrowthVectorShape = shape },
-		func(pd *PlantDiagram, shape *GrowthVectorShape) bool {
-			return pd.GrowthVectorShape == shape || pd.RotatedGrowthVectorShape == shape
+		func() *PlantCircumferenceShape { return new(PlantCircumferenceShape) },
+		func(pd *PlantDiagram) *PlantCircumferenceShape { return pd.RotatedPlantCircumferenceShape },
+		func(pd *PlantDiagram, shape *PlantCircumferenceShape) { pd.RotatedPlantCircumferenceShape = shape },
+		func(pd *PlantDiagram, shape *PlantCircumferenceShape) bool {
+			return pd.PlantCircumferenceShape == shape || pd.RotatedPlantCircumferenceShape == shape
 		},
-		"RotatedGrowthVectorShape",
+		"RotatedPlantCircumferenceShape",
 	)
 
 	n3 := enforcePlantDiagramHasShape[*GridPathShape](
@@ -243,6 +257,15 @@ func (stager *Stager) enforceRhombusGridShapeName() (needCommit bool) {
 	)
 }
 
+// enforceExplanationTextShapeName ensures that the name of the ExplanationTextShape matches its owning PlantDiagram
+func (stager *Stager) enforceExplanationTextShapeName() (needCommit bool) {
+	return enforcePlantDiagramShapeName[*ExplanationTextShape](
+		stager,
+		func(pd *PlantDiagram) *ExplanationTextShape { return pd.ExplanationTextShape },
+		"ExplanationTextShape",
+	)
+}
+
 // enforceRotatedShapesNames ensures that the name of the Rotated shapes match their owning PlantDiagram
 func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 	n1 := enforcePlantDiagramShapeName[*ReferenceRhombus](
@@ -251,10 +274,10 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 		"RotatedReferenceRhombus",
 	)
 
-	n2 := enforcePlantDiagramShapeName[*GrowthVectorShape](
+	n2 := enforcePlantDiagramShapeName[*PlantCircumferenceShape](
 		stager,
-		func(pd *PlantDiagram) *GrowthVectorShape { return pd.RotatedGrowthVectorShape },
-		"RotatedGrowthVectorShape",
+		func(pd *PlantDiagram) *PlantCircumferenceShape { return pd.RotatedPlantCircumferenceShape },
+		"RotatedPlantCircumferenceShape",
 	)
 
 	n3 := enforcePlantDiagramShapeName[*GridPathShape](
