@@ -20,4 +20,19 @@ func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node) {
 		stager.selectedPlant = plant
 		stager.stage.Commit()
 	}
+
+	// Add Plant Diagram Button
+	diagramsNode := &tree.Node{
+		Name:            "Plant Diagrams",
+		FontStyle:       tree.ITALIC,
+		IsExpanded:      plant.IsPlantDiagramsNodeExpanded,
+		IsNodeClickable: true,
+	}
+	plantNode.Children = append(plantNode.Children, diagramsNode)
+	diagramsNode.OnIsExpandedChange = stager.onIsExpandedChangeBool(&plant.IsPlantDiagramsNodeExpanded)
+	diagramsNode.OnClick = onNodeClicked(stager, plant)
+
+	for _, plantDiagram := range plant.PlantDiagrams {
+		stager.treePlantDiagram(plantDiagram, &diagramsNode.Children, &plant.PlantDiagramsWhoseNodeIsExpanded)
+	}
 }

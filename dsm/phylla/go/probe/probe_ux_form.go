@@ -27,6 +27,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.plant, probe)
 			}
+		case *PlantDiagramFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "PlantDiagram", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.plantdiagram, probe)
+			}
 		}
 	}
 }
@@ -75,6 +81,19 @@ func FillUpFormFromGongstructName(
 		plant := new(models.Plant)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(plant, formGroup, probe)
+	case "PlantDiagram":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "PlantDiagram Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__PlantDiagramFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		plantdiagram := new(models.PlantDiagram)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(plantdiagram, formGroup, probe)
 	}
 	formStage.Commit()
 }

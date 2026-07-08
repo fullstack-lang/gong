@@ -349,6 +349,37 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "SideLength"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsPlantDiagramsNodeExpanded"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "PlantDiagramsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "PlantDiagrams"))
+	}
+
+	plantdiagramOrdered := []*PlantDiagram{}
+	for plantdiagram := range stage.PlantDiagrams {
+		plantdiagramOrdered = append(plantdiagramOrdered, plantdiagram)
+	}
+	sort.Slice(plantdiagramOrdered[:], func(i, j int) bool {
+		plantdiagrami := plantdiagramOrdered[i]
+		plantdiagramj := plantdiagramOrdered[j]
+		plantdiagrami_order, oki := stage.PlantDiagram_stagedOrder[plantdiagrami]
+		plantdiagramj_order, okj := stage.PlantDiagram_stagedOrder[plantdiagramj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return plantdiagrami_order < plantdiagramj_order
+	})
+	if len(plantdiagramOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, plantdiagram := range plantdiagramOrdered {
+
+		identifiersDecl.WriteString(plantdiagram.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
 	}
 
 	// insertion initialization of objects to stage
@@ -362,6 +393,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, plant := range plantOrdered {
 		_ = plant
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, plantdiagram := range plantdiagramOrdered {
+		_ = plantdiagram
 		var setPointerField string
 		_ = setPointerField
 
@@ -530,9 +569,59 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant.IsExpanded))
+	case "IsPlantDiagramsNodeExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPlantDiagramsNodeExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant.IsPlantDiagramsNodeExpanded))
 
+	case "PlantDiagramsWhoseNodeIsExpanded":
+		var sb strings.Builder
+		for _, _plantdiagram := range plant.PlantDiagramsWhoseNodeIsExpanded {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "PlantDiagramsWhoseNodeIsExpanded")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _plantdiagram.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
+	case "PlantDiagrams":
+		var sb strings.Builder
+		for _, _plantdiagram := range plant.PlantDiagrams {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", plant.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "PlantDiagrams")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _plantdiagram.GongGetIdentifier(stage))
+			sb.WriteString(tmp)
+		}
+		res = sb.String()
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Plant", fieldName)
+	}
+	return
+}
+
+func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plantdiagram.Name))
+	case "ComputedPrefix":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedPrefix")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plantdiagram.ComputedPrefix))
+	case "IsExpanded":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plantdiagram.IsExpanded))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct PlantDiagram", fieldName)
 	}
 	return
 }
@@ -570,6 +659,22 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "SideLength"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsPlantDiagramsNodeExpanded"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "PlantDiagramsWhoseNodeIsExpanded"))
+		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "PlantDiagrams"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
+		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()

@@ -279,6 +279,72 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(plant_.IsExpanded), formDiv)
+		case "IsPlantDiagramsNodeExpanded":
+			FormDivBasicFieldToField(&(plant_.IsPlantDiagramsNodeExpanded), formDiv)
+		case "PlantDiagramsWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PlantDiagram](plantFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.PlantDiagram, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.PlantDiagram)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					plantFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.PlantDiagram](plantFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			plant_.PlantDiagramsWhoseNodeIsExpanded = instanceSlice
+			plantFormCallback.probe.UpdateSliceOfPointersCallback(plant_, "PlantDiagramsWhoseNodeIsExpanded", &plant_.PlantDiagramsWhoseNodeIsExpanded)
+
+		case "PlantDiagrams":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PlantDiagram](plantFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.PlantDiagram, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.PlantDiagram)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					plantFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.PlantDiagram](plantFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			plant_.PlantDiagrams = instanceSlice
+			plantFormCallback.probe.UpdateSliceOfPointersCallback(plant_, "PlantDiagrams", &plant_.PlantDiagrams)
+
 		case "Library:Plants":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Library instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
@@ -354,4 +420,176 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 	}
 
 	plantFormCallback.probe.ux_tree()
+}
+func __gong__New__PlantDiagramFormCallback(
+	plantdiagram *models.PlantDiagram,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (plantdiagramFormCallback *PlantDiagramFormCallback) {
+	plantdiagramFormCallback = new(PlantDiagramFormCallback)
+	plantdiagramFormCallback.probe = probe
+	plantdiagramFormCallback.plantdiagram = plantdiagram
+	plantdiagramFormCallback.formGroup = formGroup
+
+	plantdiagramFormCallback.CreationMode = (plantdiagram == nil)
+
+	return
+}
+
+type PlantDiagramFormCallback struct {
+	plantdiagram *models.PlantDiagram
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
+	plantdiagramFormCallback.probe.stageOfInterest.Lock()
+	defer plantdiagramFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("PlantDiagramFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	plantdiagramFormCallback.probe.formStage.Checkout()
+
+	if plantdiagramFormCallback.plantdiagram == nil {
+		plantdiagramFormCallback.plantdiagram = new(models.PlantDiagram).Stage(plantdiagramFormCallback.probe.stageOfInterest)
+	}
+	plantdiagram_ := plantdiagramFormCallback.plantdiagram
+	_ = plantdiagram_
+
+	for _, formDiv := range plantdiagramFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(plantdiagram_.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(plantdiagram_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(plantdiagram_.IsExpanded), formDiv)
+		case "Plant:PlantDiagramsWhoseNodeIsExpanded":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Plant instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Plant instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Plant](plantdiagramFormCallback.probe.stageOfInterest)
+			targetPlantIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPlantIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Plant instances and update their PlantDiagramsWhoseNodeIsExpanded slice
+			for _plant := range *models.GetGongstructInstancesSetFromPointerType[*models.Plant](plantdiagramFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(plantdiagramFormCallback.probe.stageOfInterest, _plant)
+				
+				// if Plant is selected
+				if targetPlantIDs[id] {
+					// ensure plantdiagram_ is in _plant.PlantDiagramsWhoseNodeIsExpanded
+					found := false
+					for _, _b := range _plant.PlantDiagramsWhoseNodeIsExpanded {
+						if _b == plantdiagram_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_plant.PlantDiagramsWhoseNodeIsExpanded = append(_plant.PlantDiagramsWhoseNodeIsExpanded, plantdiagram_)
+						plantdiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plant, "PlantDiagramsWhoseNodeIsExpanded", &_plant.PlantDiagramsWhoseNodeIsExpanded)
+					}
+				} else {
+					// ensure plantdiagram_ is NOT in _plant.PlantDiagramsWhoseNodeIsExpanded
+					idx := slices.Index(_plant.PlantDiagramsWhoseNodeIsExpanded, plantdiagram_)
+					if idx != -1 {
+						_plant.PlantDiagramsWhoseNodeIsExpanded = slices.Delete(_plant.PlantDiagramsWhoseNodeIsExpanded, idx, idx+1)
+						plantdiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plant, "PlantDiagramsWhoseNodeIsExpanded", &_plant.PlantDiagramsWhoseNodeIsExpanded)
+					}
+				}
+			}
+		case "Plant:PlantDiagrams":
+			// 1. Decode the AssociationStorage which contains the rowIDs of the Plant instances
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+
+			// 2. Build a map of target Plant instances by their ID
+			map_RowID_ID := GetMap_RowID_ID[*models.Plant](plantdiagramFormCallback.probe.stageOfInterest)
+			targetPlantIDs := make(map[uint]bool)
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					targetPlantIDs[id] = true
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
+				}
+			}
+
+			// 3. Iterate over all Plant instances and update their PlantDiagrams slice
+			for _plant := range *models.GetGongstructInstancesSetFromPointerType[*models.Plant](plantdiagramFormCallback.probe.stageOfInterest) {
+				id := models.GetOrderPointerGongstruct(plantdiagramFormCallback.probe.stageOfInterest, _plant)
+				
+				// if Plant is selected
+				if targetPlantIDs[id] {
+					// ensure plantdiagram_ is in _plant.PlantDiagrams
+					found := false
+					for _, _b := range _plant.PlantDiagrams {
+						if _b == plantdiagram_ {
+							found = true
+							break
+						}
+					}
+					if !found {
+						_plant.PlantDiagrams = append(_plant.PlantDiagrams, plantdiagram_)
+						plantdiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plant, "PlantDiagrams", &_plant.PlantDiagrams)
+					}
+				} else {
+					// ensure plantdiagram_ is NOT in _plant.PlantDiagrams
+					idx := slices.Index(_plant.PlantDiagrams, plantdiagram_)
+					if idx != -1 {
+						_plant.PlantDiagrams = slices.Delete(_plant.PlantDiagrams, idx, idx+1)
+						plantdiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plant, "PlantDiagrams", &_plant.PlantDiagrams)
+					}
+				}
+			}
+		}
+	}
+
+	// manage the suppress operation
+	if plantdiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		plantdiagram_.Unstage(plantdiagramFormCallback.probe.stageOfInterest)
+	}
+
+	plantdiagramFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.PlantDiagram](
+		plantdiagramFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if plantdiagramFormCallback.CreationMode || plantdiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		plantdiagramFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(plantdiagramFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__PlantDiagramFormCallback(
+			nil,
+			plantdiagramFormCallback.probe,
+			newFormGroup,
+		)
+		plantdiagram := new(models.PlantDiagram)
+		FillUpForm(plantdiagram, newFormGroup, plantdiagramFormCallback.probe)
+		plantdiagramFormCallback.probe.formStage.Commit()
+	}
+
+	plantdiagramFormCallback.probe.ux_tree()
 }

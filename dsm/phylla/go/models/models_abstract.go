@@ -18,4 +18,8 @@ type Plant struct {
 
 	LibraryAbstractFields
 	AbstractTypeFields
+
+	IsPlantDiagramsNodeExpanded      bool
+	PlantDiagramsWhoseNodeIsExpanded []*PlantDiagram
+	PlantDiagrams                    []*PlantDiagram
 }

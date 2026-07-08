@@ -55,6 +55,8 @@ type Plant_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
+
+	IsPlantDiagramsNodeExpanded bool
 }
 
 func (from *Plant) CopyBasicFields(to *Plant) {
@@ -66,6 +68,24 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.InsideAngle = from.InsideAngle
 	to.ShiftToNearestCircle = from.ShiftToNearestCircle
 	to.SideLength = from.SideLength
+	to.ComputedPrefix = from.ComputedPrefix
+	to.IsExpanded = from.IsExpanded
+	to.IsPlantDiagramsNodeExpanded = from.IsPlantDiagramsNodeExpanded
+}
+
+type PlantDiagram_WOP struct {
+	// insertion point
+
+	Name string
+
+	ComputedPrefix string
+
+	IsExpanded bool
+}
+
+func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
+	// insertion point
+	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 }

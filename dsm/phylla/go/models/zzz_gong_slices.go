@@ -39,6 +39,23 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Plant
 	// insertion point per field
+	stage.Plant_PlantDiagramsWhoseNodeIsExpanded_reverseMap = make(map[*PlantDiagram]*Plant)
+	for plant := range stage.Plants {
+		_ = plant
+		for _, _plantdiagram := range plant.PlantDiagramsWhoseNodeIsExpanded {
+			stage.Plant_PlantDiagramsWhoseNodeIsExpanded_reverseMap[_plantdiagram] = plant
+		}
+	}
+	stage.Plant_PlantDiagrams_reverseMap = make(map[*PlantDiagram]*Plant)
+	for plant := range stage.Plants {
+		_ = plant
+		for _, _plantdiagram := range plant.PlantDiagrams {
+			stage.Plant_PlantDiagrams_reverseMap[_plantdiagram] = plant
+		}
+	}
+
+	// Compute reverse map for named struct PlantDiagram
+	// insertion point per field
 
 	// end of insertion point per named struct
 }
@@ -50,6 +67,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.Plants {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.PlantDiagrams {
 		res = append(res, instance)
 	}
 
@@ -66,6 +87,12 @@ func (library *Library) GongCopy() GongstructIF {
 func (plant *Plant) GongCopy() GongstructIF {
 	newInstance := new(Plant)
 	plant.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (plantdiagram *PlantDiagram) GongCopy() GongstructIF {
+	newInstance := new(PlantDiagram)
+	plantdiagram.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -87,6 +114,16 @@ func (plant *Plant) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(plant), uint64(GetOrderPointerGongstruct(stage, plant)))
+	return
+}
+
+func (plantdiagram *PlantDiagram) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(plantdiagram).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(plantdiagram), uint64(GetOrderPointerGongstruct(stage, plantdiagram)))
 	return
 }
 
@@ -218,6 +255,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(plants_newInstances)
 	lenDeletedInstances += len(plants_deletedInstances)
+	var plantdiagrams_newInstances []*PlantDiagram
+	var plantdiagrams_deletedInstances []*PlantDiagram
+
+	// parse all staged instances and check if they have a reference
+	for plantdiagram := range stage.PlantDiagrams {
+		if ref, ok := stage.PlantDiagrams_reference[plantdiagram]; !ok {
+			plantdiagrams_newInstances = append(plantdiagrams_newInstances, plantdiagram)
+			newInstancesSlice = append(newInstancesSlice, plantdiagram.GongMarshallIdentifier(stage))
+			if stage.PlantDiagrams_referenceOrder == nil {
+				stage.PlantDiagrams_referenceOrder = make(map[*PlantDiagram]uint)
+			}
+			stage.PlantDiagrams_referenceOrder[plantdiagram] = stage.PlantDiagram_stagedOrder[plantdiagram]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, plantdiagram.GongMarshallUnstaging(stage))
+			// delete(stage.PlantDiagrams_referenceOrder, plantdiagram)
+			fieldInitializers, pointersInitializations := plantdiagram.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.PlantDiagram_stagedOrder[ref] = stage.PlantDiagram_stagedOrder[plantdiagram]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := plantdiagram.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, plantdiagram)
+			// delete(stage.PlantDiagram_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if plantdiagram.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", plantdiagram.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.PlantDiagrams_reference {
+		instance := stage.PlantDiagrams_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.PlantDiagrams[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			plantdiagrams_deletedInstances = append(plantdiagrams_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(plantdiagrams_newInstances)
+	lenDeletedInstances += len(plantdiagrams_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 
@@ -273,6 +365,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.Plants_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.PlantDiagrams_reference = make(map[*PlantDiagram]*PlantDiagram)
+	stage.PlantDiagrams_referenceOrder = make(map[*PlantDiagram]uint) // diff Unstage needs the reference order
+	stage.PlantDiagrams_instance = make(map[*PlantDiagram]*PlantDiagram)
+	for instance := range stage.PlantDiagrams {
+		_copy := instance.GongCopy().(*PlantDiagram)
+		stage.PlantDiagrams_reference[instance] = _copy
+		stage.PlantDiagrams_instance[_copy] = instance
+		stage.PlantDiagrams_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	// insertion point per named struct
 	for instance := range stage.Librarys {
 		reference := stage.Librarys_reference[instance]
@@ -281,6 +383,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.Plants {
 		reference := stage.Plants_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.PlantDiagrams {
+		reference := stage.PlantDiagrams_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -318,6 +425,18 @@ func (plant *Plant) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (plantdiagram *PlantDiagram) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.PlantDiagram_stagedOrder[plantdiagram]; ok {
+		return order
+	}
+	if order, ok := stage.PlantDiagrams_referenceOrder[plantdiagram]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type PlantDiagram was not staged and does not have a reference order", plantdiagram)
+		return 0
+	}
+}
+
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
 // in the staging area
@@ -341,6 +460,15 @@ func (plant *Plant) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", plant.GongGetGongstructName(), plant.GongGetOrder(stage))
 }
 
+func (plantdiagram *PlantDiagram) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", plantdiagram.GongGetGongstructName(), plantdiagram.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (plantdiagram *PlantDiagram) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", plantdiagram.GongGetGongstructName(), plantdiagram.GongGetOrder(stage))
+}
+
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
@@ -360,6 +488,14 @@ func (plant *Plant) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (plantdiagram *PlantDiagram) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PlantDiagram")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(plantdiagram.Name))
+	return
+}
+
 // insertion point for unstaging
 func (library *Library) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
@@ -370,6 +506,12 @@ func (library *Library) GongMarshallUnstaging(stage *Stage) (decl string) {
 func (plant *Plant) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", plant.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (plantdiagram *PlantDiagram) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", plantdiagram.GongGetReferenceIdentifier(stage))
 	return
 }
 
