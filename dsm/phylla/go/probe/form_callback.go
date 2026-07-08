@@ -19,6 +19,88 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 var _ = log.Panicf
 
 // insertion point
+func __gong__New__AxesFormCallback(
+	axes *models.Axes,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (axesFormCallback *AxesFormCallback) {
+	axesFormCallback = new(AxesFormCallback)
+	axesFormCallback.probe = probe
+	axesFormCallback.axes = axes
+	axesFormCallback.formGroup = formGroup
+
+	axesFormCallback.CreationMode = (axes == nil)
+
+	return
+}
+
+type AxesFormCallback struct {
+	axes *models.Axes
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (axesFormCallback *AxesFormCallback) OnSave() {
+	axesFormCallback.probe.stageOfInterest.Lock()
+	defer axesFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("AxesFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	axesFormCallback.probe.formStage.Checkout()
+
+	if axesFormCallback.axes == nil {
+		axesFormCallback.axes = new(models.Axes).Stage(axesFormCallback.probe.stageOfInterest)
+	}
+	axes_ := axesFormCallback.axes
+	_ = axes_
+
+	for _, formDiv := range axesFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(axes_.Name), formDiv)
+		case "LengthX":
+			FormDivBasicFieldToField(&(axes_.LengthX), formDiv)
+		case "LengthY":
+			FormDivBasicFieldToField(&(axes_.LengthY), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if axesFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		axes_.Unstage(axesFormCallback.probe.stageOfInterest)
+	}
+
+	axesFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Axes](
+		axesFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if axesFormCallback.CreationMode || axesFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		axesFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(axesFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__AxesFormCallback(
+			nil,
+			axesFormCallback.probe,
+			newFormGroup,
+		)
+		axes := new(models.Axes)
+		FillUpForm(axes, newFormGroup, axesFormCallback.probe)
+		axesFormCallback.probe.formStage.Commit()
+	}
+
+	axesFormCallback.probe.ux_tree()
+}
 func __gong__New__LibraryFormCallback(
 	library *models.Library,
 	probe *Probe,
@@ -275,6 +357,8 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.ShiftToNearestCircle), formDiv)
 		case "SideLength":
 			FormDivBasicFieldToField(&(plant_.SideLength), formDiv)
+		case "Axes":
+			FormDivSelectFieldToField(&(plant_.Axes), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(plant_.ComputedPrefix), formDiv)
 		case "IsExpanded":

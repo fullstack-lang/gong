@@ -62,6 +62,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce default values", stager.enforceDefaultValues},
 		{"Enforce duplicate remove", stager.enforceDuplicateRemove},
 		{"Enforce plant has diagram", stager.enforcePlantHasDiagram},
+		{"Enforce plant has axes", stager.enforcePlantHasAxes},
 
 		// concrete semantic check
 

@@ -131,6 +131,21 @@ type Stage struct {
 	isWithGenesisCommit bool
 
 	// insertion point for definition of arrays registering instances
+	Axess                map[*Axes]struct{}
+	Axess_instance       map[*Axes]*Axes
+	Axess_mapString      map[string]*Axes
+	AxesOrder            uint
+	Axes_stagedOrder     map[*Axes]uint
+	Axes_orderStaged     map[uint]*Axes
+	Axess_reference      map[*Axes]*Axes
+	Axess_referenceOrder map[*Axes]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterAxesCreateCallback OnAfterCreateInterface[Axes]
+	OnAfterAxesUpdateCallback OnAfterUpdateInterface[Axes]
+	OnAfterAxesDeleteCallback OnAfterDeleteInterface[Axes]
+	OnAfterAxesReadCallback   OnAfterReadInterface[Axes]
+
 	Librarys                map[*Library]struct{}
 	Librarys_instance       map[*Library]*Library
 	Librarys_mapString      map[string]*Library
@@ -420,6 +435,10 @@ func (stage *Stage) Squash() {
 	stage.isSquashing = true
 
 	// insertion point for clear references
+	stage.Axess_reference = make(map[*Axes]*Axes)
+	stage.Axess_instance = make(map[*Axes]*Axes)
+	stage.Axess_referenceOrder = make(map[*Axes]uint)
+
 	stage.Librarys_reference = make(map[*Library]*Library)
 	stage.Librarys_instance = make(map[*Library]*Library)
 	stage.Librarys_referenceOrder = make(map[*Library]uint)
@@ -459,6 +478,20 @@ func (stage *Stage) Squash() {
 // insertion point for max order recomputation
 func (stage *Stage) recomputeOrders() {
 	// insertion point for max order recomputation
+	var maxAxesOrder uint
+	var foundAxes bool
+	for _, order := range stage.Axes_stagedOrder {
+		if !foundAxes || order > maxAxesOrder {
+			maxAxesOrder = order
+			foundAxes = true
+		}
+	}
+	if foundAxes {
+		stage.AxesOrder = maxAxesOrder + 1
+	} else {
+		stage.AxesOrder = 0
+	}
+
 	var maxLibraryOrder uint
 	var foundLibrary bool
 	for _, order := range stage.Library_stagedOrder {
@@ -562,6 +595,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
+	case *Axes:
+		tmp := GetStructInstancesByOrder(stage.Axess, stage.Axes_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Axes implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Library:
 		tmp := GetStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
 
@@ -633,6 +680,8 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order 
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 	switch namedStructName {
 	// insertion point for case
+	case "Axes":
+		res = GetNamedStructInstances(stage.Axess, stage.Axes_stagedOrder)
 	case "Library":
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
 	case "Plant":
@@ -708,6 +757,8 @@ type BackRepoInterface interface {
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
 	// insertion point for Commit and Checkout signatures
+	CommitAxes(axes *Axes)
+	CheckoutAxes(axes *Axes)
 	CommitLibrary(library *Library)
 	CheckoutLibrary(library *Library)
 	CommitPlant(plant *Plant)
@@ -720,6 +771,9 @@ type BackRepoInterface interface {
 
 func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
+		Axess:           make(map[*Axes]struct{}),
+		Axess_mapString: make(map[string]*Axes),
+
 		Librarys:           make(map[*Library]struct{}),
 		Librarys_mapString: make(map[string]*Library),
 
@@ -739,6 +793,10 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
+		Axes_stagedOrder: make(map[*Axes]uint),
+		Axes_orderStaged: make(map[uint]*Axes),
+		Axess_reference:  make(map[*Axes]*Axes),
+
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
 		Librarys_reference:  make(map[*Library]*Library),
@@ -753,6 +811,8 @@ func NewStage(name string) (stage *Stage) {
 
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
+			"Axes": &AxesUnmarshaller{},
+
 			"Library": &LibraryUnmarshaller{},
 
 			"Plant": &PlantUnmarshaller{},
@@ -763,6 +823,7 @@ func NewStage(name string) (stage *Stage) {
 		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			{name: "Axes"},
 			{name: "Library"},
 			{name: "Plant"},
 			{name: "PlantDiagram"},
@@ -777,6 +838,8 @@ func NewStage(name string) (stage *Stage) {
 func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
+	case *Axes:
+		return stage.Axes_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *Plant:
@@ -792,6 +855,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 	var t Type
 	switch any(t).(type) {
 	// insertion point for order map initialisations
+	case *Axes:
+		return any(stage.Axes_orderStaged[order]).(Type)
 	case *Library:
 		return any(stage.Library_orderStaged[order]).(Type)
 	case *Plant:
@@ -806,6 +871,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) uint {
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
+	case *Axes:
+		return stage.Axes_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *Plant:
@@ -877,6 +944,7 @@ func (stage *Stage) Commit() {
 
 func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
+	stage.Map_GongStructName_InstancesNb["Axes"] = len(stage.Axess)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Plant"] = len(stage.Plants)
 	stage.Map_GongStructName_InstancesNb["PlantDiagram"] = len(stage.PlantDiagrams)
@@ -920,6 +988,94 @@ func (stage *Stage) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
+// Stage puts axes to the model stage
+func (axes *Axes) Stage(stage *Stage) *Axes {
+	if _, ok := stage.Axess[axes]; !ok {
+		stage.Axess[axes] = struct{}{}
+		stage.Axes_stagedOrder[axes] = stage.AxesOrder
+		stage.Axes_orderStaged[stage.AxesOrder] = axes
+		stage.AxesOrder++
+	}
+	stage.Axess_mapString[axes.Name] = axes
+
+	return axes
+}
+
+// StagePreserveOrder puts axes to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.AxesOrder
+// - update stage.AxesOrder accordingly
+func (axes *Axes) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.Axess[axes]; !ok {
+		stage.Axess[axes] = struct{}{}
+
+		if order > stage.AxesOrder {
+			stage.AxesOrder = order
+		}
+		stage.Axes_stagedOrder[axes] = order
+		stage.Axes_orderStaged[order] = axes
+		stage.AxesOrder++
+	}
+	stage.Axess_mapString[axes.Name] = axes
+}
+
+// Unstage removes axes off the model stage
+func (axes *Axes) Unstage(stage *Stage) *Axes {
+	delete(stage.Axess, axes)
+	// issue1150
+	// delete(stage.Axes_stagedOrder, axes)
+	delete(stage.Axess_mapString, axes.Name)
+
+	return axes
+}
+
+// UnstageVoid removes axes off the model stage
+func (axes *Axes) UnstageVoid(stage *Stage) {
+	delete(stage.Axess, axes)
+	// issue1150
+	// delete(stage.Axes_stagedOrder, axes)
+	delete(stage.Axess_mapString, axes.Name)
+}
+
+// commit axes to the back repo (if it is already staged)
+func (axes *Axes) Commit(stage *Stage) *Axes {
+	if _, ok := stage.Axess[axes]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitAxes(axes)
+		}
+	}
+	return axes
+}
+
+func (axes *Axes) CommitVoid(stage *Stage) {
+	axes.Commit(stage)
+}
+
+func (axes *Axes) StageVoid(stage *Stage) {
+	axes.Stage(stage)
+}
+
+// Checkout axes to the back repo (if it is already staged)
+func (axes *Axes) Checkout(stage *Stage) *Axes {
+	if _, ok := stage.Axess[axes]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutAxes(axes)
+		}
+	}
+	return axes
+}
+
+// for satisfaction of GongStruct interface
+func (axes *Axes) GetName() (res string) {
+	return axes.Name
+}
+
+// for satisfaction of GongStruct interface
+func (axes *Axes) SetName(name string) {
+	axes.Name = name
+}
+
 // Stage puts library to the model stage
 func (library *Library) Stage(stage *Stage) *Library {
 	if _, ok := stage.Librarys[library]; !ok {
@@ -1186,18 +1342,25 @@ func (plantdiagram *PlantDiagram) SetName(name string) {
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
+	CreateORMAxes(Axes *Axes)
 	CreateORMLibrary(Library *Library)
 	CreateORMPlant(Plant *Plant)
 	CreateORMPlantDiagram(PlantDiagram *PlantDiagram)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
+	DeleteORMAxes(Axes *Axes)
 	DeleteORMLibrary(Library *Library)
 	DeleteORMPlant(Plant *Plant)
 	DeleteORMPlantDiagram(PlantDiagram *PlantDiagram)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
+	stage.Axess = make(map[*Axes]struct{})
+	stage.Axess_mapString = make(map[string]*Axes)
+	stage.Axes_stagedOrder = make(map[*Axes]uint)
+	stage.AxesOrder = 0
+
 	stage.Librarys = make(map[*Library]struct{})
 	stage.Librarys_mapString = make(map[string]*Library)
 	stage.Library_stagedOrder = make(map[*Library]uint)
@@ -1222,6 +1385,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
+	stage.Axess = nil
+	stage.Axess_mapString = nil
+
 	stage.Librarys = nil
 	stage.Librarys_mapString = nil
 
@@ -1235,6 +1401,10 @@ func (stage *Stage) Nil() { // insertion point for array nil
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
+	for axes := range stage.Axess {
+		axes.Unstage(stage)
+	}
+
 	for library := range stage.Librarys {
 		library.Unstage(stage)
 	}
@@ -1323,6 +1493,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case map[*Axes]any:
+		return any(&stage.Axess).(*Type)
 	case map[*Library]any:
 		return any(&stage.Librarys).(*Type)
 	case map[*Plant]any:
@@ -1341,6 +1513,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case *Axes:
+		return any(stage.Axess_mapString).(map[string]Type)
 	case *Library:
 		return any(stage.Librarys_mapString).(map[string]Type)
 	case *Plant:
@@ -1359,6 +1533,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case Axes:
+		return any(&stage.Axess).(*map[*Type]struct{})
 	case Library:
 		return any(&stage.Librarys).(*map[*Type]struct{})
 	case Plant:
@@ -1377,6 +1553,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case *Axes:
+		return any(&stage.Axess).(*map[Type]struct{})
 	case *Library:
 		return any(&stage.Librarys).(*map[Type]struct{})
 	case *Plant:
@@ -1395,6 +1573,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case Axes:
+		return any(&stage.Axess_mapString).(*map[string]*Type)
 	case Library:
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
 	case Plant:
@@ -1415,6 +1595,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
+	case Axes:
+		return any(&Axes{
+			// Initialisation of associations
+		}).(*Type)
 	case Library:
 		return any(&Library{
 			// Initialisation of associations
@@ -1426,6 +1610,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Plant:
 		return any(&Plant{
 			// Initialisation of associations
+			// field is initialized with an instance of Axes with the name of the field
+			Axes: &Axes{Name: "Axes"},
 			// field is initialized with an instance of PlantDiagram with the name of the field
 			PlantDiagramsWhoseNodeIsExpanded: []*PlantDiagram{{Name: "PlantDiagramsWhoseNodeIsExpanded"}},
 			// field is initialized with an instance of PlantDiagram with the name of the field
@@ -1452,6 +1638,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of Axes
+	case Axes:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Library
 	case Library:
 		switch fieldname {
@@ -1461,6 +1652,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Plant:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Axes":
+			res := make(map[*Axes][]*Plant)
+			for plant := range stage.Plants {
+				if plant.Axes != nil {
+					axes_ := plant.Axes
+					var plants []*Plant
+					_, ok := res[axes_]
+					if ok {
+						plants = res[axes_]
+					} else {
+						plants = make([]*Plant, 0)
+					}
+					plants = append(plants, plant)
+					res[axes_] = plants
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of PlantDiagram
 	case PlantDiagram:
@@ -1482,6 +1690,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of Axes
+	case Axes:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Library
 	case Library:
 		switch fieldname {
@@ -1540,6 +1753,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
+	case *Axes:
+		res = "Axes"
 	case *Library:
 		res = "Library"
 	case *Plant:
@@ -1563,6 +1778,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
+	case *Axes:
+		var rf ReverseField
+		_ = rf
 	case *Library:
 		var rf ReverseField
 		_ = rf
@@ -1589,6 +1807,25 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 }
 
 // insertion point for get fields header method
+func (axes *Axes) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "LengthX",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "LengthY",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+	}
+	return
+}
+
 func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -1660,6 +1897,11 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "SideLength",
 			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:                 "Axes",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Axes",
 		},
 		{
 			Name:               "ComputedPrefix",
@@ -1765,6 +2007,23 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
+func (axes *Axes) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = axes.Name
+	case "LengthX":
+		res.valueString = fmt.Sprintf("%f", axes.LengthX)
+		res.valueFloat = axes.LengthX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "LengthY":
+		res.valueString = fmt.Sprintf("%f", axes.LengthY)
+		res.valueFloat = axes.LengthY
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+
 func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -1839,6 +2098,12 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%f", plant.SideLength)
 		res.valueFloat = plant.SideLength
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Axes":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plant.Axes != nil {
+			res.valueString = plant.Axes.Name
+			res.ids = plant.Axes.GongGetUUID(stage)
+		}
 	case "ComputedPrefix":
 		res.valueString = plant.ComputedPrefix
 	case "IsExpanded":
@@ -1898,6 +2163,21 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 }
 
 // insertion point for generic set gongstruct field value
+func (axes *Axes) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		axes.Name = value.GetValueString()
+	case "LengthX":
+		axes.LengthX = value.GetValueFloat()
+	case "LengthY":
+		axes.LengthY = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -1964,6 +2244,17 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.ShiftToNearestCircle = int(value.GetValueInt())
 	case "SideLength":
 		plant.SideLength = value.GetValueFloat()
+	case "Axes":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plant.Axes = nil
+			for __instance__ := range stage.Axess {
+				if stage.Axes_stagedOrder[__instance__] == uint(id) {
+					plant.Axes = __instance__
+					break
+				}
+			}
+		}
 	case "ComputedPrefix":
 		plant.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
@@ -2026,6 +2317,10 @@ func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, val
 }
 
 // insertion point for generic get gongstruct name
+func (axes *Axes) GongGetGongstructName() string {
+	return "Axes"
+}
+
 func (library *Library) GongGetGongstructName() string {
 	return "Library"
 }
@@ -2045,6 +2340,11 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 	// insertion point for generic get gongstruct name
+	stage.Axess_mapString = make(map[string]*Axes)
+	for axes := range stage.Axess {
+		stage.Axess_mapString[axes.Name] = axes
+	}
+
 	stage.Librarys_mapString = make(map[string]*Library)
 	for library := range stage.Librarys {
 		stage.Librarys_mapString[library.Name] = library

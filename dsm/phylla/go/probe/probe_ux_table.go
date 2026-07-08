@@ -24,6 +24,8 @@ func (probe *Probe) ux_table() {
 	}
 	switch tableName {
 	// insertion point
+	case "Axes":
+		updateProbeTable[*models.Axes](probe)
 	case "Library":
 		updateProbeTable[*models.Library](probe)
 	case "Plant":
