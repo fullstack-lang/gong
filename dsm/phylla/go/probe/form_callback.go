@@ -556,6 +556,10 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(plantdiagram_.IsExpanded), formDiv)
+		case "OriginX":
+			FormDivBasicFieldToField(&(plantdiagram_.OriginX), formDiv)
+		case "OriginY":
+			FormDivBasicFieldToField(&(plantdiagram_.OriginY), formDiv)
 		case "AxesShape":
 			FormDivSelectFieldToField(&(plantdiagram_.AxesShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsChecked":

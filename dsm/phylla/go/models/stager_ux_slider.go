@@ -98,5 +98,7 @@ func (stager *Stager) ux_slider() {
 func (stager *Stager) OnAfterUpdateSliderElement() {
 
 	stager.enforceSemantic()
+	stager.ux_svg_plant_diagram()
+
 	stager.stage.CommitWithSuspendedCallbacks()
 }

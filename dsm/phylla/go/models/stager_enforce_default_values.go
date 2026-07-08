@@ -48,15 +48,23 @@ func (stager *Stager) enforceDefaultValues() (needCommit bool) {
 			needCommit = true
 			plantDiagram.Name = "New Plant Diagram"
 		}
+		if plantDiagram.OriginX == 0.0 {
+			needCommit = true
+			plantDiagram.OriginX = 280.000000
+		}
+		if plantDiagram.OriginY == 0.0 {
+			needCommit = true
+			plantDiagram.OriginY = 950.000000
+		}
 	}
 	for _, axesShape := range GetGongstrucsSorted[*AxesShape](stager.stage) {
 		if axesShape.LengthX == 0.0 {
 			needCommit = true
-			axesShape.LengthX = 1.0
+			axesShape.LengthX = 200.0
 		}
 		if axesShape.LengthY == 0.0 {
 			needCommit = true
-			axesShape.LengthY = 1.0
+			axesShape.LengthY = 200.0
 		}
 	}
 

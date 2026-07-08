@@ -5,6 +5,9 @@ type PlantDiagram struct {
 
 	AbstractTypeFields
 
+	OriginX float64
+	OriginY float64
+
 	AxesShape *AxesShape
 
 	IsChecked bool

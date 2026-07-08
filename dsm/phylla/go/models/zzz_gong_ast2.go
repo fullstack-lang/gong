@@ -618,6 +618,10 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "OriginX":
+		instance.OriginX = GongExtractFloat(valueExpr)
+	case "OriginY":
+		instance.OriginY = GongExtractFloat(valueExpr)
 	case "AxesShape":
 		GongUnmarshallPointer(&instance.AxesShape, valueExpr, identifierMap)
 	case "IsChecked":
