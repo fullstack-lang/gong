@@ -1826,6 +1826,10 @@ func (axesshape *AxesShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
+		{
+			Name:               "IsWithHiddenHandle",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
 	}
 	return
 }
@@ -2036,6 +2040,10 @@ func (axesshape *AxesShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", axesshape.IsHidden)
 		res.valueBool = axesshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsWithHiddenHandle":
+		res.valueString = fmt.Sprintf("%t", axesshape.IsWithHiddenHandle)
+		res.valueBool = axesshape.IsWithHiddenHandle
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -2198,6 +2206,8 @@ func (axesshape *AxesShape) GongSetFieldValue(fieldName string, value GongFieldV
 		axesshape.LengthY = value.GetValueFloat()
 	case "IsHidden":
 		axesshape.IsHidden = value.GetValueBool()
+	case "IsWithHiddenHandle":
+		axesshape.IsWithHiddenHandle = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

@@ -515,6 +515,9 @@ func (axesshape *AxesShape) GongDiff(stage *Stage, axesshapeOther *AxesShape) (d
 	if axesshape.IsHidden != axesshapeOther.IsHidden {
 		diffs = append(diffs, axesshape.GongMarshallField(stage, "IsHidden"))
 	}
+	if axesshape.IsWithHiddenHandle != axesshapeOther.IsWithHiddenHandle {
+		diffs = append(diffs, axesshape.GongMarshallField(stage, "IsWithHiddenHandle"))
+	}
 
 	return
 }

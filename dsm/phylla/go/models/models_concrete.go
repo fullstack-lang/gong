@@ -14,6 +14,8 @@ type AxesShape struct {
 	LengthY float64
 
 	Shape
+
+	IsWithHiddenHandle bool
 }
 
 func (s *AxesShape) SetIsHidden(isHidden bool) {
@@ -22,4 +24,12 @@ func (s *AxesShape) SetIsHidden(isHidden bool) {
 
 func (s *AxesShape) GetIsHidden() bool {
 	return s.IsHidden
+}
+
+func (s *AxesShape) SetIsWithHiddenHandle(isWithHiddenHandle bool) {
+	s.IsWithHiddenHandle = isWithHiddenHandle
+}
+
+func (s *AxesShape) GetIsWithHiddenHandle() bool {
+	return s.IsWithHiddenHandle
 }

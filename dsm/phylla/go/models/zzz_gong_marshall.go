@@ -311,6 +311,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(axesshape.GongMarshallField(stage, "LengthX"))
 		initializerStatements.WriteString(axesshape.GongMarshallField(stage, "LengthY"))
 		initializerStatements.WriteString(axesshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(axesshape.GongMarshallField(stage, "IsWithHiddenHandle"))
 	}
 
 	libraryOrdered := []*Library{}
@@ -525,6 +526,11 @@ func (axesshape *AxesShape) GongMarshallField(stage *Stage, fieldName string) (r
 		res = strings.ReplaceAll(res, "{{Identifier}}", axesshape.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", axesshape.IsHidden))
+	case "IsWithHiddenHandle":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", axesshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithHiddenHandle")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", axesshape.IsWithHiddenHandle))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct AxesShape", fieldName)
@@ -735,6 +741,7 @@ func (axesshape *AxesShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(axesshape.GongMarshallField(stage, "LengthX"))
 		initializerStatements.WriteString(axesshape.GongMarshallField(stage, "LengthY"))
 		initializerStatements.WriteString(axesshape.GongMarshallField(stage, "IsHidden"))
+		initializerStatements.WriteString(axesshape.GongMarshallField(stage, "IsWithHiddenHandle"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
