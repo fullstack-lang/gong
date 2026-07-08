@@ -34,6 +34,30 @@ func (stager *Stager) ux_slider() {
 			group1.Sliders,
 			m.NewSlider(
 				stager,
+				"N",
+				1,
+				20,
+				1,
+				&plant.N,
+			),
+		)
+
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
+				"M",
+				1,
+				20,
+				1,
+				&plant.M,
+			),
+		)
+
+		group1.Sliders = append(
+			group1.Sliders,
+			m.NewSlider(
+				stager,
 				"Rhombus Side Length",
 				5,
 				300,
@@ -54,41 +78,17 @@ func (stager *Stager) ux_slider() {
 			),
 		)
 
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"M",
-				1,
-				20,
-				1,
-				&plant.M,
-			),
-		)
-
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"N",
-				1,
-				20,
-				1,
-				&plant.N,
-			),
-		)
-
-		group1.Sliders = append(
-			group1.Sliders,
-			m.NewSlider(
-				stager,
-				"Z",
-				1,
-				120,
-				1,
-				&plant.Z,
-			),
-		)
+		// group1.Sliders = append(
+		// 	group1.Sliders,
+		// 	m.NewSlider(
+		// 		stager,
+		// 		"Z",
+		// 		1,
+		// 		120,
+		// 		1,
+		// 		&plant.Z,
+		// 	),
+		// )
 
 	}
 

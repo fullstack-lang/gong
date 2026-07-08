@@ -60,6 +60,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Clean the stage", func() bool { return stage.Clean() }},
 		{"Enforce orphans abstract element", stager.enforceOrphansAbstractElement},
 		{"Enforce default values", stager.enforceDefaultValues},
+		{"Enforce N <= M", stager.enforcePlantNM},
 		{"Enforce duplicate remove", stager.enforceDuplicateRemove},
 		{"Enforce plant has diagram", stager.enforcePlantHasDiagram},
 		{"Enforce plant diagram has axes", stager.enforcePlantDiagramHasAxes},

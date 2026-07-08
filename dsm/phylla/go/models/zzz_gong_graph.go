@@ -1265,9 +1265,6 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	if plant.M != plantOther.M {
 		diffs = append(diffs, plant.GongMarshallField(stage, "M"))
 	}
-	if plant.Z != plantOther.Z {
-		diffs = append(diffs, plant.GongMarshallField(stage, "Z"))
-	}
 	if plant.RhombusInsideAngle != plantOther.RhombusInsideAngle {
 		diffs = append(diffs, plant.GongMarshallField(stage, "RhombusInsideAngle"))
 	}
