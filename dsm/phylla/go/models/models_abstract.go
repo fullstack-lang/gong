@@ -16,23 +16,10 @@ type Plant struct {
 
 	SideLength float64
 
-	// Axes
-	Axes *Axes
-
 	LibraryAbstractFields
 	AbstractTypeFields
 
 	IsPlantDiagramsNodeExpanded      bool
 	PlantDiagramsWhoseNodeIsExpanded []*PlantDiagram
 	PlantDiagrams                    []*PlantDiagram
-}
-
-// Axes of a plant
-//
-// each plant has one Axes button
-type Axes struct {
-	Name string
-
-	LengthX float64
-	LengthY float64
 }

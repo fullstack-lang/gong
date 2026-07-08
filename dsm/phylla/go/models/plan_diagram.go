@@ -5,5 +5,7 @@ type PlantDiagram struct {
 
 	AbstractTypeFields
 
+	AxesShape *AxesShape
+
 	IsChecked bool
 }

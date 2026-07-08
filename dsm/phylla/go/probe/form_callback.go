@@ -19,23 +19,23 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 var _ = log.Panicf
 
 // insertion point
-func __gong__New__AxesFormCallback(
-	axes *models.Axes,
+func __gong__New__AxesShapeFormCallback(
+	axesshape *models.AxesShape,
 	probe *Probe,
 	formGroup *form.FormGroup,
-) (axesFormCallback *AxesFormCallback) {
-	axesFormCallback = new(AxesFormCallback)
-	axesFormCallback.probe = probe
-	axesFormCallback.axes = axes
-	axesFormCallback.formGroup = formGroup
+) (axesshapeFormCallback *AxesShapeFormCallback) {
+	axesshapeFormCallback = new(AxesShapeFormCallback)
+	axesshapeFormCallback.probe = probe
+	axesshapeFormCallback.axesshape = axesshape
+	axesshapeFormCallback.formGroup = formGroup
 
-	axesFormCallback.CreationMode = (axes == nil)
+	axesshapeFormCallback.CreationMode = (axesshape == nil)
 
 	return
 }
 
-type AxesFormCallback struct {
-	axes *models.Axes
+type AxesShapeFormCallback struct {
+	axesshape *models.AxesShape
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -45,61 +45,63 @@ type AxesFormCallback struct {
 	formGroup *form.FormGroup
 }
 
-func (axesFormCallback *AxesFormCallback) OnSave() {
-	axesFormCallback.probe.stageOfInterest.Lock()
-	defer axesFormCallback.probe.stageOfInterest.Unlock()
+func (axesshapeFormCallback *AxesShapeFormCallback) OnSave() {
+	axesshapeFormCallback.probe.stageOfInterest.Lock()
+	defer axesshapeFormCallback.probe.stageOfInterest.Unlock()
 
-	// log.Println("AxesFormCallback, OnSave")
+	// log.Println("AxesShapeFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	axesFormCallback.probe.formStage.Checkout()
+	axesshapeFormCallback.probe.formStage.Checkout()
 
-	if axesFormCallback.axes == nil {
-		axesFormCallback.axes = new(models.Axes).Stage(axesFormCallback.probe.stageOfInterest)
+	if axesshapeFormCallback.axesshape == nil {
+		axesshapeFormCallback.axesshape = new(models.AxesShape).Stage(axesshapeFormCallback.probe.stageOfInterest)
 	}
-	axes_ := axesFormCallback.axes
-	_ = axes_
+	axesshape_ := axesshapeFormCallback.axesshape
+	_ = axesshape_
 
-	for _, formDiv := range axesFormCallback.formGroup.FormDivs {
+	for _, formDiv := range axesshapeFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(axes_.Name), formDiv)
+			FormDivBasicFieldToField(&(axesshape_.Name), formDiv)
 		case "LengthX":
-			FormDivBasicFieldToField(&(axes_.LengthX), formDiv)
+			FormDivBasicFieldToField(&(axesshape_.LengthX), formDiv)
 		case "LengthY":
-			FormDivBasicFieldToField(&(axes_.LengthY), formDiv)
+			FormDivBasicFieldToField(&(axesshape_.LengthY), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(axesshape_.IsHidden), formDiv)
 		}
 	}
 
 	// manage the suppress operation
-	if axesFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		axes_.Unstage(axesFormCallback.probe.stageOfInterest)
+	if axesshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		axesshape_.Unstage(axesshapeFormCallback.probe.stageOfInterest)
 	}
 
-	axesFormCallback.probe.stageOfInterest.Commit()
-	updateProbeTable[*models.Axes](
-		axesFormCallback.probe,
+	axesshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.AxesShape](
+		axesshapeFormCallback.probe,
 	)
 
 	// display a new form by reset the form stage
-	if axesFormCallback.CreationMode || axesFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		axesFormCallback.probe.formStage.Reset()
+	if axesshapeFormCallback.CreationMode || axesshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		axesshapeFormCallback.probe.formStage.Reset()
 		newFormGroup := (&form.FormGroup{
 			Name: FormName,
-		}).Stage(axesFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__AxesFormCallback(
+		}).Stage(axesshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__AxesShapeFormCallback(
 			nil,
-			axesFormCallback.probe,
+			axesshapeFormCallback.probe,
 			newFormGroup,
 		)
-		axes := new(models.Axes)
-		FillUpForm(axes, newFormGroup, axesFormCallback.probe)
-		axesFormCallback.probe.formStage.Commit()
+		axesshape := new(models.AxesShape)
+		FillUpForm(axesshape, newFormGroup, axesshapeFormCallback.probe)
+		axesshapeFormCallback.probe.formStage.Commit()
 	}
 
-	axesFormCallback.probe.ux_tree()
+	axesshapeFormCallback.probe.ux_tree()
 }
 func __gong__New__LibraryFormCallback(
 	library *models.Library,
@@ -357,8 +359,6 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.ShiftToNearestCircle), formDiv)
 		case "SideLength":
 			FormDivBasicFieldToField(&(plant_.SideLength), formDiv)
-		case "Axes":
-			FormDivSelectFieldToField(&(plant_.Axes), plantFormCallback.probe.stageOfInterest, formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(plant_.ComputedPrefix), formDiv)
 		case "IsExpanded":
@@ -556,6 +556,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(plantdiagram_.IsExpanded), formDiv)
+		case "AxesShape":
+			FormDivSelectFieldToField(&(plantdiagram_.AxesShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "Plant:PlantDiagramsWhoseNodeIsExpanded":
