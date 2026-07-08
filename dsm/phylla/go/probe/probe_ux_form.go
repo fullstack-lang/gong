@@ -21,6 +21,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.axesshape, probe)
 			}
+		case *CircleGridShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "CircleGridShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.circlegridshape, probe)
+			}
 		case *GridPathShapeFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "GridPathShape", true)
@@ -39,6 +45,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.library, probe)
 			}
+		case *NextCircleShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "NextCircleShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.nextcircleshape, probe)
+			}
 		case *PlantFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Plant", true)
@@ -56,6 +68,12 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "ReferenceRhombus", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.referencerhombus, probe)
+			}
+		case *RhombusGridShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "RhombusGridShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.rhombusgridshape, probe)
 			}
 		}
 	}
@@ -92,6 +110,19 @@ func FillUpFormFromGongstructName(
 		axesshape := new(models.AxesShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(axesshape, formGroup, probe)
+	case "CircleGridShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "CircleGridShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__CircleGridShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		circlegridshape := new(models.CircleGridShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(circlegridshape, formGroup, probe)
 	case "GridPathShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -131,6 +162,19 @@ func FillUpFormFromGongstructName(
 		library := new(models.Library)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(library, formGroup, probe)
+	case "NextCircleShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "NextCircleShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__NextCircleShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		nextcircleshape := new(models.NextCircleShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(nextcircleshape, formGroup, probe)
 	case "Plant":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -170,6 +214,19 @@ func FillUpFormFromGongstructName(
 		referencerhombus := new(models.ReferenceRhombus)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(referencerhombus, formGroup, probe)
+	case "RhombusGridShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "RhombusGridShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__RhombusGridShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		rhombusgridshape := new(models.RhombusGridShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(rhombusgridshape, formGroup, probe)
 	}
 	formStage.Commit()
 }

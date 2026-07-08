@@ -61,6 +61,9 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawRotatedGrowthVectorShape(stager, layer)
 	plantDiagram.drawRotatedReferenceRhombus(stager, layer, plant)
 	plantDiagram.drawRotatedGridPathShape(stager, layer, plant)
+	plantDiagram.drawRotatedRhombusGridShape(stager, layer, plant)
+	plantDiagram.drawRotatedCircleGridShape(stager, layer, plant)
+	plantDiagram.drawRotatedNextCircleShape(stager, layer, plant)
 
 	return
 }

@@ -497,6 +497,37 @@ func (u *AxesShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	return nil
 }
 
+type CircleGridShapeUnmarshaller struct{}
+
+func (u *CircleGridShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(CircleGridShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *CircleGridShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*CircleGridShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
 type GridPathShapeUnmarshaller struct{}
 
 func (u *GridPathShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -606,6 +637,37 @@ func (u *LibraryUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fiel
 	return nil
 }
 
+type NextCircleShapeUnmarshaller struct{}
+
+func (u *NextCircleShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(NextCircleShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *NextCircleShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*NextCircleShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
 type PlantUnmarshaller struct{}
 
 func (u *PlantUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -700,6 +762,12 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		GongUnmarshallPointer(&instance.RotatedGrowthVectorShape, valueExpr, identifierMap)
 	case "RotatedGridPathShape":
 		GongUnmarshallPointer(&instance.RotatedGridPathShape, valueExpr, identifierMap)
+	case "RotatedRhombusGridShape":
+		GongUnmarshallPointer(&instance.RotatedRhombusGridShape, valueExpr, identifierMap)
+	case "RotatedCircleGridShape":
+		GongUnmarshallPointer(&instance.RotatedCircleGridShape, valueExpr, identifierMap)
+	case "RotatedNextCircleShape":
+		GongUnmarshallPointer(&instance.RotatedNextCircleShape, valueExpr, identifierMap)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
@@ -730,6 +798,37 @@ func (u *ReferenceRhombusUnmarshaller) Initialize(stage *Stage, identifier strin
 
 func (u *ReferenceRhombusUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
 	instance := i.(*ReferenceRhombus)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
+type RhombusGridShapeUnmarshaller struct{}
+
+func (u *RhombusGridShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(RhombusGridShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *RhombusGridShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*RhombusGridShape)
 	_ = instance
 	switch fieldName {
 	// insertion point per field

@@ -146,6 +146,21 @@ type Stage struct {
 	OnAfterAxesShapeDeleteCallback OnAfterDeleteInterface[AxesShape]
 	OnAfterAxesShapeReadCallback   OnAfterReadInterface[AxesShape]
 
+	CircleGridShapes                map[*CircleGridShape]struct{}
+	CircleGridShapes_instance       map[*CircleGridShape]*CircleGridShape
+	CircleGridShapes_mapString      map[string]*CircleGridShape
+	CircleGridShapeOrder            uint
+	CircleGridShape_stagedOrder     map[*CircleGridShape]uint
+	CircleGridShape_orderStaged     map[uint]*CircleGridShape
+	CircleGridShapes_reference      map[*CircleGridShape]*CircleGridShape
+	CircleGridShapes_referenceOrder map[*CircleGridShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterCircleGridShapeCreateCallback OnAfterCreateInterface[CircleGridShape]
+	OnAfterCircleGridShapeUpdateCallback OnAfterUpdateInterface[CircleGridShape]
+	OnAfterCircleGridShapeDeleteCallback OnAfterDeleteInterface[CircleGridShape]
+	OnAfterCircleGridShapeReadCallback   OnAfterReadInterface[CircleGridShape]
+
 	GridPathShapes                map[*GridPathShape]struct{}
 	GridPathShapes_instance       map[*GridPathShape]*GridPathShape
 	GridPathShapes_mapString      map[string]*GridPathShape
@@ -195,6 +210,21 @@ type Stage struct {
 	OnAfterLibraryDeleteCallback OnAfterDeleteInterface[Library]
 	OnAfterLibraryReadCallback   OnAfterReadInterface[Library]
 
+	NextCircleShapes                map[*NextCircleShape]struct{}
+	NextCircleShapes_instance       map[*NextCircleShape]*NextCircleShape
+	NextCircleShapes_mapString      map[string]*NextCircleShape
+	NextCircleShapeOrder            uint
+	NextCircleShape_stagedOrder     map[*NextCircleShape]uint
+	NextCircleShape_orderStaged     map[uint]*NextCircleShape
+	NextCircleShapes_reference      map[*NextCircleShape]*NextCircleShape
+	NextCircleShapes_referenceOrder map[*NextCircleShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterNextCircleShapeCreateCallback OnAfterCreateInterface[NextCircleShape]
+	OnAfterNextCircleShapeUpdateCallback OnAfterUpdateInterface[NextCircleShape]
+	OnAfterNextCircleShapeDeleteCallback OnAfterDeleteInterface[NextCircleShape]
+	OnAfterNextCircleShapeReadCallback   OnAfterReadInterface[NextCircleShape]
+
 	Plants                map[*Plant]struct{}
 	Plants_instance       map[*Plant]*Plant
 	Plants_mapString      map[string]*Plant
@@ -243,6 +273,21 @@ type Stage struct {
 	OnAfterReferenceRhombusUpdateCallback OnAfterUpdateInterface[ReferenceRhombus]
 	OnAfterReferenceRhombusDeleteCallback OnAfterDeleteInterface[ReferenceRhombus]
 	OnAfterReferenceRhombusReadCallback   OnAfterReadInterface[ReferenceRhombus]
+
+	RhombusGridShapes                map[*RhombusGridShape]struct{}
+	RhombusGridShapes_instance       map[*RhombusGridShape]*RhombusGridShape
+	RhombusGridShapes_mapString      map[string]*RhombusGridShape
+	RhombusGridShapeOrder            uint
+	RhombusGridShape_stagedOrder     map[*RhombusGridShape]uint
+	RhombusGridShape_orderStaged     map[uint]*RhombusGridShape
+	RhombusGridShapes_reference      map[*RhombusGridShape]*RhombusGridShape
+	RhombusGridShapes_referenceOrder map[*RhombusGridShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterRhombusGridShapeCreateCallback OnAfterCreateInterface[RhombusGridShape]
+	OnAfterRhombusGridShapeUpdateCallback OnAfterUpdateInterface[RhombusGridShape]
+	OnAfterRhombusGridShapeDeleteCallback OnAfterDeleteInterface[RhombusGridShape]
+	OnAfterRhombusGridShapeReadCallback   OnAfterReadInterface[RhombusGridShape]
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -484,6 +529,10 @@ func (stage *Stage) Squash() {
 	stage.AxesShapes_instance = make(map[*AxesShape]*AxesShape)
 	stage.AxesShapes_referenceOrder = make(map[*AxesShape]uint)
 
+	stage.CircleGridShapes_reference = make(map[*CircleGridShape]*CircleGridShape)
+	stage.CircleGridShapes_instance = make(map[*CircleGridShape]*CircleGridShape)
+	stage.CircleGridShapes_referenceOrder = make(map[*CircleGridShape]uint)
+
 	stage.GridPathShapes_reference = make(map[*GridPathShape]*GridPathShape)
 	stage.GridPathShapes_instance = make(map[*GridPathShape]*GridPathShape)
 	stage.GridPathShapes_referenceOrder = make(map[*GridPathShape]uint)
@@ -496,6 +545,10 @@ func (stage *Stage) Squash() {
 	stage.Librarys_instance = make(map[*Library]*Library)
 	stage.Librarys_referenceOrder = make(map[*Library]uint)
 
+	stage.NextCircleShapes_reference = make(map[*NextCircleShape]*NextCircleShape)
+	stage.NextCircleShapes_instance = make(map[*NextCircleShape]*NextCircleShape)
+	stage.NextCircleShapes_referenceOrder = make(map[*NextCircleShape]uint)
+
 	stage.Plants_reference = make(map[*Plant]*Plant)
 	stage.Plants_instance = make(map[*Plant]*Plant)
 	stage.Plants_referenceOrder = make(map[*Plant]uint)
@@ -507,6 +560,10 @@ func (stage *Stage) Squash() {
 	stage.ReferenceRhombuss_reference = make(map[*ReferenceRhombus]*ReferenceRhombus)
 	stage.ReferenceRhombuss_instance = make(map[*ReferenceRhombus]*ReferenceRhombus)
 	stage.ReferenceRhombuss_referenceOrder = make(map[*ReferenceRhombus]uint)
+
+	stage.RhombusGridShapes_reference = make(map[*RhombusGridShape]*RhombusGridShape)
+	stage.RhombusGridShapes_instance = make(map[*RhombusGridShape]*RhombusGridShape)
+	stage.RhombusGridShapes_referenceOrder = make(map[*RhombusGridShape]uint)
 
 	stage.ComputeInstancesNb()
 	if stage.OnInitCommitCallback != nil {
@@ -547,6 +604,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.AxesShapeOrder = maxAxesShapeOrder + 1
 	} else {
 		stage.AxesShapeOrder = 0
+	}
+
+	var maxCircleGridShapeOrder uint
+	var foundCircleGridShape bool
+	for _, order := range stage.CircleGridShape_stagedOrder {
+		if !foundCircleGridShape || order > maxCircleGridShapeOrder {
+			maxCircleGridShapeOrder = order
+			foundCircleGridShape = true
+		}
+	}
+	if foundCircleGridShape {
+		stage.CircleGridShapeOrder = maxCircleGridShapeOrder + 1
+	} else {
+		stage.CircleGridShapeOrder = 0
 	}
 
 	var maxGridPathShapeOrder uint
@@ -591,6 +662,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.LibraryOrder = 0
 	}
 
+	var maxNextCircleShapeOrder uint
+	var foundNextCircleShape bool
+	for _, order := range stage.NextCircleShape_stagedOrder {
+		if !foundNextCircleShape || order > maxNextCircleShapeOrder {
+			maxNextCircleShapeOrder = order
+			foundNextCircleShape = true
+		}
+	}
+	if foundNextCircleShape {
+		stage.NextCircleShapeOrder = maxNextCircleShapeOrder + 1
+	} else {
+		stage.NextCircleShapeOrder = 0
+	}
+
 	var maxPlantOrder uint
 	var foundPlant bool
 	for _, order := range stage.Plant_stagedOrder {
@@ -631,6 +716,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.ReferenceRhombusOrder = maxReferenceRhombusOrder + 1
 	} else {
 		stage.ReferenceRhombusOrder = 0
+	}
+
+	var maxRhombusGridShapeOrder uint
+	var foundRhombusGridShape bool
+	for _, order := range stage.RhombusGridShape_stagedOrder {
+		if !foundRhombusGridShape || order > maxRhombusGridShapeOrder {
+			maxRhombusGridShapeOrder = order
+			foundRhombusGridShape = true
+		}
+	}
+	if foundRhombusGridShape {
+		stage.RhombusGridShapeOrder = maxRhombusGridShapeOrder + 1
+	} else {
+		stage.RhombusGridShapeOrder = 0
 	}
 
 	// end of insertion point for max order recomputation
@@ -708,6 +807,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *CircleGridShape:
+		tmp := GetStructInstancesByOrder(stage.CircleGridShapes, stage.CircleGridShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *CircleGridShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *GridPathShape:
 		tmp := GetStructInstancesByOrder(stage.GridPathShapes, stage.GridPathShape_stagedOrder)
 
@@ -747,6 +860,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *Library implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *NextCircleShape:
+		tmp := GetStructInstancesByOrder(stage.NextCircleShapes, stage.NextCircleShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *NextCircleShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -792,6 +919,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *RhombusGridShape:
+		tmp := GetStructInstancesByOrder(stage.RhombusGridShapes, stage.RhombusGridShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *RhombusGridShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 
 	}
 	return
@@ -823,18 +964,24 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	// insertion point for case
 	case "AxesShape":
 		res = GetNamedStructInstances(stage.AxesShapes, stage.AxesShape_stagedOrder)
+	case "CircleGridShape":
+		res = GetNamedStructInstances(stage.CircleGridShapes, stage.CircleGridShape_stagedOrder)
 	case "GridPathShape":
 		res = GetNamedStructInstances(stage.GridPathShapes, stage.GridPathShape_stagedOrder)
 	case "GrowthVectorShape":
 		res = GetNamedStructInstances(stage.GrowthVectorShapes, stage.GrowthVectorShape_stagedOrder)
 	case "Library":
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
+	case "NextCircleShape":
+		res = GetNamedStructInstances(stage.NextCircleShapes, stage.NextCircleShape_stagedOrder)
 	case "Plant":
 		res = GetNamedStructInstances(stage.Plants, stage.Plant_stagedOrder)
 	case "PlantDiagram":
 		res = GetNamedStructInstances(stage.PlantDiagrams, stage.PlantDiagram_stagedOrder)
 	case "ReferenceRhombus":
 		res = GetNamedStructInstances(stage.ReferenceRhombuss, stage.ReferenceRhombus_stagedOrder)
+	case "RhombusGridShape":
+		res = GetNamedStructInstances(stage.RhombusGridShapes, stage.RhombusGridShape_stagedOrder)
 	}
 
 	return
@@ -906,18 +1053,24 @@ type BackRepoInterface interface {
 	// insertion point for Commit and Checkout signatures
 	CommitAxesShape(axesshape *AxesShape)
 	CheckoutAxesShape(axesshape *AxesShape)
+	CommitCircleGridShape(circlegridshape *CircleGridShape)
+	CheckoutCircleGridShape(circlegridshape *CircleGridShape)
 	CommitGridPathShape(gridpathshape *GridPathShape)
 	CheckoutGridPathShape(gridpathshape *GridPathShape)
 	CommitGrowthVectorShape(growthvectorshape *GrowthVectorShape)
 	CheckoutGrowthVectorShape(growthvectorshape *GrowthVectorShape)
 	CommitLibrary(library *Library)
 	CheckoutLibrary(library *Library)
+	CommitNextCircleShape(nextcircleshape *NextCircleShape)
+	CheckoutNextCircleShape(nextcircleshape *NextCircleShape)
 	CommitPlant(plant *Plant)
 	CheckoutPlant(plant *Plant)
 	CommitPlantDiagram(plantdiagram *PlantDiagram)
 	CheckoutPlantDiagram(plantdiagram *PlantDiagram)
 	CommitReferenceRhombus(referencerhombus *ReferenceRhombus)
 	CheckoutReferenceRhombus(referencerhombus *ReferenceRhombus)
+	CommitRhombusGridShape(rhombusgridshape *RhombusGridShape)
+	CheckoutRhombusGridShape(rhombusgridshape *RhombusGridShape)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -926,6 +1079,9 @@ func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
 		AxesShapes:           make(map[*AxesShape]struct{}),
 		AxesShapes_mapString: make(map[string]*AxesShape),
+
+		CircleGridShapes:           make(map[*CircleGridShape]struct{}),
+		CircleGridShapes_mapString: make(map[string]*CircleGridShape),
 
 		GridPathShapes:           make(map[*GridPathShape]struct{}),
 		GridPathShapes_mapString: make(map[string]*GridPathShape),
@@ -936,6 +1092,9 @@ func NewStage(name string) (stage *Stage) {
 		Librarys:           make(map[*Library]struct{}),
 		Librarys_mapString: make(map[string]*Library),
 
+		NextCircleShapes:           make(map[*NextCircleShape]struct{}),
+		NextCircleShapes_mapString: make(map[string]*NextCircleShape),
+
 		Plants:           make(map[*Plant]struct{}),
 		Plants_mapString: make(map[string]*Plant),
 
@@ -944,6 +1103,9 @@ func NewStage(name string) (stage *Stage) {
 
 		ReferenceRhombuss:           make(map[*ReferenceRhombus]struct{}),
 		ReferenceRhombuss_mapString: make(map[string]*ReferenceRhombus),
+
+		RhombusGridShapes:           make(map[*RhombusGridShape]struct{}),
+		RhombusGridShapes_mapString: make(map[string]*RhombusGridShape),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -959,6 +1121,10 @@ func NewStage(name string) (stage *Stage) {
 		AxesShape_orderStaged: make(map[uint]*AxesShape),
 		AxesShapes_reference:  make(map[*AxesShape]*AxesShape),
 
+		CircleGridShape_stagedOrder: make(map[*CircleGridShape]uint),
+		CircleGridShape_orderStaged: make(map[uint]*CircleGridShape),
+		CircleGridShapes_reference:  make(map[*CircleGridShape]*CircleGridShape),
+
 		GridPathShape_stagedOrder: make(map[*GridPathShape]uint),
 		GridPathShape_orderStaged: make(map[uint]*GridPathShape),
 		GridPathShapes_reference:  make(map[*GridPathShape]*GridPathShape),
@@ -970,6 +1136,10 @@ func NewStage(name string) (stage *Stage) {
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
 		Librarys_reference:  make(map[*Library]*Library),
+
+		NextCircleShape_stagedOrder: make(map[*NextCircleShape]uint),
+		NextCircleShape_orderStaged: make(map[uint]*NextCircleShape),
+		NextCircleShapes_reference:  make(map[*NextCircleShape]*NextCircleShape),
 
 		Plant_stagedOrder: make(map[*Plant]uint),
 		Plant_orderStaged: make(map[uint]*Plant),
@@ -983,9 +1153,15 @@ func NewStage(name string) (stage *Stage) {
 		ReferenceRhombus_orderStaged: make(map[uint]*ReferenceRhombus),
 		ReferenceRhombuss_reference:  make(map[*ReferenceRhombus]*ReferenceRhombus),
 
+		RhombusGridShape_stagedOrder: make(map[*RhombusGridShape]uint),
+		RhombusGridShape_orderStaged: make(map[uint]*RhombusGridShape),
+		RhombusGridShapes_reference:  make(map[*RhombusGridShape]*RhombusGridShape),
+
 		// end of insertion point
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"AxesShape": &AxesShapeUnmarshaller{},
+
+			"CircleGridShape": &CircleGridShapeUnmarshaller{},
 
 			"GridPathShape": &GridPathShapeUnmarshaller{},
 
@@ -993,23 +1169,30 @@ func NewStage(name string) (stage *Stage) {
 
 			"Library": &LibraryUnmarshaller{},
 
+			"NextCircleShape": &NextCircleShapeUnmarshaller{},
+
 			"Plant": &PlantUnmarshaller{},
 
 			"PlantDiagram": &PlantDiagramUnmarshaller{},
 
 			"ReferenceRhombus": &ReferenceRhombusUnmarshaller{},
 
+			"RhombusGridShape": &RhombusGridShapeUnmarshaller{},
+
 			// end of insertion point
 		},
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "AxesShape"},
+			{name: "CircleGridShape"},
 			{name: "GridPathShape"},
 			{name: "GrowthVectorShape"},
 			{name: "Library"},
+			{name: "NextCircleShape"},
 			{name: "Plant"},
 			{name: "PlantDiagram"},
 			{name: "ReferenceRhombus"},
+			{name: "RhombusGridShape"},
 		}, // end of insertion point
 
 		navigationMode: GongNavigationModeNormal,
@@ -1023,18 +1206,24 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	// insertion point for order map initialisations
 	case *AxesShape:
 		return stage.AxesShape_stagedOrder[instance]
+	case *CircleGridShape:
+		return stage.CircleGridShape_stagedOrder[instance]
 	case *GridPathShape:
 		return stage.GridPathShape_stagedOrder[instance]
 	case *GrowthVectorShape:
 		return stage.GrowthVectorShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
+	case *NextCircleShape:
+		return stage.NextCircleShape_stagedOrder[instance]
 	case *Plant:
 		return stage.Plant_stagedOrder[instance]
 	case *PlantDiagram:
 		return stage.PlantDiagram_stagedOrder[instance]
 	case *ReferenceRhombus:
 		return stage.ReferenceRhombus_stagedOrder[instance]
+	case *RhombusGridShape:
+		return stage.RhombusGridShape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1046,18 +1235,24 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 	// insertion point for order map initialisations
 	case *AxesShape:
 		return any(stage.AxesShape_orderStaged[order]).(Type)
+	case *CircleGridShape:
+		return any(stage.CircleGridShape_orderStaged[order]).(Type)
 	case *GridPathShape:
 		return any(stage.GridPathShape_orderStaged[order]).(Type)
 	case *GrowthVectorShape:
 		return any(stage.GrowthVectorShape_orderStaged[order]).(Type)
 	case *Library:
 		return any(stage.Library_orderStaged[order]).(Type)
+	case *NextCircleShape:
+		return any(stage.NextCircleShape_orderStaged[order]).(Type)
 	case *Plant:
 		return any(stage.Plant_orderStaged[order]).(Type)
 	case *PlantDiagram:
 		return any(stage.PlantDiagram_orderStaged[order]).(Type)
 	case *ReferenceRhombus:
 		return any(stage.ReferenceRhombus_orderStaged[order]).(Type)
+	case *RhombusGridShape:
+		return any(stage.RhombusGridShape_orderStaged[order]).(Type)
 	default:
 		return // should not happen
 	}
@@ -1068,18 +1263,24 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	// insertion point for order map initialisations
 	case *AxesShape:
 		return stage.AxesShape_stagedOrder[instance]
+	case *CircleGridShape:
+		return stage.CircleGridShape_stagedOrder[instance]
 	case *GridPathShape:
 		return stage.GridPathShape_stagedOrder[instance]
 	case *GrowthVectorShape:
 		return stage.GrowthVectorShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
+	case *NextCircleShape:
+		return stage.NextCircleShape_stagedOrder[instance]
 	case *Plant:
 		return stage.Plant_stagedOrder[instance]
 	case *PlantDiagram:
 		return stage.PlantDiagram_stagedOrder[instance]
 	case *ReferenceRhombus:
 		return stage.ReferenceRhombus_stagedOrder[instance]
+	case *RhombusGridShape:
+		return stage.RhombusGridShape_stagedOrder[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -1146,12 +1347,15 @@ func (stage *Stage) Commit() {
 func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["AxesShape"] = len(stage.AxesShapes)
+	stage.Map_GongStructName_InstancesNb["CircleGridShape"] = len(stage.CircleGridShapes)
 	stage.Map_GongStructName_InstancesNb["GridPathShape"] = len(stage.GridPathShapes)
 	stage.Map_GongStructName_InstancesNb["GrowthVectorShape"] = len(stage.GrowthVectorShapes)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
+	stage.Map_GongStructName_InstancesNb["NextCircleShape"] = len(stage.NextCircleShapes)
 	stage.Map_GongStructName_InstancesNb["Plant"] = len(stage.Plants)
 	stage.Map_GongStructName_InstancesNb["PlantDiagram"] = len(stage.PlantDiagrams)
 	stage.Map_GongStructName_InstancesNb["ReferenceRhombus"] = len(stage.ReferenceRhombuss)
+	stage.Map_GongStructName_InstancesNb["RhombusGridShape"] = len(stage.RhombusGridShapes)
 }
 
 func (stage *Stage) Checkout() {
@@ -1278,6 +1482,94 @@ func (axesshape *AxesShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (axesshape *AxesShape) SetName(name string) {
 	axesshape.Name = name
+}
+
+// Stage puts circlegridshape to the model stage
+func (circlegridshape *CircleGridShape) Stage(stage *Stage) *CircleGridShape {
+	if _, ok := stage.CircleGridShapes[circlegridshape]; !ok {
+		stage.CircleGridShapes[circlegridshape] = struct{}{}
+		stage.CircleGridShape_stagedOrder[circlegridshape] = stage.CircleGridShapeOrder
+		stage.CircleGridShape_orderStaged[stage.CircleGridShapeOrder] = circlegridshape
+		stage.CircleGridShapeOrder++
+	}
+	stage.CircleGridShapes_mapString[circlegridshape.Name] = circlegridshape
+
+	return circlegridshape
+}
+
+// StagePreserveOrder puts circlegridshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.CircleGridShapeOrder
+// - update stage.CircleGridShapeOrder accordingly
+func (circlegridshape *CircleGridShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.CircleGridShapes[circlegridshape]; !ok {
+		stage.CircleGridShapes[circlegridshape] = struct{}{}
+
+		if order > stage.CircleGridShapeOrder {
+			stage.CircleGridShapeOrder = order
+		}
+		stage.CircleGridShape_stagedOrder[circlegridshape] = order
+		stage.CircleGridShape_orderStaged[order] = circlegridshape
+		stage.CircleGridShapeOrder++
+	}
+	stage.CircleGridShapes_mapString[circlegridshape.Name] = circlegridshape
+}
+
+// Unstage removes circlegridshape off the model stage
+func (circlegridshape *CircleGridShape) Unstage(stage *Stage) *CircleGridShape {
+	delete(stage.CircleGridShapes, circlegridshape)
+	// issue1150
+	// delete(stage.CircleGridShape_stagedOrder, circlegridshape)
+	delete(stage.CircleGridShapes_mapString, circlegridshape.Name)
+
+	return circlegridshape
+}
+
+// UnstageVoid removes circlegridshape off the model stage
+func (circlegridshape *CircleGridShape) UnstageVoid(stage *Stage) {
+	delete(stage.CircleGridShapes, circlegridshape)
+	// issue1150
+	// delete(stage.CircleGridShape_stagedOrder, circlegridshape)
+	delete(stage.CircleGridShapes_mapString, circlegridshape.Name)
+}
+
+// commit circlegridshape to the back repo (if it is already staged)
+func (circlegridshape *CircleGridShape) Commit(stage *Stage) *CircleGridShape {
+	if _, ok := stage.CircleGridShapes[circlegridshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitCircleGridShape(circlegridshape)
+		}
+	}
+	return circlegridshape
+}
+
+func (circlegridshape *CircleGridShape) CommitVoid(stage *Stage) {
+	circlegridshape.Commit(stage)
+}
+
+func (circlegridshape *CircleGridShape) StageVoid(stage *Stage) {
+	circlegridshape.Stage(stage)
+}
+
+// Checkout circlegridshape to the back repo (if it is already staged)
+func (circlegridshape *CircleGridShape) Checkout(stage *Stage) *CircleGridShape {
+	if _, ok := stage.CircleGridShapes[circlegridshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutCircleGridShape(circlegridshape)
+		}
+	}
+	return circlegridshape
+}
+
+// for satisfaction of GongStruct interface
+func (circlegridshape *CircleGridShape) GetName() (res string) {
+	return circlegridshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (circlegridshape *CircleGridShape) SetName(name string) {
+	circlegridshape.Name = name
 }
 
 // Stage puts gridpathshape to the model stage
@@ -1544,6 +1836,94 @@ func (library *Library) SetName(name string) {
 	library.Name = name
 }
 
+// Stage puts nextcircleshape to the model stage
+func (nextcircleshape *NextCircleShape) Stage(stage *Stage) *NextCircleShape {
+	if _, ok := stage.NextCircleShapes[nextcircleshape]; !ok {
+		stage.NextCircleShapes[nextcircleshape] = struct{}{}
+		stage.NextCircleShape_stagedOrder[nextcircleshape] = stage.NextCircleShapeOrder
+		stage.NextCircleShape_orderStaged[stage.NextCircleShapeOrder] = nextcircleshape
+		stage.NextCircleShapeOrder++
+	}
+	stage.NextCircleShapes_mapString[nextcircleshape.Name] = nextcircleshape
+
+	return nextcircleshape
+}
+
+// StagePreserveOrder puts nextcircleshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.NextCircleShapeOrder
+// - update stage.NextCircleShapeOrder accordingly
+func (nextcircleshape *NextCircleShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.NextCircleShapes[nextcircleshape]; !ok {
+		stage.NextCircleShapes[nextcircleshape] = struct{}{}
+
+		if order > stage.NextCircleShapeOrder {
+			stage.NextCircleShapeOrder = order
+		}
+		stage.NextCircleShape_stagedOrder[nextcircleshape] = order
+		stage.NextCircleShape_orderStaged[order] = nextcircleshape
+		stage.NextCircleShapeOrder++
+	}
+	stage.NextCircleShapes_mapString[nextcircleshape.Name] = nextcircleshape
+}
+
+// Unstage removes nextcircleshape off the model stage
+func (nextcircleshape *NextCircleShape) Unstage(stage *Stage) *NextCircleShape {
+	delete(stage.NextCircleShapes, nextcircleshape)
+	// issue1150
+	// delete(stage.NextCircleShape_stagedOrder, nextcircleshape)
+	delete(stage.NextCircleShapes_mapString, nextcircleshape.Name)
+
+	return nextcircleshape
+}
+
+// UnstageVoid removes nextcircleshape off the model stage
+func (nextcircleshape *NextCircleShape) UnstageVoid(stage *Stage) {
+	delete(stage.NextCircleShapes, nextcircleshape)
+	// issue1150
+	// delete(stage.NextCircleShape_stagedOrder, nextcircleshape)
+	delete(stage.NextCircleShapes_mapString, nextcircleshape.Name)
+}
+
+// commit nextcircleshape to the back repo (if it is already staged)
+func (nextcircleshape *NextCircleShape) Commit(stage *Stage) *NextCircleShape {
+	if _, ok := stage.NextCircleShapes[nextcircleshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitNextCircleShape(nextcircleshape)
+		}
+	}
+	return nextcircleshape
+}
+
+func (nextcircleshape *NextCircleShape) CommitVoid(stage *Stage) {
+	nextcircleshape.Commit(stage)
+}
+
+func (nextcircleshape *NextCircleShape) StageVoid(stage *Stage) {
+	nextcircleshape.Stage(stage)
+}
+
+// Checkout nextcircleshape to the back repo (if it is already staged)
+func (nextcircleshape *NextCircleShape) Checkout(stage *Stage) *NextCircleShape {
+	if _, ok := stage.NextCircleShapes[nextcircleshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutNextCircleShape(nextcircleshape)
+		}
+	}
+	return nextcircleshape
+}
+
+// for satisfaction of GongStruct interface
+func (nextcircleshape *NextCircleShape) GetName() (res string) {
+	return nextcircleshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (nextcircleshape *NextCircleShape) SetName(name string) {
+	nextcircleshape.Name = name
+}
+
 // Stage puts plant to the model stage
 func (plant *Plant) Stage(stage *Stage) *Plant {
 	if _, ok := stage.Plants[plant]; !ok {
@@ -1808,25 +2188,119 @@ func (referencerhombus *ReferenceRhombus) SetName(name string) {
 	referencerhombus.Name = name
 }
 
+// Stage puts rhombusgridshape to the model stage
+func (rhombusgridshape *RhombusGridShape) Stage(stage *Stage) *RhombusGridShape {
+	if _, ok := stage.RhombusGridShapes[rhombusgridshape]; !ok {
+		stage.RhombusGridShapes[rhombusgridshape] = struct{}{}
+		stage.RhombusGridShape_stagedOrder[rhombusgridshape] = stage.RhombusGridShapeOrder
+		stage.RhombusGridShape_orderStaged[stage.RhombusGridShapeOrder] = rhombusgridshape
+		stage.RhombusGridShapeOrder++
+	}
+	stage.RhombusGridShapes_mapString[rhombusgridshape.Name] = rhombusgridshape
+
+	return rhombusgridshape
+}
+
+// StagePreserveOrder puts rhombusgridshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.RhombusGridShapeOrder
+// - update stage.RhombusGridShapeOrder accordingly
+func (rhombusgridshape *RhombusGridShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.RhombusGridShapes[rhombusgridshape]; !ok {
+		stage.RhombusGridShapes[rhombusgridshape] = struct{}{}
+
+		if order > stage.RhombusGridShapeOrder {
+			stage.RhombusGridShapeOrder = order
+		}
+		stage.RhombusGridShape_stagedOrder[rhombusgridshape] = order
+		stage.RhombusGridShape_orderStaged[order] = rhombusgridshape
+		stage.RhombusGridShapeOrder++
+	}
+	stage.RhombusGridShapes_mapString[rhombusgridshape.Name] = rhombusgridshape
+}
+
+// Unstage removes rhombusgridshape off the model stage
+func (rhombusgridshape *RhombusGridShape) Unstage(stage *Stage) *RhombusGridShape {
+	delete(stage.RhombusGridShapes, rhombusgridshape)
+	// issue1150
+	// delete(stage.RhombusGridShape_stagedOrder, rhombusgridshape)
+	delete(stage.RhombusGridShapes_mapString, rhombusgridshape.Name)
+
+	return rhombusgridshape
+}
+
+// UnstageVoid removes rhombusgridshape off the model stage
+func (rhombusgridshape *RhombusGridShape) UnstageVoid(stage *Stage) {
+	delete(stage.RhombusGridShapes, rhombusgridshape)
+	// issue1150
+	// delete(stage.RhombusGridShape_stagedOrder, rhombusgridshape)
+	delete(stage.RhombusGridShapes_mapString, rhombusgridshape.Name)
+}
+
+// commit rhombusgridshape to the back repo (if it is already staged)
+func (rhombusgridshape *RhombusGridShape) Commit(stage *Stage) *RhombusGridShape {
+	if _, ok := stage.RhombusGridShapes[rhombusgridshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitRhombusGridShape(rhombusgridshape)
+		}
+	}
+	return rhombusgridshape
+}
+
+func (rhombusgridshape *RhombusGridShape) CommitVoid(stage *Stage) {
+	rhombusgridshape.Commit(stage)
+}
+
+func (rhombusgridshape *RhombusGridShape) StageVoid(stage *Stage) {
+	rhombusgridshape.Stage(stage)
+}
+
+// Checkout rhombusgridshape to the back repo (if it is already staged)
+func (rhombusgridshape *RhombusGridShape) Checkout(stage *Stage) *RhombusGridShape {
+	if _, ok := stage.RhombusGridShapes[rhombusgridshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutRhombusGridShape(rhombusgridshape)
+		}
+	}
+	return rhombusgridshape
+}
+
+// for satisfaction of GongStruct interface
+func (rhombusgridshape *RhombusGridShape) GetName() (res string) {
+	return rhombusgridshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (rhombusgridshape *RhombusGridShape) SetName(name string) {
+	rhombusgridshape.Name = name
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAxesShape(AxesShape *AxesShape)
+	CreateORMCircleGridShape(CircleGridShape *CircleGridShape)
 	CreateORMGridPathShape(GridPathShape *GridPathShape)
 	CreateORMGrowthVectorShape(GrowthVectorShape *GrowthVectorShape)
 	CreateORMLibrary(Library *Library)
+	CreateORMNextCircleShape(NextCircleShape *NextCircleShape)
 	CreateORMPlant(Plant *Plant)
 	CreateORMPlantDiagram(PlantDiagram *PlantDiagram)
 	CreateORMReferenceRhombus(ReferenceRhombus *ReferenceRhombus)
+	CreateORMRhombusGridShape(RhombusGridShape *RhombusGridShape)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMAxesShape(AxesShape *AxesShape)
+	DeleteORMCircleGridShape(CircleGridShape *CircleGridShape)
 	DeleteORMGridPathShape(GridPathShape *GridPathShape)
 	DeleteORMGrowthVectorShape(GrowthVectorShape *GrowthVectorShape)
 	DeleteORMLibrary(Library *Library)
+	DeleteORMNextCircleShape(NextCircleShape *NextCircleShape)
 	DeleteORMPlant(Plant *Plant)
 	DeleteORMPlantDiagram(PlantDiagram *PlantDiagram)
 	DeleteORMReferenceRhombus(ReferenceRhombus *ReferenceRhombus)
+	DeleteORMRhombusGridShape(RhombusGridShape *RhombusGridShape)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1834,6 +2308,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.AxesShapes_mapString = make(map[string]*AxesShape)
 	stage.AxesShape_stagedOrder = make(map[*AxesShape]uint)
 	stage.AxesShapeOrder = 0
+
+	stage.CircleGridShapes = make(map[*CircleGridShape]struct{})
+	stage.CircleGridShapes_mapString = make(map[string]*CircleGridShape)
+	stage.CircleGridShape_stagedOrder = make(map[*CircleGridShape]uint)
+	stage.CircleGridShapeOrder = 0
 
 	stage.GridPathShapes = make(map[*GridPathShape]struct{})
 	stage.GridPathShapes_mapString = make(map[string]*GridPathShape)
@@ -1850,6 +2329,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Library_stagedOrder = make(map[*Library]uint)
 	stage.LibraryOrder = 0
 
+	stage.NextCircleShapes = make(map[*NextCircleShape]struct{})
+	stage.NextCircleShapes_mapString = make(map[string]*NextCircleShape)
+	stage.NextCircleShape_stagedOrder = make(map[*NextCircleShape]uint)
+	stage.NextCircleShapeOrder = 0
+
 	stage.Plants = make(map[*Plant]struct{})
 	stage.Plants_mapString = make(map[string]*Plant)
 	stage.Plant_stagedOrder = make(map[*Plant]uint)
@@ -1865,6 +2349,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.ReferenceRhombus_stagedOrder = make(map[*ReferenceRhombus]uint)
 	stage.ReferenceRhombusOrder = 0
 
+	stage.RhombusGridShapes = make(map[*RhombusGridShape]struct{})
+	stage.RhombusGridShapes_mapString = make(map[string]*RhombusGridShape)
+	stage.RhombusGridShape_stagedOrder = make(map[*RhombusGridShape]uint)
+	stage.RhombusGridShapeOrder = 0
+
 	if stage.GetProbeIF() != nil {
 		stage.GetProbeIF().ResetNotifications()
 	}
@@ -1877,6 +2366,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.AxesShapes = nil
 	stage.AxesShapes_mapString = nil
 
+	stage.CircleGridShapes = nil
+	stage.CircleGridShapes_mapString = nil
+
 	stage.GridPathShapes = nil
 	stage.GridPathShapes_mapString = nil
 
@@ -1885,6 +2377,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.Librarys = nil
 	stage.Librarys_mapString = nil
+
+	stage.NextCircleShapes = nil
+	stage.NextCircleShapes_mapString = nil
 
 	stage.Plants = nil
 	stage.Plants_mapString = nil
@@ -1895,12 +2390,19 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.ReferenceRhombuss = nil
 	stage.ReferenceRhombuss_mapString = nil
 
+	stage.RhombusGridShapes = nil
+	stage.RhombusGridShapes_mapString = nil
+
 	// end of insertion point for array nil
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
 	for axesshape := range stage.AxesShapes {
 		axesshape.Unstage(stage)
+	}
+
+	for circlegridshape := range stage.CircleGridShapes {
+		circlegridshape.Unstage(stage)
 	}
 
 	for gridpathshape := range stage.GridPathShapes {
@@ -1915,6 +2417,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		library.Unstage(stage)
 	}
 
+	for nextcircleshape := range stage.NextCircleShapes {
+		nextcircleshape.Unstage(stage)
+	}
+
 	for plant := range stage.Plants {
 		plant.Unstage(stage)
 	}
@@ -1925,6 +2431,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for referencerhombus := range stage.ReferenceRhombuss {
 		referencerhombus.Unstage(stage)
+	}
+
+	for rhombusgridshape := range stage.RhombusGridShapes {
+		rhombusgridshape.Unstage(stage)
 	}
 
 	// end of insertion point for array nil
@@ -2005,18 +2515,24 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	// insertion point for generic get functions
 	case map[*AxesShape]any:
 		return any(&stage.AxesShapes).(*Type)
+	case map[*CircleGridShape]any:
+		return any(&stage.CircleGridShapes).(*Type)
 	case map[*GridPathShape]any:
 		return any(&stage.GridPathShapes).(*Type)
 	case map[*GrowthVectorShape]any:
 		return any(&stage.GrowthVectorShapes).(*Type)
 	case map[*Library]any:
 		return any(&stage.Librarys).(*Type)
+	case map[*NextCircleShape]any:
+		return any(&stage.NextCircleShapes).(*Type)
 	case map[*Plant]any:
 		return any(&stage.Plants).(*Type)
 	case map[*PlantDiagram]any:
 		return any(&stage.PlantDiagrams).(*Type)
 	case map[*ReferenceRhombus]any:
 		return any(&stage.ReferenceRhombuss).(*Type)
+	case map[*RhombusGridShape]any:
+		return any(&stage.RhombusGridShapes).(*Type)
 	default:
 		return nil
 	}
@@ -2031,18 +2547,24 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	// insertion point for generic get functions
 	case *AxesShape:
 		return any(stage.AxesShapes_mapString).(map[string]Type)
+	case *CircleGridShape:
+		return any(stage.CircleGridShapes_mapString).(map[string]Type)
 	case *GridPathShape:
 		return any(stage.GridPathShapes_mapString).(map[string]Type)
 	case *GrowthVectorShape:
 		return any(stage.GrowthVectorShapes_mapString).(map[string]Type)
 	case *Library:
 		return any(stage.Librarys_mapString).(map[string]Type)
+	case *NextCircleShape:
+		return any(stage.NextCircleShapes_mapString).(map[string]Type)
 	case *Plant:
 		return any(stage.Plants_mapString).(map[string]Type)
 	case *PlantDiagram:
 		return any(stage.PlantDiagrams_mapString).(map[string]Type)
 	case *ReferenceRhombus:
 		return any(stage.ReferenceRhombuss_mapString).(map[string]Type)
+	case *RhombusGridShape:
+		return any(stage.RhombusGridShapes_mapString).(map[string]Type)
 	default:
 		return nil
 	}
@@ -2057,18 +2579,24 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 	// insertion point for generic get functions
 	case AxesShape:
 		return any(&stage.AxesShapes).(*map[*Type]struct{})
+	case CircleGridShape:
+		return any(&stage.CircleGridShapes).(*map[*Type]struct{})
 	case GridPathShape:
 		return any(&stage.GridPathShapes).(*map[*Type]struct{})
 	case GrowthVectorShape:
 		return any(&stage.GrowthVectorShapes).(*map[*Type]struct{})
 	case Library:
 		return any(&stage.Librarys).(*map[*Type]struct{})
+	case NextCircleShape:
+		return any(&stage.NextCircleShapes).(*map[*Type]struct{})
 	case Plant:
 		return any(&stage.Plants).(*map[*Type]struct{})
 	case PlantDiagram:
 		return any(&stage.PlantDiagrams).(*map[*Type]struct{})
 	case ReferenceRhombus:
 		return any(&stage.ReferenceRhombuss).(*map[*Type]struct{})
+	case RhombusGridShape:
+		return any(&stage.RhombusGridShapes).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -2083,18 +2611,24 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 	// insertion point for generic get functions
 	case *AxesShape:
 		return any(&stage.AxesShapes).(*map[Type]struct{})
+	case *CircleGridShape:
+		return any(&stage.CircleGridShapes).(*map[Type]struct{})
 	case *GridPathShape:
 		return any(&stage.GridPathShapes).(*map[Type]struct{})
 	case *GrowthVectorShape:
 		return any(&stage.GrowthVectorShapes).(*map[Type]struct{})
 	case *Library:
 		return any(&stage.Librarys).(*map[Type]struct{})
+	case *NextCircleShape:
+		return any(&stage.NextCircleShapes).(*map[Type]struct{})
 	case *Plant:
 		return any(&stage.Plants).(*map[Type]struct{})
 	case *PlantDiagram:
 		return any(&stage.PlantDiagrams).(*map[Type]struct{})
 	case *ReferenceRhombus:
 		return any(&stage.ReferenceRhombuss).(*map[Type]struct{})
+	case *RhombusGridShape:
+		return any(&stage.RhombusGridShapes).(*map[Type]struct{})
 	default:
 		return nil
 	}
@@ -2109,18 +2643,24 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 	// insertion point for generic get functions
 	case AxesShape:
 		return any(&stage.AxesShapes_mapString).(*map[string]*Type)
+	case CircleGridShape:
+		return any(&stage.CircleGridShapes_mapString).(*map[string]*Type)
 	case GridPathShape:
 		return any(&stage.GridPathShapes_mapString).(*map[string]*Type)
 	case GrowthVectorShape:
 		return any(&stage.GrowthVectorShapes_mapString).(*map[string]*Type)
 	case Library:
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
+	case NextCircleShape:
+		return any(&stage.NextCircleShapes_mapString).(*map[string]*Type)
 	case Plant:
 		return any(&stage.Plants_mapString).(*map[string]*Type)
 	case PlantDiagram:
 		return any(&stage.PlantDiagrams_mapString).(*map[string]*Type)
 	case ReferenceRhombus:
 		return any(&stage.ReferenceRhombuss_mapString).(*map[string]*Type)
+	case RhombusGridShape:
+		return any(&stage.RhombusGridShapes_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -2139,6 +2679,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&AxesShape{
 			// Initialisation of associations
 		}).(*Type)
+	case CircleGridShape:
+		return any(&CircleGridShape{
+			// Initialisation of associations
+		}).(*Type)
 	case GridPathShape:
 		return any(&GridPathShape{
 			// Initialisation of associations
@@ -2154,6 +2698,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			SubLibraries: []*Library{{Name: "SubLibraries"}},
 			// field is initialized with an instance of Plant with the name of the field
 			Plants: []*Plant{{Name: "Plants"}},
+		}).(*Type)
+	case NextCircleShape:
+		return any(&NextCircleShape{
+			// Initialisation of associations
 		}).(*Type)
 	case Plant:
 		return any(&Plant{
@@ -2180,9 +2728,19 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RotatedGrowthVectorShape: &GrowthVectorShape{Name: "RotatedGrowthVectorShape"},
 			// field is initialized with an instance of GridPathShape with the name of the field
 			RotatedGridPathShape: &GridPathShape{Name: "RotatedGridPathShape"},
+			// field is initialized with an instance of RhombusGridShape with the name of the field
+			RotatedRhombusGridShape: &RhombusGridShape{Name: "RotatedRhombusGridShape"},
+			// field is initialized with an instance of CircleGridShape with the name of the field
+			RotatedCircleGridShape: &CircleGridShape{Name: "RotatedCircleGridShape"},
+			// field is initialized with an instance of NextCircleShape with the name of the field
+			RotatedNextCircleShape: &NextCircleShape{Name: "RotatedNextCircleShape"},
 		}).(*Type)
 	case ReferenceRhombus:
 		return any(&ReferenceRhombus{
+			// Initialisation of associations
+		}).(*Type)
+	case RhombusGridShape:
+		return any(&RhombusGridShape{
 			// Initialisation of associations
 		}).(*Type)
 	default:
@@ -2207,6 +2765,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of CircleGridShape
+	case CircleGridShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of GridPathShape
 	case GridPathShape:
 		switch fieldname {
@@ -2219,6 +2782,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of Library
 	case Library:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of NextCircleShape
+	case NextCircleShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -2350,9 +2918,65 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "RotatedRhombusGridShape":
+			res := make(map[*RhombusGridShape][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.RotatedRhombusGridShape != nil {
+					rhombusgridshape_ := plantdiagram.RotatedRhombusGridShape
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[rhombusgridshape_]
+					if ok {
+						plantdiagrams = res[rhombusgridshape_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[rhombusgridshape_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RotatedCircleGridShape":
+			res := make(map[*CircleGridShape][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.RotatedCircleGridShape != nil {
+					circlegridshape_ := plantdiagram.RotatedCircleGridShape
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[circlegridshape_]
+					if ok {
+						plantdiagrams = res[circlegridshape_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[circlegridshape_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RotatedNextCircleShape":
+			res := make(map[*NextCircleShape][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.RotatedNextCircleShape != nil {
+					nextcircleshape_ := plantdiagram.RotatedNextCircleShape
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[nextcircleshape_]
+					if ok {
+						plantdiagrams = res[nextcircleshape_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[nextcircleshape_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of ReferenceRhombus
 	case ReferenceRhombus:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of RhombusGridShape
+	case RhombusGridShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -2373,6 +2997,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	// insertion point of functions that provide maps for reverse associations
 	// reverse maps of direct associations of AxesShape
 	case AxesShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of CircleGridShape
+	case CircleGridShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -2407,6 +3036,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of NextCircleShape
+	case NextCircleShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Plant
 	case Plant:
 		switch fieldname {
@@ -2438,6 +3072,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of RhombusGridShape
+	case RhombusGridShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	}
 	return nil
 }
@@ -2451,18 +3090,24 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 	// insertion point for generic get gongstruct name
 	case *AxesShape:
 		res = "AxesShape"
+	case *CircleGridShape:
+		res = "CircleGridShape"
 	case *GridPathShape:
 		res = "GridPathShape"
 	case *GrowthVectorShape:
 		res = "GrowthVectorShape"
 	case *Library:
 		res = "Library"
+	case *NextCircleShape:
+		res = "NextCircleShape"
 	case *Plant:
 		res = "Plant"
 	case *PlantDiagram:
 		res = "PlantDiagram"
 	case *ReferenceRhombus:
 		res = "ReferenceRhombus"
+	case *RhombusGridShape:
+		res = "RhombusGridShape"
 	}
 	return res
 }
@@ -2483,6 +3128,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *AxesShape:
 		var rf ReverseField
 		_ = rf
+	case *CircleGridShape:
+		var rf ReverseField
+		_ = rf
 	case *GridPathShape:
 		var rf ReverseField
 		_ = rf
@@ -2495,6 +3143,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Library"
 		rf.Fieldname = "SubLibraries"
 		res = append(res, rf)
+	case *NextCircleShape:
+		var rf ReverseField
+		_ = rf
 	case *Plant:
 		var rf ReverseField
 		_ = rf
@@ -2511,6 +3162,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.Fieldname = "PlantDiagrams"
 		res = append(res, rf)
 	case *ReferenceRhombus:
+		var rf ReverseField
+		_ = rf
+	case *RhombusGridShape:
 		var rf ReverseField
 		_ = rf
 	}
@@ -2539,6 +3193,21 @@ func (axesshape *AxesShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsWithHiddenHandle",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (circlegridshape *CircleGridShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
@@ -2619,6 +3288,21 @@ func (library *Library) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Plants",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Plant",
+		},
+	}
+	return
+}
+
+func (nextcircleshape *NextCircleShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
 	return
@@ -2732,6 +3416,21 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			TargetGongstructName: "GridPathShape",
 		},
 		{
+			Name:                 "RotatedRhombusGridShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "RhombusGridShape",
+		},
+		{
+			Name:                 "RotatedCircleGridShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "CircleGridShape",
+		},
+		{
+			Name:                 "RotatedNextCircleShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "NextCircleShape",
+		},
+		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -2748,6 +3447,21 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 }
 
 func (referencerhombus *ReferenceRhombus) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsHidden",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (rhombusgridshape *RhombusGridShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
 		{
@@ -2842,6 +3556,19 @@ func (axesshape *AxesShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 	return
 }
 
+func (circlegridshape *CircleGridShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = circlegridshape.Name
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", circlegridshape.IsHidden)
+		res.valueBool = circlegridshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
 func (gridpathshape *GridPathShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -2917,6 +3644,19 @@ func (library *Library) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += __instance__.GongGetUUID(stage)
 		}
+	}
+	return
+}
+
+func (nextcircleshape *NextCircleShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = nextcircleshape.Name
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", nextcircleshape.IsHidden)
+		res.valueBool = nextcircleshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -3039,6 +3779,24 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = plantdiagram.RotatedGridPathShape.Name
 			res.ids = plantdiagram.RotatedGridPathShape.GongGetUUID(stage)
 		}
+	case "RotatedRhombusGridShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.RotatedRhombusGridShape != nil {
+			res.valueString = plantdiagram.RotatedRhombusGridShape.Name
+			res.ids = plantdiagram.RotatedRhombusGridShape.GongGetUUID(stage)
+		}
+	case "RotatedCircleGridShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.RotatedCircleGridShape != nil {
+			res.valueString = plantdiagram.RotatedCircleGridShape.Name
+			res.ids = plantdiagram.RotatedCircleGridShape.GongGetUUID(stage)
+		}
+	case "RotatedNextCircleShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.RotatedNextCircleShape != nil {
+			res.valueString = plantdiagram.RotatedNextCircleShape.Name
+			res.ids = plantdiagram.RotatedNextCircleShape.GongGetUUID(stage)
+		}
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsChecked)
 		res.valueBool = plantdiagram.IsChecked
@@ -3066,6 +3824,19 @@ func (referencerhombus *ReferenceRhombus) GongGetFieldValue(fieldName string, st
 	return
 }
 
+func (rhombusgridshape *RhombusGridShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = rhombusgridshape.Name
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", rhombusgridshape.IsHidden)
+		res.valueBool = rhombusgridshape.IsHidden
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
@@ -3085,6 +3856,19 @@ func (axesshape *AxesShape) GongSetFieldValue(fieldName string, value GongFieldV
 		axesshape.IsHidden = value.GetValueBool()
 	case "IsWithHiddenHandle":
 		axesshape.IsWithHiddenHandle = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (circlegridshape *CircleGridShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		circlegridshape.Name = value.GetValueString()
+	case "IsHidden":
+		circlegridshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -3164,6 +3948,19 @@ func (library *Library) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (nextcircleshape *NextCircleShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		nextcircleshape.Name = value.GetValueString()
+	case "IsHidden":
+		nextcircleshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -3313,6 +4110,39 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
+	case "RotatedRhombusGridShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.RotatedRhombusGridShape = nil
+			for __instance__ := range stage.RhombusGridShapes {
+				if stage.RhombusGridShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.RotatedRhombusGridShape = __instance__
+					break
+				}
+			}
+		}
+	case "RotatedCircleGridShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.RotatedCircleGridShape = nil
+			for __instance__ := range stage.CircleGridShapes {
+				if stage.CircleGridShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.RotatedCircleGridShape = __instance__
+					break
+				}
+			}
+		}
+	case "RotatedNextCircleShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.RotatedNextCircleShape = nil
+			for __instance__ := range stage.NextCircleShapes {
+				if stage.NextCircleShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.RotatedNextCircleShape = __instance__
+					break
+				}
+			}
+		}
 	case "IsChecked":
 		plantdiagram.IsChecked = value.GetValueBool()
 	case "ComputedPrefix":
@@ -3338,6 +4168,19 @@ func (referencerhombus *ReferenceRhombus) GongSetFieldValue(fieldName string, va
 	return nil
 }
 
+func (rhombusgridshape *RhombusGridShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		rhombusgridshape.Name = value.GetValueString()
+	case "IsHidden":
+		rhombusgridshape.IsHidden = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -3345,6 +4188,10 @@ func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, val
 // insertion point for generic get gongstruct name
 func (axesshape *AxesShape) GongGetGongstructName() string {
 	return "AxesShape"
+}
+
+func (circlegridshape *CircleGridShape) GongGetGongstructName() string {
+	return "CircleGridShape"
 }
 
 func (gridpathshape *GridPathShape) GongGetGongstructName() string {
@@ -3359,6 +4206,10 @@ func (library *Library) GongGetGongstructName() string {
 	return "Library"
 }
 
+func (nextcircleshape *NextCircleShape) GongGetGongstructName() string {
+	return "NextCircleShape"
+}
+
 func (plant *Plant) GongGetGongstructName() string {
 	return "Plant"
 }
@@ -3371,6 +4222,10 @@ func (referencerhombus *ReferenceRhombus) GongGetGongstructName() string {
 	return "ReferenceRhombus"
 }
 
+func (rhombusgridshape *RhombusGridShape) GongGetGongstructName() string {
+	return "RhombusGridShape"
+}
+
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()
 	return
@@ -3381,6 +4236,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.AxesShapes_mapString = make(map[string]*AxesShape)
 	for axesshape := range stage.AxesShapes {
 		stage.AxesShapes_mapString[axesshape.Name] = axesshape
+	}
+
+	stage.CircleGridShapes_mapString = make(map[string]*CircleGridShape)
+	for circlegridshape := range stage.CircleGridShapes {
+		stage.CircleGridShapes_mapString[circlegridshape.Name] = circlegridshape
 	}
 
 	stage.GridPathShapes_mapString = make(map[string]*GridPathShape)
@@ -3398,6 +4258,11 @@ func (stage *Stage) ResetMapStrings() {
 		stage.Librarys_mapString[library.Name] = library
 	}
 
+	stage.NextCircleShapes_mapString = make(map[string]*NextCircleShape)
+	for nextcircleshape := range stage.NextCircleShapes {
+		stage.NextCircleShapes_mapString[nextcircleshape.Name] = nextcircleshape
+	}
+
 	stage.Plants_mapString = make(map[string]*Plant)
 	for plant := range stage.Plants {
 		stage.Plants_mapString[plant.Name] = plant
@@ -3411,6 +4276,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.ReferenceRhombuss_mapString = make(map[string]*ReferenceRhombus)
 	for referencerhombus := range stage.ReferenceRhombuss {
 		stage.ReferenceRhombuss_mapString[referencerhombus.Name] = referencerhombus
+	}
+
+	stage.RhombusGridShapes_mapString = make(map[string]*RhombusGridShape)
+	for rhombusgridshape := range stage.RhombusGridShapes {
+		stage.RhombusGridShapes_mapString[rhombusgridshape.Name] = rhombusgridshape
 	}
 
 	// end of insertion point for generic get gongstruct name

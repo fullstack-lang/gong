@@ -100,6 +100,10 @@ func NewStager(
 	return
 }
 
+func (stager *Stager) GetSvgStage() *svg.Stage {
+	return stager.svgStage
+}
+
 type BeforeCommitImplementation struct {
 	stager *Stager
 }

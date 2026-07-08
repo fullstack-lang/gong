@@ -25,12 +25,15 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 	{
 		// insertion point
 		SerializeExcelizePointerToGongstruct2[*AxesShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*CircleGridShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*GridPathShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*GrowthVectorShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Library](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*NextCircleShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Plant](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*PlantDiagram](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ReferenceRhombus](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*RhombusGridShape](stage, f, addIDs)
 	}
 
 	// Create a style with wrap text enabled

@@ -10,6 +10,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *AxesShape:
 		ok = stage.IsStagedAxesShape(target)
 
+	case *CircleGridShape:
+		ok = stage.IsStagedCircleGridShape(target)
+
 	case *GridPathShape:
 		ok = stage.IsStagedGridPathShape(target)
 
@@ -19,6 +22,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
 
+	case *NextCircleShape:
+		ok = stage.IsStagedNextCircleShape(target)
+
 	case *Plant:
 		ok = stage.IsStagedPlant(target)
 
@@ -27,6 +33,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	case *ReferenceRhombus:
 		ok = stage.IsStagedReferenceRhombus(target)
+
+	case *RhombusGridShape:
+		ok = stage.IsStagedRhombusGridShape(target)
 
 	default:
 		_ = target
@@ -41,6 +50,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *AxesShape:
 		ok = stage.IsStagedAxesShape(target)
 
+	case *CircleGridShape:
+		ok = stage.IsStagedCircleGridShape(target)
+
 	case *GridPathShape:
 		ok = stage.IsStagedGridPathShape(target)
 
@@ -50,6 +62,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Library:
 		ok = stage.IsStagedLibrary(target)
 
+	case *NextCircleShape:
+		ok = stage.IsStagedNextCircleShape(target)
+
 	case *Plant:
 		ok = stage.IsStagedPlant(target)
 
@@ -58,6 +73,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *ReferenceRhombus:
 		ok = stage.IsStagedReferenceRhombus(target)
+
+	case *RhombusGridShape:
+		ok = stage.IsStagedRhombusGridShape(target)
 
 	default:
 		_ = target
@@ -69,6 +87,13 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 func (stage *Stage) IsStagedAxesShape(axesshape *AxesShape) (ok bool) {
 
 	_, ok = stage.AxesShapes[axesshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedCircleGridShape(circlegridshape *CircleGridShape) (ok bool) {
+
+	_, ok = stage.CircleGridShapes[circlegridshape]
 
 	return
 }
@@ -94,6 +119,13 @@ func (stage *Stage) IsStagedLibrary(library *Library) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedNextCircleShape(nextcircleshape *NextCircleShape) (ok bool) {
+
+	_, ok = stage.NextCircleShapes[nextcircleshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedPlant(plant *Plant) (ok bool) {
 
 	_, ok = stage.Plants[plant]
@@ -115,6 +147,13 @@ func (stage *Stage) IsStagedReferenceRhombus(referencerhombus *ReferenceRhombus)
 	return
 }
 
+func (stage *Stage) IsStagedRhombusGridShape(rhombusgridshape *RhombusGridShape) (ok bool) {
+
+	_, ok = stage.RhombusGridShapes[rhombusgridshape]
+
+	return
+}
+
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -126,6 +165,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *AxesShape:
 		stage.StageBranchAxesShape(target)
 
+	case *CircleGridShape:
+		stage.StageBranchCircleGridShape(target)
+
 	case *GridPathShape:
 		stage.StageBranchGridPathShape(target)
 
@@ -135,6 +177,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Library:
 		stage.StageBranchLibrary(target)
 
+	case *NextCircleShape:
+		stage.StageBranchNextCircleShape(target)
+
 	case *Plant:
 		stage.StageBranchPlant(target)
 
@@ -143,6 +188,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *ReferenceRhombus:
 		stage.StageBranchReferenceRhombus(target)
+
+	case *RhombusGridShape:
+		stage.StageBranchRhombusGridShape(target)
 
 	default:
 		_ = target
@@ -158,6 +206,21 @@ func (stage *Stage) StageBranchAxesShape(axesshape *AxesShape) {
 	}
 
 	axesshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchCircleGridShape(circlegridshape *CircleGridShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, circlegridshape) {
+		return
+	}
+
+	circlegridshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -216,6 +279,21 @@ func (stage *Stage) StageBranchLibrary(library *Library) {
 
 }
 
+func (stage *Stage) StageBranchNextCircleShape(nextcircleshape *NextCircleShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, nextcircleshape) {
+		return
+	}
+
+	nextcircleshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchPlant(plant *Plant) {
 
 	// check if instance is already staged
@@ -268,6 +346,15 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.RotatedGridPathShape != nil {
 		StageBranch(stage, plantdiagram.RotatedGridPathShape)
 	}
+	if plantdiagram.RotatedRhombusGridShape != nil {
+		StageBranch(stage, plantdiagram.RotatedRhombusGridShape)
+	}
+	if plantdiagram.RotatedCircleGridShape != nil {
+		StageBranch(stage, plantdiagram.RotatedCircleGridShape)
+	}
+	if plantdiagram.RotatedNextCircleShape != nil {
+		StageBranch(stage, plantdiagram.RotatedNextCircleShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -281,6 +368,21 @@ func (stage *Stage) StageBranchReferenceRhombus(referencerhombus *ReferenceRhomb
 	}
 
 	referencerhombus.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchRhombusGridShape(rhombusgridshape *RhombusGridShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, rhombusgridshape) {
+		return
+	}
+
+	rhombusgridshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -303,6 +405,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchAxesShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *CircleGridShape:
+		toT := CopyBranchCircleGridShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *GridPathShape:
 		toT := CopyBranchGridPathShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -315,6 +421,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchLibrary(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *NextCircleShape:
+		toT := CopyBranchNextCircleShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Plant:
 		toT := CopyBranchPlant(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -325,6 +435,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *ReferenceRhombus:
 		toT := CopyBranchReferenceRhombus(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *RhombusGridShape:
+		toT := CopyBranchRhombusGridShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -345,6 +459,25 @@ func CopyBranchAxesShape(mapOrigCopy map[any]any, axesshapeFrom *AxesShape) (axe
 	axesshapeTo = new(AxesShape)
 	mapOrigCopy[axesshapeFrom] = axesshapeTo
 	axesshapeFrom.CopyBasicFields(axesshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchCircleGridShape(mapOrigCopy map[any]any, circlegridshapeFrom *CircleGridShape) (circlegridshapeTo *CircleGridShape) {
+
+	// circlegridshapeFrom has already been copied
+	if _circlegridshapeTo, ok := mapOrigCopy[circlegridshapeFrom]; ok {
+		circlegridshapeTo = _circlegridshapeTo.(*CircleGridShape)
+		return
+	}
+
+	circlegridshapeTo = new(CircleGridShape)
+	mapOrigCopy[circlegridshapeFrom] = circlegridshapeTo
+	circlegridshapeFrom.CopyBasicFields(circlegridshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -416,6 +549,25 @@ func CopyBranchLibrary(mapOrigCopy map[any]any, libraryFrom *Library) (libraryTo
 	return
 }
 
+func CopyBranchNextCircleShape(mapOrigCopy map[any]any, nextcircleshapeFrom *NextCircleShape) (nextcircleshapeTo *NextCircleShape) {
+
+	// nextcircleshapeFrom has already been copied
+	if _nextcircleshapeTo, ok := mapOrigCopy[nextcircleshapeFrom]; ok {
+		nextcircleshapeTo = _nextcircleshapeTo.(*NextCircleShape)
+		return
+	}
+
+	nextcircleshapeTo = new(NextCircleShape)
+	mapOrigCopy[nextcircleshapeFrom] = nextcircleshapeTo
+	nextcircleshapeFrom.CopyBasicFields(nextcircleshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant) {
 
 	// plantFrom has already been copied
@@ -475,6 +627,15 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	if plantdiagramFrom.RotatedGridPathShape != nil {
 		plantdiagramTo.RotatedGridPathShape = CopyBranchGridPathShape(mapOrigCopy, plantdiagramFrom.RotatedGridPathShape)
 	}
+	if plantdiagramFrom.RotatedRhombusGridShape != nil {
+		plantdiagramTo.RotatedRhombusGridShape = CopyBranchRhombusGridShape(mapOrigCopy, plantdiagramFrom.RotatedRhombusGridShape)
+	}
+	if plantdiagramFrom.RotatedCircleGridShape != nil {
+		plantdiagramTo.RotatedCircleGridShape = CopyBranchCircleGridShape(mapOrigCopy, plantdiagramFrom.RotatedCircleGridShape)
+	}
+	if plantdiagramFrom.RotatedNextCircleShape != nil {
+		plantdiagramTo.RotatedNextCircleShape = CopyBranchNextCircleShape(mapOrigCopy, plantdiagramFrom.RotatedNextCircleShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -500,6 +661,25 @@ func CopyBranchReferenceRhombus(mapOrigCopy map[any]any, referencerhombusFrom *R
 	return
 }
 
+func CopyBranchRhombusGridShape(mapOrigCopy map[any]any, rhombusgridshapeFrom *RhombusGridShape) (rhombusgridshapeTo *RhombusGridShape) {
+
+	// rhombusgridshapeFrom has already been copied
+	if _rhombusgridshapeTo, ok := mapOrigCopy[rhombusgridshapeFrom]; ok {
+		rhombusgridshapeTo = _rhombusgridshapeTo.(*RhombusGridShape)
+		return
+	}
+
+	rhombusgridshapeTo = new(RhombusGridShape)
+	mapOrigCopy[rhombusgridshapeFrom] = rhombusgridshapeTo
+	rhombusgridshapeFrom.CopyBasicFields(rhombusgridshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
 //
@@ -511,6 +691,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *AxesShape:
 		stage.UnstageBranchAxesShape(target)
 
+	case *CircleGridShape:
+		stage.UnstageBranchCircleGridShape(target)
+
 	case *GridPathShape:
 		stage.UnstageBranchGridPathShape(target)
 
@@ -520,6 +703,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Library:
 		stage.UnstageBranchLibrary(target)
 
+	case *NextCircleShape:
+		stage.UnstageBranchNextCircleShape(target)
+
 	case *Plant:
 		stage.UnstageBranchPlant(target)
 
@@ -528,6 +714,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *ReferenceRhombus:
 		stage.UnstageBranchReferenceRhombus(target)
+
+	case *RhombusGridShape:
+		stage.UnstageBranchRhombusGridShape(target)
 
 	default:
 		_ = target
@@ -543,6 +732,21 @@ func (stage *Stage) UnstageBranchAxesShape(axesshape *AxesShape) {
 	}
 
 	axesshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchCircleGridShape(circlegridshape *CircleGridShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, circlegridshape) {
+		return
+	}
+
+	circlegridshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -601,6 +805,21 @@ func (stage *Stage) UnstageBranchLibrary(library *Library) {
 
 }
 
+func (stage *Stage) UnstageBranchNextCircleShape(nextcircleshape *NextCircleShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, nextcircleshape) {
+		return
+	}
+
+	nextcircleshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 
 	// check if instance is already staged
@@ -653,6 +872,15 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.RotatedGridPathShape != nil {
 		UnstageBranch(stage, plantdiagram.RotatedGridPathShape)
 	}
+	if plantdiagram.RotatedRhombusGridShape != nil {
+		UnstageBranch(stage, plantdiagram.RotatedRhombusGridShape)
+	}
+	if plantdiagram.RotatedCircleGridShape != nil {
+		UnstageBranch(stage, plantdiagram.RotatedCircleGridShape)
+	}
+	if plantdiagram.RotatedNextCircleShape != nil {
+		UnstageBranch(stage, plantdiagram.RotatedNextCircleShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -673,8 +901,28 @@ func (stage *Stage) UnstageBranchReferenceRhombus(referencerhombus *ReferenceRho
 
 }
 
+func (stage *Stage) UnstageBranchRhombusGridShape(rhombusgridshape *RhombusGridShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, rhombusgridshape) {
+		return
+	}
+
+	rhombusgridshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 // insertion point for pointer reconstruction from references
 func (reference *AxesShape) GongReconstructPointersFromReferences(stage *Stage, instance *AxesShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *CircleGridShape) GongReconstructPointersFromReferences(stage *Stage, instance *CircleGridShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -700,6 +948,11 @@ func (reference *Library) GongReconstructPointersFromReferences(stage *Stage, in
 	for _, _b := range instance.Plants {
 		reference.Plants = append(reference.Plants, stage.Plants_reference[_b])
 	}
+}
+
+func (reference *NextCircleShape) GongReconstructPointersFromReferences(stage *Stage, instance *NextCircleShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
 }
 
 func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, instance *Plant) {
@@ -738,6 +991,15 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	if instance.RotatedGridPathShape != nil {
 		reference.RotatedGridPathShape = stage.GridPathShapes_reference[instance.RotatedGridPathShape]
 	}
+	if instance.RotatedRhombusGridShape != nil {
+		reference.RotatedRhombusGridShape = stage.RhombusGridShapes_reference[instance.RotatedRhombusGridShape]
+	}
+	if instance.RotatedCircleGridShape != nil {
+		reference.RotatedCircleGridShape = stage.CircleGridShapes_reference[instance.RotatedCircleGridShape]
+	}
+	if instance.RotatedNextCircleShape != nil {
+		reference.RotatedNextCircleShape = stage.NextCircleShapes_reference[instance.RotatedNextCircleShape]
+	}
 	// insertion point for slice of pointers field
 }
 
@@ -746,8 +1008,18 @@ func (reference *ReferenceRhombus) GongReconstructPointersFromReferences(stage *
 	// insertion point for slice of pointers field
 }
 
+func (reference *RhombusGridShape) GongReconstructPointersFromReferences(stage *Stage, instance *RhombusGridShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
 // insertion point for pointer reconstruction from instances
 func (reference *AxesShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *CircleGridShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -779,6 +1051,11 @@ func (reference *Library) GongReconstructPointersFromInstances(stage *Stage) {
 		}
 	}
 	reference.Plants = _Plants
+}
+
+func (reference *NextCircleShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
 }
 
 func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
@@ -844,10 +1121,33 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 			reference.RotatedGridPathShape = _instance
 		}
 	}
+	if _reference := reference.RotatedRhombusGridShape; _reference != nil {
+		reference.RotatedRhombusGridShape = nil
+		if _instance, ok := stage.RhombusGridShapes_instance[_reference]; ok {
+			reference.RotatedRhombusGridShape = _instance
+		}
+	}
+	if _reference := reference.RotatedCircleGridShape; _reference != nil {
+		reference.RotatedCircleGridShape = nil
+		if _instance, ok := stage.CircleGridShapes_instance[_reference]; ok {
+			reference.RotatedCircleGridShape = _instance
+		}
+	}
+	if _reference := reference.RotatedNextCircleShape; _reference != nil {
+		reference.RotatedNextCircleShape = nil
+		if _instance, ok := stage.NextCircleShapes_instance[_reference]; ok {
+			reference.RotatedNextCircleShape = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 }
 
 func (reference *ReferenceRhombus) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *RhombusGridShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -871,6 +1171,20 @@ func (axesshape *AxesShape) GongDiff(stage *Stage, axesshapeOther *AxesShape) (d
 	}
 	if axesshape.IsWithHiddenHandle != axesshapeOther.IsWithHiddenHandle {
 		diffs = append(diffs, axesshape.GongMarshallField(stage, "IsWithHiddenHandle"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (circlegridshape *CircleGridShape) GongDiff(stage *Stage, circlegridshapeOther *CircleGridShape) (diffs []string) {
+	// insertion point for field diffs
+	if circlegridshape.Name != circlegridshapeOther.Name {
+		diffs = append(diffs, circlegridshape.GongMarshallField(stage, "Name"))
+	}
+	if circlegridshape.IsHidden != circlegridshapeOther.IsHidden {
+		diffs = append(diffs, circlegridshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return
@@ -973,6 +1287,20 @@ func (library *Library) GongDiff(stage *Stage, libraryOther *Library) (diffs []s
 	if PlantsDifferent {
 		ops := Diff(stage, library, libraryOther, "Plants", libraryOther.Plants, library.Plants)
 		diffs = append(diffs, ops)
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (nextcircleshape *NextCircleShape) GongDiff(stage *Stage, nextcircleshapeOther *NextCircleShape) (diffs []string) {
+	// insertion point for field diffs
+	if nextcircleshape.Name != nextcircleshapeOther.Name {
+		diffs = append(diffs, nextcircleshape.GongMarshallField(stage, "Name"))
+	}
+	if nextcircleshape.IsHidden != nextcircleshapeOther.IsHidden {
+		diffs = append(diffs, nextcircleshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return
@@ -1120,6 +1448,27 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedGridPathShape"))
 		}
 	}
+	if (plantdiagram.RotatedRhombusGridShape == nil) != (plantdiagramOther.RotatedRhombusGridShape == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedRhombusGridShape"))
+	} else if plantdiagram.RotatedRhombusGridShape != nil && plantdiagramOther.RotatedRhombusGridShape != nil {
+		if plantdiagram.RotatedRhombusGridShape != plantdiagramOther.RotatedRhombusGridShape {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedRhombusGridShape"))
+		}
+	}
+	if (plantdiagram.RotatedCircleGridShape == nil) != (plantdiagramOther.RotatedCircleGridShape == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedCircleGridShape"))
+	} else if plantdiagram.RotatedCircleGridShape != nil && plantdiagramOther.RotatedCircleGridShape != nil {
+		if plantdiagram.RotatedCircleGridShape != plantdiagramOther.RotatedCircleGridShape {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedCircleGridShape"))
+		}
+	}
+	if (plantdiagram.RotatedNextCircleShape == nil) != (plantdiagramOther.RotatedNextCircleShape == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedNextCircleShape"))
+	} else if plantdiagram.RotatedNextCircleShape != nil && plantdiagramOther.RotatedNextCircleShape != nil {
+		if plantdiagram.RotatedNextCircleShape != plantdiagramOther.RotatedNextCircleShape {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "RotatedNextCircleShape"))
+		}
+	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsChecked"))
 	}
@@ -1142,6 +1491,20 @@ func (referencerhombus *ReferenceRhombus) GongDiff(stage *Stage, referencerhombu
 	}
 	if referencerhombus.IsHidden != referencerhombusOther.IsHidden {
 		diffs = append(diffs, referencerhombus.GongMarshallField(stage, "IsHidden"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (rhombusgridshape *RhombusGridShape) GongDiff(stage *Stage, rhombusgridshapeOther *RhombusGridShape) (diffs []string) {
+	// insertion point for field diffs
+	if rhombusgridshape.Name != rhombusgridshapeOther.Name {
+		diffs = append(diffs, rhombusgridshape.GongMarshallField(stage, "Name"))
+	}
+	if rhombusgridshape.IsHidden != rhombusgridshapeOther.IsHidden {
+		diffs = append(diffs, rhombusgridshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return

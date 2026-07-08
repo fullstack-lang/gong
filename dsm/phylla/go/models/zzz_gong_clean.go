@@ -47,6 +47,13 @@ func (axesshape *AxesShape) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by CircleGridShape
+func (circlegridshape *CircleGridShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by GridPathShape
 func (gridpathshape *GridPathShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -66,6 +73,13 @@ func (library *Library) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	modified = GongCleanSlice(stage, &library.SubLibraries) || modified
 	modified = GongCleanSlice(stage, &library.Plants) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by NextCircleShape
+func (nextcircleshape *NextCircleShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
 	// insertion point per field
 	return
 }
@@ -90,11 +104,21 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plantdiagram.RotatedReferenceRhombus) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.RotatedGrowthVectorShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.RotatedGridPathShape) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.RotatedRhombusGridShape) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.RotatedCircleGridShape) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.RotatedNextCircleShape) || modified
 	return
 }
 
 // Clean garbage collect unstaged instances that are referenced by ReferenceRhombus
 func (referencerhombus *ReferenceRhombus) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by RhombusGridShape
+func (rhombusgridshape *RhombusGridShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return

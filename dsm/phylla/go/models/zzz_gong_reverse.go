@@ -11,6 +11,15 @@ func (inst *AxesShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 	return
 }
 
+func (inst *CircleGridShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *GridPathShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -41,6 +50,15 @@ func (inst *Library) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 				res = _library.Name
 			}
 		}
+	}
+	return
+}
+
+func (inst *NextCircleShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 	}
 	return
 }
@@ -90,8 +108,26 @@ func (inst *ReferenceRhombus) GongGetReverseFieldOwnerName(stage *Stage, reverse
 	return
 }
 
+func (inst *RhombusGridShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 // insertion point
 func (inst *AxesShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *CircleGridShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
@@ -132,6 +168,15 @@ func (inst *Library) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 	return res
 }
 
+func (inst *NextCircleShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
 func (inst *Plant) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -163,6 +208,15 @@ func (inst *PlantDiagram) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 }
 
 func (inst *ReferenceRhombus) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *RhombusGridShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

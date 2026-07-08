@@ -90,3 +90,48 @@ func (s *GridPathShape) SetIsHidden(isHidden bool) {
 func (s *GridPathShape) GetIsHidden() bool {
 	return s.IsHidden
 }
+
+// RhombusGridShape of a plant,
+type RhombusGridShape struct {
+	Name string
+
+	Shape
+}
+
+func (s *RhombusGridShape) SetIsHidden(isHidden bool) {
+	s.IsHidden = isHidden
+}
+
+func (s *RhombusGridShape) GetIsHidden() bool {
+	return s.IsHidden
+}
+
+// CircleGridShape of a plant,
+type CircleGridShape struct {
+	Name string
+
+	Shape
+}
+
+func (s *CircleGridShape) SetIsHidden(isHidden bool) {
+	s.IsHidden = isHidden
+}
+
+func (s *CircleGridShape) GetIsHidden() bool {
+	return s.IsHidden
+}
+
+// NextCircleShape of a plant,
+type NextCircleShape struct {
+	Name string
+
+	Shape
+}
+
+func (s *NextCircleShape) SetIsHidden(isHidden bool) {
+	s.IsHidden = isHidden
+}
+
+func (s *NextCircleShape) GetIsHidden() bool {
+	return s.IsHidden
+}
