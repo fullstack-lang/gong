@@ -134,6 +134,20 @@ func (stager *Stager) enforcePlantDiagramHasGridPathShape() (needCommit bool) {
 	)
 }
 
+// enforcePlantDiagramHasRhombusGridShape ensures that each PlantDiagram has one and only one RhombusGridShape that belong to it
+func (stager *Stager) enforcePlantDiagramHasRhombusGridShape() (needCommit bool) {
+	return enforcePlantDiagramHasShape[*RhombusGridShape](
+		stager,
+		func() *RhombusGridShape { return new(RhombusGridShape) },
+		func(pd *PlantDiagram) *RhombusGridShape { return pd.RhombusGridShape },
+		func(pd *PlantDiagram, shape *RhombusGridShape) { pd.RhombusGridShape = shape },
+		func(pd *PlantDiagram, shape *RhombusGridShape) bool {
+			return pd.RhombusGridShape == shape || pd.RotatedRhombusGridShape == shape
+		},
+		"RhombusGridShape",
+	)
+}
+
 // enforcePlantDiagramHasGrowthVectorShape ensures that each PlantDiagram has one and only one GrowthVectorShape that belong to it
 func (stager *Stager) enforcePlantDiagramHasGrowthVectorShape() (needCommit bool) {
 	return enforcePlantDiagramHasShape[*GrowthVectorShape](
@@ -197,7 +211,18 @@ func (stager *Stager) enforcePlantDiagramHasRotatedShapes() (needCommit bool) {
 		"RotatedGridPathShape",
 	)
 
-	return n1 || n2 || n3
+	n4 := enforcePlantDiagramHasShape[*RhombusGridShape](
+		stager,
+		func() *RhombusGridShape { return new(RhombusGridShape) },
+		func(pd *PlantDiagram) *RhombusGridShape { return pd.RotatedRhombusGridShape },
+		func(pd *PlantDiagram, shape *RhombusGridShape) { pd.RotatedRhombusGridShape = shape },
+		func(pd *PlantDiagram, shape *RhombusGridShape) bool {
+			return pd.RhombusGridShape == shape || pd.RotatedRhombusGridShape == shape
+		},
+		"RotatedRhombusGridShape",
+	)
+
+	return n1 || n2 || n3 || n4
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning PlantDiagram
@@ -206,6 +231,15 @@ func (stager *Stager) enforceReferenceRhombusName() (needCommit bool) {
 		stager,
 		func(pd *PlantDiagram) *ReferenceRhombus { return pd.ReferenceRhombus },
 		"ReferenceRhombus",
+	)
+}
+
+// enforceRhombusGridShapeName ensures that the name of the RhombusGridShape matches its owning PlantDiagram
+func (stager *Stager) enforceRhombusGridShapeName() (needCommit bool) {
+	return enforcePlantDiagramShapeName[*RhombusGridShape](
+		stager,
+		func(pd *PlantDiagram) *RhombusGridShape { return pd.RhombusGridShape },
+		"RhombusGridShape",
 	)
 }
 
@@ -229,5 +263,11 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 		"RotatedGridPathShape",
 	)
 
-	return n1 || n2 || n3
+	n4 := enforcePlantDiagramShapeName[*RhombusGridShape](
+		stager,
+		func(pd *PlantDiagram) *RhombusGridShape { return pd.RotatedRhombusGridShape },
+		"RotatedRhombusGridShape",
+	)
+
+	return n1 || n2 || n3 || n4
 }

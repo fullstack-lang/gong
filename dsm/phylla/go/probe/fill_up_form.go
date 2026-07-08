@@ -171,9 +171,11 @@ func FillUpForm(
 		AssociationFieldToForm("ReferenceRhombus", instanceWithInferedType.ReferenceRhombus, formGroup, probe)
 		AssociationFieldToForm("GrowthVectorShape", instanceWithInferedType.GrowthVectorShape, formGroup, probe)
 		AssociationFieldToForm("GridPathShape", instanceWithInferedType.GridPathShape, formGroup, probe)
+		AssociationFieldToForm("RhombusGridShape", instanceWithInferedType.RhombusGridShape, formGroup, probe)
 		AssociationFieldToForm("RotatedReferenceRhombus", instanceWithInferedType.RotatedReferenceRhombus, formGroup, probe)
 		AssociationFieldToForm("RotatedGrowthVectorShape", instanceWithInferedType.RotatedGrowthVectorShape, formGroup, probe)
 		AssociationFieldToForm("RotatedGridPathShape", instanceWithInferedType.RotatedGridPathShape, formGroup, probe)
+		AssociationFieldToForm("RotatedRhombusGridShape", instanceWithInferedType.RotatedRhombusGridShape, formGroup, probe)
 		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,

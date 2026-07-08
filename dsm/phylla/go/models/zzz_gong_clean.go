@@ -101,9 +101,11 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plantdiagram.ReferenceRhombus) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.GrowthVectorShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.GridPathShape) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.RhombusGridShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.RotatedReferenceRhombus) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.RotatedGrowthVectorShape) || modified
 	modified = GongCleanPointer(stage, &plantdiagram.RotatedGridPathShape) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.RotatedRhombusGridShape) || modified
 	return
 }
 
