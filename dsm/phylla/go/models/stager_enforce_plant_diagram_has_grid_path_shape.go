@@ -28,7 +28,7 @@ func (stager *Stager) enforcePlantDiagramHasGridPathShape() (needCommit bool) {
 	for gridPathShape := range *GetGongstructInstancesSetFromPointerType[*GridPathShape](stage) {
 		hasOwner := false
 		for plantDiagram := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stage) {
-			if plantDiagram.GridPathShape == gridPathShape {
+			if plantDiagram.GridPathShape == gridPathShape || plantDiagram.RotatedGridPathShape == gridPathShape {
 				hasOwner = true
 				break
 			}

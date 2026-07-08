@@ -28,7 +28,7 @@ func (stager *Stager) enforcePlantDiagramHasGrowthVectorShape() (needCommit bool
 	for growthVectorShape := range *GetGongstructInstancesSetFromPointerType[*GrowthVectorShape](stage) {
 		hasOwner := false
 		for plantDiagram := range *GetGongstructInstancesSetFromPointerType[*PlantDiagram](stage) {
-			if plantDiagram.GrowthVectorShape == growthVectorShape {
+			if plantDiagram.GrowthVectorShape == growthVectorShape || plantDiagram.RotatedGrowthVectorShape == growthVectorShape {
 				hasOwner = true
 				break
 			}

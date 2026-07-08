@@ -58,6 +58,9 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawGrowthVectorShape(stager, layer)
 	plantDiagram.drawReferenceRhombus(stager, layer, plant)
 	plantDiagram.drawGridPathShape(stager, layer, plant)
+	plantDiagram.drawRotatedGrowthVectorShape(stager, layer)
+	plantDiagram.drawRotatedReferenceRhombus(stager, layer, plant)
+	plantDiagram.drawRotatedGridPathShape(stager, layer, plant)
 
 	return
 }
@@ -294,6 +297,146 @@ func (plantDiagram *PlantDiagram) drawGridPathShape(stager *Stager, layer *svg.L
 		circle.Presentation.StrokeOpacity = 1.0
 		circle.Presentation.Color = "white"
 		circle.Presentation.FillOpacity = 1.0
+	}
+
+	addCircle(currX, currY, 0, "start")
+
+	for i := 1; i <= plant.N; i++ {
+		currX += v1x
+		currY += v1y
+		points = append(points, fmt.Sprintf("%f,%f", currX, currY))
+		addCircle(currX, currY, i, "N")
+	}
+
+	for i := 1; i <= plant.M; i++ {
+		currX += v2x
+		currY += v2y
+		points = append(points, fmt.Sprintf("%f,%f", currX, currY))
+		addCircle(currX, currY, i, "M")
+	}
+
+	polyline.Points = strings.Join(points, " ")
+}
+
+func (plantDiagram *PlantDiagram) drawRotatedGrowthVectorShape(stager *Stager, layer *svg.Layer) {
+
+	if plantDiagram.RotatedGrowthVectorShape == nil || plantDiagram.RotatedGrowthVectorShape.IsHidden {
+		return
+	}
+
+	angleRad := plantDiagram.RotatedGrowthVectorShape.AngleDegree * math.Pi / 180.0
+	length := plantDiagram.RotatedGrowthVectorShape.Length
+
+	// SVG Y-axis is inverted
+	endX := plantDiagram.OriginX + length*math.Cos(angleRad)
+	endY := plantDiagram.OriginY - length*math.Sin(angleRad)
+
+	line := new(svg.Line)
+	layer.Lines = append(layer.Lines, line)
+
+	line.Name = plantDiagram.RotatedGrowthVectorShape.Name
+	line.X1 = plantDiagram.OriginX
+	line.Y1 = plantDiagram.OriginY
+	line.X2 = endX
+	line.Y2 = endY
+
+	line.Presentation.Stroke = "darkgreen" // slightly different color to distinguish
+	line.Presentation.StrokeWidth = 2.0
+	line.Presentation.StrokeOpacity = 1.0
+	line.Presentation.StrokeDashArray = "5, 5" // make it dashed
+}
+
+func (plantDiagram *PlantDiagram) drawRotatedReferenceRhombus(stager *Stager, layer *svg.Layer, plant *Plant) {
+
+	if plantDiagram.RotatedReferenceRhombus == nil || plantDiagram.RotatedReferenceRhombus.IsHidden {
+		return
+	}
+
+	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
+	length := plant.RhombusSideLength
+
+	// Vertices
+	v0x := plantDiagram.OriginX
+	v0y := plantDiagram.OriginY
+
+	// Top vertex (SVG y-axis is inverted)
+	v1x := v0x + length*math.Cos(angleRad/2.0)
+	v1y := v0y - length*math.Sin(angleRad/2.0)
+
+	// Right vertex
+	v2x := v0x + 2.0*length*math.Cos(angleRad/2.0)
+	v2y := v0y
+
+	// Bottom vertex
+	v3x := v0x + length*math.Cos(angleRad/2.0)
+	v3y := v0y + length*math.Sin(angleRad/2.0)
+
+	polygon := new(svg.Polygone)
+	layer.Polygones = append(layer.Polygones, polygon)
+
+	polygon.Name = plantDiagram.RotatedReferenceRhombus.Name
+	polygon.Points = fmt.Sprintf("%f,%f %f,%f %f,%f %f,%f",
+		v0x, v0y,
+		v1x, v1y,
+		v2x, v2y,
+		v3x, v3y)
+
+	polygon.Presentation.Stroke = "darkblue"
+	polygon.Presentation.StrokeWidth = 2.0
+	polygon.Presentation.StrokeOpacity = 1.0
+	polygon.Presentation.Color = "lightblue"
+	polygon.Presentation.FillOpacity = 0.2 // more transparent
+	polygon.Presentation.StrokeDashArray = "5, 5"
+
+	// Add rotation transform
+	polygon.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.GrowthVectorShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
+}
+
+func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer *svg.Layer, plant *Plant) {
+
+	if plantDiagram.RotatedGridPathShape == nil || plantDiagram.RotatedGridPathShape.IsHidden {
+		return
+	}
+
+	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
+	length := plant.RhombusSideLength
+
+	// SVG Y-axis is inverted
+	v1x := length * math.Cos(angleRad/2.0)
+	v1y := -length * math.Sin(angleRad/2.0)
+
+	v2x := -length * math.Cos(angleRad/2.0)
+	v2y := -length * math.Sin(angleRad/2.0)
+
+	polyline := new(svg.Polyline)
+	layer.Polylines = append(layer.Polylines, polyline)
+
+	polyline.Name = plantDiagram.RotatedGridPathShape.Name
+	polyline.Presentation.Stroke = "darkred"
+	polyline.Presentation.StrokeWidth = 2.0
+	polyline.Presentation.StrokeOpacity = 1.0
+	polyline.Presentation.FillOpacity = 0.0
+	polyline.Presentation.StrokeDashArray = "5, 5"
+	polyline.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.GrowthVectorShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
+
+	var points []string
+	currX := plantDiagram.OriginX
+	currY := plantDiagram.OriginY
+	points = append(points, fmt.Sprintf("%f,%f", currX, currY))
+
+	addCircle := func(x, y float64, stepIndex int, path string) {
+		circle := new(svg.Circle)
+		layer.Circles = append(layer.Circles, circle)
+		circle.Name = fmt.Sprintf("%s-%s-step-%d", plantDiagram.RotatedGridPathShape.Name, path, stepIndex)
+		circle.CX = x
+		circle.CY = y
+		circle.Radius = 4.0
+		circle.Presentation.Stroke = "darkred"
+		circle.Presentation.StrokeWidth = 1.0
+		circle.Presentation.StrokeOpacity = 1.0
+		circle.Presentation.Color = "white"
+		circle.Presentation.FillOpacity = 1.0
+		circle.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.GrowthVectorShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
 	}
 
 	addCircle(currX, currY, 0, "start")

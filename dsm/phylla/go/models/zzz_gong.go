@@ -2174,6 +2174,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			GrowthVectorShape: &GrowthVectorShape{Name: "GrowthVectorShape"},
 			// field is initialized with an instance of GridPathShape with the name of the field
 			GridPathShape: &GridPathShape{Name: "GridPathShape"},
+			// field is initialized with an instance of ReferenceRhombus with the name of the field
+			RotatedReferenceRhombus: &ReferenceRhombus{Name: "RotatedReferenceRhombus"},
+			// field is initialized with an instance of GrowthVectorShape with the name of the field
+			RotatedGrowthVectorShape: &GrowthVectorShape{Name: "RotatedGrowthVectorShape"},
+			// field is initialized with an instance of GridPathShape with the name of the field
+			RotatedGridPathShape: &GridPathShape{Name: "RotatedGridPathShape"},
 		}).(*Type)
 	case ReferenceRhombus:
 		return any(&ReferenceRhombus{
@@ -2281,6 +2287,57 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 			for plantdiagram := range stage.PlantDiagrams {
 				if plantdiagram.GridPathShape != nil {
 					gridpathshape_ := plantdiagram.GridPathShape
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[gridpathshape_]
+					if ok {
+						plantdiagrams = res[gridpathshape_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[gridpathshape_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RotatedReferenceRhombus":
+			res := make(map[*ReferenceRhombus][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.RotatedReferenceRhombus != nil {
+					referencerhombus_ := plantdiagram.RotatedReferenceRhombus
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[referencerhombus_]
+					if ok {
+						plantdiagrams = res[referencerhombus_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[referencerhombus_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RotatedGrowthVectorShape":
+			res := make(map[*GrowthVectorShape][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.RotatedGrowthVectorShape != nil {
+					growthvectorshape_ := plantdiagram.RotatedGrowthVectorShape
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[growthvectorshape_]
+					if ok {
+						plantdiagrams = res[growthvectorshape_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[growthvectorshape_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "RotatedGridPathShape":
+			res := make(map[*GridPathShape][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.RotatedGridPathShape != nil {
+					gridpathshape_ := plantdiagram.RotatedGridPathShape
 					var plantdiagrams []*PlantDiagram
 					_, ok := res[gridpathshape_]
 					if ok {
@@ -2632,14 +2689,6 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeString,
 		},
 		{
-			Name:               "ComputedPrefix",
-			GongFieldValueType: GongFieldValueTypeString,
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBool,
-		},
-		{
 			Name:               "OriginX",
 			GongFieldValueType: GongFieldValueTypeFloat,
 		},
@@ -2668,7 +2717,30 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			TargetGongstructName: "GridPathShape",
 		},
 		{
+			Name:                 "RotatedReferenceRhombus",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "ReferenceRhombus",
+		},
+		{
+			Name:                 "RotatedGrowthVectorShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "GrowthVectorShape",
+		},
+		{
+			Name:                 "RotatedGridPathShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "GridPathShape",
+		},
+		{
 			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
@@ -2917,12 +2989,6 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 	// string value of fields
 	case "Name":
 		res.valueString = plantdiagram.Name
-	case "ComputedPrefix":
-		res.valueString = plantdiagram.ComputedPrefix
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", plantdiagram.IsExpanded)
-		res.valueBool = plantdiagram.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "OriginX":
 		res.valueString = fmt.Sprintf("%f", plantdiagram.OriginX)
 		res.valueFloat = plantdiagram.OriginX
@@ -2955,9 +3021,33 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = plantdiagram.GridPathShape.Name
 			res.ids = plantdiagram.GridPathShape.GongGetUUID(stage)
 		}
+	case "RotatedReferenceRhombus":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.RotatedReferenceRhombus != nil {
+			res.valueString = plantdiagram.RotatedReferenceRhombus.Name
+			res.ids = plantdiagram.RotatedReferenceRhombus.GongGetUUID(stage)
+		}
+	case "RotatedGrowthVectorShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.RotatedGrowthVectorShape != nil {
+			res.valueString = plantdiagram.RotatedGrowthVectorShape.Name
+			res.ids = plantdiagram.RotatedGrowthVectorShape.GongGetUUID(stage)
+		}
+	case "RotatedGridPathShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.RotatedGridPathShape != nil {
+			res.valueString = plantdiagram.RotatedGridPathShape.Name
+			res.ids = plantdiagram.RotatedGridPathShape.GongGetUUID(stage)
+		}
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsChecked)
 		res.valueBool = plantdiagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = plantdiagram.ComputedPrefix
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", plantdiagram.IsExpanded)
+		res.valueBool = plantdiagram.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
@@ -3142,10 +3232,6 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 	// insertion point for per field code
 	case "Name":
 		plantdiagram.Name = value.GetValueString()
-	case "ComputedPrefix":
-		plantdiagram.ComputedPrefix = value.GetValueString()
-	case "IsExpanded":
-		plantdiagram.IsExpanded = value.GetValueBool()
 	case "OriginX":
 		plantdiagram.OriginX = value.GetValueFloat()
 	case "OriginY":
@@ -3194,8 +3280,45 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
+	case "RotatedReferenceRhombus":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.RotatedReferenceRhombus = nil
+			for __instance__ := range stage.ReferenceRhombuss {
+				if stage.ReferenceRhombus_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.RotatedReferenceRhombus = __instance__
+					break
+				}
+			}
+		}
+	case "RotatedGrowthVectorShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.RotatedGrowthVectorShape = nil
+			for __instance__ := range stage.GrowthVectorShapes {
+				if stage.GrowthVectorShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.RotatedGrowthVectorShape = __instance__
+					break
+				}
+			}
+		}
+	case "RotatedGridPathShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.RotatedGridPathShape = nil
+			for __instance__ := range stage.GridPathShapes {
+				if stage.GridPathShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.RotatedGridPathShape = __instance__
+					break
+				}
+			}
+		}
 	case "IsChecked":
 		plantdiagram.IsChecked = value.GetValueBool()
+	case "ComputedPrefix":
+		plantdiagram.ComputedPrefix = value.GetValueString()
+	case "IsExpanded":
+		plantdiagram.IsExpanded = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

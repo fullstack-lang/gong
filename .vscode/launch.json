@@ -1669,6 +1669,18 @@
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}/lib/threejs/ng-github.com-fullstack-lang-gong-lib-threejs",
             "sourceMaps": true
-        }
+        },
+        {
+            "name": "dsm - phylla: go run stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsm/phylla/go/cmd/phylla",
+            "args": [
+                "edit",
+                "--embedded-diagrams=false",
+                "data/stage.go"
+            ]
+        },
     ]
 }

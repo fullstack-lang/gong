@@ -718,10 +718,6 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(plantdiagram_.Name), formDiv)
-		case "ComputedPrefix":
-			FormDivBasicFieldToField(&(plantdiagram_.ComputedPrefix), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(plantdiagram_.IsExpanded), formDiv)
 		case "OriginX":
 			FormDivBasicFieldToField(&(plantdiagram_.OriginX), formDiv)
 		case "OriginY":
@@ -734,8 +730,18 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.GrowthVectorShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "GridPathShape":
 			FormDivSelectFieldToField(&(plantdiagram_.GridPathShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "RotatedReferenceRhombus":
+			FormDivSelectFieldToField(&(plantdiagram_.RotatedReferenceRhombus), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "RotatedGrowthVectorShape":
+			FormDivSelectFieldToField(&(plantdiagram_.RotatedGrowthVectorShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "RotatedGridPathShape":
+			FormDivSelectFieldToField(&(plantdiagram_.RotatedGridPathShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(plantdiagram_.ComputedPrefix), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(plantdiagram_.IsExpanded), formDiv)
 		case "Plant:PlantDiagramsWhoseNodeIsExpanded":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Plant instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

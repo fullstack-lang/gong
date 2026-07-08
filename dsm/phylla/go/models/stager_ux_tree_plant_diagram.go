@@ -179,4 +179,94 @@ func (stager *Stager) treePlantDiagram(
 
 		plantDiagramNode.Children = append(plantDiagramNode.Children, gridPathShapeNode)
 	}
+
+	rotatedReferenceRhombus := plantDiagram.RotatedReferenceRhombus
+	if rotatedReferenceRhombus != nil {
+		node := &tree.Node{
+			Name:            rotatedReferenceRhombus.Name,
+			IsNodeClickable: true,
+		}
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(rotatedReferenceRhombus, GetPointerToGongstructName[*ReferenceRhombus]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				rotatedReferenceRhombus.SetIsHidden(!rotatedReferenceRhombus.GetIsHidden())
+				stager.stage.Commit()
+			},
+		}
+		if rotatedReferenceRhombus.GetIsHidden() {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
+	rotatedGrowthVectorShape := plantDiagram.RotatedGrowthVectorShape
+	if rotatedGrowthVectorShape != nil {
+		node := &tree.Node{
+			Name:            rotatedGrowthVectorShape.Name,
+			IsNodeClickable: true,
+		}
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(rotatedGrowthVectorShape, GetPointerToGongstructName[*GrowthVectorShape]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				rotatedGrowthVectorShape.SetIsHidden(!rotatedGrowthVectorShape.GetIsHidden())
+				stager.stage.Commit()
+			},
+		}
+		if rotatedGrowthVectorShape.GetIsHidden() {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
+
+	rotatedGridPathShape := plantDiagram.RotatedGridPathShape
+	if rotatedGridPathShape != nil {
+		node := &tree.Node{
+			Name:            rotatedGridPathShape.Name,
+			IsNodeClickable: true,
+		}
+		node.OnClick = func(frontNode *tree.Node) {
+			stager.probeForm.FillUpFormFromGongstruct(rotatedGridPathShape, GetPointerToGongstructName[*GridPathShape]())
+			stager.stage.Commit()
+		}
+		btn := &tree.Button{
+			Name:            "Hide",
+			Icon:            string(buttons.BUTTON_visibility_off),
+			ToolTipText:     "Hide from diagram",
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+			OnClick: func() {
+				rotatedGridPathShape.SetIsHidden(!rotatedGridPathShape.GetIsHidden())
+				stager.stage.Commit()
+			},
+		}
+		if rotatedGridPathShape.GetIsHidden() {
+			btn.Icon = string(buttons.BUTTON_visibility)
+			btn.Name = "Show"
+			btn.ToolTipText = "Show on diagram"
+		}
+		node.Buttons = append(node.Buttons, btn)
+		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
+	}
 }
