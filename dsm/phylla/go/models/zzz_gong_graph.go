@@ -560,6 +560,9 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	if plantdiagram.IsExpanded != plantdiagramOther.IsExpanded {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsExpanded"))
 	}
+	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsChecked"))
+	}
 
 	return
 }

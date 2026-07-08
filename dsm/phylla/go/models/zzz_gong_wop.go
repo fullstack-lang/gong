@@ -81,6 +81,8 @@ type PlantDiagram_WOP struct {
 	ComputedPrefix string
 
 	IsExpanded bool
+
+	IsChecked bool
 }
 
 func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
@@ -88,6 +90,7 @@ func (from *PlantDiagram) CopyBasicFields(to *PlantDiagram) {
 	to.Name = from.Name
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
+	to.IsChecked = from.IsChecked
 }
 
 // end of insertion point
