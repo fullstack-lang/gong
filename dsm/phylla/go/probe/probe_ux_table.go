@@ -26,6 +26,8 @@ func (probe *Probe) ux_table() {
 	// insertion point
 	case "AxesShape":
 		updateProbeTable[*models.AxesShape](probe)
+	case "GrowthVectorShape":
+		updateProbeTable[*models.GrowthVectorShape](probe)
 	case "Library":
 		updateProbeTable[*models.Library](probe)
 	case "Plant":

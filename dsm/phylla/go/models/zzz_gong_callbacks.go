@@ -10,6 +10,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterAxesShapeCreateCallback != nil {
 			stage.OnAfterAxesShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *GrowthVectorShape:
+		if stage.OnAfterGrowthVectorShapeCreateCallback != nil {
+			stage.OnAfterGrowthVectorShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Library:
 		if stage.OnAfterLibraryCreateCallback != nil {
 			stage.OnAfterLibraryCreateCallback.OnAfterCreate(stage, target)
@@ -41,6 +45,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterAxesShapeUpdateCallback != nil {
 			stage.OnAfterAxesShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *GrowthVectorShape:
+		newTarget := any(new).(*GrowthVectorShape)
+		if stage.OnAfterGrowthVectorShapeUpdateCallback != nil {
+			stage.OnAfterGrowthVectorShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Library:
 		newTarget := any(new).(*Library)
 		if stage.OnAfterLibraryUpdateCallback != nil {
@@ -71,6 +80,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*AxesShape)
 			stage.OnAfterAxesShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *GrowthVectorShape:
+		if stage.OnAfterGrowthVectorShapeDeleteCallback != nil {
+			staged := any(staged).(*GrowthVectorShape)
+			stage.OnAfterGrowthVectorShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Library:
 		if stage.OnAfterLibraryDeleteCallback != nil {
 			staged := any(staged).(*Library)
@@ -100,6 +114,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterAxesShapeReadCallback != nil {
 			stage.OnAfterAxesShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *GrowthVectorShape:
+		if stage.OnAfterGrowthVectorShapeReadCallback != nil {
+			stage.OnAfterGrowthVectorShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *Library:
 		if stage.OnAfterLibraryReadCallback != nil {
 			stage.OnAfterLibraryReadCallback.OnAfterRead(stage, target)
@@ -125,6 +143,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	// insertion point
 	case *AxesShape:
 		stage.OnAfterAxesShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[AxesShape])
+	case *GrowthVectorShape:
+		stage.OnAfterGrowthVectorShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GrowthVectorShape])
 	case *Library:
 		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *Plant:
@@ -140,6 +160,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	// insertion point
 	case *AxesShape:
 		stage.OnAfterAxesShapeCreateCallback = any(callback).(OnAfterCreateInterface[AxesShape])
+	case *GrowthVectorShape:
+		stage.OnAfterGrowthVectorShapeCreateCallback = any(callback).(OnAfterCreateInterface[GrowthVectorShape])
 	case *Library:
 		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *Plant:
@@ -155,6 +177,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	// insertion point
 	case *AxesShape:
 		stage.OnAfterAxesShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[AxesShape])
+	case *GrowthVectorShape:
+		stage.OnAfterGrowthVectorShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GrowthVectorShape])
 	case *Library:
 		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *Plant:
@@ -170,6 +194,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	// insertion point
 	case *AxesShape:
 		stage.OnAfterAxesShapeReadCallback = any(callback).(OnAfterReadInterface[AxesShape])
+	case *GrowthVectorShape:
+		stage.OnAfterGrowthVectorShapeReadCallback = any(callback).(OnAfterReadInterface[GrowthVectorShape])
 	case *Library:
 		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *Plant:

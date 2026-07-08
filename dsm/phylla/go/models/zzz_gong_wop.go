@@ -32,6 +32,26 @@ func (from *AxesShape) CopyBasicFields(to *AxesShape) {
 	to.IsWithHiddenHandle = from.IsWithHiddenHandle
 }
 
+type GrowthVectorShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	AngleDegree float64
+
+	Length float64
+
+	IsHidden bool
+}
+
+func (from *GrowthVectorShape) CopyBasicFields(to *GrowthVectorShape) {
+	// insertion point
+	to.Name = from.Name
+	to.AngleDegree = from.AngleDegree
+	to.Length = from.Length
+	to.IsHidden = from.IsHidden
+}
+
 type Library_WOP struct {
 	// insertion point
 

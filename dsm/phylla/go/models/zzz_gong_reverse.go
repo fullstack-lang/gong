@@ -11,6 +11,15 @@ func (inst *AxesShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 	return
 }
 
+func (inst *GrowthVectorShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *Library) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -65,6 +74,15 @@ func (inst *PlantDiagram) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 
 // insertion point
 func (inst *AxesShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *GrowthVectorShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {

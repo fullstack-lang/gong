@@ -47,6 +47,13 @@ func (axesshape *AxesShape) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by GrowthVectorShape
+func (growthvectorshape *GrowthVectorShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Library
 func (library *Library) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -70,6 +77,7 @@ func (plantdiagram *PlantDiagram) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	modified = GongCleanPointer(stage, &plantdiagram.AxesShape) || modified
+	modified = GongCleanPointer(stage, &plantdiagram.GrowthVectorShape) || modified
 	return
 }
 

@@ -4,7 +4,7 @@ type Shape struct {
 	IsHidden bool
 }
 
-// AxesShape of a plant
+// AxesShape of a plant, describe the Cartesian reference X & Y vector
 //
 // each plant has one AxesShape button
 type AxesShape struct {
@@ -32,4 +32,25 @@ func (s *AxesShape) SetIsWithHiddenHandle(isWithHiddenHandle bool) {
 
 func (s *AxesShape) GetIsWithHiddenHandle() bool {
 	return s.IsWithHiddenHandle
+}
+
+// GrowthVectorShape of a plant,
+//
+// each plant has one GrowthVectorShape
+// the direction and distance of new cell growth.
+type GrowthVectorShape struct {
+	Name string
+
+	AngleDegree float64
+	Length      float64
+
+	Shape
+}
+
+func (s *GrowthVectorShape) SetIsHidden(isHidden bool) {
+	s.IsHidden = isHidden
+}
+
+func (s *GrowthVectorShape) GetIsHidden() bool {
+	return s.IsHidden
 }

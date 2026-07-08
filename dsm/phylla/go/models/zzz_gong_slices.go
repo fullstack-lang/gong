@@ -23,6 +23,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct AxesShape
 	// insertion point per field
 
+	// Compute reverse map for named struct GrowthVectorShape
+	// insertion point per field
+
 	// Compute reverse map for named struct Library
 	// insertion point per field
 	stage.Library_SubLibraries_reverseMap = make(map[*Library]*Library)
@@ -69,6 +72,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.GrowthVectorShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Librarys {
 		res = append(res, instance)
 	}
@@ -88,6 +95,12 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 func (axesshape *AxesShape) GongCopy() GongstructIF {
 	newInstance := new(AxesShape)
 	axesshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (growthvectorshape *GrowthVectorShape) GongCopy() GongstructIF {
+	newInstance := new(GrowthVectorShape)
+	growthvectorshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -117,6 +130,16 @@ func (axesshape *AxesShape) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(axesshape), uint64(GetOrderPointerGongstruct(stage, axesshape)))
+	return
+}
+
+func (growthvectorshape *GrowthVectorShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(growthvectorshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthvectorshape), uint64(GetOrderPointerGongstruct(stage, growthvectorshape)))
 	return
 }
 
@@ -223,6 +246,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(axesshapes_newInstances)
 	lenDeletedInstances += len(axesshapes_deletedInstances)
+	var growthvectorshapes_newInstances []*GrowthVectorShape
+	var growthvectorshapes_deletedInstances []*GrowthVectorShape
+
+	// parse all staged instances and check if they have a reference
+	for growthvectorshape := range stage.GrowthVectorShapes {
+		if ref, ok := stage.GrowthVectorShapes_reference[growthvectorshape]; !ok {
+			growthvectorshapes_newInstances = append(growthvectorshapes_newInstances, growthvectorshape)
+			newInstancesSlice = append(newInstancesSlice, growthvectorshape.GongMarshallIdentifier(stage))
+			if stage.GrowthVectorShapes_referenceOrder == nil {
+				stage.GrowthVectorShapes_referenceOrder = make(map[*GrowthVectorShape]uint)
+			}
+			stage.GrowthVectorShapes_referenceOrder[growthvectorshape] = stage.GrowthVectorShape_stagedOrder[growthvectorshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, growthvectorshape.GongMarshallUnstaging(stage))
+			// delete(stage.GrowthVectorShapes_referenceOrder, growthvectorshape)
+			fieldInitializers, pointersInitializations := growthvectorshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.GrowthVectorShape_stagedOrder[ref] = stage.GrowthVectorShape_stagedOrder[growthvectorshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := growthvectorshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, growthvectorshape)
+			// delete(stage.GrowthVectorShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if growthvectorshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", growthvectorshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.GrowthVectorShapes_reference {
+		instance := stage.GrowthVectorShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GrowthVectorShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			growthvectorshapes_deletedInstances = append(growthvectorshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(growthvectorshapes_newInstances)
+	lenDeletedInstances += len(growthvectorshapes_deletedInstances)
 	var librarys_newInstances []*Library
 	var librarys_deletedInstances []*Library
 
@@ -433,6 +511,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.AxesShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.GrowthVectorShapes_reference = make(map[*GrowthVectorShape]*GrowthVectorShape)
+	stage.GrowthVectorShapes_referenceOrder = make(map[*GrowthVectorShape]uint) // diff Unstage needs the reference order
+	stage.GrowthVectorShapes_instance = make(map[*GrowthVectorShape]*GrowthVectorShape)
+	for instance := range stage.GrowthVectorShapes {
+		_copy := instance.GongCopy().(*GrowthVectorShape)
+		stage.GrowthVectorShapes_reference[instance] = _copy
+		stage.GrowthVectorShapes_instance[_copy] = instance
+		stage.GrowthVectorShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Librarys_reference = make(map[*Library]*Library)
 	stage.Librarys_referenceOrder = make(map[*Library]uint) // diff Unstage needs the reference order
 	stage.Librarys_instance = make(map[*Library]*Library)
@@ -469,6 +557,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.GrowthVectorShapes {
+		reference := stage.GrowthVectorShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.Librarys {
 		reference := stage.Librarys_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -502,6 +595,18 @@ func (axesshape *AxesShape) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type AxesShape was not staged and does not have a reference order", axesshape)
+		return 0
+	}
+}
+
+func (growthvectorshape *GrowthVectorShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.GrowthVectorShape_stagedOrder[growthvectorshape]; ok {
+		return order
+	}
+	if order, ok := stage.GrowthVectorShapes_referenceOrder[growthvectorshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type GrowthVectorShape was not staged and does not have a reference order", growthvectorshape)
 		return 0
 	}
 }
@@ -556,6 +661,15 @@ func (axesshape *AxesShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", axesshape.GongGetGongstructName(), axesshape.GongGetOrder(stage))
 }
 
+func (growthvectorshape *GrowthVectorShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", growthvectorshape.GongGetGongstructName(), growthvectorshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (growthvectorshape *GrowthVectorShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", growthvectorshape.GongGetGongstructName(), growthvectorshape.GongGetOrder(stage))
+}
+
 func (library *Library) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", library.GongGetGongstructName(), library.GongGetOrder(stage))
 }
@@ -594,6 +708,14 @@ func (axesshape *AxesShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (growthvectorshape *GrowthVectorShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthvectorshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GrowthVectorShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthvectorshape.Name))
+	return
+}
+
 func (library *Library) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", library.GongGetIdentifier(stage))
@@ -622,6 +744,12 @@ func (plantdiagram *PlantDiagram) GongMarshallIdentifier(stage *Stage) (decl str
 func (axesshape *AxesShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", axesshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (growthvectorshape *GrowthVectorShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthvectorshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

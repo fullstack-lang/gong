@@ -146,6 +146,21 @@ type Stage struct {
 	OnAfterAxesShapeDeleteCallback OnAfterDeleteInterface[AxesShape]
 	OnAfterAxesShapeReadCallback   OnAfterReadInterface[AxesShape]
 
+	GrowthVectorShapes                map[*GrowthVectorShape]struct{}
+	GrowthVectorShapes_instance       map[*GrowthVectorShape]*GrowthVectorShape
+	GrowthVectorShapes_mapString      map[string]*GrowthVectorShape
+	GrowthVectorShapeOrder            uint
+	GrowthVectorShape_stagedOrder     map[*GrowthVectorShape]uint
+	GrowthVectorShape_orderStaged     map[uint]*GrowthVectorShape
+	GrowthVectorShapes_reference      map[*GrowthVectorShape]*GrowthVectorShape
+	GrowthVectorShapes_referenceOrder map[*GrowthVectorShape]uint
+
+	// insertion point for slice of pointers maps
+	OnAfterGrowthVectorShapeCreateCallback OnAfterCreateInterface[GrowthVectorShape]
+	OnAfterGrowthVectorShapeUpdateCallback OnAfterUpdateInterface[GrowthVectorShape]
+	OnAfterGrowthVectorShapeDeleteCallback OnAfterDeleteInterface[GrowthVectorShape]
+	OnAfterGrowthVectorShapeReadCallback   OnAfterReadInterface[GrowthVectorShape]
+
 	Librarys                map[*Library]struct{}
 	Librarys_instance       map[*Library]*Library
 	Librarys_mapString      map[string]*Library
@@ -439,6 +454,10 @@ func (stage *Stage) Squash() {
 	stage.AxesShapes_instance = make(map[*AxesShape]*AxesShape)
 	stage.AxesShapes_referenceOrder = make(map[*AxesShape]uint)
 
+	stage.GrowthVectorShapes_reference = make(map[*GrowthVectorShape]*GrowthVectorShape)
+	stage.GrowthVectorShapes_instance = make(map[*GrowthVectorShape]*GrowthVectorShape)
+	stage.GrowthVectorShapes_referenceOrder = make(map[*GrowthVectorShape]uint)
+
 	stage.Librarys_reference = make(map[*Library]*Library)
 	stage.Librarys_instance = make(map[*Library]*Library)
 	stage.Librarys_referenceOrder = make(map[*Library]uint)
@@ -490,6 +509,20 @@ func (stage *Stage) recomputeOrders() {
 		stage.AxesShapeOrder = maxAxesShapeOrder + 1
 	} else {
 		stage.AxesShapeOrder = 0
+	}
+
+	var maxGrowthVectorShapeOrder uint
+	var foundGrowthVectorShape bool
+	for _, order := range stage.GrowthVectorShape_stagedOrder {
+		if !foundGrowthVectorShape || order > maxGrowthVectorShapeOrder {
+			maxGrowthVectorShapeOrder = order
+			foundGrowthVectorShape = true
+		}
+	}
+	if foundGrowthVectorShape {
+		stage.GrowthVectorShapeOrder = maxGrowthVectorShapeOrder + 1
+	} else {
+		stage.GrowthVectorShapeOrder = 0
 	}
 
 	var maxLibraryOrder uint
@@ -609,6 +642,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *GrowthVectorShape:
+		tmp := GetStructInstancesByOrder(stage.GrowthVectorShapes, stage.GrowthVectorShape_stagedOrder)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *GrowthVectorShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Library:
 		tmp := GetStructInstancesByOrder(stage.Librarys, stage.Library_stagedOrder)
 
@@ -682,6 +729,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	// insertion point for case
 	case "AxesShape":
 		res = GetNamedStructInstances(stage.AxesShapes, stage.AxesShape_stagedOrder)
+	case "GrowthVectorShape":
+		res = GetNamedStructInstances(stage.GrowthVectorShapes, stage.GrowthVectorShape_stagedOrder)
 	case "Library":
 		res = GetNamedStructInstances(stage.Librarys, stage.Library_stagedOrder)
 	case "Plant":
@@ -759,6 +808,8 @@ type BackRepoInterface interface {
 	// insertion point for Commit and Checkout signatures
 	CommitAxesShape(axesshape *AxesShape)
 	CheckoutAxesShape(axesshape *AxesShape)
+	CommitGrowthVectorShape(growthvectorshape *GrowthVectorShape)
+	CheckoutGrowthVectorShape(growthvectorshape *GrowthVectorShape)
 	CommitLibrary(library *Library)
 	CheckoutLibrary(library *Library)
 	CommitPlant(plant *Plant)
@@ -773,6 +824,9 @@ func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
 		AxesShapes:           make(map[*AxesShape]struct{}),
 		AxesShapes_mapString: make(map[string]*AxesShape),
+
+		GrowthVectorShapes:           make(map[*GrowthVectorShape]struct{}),
+		GrowthVectorShapes_mapString: make(map[string]*GrowthVectorShape),
 
 		Librarys:           make(map[*Library]struct{}),
 		Librarys_mapString: make(map[string]*Library),
@@ -797,6 +851,10 @@ func NewStage(name string) (stage *Stage) {
 		AxesShape_orderStaged: make(map[uint]*AxesShape),
 		AxesShapes_reference:  make(map[*AxesShape]*AxesShape),
 
+		GrowthVectorShape_stagedOrder: make(map[*GrowthVectorShape]uint),
+		GrowthVectorShape_orderStaged: make(map[uint]*GrowthVectorShape),
+		GrowthVectorShapes_reference:  make(map[*GrowthVectorShape]*GrowthVectorShape),
+
 		Library_stagedOrder: make(map[*Library]uint),
 		Library_orderStaged: make(map[uint]*Library),
 		Librarys_reference:  make(map[*Library]*Library),
@@ -813,6 +871,8 @@ func NewStage(name string) (stage *Stage) {
 		GongUnmarshallers: map[string]ModelUnmarshaller{ // insertion point for unmarshallers
 			"AxesShape": &AxesShapeUnmarshaller{},
 
+			"GrowthVectorShape": &GrowthVectorShapeUnmarshaller{},
+
 			"Library": &LibraryUnmarshaller{},
 
 			"Plant": &PlantUnmarshaller{},
@@ -824,6 +884,7 @@ func NewStage(name string) (stage *Stage) {
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "AxesShape"},
+			{name: "GrowthVectorShape"},
 			{name: "Library"},
 			{name: "Plant"},
 			{name: "PlantDiagram"},
@@ -840,6 +901,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	// insertion point for order map initialisations
 	case *AxesShape:
 		return stage.AxesShape_stagedOrder[instance]
+	case *GrowthVectorShape:
+		return stage.GrowthVectorShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *Plant:
@@ -857,6 +920,8 @@ func GongGetInstanceFromOrder[Type PointerToGongstruct](stage *Stage, order uint
 	// insertion point for order map initialisations
 	case *AxesShape:
 		return any(stage.AxesShape_orderStaged[order]).(Type)
+	case *GrowthVectorShape:
+		return any(stage.GrowthVectorShape_orderStaged[order]).(Type)
 	case *Library:
 		return any(stage.Library_orderStaged[order]).(Type)
 	case *Plant:
@@ -873,6 +938,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	// insertion point for order map initialisations
 	case *AxesShape:
 		return stage.AxesShape_stagedOrder[instance]
+	case *GrowthVectorShape:
+		return stage.GrowthVectorShape_stagedOrder[instance]
 	case *Library:
 		return stage.Library_stagedOrder[instance]
 	case *Plant:
@@ -945,6 +1012,7 @@ func (stage *Stage) Commit() {
 func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["AxesShape"] = len(stage.AxesShapes)
+	stage.Map_GongStructName_InstancesNb["GrowthVectorShape"] = len(stage.GrowthVectorShapes)
 	stage.Map_GongStructName_InstancesNb["Library"] = len(stage.Librarys)
 	stage.Map_GongStructName_InstancesNb["Plant"] = len(stage.Plants)
 	stage.Map_GongStructName_InstancesNb["PlantDiagram"] = len(stage.PlantDiagrams)
@@ -1074,6 +1142,94 @@ func (axesshape *AxesShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (axesshape *AxesShape) SetName(name string) {
 	axesshape.Name = name
+}
+
+// Stage puts growthvectorshape to the model stage
+func (growthvectorshape *GrowthVectorShape) Stage(stage *Stage) *GrowthVectorShape {
+	if _, ok := stage.GrowthVectorShapes[growthvectorshape]; !ok {
+		stage.GrowthVectorShapes[growthvectorshape] = struct{}{}
+		stage.GrowthVectorShape_stagedOrder[growthvectorshape] = stage.GrowthVectorShapeOrder
+		stage.GrowthVectorShape_orderStaged[stage.GrowthVectorShapeOrder] = growthvectorshape
+		stage.GrowthVectorShapeOrder++
+	}
+	stage.GrowthVectorShapes_mapString[growthvectorshape.Name] = growthvectorshape
+
+	return growthvectorshape
+}
+
+// StagePreserveOrder puts growthvectorshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.GrowthVectorShapeOrder
+// - update stage.GrowthVectorShapeOrder accordingly
+func (growthvectorshape *GrowthVectorShape) StagePreserveOrder(stage *Stage, order uint) {
+	if _, ok := stage.GrowthVectorShapes[growthvectorshape]; !ok {
+		stage.GrowthVectorShapes[growthvectorshape] = struct{}{}
+
+		if order > stage.GrowthVectorShapeOrder {
+			stage.GrowthVectorShapeOrder = order
+		}
+		stage.GrowthVectorShape_stagedOrder[growthvectorshape] = order
+		stage.GrowthVectorShape_orderStaged[order] = growthvectorshape
+		stage.GrowthVectorShapeOrder++
+	}
+	stage.GrowthVectorShapes_mapString[growthvectorshape.Name] = growthvectorshape
+}
+
+// Unstage removes growthvectorshape off the model stage
+func (growthvectorshape *GrowthVectorShape) Unstage(stage *Stage) *GrowthVectorShape {
+	delete(stage.GrowthVectorShapes, growthvectorshape)
+	// issue1150
+	// delete(stage.GrowthVectorShape_stagedOrder, growthvectorshape)
+	delete(stage.GrowthVectorShapes_mapString, growthvectorshape.Name)
+
+	return growthvectorshape
+}
+
+// UnstageVoid removes growthvectorshape off the model stage
+func (growthvectorshape *GrowthVectorShape) UnstageVoid(stage *Stage) {
+	delete(stage.GrowthVectorShapes, growthvectorshape)
+	// issue1150
+	// delete(stage.GrowthVectorShape_stagedOrder, growthvectorshape)
+	delete(stage.GrowthVectorShapes_mapString, growthvectorshape.Name)
+}
+
+// commit growthvectorshape to the back repo (if it is already staged)
+func (growthvectorshape *GrowthVectorShape) Commit(stage *Stage) *GrowthVectorShape {
+	if _, ok := stage.GrowthVectorShapes[growthvectorshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitGrowthVectorShape(growthvectorshape)
+		}
+	}
+	return growthvectorshape
+}
+
+func (growthvectorshape *GrowthVectorShape) CommitVoid(stage *Stage) {
+	growthvectorshape.Commit(stage)
+}
+
+func (growthvectorshape *GrowthVectorShape) StageVoid(stage *Stage) {
+	growthvectorshape.Stage(stage)
+}
+
+// Checkout growthvectorshape to the back repo (if it is already staged)
+func (growthvectorshape *GrowthVectorShape) Checkout(stage *Stage) *GrowthVectorShape {
+	if _, ok := stage.GrowthVectorShapes[growthvectorshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutGrowthVectorShape(growthvectorshape)
+		}
+	}
+	return growthvectorshape
+}
+
+// for satisfaction of GongStruct interface
+func (growthvectorshape *GrowthVectorShape) GetName() (res string) {
+	return growthvectorshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (growthvectorshape *GrowthVectorShape) SetName(name string) {
+	growthvectorshape.Name = name
 }
 
 // Stage puts library to the model stage
@@ -1343,6 +1499,7 @@ func (plantdiagram *PlantDiagram) SetName(name string) {
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAxesShape(AxesShape *AxesShape)
+	CreateORMGrowthVectorShape(GrowthVectorShape *GrowthVectorShape)
 	CreateORMLibrary(Library *Library)
 	CreateORMPlant(Plant *Plant)
 	CreateORMPlantDiagram(PlantDiagram *PlantDiagram)
@@ -1350,6 +1507,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMAxesShape(AxesShape *AxesShape)
+	DeleteORMGrowthVectorShape(GrowthVectorShape *GrowthVectorShape)
 	DeleteORMLibrary(Library *Library)
 	DeleteORMPlant(Plant *Plant)
 	DeleteORMPlantDiagram(PlantDiagram *PlantDiagram)
@@ -1360,6 +1518,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.AxesShapes_mapString = make(map[string]*AxesShape)
 	stage.AxesShape_stagedOrder = make(map[*AxesShape]uint)
 	stage.AxesShapeOrder = 0
+
+	stage.GrowthVectorShapes = make(map[*GrowthVectorShape]struct{})
+	stage.GrowthVectorShapes_mapString = make(map[string]*GrowthVectorShape)
+	stage.GrowthVectorShape_stagedOrder = make(map[*GrowthVectorShape]uint)
+	stage.GrowthVectorShapeOrder = 0
 
 	stage.Librarys = make(map[*Library]struct{})
 	stage.Librarys_mapString = make(map[string]*Library)
@@ -1388,6 +1551,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.AxesShapes = nil
 	stage.AxesShapes_mapString = nil
 
+	stage.GrowthVectorShapes = nil
+	stage.GrowthVectorShapes_mapString = nil
+
 	stage.Librarys = nil
 	stage.Librarys_mapString = nil
 
@@ -1403,6 +1569,10 @@ func (stage *Stage) Nil() { // insertion point for array nil
 func (stage *Stage) Unstage() { // insertion point for array nil
 	for axesshape := range stage.AxesShapes {
 		axesshape.Unstage(stage)
+	}
+
+	for growthvectorshape := range stage.GrowthVectorShapes {
+		growthvectorshape.Unstage(stage)
 	}
 
 	for library := range stage.Librarys {
@@ -1495,6 +1665,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	// insertion point for generic get functions
 	case map[*AxesShape]any:
 		return any(&stage.AxesShapes).(*Type)
+	case map[*GrowthVectorShape]any:
+		return any(&stage.GrowthVectorShapes).(*Type)
 	case map[*Library]any:
 		return any(&stage.Librarys).(*Type)
 	case map[*Plant]any:
@@ -1515,6 +1687,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	// insertion point for generic get functions
 	case *AxesShape:
 		return any(stage.AxesShapes_mapString).(map[string]Type)
+	case *GrowthVectorShape:
+		return any(stage.GrowthVectorShapes_mapString).(map[string]Type)
 	case *Library:
 		return any(stage.Librarys_mapString).(map[string]Type)
 	case *Plant:
@@ -1535,6 +1709,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 	// insertion point for generic get functions
 	case AxesShape:
 		return any(&stage.AxesShapes).(*map[*Type]struct{})
+	case GrowthVectorShape:
+		return any(&stage.GrowthVectorShapes).(*map[*Type]struct{})
 	case Library:
 		return any(&stage.Librarys).(*map[*Type]struct{})
 	case Plant:
@@ -1555,6 +1731,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 	// insertion point for generic get functions
 	case *AxesShape:
 		return any(&stage.AxesShapes).(*map[Type]struct{})
+	case *GrowthVectorShape:
+		return any(&stage.GrowthVectorShapes).(*map[Type]struct{})
 	case *Library:
 		return any(&stage.Librarys).(*map[Type]struct{})
 	case *Plant:
@@ -1575,6 +1753,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 	// insertion point for generic get functions
 	case AxesShape:
 		return any(&stage.AxesShapes_mapString).(*map[string]*Type)
+	case GrowthVectorShape:
+		return any(&stage.GrowthVectorShapes_mapString).(*map[string]*Type)
 	case Library:
 		return any(&stage.Librarys_mapString).(*map[string]*Type)
 	case Plant:
@@ -1599,6 +1779,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&AxesShape{
 			// Initialisation of associations
 		}).(*Type)
+	case GrowthVectorShape:
+		return any(&GrowthVectorShape{
+			// Initialisation of associations
+		}).(*Type)
 	case Library:
 		return any(&Library{
 			// Initialisation of associations
@@ -1620,6 +1804,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of AxesShape with the name of the field
 			AxesShape: &AxesShape{Name: "AxesShape"},
+			// field is initialized with an instance of GrowthVectorShape with the name of the field
+			GrowthVectorShape: &GrowthVectorShape{Name: "GrowthVectorShape"},
 		}).(*Type)
 	default:
 		return nil
@@ -1640,6 +1826,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	// insertion point of functions that provide maps for reverse associations
 	// reverse maps of direct associations of AxesShape
 	case AxesShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of GrowthVectorShape
+	case GrowthVectorShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -1674,6 +1865,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "GrowthVectorShape":
+			res := make(map[*GrowthVectorShape][]*PlantDiagram)
+			for plantdiagram := range stage.PlantDiagrams {
+				if plantdiagram.GrowthVectorShape != nil {
+					growthvectorshape_ := plantdiagram.GrowthVectorShape
+					var plantdiagrams []*PlantDiagram
+					_, ok := res[growthvectorshape_]
+					if ok {
+						plantdiagrams = res[growthvectorshape_]
+					} else {
+						plantdiagrams = make([]*PlantDiagram, 0)
+					}
+					plantdiagrams = append(plantdiagrams, plantdiagram)
+					res[growthvectorshape_] = plantdiagrams
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	}
 	return nil
@@ -1692,6 +1900,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	// insertion point of functions that provide maps for reverse associations
 	// reverse maps of direct associations of AxesShape
 	case AxesShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of GrowthVectorShape
+	case GrowthVectorShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -1755,6 +1968,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 	// insertion point for generic get gongstruct name
 	case *AxesShape:
 		res = "AxesShape"
+	case *GrowthVectorShape:
+		res = "GrowthVectorShape"
 	case *Library:
 		res = "Library"
 	case *Plant:
@@ -1779,6 +1994,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 
 	// insertion point for generic get gongstruct name
 	case *AxesShape:
+		var rf ReverseField
+		_ = rf
+	case *GrowthVectorShape:
 		var rf ReverseField
 		_ = rf
 	case *Library:
@@ -1828,6 +2046,29 @@ func (axesshape *AxesShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsWithHiddenHandle",
+			GongFieldValueType: GongFieldValueTypeBool,
+		},
+	}
+	return
+}
+
+func (growthvectorshape *GrowthVectorShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeString,
+		},
+		{
+			Name:               "AngleDegree",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "Length",
+			GongFieldValueType: GongFieldValueTypeFloat,
+		},
+		{
+			Name:               "IsHidden",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 	}
@@ -1961,6 +2202,11 @@ func (plantdiagram *PlantDiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			TargetGongstructName: "AxesShape",
 		},
 		{
+			Name:                 "GrowthVectorShape",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "GrowthVectorShape",
+		},
+		{
 			Name:               "IsChecked",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
@@ -2043,6 +2289,27 @@ func (axesshape *AxesShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 	case "IsWithHiddenHandle":
 		res.valueString = fmt.Sprintf("%t", axesshape.IsWithHiddenHandle)
 		res.valueBool = axesshape.IsWithHiddenHandle
+		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+
+func (growthvectorshape *GrowthVectorShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = growthvectorshape.Name
+	case "AngleDegree":
+		res.valueString = fmt.Sprintf("%f", growthvectorshape.AngleDegree)
+		res.valueFloat = growthvectorshape.AngleDegree
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Length":
+		res.valueString = fmt.Sprintf("%f", growthvectorshape.Length)
+		res.valueFloat = growthvectorshape.Length
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "IsHidden":
+		res.valueString = fmt.Sprintf("%t", growthvectorshape.IsHidden)
+		res.valueBool = growthvectorshape.IsHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
@@ -2181,6 +2448,12 @@ func (plantdiagram *PlantDiagram) GongGetFieldValue(fieldName string, stage *Sta
 			res.valueString = plantdiagram.AxesShape.Name
 			res.ids = plantdiagram.AxesShape.GongGetUUID(stage)
 		}
+	case "GrowthVectorShape":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if plantdiagram.GrowthVectorShape != nil {
+			res.valueString = plantdiagram.GrowthVectorShape.Name
+			res.ids = plantdiagram.GrowthVectorShape.GongGetUUID(stage)
+		}
 	case "IsChecked":
 		res.valueString = fmt.Sprintf("%t", plantdiagram.IsChecked)
 		res.valueBool = plantdiagram.IsChecked
@@ -2208,6 +2481,23 @@ func (axesshape *AxesShape) GongSetFieldValue(fieldName string, value GongFieldV
 		axesshape.IsHidden = value.GetValueBool()
 	case "IsWithHiddenHandle":
 		axesshape.IsWithHiddenHandle = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (growthvectorshape *GrowthVectorShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		growthvectorshape.Name = value.GetValueString()
+	case "AngleDegree":
+		growthvectorshape.AngleDegree = value.GetValueFloat()
+	case "Length":
+		growthvectorshape.Length = value.GetValueFloat()
+	case "IsHidden":
+		growthvectorshape.IsHidden = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -2344,6 +2634,17 @@ func (plantdiagram *PlantDiagram) GongSetFieldValue(fieldName string, value Gong
 				}
 			}
 		}
+	case "GrowthVectorShape":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			plantdiagram.GrowthVectorShape = nil
+			for __instance__ := range stage.GrowthVectorShapes {
+				if stage.GrowthVectorShape_stagedOrder[__instance__] == uint(id) {
+					plantdiagram.GrowthVectorShape = __instance__
+					break
+				}
+			}
+		}
 	case "IsChecked":
 		plantdiagram.IsChecked = value.GetValueBool()
 	default:
@@ -2359,6 +2660,10 @@ func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, val
 // insertion point for generic get gongstruct name
 func (axesshape *AxesShape) GongGetGongstructName() string {
 	return "AxesShape"
+}
+
+func (growthvectorshape *GrowthVectorShape) GongGetGongstructName() string {
+	return "GrowthVectorShape"
 }
 
 func (library *Library) GongGetGongstructName() string {
@@ -2383,6 +2688,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.AxesShapes_mapString = make(map[string]*AxesShape)
 	for axesshape := range stage.AxesShapes {
 		stage.AxesShapes_mapString[axesshape.Name] = axesshape
+	}
+
+	stage.GrowthVectorShapes_mapString = make(map[string]*GrowthVectorShape)
+	for growthvectorshape := range stage.GrowthVectorShapes {
+		stage.GrowthVectorShapes_mapString[growthvectorshape.Name] = growthvectorshape
 	}
 
 	stage.Librarys_mapString = make(map[string]*Library)

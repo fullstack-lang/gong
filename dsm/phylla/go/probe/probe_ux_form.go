@@ -21,6 +21,12 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.axesshape, probe)
 			}
+		case *GrowthVectorShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GrowthVectorShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.growthvectorshape, probe)
+			}
 		case *LibraryFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Library", true)
@@ -74,6 +80,19 @@ func FillUpFormFromGongstructName(
 		axesshape := new(models.AxesShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(axesshape, formGroup, probe)
+	case "GrowthVectorShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "GrowthVectorShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GrowthVectorShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		growthvectorshape := new(models.GrowthVectorShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(growthvectorshape, formGroup, probe)
 	case "Library":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

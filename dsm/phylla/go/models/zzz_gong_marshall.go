@@ -314,6 +314,35 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(axesshape.GongMarshallField(stage, "IsWithHiddenHandle"))
 	}
 
+	growthvectorshapeOrdered := []*GrowthVectorShape{}
+	for growthvectorshape := range stage.GrowthVectorShapes {
+		growthvectorshapeOrdered = append(growthvectorshapeOrdered, growthvectorshape)
+	}
+	sort.Slice(growthvectorshapeOrdered[:], func(i, j int) bool {
+		growthvectorshapei := growthvectorshapeOrdered[i]
+		growthvectorshapej := growthvectorshapeOrdered[j]
+		growthvectorshapei_order, oki := stage.GrowthVectorShape_stagedOrder[growthvectorshapei]
+		growthvectorshapej_order, okj := stage.GrowthVectorShape_stagedOrder[growthvectorshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return growthvectorshapei_order < growthvectorshapej_order
+	})
+	if len(growthvectorshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, growthvectorshape := range growthvectorshapeOrdered {
+
+		identifiersDecl.WriteString(growthvectorshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(growthvectorshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(growthvectorshape.GongMarshallField(stage, "AngleDegree"))
+		initializerStatements.WriteString(growthvectorshape.GongMarshallField(stage, "Length"))
+		initializerStatements.WriteString(growthvectorshape.GongMarshallField(stage, "IsHidden"))
+	}
+
 	libraryOrdered := []*Library{}
 	for library := range stage.Librarys {
 		libraryOrdered = append(libraryOrdered, library)
@@ -413,12 +442,21 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginX"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginY"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "AxesShape"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "GrowthVectorShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 	}
 
 	// insertion initialization of objects to stage
 	for _, axesshape := range axesshapeOrdered {
 		_ = axesshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, growthvectorshape := range growthvectorshapeOrdered {
+		_ = growthvectorshape
 		var setPointerField string
 		_ = setPointerField
 
@@ -534,6 +572,36 @@ func (axesshape *AxesShape) GongMarshallField(stage *Stage, fieldName string) (r
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct AxesShape", fieldName)
+	}
+	return
+}
+
+func (growthvectorshape *GrowthVectorShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", growthvectorshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthvectorshape.Name))
+	case "AngleDegree":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", growthvectorshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AngleDegree")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", growthvectorshape.AngleDegree))
+	case "Length":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", growthvectorshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Length")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", growthvectorshape.Length))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", growthvectorshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", growthvectorshape.IsHidden))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct GrowthVectorShape", fieldName)
 	}
 	return
 }
@@ -725,6 +793,19 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AxesShape")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "GrowthVectorShape":
+		if plantdiagram.GrowthVectorShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GrowthVectorShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantdiagram.GrowthVectorShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GrowthVectorShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PlantDiagram", fieldName)
 	}
@@ -742,6 +823,20 @@ func (axesshape *AxesShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(axesshape.GongMarshallField(stage, "LengthY"))
 		initializerStatements.WriteString(axesshape.GongMarshallField(stage, "IsHidden"))
 		initializerStatements.WriteString(axesshape.GongMarshallField(stage, "IsWithHiddenHandle"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (growthvectorshape *GrowthVectorShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(growthvectorshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(growthvectorshape.GongMarshallField(stage, "AngleDegree"))
+		initializerStatements.WriteString(growthvectorshape.GongMarshallField(stage, "Length"))
+		initializerStatements.WriteString(growthvectorshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -798,6 +893,7 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginX"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "OriginY"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "AxesShape"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "GrowthVectorShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 	}
 	initRes = initializerStatements.String()
