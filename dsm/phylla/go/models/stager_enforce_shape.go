@@ -197,40 +197,7 @@ func (stager *Stager) enforcePlantDiagramHasRotatedShapes() (needCommit bool) {
 		"RotatedGridPathShape",
 	)
 
-	n4 := enforcePlantDiagramHasShape[*RhombusGridShape](
-		stager,
-		func() *RhombusGridShape { return new(RhombusGridShape) },
-		func(pd *PlantDiagram) *RhombusGridShape { return pd.RotatedRhombusGridShape },
-		func(pd *PlantDiagram, shape *RhombusGridShape) { pd.RotatedRhombusGridShape = shape },
-		func(pd *PlantDiagram, shape *RhombusGridShape) bool {
-			return pd.RotatedRhombusGridShape == shape
-		},
-		"RotatedRhombusGridShape",
-	)
-
-	n5 := enforcePlantDiagramHasShape[*CircleGridShape](
-		stager,
-		func() *CircleGridShape { return new(CircleGridShape) },
-		func(pd *PlantDiagram) *CircleGridShape { return pd.RotatedCircleGridShape },
-		func(pd *PlantDiagram, shape *CircleGridShape) { pd.RotatedCircleGridShape = shape },
-		func(pd *PlantDiagram, shape *CircleGridShape) bool {
-			return pd.RotatedCircleGridShape == shape
-		},
-		"RotatedCircleGridShape",
-	)
-
-	n6 := enforcePlantDiagramHasShape[*NextCircleShape](
-		stager,
-		func() *NextCircleShape { return new(NextCircleShape) },
-		func(pd *PlantDiagram) *NextCircleShape { return pd.RotatedNextCircleShape },
-		func(pd *PlantDiagram, shape *NextCircleShape) { pd.RotatedNextCircleShape = shape },
-		func(pd *PlantDiagram, shape *NextCircleShape) bool {
-			return pd.RotatedNextCircleShape == shape
-		},
-		"RotatedNextCircleShape",
-	)
-
-	return n1 || n2 || n3 || n4 || n5 || n6
+	return n1 || n2 || n3
 }
 
 // enforceReferenceRhombusName ensures that the name of the ReferenceRhombus matches its owning PlantDiagram
@@ -262,23 +229,5 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 		"RotatedGridPathShape",
 	)
 
-	n4 := enforcePlantDiagramShapeName[*RhombusGridShape](
-		stager,
-		func(pd *PlantDiagram) *RhombusGridShape { return pd.RotatedRhombusGridShape },
-		"RotatedRhombusGridShape",
-	)
-
-	n5 := enforcePlantDiagramShapeName[*CircleGridShape](
-		stager,
-		func(pd *PlantDiagram) *CircleGridShape { return pd.RotatedCircleGridShape },
-		"RotatedCircleGridShape",
-	)
-
-	n6 := enforcePlantDiagramShapeName[*NextCircleShape](
-		stager,
-		func(pd *PlantDiagram) *NextCircleShape { return pd.RotatedNextCircleShape },
-		"RotatedNextCircleShape",
-	)
-
-	return n1 || n2 || n3 || n4 || n5 || n6
+	return n1 || n2 || n3
 }

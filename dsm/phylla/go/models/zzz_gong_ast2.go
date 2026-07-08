@@ -762,12 +762,6 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		GongUnmarshallPointer(&instance.RotatedGrowthVectorShape, valueExpr, identifierMap)
 	case "RotatedGridPathShape":
 		GongUnmarshallPointer(&instance.RotatedGridPathShape, valueExpr, identifierMap)
-	case "RotatedRhombusGridShape":
-		GongUnmarshallPointer(&instance.RotatedRhombusGridShape, valueExpr, identifierMap)
-	case "RotatedCircleGridShape":
-		GongUnmarshallPointer(&instance.RotatedCircleGridShape, valueExpr, identifierMap)
-	case "RotatedNextCircleShape":
-		GongUnmarshallPointer(&instance.RotatedNextCircleShape, valueExpr, identifierMap)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	case "ComputedPrefix":
