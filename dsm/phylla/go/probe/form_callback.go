@@ -439,12 +439,12 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.M), formDiv)
 		case "Z":
 			FormDivBasicFieldToField(&(plant_.Z), formDiv)
-		case "InsideAngle":
-			FormDivBasicFieldToField(&(plant_.InsideAngle), formDiv)
+		case "RhombusInsideAngle":
+			FormDivBasicFieldToField(&(plant_.RhombusInsideAngle), formDiv)
+		case "RhombusSideLength":
+			FormDivBasicFieldToField(&(plant_.RhombusSideLength), formDiv)
 		case "ShiftToNearestCircle":
 			FormDivBasicFieldToField(&(plant_.ShiftToNearestCircle), formDiv)
-		case "SideLength":
-			FormDivBasicFieldToField(&(plant_.SideLength), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(plant_.ComputedPrefix), formDiv)
 		case "IsExpanded":

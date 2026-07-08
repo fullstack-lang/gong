@@ -726,14 +726,14 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	if plant.Z != plantOther.Z {
 		diffs = append(diffs, plant.GongMarshallField(stage, "Z"))
 	}
-	if plant.InsideAngle != plantOther.InsideAngle {
-		diffs = append(diffs, plant.GongMarshallField(stage, "InsideAngle"))
+	if plant.RhombusInsideAngle != plantOther.RhombusInsideAngle {
+		diffs = append(diffs, plant.GongMarshallField(stage, "RhombusInsideAngle"))
+	}
+	if plant.RhombusSideLength != plantOther.RhombusSideLength {
+		diffs = append(diffs, plant.GongMarshallField(stage, "RhombusSideLength"))
 	}
 	if plant.ShiftToNearestCircle != plantOther.ShiftToNearestCircle {
 		diffs = append(diffs, plant.GongMarshallField(stage, "ShiftToNearestCircle"))
-	}
-	if plant.SideLength != plantOther.SideLength {
-		diffs = append(diffs, plant.GongMarshallField(stage, "SideLength"))
 	}
 	if plant.ComputedPrefix != plantOther.ComputedPrefix {
 		diffs = append(diffs, plant.GongMarshallField(stage, "ComputedPrefix"))

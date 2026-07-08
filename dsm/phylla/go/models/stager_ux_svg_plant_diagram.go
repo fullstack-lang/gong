@@ -1,6 +1,8 @@
 package models
 
 import (
+	"math"
+
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
@@ -39,14 +41,15 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram) (svg_ *svg.S
 	svg_.Layers = append(svg_.Layers, layer)
 
 	// creation of 2 transparant rects, one at each ends of the vertical
-	plantDiagram.draw(stager, layer)
+	plantDiagram.drawAxes(stager, layer)
+	plantDiagram.drawGrowthVectorShape(stager, layer)
 
 	return
 }
 
 const AxisHandleBorderLength = 25
 
-func (plantDiagram *PlantDiagram) draw(stager *Stager, layer *svg.Layer) {
+func (plantDiagram *PlantDiagram) drawAxes(stager *Stager, layer *svg.Layer) {
 
 	if plantDiagram.AxesShape.IsHidden {
 		return
@@ -158,11 +161,36 @@ func (plantDiagram *PlantDiagram) draw(stager *Stager, layer *svg.Layer) {
 	horizontalAxisLine.EndArrowSize = 8
 	horizontalAxisLine.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
 
-	horizontalAxisLine.StartAnchorType = svg.ANCHOR_CENTER
-	horizontalAxisLine.EndAnchorType = svg.ANCHOR_CENTER
+	horizontalAxisLine.StartAnchorType = svg.ANCHOR_BOTTOM
+	horizontalAxisLine.EndAnchorType = svg.ANCHOR_BOTTOM
 
 	// right and top handle move with vertical bottom handle
 	verticalAxisBottomHandle.Peers = append(verticalAxisBottomHandle.Peers,
 		verticalAxisTopHandle,
 		horizontalAxisRightHandle)
+}
+
+func (plantDiagram *PlantDiagram) drawGrowthVectorShape(stager *Stager, layer *svg.Layer) {
+
+	if plantDiagram.GrowthVectorShape.IsHidden {
+		return
+	}
+
+	angleRad := plantDiagram.GrowthVectorShape.AngleDegree * math.Pi / 180.0
+	length := plantDiagram.GrowthVectorShape.Length
+
+	endX := plantDiagram.OriginX + length*math.Cos(angleRad)
+	endY := plantDiagram.OriginY - length*math.Sin(angleRad) // minus because SVG y-axis is inverted
+
+	line := new(svg.Line)
+	layer.Lines = append(layer.Lines, line)
+
+	line.Name = plantDiagram.GrowthVectorShape.Name
+	line.X1 = plantDiagram.OriginX
+	line.Y1 = plantDiagram.OriginY
+	line.X2 = endX
+	line.Y2 = endY
+	line.Presentation.Stroke = "green"
+	line.Presentation.StrokeWidth = 2.0
+	line.Presentation.StrokeOpacity = 1.0
 }
