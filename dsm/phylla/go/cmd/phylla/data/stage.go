@@ -31,6 +31,7 @@ func _(stage *models.Stage) {
 	__Plant__00000000_ := (&models.Plant{Name: `Plan 1`}).Stage(stage)
 
 	__PlantDiagram__00000000_ := (&models.PlantDiagram{Name: `New Plant Diagram`}).Stage(stage)
+	__PlantDiagram__00000001_ := (&models.PlantDiagram{Name: `New Plant Diagram 2`}).Stage(stage)
 
 	// insertion point for initialization of values
 
@@ -64,8 +65,14 @@ func _(stage *models.Stage) {
 	__PlantDiagram__00000000_.IsExpanded = false
 	__PlantDiagram__00000000_.IsChecked = true
 
+	__PlantDiagram__00000001_.Name = `New Plant Diagram 2`
+	__PlantDiagram__00000001_.ComputedPrefix = ``
+	__PlantDiagram__00000001_.IsExpanded = false
+	__PlantDiagram__00000001_.IsChecked = false
+
 	// insertion point for setup of pointers
 	__Library__00000000_.SubLibraries = append(__Library__00000000_.SubLibraries, __Library__00000001_)
 	__Library__00000000_.Plants = append(__Library__00000000_.Plants, __Plant__00000000_)
 	__Plant__00000000_.PlantDiagrams = append(__Plant__00000000_.PlantDiagrams, __PlantDiagram__00000000_)
+	__Plant__00000000_.PlantDiagrams = append(__Plant__00000000_.PlantDiagrams, __PlantDiagram__00000001_)
 }

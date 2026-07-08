@@ -8,7 +8,6 @@ import (
 )
 
 func (stager *Stager) svg() {
-	log.Println("svg")
 	stager.svgStage.Reset()
 
 	var diagram *Diagram
