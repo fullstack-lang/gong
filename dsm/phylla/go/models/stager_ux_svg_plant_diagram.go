@@ -56,13 +56,14 @@ func (plantDiagram *PlantDiagram) draw(stager *Stager, layer *svg.Layer) {
 	verticalAxisTopHandle.Name = "Vertical axis bottom handle"
 	layer.Rects = append(layer.Rects, verticalAxisTopHandle)
 	verticalAxisTopHandle.X = plantDiagram.OriginX - AxisHandleBorderLength/2.0
-	verticalAxisTopHandle.Y = plantDiagram.OriginY - plantDiagram.AxesShape.LengthY
+	verticalAxisTopHandle.Y = plantDiagram.OriginY - plantDiagram.AxesShape.LengthY - AxisHandleBorderLength
 	verticalAxisTopHandle.Width = AxisHandleBorderLength
 	verticalAxisTopHandle.Height = AxisHandleBorderLength
 	verticalAxisTopHandle.CanMoveVerticaly = true
+	verticalAxisTopHandle.CanMoveHorizontaly = true
 	verticalAxisTopHandle.OnMove = func(x, y float64) {
-		plantDiagram.AxesShape.LengthY = plantDiagram.OriginY - y
-		stager.stage.CommitWithSuspendedCallbacks()
+		plantDiagram.AxesShape.LengthY = plantDiagram.OriginY - y - AxisHandleBorderLength
+		stager.stage.Commit()
 	}
 
 	verticalAxisTopHandle.Presentation.Stroke = "blue"
@@ -80,8 +81,8 @@ func (plantDiagram *PlantDiagram) draw(stager *Stager, layer *svg.Layer) {
 	verticalAxisBottomHandle.CanMoveVerticaly = true
 	verticalAxisBottomHandle.CanMoveHorizontaly = true
 	verticalAxisBottomHandle.OnMove = func(x, y float64) {
-		plantDiagram.OriginX = x
-		plantDiagram.OriginY = y
+		plantDiagram.OriginX = x + AxisHandleBorderLength/2.0
+		plantDiagram.OriginY = y + AxisHandleBorderLength
 		stager.stage.Commit() // the top handle will move with the commit
 	}
 
@@ -110,4 +111,47 @@ func (plantDiagram *PlantDiagram) draw(stager *Stager, layer *svg.Layer) {
 	verticalAxisLine.StartAnchorType = svg.ANCHOR_CENTER
 	verticalAxisLine.EndAnchorType = svg.ANCHOR_CENTER
 
+	horizontalAxisRightHandle := new(svg.Rect)
+	horizontalAxisRightHandle.Name = "Horizontal axis right handle"
+	layer.Rects = append(layer.Rects, horizontalAxisRightHandle)
+	horizontalAxisRightHandle.X = plantDiagram.OriginX + plantDiagram.AxesShape.LengthX - AxisHandleBorderLength/2.0
+	horizontalAxisRightHandle.Y = plantDiagram.OriginY - AxisHandleBorderLength
+	horizontalAxisRightHandle.Width = AxisHandleBorderLength
+	horizontalAxisRightHandle.Height = AxisHandleBorderLength
+	horizontalAxisRightHandle.CanMoveHorizontaly = true
+	horizontalAxisRightHandle.CanMoveVerticaly = true
+	horizontalAxisRightHandle.OnMove = func(x, y float64) {
+		plantDiagram.AxesShape.LengthX = x - plantDiagram.OriginX + AxisHandleBorderLength/2.0
+		stager.stage.Commit()
+	}
+
+	horizontalAxisRightHandle.Presentation.Stroke = "blue"
+	horizontalAxisRightHandle.Presentation.StrokeWidth = 1
+	horizontalAxisRightHandle.Presentation.StrokeOpacity = 1
+
+	horizontalAxisLine := new(svg.Link)
+	layer.Links = append(layer.Links, horizontalAxisLine)
+
+	horizontalAxisLine.StrokeWidth = 1
+	horizontalAxisLine.StrokeOpacity = 1
+	horizontalAxisLine.Name = "Horizontal Axis"
+	horizontalAxisLine.Stroke = svg.Black.ToString()
+	horizontalAxisLine.Start = verticalAxisBottomHandle
+	horizontalAxisLine.End = horizontalAxisRightHandle
+
+	horizontalAxisLine.HasStartArrow = false
+	horizontalAxisLine.HasEndArrow = true
+
+	horizontalAxisLine.CornerOffsetRatio = 2.0
+
+	horizontalAxisLine.EndArrowSize = 8
+	horizontalAxisLine.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+
+	horizontalAxisLine.StartAnchorType = svg.ANCHOR_CENTER
+	horizontalAxisLine.EndAnchorType = svg.ANCHOR_CENTER
+
+	// right and top handle move with vertical bottom handle
+	verticalAxisBottomHandle.Peers = append(verticalAxisBottomHandle.Peers,
+		verticalAxisTopHandle,
+		horizontalAxisRightHandle)
 }
