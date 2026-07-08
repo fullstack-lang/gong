@@ -59,12 +59,11 @@ func (stager *Stager) generateSvgObject(plantDiagram *PlantDiagram, plant *Plant
 	plantDiagram.drawReferenceRhombus(stager, layer, plant)
 	plantDiagram.drawGridPathShape(stager, layer, plant)
 	plantDiagram.drawRhombusGridShape(stager, layer, plant)
-	plantDiagram.drawExplanationTextShape(stager, layer)
+	plantDiagram.drawExplanationTextShape(stager, layer, plant)
 	plantDiagram.drawRotatedPlantCircumferenceShape(stager, layer)
 	plantDiagram.drawRotatedReferenceRhombus(stager, layer, plant)
 	plantDiagram.drawRotatedGridPathShape(stager, layer, plant)
 	plantDiagram.drawRotatedRhombusGridShape(stager, layer, plant)
-
 
 	return
 }
@@ -192,7 +191,7 @@ func (plantDiagram *PlantDiagram) drawAxes(stager *Stager, layer *svg.Layer) {
 		horizontalAxisRightHandle)
 }
 
-func (plantDiagram *PlantDiagram) drawExplanationTextShape(stager *Stager, layer *svg.Layer) {
+func (plantDiagram *PlantDiagram) drawExplanationTextShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 	if plantDiagram.ExplanationTextShape == nil || plantDiagram.ExplanationTextShape.IsHidden {
 		return
 	}
@@ -201,10 +200,15 @@ func (plantDiagram *PlantDiagram) drawExplanationTextShape(stager *Stager, layer
 		"this diagram is the construction of the growth curve.",
 		"First, we know that the plant circonference will cross all spirals",
 		"constructing the spirals starts with the reference rombus grid that represents",
-		"the N spiral in one direction and the M spiral in the other direction.",
+		fmt.Sprintf("the N (%d) spiral in one direction and the M (%d) spiral in the other direction.", plant.N, plant.M),
 	}
 
-	startY := plantDiagram.OriginY + 50.0 // Below the origin
+	var endY float64 = plantDiagram.OriginY
+	angleRad := plantDiagram.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+	length := plantDiagram.PlantCircumferenceShape.Length
+	endY = plantDiagram.OriginY - length*math.Sin(angleRad)
+
+	startY := endY - float64(len(lines))*20.0 - 20.0 // Above the circumference vector
 	startX := plantDiagram.OriginX + 50.0
 
 	for i, lineText := range lines {
