@@ -10,6 +10,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterAxesShapeCreateCallback != nil {
 			stage.OnAfterAxesShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *GridPathShape:
+		if stage.OnAfterGridPathShapeCreateCallback != nil {
+			stage.OnAfterGridPathShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *GrowthVectorShape:
 		if stage.OnAfterGrowthVectorShapeCreateCallback != nil {
 			stage.OnAfterGrowthVectorShapeCreateCallback.OnAfterCreate(stage, target)
@@ -48,6 +52,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*AxesShape)
 		if stage.OnAfterAxesShapeUpdateCallback != nil {
 			stage.OnAfterAxesShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *GridPathShape:
+		newTarget := any(new).(*GridPathShape)
+		if stage.OnAfterGridPathShapeUpdateCallback != nil {
+			stage.OnAfterGridPathShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *GrowthVectorShape:
 		newTarget := any(new).(*GrowthVectorShape)
@@ -89,6 +98,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*AxesShape)
 			stage.OnAfterAxesShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *GridPathShape:
+		if stage.OnAfterGridPathShapeDeleteCallback != nil {
+			staged := any(staged).(*GridPathShape)
+			stage.OnAfterGridPathShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *GrowthVectorShape:
 		if stage.OnAfterGrowthVectorShapeDeleteCallback != nil {
 			staged := any(staged).(*GrowthVectorShape)
@@ -128,6 +142,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterAxesShapeReadCallback != nil {
 			stage.OnAfterAxesShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *GridPathShape:
+		if stage.OnAfterGridPathShapeReadCallback != nil {
+			stage.OnAfterGridPathShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *GrowthVectorShape:
 		if stage.OnAfterGrowthVectorShapeReadCallback != nil {
 			stage.OnAfterGrowthVectorShapeReadCallback.OnAfterRead(stage, target)
@@ -161,6 +179,8 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	// insertion point
 	case *AxesShape:
 		stage.OnAfterAxesShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[AxesShape])
+	case *GridPathShape:
+		stage.OnAfterGridPathShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GridPathShape])
 	case *GrowthVectorShape:
 		stage.OnAfterGrowthVectorShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GrowthVectorShape])
 	case *Library:
@@ -180,6 +200,8 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	// insertion point
 	case *AxesShape:
 		stage.OnAfterAxesShapeCreateCallback = any(callback).(OnAfterCreateInterface[AxesShape])
+	case *GridPathShape:
+		stage.OnAfterGridPathShapeCreateCallback = any(callback).(OnAfterCreateInterface[GridPathShape])
 	case *GrowthVectorShape:
 		stage.OnAfterGrowthVectorShapeCreateCallback = any(callback).(OnAfterCreateInterface[GrowthVectorShape])
 	case *Library:
@@ -199,6 +221,8 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	// insertion point
 	case *AxesShape:
 		stage.OnAfterAxesShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[AxesShape])
+	case *GridPathShape:
+		stage.OnAfterGridPathShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GridPathShape])
 	case *GrowthVectorShape:
 		stage.OnAfterGrowthVectorShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GrowthVectorShape])
 	case *Library:
@@ -218,6 +242,8 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	// insertion point
 	case *AxesShape:
 		stage.OnAfterAxesShapeReadCallback = any(callback).(OnAfterReadInterface[AxesShape])
+	case *GridPathShape:
+		stage.OnAfterGridPathShapeReadCallback = any(callback).(OnAfterReadInterface[GridPathShape])
 	case *GrowthVectorShape:
 		stage.OnAfterGrowthVectorShapeReadCallback = any(callback).(OnAfterReadInterface[GrowthVectorShape])
 	case *Library:

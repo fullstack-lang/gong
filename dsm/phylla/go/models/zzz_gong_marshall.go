@@ -314,6 +314,33 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(axesshape.GongMarshallField(stage, "IsWithHiddenHandle"))
 	}
 
+	gridpathshapeOrdered := []*GridPathShape{}
+	for gridpathshape := range stage.GridPathShapes {
+		gridpathshapeOrdered = append(gridpathshapeOrdered, gridpathshape)
+	}
+	sort.Slice(gridpathshapeOrdered[:], func(i, j int) bool {
+		gridpathshapei := gridpathshapeOrdered[i]
+		gridpathshapej := gridpathshapeOrdered[j]
+		gridpathshapei_order, oki := stage.GridPathShape_stagedOrder[gridpathshapei]
+		gridpathshapej_order, okj := stage.GridPathShape_stagedOrder[gridpathshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return gridpathshapei_order < gridpathshapej_order
+	})
+	if len(gridpathshapeOrdered) > 0 {
+		identifiersDecl.WriteString("\n")
+	}
+	for _, gridpathshape := range gridpathshapeOrdered {
+
+		identifiersDecl.WriteString(gridpathshape.GongMarshallIdentifier(stage))
+
+		initializerStatements.WriteString("\n")
+		// Insertion point for basic fields value assignment
+		initializerStatements.WriteString(gridpathshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(gridpathshape.GongMarshallField(stage, "IsHidden"))
+	}
+
 	growthvectorshapeOrdered := []*GrowthVectorShape{}
 	for growthvectorshape := range stage.GrowthVectorShapes {
 		growthvectorshapeOrdered = append(growthvectorshapeOrdered, growthvectorshape)
@@ -444,6 +471,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "AxesShape"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "ReferenceRhombus"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "GrowthVectorShape"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "GridPathShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 	}
 
@@ -477,6 +505,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	// insertion initialization of objects to stage
 	for _, axesshape := range axesshapeOrdered {
 		_ = axesshape
+		var setPointerField string
+		_ = setPointerField
+
+		// Insertion point for pointers initialization
+	}
+
+	for _, gridpathshape := range gridpathshapeOrdered {
+		_ = gridpathshape
 		var setPointerField string
 		_ = setPointerField
 
@@ -608,6 +644,26 @@ func (axesshape *AxesShape) GongMarshallField(stage *Stage, fieldName string) (r
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct AxesShape", fieldName)
+	}
+	return
+}
+
+func (gridpathshape *GridPathShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gridpathshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gridpathshape.Name))
+	case "IsHidden":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gridpathshape.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsHidden")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gridpathshape.IsHidden))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct GridPathShape", fieldName)
 	}
 	return
 }
@@ -855,6 +911,19 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GrowthVectorShape")
 			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
 		}
+	case "GridPathShape":
+		if plantdiagram.GridPathShape != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GridPathShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", plantdiagram.GridPathShape.GongGetIdentifier(stage))
+		} else {
+			// in case of nil pointer, we need to unstage the previous value
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", plantdiagram.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GridPathShape")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "nil")
+		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PlantDiagram", fieldName)
 	}
@@ -892,6 +961,18 @@ func (axesshape *AxesShape) GongMarshallAllFields(stage *Stage) (initRes string,
 		initializerStatements.WriteString(axesshape.GongMarshallField(stage, "LengthY"))
 		initializerStatements.WriteString(axesshape.GongMarshallField(stage, "IsHidden"))
 		initializerStatements.WriteString(axesshape.GongMarshallField(stage, "IsWithHiddenHandle"))
+	}
+	initRes = initializerStatements.String()
+	ptrRes = pointersInitializesStatements.String()
+	return
+}
+func (gridpathshape *GridPathShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
+
+	var initializerStatements strings.Builder
+	var pointersInitializesStatements strings.Builder
+	{ // Insertion point for basic fields value assignment
+		initializerStatements.WriteString(gridpathshape.GongMarshallField(stage, "Name"))
+		initializerStatements.WriteString(gridpathshape.GongMarshallField(stage, "IsHidden"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
@@ -964,6 +1045,7 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "AxesShape"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "ReferenceRhombus"))
 		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "GrowthVectorShape"))
+		pointersInitializesStatements.WriteString(plantdiagram.GongMarshallField(stage, "GridPathShape"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 	}
 	initRes = initializerStatements.String()

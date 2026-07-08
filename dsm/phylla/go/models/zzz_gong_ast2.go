@@ -497,6 +497,37 @@ func (u *AxesShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fi
 	return nil
 }
 
+type GridPathShapeUnmarshaller struct{}
+
+func (u *GridPathShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
+	instance := new(GridPathShape)
+	instance.Name = instanceName
+	if !preserveOrder {
+		instance.Stage(stage)
+	} else {
+		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+			instance.Stage(stage)
+		} else {
+			instance.StagePreserveOrder(stage, newOrder)
+		}
+	}
+	return instance, nil
+}
+
+func (u *GridPathShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
+	instance := i.(*GridPathShape)
+	_ = instance
+	switch fieldName {
+	// insertion point per field
+	case "Name":
+		instance.Name = GongExtractString(valueExpr)
+	case "IsHidden":
+		instance.IsHidden = GongExtractBool(valueExpr)
+	}
+	return nil
+}
+
 type GrowthVectorShapeUnmarshaller struct{}
 
 func (u *GrowthVectorShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
@@ -665,6 +696,8 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 		GongUnmarshallPointer(&instance.ReferenceRhombus, valueExpr, identifierMap)
 	case "GrowthVectorShape":
 		GongUnmarshallPointer(&instance.GrowthVectorShape, valueExpr, identifierMap)
+	case "GridPathShape":
+		GongUnmarshallPointer(&instance.GridPathShape, valueExpr, identifierMap)
 	case "IsChecked":
 		instance.IsChecked = GongExtractBool(valueExpr)
 	}

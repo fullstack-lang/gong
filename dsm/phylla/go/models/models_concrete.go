@@ -72,3 +72,21 @@ func (s *GrowthVectorShape) SetIsHidden(isHidden bool) {
 func (s *GrowthVectorShape) GetIsHidden() bool {
 	return s.IsHidden
 }
+
+// GridPathShape of a plant,
+//
+// each plant has one GridPathShape to visualize the
+// N and M steps along the grid to reach the GrowthVector.
+type GridPathShape struct {
+	Name string
+
+	Shape
+}
+
+func (s *GridPathShape) SetIsHidden(isHidden bool) {
+	s.IsHidden = isHidden
+}
+
+func (s *GridPathShape) GetIsHidden() bool {
+	return s.IsHidden
+}

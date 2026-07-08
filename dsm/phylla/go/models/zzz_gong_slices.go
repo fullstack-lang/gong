@@ -23,6 +23,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct AxesShape
 	// insertion point per field
 
+	// Compute reverse map for named struct GridPathShape
+	// insertion point per field
+
 	// Compute reverse map for named struct GrowthVectorShape
 	// insertion point per field
 
@@ -75,6 +78,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.GridPathShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.GrowthVectorShapes {
 		res = append(res, instance)
 	}
@@ -102,6 +109,12 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 func (axesshape *AxesShape) GongCopy() GongstructIF {
 	newInstance := new(AxesShape)
 	axesshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (gridpathshape *GridPathShape) GongCopy() GongstructIF {
+	newInstance := new(GridPathShape)
+	gridpathshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -143,6 +156,16 @@ func (axesshape *AxesShape) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(axesshape), uint64(GetOrderPointerGongstruct(stage, axesshape)))
+	return
+}
+
+func (gridpathshape *GridPathShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(gridpathshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gridpathshape), uint64(GetOrderPointerGongstruct(stage, gridpathshape)))
 	return
 }
 
@@ -269,6 +292,61 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(axesshapes_newInstances)
 	lenDeletedInstances += len(axesshapes_deletedInstances)
+	var gridpathshapes_newInstances []*GridPathShape
+	var gridpathshapes_deletedInstances []*GridPathShape
+
+	// parse all staged instances and check if they have a reference
+	for gridpathshape := range stage.GridPathShapes {
+		if ref, ok := stage.GridPathShapes_reference[gridpathshape]; !ok {
+			gridpathshapes_newInstances = append(gridpathshapes_newInstances, gridpathshape)
+			newInstancesSlice = append(newInstancesSlice, gridpathshape.GongMarshallIdentifier(stage))
+			if stage.GridPathShapes_referenceOrder == nil {
+				stage.GridPathShapes_referenceOrder = make(map[*GridPathShape]uint)
+			}
+			stage.GridPathShapes_referenceOrder[gridpathshape] = stage.GridPathShape_stagedOrder[gridpathshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, gridpathshape.GongMarshallUnstaging(stage))
+			// delete(stage.GridPathShapes_referenceOrder, gridpathshape)
+			fieldInitializers, pointersInitializations := gridpathshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.GridPathShape_stagedOrder[ref] = stage.GridPathShape_stagedOrder[gridpathshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := gridpathshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, gridpathshape)
+			// delete(stage.GridPathShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if gridpathshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", gridpathshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.GridPathShapes_reference {
+		instance := stage.GridPathShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GridPathShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			gridpathshapes_deletedInstances = append(gridpathshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(gridpathshapes_newInstances)
+	lenDeletedInstances += len(gridpathshapes_deletedInstances)
 	var growthvectorshapes_newInstances []*GrowthVectorShape
 	var growthvectorshapes_deletedInstances []*GrowthVectorShape
 
@@ -589,6 +667,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.AxesShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.GridPathShapes_reference = make(map[*GridPathShape]*GridPathShape)
+	stage.GridPathShapes_referenceOrder = make(map[*GridPathShape]uint) // diff Unstage needs the reference order
+	stage.GridPathShapes_instance = make(map[*GridPathShape]*GridPathShape)
+	for instance := range stage.GridPathShapes {
+		_copy := instance.GongCopy().(*GridPathShape)
+		stage.GridPathShapes_reference[instance] = _copy
+		stage.GridPathShapes_instance[_copy] = instance
+		stage.GridPathShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.GrowthVectorShapes_reference = make(map[*GrowthVectorShape]*GrowthVectorShape)
 	stage.GrowthVectorShapes_referenceOrder = make(map[*GrowthVectorShape]uint) // diff Unstage needs the reference order
 	stage.GrowthVectorShapes_instance = make(map[*GrowthVectorShape]*GrowthVectorShape)
@@ -645,6 +733,11 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
+	for instance := range stage.GridPathShapes {
+		reference := stage.GridPathShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
 	for instance := range stage.GrowthVectorShapes {
 		reference := stage.GrowthVectorShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
@@ -688,6 +781,18 @@ func (axesshape *AxesShape) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type AxesShape was not staged and does not have a reference order", axesshape)
+		return 0
+	}
+}
+
+func (gridpathshape *GridPathShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.GridPathShape_stagedOrder[gridpathshape]; ok {
+		return order
+	}
+	if order, ok := stage.GridPathShapes_referenceOrder[gridpathshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type GridPathShape was not staged and does not have a reference order", gridpathshape)
 		return 0
 	}
 }
@@ -766,6 +871,15 @@ func (axesshape *AxesShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", axesshape.GongGetGongstructName(), axesshape.GongGetOrder(stage))
 }
 
+func (gridpathshape *GridPathShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gridpathshape.GongGetGongstructName(), gridpathshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (gridpathshape *GridPathShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gridpathshape.GongGetGongstructName(), gridpathshape.GongGetOrder(stage))
+}
+
 func (growthvectorshape *GrowthVectorShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", growthvectorshape.GongGetGongstructName(), growthvectorshape.GongGetOrder(stage))
 }
@@ -822,6 +936,14 @@ func (axesshape *AxesShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 
+func (gridpathshape *GridPathShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gridpathshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GridPathShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gridpathshape.Name))
+	return
+}
+
 func (growthvectorshape *GrowthVectorShape) GongMarshallIdentifier(stage *Stage) (decl string) {
 	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthvectorshape.GongGetIdentifier(stage))
@@ -866,6 +988,12 @@ func (referencerhombus *ReferenceRhombus) GongMarshallIdentifier(stage *Stage) (
 func (axesshape *AxesShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", axesshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (gridpathshape *GridPathShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gridpathshape.GongGetReferenceIdentifier(stage))
 	return
 }
 

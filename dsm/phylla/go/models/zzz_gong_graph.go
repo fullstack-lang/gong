@@ -10,6 +10,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *AxesShape:
 		ok = stage.IsStagedAxesShape(target)
 
+	case *GridPathShape:
+		ok = stage.IsStagedGridPathShape(target)
+
 	case *GrowthVectorShape:
 		ok = stage.IsStagedGrowthVectorShape(target)
 
@@ -38,6 +41,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *AxesShape:
 		ok = stage.IsStagedAxesShape(target)
 
+	case *GridPathShape:
+		ok = stage.IsStagedGridPathShape(target)
+
 	case *GrowthVectorShape:
 		ok = stage.IsStagedGrowthVectorShape(target)
 
@@ -63,6 +69,13 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 func (stage *Stage) IsStagedAxesShape(axesshape *AxesShape) (ok bool) {
 
 	_, ok = stage.AxesShapes[axesshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedGridPathShape(gridpathshape *GridPathShape) (ok bool) {
+
+	_, ok = stage.GridPathShapes[gridpathshape]
 
 	return
 }
@@ -113,6 +126,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *AxesShape:
 		stage.StageBranchAxesShape(target)
 
+	case *GridPathShape:
+		stage.StageBranchGridPathShape(target)
+
 	case *GrowthVectorShape:
 		stage.StageBranchGrowthVectorShape(target)
 
@@ -142,6 +158,21 @@ func (stage *Stage) StageBranchAxesShape(axesshape *AxesShape) {
 	}
 
 	axesshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchGridPathShape(gridpathshape *GridPathShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, gridpathshape) {
+		return
+	}
+
+	gridpathshape.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -225,6 +256,9 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.GrowthVectorShape != nil {
 		StageBranch(stage, plantdiagram.GrowthVectorShape)
 	}
+	if plantdiagram.GridPathShape != nil {
+		StageBranch(stage, plantdiagram.GridPathShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -258,6 +292,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 	// insertion point for stage branch
 	case *AxesShape:
 		toT := CopyBranchAxesShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *GridPathShape:
+		toT := CopyBranchGridPathShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *GrowthVectorShape:
@@ -298,6 +336,25 @@ func CopyBranchAxesShape(mapOrigCopy map[any]any, axesshapeFrom *AxesShape) (axe
 	axesshapeTo = new(AxesShape)
 	mapOrigCopy[axesshapeFrom] = axesshapeTo
 	axesshapeFrom.CopyBasicFields(axesshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchGridPathShape(mapOrigCopy map[any]any, gridpathshapeFrom *GridPathShape) (gridpathshapeTo *GridPathShape) {
+
+	// gridpathshapeFrom has already been copied
+	if _gridpathshapeTo, ok := mapOrigCopy[gridpathshapeFrom]; ok {
+		gridpathshapeTo = _gridpathshapeTo.(*GridPathShape)
+		return
+	}
+
+	gridpathshapeTo = new(GridPathShape)
+	mapOrigCopy[gridpathshapeFrom] = gridpathshapeTo
+	gridpathshapeFrom.CopyBasicFields(gridpathshapeTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -397,6 +454,9 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	if plantdiagramFrom.GrowthVectorShape != nil {
 		plantdiagramTo.GrowthVectorShape = CopyBranchGrowthVectorShape(mapOrigCopy, plantdiagramFrom.GrowthVectorShape)
 	}
+	if plantdiagramFrom.GridPathShape != nil {
+		plantdiagramTo.GridPathShape = CopyBranchGridPathShape(mapOrigCopy, plantdiagramFrom.GridPathShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -433,6 +493,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *AxesShape:
 		stage.UnstageBranchAxesShape(target)
 
+	case *GridPathShape:
+		stage.UnstageBranchGridPathShape(target)
+
 	case *GrowthVectorShape:
 		stage.UnstageBranchGrowthVectorShape(target)
 
@@ -462,6 +525,21 @@ func (stage *Stage) UnstageBranchAxesShape(axesshape *AxesShape) {
 	}
 
 	axesshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchGridPathShape(gridpathshape *GridPathShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, gridpathshape) {
+		return
+	}
+
+	gridpathshape.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -545,6 +623,9 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 	if plantdiagram.GrowthVectorShape != nil {
 		UnstageBranch(stage, plantdiagram.GrowthVectorShape)
 	}
+	if plantdiagram.GridPathShape != nil {
+		UnstageBranch(stage, plantdiagram.GridPathShape)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -567,6 +648,11 @@ func (stage *Stage) UnstageBranchReferenceRhombus(referencerhombus *ReferenceRho
 
 // insertion point for pointer reconstruction from references
 func (reference *AxesShape) GongReconstructPointersFromReferences(stage *Stage, instance *AxesShape) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers field
+}
+
+func (reference *GridPathShape) GongReconstructPointersFromReferences(stage *Stage, instance *GridPathShape) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
 }
@@ -613,6 +699,9 @@ func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stag
 	if instance.GrowthVectorShape != nil {
 		reference.GrowthVectorShape = stage.GrowthVectorShapes_reference[instance.GrowthVectorShape]
 	}
+	if instance.GridPathShape != nil {
+		reference.GridPathShape = stage.GridPathShapes_reference[instance.GridPathShape]
+	}
 	// insertion point for slice of pointers field
 }
 
@@ -623,6 +712,11 @@ func (reference *ReferenceRhombus) GongReconstructPointersFromReferences(stage *
 
 // insertion point for pointer reconstruction from instances
 func (reference *AxesShape) GongReconstructPointersFromInstances(stage *Stage) {
+	// insertion point for pointers field
+	// insertion point for slice of pointers fields
+}
+
+func (reference *GridPathShape) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
 }
@@ -690,6 +784,12 @@ func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage
 			reference.GrowthVectorShape = _instance
 		}
 	}
+	if _reference := reference.GridPathShape; _reference != nil {
+		reference.GridPathShape = nil
+		if _instance, ok := stage.GridPathShapes_instance[_reference]; ok {
+			reference.GridPathShape = _instance
+		}
+	}
 	// insertion point for slice of pointers fields
 }
 
@@ -717,6 +817,20 @@ func (axesshape *AxesShape) GongDiff(stage *Stage, axesshapeOther *AxesShape) (d
 	}
 	if axesshape.IsWithHiddenHandle != axesshapeOther.IsWithHiddenHandle {
 		diffs = append(diffs, axesshape.GongMarshallField(stage, "IsWithHiddenHandle"))
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (gridpathshape *GridPathShape) GongDiff(stage *Stage, gridpathshapeOther *GridPathShape) (diffs []string) {
+	// insertion point for field diffs
+	if gridpathshape.Name != gridpathshapeOther.Name {
+		diffs = append(diffs, gridpathshape.GongMarshallField(stage, "Name"))
+	}
+	if gridpathshape.IsHidden != gridpathshapeOther.IsHidden {
+		diffs = append(diffs, gridpathshape.GongMarshallField(stage, "IsHidden"))
 	}
 
 	return
@@ -928,6 +1042,13 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	} else if plantdiagram.GrowthVectorShape != nil && plantdiagramOther.GrowthVectorShape != nil {
 		if plantdiagram.GrowthVectorShape != plantdiagramOther.GrowthVectorShape {
 			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "GrowthVectorShape"))
+		}
+	}
+	if (plantdiagram.GridPathShape == nil) != (plantdiagramOther.GridPathShape == nil) {
+		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "GridPathShape"))
+	} else if plantdiagram.GridPathShape != nil && plantdiagramOther.GridPathShape != nil {
+		if plantdiagram.GridPathShape != plantdiagramOther.GridPathShape {
+			diffs = append(diffs, plantdiagram.GongMarshallField(stage, "GridPathShape"))
 		}
 	}
 	if plantdiagram.IsChecked != plantdiagramOther.IsChecked {

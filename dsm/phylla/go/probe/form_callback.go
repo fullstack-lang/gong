@@ -105,6 +105,86 @@ func (axesshapeFormCallback *AxesShapeFormCallback) OnSave() {
 
 	axesshapeFormCallback.probe.ux_tree()
 }
+func __gong__New__GridPathShapeFormCallback(
+	gridpathshape *models.GridPathShape,
+	probe *Probe,
+	formGroup *form.FormGroup,
+) (gridpathshapeFormCallback *GridPathShapeFormCallback) {
+	gridpathshapeFormCallback = new(GridPathShapeFormCallback)
+	gridpathshapeFormCallback.probe = probe
+	gridpathshapeFormCallback.gridpathshape = gridpathshape
+	gridpathshapeFormCallback.formGroup = formGroup
+
+	gridpathshapeFormCallback.CreationMode = (gridpathshape == nil)
+
+	return
+}
+
+type GridPathShapeFormCallback struct {
+	gridpathshape *models.GridPathShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *form.FormGroup
+}
+
+func (gridpathshapeFormCallback *GridPathShapeFormCallback) OnSave() {
+	gridpathshapeFormCallback.probe.stageOfInterest.Lock()
+	defer gridpathshapeFormCallback.probe.stageOfInterest.Unlock()
+
+	// log.Println("GridPathShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	gridpathshapeFormCallback.probe.formStage.Checkout()
+
+	if gridpathshapeFormCallback.gridpathshape == nil {
+		gridpathshapeFormCallback.gridpathshape = new(models.GridPathShape).Stage(gridpathshapeFormCallback.probe.stageOfInterest)
+	}
+	gridpathshape_ := gridpathshapeFormCallback.gridpathshape
+	_ = gridpathshape_
+
+	for _, formDiv := range gridpathshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(gridpathshape_.Name), formDiv)
+		case "IsHidden":
+			FormDivBasicFieldToField(&(gridpathshape_.IsHidden), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if gridpathshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		gridpathshape_.Unstage(gridpathshapeFormCallback.probe.stageOfInterest)
+	}
+
+	gridpathshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.GridPathShape](
+		gridpathshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if gridpathshapeFormCallback.CreationMode || gridpathshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		gridpathshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&form.FormGroup{
+			Name: FormName,
+		}).Stage(gridpathshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__GridPathShapeFormCallback(
+			nil,
+			gridpathshapeFormCallback.probe,
+			newFormGroup,
+		)
+		gridpathshape := new(models.GridPathShape)
+		FillUpForm(gridpathshape, newFormGroup, gridpathshapeFormCallback.probe)
+		gridpathshapeFormCallback.probe.formStage.Commit()
+	}
+
+	gridpathshapeFormCallback.probe.ux_tree()
+}
 func __gong__New__GrowthVectorShapeFormCallback(
 	growthvectorshape *models.GrowthVectorShape,
 	probe *Probe,
@@ -652,6 +732,8 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(plantdiagram_.ReferenceRhombus), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "GrowthVectorShape":
 			FormDivSelectFieldToField(&(plantdiagram_.GrowthVectorShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
+		case "GridPathShape":
+			FormDivSelectFieldToField(&(plantdiagram_.GridPathShape), plantdiagramFormCallback.probe.stageOfInterest, formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(plantdiagram_.IsChecked), formDiv)
 		case "Plant:PlantDiagramsWhoseNodeIsExpanded":
