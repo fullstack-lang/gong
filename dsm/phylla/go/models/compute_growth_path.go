@@ -10,21 +10,9 @@ func enforceGrowthPathRhombusGridShapeHasRhombuses(stage *Stage, grid *GrowthCur
 		return false
 	}
 
-	rotRad := angleDegree * math.Pi / 180.0
-	cosA := math.Cos(rotRad)
-	sinA := math.Sin(rotRad)
 
-	insideAngleRad := rhombusInsideAngle * math.Pi / 180.0
 
-	v1x := sideLength * math.Cos(insideAngleRad/2.0)
-	v1y := -sideLength * math.Sin(insideAngleRad/2.0)
-	v2x := -sideLength * math.Cos(insideAngleRad/2.0)
-	v2y := -sideLength * math.Sin(insideAngleRad/2.0)
 
-	v1_rot_x := v1x*cosA - v1y*sinA
-	v1_rot_y := v1x*sinA + v1y*cosA
-	v2_rot_x := v2x*cosA - v2y*sinA
-	v2_rot_y := v2x*sinA + v2y*cosA
 
 	type rotatedRhombus struct {
 		r        *RotatedRhombusShape
@@ -34,13 +22,12 @@ func enforceGrowthPathRhombusGridShapeHasRhombuses(stage *Stage, grid *GrowthCur
 
 	var candidates []rotatedRhombus
 	for _, r := range sourceGrid.RotatedRhombusShapes {
-		// r.X and r.Y are now pre-rotated by the stager!
-		// Calculate the rotated center of the rhombus
-		cx := r.X + (v1_rot_x+v2_rot_x)/2.0
-		cy := r.Y + (v1_rot_y+v2_rot_y)/2.0
+		// r.X and r.Y are now pre-rotated Cartesian centers by the stager!
+		cx := r.X
+		cy := r.Y
 
-		// Keep rhombuses where the CENTER is visually above or on the origin line (SVG Y <= 0)
-		if cy <= 0.0001 {
+		// Keep rhombuses where the CENTER is on or above the origin line (Cartesian Y >= 0)
+		if cy >= -0.0001 {
 			candidates = append(candidates, rotatedRhombus{r: r, rotatedX: cx, rotatedY: cy})
 		}
 	}
@@ -79,8 +66,8 @@ func enforceGrowthPathRhombusGridShapeHasRhombuses(stage *Stage, grid *GrowthCur
 				dist := math.Sqrt(dx*dx + dy*dy)
 				if math.Abs(dist-sideLength) < 1e-4 {
 					// The user wants the one "below" if there are two adjacent to the right.
-					// In SVG space, "below" means a higher Y coordinate.
-					if next == nil || cand.rotatedY > next.rotatedY {
+					// In Cartesian space, "below" means a lower Y coordinate.
+					if next == nil || cand.rotatedY < next.rotatedY {
 						next = cand
 					}
 				}

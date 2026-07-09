@@ -517,9 +517,13 @@ func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *sv
 
 		polygon.Name = rhombus.Name
 
-		// Vertices for the rhombus
-		v0x := plantDiagram.OriginX + rhombus.X
-		v0y := plantDiagram.OriginY + rhombus.Y
+		// r.X and r.Y are Cartesian center coordinates
+		svg_cx := plantDiagram.OriginX + rhombus.X
+		svg_cy := plantDiagram.OriginY - rhombus.Y
+
+		// Calculate v0 (bottom-left vertex in visual SVG space) from the center
+		v0x := svg_cx - (v1x + v2x)/2.0
+		v0y := svg_cy - (v1y + v2y)/2.0
 
 		v1_vertex_x := v0x + v1x
 		v1_vertex_y := v0y + v1y
@@ -542,9 +546,9 @@ func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *sv
 		polygon.Presentation.Color = "lightblue"
 		polygon.Presentation.FillOpacity = 0.2
 
-		// Draw a little cross at the center
-		cx := (v0x + v2_vertex_x) / 2.0
-		cy := (v0y + v2_vertex_y) / 2.0
+		// Draw a little cross at the center (which is simply svg_cx, svg_cy)
+		cx := svg_cx
+		cy := svg_cy
 
 		line1 := new(svg.Line)
 		layer.Lines = append(layer.Lines, line1)
@@ -579,22 +583,28 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
 	length := plant.RhombusSideLength
 
-	// SVG Y-axis is inverted
+	// Cartesian vectors
 	v1x := length * math.Cos(angleRad/2.0)
-	v1y := -length * math.Sin(angleRad/2.0)
+	v1y := length * math.Sin(angleRad/2.0)
 
 	v2x := -length * math.Cos(angleRad/2.0)
-	v2y := -length * math.Sin(angleRad/2.0)
+	v2y := length * math.Sin(angleRad/2.0)
 
-	
-	rotRad := plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+	rotRad := -plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
 	cosA := math.Cos(rotRad)
 	sinA := math.Sin(rotRad)
 
-	v1_rot_x := v1x*cosA - v1y*sinA
-	v1_rot_y := v1x*sinA + v1y*cosA
-	v2_rot_x := v2x*cosA - v2y*sinA
-	v2_rot_y := v2x*sinA + v2y*cosA
+	// Rotate in Cartesian space
+	v1_cart_rot_x := v1x*cosA - v1y*sinA
+	v1_cart_rot_y := v1x*sinA + v1y*cosA
+	v2_cart_rot_x := v2x*cosA - v2y*sinA
+	v2_cart_rot_y := v2x*sinA + v2y*cosA
+
+	// Map to SVG space (invert Y)
+	v1_rot_x := v1_cart_rot_x
+	v1_rot_y := -v1_cart_rot_y
+	v2_rot_x := v2_cart_rot_x
+	v2_rot_y := -v2_cart_rot_y
 
 	for _, rhombus := range plant.RotatedRhombusGridShape2.RotatedRhombusShapes {
 		polygon := new(svg.Polygone)
@@ -602,9 +612,13 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 
 		polygon.Name = rhombus.Name
 
-		// Vertices for the rhombus
-		v0x := plantDiagram.OriginX + rhombus.X
-		v0y := plantDiagram.OriginY + rhombus.Y
+		// r.X and r.Y are Cartesian center coordinates
+		svg_cx := plantDiagram.OriginX + rhombus.X
+		svg_cy := plantDiagram.OriginY - rhombus.Y
+
+		// Calculate v0 (bottom-left vertex in visual SVG space) from the center
+		v0x := svg_cx - (v1_rot_x + v2_rot_x)/2.0
+		v0y := svg_cy - (v1_rot_y + v2_rot_y)/2.0
 
 		v1_vertex_x := v0x + v1_rot_x
 		v1_vertex_y := v0y + v1_rot_y
@@ -628,9 +642,9 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 		polygon.Presentation.FillOpacity = 0.1
 		polygon.Presentation.StrokeDashArray = "5, 5"
 		
-		// Draw a little cross at the center
-		cx := (v0x + v2_vertex_x) / 2.0
-		cy := (v0y + v2_vertex_y) / 2.0
+		// Draw a little cross at the center (which is simply svg_cx, svg_cy)
+		cx := svg_cx
+		cy := svg_cy
 
 		
 		line1 := new(svg.Line)
@@ -666,22 +680,28 @@ func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager,
 	angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
 	length := plant.RhombusSideLength
 
-	// SVG Y-axis is inverted
+	// Cartesian vectors
 	v1x := length * math.Cos(angleRad/2.0)
-	v1y := -length * math.Sin(angleRad/2.0)
+	v1y := length * math.Sin(angleRad/2.0)
 
 	v2x := -length * math.Cos(angleRad/2.0)
-	v2y := -length * math.Sin(angleRad/2.0)
+	v2y := length * math.Sin(angleRad/2.0)
 
-	
-	rotRad := plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+	rotRad := -plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
 	cosA := math.Cos(rotRad)
 	sinA := math.Sin(rotRad)
 
-	v1_rot_x := v1x*cosA - v1y*sinA
-	v1_rot_y := v1x*sinA + v1y*cosA
-	v2_rot_x := v2x*cosA - v2y*sinA
-	v2_rot_y := v2x*sinA + v2y*cosA
+	// Rotate in Cartesian space
+	v1_cart_rot_x := v1x*cosA - v1y*sinA
+	v1_cart_rot_y := v1x*sinA + v1y*cosA
+	v2_cart_rot_x := v2x*cosA - v2y*sinA
+	v2_cart_rot_y := v2x*sinA + v2y*cosA
+
+	// Map to SVG space (invert Y)
+	v1_rot_x := v1_cart_rot_x
+	v1_rot_y := -v1_cart_rot_y
+	v2_rot_x := v2_cart_rot_x
+	v2_rot_y := -v2_cart_rot_y
 
 	for _, rhombus := range plant.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes {
 		polygon := new(svg.Polygone)
@@ -689,9 +709,13 @@ func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager,
 
 		polygon.Name = rhombus.Name
 
-		// Vertices for the rhombus
-		v0x := plantDiagram.OriginX + rhombus.X
-		v0y := plantDiagram.OriginY + rhombus.Y
+		// r.X and r.Y are Cartesian center coordinates
+		svg_cx := plantDiagram.OriginX + rhombus.X
+		svg_cy := plantDiagram.OriginY - rhombus.Y
+
+		// Calculate v0 (bottom-left vertex in visual SVG space) from the center
+		v0x := svg_cx - (v1_rot_x + v2_rot_x)/2.0
+		v0y := svg_cy - (v1_rot_y + v2_rot_y)/2.0
 
 		v1_vertex_x := v0x + v1_rot_x
 		v1_vertex_y := v0y + v1_rot_y
@@ -714,9 +738,9 @@ func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager,
 		polygon.Presentation.Color = "lightblue"
 		polygon.Presentation.FillOpacity = 0.0
 		
-		// Draw a little cross at the center
-		cx := (v0x + v2_vertex_x) / 2.0
-		cy := (v0y + v2_vertex_y) / 2.0
+		// Draw a little cross at the center (which is simply svg_cx, svg_cy)
+		cx := svg_cx
+		cy := svg_cy
 
 		
 		line1 := new(svg.Line)
