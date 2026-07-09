@@ -17,6 +17,14 @@ func (stager *Stager) treePlant(plant *Plant, parentNodes *[]*tree.Node) {
 	plantNode.OnNameChange = stager.onNameChange(plant)
 	plantNode.OnClick = func(frontNode *tree.Node) {
 		stager.probeForm.FillUpFormFromGongstruct(plant, GetPointerToGongstructName[*Plant]())
+
+		if !plant.IsSelected {
+			for p := range stager.stage.Plants {
+				p.IsSelected = false
+			}
+			plant.IsSelected = true
+		}
+
 		stager.selectedPlant = plant
 		stager.stage.Commit()
 	}

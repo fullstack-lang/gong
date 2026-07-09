@@ -94,9 +94,16 @@ func NewStager(
 
 	stager.stage.RegisterBeforeCommit(beforeCommit)
 	stager.stage.RegisterAfterCommit(afterCommit)
+
 	beforeCommit(stager.stage)
 	afterCommit(stager.stage)
 
+	for plant := range *GetGongstructInstancesSetFromPointerType[*Plant](stage) {
+		if plant.IsSelected {
+			stager.probeForm.FillUpFormFromGongstruct(plant, GetPointerToGongstructName[*Plant]())
+			break
+		}
+	}
 	return
 }
 

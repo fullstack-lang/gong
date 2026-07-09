@@ -322,9 +322,6 @@ func (stage *Stage) StageBranchPlant(plant *Plant) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _plantdiagram := range plant.PlantDiagramsWhoseNodeIsExpanded {
-		StageBranch(stage, _plantdiagram)
-	}
 	for _, _plantdiagram := range plant.PlantDiagrams {
 		StageBranch(stage, _plantdiagram)
 	}
@@ -618,9 +615,6 @@ func CopyBranchPlant(mapOrigCopy map[any]any, plantFrom *Plant) (plantTo *Plant)
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _plantdiagram := range plantFrom.PlantDiagramsWhoseNodeIsExpanded {
-		plantTo.PlantDiagramsWhoseNodeIsExpanded = append(plantTo.PlantDiagramsWhoseNodeIsExpanded, CopyBranchPlantDiagram(mapOrigCopy, _plantdiagram))
-	}
 	for _, _plantdiagram := range plantFrom.PlantDiagrams {
 		plantTo.PlantDiagrams = append(plantTo.PlantDiagrams, CopyBranchPlantDiagram(mapOrigCopy, _plantdiagram))
 	}
@@ -889,9 +883,6 @@ func (stage *Stage) UnstageBranchPlant(plant *Plant) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _plantdiagram := range plant.PlantDiagramsWhoseNodeIsExpanded {
-		UnstageBranch(stage, _plantdiagram)
-	}
 	for _, _plantdiagram := range plant.PlantDiagrams {
 		UnstageBranch(stage, _plantdiagram)
 	}
@@ -1030,10 +1021,6 @@ func (reference *NextCircleShape) GongReconstructPointersFromReferences(stage *S
 func (reference *Plant) GongReconstructPointersFromReferences(stage *Stage, instance *Plant) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-	reference.PlantDiagramsWhoseNodeIsExpanded = reference.PlantDiagramsWhoseNodeIsExpanded[:0]
-	for _, _b := range instance.PlantDiagramsWhoseNodeIsExpanded {
-		reference.PlantDiagramsWhoseNodeIsExpanded = append(reference.PlantDiagramsWhoseNodeIsExpanded, stage.PlantDiagrams_reference[_b])
-	}
 	reference.PlantDiagrams = reference.PlantDiagrams[:0]
 	for _, _b := range instance.PlantDiagrams {
 		reference.PlantDiagrams = append(reference.PlantDiagrams, stage.PlantDiagrams_reference[_b])
@@ -1138,13 +1125,6 @@ func (reference *NextCircleShape) GongReconstructPointersFromInstances(stage *St
 func (reference *Plant) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-	var _PlantDiagramsWhoseNodeIsExpanded []*PlantDiagram
-	for _, _reference := range reference.PlantDiagramsWhoseNodeIsExpanded {
-		if _instance, ok := stage.PlantDiagrams_instance[_reference]; ok {
-			_PlantDiagramsWhoseNodeIsExpanded = append(_PlantDiagramsWhoseNodeIsExpanded, _instance)
-		}
-	}
-	reference.PlantDiagramsWhoseNodeIsExpanded = _PlantDiagramsWhoseNodeIsExpanded
 	var _PlantDiagrams []*PlantDiagram
 	for _, _reference := range reference.PlantDiagrams {
 		if _instance, ok := stage.PlantDiagrams_instance[_reference]; ok {
@@ -1410,29 +1390,11 @@ func (plant *Plant) GongDiff(stage *Stage, plantOther *Plant) (diffs []string) {
 	if plant.IsExpanded != plantOther.IsExpanded {
 		diffs = append(diffs, plant.GongMarshallField(stage, "IsExpanded"))
 	}
+	if plant.IsSelected != plantOther.IsSelected {
+		diffs = append(diffs, plant.GongMarshallField(stage, "IsSelected"))
+	}
 	if plant.IsPlantDiagramsNodeExpanded != plantOther.IsPlantDiagramsNodeExpanded {
 		diffs = append(diffs, plant.GongMarshallField(stage, "IsPlantDiagramsNodeExpanded"))
-	}
-	PlantDiagramsWhoseNodeIsExpandedDifferent := false
-	if len(plant.PlantDiagramsWhoseNodeIsExpanded) != len(plantOther.PlantDiagramsWhoseNodeIsExpanded) {
-		PlantDiagramsWhoseNodeIsExpandedDifferent = true
-	} else {
-		for i := range plant.PlantDiagramsWhoseNodeIsExpanded {
-			if (plant.PlantDiagramsWhoseNodeIsExpanded[i] == nil) != (plantOther.PlantDiagramsWhoseNodeIsExpanded[i] == nil) {
-				PlantDiagramsWhoseNodeIsExpandedDifferent = true
-				break
-			} else if plant.PlantDiagramsWhoseNodeIsExpanded[i] != nil && plantOther.PlantDiagramsWhoseNodeIsExpanded[i] != nil {
-				// this is a pointer comparaison
-				if plant.PlantDiagramsWhoseNodeIsExpanded[i] != plantOther.PlantDiagramsWhoseNodeIsExpanded[i] {
-					PlantDiagramsWhoseNodeIsExpandedDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if PlantDiagramsWhoseNodeIsExpandedDifferent {
-		ops := Diff(stage, plant, plantOther, "PlantDiagramsWhoseNodeIsExpanded", plantOther.PlantDiagramsWhoseNodeIsExpanded, plant.PlantDiagramsWhoseNodeIsExpanded)
-		diffs = append(diffs, ops)
 	}
 	PlantDiagramsDifferent := false
 	if len(plant.PlantDiagrams) != len(plantOther.PlantDiagrams) {

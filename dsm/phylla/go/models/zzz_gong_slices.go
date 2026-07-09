@@ -54,13 +54,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Plant
 	// insertion point per field
-	stage.Plant_PlantDiagramsWhoseNodeIsExpanded_reverseMap = make(map[*PlantDiagram]*Plant)
-	for plant := range stage.Plants {
-		_ = plant
-		for _, _plantdiagram := range plant.PlantDiagramsWhoseNodeIsExpanded {
-			stage.Plant_PlantDiagramsWhoseNodeIsExpanded_reverseMap[_plantdiagram] = plant
-		}
-	}
 	stage.Plant_PlantDiagrams_reverseMap = make(map[*PlantDiagram]*Plant)
 	for plant := range stage.Plants {
 		_ = plant

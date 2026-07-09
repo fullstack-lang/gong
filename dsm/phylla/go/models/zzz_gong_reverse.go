@@ -95,10 +95,6 @@ func (inst *PlantDiagram) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 	// insertion point
 	case "Plant":
 		switch reverseField.Fieldname {
-		case "PlantDiagramsWhoseNodeIsExpanded":
-			if _plant, ok := stage.Plant_PlantDiagramsWhoseNodeIsExpanded_reverseMap[inst]; ok {
-				res = _plant.Name
-			}
 		case "PlantDiagrams":
 			if _plant, ok := stage.Plant_PlantDiagrams_reverseMap[inst]; ok {
 				res = _plant.Name
@@ -216,8 +212,6 @@ func (inst *PlantDiagram) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 	// insertion point
 	case "Plant":
 		switch reverseField.Fieldname {
-		case "PlantDiagramsWhoseNodeIsExpanded":
-			res = stage.Plant_PlantDiagramsWhoseNodeIsExpanded_reverseMap[inst]
 		case "PlantDiagrams":
 			res = stage.Plant_PlantDiagrams_reverseMap[inst]
 		}

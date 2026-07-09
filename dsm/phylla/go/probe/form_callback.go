@@ -683,40 +683,10 @@ func (plantFormCallback *PlantFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plant_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(plant_.IsExpanded), formDiv)
+		case "IsSelected":
+			FormDivBasicFieldToField(&(plant_.IsSelected), formDiv)
 		case "IsPlantDiagramsNodeExpanded":
 			FormDivBasicFieldToField(&(plant_.IsPlantDiagramsNodeExpanded), formDiv)
-		case "PlantDiagramsWhoseNodeIsExpanded":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PlantDiagram](plantFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.PlantDiagram, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.PlantDiagram)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					plantFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.PlantDiagram](plantFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			plant_.PlantDiagramsWhoseNodeIsExpanded = instanceSlice
-			plantFormCallback.probe.UpdateSliceOfPointersCallback(plant_, "PlantDiagramsWhoseNodeIsExpanded", &plant_.PlantDiagramsWhoseNodeIsExpanded)
-
 		case "PlantDiagrams":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.PlantDiagram](plantFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.PlantDiagram, 0)
@@ -986,51 +956,6 @@ func (plantdiagramFormCallback *PlantDiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(plantdiagram_.ComputedPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(plantdiagram_.IsExpanded), formDiv)
-		case "Plant:PlantDiagramsWhoseNodeIsExpanded":
-			// 1. Decode the AssociationStorage which contains the rowIDs of the Plant instances
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-
-			// 2. Build a map of target Plant instances by their ID
-			map_RowID_ID := GetMap_RowID_ID[*models.Plant](plantdiagramFormCallback.probe.stageOfInterest)
-			targetPlantIDs := make(map[uint]bool)
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					targetPlantIDs[id] = true
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unknown row id", rowID)
-				}
-			}
-
-			// 3. Iterate over all Plant instances and update their PlantDiagramsWhoseNodeIsExpanded slice
-			for _plant := range *models.GetGongstructInstancesSetFromPointerType[*models.Plant](plantdiagramFormCallback.probe.stageOfInterest) {
-				id := models.GetOrderPointerGongstruct(plantdiagramFormCallback.probe.stageOfInterest, _plant)
-				
-				// if Plant is selected
-				if targetPlantIDs[id] {
-					// ensure plantdiagram_ is in _plant.PlantDiagramsWhoseNodeIsExpanded
-					found := false
-					for _, _b := range _plant.PlantDiagramsWhoseNodeIsExpanded {
-						if _b == plantdiagram_ {
-							found = true
-							break
-						}
-					}
-					if !found {
-						_plant.PlantDiagramsWhoseNodeIsExpanded = append(_plant.PlantDiagramsWhoseNodeIsExpanded, plantdiagram_)
-						plantdiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plant, "PlantDiagramsWhoseNodeIsExpanded", &_plant.PlantDiagramsWhoseNodeIsExpanded)
-					}
-				} else {
-					// ensure plantdiagram_ is NOT in _plant.PlantDiagramsWhoseNodeIsExpanded
-					idx := slices.Index(_plant.PlantDiagramsWhoseNodeIsExpanded, plantdiagram_)
-					if idx != -1 {
-						_plant.PlantDiagramsWhoseNodeIsExpanded = slices.Delete(_plant.PlantDiagramsWhoseNodeIsExpanded, idx, idx+1)
-						plantdiagramFormCallback.probe.UpdateSliceOfPointersCallback(_plant, "PlantDiagramsWhoseNodeIsExpanded", &_plant.PlantDiagramsWhoseNodeIsExpanded)
-					}
-				}
-			}
 		case "Plant:PlantDiagrams":
 			// 1. Decode the AssociationStorage which contains the rowIDs of the Plant instances
 			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)

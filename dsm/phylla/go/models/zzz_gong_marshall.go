@@ -486,8 +486,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ShiftToNearestCircle"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsSelected"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsPlantDiagramsNodeExpanded"))
-		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "PlantDiagramsWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "PlantDiagrams"))
 	}
 
@@ -976,22 +976,17 @@ func (plant *Plant) GongMarshallField(stage *Stage, fieldName string) (res strin
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant.IsExpanded))
+	case "IsSelected":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsSelected")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant.IsSelected))
 	case "IsPlantDiagramsNodeExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", plant.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsPlantDiagramsNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", plant.IsPlantDiagramsNodeExpanded))
 
-	case "PlantDiagramsWhoseNodeIsExpanded":
-		var sb strings.Builder
-		for _, _plantdiagram := range plant.PlantDiagramsWhoseNodeIsExpanded {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", plant.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "PlantDiagramsWhoseNodeIsExpanded")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _plantdiagram.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
 	case "PlantDiagrams":
 		var sb strings.Builder
 		for _, _plantdiagram := range plant.PlantDiagrams {
@@ -1343,8 +1338,8 @@ func (plant *Plant) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes 
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ShiftToNearestCircle"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsExpanded"))
+		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsSelected"))
 		initializerStatements.WriteString(plant.GongMarshallField(stage, "IsPlantDiagramsNodeExpanded"))
-		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "PlantDiagramsWhoseNodeIsExpanded"))
 		pointersInitializesStatements.WriteString(plant.GongMarshallField(stage, "PlantDiagrams"))
 	}
 	initRes = initializerStatements.String()
