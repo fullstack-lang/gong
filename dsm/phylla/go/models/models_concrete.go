@@ -45,13 +45,6 @@ type GridPathShape struct {
 	Name string
 }
 
-// RhombusGridShape of a plant,
-type RhombusGridShape struct {
-	Name string
-
-	RhombusShapes []*RhombusShape
-}
-
 // CircleGridShape of a plant,
 type CircleGridShape struct {
 	Name string

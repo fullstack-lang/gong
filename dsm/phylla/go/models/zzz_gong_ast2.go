@@ -947,37 +947,6 @@ func (u *PlantDiagramUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF,
 	return nil
 }
 
-type RhombusGridShapeUnmarshaller struct{}
-
-func (u *RhombusGridShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {
-	instance := new(RhombusGridShape)
-	instance.Name = instanceName
-	if !preserveOrder {
-		instance.Stage(stage)
-	} else {
-		if newOrder, err := ExtractMiddleUint(identifier); err != nil {
-			log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
-			instance.Stage(stage)
-		} else {
-			instance.StagePreserveOrder(stage, newOrder)
-		}
-	}
-	return instance, nil
-}
-
-func (u *RhombusGridShapeUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldName string, valueExpr ast.Expr, identifierMap map[string]GongstructIF) error {
-	instance := i.(*RhombusGridShape)
-	_ = instance
-	switch fieldName {
-	// insertion point per field
-	case "Name":
-		instance.Name = GongExtractString(valueExpr)
-	case "RhombusShapes":
-		GongUnmarshallSliceOfPointers(&instance.RhombusShapes, valueExpr, identifierMap)
-	}
-	return nil
-}
-
 type RhombusShapeUnmarshaller struct{}
 
 func (u *RhombusShapeUnmarshaller) Initialize(stage *Stage, identifier string, instanceName string, preserveOrder bool) (GongstructIF, error) {

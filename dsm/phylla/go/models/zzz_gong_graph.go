@@ -46,9 +46,6 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *PlantDiagram:
 		ok = stage.IsStagedPlantDiagram(target)
 
-	case *RhombusGridShape:
-		ok = stage.IsStagedRhombusGridShape(target)
-
 	case *RhombusShape:
 		ok = stage.IsStagedRhombusShape(target)
 
@@ -106,9 +103,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *PlantDiagram:
 		ok = stage.IsStagedPlantDiagram(target)
-
-	case *RhombusGridShape:
-		ok = stage.IsStagedRhombusGridShape(target)
 
 	case *RhombusShape:
 		ok = stage.IsStagedRhombusShape(target)
@@ -217,13 +211,6 @@ func (stage *Stage) IsStagedPlantDiagram(plantdiagram *PlantDiagram) (ok bool) {
 	return
 }
 
-func (stage *Stage) IsStagedRhombusGridShape(rhombusgridshape *RhombusGridShape) (ok bool) {
-
-	_, ok = stage.RhombusGridShapes[rhombusgridshape]
-
-	return
-}
-
 func (stage *Stage) IsStagedRhombusShape(rhombusshape *RhombusShape) (ok bool) {
 
 	_, ok = stage.RhombusShapes[rhombusshape]
@@ -291,9 +278,6 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *PlantDiagram:
 		stage.StageBranchPlantDiagram(target)
-
-	case *RhombusGridShape:
-		stage.StageBranchRhombusGridShape(target)
 
 	case *RhombusShape:
 		stage.StageBranchRhombusShape(target)
@@ -553,24 +537,6 @@ func (stage *Stage) StageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 
 }
 
-func (stage *Stage) StageBranchRhombusGridShape(rhombusgridshape *RhombusGridShape) {
-
-	// check if instance is already staged
-	if IsStaged(stage, rhombusgridshape) {
-		return
-	}
-
-	rhombusgridshape.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _rhombusshape := range rhombusgridshape.RhombusShapes {
-		StageBranch(stage, _rhombusshape)
-	}
-
-}
-
 func (stage *Stage) StageBranchRhombusShape(rhombusshape *RhombusShape) {
 
 	// check if instance is already staged
@@ -680,10 +646,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *PlantDiagram:
 		toT := CopyBranchPlantDiagram(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
-	case *RhombusGridShape:
-		toT := CopyBranchRhombusGridShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *RhombusShape:
@@ -1000,28 +962,6 @@ func CopyBranchPlantDiagram(mapOrigCopy map[any]any, plantdiagramFrom *PlantDiag
 	return
 }
 
-func CopyBranchRhombusGridShape(mapOrigCopy map[any]any, rhombusgridshapeFrom *RhombusGridShape) (rhombusgridshapeTo *RhombusGridShape) {
-
-	// rhombusgridshapeFrom has already been copied
-	if _rhombusgridshapeTo, ok := mapOrigCopy[rhombusgridshapeFrom]; ok {
-		rhombusgridshapeTo = _rhombusgridshapeTo.(*RhombusGridShape)
-		return
-	}
-
-	rhombusgridshapeTo = new(RhombusGridShape)
-	mapOrigCopy[rhombusgridshapeFrom] = rhombusgridshapeTo
-	rhombusgridshapeFrom.CopyBasicFields(rhombusgridshapeTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _rhombusshape := range rhombusgridshapeFrom.RhombusShapes {
-		rhombusgridshapeTo.RhombusShapes = append(rhombusgridshapeTo.RhombusShapes, CopyBranchRhombusShape(mapOrigCopy, _rhombusshape))
-	}
-
-	return
-}
-
 func CopyBranchRhombusShape(mapOrigCopy map[any]any, rhombusshapeFrom *RhombusShape) (rhombusshapeTo *RhombusShape) {
 
 	// rhombusshapeFrom has already been copied
@@ -1128,9 +1068,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *PlantDiagram:
 		stage.UnstageBranchPlantDiagram(target)
-
-	case *RhombusGridShape:
-		stage.UnstageBranchRhombusGridShape(target)
 
 	case *RhombusShape:
 		stage.UnstageBranchRhombusShape(target)
@@ -1390,24 +1327,6 @@ func (stage *Stage) UnstageBranchPlantDiagram(plantdiagram *PlantDiagram) {
 
 }
 
-func (stage *Stage) UnstageBranchRhombusGridShape(rhombusgridshape *RhombusGridShape) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, rhombusgridshape) {
-		return
-	}
-
-	rhombusgridshape.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _rhombusshape := range rhombusgridshape.RhombusShapes {
-		UnstageBranch(stage, _rhombusshape)
-	}
-
-}
-
 func (stage *Stage) UnstageBranchRhombusShape(rhombusshape *RhombusShape) {
 
 	// check if instance is already staged
@@ -1573,15 +1492,6 @@ func (reference *PlantCircumferenceShape) GongReconstructPointersFromReferences(
 func (reference *PlantDiagram) GongReconstructPointersFromReferences(stage *Stage, instance *PlantDiagram) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers field
-}
-
-func (reference *RhombusGridShape) GongReconstructPointersFromReferences(stage *Stage, instance *RhombusGridShape) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers field
-	reference.RhombusShapes = reference.RhombusShapes[:0]
-	for _, _b := range instance.RhombusShapes {
-		reference.RhombusShapes = append(reference.RhombusShapes, stage.RhombusShapes_reference[_b])
-	}
 }
 
 func (reference *RhombusShape) GongReconstructPointersFromReferences(stage *Stage, instance *RhombusShape) {
@@ -1768,18 +1678,6 @@ func (reference *PlantCircumferenceShape) GongReconstructPointersFromInstances(s
 func (reference *PlantDiagram) GongReconstructPointersFromInstances(stage *Stage) {
 	// insertion point for pointers field
 	// insertion point for slice of pointers fields
-}
-
-func (reference *RhombusGridShape) GongReconstructPointersFromInstances(stage *Stage) {
-	// insertion point for pointers field
-	// insertion point for slice of pointers fields
-	var _RhombusShapes []*RhombusShape
-	for _, _reference := range reference.RhombusShapes {
-		if _instance, ok := stage.RhombusShapes_instance[_reference]; ok {
-			_RhombusShapes = append(_RhombusShapes, _instance)
-		}
-	}
-	reference.RhombusShapes = _RhombusShapes
 }
 
 func (reference *RhombusShape) GongReconstructPointersFromInstances(stage *Stage) {
@@ -2242,38 +2140,6 @@ func (plantdiagram *PlantDiagram) GongDiff(stage *Stage, plantdiagramOther *Plan
 	}
 	if plantdiagram.IsExpanded != plantdiagramOther.IsExpanded {
 		diffs = append(diffs, plantdiagram.GongMarshallField(stage, "IsExpanded"))
-	}
-
-	return
-}
-
-// GongDiff computes the diff between the instance and another instance of same gong struct type
-// and returns the list of differences as strings
-func (rhombusgridshape *RhombusGridShape) GongDiff(stage *Stage, rhombusgridshapeOther *RhombusGridShape) (diffs []string) {
-	// insertion point for field diffs
-	if rhombusgridshape.Name != rhombusgridshapeOther.Name {
-		diffs = append(diffs, rhombusgridshape.GongMarshallField(stage, "Name"))
-	}
-	RhombusShapesDifferent := false
-	if len(rhombusgridshape.RhombusShapes) != len(rhombusgridshapeOther.RhombusShapes) {
-		RhombusShapesDifferent = true
-	} else {
-		for i := range rhombusgridshape.RhombusShapes {
-			if (rhombusgridshape.RhombusShapes[i] == nil) != (rhombusgridshapeOther.RhombusShapes[i] == nil) {
-				RhombusShapesDifferent = true
-				break
-			} else if rhombusgridshape.RhombusShapes[i] != nil && rhombusgridshapeOther.RhombusShapes[i] != nil {
-				// this is a pointer comparaison
-				if rhombusgridshape.RhombusShapes[i] != rhombusgridshapeOther.RhombusShapes[i] {
-					RhombusShapesDifferent = true
-					break
-				}
-			}
-		}
-	}
-	if RhombusShapesDifferent {
-		ops := Diff(stage, rhombusgridshape, rhombusgridshapeOther, "RhombusShapes", rhombusgridshapeOther.RhombusShapes, rhombusgridshape.RhombusShapes)
-		diffs = append(diffs, ops)
 	}
 
 	return

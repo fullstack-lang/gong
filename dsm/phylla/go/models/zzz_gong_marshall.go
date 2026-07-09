@@ -677,33 +677,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
 	}
 
-	rhombusgridshapeOrdered := []*RhombusGridShape{}
-	for rhombusgridshape := range stage.RhombusGridShapes {
-		rhombusgridshapeOrdered = append(rhombusgridshapeOrdered, rhombusgridshape)
-	}
-	sort.Slice(rhombusgridshapeOrdered[:], func(i, j int) bool {
-		rhombusgridshapei := rhombusgridshapeOrdered[i]
-		rhombusgridshapej := rhombusgridshapeOrdered[j]
-		rhombusgridshapei_order, oki := stage.RhombusGridShape_stagedOrder[rhombusgridshapei]
-		rhombusgridshapej_order, okj := stage.RhombusGridShape_stagedOrder[rhombusgridshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return rhombusgridshapei_order < rhombusgridshapej_order
-	})
-	if len(rhombusgridshapeOrdered) > 0 {
-		identifiersDecl.WriteString("\n")
-	}
-	for _, rhombusgridshape := range rhombusgridshapeOrdered {
-
-		identifiersDecl.WriteString(rhombusgridshape.GongMarshallIdentifier(stage))
-
-		initializerStatements.WriteString("\n")
-		// Insertion point for basic fields value assignment
-		initializerStatements.WriteString(rhombusgridshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(rhombusgridshape.GongMarshallField(stage, "RhombusShapes"))
-	}
-
 	rhombusshapeOrdered := []*RhombusShape{}
 	for rhombusshape := range stage.RhombusShapes {
 		rhombusshapeOrdered = append(rhombusshapeOrdered, rhombusshape)
@@ -886,14 +859,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	for _, plantdiagram := range plantdiagramOrdered {
 		_ = plantdiagram
-		var setPointerField string
-		_ = setPointerField
-
-		// Insertion point for pointers initialization
-	}
-
-	for _, rhombusgridshape := range rhombusgridshapeOrdered {
-		_ = rhombusgridshape
 		var setPointerField string
 		_ = setPointerField
 
@@ -1561,31 +1526,6 @@ func (plantdiagram *PlantDiagram) GongMarshallField(stage *Stage, fieldName stri
 	return
 }
 
-func (rhombusgridshape *RhombusGridShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
-
-	switch fieldName {
-	case "Name":
-		res = StringInitStatement
-		res = strings.ReplaceAll(res, "{{Identifier}}", rhombusgridshape.GongGetIdentifier(stage))
-		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
-		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rhombusgridshape.Name))
-
-	case "RhombusShapes":
-		var sb strings.Builder
-		for _, _rhombusshape := range rhombusgridshape.RhombusShapes {
-			tmp := SliceOfPointersFieldInitStatement
-			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", rhombusgridshape.GongGetIdentifier(stage))
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RhombusShapes")
-			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _rhombusshape.GongGetIdentifier(stage))
-			sb.WriteString(tmp)
-		}
-		res = sb.String()
-	default:
-		log.Panicf("Unknown field %s for Gongstruct RhombusGridShape", fieldName)
-	}
-	return
-}
-
 func (rhombusshape *RhombusShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -1855,18 +1795,6 @@ func (plantdiagram *PlantDiagram) GongMarshallAllFields(stage *Stage) (initRes s
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsChecked"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "ComputedPrefix"))
 		initializerStatements.WriteString(plantdiagram.GongMarshallField(stage, "IsExpanded"))
-	}
-	initRes = initializerStatements.String()
-	ptrRes = pointersInitializesStatements.String()
-	return
-}
-func (rhombusgridshape *RhombusGridShape) GongMarshallAllFields(stage *Stage) (initRes string, ptrRes string) {
-
-	var initializerStatements strings.Builder
-	var pointersInitializesStatements strings.Builder
-	{ // Insertion point for basic fields value assignment
-		initializerStatements.WriteString(rhombusgridshape.GongMarshallField(stage, "Name"))
-		pointersInitializesStatements.WriteString(rhombusgridshape.GongMarshallField(stage, "RhombusShapes"))
 	}
 	initRes = initializerStatements.String()
 	ptrRes = pointersInitializesStatements.String()
