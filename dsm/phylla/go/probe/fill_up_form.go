@@ -134,9 +134,10 @@ func FillUpForm(
 			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
+		BasicFieldtoForm("IsSelected", instanceWithInferedType.IsSelected, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
 		BasicFieldtoForm("IsPlantDiagramsNodeExpanded", instanceWithInferedType.IsPlantDiagramsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0, false)
-		AssociationSliceToForm("PlantDiagramsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.PlantDiagramsWhoseNodeIsExpanded, formGroup, probe)
 		AssociationSliceToForm("PlantDiagrams", instanceWithInferedType, &instanceWithInferedType.PlantDiagrams, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
@@ -200,17 +201,6 @@ func FillUpForm(
 			IsADivider: true,
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
-		{
-			AssociationReverseSliceToForm[*models.Plant, *models.PlantDiagram](
-				"Plant",
-				"PlantDiagramsWhoseNodeIsExpanded",
-				instanceWithInferedType,
-				formGroup,
-				probe,
-				func(owner *models.Plant) []*models.PlantDiagram {
-					return owner.PlantDiagramsWhoseNodeIsExpanded
-				})
-		}
 		{
 			AssociationReverseSliceToForm[*models.Plant, *models.PlantDiagram](
 				"Plant",

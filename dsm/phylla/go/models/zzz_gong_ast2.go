@@ -703,10 +703,10 @@ func (u *PlantUnmarshaller) UnmarshallField(stage *Stage, i GongstructIF, fieldN
 		instance.ComputedPrefix = GongExtractString(valueExpr)
 	case "IsExpanded":
 		instance.IsExpanded = GongExtractBool(valueExpr)
+	case "IsSelected":
+		instance.IsSelected = GongExtractBool(valueExpr)
 	case "IsPlantDiagramsNodeExpanded":
 		instance.IsPlantDiagramsNodeExpanded = GongExtractBool(valueExpr)
-	case "PlantDiagramsWhoseNodeIsExpanded":
-		GongUnmarshallSliceOfPointers(&instance.PlantDiagramsWhoseNodeIsExpanded, valueExpr, identifierMap)
 	case "PlantDiagrams":
 		GongUnmarshallSliceOfPointers(&instance.PlantDiagrams, valueExpr, identifierMap)
 	}

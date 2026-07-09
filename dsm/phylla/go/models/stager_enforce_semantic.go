@@ -62,6 +62,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		{"Enforce default values", stager.enforceDefaultValues},
 		{"Enforce N <= M", stager.enforcePlantNM},
 		{"Enforce duplicate remove", stager.enforceDuplicateRemove},
+		{"Enforce single selected plant", stager.enforceSingleSelectedPlant},
 		{"Enforce plant has diagram", stager.enforcePlantHasDiagram},
 		{"Enforce plant diagram has axes", stager.enforcePlantDiagramHasAxes},
 		{"Enforce axes shape name", stager.enforceAxesShapeName},
@@ -94,4 +95,41 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 	}
 
 	return needCommit
+}
+
+func (stager *Stager) enforceSingleSelectedPlant() bool {
+	modified := false
+
+	var selectedPlant *Plant
+	for plant := range stager.stage.Plants {
+		if plant.IsSelected {
+			if selectedPlant == nil {
+				selectedPlant = plant
+			} else {
+				// Only one plant can be selected, unselect the other one
+				plant.IsSelected = false
+				modified = true
+			}
+		}
+	}
+
+	if selectedPlant != nil {
+		if stager.selectedPlant != selectedPlant {
+			stager.selectedPlant = selectedPlant
+		}
+	} else if len(stager.stage.Plants) > 0 {
+		// No plant selected, select the first one
+		for plant := range stager.stage.Plants {
+			plant.IsSelected = true
+			stager.selectedPlant = plant
+			modified = true
+			break
+		}
+	} else {
+		if stager.selectedPlant != nil {
+			stager.selectedPlant = nil
+		}
+	}
+
+	return modified
 }

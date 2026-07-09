@@ -235,8 +235,6 @@ type Stage struct {
 	Plants_referenceOrder map[*Plant]uint
 
 	// insertion point for slice of pointers maps
-	Plant_PlantDiagramsWhoseNodeIsExpanded_reverseMap map[*PlantDiagram]*Plant
-
 	Plant_PlantDiagrams_reverseMap map[*PlantDiagram]*Plant
 
 	OnAfterPlantCreateCallback OnAfterCreateInterface[Plant]
@@ -2887,8 +2885,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&Plant{
 			// Initialisation of associations
 			// field is initialized with an instance of PlantDiagram with the name of the field
-			PlantDiagramsWhoseNodeIsExpanded: []*PlantDiagram{{Name: "PlantDiagramsWhoseNodeIsExpanded"}},
-			// field is initialized with an instance of PlantDiagram with the name of the field
 			PlantDiagrams: []*PlantDiagram{{Name: "PlantDiagrams"}},
 		}).(*Type)
 	case PlantCircumferenceShape:
@@ -3234,14 +3230,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Plant:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "PlantDiagramsWhoseNodeIsExpanded":
-			res := make(map[*PlantDiagram][]*Plant)
-			for plant := range stage.Plants {
-				for _, plantdiagram_ := range plant.PlantDiagramsWhoseNodeIsExpanded {
-					res[plantdiagram_] = append(res[plantdiagram_], plant)
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		case "PlantDiagrams":
 			res := make(map[*PlantDiagram][]*Plant)
 			for plant := range stage.Plants {
@@ -3354,9 +3342,6 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *PlantDiagram:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Plant"
-		rf.Fieldname = "PlantDiagramsWhoseNodeIsExpanded"
-		res = append(res, rf)
 		rf.GongstructName = "Plant"
 		rf.Fieldname = "PlantDiagrams"
 		res = append(res, rf)
@@ -3535,13 +3520,12 @@ func (plant *Plant) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:               "IsPlantDiagramsNodeExpanded",
+			Name:               "IsSelected",
 			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
-			Name:                 "PlantDiagramsWhoseNodeIsExpanded",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "PlantDiagram",
+			Name:               "IsPlantDiagramsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBool,
 		},
 		{
 			Name:                 "PlantDiagrams",
@@ -3894,20 +3878,14 @@ func (plant *Plant) GongGetFieldValue(fieldName string, stage *Stage) (res GongF
 		res.valueString = fmt.Sprintf("%t", plant.IsExpanded)
 		res.valueBool = plant.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsSelected":
+		res.valueString = fmt.Sprintf("%t", plant.IsSelected)
+		res.valueBool = plant.IsSelected
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsPlantDiagramsNodeExpanded":
 		res.valueString = fmt.Sprintf("%t", plant.IsPlantDiagramsNodeExpanded)
 		res.valueBool = plant.IsPlantDiagramsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "PlantDiagramsWhoseNodeIsExpanded":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range plant.PlantDiagramsWhoseNodeIsExpanded {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += __instance__.GongGetUUID(stage)
-		}
 	case "PlantDiagrams":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range plant.PlantDiagrams {
@@ -4201,22 +4179,10 @@ func (plant *Plant) GongSetFieldValue(fieldName string, value GongFieldValue, st
 		plant.ComputedPrefix = value.GetValueString()
 	case "IsExpanded":
 		plant.IsExpanded = value.GetValueBool()
+	case "IsSelected":
+		plant.IsSelected = value.GetValueBool()
 	case "IsPlantDiagramsNodeExpanded":
 		plant.IsPlantDiagramsNodeExpanded = value.GetValueBool()
-	case "PlantDiagramsWhoseNodeIsExpanded":
-		plant.PlantDiagramsWhoseNodeIsExpanded = make([]*PlantDiagram, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.PlantDiagrams {
-					if stage.PlantDiagram_stagedOrder[__instance__] == uint(id) {
-						plant.PlantDiagramsWhoseNodeIsExpanded = append(plant.PlantDiagramsWhoseNodeIsExpanded, __instance__)
-						break
-					}
-				}
-			}
-		}
 	case "PlantDiagrams":
 		plant.PlantDiagrams = make([]*PlantDiagram, 0)
 		ids := strings.Split(value.ids, ";")

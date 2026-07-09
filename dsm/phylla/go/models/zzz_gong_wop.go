@@ -133,6 +133,8 @@ type Plant_WOP struct {
 
 	IsExpanded bool
 
+	IsSelected bool
+
 	IsPlantDiagramsNodeExpanded bool
 }
 
@@ -146,6 +148,7 @@ func (from *Plant) CopyBasicFields(to *Plant) {
 	to.ShiftToNearestCircle = from.ShiftToNearestCircle
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
+	to.IsSelected = from.IsSelected
 	to.IsPlantDiagramsNodeExpanded = from.IsPlantDiagramsNodeExpanded
 }
 
