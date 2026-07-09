@@ -59,6 +59,7 @@ func (stager *Stager) enforceSemanticOnePass(needCommit bool, stage *Stage) bool
 		// with slices of pointer or pointer to unstaged instance
 		{"Clean the stage", func() bool { return stage.Clean() }},
 		{"Enforce orphans abstract element", stager.enforceOrphansAbstractElement},
+		{"Enforce orphan shape remove", stager.enforceOrphanShapeRemove},
 		{"Enforce default values", stager.enforceDefaultValues},
 		{"Enforce N <= M", stager.enforcePlantNM},
 		{"Enforce duplicate remove", stager.enforceDuplicateRemove},
