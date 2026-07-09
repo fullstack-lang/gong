@@ -540,6 +540,32 @@ func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *sv
 		polygon.Presentation.StrokeOpacity = 0.5
 		polygon.Presentation.Color = "lightblue"
 		polygon.Presentation.FillOpacity = 0.2
+
+		// Draw a little cross at the center
+		cx := (v0x + v2_vertex_x) / 2.0
+		cy := (v0y + v2_vertex_y) / 2.0
+
+		line1 := new(svg.Line)
+		layer.Lines = append(layer.Lines, line1)
+		line1.Name = rhombus.Name + "-cross-h"
+		line1.X1 = cx - 3.0
+		line1.Y1 = cy
+		line1.X2 = cx + 3.0
+		line1.Y2 = cy
+		line1.Presentation.Stroke = "black"
+		line1.Presentation.StrokeWidth = 1.0
+		line1.Presentation.StrokeOpacity = 1.0
+
+		line2 := new(svg.Line)
+		layer.Lines = append(layer.Lines, line2)
+		line2.Name = rhombus.Name + "-cross-v"
+		line2.X1 = cx
+		line2.Y1 = cy - 3.0
+		line2.X2 = cx
+		line2.Y2 = cy + 3.0
+		line2.Presentation.Stroke = "black"
+		line2.Presentation.StrokeWidth = 1.0
+		line2.Presentation.StrokeOpacity = 1.0
 	}
 }
 
@@ -591,5 +617,35 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 		polygon.Presentation.FillOpacity = 0.1
 		polygon.Presentation.StrokeDashArray = "5, 5"
 		polygon.Presentation.Transform = fmt.Sprintf("rotate(%f %f %f)", plantDiagram.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
+
+		// Draw a little cross at the center
+		cx := (v0x + v2_vertex_x) / 2.0
+		cy := (v0y + v2_vertex_y) / 2.0
+
+		transform := fmt.Sprintf("rotate(%f %f %f)", plantDiagram.PlantCircumferenceShape.AngleDegree, plantDiagram.OriginX, plantDiagram.OriginY)
+
+		line1 := new(svg.Line)
+		layer.Lines = append(layer.Lines, line1)
+		line1.Name = rhombus.Name + "-cross-h"
+		line1.X1 = cx - 3.0
+		line1.Y1 = cy
+		line1.X2 = cx + 3.0
+		line1.Y2 = cy
+		line1.Presentation.Stroke = "black"
+		line1.Presentation.StrokeWidth = 1.0
+		line1.Presentation.StrokeOpacity = 1.0
+		line1.Presentation.Transform = transform
+
+		line2 := new(svg.Line)
+		layer.Lines = append(layer.Lines, line2)
+		line2.Name = rhombus.Name + "-cross-v"
+		line2.X1 = cx
+		line2.Y1 = cy - 3.0
+		line2.X2 = cx
+		line2.Y2 = cy + 3.0
+		line2.Presentation.Stroke = "black"
+		line2.Presentation.StrokeWidth = 1.0
+		line2.Presentation.StrokeOpacity = 1.0
+		line2.Presentation.Transform = transform
 	}
 }
