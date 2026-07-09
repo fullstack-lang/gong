@@ -497,7 +497,7 @@ func (plantDiagram *PlantDiagram) drawRotatedGridPathShape(stager *Stager, layer
 
 func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plant.RhombusGridShape == nil || plantDiagram.IsHiddenRhombusGridShape {
+	if plant.InitialRhombusGridShape == nil || plantDiagram.IsHiddenRhombusGridShape {
 		return
 	}
 
@@ -511,7 +511,7 @@ func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *sv
 	v2x := -length * math.Cos(angleRad/2.0)
 	v2y := -length * math.Sin(angleRad/2.0)
 
-	for _, rhombus := range plant.RhombusGridShape.RhombusShapes {
+	for _, rhombus := range plant.InitialRhombusGridShape.InitialRhombusShapes {
 		polygon := new(svg.Polygone)
 		layer.Polygones = append(layer.Polygones, polygon)
 
@@ -572,7 +572,7 @@ func (plantDiagram *PlantDiagram) drawRhombusGridShape(stager *Stager, layer *sv
 
 func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plant.RotatedRhombusGridShape == nil || plantDiagram.IsHiddenRotatedRhombusGridShape {
+	if plant.RotatedRhombusGridShape2 == nil || plantDiagram.IsHiddenRotatedRhombusGridShape {
 		return
 	}
 
@@ -596,7 +596,7 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 	v2_rot_x := v2x*cosA - v2y*sinA
 	v2_rot_y := v2x*sinA + v2y*cosA
 
-	for _, rhombus := range plant.RotatedRhombusGridShape.RhombusShapes {
+	for _, rhombus := range plant.RotatedRhombusGridShape2.RotatedRhombusShapes {
 		polygon := new(svg.Polygone)
 		layer.Polygones = append(layer.Polygones, polygon)
 
@@ -659,7 +659,7 @@ func (plantDiagram *PlantDiagram) drawRotatedRhombusGridShape(stager *Stager, la
 
 func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager, layer *svg.Layer, plant *Plant) {
 
-	if plant.GrowthPathRhombusGridShape == nil || plantDiagram.IsHiddenGrowthPathRhombusGridShape {
+	if plant.GrowthCurveRhombusGridShape == nil || plantDiagram.IsHiddenGrowthPathRhombusGridShape {
 		return
 	}
 
@@ -683,7 +683,7 @@ func (plantDiagram *PlantDiagram) drawGrowthPathRhombusGridShape(stager *Stager,
 	v2_rot_x := v2x*cosA - v2y*sinA
 	v2_rot_y := v2x*sinA + v2y*cosA
 
-	for _, rhombus := range plant.GrowthPathRhombusGridShape.RhombusShapes {
+	for _, rhombus := range plant.GrowthCurveRhombusGridShape.GrowthCurveRhombusShapes {
 		polygon := new(svg.Polygone)
 		layer.Polygones = append(layer.Polygones, polygon)
 

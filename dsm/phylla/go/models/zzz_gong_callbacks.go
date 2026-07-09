@@ -22,6 +22,22 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterGridPathShapeCreateCallback != nil {
 			stage.OnAfterGridPathShapeCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *GrowthCurveRhombusGridShape:
+		if stage.OnAfterGrowthCurveRhombusGridShapeCreateCallback != nil {
+			stage.OnAfterGrowthCurveRhombusGridShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *GrowthCurveRhombusShape:
+		if stage.OnAfterGrowthCurveRhombusShapeCreateCallback != nil {
+			stage.OnAfterGrowthCurveRhombusShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *InitialRhombusGridShape:
+		if stage.OnAfterInitialRhombusGridShapeCreateCallback != nil {
+			stage.OnAfterInitialRhombusGridShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *InitialRhombusShape:
+		if stage.OnAfterInitialRhombusShapeCreateCallback != nil {
+			stage.OnAfterInitialRhombusShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Library:
 		if stage.OnAfterLibraryCreateCallback != nil {
 			stage.OnAfterLibraryCreateCallback.OnAfterCreate(stage, target)
@@ -49,6 +65,14 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *RhombusShape:
 		if stage.OnAfterRhombusShapeCreateCallback != nil {
 			stage.OnAfterRhombusShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *RotatedRhombusGridShape:
+		if stage.OnAfterRotatedRhombusGridShapeCreateCallback != nil {
+			stage.OnAfterRotatedRhombusGridShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *RotatedRhombusShape:
+		if stage.OnAfterRotatedRhombusShapeCreateCallback != nil {
+			stage.OnAfterRotatedRhombusShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	default:
 		_ = target
@@ -83,6 +107,26 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*GridPathShape)
 		if stage.OnAfterGridPathShapeUpdateCallback != nil {
 			stage.OnAfterGridPathShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *GrowthCurveRhombusGridShape:
+		newTarget := any(new).(*GrowthCurveRhombusGridShape)
+		if stage.OnAfterGrowthCurveRhombusGridShapeUpdateCallback != nil {
+			stage.OnAfterGrowthCurveRhombusGridShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *GrowthCurveRhombusShape:
+		newTarget := any(new).(*GrowthCurveRhombusShape)
+		if stage.OnAfterGrowthCurveRhombusShapeUpdateCallback != nil {
+			stage.OnAfterGrowthCurveRhombusShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *InitialRhombusGridShape:
+		newTarget := any(new).(*InitialRhombusGridShape)
+		if stage.OnAfterInitialRhombusGridShapeUpdateCallback != nil {
+			stage.OnAfterInitialRhombusGridShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *InitialRhombusShape:
+		newTarget := any(new).(*InitialRhombusShape)
+		if stage.OnAfterInitialRhombusShapeUpdateCallback != nil {
+			stage.OnAfterInitialRhombusShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Library:
 		newTarget := any(new).(*Library)
@@ -119,6 +163,16 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterRhombusShapeUpdateCallback != nil {
 			stage.OnAfterRhombusShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
+	case *RotatedRhombusGridShape:
+		newTarget := any(new).(*RotatedRhombusGridShape)
+		if stage.OnAfterRotatedRhombusGridShapeUpdateCallback != nil {
+			stage.OnAfterRotatedRhombusGridShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *RotatedRhombusShape:
+		newTarget := any(new).(*RotatedRhombusShape)
+		if stage.OnAfterRotatedRhombusShapeUpdateCallback != nil {
+			stage.OnAfterRotatedRhombusShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	default:
 		_ = oldTarget
 	}
@@ -148,6 +202,26 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 		if stage.OnAfterGridPathShapeDeleteCallback != nil {
 			staged := any(staged).(*GridPathShape)
 			stage.OnAfterGridPathShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *GrowthCurveRhombusGridShape:
+		if stage.OnAfterGrowthCurveRhombusGridShapeDeleteCallback != nil {
+			staged := any(staged).(*GrowthCurveRhombusGridShape)
+			stage.OnAfterGrowthCurveRhombusGridShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *GrowthCurveRhombusShape:
+		if stage.OnAfterGrowthCurveRhombusShapeDeleteCallback != nil {
+			staged := any(staged).(*GrowthCurveRhombusShape)
+			stage.OnAfterGrowthCurveRhombusShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *InitialRhombusGridShape:
+		if stage.OnAfterInitialRhombusGridShapeDeleteCallback != nil {
+			staged := any(staged).(*InitialRhombusGridShape)
+			stage.OnAfterInitialRhombusGridShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *InitialRhombusShape:
+		if stage.OnAfterInitialRhombusShapeDeleteCallback != nil {
+			staged := any(staged).(*InitialRhombusShape)
+			stage.OnAfterInitialRhombusShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Library:
 		if stage.OnAfterLibraryDeleteCallback != nil {
@@ -184,6 +258,16 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*RhombusShape)
 			stage.OnAfterRhombusShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *RotatedRhombusGridShape:
+		if stage.OnAfterRotatedRhombusGridShapeDeleteCallback != nil {
+			staged := any(staged).(*RotatedRhombusGridShape)
+			stage.OnAfterRotatedRhombusGridShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *RotatedRhombusShape:
+		if stage.OnAfterRotatedRhombusShapeDeleteCallback != nil {
+			staged := any(staged).(*RotatedRhombusShape)
+			stage.OnAfterRotatedRhombusShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	default:
 		_ = front
 	}
@@ -209,6 +293,22 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *GridPathShape:
 		if stage.OnAfterGridPathShapeReadCallback != nil {
 			stage.OnAfterGridPathShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *GrowthCurveRhombusGridShape:
+		if stage.OnAfterGrowthCurveRhombusGridShapeReadCallback != nil {
+			stage.OnAfterGrowthCurveRhombusGridShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *GrowthCurveRhombusShape:
+		if stage.OnAfterGrowthCurveRhombusShapeReadCallback != nil {
+			stage.OnAfterGrowthCurveRhombusShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *InitialRhombusGridShape:
+		if stage.OnAfterInitialRhombusGridShapeReadCallback != nil {
+			stage.OnAfterInitialRhombusGridShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *InitialRhombusShape:
+		if stage.OnAfterInitialRhombusShapeReadCallback != nil {
+			stage.OnAfterInitialRhombusShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *Library:
 		if stage.OnAfterLibraryReadCallback != nil {
@@ -238,6 +338,14 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterRhombusShapeReadCallback != nil {
 			stage.OnAfterRhombusShapeReadCallback.OnAfterRead(stage, target)
 		}
+	case *RotatedRhombusGridShape:
+		if stage.OnAfterRotatedRhombusGridShapeReadCallback != nil {
+			stage.OnAfterRotatedRhombusGridShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *RotatedRhombusShape:
+		if stage.OnAfterRotatedRhombusShapeReadCallback != nil {
+			stage.OnAfterRotatedRhombusShapeReadCallback.OnAfterRead(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -257,6 +365,14 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterExplanationTextShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ExplanationTextShape])
 	case *GridPathShape:
 		stage.OnAfterGridPathShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GridPathShape])
+	case *GrowthCurveRhombusGridShape:
+		stage.OnAfterGrowthCurveRhombusGridShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GrowthCurveRhombusGridShape])
+	case *GrowthCurveRhombusShape:
+		stage.OnAfterGrowthCurveRhombusShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[GrowthCurveRhombusShape])
+	case *InitialRhombusGridShape:
+		stage.OnAfterInitialRhombusGridShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[InitialRhombusGridShape])
+	case *InitialRhombusShape:
+		stage.OnAfterInitialRhombusShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[InitialRhombusShape])
 	case *Library:
 		stage.OnAfterLibraryUpdateCallback = any(callback).(OnAfterUpdateInterface[Library])
 	case *NextCircleShape:
@@ -271,6 +387,10 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRhombusGridShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[RhombusGridShape])
 	case *RhombusShape:
 		stage.OnAfterRhombusShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[RhombusShape])
+	case *RotatedRhombusGridShape:
+		stage.OnAfterRotatedRhombusGridShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[RotatedRhombusGridShape])
+	case *RotatedRhombusShape:
+		stage.OnAfterRotatedRhombusShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[RotatedRhombusShape])
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -286,6 +406,14 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterExplanationTextShapeCreateCallback = any(callback).(OnAfterCreateInterface[ExplanationTextShape])
 	case *GridPathShape:
 		stage.OnAfterGridPathShapeCreateCallback = any(callback).(OnAfterCreateInterface[GridPathShape])
+	case *GrowthCurveRhombusGridShape:
+		stage.OnAfterGrowthCurveRhombusGridShapeCreateCallback = any(callback).(OnAfterCreateInterface[GrowthCurveRhombusGridShape])
+	case *GrowthCurveRhombusShape:
+		stage.OnAfterGrowthCurveRhombusShapeCreateCallback = any(callback).(OnAfterCreateInterface[GrowthCurveRhombusShape])
+	case *InitialRhombusGridShape:
+		stage.OnAfterInitialRhombusGridShapeCreateCallback = any(callback).(OnAfterCreateInterface[InitialRhombusGridShape])
+	case *InitialRhombusShape:
+		stage.OnAfterInitialRhombusShapeCreateCallback = any(callback).(OnAfterCreateInterface[InitialRhombusShape])
 	case *Library:
 		stage.OnAfterLibraryCreateCallback = any(callback).(OnAfterCreateInterface[Library])
 	case *NextCircleShape:
@@ -300,6 +428,10 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRhombusGridShapeCreateCallback = any(callback).(OnAfterCreateInterface[RhombusGridShape])
 	case *RhombusShape:
 		stage.OnAfterRhombusShapeCreateCallback = any(callback).(OnAfterCreateInterface[RhombusShape])
+	case *RotatedRhombusGridShape:
+		stage.OnAfterRotatedRhombusGridShapeCreateCallback = any(callback).(OnAfterCreateInterface[RotatedRhombusGridShape])
+	case *RotatedRhombusShape:
+		stage.OnAfterRotatedRhombusShapeCreateCallback = any(callback).(OnAfterCreateInterface[RotatedRhombusShape])
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -315,6 +447,14 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterExplanationTextShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ExplanationTextShape])
 	case *GridPathShape:
 		stage.OnAfterGridPathShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GridPathShape])
+	case *GrowthCurveRhombusGridShape:
+		stage.OnAfterGrowthCurveRhombusGridShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GrowthCurveRhombusGridShape])
+	case *GrowthCurveRhombusShape:
+		stage.OnAfterGrowthCurveRhombusShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[GrowthCurveRhombusShape])
+	case *InitialRhombusGridShape:
+		stage.OnAfterInitialRhombusGridShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[InitialRhombusGridShape])
+	case *InitialRhombusShape:
+		stage.OnAfterInitialRhombusShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[InitialRhombusShape])
 	case *Library:
 		stage.OnAfterLibraryDeleteCallback = any(callback).(OnAfterDeleteInterface[Library])
 	case *NextCircleShape:
@@ -329,6 +469,10 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		stage.OnAfterRhombusGridShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[RhombusGridShape])
 	case *RhombusShape:
 		stage.OnAfterRhombusShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[RhombusShape])
+	case *RotatedRhombusGridShape:
+		stage.OnAfterRotatedRhombusGridShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[RotatedRhombusGridShape])
+	case *RotatedRhombusShape:
+		stage.OnAfterRotatedRhombusShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[RotatedRhombusShape])
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -344,6 +488,14 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterExplanationTextShapeReadCallback = any(callback).(OnAfterReadInterface[ExplanationTextShape])
 	case *GridPathShape:
 		stage.OnAfterGridPathShapeReadCallback = any(callback).(OnAfterReadInterface[GridPathShape])
+	case *GrowthCurveRhombusGridShape:
+		stage.OnAfterGrowthCurveRhombusGridShapeReadCallback = any(callback).(OnAfterReadInterface[GrowthCurveRhombusGridShape])
+	case *GrowthCurveRhombusShape:
+		stage.OnAfterGrowthCurveRhombusShapeReadCallback = any(callback).(OnAfterReadInterface[GrowthCurveRhombusShape])
+	case *InitialRhombusGridShape:
+		stage.OnAfterInitialRhombusGridShapeReadCallback = any(callback).(OnAfterReadInterface[InitialRhombusGridShape])
+	case *InitialRhombusShape:
+		stage.OnAfterInitialRhombusShapeReadCallback = any(callback).(OnAfterReadInterface[InitialRhombusShape])
 	case *Library:
 		stage.OnAfterLibraryReadCallback = any(callback).(OnAfterReadInterface[Library])
 	case *NextCircleShape:
@@ -358,5 +510,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		stage.OnAfterRhombusGridShapeReadCallback = any(callback).(OnAfterReadInterface[RhombusGridShape])
 	case *RhombusShape:
 		stage.OnAfterRhombusShapeReadCallback = any(callback).(OnAfterReadInterface[RhombusShape])
+	case *RotatedRhombusGridShape:
+		stage.OnAfterRotatedRhombusGridShapeReadCallback = any(callback).(OnAfterReadInterface[RotatedRhombusGridShape])
+	case *RotatedRhombusShape:
+		stage.OnAfterRotatedRhombusShapeReadCallback = any(callback).(OnAfterReadInterface[RotatedRhombusShape])
 	}
 }

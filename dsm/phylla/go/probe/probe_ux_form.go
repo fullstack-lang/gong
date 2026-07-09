@@ -39,6 +39,30 @@ func (probe *Probe) ux_form() {
 			} else {
 				FillUpFormFromGongstruct(onSave.gridpathshape, probe)
 			}
+		case *GrowthCurveRhombusGridShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GrowthCurveRhombusGridShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.growthcurverhombusgridshape, probe)
+			}
+		case *GrowthCurveRhombusShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "GrowthCurveRhombusShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.growthcurverhombusshape, probe)
+			}
+		case *InitialRhombusGridShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "InitialRhombusGridShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.initialrhombusgridshape, probe)
+			}
+		case *InitialRhombusShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "InitialRhombusShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.initialrhombusshape, probe)
+			}
 		case *LibraryFormCallback:
 			if onSave.CreationMode {
 				FillUpFormFromGongstructName(probe, "Library", true)
@@ -80,6 +104,18 @@ func (probe *Probe) ux_form() {
 				FillUpFormFromGongstructName(probe, "RhombusShape", true)
 			} else {
 				FillUpFormFromGongstruct(onSave.rhombusshape, probe)
+			}
+		case *RotatedRhombusGridShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "RotatedRhombusGridShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.rotatedrhombusgridshape, probe)
+			}
+		case *RotatedRhombusShapeFormCallback:
+			if onSave.CreationMode {
+				FillUpFormFromGongstructName(probe, "RotatedRhombusShape", true)
+			} else {
+				FillUpFormFromGongstruct(onSave.rotatedrhombusshape, probe)
 			}
 		}
 	}
@@ -155,6 +191,58 @@ func FillUpFormFromGongstructName(
 		gridpathshape := new(models.GridPathShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(gridpathshape, formGroup, probe)
+	case "GrowthCurveRhombusGridShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "GrowthCurveRhombusGridShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GrowthCurveRhombusGridShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		growthcurverhombusgridshape := new(models.GrowthCurveRhombusGridShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(growthcurverhombusgridshape, formGroup, probe)
+	case "GrowthCurveRhombusShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "GrowthCurveRhombusShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GrowthCurveRhombusShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		growthcurverhombusshape := new(models.GrowthCurveRhombusShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(growthcurverhombusshape, formGroup, probe)
+	case "InitialRhombusGridShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "InitialRhombusGridShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__InitialRhombusGridShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		initialrhombusgridshape := new(models.InitialRhombusGridShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(initialrhombusgridshape, formGroup, probe)
+	case "InitialRhombusShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "InitialRhombusShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__InitialRhombusShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		initialrhombusshape := new(models.InitialRhombusShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(initialrhombusshape, formGroup, probe)
 	case "Library":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -246,6 +334,32 @@ func FillUpFormFromGongstructName(
 		rhombusshape := new(models.RhombusShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(rhombusshape, formGroup, probe)
+	case "RotatedRhombusGridShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "RotatedRhombusGridShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__RotatedRhombusGridShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		rotatedrhombusgridshape := new(models.RotatedRhombusGridShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(rotatedrhombusgridshape, formGroup, probe)
+	case "RotatedRhombusShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "RotatedRhombusShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__RotatedRhombusShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		rotatedrhombusshape := new(models.RotatedRhombusShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(rotatedrhombusshape, formGroup, probe)
 	}
 	formStage.Commit()
 }

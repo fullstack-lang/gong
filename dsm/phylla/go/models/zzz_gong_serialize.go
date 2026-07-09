@@ -28,6 +28,10 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*CircleGridShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ExplanationTextShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*GridPathShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*GrowthCurveRhombusGridShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*GrowthCurveRhombusShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*InitialRhombusGridShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*InitialRhombusShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Library](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*NextCircleShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Plant](stage, f, addIDs)
@@ -35,6 +39,8 @@ func buildExcelizeFile(stage *Stage, addIDs bool) *excelize.File {
 		SerializeExcelizePointerToGongstruct2[*PlantDiagram](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*RhombusGridShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*RhombusShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*RotatedRhombusGridShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*RotatedRhombusShape](stage, f, addIDs)
 	}
 
 	// Create a style with wrap text enabled

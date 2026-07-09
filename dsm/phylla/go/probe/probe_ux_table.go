@@ -32,6 +32,14 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.ExplanationTextShape](probe)
 	case "GridPathShape":
 		updateProbeTable[*models.GridPathShape](probe)
+	case "GrowthCurveRhombusGridShape":
+		updateProbeTable[*models.GrowthCurveRhombusGridShape](probe)
+	case "GrowthCurveRhombusShape":
+		updateProbeTable[*models.GrowthCurveRhombusShape](probe)
+	case "InitialRhombusGridShape":
+		updateProbeTable[*models.InitialRhombusGridShape](probe)
+	case "InitialRhombusShape":
+		updateProbeTable[*models.InitialRhombusShape](probe)
 	case "Library":
 		updateProbeTable[*models.Library](probe)
 	case "NextCircleShape":
@@ -46,6 +54,10 @@ func (probe *Probe) ux_table() {
 		updateProbeTable[*models.RhombusGridShape](probe)
 	case "RhombusShape":
 		updateProbeTable[*models.RhombusShape](probe)
+	case "RotatedRhombusGridShape":
+		updateProbeTable[*models.RotatedRhombusGridShape](probe)
+	case "RotatedRhombusShape":
+		updateProbeTable[*models.RotatedRhombusShape](probe)
 	}
 }
 

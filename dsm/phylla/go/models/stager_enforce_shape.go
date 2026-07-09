@@ -132,17 +132,17 @@ func (stager *Stager) enforcePlantHasGridPathShape() (needCommit bool) {
 	)
 }
 
-// enforcePlantHasRhombusGridShape ensures that each Plant has one and only one RhombusGridShape that belong to it
-func (stager *Stager) enforcePlantHasRhombusGridShape() (needCommit bool) {
-	return enforcePlantHasShape[*RhombusGridShape](
+// enforcePlantHasInitialRhombusGridShape ensures that each Plant has one and only one InitialRhombusGridShape that belong to it
+func (stager *Stager) enforcePlantHasInitialRhombusGridShape() (needCommit bool) {
+	return enforcePlantHasShape[*InitialRhombusGridShape](
 		stager,
-		func() *RhombusGridShape { return new(RhombusGridShape) },
-		func(p *Plant) *RhombusGridShape { return p.RhombusGridShape },
-		func(p *Plant, shape *RhombusGridShape) { p.RhombusGridShape = shape },
-		func(p *Plant, shape *RhombusGridShape) bool {
-			return p.RhombusGridShape == shape || p.RotatedRhombusGridShape == shape || p.GrowthPathRhombusGridShape == shape
+		func() *InitialRhombusGridShape { return new(InitialRhombusGridShape) },
+		func(p *Plant) *InitialRhombusGridShape { return p.InitialRhombusGridShape },
+		func(p *Plant, shape *InitialRhombusGridShape) { p.InitialRhombusGridShape = shape },
+		func(p *Plant, shape *InitialRhombusGridShape) bool {
+			return p.InitialRhombusGridShape == shape
 		},
-		"RhombusGridShape",
+		"InitialRhombusGridShape",
 	)
 }
 
@@ -223,26 +223,26 @@ func (stager *Stager) enforcePlantHasRotatedShapes() (needCommit bool) {
 		"RotatedGridPathShape",
 	)
 
-	n4 := enforcePlantHasShape[*RhombusGridShape](
+	n4 := enforcePlantHasShape[*RotatedRhombusGridShape](
 		stager,
-		func() *RhombusGridShape { return new(RhombusGridShape) },
-		func(p *Plant) *RhombusGridShape { return p.RotatedRhombusGridShape },
-		func(p *Plant, shape *RhombusGridShape) { p.RotatedRhombusGridShape = shape },
-		func(p *Plant, shape *RhombusGridShape) bool {
-			return p.RhombusGridShape == shape || p.RotatedRhombusGridShape == shape || p.GrowthPathRhombusGridShape == shape
+		func() *RotatedRhombusGridShape { return new(RotatedRhombusGridShape) },
+		func(p *Plant) *RotatedRhombusGridShape { return p.RotatedRhombusGridShape2 },
+		func(p *Plant, shape *RotatedRhombusGridShape) { p.RotatedRhombusGridShape2 = shape },
+		func(p *Plant, shape *RotatedRhombusGridShape) bool {
+			return p.RotatedRhombusGridShape2 == shape
 		},
 		"RotatedRhombusGridShape",
 	)
 
-	n5 := enforcePlantHasShape[*RhombusGridShape](
+	n5 := enforcePlantHasShape[*GrowthCurveRhombusGridShape](
 		stager,
-		func() *RhombusGridShape { return new(RhombusGridShape) },
-		func(p *Plant) *RhombusGridShape { return p.GrowthPathRhombusGridShape },
-		func(p *Plant, shape *RhombusGridShape) { p.GrowthPathRhombusGridShape = shape },
-		func(p *Plant, shape *RhombusGridShape) bool {
-			return p.RhombusGridShape == shape || p.RotatedRhombusGridShape == shape || p.GrowthPathRhombusGridShape == shape
+		func() *GrowthCurveRhombusGridShape { return new(GrowthCurveRhombusGridShape) },
+		func(p *Plant) *GrowthCurveRhombusGridShape { return p.GrowthCurveRhombusGridShape },
+		func(p *Plant, shape *GrowthCurveRhombusGridShape) { p.GrowthCurveRhombusGridShape = shape },
+		func(p *Plant, shape *GrowthCurveRhombusGridShape) bool {
+			return p.GrowthCurveRhombusGridShape == shape
 		},
-		"GrowthPathRhombusGridShape",
+		"GrowthCurveRhombusGridShape",
 	)
 
 	return n1 || n2 || n3 || n4 || n5
@@ -257,12 +257,12 @@ func (stager *Stager) enforceReferenceRhombusName() (needCommit bool) {
 	)
 }
 
-// enforceRhombusGridShapeName ensures that the name of the RhombusGridShape matches its owning Plant
-func (stager *Stager) enforceRhombusGridShapeName() (needCommit bool) {
-	return enforcePlantShapeName[*RhombusGridShape](
+// enforceInitialRhombusGridShapeName ensures that the name of the InitialRhombusGridShape matches its owning Plant
+func (stager *Stager) enforceInitialRhombusGridShapeName() (needCommit bool) {
+	return enforcePlantShapeName[*InitialRhombusGridShape](
 		stager,
-		func(p *Plant) *RhombusGridShape { return p.RhombusGridShape },
-		"RhombusGridShape",
+		func(p *Plant) *InitialRhombusGridShape { return p.InitialRhombusGridShape },
+		"InitialRhombusGridShape",
 	)
 }
 
@@ -295,16 +295,16 @@ func (stager *Stager) enforceRotatedShapesNames() (needCommit bool) {
 		"RotatedGridPathShape",
 	)
 
-	n4 := enforcePlantShapeName[*RhombusGridShape](
+	n4 := enforcePlantShapeName[*RotatedRhombusGridShape](
 		stager,
-		func(p *Plant) *RhombusGridShape { return p.RotatedRhombusGridShape },
+		func(p *Plant) *RotatedRhombusGridShape { return p.RotatedRhombusGridShape2 },
 		"RotatedRhombusGridShape",
 	)
 
-	n5 := enforcePlantShapeName[*RhombusGridShape](
+	n5 := enforcePlantShapeName[*GrowthCurveRhombusGridShape](
 		stager,
-		func(p *Plant) *RhombusGridShape { return p.GrowthPathRhombusGridShape },
-		"GrowthPathRhombusGridShape",
+		func(p *Plant) *GrowthCurveRhombusGridShape { return p.GrowthCurveRhombusGridShape },
+		"GrowthCurveRhombusGridShape",
 	)
 
 	return n1 || n2 || n3 || n4 || n5
@@ -325,35 +325,35 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		v2x := -length * math.Cos(angleRad/2.0)
 		v2y := -length * math.Sin(angleRad/2.0)
 
-		if plant.RhombusGridShape != nil {
-			needCommit = enforceRhombusGridShapeHasRhombuses(stage, plant.RhombusGridShape, plant.N, plant.M, v1x, v1y, v2x, v2y, 0.0) || needCommit
+		if plant.InitialRhombusGridShape != nil {
+			needCommit = enforceInitialRhombusGridShapeHasRhombuses(stage, plant.InitialRhombusGridShape, plant.N, plant.M, v1x, v1y, v2x, v2y, 0.0) || needCommit
 		}
 		rotRad := 0.0
 		if plant.PlantCircumferenceShape != nil {
 			rotRad = plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
 		}
-		if plant.RotatedRhombusGridShape != nil {
-			needCommit = enforceRhombusGridShapeHasRhombuses(stage, plant.RotatedRhombusGridShape, plant.N, plant.M, v1x, v1y, v2x, v2y, rotRad) || needCommit
+		if plant.RotatedRhombusGridShape2 != nil {
+			needCommit = enforceRotatedRhombusGridShapeHasRhombuses(stage, plant.RotatedRhombusGridShape2, plant.N, plant.M, v1x, v1y, v2x, v2y, rotRad) || needCommit
 		}
-		if plant.GrowthPathRhombusGridShape != nil && plant.RotatedRhombusGridShape != nil && plant.PlantCircumferenceShape != nil {
-			needCommit = enforceGrowthPathRhombusGridShapeHasRhombuses(stage, plant.GrowthPathRhombusGridShape, plant.RotatedRhombusGridShape, plant.PlantCircumferenceShape.AngleDegree, plant.RhombusSideLength, plant.RhombusInsideAngle) || needCommit
+		if plant.GrowthCurveRhombusGridShape != nil && plant.RotatedRhombusGridShape2 != nil && plant.PlantCircumferenceShape != nil {
+			needCommit = enforceGrowthPathRhombusGridShapeHasRhombuses(stage, plant.GrowthCurveRhombusGridShape, plant.RotatedRhombusGridShape2, plant.PlantCircumferenceShape.AngleDegree, plant.RhombusSideLength, plant.RhombusInsideAngle) || needCommit
 		}
 	}
 	return
 }
 
-func enforceRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGridShape, N, M int, v1x, v1y, v2x, v2y, rotAngleRad float64) (needCommit bool) {
+func enforceInitialRhombusGridShapeHasRhombuses(stage *Stage, grid *InitialRhombusGridShape, N, M int, v1x, v1y, v2x, v2y, rotAngleRad float64) (needCommit bool) {
 	cosA := math.Cos(rotAngleRad)
 	sinA := math.Sin(rotAngleRad)
 	valid := true
-	if len(grid.RhombusShapes) != (N+1)*M {
+	if len(grid.InitialRhombusShapes) != (N+1)*M {
 		valid = false
 	} else {
-		seen := make(map[*RhombusShape]bool)
+		seen := make(map[*InitialRhombusShape]bool)
 		idx := 0
 		for i := -1; i < N; i++ {
 			for j := 0; j < M; j++ {
-				r := grid.RhombusShapes[idx]
+				r := grid.InitialRhombusShapes[idx]
 				if seen[r] {
 					valid = false
 					break
@@ -373,16 +373,16 @@ func enforceRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGridShape, N
 	}
 
 	if !valid {
-		grid.RhombusShapes = make([]*RhombusShape, 0, (N+1)*M)
+		grid.InitialRhombusShapes = make([]*InitialRhombusShape, 0, (N+1)*M)
 		for i := -1; i < N; i++ {
 			for j := 0; j < M; j++ {
-				r := new(RhombusShape).Stage(stage)
+				r := new(InitialRhombusShape).Stage(stage)
 				r.Name = fmt.Sprintf("%s-%d-%d", grid.Name, i, j)
 				origX := float64(i)*v1x + float64(j)*v2x
 				origY := float64(i)*v1y + float64(j)*v2y
 				r.X = origX*cosA - origY*sinA
 				r.Y = origX*sinA + origY*cosA
-				grid.RhombusShapes = append(grid.RhombusShapes, r)
+				grid.InitialRhombusShapes = append(grid.InitialRhombusShapes, r)
 			}
 		}
 		needCommit = true
@@ -390,7 +390,72 @@ func enforceRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGridShape, N
 		idx := 0
 		for i := -1; i < N; i++ {
 			for j := 0; j < M; j++ {
-				r := grid.RhombusShapes[idx]
+				r := grid.InitialRhombusShapes[idx]
+				origX := float64(i)*v1x + float64(j)*v2x
+				origY := float64(i)*v1y + float64(j)*v2y
+				expectedX := origX*cosA - origY*sinA
+				expectedY := origX*sinA + origY*cosA
+				if r.X != expectedX || r.Y != expectedY {
+					r.X = expectedX
+					r.Y = expectedY
+					needCommit = true
+				}
+				idx++
+			}
+		}
+	}
+	return
+}
+
+func enforceRotatedRhombusGridShapeHasRhombuses(stage *Stage, grid *RotatedRhombusGridShape, N, M int, v1x, v1y, v2x, v2y, rotAngleRad float64) (needCommit bool) {
+	cosA := math.Cos(rotAngleRad)
+	sinA := math.Sin(rotAngleRad)
+	valid := true
+	if len(grid.RotatedRhombusShapes) != (N+1)*M {
+		valid = false
+	} else {
+		seen := make(map[*RotatedRhombusShape]bool)
+		idx := 0
+		for i := -1; i < N; i++ {
+			for j := 0; j < M; j++ {
+				r := grid.RotatedRhombusShapes[idx]
+				if seen[r] {
+					valid = false
+					break
+				}
+				seen[r] = true
+				expectedName := fmt.Sprintf("%s-%d-%d", grid.Name, i, j)
+				if r == nil || r.Name != expectedName {
+					valid = false
+					break
+				}
+				idx++
+			}
+			if !valid {
+				break
+			}
+		}
+	}
+
+	if !valid {
+		grid.RotatedRhombusShapes = make([]*RotatedRhombusShape, 0, (N+1)*M)
+		for i := -1; i < N; i++ {
+			for j := 0; j < M; j++ {
+				r := new(RotatedRhombusShape).Stage(stage)
+				r.Name = fmt.Sprintf("%s-%d-%d", grid.Name, i, j)
+				origX := float64(i)*v1x + float64(j)*v2x
+				origY := float64(i)*v1y + float64(j)*v2y
+				r.X = origX*cosA - origY*sinA
+				r.Y = origX*sinA + origY*cosA
+				grid.RotatedRhombusShapes = append(grid.RotatedRhombusShapes, r)
+			}
+		}
+		needCommit = true
+	} else {
+		idx := 0
+		for i := -1; i < N; i++ {
+			for j := 0; j < M; j++ {
+				r := grid.RotatedRhombusShapes[idx]
 				origX := float64(i)*v1x + float64(j)*v2x
 				origY := float64(i)*v1y + float64(j)*v2y
 				expectedX := origX*cosA - origY*sinA
@@ -411,26 +476,6 @@ func isRhombusShapeOwnedByPlant(p *Plant, shape *RhombusShape) bool {
 	if p.ReferenceRhombus == shape || p.RotatedReferenceRhombus == shape {
 		return true
 	}
-	if p.RhombusGridShape != nil {
-		for _, r := range p.RhombusGridShape.RhombusShapes {
-			if r == shape {
-				return true
-			}
-		}
-	}
-	if p.RotatedRhombusGridShape != nil {
-		for _, r := range p.RotatedRhombusGridShape.RhombusShapes {
-			if r == shape {
-				return true
-			}
-		}
-	}
-	if p.GrowthPathRhombusGridShape != nil {
-		for _, r := range p.GrowthPathRhombusGridShape.RhombusShapes {
-			if r == shape {
-				return true
-			}
-		}
-	}
+	// Initial, Rotated and Growth grids no longer use generic RhombusShape.
 	return false
 }

@@ -62,6 +62,62 @@ func (from *GridPathShape) CopyBasicFields(to *GridPathShape) {
 	to.Name = from.Name
 }
 
+type GrowthCurveRhombusGridShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *GrowthCurveRhombusGridShape) CopyBasicFields(to *GrowthCurveRhombusGridShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type GrowthCurveRhombusShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	X float64
+
+	Y float64
+}
+
+func (from *GrowthCurveRhombusShape) CopyBasicFields(to *GrowthCurveRhombusShape) {
+	// insertion point
+	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
+}
+
+type InitialRhombusGridShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *InitialRhombusGridShape) CopyBasicFields(to *InitialRhombusGridShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type InitialRhombusShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	X float64
+
+	Y float64
+}
+
+func (from *InitialRhombusShape) CopyBasicFields(to *InitialRhombusShape) {
+	// insertion point
+	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
+}
+
 type Library_WOP struct {
 	// insertion point
 
@@ -235,6 +291,34 @@ type RhombusShape_WOP struct {
 }
 
 func (from *RhombusShape) CopyBasicFields(to *RhombusShape) {
+	// insertion point
+	to.Name = from.Name
+	to.X = from.X
+	to.Y = from.Y
+}
+
+type RotatedRhombusGridShape_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *RotatedRhombusGridShape) CopyBasicFields(to *RotatedRhombusGridShape) {
+	// insertion point
+	to.Name = from.Name
+}
+
+type RotatedRhombusShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	X float64
+
+	Y float64
+}
+
+func (from *RotatedRhombusShape) CopyBasicFields(to *RotatedRhombusShape) {
 	// insertion point
 	to.Name = from.Name
 	to.X = from.X

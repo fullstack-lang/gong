@@ -5,7 +5,7 @@ import (
 	"math"
 )
 
-func enforceGrowthPathRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGridShape, sourceGrid *RhombusGridShape, angleDegree float64, sideLength float64, rhombusInsideAngle float64) (needCommit bool) {
+func enforceGrowthPathRhombusGridShapeHasRhombuses(stage *Stage, grid *GrowthCurveRhombusGridShape, sourceGrid *RotatedRhombusGridShape, angleDegree float64, sideLength float64, rhombusInsideAngle float64) (needCommit bool) {
 	if sourceGrid == nil || grid == nil {
 		return false
 	}
@@ -27,13 +27,13 @@ func enforceGrowthPathRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGr
 	v2_rot_y := v2x*sinA + v2y*cosA
 
 	type rotatedRhombus struct {
-		r        *RhombusShape
+		r        *RotatedRhombusShape
 		rotatedX float64
 		rotatedY float64
 	}
 
 	var candidates []rotatedRhombus
-	for _, r := range sourceGrid.RhombusShapes {
+	for _, r := range sourceGrid.RotatedRhombusShapes {
 		// r.X and r.Y are now pre-rotated by the stager!
 		// Calculate the rotated center of the rhombus
 		cx := r.X + (v1_rot_x+v2_rot_x)/2.0
@@ -46,8 +46,8 @@ func enforceGrowthPathRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGr
 	}
 
 	if len(candidates) == 0 {
-		if len(grid.RhombusShapes) > 0 {
-			grid.RhombusShapes = nil
+		if len(grid.GrowthCurveRhombusShapes) > 0 {
+			grid.GrowthCurveRhombusShapes = nil
 			return true
 		}
 		return false
@@ -95,13 +95,13 @@ func enforceGrowthPathRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGr
 		current = *next
 	}
 
-	// Now check if grid.RhombusShapes matches ordered
+	// Now check if grid.GrowthCurveRhombusShapes matches ordered
 	valid := true
-	if len(grid.RhombusShapes) != len(ordered) {
+	if len(grid.GrowthCurveRhombusShapes) != len(ordered) {
 		valid = false
 	} else {
 		for i, cand := range ordered {
-			r := grid.RhombusShapes[i]
+			r := grid.GrowthCurveRhombusShapes[i]
 			expectedName := fmt.Sprintf("%s-%d", grid.Name, i)
 			if r == nil || r.Name != expectedName || math.Abs(r.X-cand.r.X) > 1e-4 || math.Abs(r.Y-cand.r.Y) > 1e-4 {
 				valid = false
@@ -111,13 +111,13 @@ func enforceGrowthPathRhombusGridShapeHasRhombuses(stage *Stage, grid *RhombusGr
 	}
 
 	if !valid {
-		grid.RhombusShapes = make([]*RhombusShape, len(ordered))
+		grid.GrowthCurveRhombusShapes = make([]*GrowthCurveRhombusShape, len(ordered))
 		for i, cand := range ordered {
-			r := new(RhombusShape).Stage(stage)
+			r := new(GrowthCurveRhombusShape).Stage(stage)
 			r.Name = fmt.Sprintf("%s-%d", grid.Name, i)
 			r.X = cand.r.X
 			r.Y = cand.r.Y
-			grid.RhombusShapes[i] = r
+			grid.GrowthCurveRhombusShapes[i] = r
 		}
 		needCommit = true
 	}

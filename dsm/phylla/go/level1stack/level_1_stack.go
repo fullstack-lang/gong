@@ -124,6 +124,10 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.CircleGridShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ExplanationTextShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GridPathShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GrowthCurveRhombusGridShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GrowthCurveRhombusShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.InitialRhombusGridShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.InitialRhombusShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Library](stage)
 	models.SetOrchestratorOnAfterUpdate[models.NextCircleShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Plant](stage)
@@ -131,6 +135,8 @@ func NewLevel1StackDelta(
 	models.SetOrchestratorOnAfterUpdate[models.PlantDiagram](stage)
 	models.SetOrchestratorOnAfterUpdate[models.RhombusGridShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.RhombusShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.RotatedRhombusGridShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.RotatedRhombusShape](stage)
 
 	return
 }

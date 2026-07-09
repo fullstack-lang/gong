@@ -68,6 +68,36 @@ func (gridpathshape *GridPathShape) GongClean(stage *Stage) (modified bool) {
 	return
 }
 
+// Clean garbage collect unstaged instances that are referenced by GrowthCurveRhombusGridShape
+func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &growthcurverhombusgridshape.GrowthCurveRhombusShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by GrowthCurveRhombusShape
+func (growthcurverhombusshape *GrowthCurveRhombusShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by InitialRhombusGridShape
+func (initialrhombusgridshape *InitialRhombusGridShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &initialrhombusgridshape.InitialRhombusShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by InitialRhombusShape
+func (initialrhombusshape *InitialRhombusShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
 // Clean garbage collect unstaged instances that are referenced by Library
 func (library *Library) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
@@ -93,13 +123,13 @@ func (plant *Plant) GongClean(stage *Stage) (modified bool) {
 	modified = GongCleanPointer(stage, &plant.ReferenceRhombus) || modified
 	modified = GongCleanPointer(stage, &plant.PlantCircumferenceShape) || modified
 	modified = GongCleanPointer(stage, &plant.GridPathShape) || modified
-	modified = GongCleanPointer(stage, &plant.RhombusGridShape) || modified
+	modified = GongCleanPointer(stage, &plant.InitialRhombusGridShape) || modified
 	modified = GongCleanPointer(stage, &plant.ExplanationTextShape) || modified
 	modified = GongCleanPointer(stage, &plant.RotatedReferenceRhombus) || modified
 	modified = GongCleanPointer(stage, &plant.RotatedPlantCircumferenceShape) || modified
 	modified = GongCleanPointer(stage, &plant.RotatedGridPathShape) || modified
-	modified = GongCleanPointer(stage, &plant.RotatedRhombusGridShape) || modified
-	modified = GongCleanPointer(stage, &plant.GrowthPathRhombusGridShape) || modified
+	modified = GongCleanPointer(stage, &plant.RotatedRhombusGridShape2) || modified
+	modified = GongCleanPointer(stage, &plant.GrowthCurveRhombusGridShape) || modified
 	return
 }
 
@@ -127,6 +157,21 @@ func (rhombusgridshape *RhombusGridShape) GongClean(stage *Stage) (modified bool
 
 // Clean garbage collect unstaged instances that are referenced by RhombusShape
 func (rhombusshape *RhombusShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by RotatedRhombusGridShape
+func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongClean(stage *Stage) (modified bool) {
+	// insertion point per field
+	modified = GongCleanSlice(stage, &rotatedrhombusgridshape.RotatedRhombusShapes) || modified
+	// insertion point per field
+	return
+}
+
+// Clean garbage collect unstaged instances that are referenced by RotatedRhombusShape
+func (rotatedrhombusshape *RotatedRhombusShape) GongClean(stage *Stage) (modified bool) {
 	// insertion point per field
 	// insertion point per field
 	return

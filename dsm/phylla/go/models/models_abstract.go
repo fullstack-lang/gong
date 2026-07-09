@@ -37,15 +37,20 @@ type Plant struct {
 	IsPlantDiagramsNodeExpanded bool
 	PlantDiagrams               []*PlantDiagram
 
-	AxesShape                      *AxesShape
-	ReferenceRhombus               *RhombusShape
-	PlantCircumferenceShape        *PlantCircumferenceShape
-	GridPathShape                  *GridPathShape
-	RhombusGridShape               *RhombusGridShape
-	ExplanationTextShape           *ExplanationTextShape
-	RotatedReferenceRhombus        *RhombusShape
+	AxesShape               *AxesShape
+	ReferenceRhombus        *RhombusShape
+	PlantCircumferenceShape *PlantCircumferenceShape
+	GridPathShape           *GridPathShape
+
+	InitialRhombusGridShape *InitialRhombusGridShape
+
+	ExplanationTextShape    *ExplanationTextShape
+	RotatedReferenceRhombus *RhombusShape
+
 	RotatedPlantCircumferenceShape *PlantCircumferenceShape
 	RotatedGridPathShape           *GridPathShape
-	RotatedRhombusGridShape        *RhombusGridShape
-	GrowthPathRhombusGridShape     *RhombusGridShape
+
+	RotatedRhombusGridShape2 *RotatedRhombusGridShape
+
+	GrowthCurveRhombusGridShape *GrowthCurveRhombusGridShape
 }

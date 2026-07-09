@@ -32,6 +32,32 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct GridPathShape
 	// insertion point per field
 
+	// Compute reverse map for named struct GrowthCurveRhombusGridShape
+	// insertion point per field
+	stage.GrowthCurveRhombusGridShape_GrowthCurveRhombusShapes_reverseMap = make(map[*GrowthCurveRhombusShape]*GrowthCurveRhombusGridShape)
+	for growthcurverhombusgridshape := range stage.GrowthCurveRhombusGridShapes {
+		_ = growthcurverhombusgridshape
+		for _, _growthcurverhombusshape := range growthcurverhombusgridshape.GrowthCurveRhombusShapes {
+			stage.GrowthCurveRhombusGridShape_GrowthCurveRhombusShapes_reverseMap[_growthcurverhombusshape] = growthcurverhombusgridshape
+		}
+	}
+
+	// Compute reverse map for named struct GrowthCurveRhombusShape
+	// insertion point per field
+
+	// Compute reverse map for named struct InitialRhombusGridShape
+	// insertion point per field
+	stage.InitialRhombusGridShape_InitialRhombusShapes_reverseMap = make(map[*InitialRhombusShape]*InitialRhombusGridShape)
+	for initialrhombusgridshape := range stage.InitialRhombusGridShapes {
+		_ = initialrhombusgridshape
+		for _, _initialrhombusshape := range initialrhombusgridshape.InitialRhombusShapes {
+			stage.InitialRhombusGridShape_InitialRhombusShapes_reverseMap[_initialrhombusshape] = initialrhombusgridshape
+		}
+	}
+
+	// Compute reverse map for named struct InitialRhombusShape
+	// insertion point per field
+
 	// Compute reverse map for named struct Library
 	// insertion point per field
 	stage.Library_SubLibraries_reverseMap = make(map[*Library]*Library)
@@ -81,6 +107,19 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct RhombusShape
 	// insertion point per field
 
+	// Compute reverse map for named struct RotatedRhombusGridShape
+	// insertion point per field
+	stage.RotatedRhombusGridShape_RotatedRhombusShapes_reverseMap = make(map[*RotatedRhombusShape]*RotatedRhombusGridShape)
+	for rotatedrhombusgridshape := range stage.RotatedRhombusGridShapes {
+		_ = rotatedrhombusgridshape
+		for _, _rotatedrhombusshape := range rotatedrhombusgridshape.RotatedRhombusShapes {
+			stage.RotatedRhombusGridShape_RotatedRhombusShapes_reverseMap[_rotatedrhombusshape] = rotatedrhombusgridshape
+		}
+	}
+
+	// Compute reverse map for named struct RotatedRhombusShape
+	// insertion point per field
+
 	// end of insertion point per named struct
 }
 
@@ -99,6 +138,22 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.GridPathShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GrowthCurveRhombusGridShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GrowthCurveRhombusShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.InitialRhombusGridShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.InitialRhombusShapes {
 		res = append(res, instance)
 	}
 
@@ -130,6 +185,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.RotatedRhombusGridShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.RotatedRhombusShapes {
+		res = append(res, instance)
+	}
+
 	return
 }
 
@@ -155,6 +218,30 @@ func (explanationtextshape *ExplanationTextShape) GongCopy() GongstructIF {
 func (gridpathshape *GridPathShape) GongCopy() GongstructIF {
 	newInstance := new(GridPathShape)
 	gridpathshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongCopy() GongstructIF {
+	newInstance := new(GrowthCurveRhombusGridShape)
+	growthcurverhombusgridshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (growthcurverhombusshape *GrowthCurveRhombusShape) GongCopy() GongstructIF {
+	newInstance := new(GrowthCurveRhombusShape)
+	growthcurverhombusshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (initialrhombusgridshape *InitialRhombusGridShape) GongCopy() GongstructIF {
+	newInstance := new(InitialRhombusGridShape)
+	initialrhombusgridshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (initialrhombusshape *InitialRhombusShape) GongCopy() GongstructIF {
+	newInstance := new(InitialRhombusShape)
+	initialrhombusshape.CopyBasicFields(newInstance)
 	return newInstance
 }
 
@@ -200,6 +287,18 @@ func (rhombusshape *RhombusShape) GongCopy() GongstructIF {
 	return newInstance
 }
 
+func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongCopy() GongstructIF {
+	newInstance := new(RotatedRhombusGridShape)
+	rotatedrhombusgridshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
+func (rotatedrhombusshape *RotatedRhombusShape) GongCopy() GongstructIF {
+	newInstance := new(RotatedRhombusShape)
+	rotatedrhombusshape.CopyBasicFields(newInstance)
+	return newInstance
+}
+
 // insertion point per named struct
 func (axesshape *AxesShape) GongGetUUID(stage *Stage) (uuid string) {
 
@@ -238,6 +337,46 @@ func (gridpathshape *GridPathShape) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(gridpathshape), uint64(GetOrderPointerGongstruct(stage, gridpathshape)))
+	return
+}
+
+func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(growthcurverhombusgridshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthcurverhombusgridshape), uint64(GetOrderPointerGongstruct(stage, growthcurverhombusgridshape)))
+	return
+}
+
+func (growthcurverhombusshape *GrowthCurveRhombusShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(growthcurverhombusshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(growthcurverhombusshape), uint64(GetOrderPointerGongstruct(stage, growthcurverhombusshape)))
+	return
+}
+
+func (initialrhombusgridshape *InitialRhombusGridShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(initialrhombusgridshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(initialrhombusgridshape), uint64(GetOrderPointerGongstruct(stage, initialrhombusgridshape)))
+	return
+}
+
+func (initialrhombusshape *InitialRhombusShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(initialrhombusshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(initialrhombusshape), uint64(GetOrderPointerGongstruct(stage, initialrhombusshape)))
 	return
 }
 
@@ -308,6 +447,26 @@ func (rhombusshape *RhombusShape) GongGetUUID(stage *Stage) (uuid string) {
 	}
 
 	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rhombusshape), uint64(GetOrderPointerGongstruct(stage, rhombusshape)))
+	return
+}
+
+func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(rotatedrhombusgridshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rotatedrhombusgridshape), uint64(GetOrderPointerGongstruct(stage, rotatedrhombusgridshape)))
+	return
+}
+
+func (rotatedrhombusshape *RotatedRhombusShape) GongGetUUID(stage *Stage) (uuid string) {
+
+	if __gong__, ok := any(rotatedrhombusshape).(interface{ GongGetUUIDCustom(stage *Stage) string }); ok {
+		return __gong__.GongGetUUIDCustom(stage)
+	}
+
+	uuid = GenerateReproducibleUUIDv4(GetGongstructNameFromPointer(rotatedrhombusshape), uint64(GetOrderPointerGongstruct(stage, rotatedrhombusshape)))
 	return
 }
 
@@ -549,6 +708,226 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(gridpathshapes_newInstances)
 	lenDeletedInstances += len(gridpathshapes_deletedInstances)
+	var growthcurverhombusgridshapes_newInstances []*GrowthCurveRhombusGridShape
+	var growthcurverhombusgridshapes_deletedInstances []*GrowthCurveRhombusGridShape
+
+	// parse all staged instances and check if they have a reference
+	for growthcurverhombusgridshape := range stage.GrowthCurveRhombusGridShapes {
+		if ref, ok := stage.GrowthCurveRhombusGridShapes_reference[growthcurverhombusgridshape]; !ok {
+			growthcurverhombusgridshapes_newInstances = append(growthcurverhombusgridshapes_newInstances, growthcurverhombusgridshape)
+			newInstancesSlice = append(newInstancesSlice, growthcurverhombusgridshape.GongMarshallIdentifier(stage))
+			if stage.GrowthCurveRhombusGridShapes_referenceOrder == nil {
+				stage.GrowthCurveRhombusGridShapes_referenceOrder = make(map[*GrowthCurveRhombusGridShape]uint)
+			}
+			stage.GrowthCurveRhombusGridShapes_referenceOrder[growthcurverhombusgridshape] = stage.GrowthCurveRhombusGridShape_stagedOrder[growthcurverhombusgridshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, growthcurverhombusgridshape.GongMarshallUnstaging(stage))
+			// delete(stage.GrowthCurveRhombusGridShapes_referenceOrder, growthcurverhombusgridshape)
+			fieldInitializers, pointersInitializations := growthcurverhombusgridshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.GrowthCurveRhombusGridShape_stagedOrder[ref] = stage.GrowthCurveRhombusGridShape_stagedOrder[growthcurverhombusgridshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := growthcurverhombusgridshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, growthcurverhombusgridshape)
+			// delete(stage.GrowthCurveRhombusGridShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if growthcurverhombusgridshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", growthcurverhombusgridshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.GrowthCurveRhombusGridShapes_reference {
+		instance := stage.GrowthCurveRhombusGridShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GrowthCurveRhombusGridShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			growthcurverhombusgridshapes_deletedInstances = append(growthcurverhombusgridshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(growthcurverhombusgridshapes_newInstances)
+	lenDeletedInstances += len(growthcurverhombusgridshapes_deletedInstances)
+	var growthcurverhombusshapes_newInstances []*GrowthCurveRhombusShape
+	var growthcurverhombusshapes_deletedInstances []*GrowthCurveRhombusShape
+
+	// parse all staged instances and check if they have a reference
+	for growthcurverhombusshape := range stage.GrowthCurveRhombusShapes {
+		if ref, ok := stage.GrowthCurveRhombusShapes_reference[growthcurverhombusshape]; !ok {
+			growthcurverhombusshapes_newInstances = append(growthcurverhombusshapes_newInstances, growthcurverhombusshape)
+			newInstancesSlice = append(newInstancesSlice, growthcurverhombusshape.GongMarshallIdentifier(stage))
+			if stage.GrowthCurveRhombusShapes_referenceOrder == nil {
+				stage.GrowthCurveRhombusShapes_referenceOrder = make(map[*GrowthCurveRhombusShape]uint)
+			}
+			stage.GrowthCurveRhombusShapes_referenceOrder[growthcurverhombusshape] = stage.GrowthCurveRhombusShape_stagedOrder[growthcurverhombusshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, growthcurverhombusshape.GongMarshallUnstaging(stage))
+			// delete(stage.GrowthCurveRhombusShapes_referenceOrder, growthcurverhombusshape)
+			fieldInitializers, pointersInitializations := growthcurverhombusshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.GrowthCurveRhombusShape_stagedOrder[ref] = stage.GrowthCurveRhombusShape_stagedOrder[growthcurverhombusshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := growthcurverhombusshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, growthcurverhombusshape)
+			// delete(stage.GrowthCurveRhombusShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if growthcurverhombusshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", growthcurverhombusshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.GrowthCurveRhombusShapes_reference {
+		instance := stage.GrowthCurveRhombusShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.GrowthCurveRhombusShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			growthcurverhombusshapes_deletedInstances = append(growthcurverhombusshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(growthcurverhombusshapes_newInstances)
+	lenDeletedInstances += len(growthcurverhombusshapes_deletedInstances)
+	var initialrhombusgridshapes_newInstances []*InitialRhombusGridShape
+	var initialrhombusgridshapes_deletedInstances []*InitialRhombusGridShape
+
+	// parse all staged instances and check if they have a reference
+	for initialrhombusgridshape := range stage.InitialRhombusGridShapes {
+		if ref, ok := stage.InitialRhombusGridShapes_reference[initialrhombusgridshape]; !ok {
+			initialrhombusgridshapes_newInstances = append(initialrhombusgridshapes_newInstances, initialrhombusgridshape)
+			newInstancesSlice = append(newInstancesSlice, initialrhombusgridshape.GongMarshallIdentifier(stage))
+			if stage.InitialRhombusGridShapes_referenceOrder == nil {
+				stage.InitialRhombusGridShapes_referenceOrder = make(map[*InitialRhombusGridShape]uint)
+			}
+			stage.InitialRhombusGridShapes_referenceOrder[initialrhombusgridshape] = stage.InitialRhombusGridShape_stagedOrder[initialrhombusgridshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, initialrhombusgridshape.GongMarshallUnstaging(stage))
+			// delete(stage.InitialRhombusGridShapes_referenceOrder, initialrhombusgridshape)
+			fieldInitializers, pointersInitializations := initialrhombusgridshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.InitialRhombusGridShape_stagedOrder[ref] = stage.InitialRhombusGridShape_stagedOrder[initialrhombusgridshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := initialrhombusgridshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, initialrhombusgridshape)
+			// delete(stage.InitialRhombusGridShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if initialrhombusgridshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", initialrhombusgridshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.InitialRhombusGridShapes_reference {
+		instance := stage.InitialRhombusGridShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.InitialRhombusGridShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			initialrhombusgridshapes_deletedInstances = append(initialrhombusgridshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(initialrhombusgridshapes_newInstances)
+	lenDeletedInstances += len(initialrhombusgridshapes_deletedInstances)
+	var initialrhombusshapes_newInstances []*InitialRhombusShape
+	var initialrhombusshapes_deletedInstances []*InitialRhombusShape
+
+	// parse all staged instances and check if they have a reference
+	for initialrhombusshape := range stage.InitialRhombusShapes {
+		if ref, ok := stage.InitialRhombusShapes_reference[initialrhombusshape]; !ok {
+			initialrhombusshapes_newInstances = append(initialrhombusshapes_newInstances, initialrhombusshape)
+			newInstancesSlice = append(newInstancesSlice, initialrhombusshape.GongMarshallIdentifier(stage))
+			if stage.InitialRhombusShapes_referenceOrder == nil {
+				stage.InitialRhombusShapes_referenceOrder = make(map[*InitialRhombusShape]uint)
+			}
+			stage.InitialRhombusShapes_referenceOrder[initialrhombusshape] = stage.InitialRhombusShape_stagedOrder[initialrhombusshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, initialrhombusshape.GongMarshallUnstaging(stage))
+			// delete(stage.InitialRhombusShapes_referenceOrder, initialrhombusshape)
+			fieldInitializers, pointersInitializations := initialrhombusshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.InitialRhombusShape_stagedOrder[ref] = stage.InitialRhombusShape_stagedOrder[initialrhombusshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := initialrhombusshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, initialrhombusshape)
+			// delete(stage.InitialRhombusShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if initialrhombusshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", initialrhombusshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.InitialRhombusShapes_reference {
+		instance := stage.InitialRhombusShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.InitialRhombusShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			initialrhombusshapes_deletedInstances = append(initialrhombusshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(initialrhombusshapes_newInstances)
+	lenDeletedInstances += len(initialrhombusshapes_deletedInstances)
 	var librarys_newInstances []*Library
 	var librarys_deletedInstances []*Library
 
@@ -934,6 +1313,116 @@ func (stage *Stage) ComputeForwardAndBackwardCommits() {
 
 	lenNewInstances += len(rhombusshapes_newInstances)
 	lenDeletedInstances += len(rhombusshapes_deletedInstances)
+	var rotatedrhombusgridshapes_newInstances []*RotatedRhombusGridShape
+	var rotatedrhombusgridshapes_deletedInstances []*RotatedRhombusGridShape
+
+	// parse all staged instances and check if they have a reference
+	for rotatedrhombusgridshape := range stage.RotatedRhombusGridShapes {
+		if ref, ok := stage.RotatedRhombusGridShapes_reference[rotatedrhombusgridshape]; !ok {
+			rotatedrhombusgridshapes_newInstances = append(rotatedrhombusgridshapes_newInstances, rotatedrhombusgridshape)
+			newInstancesSlice = append(newInstancesSlice, rotatedrhombusgridshape.GongMarshallIdentifier(stage))
+			if stage.RotatedRhombusGridShapes_referenceOrder == nil {
+				stage.RotatedRhombusGridShapes_referenceOrder = make(map[*RotatedRhombusGridShape]uint)
+			}
+			stage.RotatedRhombusGridShapes_referenceOrder[rotatedrhombusgridshape] = stage.RotatedRhombusGridShape_stagedOrder[rotatedrhombusgridshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, rotatedrhombusgridshape.GongMarshallUnstaging(stage))
+			// delete(stage.RotatedRhombusGridShapes_referenceOrder, rotatedrhombusgridshape)
+			fieldInitializers, pointersInitializations := rotatedrhombusgridshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.RotatedRhombusGridShape_stagedOrder[ref] = stage.RotatedRhombusGridShape_stagedOrder[rotatedrhombusgridshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := rotatedrhombusgridshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, rotatedrhombusgridshape)
+			// delete(stage.RotatedRhombusGridShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if rotatedrhombusgridshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", rotatedrhombusgridshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.RotatedRhombusGridShapes_reference {
+		instance := stage.RotatedRhombusGridShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.RotatedRhombusGridShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			rotatedrhombusgridshapes_deletedInstances = append(rotatedrhombusgridshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(rotatedrhombusgridshapes_newInstances)
+	lenDeletedInstances += len(rotatedrhombusgridshapes_deletedInstances)
+	var rotatedrhombusshapes_newInstances []*RotatedRhombusShape
+	var rotatedrhombusshapes_deletedInstances []*RotatedRhombusShape
+
+	// parse all staged instances and check if they have a reference
+	for rotatedrhombusshape := range stage.RotatedRhombusShapes {
+		if ref, ok := stage.RotatedRhombusShapes_reference[rotatedrhombusshape]; !ok {
+			rotatedrhombusshapes_newInstances = append(rotatedrhombusshapes_newInstances, rotatedrhombusshape)
+			newInstancesSlice = append(newInstancesSlice, rotatedrhombusshape.GongMarshallIdentifier(stage))
+			if stage.RotatedRhombusShapes_referenceOrder == nil {
+				stage.RotatedRhombusShapes_referenceOrder = make(map[*RotatedRhombusShape]uint)
+			}
+			stage.RotatedRhombusShapes_referenceOrder[rotatedrhombusshape] = stage.RotatedRhombusShape_stagedOrder[rotatedrhombusshape]
+			newInstancesReverseSlice = append(newInstancesReverseSlice, rotatedrhombusshape.GongMarshallUnstaging(stage))
+			// delete(stage.RotatedRhombusShapes_referenceOrder, rotatedrhombusshape)
+			fieldInitializers, pointersInitializations := rotatedrhombusshape.GongMarshallAllFields(stage)
+			fieldsEditSlice = append(fieldsEditSlice, fieldInitializers+pointersInitializations)
+		} else {
+			stage.RotatedRhombusShape_stagedOrder[ref] = stage.RotatedRhombusShape_stagedOrder[rotatedrhombusshape]
+			ref.GongReconstructPointersFromInstances(stage) // reconstruct ref with pointers from the stage
+			diffs := rotatedrhombusshape.GongDiff(stage, ref)
+			reverseDiffs := ref.GongDiff(stage, rotatedrhombusshape)
+			// delete(stage.RotatedRhombusShape_stagedOrder, ref)
+			if len(diffs) > 0 {
+				var fieldsEdit string
+				if rotatedrhombusshape.GetName() != "" {
+					fieldsEdit += fmt.Sprintf("\n\t// %s", rotatedrhombusshape.GetName())
+				} else {
+					fieldsEdit += "\n\t//"
+				}
+				for _, diff := range diffs {
+					fieldsEdit += diff
+				}
+				fieldsEditSlice = append(fieldsEditSlice, fieldsEdit)
+				for _, reverseDiff := range reverseDiffs {
+					fieldsEditReverseSlice = append(fieldsEditReverseSlice, reverseDiff)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for _, ref := range stage.RotatedRhombusShapes_reference {
+		instance := stage.RotatedRhombusShapes_instance[ref]    // get the instance corresponding to the reference
+		if _, ok := stage.RotatedRhombusShapes[instance]; !ok { // if the instance is not staged anymore,  it means it has been unstaged
+			rotatedrhombusshapes_deletedInstances = append(rotatedrhombusshapes_deletedInstances, ref)
+			deletedInstancesSlice = append(deletedInstancesSlice, ref.GongMarshallUnstaging(stage))
+			deletedInstancesReverseSlice = append(deletedInstancesReverseSlice, ref.GongMarshallIdentifier(stage))
+			fieldInitializers, pointersInitializations := ref.GongMarshallAllFields(stage)
+			fieldsEditReverseSlice = append(fieldsEditReverseSlice, fieldInitializers+pointersInitializations)
+		}
+	}
+
+	lenNewInstances += len(rotatedrhombusshapes_newInstances)
+	lenDeletedInstances += len(rotatedrhombusshapes_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 
@@ -1009,6 +1498,46 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.GridPathShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.GrowthCurveRhombusGridShapes_reference = make(map[*GrowthCurveRhombusGridShape]*GrowthCurveRhombusGridShape)
+	stage.GrowthCurveRhombusGridShapes_referenceOrder = make(map[*GrowthCurveRhombusGridShape]uint) // diff Unstage needs the reference order
+	stage.GrowthCurveRhombusGridShapes_instance = make(map[*GrowthCurveRhombusGridShape]*GrowthCurveRhombusGridShape)
+	for instance := range stage.GrowthCurveRhombusGridShapes {
+		_copy := instance.GongCopy().(*GrowthCurveRhombusGridShape)
+		stage.GrowthCurveRhombusGridShapes_reference[instance] = _copy
+		stage.GrowthCurveRhombusGridShapes_instance[_copy] = instance
+		stage.GrowthCurveRhombusGridShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.GrowthCurveRhombusShapes_reference = make(map[*GrowthCurveRhombusShape]*GrowthCurveRhombusShape)
+	stage.GrowthCurveRhombusShapes_referenceOrder = make(map[*GrowthCurveRhombusShape]uint) // diff Unstage needs the reference order
+	stage.GrowthCurveRhombusShapes_instance = make(map[*GrowthCurveRhombusShape]*GrowthCurveRhombusShape)
+	for instance := range stage.GrowthCurveRhombusShapes {
+		_copy := instance.GongCopy().(*GrowthCurveRhombusShape)
+		stage.GrowthCurveRhombusShapes_reference[instance] = _copy
+		stage.GrowthCurveRhombusShapes_instance[_copy] = instance
+		stage.GrowthCurveRhombusShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.InitialRhombusGridShapes_reference = make(map[*InitialRhombusGridShape]*InitialRhombusGridShape)
+	stage.InitialRhombusGridShapes_referenceOrder = make(map[*InitialRhombusGridShape]uint) // diff Unstage needs the reference order
+	stage.InitialRhombusGridShapes_instance = make(map[*InitialRhombusGridShape]*InitialRhombusGridShape)
+	for instance := range stage.InitialRhombusGridShapes {
+		_copy := instance.GongCopy().(*InitialRhombusGridShape)
+		stage.InitialRhombusGridShapes_reference[instance] = _copy
+		stage.InitialRhombusGridShapes_instance[_copy] = instance
+		stage.InitialRhombusGridShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.InitialRhombusShapes_reference = make(map[*InitialRhombusShape]*InitialRhombusShape)
+	stage.InitialRhombusShapes_referenceOrder = make(map[*InitialRhombusShape]uint) // diff Unstage needs the reference order
+	stage.InitialRhombusShapes_instance = make(map[*InitialRhombusShape]*InitialRhombusShape)
+	for instance := range stage.InitialRhombusShapes {
+		_copy := instance.GongCopy().(*InitialRhombusShape)
+		stage.InitialRhombusShapes_reference[instance] = _copy
+		stage.InitialRhombusShapes_instance[_copy] = instance
+		stage.InitialRhombusShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	stage.Librarys_reference = make(map[*Library]*Library)
 	stage.Librarys_referenceOrder = make(map[*Library]uint) // diff Unstage needs the reference order
 	stage.Librarys_instance = make(map[*Library]*Library)
@@ -1079,6 +1608,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 		stage.RhombusShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
 	}
 
+	stage.RotatedRhombusGridShapes_reference = make(map[*RotatedRhombusGridShape]*RotatedRhombusGridShape)
+	stage.RotatedRhombusGridShapes_referenceOrder = make(map[*RotatedRhombusGridShape]uint) // diff Unstage needs the reference order
+	stage.RotatedRhombusGridShapes_instance = make(map[*RotatedRhombusGridShape]*RotatedRhombusGridShape)
+	for instance := range stage.RotatedRhombusGridShapes {
+		_copy := instance.GongCopy().(*RotatedRhombusGridShape)
+		stage.RotatedRhombusGridShapes_reference[instance] = _copy
+		stage.RotatedRhombusGridShapes_instance[_copy] = instance
+		stage.RotatedRhombusGridShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
+	stage.RotatedRhombusShapes_reference = make(map[*RotatedRhombusShape]*RotatedRhombusShape)
+	stage.RotatedRhombusShapes_referenceOrder = make(map[*RotatedRhombusShape]uint) // diff Unstage needs the reference order
+	stage.RotatedRhombusShapes_instance = make(map[*RotatedRhombusShape]*RotatedRhombusShape)
+	for instance := range stage.RotatedRhombusShapes {
+		_copy := instance.GongCopy().(*RotatedRhombusShape)
+		stage.RotatedRhombusShapes_reference[instance] = _copy
+		stage.RotatedRhombusShapes_instance[_copy] = instance
+		stage.RotatedRhombusShapes_referenceOrder[_copy] = instance.GongGetOrder(stage)
+	}
+
 	// insertion point per named struct
 	for instance := range stage.AxesShapes {
 		reference := stage.AxesShapes_reference[instance]
@@ -1097,6 +1646,26 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.GridPathShapes {
 		reference := stage.GridPathShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.GrowthCurveRhombusGridShapes {
+		reference := stage.GrowthCurveRhombusGridShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.GrowthCurveRhombusShapes {
+		reference := stage.GrowthCurveRhombusShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.InitialRhombusGridShapes {
+		reference := stage.InitialRhombusGridShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.InitialRhombusShapes {
+		reference := stage.InitialRhombusShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -1132,6 +1701,16 @@ func (stage *Stage) ComputeReferenceAndOrders() {
 
 	for instance := range stage.RhombusShapes {
 		reference := stage.RhombusShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.RotatedRhombusGridShapes {
+		reference := stage.RotatedRhombusGridShapes_reference[instance]
+		reference.GongReconstructPointersFromReferences(stage, instance)
+	}
+
+	for instance := range stage.RotatedRhombusShapes {
+		reference := stage.RotatedRhombusShapes_reference[instance]
 		reference.GongReconstructPointersFromReferences(stage, instance)
 	}
 
@@ -1189,6 +1768,54 @@ func (gridpathshape *GridPathShape) GongGetOrder(stage *Stage) uint {
 		return order
 	} else {
 		log.Printf("instance %p of type GridPathShape was not staged and does not have a reference order", gridpathshape)
+		return 0
+	}
+}
+
+func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.GrowthCurveRhombusGridShape_stagedOrder[growthcurverhombusgridshape]; ok {
+		return order
+	}
+	if order, ok := stage.GrowthCurveRhombusGridShapes_referenceOrder[growthcurverhombusgridshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type GrowthCurveRhombusGridShape was not staged and does not have a reference order", growthcurverhombusgridshape)
+		return 0
+	}
+}
+
+func (growthcurverhombusshape *GrowthCurveRhombusShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.GrowthCurveRhombusShape_stagedOrder[growthcurverhombusshape]; ok {
+		return order
+	}
+	if order, ok := stage.GrowthCurveRhombusShapes_referenceOrder[growthcurverhombusshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type GrowthCurveRhombusShape was not staged and does not have a reference order", growthcurverhombusshape)
+		return 0
+	}
+}
+
+func (initialrhombusgridshape *InitialRhombusGridShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.InitialRhombusGridShape_stagedOrder[initialrhombusgridshape]; ok {
+		return order
+	}
+	if order, ok := stage.InitialRhombusGridShapes_referenceOrder[initialrhombusgridshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type InitialRhombusGridShape was not staged and does not have a reference order", initialrhombusgridshape)
+		return 0
+	}
+}
+
+func (initialrhombusshape *InitialRhombusShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.InitialRhombusShape_stagedOrder[initialrhombusshape]; ok {
+		return order
+	}
+	if order, ok := stage.InitialRhombusShapes_referenceOrder[initialrhombusshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type InitialRhombusShape was not staged and does not have a reference order", initialrhombusshape)
 		return 0
 	}
 }
@@ -1277,6 +1904,30 @@ func (rhombusshape *RhombusShape) GongGetOrder(stage *Stage) uint {
 	}
 }
 
+func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.RotatedRhombusGridShape_stagedOrder[rotatedrhombusgridshape]; ok {
+		return order
+	}
+	if order, ok := stage.RotatedRhombusGridShapes_referenceOrder[rotatedrhombusgridshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type RotatedRhombusGridShape was not staged and does not have a reference order", rotatedrhombusgridshape)
+		return 0
+	}
+}
+
+func (rotatedrhombusshape *RotatedRhombusShape) GongGetOrder(stage *Stage) uint {
+	if order, ok := stage.RotatedRhombusShape_stagedOrder[rotatedrhombusshape]; ok {
+		return order
+	}
+	if order, ok := stage.RotatedRhombusShapes_referenceOrder[rotatedrhombusshape]; ok {
+		return order
+	} else {
+		log.Printf("instance %p of type RotatedRhombusShape was not staged and does not have a reference order", rotatedrhombusshape)
+		return 0
+	}
+}
+
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
 // in the staging area
@@ -1316,6 +1967,42 @@ func (gridpathshape *GridPathShape) GongGetIdentifier(stage *Stage) string {
 // GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
 func (gridpathshape *GridPathShape) GongGetReferenceIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", gridpathshape.GongGetGongstructName(), gridpathshape.GongGetOrder(stage))
+}
+
+func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", growthcurverhombusgridshape.GongGetGongstructName(), growthcurverhombusgridshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", growthcurverhombusgridshape.GongGetGongstructName(), growthcurverhombusgridshape.GongGetOrder(stage))
+}
+
+func (growthcurverhombusshape *GrowthCurveRhombusShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", growthcurverhombusshape.GongGetGongstructName(), growthcurverhombusshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (growthcurverhombusshape *GrowthCurveRhombusShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", growthcurverhombusshape.GongGetGongstructName(), growthcurverhombusshape.GongGetOrder(stage))
+}
+
+func (initialrhombusgridshape *InitialRhombusGridShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", initialrhombusgridshape.GongGetGongstructName(), initialrhombusgridshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (initialrhombusgridshape *InitialRhombusGridShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", initialrhombusgridshape.GongGetGongstructName(), initialrhombusgridshape.GongGetOrder(stage))
+}
+
+func (initialrhombusshape *InitialRhombusShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", initialrhombusshape.GongGetGongstructName(), initialrhombusshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (initialrhombusshape *InitialRhombusShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", initialrhombusshape.GongGetGongstructName(), initialrhombusshape.GongGetOrder(stage))
 }
 
 func (library *Library) GongGetIdentifier(stage *Stage) string {
@@ -1381,6 +2068,24 @@ func (rhombusshape *RhombusShape) GongGetReferenceIdentifier(stage *Stage) strin
 	return fmt.Sprintf("__%s__%08d_", rhombusshape.GongGetGongstructName(), rhombusshape.GongGetOrder(stage))
 }
 
+func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", rotatedrhombusgridshape.GongGetGongstructName(), rotatedrhombusgridshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", rotatedrhombusgridshape.GongGetGongstructName(), rotatedrhombusgridshape.GongGetOrder(stage))
+}
+
+func (rotatedrhombusshape *RotatedRhombusShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", rotatedrhombusshape.GongGetGongstructName(), rotatedrhombusshape.GongGetOrder(stage))
+}
+
+// GongGetReferenceIdentifier returns an identifier when it was staged (it may have been unstaged since)
+func (rotatedrhombusshape *RotatedRhombusShape) GongGetReferenceIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", rotatedrhombusshape.GongGetGongstructName(), rotatedrhombusshape.GongGetOrder(stage))
+}
+
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct
@@ -1413,6 +2118,38 @@ func (gridpathshape *GridPathShape) GongMarshallIdentifier(stage *Stage) (decl s
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gridpathshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GridPathShape")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(gridpathshape.Name))
+	return
+}
+
+func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurverhombusgridshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GrowthCurveRhombusGridShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurverhombusgridshape.Name))
+	return
+}
+
+func (growthcurverhombusshape *GrowthCurveRhombusShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurverhombusshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GrowthCurveRhombusShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(growthcurverhombusshape.Name))
+	return
+}
+
+func (initialrhombusgridshape *InitialRhombusGridShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", initialrhombusgridshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "InitialRhombusGridShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(initialrhombusgridshape.Name))
+	return
+}
+
+func (initialrhombusshape *InitialRhombusShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", initialrhombusshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "InitialRhombusShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(initialrhombusshape.Name))
 	return
 }
 
@@ -1472,6 +2209,22 @@ func (rhombusshape *RhombusShape) GongMarshallIdentifier(stage *Stage) (decl str
 	return
 }
 
+func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", rotatedrhombusgridshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "RotatedRhombusGridShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rotatedrhombusgridshape.Name))
+	return
+}
+
+func (rotatedrhombusshape *RotatedRhombusShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = GongIdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", rotatedrhombusshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "RotatedRhombusShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", ToRawStringLiteral(rotatedrhombusshape.Name))
+	return
+}
+
 // insertion point for unstaging
 func (axesshape *AxesShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
@@ -1494,6 +2247,30 @@ func (explanationtextshape *ExplanationTextShape) GongMarshallUnstaging(stage *S
 func (gridpathshape *GridPathShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", gridpathshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (growthcurverhombusgridshape *GrowthCurveRhombusGridShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurverhombusgridshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (growthcurverhombusshape *GrowthCurveRhombusShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", growthcurverhombusshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (initialrhombusgridshape *InitialRhombusGridShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", initialrhombusgridshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (initialrhombusshape *InitialRhombusShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", initialrhombusshape.GongGetReferenceIdentifier(stage))
 	return
 }
 
@@ -1536,6 +2313,18 @@ func (rhombusgridshape *RhombusGridShape) GongMarshallUnstaging(stage *Stage) (d
 func (rhombusshape *RhombusShape) GongMarshallUnstaging(stage *Stage) (decl string) {
 	decl = GongUnstageStmt
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rhombusshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (rotatedrhombusgridshape *RotatedRhombusGridShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", rotatedrhombusgridshape.GongGetReferenceIdentifier(stage))
+	return
+}
+
+func (rotatedrhombusshape *RotatedRhombusShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", rotatedrhombusshape.GongGetReferenceIdentifier(stage))
 	return
 }
 
