@@ -318,19 +318,19 @@ func (stager *Stager) enforcePlantRhombusGridShapeHasRhombuses() (needCommit boo
 		angleRad := plant.RhombusInsideAngle * math.Pi / 180.0
 		length := plant.RhombusSideLength
 
-		// SVG Y-axis is inverted
+		// Cartesian Y-axis points UP
 		v1x := length * math.Cos(angleRad/2.0)
-		v1y := -length * math.Sin(angleRad/2.0)
+		v1y := length * math.Sin(angleRad/2.0)
 
 		v2x := -length * math.Cos(angleRad/2.0)
-		v2y := -length * math.Sin(angleRad/2.0)
+		v2y := length * math.Sin(angleRad/2.0)
 
 		if plant.InitialRhombusGridShape != nil {
 			needCommit = enforceInitialRhombusGridShapeHasRhombuses(stage, plant.InitialRhombusGridShape, plant.N, plant.M, v1x, v1y, v2x, v2y, 0.0) || needCommit
 		}
 		rotRad := 0.0
 		if plant.PlantCircumferenceShape != nil {
-			rotRad = plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
+			rotRad = -plant.PlantCircumferenceShape.AngleDegree * math.Pi / 180.0
 		}
 		if plant.RotatedRhombusGridShape2 != nil {
 			needCommit = enforceRotatedRhombusGridShapeHasRhombuses(stage, plant.RotatedRhombusGridShape2, plant.N, plant.M, v1x, v1y, v2x, v2y, rotRad) || needCommit
@@ -378,8 +378,8 @@ func enforceInitialRhombusGridShapeHasRhombuses(stage *Stage, grid *InitialRhomb
 			for j := 0; j < M; j++ {
 				r := new(InitialRhombusShape).Stage(stage)
 				r.Name = fmt.Sprintf("%s-%d-%d", grid.Name, i, j)
-				origX := float64(i)*v1x + float64(j)*v2x
-				origY := float64(i)*v1y + float64(j)*v2y
+				origX := float64(i)*v1x + float64(j)*v2x + (v1x+v2x)/2.0
+				origY := float64(i)*v1y + float64(j)*v2y + (v1y+v2y)/2.0
 				r.X = origX*cosA - origY*sinA
 				r.Y = origX*sinA + origY*cosA
 				grid.InitialRhombusShapes = append(grid.InitialRhombusShapes, r)
@@ -391,8 +391,8 @@ func enforceInitialRhombusGridShapeHasRhombuses(stage *Stage, grid *InitialRhomb
 		for i := -1; i < N; i++ {
 			for j := 0; j < M; j++ {
 				r := grid.InitialRhombusShapes[idx]
-				origX := float64(i)*v1x + float64(j)*v2x
-				origY := float64(i)*v1y + float64(j)*v2y
+				origX := float64(i)*v1x + float64(j)*v2x + (v1x+v2x)/2.0
+				origY := float64(i)*v1y + float64(j)*v2y + (v1y+v2y)/2.0
 				expectedX := origX*cosA - origY*sinA
 				expectedY := origX*sinA + origY*cosA
 				if r.X != expectedX || r.Y != expectedY {
@@ -443,8 +443,8 @@ func enforceRotatedRhombusGridShapeHasRhombuses(stage *Stage, grid *RotatedRhomb
 			for j := 0; j < M; j++ {
 				r := new(RotatedRhombusShape).Stage(stage)
 				r.Name = fmt.Sprintf("%s-%d-%d", grid.Name, i, j)
-				origX := float64(i)*v1x + float64(j)*v2x
-				origY := float64(i)*v1y + float64(j)*v2y
+				origX := float64(i)*v1x + float64(j)*v2x + (v1x+v2x)/2.0
+				origY := float64(i)*v1y + float64(j)*v2y + (v1y+v2y)/2.0
 				r.X = origX*cosA - origY*sinA
 				r.Y = origX*sinA + origY*cosA
 				grid.RotatedRhombusShapes = append(grid.RotatedRhombusShapes, r)
@@ -456,8 +456,8 @@ func enforceRotatedRhombusGridShapeHasRhombuses(stage *Stage, grid *RotatedRhomb
 		for i := -1; i < N; i++ {
 			for j := 0; j < M; j++ {
 				r := grid.RotatedRhombusShapes[idx]
-				origX := float64(i)*v1x + float64(j)*v2x
-				origY := float64(i)*v1y + float64(j)*v2y
+				origX := float64(i)*v1x + float64(j)*v2x + (v1x+v2x)/2.0
+				origY := float64(i)*v1y + float64(j)*v2y + (v1y+v2y)/2.0
 				expectedX := origX*cosA - origY*sinA
 				expectedY := origX*sinA + origY*cosA
 				if r.X != expectedX || r.Y != expectedY {
