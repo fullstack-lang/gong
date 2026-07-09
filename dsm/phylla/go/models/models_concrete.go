@@ -66,3 +66,45 @@ type NextCircleShape struct {
 type ExplanationTextShape struct {
 	Name string
 }
+
+// InitialRhombusShape of a plant,
+type InitialRhombusShape struct {
+	Name string
+
+	X, Y float64
+}
+
+// RotatedRhombusShape of a plant,
+type RotatedRhombusShape struct {
+	Name string
+
+	X, Y float64
+}
+
+// GrowthCurveRhombusShape of a plant,
+type GrowthCurveRhombusShape struct {
+	Name string
+
+	X, Y float64
+}
+
+// InitialRhombusGridShape of a plant,
+type InitialRhombusGridShape struct {
+	Name string
+
+	InitialRhombusShapes []*InitialRhombusShape
+}
+
+// RotatedRhombusGridShape of a plant,
+type RotatedRhombusGridShape struct {
+	Name string
+
+	RotatedRhombusShapes []*RotatedRhombusShape
+}
+
+// RotatedRhombusGridShape of a plant,
+type GrowthCurveRhombusGridShape struct {
+	Name string
+
+	GrowthCurveRhombusShapes []*GrowthCurveRhombusShape
+}

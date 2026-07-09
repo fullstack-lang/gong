@@ -63,6 +63,78 @@ func FillUpForm(
 		}).Stage(probe.formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
 
+	case *models.GrowthCurveRhombusGridShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("GrowthCurveRhombusShapes", instanceWithInferedType, &instanceWithInferedType.GrowthCurveRhombusShapes, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.GrowthCurveRhombusShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.GrowthCurveRhombusGridShape, *models.GrowthCurveRhombusShape](
+				"GrowthCurveRhombusGridShape",
+				"GrowthCurveRhombusShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.GrowthCurveRhombusGridShape) []*models.GrowthCurveRhombusShape {
+					return owner.GrowthCurveRhombusShapes
+				})
+		}
+
+	case *models.InitialRhombusGridShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("InitialRhombusShapes", instanceWithInferedType, &instanceWithInferedType.InitialRhombusShapes, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.InitialRhombusShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.InitialRhombusGridShape, *models.InitialRhombusShape](
+				"InitialRhombusGridShape",
+				"InitialRhombusShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.InitialRhombusGridShape) []*models.InitialRhombusShape {
+					return owner.InitialRhombusShapes
+				})
+		}
+
 	case *models.Library:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -133,13 +205,13 @@ func FillUpForm(
 		AssociationFieldToForm("ReferenceRhombus", instanceWithInferedType.ReferenceRhombus, formGroup, probe)
 		AssociationFieldToForm("PlantCircumferenceShape", instanceWithInferedType.PlantCircumferenceShape, formGroup, probe)
 		AssociationFieldToForm("GridPathShape", instanceWithInferedType.GridPathShape, formGroup, probe)
-		AssociationFieldToForm("RhombusGridShape", instanceWithInferedType.RhombusGridShape, formGroup, probe)
+		AssociationFieldToForm("InitialRhombusGridShape", instanceWithInferedType.InitialRhombusGridShape, formGroup, probe)
 		AssociationFieldToForm("ExplanationTextShape", instanceWithInferedType.ExplanationTextShape, formGroup, probe)
 		AssociationFieldToForm("RotatedReferenceRhombus", instanceWithInferedType.RotatedReferenceRhombus, formGroup, probe)
 		AssociationFieldToForm("RotatedPlantCircumferenceShape", instanceWithInferedType.RotatedPlantCircumferenceShape, formGroup, probe)
 		AssociationFieldToForm("RotatedGridPathShape", instanceWithInferedType.RotatedGridPathShape, formGroup, probe)
-		AssociationFieldToForm("RotatedRhombusGridShape", instanceWithInferedType.RotatedRhombusGridShape, formGroup, probe)
-		AssociationFieldToForm("GrowthPathRhombusGridShape", instanceWithInferedType.GrowthPathRhombusGridShape, formGroup, probe)
+		AssociationFieldToForm("RotatedRhombusGridShape2", instanceWithInferedType.RotatedRhombusGridShape2, formGroup, probe)
+		AssociationFieldToForm("GrowthCurveRhombusGridShape", instanceWithInferedType.GrowthCurveRhombusGridShape, formGroup, probe)
 		formDivDivider := (&form.FormDiv{
 			Name:       "",
 			IsADivider: true,
@@ -257,6 +329,42 @@ func FillUpForm(
 				probe,
 				func(owner *models.RhombusGridShape) []*models.RhombusShape {
 					return owner.RhombusShapes
+				})
+		}
+
+	case *models.RotatedRhombusGridShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		AssociationSliceToForm("RotatedRhombusShapes", instanceWithInferedType, &instanceWithInferedType.RotatedRhombusShapes, formGroup, probe)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+
+	case *models.RotatedRhombusShape:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("X", instanceWithInferedType.X, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0, false)
+		formDivDivider := (&form.FormDiv{
+			Name:       "",
+			IsADivider: true,
+		}).Stage(probe.formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDivDivider)
+		{
+			AssociationReverseSliceToForm[*models.RotatedRhombusGridShape, *models.RotatedRhombusShape](
+				"RotatedRhombusGridShape",
+				"RotatedRhombusShapes",
+				instanceWithInferedType,
+				formGroup,
+				probe,
+				func(owner *models.RotatedRhombusGridShape) []*models.RotatedRhombusShape {
+					return owner.RotatedRhombusShapes
 				})
 		}
 

@@ -181,14 +181,14 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-	rhombusGridShape := plant.RhombusGridShape
+	rhombusGridShape := plant.InitialRhombusGridShape
 	if rhombusGridShape != nil {
 		node := &tree.Node{
 			Name:            rhombusGridShape.Name,
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(rhombusGridShape, GetPointerToGongstructName[*RhombusGridShape]())
+			stager.probeForm.FillUpFormFromGongstruct(rhombusGridShape, GetPointerToGongstructName[*InitialRhombusGridShape]())
 			stager.stage.Commit()
 		}
 		btn := &tree.Button{
@@ -331,14 +331,14 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-	rotatedRhombusGridShape := plant.RotatedRhombusGridShape
+	rotatedRhombusGridShape := plant.RotatedRhombusGridShape2
 	if rotatedRhombusGridShape != nil {
 		node := &tree.Node{
 			Name:            rotatedRhombusGridShape.Name,
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(rotatedRhombusGridShape, GetPointerToGongstructName[*RhombusGridShape]())
+			stager.probeForm.FillUpFormFromGongstruct(rotatedRhombusGridShape, GetPointerToGongstructName[*RotatedRhombusGridShape]())
 			stager.stage.Commit()
 		}
 		btn := &tree.Button{
@@ -361,14 +361,14 @@ func (stager *Stager) treePlantDiagram(
 		plantDiagramNode.Children = append(plantDiagramNode.Children, node)
 	}
 
-	growthPathRhombusGridShape := plant.GrowthPathRhombusGridShape
+	growthPathRhombusGridShape := plant.GrowthCurveRhombusGridShape
 	if growthPathRhombusGridShape != nil {
 		node := &tree.Node{
 			Name:            growthPathRhombusGridShape.Name,
 			IsNodeClickable: true,
 		}
 		node.OnClick = func(frontNode *tree.Node) {
-			stager.probeForm.FillUpFormFromGongstruct(growthPathRhombusGridShape, GetPointerToGongstructName[*RhombusGridShape]())
+			stager.probeForm.FillUpFormFromGongstruct(growthPathRhombusGridShape, GetPointerToGongstructName[*GrowthCurveRhombusGridShape]())
 			stager.stage.Commit()
 		}
 		btn := &tree.Button{
